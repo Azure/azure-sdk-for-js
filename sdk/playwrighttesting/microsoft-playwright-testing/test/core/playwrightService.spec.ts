@@ -66,6 +66,7 @@ describe("getServiceConfig", () => {
   });
 
   it("should set service config options as passed", () => {
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
     const { getServiceConfig } = require("../../src/core/playwrightService");
     getServiceConfig(samplePlaywrightConfigInput, {
       os: ServiceOS.WINDOWS,
@@ -134,7 +135,7 @@ describe("getServiceConfig", () => {
     expect(config).to.deep.equal({
       use: {
         connectOptions: {
-          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
+          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&runName=${playwrightServiceConfig.runName}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
           headers: {
             Authorization: "Bearer token",
           },
@@ -185,6 +186,7 @@ describe("getConnectOptions", () => {
   });
 
   it("should set service connect options with passed values", async () => {
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
     const { getConnectOptions } = require("../../src/core/playwrightService");
     await getConnectOptions({
       runId: "1234",
@@ -200,7 +202,7 @@ describe("getConnectOptions", () => {
     const connectOptions = await getConnectOptions({});
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(connectOptions).to.deep.equal({
-      wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
+      wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&runName=${playwrightServiceConfig.runName}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
       options: {
         headers: {
           Authorization: "Bearer token",
