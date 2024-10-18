@@ -6,10 +6,11 @@ import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createMetadataClient } from "./utils/recordedClient";
 import { Context } from "mocha";
+import { MetadataPolicyListOutput } from "../../src/metadataPolicies/outputModels";
 
 describe("List Metadata", () => {
   let recorder: Recorder;
-  let client: PurviewMetadataPolicies.Client.PurviewMetadataPoliciesRestClient;
+  let client: PurviewMetadataPolicies.Client.PurviewMetadataPoliciesClient;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -27,7 +28,7 @@ describe("List Metadata", () => {
       console.log(result.request.url);
       assert.fail(`GET "/metadataPolicies" failed with ${result.status}`);
     }
-
-    assert.isDefined(result.body.values.length);
+    const metadataPolicyListOutput = result.body as MetadataPolicyListOutput;
+    assert.isDefined(metadataPolicyListOutput.values.length);
   });
 });

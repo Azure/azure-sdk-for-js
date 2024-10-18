@@ -1,4 +1,4 @@
-# Azure Purview Administration rest client library samples for TypeScript
+# Azure Purview Administration rest client library samples for TypeScript (Beta)
 
 These sample programs show how to use the TypeScript client libraries for Azure Purview Administration rest in some common scenarios.
 
@@ -59,8 +59,8 @@ npx cross-env ENDPOINT="<endpoint>" node dist/accountCollections.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[accountcollections]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/samples/v1/typescript/src/accountCollections.ts
-[metadatapolicies]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/samples/v1/typescript/src/metadataPolicies.ts
+[accountcollections]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/samples/v1-beta/typescript/src/accountCollections.ts
+[metadatapolicies]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/purview/purview-administration-rest/samples/v1-beta/typescript/src/metadataPolicies.ts
 [apiref]: https://docs.microsoft.com/rest/api/purview/
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurepurviewinstance]: https://docs.microsoft.com/azure/purview/create-catalog-portal
