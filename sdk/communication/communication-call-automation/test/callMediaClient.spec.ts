@@ -20,8 +20,6 @@ import {
   SsmlSource,
   RecognitionChoice,
   DtmfTone,
-  MediaStreamingOptions,
-  TranscriptionOptions,
   CallParticipant,
 } from "../src/models/models";
 import {
@@ -36,13 +34,9 @@ import {
   CreateCallOptions,
   AnswerCallOptions,
   PlayOptions,
-  StartTranscriptionOptions,
-  StopTranscriptionOptions,
   HoldOptions,
   UnholdOptions,
   PlayToAllOptions,
-  StopMediaStreamingOptions,
-  StartMediaStreamingOptions,
   CallMediaRecognizeSpeechOrDtmfOptions,
 } from "../src";
 
@@ -62,7 +56,6 @@ import {
   persistEvents,
   fileSourceUrl,
   getPhoneNumbers,
-  transportUrl,
   cognitiveServiceEndpoint,
 } from "./utils/recordedClient";
 import sinon from "sinon";
@@ -581,111 +574,6 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(request.method, "POST");
     assert.equal(data.operationContext, options.operationContext);
   });
-
-  it("makes successful Start Transcription request", async function () {
-    const mockHttpClient = generateHttpClient(202);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const startTranscriptionOptions: StartTranscriptionOptions = {
-      locale: "en-US",
-      operationContext: "test_operation_context",
-    };
-
-    await callMedia.startTranscription(startTranscriptionOptions);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-
-    assert.equal(data.locale, startTranscriptionOptions.locale);
-    assert.equal(data.operationContext, startTranscriptionOptions.operationContext);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful Stop TranscriptionOptions request", async function () {
-    const mockHttpClient = generateHttpClient(202);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const stopTranscriptionOptions: StopTranscriptionOptions = {
-      operationContext: "test_operation_context",
-    };
-
-    await callMedia.stopTranscription(stopTranscriptionOptions);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-
-    assert.equal(data.operationContext, stopTranscriptionOptions.operationContext);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful Update Transcription request", async function () {
-    const mockHttpClient = generateHttpClient(202);
-
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const locale = "en-US";
-
-    await callMedia.updateTranscription(locale);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-
-    assert.equal(data.locale, locale);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful start media streaming request with options", async function () {
-    const mockHttpClient = generateHttpClient(202);
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const options: StartMediaStreamingOptions = {
-      operationContext: "startMediaStreamContext",
-      operationCallbackUrl: "https://localhost",
-    };
-    await callMedia.startMediaStreaming(options);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    assert.equal(data.operationContext, options.operationContext);
-    assert.equal(data.operationCallbackUri, options.operationCallbackUrl);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful start media streaming request without options", async function () {
-    const mockHttpClient = generateHttpClient(202);
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    await callMedia.startMediaStreaming();
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    assert.isUndefined(data.operationContext);
-    assert.isUndefined(data.operationCallbackUri);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful stop media streaming request with options", async function () {
-    const mockHttpClient = generateHttpClient(202);
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-    const options: StopMediaStreamingOptions = {
-      operationCallbackUrl: "https://localhost",
-    };
-    await callMedia.stopMediaStreaming(options);
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    assert.equal(data.operationCallbackUri, options.operationCallbackUrl);
-    assert.equal(request.method, "POST");
-  });
-
-  it("makes successful stop media streaming request without options", async function () {
-    const mockHttpClient = generateHttpClient(202);
-    callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
-
-    await callMedia.stopMediaStreaming();
-    const request = spy.getCall(0).args[0];
-    const data = JSON.parse(request.body?.toString() || "");
-    assert.isUndefined(data.operationCallbackUri);
-    assert.equal(request.method, "POST");
-  });
 });
 
 describe("Call Media Client Live Tests", function () {
@@ -951,146 +839,6 @@ describe("Call Media Client Live Tests", function () {
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
-  }).timeout(60000);
-
-  it("Creates a call, start media streaming, and hangs up.", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
-      : "create_call_start_media_streaming_and_hang_up";
-    await loadPersistedEvents(testName);
-    const phoneNumbers = await getPhoneNumbers(recorder);
-    assert.isAtLeast(
-      phoneNumbers.length,
-      2,
-      "Invalid PSTN setup, test needs at least 2 phone numbers",
-    );
-    callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
-    receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
-
-    const callInvite: CallInvite = {
-      targetParticipant: receiverPhoneUser,
-      sourceCallIdNumber: callerPhoneUser,
-    };
-    const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
-    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-
-    const mediaStreamingOptions: MediaStreamingOptions = {
-      transportUrl: transportUrl,
-      transportType: "websocket",
-      contentType: "audio",
-      audioChannelType: "mixed",
-      startMediaStreaming: false,
-    };
-
-    const createCallOptions: CreateCallOptions = {
-      mediaStreamingOptions: mediaStreamingOptions,
-    };
-
-    const result = await callerCallAutomationClient.createCall(
-      callInvite,
-      callBackUrl,
-      createCallOptions,
-    );
-    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 30000);
-    const callConnectionId: string = result.callConnectionProperties.callConnectionId
-      ? result.callConnectionProperties.callConnectionId
-      : "";
-    assert.isDefined(incomingCallContext);
-
-    if (incomingCallContext) {
-      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
-    }
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
-    assert.isDefined(callConnectedEvent);
-    callConnection = result.callConnection;
-
-    await callConnection.getCallMedia().startMediaStreaming();
-    const mediaStreamingStarted = await waitForEvent(
-      "MediaStreamingStarted",
-      callConnectionId,
-      8000,
-    );
-    assert.isDefined(mediaStreamingStarted);
-
-    await callConnection.getCallMedia().stopMediaStreaming();
-    const mediaStreamingStopped = await waitForEvent(
-      "MediaStreamingStopped",
-      callConnectionId,
-      8000,
-    );
-    assert.isDefined(mediaStreamingStopped);
-
-    await callConnection.hangUp(true);
-    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
-    assert.isDefined(callDisconnectedEvent);
-  }).timeout(60000);
-
-  it("Answers a call, start media streaming, and hangs up", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
-      : "answer_call_start_media_streaming_and_hang_up";
-    await loadPersistedEvents(testName);
-
-    const callInvite: CallInvite = { targetParticipant: testUser2 };
-    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
-    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
-    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
-    const callConnectionId: string = result.callConnectionProperties.callConnectionId
-      ? result.callConnectionProperties.callConnectionId
-      : "";
-    assert.isDefined(incomingCallContext);
-    if (incomingCallContext) {
-      const mediaStreamingOptions: MediaStreamingOptions = {
-        transportUrl: transportUrl,
-        transportType: "websocket",
-        contentType: "audio",
-        audioChannelType: "mixed",
-        startMediaStreaming: false,
-      };
-      const answerCallOptions: AnswerCallOptions = {
-        mediaStreamingOptions: mediaStreamingOptions,
-      };
-
-      const answerCallResult = await receiverCallAutomationClient.answerCall(
-        incomingCallContext,
-        callBackUrl,
-        answerCallOptions,
-      );
-
-      const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
-      assert.isDefined(callConnectedEvent);
-
-      const answerCallConnection = answerCallResult.callConnection;
-      const answerCallConnectionId: string = answerCallResult.callConnectionProperties
-        .callConnectionId
-        ? answerCallResult.callConnectionProperties.callConnectionId
-        : "";
-      await answerCallConnection.getCallMedia().startMediaStreaming();
-      const mediaStreamingStarted = await waitForEvent(
-        "MediaStreamingStarted",
-        answerCallConnectionId,
-        8000,
-      );
-      assert.isDefined(mediaStreamingStarted);
-
-      await answerCallConnection.getCallMedia().stopMediaStreaming();
-      const mediaStreamingStopped = await waitForEvent(
-        "MediaStreamingStopped",
-        answerCallConnectionId,
-        8000,
-      );
-      assert.isDefined(mediaStreamingStopped);
-
-      await answerCallConnection.hangUp(true);
-      const callDisconnectedEvent = await waitForEvent(
-        "CallDisconnected",
-        answerCallConnectionId,
-        8000,
-      );
-      assert.isDefined(callDisconnectedEvent);
-    }
   }).timeout(60000);
 
   it("Play multiple file sources with play and playall", async function () {
@@ -2006,140 +1754,5 @@ describe("Call Media Client Live Tests", function () {
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
-  }).timeout(60000);
-
-  it("Creates a call, start transcription, and hangs up.", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
-      : "create_call_start_transcription_and_hang_up";
-    await loadPersistedEvents(testName);
-    const phoneNumbers = await getPhoneNumbers(recorder);
-    assert.isAtLeast(
-      phoneNumbers.length,
-      2,
-      "Invalid PSTN setup, test needs at least 2 phone numbers",
-    );
-    callerPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
-    receiverPhoneUser = { phoneNumber: phoneNumbers.pop() as string };
-
-    const callInvite: CallInvite = {
-      targetParticipant: receiverPhoneUser,
-      sourceCallIdNumber: callerPhoneUser,
-    };
-    const uniqueId = await serviceBusWithNewCall(callerPhoneUser, receiverPhoneUser);
-    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-
-    const transcriptionOptions: TranscriptionOptions = {
-      transportUrl: transportUrl,
-      transportType: "websocket",
-      locale: "en-US",
-      startTranscription: false,
-      enableIntermediateResults: false,
-    };
-
-    const creatCallOptions: CreateCallOptions = {
-      transcriptionOptions: transcriptionOptions,
-      callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
-    };
-
-    const result = await callerCallAutomationClient.createCall(
-      callInvite,
-      callBackUrl,
-      creatCallOptions,
-    );
-    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 30000);
-    const callConnectionId: string = result.callConnectionProperties.callConnectionId
-      ? result.callConnectionProperties.callConnectionId
-      : "";
-    assert.isDefined(incomingCallContext);
-
-    if (incomingCallContext) {
-      await receiverCallAutomationClient.answerCall(incomingCallContext, callBackUrl);
-    }
-    const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
-    assert.isDefined(callConnectedEvent);
-    callConnection = result.callConnection;
-
-    await callConnection.getCallMedia().startTranscription();
-    const transcriptionStarted = await waitForEvent("TranscriptionStarted", callConnectionId, 8000);
-    assert.isDefined(transcriptionStarted);
-
-    await callConnection.getCallMedia().stopTranscription();
-    const transcriptionStopped = waitForEvent("TranscriptionStopped", callConnectionId, 8000);
-    assert.isDefined(transcriptionStopped);
-
-    await callConnection.hangUp(true);
-    const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
-    assert.isDefined(callDisconnectedEvent);
-  }).timeout(60000);
-
-  it("Answers a call, start transcription, and hangs up", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
-      : "answer_call_start_transcription_and_hang_up";
-    await loadPersistedEvents(testName);
-
-    const callInvite: CallInvite = { targetParticipant: testUser2 };
-    const uniqueId = await serviceBusWithNewCall(testUser, testUser2);
-    const callBackUrl: string = dispatcherCallback + `?q=${uniqueId}`;
-
-    const result = await callerCallAutomationClient.createCall(callInvite, callBackUrl);
-    const incomingCallContext = await waitForIncomingCallContext(uniqueId, 8000);
-    const callConnectionId: string = result.callConnectionProperties.callConnectionId
-      ? result.callConnectionProperties.callConnectionId
-      : "";
-    assert.isDefined(incomingCallContext);
-
-    if (incomingCallContext) {
-      const transcriptionOptions: TranscriptionOptions = {
-        transportUrl: transportUrl,
-        transportType: "websocket",
-        locale: "en-US",
-        startTranscription: false,
-        enableIntermediateResults: false,
-      };
-      const answerCallOptions: AnswerCallOptions = {
-        transcriptionOptions: transcriptionOptions,
-        callIntelligenceOptions: { cognitiveServicesEndpoint: cognitiveServiceEndpoint },
-      };
-      const answerCallResult = await receiverCallAutomationClient.answerCall(
-        incomingCallContext,
-        callBackUrl,
-        answerCallOptions,
-      );
-
-      const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
-      assert.isDefined(callConnectedEvent);
-
-      const answerCallConnection = answerCallResult.callConnection;
-      const answerCallConnectionId: string = answerCallResult.callConnectionProperties
-        .callConnectionId
-        ? answerCallResult.callConnectionProperties.callConnectionId
-        : "";
-
-      await answerCallConnection.getCallMedia().startTranscription();
-      const transcriptionStarted = await waitForEvent(
-        "TranscriptionStarted",
-        answerCallConnectionId,
-        8000,
-      );
-      assert.isDefined(transcriptionStarted);
-
-      await answerCallConnection.getCallMedia().stopTranscription();
-      const transcriptionStopped = waitForEvent(
-        "TranscriptionStopped",
-        answerCallConnectionId,
-        8000,
-      );
-      assert.isDefined(transcriptionStopped);
-
-      await answerCallConnection.hangUp(true);
-      const callDisconnectedEvent = await waitForEvent(
-        "CallDisconnected",
-        answerCallConnectionId,
-        8000,
-      );
-      assert.isDefined(callDisconnectedEvent);
-    }
   }).timeout(60000);
 });

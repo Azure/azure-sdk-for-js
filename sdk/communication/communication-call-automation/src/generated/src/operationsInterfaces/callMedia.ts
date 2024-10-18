@@ -9,12 +9,6 @@
 import {
   PlayRequest,
   CallMediaPlayOptionalParams,
-  StartTranscriptionRequest,
-  CallMediaStartTranscriptionOptionalParams,
-  StopTranscriptionRequest,
-  CallMediaStopTranscriptionOptionalParams,
-  UpdateTranscriptionRequest,
-  CallMediaUpdateTranscriptionOptionalParams,
   CallMediaCancelAllMediaOperationsOptionalParams,
   RecognizeRequest,
   CallMediaRecognizeOptionalParams,
@@ -28,10 +22,6 @@ import {
   CallMediaHoldOptionalParams,
   UnholdRequest,
   CallMediaUnholdOptionalParams,
-  StartMediaStreamingRequest,
-  CallMediaStartMediaStreamingOptionalParams,
-  StopMediaStreamingRequest,
-  CallMediaStopMediaStreamingOptionalParams,
 } from "../models";
 
 /** Interface representing a CallMedia. */
@@ -46,39 +36,6 @@ export interface CallMedia {
     callConnectionId: string,
     playRequest: PlayRequest,
     options?: CallMediaPlayOptionalParams,
-  ): Promise<void>;
-  /**
-   * Starts transcription in the call
-   * @param callConnectionId The call connection id.
-   * @param startTranscriptionRequest
-   * @param options The options parameters.
-   */
-  startTranscription(
-    callConnectionId: string,
-    startTranscriptionRequest: StartTranscriptionRequest,
-    options?: CallMediaStartTranscriptionOptionalParams,
-  ): Promise<void>;
-  /**
-   * Stops transcription in the call.
-   * @param callConnectionId The call connection id.
-   * @param stopTranscriptionRequest stop transcription request payload.
-   * @param options The options parameters.
-   */
-  stopTranscription(
-    callConnectionId: string,
-    stopTranscriptionRequest: StopTranscriptionRequest,
-    options?: CallMediaStopTranscriptionOptionalParams,
-  ): Promise<void>;
-  /**
-   * API to change transcription language.
-   * @param callConnectionId The call connection id
-   * @param updateTranscriptionRequest The UpdateTranscription request
-   * @param options The options parameters.
-   */
-  updateTranscription(
-    callConnectionId: string,
-    updateTranscriptionRequest: UpdateTranscriptionRequest,
-    options?: CallMediaUpdateTranscriptionOptionalParams,
   ): Promise<void>;
   /**
    * Cancel all media operations in a call.
@@ -154,27 +111,5 @@ export interface CallMedia {
     callConnectionId: string,
     unholdRequest: UnholdRequest,
     options?: CallMediaUnholdOptionalParams,
-  ): Promise<void>;
-  /**
-   * Starts media streaming in the call.
-   * @param callConnectionId The call connection id.
-   * @param startMediaStreamingRequest
-   * @param options The options parameters.
-   */
-  startMediaStreaming(
-    callConnectionId: string,
-    startMediaStreamingRequest: StartMediaStreamingRequest,
-    options?: CallMediaStartMediaStreamingOptionalParams,
-  ): Promise<void>;
-  /**
-   * Stops media streaming in the call.
-   * @param callConnectionId The call connection id.
-   * @param stopMediaStreamingRequest stop media streaming request payload.
-   * @param options The options parameters.
-   */
-  stopMediaStreaming(
-    callConnectionId: string,
-    stopMediaStreamingRequest: StopMediaStreamingRequest,
-    options?: CallMediaStopMediaStreamingOptionalParams,
   ): Promise<void>;
 }

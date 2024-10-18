@@ -18,13 +18,8 @@ import {
   SendDtmfTonesRequest,
   Tone,
   SpeechOptions,
-  StartTranscriptionRequest,
-  StopTranscriptionRequest,
-  UpdateTranscriptionRequest,
   HoldRequest,
   UnholdRequest,
-  StopMediaStreamingRequest,
-  StartMediaStreamingRequest,
 } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
@@ -45,13 +40,8 @@ import {
   SendDtmfTonesOptions,
   CallMediaRecognizeSpeechOptions,
   CallMediaRecognizeSpeechOrDtmfOptions,
-  StartTranscriptionOptions,
-  StopTranscriptionOptions,
   HoldOptions,
   UnholdOptions,
-  StopMediaStreamingOptions,
-  StartMediaStreamingOptions,
-  UpdateTranscriptionOptions,
 } from "./models/options";
 import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { SendDtmfTonesResult } from "./models/responses";
@@ -490,81 +480,5 @@ export class CallMedia {
         options.operationContext !== undefined ? options.operationContext : undefined,
     };
     return this.callMedia.unhold(this.callConnectionId, unholdRequest);
-  }
-
-  /**
-   * Starts transcription in the call
-   * @param options - Additional attributes for start transcription.
-   */
-  public async startTranscription(options: StartTranscriptionOptions = {}): Promise<void> {
-    const startTranscriptionRequest: StartTranscriptionRequest = {
-      locale: options.locale,
-      operationContext: options.operationContext,
-      speechRecognitionModelEndpointId: options.speechRecognitionModelEndpointId,
-    };
-    return this.callMedia.startTranscription(this.callConnectionId, startTranscriptionRequest, {});
-  }
-
-  /**
-   * Stops transcription in the call.
-   * @param options - Additional attributes for stop transcription.
-   */
-  public async stopTranscription(options: StopTranscriptionOptions = {}): Promise<void> {
-    const stopTranscriptionRequest: StopTranscriptionRequest = {
-      operationContext: options.operationContext,
-    };
-    return this.callMedia.stopTranscription(this.callConnectionId, stopTranscriptionRequest, {});
-  }
-
-  /**
-   * Update transcription language.
-   * @param locale - Defines new locale for transcription.
-   */
-  public async updateTranscription(
-    locale: string,
-    options?: UpdateTranscriptionOptions,
-  ): Promise<void> {
-    const updateTranscriptionRequest: UpdateTranscriptionRequest = {
-      locale: locale,
-      speechRecognitionModelEndpointId: options?.speechRecognitionModelEndpointId,
-      operationContext: options?.operationContext,
-    };
-    return this.callMedia.updateTranscription(
-      this.callConnectionId,
-      updateTranscriptionRequest,
-      {},
-    );
-  }
-
-  /**
-   * Starts media streaming in the call.
-   * @param options - Additional attributes for start media streaming.
-   */
-  public async startMediaStreaming(options: StartMediaStreamingOptions = {}): Promise<void> {
-    const startMediaStreamingRequest: StartMediaStreamingRequest = {
-      operationContext: options.operationContext,
-      operationCallbackUri: options.operationCallbackUrl,
-    };
-    return this.callMedia.startMediaStreaming(
-      this.callConnectionId,
-      startMediaStreamingRequest,
-      options,
-    );
-  }
-
-  /**
-   * Stops media streaming in the call.
-   * @param options - Additional attributes for stop media streaming.
-   */
-  public async stopMediaStreaming(options: StopMediaStreamingOptions = {}): Promise<void> {
-    const stopMediaStreamingRequest: StopMediaStreamingRequest = {
-      operationCallbackUri: options.operationCallbackUrl,
-      operationContext: options?.operationContext,
-    };
-    return this.callMedia.stopMediaStreaming(
-      this.callConnectionId,
-      stopMediaStreamingRequest,
-      options,
-    );
   }
 }

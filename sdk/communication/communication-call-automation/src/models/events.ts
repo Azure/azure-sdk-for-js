@@ -31,14 +31,9 @@ import {
   CancelAddParticipantSucceeded as RestCancelAddParticipantSucceeded,
   CancelAddParticipantFailed as RestCancelAddParticipantFailed,
   ConnectFailed as RestConnectFailed,
-  TranscriptionStarted as RestTranscriptionStarted,
-  TranscriptionStopped as RestTranscriptionStopped,
-  TranscriptionUpdated as RestTranscriptionUpdated,
-  TranscriptionFailed as RestTranscriptionFailed,
   HoldFailed as RestHoldFailed,
-  MediaStreamingStarted as RestMediaStreamingStarted,
-  MediaStreamingStopped as RestMediaStreamingStopped,
-  MediaStreamingFailed as RestMediaStreamingFailed,
+  AnswerFailed as RestAnswerFailed,
+  CreateCallFailed as RestCreateCallFailed,
 } from "../generated/src/models";
 
 import { CallParticipant } from "./models";
@@ -70,14 +65,9 @@ export type CallAutomationEvent =
   | CancelAddParticipantSucceeded
   | CancelAddParticipantFailed
   | ConnectFailed
-  | TranscriptionStarted
-  | TranscriptionStopped
-  | TranscriptionUpdated
-  | TranscriptionFailed
   | HoldFailed
-  | MediaStreamingStarted
-  | MediaStreamingStopped
-  | MediaStreamingFailed;
+  | AnswerFailed
+  | CreateCallFailed;
 
 export {
   RestAddParticipantSucceeded,
@@ -106,14 +96,9 @@ export {
   RestCancelAddParticipantSucceeded,
   RestCancelAddParticipantFailed,
   RestConnectFailed,
-  RestTranscriptionStarted,
-  RestTranscriptionStopped,
-  RestTranscriptionUpdated,
-  RestTranscriptionFailed,
   RestHoldFailed,
-  RestMediaStreamingStarted,
-  RestMediaStreamingStopped,
-  RestMediaStreamingFailed,
+  RestAnswerFailed,
+  RestCreateCallFailed,
 };
 export interface ResultInformation
   extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
@@ -207,26 +192,36 @@ export interface RemoveParticipantFailed
 
 /** Event when call was established. */
 export interface CallConnected
-  extends Omit<RestCallConnected, "callConnectionId" | "serverCallId" | "correlationId"> {
+  extends Omit<
+    RestCallConnected,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
   serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "CallConnected";
 }
 
 /** Event when all participants left and call was terminated. */
 export interface CallDisconnected
-  extends Omit<RestCallDisconnected, "callConnectionId" | "serverCallId" | "correlationId"> {
+  extends Omit<
+    RestCallDisconnected,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
   serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "CallDisconnected";
 }
@@ -280,7 +275,7 @@ export interface CallTransferFailed
 export interface ParticipantsUpdated
   extends Omit<
     RestParticipantsUpdated,
-    "callConnectionId" | "serverCallId" | "correlationId" | "participants"
+    "callConnectionId" | "serverCallId" | "correlationId" | "participants" | "resultInformation"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -290,19 +285,26 @@ export interface ParticipantsUpdated
   correlationId: string;
   /** The list of participants in the call. */
   participants: CallParticipant[];
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "ParticipantsUpdated";
 }
 
 /** Event when Recording state has been changed. */
 export interface RecordingStateChanged
-  extends Omit<RestRecordingStateChanged, "callConnectionId" | "serverCallId" | "correlationId"> {
+  extends Omit<
+    RestRecordingStateChanged,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
   serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "RecordingStateChanged";
 }
@@ -363,13 +365,18 @@ export interface PlayFailed
 
 /** Event when Media play was canceled by Cancel operation. */
 export interface PlayCanceled
-  extends Omit<RestPlayCanceled, "callConnectionId" | "serverCallId" | "correlationId"> {
+  extends Omit<
+    RestPlayCanceled,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
   serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "PlayCanceled";
 }
@@ -412,13 +419,18 @@ export interface RecognizeFailed
 
 /** Event when Media recognize was canceled by Cancel operation. */
 export interface RecognizeCanceled
-  extends Omit<RestRecognizeCanceled, "callConnectionId" | "serverCallId" | "correlationId"> {
+  extends Omit<
+    RestRecognizeCanceled,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
   /** Call connection ID. */
   callConnectionId: string;
   /** Server call ID. */
   serverCallId: string;
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "RecognizeCanceled";
 }
@@ -526,7 +538,7 @@ export interface SendDtmfTonesFailed
 export interface CancelAddParticipantSucceeded
   extends Omit<
     RestCancelAddParticipantSucceeded,
-    "callConnectionId" | "serverCallId" | "correlationId" | "invitationId"
+    "callConnectionId" | "serverCallId" | "correlationId" | "invitationId" | "resultInformation"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -536,6 +548,8 @@ export interface CancelAddParticipantSucceeded
   correlationId: string;
   /** Invitation ID used to cancel the add participant request. */
   invitationId: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "CancelAddParticipantSucceeded";
 }
@@ -575,74 +589,6 @@ export interface ConnectFailed
   kind: "ConnectFailed";
 }
 
-export interface TranscriptionStarted
-  extends Omit<
-    RestTranscriptionStarted,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-  /** kind of this event. */
-  kind: "TranscriptionStarted";
-}
-
-export interface TranscriptionStopped
-  extends Omit<
-    RestTranscriptionStopped,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-  /** kind of this event. */
-  kind: "TranscriptionStopped";
-}
-
-export interface TranscriptionUpdated
-  extends Omit<
-    RestTranscriptionUpdated,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-  /** kind of this event. */
-  kind: "TranscriptionUpdated";
-}
-
-export interface TranscriptionFailed
-  extends Omit<
-    RestTranscriptionFailed,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: RestResultInformation;
-  /** kind of this event. */
-  kind: "TranscriptionFailed";
-}
-
 export interface HoldFailed
   extends Omit<
     RestHoldFailed,
@@ -660,9 +606,9 @@ export interface HoldFailed
   kind: "HoldFailed";
 }
 
-export interface MediaStreamingStarted
+export interface AnswerFailed
   extends Omit<
-    RestMediaStreamingStarted,
+    RestAnswerFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
   > {
   /** Call connection ID. */
@@ -674,12 +620,12 @@ export interface MediaStreamingStarted
   /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
-  kind: "MediaStreamingStarted";
+  kind: "AnswerFailed";
 }
 
-export interface MediaStreamingStopped
+export interface CreateCallFailed
   extends Omit<
-    RestMediaStreamingStopped,
+    RestCreateCallFailed,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
   > {
   /** Call connection ID. */
@@ -691,22 +637,5 @@ export interface MediaStreamingStopped
   /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
   /** kind of this event. */
-  kind: "MediaStreamingStopped";
-}
-
-export interface MediaStreamingFailed
-  extends Omit<
-    RestMediaStreamingFailed,
-    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
-  > {
-  /** Call connection ID. */
-  callConnectionId: string;
-  /** Server call ID. */
-  serverCallId: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-  /** kind of this event. */
-  kind: "MediaStreamingFailed";
+  kind: "CreateCallFailed";
 }

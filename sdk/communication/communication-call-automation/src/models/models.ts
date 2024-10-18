@@ -8,27 +8,12 @@ import {
   MicrosoftTeamsAppIdentifier,
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
-import {
-  CallConnectionStateModel,
-  MediaStreamingSubscription,
-  TranscriptionSubscription,
-} from "../generated/src";
+import { CallConnectionStateModel } from "../generated/src";
 
 export {
   CallConnectionStateModel,
   CallRejectReason,
   KnownCallRejectReason,
-  KnownMediaStreamingAudioChannelType,
-  KnownMediaStreamingContentType,
-  KnownMediaStreamingTransportType,
-  MediaStreamingAudioChannelType,
-  MediaStreamingOptions,
-  MediaStreamingContentType,
-  MediaStreamingTransportType,
-  MediaStreamingSubscription,
-  TranscriptionOptions,
-  TranscriptionTransportType,
-  TranscriptionSubscription,
   RecognitionType,
   ChoiceResult,
   DtmfResult,
@@ -58,10 +43,6 @@ export interface CallConnectionProperties {
   callConnectionState?: CallConnectionStateModel;
   /** The callback URL. */
   callbackUrl?: string;
-  /** Subscription for media streaming */
-  mediaStreamingSubscription?: MediaStreamingSubscription;
-  /** Subscription for transcription */
-  transcriptionSubscription?: TranscriptionSubscription;
   /** The correlation ID. */
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
@@ -190,7 +171,11 @@ export interface CallInvite {
 }
 
 /** The locator type of a call. */
-export type CallLocatorType = "serverCallLocator" | "groupCallLocator" | "roomCallLocator";
+export type CallLocatorType =
+  | "unknown"
+  | "serverCallLocator"
+  | "groupCallLocator"
+  | "roomCallLocator";
 
 /** The content type of a call recording. */
 export type RecordingContent = "audio" | "audioVideo";

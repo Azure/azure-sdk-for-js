@@ -215,8 +215,6 @@ export class CallAutomationClient {
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
-      mediaStreamingOptions: options.mediaStreamingOptions,
-      transcriptionOptions: options.transcriptionOptions,
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(
         targetParticipant.sourceCallIdNumber,
       ),
@@ -244,8 +242,6 @@ export class CallAutomationClient {
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
-      mediaStreamingOptions: options.mediaStreamingOptions,
-      transcriptionOptions: options.transcriptionOptions,
       sourceCallerIdNumber: PhoneNumberIdentifierModelConverter(options.sourceCallIdNumber),
       sourceDisplayName: options.sourceDisplayName,
     };
@@ -264,17 +260,9 @@ export class CallAutomationClient {
     callbackUrl: string,
     options: AnswerCallOptions = {},
   ): Promise<AnswerCallResult> {
-    const {
-      callIntelligenceOptions,
-      mediaStreamingOptions,
-      transcriptionOptions,
-      operationContext,
-      ...operationOptions
-    } = options;
+    const { callIntelligenceOptions, operationContext, ...operationOptions } = options;
     const request: AnswerCallRequest = {
       incomingCallContext: incomingCallContext,
-      mediaStreamingOptions: mediaStreamingOptions,
-      transcriptionOptions: transcriptionOptions,
       callIntelligenceOptions: callIntelligenceOptions,
       operationContext: operationContext,
       callbackUri: callbackUrl,

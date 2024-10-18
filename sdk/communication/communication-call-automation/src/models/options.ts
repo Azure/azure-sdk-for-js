@@ -4,8 +4,6 @@
 import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
 import { OperationOptions } from "@azure/core-client";
 import {
-  MediaStreamingOptions,
-  TranscriptionOptions,
   CallRejectReason,
   FileSource,
   TextSource,
@@ -110,10 +108,6 @@ export interface CreateCallOptions extends OperationOptions {
   operationContext?: string;
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
-  /** Configuration of Media streaming. */
-  mediaStreamingOptions?: MediaStreamingOptions;
-  /** Configuration of live transcription. */
-  transcriptionOptions?: TranscriptionOptions;
 }
 
 /**
@@ -122,10 +116,6 @@ export interface CreateCallOptions extends OperationOptions {
 export interface AnswerCallOptions extends OperationOptions {
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptions;
-  /** Configuration of Media streaming. */
-  mediaStreamingOptions?: MediaStreamingOptions;
-  /** Configuration of live transcription. */
-  transcriptionOptions?: TranscriptionOptions;
   /** The operation context. */
   operationContext?: string;
 }
@@ -352,36 +342,6 @@ export interface ConnectCallOptions extends OperationOptions {
 }
 
 /**
- * Options to start transcription
- */
-export interface StartTranscriptionOptions extends OperationOptions {
-  /** Defines Locale for the transcription e,g en-US */
-  locale?: string;
-  /** The value to identify context of the operation. */
-  operationContext?: string;
-  /** Endpoint where the custom model was deployed. */
-  speechRecognitionModelEndpointId?: string;
-}
-
-/**
- * Options to update transcription
- */
-export interface UpdateTranscriptionOptions extends OperationOptions {
-  /** Endpoint where the custom model was deployed. */
-  speechRecognitionModelEndpointId?: string;
-  /** The value to identify context of the operation. */
-  operationContext?: string;
-}
-
-/**
- * Options to stop transcription
- */
-export interface StopTranscriptionOptions extends OperationOptions {
-  /** The value to identify context of the operation. */
-  operationContext?: string;
-}
-
-/**
  * Options to hold participant.
  */
 export interface HoldOptions extends OperationOptions {
@@ -398,27 +358,5 @@ export interface HoldOptions extends OperationOptions {
  */
 export interface UnholdOptions extends OperationOptions {
   /** Operation Context. */
-  operationContext?: string;
-}
-
-/** Options for start media streaming request. */
-export interface StartMediaStreamingOptions extends OperationOptions {
-  /**
-   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
-   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
-   */
-  operationCallbackUrl?: string;
-  /** The value to identify context of the operation. */
-  operationContext?: string;
-}
-
-/** Options for stop media streaming request. */
-export interface StopMediaStreamingOptions extends OperationOptions {
-  /**
-   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
-   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
-   */
-  operationCallbackUrl?: string;
-  /** The value to identify context of the operation. */
   operationContext?: string;
 }

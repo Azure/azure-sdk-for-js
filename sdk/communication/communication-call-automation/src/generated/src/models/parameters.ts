@@ -23,16 +23,11 @@ import {
   MuteParticipantsRequest as MuteParticipantsRequestMapper,
   CancelAddParticipantRequest as CancelAddParticipantRequestMapper,
   PlayRequest as PlayRequestMapper,
-  StartTranscriptionRequest as StartTranscriptionRequestMapper,
-  StopTranscriptionRequest as StopTranscriptionRequestMapper,
-  UpdateTranscriptionRequest as UpdateTranscriptionRequestMapper,
   RecognizeRequest as RecognizeRequestMapper,
   ContinuousDtmfRecognitionRequest as ContinuousDtmfRecognitionRequestMapper,
   SendDtmfTonesRequest as SendDtmfTonesRequestMapper,
   HoldRequest as HoldRequestMapper,
   UnholdRequest as UnholdRequestMapper,
-  StartMediaStreamingRequest as StartMediaStreamingRequestMapper,
-  StopMediaStreamingRequest as StopMediaStreamingRequestMapper,
   StartCallRecordingRequest as StartCallRecordingRequestMapper,
 } from "../models/mappers";
 
@@ -80,7 +75,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-06-15-preview",
+    defaultValue: "2024-09-15",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -193,21 +188,6 @@ export const playRequest: OperationParameter = {
   mapper: PlayRequestMapper,
 };
 
-export const startTranscriptionRequest: OperationParameter = {
-  parameterPath: "startTranscriptionRequest",
-  mapper: StartTranscriptionRequestMapper,
-};
-
-export const stopTranscriptionRequest: OperationParameter = {
-  parameterPath: "stopTranscriptionRequest",
-  mapper: StopTranscriptionRequestMapper,
-};
-
-export const updateTranscriptionRequest: OperationParameter = {
-  parameterPath: "updateTranscriptionRequest",
-  mapper: UpdateTranscriptionRequestMapper,
-};
-
 export const recognizeRequest: OperationParameter = {
   parameterPath: "recognizeRequest",
   mapper: RecognizeRequestMapper,
@@ -231,16 +211,6 @@ export const holdRequest: OperationParameter = {
 export const unholdRequest: OperationParameter = {
   parameterPath: "unholdRequest",
   mapper: UnholdRequestMapper,
-};
-
-export const startMediaStreamingRequest: OperationParameter = {
-  parameterPath: "startMediaStreamingRequest",
-  mapper: StartMediaStreamingRequestMapper,
-};
-
-export const stopMediaStreamingRequest: OperationParameter = {
-  parameterPath: "stopMediaStreamingRequest",
-  mapper: StopMediaStreamingRequestMapper,
 };
 
 export const startCallRecording: OperationParameter = {
