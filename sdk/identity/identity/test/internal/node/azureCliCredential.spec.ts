@@ -350,7 +350,7 @@ az login --scope https://test.windows.net/.default`;
     "12345678-1234-1234-1234-123456789012'",
   ]) {
     const subscriptionErrorMessage =
-      "Invalid subscription provided. You can locate your subscription by following the instructions listed here: https://learn.microsoft.com/entra/fundamentals/how-to-find-tenant.";
+      "Invalid subscription provided. You can locate your subscription by following the instructions listed here: https://learn.microsoft.com/azure/azure-portal/get-subscription-tenant-id.";
     const testCase = subscription === "\0" ? "null character" : `"${subscription}"`;
     it(`rejects invalid subscription string of ${testCase} in constructor`, function () {
       assert.throws(() => {
