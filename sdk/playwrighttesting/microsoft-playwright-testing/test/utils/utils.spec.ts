@@ -70,13 +70,14 @@ describe("Service Utils", () => {
     delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
   });
 
-  it("should return service base url with query params", () => {
+  it("should return service base url with query params and should escape runID", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
       "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
+    const escapeRunId = encodeURIComponent(runId);
     const runName = "runName";
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${runId}&runName=${runName}&os=${os}&api-version=${API_VERSION}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&runName=${runName}&os=${os}&api-version=${API_VERSION}`;
     expect(getServiceWSEndpoint(runId, runName, os)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
