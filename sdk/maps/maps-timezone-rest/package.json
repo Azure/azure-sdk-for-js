@@ -4,13 +4,22 @@
   "author": "Microsoft Corporation",
   "version": "1.0.0-beta.1",
   "description": "A generated SDK for MapsTimeZoneClient.",
-  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
   "license": "MIT",
   "main": "dist/index.js",
   "module": "./dist-esm/src/index.js",
   "types": "./types/maps-timezone-rest.d.ts",
   "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": { "url": "https://github.com/Azure/azure-sdk-for-js/issues" },
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
   "files": [
     "dist/",
     "dist-esm/src/",
@@ -19,7 +28,9 @@
     "LICENSE",
     "review/*"
   ],
-  "engines": { "node": ">=18.0.0" },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -50,36 +61,30 @@
   "sideEffects": false,
   "autoPublish": false,
   "dependencies": {
-    "@azure/core-auth": "^1.3.0",
     "@azure-rest/core-client": "1.0.0-beta.10",
+    "@azure/core-auth": "^1.3.0",
     "@azure/core-rest-pipeline": "^1.8.0",
+    "@azure/core-util": "~1.9.2",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.2.0",
     "@azure/maps-common": "~1.0.0-beta.3",
-    "@azure/core-util": "~1.9.2"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "^7.31.1",
-    "autorest": "latest",
-    "@types/node": "^14.0.0",
-    "dotenv": "^8.2.0",
-    "eslint": "^8.0.0",
-    "mkdirp": "^1.0.4",
-    "prettier": "2.2.1",
-    "rimraf": "^3.0.0",
-    "source-map-support": "^0.5.9",
-    "typescript": "~4.6.0",
+    "@azure-tools/test-credential": "^1.0.0",
+    "@azure-tools/test-recorder": "^3.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure-tools/test-credential": "^1.0.0",
     "@azure/identity": "^2.0.1",
-    "@azure-tools/test-recorder": "^3.0.0",
-    "mocha": "^10.0.7",
-    "@types/mocha": "^10.0.7",
-    "mocha-junit-reporter": "^1.18.0",
-    "cross-env": "^7.0.2",
+    "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.2.8",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^14.0.0",
+    "autorest": "latest",
     "chai": "^4.2.0",
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "eslint": "^8.0.0",
+    "karma": "^6.2.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
@@ -87,17 +92,26 @@
     "karma-firefox-launcher": "^1.1.0",
     "karma-ie-launcher": "^1.0.0",
     "karma-junit-reporter": "^2.0.1",
-    "karma-mocha-reporter": "^2.2.5",
     "karma-mocha": "^2.0.1",
+    "karma-mocha-reporter": "^2.2.5",
     "karma-source-map-support": "~1.4.0",
     "karma-sourcemap-loader": "^0.3.8",
-    "karma": "^6.2.0",
-    "nyc": "^14.0.0"
+    "mkdirp": "^1.0.4",
+    "mocha": "^10.0.7",
+    "mocha-junit-reporter": "^1.18.0",
+    "nyc": "^14.0.0",
+    "prettier": "2.2.1",
+    "rimraf": "^3.0.0",
+    "source-map-support": "^0.5.9",
+    "typescript": "^5.5.4"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-timezone-rest/README.md",
   "//metadata": {
     "constantPaths": [
-      { "path": "swagger/README.md", "prefix": "package-version" }
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
     ]
   }
 }
