@@ -1,0 +1,91 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License
+
+import path from "node:path";
+import { resolveProject } from "../util/resolveProject";
+import { createPrinter } from "../util/printer";
+import { leafCommand } from "../framework/command";
+import { makeCommandInfo } from "../framework/command";
+import fs from "node:fs/promises";
+import { Check, isCheckFailedError } from "../framework/check";
+
+const log = createPrinter("check");
+
+export const commandInfo = makeCommandInfo("check", "run package checks", {
+  fix: {
+    kind: "boolean",
+    description: "attempt to fix failing checks, where supported",
+    default: false,
+  },
+  tag: {
+    kind: "string",
+    description: "run checks with the given tag only. Available tags: 'release', 'ci'",
+  },
+  verbose: {
+    kind: "boolean",
+    shortName: "v",
+    description: "show output of check commands",
+    default: false,
+  },
+});
+
+export default leafCommand(commandInfo, async (options) => {
+  const checkFileNames = await fs.readdir(path.join(__dirname, "..", "checks"));
+
+  log.info("Running checks");
+
+  let checksRun = 0;
+  let checksPassed = 0;
+  let checksFailed = 0;
+  let warnings = 0;
+  let checksSkipped = 0;
+
+  for (const checkFile of checkFileNames) {
+    const checks = (await import(path.posix.join("../checks", checkFile))) as Record<string, Check>;
+    log(checkFile);
+    for (const [exportName, check] of Object.entries(checks)) {
+      if (check.tags && !check.tags.some((x) => x.toLowerCase() === options.tag?.toLowerCase())) {
+        // if --tag was specified, only run checks with no tag or checks with the specified tag
+        continue;
+      }
+
+      const name = check.name ?? exportName;
+      try {
+        const project = await resolveProject();
+
+        if (!check.enable || (await check.enable?.(project))) {
+          ++checksRun;
+          await check.check({
+            fix: !!check.hasFix && options.fix,
+            verbose: options.verbose,
+            project: await resolveProject(),
+          });
+          ++checksPassed;
+          log(`  ✅ ${name}`);
+        } else {
+          ++checksSkipped;
+        }
+      } catch (e: unknown) {
+        if (check.severity === "warning") {
+          ++warnings;
+          log(`  ⚠️  ${name} - ${(e as any).message}`);
+        } else {
+          ++checksFailed;
+          log(`  ❌ ${name} - ${(e as any).message}`);
+        }
+        if (isCheckFailedError(e) && e.detail) {
+          e.detail
+            .split("\n")
+            .map((x) => `  > ${x}`)
+            .forEach((x) => log(x));
+        }
+      }
+    }
+  }
+
+  log(
+    `Ran ${checksRun} checks (passed: ${checksPassed}, failed: ${checksFailed}, warnings: ${warnings}, skipped: ${checksSkipped})`,
+  );
+
+  return checksFailed === 0;
+});

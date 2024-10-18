@@ -15,6 +15,12 @@ It provides a place to centralize scripts, resources, and processes for developm
 `dev-tool`
 
 - `about` (display command help and information)
+- `check` (run checks on the package)
+  - `--tag=local` to run checks that should pass before pushing your code
+  - `--tag=ci` to run checks that should pass as part of the CI pipeline
+  - `--tag=release` to run checks that should pass before you release the package to npm
+  - `--verbose` to show more detailed output
+  - `--fix` to automatically fix some issues
 - `package`
   - `resolve` (display information about the project that owns a directory)
 - `samples`

@@ -321,9 +321,11 @@ async function addNewPackages(packageJson: any): Promise<void> {
     let latestVersion = desiredMinVersion;
     if (!latestVersion) {
       // Get the latest version from npm
-      latestVersion = await run(["npm", "view", newPackage, "version"], {
-        captureOutput: true,
-      });
+      latestVersion = (
+        await run(["npm", "view", newPackage, "version"], {
+          captureOutput: true,
+        })
+      ).output;
     }
     packageJson.devDependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
   }
