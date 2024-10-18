@@ -12754,7 +12754,7 @@ packages:
     dev: false
 
   file:projects/arm-appcontainers.tgz:
-    resolution: {integrity: sha512-kjruBKXtbcRnhv5rZ5yMv5drqqlVMaNPSoprSVqXiQnlDSScQ7/Ioj9rsfDTgOzBnT26JM8ZjZY6tVwqLrXZeQ==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-lAB34jni0E5NxSCTVSAgCFPMJBNqFk6sxe0VRDA1j0VNVZyFgjh6I8gTCg2ziDmwWCX6yp2RVUEzepT2G0T0bw==, tarball: file:projects/arm-appcontainers.tgz}
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
@@ -12772,10 +12772,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@18.19.55)(typescript@5.5.4)
       tslib: 2.7.0
       tsx: 4.19.1
-      typescript: 5.6.3
+      typescript: 5.5.4
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -19905,7 +19905,7 @@ packages:
     dev: false
 
   file:projects/communication-common.tgz:
-    resolution: {integrity: sha512-BoEaaH3sJLyt/JMQFr7Fw+iEtJ+73S+Ycef8OXgaLJZqUqrKFHONVPvT9PgnMKMm7Drv75jkfxY/yY18ZlOp8A==, tarball: file:projects/communication-common.tgz}
+    resolution: {integrity: sha512-Wr6eM/yhM5LxsFiCMr1W/yKXpomNZSvt0OWPrqiCIvqFEbubo/2aP+ruDIOHPnrEyjzTNyg4ft7Ndb2Ko/UW7A==, tarball: file:projects/communication-common.tgz}
     name: '@rush-temp/communication-common'
     version: 0.0.0
     dependencies:
@@ -20622,7 +20622,7 @@ packages:
     dev: false
 
   file:projects/core-auth.tgz:
-    resolution: {integrity: sha512-jFQh88yO9S1mDW8im/imluq1K8wK6vefKOWPXXUcn24FdVvLzlxhaeyhlA+Z7UNYSR1tJMo7CsBIZcQAC+eFNw==, tarball: file:projects/core-auth.tgz}
+    resolution: {integrity: sha512-RZAaWHXxKCFv8sxtH7gUIXVSxB1fCbTOgDVDfCNhcHB82QY8tMKoSTPUCOskC8/KWJjvYUx+HqVC19qYMES5uw==, tarball: file:projects/core-auth.tgz}
     name: '@rush-temp/core-auth'
     version: 0.0.0
     dependencies:
@@ -20843,7 +20843,7 @@ packages:
     dev: false
 
   file:projects/core-rest-pipeline.tgz:
-    resolution: {integrity: sha512-HX6qgpLR1ensAItzcq5VAZYfZEJ7RWGEBut7YApBUCR6bp344rcVvpRlnBWZHkqXn+g+Mgq7m5F08MbLBLqAEw==, tarball: file:projects/core-rest-pipeline.tgz}
+    resolution: {integrity: sha512-oLtDVMidlOo+R29FiVr7BqT6W7wCy1kAiNr8RSDFkB9sTjTAtXSv5i9TkuIgNEhd0xCo7mITRVOyzvEkcQyMmg==, tarball: file:projects/core-rest-pipeline.tgz}
     name: '@rush-temp/core-rest-pipeline'
     version: 0.0.0
     dependencies:
@@ -21938,7 +21938,7 @@ packages:
     dev: false
 
   file:projects/identity-broker.tgz:
-    resolution: {integrity: sha512-AQBiNaB80DZYZ60YqO0uJuMTvxymE/vTC0Xkl0NR0Im1FWTzBd5+ydSh7kye/jy0zHHltW+msY7EWtz+AlRW2A==, tarball: file:projects/identity-broker.tgz}
+    resolution: {integrity: sha512-1tahR+8G2KdUFKmtBN5ZaakniCNAyO2WKdC6v3oS7V5vo1gdIMXk13JF2gtAtE/3k438uLFdSgq2ezTtpsJ+wQ==, tarball: file:projects/identity-broker.tgz}
     name: '@rush-temp/identity-broker'
     version: 0.0.0
     dependencies:
@@ -22037,7 +22037,7 @@ packages:
     dev: false
 
   file:projects/identity.tgz:
-    resolution: {integrity: sha512-jG/nY9yv3aWJVO752420iBV6lAZ4+ro5mVuPj/DTqNsGbdaOrgDJ3w4lunNVUsgVKZ+qkLD5WLx81dsrkEXfrw==, tarball: file:projects/identity.tgz}
+    resolution: {integrity: sha512-+CgeC7Z8IxP8R7RNW+A2SORwc6oPEQSQ6ZcIqy16sO8U6v9Hw7oj/mTjbKxxcuESfdy6DFr1uaij89mUu5pGeQ==, tarball: file:projects/identity.tgz}
     name: '@rush-temp/identity'
     version: 0.0.0
     dependencies:
@@ -22266,7 +22266,7 @@ packages:
     dev: false
 
   file:projects/keyvault-common.tgz:
-    resolution: {integrity: sha512-I2Xr9P7ab6GgkrVV5N+LgvtTn6v/KiEwhiuxmg/t7Ixma5UjL9Q+v0TGLtZN9ThouU/GHBUKYIQH6vdVMbC+4g==, tarball: file:projects/keyvault-common.tgz}
+    resolution: {integrity: sha512-fhIITLWXGA7iRET2+R9P9CniupXNlgz3yaD1f3uA9MeK2KwTSmNlz26rvRYGQn0G6OAWEVvxpaVbCEAGSKjA3A==, tarball: file:projects/keyvault-common.tgz}
     name: '@rush-temp/keyvault-common'
     version: 0.0.0
     dependencies:
