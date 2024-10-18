@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update the configuration of a node type of a given managed cluster, only updating tags.
  *
  * @summary Update the configuration of a node type of a given managed cluster, only updating tags.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/NodeTypePatchOperation_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/NodeTypePatchOperation_example.json
  */
 async function patchANodeType() {
   const subscriptionId =
@@ -50,7 +50,7 @@ async function patchANodeType() {
  * This sample demonstrates how to Update the configuration of a node type of a given managed cluster, only updating tags.
  *
  * @summary Update the configuration of a node type of a given managed cluster, only updating tags.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/NodeTypePatchOperationAutoScale_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/NodeTypePatchOperationAutoScale_example.json
  */
 async function patchANodeTypeWhileAutoScaling() {
   const subscriptionId =
