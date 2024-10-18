@@ -82,6 +82,19 @@ describe("Service Utils", () => {
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
   });
 
+  it("should escape special character in runName", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
+      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+    const runId = "2021-10-11T07:00:00.000Z";
+    const runName = "run#Name-12/09";
+    const escapeRunName = encodeURIComponent(runName);
+    const os = "windows";
+    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${runId}&runName=${escapeRunName}&os=${os}&api-version=${API_VERSION}`;
+    expect(getServiceWSEndpoint(runId, runName, os)).to.equal(expected);
+
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
+  });
+
   it("should exit with error message if service url is not set", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] = "";
     const exitStub = sandbox.stub(process, "exit").callsFake(() => {
