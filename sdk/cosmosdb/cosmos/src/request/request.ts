@@ -176,7 +176,7 @@ export async function getHeaders({
     headers[Constants.HttpHeaders.PopulateQueryMetrics] = options.populateQueryMetrics;
   }
 
-  if (options.maxDegreeOfParallelism !== undefined) {
+  if (options.maxDegreeOfParallelism !== undefined && options.maxDegreeOfParallelism > 1) {
     headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] = true;
   }
 
