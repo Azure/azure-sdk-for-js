@@ -2291,6 +2291,11 @@
       "packageName": "@azure/arm-trustedsigning",
       "projectFolder": "sdk/trustedsigning/arm-trustedsigning",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/ai-client",
+      "projectFolder": "sdk/ai/azure-ai-client",
+      "versionPolicyName": "client"
     }
   ]
 }

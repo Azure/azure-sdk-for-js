@@ -14,6 +14,9 @@ dependencies:
   '@rush-temp/ai-anomaly-detector':
     specifier: file:./projects/ai-anomaly-detector.tgz
     version: file:projects/ai-anomaly-detector.tgz
+  '@rush-temp/ai-client':
+    specifier: file:./projects/ai-client.tgz
+    version: file:projects/ai-client.tgz
   '@rush-temp/ai-content-safety':
     specifier: file:./projects/ai-content-safety.tgz
     version: file:projects/ai-content-safety.tgz
@@ -3966,7 +3969,7 @@ packages:
   /@types/express-serve-static-core@4.19.6:
     resolution: {integrity: sha512-N4LZ2xG7DatVqhCZzOGb1Yi5lMbXSZcmdLDe9EzSndPV2HpWYWzRbaerl2n27irrm94EPpprqa8KpskPT085+A==}
     dependencies:
-      '@types/node': 18.19.54
+      '@types/node': 22.7.4
       '@types/qs': 6.9.16
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3985,7 +3988,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.54
+      '@types/node': 22.7.4
     dev: false
 
   /@types/http-errors@2.0.4:
@@ -4012,7 +4015,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.54
+      '@types/node': 22.7.4
     dev: false
 
   /@types/jsonwebtoken@9.0.7:
@@ -4155,7 +4158,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.54
+      '@types/node': 22.7.4
     dev: false
 
   /@types/resolve@1.20.2:
@@ -11856,6 +11859,25 @@ packages:
       - jiti
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/ai-client.tgz:
+    resolution: {integrity: sha512-JDHtb68K4wAqu6GpZJXrPJbCZT6fJAaeCBEOMjPAMkoIV4saI4VmXCrnT0RjdJUv6lGo/hfXm7SrANJMmek/pA==, tarball: file:projects/ai-client.tgz}
+    name: '@rush-temp/ai-client'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.47.9(@types/node@18.19.54)
+      '@types/node': 18.19.54
+      dotenv: 16.4.5
+      eslint: 8.57.1
+      mkdirp: 3.0.1
+      prettier: 3.3.3
+      rimraf: 5.0.10
+      tshy: 1.18.0
+      tslib: 2.7.0
+      typescript: 5.5.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/ai-content-safety.tgz:

@@ -1,0 +1,87 @@
+{
+  "name": "@azure/ai-client",
+  "version": "1.0.0-beta.1",
+  "description": "A generated SDK for ClientClient.",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "sideEffects": false,
+  "autoPublish": false,
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts",
+      "./api": "./src/api/index.ts",
+      "./models": "./src/models/index.ts",
+      "./api/agents": "src/api/agents/index.ts",
+      "./api/connections": "src/api/connections/index.ts",
+      "./api/evaluations": "src/api/evaluations/index.ts"
+    },
+    "dialects": ["esm", "commonjs"],
+    "esmDialects": ["browser", "react-native"],
+    "selfLink": false
+  },
+  "type": "module",
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "files": ["dist", "README.md", "LICENSE", "review/*", "CHANGELOG.md"],
+  "sdk-type": "client",
+  "repository": "github:Azure/azure-sdk-for-js",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/rest/clientClient.ts",
+        "prefix": "userAgentInfo"
+      }
+    ]
+  },
+  "dependencies": {
+    "@azure/core-util": "^1.9.2",
+    "@azure-rest/core-client": "^2.1.0",
+    "@azure/core-auth": "^1.6.0",
+    "@azure/core-rest-pipeline": "^1.5.0",
+    "@azure/logger": "^1.0.0",
+    "tslib": "^2.6.2"
+  },
+  "devDependencies": {
+    "dotenv": "^16.0.0",
+    "@microsoft/api-extractor": "^7.40.3",
+    "@types/node": "^18.0.0",
+    "eslint": "^8.55.0",
+    "prettier": "^3.2.5",
+    "rimraf": "^5.0.5",
+    "mkdirp": "^3.0.1",
+    "typescript": "~5.5.3",
+    "tshy": "^1.11.1",
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0"
+  },
+  "scripts": {
+    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "extract-api": "rimraf review && mkdirp ./review && dev-tool run extract-api",
+    "pack": "npm pack 2>&1",
+    "lint": "eslint package.json api-extractor.json src test",
+    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build:samples": "echo skipped",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "execute:samples": "echo skipped",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "generate:client": "echo skipped",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
+    "build:test": "npm run clean && tshy && dev-tool run build-test",
+    "build": "npm run clean && tshy && mkdirp ./review && dev-tool run extract-api",
+    "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
+    "unit-test:node": "dev-tool run test:vitest"
+  }
+}
