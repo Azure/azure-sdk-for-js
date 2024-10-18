@@ -93,6 +93,7 @@ export class AzureCliCredential implements TokenCredential {
 // @public
 export interface AzureCliCredentialOptions extends MultiTenantTokenCredentialOptions {
     processTimeoutInMs?: number;
+    subscription?: string;
     tenantId?: string;
 }
 

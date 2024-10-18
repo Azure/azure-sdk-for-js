@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added `subscription` property in `AzureCliCredentialOptions`
+
 ### Breaking Changes
 
 ### Bugs Fixed
