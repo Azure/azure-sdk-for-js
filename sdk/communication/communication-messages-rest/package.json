@@ -4,14 +4,7 @@
   "author": "Microsoft Corporation",
   "version": "1.1.0",
   "description": "Azure client library for Azure Communication Messages services",
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "license": "MIT",
   "main": "dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -117,9 +110,6 @@
   },
   "//sampleConfiguration": {
     "productName": "Azure client library for Azure Communication Messages Services",
-    "productSlugs": [
-      "azure",
-      "azure-communication-services"
-    ]
+    "productSlugs": ["azure", "azure-communication-services"]
   }
 }
