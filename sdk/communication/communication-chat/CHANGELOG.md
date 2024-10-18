@@ -4,7 +4,7 @@
 
 ### Other Changes
 
-- Supported getting real-time notification configuration from Chat Gateway for the beta version.
+- Supported getting real-time notification configuration from Chat Gateway.
 - Updated to @azure/communication-signaling@1.0.0-beta.29 with TrouterConfigClient support.
 
 ## 1.5.2 (2024-08-06)
