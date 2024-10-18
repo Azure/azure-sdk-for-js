@@ -28,8 +28,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load environment from a .env file if it exists.
 import * as dotenv from "dotenv";
-import { writeBanner } from "./utils/helpers";
-import { decodeString } from "./utils/base64url";
+import { writeBanner } from "./utils/helpers.js";
+import { decodeString } from "./utils/base64url.js";
 
 dotenv.config();
 
