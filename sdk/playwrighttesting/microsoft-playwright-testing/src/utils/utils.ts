@@ -69,8 +69,7 @@ export const getAndSetRunId = (): string => {
 };
 
 export const getServiceWSEndpoint = (runId: string, runName: string, os: string): string => {
-  const escapeRunId = encodeURIComponent(runId);
-  return `${getServiceBaseURL()}?runId=${escapeRunId}&runName=${runName}&os=${os}&api-version=${API_VERSION}`;
+  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&runName=${encodeURIComponent(runName)}&os=${os}&api-version=${API_VERSION}`;
 };
 
 export const validateServiceUrl = (): void => {
