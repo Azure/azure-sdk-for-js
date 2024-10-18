@@ -42,6 +42,8 @@ steps:
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
     parameters:
       PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
+      Artifacts: ${{ parameters.Artifacts }}
+
   - ${{ if and(eq(variables['System.TeamProject'], 'internal'), in(variables['Build.Reason'], 'IndividualCI', 'BatchedCI')) }}:
     - task: AzureCLI@2
       inputs:

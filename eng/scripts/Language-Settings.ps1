@@ -73,7 +73,7 @@ function Get-javascript-AdditionalValidationPackagesFromPackageSet {
   $changedServices = $changedServices | Get-Unique
 
   if ($engChanged -or $othersChanged) {
-    $additionalPackages = $ReducedDependencyLookup["core"] | ForEach-Object { $me=$_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
+    $additionalPackages = $ReducedDependencyLookup["test-utils"] | ForEach-Object { $me=$_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
     $additionalValidationPackages += $additionalPackages
   }
 
