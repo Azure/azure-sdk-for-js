@@ -95,9 +95,9 @@ const getServiceConfig = (
     use: {
       connectOptions: {
         wsEndpoint: getServiceWSEndpoint(
-          playwrightServiceConfig.runId,
-          playwrightServiceConfig.runName,
-          playwrightServiceConfig.serviceOs,
+          encodeURIComponent(playwrightServiceConfig.runId),
+          encodeURIComponent(playwrightServiceConfig.runName),
+          encodeURIComponent(playwrightServiceConfig.serviceOs),
         ),
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
@@ -148,9 +148,9 @@ const getConnectOptions = async (
   const token = await fetchOrValidateAccessToken(options?.credential);
   return {
     wsEndpoint: getServiceWSEndpoint(
-      playwrightServiceConfig.runId,
-      playwrightServiceConfig.runName,
-      playwrightServiceConfig.serviceOs,
+      encodeURIComponent(playwrightServiceConfig.runId),
+      encodeURIComponent(playwrightServiceConfig.runName),
+      encodeURIComponent(playwrightServiceConfig.serviceOs),
     ),
     options: {
       headers: {
