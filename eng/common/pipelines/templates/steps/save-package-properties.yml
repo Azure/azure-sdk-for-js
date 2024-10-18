@@ -14,9 +14,6 @@ parameters:
   - name: ScriptDirectory
     type: string
     default: eng/common/scripts
-  - name: ServiceDirectoryFilter
-    type: string
-    default: ""
 
 steps:
   # There will be transitory period for every language repo where the <language> - pullrequest build definition will run
