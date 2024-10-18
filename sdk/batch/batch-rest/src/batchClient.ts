@@ -86,6 +86,7 @@ export default function createClient(
   // If the credentials are not a TokenCredential, we need to add a policy to handle the shared key auth.
   const client = getClient(endpointUrl, options) as BatchClient;
   const authPolicy = createBatchSharedKeyCredentialsPolicy(credentials);
+  addClientApiVersionPolicy(client);
   client.pipeline.addPolicy(authPolicy);
-  return addClientApiVersionPolicy(client);
+  return client;
 }
