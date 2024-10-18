@@ -13,9 +13,8 @@ import {
   AttestationAdministrationClient,
   AttestationClient,
   AttestationClientOptions,
-} from "../../src/";
-import "./env";
-import { pemFromBase64 } from "../utils/helpers";
+} from "../../src/index.js";
+import { pemFromBase64 } from "../utils/helpers.js";
 
 const envSetupForPlayback: { [k: string]: string } = {
   ATTESTATION_LOCATION_SHORT_NAME: "wus",
