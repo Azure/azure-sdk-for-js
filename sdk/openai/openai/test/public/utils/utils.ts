@@ -35,44 +35,59 @@ export type DeploymentType = "vision" | "audio" | "completions";
 export interface DeploymentInfo {
   deploymentName: string;
   model: ModelInfo;
+  capabilities?: Record<string, string>;
 }
 interface ModelInfo {
   name: string;
   version: string;
 }
-export enum APIVersion {
-  Preview = "2024-08-01-preview",
-  Stable = "2024-06-01",
-  OpenAI = "OpenAI",
-}
-export const APIMatrix = [APIVersion.Preview, APIVersion.Stable];
+
+export const APIVersion = {
+  Preview: { name: "2024-08-01-preview", beta: true, azure: true },
+  Stable: { name: "2024-06-01", beta: false, azure: true },
+  OpenAI: { name: "OpenAI", beta: true, azure: false },
+} as const;
+
+export type AnyApiVersion = (typeof APIVersion)[keyof typeof APIVersion];
+
+export const APIMatrix = Object.values(APIVersion);
+
 function toString(error: any): string {
   return error.error ? JSON.stringify(error.error) : JSON.stringify(error);
+}
+
+function stringifyDeployment(deployment: DeploymentInfo): string {
+  return JSON.stringify(deployment);
 }
 
 export async function withDeployments<T>(
   deploymentsInfo: DeploymentInfo[] = [],
   run: (model: string) => Promise<T>,
-  validate: (result: T) => void,
-  modelsListToSkip?: ModelInfo[],
+  options: {
+    validate?: (result: T) => void;
+    setup?: () => Promise<() => Promise<void>>;
+    filterModels?: (model: ModelInfo) => boolean;
+  } = {},
 ): Promise<DeploymentInfo[]> {
+  const { setup, validate, filterModels } = options;
   const errors = [];
   const succeeded = [];
   assert.isNotEmpty(deploymentsInfo, "No deployments found");
+  const tearDown = await setup?.();
   let i = 0;
   for (const deployment of deploymentsInfo) {
+    if (!filterModels?.(deployment.model)) {
+      logger.info(`Skipping deployment ${stringifyDeployment(deployment)}`);
+      continue;
+    }
+    logger.info(
+      `[${++i}/${deploymentsInfo.length}] testing with deployment: ${stringifyDeployment(
+        deployment,
+      )}`,
+    );
     try {
-      logger.info(
-        `[${++i}/${deploymentsInfo.length}] testing with deployment: ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
-      );
-      if (modelsListToSkip && isModelInList(deployment.model, modelsListToSkip)) {
-        logger.info(
-          `Skipping deployment ${deployment.deploymentName} - model: ${deployment.model.name} ${deployment.model.version}`,
-        );
-        continue;
-      }
       const res = await run(deployment.deploymentName);
-      validate(res);
+      validate?.(res);
       succeeded.push(deployment);
     } catch (e) {
       const error = e as any;
@@ -100,6 +115,7 @@ export async function withDeployments<T>(
       errors.push(errorStr);
     }
   }
+  await tearDown?.();
   if (errors.length > 0) {
     throw new Error(`Errors list: ${errors.join("\n")}`);
   }
@@ -114,7 +130,7 @@ export async function sendRequestWithRecorder(request: PipelineRequest): Promise
   return pipeline.sendRequest(client, request);
 }
 
-function isModelInList(expectedModel: ModelInfo, modelsList: ModelInfo[]): boolean {
+export function isModelInList(expectedModel: ModelInfo, modelsList: ModelInfo[]): boolean {
   for (const model of modelsList) {
     if (expectedModel.name === model.name && expectedModel.version === model.version) {
       return true;
@@ -128,13 +144,19 @@ async function listDeployments(
   accountName: string,
 ): Promise<DeploymentInfo[]> {
   const deployments: DeploymentInfo[] = [];
-  const mgmtClient = new CognitiveServicesManagementClient(createTestCredential(), subId);
-  for await (const deployment of mgmtClient.deployments.list(rgName, accountName)) {
-    const deploymentName = deployment.name;
-    const modelName = deployment.properties?.model?.name;
-    const modelVersion = deployment.properties?.model?.version;
-    if (deploymentName && modelName && modelVersion) {
-      deployments.push({ deploymentName, model: { name: modelName, version: modelVersion } });
+  const csManagementClient = new CognitiveServicesManagementClient(createTestCredential(), subId);
+  for await (const deployment of csManagementClient.deployments.list(rgName, accountName)) {
+    const { name, properties } = deployment;
+    const { model, provisioningState, capabilities } = properties || {};
+    const deploymentName = name;
+    const modelName = model?.name;
+    const modelVersion = model?.version;
+    if (deploymentName && modelName && modelVersion && provisioningState === "Succeeded") {
+      deployments.push({
+        deploymentName,
+        model: { name: modelName, version: modelVersion },
+        capabilities,
+      });
     }
   }
   logger.info(`Available deployments (${deployments.length}): ${JSON.stringify(deployments)}`);
