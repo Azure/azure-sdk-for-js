@@ -956,6 +956,7 @@ export class ClientContext {
         requestContext.partitionKey !== undefined
           ? convertToInternalPartitionKey(requestContext.partitionKey)
           : undefined, // TODO: Move this check from here to PartitionKey
+      operationType: requestContext.operationType,
     });
   }
 
