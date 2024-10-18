@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FabricClient } from "@azure/arm-fabric";
-import { DefaultAzureCredential } from "@azure/identity";
+const { FabricClient } = require("@azure/arm-fabric");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to get a FabricCapacity
