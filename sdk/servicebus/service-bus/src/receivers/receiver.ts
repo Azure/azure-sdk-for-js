@@ -747,12 +747,12 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
   listSessions(
     options?: OperationOptions,
   ): PagedAsyncIterableIterator<string, string[], { maxPageSize?: number }> {
-    logger.verbose(`Performing operation - listRules() with options: %j`, options);
+    logger.verbose(`Performing operation - listSessions() with options: %j`, options);
     const pagedResult: PagedResult<string[], { maxPageSize?: number }, number> = {
       firstPageLink: 0,
       getPage: async (pageLink, maxPageSize) => {
         const top = maxPageSize ?? 100;
-        const rules = await getSessions(
+        const sessions = await getSessions(
           this._context,
           this.entityPath,
           this._getAssociatedReceiverName(),
@@ -763,10 +763,10 @@ export class ServiceBusReceiverImpl implements ServiceBusReceiver {
             ...options,
           },
         );
-        return rules.length
+        return sessions.length
           ? {
-              page: rules,
-              nextPageLink: rules.length > 0 ? pageLink + rules.length : undefined,
+              page: sessions,
+              nextPageLink: sessions.length > 0 ? pageLink + sessions.length : undefined,
             }
           : undefined;
       },

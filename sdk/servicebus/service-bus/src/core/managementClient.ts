@@ -1587,6 +1587,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         managementClientLogger,
         updatedOptions,
       );
+      // Reference: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-amqp-request-response#response-8
       if (
         response.application_properties!.statusCode === 204 ||
         !response.body ||
@@ -1595,7 +1596,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         return [];
       }
 
-      // Reference: https://learn.microsoft.com/azure/service-bus-messaging/service-bus-amqp-request-response#response-8
       return response.body["sessions-ids"];
     } catch (err: any) {
       const error = translateServiceBusError(err);
