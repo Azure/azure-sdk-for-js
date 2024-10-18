@@ -26,7 +26,7 @@ import {
   LocationListCapabilitiesOptionalParams,
   LocationListCapabilitiesResponse,
   LocationListCachedImagesNextResponse,
-  LocationListCapabilitiesNextResponse
+  LocationListCapabilitiesNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,12 +44,12 @@ export class LocationImpl implements Location {
 
   /**
    * Get the usage for a subscription
-   * @param location The identifier for the physical azure location.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   public listUsage(
     location: string,
-    options?: LocationListUsageOptionalParams
+    options?: LocationListUsageOptionalParams,
   ): PagedAsyncIterableIterator<Usage> {
     const iter = this.listUsagePagingAll(location, options);
     return {
@@ -64,14 +64,14 @@ export class LocationImpl implements Location {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listUsagePagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listUsagePagingPage(
     location: string,
     options?: LocationListUsageOptionalParams,
-    _settings?: PageSettings
+    _settings?: PageSettings,
   ): AsyncIterableIterator<Usage[]> {
     let result: LocationListUsageResponse;
     result = await this._listUsage(location, options);
@@ -80,7 +80,7 @@ export class LocationImpl implements Location {
 
   private async *listUsagePagingAll(
     location: string,
-    options?: LocationListUsageOptionalParams
+    options?: LocationListUsageOptionalParams,
   ): AsyncIterableIterator<Usage> {
     for await (const page of this.listUsagePagingPage(location, options)) {
       yield* page;
@@ -89,12 +89,12 @@ export class LocationImpl implements Location {
 
   /**
    * Get the list of cached images on specific OS type for a subscription in a region.
-   * @param location The identifier for the physical azure location.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   public listCachedImages(
     location: string,
-    options?: LocationListCachedImagesOptionalParams
+    options?: LocationListCachedImagesOptionalParams,
   ): PagedAsyncIterableIterator<CachedImages> {
     const iter = this.listCachedImagesPagingAll(location, options);
     return {
@@ -109,14 +109,14 @@ export class LocationImpl implements Location {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listCachedImagesPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listCachedImagesPagingPage(
     location: string,
     options?: LocationListCachedImagesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CachedImages[]> {
     let result: LocationListCachedImagesResponse;
     let continuationToken = settings?.continuationToken;
@@ -131,7 +131,7 @@ export class LocationImpl implements Location {
       result = await this._listCachedImagesNext(
         location,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -142,11 +142,11 @@ export class LocationImpl implements Location {
 
   private async *listCachedImagesPagingAll(
     location: string,
-    options?: LocationListCachedImagesOptionalParams
+    options?: LocationListCachedImagesOptionalParams,
   ): AsyncIterableIterator<CachedImages> {
     for await (const page of this.listCachedImagesPagingPage(
       location,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -154,12 +154,12 @@ export class LocationImpl implements Location {
 
   /**
    * Get the list of CPU/memory/GPU capabilities of a region.
-   * @param location The identifier for the physical azure location.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   public listCapabilities(
     location: string,
-    options?: LocationListCapabilitiesOptionalParams
+    options?: LocationListCapabilitiesOptionalParams,
   ): PagedAsyncIterableIterator<Capabilities> {
     const iter = this.listCapabilitiesPagingAll(location, options);
     return {
@@ -174,14 +174,14 @@ export class LocationImpl implements Location {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listCapabilitiesPagingPage(location, options, settings);
-      }
+      },
     };
   }
 
   private async *listCapabilitiesPagingPage(
     location: string,
     options?: LocationListCapabilitiesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Capabilities[]> {
     let result: LocationListCapabilitiesResponse;
     let continuationToken = settings?.continuationToken;
@@ -196,7 +196,7 @@ export class LocationImpl implements Location {
       result = await this._listCapabilitiesNext(
         location,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -207,11 +207,11 @@ export class LocationImpl implements Location {
 
   private async *listCapabilitiesPagingAll(
     location: string,
-    options?: LocationListCapabilitiesOptionalParams
+    options?: LocationListCapabilitiesOptionalParams,
   ): AsyncIterableIterator<Capabilities> {
     for await (const page of this.listCapabilitiesPagingPage(
       location,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -219,80 +219,80 @@ export class LocationImpl implements Location {
 
   /**
    * Get the usage for a subscription
-   * @param location The identifier for the physical azure location.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   private _listUsage(
     location: string,
-    options?: LocationListUsageOptionalParams
+    options?: LocationListUsageOptionalParams,
   ): Promise<LocationListUsageResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listUsageOperationSpec
+      listUsageOperationSpec,
     );
   }
 
   /**
    * Get the list of cached images on specific OS type for a subscription in a region.
-   * @param location The identifier for the physical azure location.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   private _listCachedImages(
     location: string,
-    options?: LocationListCachedImagesOptionalParams
+    options?: LocationListCachedImagesOptionalParams,
   ): Promise<LocationListCachedImagesResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listCachedImagesOperationSpec
+      listCachedImagesOperationSpec,
     );
   }
 
   /**
    * Get the list of CPU/memory/GPU capabilities of a region.
-   * @param location The identifier for the physical azure location.
+   * @param location The name of the Azure region.
    * @param options The options parameters.
    */
   private _listCapabilities(
     location: string,
-    options?: LocationListCapabilitiesOptionalParams
+    options?: LocationListCapabilitiesOptionalParams,
   ): Promise<LocationListCapabilitiesResponse> {
     return this.client.sendOperationRequest(
       { location, options },
-      listCapabilitiesOperationSpec
+      listCapabilitiesOperationSpec,
     );
   }
 
   /**
    * ListCachedImagesNext
-   * @param location The identifier for the physical azure location.
+   * @param location The name of the Azure region.
    * @param nextLink The nextLink from the previous successful call to the ListCachedImages method.
    * @param options The options parameters.
    */
   private _listCachedImagesNext(
     location: string,
     nextLink: string,
-    options?: LocationListCachedImagesNextOptionalParams
+    options?: LocationListCachedImagesNextOptionalParams,
   ): Promise<LocationListCachedImagesNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listCachedImagesNextOperationSpec
+      listCachedImagesNextOperationSpec,
     );
   }
 
   /**
    * ListCapabilitiesNext
-   * @param location The identifier for the physical azure location.
+   * @param location The name of the Azure region.
    * @param nextLink The nextLink from the previous successful call to the ListCapabilities method.
    * @param options The options parameters.
    */
   private _listCapabilitiesNext(
     location: string,
     nextLink: string,
-    options?: LocationListCapabilitiesNextOptionalParams
+    options?: LocationListCapabilitiesNextOptionalParams,
   ): Promise<LocationListCapabilitiesNextResponse> {
     return this.client.sendOperationRequest(
       { location, nextLink, options },
-      listCapabilitiesNextOperationSpec
+      listCapabilitiesNextOperationSpec,
     );
   }
 }
@@ -300,105 +300,102 @@ export class LocationImpl implements Location {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listUsageOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/usages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/usages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.UsageListResult
+      bodyMapper: Mappers.UsageListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listCachedImagesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/cachedImages",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/cachedImages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CachedImagesListResult
+      bodyMapper: Mappers.CachedImagesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listCapabilitiesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/capabilities",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.ContainerInstance/locations/{location}/capabilities",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CapabilitiesListResult
+      bodyMapper: Mappers.CapabilitiesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listCachedImagesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CachedImagesListResult
+      bodyMapper: Mappers.CachedImagesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listCapabilitiesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CapabilitiesListResult
+      bodyMapper: Mappers.CapabilitiesListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.nextLink,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

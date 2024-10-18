@@ -14,7 +14,7 @@ export interface SubnetServiceAssociationLink {
   /**
    * Delete container group virtual network association links. The operation does not delete other
    * resources provided by the user.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName The name of the virtual network.
    * @param subnetName The name of the subnet.
    * @param options The options parameters.
@@ -23,12 +23,12 @@ export interface SubnetServiceAssociationLink {
     resourceGroupName: string,
     virtualNetworkName: string,
     subnetName: string,
-    options?: SubnetServiceAssociationLinkDeleteOptionalParams
+    options?: SubnetServiceAssociationLinkDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete container group virtual network association links. The operation does not delete other
    * resources provided by the user.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param virtualNetworkName The name of the virtual network.
    * @param subnetName The name of the subnet.
    * @param options The options parameters.
@@ -37,6 +37,6 @@ export interface SubnetServiceAssociationLink {
     resourceGroupName: string,
     virtualNetworkName: string,
     subnetName: string,
-    options?: SubnetServiceAssociationLinkDeleteOptionalParams
+    options?: SubnetServiceAssociationLinkDeleteOptionalParams,
   ): Promise<void>;
 }
