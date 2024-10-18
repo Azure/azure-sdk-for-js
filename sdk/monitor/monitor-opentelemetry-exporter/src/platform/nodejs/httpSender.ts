@@ -4,15 +4,15 @@ import url from "url";
 import { diag } from "@opentelemetry/api";
 import { FullOperationResponse } from "@azure/core-client";
 import { redirectPolicyName } from "@azure/core-rest-pipeline";
-import { SenderResult } from "../../types";
+import { SenderResult } from "../../types.js";
 import {
   TelemetryItem as Envelope,
   ApplicationInsightsClient,
   ApplicationInsightsClientOptionalParams,
   TrackOptionalParams,
-} from "../../generated";
-import { AzureMonitorExporterOptions } from "../../config";
-import { BaseSender } from "./baseSender";
+} from "../../generated/index.js";
+import { AzureMonitorExporterOptions } from "../../config.js";
+import { BaseSender } from "./baseSender.js";
 
 const applicationInsightsResource = "https://monitor.azure.com//.default";
 

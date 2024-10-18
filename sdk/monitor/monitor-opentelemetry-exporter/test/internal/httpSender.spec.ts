@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
 import { AccessToken, TokenCredential } from "@azure/core-auth";
-import { HttpSender } from "../../src/platform/nodejs/httpSender";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
+import { HttpSender } from "../../src/platform/nodejs/httpSender.js";
+import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants.js";
 import {
   successfulBreezeResponse,
   failedBreezeResponse,
   partialBreezeResponse,
-} from "../utils/breezeTestUtils";
-import { TelemetryItem as Envelope } from "../../src/generated";
+} from "../utils/breezeTestUtils.js";
+import { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import nock from "nock";
 import { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { ExportResultCode } from "@opentelemetry/core";
+import { describe, it, assert, afterAll } from "vitest";
 
 function toObject<T>(obj: T): T {
   return JSON.parse(JSON.stringify(obj)) as T;
@@ -41,7 +41,7 @@ describe("HttpSender", () => {
   const scope = nock(DEFAULT_BREEZE_ENDPOINT).persist().post("/v2.1/track");
   nock.disableNetConnect();
 
-  after(() => {
+  afterAll(() => {
     nock.cleanAll();
     nock.enableNetConnect();
   });
@@ -311,7 +311,7 @@ describe("HttpSender", () => {
 
       const result = await sender.exportEnvelopes([envelope]);
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.strictEqual(sender["retryTimer"], "foo");
+      assert.strictEqual(sender["retryTimer"], "foo" as unknown as NodeJS.Timeout);
     });
 
     it("should handle permanent redirects in Azure Monitor", async () => {

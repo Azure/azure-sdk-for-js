@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as assert from "assert";
+
 import { Resource } from "@opentelemetry/resources";
 import {
   SemanticAttributes,
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
 
-import { Tags, Properties, Measurements, MaxPropertyLengths } from "../../src/types";
-import { getInstance } from "../../src/platform";
+import { Tags, Properties, Measurements, MaxPropertyLengths } from "../../src/types.js";
+import { getInstance } from "../../src/platform/index.js";
 import {
   AvailabilityData,
   KnownContextTagKeys,
@@ -18,13 +18,14 @@ import {
   TelemetryEventData,
   TelemetryExceptionData,
   TelemetryExceptionDetails,
-} from "../../src/generated";
-import { TelemetryItem as Envelope } from "../../src/generated";
+} from "../../src/generated/index.js";
+import { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
-import { logToEnvelope } from "../../src/utils/logUtils";
+import { logToEnvelope } from "../../src/utils/logUtils.js";
 import { SeverityNumber } from "@opentelemetry/api-logs";
 import { HrTime, TraceFlags } from "@opentelemetry/api";
-import { hrTimeToDate } from "../../src/utils/common";
+import { hrTimeToDate } from "../../src/utils/common.js";
+import { describe, it, assert } from "vitest";
 
 const context = getInstance();
 
@@ -38,18 +39,18 @@ function assertEnvelope(
   expectedBaseData?: Partial<MonitorDomain>,
   expectedTime?: Date,
 ): void {
-  assert.ok(envelope);
-  assert.strictEqual(envelope.name, name);
-  assert.strictEqual(envelope.sampleRate, sampleRate);
-  assert.deepStrictEqual(envelope.data?.baseType, baseType);
+  assert.isDefined(envelope);
+  assert.strictEqual(envelope?.name, name);
+  assert.strictEqual(envelope?.sampleRate, sampleRate);
+  assert.deepStrictEqual(envelope?.data?.baseType, baseType);
 
-  assert.strictEqual(envelope.instrumentationKey, "ikey");
-  assert.ok(envelope.time);
-  assert.ok(envelope.version);
-  assert.ok(envelope.data);
+  assert.strictEqual(envelope?.instrumentationKey, "ikey");
+  assert.ok(envelope?.time);
+  assert.ok(envelope?.version);
+  assert.ok(envelope?.data);
 
   if (expectedTime) {
-    assert.deepStrictEqual(envelope.time, expectedTime);
+    assert.deepStrictEqual(envelope?.time, expectedTime);
   }
 
   const expectedServiceTags: Tags = {
@@ -58,13 +59,13 @@ function assertEnvelope(
     [KnownContextTagKeys.AiOperationId]: "1f1008dc8e270e85c40a0d7c3939b278",
     [KnownContextTagKeys.AiOperationParentId]: "5e107261f64fa53e",
   };
-  assert.deepStrictEqual(envelope.tags, {
+  assert.deepStrictEqual(envelope?.tags, {
     ...context.tags,
     ...expectedServiceTags,
   });
   assert.deepStrictEqual((envelope?.data?.baseData as any).properties, expectedProperties);
   assert.deepStrictEqual((envelope?.data?.baseData as any).measurements, expectedMeasurements);
-  assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData);
+  assert.deepStrictEqual(envelope?.data?.baseData, expectedBaseData);
 }
 
 const emptyMeasurements: Measurements = {};

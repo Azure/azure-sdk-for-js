@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assertCount, assertMetricExpectation } from "../../utils/assert";
-import { MetricBasicScenario } from "../../utils/basic";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
+import { assertCount, assertMetricExpectation } from "../../utils/assert.js";
+import { MetricBasicScenario } from "../../utils/basic.js";
+import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants.js";
 import nock from "nock";
-import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
-import { TelemetryItem as Envelope } from "../../../src/generated";
+import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
+import { TelemetryItem as Envelope } from "../../../src/generated/index.js";
 
 describe("Metric Exporter Scenarios", () => {
   describe(MetricBasicScenario.prototype.constructor.name, () => {

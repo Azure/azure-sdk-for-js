@@ -12,15 +12,15 @@ import {
   TelemetryEventData,
   TelemetryExceptionData,
   TelemetryExceptionDetails,
-} from "../generated";
-import { createTagsFromResource, hrTimeToDate, serializeAttribute } from "./common";
+} from "../generated/index.js";
+import { createTagsFromResource, hrTimeToDate, serializeAttribute } from "./common.js";
 import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import {
   SEMATTRS_EXCEPTION_MESSAGE,
   SEMATTRS_EXCEPTION_STACKTRACE,
   SEMATTRS_EXCEPTION_TYPE,
 } from "@opentelemetry/semantic-conventions";
-import { MaxPropertyLengths, Measurements, Properties, Tags } from "../types";
+import { MaxPropertyLengths, Measurements, Properties, Tags } from "../types.js";
 import { diag } from "@opentelemetry/api";
 import {
   ApplicationInsightsAvailabilityBaseType,
@@ -34,7 +34,7 @@ import {
   ApplicationInsightsMessageName,
   ApplicationInsightsPageViewBaseType,
   ApplicationInsightsPageViewName,
-} from "./constants/applicationinsights";
+} from "./constants/applicationinsights.js";
 
 /**
  * Log to Azure envelope parsing.

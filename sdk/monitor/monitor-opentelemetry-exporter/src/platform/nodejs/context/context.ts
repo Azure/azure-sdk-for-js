@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as os from "os";
+import * as os from "node:os";
 import { SDK_INFO } from "@opentelemetry/core";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 
-import { KnownContextTagKeys } from "../../../generated";
-import * as ai from "../../../utils/constants/applicationinsights";
-import { Tags } from "../../../types";
+import { KnownContextTagKeys } from "../../../generated/index.js";
+import * as ai from "../../../utils/constants/applicationinsights.js";
+import { Tags } from "../../../types.js";
 
 let instance: Context | null = null;
 
