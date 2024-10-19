@@ -15,7 +15,7 @@ export interface RecordedMessageClient {
 
 const envSetupForPlayback: Record<string, string> = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING:
-    "endpoint=https://someEndpoint/;accesskey=someAccessKeyw==",
+    "endpoint=https://someEndpoint.unitedstates.communication.azure.com/;accesskey=someAccessKeyw==",
   CHANNEL_ID: "test_channel_id",
   RECIPIENT_PHONE_NUMBER: "+14255550123",
   AZURE_CLIENT_ID: "azure_client_id",

@@ -26,7 +26,8 @@ export interface SendHeaders {
 }
 
 export interface SendBodyParam {
-  body?: NotificationContent;
+  /** Details of the message to send. */
+  body: NotificationContent;
 }
 
 export interface SendHeaderParam {
