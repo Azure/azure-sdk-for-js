@@ -129,6 +129,7 @@ describe("Partition Merge", function () {
     correlatedActivityId
   );
   context["options"] = options;
+
   it("there should be 2 document producers in the priority queue as there are two partition key ranges", async function () {
     assert.equal(context["orderByPQ"].size(), 2);
 
