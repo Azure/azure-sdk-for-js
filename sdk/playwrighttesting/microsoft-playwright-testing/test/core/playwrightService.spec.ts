@@ -44,8 +44,8 @@ describe("getServiceConfig", () => {
     const consoleErrorSpy = sandbox.stub(console, "error");
     sandbox.stub(process, "exit").throws(new Error());
     expect(() => getServiceConfig(samplePlaywrightConfigInput)).to.throw();
-    expect(consoleErrorSpy.calledWith(ServiceErrorMessageConstants.NO_SERVICE_URL_ERROR)).to.be
-      .true;
+    expect(consoleErrorSpy.calledWith(ServiceErrorMessageConstants.NO_SERVICE_URL_ERROR.message)).to
+      .be.true;
   });
 
   it("should set customer config global setup and teardown scripts in the config if passed", () => {
@@ -66,6 +66,7 @@ describe("getServiceConfig", () => {
   });
 
   it("should set service config options as passed", () => {
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
     const { getServiceConfig } = require("../../src/core/playwrightService");
     getServiceConfig(samplePlaywrightConfigInput, {
       os: ServiceOS.WINDOWS,
@@ -114,6 +115,7 @@ describe("getServiceConfig", () => {
   });
 
   it("should not set service global setup and teardown for mpt pat authentication if pat is set", () => {
+    const processExitStub = sandbox.stub(process, "exit");
     sandbox.stub(utils, "parseJwt").returns({ exp: Date.now() / 1000 + 10000 });
     const { getServiceConfig } = require("../../src/core/playwrightService");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
@@ -122,6 +124,7 @@ describe("getServiceConfig", () => {
     });
     expect(config.globalSetup).to.be.undefined;
     expect(config.globalTeardown).to.be.undefined;
+    processExitStub.restore();
   });
 
   it("should return service config with service connect options", () => {
@@ -132,7 +135,7 @@ describe("getServiceConfig", () => {
     expect(config).to.deep.equal({
       use: {
         connectOptions: {
-          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
+          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&runName=${playwrightServiceConfig.runName}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
           headers: {
             Authorization: "Bearer token",
           },
@@ -183,6 +186,7 @@ describe("getConnectOptions", () => {
   });
 
   it("should set service connect options with passed values", async () => {
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
     const { getConnectOptions } = require("../../src/core/playwrightService");
     await getConnectOptions({
       runId: "1234",
@@ -198,7 +202,7 @@ describe("getConnectOptions", () => {
     const connectOptions = await getConnectOptions({});
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(connectOptions).to.deep.equal({
-      wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
+      wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&runName=${playwrightServiceConfig.runName}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
       options: {
         headers: {
           Authorization: "Bearer token",
@@ -214,7 +218,7 @@ describe("getConnectOptions", () => {
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
     const { getConnectOptions } = require("../../src/core/playwrightService");
     await expect(getConnectOptions()).to.be.rejectedWith(
-      ServiceErrorMessageConstants.NO_AUTH_ERROR,
+      ServiceErrorMessageConstants.NO_AUTH_ERROR.message,
     );
   });
 

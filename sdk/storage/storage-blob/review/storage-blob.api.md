@@ -408,6 +408,8 @@ export class BlobClient extends StorageClient {
     exists(options?: BlobExistsOptions): Promise<boolean>;
     generateSasStringToSign(options: BlobGenerateSasUrlOptions): string;
     generateSasUrl(options: BlobGenerateSasUrlOptions): Promise<string>;
+    generateUserDelegationSasStringToSign(options: BlobGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
+    generateUserDelegationSasUrl(options: BlobGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): Promise<string>;
     getAccountInfo(options?: BlobGetAccountInfoOptions): Promise<BlobGetAccountInfoResponse>;
     getAppendBlobClient(): AppendBlobClient;
     getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
@@ -1613,6 +1615,7 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     blobHTTPHeaders?: BlobHTTPHeaders;
     conditions?: BlobRequestConditions;
+    customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
     metadata?: {
         [propertyName: string]: string;
@@ -1703,6 +1706,8 @@ export class ContainerClient extends StorageClient {
     findBlobsByTags(tagFilterSqlExpression: string, options?: ContainerFindBlobByTagsOptions): PagedAsyncIterableIterator<FilterBlobItem, ContainerFindBlobsByTagsSegmentResponse>;
     generateSasStringToSign(options: ContainerGenerateSasUrlOptions): string;
     generateSasUrl(options: ContainerGenerateSasUrlOptions): Promise<string>;
+    generateUserDelegationSasStringToSign(options: ContainerGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): string;
+    generateUserDelegationSasUrl(options: ContainerGenerateSasUrlOptions, userDelegationKey: UserDelegationKey): Promise<string>;
     getAccessPolicy(options?: ContainerGetAccessPolicyOptions): Promise<ContainerGetAccessPolicyResponse>;
     getAccountInfo(options?: ContainerGetAccountInfoOptions): Promise<ContainerGetAccountInfoResponse>;
     getAppendBlobClient(blobName: string): AppendBlobClient;

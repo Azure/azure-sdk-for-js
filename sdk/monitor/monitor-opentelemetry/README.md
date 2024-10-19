@@ -182,6 +182,7 @@ Application Insights Browser SDK Loader allows you to inject the web SDK into no
 * Server resonse contains both <head> and </head> tags.
 * Response does not contain current /backup web Instrumentation CDN endpoints. (current and backup Web Instrumentation CDN endpoints [here](https://github.com/microsoft/ApplicationInsights-JS#active-public-cdn-endpoints))
 
+Further information on usage of the browser SDK loader can be found [here](https://learn.microsoft.com/azure/azure-monitor/app/javascript-sdk?tabs=javascriptwebsdkloaderscript).
 
 ## Set the Cloud Role Name and the Cloud Role Instance
 

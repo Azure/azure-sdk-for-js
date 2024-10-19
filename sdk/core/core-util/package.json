@@ -1,6 +1,6 @@
 {
   "name": "@azure/core-util",
-  "version": "1.10.0",
+  "version": "1.11.0",
   "description": "Core library for shared utility methods",
   "sdk-type": "client",
   "type": "module",
@@ -51,35 +51,36 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "scripts": {
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
-    "build": "npm run clean && tshy && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "clean": "rimraf --glob dist dist-* temp *.tgz *.log",
     "execute:samples": "echo skipped",
-    "extract-api": "tshy && dev-tool run extract-api",
+    "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json api-extractor.json src --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src",
+    "lint:fix": "eslint package.json api-extractor.json src --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
+    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
     "test:browser": "npm run clean && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run clean && tshy && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run clean && tshy && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
-    "unit-test:browser": "npm run clean && tshy && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
+    "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
     "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
     "@azure/abort-controller": "^2.0.0",
     "tslib": "^2.6.2"
   },
   "devDependencies": {
+    "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@microsoft/api-extractor": "^7.40.3",
     "@types/node": "^18.0.0",
     "@vitest/browser": "^2.0.5",
@@ -87,8 +88,7 @@
     "eslint": "^9.9.0",
     "playwright": "^1.41.2",
     "rimraf": "^5.0.5",
-    "tshy": "^2.0.0",
-    "typescript": "~5.5.3",
+    "typescript": "~5.6.2",
     "vitest": "^2.0.5"
   },
   "//metadata": {

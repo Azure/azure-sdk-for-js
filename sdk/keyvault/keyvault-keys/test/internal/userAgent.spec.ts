@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyClient } from "../../src";
-import { SDK_VERSION } from "../../src/constants";
+import { KeyClient } from "../../src/index.js";
+import { SDK_VERSION } from "../../src/constants.js";
 import { TokenCredential } from "@azure/core-auth";
-import { assert } from "@azure-tools/test-utils";
+import { describe, it, assert } from "vitest";
 
 describe("Keys client's user agent", () => {
   it("SDK_VERSION and user-agent should match", async function () {

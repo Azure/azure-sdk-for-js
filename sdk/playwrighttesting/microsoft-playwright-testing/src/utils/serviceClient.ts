@@ -12,6 +12,7 @@ import { TestRun } from "../model/testRun";
 import { CIInfo } from "./cIInfoProvider";
 import ReporterUtils from "./reporterUtils";
 import { PipelineResponse } from "@azure/core-rest-pipeline";
+import { reporterLogger } from "../common/logger";
 
 export class ServiceClient {
   private httpService: HttpService;
@@ -39,9 +40,12 @@ export class ServiceClient {
 
   async patchTestRun(ciInfo: CIInfo): Promise<TestRun> {
     const testRun = await this.reporterUtils.getTestRunObject(ciInfo);
+
+    // Escape the runId to avoid issues with special characters
+    const escapedRunId = encodeURIComponent(this.envVariables.runId!);
     const response: PipelineResponse = await this.httpService.callAPI(
       "PATCH",
-      `${this.getServiceEndpoint()}/${Constants.testRunsEndpoint.replace("{workspaceId}", this.envVariables.accountId!)}/${this.envVariables.runId}?api-version=${Constants.API_VERSION}`,
+      `${this.getServiceEndpoint()}/${Constants.testRunsEndpoint.replace("{workspaceId}", this.envVariables.accountId!)}/${escapedRunId}?api-version=${Constants.API_VERSION}`,
       JSON.stringify(testRun),
       this.envVariables.accessToken,
       "application/merge-patch+json",
@@ -71,9 +75,10 @@ export class ServiceClient {
 
   async postTestRunShardStart(): Promise<Shard> {
     const postTestRunShardObject = this.reporterUtils.getTestRunShardStartObject();
+    const escapedRunId = encodeURIComponent(this.envVariables.runId!);
     const response: PipelineResponse = await this.httpService.callAPI(
       "POST",
-      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", this.envVariables.runId)}/?api-version=${Constants.API_VERSION}`,
+      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", escapedRunId)}/?api-version=${Constants.API_VERSION}`,
       JSON.stringify(postTestRunShardObject),
       this.envVariables.accessToken,
       "application/json",
@@ -104,9 +109,10 @@ export class ServiceClient {
       attachmentMetadata,
       workers,
     );
+    const escapedRunId = encodeURIComponent(this.envVariables.runId!);
     const response: PipelineResponse = await this.httpService.callAPI(
       "POST",
-      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", this.envVariables.runId)}/?api-version=${Constants.API_VERSION}`,
+      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", escapedRunId)}/?api-version=${Constants.API_VERSION}`,
       JSON.stringify(postTestRunShardObject),
       this.envVariables.accessToken,
       "application/json",
@@ -124,29 +130,32 @@ export class ServiceClient {
 
   // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   async postTestResults(testResults: TestResult[]): Promise<void> {
-    const payload: any = {
-      value: testResults,
-    };
-    const response: PipelineResponse = await this.httpService.callAPI(
-      "POST",
-      `${this.getServiceEndpoint()}/${Constants.testResultsEndpoint.replace("{workspaceId}", this.envVariables.accountId!)}?api-version=${Constants.API_VERSION}`,
-      JSON.stringify(payload),
-      this.envVariables.accessToken,
-      "application/json",
-      this.envVariables.correlationId!,
-    );
-    if (response.status === 200) {
-      return;
+    try {
+      const payload: any = {
+        value: testResults,
+      };
+      const response: PipelineResponse = await this.httpService.callAPI(
+        "POST",
+        `${this.getServiceEndpoint()}/${Constants.testResultsEndpoint.replace("{workspaceId}", this.envVariables.accountId!)}?api-version=${Constants.API_VERSION}`,
+        JSON.stringify(payload),
+        this.envVariables.accessToken,
+        "application/json",
+        this.envVariables.correlationId!,
+      );
+      if (response.status === 200) {
+        return;
+      }
+      this.handleErrorResponse(response, Constants.postTestResults);
+    } catch (error) {
+      reporterLogger.error(`Error occurred while posting test results: ${error}`);
     }
-    this.handleErrorResponse(response, Constants.postTestResults);
-
-    throw new Error(`Received status ${response.status} from service from POST TestResults call.`);
   }
 
   async createStorageUri(): Promise<StorageUri> {
+    const escapedRunId = encodeURIComponent(this.envVariables.runId!);
     const response: PipelineResponse = await this.httpService.callAPI(
       "POST",
-      `${this.getServiceEndpoint()}/${Constants.storageUriEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", this.envVariables.runId)}?api-version=${Constants.API_VERSION}`,
+      `${this.getServiceEndpoint()}/${Constants.storageUriEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", escapedRunId)}?api-version=${Constants.API_VERSION}`,
       null,
       this.envVariables.accessToken,
       "application/json",

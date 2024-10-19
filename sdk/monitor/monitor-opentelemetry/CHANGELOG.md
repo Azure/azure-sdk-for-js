@@ -1,6 +1,23 @@
 # Release History
 
-## 1.7.1 ()
+## 1.7.2 (Unreleased)
+
+### Features Added
+- Changed live metrics CPU/Memory perf counter metrics to emit normalized process CPU and process physical memory bytes.
+- Support for Live Metrics Filtering
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- Update to using the logRecordProcessors property.
+
+## 1.7.1 (2024-09-13)
+
+### Bugs Fixed
+- Live Metrics: Do not send documents from past time intervals.
 
 ### Other Changes
 

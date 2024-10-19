@@ -67,6 +67,7 @@ import {
   PathSetPermissionsOptions,
   PathSetPermissionsResponse,
   RemovePathAccessControlItem,
+  UserDelegationKey,
 } from "./models";
 import { PathSetAccessControlRecursiveMode } from "./models.internal";
 import {
@@ -1005,6 +1006,90 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
       resolve(appendToURLQuery(this.url, sas));
     });
   }
+
+  /**
+   * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateSasStringToSign(options: DirectoryGenerateSasUrlOptions): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the SAS when the client is initialized with a shared key credential",
+      );
+    }
+    return generateDataLakeSASQueryParametersInternal(
+      {
+        fileSystemName: this.fileSystemName,
+        pathName: this.name,
+        isDirectory: true,
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
+  }
+
+  /**
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the input user delegation key.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationSasUrl(
+    options: DirectoryGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): Promise<string> {
+    return new Promise((resolve) => {
+      const sas = generateDataLakeSASQueryParameters(
+        {
+          fileSystemName: this.fileSystemName,
+          pathName: this.name,
+          isDirectory: true,
+          ...options,
+        },
+        userDelegationKey,
+        this.accountName,
+      ).toString();
+
+      resolve(appendToURLQuery(this.url, sas));
+    });
+  }
+
+  /**
+   * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in The SAS is signed by the input user delegation key.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateUserDelegationSasStringToSign(
+    options: DirectoryGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+    return generateDataLakeSASQueryParametersInternal(
+      {
+        fileSystemName: this.fileSystemName,
+        pathName: this.name,
+        isDirectory: true,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName,
+    ).stringToSign;
+  }
 }
 
 /**
@@ -1914,6 +1999,61 @@ export class DataLakeFileClient extends DataLakePathClient {
         ...options,
       },
       this.credential,
+    ).stringToSign;
+  }
+
+  /**
+   * Generates a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the input user delegation key.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationSasUrl(
+    options: FileGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): Promise<string> {
+    return new Promise((resolve) => {
+      const sas = generateDataLakeSASQueryParameters(
+        {
+          fileSystemName: this.fileSystemName,
+          pathName: this.name,
+          ...options,
+        },
+        userDelegationKey,
+        this.accountName,
+      ).toString();
+
+      resolve(appendToURLQuery(this.url, sas));
+    });
+  }
+
+  /**
+   * Generates string to sign for a Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the input user delegation key.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateUserDelegationSasStringToSign(
+    options: FileGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+    return generateDataLakeSASQueryParametersInternal(
+      {
+        fileSystemName: this.fileSystemName,
+        pathName: this.name,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName,
     ).stringToSign;
   }
 }

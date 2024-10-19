@@ -1,5 +1,11 @@
 # Release History
 
+## 1.9.0 (2024-10-15)
+
+### Features Added
+
+- Added Proof-of-Possession via Signed HTTP Request (SHR) support to `AccessToken` and `GetTokenOptions` for `TokenCredential`. #30961
+
 ## 1.8.0 (2024-09-12)
 
 ### Features Added

@@ -41,7 +41,7 @@ import {
   isSASCredential,
   isTokenCredential,
 } from "@azure/core-auth";
-import { STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
+import { COSMOS_SCOPE, STORAGE_SCOPE, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { decodeContinuationToken, encodeContinuationToken } from "./utils/continuationToken";
 import {
   deserialize,
@@ -224,6 +224,7 @@ export class TableClient {
   ) {
     this.url = url;
     this.tableName = tableName;
+    const isCosmos = isCosmosEndpoint(this.url);
 
     const credential = isCredential(credentialOrOptions) ? credentialOrOptions : undefined;
     this.credential = credential;
@@ -255,10 +256,11 @@ export class TableClient {
     }
 
     if (isTokenCredential(credential)) {
-      setTokenChallengeAuthenticationPolicy(generatedClient.pipeline, credential, STORAGE_SCOPE);
+      const scope = isCosmos ? COSMOS_SCOPE : STORAGE_SCOPE;
+      setTokenChallengeAuthenticationPolicy(generatedClient.pipeline, credential, scope);
     }
 
-    if (isCosmosEndpoint(this.url)) {
+    if (isCosmos) {
       generatedClient.pipeline.addPolicy(cosmosPatchPolicy());
     }
 
@@ -791,6 +793,7 @@ export class TableClient {
    * Shared Access Signatures.
    * @param options - The options parameters.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public getAccessPolicy(options: OperationOptions = {}): Promise<GetAccessPolicyResponse> {
     return tracingClient.withSpan(
       "TableClient.getAccessPolicy",
@@ -809,6 +812,7 @@ export class TableClient {
    */
   public setAccessPolicy(
     tableAcl: SignedIdentifier[],
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<SetAccessPolicyResponse> {
     return tracingClient.withSpan("TableClient.setAccessPolicy", options, (updatedOptions) => {
