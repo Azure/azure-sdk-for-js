@@ -82,12 +82,12 @@ describe("Partition Merge", function () {
   const mockPartitionKeyRange1 = createMockPartitionKeyRange(
     "0",
     "",
-    "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+    "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
   );
   const mockPartitionKeyRange2 = createMockPartitionKeyRange(
     "1",
     "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
-    "FF"
+    "FF",
   );
 
   const fetchAllInternalStub = sinon.stub().resolves({
@@ -102,12 +102,12 @@ describe("Partition Merge", function () {
   const mockDocument1 = createMockDocument(
     "sample-id-1",
     "Sample Document 1",
-    "This is the first sample document"
+    "This is the first sample document",
   );
   const mockDocument2 = createMockDocument(
     "sample-id-2",
     "Sample Document 2",
-    "This is the second sample document"
+    "This is the second sample document",
   );
 
   // Define a stub for queryFeed in clientContext
@@ -120,19 +120,22 @@ describe("Partition Merge", function () {
     code: 200, // Optional status code
   });
 
+  // Create a new instance of TestParallelQueryExecutionContext
   const context = new TestParallelQueryExecutionContext(
     clientContext,
     collectionLink,
     query,
     options,
     partitionedQueryExecutionInfo,
-    correlatedActivityId
+    correlatedActivityId,
   );
   context["options"] = options;
 
   it("there should be 2 document producers in the priority queue as there are two partition key ranges", async function () {
+    // Assert that the priority queue has 2 document producers
     assert.equal(context["orderByPQ"].size(), 2);
 
+    // Assert that the document producers have the correct start and end EPKs and populateEpkRangeHeaders is false
     context["orderByPQ"].forEach((docProd) => {
       if (docProd.targetPartitionKeyRange.id === mockPartitionKeyRange1.id) {
         assert.equal(docProd.startEpk, mockPartitionKeyRange1.minInclusive);
@@ -146,23 +149,26 @@ describe("Partition Merge", function () {
   });
 
   it("_repairExecutionContext function should be called if partition is gone due to merge", async function () {
+    // Stub the current function of the first document producer to throw a Gone error
     const docProd1 = context["orderByPQ"].peek();
-
     sinon.stub(docProd1, "current").rejects({
       code: StatusCodes.Gone,
       substatus: SubStatusCodes.PartitionKeyRangeGone,
       message: "Partition key range is gone",
     });
 
+    // Creating a spy on the _repairExecutionContext function
     const repairSpy = sinon.spy(context as any, "_repairExecutionContext");
 
     try {
+      // The query fails because the current function of the first document producer throws a Gone error
       await context.nextItem(context["diagnosticNodeWrapper"]["diagnosticNode"]);
       assert.fail("Expected query to fail");
     } catch (err) {
       assert(err);
     }
 
+    // Assert that the _repairExecutionContext function was called once
     assert(repairSpy.calledOnce);
     repairSpy.restore();
   });
@@ -170,7 +176,7 @@ describe("Partition Merge", function () {
 
 function createTestClientContext(
   options: Partial<CosmosClientOptions>,
-  diagnosticLevel: CosmosDbDiagnosticLevel
+  diagnosticLevel: CosmosDbDiagnosticLevel,
 ) {
   const clientOps: CosmosClientOptions = {
     endpoint: "",
@@ -186,7 +192,7 @@ function createTestClientContext(
       expect(opts).to.exist; // eslint-disable-line no-unused-expressions
       const dummyAccount: any = diagnosticNode;
       return dummyAccount;
-    }
+    },
   );
   const clientConfig: ClientConfigDiagnostic = {
     endpoint: "",
@@ -206,7 +212,7 @@ function createTestClientContext(
     clientOps,
     globalEndpointManager,
     clientConfig,
-    diagnosticLevel
+    diagnosticLevel,
   );
   return clientContext;
 }
