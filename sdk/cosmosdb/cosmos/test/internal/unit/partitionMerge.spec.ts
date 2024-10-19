@@ -82,12 +82,12 @@ describe("Partition Merge", function () {
   const mockPartitionKeyRange1 = createMockPartitionKeyRange(
     "0",
     "",
-    "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF"
+    "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
   );
   const mockPartitionKeyRange2 = createMockPartitionKeyRange(
     "1",
     "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
-    "FF"
+    "FF",
   );
 
   const fetchAllInternalStub = sinon.stub().resolves({
@@ -102,12 +102,12 @@ describe("Partition Merge", function () {
   const mockDocument1 = createMockDocument(
     "sample-id-1",
     "Sample Document 1",
-    "This is the first sample document"
+    "This is the first sample document",
   );
   const mockDocument2 = createMockDocument(
     "sample-id-2",
     "Sample Document 2",
-    "This is the second sample document"
+    "This is the second sample document",
   );
 
   // Define a stub for queryFeed in clientContext
@@ -126,7 +126,7 @@ describe("Partition Merge", function () {
     query,
     options,
     partitionedQueryExecutionInfo,
-    correlatedActivityId
+    correlatedActivityId,
   );
   object["options"] = options;
   it("there should be 2 document producers in the priority queue as there are two partition key ranges", async function () {
@@ -169,7 +169,7 @@ describe("Partition Merge", function () {
 
 function createTestClientContext(
   options: Partial<CosmosClientOptions>,
-  diagnosticLevel: CosmosDbDiagnosticLevel
+  diagnosticLevel: CosmosDbDiagnosticLevel,
 ) {
   const clientOps: CosmosClientOptions = {
     endpoint: "",
@@ -185,7 +185,7 @@ function createTestClientContext(
       expect(opts).to.exist; // eslint-disable-line no-unused-expressions
       const dummyAccount: any = diagnosticNode;
       return dummyAccount;
-    }
+    },
   );
   const clientConfig: ClientConfigDiagnostic = {
     endpoint: "",
@@ -205,7 +205,7 @@ function createTestClientContext(
     clientOps,
     globalEndpointManager,
     clientConfig,
-    diagnosticLevel
+    diagnosticLevel,
   );
   return clientContext;
 }

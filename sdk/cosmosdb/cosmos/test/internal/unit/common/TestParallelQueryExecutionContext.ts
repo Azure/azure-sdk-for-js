@@ -12,7 +12,7 @@ export class TestParallelQueryExecutionContext
 {
   public documentProducerComparator(
     docProd1: DocumentProducer,
-    docProd2: DocumentProducer
+    docProd2: DocumentProducer,
   ): number {
     return docProd1.generation - docProd2.generation;
   }
