@@ -300,7 +300,7 @@ index 9db25cf..df8291c 100644
  /**
   * Represents a credential defined by a static API key.
 diff --git a/src/auth/tokenCredential.ts b/src/auth/tokenCredential.ts
-index ff71b14..73ee5c0 100644
+index ff71b14..a8903bb 100644
 --- a/src/auth/tokenCredential.ts
 +++ b/src/auth/tokenCredential.ts
 @@ -1,9 +1,8 @@
@@ -344,16 +344,10 @@ index ff71b14..73ee5c0 100644
  }
  
  /**
-@@ -97,32 +74,6 @@ export interface AccessToken {
-    * The access token's expiration timestamp in milliseconds, UNIX epoch time.
+@@ -103,26 +80,7 @@ export interface AccessToken {
     */
-   expiresOnTimestamp: number;
--
--  /**
--   * The timestamp when the access token should be refreshed, in milliseconds, UNIX epoch time.
--   */
--  refreshAfterTimestamp?: number;
--
+   refreshAfterTimestamp?: number;
+ 
 -  /** Type of token - `Bearer` or `pop` */
 -  tokenType?: "Bearer" | "pop";
 -}
@@ -374,6 +368,7 @@ index ff71b14..73ee5c0 100644
 - */
 -export function isPopToken(accessToken: AccessToken): boolean {
 -  return accessToken.tokenType === "pop";
++  // UNBRANDED DIFFERENCE: Unbranded Core does not support PoP ("Proof-of-Presence") tokens.
  }
  
  /**
@@ -467,10 +462,10 @@ index b7a7a6d..56553a5 100644
    if (!cachedHttpClient) {
      cachedHttpClient = createDefaultHttpClient();
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 916c4d5..a8fd8aa 100644
+index 916c4d5..a5f6d91 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
-@@ -3,22 +3,21 @@
+@@ -3,19 +3,18 @@
  
  import {
    HttpClient,
@@ -496,12 +491,8 @@ index 916c4d5..a8fd8aa 100644
 +import { LogPolicyOptions } from "../policies/logPolicy.js";
  
  /**
-- * Shape of the default request parameters, this may be overridden by the specific
-+ * Shape of the default request parameters, this may be overriden by the specific
-  * request types to provide strong types
-  */
- export type RequestParameters = {
-@@ -91,16 +90,8 @@ export type RequestParameters = {
+  * Shape of the default request parameters, this may be overridden by the specific
+@@ -91,16 +90,9 @@ export type RequestParameters = {
   * A function to be called each time a response is received from the server
   * while performing the requested operation.
   * May be called multiple times.
@@ -515,16 +506,13 @@ index 916c4d5..a8fd8aa 100644
 -  error?: unknown,
 -  __legacyError?: unknown,
 -) => void;
++// UNBRANDED DIFFERENCE: onResponse callback does not have a second __legacyError parameter which was provided for backwards compatibility
 +export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown) => void;
  
  /**
   * Wrapper object for http request and response. Deserialized object is stored in
-@@ -199,10 +190,10 @@ export interface Client {
-   pipeline: Pipeline;
-   /**
-    * This method will be used to send request that would check the path to provide
--   * strong types. When used by the codegen this type gets overridden with the generated
-+   * strong types. When used by the codegen this type gets overriden wit the generated
+@@ -202,7 +194,7 @@ export interface Client {
+    * strong types. When used by the codegen this type gets overridden with the generated
     * types. For example:
     * ```typescript snippet:path_example
 -   * import { Client, Routes } from "@azure-rest/core-client";
@@ -532,27 +520,21 @@ index 916c4d5..a8fd8aa 100644
     *
     * export type MyClient = Client & {
     *   path: Routes;
-@@ -398,10 +389,7 @@ export type PathParameters<
-     // additional parameters we can call RouteParameters recursively on the Tail to match the remaining parts,
-     // in case the Tail has more parameters, it will return a tuple with the parameters found in tail.
-     // We spread the second path params to end up with a single dimension tuple at the end.
--    [
--      pathParameter: string | number | PathParameterWithOptions,
--      ...pathParameters: PathParameters<Tail>,
--    ]
-+    [pathParameter: string | PathParameterWithOptions, ...pathParameters: PathParameters<Tail>]
-   : // When the path doesn't match the template, it means that we have no path parameters so we return
-     // an empty tuple.
-     [];
-@@ -441,7 +429,7 @@ export interface PathParameterWithOptions {
+@@ -326,11 +318,9 @@ export type ClientOptions = PipelineOptions & {
+      */
+     apiKeyHeaderName?: string;
+   };
+-  /**
+-   * Base url for the client
+-   * @deprecated This property is deprecated and will be removed soon, please use endpoint instead
+-   */
+-  baseUrl?: string;
++
++  // UNBRANDED DIFFERENCE: The deprecated baseUrl property is removed in favor of the endpoint property in the unbranded Core package
++
    /**
-    * The value of the parameter.
+    * Endpoint for the client
     */
--  value: string | number;
-+  value: string;
- 
-   /**
-    * Whether to allow for reserved characters in the value. If set to true, special characters such as '/' in the parameter's value will not be URL encoded.
 diff --git a/src/client/dom.d.ts b/src/client/dom.d.ts
 deleted file mode 100644
 index eabe718..0000000
@@ -564,14 +546,14 @@ index eabe718..0000000
 -
 -/// <reference lib="dom" />
 diff --git a/src/client/getClient.ts b/src/client/getClient.ts
-index 1eefed4..95c2416 100644
+index 549d26f..4029937 100644
 --- a/src/client/getClient.ts
 +++ b/src/client/getClient.ts
 @@ -1,8 +1,10 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+-import { KeyCredential, TokenCredential, isKeyCredential, isTokenCredential } from "@azure/core-auth";
 -import { HttpClient, HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
 +import { TokenCredential, isTokenCredential } from "../auth/tokenCredential.js";
 +import { KeyCredential, isKeyCredential } from "../auth/keyCredential.js";
@@ -593,31 +575,17 @@ index 1eefed4..95c2416 100644
  
  /**
   * Creates a client with a default pipeline
-@@ -59,10 +63,9 @@ export function getClient(
-   }
+@@ -60,8 +64,8 @@ export function getClient(
  
    const { allowInsecureConnection, httpClient } = clientOptions;
--  const endpointUrl = clientOptions.endpoint ?? endpoint;
+   const endpointUrl = clientOptions.endpoint ?? endpoint;
 -  const client = (path: string, ...args: Array<any>) => {
 -    const getUrl = (requestOptions: RequestParameters) =>
--      buildRequestUrl(endpointUrl, path, args, { allowInsecureConnection, ...requestOptions });
 +  const client = (path: string, ...args: Array<any>): ResourceMethods<StreamableMethod> => {
 +    const getUrl = (requestOptions: RequestParameters): string =>
-+      buildRequestUrl(endpoint, path, args, { allowInsecureConnection, ...requestOptions });
+       buildRequestUrl(endpointUrl, path, args, { allowInsecureConnection, ...requestOptions });
  
      return {
-       get: (requestOptions: RequestParameters = {}): StreamableMethod => {
-@@ -198,9 +201,5 @@ function buildOperation(
- function isCredential(
-   param: (TokenCredential | KeyCredential) | PipelineOptions,
- ): param is TokenCredential | KeyCredential {
--  if ((param as KeyCredential).key !== undefined || isTokenCredential(param)) {
--    return true;
--  }
--
--  return false;
-+  return isKeyCredential(param) || isTokenCredential(param);
- }
 diff --git a/src/client/helpers/isBinaryBody.ts b/src/client/helpers/isBinaryBody.ts
 deleted file mode 100644
 index ef06c77..0000000
@@ -766,7 +734,7 @@ index b85a503..9d98299 100644
  
  /**
 diff --git a/src/client/sendRequest.ts b/src/client/sendRequest.ts
-index 9a96a4a..e884392 100644
+index 9a96a4a..de08109 100644
 --- a/src/client/sendRequest.ts
 +++ b/src/client/sendRequest.ts
 @@ -5,17 +5,16 @@ import {
@@ -783,7 +751,7 @@ index 9a96a4a..e884392 100644
 -  isRestError,
 -} from "@azure/core-rest-pipeline";
 +} from "../interfaces.js";
-+import { RestError } from "../restError.js";
++import { isRestError, RestError } from "../restError.js";
 +import { Pipeline } from "../pipeline.js";
 +import { createHttpHeaders } from "../httpHeaders.js";
 +import { createPipelineRequest } from "../pipelineRequest.js";
@@ -793,99 +761,16 @@ index 9a96a4a..e884392 100644
  import { HttpResponse, RequestParameters } from "./common.js";
  import { PartDescriptor, buildMultipartBody } from "./multipart.js";
  
-@@ -37,8 +36,6 @@ export async function sendRequest(
- ): Promise<HttpResponse> {
-   const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
-   const request = buildPipelineRequest(method, url, options);
--
--  try {
-   const response = await pipeline.sendRequest(httpClient, request);
-   const headers = response.headers.toJSON();
-   const stream = response.readableStreamBody ?? response.browserStreamBody;
-@@ -56,15 +53,6 @@ export async function sendRequest(
-     status: `${response.status}`,
-     body,
-   };
--  } catch (e: unknown) {
--    if (isRestError(e) && e.response && options.onResponse) {
--      const { response } = e;
--      const rawHeaders = response.headers.toJSON();
+@@ -60,7 +59,8 @@ export async function sendRequest(
+     if (isRestError(e) && e.response && options.onResponse) {
+       const { response } = e;
+       const rawHeaders = response.headers.toJSON();
 -      options?.onResponse({ ...response, request, rawHeaders }, e, e);
--    }
--
--    throw e;
--  }
- }
- 
- /**
-@@ -166,15 +154,17 @@ function getRequestBody(body?: unknown, contentType: string = ""): RequestBody {
-     return { body };
-   }
- 
-+  const firstType = contentType.split(";")[0];
-+
-+  if (firstType === "application/json") {
-+    return { body: JSON.stringify(body) };
-+  }
-+
-   if (ArrayBuffer.isView(body)) {
-     return { body: body instanceof Uint8Array ? body : JSON.stringify(body) };
-   }
- 
--  const firstType = contentType.split(";")[0];
--
-   switch (firstType) {
--    case "application/json":
--      return { body: JSON.stringify(body) };
-     case "multipart/form-data":
-       if (Array.isArray(body)) {
-         return { multipartBody: buildMultipartBody(body as PartDescriptor[]) };
-@@ -197,7 +187,7 @@ function getResponseBody(response: PipelineResponse): RequestBodyType | undefine
-   // Set the default response type
-   const contentType = response.headers.get("content-type") ?? "";
-   const firstType = contentType.split(";")[0];
--  const bodyToParse = response.bodyAsText ?? "";
-+  const bodyToParse: string = response.bodyAsText ?? "";
- 
-   if (firstType === "text/plain") {
-     return String(bodyToParse);
-diff --git a/src/client/urlHelpers.ts b/src/client/urlHelpers.ts
-index e052e7e..56f98d0 100644
---- a/src/client/urlHelpers.ts
-+++ b/src/client/urlHelpers.ts
-@@ -54,7 +54,7 @@ function isQueryParameterWithOptions(x: unknown): x is QueryParameterWithOptions
- export function buildRequestUrl(
-   endpoint: string,
-   routePath: string,
--  pathParameters: (string | number | PathParameterWithOptions)[],
-+  pathParameters: (string | PathParameterWithOptions)[],
-   options: RequestParameters = {},
- ): string {
-   if (routePath.startsWith("https://") || routePath.startsWith("http://")) {
-@@ -187,18 +187,19 @@ export function buildBaseUrl(endpoint: string, options: RequestParameters): stri
- 
- function buildRoutePath(
-   routePath: string,
--  pathParameters: (string | number | PathParameterWithOptions)[],
-+  pathParameters: (string | PathParameterWithOptions)[],
-   options: RequestParameters = {},
- ): string {
-   for (const pathParam of pathParameters) {
--    const allowReserved = typeof pathParam === "object" && (pathParam.allowReserved ?? false);
--    let value = typeof pathParam === "object" ? pathParam.value : pathParam;
-+    const allowReserved =
-+      typeof pathParam === "string" ? false : (pathParam?.allowReserved ?? false);
-+    let value = typeof pathParam === "string" ? pathParam : pathParam?.value;
- 
-     if (!options.skipUrlEncoding && !allowReserved) {
-       value = encodeURIComponent(value);
++      // UNBRANDED DIFFERENCE: onResponse callback does not have a second __legacyError property
++      options?.onResponse({ ...response, request, rawHeaders }, e);
      }
  
--    routePath = routePath.replace(/\{\w+\}/, String(value));
-+    routePath = routePath.replace(/\{\w+\}/, value);
-   }
-   return routePath;
- }
+     throw e;
 diff --git a/src/constants.ts b/src/constants.ts
 index 8e49c6b..60da499 100644
 --- a/src/constants.ts
@@ -947,7 +832,7 @@ index 7da85d9..5baca04 100644
  
  /**
 diff --git a/src/fetchHttpClient.ts b/src/fetchHttpClient.ts
-index e9751e2..69a1f1f 100644
+index e9751e2..0678236 100644
 --- a/src/fetchHttpClient.ts
 +++ b/src/fetchHttpClient.ts
 @@ -1,8 +1,8 @@
@@ -966,54 +851,10 @@ index e9751e2..69a1f1f 100644
  import { RestError } from "./restError.js";
  import { createHttpHeaders } from "./httpHeaders.js";
 -import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
-+import { isNodeReadableStream, isReadableStream } from "./util/typeGuards.js";
++import { isNodeReadableStream, isReadableStream, isWebReadableStream } from "./util/typeGuards.js";
  
  /**
   * Checks if the body is a Blob or Blob-like
-@@ -111,7 +111,7 @@ async function buildPipelineResponse(
-     status: httpResponse.status,
-   };
- 
--  const bodyStream = isWebReadableStream(httpResponse.body)
-+  const bodyStream = isReadableStream(httpResponse.body)
-     ? buildBodyStream(httpResponse.body, {
-         onProgress: request.onDownloadProgress,
-         onEnd: abortControllerCleanup,
-@@ -217,26 +217,21 @@ function buildPipelineHeaders(httpResponse: Response): PipelineHeaders {
-   return responseHeaders;
- }
- 
--interface BuildRequestBodyResponse {
--  body:
--    | string
--    | Blob
--    | ReadableStream<Uint8Array>
--    | ArrayBuffer
--    | ArrayBufferView
--    | FormData
--    | null
--    | undefined;
-+function buildRequestBody(request: PipelineRequest):
-+  | {
-       streaming: boolean;
-+      body: ReadableStream<Uint8Array>;
-     }
--
--function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
-+  | {
-+      streaming: boolean;
-+      body: string | Blob | ArrayBuffer | ArrayBufferView | FormData | null | undefined;
-+    } {
-   const body = typeof request.body === "function" ? request.body() : request.body;
-   if (isNodeReadableStream(body)) {
-     throw new Error("Node streams are not supported in browser environment.");
-   }
- 
--  return isWebReadableStream(body)
-+  return isReadableStream(body)
-     ? { streaming: true, body: buildBodyStream(body, { onProgress: request.onUploadProgress }) }
-     : { streaming: false, body };
- }
 diff --git a/src/httpHeaders.ts b/src/httpHeaders.ts
 index 9e2914b..0bdb7be 100644
 --- a/src/httpHeaders.ts
@@ -1231,7 +1072,7 @@ index 688a7ea..76ca028 100644
 +export * from "./client/getClient.js";
 +export * from "./client/common.js";
 diff --git a/src/interfaces.ts b/src/interfaces.ts
-index 26b806d..6c4e425 100644
+index 26b806d..6ef7c4b 100644
 --- a/src/interfaces.ts
 +++ b/src/interfaces.ts
 @@ -1,9 +1,8 @@
@@ -1246,10 +1087,12 @@ index 26b806d..6c4e425 100644
  
  /**
   * A HttpHeaders collection represented as a simple JSON object.
-@@ -315,6 +314,19 @@ export type TransferProgressEvent = {
+@@ -315,6 +314,21 @@ export type TransferProgressEvent = {
    loadedBytes: number;
  };
  
++// UNBRANDED DIFFERENCE: HttpMethods are defined at the top level in unbranded instead of core-util since we don't
++//                       need to worry about creating a cyclic dependency
 +/**
 + * Supported HTTP methods to use when making requests.
 + */
@@ -1463,7 +1306,7 @@ index 3e33a3b..dd3965c 100644
 +  return TYPESPEC_RUNTIME_LOG_LEVELS.includes(logLevel as any);
  }
 diff --git a/src/nodeHttpClient.ts b/src/nodeHttpClient.ts
-index 1ac007a..501b03e 100644
+index 1ac007a..76796b2 100644
 --- a/src/nodeHttpClient.ts
 +++ b/src/nodeHttpClient.ts
 @@ -5,8 +5,8 @@ import * as http from "node:http";
@@ -1486,34 +1329,6 @@ index 1ac007a..501b03e 100644
  import { logger } from "./log.js";
  
  const DEFAULT_TLS_SETTINGS = {};
-@@ -32,16 +32,9 @@ function isStreamComplete(stream: NodeJS.ReadableStream): Promise<void> {
-   }
- 
-   return new Promise((resolve) => {
--    const handler = (): void => {
--      resolve();
--      stream.removeListener("close", handler);
--      stream.removeListener("end", handler);
--      stream.removeListener("error", handler);
--    };
--
--    stream.on("close", handler);
--    stream.on("end", handler);
--    stream.on("error", handler);
-+    stream.on("close", resolve);
-+    stream.on("end", resolve);
-+    stream.on("error", resolve);
-   });
- }
- 
-@@ -188,6 +181,7 @@ class NodeHttpClient implements HttpClient {
-         if (isReadableStream(responseStream)) {
-           downloadStreamDone = isStreamComplete(responseStream);
-         }
-+
-         Promise.all([uploadStreamDone, downloadStreamDone])
-           .then(() => {
-             // eslint-disable-next-line promise/always-return
 diff --git a/src/pipeline.ts b/src/pipeline.ts
 index f5612f8..13fc101 100644
 --- a/src/pipeline.ts
@@ -1759,7 +1574,7 @@ index 24f6e16..914f506 100644
  import { retryPolicy } from "./retryPolicy.js";
  import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
 diff --git a/src/policies/formDataPolicy.ts b/src/policies/formDataPolicy.ts
-index 86d7e12..9f149af 100644
+index 86d7e12..31fc06e 100644
 --- a/src/policies/formDataPolicy.ts
 +++ b/src/policies/formDataPolicy.ts
 @@ -1,9 +1,10 @@
@@ -1784,21 +1599,6 @@ index 86d7e12..9f149af 100644
  
  /**
   * The programmatic identifier of the formDataPolicy.
-@@ -102,7 +103,6 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
-           "Content-Disposition",
-           `form-data; name="${fieldName}"; filename="${fileName}"`,
-         );
--
-         // again, || is used since an empty value.type means the content type is unset
-         headers.set("Content-Type", value.type || "application/octet-stream");
- 
-@@ -113,5 +113,6 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
-       }
-     }
-   }
-+
-   request.multipartBody = { parts };
- }
 diff --git a/src/policies/logPolicy.ts b/src/policies/logPolicy.ts
 index a8383c6..e8b9724 100644
 --- a/src/policies/logPolicy.ts
@@ -1817,7 +1617,7 @@ index a8383c6..e8b9724 100644
  import { Sanitizer } from "../util/sanitizer.js";
  
 diff --git a/src/policies/multipartPolicy.ts b/src/policies/multipartPolicy.ts
-index 2b70494..083b761 100644
+index 2b70494..2353450 100644
 --- a/src/policies/multipartPolicy.ts
 +++ b/src/policies/multipartPolicy.ts
 @@ -1,11 +1,12 @@
@@ -1825,10 +1625,9 @@ index 2b70494..083b761 100644
  // Licensed under the MIT License.
  
 -import { randomUUID, stringToUint8Array } from "@azure/core-util";
--import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces.js";
+ import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces.js";
 -import type { PipelinePolicy } from "../pipeline.js";
 -import { concat } from "../util/concat.js";
-+import type { BodyPart, HttpHeaders, PipelineRequest } from "../interfaces.js";
 +import { PipelinePolicy } from "../pipeline.js";
 +import { stringToUint8Array } from "../util/bytesEncoding.js";
  import { isBlob } from "../util/typeGuards.js";
@@ -1837,15 +1636,6 @@ index 2b70494..083b761 100644
  
  function generateBoundary(): string {
    return `----AzSDKFormBoundary${randomUUID()}`;
-@@ -111,7 +112,7 @@ function assertValidBoundary(boundary: string): void {
- export function multipartPolicy(): PipelinePolicy {
-   return {
-     name: multipartPolicyName,
--    async sendRequest(request, next): Promise<PipelineResponse> {
-+    async sendRequest(request, next) {
-       if (!request.multipartBody) {
-         return next(request);
-       }
 diff --git a/src/policies/ndJsonPolicy.ts b/src/policies/ndJsonPolicy.ts
 deleted file mode 100644
 index deeee45..0000000
@@ -1881,19 +1671,6 @@ index deeee45..0000000
 -    },
 -  };
 -}
-diff --git a/src/policies/proxyPolicy.ts b/src/policies/proxyPolicy.ts
-index 22b8c0f..3ca0bfa 100644
---- a/src/policies/proxyPolicy.ts
-+++ b/src/policies/proxyPolicy.ts
-@@ -145,7 +145,7 @@ function getUrlFromProxySettings(settings: ProxySettings): URL {
-   let parsedProxyUrl: URL;
-   try {
-     parsedProxyUrl = new URL(settings.host);
--  } catch {
-+  } catch (_error) {
-     throw new Error(
-       `Expecting a valid host string in proxy settings, but found "${settings.host}".`,
-     );
 diff --git a/src/policies/redirectPolicy.ts b/src/policies/redirectPolicy.ts
 index 1b8bf2c..3bbeb17 100644
 --- a/src/policies/redirectPolicy.ts
@@ -2020,7 +1797,7 @@ index 0e78872..79f19f1 100644
  /**
   * Name of the TLS Policy
 diff --git a/src/policies/tracingPolicy.ts b/src/policies/tracingPolicy.ts
-index 5e69548..ee915bc 100644
+index 5e69548..1d824c0 100644
 --- a/src/policies/tracingPolicy.ts
 +++ b/src/policies/tracingPolicy.ts
 @@ -1,18 +1,14 @@
@@ -2047,24 +1824,6 @@ index 5e69548..ee915bc 100644
  import { isRestError } from "../restError.js";
  import { Sanitizer } from "../util/sanitizer.js";
  
-@@ -45,7 +41,7 @@ export interface TracingPolicyOptions {
-  * @param options - Options to configure the telemetry logged by the tracing policy.
-  */
- export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolicy {
--  const userAgentPromise = getUserAgentValue(options.userAgentPrefix);
-+  const userAgentValue = getUserAgentValue(options.userAgentPrefix);
-   const sanitizer = new Sanitizer({
-     additionalAllowedQueryParameters: options.additionalAllowedQueryParameters,
-   });
-@@ -58,7 +54,7 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
-         return next(request);
-       }
- 
--      const userAgent = await userAgentPromise;
-+      const userAgent = await userAgentValue;
- 
-       const spanAttributes = {
-         "http.url": sanitizer.sanitizeUrl(request.url),
 @@ -92,7 +88,7 @@ function tryCreateTracingClient(): TracingClient | undefined {
    try {
      return createTracingClient({
@@ -2150,7 +1909,7 @@ index a8b94fc..332b8b8 100644
     * Function that determines how to proceed with the subsequent requests.
     * @param state - Retry state
 diff --git a/src/retryStrategies/throttlingRetryStrategy.ts b/src/retryStrategies/throttlingRetryStrategy.ts
-index 2d4f87f..99bee0f 100644
+index 2d4f87f..b729714 100644
 --- a/src/retryStrategies/throttlingRetryStrategy.ts
 +++ b/src/retryStrategies/throttlingRetryStrategy.ts
 @@ -1,17 +1,17 @@
@@ -2175,15 +1934,6 @@ index 2d4f87f..99bee0f 100644
   * the amount of time (minimum) to wait to retry.
   *
   * "retry-after-ms", "x-ms-retry-after-ms" : milliseconds
-@@ -50,7 +50,7 @@ function getRetryAfterInMs(response?: PipelineResponse): number | undefined {
-     const diff = date - Date.now();
-     // negative diff would mean a date in the past, so retry asap with 0 milliseconds
-     return Number.isFinite(diff) ? Math.max(0, diff) : undefined;
--  } catch {
-+  } catch (e: any) {
-     return undefined;
-   }
- }
 diff --git a/src/tracing/index.ts b/src/tracing/index.ts
 deleted file mode 100644
 index 8992d7a..0000000
@@ -2267,80 +2017,6 @@ index ce29be9..82e102a 100644
  
  /**
   * Options related to abort controller.
-diff --git a/src/util/checkEnvironment.ts b/src/util/checkEnvironment.ts
-index 153edf6..b2ad78c 100644
---- a/src/util/checkEnvironment.ts
-+++ b/src/util/checkEnvironment.ts
-@@ -1,22 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--interface Window {
--  document: unknown;
--}
--
--interface DedicatedWorkerGlobalScope {
--  constructor: {
--    name: string;
--  };
--
--  importScripts: (...paths: string[]) => void;
--}
--
--interface Navigator {
--  product: string;
--}
--
-+declare global {
-   interface DenoGlobal {
-     version: {
-       deno: string;
-@@ -27,12 +12,9 @@ interface BunGlobal {
-     version: string;
-   }
- 
--// eslint-disable-next-line @azure/azure-sdk/ts-no-window
--declare const window: Window;
--declare const self: DedicatedWorkerGlobalScope;
--declare const Deno: DenoGlobal;
--declare const Bun: BunGlobal;
--declare const navigator: Navigator;
-+  const Deno: DenoGlobal;
-+  const Bun: BunGlobal;
-+}
- 
- /**
-  * A constant that indicates whether the environment the code is running is a Web Browser.
-@@ -45,11 +27,16 @@ export const isBrowser = typeof window !== "undefined" && typeof window.document
-  */
- export const isWebWorker =
-   typeof self === "object" &&
--  typeof self?.importScripts === "function" &&
-+  typeof (self as any)?.importScripts === "function" &&
-   (self.constructor?.name === "DedicatedWorkerGlobalScope" ||
-     self.constructor?.name === "ServiceWorkerGlobalScope" ||
-     self.constructor?.name === "SharedWorkerGlobalScope");
- 
-+/**
-+ * A constant that indicates whether the environment the code is running is Bun.sh.
-+ */
-+export const isBun = typeof Bun !== "undefined" && typeof Bun.version !== "undefined";
-+
- /**
-  * A constant that indicates whether the environment the code is running is Deno.
-  */
-@@ -58,11 +45,6 @@ export const isDeno =
-   typeof Deno.version !== "undefined" &&
-   typeof Deno.version.deno !== "undefined";
- 
--/**
-- * A constant that indicates whether the environment the code is running is Bun.sh.
-- */
--export const isBun = typeof Bun !== "undefined" && typeof Bun.version !== "undefined";
--
- /**
-  * A constant that indicates whether the environment the code is running is a Node.js compatible environment.
-  */
 diff --git a/src/util/concat.ts b/src/util/concat.ts
 index 457bc22..cbadccf 100644
 --- a/src/util/concat.ts
@@ -2460,7 +2136,7 @@ index e0af55f..0000000
 -} from "./checkEnvironment.js";
 -export { uint8ArrayToString, stringToUint8Array, type EncodingType } from "./bytesEncoding.js";
 diff --git a/src/util/sanitizer.ts b/src/util/sanitizer.ts
-index 46654b9..dd6a138 100644
+index 46654b9..be4f21e 100644
 --- a/src/util/sanitizer.ts
 +++ b/src/util/sanitizer.ts
 @@ -1,7 +1,7 @@
@@ -2468,7 +2144,7 @@ index 46654b9..dd6a138 100644
  // Licensed under the MIT License.
  
 -import { type UnknownObject, isObject } from "@azure/core-util";
-+import { UnknownObject, isObject } from "./object.js";
++import { type UnknownObject, isObject } from "./object.js";
  
  /**
   * @internal
@@ -2486,7 +2162,7 @@ index 80a1a23..794d26a 100644
  /**
   * Generates a SHA-256 HMAC signature.
 diff --git a/src/util/tokenCycler.ts b/src/util/tokenCycler.ts
-index 32e2343..213a59e 100644
+index 32e2343..034c7b0 100644
 --- a/src/util/tokenCycler.ts
 +++ b/src/util/tokenCycler.ts
 @@ -1,7 +1,7 @@
@@ -2498,25 +2174,6 @@ index 32e2343..213a59e 100644
  import { delay } from "./helpers.js";
  
  /**
-@@ -133,14 +133,10 @@ export function createTokenCycler(
-      * window and not already refreshing)
-      */
-     get shouldRefresh(): boolean {
--      if (cycler.isRefreshing) {
--        return false;
--      }
--      if (token?.refreshAfterTimestamp && token.refreshAfterTimestamp < Date.now()) {
--        return true;
--      }
--
--      return (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now();
-+      return (
-+        !cycler.isRefreshing &&
-+        (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now()
-+      );
-     },
-     /**
-      * Produces true if the cycler MUST refresh (null or nearly-expired
 diff --git a/src/util/typeGuards.ts b/src/util/typeGuards.ts
 index 22a9cac..2b3f295 100644
 --- a/src/util/typeGuards.ts
@@ -2576,53 +2233,19 @@ index b8950b5..3ef33c8 100644
    await setPlatformSpecificData(runtimeInfo);
    const defaultAgent = getUserAgentString(runtimeInfo);
    const userAgentValue = prefix ? `${prefix} ${defaultAgent}` : defaultAgent;
-diff --git a/src/util/uuidUtils.common.ts b/src/util/uuidUtils.common.ts
-index 1fa8b8f..6741831 100644
---- a/src/util/uuidUtils.common.ts
-+++ b/src/util/uuidUtils.common.ts
-@@ -1,6 +1,10 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
-+/*
-+ * NOTE: When moving this file, please update "react-native" section in package.json.
-+ */
-+
- /**
-  * Generated Universally Unique Identifier
-  *
 diff --git a/src/util/uuidUtils.ts b/src/util/uuidUtils.ts
-index bd11d61..4fc4808 100644
+index bd11d61..3f6a12b 100644
 --- a/src/util/uuidUtils.ts
 +++ b/src/util/uuidUtils.ts
-@@ -1,7 +1,8 @@
+@@ -1,7 +1,7 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
 -import { randomUUID as v4RandomUUID } from "crypto";
 +import { randomUUID as v4RandomUUID } from "node:crypto";
-+import { generateUUID } from "./uuidUtils.common.js";
  
  interface Crypto {
    randomUUID(): string;
-@@ -12,11 +13,16 @@ declare const globalThis: {
- };
- 
- // NOTE: This is a workaround until we can use `globalThis.crypto.randomUUID` in Node.js 19+.
--const uuidFunction =
-+let uuidFunction =
-   typeof globalThis?.crypto?.randomUUID === "function"
-     ? globalThis.crypto.randomUUID.bind(globalThis.crypto)
-     : v4RandomUUID;
- 
-+// Not defined in earlier versions of Node.js 14
-+if (!uuidFunction) {
-+  uuidFunction = generateUUID;
-+}
-+
- /**
-  * Generated Universally Unique Identifier
-  *
 diff --git a/src/xhrHttpClient.ts b/src/xhrHttpClient.ts
 index 71bc439..20040f8 100644
 --- a/src/xhrHttpClient.ts
