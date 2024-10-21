@@ -115,6 +115,66 @@ describe("AzureCliCredential (internal)", function () {
     );
   });
 
+  it("get access token with custom subscription without error", async function () {
+    stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
+    stderr = "";
+    const credential = new AzureCliCredential({
+      subscription: "12345678-1234-1234-1234-123456789012",
+    });
+    const actualToken = await credential.getToken("https://service/.default");
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azArgs, [
+      [
+        "account",
+        "get-access-token",
+        "--output",
+        "json",
+        "--resource",
+        "https://service",
+        "--subscription",
+        '"12345678-1234-1234-1234-123456789012"',
+      ],
+    ]);
+    // Used a working directory, and a shell
+    assert.deepEqual(
+      {
+        cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
+        shell: azOptions[0].shell,
+      },
+      { cwd: true, shell: true },
+    );
+  });
+
+  it("get access token with custom subscription with special character without error", async function () {
+    stdout = '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}';
+    stderr = "";
+    const credential = new AzureCliCredential({
+      subscription: "Example of a subscription_string",
+    });
+    const actualToken = await credential.getToken("https://service/.default");
+    assert.equal(actualToken!.token, "token");
+    assert.deepEqual(azArgs, [
+      [
+        "account",
+        "get-access-token",
+        "--output",
+        "json",
+        "--resource",
+        "https://service",
+        "--subscription",
+        '"Example of a subscription_string"',
+      ],
+    ]);
+    // Used a working directory, and a shell
+    assert.deepEqual(
+      {
+        cwd: [process.env.SystemRoot, "/bin"].includes(azOptions[0].cwd),
+        shell: azOptions[0].shell,
+      },
+      { cwd: true, shell: true },
+    );
+  });
+
   it("get access token when azure cli not installed", async () => {
     if (process.platform === "linux" || process.platform === "darwin") {
       stdout = "";
@@ -274,6 +334,28 @@ az login --scope https://test.windows.net/.default`;
       assert.throws(() => {
         new AzureCliCredential({ tenantId: tenantId });
       }, tenantIdErrorMessage);
+    });
+  }
+
+  for (const subscription of [
+    "&quot;invalid-subscription-string&quot;",
+    "12345678-1234-1234-1234-123456789012|",
+    "12345678-1234-1234-1234-123456789012 |",
+    "<",
+    ">",
+    "\0",
+    "<12345678-1234-1234-1234-123456789012>",
+    "12345678-1234-1234-1234-123456789012&",
+    "12345678-1234-1234-1234-123456789012;",
+    "12345678-1234-1234-1234-123456789012'",
+  ]) {
+    const subscriptionErrorMessage =
+      "Invalid subscription provided. You can locate your subscription by following the instructions listed here: https://learn.microsoft.com/azure/azure-portal/get-subscription-tenant-id.";
+    const testCase = subscription === "\0" ? "null character" : `"${subscription}"`;
+    it(`rejects invalid subscription string of ${testCase} in constructor`, function () {
+      assert.throws(() => {
+        new AzureCliCredential({ subscription });
+      }, subscriptionErrorMessage);
     });
   }
 

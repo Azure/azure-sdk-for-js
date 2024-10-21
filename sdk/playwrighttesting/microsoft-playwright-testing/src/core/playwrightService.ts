@@ -19,6 +19,7 @@ import {
   validateMptPAT,
   validatePlaywrightVersion,
   validateServiceUrl,
+  exitWithFailureMessage,
 } from "../utils/utils";
 
 /**
@@ -74,7 +75,7 @@ const getServiceConfig = (
   const globalFunctions: any = {};
   if (options?.serviceAuthType === ServiceAuth.ACCESS_TOKEN) {
     // mpt PAT requested and set by the customer, no need to setup entra lifecycle handlers
-    validateMptPAT();
+    validateMptPAT(exitWithFailureMessage);
   } else {
     globalFunctions.globalSetup = require.resolve("./global/playwright-service-global-setup");
     globalFunctions.globalTeardown = require.resolve("./global/playwright-service-global-teardown");
@@ -87,6 +88,7 @@ const getServiceConfig = (
   }
   if (!process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED]) {
     process.env[InternalEnvironmentVariables.MPT_CLOUD_HOSTED_BROWSER_USED] = "true";
+    console.log("\nRunning tests using Microsoft Playwright Testing service.");
   }
 
   return {
@@ -94,6 +96,7 @@ const getServiceConfig = (
       connectOptions: {
         wsEndpoint: getServiceWSEndpoint(
           playwrightServiceConfig.runId,
+          playwrightServiceConfig.runName,
           playwrightServiceConfig.serviceOs,
         ),
         headers: {
@@ -146,6 +149,7 @@ const getConnectOptions = async (
   return {
     wsEndpoint: getServiceWSEndpoint(
       playwrightServiceConfig.runId,
+      playwrightServiceConfig.runName,
       playwrightServiceConfig.serviceOs,
     ),
     options: {

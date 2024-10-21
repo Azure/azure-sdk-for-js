@@ -16,7 +16,7 @@ import { ServiceNetworkingManagementClient } from "../serviceNetworkingManagemen
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,7 +32,8 @@ import {
   AssociationsInterfaceUpdateOptionalParams,
   AssociationsInterfaceUpdateResponse,
   AssociationsInterfaceDeleteOptionalParams,
-  AssociationsInterfaceListByTrafficControllerNextResponse
+  AssociationsInterfaceDeleteResponse,
+  AssociationsInterfaceListByTrafficControllerNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -57,12 +58,12 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
   public listByTrafficController(
     resourceGroupName: string,
     trafficControllerName: string,
-    options?: AssociationsInterfaceListByTrafficControllerOptionalParams
+    options?: AssociationsInterfaceListByTrafficControllerOptionalParams,
   ): PagedAsyncIterableIterator<Association> {
     const iter = this.listByTrafficControllerPagingAll(
       resourceGroupName,
       trafficControllerName,
-      options
+      options,
     );
     return {
       next() {
@@ -79,9 +80,9 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
           resourceGroupName,
           trafficControllerName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -89,7 +90,7 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
     resourceGroupName: string,
     trafficControllerName: string,
     options?: AssociationsInterfaceListByTrafficControllerOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Association[]> {
     let result: AssociationsInterfaceListByTrafficControllerResponse;
     let continuationToken = settings?.continuationToken;
@@ -97,7 +98,7 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
       result = await this._listByTrafficController(
         resourceGroupName,
         trafficControllerName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -109,7 +110,7 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
         resourceGroupName,
         trafficControllerName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -121,12 +122,12 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
   private async *listByTrafficControllerPagingAll(
     resourceGroupName: string,
     trafficControllerName: string,
-    options?: AssociationsInterfaceListByTrafficControllerOptionalParams
+    options?: AssociationsInterfaceListByTrafficControllerOptionalParams,
   ): AsyncIterableIterator<Association> {
     for await (const page of this.listByTrafficControllerPagingPage(
       resourceGroupName,
       trafficControllerName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -141,11 +142,11 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
   private _listByTrafficController(
     resourceGroupName: string,
     trafficControllerName: string,
-    options?: AssociationsInterfaceListByTrafficControllerOptionalParams
+    options?: AssociationsInterfaceListByTrafficControllerOptionalParams,
   ): Promise<AssociationsInterfaceListByTrafficControllerResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, trafficControllerName, options },
-      listByTrafficControllerOperationSpec
+      listByTrafficControllerOperationSpec,
     );
   }
 
@@ -160,11 +161,11 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
     resourceGroupName: string,
     trafficControllerName: string,
     associationName: string,
-    options?: AssociationsInterfaceGetOptionalParams
+    options?: AssociationsInterfaceGetOptionalParams,
   ): Promise<AssociationsInterfaceGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, trafficControllerName, associationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -181,7 +182,7 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
     trafficControllerName: string,
     associationName: string,
     resource: Association,
-    options?: AssociationsInterfaceCreateOrUpdateOptionalParams
+    options?: AssociationsInterfaceCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<AssociationsInterfaceCreateOrUpdateResponse>,
@@ -190,21 +191,20 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<AssociationsInterfaceCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -213,8 +213,8 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -222,8 +222,8 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -234,9 +234,9 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
         trafficControllerName,
         associationName,
         resource,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       AssociationsInterfaceCreateOrUpdateResponse,
@@ -244,7 +244,7 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -263,14 +263,14 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
     trafficControllerName: string,
     associationName: string,
     resource: Association,
-    options?: AssociationsInterfaceCreateOrUpdateOptionalParams
+    options?: AssociationsInterfaceCreateOrUpdateOptionalParams,
   ): Promise<AssociationsInterfaceCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       trafficControllerName,
       associationName,
       resource,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -288,7 +288,7 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
     trafficControllerName: string,
     associationName: string,
     properties: AssociationUpdate,
-    options?: AssociationsInterfaceUpdateOptionalParams
+    options?: AssociationsInterfaceUpdateOptionalParams,
   ): Promise<AssociationsInterfaceUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -296,9 +296,9 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
         trafficControllerName,
         associationName,
         properties,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -313,25 +313,29 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
     resourceGroupName: string,
     trafficControllerName: string,
     associationName: string,
-    options?: AssociationsInterfaceDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: AssociationsInterfaceDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<AssociationsInterfaceDeleteResponse>,
+      AssociationsInterfaceDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<AssociationsInterfaceDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -340,8 +344,8 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -349,8 +353,8 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -360,14 +364,17 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
         resourceGroupName,
         trafficControllerName,
         associationName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      AssociationsInterfaceDeleteResponse,
+      OperationState<AssociationsInterfaceDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -384,13 +391,13 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
     resourceGroupName: string,
     trafficControllerName: string,
     associationName: string,
-    options?: AssociationsInterfaceDeleteOptionalParams
-  ): Promise<void> {
+    options?: AssociationsInterfaceDeleteOptionalParams,
+  ): Promise<AssociationsInterfaceDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       trafficControllerName,
       associationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -407,11 +414,11 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
     resourceGroupName: string,
     trafficControllerName: string,
     nextLink: string,
-    options?: AssociationsInterfaceListByTrafficControllerNextOptionalParams
+    options?: AssociationsInterfaceListByTrafficControllerNextOptionalParams,
   ): Promise<AssociationsInterfaceListByTrafficControllerNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, trafficControllerName, nextLink, options },
-      listByTrafficControllerNextOperationSpec
+      listByTrafficControllerNextOperationSpec,
     );
   }
 }
@@ -419,38 +426,15 @@ export class AssociationsInterfaceImpl implements AssociationsInterface {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByTrafficControllerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AssociationListResult
+      bodyMapper: Mappers.AssociationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.trafficControllerName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.Association
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -458,31 +442,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.trafficControllerName,
-    Parameters.associationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Association,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.trafficControllerName,
+    Parameters.associationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Association
+      bodyMapper: Mappers.Association,
     },
     201: {
-      bodyMapper: Mappers.Association
+      bodyMapper: Mappers.Association,
     },
     202: {
-      bodyMapper: Mappers.Association
+      bodyMapper: Mappers.Association,
     },
     204: {
-      bodyMapper: Mappers.Association
+      bodyMapper: Mappers.Association,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.resource1,
   queryParameters: [Parameters.apiVersion],
@@ -491,23 +495,22 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.trafficControllerName,
-    Parameters.associationName
+    Parameters.associationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.Association
+      bodyMapper: Mappers.Association,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.properties1,
   queryParameters: [Parameters.apiVersion],
@@ -516,24 +519,31 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.trafficControllerName,
-    Parameters.associationName
+    Parameters.associationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceNetworking/trafficControllers/{trafficControllerName}/associations/{associationName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.AssociationsInterfaceDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.AssociationsInterfaceDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.AssociationsInterfaceDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.AssociationsInterfaceDeleteHeaders,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -541,29 +551,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.trafficControllerName,
-    Parameters.associationName
+    Parameters.associationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByTrafficControllerNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AssociationListResult
+      bodyMapper: Mappers.AssociationListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.trafficControllerName
+    Parameters.trafficControllerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

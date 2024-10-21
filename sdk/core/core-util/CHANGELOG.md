@@ -1,6 +1,12 @@
 # Release History
 
-## 1.9.3 (2024-09-12)
+## 1.11.0 (2024-10-15)
+
+### Features Added
+
+- Added support for `HttpMethods` type
+
+## 1.10.0 (2024-09-12)
 
 ### Features Added
 

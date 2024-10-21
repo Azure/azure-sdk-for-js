@@ -5,6 +5,9 @@ extends:
   parameters:
     PackageName: "@azure/openai"
     ServiceDirectory: openai
+    CloudConfig:
+      Public:
+        ServiceConnection: azure-sdk-tests-openai
     MatrixFilters:
       - TestType=^(?!sample).*
       - DependencyVersion=^$
@@ -20,3 +23,4 @@ extends:
       ACCOUNT_NAME_COMPLETIONS: $(ACCOUNT-NAME-EASTUS)
       ACCOUNT_NAME_AUDIO: $(ACCOUNT-NAME-NORTHCENTRALUS)
       ACCOUNT_NAME_VISION: $(ACCOUNT-NAME-SWEDEN-CENTRAL)
+      AZURE_LOG_LEVEL: "verbose"

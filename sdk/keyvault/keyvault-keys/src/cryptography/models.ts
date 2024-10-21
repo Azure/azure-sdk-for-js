@@ -19,7 +19,7 @@ import {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-} from "..";
+} from "../index.js";
 
 export class LocalCryptographyUnsupportedError extends Error {}
 

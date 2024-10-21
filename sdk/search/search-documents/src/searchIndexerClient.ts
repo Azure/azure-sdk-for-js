@@ -185,6 +185,7 @@ export class SearchIndexerClient {
    * Retrieves a list of names of existing indexers in the service.
    * @param options - Options to the list indexers operation.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async listIndexersNames(options: ListIndexersOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listIndexersNames", options);
     try {
@@ -234,6 +235,7 @@ export class SearchIndexerClient {
    * @param options - Options to the list indexers operation.
    */
   public async listDataSourceConnectionsNames(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListDataSourceConnectionsOptions = {},
   ): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan(
@@ -283,6 +285,7 @@ export class SearchIndexerClient {
    * Retrieves a list of names of existing Skillsets in the service.
    * @param options - Options to the list Skillsets operation.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async listSkillsetsNames(options: ListSkillsetsOptions = {}): Promise<Array<string>> {
     const { span, updatedOptions } = createSpan("SearchIndexerClient-listSkillsetsNames", options);
     try {

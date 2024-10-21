@@ -8,25 +8,31 @@ import {
   ConfigurationSnapshot,
   SettingLabel,
   ListLabelsPage,
-} from "../../../src";
+} from "../../../src/index.js";
 import {
   ConfigurationSetting,
   ListConfigurationSettingPage,
   ListRevisionsPage,
-} from "../../../src";
-import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
+} from "../../../src/index.js";
+import {
+  Recorder,
+  RecorderStartOptions,
+  isPlaybackMode,
+  VitestTestContext,
+  assertEnvironmentVariable,
+} from "@azure-tools/test-recorder";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { RestError } from "@azure/core-rest-pipeline";
 import { TokenCredential } from "@azure/identity";
-import { assert } from "chai";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { assert } from "vitest";
 
 export interface CredsAndEndpoint {
   credential: TokenCredential;
   endpoint: string;
 }
 
-export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
+export async function startRecorder(context: VitestTestContext): Promise<Recorder> {
   const recorderStartOptions: RecorderStartOptions = {
     envSetupForPlayback: {
       AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
@@ -40,7 +46,7 @@ export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
     ],
   };
 
-  const recorder = new Recorder(that.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderStartOptions);
   return recorder;
 }
@@ -50,12 +56,8 @@ export function createAppConfigurationClientForTests(
     testCredential?: TokenCredential;
   },
 ): AppConfigurationClient {
-  const endpoint = env["AZ_CONFIG_ENDPOINT"];
+  const endpoint = assertEnvironmentVariable("AZ_CONFIG_ENDPOINT");
   const credential = options?.testCredential ?? createTestCredential();
-  if (endpoint == null) {
-    throw new Error("Invalid value for APPCONFIG_CONNECTION_STRING");
-  }
-
   return new AppConfigurationClient(endpoint, credential, options);
 }
 
@@ -209,6 +211,7 @@ export async function assertThrowsRestError(
     await testFunction();
     assert.fail(`${message}: No error thrown`);
   } catch (err: any) {
+    console.log("running into ", JSON.stringify(err));
     if (!(err instanceof Error)) {
       throw new Error("Error is not recognized");
     }

@@ -429,6 +429,7 @@ export class AttestationClient {
    * @returns the set of AttestationSigners which may be used to sign attestation tokens.
    */
   public async getAttestationSigners(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: AttestationClientOperationOptions = {},
   ): Promise<AttestationSigner[]> {
     return tracingClient.withSpan(
@@ -451,6 +452,7 @@ export class AttestationClient {
    * @returns The OpenID metadata discovery document for the attestation service.
    */
   public async getOpenIdMetadata(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: AttestationClientOperationOptions = {},
   ): Promise<Record<string, unknown>> {
     return tracingClient.withSpan(

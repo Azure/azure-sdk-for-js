@@ -6,7 +6,6 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { InternalClientPipelineOptions } from "@azure/core-client";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import { TokenCredential } from "@azure/core-auth";
 
@@ -100,7 +99,7 @@ import {
 } from "./generated/models/index.js";
 import { KeyVaultClient } from "./generated/keyVaultClient.js";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
+import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { CreateCertificatePoller } from "./lro/create/poller.js";
 import { CertificateOperationPoller } from "./lro/operation/poller.js";
 import { DeleteCertificatePoller } from "./lro/delete/poller.js";
@@ -247,12 +246,6 @@ export class CertificateClient {
   ) {
     this.vaultUrl = vaultUrl;
 
-    const authPolicy = bearerTokenAuthenticationPolicy({
-      credential,
-      scopes: [],
-      challengeCallbacks: createKeyVaultChallengeCallbacks(clientOptions),
-    });
-
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...clientOptions,
       loggingOptions: {
@@ -269,7 +262,12 @@ export class CertificateClient {
       clientOptions.serviceVersion || LATEST_API_VERSION,
       internalClientPipelineOptions,
     );
-    this.client.pipeline.addPolicy(authPolicy);
+
+    // The authentication policy must come after the deserialization policy since the deserialization policy
+    // converts 401 responses to an Error, and we don't want to deal with that.
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions), {
+      afterPolicies: ["deserializationPolicy"],
+    });
   }
 
   private async *listPropertiesOfCertificatesPage(
