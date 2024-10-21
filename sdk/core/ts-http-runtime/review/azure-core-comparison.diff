@@ -793,29 +793,19 @@ index 9a96a4a..e884392 100644
  import { HttpResponse, RequestParameters } from "./common.js";
  import { PartDescriptor, buildMultipartBody } from "./multipart.js";
  
-@@ -37,34 +36,23 @@ export async function sendRequest(
+@@ -37,8 +36,6 @@ export async function sendRequest(
  ): Promise<HttpResponse> {
    const httpClient = customHttpClient ?? getCachedDefaultHttpsClient();
    const request = buildPipelineRequest(method, url, options);
 -
 -  try {
--    const response = await pipeline.sendRequest(httpClient, request);
--    const headers = response.headers.toJSON();
--    const stream = response.readableStreamBody ?? response.browserStreamBody;
--    const parsedBody =
--      options.responseAsStream || stream !== undefined ? undefined : getResponseBody(response);
--    const body = stream ?? parsedBody;
--
--    if (options?.onResponse) {
--      options.onResponse({ ...response, request, rawHeaders: headers, parsedBody });
--    }
--
--    return {
--      request,
--      headers,
--      status: `${response.status}`,
--      body,
--    };
+   const response = await pipeline.sendRequest(httpClient, request);
+   const headers = response.headers.toJSON();
+   const stream = response.readableStreamBody ?? response.browserStreamBody;
+@@ -56,15 +53,6 @@ export async function sendRequest(
+     status: `${response.status}`,
+     body,
+   };
 -  } catch (e: unknown) {
 -    if (isRestError(e) && e.response && options.onResponse) {
 -      const { response } = e;
@@ -824,23 +814,7 @@ index 9a96a4a..e884392 100644
 -    }
 -
 -    throw e;
-+  const response = await pipeline.sendRequest(httpClient, request);
-+  const headers = response.headers.toJSON();
-+  const stream = response.readableStreamBody ?? response.browserStreamBody;
-+  const parsedBody =
-+    options.responseAsStream || stream !== undefined ? undefined : getResponseBody(response);
-+  const body = stream ?? parsedBody;
-+
-+  if (options?.onResponse) {
-+    options.onResponse({ ...response, request, rawHeaders: headers, parsedBody });
-   }
-+
-+  return {
-+    request,
-+    headers,
-+    status: `${response.status}`,
-+    body,
-+  };
+-  }
  }
  
  /**
@@ -1019,15 +993,13 @@ index e9751e2..69a1f1f 100644
 -    | FormData
 -    | null
 -    | undefined;
--  streaming: boolean;
--}
--
--function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
 +function buildRequestBody(request: PipelineRequest):
 +  | {
-+      streaming: boolean;
+       streaming: boolean;
 +      body: ReadableStream<Uint8Array>;
-+    }
+     }
+-
+-function buildRequestBody(request: PipelineRequest): BuildRequestBodyResponse {
 +  | {
 +      streaming: boolean;
 +      body: string | Blob | ArrayBuffer | ArrayBufferView | FormData | null | undefined;
@@ -2299,7 +2271,7 @@ diff --git a/src/util/checkEnvironment.ts b/src/util/checkEnvironment.ts
 index 153edf6..b2ad78c 100644
 --- a/src/util/checkEnvironment.ts
 +++ b/src/util/checkEnvironment.ts
-@@ -1,39 +1,21 @@
+@@ -1,22 +1,7 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
@@ -2318,27 +2290,14 @@ index 153edf6..b2ad78c 100644
 -interface Navigator {
 -  product: string;
 -}
+-
 +declare global {
-+  interface DenoGlobal {
-+    version: {
-+      deno: string;
-+    };
-+  }
- 
--interface DenoGlobal {
--  version: {
--    deno: string;
--  };
--}
-+  interface BunGlobal {
-+    version: string;
-+  }
- 
--interface BunGlobal {
--  version: string;
-+  const Deno: DenoGlobal;
-+  const Bun: BunGlobal;
- }
+   interface DenoGlobal {
+     version: {
+       deno: string;
+@@ -27,12 +12,9 @@ interface BunGlobal {
+     version: string;
+   }
  
 -// eslint-disable-next-line @azure/azure-sdk/ts-no-window
 -declare const window: Window;
@@ -2346,10 +2305,12 @@ index 153edf6..b2ad78c 100644
 -declare const Deno: DenoGlobal;
 -declare const Bun: BunGlobal;
 -declare const navigator: Navigator;
--
++  const Deno: DenoGlobal;
++  const Bun: BunGlobal;
++}
+ 
  /**
   * A constant that indicates whether the environment the code is running is a Web Browser.
-  */
 @@ -45,11 +27,16 @@ export const isBrowser = typeof window !== "undefined" && typeof window.document
   */
  export const isWebWorker =

@@ -112,7 +112,10 @@ async function calculatePatchFileContents(): Promise<string> {
     // Staging the unbranded files and using `git diff --staged` means that the diff will also show files
     // that have been removed and moved.
     await run(["git", "add", "."], { cwd: tmpDir });
-    const { stdout } = await run(["git", "diff", "--staged", "--find-renames"], { cwd: tmpDir });
+    const { stdout } = await run(
+      ["git", "diff", "--ignore-all-space", "--staged", "--find-renames"],
+      { cwd: tmpDir },
+    );
     return stdout;
   } finally {
     await fs.rm(tmpDir, { recursive: true, force: true });
