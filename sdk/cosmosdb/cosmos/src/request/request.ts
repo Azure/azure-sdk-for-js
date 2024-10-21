@@ -68,6 +68,9 @@ export async function getHeaders({
     ...defaultHeaders,
   };
 
+  // Adding SDKSupportedCapabilities header to hint that SDK supports partition merge
+  headers[Constants.HttpHeaders.SDKSupportedCapabilities] = 1;
+
   if (useMultipleWriteLocations) {
     headers[Constants.HttpHeaders.ALLOW_MULTIPLE_WRITES] = true;
   }

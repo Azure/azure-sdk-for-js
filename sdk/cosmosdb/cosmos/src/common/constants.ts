@@ -98,6 +98,7 @@ export const Constants = {
     EnableCrossPartitionQuery: "x-ms-documentdb-query-enablecrosspartition",
     ParallelizeCrossPartitionQuery: "x-ms-documentdb-query-parallelizecrosspartitionquery",
     ResponseContinuationTokenLimitInKB: "x-ms-documentdb-responsecontinuationtokenlimitinkb",
+    SDKSupportedCapabilities: "x-ms-cosmos-sdk-supportedcapabilities",
 
     // QueryMetrics
     // Request header to tell backend to give you query metrics.

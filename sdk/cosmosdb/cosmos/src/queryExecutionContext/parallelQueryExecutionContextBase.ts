@@ -132,8 +132,15 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         filteredPartitionKeyRanges.forEach((partitionTargetRange: any) => {
           // TODO: any partitionTargetRange
           // no async callback
+          const queryRange = QueryRange.parsePartitionKeyRange(partitionTargetRange);
           targetPartitionQueryExecutionContextList.push(
-            this._createTargetPartitionQueryExecutionContext(partitionTargetRange),
+            this._createTargetPartitionQueryExecutionContext(
+              partitionTargetRange,
+              undefined,
+              queryRange.min,
+              queryRange.max,
+              false,
+            ),
           );
         });
 
@@ -219,7 +226,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   }
 
   /**
-   * Gets the replacement ranges for a partitionkeyrange that has been split
+   * Gets the replacement ranges for a partitionkeyrange that has been split or merged
    */
   private async _getReplacementPartitionKeyRanges(
     documentProducer: DocumentProducer,
@@ -253,50 +260,72 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     try {
       const replacementPartitionKeyRanges: any[] =
         await this._getReplacementPartitionKeyRanges(parentDocumentProducer);
-      const replacementDocumentProducers: DocumentProducer[] = [];
-      // Create the replacement documentProducers
-      replacementPartitionKeyRanges.forEach((partitionKeyRange) => {
-        // Create replacment document producers with the parent's continuationToken
-        const replacementDocumentProducer = this._createTargetPartitionQueryExecutionContext(
-          partitionKeyRange,
-          parentDocumentProducer.continuationToken,
-        );
-        replacementDocumentProducers.push(replacementDocumentProducer);
-      });
-      // We need to check if the documentProducers even has anything left to fetch from before enqueing them
-      const checkAndEnqueueDocumentProducer = async (
-        documentProducerToCheck: DocumentProducer,
-        checkNextDocumentProducerCallback: any,
-      ): Promise<void> => {
-        try {
-          const { result: afterItem } = await documentProducerToCheck.current(diagnosticNode);
-          if (afterItem === undefined) {
-            // no more results left in this document producer, so we don't enqueue it
-          } else {
-            // Safe to put document producer back in the queue
-            this.orderByPQ.enq(documentProducerToCheck);
-          }
 
-          await checkNextDocumentProducerCallback();
-        } catch (err: any) {
-          this.err = err;
-          return;
-        }
-      };
-      const checkAndEnqueueDocumentProducers = async (rdp: DocumentProducer[]): Promise<any> => {
-        if (rdp.length > 0) {
-          // We still have a replacementDocumentProducer to check
-          const replacementDocumentProducer = rdp.shift();
-          await checkAndEnqueueDocumentProducer(replacementDocumentProducer, async () => {
-            await checkAndEnqueueDocumentProducers(rdp);
-          });
-        } else {
-          // reexecutes the originFunction with the corrrected executionContext
-          return originFunction();
-        }
-      };
-      // Invoke the recursive function to get the ball rolling
-      await checkAndEnqueueDocumentProducers(replacementDocumentProducers);
+      if (replacementPartitionKeyRanges.length === 1) {
+        // Partition is gone due to Merge
+        // Create the replacement documentProducer with populateEpkRangeHeaders Flag set to true to set startEpk and endEpk headers
+        const replacementDocumentProducer = this._createTargetPartitionQueryExecutionContext(
+          replacementPartitionKeyRanges[0],
+          parentDocumentProducer.continuationToken,
+          parentDocumentProducer.startEpk,
+          parentDocumentProducer.endEpk,
+          true,
+        );
+        // Enqueue the document producer and reexecutes the originFunction with the corrrected executionContext
+        this.orderByPQ.enq(replacementDocumentProducer);
+        return originFunction();
+      } else {
+        // Partition is gone due to Split
+        const replacementDocumentProducers: DocumentProducer[] = [];
+        // Create the replacement documentProducers with populateEpkRangeHeaders Flag set to false
+        replacementPartitionKeyRanges.forEach((partitionKeyRange) => {
+          // Create replacment document producers with the parent's continuationToken
+          const queryRange = QueryRange.parsePartitionKeyRange(partitionKeyRange);
+          const replacementDocumentProducer = this._createTargetPartitionQueryExecutionContext(
+            partitionKeyRange,
+            parentDocumentProducer.continuationToken,
+            queryRange.min,
+            queryRange.max,
+            false,
+          );
+          replacementDocumentProducers.push(replacementDocumentProducer);
+        });
+
+        // We need to check if the documentProducers even has anything left to fetch from before enqueing them
+        const checkAndEnqueueDocumentProducer = async (
+          documentProducerToCheck: DocumentProducer,
+          checkNextDocumentProducerCallback: any,
+        ): Promise<void> => {
+          try {
+            const { result: afterItem } = await documentProducerToCheck.current(diagnosticNode);
+            if (afterItem === undefined) {
+              // no more results left in this document producer, so we don't enqueue it
+            } else {
+              // Safe to put document producer back in the queue
+              this.orderByPQ.enq(documentProducerToCheck);
+            }
+
+            await checkNextDocumentProducerCallback();
+          } catch (err: any) {
+            this.err = err;
+            return;
+          }
+        };
+        const checkAndEnqueueDocumentProducers = async (rdp: DocumentProducer[]): Promise<any> => {
+          if (rdp.length > 0) {
+            // We still have a replacementDocumentProducer to check
+            const replacementDocumentProducer = rdp.shift();
+            await checkAndEnqueueDocumentProducer(replacementDocumentProducer, async () => {
+              await checkAndEnqueueDocumentProducers(rdp);
+            });
+          } else {
+            // reexecutes the originFunction with the corrrected executionContext
+            return originFunction();
+          }
+        };
+        // Invoke the recursive function to get the ball rolling
+        await checkAndEnqueueDocumentProducers(replacementDocumentProducers);
+      }
     } catch (err: any) {
       this.err = err;
       throw err;
@@ -323,13 +352,13 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     elseCallback: any,
   ): Promise<void> {
     const documentProducer = this.orderByPQ.peek();
-    // Check if split happened
+    // Check if split or merge happened
     try {
       await documentProducer.current(diagnosticNode);
       elseCallback();
     } catch (err: any) {
       if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
-        // Split has happened so we need to repair execution context before continueing
+        // Split or merge has happened so we need to repair execution context before continueing
         return addDignosticChild(
           (childNode) => this._repairExecutionContext(childNode, ifCallback),
           diagnosticNode,
@@ -508,6 +537,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   private _createTargetPartitionQueryExecutionContext(
     partitionKeyTargetRange: any,
     continuationToken?: any,
+    startEpk?: string,
+    endEpk?: string,
+    populateEpkRangeHeaders?: boolean,
   ): DocumentProducer {
     // TODO: any
     // creates target partition range Query Execution Context
@@ -538,6 +570,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       partitionKeyTargetRange,
       options,
       this.correlatedActivityId,
+      startEpk,
+      endEpk,
+      populateEpkRangeHeaders,
     );
   }
 }
