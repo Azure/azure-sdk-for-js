@@ -1,6 +1,6 @@
 {
   "name": "@azure/storage-file-datalake",
-  "version": "12.24.1",
+  "version": "12.25.0-beta.1",
   "description": "Microsoft Azure Storage SDK for JavaScript - DataLake",
   "sdk-type": "client",
   "main": "./dist/index.js",
@@ -126,13 +126,13 @@
     "@azure/core-util": "workspace:*",
     "@azure/core-xml": "workspace:*",
     "@azure/logger": "workspace:*",
-    "@azure/storage-blob": "^12.25.0-beta.1",
+    "@azure/storage-blob": "workspace:*",
     "events": "^3.0.0",
     "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "catalog:test-credentialV1",
-    "@azure-tools/test-perf": "^1.0.0",
+    "@azure-tools/test-perf": "workspace:*",
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure-tools/test-utils": "workspace:*",
     "@azure/dev-tool": "workspace:*",

@@ -3,28 +3,25 @@
   "version": "2.3.2",
   "description": "Common package for Azure Communication services.",
   "sdk-type": "client",
-  "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "types": "types/communication-common.d.ts",
-  "browser": {
-    "./dist-esm/src/credential/cryptoUtils.js": "./dist-esm/src/credential/cryptoUtils.browser.js",
-    "./dist-esm/src/credential/isNode.js": "./dist-esm/src/credential/isNode.browser.js"
-  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "browser": "./dist/browser/index.js",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
-    "build:browser": "tsc -p . && dev-tool run bundle",
-    "build:node": "tsc -p . && dev-tool run bundle",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
+    "build:browser": "dev-tool run build-package && dev-tool run bundle",
+    "build:node": "dev-tool run build-package && dev-tool run bundle",
     "build:samples": "echo Skipped.",
-    "build:test": "tsc -p . && dev-tool run bundle",
+    "build:test": "dev-tool run build-package && dev-tool run bundle",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
-    "extract-api": "tsc -p . && dev-tool run extract-api",
+    "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
+    "integration-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
+    "integration-test:node": "dev-tool run test:vitest --no-test-proxy",
     "lint": "eslint package.json api-extractor.json README.md src test",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -32,14 +29,12 @@
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy",
+    "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
+    "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "update-snippets": "echo skipped"
   },
   "files": [
     "dist/",
-    "dist-esm/src",
-    "types/communication-common.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -73,35 +68,55 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
+    "@azure-tools/test-utils-vitest": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@microsoft/api-extractor": "catalog:",
-    "@types/chai": "catalog:",
-    "@types/chai-as-promised": "^7.1.0",
-    "@types/mocha": "catalog:",
     "@types/node": "catalog:",
-    "@types/sinon": "catalog:",
-    "chai": "catalog:",
-    "chai-as-promised": "^7.1.1",
-    "cross-env": "catalog:",
+    "@vitest/browser": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
     "eslint": "catalog:",
-    "inherits": "^2.0.3",
-    "karma": "catalog:",
-    "karma-chrome-launcher": "catalog:",
-    "karma-coverage": "catalog:",
-    "karma-env-preprocessor": "catalog:",
-    "karma-firefox-launcher": "catalog:",
-    "karma-junit-reporter": "catalog:",
-    "karma-mocha": "catalog:",
-    "karma-mocha-reporter": "catalog:",
-    "karma-sourcemap-loader": "catalog:",
-    "mocha": "catalog:",
     "mockdate": "^3.0.5",
-    "nyc": "catalog:",
+    "playwright": "catalog:",
     "rimraf": "catalog:",
-    "sinon": "catalog:",
-    "ts-node": "catalog:",
     "typescript": "catalog:",
-    "util": "^0.12.1"
+    "vitest": "catalog:"
+  },
+  "type": "module",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   }
 }
