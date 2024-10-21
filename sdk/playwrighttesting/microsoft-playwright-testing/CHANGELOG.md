@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.5 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0-beta.4 (2024-10-21)
 
 This release fixes some bugs, adds a feature to customize run name and improves error messaging.
