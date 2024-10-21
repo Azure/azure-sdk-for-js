@@ -93,20 +93,25 @@ async function calculatePatchFileContents(): Promise<string> {
   const tmpDir = await fs.mkdtemp(".azure-diff-tool");
 
   try {
+    // Initialize temp git repo
     await run(["git", "init"], { cwd: tmpDir });
 
+    // Copy over the Azure Core files to where are expected to be in the unbranded Core package
     for (const [azurePath, newLocation] of Object.entries(AZURE_SOURCES)) {
       await fs.cp(azurePath, path.join(tmpDir, newLocation), { recursive: true });
     }
 
+    // Commit the Azure files, then remove everything so that they can be replaced by the unbranded files
     await run(["git", "add", "."], { cwd: tmpDir });
     await run(["git", "commit", "-m", "Placeholder commit"], { cwd: tmpDir });
-
     await fs.rm(path.join(tmpDir, "src"), { recursive: true, force: true });
+
+    // Copy the unbranded files into the temp repo
     await fs.cp("./src/", path.join(tmpDir, "src"), { recursive: true });
 
+    // Staging the unbranded files and using `git diff --staged` means that the diff will also show files
+    // that have been removed and moved.
     await run(["git", "add", "."], { cwd: tmpDir });
-
     const { stdout } = await run(["git", "diff", "--staged", "--find-renames"], { cwd: tmpDir });
     return stdout;
   } finally {
