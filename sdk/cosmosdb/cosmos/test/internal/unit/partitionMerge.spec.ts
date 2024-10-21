@@ -43,6 +43,49 @@ const createMockDocument = (id: string, name: string, value: string) => ({
   value: value,
 });
 
+function createTestClientContext(
+  options: Partial<CosmosClientOptions>,
+  diagnosticLevel: CosmosDbDiagnosticLevel,
+) {
+  const clientOps: CosmosClientOptions = {
+    endpoint: "",
+    connectionPolicy: {
+      enableEndpointDiscovery: false,
+      preferredLocations: ["https://localhhost"],
+    },
+    ...options,
+  };
+  const globalEndpointManager = new GlobalEndpointManager(
+    clientOps,
+    async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => {
+      expect(opts).to.exist; // eslint-disable-line no-unused-expressions
+      const dummyAccount: any = diagnosticNode;
+      return dummyAccount;
+    },
+  );
+  const clientConfig: ClientConfigDiagnostic = {
+    endpoint: "",
+    resourceTokensConfigured: true,
+    tokenProviderConfigured: true,
+    aadCredentialsConfigured: true,
+    connectionPolicyConfigured: true,
+    consistencyLevel: ConsistencyLevel.BoundedStaleness,
+    defaultHeaders: {},
+    agentConfigured: true,
+    userAgentSuffix: "",
+    pluginsConfigured: true,
+    sDKVersion: Constants.SDKVersion,
+    ...options,
+  };
+  const clientContext = new ClientContext(
+    clientOps,
+    globalEndpointManager,
+    clientConfig,
+    diagnosticLevel,
+  );
+  return clientContext;
+}
+
 const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
 const query = "SELECT * FROM c"; // Example query string or SqlQuerySpec object
 const options: FeedOptions = { maxItemCount: 2, maxDegreeOfParallelism: 1 };
@@ -173,46 +216,3 @@ describe("Partition Merge", function () {
     repairSpy.restore();
   });
 });
-
-function createTestClientContext(
-  options: Partial<CosmosClientOptions>,
-  diagnosticLevel: CosmosDbDiagnosticLevel,
-) {
-  const clientOps: CosmosClientOptions = {
-    endpoint: "",
-    connectionPolicy: {
-      enableEndpointDiscovery: false,
-      preferredLocations: ["https://localhhost"],
-    },
-    ...options,
-  };
-  const globalEndpointManager = new GlobalEndpointManager(
-    clientOps,
-    async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => {
-      expect(opts).to.exist; // eslint-disable-line no-unused-expressions
-      const dummyAccount: any = diagnosticNode;
-      return dummyAccount;
-    },
-  );
-  const clientConfig: ClientConfigDiagnostic = {
-    endpoint: "",
-    resourceTokensConfigured: true,
-    tokenProviderConfigured: true,
-    aadCredentialsConfigured: true,
-    connectionPolicyConfigured: true,
-    consistencyLevel: ConsistencyLevel.BoundedStaleness,
-    defaultHeaders: {},
-    agentConfigured: true,
-    userAgentSuffix: "",
-    pluginsConfigured: true,
-    sDKVersion: Constants.SDKVersion,
-    ...options,
-  };
-  const clientContext = new ClientContext(
-    clientOps,
-    globalEndpointManager,
-    clientConfig,
-    diagnosticLevel,
-  );
-  return clientContext;
-}
