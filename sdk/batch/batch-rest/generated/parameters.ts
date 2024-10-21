@@ -25,6 +25,8 @@ import {
   BatchNodeUserCreateContent,
   BatchNodeUserUpdateContent,
   BatchNodeRebootContent,
+  BatchNodeDeallocateContent,
+  BatchNodeReimageContent,
   BatchNodeDisableSchedulingContent,
   UploadBatchServiceLogsContent,
 } from "./models.js";
@@ -138,7 +140,7 @@ export interface ListPoolUsageMetricsQueryParamProperties {
   endtime?: Date | string;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-account-usage-metrics.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-account-usage-metrics.
    */
   $filter?: string;
 }
@@ -226,7 +228,7 @@ export interface ListPoolsQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-pools.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-pools.
    */
   $filter?: string;
   /** An OData $select clause. */
@@ -904,7 +906,7 @@ export interface ListSupportedImagesQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-support-images.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-support-images.
    */
   $filter?: string;
 }
@@ -947,7 +949,7 @@ export interface ListPoolNodeCountsQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-support-images.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-support-images.
    */
   $filter?: string;
 }
@@ -1007,6 +1009,8 @@ export interface DeleteJobHeaders {
 export interface DeleteJobQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
+  /** If true, the server will delete the Job even if the corresponding nodes have not fully processed the deletion. The default value is false. */
+  force?: boolean;
 }
 
 export interface DeleteJobQueryParam {
@@ -1394,6 +1398,8 @@ export interface TerminateJobBodyParam {
 export interface TerminateJobQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
+  /** If true, the server will terminate the Job even if the corresponding nodes have not fully processed the termination. The default value is false. */
+  force?: boolean;
 }
 
 export interface TerminateJobQueryParam {
@@ -1486,7 +1492,7 @@ export interface ListJobsQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-jobs.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-jobs.
    */
   $filter?: string;
   /** An OData $select clause. */
@@ -1533,7 +1539,7 @@ export interface ListJobsFromScheduleQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-jobs-in-a-job-schedule.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-jobs-in-a-job-schedule.
    */
   $filter?: string;
   /** An OData $select clause. */
@@ -1580,7 +1586,7 @@ export interface ListJobPreparationAndReleaseTaskStatusQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-job-preparation-and-release-status.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-job-preparation-and-release-status.
    */
   $filter?: string;
   /** An OData $select clause. */
@@ -1733,6 +1739,8 @@ export interface DeleteJobScheduleHeaders {
 export interface DeleteJobScheduleQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
+  /** If true, the server will delete the JobSchedule even if the corresponding nodes have not fully processed the deletion. The default value is false. */
+  force?: boolean;
 }
 
 export interface DeleteJobScheduleQueryParam {
@@ -2103,6 +2111,8 @@ export interface TerminateJobScheduleHeaders {
 export interface TerminateJobScheduleQueryParamProperties {
   /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
   timeOut?: number;
+  /** If true, the server will terminate the JobSchedule even if the corresponding nodes have not fully processed the termination. The default value is false. */
+  force?: boolean;
 }
 
 export interface TerminateJobScheduleQueryParam {
@@ -2188,7 +2198,7 @@ export interface ListJobSchedulesQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-job-schedules.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-job-schedules.
    */
   $filter?: string;
   /** An OData $select clause. */
@@ -2280,7 +2290,7 @@ export interface ListTasksQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-tasks.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-tasks.
    */
   $filter?: string;
   /** An OData $select clause. */
@@ -2843,7 +2853,7 @@ export interface ListTaskFilesQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-task-files.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-task-files.
    */
   $filter?: string;
   /**
@@ -3068,6 +3078,129 @@ export type RebootNodeParameters = RebootNodeQueryParam &
   RebootNodeBodyParam &
   RequestParameters;
 
+export interface StartNodeHeaders {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+}
+
+export interface StartNodeQueryParamProperties {
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
+  timeOut?: number;
+}
+
+export interface StartNodeQueryParam {
+  queryParameters?: StartNodeQueryParamProperties;
+}
+
+export interface StartNodeHeaderParam {
+  headers?: RawHttpHeadersInput & StartNodeHeaders;
+}
+
+export type StartNodeParameters = StartNodeQueryParam &
+  StartNodeHeaderParam &
+  RequestParameters;
+
+export interface DeallocateNodeHeaders {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+}
+
+export interface DeallocateNodeBodyParam {
+  /** The options to use for deallocating the Compute Node. */
+  body?: BatchNodeDeallocateContent;
+}
+
+export interface DeallocateNodeQueryParamProperties {
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
+  timeOut?: number;
+}
+
+export interface DeallocateNodeQueryParam {
+  queryParameters?: DeallocateNodeQueryParamProperties;
+}
+
+export interface DeallocateNodeHeaderParam {
+  headers?: RawHttpHeadersInput & DeallocateNodeHeaders;
+}
+
+export interface DeallocateNodeMediaTypesParam {
+  /** Type of content */
+  contentType: "application/json; odata=minimalmetadata";
+}
+
+export type DeallocateNodeParameters = DeallocateNodeQueryParam &
+  DeallocateNodeHeaderParam &
+  DeallocateNodeMediaTypesParam &
+  DeallocateNodeBodyParam &
+  RequestParameters;
+
+export interface ReimageNodeHeaders {
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration
+   * such as curly braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  "client-request-id"?: string;
+  /** Whether the server should return the client-request-id in the response. */
+  "return-client-request-id"?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the
+   * current system clock time; set it explicitly if you are calling the REST API
+   * directly.
+   */
+  "ocp-date"?: string;
+}
+
+export interface ReimageNodeBodyParam {
+  /** The options to use for reimaging the Compute Node. */
+  body?: BatchNodeReimageContent;
+}
+
+export interface ReimageNodeQueryParamProperties {
+  /** The maximum time that the server can spend processing the request, in seconds. The default is 30 seconds. If the value is larger than 30, the default will be used instead.". */
+  timeOut?: number;
+}
+
+export interface ReimageNodeQueryParam {
+  queryParameters?: ReimageNodeQueryParamProperties;
+}
+
+export interface ReimageNodeHeaderParam {
+  headers?: RawHttpHeadersInput & ReimageNodeHeaders;
+}
+
+export interface ReimageNodeMediaTypesParam {
+  /** Type of content */
+  contentType: "application/json; odata=minimalmetadata";
+}
+
+export type ReimageNodeParameters = ReimageNodeQueryParam &
+  ReimageNodeHeaderParam &
+  ReimageNodeMediaTypesParam &
+  ReimageNodeBodyParam &
+  RequestParameters;
+
 export interface DisableNodeSchedulingHeaders {
   /**
    * The caller-generated request identity, in the form of a GUID with no decoration
@@ -3251,7 +3384,7 @@ export interface ListNodesQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-nodes-in-a-pool.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-nodes-in-a-pool.
    */
   $filter?: string;
   /** An OData $select clause. */
@@ -3506,7 +3639,7 @@ export interface ListNodeFilesQueryParamProperties {
   maxresults?: number;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-compute-node-files.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-compute-node-files.
    */
   $filter?: string;
   /** Whether to list children of a directory. */
