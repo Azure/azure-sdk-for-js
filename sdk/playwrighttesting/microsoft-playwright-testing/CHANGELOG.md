@@ -1,12 +1,18 @@
 # Release History
 
-## 1.0.0-beta.4 (Unreleased)
+## 1.0.0-beta.4 (2024-10-21)
 
 ### Features Added
+
+- Added a runName field which allows customers to customize the display name when using the reporting feature.
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Fixed a bug where users were getting multiple entries for a test run in the dashboard for some cases 
+- Fixed a bug where some optional fields in Playwright config were being treated as mandatory in service package 
+- Fixed a bug where an error message was printing twice
 
 ### Other Changes
 
