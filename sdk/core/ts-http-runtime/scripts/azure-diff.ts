@@ -135,9 +135,12 @@ async function main(): Promise<void> {
         "  This happens when you make a change to Azure Core without making the same change in the unbranded Core package.",
       );
       console.error("  To fix:");
+      console.error(
+        "  - Run `rushx lint:fix` in the ts-http-runtime package to update review/azure-core-comparison.diff, then have a look and see what's changed.",
+      );
       console.error("  - Apply your Core changes to the ts-http-runtime package as appropriate.");
       console.error(
-        "  - Run `rushx lint:fix` in the ts-http-runtime package to update the diff report, and commit the changes.",
+        "  - Run `rushx lint:fix` again package to update the diff report, and commit the changes.",
       );
       exit(1);
     }
