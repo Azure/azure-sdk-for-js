@@ -17,8 +17,8 @@ export enum EnvironmentVariableNamesForCompletions {
 }
 
 export enum EnvironmentVariableNamesForAzureSearch {
-  AZURE_SEARCH_ENDPOINT = "AZURE_OPENAI_SEARCH_ENDPOINT",
-  AZURE_SEARCH_INDEX = "AZURE_OPENAI_SEARCH_INDEX",
+  AZURE_SEARCH_ENDPOINT = "AZURE_SEARCH_ENDPOINT",
+  AZURE_SEARCH_INDEX = "AZURE_SEARCH_INDEX",
 }
 
 export enum EnvironmentVariableNamesAzureCommon {

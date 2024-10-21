@@ -10,10 +10,11 @@
 import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
 import "dotenv/config";
+
+// Your Azure OpenAI endpoint
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"] || "<endpoint>";
 
 export async function main() {
   console.log("== Chat Completions Sample ==");
@@ -22,7 +23,7 @@ export async function main() {
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-35-turbo";
   const apiVersion = "2024-07-01-preview";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const client = new AzureOpenAI({ endpoint, azureADTokenProvider, deployment, apiVersion });
   const result = await client.chat.completions.create({
     messages: [
       { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
