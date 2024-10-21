@@ -1,36 +1,30 @@
 import { parseArgs } from "node:util";
 import fs from "node:fs/promises";
-import path from "node:path";
-import { spawn } from "node:child_process";
+import { spawn, SpawnOptions } from "node:child_process";
 import { exit } from "node:process";
+import path from "node:path";
 
 /**
- * Mapping of files in the unbranded package to their Azure counterparts
- *
- * For each source file in the unbranded package, we will loop through these entries and find the first matching key. A key is considered
- * a match if the unbranded file's path starts with the key.
- *
- * For example, any file under src/logger will map to ../logger/src (the Azure logger package), except for src/logger/logger.ts, which will get mapped
- * to ../logger/src/index.ts, since that entry comes before src/logger in the object.
+ * Mapping of locations of Azure source files to their location in the unbranded package.
  */
-const UNBRANDED_TO_AZURE_MAPPINGS = {
-  // Logger index file was renamed
-  "src/logger/logger.ts": "../logger/src/index.ts",
-
-  "src/logger": "../logger/src",
-  "src/auth": "../core-auth/src",
-  "src/abort-controller": "../abort-controller/src",
-  "src/client": "../core-client-rest/src",
-  "src/policies": "../core-rest-pipeline/src/policies",
-  "src/retryStrategies": "../core-rest-pipeline/src/retryStrategies",
-  "src/tracing": "../core-tracing/src",
-  "src/util": "../core-util/src",
-
-  src: "../core-rest-pipeline/src",
+const AZURE_SOURCES = {
+  // core-rest-pipeline is placed at the root of the unbranded package; this also covers subfolders of
+  // core-rest-pipeline including policies/ and retryStrategies/.
+  "../core-rest-pipeline/src/": "./src/",
+  "../core-util/src/": "./src/util/",
+  "../core-auth/src/": "./src/auth/",
+  "../abort-controller/src/": "./src/abort-controller/",
+  "../core-client-rest/src/": "./src/client/",
+  "../core-tracing/src/": "./src/tracing/",
+  "../logger/src/": "./src/logger/",
 };
 
 const {
-  values: { update = false, "output-path": outputPath = "./review/azure-core-comparison.diff" },
+  values: {
+    update = false,
+    "output-path": outputPath = "./review/azure-core-comparison.diff",
+    verbose = false,
+  },
 } = parseArgs({
   options: {
     update: {
@@ -40,72 +34,14 @@ const {
       type: "string",
       short: "o",
     },
+    verbose: {
+      type: "boolean",
+      short: "v",
+    },
   },
 });
 
-/**
- * Recursively find all files in the directory
- * @param dir - Directory to find files in
- * @returns - an array containing paths to all files in the directory
- */
-async function find(dir: string): Promise<string[]> {
-  const files = await fs.readdir(dir);
-  const allFiles: string[] = [];
-  for (const filename of files) {
-    const file = path.join(dir, filename);
-    const stat = await fs.stat(file);
-    if (stat.isDirectory()) {
-      allFiles.push(...(await find(file)));
-    } else {
-      allFiles.push(file);
-    }
-  }
-
-  return allFiles;
-}
-
-/**
- * Returns a list of all unbranded source files and their azure counterparts if any
- * @returns - list of tuples [unbranded file, azure counterpart]. The azure counterpart may be undefined if no counterpart can be found
- */
-async function getFileMappings(): Promise<[string, string | undefined][]> {
-  const result: [string, string | undefined][] = [];
-  const files = await find("src");
-
-  for (const unbrandedLocation of files) {
-    const pathMatches = Object.keys(UNBRANDED_TO_AZURE_MAPPINGS).filter((x) =>
-      unbrandedLocation.startsWith(x),
-    );
-
-    let found = false;
-    for (const pathMatch of pathMatches) {
-      const azureLocation =
-        UNBRANDED_TO_AZURE_MAPPINGS[pathMatch] + unbrandedLocation.substring(pathMatch.length);
-
-      let exists: boolean;
-      try {
-        await fs.access(azureLocation);
-        exists = true;
-      } catch {
-        exists = false;
-      }
-
-      if (exists) {
-        result.push([unbrandedLocation, azureLocation]);
-        found = true;
-        break;
-      }
-    }
-
-    if (!found) {
-      result.push([unbrandedLocation, undefined]);
-    }
-  }
-
-  return result;
-}
-
-export interface RunResult {
+interface RunResult {
   exitCode?: number;
   signal?: NodeJS.Signals;
   stdout: string;
@@ -114,10 +50,14 @@ export interface RunResult {
 /**
  * Runs the given CLI command and captures the output
  */
-async function run(command: string, ...args: string[]): Promise<RunResult> {
+async function run(
+  commandAndArgs: [string, ...string[]],
+  options: SpawnOptions = {},
+): Promise<RunResult> {
   let stdout = "";
+  const [command, ...args] = commandAndArgs;
 
-  const proc = spawn(command, args);
+  const proc = spawn(command, args, options);
 
   return new Promise((resolve, reject) => {
     proc.on("error", reject);
@@ -128,30 +68,50 @@ async function run(command: string, ...args: string[]): Promise<RunResult> {
         stdout,
       });
     });
-    proc.stdout.on("data", (data) => {
+    proc.stdout?.on("data", (data) => {
       stdout += data.toString();
+      if (verbose) {
+        process.stdout.write(data);
+      }
     });
+
+    if (verbose) {
+      proc.stderr?.on("data", (data) => process.stderr.write(data));
+    }
   });
 }
 
+/**
+ * Creates a diff representing code changes between the Azure core packages and the unbranded package.
+ *
+ * This is done by using a temp folder/git repo. The Azure core files are copied into the temp folder following
+ * the mappings defined in AZURE_SOURCES. This is then committed, and then the temp folder is cleaned out and the unbranded
+ * Core is copied in. The diff (as reported by `git diff`) between the committed Azure core files and the unbranded replacement
+ * is returned.
+ */
 async function calculatePatchFileContents(): Promise<string> {
-  const mappings = await getFileMappings();
+  const tmpDir = await fs.mkdtemp(".azure-diff-tool");
 
-  const patches: string[] = [];
-  for (const [unbrandedFile, azureFile = "/dev/null"] of mappings) {
-    const result = await run("git", "diff", "--no-index", azureFile, unbrandedFile);
+  try {
+    await run(["git", "init"], { cwd: tmpDir });
 
-    // Exit code 1 is expected as it indicates a difference
-    if (result.exitCode !== 0 && result.exitCode !== 1) {
-      throw new Error(
-        `git diff exited with code ${result.exitCode} when comparing ${unbrandedFile} and ${azureFile}`,
-      );
+    for (const [azurePath, newLocation] of Object.entries(AZURE_SOURCES)) {
+      await fs.cp(azurePath, path.join(tmpDir, newLocation), { recursive: true });
     }
 
-    patches.push(result.stdout);
-  }
+    await run(["git", "add", "."], { cwd: tmpDir });
+    await run(["git", "commit", "-m", "Placeholder commit"], { cwd: tmpDir });
 
-  return patches.join("");
+    await fs.rm(path.join(tmpDir, "src"), { recursive: true, force: true });
+    await fs.cp("./src/", path.join(tmpDir, "src"), { recursive: true });
+
+    await run(["git", "add", "."], { cwd: tmpDir });
+
+    const { stdout } = await run(["git", "diff", "--staged", "--find-renames"], { cwd: tmpDir });
+    return stdout;
+  } finally {
+    await fs.rm(tmpDir, { recursive: true, force: true });
+  }
 }
 
 async function main(): Promise<void> {
