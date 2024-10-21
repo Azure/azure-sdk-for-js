@@ -41,6 +41,7 @@ import {
 } from "openai/resources/chat/completions.mjs";
 import { Transcription } from "openai/resources/audio/transcriptions.mjs";
 import { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
+import { ParsedChatCompletion, ParsedChatCompletionMessage, ParsedChoice, ParsedFunctionToolCall } from "openai/resources/beta/chat/completions.mjs";
 
 export function assertAudioResult(responseFormat: AudioResultFormat, result: Transcription): void {
   switch (responseFormat) {
@@ -80,6 +81,35 @@ function assertVerboseJson(result: AudioResultVerboseJson): void {
   assert.isString(result.task);
   assert.isArray(result.segments);
   result.segments.forEach((item) => assertSegment(item));
+}
+
+export function assertParsedChatCompletion<ParsedT>(completions: ParsedChatCompletion<ParsedT>,
+  validateParsedResponse: (x: ParsedT) => void, { allowEmptyChoices, ...opts }: ChatCompletionTestOptions = {}): void {
+  assertChatCompletions(completions, opts);
+  if (!allowEmptyChoices || completions.choices.length > 0) {
+    assertNonEmptyArray(completions.choices, (choice) => assertParsedChoice(choice, validateParsedResponse));
+  }
+}
+
+function assertParsedChoice<ParsedT>(choice: ParsedChoice<ParsedT>,
+  validateParsedResponse: (x: ParsedT) => void): void {
+  assert.isDefined(choice.message);
+  assertParsedMessage<ParsedT>(choice.message, validateParsedResponse);
+}
+
+function assertParsedMessage<ParsedT>(
+  message: ParsedChatCompletionMessage<ParsedT>,
+  validateParsedResponse: (x: ParsedT) => void,
+): void {
+  assert.isDefined(message);
+  ifDefined(message.parsed, validateParsedResponse);
+  assertNonEmptyArray(message.tool_calls, assertParsedFunctionToolCall);
+}
+
+function assertParsedFunctionToolCall(
+  parsedFunction: ParsedFunctionToolCall,
+): void {
+  assert.isDefined(parsedFunction.function);
 }
 
 export function assertChatCompletions(
@@ -238,7 +268,7 @@ function assertContentFilterBlocklistIdResult(val: ContentFilterBlocklistIdResul
 
 function assertChoice(
   choice: ChatCompletion.Choice | ChatCompletionChunk.Choice,
-  options: ChatCompletionTestOptions,
+  {...options}: ChatCompletionTestOptions,
 ): void {
   const stream = options.stream;
   if (stream) {
@@ -432,6 +462,7 @@ export function assertEmbeddings(
   }
 }
 
+
 function assertMessage(
   message: ChatCompletionMessage | ChatCompletionChunk.Choice.Delta,
   { functions, stream }: ChatCompletionTestOptions = {},
@@ -558,8 +589,29 @@ interface ChatCompletionTestOptions {
   functions?: boolean;
   allowEmptyStream?: boolean;
   allowEmptyId?: boolean;
+  structuredOutput?: boolean;
 }
 
 interface EmbeddingTestOptions {
   dimensions?: number;
+}
+
+// Structure output interfaces
+export interface Step {
+  explanation: string;
+  output: string;
+}
+export interface MathResponse {
+  steps: Step[];
+  final_answer: string;
+}
+
+function assertStep(steps: Step): void {
+  assert.isString(steps.explanation);
+  assert.isString(steps.output);
+}
+
+export function assertMathResponseOutput(output: MathResponse): void {
+  assertNonEmptyArray(output.steps, assertStep);
+  assert.isString(output.final_answer);
 }
