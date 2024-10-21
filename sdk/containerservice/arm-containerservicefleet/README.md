@@ -6,7 +6,7 @@ Azure Kubernetes Fleet Manager api client.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/containerservice/arm-containerservicefleet) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-containerservicefleet) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-containerservicefleet) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-containerservicefleet?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
