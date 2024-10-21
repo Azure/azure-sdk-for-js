@@ -28,6 +28,8 @@ import { delay, isDefined } from "@azure/core-util";
 import { TracingSpanLink } from "@azure/core-tracing";
 import { toSpanOptions, tracingClient } from "../diagnostics/tracing.js";
 import { extractSpanContextFromServiceBusMessage } from "../diagnostics/instrumentServiceBusMessage.js";
+import { ListRequestOptions } from "../serviceBusAtomManagementClient.js";
+import { OperationOptions } from "@azure/core-client";
 
 /**
  * @internal
@@ -321,6 +323,43 @@ export async function settleMessageOperation(
   return receiver!.settleMessage(message, operation, options).catch((err) => {
     throw translateServiceBusError(err);
   });
+}
+
+/**
+ * @internal
+ *
+ * Get all sessions associated with an entity.
+ */
+export async function getSessions(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  context: ConnectionContext,
+  entityPath: string,
+  receiverName: string | undefined,
+  retryOptions: RetryOptions,
+  options?: ListRequestOptions & OperationOptions,
+): Promise<string[]> {
+  return tracingClient.withSpan(
+    "ServiceBusReceiver.getSessions",
+    options ?? {},
+    async (updatedOptions) => {
+      const operationPromise = async (): Promise<string[]> => {
+        return context.getManagementClient(entityPath).getSessions({
+          ...updatedOptions,
+          associatedLinkName: receiverName,
+          requestName: "getSessions",
+          timeoutInMs: retryOptions.timeoutInMs,
+        });
+      };
+      const config: RetryConfig<string[]> = {
+        operation: operationPromise,
+        connectionId: context.connectionId,
+        operationType: RetryOperationType.management,
+        retryOptions: retryOptions,
+        abortSignal: updatedOptions?.abortSignal,
+      };
+      return retry<string[]>(config);
+    },
+  );
 }
 
 /** @internal */

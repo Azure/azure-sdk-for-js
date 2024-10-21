@@ -314,7 +314,10 @@ export class ServiceBusTestHelpers {
 
   async purgeForClientType(...testClientTypes: TestClientType[]): Promise<void> {
     await Promise.all(
-      testClientTypes.map((tct) => purgeForTestClientType(this._serviceBusClient, tct)),
+      testClientTypes.map((tct) => {
+        purgeForTestClientType(this._serviceBusClient, tct);
+        this._testClientEntities.delete(tct);
+      }),
     );
   }
 
