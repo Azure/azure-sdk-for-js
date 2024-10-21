@@ -785,7 +785,7 @@ const REQUIRE_DIRECTORY_ERROR = 'loading a directory of commands is not supporte
 
 let __dirname$1;
 try {
-  __dirname$1 = url.fileURLToPath((typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.src || new URL('execute.cjs', document.baseURI).href)));
+  __dirname$1 = url.fileURLToPath((typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.tagName.toUpperCase() === 'SCRIPT' && _documentCurrentScript.src || new URL('execute.cjs', document.baseURI).href)));
 } catch (e) {
   __dirname$1 = process.cwd();
 }
@@ -885,7 +885,7 @@ const buildGetConfig = (gray, red) => {
 // Licensed under the MIT License.
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
-const sourceDir = node_path.dirname(node_url.fileURLToPath((typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.src || new URL('execute.cjs', document.baseURI).href))));
+const sourceDir = node_path.dirname(node_url.fileURLToPath((typeof document === 'undefined' ? require('u' + 'rl').pathToFileURL(__filename).href : (_documentCurrentScript && _documentCurrentScript.tagName.toUpperCase() === 'SCRIPT' && _documentCurrentScript.src || new URL('execute.cjs', document.baseURI).href))));
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
