@@ -6,9 +6,7 @@
     "rootDir": ".",
     "skipLibCheck": true,
     "paths": {
-      "@azure/arm-computefleet": [
-        "./src/index"
-      ]
+      "@azure/arm-computefleet": ["./src/index"]
     }
   },
   "include": [

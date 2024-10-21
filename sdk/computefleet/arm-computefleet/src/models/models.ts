@@ -67,9 +67,7 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(
-  item: TrackedResource,
-): Record<string, unknown> {
+export function trackedResourceSerializer(item: TrackedResource): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -92,13 +90,9 @@ export function fleetSerializer(item: Fleet): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
-    properties: !item.properties
-      ? item.properties
-      : fleetPropertiesSerializer(item.properties),
+    properties: !item.properties ? item.properties : fleetPropertiesSerializer(item.properties),
     zones: item["zones"],
-    identity: !item.identity
-      ? item.identity
-      : managedServiceIdentitySerializer(item.identity),
+    identity: !item.identity ? item.identity : managedServiceIdentitySerializer(item.identity),
     plan: !item.plan ? item.plan : planSerializer(item.plan),
   };
 }
@@ -125,9 +119,7 @@ export interface FleetProperties {
   readonly uniqueId?: string;
 }
 
-export function fleetPropertiesSerializer(
-  item: FleetProperties,
-): Record<string, unknown> {
+export function fleetPropertiesSerializer(item: FleetProperties): Record<string, unknown> {
   return {
     spotPriorityProfile: !item.spotPriorityProfile
       ? item.spotPriorityProfile
@@ -167,9 +159,7 @@ export interface SpotPriorityProfile {
   maintain?: boolean;
 }
 
-export function spotPriorityProfileSerializer(
-  item: SpotPriorityProfile,
-): Record<string, unknown> {
+export function spotPriorityProfileSerializer(item: SpotPriorityProfile): Record<string, unknown> {
   return {
     capacity: item["capacity"],
     minCapacity: item["minCapacity"],
@@ -268,9 +258,7 @@ export interface VmSizeProfile {
   rank?: number;
 }
 
-export function vmSizeProfileSerializer(
-  item: VmSizeProfile,
-): Record<string, unknown> {
+export function vmSizeProfileSerializer(item: VmSizeProfile): Record<string, unknown> {
   return {
     name: item["name"],
     rank: item["rank"],
@@ -346,9 +334,7 @@ export interface VMAttributes {
   excludedVMSizes?: string[];
 }
 
-export function vMAttributesSerializer(
-  item: VMAttributes,
-): Record<string, unknown> {
+export function vMAttributesSerializer(item: VMAttributes): Record<string, unknown> {
   return {
     vCpuCount: vMAttributeMinMaxIntegerSerializer(item.vCpuCount),
     memoryInGiB: vMAttributeMinMaxDoubleSerializer(item.memoryInGiB),
@@ -600,9 +586,7 @@ export interface LocationProfile {
   virtualMachineProfileOverride?: BaseVirtualMachineProfile;
 }
 
-export function locationProfileSerializer(
-  item: LocationProfile,
-): Record<string, unknown> {
+export function locationProfileSerializer(item: LocationProfile): Record<string, unknown> {
   return {
     location: item["location"],
     virtualMachineProfileOverride: !item.virtualMachineProfileOverride
@@ -880,9 +864,7 @@ export function windowsConfigurationSerializer(
     additionalUnattendContent:
       item["additionalUnattendContent"] === undefined
         ? item["additionalUnattendContent"]
-        : item["additionalUnattendContent"].map(
-          additionalUnattendContentSerializer,
-        ),
+        : item["additionalUnattendContent"].map(additionalUnattendContentSerializer),
     patchSettings: !item.patchSettings
       ? item.patchSettings
       : patchSettingsSerializer(item.patchSettings),
@@ -984,18 +966,14 @@ export interface PatchSettings {
   automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
 }
 
-export function patchSettingsSerializer(
-  item: PatchSettings,
-): Record<string, unknown> {
+export function patchSettingsSerializer(item: PatchSettings): Record<string, unknown> {
   return {
     patchMode: item["patchMode"],
     enableHotpatching: item["enableHotpatching"],
     assessmentMode: item["assessmentMode"],
     automaticByPlatformSettings: !item.automaticByPlatformSettings
       ? item.automaticByPlatformSettings
-      : windowsVMGuestPatchAutomaticByPlatformSettingsSerializer(
-        item.automaticByPlatformSettings,
-      ),
+      : windowsVMGuestPatchAutomaticByPlatformSettingsSerializer(item.automaticByPlatformSettings),
   };
 }
 
@@ -1059,8 +1037,7 @@ export function windowsVMGuestPatchAutomaticByPlatformSettingsSerializer(
 ): Record<string, unknown> {
   return {
     rebootSetting: item["rebootSetting"],
-    bypassPlatformSafetyChecksOnUserSchedule:
-      item["bypassPlatformSafetyChecksOnUserSchedule"],
+    bypassPlatformSafetyChecksOnUserSchedule: item["bypassPlatformSafetyChecksOnUserSchedule"],
   };
 }
 
@@ -1094,9 +1071,7 @@ export interface WinRMConfiguration {
   listeners?: WinRMListener[];
 }
 
-export function winRMConfigurationSerializer(
-  item: WinRMConfiguration,
-): Record<string, unknown> {
+export function winRMConfigurationSerializer(item: WinRMConfiguration): Record<string, unknown> {
   return {
     listeners:
       item["listeners"] === undefined
@@ -1130,9 +1105,7 @@ export interface WinRMListener {
   certificateUrl?: string;
 }
 
-export function winRMListenerSerializer(
-  item: WinRMListener,
-): Record<string, unknown> {
+export function winRMListenerSerializer(item: WinRMListener): Record<string, unknown> {
   return {
     protocol: item["protocol"],
     certificateUrl: item["certificateUrl"],
@@ -1184,9 +1157,7 @@ export interface LinuxConfiguration {
   enableVMAgentPlatformUpdates?: boolean;
 }
 
-export function linuxConfigurationSerializer(
-  item: LinuxConfiguration,
-): Record<string, unknown> {
+export function linuxConfigurationSerializer(item: LinuxConfiguration): Record<string, unknown> {
   return {
     disablePasswordAuthentication: item["disablePasswordAuthentication"],
     ssh: !item.ssh ? item.ssh : sshConfigurationSerializer(item.ssh),
@@ -1204,9 +1175,7 @@ export interface SshConfiguration {
   publicKeys?: SshPublicKey[];
 }
 
-export function sshConfigurationSerializer(
-  item: SshConfiguration,
-): Record<string, unknown> {
+export function sshConfigurationSerializer(item: SshConfiguration): Record<string, unknown> {
   return {
     publicKeys:
       item["publicKeys"] === undefined
@@ -1235,9 +1204,7 @@ export interface SshPublicKey {
   keyData?: string;
 }
 
-export function sshPublicKeySerializer(
-  item: SshPublicKey,
-): Record<string, unknown> {
+export function sshPublicKeySerializer(item: SshPublicKey): Record<string, unknown> {
   return {
     path: item["path"],
     keyData: item["keyData"],
@@ -1270,17 +1237,13 @@ export interface LinuxPatchSettings {
   automaticByPlatformSettings?: LinuxVMGuestPatchAutomaticByPlatformSettings;
 }
 
-export function linuxPatchSettingsSerializer(
-  item: LinuxPatchSettings,
-): Record<string, unknown> {
+export function linuxPatchSettingsSerializer(item: LinuxPatchSettings): Record<string, unknown> {
   return {
     patchMode: item["patchMode"],
     assessmentMode: item["assessmentMode"],
     automaticByPlatformSettings: !item.automaticByPlatformSettings
       ? item.automaticByPlatformSettings
-      : linuxVMGuestPatchAutomaticByPlatformSettingsSerializer(
-        item.automaticByPlatformSettings,
-      ),
+      : linuxVMGuestPatchAutomaticByPlatformSettingsSerializer(item.automaticByPlatformSettings),
   };
 }
 
@@ -1345,8 +1308,7 @@ export function linuxVMGuestPatchAutomaticByPlatformSettingsSerializer(
 ): Record<string, unknown> {
   return {
     rebootSetting: item["rebootSetting"],
-    bypassPlatformSafetyChecksOnUserSchedule:
-      item["bypassPlatformSafetyChecksOnUserSchedule"],
+    bypassPlatformSafetyChecksOnUserSchedule: item["bypassPlatformSafetyChecksOnUserSchedule"],
   };
 }
 
@@ -1386,13 +1348,9 @@ export interface VaultSecretGroup {
   vaultCertificates?: VaultCertificate[];
 }
 
-export function vaultSecretGroupSerializer(
-  item: VaultSecretGroup,
-): Record<string, unknown> {
+export function vaultSecretGroupSerializer(item: VaultSecretGroup): Record<string, unknown> {
   return {
-    sourceVault: !item.sourceVault
-      ? item.sourceVault
-      : subResourceSerializer(item.sourceVault),
+    sourceVault: !item.sourceVault ? item.sourceVault : subResourceSerializer(item.sourceVault),
     vaultCertificates:
       item["vaultCertificates"] === undefined
         ? item["vaultCertificates"]
@@ -1406,9 +1364,7 @@ export interface SubResource {
   id?: string;
 }
 
-export function subResourceSerializer(
-  item: SubResource,
-): Record<string, unknown> {
+export function subResourceSerializer(item: SubResource): Record<string, unknown> {
   return {
     id: item["id"],
   };
@@ -1447,9 +1403,7 @@ export interface VaultCertificate {
   certificateStore?: string;
 }
 
-export function vaultCertificateSerializer(
-  item: VaultCertificate,
-): Record<string, unknown> {
+export function vaultCertificateSerializer(item: VaultCertificate): Record<string, unknown> {
   return {
     certificateUrl: item["certificateUrl"],
     certificateStore: item["certificateStore"],
@@ -1490,9 +1444,7 @@ export function virtualMachineScaleSetStorageProfileSerializer(
     imageReference: !item.imageReference
       ? item.imageReference
       : imageReferenceSerializer(item.imageReference),
-    osDisk: !item.osDisk
-      ? item.osDisk
-      : virtualMachineScaleSetOSDiskSerializer(item.osDisk),
+    osDisk: !item.osDisk ? item.osDisk : virtualMachineScaleSetOSDiskSerializer(item.osDisk),
     dataDisks:
       item["dataDisks"] === undefined
         ? item["dataDisks"]
@@ -1551,9 +1503,7 @@ export interface ImageReference {
   communityGalleryImageId?: string;
 }
 
-export function imageReferenceSerializer(
-  item: ImageReference,
-): Record<string, unknown> {
+export function imageReferenceSerializer(item: ImageReference): Record<string, unknown> {
   return {
     id: item["id"],
     publisher: item["publisher"],
@@ -1715,9 +1665,7 @@ export interface DiffDiskSettings {
   placement?: DiffDiskPlacement;
 }
 
-export function diffDiskSettingsSerializer(
-  item: DiffDiskSettings,
-): Record<string, unknown> {
+export function diffDiskSettingsSerializer(item: DiffDiskSettings): Record<string, unknown> {
   return {
     option: item["option"],
     placement: item["placement"],
@@ -1794,9 +1742,7 @@ export interface VirtualHardDisk {
   uri?: string;
 }
 
-export function virtualHardDiskSerializer(
-  item: VirtualHardDisk,
-): Record<string, unknown> {
+export function virtualHardDiskSerializer(item: VirtualHardDisk): Record<string, unknown> {
   return {
     uri: item["uri"],
   };
@@ -2096,8 +2042,8 @@ export function virtualMachineScaleSetNetworkProfileSerializer(
       item["networkInterfaceConfigurations"] === undefined
         ? item["networkInterfaceConfigurations"]
         : item["networkInterfaceConfigurations"].map(
-          virtualMachineScaleSetNetworkConfigurationSerializer,
-        ),
+            virtualMachineScaleSetNetworkConfigurationSerializer,
+          ),
     networkApiVersion: item["networkApiVersion"],
   };
 }
@@ -2111,9 +2057,7 @@ export interface ApiEntityReference {
   id?: string;
 }
 
-export function apiEntityReferenceSerializer(
-  item: ApiEntityReference,
-): Record<string, unknown> {
+export function apiEntityReferenceSerializer(item: ApiEntityReference): Record<string, unknown> {
   return {
     id: item["id"],
   };
@@ -2134,9 +2078,7 @@ export function virtualMachineScaleSetNetworkConfigurationSerializer(
     name: item["name"],
     properties: !item.properties
       ? item.properties
-      : virtualMachineScaleSetNetworkConfigurationPropertiesSerializer(
-        item.properties,
-      ),
+      : virtualMachineScaleSetNetworkConfigurationPropertiesSerializer(item.properties),
   };
 }
 
@@ -2188,12 +2130,8 @@ export function virtualMachineScaleSetNetworkConfigurationPropertiesSerializer(
       : subResourceSerializer(item.networkSecurityGroup),
     dnsSettings: !item.dnsSettings
       ? item.dnsSettings
-      : virtualMachineScaleSetNetworkConfigurationDnsSettingsSerializer(
-        item.dnsSettings,
-      ),
-    ipConfigurations: item["ipConfigurations"].map(
-      virtualMachineScaleSetIPConfigurationSerializer,
-    ),
+      : virtualMachineScaleSetNetworkConfigurationDnsSettingsSerializer(item.dnsSettings),
+    ipConfigurations: item["ipConfigurations"].map(virtualMachineScaleSetIPConfigurationSerializer),
     enableIPForwarding: item["enableIPForwarding"],
     deleteOption: item["deleteOption"],
     auxiliaryMode: item["auxiliaryMode"],
@@ -2233,9 +2171,7 @@ export function virtualMachineScaleSetIPConfigurationSerializer(
     name: item["name"],
     properties: !item.properties
       ? item.properties
-      : virtualMachineScaleSetIPConfigurationPropertiesSerializer(
-        item.properties,
-      ),
+      : virtualMachineScaleSetIPConfigurationPropertiesSerializer(item.properties),
   };
 }
 
@@ -2286,22 +2222,18 @@ export function virtualMachineScaleSetIPConfigurationPropertiesSerializer(
   item: VirtualMachineScaleSetIPConfigurationProperties,
 ): Record<string, unknown> {
   return {
-    subnet: !item.subnet
-      ? item.subnet
-      : apiEntityReferenceSerializer(item.subnet),
+    subnet: !item.subnet ? item.subnet : apiEntityReferenceSerializer(item.subnet),
     primary: item["primary"],
     publicIPAddressConfiguration: !item.publicIPAddressConfiguration
       ? item.publicIPAddressConfiguration
       : virtualMachineScaleSetPublicIPAddressConfigurationSerializer(
-        item.publicIPAddressConfiguration,
-      ),
+          item.publicIPAddressConfiguration,
+        ),
     privateIPAddressVersion: item["privateIPAddressVersion"],
     applicationGatewayBackendAddressPools:
       item["applicationGatewayBackendAddressPools"] === undefined
         ? item["applicationGatewayBackendAddressPools"]
-        : item["applicationGatewayBackendAddressPools"].map(
-          subResourceSerializer,
-        ),
+        : item["applicationGatewayBackendAddressPools"].map(subResourceSerializer),
     applicationSecurityGroups:
       item["applicationSecurityGroups"] === undefined
         ? item["applicationSecurityGroups"]
@@ -2343,9 +2275,7 @@ export function virtualMachineScaleSetPublicIPAddressConfigurationSerializer(
     name: item["name"],
     properties: !item.properties
       ? item.properties
-      : virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSerializer(
-        item.properties,
-      ),
+      : virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSerializer(item.properties),
     sku: !item.sku ? item.sku : publicIPAddressSkuSerializer(item.sku),
   };
 }
@@ -2380,9 +2310,7 @@ export function virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSeri
     idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
     dnsSettings: !item.dnsSettings
       ? item.dnsSettings
-      : virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSerializer(
-        item.dnsSettings,
-      ),
+      : virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSerializer(item.dnsSettings),
     ipTags:
       item["ipTags"] === undefined
         ? item["ipTags"]
@@ -2514,9 +2442,7 @@ export interface PublicIPAddressSku {
   tier?: PublicIPAddressSkuTier;
 }
 
-export function publicIPAddressSkuSerializer(
-  item: PublicIPAddressSku,
-): Record<string, unknown> {
+export function publicIPAddressSkuSerializer(item: PublicIPAddressSku): Record<string, unknown> {
   return {
     name: item["name"],
     tier: item["tier"],
@@ -2662,9 +2588,7 @@ export interface SecurityProfile {
   proxyAgentSettings?: ProxyAgentSettings;
 }
 
-export function securityProfileSerializer(
-  item: SecurityProfile,
-): Record<string, unknown> {
+export function securityProfileSerializer(item: SecurityProfile): Record<string, unknown> {
   return {
     uefiSettings: !item.uefiSettings
       ? item.uefiSettings
@@ -2697,9 +2621,7 @@ export interface UefiSettings {
   vTpmEnabled?: boolean;
 }
 
-export function uefiSettingsSerializer(
-  item: UefiSettings,
-): Record<string, unknown> {
+export function uefiSettingsSerializer(item: UefiSettings): Record<string, unknown> {
   return {
     secureBootEnabled: item["secureBootEnabled"],
     vTpmEnabled: item["vTpmEnabled"],
@@ -2735,9 +2657,7 @@ export interface EncryptionIdentity {
   userAssignedIdentityResourceId?: string;
 }
 
-export function encryptionIdentitySerializer(
-  item: EncryptionIdentity,
-): Record<string, unknown> {
+export function encryptionIdentitySerializer(item: EncryptionIdentity): Record<string, unknown> {
   return {
     userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
   };
@@ -2767,9 +2687,7 @@ export interface ProxyAgentSettings {
   keyIncarnationId?: number;
 }
 
-export function proxyAgentSettingsSerializer(
-  item: ProxyAgentSettings,
-): Record<string, unknown> {
+export function proxyAgentSettingsSerializer(item: ProxyAgentSettings): Record<string, unknown> {
   return {
     enabled: item["enabled"],
     mode: item["mode"],
@@ -2810,9 +2728,7 @@ export interface DiagnosticsProfile {
   bootDiagnostics?: BootDiagnostics;
 }
 
-export function diagnosticsProfileSerializer(
-  item: DiagnosticsProfile,
-): Record<string, unknown> {
+export function diagnosticsProfileSerializer(item: DiagnosticsProfile): Record<string, unknown> {
   return {
     bootDiagnostics: !item.bootDiagnostics
       ? item.bootDiagnostics
@@ -2837,9 +2753,7 @@ export interface BootDiagnostics {
   storageUri?: string;
 }
 
-export function bootDiagnosticsSerializer(
-  item: BootDiagnostics,
-): Record<string, unknown> {
+export function bootDiagnosticsSerializer(item: BootDiagnostics): Record<string, unknown> {
   return {
     enabled: item["enabled"],
     storageUri: item["storageUri"],
@@ -2956,9 +2870,7 @@ export function virtualMachineScaleSetExtensionPropertiesSerializer(
     typeHandlerVersion: item["typeHandlerVersion"],
     autoUpgradeMinorVersion: item["autoUpgradeMinorVersion"],
     enableAutomaticUpgrade: item["enableAutomaticUpgrade"],
-    settings: !item.settings
-      ? item.settings
-      : (serializeRecord(item.settings as any) as any),
+    settings: !item.settings ? item.settings : (serializeRecord(item.settings as any) as any),
     protectedSettings: !item.protectedSettings
       ? item.protectedSettings
       : (serializeRecord(item.protectedSettings as any) as any),
@@ -3001,9 +2913,7 @@ export function scheduledEventsProfileSerializer(
   return {
     terminateNotificationProfile: !item.terminateNotificationProfile
       ? item.terminateNotificationProfile
-      : terminateNotificationProfileSerializer(
-        item.terminateNotificationProfile,
-      ),
+      : terminateNotificationProfileSerializer(item.terminateNotificationProfile),
     osImageNotificationProfile: !item.osImageNotificationProfile
       ? item.osImageNotificationProfile
       : oSImageNotificationProfileSerializer(item.osImageNotificationProfile),
@@ -3084,9 +2994,7 @@ export interface ApplicationProfile {
   galleryApplications?: VMGalleryApplication[];
 }
 
-export function applicationProfileSerializer(
-  item: ApplicationProfile,
-): Record<string, unknown> {
+export function applicationProfileSerializer(item: ApplicationProfile): Record<string, unknown> {
   return {
     galleryApplications:
       item["galleryApplications"] === undefined
@@ -3180,9 +3088,7 @@ export interface VMSizeProperties {
   vCPUsPerCore?: number;
 }
 
-export function vMSizePropertiesSerializer(
-  item: VMSizeProperties,
-): Record<string, unknown> {
+export function vMSizePropertiesSerializer(item: VMSizeProperties): Record<string, unknown> {
   return {
     vCPUsAvailable: item["vCPUsAvailable"],
     vCPUsPerCore: item["vCPUsPerCore"],
@@ -3265,21 +3171,14 @@ export interface ComputeProfile {
   additionalVirtualMachineCapabilities?: AdditionalCapabilities;
 }
 
-export function computeProfileSerializer(
-  item: ComputeProfile,
-): Record<string, unknown> {
+export function computeProfileSerializer(item: ComputeProfile): Record<string, unknown> {
   return {
-    baseVirtualMachineProfile: baseVirtualMachineProfileSerializer(
-      item.baseVirtualMachineProfile,
-    ),
+    baseVirtualMachineProfile: baseVirtualMachineProfileSerializer(item.baseVirtualMachineProfile),
     computeApiVersion: item["computeApiVersion"],
     platformFaultDomainCount: item["platformFaultDomainCount"],
-    additionalVirtualMachineCapabilities:
-      !item.additionalVirtualMachineCapabilities
-        ? item.additionalVirtualMachineCapabilities
-        : additionalCapabilitiesSerializer(
-          item.additionalVirtualMachineCapabilities,
-        ),
+    additionalVirtualMachineCapabilities: !item.additionalVirtualMachineCapabilities
+      ? item.additionalVirtualMachineCapabilities
+      : additionalCapabilitiesSerializer(item.additionalVirtualMachineCapabilities),
   };
 }
 
@@ -3323,9 +3222,9 @@ export function managedServiceIdentitySerializer(
     userAssignedIdentities: !item.userAssignedIdentities
       ? item.userAssignedIdentities
       : (serializeRecord(
-        item.userAssignedIdentities as any,
-        userAssignedIdentitySerializer,
-      ) as any),
+          item.userAssignedIdentities as any,
+          userAssignedIdentitySerializer,
+        ) as any),
   };
 }
 
@@ -3401,18 +3300,14 @@ export interface FleetUpdate {
   properties?: FleetProperties;
 }
 
-export function fleetUpdateSerializer(
-  item: FleetUpdate,
-): Record<string, unknown> {
+export function fleetUpdateSerializer(item: FleetUpdate): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     identity: !item.identity
       ? item.identity
       : managedServiceIdentityUpdateSerializer(item.identity),
     plan: !item.plan ? item.plan : resourcePlanUpdateSerializer(item.plan),
-    properties: !item.properties
-      ? item.properties
-      : fleetPropertiesSerializer(item.properties),
+    properties: !item.properties ? item.properties : fleetPropertiesSerializer(item.properties),
   };
 }
 
@@ -3432,9 +3327,9 @@ export function managedServiceIdentityUpdateSerializer(
     userAssignedIdentities: !item.userAssignedIdentities
       ? item.userAssignedIdentities
       : (serializeRecord(
-        item.userAssignedIdentities as any,
-        userAssignedIdentitySerializer,
-      ) as any),
+          item.userAssignedIdentities as any,
+          userAssignedIdentitySerializer,
+        ) as any),
   };
 }
 
@@ -3452,9 +3347,7 @@ export interface ResourcePlanUpdate {
   version?: string;
 }
 
-export function resourcePlanUpdateSerializer(
-  item: ResourcePlanUpdate,
-): Record<string, unknown> {
+export function resourcePlanUpdateSerializer(item: ResourcePlanUpdate): Record<string, unknown> {
   return {
     name: item["name"],
     publisher: item["publisher"],
@@ -3596,7 +3489,6 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
-
 
 /** Known values of {@link ProvisioningState} that the service accepts. */
 export enum KnownProvisioningState {

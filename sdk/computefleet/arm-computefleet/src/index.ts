@@ -7,10 +7,7 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export {
-  AzureFleetClient,
-  AzureFleetClientOptionalParams,
-} from "./azureFleetClient.js";
+export { AzureFleetClient, AzureFleetClientOptionalParams } from "./azureFleetClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
   Resource,
