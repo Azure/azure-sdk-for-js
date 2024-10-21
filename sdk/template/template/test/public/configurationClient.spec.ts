@@ -1,11 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assert } from "@azure-tools/test-utils";
 import { ConfigurationClient } from "../../src/index.js";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { chaiAzure } from "@azure-tools/test-utils-vitest";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, beforeEach, afterEach } from "vitest";
+import { describe, it, beforeEach, afterEach, chai } from "vitest";
+
+chai.use(chaiAzure);
+
+const { assert } = chai;
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
@@ -76,29 +80,24 @@ describe("[AAD] ConfigurationClient functional tests", function () {
   });
 
   describe("#getConfigurationSetting", () => {
-    // TODO: This test is skipped on macOS pending investigation (see https://github.com/Azure/azure-sdk-for-js/issues/31296)
-    it.skipIf(typeof process !== "undefined" && process.platform === "darwin")(
-      "predetermined setting has expected value",
-      async () => {
-        const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
-        const expectedValue = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_EXPECTED_VALUE");
+    it("predetermined setting has expected value", { timeout: 50000, retry: 3 }, async () => {
+      const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
+      const expectedValue = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_EXPECTED_VALUE");
 
-        const setting = await client.getConfigurationSetting(key);
+      const setting = await client.getConfigurationSetting(key);
 
-        // Make sure the key returned is the same as the key we asked for
-        assert.equal(key, setting.key);
+      // Make sure the key returned is the same as the key we asked for
+      assert.equal(key, setting.key);
 
-        // Make sure the value of the setting is the same as the value we entered
-        // on the environment
-        assert.equal(expectedValue, setting.value);
-      },
-    );
+      // Make sure the value of the setting is the same as the value we entered
+      // on the environment
+      assert.equal(expectedValue, setting.value);
+    });
 
-    // TODO: Waiting on https://github.com/Azure/azure-sdk-for-js/issues/29287
     // The supportsTracing assertion from chaiAzure can be used to verify that
     // the `getConfigurationSetting` method is being traced correctly, that the
     // tracing span is properly parented and closed.
-    it.skip("supports tracing", async () => {
+    it("supports tracing", async () => {
       // Playback fails in the browser without the "HeaderlessMatcher"
       //
       // If-Modified-Since & If-None-Match headers are not present in the recording and the request in playback has these headers

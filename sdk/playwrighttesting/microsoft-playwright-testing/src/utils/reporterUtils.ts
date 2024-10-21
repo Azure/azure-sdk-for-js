@@ -54,16 +54,9 @@ class ReporterUtils {
 
   public async getTestRunObject(ciInfo: CIInfo): Promise<TestRun> {
     const testRun = new TestRun();
-    const runName = await this.getRunName(ciInfo);
-    if (ReporterUtils.isNullOrEmpty(this.envVariables.runId)) {
-      if (!ReporterUtils.isNullOrEmpty(runName)) {
-        this.envVariables.runId = runName;
-      } else {
-        this.envVariables.runId = randomUUID();
-      }
-    }
+    const runName = this.envVariables.runName || (await this.getRunName(ciInfo));
     testRun.testRunId = this.envVariables.runId;
-    testRun.displayName = ReporterUtils.isNullOrEmpty(runName) ? randomUUID() : runName;
+    testRun.displayName = ReporterUtils.isNullOrEmpty(runName) ? this.envVariables.runId : runName;
     testRun.creatorName = this.envVariables.userName;
     testRun.creatorId = this.envVariables.userId!;
     testRun.startTime = ReporterUtils.timestampToRFC3339(this.startTime);
@@ -158,7 +151,7 @@ class ReporterUtils {
     testResult.webTestConfig = {
       jobName: jobName,
       projectName: test.parent.project()!.name,
-      browserType: browserName!.toUpperCase(),
+      browserType: browserName ? browserName.toUpperCase() : "",
       os: this.getOsName(),
     };
     testResult.annotations = this.extractTestAnnotations(test.annotations);

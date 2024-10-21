@@ -1,6 +1,6 @@
 {
   "name": "@azure/keyvault-common",
-  "version": "1.0.1",
+  "version": "2.0.1",
   "description": "Common internal functionality for all of the Azure Key Vault clients in the Azure SDK for JavaScript",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
@@ -59,7 +59,9 @@
     "@azure/core-client": "^1.5.0",
     "@azure/core-rest-pipeline": "^1.8.0",
     "@azure/core-tracing": "^1.0.0",
-    "tslib": "^2.2.0"
+    "@azure/logger": "^1.1.4",
+    "tslib": "^2.2.0",
+    "@azure/core-util": "^1.10.0"
   },
   "devDependencies": {
     "@azure-tools/test-utils-vitest": "^1.0.0",

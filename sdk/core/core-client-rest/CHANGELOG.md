@@ -1,6 +1,22 @@
 # Release History
 
-## 2.3.0 (2024-10-08)
+## 2.3.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 2.3.1 (2024-10-10)
+
+### Bugs Fixed
+
+- Allow `number` path parameters. PR [#31352](https://github.com/Azure/azure-sdk-for-js/pull/31352/files)
+
+## 2.3.0 (2024-10-03)
 
 ### Features Added
 
@@ -10,7 +26,7 @@
 
 ### Other Changes
 
-- Update serialization to not serialize Uint8Array if the content type is "application/json". 
+- Update serialization to not serialize Uint8Array if the content type is "application/json".
 
 ## 2.1.0 (2024-06-27)
 
