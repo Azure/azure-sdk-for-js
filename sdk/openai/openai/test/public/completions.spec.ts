@@ -182,41 +182,6 @@ describe("Completions", function () {
         const chatCompletionDeployments: DeploymentInfo[] = [];
 
         describe("getChatCompletions", function () {
-          it("structured output", async function ({ skip }) {
-            await withDeployments(
-              deployments,
-              (deploymentName) => {
-                const Step = z.object({
-                    explanation: z.string(),
-                    output: z.string(),
-                })
-
-                const MathResponse = z.object({
-                    steps: z.array(Step),
-                    final_answer: z.string(),
-                })
-
-                if (deploymentName !== "gpt-4o-0806") {
-                  skip();
-                }
-                return client.beta.chat.completions.parse({
-                  model: deploymentName,
-                  messages: [
-                    {
-                      role: "system",
-                      content:
-                        "You are a helpful math tutor. Only use the schema for math responses.",
-                    },
-                    { role: "user", content: "solve 8x + 3 = 21" },
-                  ],
-                  response_format: zodResponseFormat(MathResponse, "mathResponse"),
-                });
-              },
-              (result) => {
-                assertParsedChatCompletion<MathResponse>(result, assertMathResponseOutput);
-              },
-            );
-          });
           it("returns completions across all models", async function () {
             updateWithSucceeded(
               await withDeployments(
@@ -426,6 +391,39 @@ describe("Completions", function () {
                 assertChatCompletions,
               ),
               chatCompletionDeployments,
+            );
+          });
+
+          it("structured output", async function () {
+            await withDeployments(
+              deployments,
+              (deploymentName) => {
+                const Step = z.object({
+                  explanation: z.string(),
+                  output: z.string(),
+                });
+
+                const MathResponse = z.object({
+                  steps: z.array(Step),
+                  final_answer: z.string(),
+                });
+
+                return client.beta.chat.completions.parse({
+                  model: deploymentName,
+                  messages: [
+                    {
+                      role: "system",
+                      content:
+                        "You are a helpful math tutor. Only use the schema for math responses.",
+                    },
+                    { role: "user", content: "solve 8x + 3 = 21" },
+                  ],
+                  response_format: zodResponseFormat(MathResponse, "mathResponse"),
+                });
+              },
+              (result) => {
+                assertParsedChatCompletion<MathResponse>(result, assertMathResponseOutput);
+              },
             );
           });
 

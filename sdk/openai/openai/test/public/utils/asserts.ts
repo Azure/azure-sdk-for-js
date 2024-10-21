@@ -41,7 +41,12 @@ import {
 } from "openai/resources/chat/completions.mjs";
 import { Transcription } from "openai/resources/audio/transcriptions.mjs";
 import { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
-import { ParsedChatCompletion, ParsedChatCompletionMessage, ParsedChoice, ParsedFunctionToolCall } from "openai/resources/beta/chat/completions.mjs";
+import {
+  ParsedChatCompletion,
+  ParsedChatCompletionMessage,
+  ParsedChoice,
+  ParsedFunctionToolCall,
+} from "openai/resources/beta/chat/completions.mjs";
 
 export function assertAudioResult(responseFormat: AudioResultFormat, result: Transcription): void {
   switch (responseFormat) {
@@ -83,16 +88,23 @@ function assertVerboseJson(result: AudioResultVerboseJson): void {
   result.segments.forEach((item) => assertSegment(item));
 }
 
-export function assertParsedChatCompletion<ParsedT>(completions: ParsedChatCompletion<ParsedT>,
-  validateParsedResponse: (x: ParsedT) => void, { allowEmptyChoices, ...opts }: ChatCompletionTestOptions = {}): void {
+export function assertParsedChatCompletion<ParsedT>(
+  completions: ParsedChatCompletion<ParsedT>,
+  validateParsedResponse: (x: ParsedT) => void,
+  { allowEmptyChoices, ...opts }: ChatCompletionTestOptions = {},
+): void {
   assertChatCompletions(completions, opts);
   if (!allowEmptyChoices || completions.choices.length > 0) {
-    assertNonEmptyArray(completions.choices, (choice) => assertParsedChoice(choice, validateParsedResponse));
+    assertNonEmptyArray(completions.choices, (choice) =>
+      assertParsedChoice(choice, validateParsedResponse),
+    );
   }
 }
 
-function assertParsedChoice<ParsedT>(choice: ParsedChoice<ParsedT>,
-  validateParsedResponse: (x: ParsedT) => void): void {
+function assertParsedChoice<ParsedT>(
+  choice: ParsedChoice<ParsedT>,
+  validateParsedResponse: (x: ParsedT) => void,
+): void {
   assert.isDefined(choice.message);
   assertParsedMessage<ParsedT>(choice.message, validateParsedResponse);
 }
@@ -103,12 +115,13 @@ function assertParsedMessage<ParsedT>(
 ): void {
   assert.isDefined(message);
   ifDefined(message.parsed, validateParsedResponse);
+  if (message.content && message.parsed) {
+    assert.deepEqual(message.content, JSON.stringify(message.parsed));
+  }
   assertNonEmptyArray(message.tool_calls, assertParsedFunctionToolCall);
 }
 
-function assertParsedFunctionToolCall(
-  parsedFunction: ParsedFunctionToolCall,
-): void {
+function assertParsedFunctionToolCall(parsedFunction: ParsedFunctionToolCall): void {
   assert.isDefined(parsedFunction.function);
 }
 
@@ -268,7 +281,7 @@ function assertContentFilterBlocklistIdResult(val: ContentFilterBlocklistIdResul
 
 function assertChoice(
   choice: ChatCompletion.Choice | ChatCompletionChunk.Choice,
-  {...options}: ChatCompletionTestOptions,
+  { ...options }: ChatCompletionTestOptions,
 ): void {
   const stream = options.stream;
   if (stream) {
@@ -461,7 +474,6 @@ export function assertEmbeddings(
     assert.equal(embeddings.data[0].embedding.length, options.dimensions);
   }
 }
-
 
 function assertMessage(
   message: ChatCompletionMessage | ChatCompletionChunk.Choice.Delta,
