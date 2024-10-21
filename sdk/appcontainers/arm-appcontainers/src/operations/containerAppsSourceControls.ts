@@ -452,7 +452,11 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.containerAppName,
     Parameters.sourceControlName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept,
+    Parameters.xMsGithubAuxiliary,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -468,7 +472,11 @@ const deleteOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.DefaultErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.ignoreWorkflowDeletionFailure,
+    Parameters.deleteWorkflow,
+  ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
@@ -476,7 +484,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.containerAppName,
     Parameters.sourceControlName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.xMsGithubAuxiliary],
   serializer,
 };
 const listByContainerAppNextOperationSpec: coreClient.OperationSpec = {
@@ -494,8 +502,8 @@ const listByContainerAppNextOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.containerAppName,
     Parameters.nextLink,
+    Parameters.containerAppName,
   ],
   headerParameters: [Parameters.accept],
   serializer,
