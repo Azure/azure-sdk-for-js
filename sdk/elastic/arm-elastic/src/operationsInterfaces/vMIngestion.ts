@@ -8,20 +8,20 @@
 
 import {
   VMIngestionDetailsOptionalParams,
-  VMIngestionDetailsOperationResponse
+  VMIngestionDetailsOperationResponse,
 } from "../models";
 
 /** Interface representing a VMIngestion. */
 export interface VMIngestion {
   /**
    * List the vm ingestion details that will be monitored by the Elastic monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   details(
     resourceGroupName: string,
     monitorName: string,
-    options?: VMIngestionDetailsOptionalParams
+    options?: VMIngestionDetailsOptionalParams,
   ): Promise<VMIngestionDetailsOperationResponse>;
 }

@@ -13,24 +13,24 @@ import { MonitorUpgradeOptionalParams } from "../models";
 export interface Monitor {
   /**
    * Upgradable version for a monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   beginUpgrade(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorUpgradeOptionalParams
+    options?: MonitorUpgradeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Upgradable version for a monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   beginUpgradeAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorUpgradeOptionalParams
+    options?: MonitorUpgradeOptionalParams,
   ): Promise<void>;
 }
