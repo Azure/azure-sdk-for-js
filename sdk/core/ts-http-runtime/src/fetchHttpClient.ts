@@ -11,7 +11,7 @@ import {
 } from "./interfaces.js";
 import { RestError } from "./restError.js";
 import { createHttpHeaders } from "./httpHeaders.js";
-import { isNodeReadableStream, isReadableStream, isWebReadableStream } from "./util/typeGuards.js";
+import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
 
 /**
  * Checks if the body is a Blob or Blob-like

@@ -832,7 +832,7 @@ index 7da85d9..5baca04 100644
  
  /**
 diff --git a/src/fetchHttpClient.ts b/src/fetchHttpClient.ts
-index e9751e2..0678236 100644
+index e9751e2..794a398 100644
 --- a/src/fetchHttpClient.ts
 +++ b/src/fetchHttpClient.ts
 @@ -1,8 +1,8 @@
@@ -846,15 +846,6 @@ index e9751e2..0678236 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
    PipelineRequest,
-@@ -11,7 +11,7 @@ import type {
- } from "./interfaces.js";
- import { RestError } from "./restError.js";
- import { createHttpHeaders } from "./httpHeaders.js";
--import { isNodeReadableStream, isWebReadableStream } from "./util/typeGuards.js";
-+import { isNodeReadableStream, isReadableStream, isWebReadableStream } from "./util/typeGuards.js";
- 
- /**
-  * Checks if the body is a Blob or Blob-like
 diff --git a/src/httpHeaders.ts b/src/httpHeaders.ts
 index 9e2914b..0bdb7be 100644
 --- a/src/httpHeaders.ts
