@@ -13868,7 +13868,7 @@ packages:
     dev: false
 
   file:projects/arm-computefleet.tgz:
-    resolution: {integrity: sha512-fTi0yddULfZ4PhmfGeyg2/2mnUX9upFkxvWjc1UVAAFUGvbSZj5yQftNNAPU3ostDMOUnR5OKSQlpiBUN+jvIw==, tarball: file:projects/arm-computefleet.tgz}
+    resolution: {integrity: sha512-iFN9p39KSiOFaG6N2pJrjScINHMEeI2eizSPVMWd6ryeCQGaL4fiWWEG6sghYDFUj2ApTMHWhdnJBQvb6zuHSw==, tarball: file:projects/arm-computefleet.tgz}
     name: '@rush-temp/arm-computefleet'
     version: 0.0.0
     dependencies:
@@ -13877,11 +13877,12 @@ packages:
       '@vitest/browser': 2.1.3(playwright@1.48.0)(typescript@5.6.3)(vitest@2.1.3)
       '@vitest/coverage-istanbul': 2.1.3(vitest@2.1.3)
       dotenv: 16.4.5
-      eslint: 9.12.0
+      eslint: 8.57.1
       mkdirp: 3.0.1
       playwright: 1.48.0
       prettier: 3.3.3
       rimraf: 5.0.10
+      tshy: 1.18.0
       tslib: 2.7.0
       typescript: 5.6.3
       vitest: 2.1.3(@types/node@18.19.55)(@vitest/browser@2.1.3)
@@ -13890,7 +13891,6 @@ packages:
       - '@vitest/ui'
       - bufferutil
       - happy-dom
-      - jiti
       - jsdom
       - less
       - lightningcss

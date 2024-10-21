@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getLongRunningPoller } from "../pollingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   fleetPropertiesSerializer,
   managedServiceIdentitySerializer,
@@ -15,38 +13,20 @@ import {
   _FleetListResult,
   _VirtualMachineScaleSetListResult,
 } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
-import { buildPagedAsyncIterator } from "../pagingHelpers.js";
-import {
-  isUnexpected,
-  AzureFleetContext as Client,
-  FleetsCreateOrUpdate200Response,
-  FleetsCreateOrUpdate201Response,
-  FleetsCreateOrUpdateDefaultResponse,
-  FleetsCreateOrUpdateLogicalResponse,
-  FleetsDelete202Response,
-  FleetsDelete204Response,
-  FleetsDeleteDefaultResponse,
-  FleetsDeleteLogicalResponse,
-  FleetsGet200Response,
-  FleetsGetDefaultResponse,
-  FleetsListByResourceGroup200Response,
-  FleetsListByResourceGroupDefaultResponse,
-  FleetsListBySubscription200Response,
-  FleetsListBySubscriptionDefaultResponse,
-  FleetsListVirtualMachineScaleSets200Response,
-  FleetsListVirtualMachineScaleSetsDefaultResponse,
-  FleetsUpdate200Response,
-  FleetsUpdate202Response,
-  FleetsUpdateDefaultResponse,
-  FleetsUpdateLogicalResponse,
-} from "../../rest/index.js";
+import { AzureFleetContext as Client } from "../index.js";
 import {
   StreamableMethod,
   operationOptionsToRequestParameters,
+  PathUncheckedResponse,
   createRestError,
 } from "@azure-rest/core-client";
 import { serializeRecord } from "../../helpers/serializerHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   FleetsGetOptionalParams,
   FleetsCreateOrUpdateOptionalParams,
@@ -63,7 +43,7 @@ export function _fleetsGetSend(
   resourceGroupName: string,
   fleetName: string,
   options: FleetsGetOptionalParams = { requestOptions: {} },
-): StreamableMethod<FleetsGet200Response | FleetsGetDefaultResponse> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}",
@@ -74,10 +54,9 @@ export function _fleetsGetSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _fleetsGetDeserialize(
-  result: FleetsGet200Response | FleetsGetDefaultResponse,
-): Promise<Fleet> {
-  if (isUnexpected(result)) {
+export async function _fleetsGetDeserialize(result: PathUncheckedResponse): Promise<Fleet> {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
@@ -126,9 +105,924 @@ export async function _fleetsGetDeserialize(
                 allocationStrategy:
                   result.body.properties?.regularPriorityProfile?.["allocationStrategy"],
               },
-          vmSizesProfile: result.body.properties?.["vmSizesProfile"].map((p) => {
+          vmSizesProfile: result.body.properties?.["vmSizesProfile"].map((p: any) => {
             return { name: p["name"], rank: p["rank"] };
           }),
+          vmAttributes: !result.body.properties?.vmAttributes
+            ? undefined
+            : {
+                vCpuCount: {
+                  min: result.body.properties?.vmAttributes?.vCpuCount["min"],
+                  max: result.body.properties?.vmAttributes?.vCpuCount["max"],
+                },
+                memoryInGiB: {
+                  min: result.body.properties?.vmAttributes?.memoryInGiB["min"],
+                  max: result.body.properties?.vmAttributes?.memoryInGiB["max"],
+                },
+                memoryInGiBPerVCpu: !result.body.properties?.vmAttributes?.memoryInGiBPerVCpu
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.memoryInGiBPerVCpu?.["min"],
+                      max: result.body.properties?.vmAttributes?.memoryInGiBPerVCpu?.["max"],
+                    },
+                localStorageSupport: result.body.properties?.vmAttributes?.["localStorageSupport"],
+                localStorageInGiB: !result.body.properties?.vmAttributes?.localStorageInGiB
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.localStorageInGiB?.["min"],
+                      max: result.body.properties?.vmAttributes?.localStorageInGiB?.["max"],
+                    },
+                localStorageDiskTypes:
+                  result.body.properties?.vmAttributes?.["localStorageDiskTypes"],
+                dataDiskCount: !result.body.properties?.vmAttributes?.dataDiskCount
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.dataDiskCount?.["min"],
+                      max: result.body.properties?.vmAttributes?.dataDiskCount?.["max"],
+                    },
+                networkInterfaceCount: !result.body.properties?.vmAttributes?.networkInterfaceCount
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.networkInterfaceCount?.["min"],
+                      max: result.body.properties?.vmAttributes?.networkInterfaceCount?.["max"],
+                    },
+                networkBandwidthInMbps: !result.body.properties?.vmAttributes
+                  ?.networkBandwidthInMbps
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.networkBandwidthInMbps?.["min"],
+                      max: result.body.properties?.vmAttributes?.networkBandwidthInMbps?.["max"],
+                    },
+                rdmaSupport: result.body.properties?.vmAttributes?.["rdmaSupport"],
+                rdmaNetworkInterfaceCount: !result.body.properties?.vmAttributes
+                  ?.rdmaNetworkInterfaceCount
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.rdmaNetworkInterfaceCount?.["min"],
+                      max: result.body.properties?.vmAttributes?.rdmaNetworkInterfaceCount?.["max"],
+                    },
+                acceleratorSupport: result.body.properties?.vmAttributes?.["acceleratorSupport"],
+                acceleratorManufacturers:
+                  result.body.properties?.vmAttributes?.["acceleratorManufacturers"],
+                acceleratorTypes: result.body.properties?.vmAttributes?.["acceleratorTypes"],
+                acceleratorCount: !result.body.properties?.vmAttributes?.acceleratorCount
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.acceleratorCount?.["min"],
+                      max: result.body.properties?.vmAttributes?.acceleratorCount?.["max"],
+                    },
+                vmCategories: result.body.properties?.vmAttributes?.["vmCategories"],
+                architectureTypes: result.body.properties?.vmAttributes?.["architectureTypes"],
+                cpuManufacturers: result.body.properties?.vmAttributes?.["cpuManufacturers"],
+                burstableSupport: result.body.properties?.vmAttributes?.["burstableSupport"],
+                excludedVMSizes: result.body.properties?.vmAttributes?.["excludedVMSizes"],
+              },
+          additionalLocationsProfile: !result.body.properties?.additionalLocationsProfile
+            ? undefined
+            : {
+                locationProfiles: result.body.properties?.additionalLocationsProfile?.[
+                  "locationProfiles"
+                ].map((p: any) => {
+                  return {
+                    location: p["location"],
+                    virtualMachineProfileOverride: !p.virtualMachineProfileOverride
+                      ? undefined
+                      : {
+                          osProfile: !p.virtualMachineProfileOverride?.osProfile
+                            ? undefined
+                            : {
+                                computerNamePrefix:
+                                  p.virtualMachineProfileOverride?.osProfile?.[
+                                    "computerNamePrefix"
+                                  ],
+                                adminUsername:
+                                  p.virtualMachineProfileOverride?.osProfile?.["adminUsername"],
+                                adminPassword:
+                                  p.virtualMachineProfileOverride?.osProfile?.["adminPassword"],
+                                customData:
+                                  p.virtualMachineProfileOverride?.osProfile?.["customData"],
+                                windowsConfiguration: !p.virtualMachineProfileOverride?.osProfile
+                                  ?.windowsConfiguration
+                                  ? undefined
+                                  : {
+                                      provisionVMAgent:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.windowsConfiguration?.["provisionVMAgent"],
+                                      enableAutomaticUpdates:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.windowsConfiguration?.["enableAutomaticUpdates"],
+                                      timeZone:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.windowsConfiguration?.["timeZone"],
+                                      additionalUnattendContent:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.windowsConfiguration?.["additionalUnattendContent"] ===
+                                        undefined
+                                          ? p.virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.["additionalUnattendContent"]
+                                          : p.virtualMachineProfileOverride?.osProfile?.windowsConfiguration?.[
+                                              "additionalUnattendContent"
+                                            ].map((p: any) => {
+                                              return {
+                                                passName: p["passName"],
+                                                componentName: p["componentName"],
+                                                settingName: p["settingName"],
+                                                content: p["content"],
+                                              };
+                                            }),
+                                      patchSettings: !p.virtualMachineProfileOverride?.osProfile
+                                        ?.windowsConfiguration?.patchSettings
+                                        ? undefined
+                                        : {
+                                            patchMode:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.windowsConfiguration?.patchSettings?.[
+                                                "patchMode"
+                                              ],
+                                            enableHotpatching:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.windowsConfiguration?.patchSettings?.[
+                                                "enableHotpatching"
+                                              ],
+                                            assessmentMode:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.windowsConfiguration?.patchSettings?.[
+                                                "assessmentMode"
+                                              ],
+                                            automaticByPlatformSettings: !p
+                                              .virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.patchSettings
+                                              ?.automaticByPlatformSettings
+                                              ? undefined
+                                              : {
+                                                  rebootSetting:
+                                                    p.virtualMachineProfileOverride?.osProfile
+                                                      ?.windowsConfiguration?.patchSettings
+                                                      ?.automaticByPlatformSettings?.[
+                                                      "rebootSetting"
+                                                    ],
+                                                  bypassPlatformSafetyChecksOnUserSchedule:
+                                                    p.virtualMachineProfileOverride?.osProfile
+                                                      ?.windowsConfiguration?.patchSettings
+                                                      ?.automaticByPlatformSettings?.[
+                                                      "bypassPlatformSafetyChecksOnUserSchedule"
+                                                    ],
+                                                },
+                                          },
+                                      winRM: !p.virtualMachineProfileOverride?.osProfile
+                                        ?.windowsConfiguration?.winRM
+                                        ? undefined
+                                        : {
+                                            listeners:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.windowsConfiguration?.winRM?.["listeners"] ===
+                                              undefined
+                                                ? p.virtualMachineProfileOverride?.osProfile
+                                                    ?.windowsConfiguration?.winRM?.["listeners"]
+                                                : p.virtualMachineProfileOverride?.osProfile?.windowsConfiguration?.winRM?.[
+                                                    "listeners"
+                                                  ].map((p: any) => {
+                                                    return {
+                                                      protocol: p["protocol"],
+                                                      certificateUrl: p["certificateUrl"],
+                                                    };
+                                                  }),
+                                          },
+                                      enableVMAgentPlatformUpdates:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.windowsConfiguration?.["enableVMAgentPlatformUpdates"],
+                                    },
+                                linuxConfiguration: !p.virtualMachineProfileOverride?.osProfile
+                                  ?.linuxConfiguration
+                                  ? undefined
+                                  : {
+                                      disablePasswordAuthentication:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.linuxConfiguration?.["disablePasswordAuthentication"],
+                                      ssh: !p.virtualMachineProfileOverride?.osProfile
+                                        ?.linuxConfiguration?.ssh
+                                        ? undefined
+                                        : {
+                                            publicKeys:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.linuxConfiguration?.ssh?.["publicKeys"] ===
+                                              undefined
+                                                ? p.virtualMachineProfileOverride?.osProfile
+                                                    ?.linuxConfiguration?.ssh?.["publicKeys"]
+                                                : p.virtualMachineProfileOverride?.osProfile?.linuxConfiguration?.ssh?.[
+                                                    "publicKeys"
+                                                  ].map((p: any) => {
+                                                    return {
+                                                      path: p["path"],
+                                                      keyData: p["keyData"],
+                                                    };
+                                                  }),
+                                          },
+                                      provisionVMAgent:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.linuxConfiguration?.["provisionVMAgent"],
+                                      patchSettings: !p.virtualMachineProfileOverride?.osProfile
+                                        ?.linuxConfiguration?.patchSettings
+                                        ? undefined
+                                        : {
+                                            patchMode:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.linuxConfiguration?.patchSettings?.["patchMode"],
+                                            assessmentMode:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.linuxConfiguration?.patchSettings?.[
+                                                "assessmentMode"
+                                              ],
+                                            automaticByPlatformSettings: !p
+                                              .virtualMachineProfileOverride?.osProfile
+                                              ?.linuxConfiguration?.patchSettings
+                                              ?.automaticByPlatformSettings
+                                              ? undefined
+                                              : {
+                                                  rebootSetting:
+                                                    p.virtualMachineProfileOverride?.osProfile
+                                                      ?.linuxConfiguration?.patchSettings
+                                                      ?.automaticByPlatformSettings?.[
+                                                      "rebootSetting"
+                                                    ],
+                                                  bypassPlatformSafetyChecksOnUserSchedule:
+                                                    p.virtualMachineProfileOverride?.osProfile
+                                                      ?.linuxConfiguration?.patchSettings
+                                                      ?.automaticByPlatformSettings?.[
+                                                      "bypassPlatformSafetyChecksOnUserSchedule"
+                                                    ],
+                                                },
+                                          },
+                                      enableVMAgentPlatformUpdates:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.linuxConfiguration?.["enableVMAgentPlatformUpdates"],
+                                    },
+                                secrets:
+                                  p.virtualMachineProfileOverride?.osProfile?.["secrets"] ===
+                                  undefined
+                                    ? p.virtualMachineProfileOverride?.osProfile?.["secrets"]
+                                    : p.virtualMachineProfileOverride?.osProfile?.["secrets"].map(
+                                        (p: any) => {
+                                          return {
+                                            sourceVault: !p.sourceVault
+                                              ? undefined
+                                              : { id: p.sourceVault?.["id"] },
+                                            vaultCertificates:
+                                              p["vaultCertificates"] === undefined
+                                                ? p["vaultCertificates"]
+                                                : p["vaultCertificates"].map((p: any) => {
+                                                    return {
+                                                      certificateUrl: p["certificateUrl"],
+                                                      certificateStore: p["certificateStore"],
+                                                    };
+                                                  }),
+                                          };
+                                        },
+                                      ),
+                                allowExtensionOperations:
+                                  p.virtualMachineProfileOverride?.osProfile?.[
+                                    "allowExtensionOperations"
+                                  ],
+                                requireGuestProvisionSignal:
+                                  p.virtualMachineProfileOverride?.osProfile?.[
+                                    "requireGuestProvisionSignal"
+                                  ],
+                              },
+                          storageProfile: !p.virtualMachineProfileOverride?.storageProfile
+                            ? undefined
+                            : {
+                                imageReference: !p.virtualMachineProfileOverride?.storageProfile
+                                  ?.imageReference
+                                  ? undefined
+                                  : {
+                                      id: p.virtualMachineProfileOverride?.storageProfile
+                                        ?.imageReference?.["id"],
+                                      publisher:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["publisher"],
+                                      offer:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["offer"],
+                                      sku: p.virtualMachineProfileOverride?.storageProfile
+                                        ?.imageReference?.["sku"],
+                                      version:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["version"],
+                                      exactVersion:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["exactVersion"],
+                                      sharedGalleryImageId:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["sharedGalleryImageId"],
+                                      communityGalleryImageId:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["communityGalleryImageId"],
+                                    },
+                                osDisk: !p.virtualMachineProfileOverride?.storageProfile?.osDisk
+                                  ? undefined
+                                  : {
+                                      name: p.virtualMachineProfileOverride?.storageProfile
+                                        ?.osDisk?.["name"],
+                                      caching:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "caching"
+                                        ],
+                                      writeAcceleratorEnabled:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "writeAcceleratorEnabled"
+                                        ],
+                                      createOption:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "createOption"
+                                        ],
+                                      diffDiskSettings: !p.virtualMachineProfileOverride
+                                        ?.storageProfile?.osDisk?.diffDiskSettings
+                                        ? undefined
+                                        : {
+                                            option:
+                                              p.virtualMachineProfileOverride?.storageProfile
+                                                ?.osDisk?.diffDiskSettings?.["option"],
+                                            placement:
+                                              p.virtualMachineProfileOverride?.storageProfile
+                                                ?.osDisk?.diffDiskSettings?.["placement"],
+                                          },
+                                      diskSizeGB:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "diskSizeGB"
+                                        ],
+                                      osType:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "osType"
+                                        ],
+                                      image: !p.virtualMachineProfileOverride?.storageProfile
+                                        ?.osDisk?.image
+                                        ? undefined
+                                        : {
+                                            uri: p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.image?.["uri"],
+                                          },
+                                      vhdContainers:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "vhdContainers"
+                                        ],
+                                      managedDisk: !p.virtualMachineProfileOverride?.storageProfile
+                                        ?.osDisk?.managedDisk
+                                        ? undefined
+                                        : {
+                                            storageAccountType:
+                                              p.virtualMachineProfileOverride?.storageProfile
+                                                ?.osDisk?.managedDisk?.["storageAccountType"],
+                                            diskEncryptionSet: !p.virtualMachineProfileOverride
+                                              ?.storageProfile?.osDisk?.managedDisk
+                                              ?.diskEncryptionSet
+                                              ? undefined
+                                              : {
+                                                  id: p.virtualMachineProfileOverride
+                                                    ?.storageProfile?.osDisk?.managedDisk
+                                                    ?.diskEncryptionSet?.["id"],
+                                                },
+                                            securityProfile: !p.virtualMachineProfileOverride
+                                              ?.storageProfile?.osDisk?.managedDisk?.securityProfile
+                                              ? undefined
+                                              : {
+                                                  securityEncryptionType:
+                                                    p.virtualMachineProfileOverride?.storageProfile
+                                                      ?.osDisk?.managedDisk?.securityProfile?.[
+                                                      "securityEncryptionType"
+                                                    ],
+                                                  diskEncryptionSet: !p
+                                                    .virtualMachineProfileOverride?.storageProfile
+                                                    ?.osDisk?.managedDisk?.securityProfile
+                                                    ?.diskEncryptionSet
+                                                    ? undefined
+                                                    : {
+                                                        id: p.virtualMachineProfileOverride
+                                                          ?.storageProfile?.osDisk?.managedDisk
+                                                          ?.securityProfile?.diskEncryptionSet?.[
+                                                          "id"
+                                                        ],
+                                                      },
+                                                },
+                                          },
+                                      deleteOption:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "deleteOption"
+                                        ],
+                                    },
+                                dataDisks:
+                                  p.virtualMachineProfileOverride?.storageProfile?.["dataDisks"] ===
+                                  undefined
+                                    ? p.virtualMachineProfileOverride?.storageProfile?.["dataDisks"]
+                                    : p.virtualMachineProfileOverride?.storageProfile?.[
+                                        "dataDisks"
+                                      ].map((p: any) => {
+                                        return {
+                                          name: p["name"],
+                                          lun: p["lun"],
+                                          caching: p["caching"],
+                                          writeAcceleratorEnabled: p["writeAcceleratorEnabled"],
+                                          createOption: p["createOption"],
+                                          diskSizeGB: p["diskSizeGB"],
+                                          managedDisk: !p.managedDisk
+                                            ? undefined
+                                            : {
+                                                storageAccountType:
+                                                  p.managedDisk?.["storageAccountType"],
+                                                diskEncryptionSet: !p.managedDisk?.diskEncryptionSet
+                                                  ? undefined
+                                                  : {
+                                                      id: p.managedDisk?.diskEncryptionSet?.["id"],
+                                                    },
+                                                securityProfile: !p.managedDisk?.securityProfile
+                                                  ? undefined
+                                                  : {
+                                                      securityEncryptionType:
+                                                        p.managedDisk?.securityProfile?.[
+                                                          "securityEncryptionType"
+                                                        ],
+                                                      diskEncryptionSet: !p.managedDisk
+                                                        ?.securityProfile?.diskEncryptionSet
+                                                        ? undefined
+                                                        : {
+                                                            id: p.managedDisk?.securityProfile
+                                                              ?.diskEncryptionSet?.["id"],
+                                                          },
+                                                    },
+                                              },
+                                          diskIOPSReadWrite: p["diskIOPSReadWrite"],
+                                          diskMBpsReadWrite: p["diskMBpsReadWrite"],
+                                          deleteOption: p["deleteOption"],
+                                        };
+                                      }),
+                                diskControllerType:
+                                  p.virtualMachineProfileOverride?.storageProfile?.[
+                                    "diskControllerType"
+                                  ],
+                              },
+                          networkProfile: !p.virtualMachineProfileOverride?.networkProfile
+                            ? undefined
+                            : {
+                                healthProbe: !p.virtualMachineProfileOverride?.networkProfile
+                                  ?.healthProbe
+                                  ? undefined
+                                  : {
+                                      id: p.virtualMachineProfileOverride?.networkProfile
+                                        ?.healthProbe?.["id"],
+                                    },
+                                networkInterfaceConfigurations:
+                                  p.virtualMachineProfileOverride?.networkProfile?.[
+                                    "networkInterfaceConfigurations"
+                                  ] === undefined
+                                    ? p.virtualMachineProfileOverride?.networkProfile?.[
+                                        "networkInterfaceConfigurations"
+                                      ]
+                                    : p.virtualMachineProfileOverride?.networkProfile?.[
+                                        "networkInterfaceConfigurations"
+                                      ].map((p: any) => {
+                                        return {
+                                          name: p["name"],
+                                          properties: !p.properties
+                                            ? undefined
+                                            : {
+                                                primary: p.properties?.["primary"],
+                                                enableAcceleratedNetworking:
+                                                  p.properties?.["enableAcceleratedNetworking"],
+                                                disableTcpStateTracking:
+                                                  p.properties?.["disableTcpStateTracking"],
+                                                enableFpga: p.properties?.["enableFpga"],
+                                                networkSecurityGroup: !p.properties
+                                                  ?.networkSecurityGroup
+                                                  ? undefined
+                                                  : {
+                                                      id: p.properties?.networkSecurityGroup?.[
+                                                        "id"
+                                                      ],
+                                                    },
+                                                dnsSettings: !p.properties?.dnsSettings
+                                                  ? undefined
+                                                  : {
+                                                      dnsServers:
+                                                        p.properties?.dnsSettings?.["dnsServers"],
+                                                    },
+                                                ipConfigurations: p.properties?.[
+                                                  "ipConfigurations"
+                                                ].map((p: any) => {
+                                                  return {
+                                                    name: p["name"],
+                                                    properties: !p.properties
+                                                      ? undefined
+                                                      : {
+                                                          subnet: !p.properties?.subnet
+                                                            ? undefined
+                                                            : {
+                                                                id: p.properties?.subnet?.["id"],
+                                                              },
+                                                          primary: p.properties?.["primary"],
+                                                          publicIPAddressConfiguration: !p
+                                                            .properties
+                                                            ?.publicIPAddressConfiguration
+                                                            ? undefined
+                                                            : {
+                                                                name: p.properties
+                                                                  ?.publicIPAddressConfiguration?.[
+                                                                  "name"
+                                                                ],
+                                                                properties: !p.properties
+                                                                  ?.publicIPAddressConfiguration
+                                                                  ?.properties
+                                                                  ? undefined
+                                                                  : {
+                                                                      idleTimeoutInMinutes:
+                                                                        p.properties
+                                                                          ?.publicIPAddressConfiguration
+                                                                          ?.properties?.[
+                                                                          "idleTimeoutInMinutes"
+                                                                        ],
+                                                                      dnsSettings: !p.properties
+                                                                        ?.publicIPAddressConfiguration
+                                                                        ?.properties?.dnsSettings
+                                                                        ? undefined
+                                                                        : {
+                                                                            domainNameLabel:
+                                                                              p.properties
+                                                                                ?.publicIPAddressConfiguration
+                                                                                ?.properties
+                                                                                ?.dnsSettings?.[
+                                                                                "domainNameLabel"
+                                                                              ],
+                                                                            domainNameLabelScope:
+                                                                              p.properties
+                                                                                ?.publicIPAddressConfiguration
+                                                                                ?.properties
+                                                                                ?.dnsSettings?.[
+                                                                                "domainNameLabelScope"
+                                                                              ],
+                                                                          },
+                                                                      ipTags:
+                                                                        p.properties
+                                                                          ?.publicIPAddressConfiguration
+                                                                          ?.properties?.[
+                                                                          "ipTags"
+                                                                        ] === undefined
+                                                                          ? p.properties
+                                                                              ?.publicIPAddressConfiguration
+                                                                              ?.properties?.[
+                                                                              "ipTags"
+                                                                            ]
+                                                                          : p.properties?.publicIPAddressConfiguration?.properties?.[
+                                                                              "ipTags"
+                                                                            ].map((p: any) => {
+                                                                              return {
+                                                                                ipTagType:
+                                                                                  p["ipTagType"],
+                                                                                tag: p["tag"],
+                                                                              };
+                                                                            }),
+                                                                      publicIPPrefix: !p.properties
+                                                                        ?.publicIPAddressConfiguration
+                                                                        ?.properties?.publicIPPrefix
+                                                                        ? undefined
+                                                                        : {
+                                                                            id: p.properties
+                                                                              ?.publicIPAddressConfiguration
+                                                                              ?.properties
+                                                                              ?.publicIPPrefix?.[
+                                                                              "id"
+                                                                            ],
+                                                                          },
+                                                                      publicIPAddressVersion:
+                                                                        p.properties
+                                                                          ?.publicIPAddressConfiguration
+                                                                          ?.properties?.[
+                                                                          "publicIPAddressVersion"
+                                                                        ],
+                                                                      deleteOption:
+                                                                        p.properties
+                                                                          ?.publicIPAddressConfiguration
+                                                                          ?.properties?.[
+                                                                          "deleteOption"
+                                                                        ],
+                                                                    },
+                                                                sku: !p.properties
+                                                                  ?.publicIPAddressConfiguration
+                                                                  ?.sku
+                                                                  ? undefined
+                                                                  : {
+                                                                      name: p.properties
+                                                                        ?.publicIPAddressConfiguration
+                                                                        ?.sku?.["name"],
+                                                                      tier: p.properties
+                                                                        ?.publicIPAddressConfiguration
+                                                                        ?.sku?.["tier"],
+                                                                    },
+                                                              },
+                                                          privateIPAddressVersion:
+                                                            p.properties?.[
+                                                              "privateIPAddressVersion"
+                                                            ],
+                                                          applicationGatewayBackendAddressPools:
+                                                            p.properties?.[
+                                                              "applicationGatewayBackendAddressPools"
+                                                            ] === undefined
+                                                              ? p.properties?.[
+                                                                  "applicationGatewayBackendAddressPools"
+                                                                ]
+                                                              : p.properties?.[
+                                                                  "applicationGatewayBackendAddressPools"
+                                                                ].map((p: any) => {
+                                                                  return {
+                                                                    id: p["id"],
+                                                                  };
+                                                                }),
+                                                          applicationSecurityGroups:
+                                                            p.properties?.[
+                                                              "applicationSecurityGroups"
+                                                            ] === undefined
+                                                              ? p.properties?.[
+                                                                  "applicationSecurityGroups"
+                                                                ]
+                                                              : p.properties?.[
+                                                                  "applicationSecurityGroups"
+                                                                ].map((p: any) => {
+                                                                  return {
+                                                                    id: p["id"],
+                                                                  };
+                                                                }),
+                                                          loadBalancerBackendAddressPools:
+                                                            p.properties?.[
+                                                              "loadBalancerBackendAddressPools"
+                                                            ] === undefined
+                                                              ? p.properties?.[
+                                                                  "loadBalancerBackendAddressPools"
+                                                                ]
+                                                              : p.properties?.[
+                                                                  "loadBalancerBackendAddressPools"
+                                                                ].map((p: any) => {
+                                                                  return {
+                                                                    id: p["id"],
+                                                                  };
+                                                                }),
+                                                          loadBalancerInboundNatPools:
+                                                            p.properties?.[
+                                                              "loadBalancerInboundNatPools"
+                                                            ] === undefined
+                                                              ? p.properties?.[
+                                                                  "loadBalancerInboundNatPools"
+                                                                ]
+                                                              : p.properties?.[
+                                                                  "loadBalancerInboundNatPools"
+                                                                ].map((p: any) => {
+                                                                  return {
+                                                                    id: p["id"],
+                                                                  };
+                                                                }),
+                                                        },
+                                                  };
+                                                }),
+                                                enableIPForwarding:
+                                                  p.properties?.["enableIPForwarding"],
+                                                deleteOption: p.properties?.["deleteOption"],
+                                                auxiliaryMode: p.properties?.["auxiliaryMode"],
+                                                auxiliarySku: p.properties?.["auxiliarySku"],
+                                              },
+                                        };
+                                      }),
+                                networkApiVersion:
+                                  p.virtualMachineProfileOverride?.networkProfile?.[
+                                    "networkApiVersion"
+                                  ],
+                              },
+                          securityProfile: !p.virtualMachineProfileOverride?.securityProfile
+                            ? undefined
+                            : {
+                                uefiSettings: !p.virtualMachineProfileOverride?.securityProfile
+                                  ?.uefiSettings
+                                  ? undefined
+                                  : {
+                                      secureBootEnabled:
+                                        p.virtualMachineProfileOverride?.securityProfile
+                                          ?.uefiSettings?.["secureBootEnabled"],
+                                      vTpmEnabled:
+                                        p.virtualMachineProfileOverride?.securityProfile
+                                          ?.uefiSettings?.["vTpmEnabled"],
+                                    },
+                                encryptionAtHost:
+                                  p.virtualMachineProfileOverride?.securityProfile?.[
+                                    "encryptionAtHost"
+                                  ],
+                                securityType:
+                                  p.virtualMachineProfileOverride?.securityProfile?.[
+                                    "securityType"
+                                  ],
+                                encryptionIdentity: !p.virtualMachineProfileOverride
+                                  ?.securityProfile?.encryptionIdentity
+                                  ? undefined
+                                  : {
+                                      userAssignedIdentityResourceId:
+                                        p.virtualMachineProfileOverride?.securityProfile
+                                          ?.encryptionIdentity?.["userAssignedIdentityResourceId"],
+                                    },
+                                proxyAgentSettings: !p.virtualMachineProfileOverride
+                                  ?.securityProfile?.proxyAgentSettings
+                                  ? undefined
+                                  : {
+                                      enabled:
+                                        p.virtualMachineProfileOverride?.securityProfile
+                                          ?.proxyAgentSettings?.["enabled"],
+                                      mode: p.virtualMachineProfileOverride?.securityProfile
+                                        ?.proxyAgentSettings?.["mode"],
+                                      keyIncarnationId:
+                                        p.virtualMachineProfileOverride?.securityProfile
+                                          ?.proxyAgentSettings?.["keyIncarnationId"],
+                                    },
+                              },
+                          diagnosticsProfile: !p.virtualMachineProfileOverride?.diagnosticsProfile
+                            ? undefined
+                            : {
+                                bootDiagnostics: !p.virtualMachineProfileOverride
+                                  ?.diagnosticsProfile?.bootDiagnostics
+                                  ? undefined
+                                  : {
+                                      enabled:
+                                        p.virtualMachineProfileOverride?.diagnosticsProfile
+                                          ?.bootDiagnostics?.["enabled"],
+                                      storageUri:
+                                        p.virtualMachineProfileOverride?.diagnosticsProfile
+                                          ?.bootDiagnostics?.["storageUri"],
+                                    },
+                              },
+                          extensionProfile: !p.virtualMachineProfileOverride?.extensionProfile
+                            ? undefined
+                            : {
+                                extensions:
+                                  p.virtualMachineProfileOverride?.extensionProfile?.[
+                                    "extensions"
+                                  ] === undefined
+                                    ? p.virtualMachineProfileOverride?.extensionProfile?.[
+                                        "extensions"
+                                      ]
+                                    : p.virtualMachineProfileOverride?.extensionProfile?.[
+                                        "extensions"
+                                      ].map((p: any) => {
+                                        return {
+                                          id: p["id"],
+                                          name: p["name"],
+                                          type: p["type"],
+                                          properties: !p.properties
+                                            ? undefined
+                                            : {
+                                                forceUpdateTag: p.properties?.["forceUpdateTag"],
+                                                publisher: p.properties?.["publisher"],
+                                                type: p.properties?.["type"],
+                                                typeHandlerVersion:
+                                                  p.properties?.["typeHandlerVersion"],
+                                                autoUpgradeMinorVersion:
+                                                  p.properties?.["autoUpgradeMinorVersion"],
+                                                enableAutomaticUpgrade:
+                                                  p.properties?.["enableAutomaticUpgrade"],
+                                                settings: p.properties?.["settings"],
+                                                protectedSettings:
+                                                  p.properties?.["protectedSettings"],
+                                                provisioningState:
+                                                  p.properties?.["provisioningState"],
+                                                provisionAfterExtensions:
+                                                  p.properties?.["provisionAfterExtensions"],
+                                                suppressFailures:
+                                                  p.properties?.["suppressFailures"],
+                                                protectedSettingsFromKeyVault: !p.properties
+                                                  ?.protectedSettingsFromKeyVault
+                                                  ? undefined
+                                                  : {
+                                                      secretUrl:
+                                                        p.properties
+                                                          ?.protectedSettingsFromKeyVault?.[
+                                                          "secretUrl"
+                                                        ],
+                                                      sourceVault: {
+                                                        id: p.properties
+                                                          ?.protectedSettingsFromKeyVault
+                                                          ?.sourceVault["id"],
+                                                      },
+                                                    },
+                                              },
+                                        };
+                                      }),
+                                extensionsTimeBudget:
+                                  p.virtualMachineProfileOverride?.extensionProfile?.[
+                                    "extensionsTimeBudget"
+                                  ],
+                              },
+                          licenseType: p.virtualMachineProfileOverride?.["licenseType"],
+                          scheduledEventsProfile: !p.virtualMachineProfileOverride
+                            ?.scheduledEventsProfile
+                            ? undefined
+                            : {
+                                terminateNotificationProfile: !p.virtualMachineProfileOverride
+                                  ?.scheduledEventsProfile?.terminateNotificationProfile
+                                  ? undefined
+                                  : {
+                                      notBeforeTimeout:
+                                        p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                          ?.terminateNotificationProfile?.["notBeforeTimeout"],
+                                      enable:
+                                        p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                          ?.terminateNotificationProfile?.["enable"],
+                                    },
+                                osImageNotificationProfile: !p.virtualMachineProfileOverride
+                                  ?.scheduledEventsProfile?.osImageNotificationProfile
+                                  ? undefined
+                                  : {
+                                      notBeforeTimeout:
+                                        p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                          ?.osImageNotificationProfile?.["notBeforeTimeout"],
+                                      enable:
+                                        p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                          ?.osImageNotificationProfile?.["enable"],
+                                    },
+                              },
+                          userData: p.virtualMachineProfileOverride?.["userData"],
+                          capacityReservation: !p.virtualMachineProfileOverride?.capacityReservation
+                            ? undefined
+                            : {
+                                capacityReservationGroup: !p.virtualMachineProfileOverride
+                                  ?.capacityReservation?.capacityReservationGroup
+                                  ? undefined
+                                  : {
+                                      id: p.virtualMachineProfileOverride?.capacityReservation
+                                        ?.capacityReservationGroup?.["id"],
+                                    },
+                              },
+                          applicationProfile: !p.virtualMachineProfileOverride?.applicationProfile
+                            ? undefined
+                            : {
+                                galleryApplications:
+                                  p.virtualMachineProfileOverride?.applicationProfile?.[
+                                    "galleryApplications"
+                                  ] === undefined
+                                    ? p.virtualMachineProfileOverride?.applicationProfile?.[
+                                        "galleryApplications"
+                                      ]
+                                    : p.virtualMachineProfileOverride?.applicationProfile?.[
+                                        "galleryApplications"
+                                      ].map((p: any) => {
+                                        return {
+                                          tags: p["tags"],
+                                          order: p["order"],
+                                          packageReferenceId: p["packageReferenceId"],
+                                          configurationReference: p["configurationReference"],
+                                          treatFailureAsDeploymentFailure:
+                                            p["treatFailureAsDeploymentFailure"],
+                                          enableAutomaticUpgrade: p["enableAutomaticUpgrade"],
+                                        };
+                                      }),
+                              },
+                          hardwareProfile: !p.virtualMachineProfileOverride?.hardwareProfile
+                            ? undefined
+                            : {
+                                vmSizeProperties: !p.virtualMachineProfileOverride?.hardwareProfile
+                                  ?.vmSizeProperties
+                                  ? undefined
+                                  : {
+                                      vCPUsAvailable:
+                                        p.virtualMachineProfileOverride?.hardwareProfile
+                                          ?.vmSizeProperties?.["vCPUsAvailable"],
+                                      vCPUsPerCore:
+                                        p.virtualMachineProfileOverride?.hardwareProfile
+                                          ?.vmSizeProperties?.["vCPUsPerCore"],
+                                    },
+                              },
+                          serviceArtifactReference: !p.virtualMachineProfileOverride
+                            ?.serviceArtifactReference
+                            ? undefined
+                            : {
+                                id: p.virtualMachineProfileOverride?.serviceArtifactReference?.[
+                                  "id"
+                                ],
+                              },
+                          securityPostureReference: !p.virtualMachineProfileOverride
+                            ?.securityPostureReference
+                            ? undefined
+                            : {
+                                id: p.virtualMachineProfileOverride?.securityPostureReference?.[
+                                  "id"
+                                ],
+                                excludeExtensions:
+                                  p.virtualMachineProfileOverride?.securityPostureReference?.[
+                                    "excludeExtensions"
+                                  ],
+                                isOverridable:
+                                  p.virtualMachineProfileOverride?.securityPostureReference?.[
+                                    "isOverridable"
+                                  ],
+                              },
+                          timeCreated:
+                            p.virtualMachineProfileOverride?.["timeCreated"] !== undefined
+                              ? new Date(p.virtualMachineProfileOverride?.["timeCreated"])
+                              : undefined,
+                        },
+                  };
+                }),
+              },
           computeProfile: {
             baseVirtualMachineProfile: {
               osProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
@@ -171,7 +1065,7 @@ export async function _fleetsGetDeserialize(
                                   .osProfile?.windowsConfiguration?.["additionalUnattendContent"]
                               : result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.windowsConfiguration?.[
                                   "additionalUnattendContent"
-                                ].map((p) => {
+                                ].map((p: any) => {
                                   return {
                                     passName: p["passName"],
                                     componentName: p["componentName"],
@@ -229,7 +1123,7 @@ export async function _fleetsGetDeserialize(
                                         ?.winRM?.["listeners"]
                                     : result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.windowsConfiguration?.winRM?.[
                                         "listeners"
-                                      ].map((p) => {
+                                      ].map((p: any) => {
                                         return {
                                           protocol: p["protocol"],
                                           certificateUrl: p["certificateUrl"],
@@ -260,7 +1154,7 @@ export async function _fleetsGetDeserialize(
                                         ?.ssh?.["publicKeys"]
                                     : result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.linuxConfiguration?.ssh?.[
                                         "publicKeys"
-                                      ].map((p) => {
+                                      ].map((p: any) => {
                                         return {
                                           path: p["path"],
                                           keyData: p["keyData"],
@@ -313,7 +1207,7 @@ export async function _fleetsGetDeserialize(
                             .osProfile?.["secrets"]
                         : result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                             "secrets"
-                          ].map((p) => {
+                          ].map((p: any) => {
                             return {
                               sourceVault: !p.sourceVault
                                 ? undefined
@@ -321,7 +1215,7 @@ export async function _fleetsGetDeserialize(
                               vaultCertificates:
                                 p["vaultCertificates"] === undefined
                                   ? p["vaultCertificates"]
-                                  : p["vaultCertificates"].map((p) => {
+                                  : p["vaultCertificates"].map((p: any) => {
                                       return {
                                         certificateUrl: p["certificateUrl"],
                                         certificateStore: p["certificateStore"],
@@ -462,7 +1356,7 @@ export async function _fleetsGetDeserialize(
                             .storageProfile?.["dataDisks"]
                         : result.body.properties?.computeProfile.baseVirtualMachineProfile.storageProfile?.[
                             "dataDisks"
-                          ].map((p) => {
+                          ].map((p: any) => {
                             return {
                               name: p["name"],
                               lun: p["lun"],
@@ -522,7 +1416,7 @@ export async function _fleetsGetDeserialize(
                             .networkProfile?.["networkInterfaceConfigurations"]
                         : result.body.properties?.computeProfile.baseVirtualMachineProfile.networkProfile?.[
                             "networkInterfaceConfigurations"
-                          ].map((p) => {
+                          ].map((p: any) => {
                             return {
                               name: p["name"],
                               properties: !p.properties
@@ -545,7 +1439,7 @@ export async function _fleetsGetDeserialize(
                                           dnsServers: p.properties?.dnsSettings?.["dnsServers"],
                                         },
                                     ipConfigurations: p.properties?.["ipConfigurations"].map(
-                                      (p) => {
+                                      (p: any) => {
                                         return {
                                           name: p["name"],
                                           properties: !p.properties
@@ -601,7 +1495,7 @@ export async function _fleetsGetDeserialize(
                                                                     ?.properties?.["ipTags"]
                                                                 : p.properties?.publicIPAddressConfiguration?.properties?.[
                                                                     "ipTags"
-                                                                  ].map((p) => {
+                                                                  ].map((p: any) => {
                                                                     return {
                                                                       ipTagType: p["ipTagType"],
                                                                       tag: p["tag"],
@@ -654,7 +1548,7 @@ export async function _fleetsGetDeserialize(
                                                       ]
                                                     : p.properties?.[
                                                         "applicationGatewayBackendAddressPools"
-                                                      ].map((p) => {
+                                                      ].map((p: any) => {
                                                         return { id: p["id"] };
                                                       }),
                                                 applicationSecurityGroups:
@@ -663,7 +1557,7 @@ export async function _fleetsGetDeserialize(
                                                     ? p.properties?.["applicationSecurityGroups"]
                                                     : p.properties?.[
                                                         "applicationSecurityGroups"
-                                                      ].map((p) => {
+                                                      ].map((p: any) => {
                                                         return { id: p["id"] };
                                                       }),
                                                 loadBalancerBackendAddressPools:
@@ -675,7 +1569,7 @@ export async function _fleetsGetDeserialize(
                                                       ]
                                                     : p.properties?.[
                                                         "loadBalancerBackendAddressPools"
-                                                      ].map((p) => {
+                                                      ].map((p: any) => {
                                                         return { id: p["id"] };
                                                       }),
                                                 loadBalancerInboundNatPools:
@@ -684,7 +1578,7 @@ export async function _fleetsGetDeserialize(
                                                     ? p.properties?.["loadBalancerInboundNatPools"]
                                                     : p.properties?.[
                                                         "loadBalancerInboundNatPools"
-                                                      ].map((p) => {
+                                                      ].map((p: any) => {
                                                         return { id: p["id"] };
                                                       }),
                                               },
@@ -774,7 +1668,7 @@ export async function _fleetsGetDeserialize(
                             .extensionProfile?.["extensions"]
                         : result.body.properties?.computeProfile.baseVirtualMachineProfile.extensionProfile?.[
                             "extensions"
-                          ].map((p) => {
+                          ].map((p: any) => {
                             return {
                               id: p["id"],
                               name: p["name"],
@@ -875,7 +1769,7 @@ export async function _fleetsGetDeserialize(
                             .applicationProfile?.["galleryApplications"]
                         : result.body.properties?.computeProfile.baseVirtualMachineProfile.applicationProfile?.[
                             "galleryApplications"
-                          ].map((p) => {
+                          ].map((p: any) => {
                             return {
                               tags: p["tags"],
                               order: p["order"],
@@ -935,6 +1829,19 @@ export async function _fleetsGetDeserialize(
             computeApiVersion: result.body.properties?.computeProfile["computeApiVersion"],
             platformFaultDomainCount:
               result.body.properties?.computeProfile["platformFaultDomainCount"],
+            additionalVirtualMachineCapabilities: !result.body.properties?.computeProfile
+              .additionalVirtualMachineCapabilities
+              ? undefined
+              : {
+                  ultraSSDEnabled:
+                    result.body.properties?.computeProfile.additionalVirtualMachineCapabilities?.[
+                      "ultraSSDEnabled"
+                    ],
+                  hibernationEnabled:
+                    result.body.properties?.computeProfile.additionalVirtualMachineCapabilities?.[
+                      "hibernationEnabled"
+                    ],
+                },
           },
           timeCreated:
             result.body.properties?.["timeCreated"] !== undefined
@@ -988,12 +1895,7 @@ export function _fleetsCreateOrUpdateSend(
   fleetName: string,
   resource: Fleet,
   options: FleetsCreateOrUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  | FleetsCreateOrUpdate200Response
-  | FleetsCreateOrUpdate201Response
-  | FleetsCreateOrUpdateDefaultResponse
-  | FleetsCreateOrUpdateLogicalResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}",
@@ -1019,107 +1921,1019 @@ export function _fleetsCreateOrUpdateSend(
 }
 
 export async function _fleetsCreateOrUpdateDeserialize(
-  result:
-    | FleetsCreateOrUpdate200Response
-    | FleetsCreateOrUpdate201Response
-    | FleetsCreateOrUpdateDefaultResponse
-    | FleetsCreateOrUpdateLogicalResponse,
+  result: PathUncheckedResponse,
 ): Promise<Fleet> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200", "201"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  const res = result as unknown as FleetsCreateOrUpdateLogicalResponse;
   return {
-    tags: res.body["tags"],
-    location: res.body["location"],
-    id: res.body["id"],
-    name: res.body["name"],
-    type: res.body["type"],
-    systemData: !res.body.systemData
+    tags: result.body["tags"],
+    location: result.body["location"],
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
       ? undefined
       : {
-          createdBy: res.body.systemData?.["createdBy"],
-          createdByType: res.body.systemData?.["createdByType"],
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
           createdAt:
-            res.body.systemData?.["createdAt"] !== undefined
-              ? new Date(res.body.systemData?.["createdAt"])
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
               : undefined,
-          lastModifiedBy: res.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: res.body.systemData?.["lastModifiedByType"],
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
           lastModifiedAt:
-            res.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(res.body.systemData?.["lastModifiedAt"])
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
               : undefined,
         },
-    properties: !res.body.properties
+    properties: !result.body.properties
       ? undefined
       : {
-          provisioningState: res.body.properties?.["provisioningState"],
-          spotPriorityProfile: !res.body.properties?.spotPriorityProfile
+          provisioningState: result.body.properties?.["provisioningState"],
+          spotPriorityProfile: !result.body.properties?.spotPriorityProfile
             ? undefined
             : {
-                capacity: res.body.properties?.spotPriorityProfile?.["capacity"],
-                minCapacity: res.body.properties?.spotPriorityProfile?.["minCapacity"],
-                maxPricePerVM: res.body.properties?.spotPriorityProfile?.["maxPricePerVM"],
-                evictionPolicy: res.body.properties?.spotPriorityProfile?.["evictionPolicy"],
+                capacity: result.body.properties?.spotPriorityProfile?.["capacity"],
+                minCapacity: result.body.properties?.spotPriorityProfile?.["minCapacity"],
+                maxPricePerVM: result.body.properties?.spotPriorityProfile?.["maxPricePerVM"],
+                evictionPolicy: result.body.properties?.spotPriorityProfile?.["evictionPolicy"],
                 allocationStrategy:
-                  res.body.properties?.spotPriorityProfile?.["allocationStrategy"],
-                maintain: res.body.properties?.spotPriorityProfile?.["maintain"],
+                  result.body.properties?.spotPriorityProfile?.["allocationStrategy"],
+                maintain: result.body.properties?.spotPriorityProfile?.["maintain"],
               },
-          regularPriorityProfile: !res.body.properties?.regularPriorityProfile
+          regularPriorityProfile: !result.body.properties?.regularPriorityProfile
             ? undefined
             : {
-                capacity: res.body.properties?.regularPriorityProfile?.["capacity"],
-                minCapacity: res.body.properties?.regularPriorityProfile?.["minCapacity"],
+                capacity: result.body.properties?.regularPriorityProfile?.["capacity"],
+                minCapacity: result.body.properties?.regularPriorityProfile?.["minCapacity"],
                 allocationStrategy:
-                  res.body.properties?.regularPriorityProfile?.["allocationStrategy"],
+                  result.body.properties?.regularPriorityProfile?.["allocationStrategy"],
               },
-          vmSizesProfile: res.body.properties?.["vmSizesProfile"].map((p) => {
+          vmSizesProfile: result.body.properties?.["vmSizesProfile"].map((p: any) => {
             return { name: p["name"], rank: p["rank"] };
           }),
+          vmAttributes: !result.body.properties?.vmAttributes
+            ? undefined
+            : {
+                vCpuCount: {
+                  min: result.body.properties?.vmAttributes?.vCpuCount["min"],
+                  max: result.body.properties?.vmAttributes?.vCpuCount["max"],
+                },
+                memoryInGiB: {
+                  min: result.body.properties?.vmAttributes?.memoryInGiB["min"],
+                  max: result.body.properties?.vmAttributes?.memoryInGiB["max"],
+                },
+                memoryInGiBPerVCpu: !result.body.properties?.vmAttributes?.memoryInGiBPerVCpu
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.memoryInGiBPerVCpu?.["min"],
+                      max: result.body.properties?.vmAttributes?.memoryInGiBPerVCpu?.["max"],
+                    },
+                localStorageSupport: result.body.properties?.vmAttributes?.["localStorageSupport"],
+                localStorageInGiB: !result.body.properties?.vmAttributes?.localStorageInGiB
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.localStorageInGiB?.["min"],
+                      max: result.body.properties?.vmAttributes?.localStorageInGiB?.["max"],
+                    },
+                localStorageDiskTypes:
+                  result.body.properties?.vmAttributes?.["localStorageDiskTypes"],
+                dataDiskCount: !result.body.properties?.vmAttributes?.dataDiskCount
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.dataDiskCount?.["min"],
+                      max: result.body.properties?.vmAttributes?.dataDiskCount?.["max"],
+                    },
+                networkInterfaceCount: !result.body.properties?.vmAttributes?.networkInterfaceCount
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.networkInterfaceCount?.["min"],
+                      max: result.body.properties?.vmAttributes?.networkInterfaceCount?.["max"],
+                    },
+                networkBandwidthInMbps: !result.body.properties?.vmAttributes
+                  ?.networkBandwidthInMbps
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.networkBandwidthInMbps?.["min"],
+                      max: result.body.properties?.vmAttributes?.networkBandwidthInMbps?.["max"],
+                    },
+                rdmaSupport: result.body.properties?.vmAttributes?.["rdmaSupport"],
+                rdmaNetworkInterfaceCount: !result.body.properties?.vmAttributes
+                  ?.rdmaNetworkInterfaceCount
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.rdmaNetworkInterfaceCount?.["min"],
+                      max: result.body.properties?.vmAttributes?.rdmaNetworkInterfaceCount?.["max"],
+                    },
+                acceleratorSupport: result.body.properties?.vmAttributes?.["acceleratorSupport"],
+                acceleratorManufacturers:
+                  result.body.properties?.vmAttributes?.["acceleratorManufacturers"],
+                acceleratorTypes: result.body.properties?.vmAttributes?.["acceleratorTypes"],
+                acceleratorCount: !result.body.properties?.vmAttributes?.acceleratorCount
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.acceleratorCount?.["min"],
+                      max: result.body.properties?.vmAttributes?.acceleratorCount?.["max"],
+                    },
+                vmCategories: result.body.properties?.vmAttributes?.["vmCategories"],
+                architectureTypes: result.body.properties?.vmAttributes?.["architectureTypes"],
+                cpuManufacturers: result.body.properties?.vmAttributes?.["cpuManufacturers"],
+                burstableSupport: result.body.properties?.vmAttributes?.["burstableSupport"],
+                excludedVMSizes: result.body.properties?.vmAttributes?.["excludedVMSizes"],
+              },
+          additionalLocationsProfile: !result.body.properties?.additionalLocationsProfile
+            ? undefined
+            : {
+                locationProfiles: result.body.properties?.additionalLocationsProfile?.[
+                  "locationProfiles"
+                ].map((p: any) => {
+                  return {
+                    location: p["location"],
+                    virtualMachineProfileOverride: !p.virtualMachineProfileOverride
+                      ? undefined
+                      : {
+                          osProfile: !p.virtualMachineProfileOverride?.osProfile
+                            ? undefined
+                            : {
+                                computerNamePrefix:
+                                  p.virtualMachineProfileOverride?.osProfile?.[
+                                    "computerNamePrefix"
+                                  ],
+                                adminUsername:
+                                  p.virtualMachineProfileOverride?.osProfile?.["adminUsername"],
+                                adminPassword:
+                                  p.virtualMachineProfileOverride?.osProfile?.["adminPassword"],
+                                customData:
+                                  p.virtualMachineProfileOverride?.osProfile?.["customData"],
+                                windowsConfiguration: !p.virtualMachineProfileOverride?.osProfile
+                                  ?.windowsConfiguration
+                                  ? undefined
+                                  : {
+                                      provisionVMAgent:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.windowsConfiguration?.["provisionVMAgent"],
+                                      enableAutomaticUpdates:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.windowsConfiguration?.["enableAutomaticUpdates"],
+                                      timeZone:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.windowsConfiguration?.["timeZone"],
+                                      additionalUnattendContent:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.windowsConfiguration?.["additionalUnattendContent"] ===
+                                        undefined
+                                          ? p.virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.["additionalUnattendContent"]
+                                          : p.virtualMachineProfileOverride?.osProfile?.windowsConfiguration?.[
+                                              "additionalUnattendContent"
+                                            ].map((p: any) => {
+                                              return {
+                                                passName: p["passName"],
+                                                componentName: p["componentName"],
+                                                settingName: p["settingName"],
+                                                content: p["content"],
+                                              };
+                                            }),
+                                      patchSettings: !p.virtualMachineProfileOverride?.osProfile
+                                        ?.windowsConfiguration?.patchSettings
+                                        ? undefined
+                                        : {
+                                            patchMode:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.windowsConfiguration?.patchSettings?.[
+                                                "patchMode"
+                                              ],
+                                            enableHotpatching:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.windowsConfiguration?.patchSettings?.[
+                                                "enableHotpatching"
+                                              ],
+                                            assessmentMode:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.windowsConfiguration?.patchSettings?.[
+                                                "assessmentMode"
+                                              ],
+                                            automaticByPlatformSettings: !p
+                                              .virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.patchSettings
+                                              ?.automaticByPlatformSettings
+                                              ? undefined
+                                              : {
+                                                  rebootSetting:
+                                                    p.virtualMachineProfileOverride?.osProfile
+                                                      ?.windowsConfiguration?.patchSettings
+                                                      ?.automaticByPlatformSettings?.[
+                                                      "rebootSetting"
+                                                    ],
+                                                  bypassPlatformSafetyChecksOnUserSchedule:
+                                                    p.virtualMachineProfileOverride?.osProfile
+                                                      ?.windowsConfiguration?.patchSettings
+                                                      ?.automaticByPlatformSettings?.[
+                                                      "bypassPlatformSafetyChecksOnUserSchedule"
+                                                    ],
+                                                },
+                                          },
+                                      winRM: !p.virtualMachineProfileOverride?.osProfile
+                                        ?.windowsConfiguration?.winRM
+                                        ? undefined
+                                        : {
+                                            listeners:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.windowsConfiguration?.winRM?.["listeners"] ===
+                                              undefined
+                                                ? p.virtualMachineProfileOverride?.osProfile
+                                                    ?.windowsConfiguration?.winRM?.["listeners"]
+                                                : p.virtualMachineProfileOverride?.osProfile?.windowsConfiguration?.winRM?.[
+                                                    "listeners"
+                                                  ].map((p: any) => {
+                                                    return {
+                                                      protocol: p["protocol"],
+                                                      certificateUrl: p["certificateUrl"],
+                                                    };
+                                                  }),
+                                          },
+                                      enableVMAgentPlatformUpdates:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.windowsConfiguration?.["enableVMAgentPlatformUpdates"],
+                                    },
+                                linuxConfiguration: !p.virtualMachineProfileOverride?.osProfile
+                                  ?.linuxConfiguration
+                                  ? undefined
+                                  : {
+                                      disablePasswordAuthentication:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.linuxConfiguration?.["disablePasswordAuthentication"],
+                                      ssh: !p.virtualMachineProfileOverride?.osProfile
+                                        ?.linuxConfiguration?.ssh
+                                        ? undefined
+                                        : {
+                                            publicKeys:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.linuxConfiguration?.ssh?.["publicKeys"] ===
+                                              undefined
+                                                ? p.virtualMachineProfileOverride?.osProfile
+                                                    ?.linuxConfiguration?.ssh?.["publicKeys"]
+                                                : p.virtualMachineProfileOverride?.osProfile?.linuxConfiguration?.ssh?.[
+                                                    "publicKeys"
+                                                  ].map((p: any) => {
+                                                    return {
+                                                      path: p["path"],
+                                                      keyData: p["keyData"],
+                                                    };
+                                                  }),
+                                          },
+                                      provisionVMAgent:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.linuxConfiguration?.["provisionVMAgent"],
+                                      patchSettings: !p.virtualMachineProfileOverride?.osProfile
+                                        ?.linuxConfiguration?.patchSettings
+                                        ? undefined
+                                        : {
+                                            patchMode:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.linuxConfiguration?.patchSettings?.["patchMode"],
+                                            assessmentMode:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.linuxConfiguration?.patchSettings?.[
+                                                "assessmentMode"
+                                              ],
+                                            automaticByPlatformSettings: !p
+                                              .virtualMachineProfileOverride?.osProfile
+                                              ?.linuxConfiguration?.patchSettings
+                                              ?.automaticByPlatformSettings
+                                              ? undefined
+                                              : {
+                                                  rebootSetting:
+                                                    p.virtualMachineProfileOverride?.osProfile
+                                                      ?.linuxConfiguration?.patchSettings
+                                                      ?.automaticByPlatformSettings?.[
+                                                      "rebootSetting"
+                                                    ],
+                                                  bypassPlatformSafetyChecksOnUserSchedule:
+                                                    p.virtualMachineProfileOverride?.osProfile
+                                                      ?.linuxConfiguration?.patchSettings
+                                                      ?.automaticByPlatformSettings?.[
+                                                      "bypassPlatformSafetyChecksOnUserSchedule"
+                                                    ],
+                                                },
+                                          },
+                                      enableVMAgentPlatformUpdates:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.linuxConfiguration?.["enableVMAgentPlatformUpdates"],
+                                    },
+                                secrets:
+                                  p.virtualMachineProfileOverride?.osProfile?.["secrets"] ===
+                                  undefined
+                                    ? p.virtualMachineProfileOverride?.osProfile?.["secrets"]
+                                    : p.virtualMachineProfileOverride?.osProfile?.["secrets"].map(
+                                        (p: any) => {
+                                          return {
+                                            sourceVault: !p.sourceVault
+                                              ? undefined
+                                              : { id: p.sourceVault?.["id"] },
+                                            vaultCertificates:
+                                              p["vaultCertificates"] === undefined
+                                                ? p["vaultCertificates"]
+                                                : p["vaultCertificates"].map((p: any) => {
+                                                    return {
+                                                      certificateUrl: p["certificateUrl"],
+                                                      certificateStore: p["certificateStore"],
+                                                    };
+                                                  }),
+                                          };
+                                        },
+                                      ),
+                                allowExtensionOperations:
+                                  p.virtualMachineProfileOverride?.osProfile?.[
+                                    "allowExtensionOperations"
+                                  ],
+                                requireGuestProvisionSignal:
+                                  p.virtualMachineProfileOverride?.osProfile?.[
+                                    "requireGuestProvisionSignal"
+                                  ],
+                              },
+                          storageProfile: !p.virtualMachineProfileOverride?.storageProfile
+                            ? undefined
+                            : {
+                                imageReference: !p.virtualMachineProfileOverride?.storageProfile
+                                  ?.imageReference
+                                  ? undefined
+                                  : {
+                                      id: p.virtualMachineProfileOverride?.storageProfile
+                                        ?.imageReference?.["id"],
+                                      publisher:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["publisher"],
+                                      offer:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["offer"],
+                                      sku: p.virtualMachineProfileOverride?.storageProfile
+                                        ?.imageReference?.["sku"],
+                                      version:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["version"],
+                                      exactVersion:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["exactVersion"],
+                                      sharedGalleryImageId:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["sharedGalleryImageId"],
+                                      communityGalleryImageId:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["communityGalleryImageId"],
+                                    },
+                                osDisk: !p.virtualMachineProfileOverride?.storageProfile?.osDisk
+                                  ? undefined
+                                  : {
+                                      name: p.virtualMachineProfileOverride?.storageProfile
+                                        ?.osDisk?.["name"],
+                                      caching:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "caching"
+                                        ],
+                                      writeAcceleratorEnabled:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "writeAcceleratorEnabled"
+                                        ],
+                                      createOption:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "createOption"
+                                        ],
+                                      diffDiskSettings: !p.virtualMachineProfileOverride
+                                        ?.storageProfile?.osDisk?.diffDiskSettings
+                                        ? undefined
+                                        : {
+                                            option:
+                                              p.virtualMachineProfileOverride?.storageProfile
+                                                ?.osDisk?.diffDiskSettings?.["option"],
+                                            placement:
+                                              p.virtualMachineProfileOverride?.storageProfile
+                                                ?.osDisk?.diffDiskSettings?.["placement"],
+                                          },
+                                      diskSizeGB:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "diskSizeGB"
+                                        ],
+                                      osType:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "osType"
+                                        ],
+                                      image: !p.virtualMachineProfileOverride?.storageProfile
+                                        ?.osDisk?.image
+                                        ? undefined
+                                        : {
+                                            uri: p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.image?.["uri"],
+                                          },
+                                      vhdContainers:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "vhdContainers"
+                                        ],
+                                      managedDisk: !p.virtualMachineProfileOverride?.storageProfile
+                                        ?.osDisk?.managedDisk
+                                        ? undefined
+                                        : {
+                                            storageAccountType:
+                                              p.virtualMachineProfileOverride?.storageProfile
+                                                ?.osDisk?.managedDisk?.["storageAccountType"],
+                                            diskEncryptionSet: !p.virtualMachineProfileOverride
+                                              ?.storageProfile?.osDisk?.managedDisk
+                                              ?.diskEncryptionSet
+                                              ? undefined
+                                              : {
+                                                  id: p.virtualMachineProfileOverride
+                                                    ?.storageProfile?.osDisk?.managedDisk
+                                                    ?.diskEncryptionSet?.["id"],
+                                                },
+                                            securityProfile: !p.virtualMachineProfileOverride
+                                              ?.storageProfile?.osDisk?.managedDisk?.securityProfile
+                                              ? undefined
+                                              : {
+                                                  securityEncryptionType:
+                                                    p.virtualMachineProfileOverride?.storageProfile
+                                                      ?.osDisk?.managedDisk?.securityProfile?.[
+                                                      "securityEncryptionType"
+                                                    ],
+                                                  diskEncryptionSet: !p
+                                                    .virtualMachineProfileOverride?.storageProfile
+                                                    ?.osDisk?.managedDisk?.securityProfile
+                                                    ?.diskEncryptionSet
+                                                    ? undefined
+                                                    : {
+                                                        id: p.virtualMachineProfileOverride
+                                                          ?.storageProfile?.osDisk?.managedDisk
+                                                          ?.securityProfile?.diskEncryptionSet?.[
+                                                          "id"
+                                                        ],
+                                                      },
+                                                },
+                                          },
+                                      deleteOption:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "deleteOption"
+                                        ],
+                                    },
+                                dataDisks:
+                                  p.virtualMachineProfileOverride?.storageProfile?.["dataDisks"] ===
+                                  undefined
+                                    ? p.virtualMachineProfileOverride?.storageProfile?.["dataDisks"]
+                                    : p.virtualMachineProfileOverride?.storageProfile?.[
+                                        "dataDisks"
+                                      ].map((p: any) => {
+                                        return {
+                                          name: p["name"],
+                                          lun: p["lun"],
+                                          caching: p["caching"],
+                                          writeAcceleratorEnabled: p["writeAcceleratorEnabled"],
+                                          createOption: p["createOption"],
+                                          diskSizeGB: p["diskSizeGB"],
+                                          managedDisk: !p.managedDisk
+                                            ? undefined
+                                            : {
+                                                storageAccountType:
+                                                  p.managedDisk?.["storageAccountType"],
+                                                diskEncryptionSet: !p.managedDisk?.diskEncryptionSet
+                                                  ? undefined
+                                                  : {
+                                                      id: p.managedDisk?.diskEncryptionSet?.["id"],
+                                                    },
+                                                securityProfile: !p.managedDisk?.securityProfile
+                                                  ? undefined
+                                                  : {
+                                                      securityEncryptionType:
+                                                        p.managedDisk?.securityProfile?.[
+                                                          "securityEncryptionType"
+                                                        ],
+                                                      diskEncryptionSet: !p.managedDisk
+                                                        ?.securityProfile?.diskEncryptionSet
+                                                        ? undefined
+                                                        : {
+                                                            id: p.managedDisk?.securityProfile
+                                                              ?.diskEncryptionSet?.["id"],
+                                                          },
+                                                    },
+                                              },
+                                          diskIOPSReadWrite: p["diskIOPSReadWrite"],
+                                          diskMBpsReadWrite: p["diskMBpsReadWrite"],
+                                          deleteOption: p["deleteOption"],
+                                        };
+                                      }),
+                                diskControllerType:
+                                  p.virtualMachineProfileOverride?.storageProfile?.[
+                                    "diskControllerType"
+                                  ],
+                              },
+                          networkProfile: !p.virtualMachineProfileOverride?.networkProfile
+                            ? undefined
+                            : {
+                                healthProbe: !p.virtualMachineProfileOverride?.networkProfile
+                                  ?.healthProbe
+                                  ? undefined
+                                  : {
+                                      id: p.virtualMachineProfileOverride?.networkProfile
+                                        ?.healthProbe?.["id"],
+                                    },
+                                networkInterfaceConfigurations:
+                                  p.virtualMachineProfileOverride?.networkProfile?.[
+                                    "networkInterfaceConfigurations"
+                                  ] === undefined
+                                    ? p.virtualMachineProfileOverride?.networkProfile?.[
+                                        "networkInterfaceConfigurations"
+                                      ]
+                                    : p.virtualMachineProfileOverride?.networkProfile?.[
+                                        "networkInterfaceConfigurations"
+                                      ].map((p: any) => {
+                                        return {
+                                          name: p["name"],
+                                          properties: !p.properties
+                                            ? undefined
+                                            : {
+                                                primary: p.properties?.["primary"],
+                                                enableAcceleratedNetworking:
+                                                  p.properties?.["enableAcceleratedNetworking"],
+                                                disableTcpStateTracking:
+                                                  p.properties?.["disableTcpStateTracking"],
+                                                enableFpga: p.properties?.["enableFpga"],
+                                                networkSecurityGroup: !p.properties
+                                                  ?.networkSecurityGroup
+                                                  ? undefined
+                                                  : {
+                                                      id: p.properties?.networkSecurityGroup?.[
+                                                        "id"
+                                                      ],
+                                                    },
+                                                dnsSettings: !p.properties?.dnsSettings
+                                                  ? undefined
+                                                  : {
+                                                      dnsServers:
+                                                        p.properties?.dnsSettings?.["dnsServers"],
+                                                    },
+                                                ipConfigurations: p.properties?.[
+                                                  "ipConfigurations"
+                                                ].map((p: any) => {
+                                                  return {
+                                                    name: p["name"],
+                                                    properties: !p.properties
+                                                      ? undefined
+                                                      : {
+                                                          subnet: !p.properties?.subnet
+                                                            ? undefined
+                                                            : {
+                                                                id: p.properties?.subnet?.["id"],
+                                                              },
+                                                          primary: p.properties?.["primary"],
+                                                          publicIPAddressConfiguration: !p
+                                                            .properties
+                                                            ?.publicIPAddressConfiguration
+                                                            ? undefined
+                                                            : {
+                                                                name: p.properties
+                                                                  ?.publicIPAddressConfiguration?.[
+                                                                  "name"
+                                                                ],
+                                                                properties: !p.properties
+                                                                  ?.publicIPAddressConfiguration
+                                                                  ?.properties
+                                                                  ? undefined
+                                                                  : {
+                                                                      idleTimeoutInMinutes:
+                                                                        p.properties
+                                                                          ?.publicIPAddressConfiguration
+                                                                          ?.properties?.[
+                                                                          "idleTimeoutInMinutes"
+                                                                        ],
+                                                                      dnsSettings: !p.properties
+                                                                        ?.publicIPAddressConfiguration
+                                                                        ?.properties?.dnsSettings
+                                                                        ? undefined
+                                                                        : {
+                                                                            domainNameLabel:
+                                                                              p.properties
+                                                                                ?.publicIPAddressConfiguration
+                                                                                ?.properties
+                                                                                ?.dnsSettings?.[
+                                                                                "domainNameLabel"
+                                                                              ],
+                                                                            domainNameLabelScope:
+                                                                              p.properties
+                                                                                ?.publicIPAddressConfiguration
+                                                                                ?.properties
+                                                                                ?.dnsSettings?.[
+                                                                                "domainNameLabelScope"
+                                                                              ],
+                                                                          },
+                                                                      ipTags:
+                                                                        p.properties
+                                                                          ?.publicIPAddressConfiguration
+                                                                          ?.properties?.[
+                                                                          "ipTags"
+                                                                        ] === undefined
+                                                                          ? p.properties
+                                                                              ?.publicIPAddressConfiguration
+                                                                              ?.properties?.[
+                                                                              "ipTags"
+                                                                            ]
+                                                                          : p.properties?.publicIPAddressConfiguration?.properties?.[
+                                                                              "ipTags"
+                                                                            ].map((p: any) => {
+                                                                              return {
+                                                                                ipTagType:
+                                                                                  p["ipTagType"],
+                                                                                tag: p["tag"],
+                                                                              };
+                                                                            }),
+                                                                      publicIPPrefix: !p.properties
+                                                                        ?.publicIPAddressConfiguration
+                                                                        ?.properties?.publicIPPrefix
+                                                                        ? undefined
+                                                                        : {
+                                                                            id: p.properties
+                                                                              ?.publicIPAddressConfiguration
+                                                                              ?.properties
+                                                                              ?.publicIPPrefix?.[
+                                                                              "id"
+                                                                            ],
+                                                                          },
+                                                                      publicIPAddressVersion:
+                                                                        p.properties
+                                                                          ?.publicIPAddressConfiguration
+                                                                          ?.properties?.[
+                                                                          "publicIPAddressVersion"
+                                                                        ],
+                                                                      deleteOption:
+                                                                        p.properties
+                                                                          ?.publicIPAddressConfiguration
+                                                                          ?.properties?.[
+                                                                          "deleteOption"
+                                                                        ],
+                                                                    },
+                                                                sku: !p.properties
+                                                                  ?.publicIPAddressConfiguration
+                                                                  ?.sku
+                                                                  ? undefined
+                                                                  : {
+                                                                      name: p.properties
+                                                                        ?.publicIPAddressConfiguration
+                                                                        ?.sku?.["name"],
+                                                                      tier: p.properties
+                                                                        ?.publicIPAddressConfiguration
+                                                                        ?.sku?.["tier"],
+                                                                    },
+                                                              },
+                                                          privateIPAddressVersion:
+                                                            p.properties?.[
+                                                              "privateIPAddressVersion"
+                                                            ],
+                                                          applicationGatewayBackendAddressPools:
+                                                            p.properties?.[
+                                                              "applicationGatewayBackendAddressPools"
+                                                            ] === undefined
+                                                              ? p.properties?.[
+                                                                  "applicationGatewayBackendAddressPools"
+                                                                ]
+                                                              : p.properties?.[
+                                                                  "applicationGatewayBackendAddressPools"
+                                                                ].map((p: any) => {
+                                                                  return {
+                                                                    id: p["id"],
+                                                                  };
+                                                                }),
+                                                          applicationSecurityGroups:
+                                                            p.properties?.[
+                                                              "applicationSecurityGroups"
+                                                            ] === undefined
+                                                              ? p.properties?.[
+                                                                  "applicationSecurityGroups"
+                                                                ]
+                                                              : p.properties?.[
+                                                                  "applicationSecurityGroups"
+                                                                ].map((p: any) => {
+                                                                  return {
+                                                                    id: p["id"],
+                                                                  };
+                                                                }),
+                                                          loadBalancerBackendAddressPools:
+                                                            p.properties?.[
+                                                              "loadBalancerBackendAddressPools"
+                                                            ] === undefined
+                                                              ? p.properties?.[
+                                                                  "loadBalancerBackendAddressPools"
+                                                                ]
+                                                              : p.properties?.[
+                                                                  "loadBalancerBackendAddressPools"
+                                                                ].map((p: any) => {
+                                                                  return {
+                                                                    id: p["id"],
+                                                                  };
+                                                                }),
+                                                          loadBalancerInboundNatPools:
+                                                            p.properties?.[
+                                                              "loadBalancerInboundNatPools"
+                                                            ] === undefined
+                                                              ? p.properties?.[
+                                                                  "loadBalancerInboundNatPools"
+                                                                ]
+                                                              : p.properties?.[
+                                                                  "loadBalancerInboundNatPools"
+                                                                ].map((p: any) => {
+                                                                  return {
+                                                                    id: p["id"],
+                                                                  };
+                                                                }),
+                                                        },
+                                                  };
+                                                }),
+                                                enableIPForwarding:
+                                                  p.properties?.["enableIPForwarding"],
+                                                deleteOption: p.properties?.["deleteOption"],
+                                                auxiliaryMode: p.properties?.["auxiliaryMode"],
+                                                auxiliarySku: p.properties?.["auxiliarySku"],
+                                              },
+                                        };
+                                      }),
+                                networkApiVersion:
+                                  p.virtualMachineProfileOverride?.networkProfile?.[
+                                    "networkApiVersion"
+                                  ],
+                              },
+                          securityProfile: !p.virtualMachineProfileOverride?.securityProfile
+                            ? undefined
+                            : {
+                                uefiSettings: !p.virtualMachineProfileOverride?.securityProfile
+                                  ?.uefiSettings
+                                  ? undefined
+                                  : {
+                                      secureBootEnabled:
+                                        p.virtualMachineProfileOverride?.securityProfile
+                                          ?.uefiSettings?.["secureBootEnabled"],
+                                      vTpmEnabled:
+                                        p.virtualMachineProfileOverride?.securityProfile
+                                          ?.uefiSettings?.["vTpmEnabled"],
+                                    },
+                                encryptionAtHost:
+                                  p.virtualMachineProfileOverride?.securityProfile?.[
+                                    "encryptionAtHost"
+                                  ],
+                                securityType:
+                                  p.virtualMachineProfileOverride?.securityProfile?.[
+                                    "securityType"
+                                  ],
+                                encryptionIdentity: !p.virtualMachineProfileOverride
+                                  ?.securityProfile?.encryptionIdentity
+                                  ? undefined
+                                  : {
+                                      userAssignedIdentityResourceId:
+                                        p.virtualMachineProfileOverride?.securityProfile
+                                          ?.encryptionIdentity?.["userAssignedIdentityResourceId"],
+                                    },
+                                proxyAgentSettings: !p.virtualMachineProfileOverride
+                                  ?.securityProfile?.proxyAgentSettings
+                                  ? undefined
+                                  : {
+                                      enabled:
+                                        p.virtualMachineProfileOverride?.securityProfile
+                                          ?.proxyAgentSettings?.["enabled"],
+                                      mode: p.virtualMachineProfileOverride?.securityProfile
+                                        ?.proxyAgentSettings?.["mode"],
+                                      keyIncarnationId:
+                                        p.virtualMachineProfileOverride?.securityProfile
+                                          ?.proxyAgentSettings?.["keyIncarnationId"],
+                                    },
+                              },
+                          diagnosticsProfile: !p.virtualMachineProfileOverride?.diagnosticsProfile
+                            ? undefined
+                            : {
+                                bootDiagnostics: !p.virtualMachineProfileOverride
+                                  ?.diagnosticsProfile?.bootDiagnostics
+                                  ? undefined
+                                  : {
+                                      enabled:
+                                        p.virtualMachineProfileOverride?.diagnosticsProfile
+                                          ?.bootDiagnostics?.["enabled"],
+                                      storageUri:
+                                        p.virtualMachineProfileOverride?.diagnosticsProfile
+                                          ?.bootDiagnostics?.["storageUri"],
+                                    },
+                              },
+                          extensionProfile: !p.virtualMachineProfileOverride?.extensionProfile
+                            ? undefined
+                            : {
+                                extensions:
+                                  p.virtualMachineProfileOverride?.extensionProfile?.[
+                                    "extensions"
+                                  ] === undefined
+                                    ? p.virtualMachineProfileOverride?.extensionProfile?.[
+                                        "extensions"
+                                      ]
+                                    : p.virtualMachineProfileOverride?.extensionProfile?.[
+                                        "extensions"
+                                      ].map((p: any) => {
+                                        return {
+                                          id: p["id"],
+                                          name: p["name"],
+                                          type: p["type"],
+                                          properties: !p.properties
+                                            ? undefined
+                                            : {
+                                                forceUpdateTag: p.properties?.["forceUpdateTag"],
+                                                publisher: p.properties?.["publisher"],
+                                                type: p.properties?.["type"],
+                                                typeHandlerVersion:
+                                                  p.properties?.["typeHandlerVersion"],
+                                                autoUpgradeMinorVersion:
+                                                  p.properties?.["autoUpgradeMinorVersion"],
+                                                enableAutomaticUpgrade:
+                                                  p.properties?.["enableAutomaticUpgrade"],
+                                                settings: p.properties?.["settings"],
+                                                protectedSettings:
+                                                  p.properties?.["protectedSettings"],
+                                                provisioningState:
+                                                  p.properties?.["provisioningState"],
+                                                provisionAfterExtensions:
+                                                  p.properties?.["provisionAfterExtensions"],
+                                                suppressFailures:
+                                                  p.properties?.["suppressFailures"],
+                                                protectedSettingsFromKeyVault: !p.properties
+                                                  ?.protectedSettingsFromKeyVault
+                                                  ? undefined
+                                                  : {
+                                                      secretUrl:
+                                                        p.properties
+                                                          ?.protectedSettingsFromKeyVault?.[
+                                                          "secretUrl"
+                                                        ],
+                                                      sourceVault: {
+                                                        id: p.properties
+                                                          ?.protectedSettingsFromKeyVault
+                                                          ?.sourceVault["id"],
+                                                      },
+                                                    },
+                                              },
+                                        };
+                                      }),
+                                extensionsTimeBudget:
+                                  p.virtualMachineProfileOverride?.extensionProfile?.[
+                                    "extensionsTimeBudget"
+                                  ],
+                              },
+                          licenseType: p.virtualMachineProfileOverride?.["licenseType"],
+                          scheduledEventsProfile: !p.virtualMachineProfileOverride
+                            ?.scheduledEventsProfile
+                            ? undefined
+                            : {
+                                terminateNotificationProfile: !p.virtualMachineProfileOverride
+                                  ?.scheduledEventsProfile?.terminateNotificationProfile
+                                  ? undefined
+                                  : {
+                                      notBeforeTimeout:
+                                        p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                          ?.terminateNotificationProfile?.["notBeforeTimeout"],
+                                      enable:
+                                        p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                          ?.terminateNotificationProfile?.["enable"],
+                                    },
+                                osImageNotificationProfile: !p.virtualMachineProfileOverride
+                                  ?.scheduledEventsProfile?.osImageNotificationProfile
+                                  ? undefined
+                                  : {
+                                      notBeforeTimeout:
+                                        p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                          ?.osImageNotificationProfile?.["notBeforeTimeout"],
+                                      enable:
+                                        p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                          ?.osImageNotificationProfile?.["enable"],
+                                    },
+                              },
+                          userData: p.virtualMachineProfileOverride?.["userData"],
+                          capacityReservation: !p.virtualMachineProfileOverride?.capacityReservation
+                            ? undefined
+                            : {
+                                capacityReservationGroup: !p.virtualMachineProfileOverride
+                                  ?.capacityReservation?.capacityReservationGroup
+                                  ? undefined
+                                  : {
+                                      id: p.virtualMachineProfileOverride?.capacityReservation
+                                        ?.capacityReservationGroup?.["id"],
+                                    },
+                              },
+                          applicationProfile: !p.virtualMachineProfileOverride?.applicationProfile
+                            ? undefined
+                            : {
+                                galleryApplications:
+                                  p.virtualMachineProfileOverride?.applicationProfile?.[
+                                    "galleryApplications"
+                                  ] === undefined
+                                    ? p.virtualMachineProfileOverride?.applicationProfile?.[
+                                        "galleryApplications"
+                                      ]
+                                    : p.virtualMachineProfileOverride?.applicationProfile?.[
+                                        "galleryApplications"
+                                      ].map((p: any) => {
+                                        return {
+                                          tags: p["tags"],
+                                          order: p["order"],
+                                          packageReferenceId: p["packageReferenceId"],
+                                          configurationReference: p["configurationReference"],
+                                          treatFailureAsDeploymentFailure:
+                                            p["treatFailureAsDeploymentFailure"],
+                                          enableAutomaticUpgrade: p["enableAutomaticUpgrade"],
+                                        };
+                                      }),
+                              },
+                          hardwareProfile: !p.virtualMachineProfileOverride?.hardwareProfile
+                            ? undefined
+                            : {
+                                vmSizeProperties: !p.virtualMachineProfileOverride?.hardwareProfile
+                                  ?.vmSizeProperties
+                                  ? undefined
+                                  : {
+                                      vCPUsAvailable:
+                                        p.virtualMachineProfileOverride?.hardwareProfile
+                                          ?.vmSizeProperties?.["vCPUsAvailable"],
+                                      vCPUsPerCore:
+                                        p.virtualMachineProfileOverride?.hardwareProfile
+                                          ?.vmSizeProperties?.["vCPUsPerCore"],
+                                    },
+                              },
+                          serviceArtifactReference: !p.virtualMachineProfileOverride
+                            ?.serviceArtifactReference
+                            ? undefined
+                            : {
+                                id: p.virtualMachineProfileOverride?.serviceArtifactReference?.[
+                                  "id"
+                                ],
+                              },
+                          securityPostureReference: !p.virtualMachineProfileOverride
+                            ?.securityPostureReference
+                            ? undefined
+                            : {
+                                id: p.virtualMachineProfileOverride?.securityPostureReference?.[
+                                  "id"
+                                ],
+                                excludeExtensions:
+                                  p.virtualMachineProfileOverride?.securityPostureReference?.[
+                                    "excludeExtensions"
+                                  ],
+                                isOverridable:
+                                  p.virtualMachineProfileOverride?.securityPostureReference?.[
+                                    "isOverridable"
+                                  ],
+                              },
+                          timeCreated:
+                            p.virtualMachineProfileOverride?.["timeCreated"] !== undefined
+                              ? new Date(p.virtualMachineProfileOverride?.["timeCreated"])
+                              : undefined,
+                        },
+                  };
+                }),
+              },
           computeProfile: {
             baseVirtualMachineProfile: {
-              osProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
+              osProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
                 ? undefined
                 : {
                     computerNamePrefix:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                         "computerNamePrefix"
                       ],
                     adminUsername:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                         "adminUsername"
                       ],
                     adminPassword:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                         "adminPassword"
                       ],
                     customData:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                         "customData"
                       ],
-                    windowsConfiguration: !res.body.properties?.computeProfile
+                    windowsConfiguration: !result.body.properties?.computeProfile
                       .baseVirtualMachineProfile.osProfile?.windowsConfiguration
                       ? undefined
                       : {
                           provisionVMAgent:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.windowsConfiguration?.["provisionVMAgent"],
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.windowsConfiguration?.["provisionVMAgent"],
                           enableAutomaticUpdates:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.windowsConfiguration?.["enableAutomaticUpdates"],
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.windowsConfiguration?.["enableAutomaticUpdates"],
                           timeZone:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.windowsConfiguration?.["timeZone"],
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.windowsConfiguration?.["timeZone"],
                           additionalUnattendContent:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.windowsConfiguration?.["additionalUnattendContent"] === undefined
-                              ? res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.windowsConfiguration?.["additionalUnattendContent"] ===
+                            undefined
+                              ? result.body.properties?.computeProfile.baseVirtualMachineProfile
                                   .osProfile?.windowsConfiguration?.["additionalUnattendContent"]
-                              : res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.windowsConfiguration?.[
+                              : result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.windowsConfiguration?.[
                                   "additionalUnattendContent"
-                                ].map((p) => {
+                                ].map((p: any) => {
                                   return {
                                     passName: p["passName"],
                                     componentName: p["componentName"],
@@ -1127,56 +2941,57 @@ export async function _fleetsCreateOrUpdateDeserialize(
                                     content: p["content"],
                                   };
                                 }),
-                          patchSettings: !res.body.properties?.computeProfile
+                          patchSettings: !result.body.properties?.computeProfile
                             .baseVirtualMachineProfile.osProfile?.windowsConfiguration
                             ?.patchSettings
                             ? undefined
                             : {
                                 patchMode:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .osProfile?.windowsConfiguration?.patchSettings?.["patchMode"],
                                 enableHotpatching:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .osProfile?.windowsConfiguration?.patchSettings?.[
                                     "enableHotpatching"
                                   ],
                                 assessmentMode:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .osProfile?.windowsConfiguration?.patchSettings?.[
                                     "assessmentMode"
                                   ],
-                                automaticByPlatformSettings: !res.body.properties?.computeProfile
+                                automaticByPlatformSettings: !result.body.properties?.computeProfile
                                   .baseVirtualMachineProfile.osProfile?.windowsConfiguration
                                   ?.patchSettings?.automaticByPlatformSettings
                                   ? undefined
                                   : {
                                       rebootSetting:
-                                        res.body.properties?.computeProfile
+                                        result.body.properties?.computeProfile
                                           .baseVirtualMachineProfile.osProfile?.windowsConfiguration
                                           ?.patchSettings?.automaticByPlatformSettings?.[
                                           "rebootSetting"
                                         ],
                                       bypassPlatformSafetyChecksOnUserSchedule:
-                                        res.body.properties?.computeProfile
+                                        result.body.properties?.computeProfile
                                           .baseVirtualMachineProfile.osProfile?.windowsConfiguration
                                           ?.patchSettings?.automaticByPlatformSettings?.[
                                           "bypassPlatformSafetyChecksOnUserSchedule"
                                         ],
                                     },
                               },
-                          winRM: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          winRM: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .osProfile?.windowsConfiguration?.winRM
                             ? undefined
                             : {
                                 listeners:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .osProfile?.windowsConfiguration?.winRM?.["listeners"] ===
                                   undefined
-                                    ? res.body.properties?.computeProfile.baseVirtualMachineProfile
-                                        .osProfile?.windowsConfiguration?.winRM?.["listeners"]
-                                    : res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.windowsConfiguration?.winRM?.[
+                                    ? result.body.properties?.computeProfile
+                                        .baseVirtualMachineProfile.osProfile?.windowsConfiguration
+                                        ?.winRM?.["listeners"]
+                                    : result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.windowsConfiguration?.winRM?.[
                                         "listeners"
-                                      ].map((p) => {
+                                      ].map((p: any) => {
                                         return {
                                           protocol: p["protocol"],
                                           certificateUrl: p["certificateUrl"],
@@ -1184,29 +2999,30 @@ export async function _fleetsCreateOrUpdateDeserialize(
                                       }),
                               },
                           enableVMAgentPlatformUpdates:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.windowsConfiguration?.["enableVMAgentPlatformUpdates"],
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.windowsConfiguration?.["enableVMAgentPlatformUpdates"],
                         },
-                    linuxConfiguration: !res.body.properties?.computeProfile
+                    linuxConfiguration: !result.body.properties?.computeProfile
                       .baseVirtualMachineProfile.osProfile?.linuxConfiguration
                       ? undefined
                       : {
                           disablePasswordAuthentication:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.linuxConfiguration?.["disablePasswordAuthentication"],
-                          ssh: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.linuxConfiguration?.["disablePasswordAuthentication"],
+                          ssh: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .osProfile?.linuxConfiguration?.ssh
                             ? undefined
                             : {
                                 publicKeys:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .osProfile?.linuxConfiguration?.ssh?.["publicKeys"] ===
                                   undefined
-                                    ? res.body.properties?.computeProfile.baseVirtualMachineProfile
-                                        .osProfile?.linuxConfiguration?.ssh?.["publicKeys"]
-                                    : res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.linuxConfiguration?.ssh?.[
+                                    ? result.body.properties?.computeProfile
+                                        .baseVirtualMachineProfile.osProfile?.linuxConfiguration
+                                        ?.ssh?.["publicKeys"]
+                                    : result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.linuxConfiguration?.ssh?.[
                                         "publicKeys"
-                                      ].map((p) => {
+                                      ].map((p: any) => {
                                         return {
                                           path: p["path"],
                                           keyData: p["keyData"],
@@ -1214,33 +3030,33 @@ export async function _fleetsCreateOrUpdateDeserialize(
                                       }),
                               },
                           provisionVMAgent:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.linuxConfiguration?.["provisionVMAgent"],
-                          patchSettings: !res.body.properties?.computeProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.linuxConfiguration?.["provisionVMAgent"],
+                          patchSettings: !result.body.properties?.computeProfile
                             .baseVirtualMachineProfile.osProfile?.linuxConfiguration?.patchSettings
                             ? undefined
                             : {
                                 patchMode:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .osProfile?.linuxConfiguration?.patchSettings?.["patchMode"],
                                 assessmentMode:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .osProfile?.linuxConfiguration?.patchSettings?.[
                                     "assessmentMode"
                                   ],
-                                automaticByPlatformSettings: !res.body.properties?.computeProfile
+                                automaticByPlatformSettings: !result.body.properties?.computeProfile
                                   .baseVirtualMachineProfile.osProfile?.linuxConfiguration
                                   ?.patchSettings?.automaticByPlatformSettings
                                   ? undefined
                                   : {
                                       rebootSetting:
-                                        res.body.properties?.computeProfile
+                                        result.body.properties?.computeProfile
                                           .baseVirtualMachineProfile.osProfile?.linuxConfiguration
                                           ?.patchSettings?.automaticByPlatformSettings?.[
                                           "rebootSetting"
                                         ],
                                       bypassPlatformSafetyChecksOnUserSchedule:
-                                        res.body.properties?.computeProfile
+                                        result.body.properties?.computeProfile
                                           .baseVirtualMachineProfile.osProfile?.linuxConfiguration
                                           ?.patchSettings?.automaticByPlatformSettings?.[
                                           "bypassPlatformSafetyChecksOnUserSchedule"
@@ -1248,19 +3064,18 @@ export async function _fleetsCreateOrUpdateDeserialize(
                                     },
                               },
                           enableVMAgentPlatformUpdates:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.linuxConfiguration?.["enableVMAgentPlatformUpdates"],
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.linuxConfiguration?.["enableVMAgentPlatformUpdates"],
                         },
                     secrets:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                         "secrets"
                       ] === undefined
-                        ? res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                        ? result.body.properties?.computeProfile.baseVirtualMachineProfile
+                            .osProfile?.["secrets"]
+                        : result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                             "secrets"
-                          ]
-                        : res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
-                            "secrets"
-                          ].map((p) => {
+                          ].map((p: any) => {
                             return {
                               sourceVault: !p.sourceVault
                                 ? undefined
@@ -1268,7 +3083,7 @@ export async function _fleetsCreateOrUpdateDeserialize(
                               vaultCertificates:
                                 p["vaultCertificates"] === undefined
                                   ? p["vaultCertificates"]
-                                  : p["vaultCertificates"].map((p) => {
+                                  : p["vaultCertificates"].map((p: any) => {
                                       return {
                                         certificateUrl: p["certificateUrl"],
                                         certificateStore: p["certificateStore"],
@@ -1277,120 +3092,120 @@ export async function _fleetsCreateOrUpdateDeserialize(
                             };
                           }),
                     allowExtensionOperations:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                         "allowExtensionOperations"
                       ],
                     requireGuestProvisionSignal:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                         "requireGuestProvisionSignal"
                       ],
                   },
-              storageProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              storageProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .storageProfile
                 ? undefined
                 : {
-                    imageReference: !res.body.properties?.computeProfile.baseVirtualMachineProfile
-                      .storageProfile?.imageReference
+                    imageReference: !result.body.properties?.computeProfile
+                      .baseVirtualMachineProfile.storageProfile?.imageReference
                       ? undefined
                       : {
-                          id: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          id: result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .storageProfile?.imageReference?.["id"],
                           publisher:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.imageReference?.["publisher"],
                           offer:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.imageReference?.["offer"],
-                          sku: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          sku: result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .storageProfile?.imageReference?.["sku"],
                           version:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.imageReference?.["version"],
                           exactVersion:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.imageReference?.["exactVersion"],
                           sharedGalleryImageId:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.imageReference?.["sharedGalleryImageId"],
                           communityGalleryImageId:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.imageReference?.["communityGalleryImageId"],
                         },
-                    osDisk: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+                    osDisk: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                       .storageProfile?.osDisk
                       ? undefined
                       : {
-                          name: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          name: result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .storageProfile?.osDisk?.["name"],
                           caching:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.osDisk?.["caching"],
                           writeAcceleratorEnabled:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.osDisk?.["writeAcceleratorEnabled"],
                           createOption:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.osDisk?.["createOption"],
-                          diffDiskSettings: !res.body.properties?.computeProfile
+                          diffDiskSettings: !result.body.properties?.computeProfile
                             .baseVirtualMachineProfile.storageProfile?.osDisk?.diffDiskSettings
                             ? undefined
                             : {
                                 option:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .storageProfile?.osDisk?.diffDiskSettings?.["option"],
                                 placement:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .storageProfile?.osDisk?.diffDiskSettings?.["placement"],
                               },
                           diskSizeGB:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.osDisk?.["diskSizeGB"],
                           osType:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.osDisk?.["osType"],
-                          image: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          image: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .storageProfile?.osDisk?.image
                             ? undefined
                             : {
-                                uri: res.body.properties?.computeProfile.baseVirtualMachineProfile
-                                  .storageProfile?.osDisk?.image?.["uri"],
+                                uri: result.body.properties?.computeProfile
+                                  .baseVirtualMachineProfile.storageProfile?.osDisk?.image?.["uri"],
                               },
                           vhdContainers:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.osDisk?.["vhdContainers"],
-                          managedDisk: !res.body.properties?.computeProfile
+                          managedDisk: !result.body.properties?.computeProfile
                             .baseVirtualMachineProfile.storageProfile?.osDisk?.managedDisk
                             ? undefined
                             : {
                                 storageAccountType:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .storageProfile?.osDisk?.managedDisk?.["storageAccountType"],
-                                diskEncryptionSet: !res.body.properties?.computeProfile
+                                diskEncryptionSet: !result.body.properties?.computeProfile
                                   .baseVirtualMachineProfile.storageProfile?.osDisk?.managedDisk
                                   ?.diskEncryptionSet
                                   ? undefined
                                   : {
-                                      id: res.body.properties?.computeProfile
+                                      id: result.body.properties?.computeProfile
                                         .baseVirtualMachineProfile.storageProfile?.osDisk
                                         ?.managedDisk?.diskEncryptionSet?.["id"],
                                     },
-                                securityProfile: !res.body.properties?.computeProfile
+                                securityProfile: !result.body.properties?.computeProfile
                                   .baseVirtualMachineProfile.storageProfile?.osDisk?.managedDisk
                                   ?.securityProfile
                                   ? undefined
                                   : {
                                       securityEncryptionType:
-                                        res.body.properties?.computeProfile
+                                        result.body.properties?.computeProfile
                                           .baseVirtualMachineProfile.storageProfile?.osDisk
                                           ?.managedDisk?.securityProfile?.[
                                           "securityEncryptionType"
                                         ],
-                                      diskEncryptionSet: !res.body.properties?.computeProfile
+                                      diskEncryptionSet: !result.body.properties?.computeProfile
                                         .baseVirtualMachineProfile.storageProfile?.osDisk
                                         ?.managedDisk?.securityProfile?.diskEncryptionSet
                                         ? undefined
                                         : {
-                                            id: res.body.properties?.computeProfile
+                                            id: result.body.properties?.computeProfile
                                               .baseVirtualMachineProfile.storageProfile?.osDisk
                                               ?.managedDisk?.securityProfile?.diskEncryptionSet?.[
                                               "id"
@@ -1399,17 +3214,17 @@ export async function _fleetsCreateOrUpdateDeserialize(
                                     },
                               },
                           deleteOption:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.osDisk?.["deleteOption"],
                         },
                     dataDisks:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .storageProfile?.["dataDisks"] === undefined
-                        ? res.body.properties?.computeProfile.baseVirtualMachineProfile
+                        ? result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .storageProfile?.["dataDisks"]
-                        : res.body.properties?.computeProfile.baseVirtualMachineProfile.storageProfile?.[
+                        : result.body.properties?.computeProfile.baseVirtualMachineProfile.storageProfile?.[
                             "dataDisks"
-                          ].map((p) => {
+                          ].map((p: any) => {
                             return {
                               name: p["name"],
                               lun: p["lun"],
@@ -1448,28 +3263,28 @@ export async function _fleetsCreateOrUpdateDeserialize(
                             };
                           }),
                     diskControllerType:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .storageProfile?.["diskControllerType"],
                   },
-              networkProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              networkProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .networkProfile
                 ? undefined
                 : {
-                    healthProbe: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+                    healthProbe: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                       .networkProfile?.healthProbe
                       ? undefined
                       : {
-                          id: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          id: result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .networkProfile?.healthProbe?.["id"],
                         },
                     networkInterfaceConfigurations:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .networkProfile?.["networkInterfaceConfigurations"] === undefined
-                        ? res.body.properties?.computeProfile.baseVirtualMachineProfile
+                        ? result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .networkProfile?.["networkInterfaceConfigurations"]
-                        : res.body.properties?.computeProfile.baseVirtualMachineProfile.networkProfile?.[
+                        : result.body.properties?.computeProfile.baseVirtualMachineProfile.networkProfile?.[
                             "networkInterfaceConfigurations"
-                          ].map((p) => {
+                          ].map((p: any) => {
                             return {
                               name: p["name"],
                               properties: !p.properties
@@ -1492,7 +3307,7 @@ export async function _fleetsCreateOrUpdateDeserialize(
                                           dnsServers: p.properties?.dnsSettings?.["dnsServers"],
                                         },
                                     ipConfigurations: p.properties?.["ipConfigurations"].map(
-                                      (p) => {
+                                      (p: any) => {
                                         return {
                                           name: p["name"],
                                           properties: !p.properties
@@ -1548,7 +3363,7 @@ export async function _fleetsCreateOrUpdateDeserialize(
                                                                     ?.properties?.["ipTags"]
                                                                 : p.properties?.publicIPAddressConfiguration?.properties?.[
                                                                     "ipTags"
-                                                                  ].map((p) => {
+                                                                  ].map((p: any) => {
                                                                     return {
                                                                       ipTagType: p["ipTagType"],
                                                                       tag: p["tag"],
@@ -1601,7 +3416,7 @@ export async function _fleetsCreateOrUpdateDeserialize(
                                                       ]
                                                     : p.properties?.[
                                                         "applicationGatewayBackendAddressPools"
-                                                      ].map((p) => {
+                                                      ].map((p: any) => {
                                                         return { id: p["id"] };
                                                       }),
                                                 applicationSecurityGroups:
@@ -1610,7 +3425,7 @@ export async function _fleetsCreateOrUpdateDeserialize(
                                                     ? p.properties?.["applicationSecurityGroups"]
                                                     : p.properties?.[
                                                         "applicationSecurityGroups"
-                                                      ].map((p) => {
+                                                      ].map((p: any) => {
                                                         return { id: p["id"] };
                                                       }),
                                                 loadBalancerBackendAddressPools:
@@ -1622,7 +3437,7 @@ export async function _fleetsCreateOrUpdateDeserialize(
                                                       ]
                                                     : p.properties?.[
                                                         "loadBalancerBackendAddressPools"
-                                                      ].map((p) => {
+                                                      ].map((p: any) => {
                                                         return { id: p["id"] };
                                                       }),
                                                 loadBalancerInboundNatPools:
@@ -1631,7 +3446,7 @@ export async function _fleetsCreateOrUpdateDeserialize(
                                                     ? p.properties?.["loadBalancerInboundNatPools"]
                                                     : p.properties?.[
                                                         "loadBalancerInboundNatPools"
-                                                      ].map((p) => {
+                                                      ].map((p: any) => {
                                                         return { id: p["id"] };
                                                       }),
                                               },
@@ -1646,82 +3461,82 @@ export async function _fleetsCreateOrUpdateDeserialize(
                             };
                           }),
                     networkApiVersion:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .networkProfile?.["networkApiVersion"],
                   },
-              securityProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              securityProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .securityProfile
                 ? undefined
                 : {
-                    uefiSettings: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+                    uefiSettings: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                       .securityProfile?.uefiSettings
                       ? undefined
                       : {
                           secureBootEnabled:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .securityProfile?.uefiSettings?.["secureBootEnabled"],
                           vTpmEnabled:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .securityProfile?.uefiSettings?.["vTpmEnabled"],
                         },
                     encryptionAtHost:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .securityProfile?.["encryptionAtHost"],
                     securityType:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .securityProfile?.["securityType"],
-                    encryptionIdentity: !res.body.properties?.computeProfile
+                    encryptionIdentity: !result.body.properties?.computeProfile
                       .baseVirtualMachineProfile.securityProfile?.encryptionIdentity
                       ? undefined
                       : {
                           userAssignedIdentityResourceId:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .securityProfile?.encryptionIdentity?.[
                               "userAssignedIdentityResourceId"
                             ],
                         },
-                    proxyAgentSettings: !res.body.properties?.computeProfile
+                    proxyAgentSettings: !result.body.properties?.computeProfile
                       .baseVirtualMachineProfile.securityProfile?.proxyAgentSettings
                       ? undefined
                       : {
                           enabled:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .securityProfile?.proxyAgentSettings?.["enabled"],
-                          mode: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          mode: result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .securityProfile?.proxyAgentSettings?.["mode"],
                           keyIncarnationId:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .securityProfile?.proxyAgentSettings?.["keyIncarnationId"],
                         },
                   },
-              diagnosticsProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              diagnosticsProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .diagnosticsProfile
                 ? undefined
                 : {
-                    bootDiagnostics: !res.body.properties?.computeProfile.baseVirtualMachineProfile
-                      .diagnosticsProfile?.bootDiagnostics
+                    bootDiagnostics: !result.body.properties?.computeProfile
+                      .baseVirtualMachineProfile.diagnosticsProfile?.bootDiagnostics
                       ? undefined
                       : {
                           enabled:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .diagnosticsProfile?.bootDiagnostics?.["enabled"],
                           storageUri:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .diagnosticsProfile?.bootDiagnostics?.["storageUri"],
                         },
                   },
-              extensionProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              extensionProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .extensionProfile
                 ? undefined
                 : {
                     extensions:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .extensionProfile?.["extensions"] === undefined
-                        ? res.body.properties?.computeProfile.baseVirtualMachineProfile
+                        ? result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .extensionProfile?.["extensions"]
-                        : res.body.properties?.computeProfile.baseVirtualMachineProfile.extensionProfile?.[
+                        : result.body.properties?.computeProfile.baseVirtualMachineProfile.extensionProfile?.[
                             "extensions"
-                          ].map((p) => {
+                          ].map((p: any) => {
                             return {
                               id: p["id"],
                               name: p["name"],
@@ -1760,68 +3575,69 @@ export async function _fleetsCreateOrUpdateDeserialize(
                             };
                           }),
                     extensionsTimeBudget:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .extensionProfile?.["extensionsTimeBudget"],
                   },
               licenseType:
-                res.body.properties?.computeProfile.baseVirtualMachineProfile["licenseType"],
-              scheduledEventsProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
-                .scheduledEventsProfile
+                result.body.properties?.computeProfile.baseVirtualMachineProfile["licenseType"],
+              scheduledEventsProfile: !result.body.properties?.computeProfile
+                .baseVirtualMachineProfile.scheduledEventsProfile
                 ? undefined
                 : {
-                    terminateNotificationProfile: !res.body.properties?.computeProfile
+                    terminateNotificationProfile: !result.body.properties?.computeProfile
                       .baseVirtualMachineProfile.scheduledEventsProfile
                       ?.terminateNotificationProfile
                       ? undefined
                       : {
                           notBeforeTimeout:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .scheduledEventsProfile?.terminateNotificationProfile?.[
                               "notBeforeTimeout"
                             ],
                           enable:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .scheduledEventsProfile?.terminateNotificationProfile?.["enable"],
                         },
-                    osImageNotificationProfile: !res.body.properties?.computeProfile
+                    osImageNotificationProfile: !result.body.properties?.computeProfile
                       .baseVirtualMachineProfile.scheduledEventsProfile?.osImageNotificationProfile
                       ? undefined
                       : {
                           notBeforeTimeout:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .scheduledEventsProfile?.osImageNotificationProfile?.[
                               "notBeforeTimeout"
                             ],
                           enable:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .scheduledEventsProfile?.osImageNotificationProfile?.["enable"],
                         },
                   },
-              userData: res.body.properties?.computeProfile.baseVirtualMachineProfile["userData"],
-              capacityReservation: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              userData:
+                result.body.properties?.computeProfile.baseVirtualMachineProfile["userData"],
+              capacityReservation: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .capacityReservation
                 ? undefined
                 : {
-                    capacityReservationGroup: !res.body.properties?.computeProfile
+                    capacityReservationGroup: !result.body.properties?.computeProfile
                       .baseVirtualMachineProfile.capacityReservation?.capacityReservationGroup
                       ? undefined
                       : {
-                          id: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          id: result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .capacityReservation?.capacityReservationGroup?.["id"],
                         },
                   },
-              applicationProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              applicationProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .applicationProfile
                 ? undefined
                 : {
                     galleryApplications:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .applicationProfile?.["galleryApplications"] === undefined
-                        ? res.body.properties?.computeProfile.baseVirtualMachineProfile
+                        ? result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .applicationProfile?.["galleryApplications"]
-                        : res.body.properties?.computeProfile.baseVirtualMachineProfile.applicationProfile?.[
+                        : result.body.properties?.computeProfile.baseVirtualMachineProfile.applicationProfile?.[
                             "galleryApplications"
-                          ].map((p) => {
+                          ].map((p: any) => {
                             return {
                               tags: p["tags"],
                               order: p["order"],
@@ -1832,77 +3648,92 @@ export async function _fleetsCreateOrUpdateDeserialize(
                             };
                           }),
                   },
-              hardwareProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              hardwareProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .hardwareProfile
                 ? undefined
                 : {
-                    vmSizeProperties: !res.body.properties?.computeProfile.baseVirtualMachineProfile
-                      .hardwareProfile?.vmSizeProperties
+                    vmSizeProperties: !result.body.properties?.computeProfile
+                      .baseVirtualMachineProfile.hardwareProfile?.vmSizeProperties
                       ? undefined
                       : {
                           vCPUsAvailable:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .hardwareProfile?.vmSizeProperties?.["vCPUsAvailable"],
                           vCPUsPerCore:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .hardwareProfile?.vmSizeProperties?.["vCPUsPerCore"],
                         },
                   },
-              serviceArtifactReference: !res.body.properties?.computeProfile
+              serviceArtifactReference: !result.body.properties?.computeProfile
                 .baseVirtualMachineProfile.serviceArtifactReference
                 ? undefined
                 : {
-                    id: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                    id: result.body.properties?.computeProfile.baseVirtualMachineProfile
                       .serviceArtifactReference?.["id"],
                   },
-              securityPostureReference: !res.body.properties?.computeProfile
+              securityPostureReference: !result.body.properties?.computeProfile
                 .baseVirtualMachineProfile.securityPostureReference
                 ? undefined
                 : {
-                    id: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                    id: result.body.properties?.computeProfile.baseVirtualMachineProfile
                       .securityPostureReference?.["id"],
                     excludeExtensions:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .securityPostureReference?.["excludeExtensions"],
                     isOverridable:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .securityPostureReference?.["isOverridable"],
                   },
               timeCreated:
-                res.body.properties?.computeProfile.baseVirtualMachineProfile["timeCreated"] !==
+                result.body.properties?.computeProfile.baseVirtualMachineProfile["timeCreated"] !==
                 undefined
                   ? new Date(
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile["timeCreated"],
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile[
+                        "timeCreated"
+                      ],
                     )
                   : undefined,
             },
-            computeApiVersion: res.body.properties?.computeProfile["computeApiVersion"],
+            computeApiVersion: result.body.properties?.computeProfile["computeApiVersion"],
             platformFaultDomainCount:
-              res.body.properties?.computeProfile["platformFaultDomainCount"],
+              result.body.properties?.computeProfile["platformFaultDomainCount"],
+            additionalVirtualMachineCapabilities: !result.body.properties?.computeProfile
+              .additionalVirtualMachineCapabilities
+              ? undefined
+              : {
+                  ultraSSDEnabled:
+                    result.body.properties?.computeProfile.additionalVirtualMachineCapabilities?.[
+                      "ultraSSDEnabled"
+                    ],
+                  hibernationEnabled:
+                    result.body.properties?.computeProfile.additionalVirtualMachineCapabilities?.[
+                      "hibernationEnabled"
+                    ],
+                },
           },
           timeCreated:
-            res.body.properties?.["timeCreated"] !== undefined
-              ? new Date(res.body.properties?.["timeCreated"])
+            result.body.properties?.["timeCreated"] !== undefined
+              ? new Date(result.body.properties?.["timeCreated"])
               : undefined,
-          uniqueId: res.body.properties?.["uniqueId"],
+          uniqueId: result.body.properties?.["uniqueId"],
         },
-    zones: res.body["zones"],
-    identity: !res.body.identity
+    zones: result.body["zones"],
+    identity: !result.body.identity
       ? undefined
       : {
-          principalId: res.body.identity?.["principalId"],
-          tenantId: res.body.identity?.["tenantId"],
-          type: res.body.identity?.["type"],
-          userAssignedIdentities: res.body.identity?.["userAssignedIdentities"],
+          principalId: result.body.identity?.["principalId"],
+          tenantId: result.body.identity?.["tenantId"],
+          type: result.body.identity?.["type"],
+          userAssignedIdentities: result.body.identity?.["userAssignedIdentities"],
         },
-    plan: !res.body.plan
+    plan: !result.body.plan
       ? undefined
       : {
-          name: res.body.plan?.["name"],
-          publisher: res.body.plan?.["publisher"],
-          product: res.body.plan?.["product"],
-          promotionCode: res.body.plan?.["promotionCode"],
-          version: res.body.plan?.["version"],
+          name: result.body.plan?.["name"],
+          publisher: result.body.plan?.["publisher"],
+          product: result.body.plan?.["product"],
+          promotionCode: result.body.plan?.["promotionCode"],
+          version: result.body.plan?.["version"],
         },
   };
 }
@@ -1916,7 +3747,7 @@ export function fleetsCreateOrUpdate(
   resource: Fleet,
   options: FleetsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Fleet>, Fleet> {
-  return getLongRunningPoller(context, _fleetsCreateOrUpdateDeserialize, {
+  return getLongRunningPoller(context, _fleetsCreateOrUpdateDeserialize, ["200", "201"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
@@ -1928,6 +3759,7 @@ export function fleetsCreateOrUpdate(
         resource,
         options,
       ),
+    resourceLocationConfig: "azure-async-operation",
   }) as PollerLike<OperationState<Fleet>, Fleet>;
 }
 
@@ -1938,12 +3770,7 @@ export function _fleetsUpdateSend(
   fleetName: string,
   properties: FleetUpdate,
   options: FleetsUpdateOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  | FleetsUpdate200Response
-  | FleetsUpdate202Response
-  | FleetsUpdateDefaultResponse
-  | FleetsUpdateLogicalResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}",
@@ -1966,108 +3793,1018 @@ export function _fleetsUpdateSend(
     });
 }
 
-export async function _fleetsUpdateDeserialize(
-  result:
-    | FleetsUpdate200Response
-    | FleetsUpdate202Response
-    | FleetsUpdateDefaultResponse
-    | FleetsUpdateLogicalResponse,
-): Promise<Fleet> {
-  if (isUnexpected(result)) {
+export async function _fleetsUpdateDeserialize(result: PathUncheckedResponse): Promise<Fleet> {
+  const expectedStatuses = ["200", "202"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  const res = result as unknown as FleetsUpdateLogicalResponse;
   return {
-    tags: res.body["tags"],
-    location: res.body["location"],
-    id: res.body["id"],
-    name: res.body["name"],
-    type: res.body["type"],
-    systemData: !res.body.systemData
+    tags: result.body["tags"],
+    location: result.body["location"],
+    id: result.body["id"],
+    name: result.body["name"],
+    type: result.body["type"],
+    systemData: !result.body.systemData
       ? undefined
       : {
-          createdBy: res.body.systemData?.["createdBy"],
-          createdByType: res.body.systemData?.["createdByType"],
+          createdBy: result.body.systemData?.["createdBy"],
+          createdByType: result.body.systemData?.["createdByType"],
           createdAt:
-            res.body.systemData?.["createdAt"] !== undefined
-              ? new Date(res.body.systemData?.["createdAt"])
+            result.body.systemData?.["createdAt"] !== undefined
+              ? new Date(result.body.systemData?.["createdAt"])
               : undefined,
-          lastModifiedBy: res.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: res.body.systemData?.["lastModifiedByType"],
+          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
+          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
           lastModifiedAt:
-            res.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(res.body.systemData?.["lastModifiedAt"])
+            result.body.systemData?.["lastModifiedAt"] !== undefined
+              ? new Date(result.body.systemData?.["lastModifiedAt"])
               : undefined,
         },
-    properties: !res.body.properties
+    properties: !result.body.properties
       ? undefined
       : {
-          provisioningState: res.body.properties?.["provisioningState"],
-          spotPriorityProfile: !res.body.properties?.spotPriorityProfile
+          provisioningState: result.body.properties?.["provisioningState"],
+          spotPriorityProfile: !result.body.properties?.spotPriorityProfile
             ? undefined
             : {
-                capacity: res.body.properties?.spotPriorityProfile?.["capacity"],
-                minCapacity: res.body.properties?.spotPriorityProfile?.["minCapacity"],
-                maxPricePerVM: res.body.properties?.spotPriorityProfile?.["maxPricePerVM"],
-                evictionPolicy: res.body.properties?.spotPriorityProfile?.["evictionPolicy"],
+                capacity: result.body.properties?.spotPriorityProfile?.["capacity"],
+                minCapacity: result.body.properties?.spotPriorityProfile?.["minCapacity"],
+                maxPricePerVM: result.body.properties?.spotPriorityProfile?.["maxPricePerVM"],
+                evictionPolicy: result.body.properties?.spotPriorityProfile?.["evictionPolicy"],
                 allocationStrategy:
-                  res.body.properties?.spotPriorityProfile?.["allocationStrategy"],
-                maintain: res.body.properties?.spotPriorityProfile?.["maintain"],
+                  result.body.properties?.spotPriorityProfile?.["allocationStrategy"],
+                maintain: result.body.properties?.spotPriorityProfile?.["maintain"],
               },
-          regularPriorityProfile: !res.body.properties?.regularPriorityProfile
+          regularPriorityProfile: !result.body.properties?.regularPriorityProfile
             ? undefined
             : {
-                capacity: res.body.properties?.regularPriorityProfile?.["capacity"],
-                minCapacity: res.body.properties?.regularPriorityProfile?.["minCapacity"],
+                capacity: result.body.properties?.regularPriorityProfile?.["capacity"],
+                minCapacity: result.body.properties?.regularPriorityProfile?.["minCapacity"],
                 allocationStrategy:
-                  res.body.properties?.regularPriorityProfile?.["allocationStrategy"],
+                  result.body.properties?.regularPriorityProfile?.["allocationStrategy"],
               },
-          vmSizesProfile: res.body.properties?.["vmSizesProfile"].map((p) => {
+          vmSizesProfile: result.body.properties?.["vmSizesProfile"].map((p: any) => {
             return { name: p["name"], rank: p["rank"] };
           }),
+          vmAttributes: !result.body.properties?.vmAttributes
+            ? undefined
+            : {
+                vCpuCount: {
+                  min: result.body.properties?.vmAttributes?.vCpuCount["min"],
+                  max: result.body.properties?.vmAttributes?.vCpuCount["max"],
+                },
+                memoryInGiB: {
+                  min: result.body.properties?.vmAttributes?.memoryInGiB["min"],
+                  max: result.body.properties?.vmAttributes?.memoryInGiB["max"],
+                },
+                memoryInGiBPerVCpu: !result.body.properties?.vmAttributes?.memoryInGiBPerVCpu
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.memoryInGiBPerVCpu?.["min"],
+                      max: result.body.properties?.vmAttributes?.memoryInGiBPerVCpu?.["max"],
+                    },
+                localStorageSupport: result.body.properties?.vmAttributes?.["localStorageSupport"],
+                localStorageInGiB: !result.body.properties?.vmAttributes?.localStorageInGiB
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.localStorageInGiB?.["min"],
+                      max: result.body.properties?.vmAttributes?.localStorageInGiB?.["max"],
+                    },
+                localStorageDiskTypes:
+                  result.body.properties?.vmAttributes?.["localStorageDiskTypes"],
+                dataDiskCount: !result.body.properties?.vmAttributes?.dataDiskCount
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.dataDiskCount?.["min"],
+                      max: result.body.properties?.vmAttributes?.dataDiskCount?.["max"],
+                    },
+                networkInterfaceCount: !result.body.properties?.vmAttributes?.networkInterfaceCount
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.networkInterfaceCount?.["min"],
+                      max: result.body.properties?.vmAttributes?.networkInterfaceCount?.["max"],
+                    },
+                networkBandwidthInMbps: !result.body.properties?.vmAttributes
+                  ?.networkBandwidthInMbps
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.networkBandwidthInMbps?.["min"],
+                      max: result.body.properties?.vmAttributes?.networkBandwidthInMbps?.["max"],
+                    },
+                rdmaSupport: result.body.properties?.vmAttributes?.["rdmaSupport"],
+                rdmaNetworkInterfaceCount: !result.body.properties?.vmAttributes
+                  ?.rdmaNetworkInterfaceCount
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.rdmaNetworkInterfaceCount?.["min"],
+                      max: result.body.properties?.vmAttributes?.rdmaNetworkInterfaceCount?.["max"],
+                    },
+                acceleratorSupport: result.body.properties?.vmAttributes?.["acceleratorSupport"],
+                acceleratorManufacturers:
+                  result.body.properties?.vmAttributes?.["acceleratorManufacturers"],
+                acceleratorTypes: result.body.properties?.vmAttributes?.["acceleratorTypes"],
+                acceleratorCount: !result.body.properties?.vmAttributes?.acceleratorCount
+                  ? undefined
+                  : {
+                      min: result.body.properties?.vmAttributes?.acceleratorCount?.["min"],
+                      max: result.body.properties?.vmAttributes?.acceleratorCount?.["max"],
+                    },
+                vmCategories: result.body.properties?.vmAttributes?.["vmCategories"],
+                architectureTypes: result.body.properties?.vmAttributes?.["architectureTypes"],
+                cpuManufacturers: result.body.properties?.vmAttributes?.["cpuManufacturers"],
+                burstableSupport: result.body.properties?.vmAttributes?.["burstableSupport"],
+                excludedVMSizes: result.body.properties?.vmAttributes?.["excludedVMSizes"],
+              },
+          additionalLocationsProfile: !result.body.properties?.additionalLocationsProfile
+            ? undefined
+            : {
+                locationProfiles: result.body.properties?.additionalLocationsProfile?.[
+                  "locationProfiles"
+                ].map((p: any) => {
+                  return {
+                    location: p["location"],
+                    virtualMachineProfileOverride: !p.virtualMachineProfileOverride
+                      ? undefined
+                      : {
+                          osProfile: !p.virtualMachineProfileOverride?.osProfile
+                            ? undefined
+                            : {
+                                computerNamePrefix:
+                                  p.virtualMachineProfileOverride?.osProfile?.[
+                                    "computerNamePrefix"
+                                  ],
+                                adminUsername:
+                                  p.virtualMachineProfileOverride?.osProfile?.["adminUsername"],
+                                adminPassword:
+                                  p.virtualMachineProfileOverride?.osProfile?.["adminPassword"],
+                                customData:
+                                  p.virtualMachineProfileOverride?.osProfile?.["customData"],
+                                windowsConfiguration: !p.virtualMachineProfileOverride?.osProfile
+                                  ?.windowsConfiguration
+                                  ? undefined
+                                  : {
+                                      provisionVMAgent:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.windowsConfiguration?.["provisionVMAgent"],
+                                      enableAutomaticUpdates:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.windowsConfiguration?.["enableAutomaticUpdates"],
+                                      timeZone:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.windowsConfiguration?.["timeZone"],
+                                      additionalUnattendContent:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.windowsConfiguration?.["additionalUnattendContent"] ===
+                                        undefined
+                                          ? p.virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.["additionalUnattendContent"]
+                                          : p.virtualMachineProfileOverride?.osProfile?.windowsConfiguration?.[
+                                              "additionalUnattendContent"
+                                            ].map((p: any) => {
+                                              return {
+                                                passName: p["passName"],
+                                                componentName: p["componentName"],
+                                                settingName: p["settingName"],
+                                                content: p["content"],
+                                              };
+                                            }),
+                                      patchSettings: !p.virtualMachineProfileOverride?.osProfile
+                                        ?.windowsConfiguration?.patchSettings
+                                        ? undefined
+                                        : {
+                                            patchMode:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.windowsConfiguration?.patchSettings?.[
+                                                "patchMode"
+                                              ],
+                                            enableHotpatching:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.windowsConfiguration?.patchSettings?.[
+                                                "enableHotpatching"
+                                              ],
+                                            assessmentMode:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.windowsConfiguration?.patchSettings?.[
+                                                "assessmentMode"
+                                              ],
+                                            automaticByPlatformSettings: !p
+                                              .virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.patchSettings
+                                              ?.automaticByPlatformSettings
+                                              ? undefined
+                                              : {
+                                                  rebootSetting:
+                                                    p.virtualMachineProfileOverride?.osProfile
+                                                      ?.windowsConfiguration?.patchSettings
+                                                      ?.automaticByPlatformSettings?.[
+                                                      "rebootSetting"
+                                                    ],
+                                                  bypassPlatformSafetyChecksOnUserSchedule:
+                                                    p.virtualMachineProfileOverride?.osProfile
+                                                      ?.windowsConfiguration?.patchSettings
+                                                      ?.automaticByPlatformSettings?.[
+                                                      "bypassPlatformSafetyChecksOnUserSchedule"
+                                                    ],
+                                                },
+                                          },
+                                      winRM: !p.virtualMachineProfileOverride?.osProfile
+                                        ?.windowsConfiguration?.winRM
+                                        ? undefined
+                                        : {
+                                            listeners:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.windowsConfiguration?.winRM?.["listeners"] ===
+                                              undefined
+                                                ? p.virtualMachineProfileOverride?.osProfile
+                                                    ?.windowsConfiguration?.winRM?.["listeners"]
+                                                : p.virtualMachineProfileOverride?.osProfile?.windowsConfiguration?.winRM?.[
+                                                    "listeners"
+                                                  ].map((p: any) => {
+                                                    return {
+                                                      protocol: p["protocol"],
+                                                      certificateUrl: p["certificateUrl"],
+                                                    };
+                                                  }),
+                                          },
+                                      enableVMAgentPlatformUpdates:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.windowsConfiguration?.["enableVMAgentPlatformUpdates"],
+                                    },
+                                linuxConfiguration: !p.virtualMachineProfileOverride?.osProfile
+                                  ?.linuxConfiguration
+                                  ? undefined
+                                  : {
+                                      disablePasswordAuthentication:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.linuxConfiguration?.["disablePasswordAuthentication"],
+                                      ssh: !p.virtualMachineProfileOverride?.osProfile
+                                        ?.linuxConfiguration?.ssh
+                                        ? undefined
+                                        : {
+                                            publicKeys:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.linuxConfiguration?.ssh?.["publicKeys"] ===
+                                              undefined
+                                                ? p.virtualMachineProfileOverride?.osProfile
+                                                    ?.linuxConfiguration?.ssh?.["publicKeys"]
+                                                : p.virtualMachineProfileOverride?.osProfile?.linuxConfiguration?.ssh?.[
+                                                    "publicKeys"
+                                                  ].map((p: any) => {
+                                                    return {
+                                                      path: p["path"],
+                                                      keyData: p["keyData"],
+                                                    };
+                                                  }),
+                                          },
+                                      provisionVMAgent:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.linuxConfiguration?.["provisionVMAgent"],
+                                      patchSettings: !p.virtualMachineProfileOverride?.osProfile
+                                        ?.linuxConfiguration?.patchSettings
+                                        ? undefined
+                                        : {
+                                            patchMode:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.linuxConfiguration?.patchSettings?.["patchMode"],
+                                            assessmentMode:
+                                              p.virtualMachineProfileOverride?.osProfile
+                                                ?.linuxConfiguration?.patchSettings?.[
+                                                "assessmentMode"
+                                              ],
+                                            automaticByPlatformSettings: !p
+                                              .virtualMachineProfileOverride?.osProfile
+                                              ?.linuxConfiguration?.patchSettings
+                                              ?.automaticByPlatformSettings
+                                              ? undefined
+                                              : {
+                                                  rebootSetting:
+                                                    p.virtualMachineProfileOverride?.osProfile
+                                                      ?.linuxConfiguration?.patchSettings
+                                                      ?.automaticByPlatformSettings?.[
+                                                      "rebootSetting"
+                                                    ],
+                                                  bypassPlatformSafetyChecksOnUserSchedule:
+                                                    p.virtualMachineProfileOverride?.osProfile
+                                                      ?.linuxConfiguration?.patchSettings
+                                                      ?.automaticByPlatformSettings?.[
+                                                      "bypassPlatformSafetyChecksOnUserSchedule"
+                                                    ],
+                                                },
+                                          },
+                                      enableVMAgentPlatformUpdates:
+                                        p.virtualMachineProfileOverride?.osProfile
+                                          ?.linuxConfiguration?.["enableVMAgentPlatformUpdates"],
+                                    },
+                                secrets:
+                                  p.virtualMachineProfileOverride?.osProfile?.["secrets"] ===
+                                  undefined
+                                    ? p.virtualMachineProfileOverride?.osProfile?.["secrets"]
+                                    : p.virtualMachineProfileOverride?.osProfile?.["secrets"].map(
+                                        (p: any) => {
+                                          return {
+                                            sourceVault: !p.sourceVault
+                                              ? undefined
+                                              : { id: p.sourceVault?.["id"] },
+                                            vaultCertificates:
+                                              p["vaultCertificates"] === undefined
+                                                ? p["vaultCertificates"]
+                                                : p["vaultCertificates"].map((p: any) => {
+                                                    return {
+                                                      certificateUrl: p["certificateUrl"],
+                                                      certificateStore: p["certificateStore"],
+                                                    };
+                                                  }),
+                                          };
+                                        },
+                                      ),
+                                allowExtensionOperations:
+                                  p.virtualMachineProfileOverride?.osProfile?.[
+                                    "allowExtensionOperations"
+                                  ],
+                                requireGuestProvisionSignal:
+                                  p.virtualMachineProfileOverride?.osProfile?.[
+                                    "requireGuestProvisionSignal"
+                                  ],
+                              },
+                          storageProfile: !p.virtualMachineProfileOverride?.storageProfile
+                            ? undefined
+                            : {
+                                imageReference: !p.virtualMachineProfileOverride?.storageProfile
+                                  ?.imageReference
+                                  ? undefined
+                                  : {
+                                      id: p.virtualMachineProfileOverride?.storageProfile
+                                        ?.imageReference?.["id"],
+                                      publisher:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["publisher"],
+                                      offer:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["offer"],
+                                      sku: p.virtualMachineProfileOverride?.storageProfile
+                                        ?.imageReference?.["sku"],
+                                      version:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["version"],
+                                      exactVersion:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["exactVersion"],
+                                      sharedGalleryImageId:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["sharedGalleryImageId"],
+                                      communityGalleryImageId:
+                                        p.virtualMachineProfileOverride?.storageProfile
+                                          ?.imageReference?.["communityGalleryImageId"],
+                                    },
+                                osDisk: !p.virtualMachineProfileOverride?.storageProfile?.osDisk
+                                  ? undefined
+                                  : {
+                                      name: p.virtualMachineProfileOverride?.storageProfile
+                                        ?.osDisk?.["name"],
+                                      caching:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "caching"
+                                        ],
+                                      writeAcceleratorEnabled:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "writeAcceleratorEnabled"
+                                        ],
+                                      createOption:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "createOption"
+                                        ],
+                                      diffDiskSettings: !p.virtualMachineProfileOverride
+                                        ?.storageProfile?.osDisk?.diffDiskSettings
+                                        ? undefined
+                                        : {
+                                            option:
+                                              p.virtualMachineProfileOverride?.storageProfile
+                                                ?.osDisk?.diffDiskSettings?.["option"],
+                                            placement:
+                                              p.virtualMachineProfileOverride?.storageProfile
+                                                ?.osDisk?.diffDiskSettings?.["placement"],
+                                          },
+                                      diskSizeGB:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "diskSizeGB"
+                                        ],
+                                      osType:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "osType"
+                                        ],
+                                      image: !p.virtualMachineProfileOverride?.storageProfile
+                                        ?.osDisk?.image
+                                        ? undefined
+                                        : {
+                                            uri: p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.image?.["uri"],
+                                          },
+                                      vhdContainers:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "vhdContainers"
+                                        ],
+                                      managedDisk: !p.virtualMachineProfileOverride?.storageProfile
+                                        ?.osDisk?.managedDisk
+                                        ? undefined
+                                        : {
+                                            storageAccountType:
+                                              p.virtualMachineProfileOverride?.storageProfile
+                                                ?.osDisk?.managedDisk?.["storageAccountType"],
+                                            diskEncryptionSet: !p.virtualMachineProfileOverride
+                                              ?.storageProfile?.osDisk?.managedDisk
+                                              ?.diskEncryptionSet
+                                              ? undefined
+                                              : {
+                                                  id: p.virtualMachineProfileOverride
+                                                    ?.storageProfile?.osDisk?.managedDisk
+                                                    ?.diskEncryptionSet?.["id"],
+                                                },
+                                            securityProfile: !p.virtualMachineProfileOverride
+                                              ?.storageProfile?.osDisk?.managedDisk?.securityProfile
+                                              ? undefined
+                                              : {
+                                                  securityEncryptionType:
+                                                    p.virtualMachineProfileOverride?.storageProfile
+                                                      ?.osDisk?.managedDisk?.securityProfile?.[
+                                                      "securityEncryptionType"
+                                                    ],
+                                                  diskEncryptionSet: !p
+                                                    .virtualMachineProfileOverride?.storageProfile
+                                                    ?.osDisk?.managedDisk?.securityProfile
+                                                    ?.diskEncryptionSet
+                                                    ? undefined
+                                                    : {
+                                                        id: p.virtualMachineProfileOverride
+                                                          ?.storageProfile?.osDisk?.managedDisk
+                                                          ?.securityProfile?.diskEncryptionSet?.[
+                                                          "id"
+                                                        ],
+                                                      },
+                                                },
+                                          },
+                                      deleteOption:
+                                        p.virtualMachineProfileOverride?.storageProfile?.osDisk?.[
+                                          "deleteOption"
+                                        ],
+                                    },
+                                dataDisks:
+                                  p.virtualMachineProfileOverride?.storageProfile?.["dataDisks"] ===
+                                  undefined
+                                    ? p.virtualMachineProfileOverride?.storageProfile?.["dataDisks"]
+                                    : p.virtualMachineProfileOverride?.storageProfile?.[
+                                        "dataDisks"
+                                      ].map((p: any) => {
+                                        return {
+                                          name: p["name"],
+                                          lun: p["lun"],
+                                          caching: p["caching"],
+                                          writeAcceleratorEnabled: p["writeAcceleratorEnabled"],
+                                          createOption: p["createOption"],
+                                          diskSizeGB: p["diskSizeGB"],
+                                          managedDisk: !p.managedDisk
+                                            ? undefined
+                                            : {
+                                                storageAccountType:
+                                                  p.managedDisk?.["storageAccountType"],
+                                                diskEncryptionSet: !p.managedDisk?.diskEncryptionSet
+                                                  ? undefined
+                                                  : {
+                                                      id: p.managedDisk?.diskEncryptionSet?.["id"],
+                                                    },
+                                                securityProfile: !p.managedDisk?.securityProfile
+                                                  ? undefined
+                                                  : {
+                                                      securityEncryptionType:
+                                                        p.managedDisk?.securityProfile?.[
+                                                          "securityEncryptionType"
+                                                        ],
+                                                      diskEncryptionSet: !p.managedDisk
+                                                        ?.securityProfile?.diskEncryptionSet
+                                                        ? undefined
+                                                        : {
+                                                            id: p.managedDisk?.securityProfile
+                                                              ?.diskEncryptionSet?.["id"],
+                                                          },
+                                                    },
+                                              },
+                                          diskIOPSReadWrite: p["diskIOPSReadWrite"],
+                                          diskMBpsReadWrite: p["diskMBpsReadWrite"],
+                                          deleteOption: p["deleteOption"],
+                                        };
+                                      }),
+                                diskControllerType:
+                                  p.virtualMachineProfileOverride?.storageProfile?.[
+                                    "diskControllerType"
+                                  ],
+                              },
+                          networkProfile: !p.virtualMachineProfileOverride?.networkProfile
+                            ? undefined
+                            : {
+                                healthProbe: !p.virtualMachineProfileOverride?.networkProfile
+                                  ?.healthProbe
+                                  ? undefined
+                                  : {
+                                      id: p.virtualMachineProfileOverride?.networkProfile
+                                        ?.healthProbe?.["id"],
+                                    },
+                                networkInterfaceConfigurations:
+                                  p.virtualMachineProfileOverride?.networkProfile?.[
+                                    "networkInterfaceConfigurations"
+                                  ] === undefined
+                                    ? p.virtualMachineProfileOverride?.networkProfile?.[
+                                        "networkInterfaceConfigurations"
+                                      ]
+                                    : p.virtualMachineProfileOverride?.networkProfile?.[
+                                        "networkInterfaceConfigurations"
+                                      ].map((p: any) => {
+                                        return {
+                                          name: p["name"],
+                                          properties: !p.properties
+                                            ? undefined
+                                            : {
+                                                primary: p.properties?.["primary"],
+                                                enableAcceleratedNetworking:
+                                                  p.properties?.["enableAcceleratedNetworking"],
+                                                disableTcpStateTracking:
+                                                  p.properties?.["disableTcpStateTracking"],
+                                                enableFpga: p.properties?.["enableFpga"],
+                                                networkSecurityGroup: !p.properties
+                                                  ?.networkSecurityGroup
+                                                  ? undefined
+                                                  : {
+                                                      id: p.properties?.networkSecurityGroup?.[
+                                                        "id"
+                                                      ],
+                                                    },
+                                                dnsSettings: !p.properties?.dnsSettings
+                                                  ? undefined
+                                                  : {
+                                                      dnsServers:
+                                                        p.properties?.dnsSettings?.["dnsServers"],
+                                                    },
+                                                ipConfigurations: p.properties?.[
+                                                  "ipConfigurations"
+                                                ].map((p: any) => {
+                                                  return {
+                                                    name: p["name"],
+                                                    properties: !p.properties
+                                                      ? undefined
+                                                      : {
+                                                          subnet: !p.properties?.subnet
+                                                            ? undefined
+                                                            : {
+                                                                id: p.properties?.subnet?.["id"],
+                                                              },
+                                                          primary: p.properties?.["primary"],
+                                                          publicIPAddressConfiguration: !p
+                                                            .properties
+                                                            ?.publicIPAddressConfiguration
+                                                            ? undefined
+                                                            : {
+                                                                name: p.properties
+                                                                  ?.publicIPAddressConfiguration?.[
+                                                                  "name"
+                                                                ],
+                                                                properties: !p.properties
+                                                                  ?.publicIPAddressConfiguration
+                                                                  ?.properties
+                                                                  ? undefined
+                                                                  : {
+                                                                      idleTimeoutInMinutes:
+                                                                        p.properties
+                                                                          ?.publicIPAddressConfiguration
+                                                                          ?.properties?.[
+                                                                          "idleTimeoutInMinutes"
+                                                                        ],
+                                                                      dnsSettings: !p.properties
+                                                                        ?.publicIPAddressConfiguration
+                                                                        ?.properties?.dnsSettings
+                                                                        ? undefined
+                                                                        : {
+                                                                            domainNameLabel:
+                                                                              p.properties
+                                                                                ?.publicIPAddressConfiguration
+                                                                                ?.properties
+                                                                                ?.dnsSettings?.[
+                                                                                "domainNameLabel"
+                                                                              ],
+                                                                            domainNameLabelScope:
+                                                                              p.properties
+                                                                                ?.publicIPAddressConfiguration
+                                                                                ?.properties
+                                                                                ?.dnsSettings?.[
+                                                                                "domainNameLabelScope"
+                                                                              ],
+                                                                          },
+                                                                      ipTags:
+                                                                        p.properties
+                                                                          ?.publicIPAddressConfiguration
+                                                                          ?.properties?.[
+                                                                          "ipTags"
+                                                                        ] === undefined
+                                                                          ? p.properties
+                                                                              ?.publicIPAddressConfiguration
+                                                                              ?.properties?.[
+                                                                              "ipTags"
+                                                                            ]
+                                                                          : p.properties?.publicIPAddressConfiguration?.properties?.[
+                                                                              "ipTags"
+                                                                            ].map((p: any) => {
+                                                                              return {
+                                                                                ipTagType:
+                                                                                  p["ipTagType"],
+                                                                                tag: p["tag"],
+                                                                              };
+                                                                            }),
+                                                                      publicIPPrefix: !p.properties
+                                                                        ?.publicIPAddressConfiguration
+                                                                        ?.properties?.publicIPPrefix
+                                                                        ? undefined
+                                                                        : {
+                                                                            id: p.properties
+                                                                              ?.publicIPAddressConfiguration
+                                                                              ?.properties
+                                                                              ?.publicIPPrefix?.[
+                                                                              "id"
+                                                                            ],
+                                                                          },
+                                                                      publicIPAddressVersion:
+                                                                        p.properties
+                                                                          ?.publicIPAddressConfiguration
+                                                                          ?.properties?.[
+                                                                          "publicIPAddressVersion"
+                                                                        ],
+                                                                      deleteOption:
+                                                                        p.properties
+                                                                          ?.publicIPAddressConfiguration
+                                                                          ?.properties?.[
+                                                                          "deleteOption"
+                                                                        ],
+                                                                    },
+                                                                sku: !p.properties
+                                                                  ?.publicIPAddressConfiguration
+                                                                  ?.sku
+                                                                  ? undefined
+                                                                  : {
+                                                                      name: p.properties
+                                                                        ?.publicIPAddressConfiguration
+                                                                        ?.sku?.["name"],
+                                                                      tier: p.properties
+                                                                        ?.publicIPAddressConfiguration
+                                                                        ?.sku?.["tier"],
+                                                                    },
+                                                              },
+                                                          privateIPAddressVersion:
+                                                            p.properties?.[
+                                                              "privateIPAddressVersion"
+                                                            ],
+                                                          applicationGatewayBackendAddressPools:
+                                                            p.properties?.[
+                                                              "applicationGatewayBackendAddressPools"
+                                                            ] === undefined
+                                                              ? p.properties?.[
+                                                                  "applicationGatewayBackendAddressPools"
+                                                                ]
+                                                              : p.properties?.[
+                                                                  "applicationGatewayBackendAddressPools"
+                                                                ].map((p: any) => {
+                                                                  return {
+                                                                    id: p["id"],
+                                                                  };
+                                                                }),
+                                                          applicationSecurityGroups:
+                                                            p.properties?.[
+                                                              "applicationSecurityGroups"
+                                                            ] === undefined
+                                                              ? p.properties?.[
+                                                                  "applicationSecurityGroups"
+                                                                ]
+                                                              : p.properties?.[
+                                                                  "applicationSecurityGroups"
+                                                                ].map((p: any) => {
+                                                                  return {
+                                                                    id: p["id"],
+                                                                  };
+                                                                }),
+                                                          loadBalancerBackendAddressPools:
+                                                            p.properties?.[
+                                                              "loadBalancerBackendAddressPools"
+                                                            ] === undefined
+                                                              ? p.properties?.[
+                                                                  "loadBalancerBackendAddressPools"
+                                                                ]
+                                                              : p.properties?.[
+                                                                  "loadBalancerBackendAddressPools"
+                                                                ].map((p: any) => {
+                                                                  return {
+                                                                    id: p["id"],
+                                                                  };
+                                                                }),
+                                                          loadBalancerInboundNatPools:
+                                                            p.properties?.[
+                                                              "loadBalancerInboundNatPools"
+                                                            ] === undefined
+                                                              ? p.properties?.[
+                                                                  "loadBalancerInboundNatPools"
+                                                                ]
+                                                              : p.properties?.[
+                                                                  "loadBalancerInboundNatPools"
+                                                                ].map((p: any) => {
+                                                                  return {
+                                                                    id: p["id"],
+                                                                  };
+                                                                }),
+                                                        },
+                                                  };
+                                                }),
+                                                enableIPForwarding:
+                                                  p.properties?.["enableIPForwarding"],
+                                                deleteOption: p.properties?.["deleteOption"],
+                                                auxiliaryMode: p.properties?.["auxiliaryMode"],
+                                                auxiliarySku: p.properties?.["auxiliarySku"],
+                                              },
+                                        };
+                                      }),
+                                networkApiVersion:
+                                  p.virtualMachineProfileOverride?.networkProfile?.[
+                                    "networkApiVersion"
+                                  ],
+                              },
+                          securityProfile: !p.virtualMachineProfileOverride?.securityProfile
+                            ? undefined
+                            : {
+                                uefiSettings: !p.virtualMachineProfileOverride?.securityProfile
+                                  ?.uefiSettings
+                                  ? undefined
+                                  : {
+                                      secureBootEnabled:
+                                        p.virtualMachineProfileOverride?.securityProfile
+                                          ?.uefiSettings?.["secureBootEnabled"],
+                                      vTpmEnabled:
+                                        p.virtualMachineProfileOverride?.securityProfile
+                                          ?.uefiSettings?.["vTpmEnabled"],
+                                    },
+                                encryptionAtHost:
+                                  p.virtualMachineProfileOverride?.securityProfile?.[
+                                    "encryptionAtHost"
+                                  ],
+                                securityType:
+                                  p.virtualMachineProfileOverride?.securityProfile?.[
+                                    "securityType"
+                                  ],
+                                encryptionIdentity: !p.virtualMachineProfileOverride
+                                  ?.securityProfile?.encryptionIdentity
+                                  ? undefined
+                                  : {
+                                      userAssignedIdentityResourceId:
+                                        p.virtualMachineProfileOverride?.securityProfile
+                                          ?.encryptionIdentity?.["userAssignedIdentityResourceId"],
+                                    },
+                                proxyAgentSettings: !p.virtualMachineProfileOverride
+                                  ?.securityProfile?.proxyAgentSettings
+                                  ? undefined
+                                  : {
+                                      enabled:
+                                        p.virtualMachineProfileOverride?.securityProfile
+                                          ?.proxyAgentSettings?.["enabled"],
+                                      mode: p.virtualMachineProfileOverride?.securityProfile
+                                        ?.proxyAgentSettings?.["mode"],
+                                      keyIncarnationId:
+                                        p.virtualMachineProfileOverride?.securityProfile
+                                          ?.proxyAgentSettings?.["keyIncarnationId"],
+                                    },
+                              },
+                          diagnosticsProfile: !p.virtualMachineProfileOverride?.diagnosticsProfile
+                            ? undefined
+                            : {
+                                bootDiagnostics: !p.virtualMachineProfileOverride
+                                  ?.diagnosticsProfile?.bootDiagnostics
+                                  ? undefined
+                                  : {
+                                      enabled:
+                                        p.virtualMachineProfileOverride?.diagnosticsProfile
+                                          ?.bootDiagnostics?.["enabled"],
+                                      storageUri:
+                                        p.virtualMachineProfileOverride?.diagnosticsProfile
+                                          ?.bootDiagnostics?.["storageUri"],
+                                    },
+                              },
+                          extensionProfile: !p.virtualMachineProfileOverride?.extensionProfile
+                            ? undefined
+                            : {
+                                extensions:
+                                  p.virtualMachineProfileOverride?.extensionProfile?.[
+                                    "extensions"
+                                  ] === undefined
+                                    ? p.virtualMachineProfileOverride?.extensionProfile?.[
+                                        "extensions"
+                                      ]
+                                    : p.virtualMachineProfileOverride?.extensionProfile?.[
+                                        "extensions"
+                                      ].map((p: any) => {
+                                        return {
+                                          id: p["id"],
+                                          name: p["name"],
+                                          type: p["type"],
+                                          properties: !p.properties
+                                            ? undefined
+                                            : {
+                                                forceUpdateTag: p.properties?.["forceUpdateTag"],
+                                                publisher: p.properties?.["publisher"],
+                                                type: p.properties?.["type"],
+                                                typeHandlerVersion:
+                                                  p.properties?.["typeHandlerVersion"],
+                                                autoUpgradeMinorVersion:
+                                                  p.properties?.["autoUpgradeMinorVersion"],
+                                                enableAutomaticUpgrade:
+                                                  p.properties?.["enableAutomaticUpgrade"],
+                                                settings: p.properties?.["settings"],
+                                                protectedSettings:
+                                                  p.properties?.["protectedSettings"],
+                                                provisioningState:
+                                                  p.properties?.["provisioningState"],
+                                                provisionAfterExtensions:
+                                                  p.properties?.["provisionAfterExtensions"],
+                                                suppressFailures:
+                                                  p.properties?.["suppressFailures"],
+                                                protectedSettingsFromKeyVault: !p.properties
+                                                  ?.protectedSettingsFromKeyVault
+                                                  ? undefined
+                                                  : {
+                                                      secretUrl:
+                                                        p.properties
+                                                          ?.protectedSettingsFromKeyVault?.[
+                                                          "secretUrl"
+                                                        ],
+                                                      sourceVault: {
+                                                        id: p.properties
+                                                          ?.protectedSettingsFromKeyVault
+                                                          ?.sourceVault["id"],
+                                                      },
+                                                    },
+                                              },
+                                        };
+                                      }),
+                                extensionsTimeBudget:
+                                  p.virtualMachineProfileOverride?.extensionProfile?.[
+                                    "extensionsTimeBudget"
+                                  ],
+                              },
+                          licenseType: p.virtualMachineProfileOverride?.["licenseType"],
+                          scheduledEventsProfile: !p.virtualMachineProfileOverride
+                            ?.scheduledEventsProfile
+                            ? undefined
+                            : {
+                                terminateNotificationProfile: !p.virtualMachineProfileOverride
+                                  ?.scheduledEventsProfile?.terminateNotificationProfile
+                                  ? undefined
+                                  : {
+                                      notBeforeTimeout:
+                                        p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                          ?.terminateNotificationProfile?.["notBeforeTimeout"],
+                                      enable:
+                                        p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                          ?.terminateNotificationProfile?.["enable"],
+                                    },
+                                osImageNotificationProfile: !p.virtualMachineProfileOverride
+                                  ?.scheduledEventsProfile?.osImageNotificationProfile
+                                  ? undefined
+                                  : {
+                                      notBeforeTimeout:
+                                        p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                          ?.osImageNotificationProfile?.["notBeforeTimeout"],
+                                      enable:
+                                        p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                          ?.osImageNotificationProfile?.["enable"],
+                                    },
+                              },
+                          userData: p.virtualMachineProfileOverride?.["userData"],
+                          capacityReservation: !p.virtualMachineProfileOverride?.capacityReservation
+                            ? undefined
+                            : {
+                                capacityReservationGroup: !p.virtualMachineProfileOverride
+                                  ?.capacityReservation?.capacityReservationGroup
+                                  ? undefined
+                                  : {
+                                      id: p.virtualMachineProfileOverride?.capacityReservation
+                                        ?.capacityReservationGroup?.["id"],
+                                    },
+                              },
+                          applicationProfile: !p.virtualMachineProfileOverride?.applicationProfile
+                            ? undefined
+                            : {
+                                galleryApplications:
+                                  p.virtualMachineProfileOverride?.applicationProfile?.[
+                                    "galleryApplications"
+                                  ] === undefined
+                                    ? p.virtualMachineProfileOverride?.applicationProfile?.[
+                                        "galleryApplications"
+                                      ]
+                                    : p.virtualMachineProfileOverride?.applicationProfile?.[
+                                        "galleryApplications"
+                                      ].map((p: any) => {
+                                        return {
+                                          tags: p["tags"],
+                                          order: p["order"],
+                                          packageReferenceId: p["packageReferenceId"],
+                                          configurationReference: p["configurationReference"],
+                                          treatFailureAsDeploymentFailure:
+                                            p["treatFailureAsDeploymentFailure"],
+                                          enableAutomaticUpgrade: p["enableAutomaticUpgrade"],
+                                        };
+                                      }),
+                              },
+                          hardwareProfile: !p.virtualMachineProfileOverride?.hardwareProfile
+                            ? undefined
+                            : {
+                                vmSizeProperties: !p.virtualMachineProfileOverride?.hardwareProfile
+                                  ?.vmSizeProperties
+                                  ? undefined
+                                  : {
+                                      vCPUsAvailable:
+                                        p.virtualMachineProfileOverride?.hardwareProfile
+                                          ?.vmSizeProperties?.["vCPUsAvailable"],
+                                      vCPUsPerCore:
+                                        p.virtualMachineProfileOverride?.hardwareProfile
+                                          ?.vmSizeProperties?.["vCPUsPerCore"],
+                                    },
+                              },
+                          serviceArtifactReference: !p.virtualMachineProfileOverride
+                            ?.serviceArtifactReference
+                            ? undefined
+                            : {
+                                id: p.virtualMachineProfileOverride?.serviceArtifactReference?.[
+                                  "id"
+                                ],
+                              },
+                          securityPostureReference: !p.virtualMachineProfileOverride
+                            ?.securityPostureReference
+                            ? undefined
+                            : {
+                                id: p.virtualMachineProfileOverride?.securityPostureReference?.[
+                                  "id"
+                                ],
+                                excludeExtensions:
+                                  p.virtualMachineProfileOverride?.securityPostureReference?.[
+                                    "excludeExtensions"
+                                  ],
+                                isOverridable:
+                                  p.virtualMachineProfileOverride?.securityPostureReference?.[
+                                    "isOverridable"
+                                  ],
+                              },
+                          timeCreated:
+                            p.virtualMachineProfileOverride?.["timeCreated"] !== undefined
+                              ? new Date(p.virtualMachineProfileOverride?.["timeCreated"])
+                              : undefined,
+                        },
+                  };
+                }),
+              },
           computeProfile: {
             baseVirtualMachineProfile: {
-              osProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
+              osProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
                 ? undefined
                 : {
                     computerNamePrefix:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                         "computerNamePrefix"
                       ],
                     adminUsername:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                         "adminUsername"
                       ],
                     adminPassword:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                         "adminPassword"
                       ],
                     customData:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                         "customData"
                       ],
-                    windowsConfiguration: !res.body.properties?.computeProfile
+                    windowsConfiguration: !result.body.properties?.computeProfile
                       .baseVirtualMachineProfile.osProfile?.windowsConfiguration
                       ? undefined
                       : {
                           provisionVMAgent:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.windowsConfiguration?.["provisionVMAgent"],
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.windowsConfiguration?.["provisionVMAgent"],
                           enableAutomaticUpdates:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.windowsConfiguration?.["enableAutomaticUpdates"],
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.windowsConfiguration?.["enableAutomaticUpdates"],
                           timeZone:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.windowsConfiguration?.["timeZone"],
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.windowsConfiguration?.["timeZone"],
                           additionalUnattendContent:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.windowsConfiguration?.["additionalUnattendContent"] === undefined
-                              ? res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.windowsConfiguration?.["additionalUnattendContent"] ===
+                            undefined
+                              ? result.body.properties?.computeProfile.baseVirtualMachineProfile
                                   .osProfile?.windowsConfiguration?.["additionalUnattendContent"]
-                              : res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.windowsConfiguration?.[
+                              : result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.windowsConfiguration?.[
                                   "additionalUnattendContent"
-                                ].map((p) => {
+                                ].map((p: any) => {
                                   return {
                                     passName: p["passName"],
                                     componentName: p["componentName"],
@@ -2075,56 +4812,57 @@ export async function _fleetsUpdateDeserialize(
                                     content: p["content"],
                                   };
                                 }),
-                          patchSettings: !res.body.properties?.computeProfile
+                          patchSettings: !result.body.properties?.computeProfile
                             .baseVirtualMachineProfile.osProfile?.windowsConfiguration
                             ?.patchSettings
                             ? undefined
                             : {
                                 patchMode:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .osProfile?.windowsConfiguration?.patchSettings?.["patchMode"],
                                 enableHotpatching:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .osProfile?.windowsConfiguration?.patchSettings?.[
                                     "enableHotpatching"
                                   ],
                                 assessmentMode:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .osProfile?.windowsConfiguration?.patchSettings?.[
                                     "assessmentMode"
                                   ],
-                                automaticByPlatformSettings: !res.body.properties?.computeProfile
+                                automaticByPlatformSettings: !result.body.properties?.computeProfile
                                   .baseVirtualMachineProfile.osProfile?.windowsConfiguration
                                   ?.patchSettings?.automaticByPlatformSettings
                                   ? undefined
                                   : {
                                       rebootSetting:
-                                        res.body.properties?.computeProfile
+                                        result.body.properties?.computeProfile
                                           .baseVirtualMachineProfile.osProfile?.windowsConfiguration
                                           ?.patchSettings?.automaticByPlatformSettings?.[
                                           "rebootSetting"
                                         ],
                                       bypassPlatformSafetyChecksOnUserSchedule:
-                                        res.body.properties?.computeProfile
+                                        result.body.properties?.computeProfile
                                           .baseVirtualMachineProfile.osProfile?.windowsConfiguration
                                           ?.patchSettings?.automaticByPlatformSettings?.[
                                           "bypassPlatformSafetyChecksOnUserSchedule"
                                         ],
                                     },
                               },
-                          winRM: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          winRM: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .osProfile?.windowsConfiguration?.winRM
                             ? undefined
                             : {
                                 listeners:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .osProfile?.windowsConfiguration?.winRM?.["listeners"] ===
                                   undefined
-                                    ? res.body.properties?.computeProfile.baseVirtualMachineProfile
-                                        .osProfile?.windowsConfiguration?.winRM?.["listeners"]
-                                    : res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.windowsConfiguration?.winRM?.[
+                                    ? result.body.properties?.computeProfile
+                                        .baseVirtualMachineProfile.osProfile?.windowsConfiguration
+                                        ?.winRM?.["listeners"]
+                                    : result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.windowsConfiguration?.winRM?.[
                                         "listeners"
-                                      ].map((p) => {
+                                      ].map((p: any) => {
                                         return {
                                           protocol: p["protocol"],
                                           certificateUrl: p["certificateUrl"],
@@ -2132,29 +4870,30 @@ export async function _fleetsUpdateDeserialize(
                                       }),
                               },
                           enableVMAgentPlatformUpdates:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.windowsConfiguration?.["enableVMAgentPlatformUpdates"],
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.windowsConfiguration?.["enableVMAgentPlatformUpdates"],
                         },
-                    linuxConfiguration: !res.body.properties?.computeProfile
+                    linuxConfiguration: !result.body.properties?.computeProfile
                       .baseVirtualMachineProfile.osProfile?.linuxConfiguration
                       ? undefined
                       : {
                           disablePasswordAuthentication:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.linuxConfiguration?.["disablePasswordAuthentication"],
-                          ssh: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.linuxConfiguration?.["disablePasswordAuthentication"],
+                          ssh: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .osProfile?.linuxConfiguration?.ssh
                             ? undefined
                             : {
                                 publicKeys:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .osProfile?.linuxConfiguration?.ssh?.["publicKeys"] ===
                                   undefined
-                                    ? res.body.properties?.computeProfile.baseVirtualMachineProfile
-                                        .osProfile?.linuxConfiguration?.ssh?.["publicKeys"]
-                                    : res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.linuxConfiguration?.ssh?.[
+                                    ? result.body.properties?.computeProfile
+                                        .baseVirtualMachineProfile.osProfile?.linuxConfiguration
+                                        ?.ssh?.["publicKeys"]
+                                    : result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.linuxConfiguration?.ssh?.[
                                         "publicKeys"
-                                      ].map((p) => {
+                                      ].map((p: any) => {
                                         return {
                                           path: p["path"],
                                           keyData: p["keyData"],
@@ -2162,33 +4901,33 @@ export async function _fleetsUpdateDeserialize(
                                       }),
                               },
                           provisionVMAgent:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.linuxConfiguration?.["provisionVMAgent"],
-                          patchSettings: !res.body.properties?.computeProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.linuxConfiguration?.["provisionVMAgent"],
+                          patchSettings: !result.body.properties?.computeProfile
                             .baseVirtualMachineProfile.osProfile?.linuxConfiguration?.patchSettings
                             ? undefined
                             : {
                                 patchMode:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .osProfile?.linuxConfiguration?.patchSettings?.["patchMode"],
                                 assessmentMode:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .osProfile?.linuxConfiguration?.patchSettings?.[
                                     "assessmentMode"
                                   ],
-                                automaticByPlatformSettings: !res.body.properties?.computeProfile
+                                automaticByPlatformSettings: !result.body.properties?.computeProfile
                                   .baseVirtualMachineProfile.osProfile?.linuxConfiguration
                                   ?.patchSettings?.automaticByPlatformSettings
                                   ? undefined
                                   : {
                                       rebootSetting:
-                                        res.body.properties?.computeProfile
+                                        result.body.properties?.computeProfile
                                           .baseVirtualMachineProfile.osProfile?.linuxConfiguration
                                           ?.patchSettings?.automaticByPlatformSettings?.[
                                           "rebootSetting"
                                         ],
                                       bypassPlatformSafetyChecksOnUserSchedule:
-                                        res.body.properties?.computeProfile
+                                        result.body.properties?.computeProfile
                                           .baseVirtualMachineProfile.osProfile?.linuxConfiguration
                                           ?.patchSettings?.automaticByPlatformSettings?.[
                                           "bypassPlatformSafetyChecksOnUserSchedule"
@@ -2196,19 +4935,18 @@ export async function _fleetsUpdateDeserialize(
                                     },
                               },
                           enableVMAgentPlatformUpdates:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile
-                              ?.linuxConfiguration?.["enableVMAgentPlatformUpdates"],
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
+                              .osProfile?.linuxConfiguration?.["enableVMAgentPlatformUpdates"],
                         },
                     secrets:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                         "secrets"
                       ] === undefined
-                        ? res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                        ? result.body.properties?.computeProfile.baseVirtualMachineProfile
+                            .osProfile?.["secrets"]
+                        : result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                             "secrets"
-                          ]
-                        : res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
-                            "secrets"
-                          ].map((p) => {
+                          ].map((p: any) => {
                             return {
                               sourceVault: !p.sourceVault
                                 ? undefined
@@ -2216,7 +4954,7 @@ export async function _fleetsUpdateDeserialize(
                               vaultCertificates:
                                 p["vaultCertificates"] === undefined
                                   ? p["vaultCertificates"]
-                                  : p["vaultCertificates"].map((p) => {
+                                  : p["vaultCertificates"].map((p: any) => {
                                       return {
                                         certificateUrl: p["certificateUrl"],
                                         certificateStore: p["certificateStore"],
@@ -2225,120 +4963,120 @@ export async function _fleetsUpdateDeserialize(
                             };
                           }),
                     allowExtensionOperations:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                         "allowExtensionOperations"
                       ],
                     requireGuestProvisionSignal:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                         "requireGuestProvisionSignal"
                       ],
                   },
-              storageProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              storageProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .storageProfile
                 ? undefined
                 : {
-                    imageReference: !res.body.properties?.computeProfile.baseVirtualMachineProfile
-                      .storageProfile?.imageReference
+                    imageReference: !result.body.properties?.computeProfile
+                      .baseVirtualMachineProfile.storageProfile?.imageReference
                       ? undefined
                       : {
-                          id: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          id: result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .storageProfile?.imageReference?.["id"],
                           publisher:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.imageReference?.["publisher"],
                           offer:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.imageReference?.["offer"],
-                          sku: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          sku: result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .storageProfile?.imageReference?.["sku"],
                           version:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.imageReference?.["version"],
                           exactVersion:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.imageReference?.["exactVersion"],
                           sharedGalleryImageId:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.imageReference?.["sharedGalleryImageId"],
                           communityGalleryImageId:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.imageReference?.["communityGalleryImageId"],
                         },
-                    osDisk: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+                    osDisk: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                       .storageProfile?.osDisk
                       ? undefined
                       : {
-                          name: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          name: result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .storageProfile?.osDisk?.["name"],
                           caching:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.osDisk?.["caching"],
                           writeAcceleratorEnabled:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.osDisk?.["writeAcceleratorEnabled"],
                           createOption:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.osDisk?.["createOption"],
-                          diffDiskSettings: !res.body.properties?.computeProfile
+                          diffDiskSettings: !result.body.properties?.computeProfile
                             .baseVirtualMachineProfile.storageProfile?.osDisk?.diffDiskSettings
                             ? undefined
                             : {
                                 option:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .storageProfile?.osDisk?.diffDiskSettings?.["option"],
                                 placement:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .storageProfile?.osDisk?.diffDiskSettings?.["placement"],
                               },
                           diskSizeGB:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.osDisk?.["diskSizeGB"],
                           osType:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.osDisk?.["osType"],
-                          image: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          image: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .storageProfile?.osDisk?.image
                             ? undefined
                             : {
-                                uri: res.body.properties?.computeProfile.baseVirtualMachineProfile
-                                  .storageProfile?.osDisk?.image?.["uri"],
+                                uri: result.body.properties?.computeProfile
+                                  .baseVirtualMachineProfile.storageProfile?.osDisk?.image?.["uri"],
                               },
                           vhdContainers:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.osDisk?.["vhdContainers"],
-                          managedDisk: !res.body.properties?.computeProfile
+                          managedDisk: !result.body.properties?.computeProfile
                             .baseVirtualMachineProfile.storageProfile?.osDisk?.managedDisk
                             ? undefined
                             : {
                                 storageAccountType:
-                                  res.body.properties?.computeProfile.baseVirtualMachineProfile
+                                  result.body.properties?.computeProfile.baseVirtualMachineProfile
                                     .storageProfile?.osDisk?.managedDisk?.["storageAccountType"],
-                                diskEncryptionSet: !res.body.properties?.computeProfile
+                                diskEncryptionSet: !result.body.properties?.computeProfile
                                   .baseVirtualMachineProfile.storageProfile?.osDisk?.managedDisk
                                   ?.diskEncryptionSet
                                   ? undefined
                                   : {
-                                      id: res.body.properties?.computeProfile
+                                      id: result.body.properties?.computeProfile
                                         .baseVirtualMachineProfile.storageProfile?.osDisk
                                         ?.managedDisk?.diskEncryptionSet?.["id"],
                                     },
-                                securityProfile: !res.body.properties?.computeProfile
+                                securityProfile: !result.body.properties?.computeProfile
                                   .baseVirtualMachineProfile.storageProfile?.osDisk?.managedDisk
                                   ?.securityProfile
                                   ? undefined
                                   : {
                                       securityEncryptionType:
-                                        res.body.properties?.computeProfile
+                                        result.body.properties?.computeProfile
                                           .baseVirtualMachineProfile.storageProfile?.osDisk
                                           ?.managedDisk?.securityProfile?.[
                                           "securityEncryptionType"
                                         ],
-                                      diskEncryptionSet: !res.body.properties?.computeProfile
+                                      diskEncryptionSet: !result.body.properties?.computeProfile
                                         .baseVirtualMachineProfile.storageProfile?.osDisk
                                         ?.managedDisk?.securityProfile?.diskEncryptionSet
                                         ? undefined
                                         : {
-                                            id: res.body.properties?.computeProfile
+                                            id: result.body.properties?.computeProfile
                                               .baseVirtualMachineProfile.storageProfile?.osDisk
                                               ?.managedDisk?.securityProfile?.diskEncryptionSet?.[
                                               "id"
@@ -2347,17 +5085,17 @@ export async function _fleetsUpdateDeserialize(
                                     },
                               },
                           deleteOption:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .storageProfile?.osDisk?.["deleteOption"],
                         },
                     dataDisks:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .storageProfile?.["dataDisks"] === undefined
-                        ? res.body.properties?.computeProfile.baseVirtualMachineProfile
+                        ? result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .storageProfile?.["dataDisks"]
-                        : res.body.properties?.computeProfile.baseVirtualMachineProfile.storageProfile?.[
+                        : result.body.properties?.computeProfile.baseVirtualMachineProfile.storageProfile?.[
                             "dataDisks"
-                          ].map((p) => {
+                          ].map((p: any) => {
                             return {
                               name: p["name"],
                               lun: p["lun"],
@@ -2396,28 +5134,28 @@ export async function _fleetsUpdateDeserialize(
                             };
                           }),
                     diskControllerType:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .storageProfile?.["diskControllerType"],
                   },
-              networkProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              networkProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .networkProfile
                 ? undefined
                 : {
-                    healthProbe: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+                    healthProbe: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                       .networkProfile?.healthProbe
                       ? undefined
                       : {
-                          id: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          id: result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .networkProfile?.healthProbe?.["id"],
                         },
                     networkInterfaceConfigurations:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .networkProfile?.["networkInterfaceConfigurations"] === undefined
-                        ? res.body.properties?.computeProfile.baseVirtualMachineProfile
+                        ? result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .networkProfile?.["networkInterfaceConfigurations"]
-                        : res.body.properties?.computeProfile.baseVirtualMachineProfile.networkProfile?.[
+                        : result.body.properties?.computeProfile.baseVirtualMachineProfile.networkProfile?.[
                             "networkInterfaceConfigurations"
-                          ].map((p) => {
+                          ].map((p: any) => {
                             return {
                               name: p["name"],
                               properties: !p.properties
@@ -2440,7 +5178,7 @@ export async function _fleetsUpdateDeserialize(
                                           dnsServers: p.properties?.dnsSettings?.["dnsServers"],
                                         },
                                     ipConfigurations: p.properties?.["ipConfigurations"].map(
-                                      (p) => {
+                                      (p: any) => {
                                         return {
                                           name: p["name"],
                                           properties: !p.properties
@@ -2496,7 +5234,7 @@ export async function _fleetsUpdateDeserialize(
                                                                     ?.properties?.["ipTags"]
                                                                 : p.properties?.publicIPAddressConfiguration?.properties?.[
                                                                     "ipTags"
-                                                                  ].map((p) => {
+                                                                  ].map((p: any) => {
                                                                     return {
                                                                       ipTagType: p["ipTagType"],
                                                                       tag: p["tag"],
@@ -2549,7 +5287,7 @@ export async function _fleetsUpdateDeserialize(
                                                       ]
                                                     : p.properties?.[
                                                         "applicationGatewayBackendAddressPools"
-                                                      ].map((p) => {
+                                                      ].map((p: any) => {
                                                         return { id: p["id"] };
                                                       }),
                                                 applicationSecurityGroups:
@@ -2558,7 +5296,7 @@ export async function _fleetsUpdateDeserialize(
                                                     ? p.properties?.["applicationSecurityGroups"]
                                                     : p.properties?.[
                                                         "applicationSecurityGroups"
-                                                      ].map((p) => {
+                                                      ].map((p: any) => {
                                                         return { id: p["id"] };
                                                       }),
                                                 loadBalancerBackendAddressPools:
@@ -2570,7 +5308,7 @@ export async function _fleetsUpdateDeserialize(
                                                       ]
                                                     : p.properties?.[
                                                         "loadBalancerBackendAddressPools"
-                                                      ].map((p) => {
+                                                      ].map((p: any) => {
                                                         return { id: p["id"] };
                                                       }),
                                                 loadBalancerInboundNatPools:
@@ -2579,7 +5317,7 @@ export async function _fleetsUpdateDeserialize(
                                                     ? p.properties?.["loadBalancerInboundNatPools"]
                                                     : p.properties?.[
                                                         "loadBalancerInboundNatPools"
-                                                      ].map((p) => {
+                                                      ].map((p: any) => {
                                                         return { id: p["id"] };
                                                       }),
                                               },
@@ -2594,82 +5332,82 @@ export async function _fleetsUpdateDeserialize(
                             };
                           }),
                     networkApiVersion:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .networkProfile?.["networkApiVersion"],
                   },
-              securityProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              securityProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .securityProfile
                 ? undefined
                 : {
-                    uefiSettings: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+                    uefiSettings: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                       .securityProfile?.uefiSettings
                       ? undefined
                       : {
                           secureBootEnabled:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .securityProfile?.uefiSettings?.["secureBootEnabled"],
                           vTpmEnabled:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .securityProfile?.uefiSettings?.["vTpmEnabled"],
                         },
                     encryptionAtHost:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .securityProfile?.["encryptionAtHost"],
                     securityType:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .securityProfile?.["securityType"],
-                    encryptionIdentity: !res.body.properties?.computeProfile
+                    encryptionIdentity: !result.body.properties?.computeProfile
                       .baseVirtualMachineProfile.securityProfile?.encryptionIdentity
                       ? undefined
                       : {
                           userAssignedIdentityResourceId:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .securityProfile?.encryptionIdentity?.[
                               "userAssignedIdentityResourceId"
                             ],
                         },
-                    proxyAgentSettings: !res.body.properties?.computeProfile
+                    proxyAgentSettings: !result.body.properties?.computeProfile
                       .baseVirtualMachineProfile.securityProfile?.proxyAgentSettings
                       ? undefined
                       : {
                           enabled:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .securityProfile?.proxyAgentSettings?.["enabled"],
-                          mode: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          mode: result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .securityProfile?.proxyAgentSettings?.["mode"],
                           keyIncarnationId:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .securityProfile?.proxyAgentSettings?.["keyIncarnationId"],
                         },
                   },
-              diagnosticsProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              diagnosticsProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .diagnosticsProfile
                 ? undefined
                 : {
-                    bootDiagnostics: !res.body.properties?.computeProfile.baseVirtualMachineProfile
-                      .diagnosticsProfile?.bootDiagnostics
+                    bootDiagnostics: !result.body.properties?.computeProfile
+                      .baseVirtualMachineProfile.diagnosticsProfile?.bootDiagnostics
                       ? undefined
                       : {
                           enabled:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .diagnosticsProfile?.bootDiagnostics?.["enabled"],
                           storageUri:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .diagnosticsProfile?.bootDiagnostics?.["storageUri"],
                         },
                   },
-              extensionProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              extensionProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .extensionProfile
                 ? undefined
                 : {
                     extensions:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .extensionProfile?.["extensions"] === undefined
-                        ? res.body.properties?.computeProfile.baseVirtualMachineProfile
+                        ? result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .extensionProfile?.["extensions"]
-                        : res.body.properties?.computeProfile.baseVirtualMachineProfile.extensionProfile?.[
+                        : result.body.properties?.computeProfile.baseVirtualMachineProfile.extensionProfile?.[
                             "extensions"
-                          ].map((p) => {
+                          ].map((p: any) => {
                             return {
                               id: p["id"],
                               name: p["name"],
@@ -2708,68 +5446,69 @@ export async function _fleetsUpdateDeserialize(
                             };
                           }),
                     extensionsTimeBudget:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .extensionProfile?.["extensionsTimeBudget"],
                   },
               licenseType:
-                res.body.properties?.computeProfile.baseVirtualMachineProfile["licenseType"],
-              scheduledEventsProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
-                .scheduledEventsProfile
+                result.body.properties?.computeProfile.baseVirtualMachineProfile["licenseType"],
+              scheduledEventsProfile: !result.body.properties?.computeProfile
+                .baseVirtualMachineProfile.scheduledEventsProfile
                 ? undefined
                 : {
-                    terminateNotificationProfile: !res.body.properties?.computeProfile
+                    terminateNotificationProfile: !result.body.properties?.computeProfile
                       .baseVirtualMachineProfile.scheduledEventsProfile
                       ?.terminateNotificationProfile
                       ? undefined
                       : {
                           notBeforeTimeout:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .scheduledEventsProfile?.terminateNotificationProfile?.[
                               "notBeforeTimeout"
                             ],
                           enable:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .scheduledEventsProfile?.terminateNotificationProfile?.["enable"],
                         },
-                    osImageNotificationProfile: !res.body.properties?.computeProfile
+                    osImageNotificationProfile: !result.body.properties?.computeProfile
                       .baseVirtualMachineProfile.scheduledEventsProfile?.osImageNotificationProfile
                       ? undefined
                       : {
                           notBeforeTimeout:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .scheduledEventsProfile?.osImageNotificationProfile?.[
                               "notBeforeTimeout"
                             ],
                           enable:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .scheduledEventsProfile?.osImageNotificationProfile?.["enable"],
                         },
                   },
-              userData: res.body.properties?.computeProfile.baseVirtualMachineProfile["userData"],
-              capacityReservation: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              userData:
+                result.body.properties?.computeProfile.baseVirtualMachineProfile["userData"],
+              capacityReservation: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .capacityReservation
                 ? undefined
                 : {
-                    capacityReservationGroup: !res.body.properties?.computeProfile
+                    capacityReservationGroup: !result.body.properties?.computeProfile
                       .baseVirtualMachineProfile.capacityReservation?.capacityReservationGroup
                       ? undefined
                       : {
-                          id: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                          id: result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .capacityReservation?.capacityReservationGroup?.["id"],
                         },
                   },
-              applicationProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              applicationProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .applicationProfile
                 ? undefined
                 : {
                     galleryApplications:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .applicationProfile?.["galleryApplications"] === undefined
-                        ? res.body.properties?.computeProfile.baseVirtualMachineProfile
+                        ? result.body.properties?.computeProfile.baseVirtualMachineProfile
                             .applicationProfile?.["galleryApplications"]
-                        : res.body.properties?.computeProfile.baseVirtualMachineProfile.applicationProfile?.[
+                        : result.body.properties?.computeProfile.baseVirtualMachineProfile.applicationProfile?.[
                             "galleryApplications"
-                          ].map((p) => {
+                          ].map((p: any) => {
                             return {
                               tags: p["tags"],
                               order: p["order"],
@@ -2780,77 +5519,92 @@ export async function _fleetsUpdateDeserialize(
                             };
                           }),
                   },
-              hardwareProfile: !res.body.properties?.computeProfile.baseVirtualMachineProfile
+              hardwareProfile: !result.body.properties?.computeProfile.baseVirtualMachineProfile
                 .hardwareProfile
                 ? undefined
                 : {
-                    vmSizeProperties: !res.body.properties?.computeProfile.baseVirtualMachineProfile
-                      .hardwareProfile?.vmSizeProperties
+                    vmSizeProperties: !result.body.properties?.computeProfile
+                      .baseVirtualMachineProfile.hardwareProfile?.vmSizeProperties
                       ? undefined
                       : {
                           vCPUsAvailable:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .hardwareProfile?.vmSizeProperties?.["vCPUsAvailable"],
                           vCPUsPerCore:
-                            res.body.properties?.computeProfile.baseVirtualMachineProfile
+                            result.body.properties?.computeProfile.baseVirtualMachineProfile
                               .hardwareProfile?.vmSizeProperties?.["vCPUsPerCore"],
                         },
                   },
-              serviceArtifactReference: !res.body.properties?.computeProfile
+              serviceArtifactReference: !result.body.properties?.computeProfile
                 .baseVirtualMachineProfile.serviceArtifactReference
                 ? undefined
                 : {
-                    id: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                    id: result.body.properties?.computeProfile.baseVirtualMachineProfile
                       .serviceArtifactReference?.["id"],
                   },
-              securityPostureReference: !res.body.properties?.computeProfile
+              securityPostureReference: !result.body.properties?.computeProfile
                 .baseVirtualMachineProfile.securityPostureReference
                 ? undefined
                 : {
-                    id: res.body.properties?.computeProfile.baseVirtualMachineProfile
+                    id: result.body.properties?.computeProfile.baseVirtualMachineProfile
                       .securityPostureReference?.["id"],
                     excludeExtensions:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .securityPostureReference?.["excludeExtensions"],
                     isOverridable:
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile
                         .securityPostureReference?.["isOverridable"],
                   },
               timeCreated:
-                res.body.properties?.computeProfile.baseVirtualMachineProfile["timeCreated"] !==
+                result.body.properties?.computeProfile.baseVirtualMachineProfile["timeCreated"] !==
                 undefined
                   ? new Date(
-                      res.body.properties?.computeProfile.baseVirtualMachineProfile["timeCreated"],
+                      result.body.properties?.computeProfile.baseVirtualMachineProfile[
+                        "timeCreated"
+                      ],
                     )
                   : undefined,
             },
-            computeApiVersion: res.body.properties?.computeProfile["computeApiVersion"],
+            computeApiVersion: result.body.properties?.computeProfile["computeApiVersion"],
             platformFaultDomainCount:
-              res.body.properties?.computeProfile["platformFaultDomainCount"],
+              result.body.properties?.computeProfile["platformFaultDomainCount"],
+            additionalVirtualMachineCapabilities: !result.body.properties?.computeProfile
+              .additionalVirtualMachineCapabilities
+              ? undefined
+              : {
+                  ultraSSDEnabled:
+                    result.body.properties?.computeProfile.additionalVirtualMachineCapabilities?.[
+                      "ultraSSDEnabled"
+                    ],
+                  hibernationEnabled:
+                    result.body.properties?.computeProfile.additionalVirtualMachineCapabilities?.[
+                      "hibernationEnabled"
+                    ],
+                },
           },
           timeCreated:
-            res.body.properties?.["timeCreated"] !== undefined
-              ? new Date(res.body.properties?.["timeCreated"])
+            result.body.properties?.["timeCreated"] !== undefined
+              ? new Date(result.body.properties?.["timeCreated"])
               : undefined,
-          uniqueId: res.body.properties?.["uniqueId"],
+          uniqueId: result.body.properties?.["uniqueId"],
         },
-    zones: res.body["zones"],
-    identity: !res.body.identity
+    zones: result.body["zones"],
+    identity: !result.body.identity
       ? undefined
       : {
-          principalId: res.body.identity?.["principalId"],
-          tenantId: res.body.identity?.["tenantId"],
-          type: res.body.identity?.["type"],
-          userAssignedIdentities: res.body.identity?.["userAssignedIdentities"],
+          principalId: result.body.identity?.["principalId"],
+          tenantId: result.body.identity?.["tenantId"],
+          type: result.body.identity?.["type"],
+          userAssignedIdentities: result.body.identity?.["userAssignedIdentities"],
         },
-    plan: !res.body.plan
+    plan: !result.body.plan
       ? undefined
       : {
-          name: res.body.plan?.["name"],
-          publisher: res.body.plan?.["publisher"],
-          product: res.body.plan?.["product"],
-          promotionCode: res.body.plan?.["promotionCode"],
-          version: res.body.plan?.["version"],
+          name: result.body.plan?.["name"],
+          publisher: result.body.plan?.["publisher"],
+          product: result.body.plan?.["product"],
+          promotionCode: result.body.plan?.["promotionCode"],
+          version: result.body.plan?.["version"],
         },
   };
 }
@@ -2864,11 +5618,12 @@ export function fleetsUpdate(
   properties: FleetUpdate,
   options: FleetsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Fleet>, Fleet> {
-  return getLongRunningPoller(context, _fleetsUpdateDeserialize, {
+  return getLongRunningPoller(context, _fleetsUpdateDeserialize, ["200", "202"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _fleetsUpdateSend(context, subscriptionId, resourceGroupName, fleetName, properties, options),
+    resourceLocationConfig: "location",
   }) as PollerLike<OperationState<Fleet>, Fleet>;
 }
 
@@ -2878,12 +5633,7 @@ export function _fleetsDeleteSend(
   resourceGroupName: string,
   fleetName: string,
   options: FleetsDeleteOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  | FleetsDelete202Response
-  | FleetsDelete204Response
-  | FleetsDeleteDefaultResponse
-  | FleetsDeleteLogicalResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{fleetName}",
@@ -2894,14 +5644,9 @@ export function _fleetsDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _fleetsDeleteDeserialize(
-  result:
-    | FleetsDelete202Response
-    | FleetsDelete204Response
-    | FleetsDeleteDefaultResponse
-    | FleetsDeleteLogicalResponse,
-): Promise<void> {
-  if (isUnexpected(result)) {
+export async function _fleetsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+  const expectedStatuses = ["202", "204", "200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
@@ -2916,11 +5661,12 @@ export function fleetsDelete(
   fleetName: string,
   options: FleetsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _fleetsDeleteDeserialize, {
+  return getLongRunningPoller(context, _fleetsDeleteDeserialize, ["202", "204", "200"], {
     updateIntervalInMs: options?.updateIntervalInMs,
     abortSignal: options?.abortSignal,
     getInitialResponse: () =>
       _fleetsDeleteSend(context, subscriptionId, resourceGroupName, fleetName, options),
+    resourceLocationConfig: "location",
   }) as PollerLike<OperationState<void>, void>;
 }
 
@@ -2929,9 +5675,7 @@ export function _fleetsListByResourceGroupSend(
   subscriptionId: string,
   resourceGroupName: string,
   options: FleetsListByResourceGroupOptionalParams = { requestOptions: {} },
-): StreamableMethod<
-  FleetsListByResourceGroup200Response | FleetsListByResourceGroupDefaultResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets",
@@ -2942,14 +5686,15 @@ export function _fleetsListByResourceGroupSend(
 }
 
 export async function _fleetsListByResourceGroupDeserialize(
-  result: FleetsListByResourceGroup200Response | FleetsListByResourceGroupDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<_FleetListResult> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
   return {
-    value: result.body["value"].map((p) => {
+    value: result.body["value"].map((p: any) => {
       return {
         tags: p["tags"],
         location: p["location"],
@@ -2994,9 +5739,950 @@ export async function _fleetsListByResourceGroupDeserialize(
                     allocationStrategy:
                       p.properties?.regularPriorityProfile?.["allocationStrategy"],
                   },
-              vmSizesProfile: p.properties?.["vmSizesProfile"].map((p) => {
+              vmSizesProfile: p.properties?.["vmSizesProfile"].map((p: any) => {
                 return { name: p["name"], rank: p["rank"] };
               }),
+              vmAttributes: !p.properties?.vmAttributes
+                ? undefined
+                : {
+                    vCpuCount: {
+                      min: p.properties?.vmAttributes?.vCpuCount["min"],
+                      max: p.properties?.vmAttributes?.vCpuCount["max"],
+                    },
+                    memoryInGiB: {
+                      min: p.properties?.vmAttributes?.memoryInGiB["min"],
+                      max: p.properties?.vmAttributes?.memoryInGiB["max"],
+                    },
+                    memoryInGiBPerVCpu: !p.properties?.vmAttributes?.memoryInGiBPerVCpu
+                      ? undefined
+                      : {
+                          min: p.properties?.vmAttributes?.memoryInGiBPerVCpu?.["min"],
+                          max: p.properties?.vmAttributes?.memoryInGiBPerVCpu?.["max"],
+                        },
+                    localStorageSupport: p.properties?.vmAttributes?.["localStorageSupport"],
+                    localStorageInGiB: !p.properties?.vmAttributes?.localStorageInGiB
+                      ? undefined
+                      : {
+                          min: p.properties?.vmAttributes?.localStorageInGiB?.["min"],
+                          max: p.properties?.vmAttributes?.localStorageInGiB?.["max"],
+                        },
+                    localStorageDiskTypes: p.properties?.vmAttributes?.["localStorageDiskTypes"],
+                    dataDiskCount: !p.properties?.vmAttributes?.dataDiskCount
+                      ? undefined
+                      : {
+                          min: p.properties?.vmAttributes?.dataDiskCount?.["min"],
+                          max: p.properties?.vmAttributes?.dataDiskCount?.["max"],
+                        },
+                    networkInterfaceCount: !p.properties?.vmAttributes?.networkInterfaceCount
+                      ? undefined
+                      : {
+                          min: p.properties?.vmAttributes?.networkInterfaceCount?.["min"],
+                          max: p.properties?.vmAttributes?.networkInterfaceCount?.["max"],
+                        },
+                    networkBandwidthInMbps: !p.properties?.vmAttributes?.networkBandwidthInMbps
+                      ? undefined
+                      : {
+                          min: p.properties?.vmAttributes?.networkBandwidthInMbps?.["min"],
+                          max: p.properties?.vmAttributes?.networkBandwidthInMbps?.["max"],
+                        },
+                    rdmaSupport: p.properties?.vmAttributes?.["rdmaSupport"],
+                    rdmaNetworkInterfaceCount: !p.properties?.vmAttributes
+                      ?.rdmaNetworkInterfaceCount
+                      ? undefined
+                      : {
+                          min: p.properties?.vmAttributes?.rdmaNetworkInterfaceCount?.["min"],
+                          max: p.properties?.vmAttributes?.rdmaNetworkInterfaceCount?.["max"],
+                        },
+                    acceleratorSupport: p.properties?.vmAttributes?.["acceleratorSupport"],
+                    acceleratorManufacturers:
+                      p.properties?.vmAttributes?.["acceleratorManufacturers"],
+                    acceleratorTypes: p.properties?.vmAttributes?.["acceleratorTypes"],
+                    acceleratorCount: !p.properties?.vmAttributes?.acceleratorCount
+                      ? undefined
+                      : {
+                          min: p.properties?.vmAttributes?.acceleratorCount?.["min"],
+                          max: p.properties?.vmAttributes?.acceleratorCount?.["max"],
+                        },
+                    vmCategories: p.properties?.vmAttributes?.["vmCategories"],
+                    architectureTypes: p.properties?.vmAttributes?.["architectureTypes"],
+                    cpuManufacturers: p.properties?.vmAttributes?.["cpuManufacturers"],
+                    burstableSupport: p.properties?.vmAttributes?.["burstableSupport"],
+                    excludedVMSizes: p.properties?.vmAttributes?.["excludedVMSizes"],
+                  },
+              additionalLocationsProfile: !p.properties?.additionalLocationsProfile
+                ? undefined
+                : {
+                    locationProfiles: p.properties?.additionalLocationsProfile?.[
+                      "locationProfiles"
+                    ].map((p: any) => {
+                      return {
+                        location: p["location"],
+                        virtualMachineProfileOverride: !p.virtualMachineProfileOverride
+                          ? undefined
+                          : {
+                              osProfile: !p.virtualMachineProfileOverride?.osProfile
+                                ? undefined
+                                : {
+                                    computerNamePrefix:
+                                      p.virtualMachineProfileOverride?.osProfile?.[
+                                        "computerNamePrefix"
+                                      ],
+                                    adminUsername:
+                                      p.virtualMachineProfileOverride?.osProfile?.["adminUsername"],
+                                    adminPassword:
+                                      p.virtualMachineProfileOverride?.osProfile?.["adminPassword"],
+                                    customData:
+                                      p.virtualMachineProfileOverride?.osProfile?.["customData"],
+                                    windowsConfiguration: !p.virtualMachineProfileOverride
+                                      ?.osProfile?.windowsConfiguration
+                                      ? undefined
+                                      : {
+                                          provisionVMAgent:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.["provisionVMAgent"],
+                                          enableAutomaticUpdates:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.["enableAutomaticUpdates"],
+                                          timeZone:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.["timeZone"],
+                                          additionalUnattendContent:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.[
+                                              "additionalUnattendContent"
+                                            ] === undefined
+                                              ? p.virtualMachineProfileOverride?.osProfile
+                                                  ?.windowsConfiguration?.[
+                                                  "additionalUnattendContent"
+                                                ]
+                                              : p.virtualMachineProfileOverride?.osProfile?.windowsConfiguration?.[
+                                                  "additionalUnattendContent"
+                                                ].map((p: any) => {
+                                                  return {
+                                                    passName: p["passName"],
+                                                    componentName: p["componentName"],
+                                                    settingName: p["settingName"],
+                                                    content: p["content"],
+                                                  };
+                                                }),
+                                          patchSettings: !p.virtualMachineProfileOverride?.osProfile
+                                            ?.windowsConfiguration?.patchSettings
+                                            ? undefined
+                                            : {
+                                                patchMode:
+                                                  p.virtualMachineProfileOverride?.osProfile
+                                                    ?.windowsConfiguration?.patchSettings?.[
+                                                    "patchMode"
+                                                  ],
+                                                enableHotpatching:
+                                                  p.virtualMachineProfileOverride?.osProfile
+                                                    ?.windowsConfiguration?.patchSettings?.[
+                                                    "enableHotpatching"
+                                                  ],
+                                                assessmentMode:
+                                                  p.virtualMachineProfileOverride?.osProfile
+                                                    ?.windowsConfiguration?.patchSettings?.[
+                                                    "assessmentMode"
+                                                  ],
+                                                automaticByPlatformSettings: !p
+                                                  .virtualMachineProfileOverride?.osProfile
+                                                  ?.windowsConfiguration?.patchSettings
+                                                  ?.automaticByPlatformSettings
+                                                  ? undefined
+                                                  : {
+                                                      rebootSetting:
+                                                        p.virtualMachineProfileOverride?.osProfile
+                                                          ?.windowsConfiguration?.patchSettings
+                                                          ?.automaticByPlatformSettings?.[
+                                                          "rebootSetting"
+                                                        ],
+                                                      bypassPlatformSafetyChecksOnUserSchedule:
+                                                        p.virtualMachineProfileOverride?.osProfile
+                                                          ?.windowsConfiguration?.patchSettings
+                                                          ?.automaticByPlatformSettings?.[
+                                                          "bypassPlatformSafetyChecksOnUserSchedule"
+                                                        ],
+                                                    },
+                                              },
+                                          winRM: !p.virtualMachineProfileOverride?.osProfile
+                                            ?.windowsConfiguration?.winRM
+                                            ? undefined
+                                            : {
+                                                listeners:
+                                                  p.virtualMachineProfileOverride?.osProfile
+                                                    ?.windowsConfiguration?.winRM?.["listeners"] ===
+                                                  undefined
+                                                    ? p.virtualMachineProfileOverride?.osProfile
+                                                        ?.windowsConfiguration?.winRM?.["listeners"]
+                                                    : p.virtualMachineProfileOverride?.osProfile?.windowsConfiguration?.winRM?.[
+                                                        "listeners"
+                                                      ].map((p: any) => {
+                                                        return {
+                                                          protocol: p["protocol"],
+                                                          certificateUrl: p["certificateUrl"],
+                                                        };
+                                                      }),
+                                              },
+                                          enableVMAgentPlatformUpdates:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.[
+                                              "enableVMAgentPlatformUpdates"
+                                            ],
+                                        },
+                                    linuxConfiguration: !p.virtualMachineProfileOverride?.osProfile
+                                      ?.linuxConfiguration
+                                      ? undefined
+                                      : {
+                                          disablePasswordAuthentication:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.linuxConfiguration?.[
+                                              "disablePasswordAuthentication"
+                                            ],
+                                          ssh: !p.virtualMachineProfileOverride?.osProfile
+                                            ?.linuxConfiguration?.ssh
+                                            ? undefined
+                                            : {
+                                                publicKeys:
+                                                  p.virtualMachineProfileOverride?.osProfile
+                                                    ?.linuxConfiguration?.ssh?.["publicKeys"] ===
+                                                  undefined
+                                                    ? p.virtualMachineProfileOverride?.osProfile
+                                                        ?.linuxConfiguration?.ssh?.["publicKeys"]
+                                                    : p.virtualMachineProfileOverride?.osProfile?.linuxConfiguration?.ssh?.[
+                                                        "publicKeys"
+                                                      ].map((p: any) => {
+                                                        return {
+                                                          path: p["path"],
+                                                          keyData: p["keyData"],
+                                                        };
+                                                      }),
+                                              },
+                                          provisionVMAgent:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.linuxConfiguration?.["provisionVMAgent"],
+                                          patchSettings: !p.virtualMachineProfileOverride?.osProfile
+                                            ?.linuxConfiguration?.patchSettings
+                                            ? undefined
+                                            : {
+                                                patchMode:
+                                                  p.virtualMachineProfileOverride?.osProfile
+                                                    ?.linuxConfiguration?.patchSettings?.[
+                                                    "patchMode"
+                                                  ],
+                                                assessmentMode:
+                                                  p.virtualMachineProfileOverride?.osProfile
+                                                    ?.linuxConfiguration?.patchSettings?.[
+                                                    "assessmentMode"
+                                                  ],
+                                                automaticByPlatformSettings: !p
+                                                  .virtualMachineProfileOverride?.osProfile
+                                                  ?.linuxConfiguration?.patchSettings
+                                                  ?.automaticByPlatformSettings
+                                                  ? undefined
+                                                  : {
+                                                      rebootSetting:
+                                                        p.virtualMachineProfileOverride?.osProfile
+                                                          ?.linuxConfiguration?.patchSettings
+                                                          ?.automaticByPlatformSettings?.[
+                                                          "rebootSetting"
+                                                        ],
+                                                      bypassPlatformSafetyChecksOnUserSchedule:
+                                                        p.virtualMachineProfileOverride?.osProfile
+                                                          ?.linuxConfiguration?.patchSettings
+                                                          ?.automaticByPlatformSettings?.[
+                                                          "bypassPlatformSafetyChecksOnUserSchedule"
+                                                        ],
+                                                    },
+                                              },
+                                          enableVMAgentPlatformUpdates:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.linuxConfiguration?.[
+                                              "enableVMAgentPlatformUpdates"
+                                            ],
+                                        },
+                                    secrets:
+                                      p.virtualMachineProfileOverride?.osProfile?.["secrets"] ===
+                                      undefined
+                                        ? p.virtualMachineProfileOverride?.osProfile?.["secrets"]
+                                        : p.virtualMachineProfileOverride?.osProfile?.[
+                                            "secrets"
+                                          ].map((p: any) => {
+                                            return {
+                                              sourceVault: !p.sourceVault
+                                                ? undefined
+                                                : {
+                                                    id: p.sourceVault?.["id"],
+                                                  },
+                                              vaultCertificates:
+                                                p["vaultCertificates"] === undefined
+                                                  ? p["vaultCertificates"]
+                                                  : p["vaultCertificates"].map((p: any) => {
+                                                      return {
+                                                        certificateUrl: p["certificateUrl"],
+                                                        certificateStore: p["certificateStore"],
+                                                      };
+                                                    }),
+                                            };
+                                          }),
+                                    allowExtensionOperations:
+                                      p.virtualMachineProfileOverride?.osProfile?.[
+                                        "allowExtensionOperations"
+                                      ],
+                                    requireGuestProvisionSignal:
+                                      p.virtualMachineProfileOverride?.osProfile?.[
+                                        "requireGuestProvisionSignal"
+                                      ],
+                                  },
+                              storageProfile: !p.virtualMachineProfileOverride?.storageProfile
+                                ? undefined
+                                : {
+                                    imageReference: !p.virtualMachineProfileOverride?.storageProfile
+                                      ?.imageReference
+                                      ? undefined
+                                      : {
+                                          id: p.virtualMachineProfileOverride?.storageProfile
+                                            ?.imageReference?.["id"],
+                                          publisher:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.imageReference?.["publisher"],
+                                          offer:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.imageReference?.["offer"],
+                                          sku: p.virtualMachineProfileOverride?.storageProfile
+                                            ?.imageReference?.["sku"],
+                                          version:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.imageReference?.["version"],
+                                          exactVersion:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.imageReference?.["exactVersion"],
+                                          sharedGalleryImageId:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.imageReference?.["sharedGalleryImageId"],
+                                          communityGalleryImageId:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.imageReference?.["communityGalleryImageId"],
+                                        },
+                                    osDisk: !p.virtualMachineProfileOverride?.storageProfile?.osDisk
+                                      ? undefined
+                                      : {
+                                          name: p.virtualMachineProfileOverride?.storageProfile
+                                            ?.osDisk?.["name"],
+                                          caching:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.["caching"],
+                                          writeAcceleratorEnabled:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.["writeAcceleratorEnabled"],
+                                          createOption:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.["createOption"],
+                                          diffDiskSettings: !p.virtualMachineProfileOverride
+                                            ?.storageProfile?.osDisk?.diffDiskSettings
+                                            ? undefined
+                                            : {
+                                                option:
+                                                  p.virtualMachineProfileOverride?.storageProfile
+                                                    ?.osDisk?.diffDiskSettings?.["option"],
+                                                placement:
+                                                  p.virtualMachineProfileOverride?.storageProfile
+                                                    ?.osDisk?.diffDiskSettings?.["placement"],
+                                              },
+                                          diskSizeGB:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.["diskSizeGB"],
+                                          osType:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.["osType"],
+                                          image: !p.virtualMachineProfileOverride?.storageProfile
+                                            ?.osDisk?.image
+                                            ? undefined
+                                            : {
+                                                uri: p.virtualMachineProfileOverride?.storageProfile
+                                                  ?.osDisk?.image?.["uri"],
+                                              },
+                                          vhdContainers:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.["vhdContainers"],
+                                          managedDisk: !p.virtualMachineProfileOverride
+                                            ?.storageProfile?.osDisk?.managedDisk
+                                            ? undefined
+                                            : {
+                                                storageAccountType:
+                                                  p.virtualMachineProfileOverride?.storageProfile
+                                                    ?.osDisk?.managedDisk?.["storageAccountType"],
+                                                diskEncryptionSet: !p.virtualMachineProfileOverride
+                                                  ?.storageProfile?.osDisk?.managedDisk
+                                                  ?.diskEncryptionSet
+                                                  ? undefined
+                                                  : {
+                                                      id: p.virtualMachineProfileOverride
+                                                        ?.storageProfile?.osDisk?.managedDisk
+                                                        ?.diskEncryptionSet?.["id"],
+                                                    },
+                                                securityProfile: !p.virtualMachineProfileOverride
+                                                  ?.storageProfile?.osDisk?.managedDisk
+                                                  ?.securityProfile
+                                                  ? undefined
+                                                  : {
+                                                      securityEncryptionType:
+                                                        p.virtualMachineProfileOverride
+                                                          ?.storageProfile?.osDisk?.managedDisk
+                                                          ?.securityProfile?.[
+                                                          "securityEncryptionType"
+                                                        ],
+                                                      diskEncryptionSet: !p
+                                                        .virtualMachineProfileOverride
+                                                        ?.storageProfile?.osDisk?.managedDisk
+                                                        ?.securityProfile?.diskEncryptionSet
+                                                        ? undefined
+                                                        : {
+                                                            id: p.virtualMachineProfileOverride
+                                                              ?.storageProfile?.osDisk?.managedDisk
+                                                              ?.securityProfile
+                                                              ?.diskEncryptionSet?.["id"],
+                                                          },
+                                                    },
+                                              },
+                                          deleteOption:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.["deleteOption"],
+                                        },
+                                    dataDisks:
+                                      p.virtualMachineProfileOverride?.storageProfile?.[
+                                        "dataDisks"
+                                      ] === undefined
+                                        ? p.virtualMachineProfileOverride?.storageProfile?.[
+                                            "dataDisks"
+                                          ]
+                                        : p.virtualMachineProfileOverride?.storageProfile?.[
+                                            "dataDisks"
+                                          ].map((p: any) => {
+                                            return {
+                                              name: p["name"],
+                                              lun: p["lun"],
+                                              caching: p["caching"],
+                                              writeAcceleratorEnabled: p["writeAcceleratorEnabled"],
+                                              createOption: p["createOption"],
+                                              diskSizeGB: p["diskSizeGB"],
+                                              managedDisk: !p.managedDisk
+                                                ? undefined
+                                                : {
+                                                    storageAccountType:
+                                                      p.managedDisk?.["storageAccountType"],
+                                                    diskEncryptionSet: !p.managedDisk
+                                                      ?.diskEncryptionSet
+                                                      ? undefined
+                                                      : {
+                                                          id: p.managedDisk?.diskEncryptionSet?.[
+                                                            "id"
+                                                          ],
+                                                        },
+                                                    securityProfile: !p.managedDisk?.securityProfile
+                                                      ? undefined
+                                                      : {
+                                                          securityEncryptionType:
+                                                            p.managedDisk?.securityProfile?.[
+                                                              "securityEncryptionType"
+                                                            ],
+                                                          diskEncryptionSet: !p.managedDisk
+                                                            ?.securityProfile?.diskEncryptionSet
+                                                            ? undefined
+                                                            : {
+                                                                id: p.managedDisk?.securityProfile
+                                                                  ?.diskEncryptionSet?.["id"],
+                                                              },
+                                                        },
+                                                  },
+                                              diskIOPSReadWrite: p["diskIOPSReadWrite"],
+                                              diskMBpsReadWrite: p["diskMBpsReadWrite"],
+                                              deleteOption: p["deleteOption"],
+                                            };
+                                          }),
+                                    diskControllerType:
+                                      p.virtualMachineProfileOverride?.storageProfile?.[
+                                        "diskControllerType"
+                                      ],
+                                  },
+                              networkProfile: !p.virtualMachineProfileOverride?.networkProfile
+                                ? undefined
+                                : {
+                                    healthProbe: !p.virtualMachineProfileOverride?.networkProfile
+                                      ?.healthProbe
+                                      ? undefined
+                                      : {
+                                          id: p.virtualMachineProfileOverride?.networkProfile
+                                            ?.healthProbe?.["id"],
+                                        },
+                                    networkInterfaceConfigurations:
+                                      p.virtualMachineProfileOverride?.networkProfile?.[
+                                        "networkInterfaceConfigurations"
+                                      ] === undefined
+                                        ? p.virtualMachineProfileOverride?.networkProfile?.[
+                                            "networkInterfaceConfigurations"
+                                          ]
+                                        : p.virtualMachineProfileOverride?.networkProfile?.[
+                                            "networkInterfaceConfigurations"
+                                          ].map((p: any) => {
+                                            return {
+                                              name: p["name"],
+                                              properties: !p.properties
+                                                ? undefined
+                                                : {
+                                                    primary: p.properties?.["primary"],
+                                                    enableAcceleratedNetworking:
+                                                      p.properties?.["enableAcceleratedNetworking"],
+                                                    disableTcpStateTracking:
+                                                      p.properties?.["disableTcpStateTracking"],
+                                                    enableFpga: p.properties?.["enableFpga"],
+                                                    networkSecurityGroup: !p.properties
+                                                      ?.networkSecurityGroup
+                                                      ? undefined
+                                                      : {
+                                                          id: p.properties?.networkSecurityGroup?.[
+                                                            "id"
+                                                          ],
+                                                        },
+                                                    dnsSettings: !p.properties?.dnsSettings
+                                                      ? undefined
+                                                      : {
+                                                          dnsServers:
+                                                            p.properties?.dnsSettings?.[
+                                                              "dnsServers"
+                                                            ],
+                                                        },
+                                                    ipConfigurations: p.properties?.[
+                                                      "ipConfigurations"
+                                                    ].map((p: any) => {
+                                                      return {
+                                                        name: p["name"],
+                                                        properties: !p.properties
+                                                          ? undefined
+                                                          : {
+                                                              subnet: !p.properties?.subnet
+                                                                ? undefined
+                                                                : {
+                                                                    id: p.properties?.subnet?.[
+                                                                      "id"
+                                                                    ],
+                                                                  },
+                                                              primary: p.properties?.["primary"],
+                                                              publicIPAddressConfiguration: !p
+                                                                .properties
+                                                                ?.publicIPAddressConfiguration
+                                                                ? undefined
+                                                                : {
+                                                                    name: p.properties
+                                                                      ?.publicIPAddressConfiguration?.[
+                                                                      "name"
+                                                                    ],
+                                                                    properties: !p.properties
+                                                                      ?.publicIPAddressConfiguration
+                                                                      ?.properties
+                                                                      ? undefined
+                                                                      : {
+                                                                          idleTimeoutInMinutes:
+                                                                            p.properties
+                                                                              ?.publicIPAddressConfiguration
+                                                                              ?.properties?.[
+                                                                              "idleTimeoutInMinutes"
+                                                                            ],
+                                                                          dnsSettings: !p.properties
+                                                                            ?.publicIPAddressConfiguration
+                                                                            ?.properties
+                                                                            ?.dnsSettings
+                                                                            ? undefined
+                                                                            : {
+                                                                                domainNameLabel:
+                                                                                  p.properties
+                                                                                    ?.publicIPAddressConfiguration
+                                                                                    ?.properties
+                                                                                    ?.dnsSettings?.[
+                                                                                    "domainNameLabel"
+                                                                                  ],
+                                                                                domainNameLabelScope:
+                                                                                  p.properties
+                                                                                    ?.publicIPAddressConfiguration
+                                                                                    ?.properties
+                                                                                    ?.dnsSettings?.[
+                                                                                    "domainNameLabelScope"
+                                                                                  ],
+                                                                              },
+                                                                          ipTags:
+                                                                            p.properties
+                                                                              ?.publicIPAddressConfiguration
+                                                                              ?.properties?.[
+                                                                              "ipTags"
+                                                                            ] === undefined
+                                                                              ? p.properties
+                                                                                  ?.publicIPAddressConfiguration
+                                                                                  ?.properties?.[
+                                                                                  "ipTags"
+                                                                                ]
+                                                                              : p.properties?.publicIPAddressConfiguration?.properties?.[
+                                                                                  "ipTags"
+                                                                                ].map((p: any) => {
+                                                                                  return {
+                                                                                    ipTagType:
+                                                                                      p[
+                                                                                        "ipTagType"
+                                                                                      ],
+                                                                                    tag: p["tag"],
+                                                                                  };
+                                                                                }),
+                                                                          publicIPPrefix: !p
+                                                                            .properties
+                                                                            ?.publicIPAddressConfiguration
+                                                                            ?.properties
+                                                                            ?.publicIPPrefix
+                                                                            ? undefined
+                                                                            : {
+                                                                                id: p.properties
+                                                                                  ?.publicIPAddressConfiguration
+                                                                                  ?.properties
+                                                                                  ?.publicIPPrefix?.[
+                                                                                  "id"
+                                                                                ],
+                                                                              },
+                                                                          publicIPAddressVersion:
+                                                                            p.properties
+                                                                              ?.publicIPAddressConfiguration
+                                                                              ?.properties?.[
+                                                                              "publicIPAddressVersion"
+                                                                            ],
+                                                                          deleteOption:
+                                                                            p.properties
+                                                                              ?.publicIPAddressConfiguration
+                                                                              ?.properties?.[
+                                                                              "deleteOption"
+                                                                            ],
+                                                                        },
+                                                                    sku: !p.properties
+                                                                      ?.publicIPAddressConfiguration
+                                                                      ?.sku
+                                                                      ? undefined
+                                                                      : {
+                                                                          name: p.properties
+                                                                            ?.publicIPAddressConfiguration
+                                                                            ?.sku?.["name"],
+                                                                          tier: p.properties
+                                                                            ?.publicIPAddressConfiguration
+                                                                            ?.sku?.["tier"],
+                                                                        },
+                                                                  },
+                                                              privateIPAddressVersion:
+                                                                p.properties?.[
+                                                                  "privateIPAddressVersion"
+                                                                ],
+                                                              applicationGatewayBackendAddressPools:
+                                                                p.properties?.[
+                                                                  "applicationGatewayBackendAddressPools"
+                                                                ] === undefined
+                                                                  ? p.properties?.[
+                                                                      "applicationGatewayBackendAddressPools"
+                                                                    ]
+                                                                  : p.properties?.[
+                                                                      "applicationGatewayBackendAddressPools"
+                                                                    ].map((p: any) => {
+                                                                      return {
+                                                                        id: p["id"],
+                                                                      };
+                                                                    }),
+                                                              applicationSecurityGroups:
+                                                                p.properties?.[
+                                                                  "applicationSecurityGroups"
+                                                                ] === undefined
+                                                                  ? p.properties?.[
+                                                                      "applicationSecurityGroups"
+                                                                    ]
+                                                                  : p.properties?.[
+                                                                      "applicationSecurityGroups"
+                                                                    ].map((p: any) => {
+                                                                      return {
+                                                                        id: p["id"],
+                                                                      };
+                                                                    }),
+                                                              loadBalancerBackendAddressPools:
+                                                                p.properties?.[
+                                                                  "loadBalancerBackendAddressPools"
+                                                                ] === undefined
+                                                                  ? p.properties?.[
+                                                                      "loadBalancerBackendAddressPools"
+                                                                    ]
+                                                                  : p.properties?.[
+                                                                      "loadBalancerBackendAddressPools"
+                                                                    ].map((p: any) => {
+                                                                      return {
+                                                                        id: p["id"],
+                                                                      };
+                                                                    }),
+                                                              loadBalancerInboundNatPools:
+                                                                p.properties?.[
+                                                                  "loadBalancerInboundNatPools"
+                                                                ] === undefined
+                                                                  ? p.properties?.[
+                                                                      "loadBalancerInboundNatPools"
+                                                                    ]
+                                                                  : p.properties?.[
+                                                                      "loadBalancerInboundNatPools"
+                                                                    ].map((p: any) => {
+                                                                      return {
+                                                                        id: p["id"],
+                                                                      };
+                                                                    }),
+                                                            },
+                                                      };
+                                                    }),
+                                                    enableIPForwarding:
+                                                      p.properties?.["enableIPForwarding"],
+                                                    deleteOption: p.properties?.["deleteOption"],
+                                                    auxiliaryMode: p.properties?.["auxiliaryMode"],
+                                                    auxiliarySku: p.properties?.["auxiliarySku"],
+                                                  },
+                                            };
+                                          }),
+                                    networkApiVersion:
+                                      p.virtualMachineProfileOverride?.networkProfile?.[
+                                        "networkApiVersion"
+                                      ],
+                                  },
+                              securityProfile: !p.virtualMachineProfileOverride?.securityProfile
+                                ? undefined
+                                : {
+                                    uefiSettings: !p.virtualMachineProfileOverride?.securityProfile
+                                      ?.uefiSettings
+                                      ? undefined
+                                      : {
+                                          secureBootEnabled:
+                                            p.virtualMachineProfileOverride?.securityProfile
+                                              ?.uefiSettings?.["secureBootEnabled"],
+                                          vTpmEnabled:
+                                            p.virtualMachineProfileOverride?.securityProfile
+                                              ?.uefiSettings?.["vTpmEnabled"],
+                                        },
+                                    encryptionAtHost:
+                                      p.virtualMachineProfileOverride?.securityProfile?.[
+                                        "encryptionAtHost"
+                                      ],
+                                    securityType:
+                                      p.virtualMachineProfileOverride?.securityProfile?.[
+                                        "securityType"
+                                      ],
+                                    encryptionIdentity: !p.virtualMachineProfileOverride
+                                      ?.securityProfile?.encryptionIdentity
+                                      ? undefined
+                                      : {
+                                          userAssignedIdentityResourceId:
+                                            p.virtualMachineProfileOverride?.securityProfile
+                                              ?.encryptionIdentity?.[
+                                              "userAssignedIdentityResourceId"
+                                            ],
+                                        },
+                                    proxyAgentSettings: !p.virtualMachineProfileOverride
+                                      ?.securityProfile?.proxyAgentSettings
+                                      ? undefined
+                                      : {
+                                          enabled:
+                                            p.virtualMachineProfileOverride?.securityProfile
+                                              ?.proxyAgentSettings?.["enabled"],
+                                          mode: p.virtualMachineProfileOverride?.securityProfile
+                                            ?.proxyAgentSettings?.["mode"],
+                                          keyIncarnationId:
+                                            p.virtualMachineProfileOverride?.securityProfile
+                                              ?.proxyAgentSettings?.["keyIncarnationId"],
+                                        },
+                                  },
+                              diagnosticsProfile: !p.virtualMachineProfileOverride
+                                ?.diagnosticsProfile
+                                ? undefined
+                                : {
+                                    bootDiagnostics: !p.virtualMachineProfileOverride
+                                      ?.diagnosticsProfile?.bootDiagnostics
+                                      ? undefined
+                                      : {
+                                          enabled:
+                                            p.virtualMachineProfileOverride?.diagnosticsProfile
+                                              ?.bootDiagnostics?.["enabled"],
+                                          storageUri:
+                                            p.virtualMachineProfileOverride?.diagnosticsProfile
+                                              ?.bootDiagnostics?.["storageUri"],
+                                        },
+                                  },
+                              extensionProfile: !p.virtualMachineProfileOverride?.extensionProfile
+                                ? undefined
+                                : {
+                                    extensions:
+                                      p.virtualMachineProfileOverride?.extensionProfile?.[
+                                        "extensions"
+                                      ] === undefined
+                                        ? p.virtualMachineProfileOverride?.extensionProfile?.[
+                                            "extensions"
+                                          ]
+                                        : p.virtualMachineProfileOverride?.extensionProfile?.[
+                                            "extensions"
+                                          ].map((p: any) => {
+                                            return {
+                                              id: p["id"],
+                                              name: p["name"],
+                                              type: p["type"],
+                                              properties: !p.properties
+                                                ? undefined
+                                                : {
+                                                    forceUpdateTag:
+                                                      p.properties?.["forceUpdateTag"],
+                                                    publisher: p.properties?.["publisher"],
+                                                    type: p.properties?.["type"],
+                                                    typeHandlerVersion:
+                                                      p.properties?.["typeHandlerVersion"],
+                                                    autoUpgradeMinorVersion:
+                                                      p.properties?.["autoUpgradeMinorVersion"],
+                                                    enableAutomaticUpgrade:
+                                                      p.properties?.["enableAutomaticUpgrade"],
+                                                    settings: p.properties?.["settings"],
+                                                    protectedSettings:
+                                                      p.properties?.["protectedSettings"],
+                                                    provisioningState:
+                                                      p.properties?.["provisioningState"],
+                                                    provisionAfterExtensions:
+                                                      p.properties?.["provisionAfterExtensions"],
+                                                    suppressFailures:
+                                                      p.properties?.["suppressFailures"],
+                                                    protectedSettingsFromKeyVault: !p.properties
+                                                      ?.protectedSettingsFromKeyVault
+                                                      ? undefined
+                                                      : {
+                                                          secretUrl:
+                                                            p.properties
+                                                              ?.protectedSettingsFromKeyVault?.[
+                                                              "secretUrl"
+                                                            ],
+                                                          sourceVault: {
+                                                            id: p.properties
+                                                              ?.protectedSettingsFromKeyVault
+                                                              ?.sourceVault["id"],
+                                                          },
+                                                        },
+                                                  },
+                                            };
+                                          }),
+                                    extensionsTimeBudget:
+                                      p.virtualMachineProfileOverride?.extensionProfile?.[
+                                        "extensionsTimeBudget"
+                                      ],
+                                  },
+                              licenseType: p.virtualMachineProfileOverride?.["licenseType"],
+                              scheduledEventsProfile: !p.virtualMachineProfileOverride
+                                ?.scheduledEventsProfile
+                                ? undefined
+                                : {
+                                    terminateNotificationProfile: !p.virtualMachineProfileOverride
+                                      ?.scheduledEventsProfile?.terminateNotificationProfile
+                                      ? undefined
+                                      : {
+                                          notBeforeTimeout:
+                                            p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                              ?.terminateNotificationProfile?.["notBeforeTimeout"],
+                                          enable:
+                                            p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                              ?.terminateNotificationProfile?.["enable"],
+                                        },
+                                    osImageNotificationProfile: !p.virtualMachineProfileOverride
+                                      ?.scheduledEventsProfile?.osImageNotificationProfile
+                                      ? undefined
+                                      : {
+                                          notBeforeTimeout:
+                                            p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                              ?.osImageNotificationProfile?.["notBeforeTimeout"],
+                                          enable:
+                                            p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                              ?.osImageNotificationProfile?.["enable"],
+                                        },
+                                  },
+                              userData: p.virtualMachineProfileOverride?.["userData"],
+                              capacityReservation: !p.virtualMachineProfileOverride
+                                ?.capacityReservation
+                                ? undefined
+                                : {
+                                    capacityReservationGroup: !p.virtualMachineProfileOverride
+                                      ?.capacityReservation?.capacityReservationGroup
+                                      ? undefined
+                                      : {
+                                          id: p.virtualMachineProfileOverride?.capacityReservation
+                                            ?.capacityReservationGroup?.["id"],
+                                        },
+                                  },
+                              applicationProfile: !p.virtualMachineProfileOverride
+                                ?.applicationProfile
+                                ? undefined
+                                : {
+                                    galleryApplications:
+                                      p.virtualMachineProfileOverride?.applicationProfile?.[
+                                        "galleryApplications"
+                                      ] === undefined
+                                        ? p.virtualMachineProfileOverride?.applicationProfile?.[
+                                            "galleryApplications"
+                                          ]
+                                        : p.virtualMachineProfileOverride?.applicationProfile?.[
+                                            "galleryApplications"
+                                          ].map((p: any) => {
+                                            return {
+                                              tags: p["tags"],
+                                              order: p["order"],
+                                              packageReferenceId: p["packageReferenceId"],
+                                              configurationReference: p["configurationReference"],
+                                              treatFailureAsDeploymentFailure:
+                                                p["treatFailureAsDeploymentFailure"],
+                                              enableAutomaticUpgrade: p["enableAutomaticUpgrade"],
+                                            };
+                                          }),
+                                  },
+                              hardwareProfile: !p.virtualMachineProfileOverride?.hardwareProfile
+                                ? undefined
+                                : {
+                                    vmSizeProperties: !p.virtualMachineProfileOverride
+                                      ?.hardwareProfile?.vmSizeProperties
+                                      ? undefined
+                                      : {
+                                          vCPUsAvailable:
+                                            p.virtualMachineProfileOverride?.hardwareProfile
+                                              ?.vmSizeProperties?.["vCPUsAvailable"],
+                                          vCPUsPerCore:
+                                            p.virtualMachineProfileOverride?.hardwareProfile
+                                              ?.vmSizeProperties?.["vCPUsPerCore"],
+                                        },
+                                  },
+                              serviceArtifactReference: !p.virtualMachineProfileOverride
+                                ?.serviceArtifactReference
+                                ? undefined
+                                : {
+                                    id: p.virtualMachineProfileOverride?.serviceArtifactReference?.[
+                                      "id"
+                                    ],
+                                  },
+                              securityPostureReference: !p.virtualMachineProfileOverride
+                                ?.securityPostureReference
+                                ? undefined
+                                : {
+                                    id: p.virtualMachineProfileOverride?.securityPostureReference?.[
+                                      "id"
+                                    ],
+                                    excludeExtensions:
+                                      p.virtualMachineProfileOverride?.securityPostureReference?.[
+                                        "excludeExtensions"
+                                      ],
+                                    isOverridable:
+                                      p.virtualMachineProfileOverride?.securityPostureReference?.[
+                                        "isOverridable"
+                                      ],
+                                  },
+                              timeCreated:
+                                p.virtualMachineProfileOverride?.["timeCreated"] !== undefined
+                                  ? new Date(p.virtualMachineProfileOverride?.["timeCreated"])
+                                  : undefined,
+                            },
+                      };
+                    }),
+                  },
               computeProfile: {
                 baseVirtualMachineProfile: {
                   osProfile: !p.properties?.computeProfile.baseVirtualMachineProfile.osProfile
@@ -3039,7 +6725,7 @@ export async function _fleetsListByResourceGroupDeserialize(
                                       ?.windowsConfiguration?.["additionalUnattendContent"]
                                   : p.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.windowsConfiguration?.[
                                       "additionalUnattendContent"
-                                    ].map((p) => {
+                                    ].map((p: any) => {
                                       return {
                                         passName: p["passName"],
                                         componentName: p["componentName"],
@@ -3095,7 +6781,7 @@ export async function _fleetsListByResourceGroupDeserialize(
                                             .osProfile?.windowsConfiguration?.winRM?.["listeners"]
                                         : p.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.windowsConfiguration?.winRM?.[
                                             "listeners"
-                                          ].map((p) => {
+                                          ].map((p: any) => {
                                             return {
                                               protocol: p["protocol"],
                                               certificateUrl: p["certificateUrl"],
@@ -3125,7 +6811,7 @@ export async function _fleetsListByResourceGroupDeserialize(
                                             .osProfile?.linuxConfiguration?.ssh?.["publicKeys"]
                                         : p.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.linuxConfiguration?.ssh?.[
                                             "publicKeys"
-                                          ].map((p) => {
+                                          ].map((p: any) => {
                                             return {
                                               path: p["path"],
                                               keyData: p["keyData"],
@@ -3179,7 +6865,7 @@ export async function _fleetsListByResourceGroupDeserialize(
                               ]
                             : p.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                                 "secrets"
-                              ].map((p) => {
+                              ].map((p: any) => {
                                 return {
                                   sourceVault: !p.sourceVault
                                     ? undefined
@@ -3187,7 +6873,7 @@ export async function _fleetsListByResourceGroupDeserialize(
                                   vaultCertificates:
                                     p["vaultCertificates"] === undefined
                                       ? p["vaultCertificates"]
-                                      : p["vaultCertificates"].map((p) => {
+                                      : p["vaultCertificates"].map((p: any) => {
                                           return {
                                             certificateUrl: p["certificateUrl"],
                                             certificateStore: p["certificateStore"],
@@ -3328,7 +7014,7 @@ export async function _fleetsListByResourceGroupDeserialize(
                                 .storageProfile?.["dataDisks"]
                             : p.properties?.computeProfile.baseVirtualMachineProfile.storageProfile?.[
                                 "dataDisks"
-                              ].map((p) => {
+                              ].map((p: any) => {
                                 return {
                                   name: p["name"],
                                   lun: p["lun"],
@@ -3390,7 +7076,7 @@ export async function _fleetsListByResourceGroupDeserialize(
                                 .networkProfile?.["networkInterfaceConfigurations"]
                             : p.properties?.computeProfile.baseVirtualMachineProfile.networkProfile?.[
                                 "networkInterfaceConfigurations"
-                              ].map((p) => {
+                              ].map((p: any) => {
                                 return {
                                   name: p["name"],
                                   properties: !p.properties
@@ -3413,7 +7099,7 @@ export async function _fleetsListByResourceGroupDeserialize(
                                               dnsServers: p.properties?.dnsSettings?.["dnsServers"],
                                             },
                                         ipConfigurations: p.properties?.["ipConfigurations"].map(
-                                          (p) => {
+                                          (p: any) => {
                                             return {
                                               name: p["name"],
                                               properties: !p.properties
@@ -3474,7 +7160,7 @@ export async function _fleetsListByResourceGroupDeserialize(
                                                                         ?.properties?.["ipTags"]
                                                                     : p.properties?.publicIPAddressConfiguration?.properties?.[
                                                                         "ipTags"
-                                                                      ].map((p) => {
+                                                                      ].map((p: any) => {
                                                                         return {
                                                                           ipTagType: p["ipTagType"],
                                                                           tag: p["tag"],
@@ -3524,7 +7210,7 @@ export async function _fleetsListByResourceGroupDeserialize(
                                                           ]
                                                         : p.properties?.[
                                                             "applicationGatewayBackendAddressPools"
-                                                          ].map((p) => {
+                                                          ].map((p: any) => {
                                                             return {
                                                               id: p["id"],
                                                             };
@@ -3538,7 +7224,7 @@ export async function _fleetsListByResourceGroupDeserialize(
                                                           ]
                                                         : p.properties?.[
                                                             "applicationSecurityGroups"
-                                                          ].map((p) => {
+                                                          ].map((p: any) => {
                                                             return {
                                                               id: p["id"],
                                                             };
@@ -3552,7 +7238,7 @@ export async function _fleetsListByResourceGroupDeserialize(
                                                           ]
                                                         : p.properties?.[
                                                             "loadBalancerBackendAddressPools"
-                                                          ].map((p) => {
+                                                          ].map((p: any) => {
                                                             return {
                                                               id: p["id"],
                                                             };
@@ -3566,7 +7252,7 @@ export async function _fleetsListByResourceGroupDeserialize(
                                                           ]
                                                         : p.properties?.[
                                                             "loadBalancerInboundNatPools"
-                                                          ].map((p) => {
+                                                          ].map((p: any) => {
                                                             return {
                                                               id: p["id"],
                                                             };
@@ -3662,7 +7348,7 @@ export async function _fleetsListByResourceGroupDeserialize(
                                 .extensionProfile?.["extensions"]
                             : p.properties?.computeProfile.baseVirtualMachineProfile.extensionProfile?.[
                                 "extensions"
-                              ].map((p) => {
+                              ].map((p: any) => {
                                 return {
                                   id: p["id"],
                                   name: p["name"],
@@ -3764,7 +7450,7 @@ export async function _fleetsListByResourceGroupDeserialize(
                                 .applicationProfile?.["galleryApplications"]
                             : p.properties?.computeProfile.baseVirtualMachineProfile.applicationProfile?.[
                                 "galleryApplications"
-                              ].map((p) => {
+                              ].map((p: any) => {
                                 return {
                                   tags: p["tags"],
                                   order: p["order"],
@@ -3822,6 +7508,19 @@ export async function _fleetsListByResourceGroupDeserialize(
                 },
                 computeApiVersion: p.properties?.computeProfile["computeApiVersion"],
                 platformFaultDomainCount: p.properties?.computeProfile["platformFaultDomainCount"],
+                additionalVirtualMachineCapabilities: !p.properties?.computeProfile
+                  .additionalVirtualMachineCapabilities
+                  ? undefined
+                  : {
+                      ultraSSDEnabled:
+                        p.properties?.computeProfile.additionalVirtualMachineCapabilities?.[
+                          "ultraSSDEnabled"
+                        ],
+                      hibernationEnabled:
+                        p.properties?.computeProfile.additionalVirtualMachineCapabilities?.[
+                          "hibernationEnabled"
+                        ],
+                    },
               },
               timeCreated:
                 p.properties?.["timeCreated"] !== undefined
@@ -3864,6 +7563,7 @@ export function fleetsListByResourceGroup(
     context,
     () => _fleetsListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
     _fleetsListByResourceGroupDeserialize,
+    ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
@@ -3872,21 +7572,22 @@ export function _fleetsListBySubscriptionSend(
   context: Client,
   subscriptionId: string,
   options: FleetsListBySubscriptionOptionalParams = { requestOptions: {} },
-): StreamableMethod<FleetsListBySubscription200Response | FleetsListBySubscriptionDefaultResponse> {
+): StreamableMethod {
   return context
     .path("/subscriptions/{subscriptionId}/providers/Microsoft.AzureFleet/fleets", subscriptionId)
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _fleetsListBySubscriptionDeserialize(
-  result: FleetsListBySubscription200Response | FleetsListBySubscriptionDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<_FleetListResult> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
   return {
-    value: result.body["value"].map((p) => {
+    value: result.body["value"].map((p: any) => {
       return {
         tags: p["tags"],
         location: p["location"],
@@ -3931,9 +7632,950 @@ export async function _fleetsListBySubscriptionDeserialize(
                     allocationStrategy:
                       p.properties?.regularPriorityProfile?.["allocationStrategy"],
                   },
-              vmSizesProfile: p.properties?.["vmSizesProfile"].map((p) => {
+              vmSizesProfile: p.properties?.["vmSizesProfile"].map((p: any) => {
                 return { name: p["name"], rank: p["rank"] };
               }),
+              vmAttributes: !p.properties?.vmAttributes
+                ? undefined
+                : {
+                    vCpuCount: {
+                      min: p.properties?.vmAttributes?.vCpuCount["min"],
+                      max: p.properties?.vmAttributes?.vCpuCount["max"],
+                    },
+                    memoryInGiB: {
+                      min: p.properties?.vmAttributes?.memoryInGiB["min"],
+                      max: p.properties?.vmAttributes?.memoryInGiB["max"],
+                    },
+                    memoryInGiBPerVCpu: !p.properties?.vmAttributes?.memoryInGiBPerVCpu
+                      ? undefined
+                      : {
+                          min: p.properties?.vmAttributes?.memoryInGiBPerVCpu?.["min"],
+                          max: p.properties?.vmAttributes?.memoryInGiBPerVCpu?.["max"],
+                        },
+                    localStorageSupport: p.properties?.vmAttributes?.["localStorageSupport"],
+                    localStorageInGiB: !p.properties?.vmAttributes?.localStorageInGiB
+                      ? undefined
+                      : {
+                          min: p.properties?.vmAttributes?.localStorageInGiB?.["min"],
+                          max: p.properties?.vmAttributes?.localStorageInGiB?.["max"],
+                        },
+                    localStorageDiskTypes: p.properties?.vmAttributes?.["localStorageDiskTypes"],
+                    dataDiskCount: !p.properties?.vmAttributes?.dataDiskCount
+                      ? undefined
+                      : {
+                          min: p.properties?.vmAttributes?.dataDiskCount?.["min"],
+                          max: p.properties?.vmAttributes?.dataDiskCount?.["max"],
+                        },
+                    networkInterfaceCount: !p.properties?.vmAttributes?.networkInterfaceCount
+                      ? undefined
+                      : {
+                          min: p.properties?.vmAttributes?.networkInterfaceCount?.["min"],
+                          max: p.properties?.vmAttributes?.networkInterfaceCount?.["max"],
+                        },
+                    networkBandwidthInMbps: !p.properties?.vmAttributes?.networkBandwidthInMbps
+                      ? undefined
+                      : {
+                          min: p.properties?.vmAttributes?.networkBandwidthInMbps?.["min"],
+                          max: p.properties?.vmAttributes?.networkBandwidthInMbps?.["max"],
+                        },
+                    rdmaSupport: p.properties?.vmAttributes?.["rdmaSupport"],
+                    rdmaNetworkInterfaceCount: !p.properties?.vmAttributes
+                      ?.rdmaNetworkInterfaceCount
+                      ? undefined
+                      : {
+                          min: p.properties?.vmAttributes?.rdmaNetworkInterfaceCount?.["min"],
+                          max: p.properties?.vmAttributes?.rdmaNetworkInterfaceCount?.["max"],
+                        },
+                    acceleratorSupport: p.properties?.vmAttributes?.["acceleratorSupport"],
+                    acceleratorManufacturers:
+                      p.properties?.vmAttributes?.["acceleratorManufacturers"],
+                    acceleratorTypes: p.properties?.vmAttributes?.["acceleratorTypes"],
+                    acceleratorCount: !p.properties?.vmAttributes?.acceleratorCount
+                      ? undefined
+                      : {
+                          min: p.properties?.vmAttributes?.acceleratorCount?.["min"],
+                          max: p.properties?.vmAttributes?.acceleratorCount?.["max"],
+                        },
+                    vmCategories: p.properties?.vmAttributes?.["vmCategories"],
+                    architectureTypes: p.properties?.vmAttributes?.["architectureTypes"],
+                    cpuManufacturers: p.properties?.vmAttributes?.["cpuManufacturers"],
+                    burstableSupport: p.properties?.vmAttributes?.["burstableSupport"],
+                    excludedVMSizes: p.properties?.vmAttributes?.["excludedVMSizes"],
+                  },
+              additionalLocationsProfile: !p.properties?.additionalLocationsProfile
+                ? undefined
+                : {
+                    locationProfiles: p.properties?.additionalLocationsProfile?.[
+                      "locationProfiles"
+                    ].map((p: any) => {
+                      return {
+                        location: p["location"],
+                        virtualMachineProfileOverride: !p.virtualMachineProfileOverride
+                          ? undefined
+                          : {
+                              osProfile: !p.virtualMachineProfileOverride?.osProfile
+                                ? undefined
+                                : {
+                                    computerNamePrefix:
+                                      p.virtualMachineProfileOverride?.osProfile?.[
+                                        "computerNamePrefix"
+                                      ],
+                                    adminUsername:
+                                      p.virtualMachineProfileOverride?.osProfile?.["adminUsername"],
+                                    adminPassword:
+                                      p.virtualMachineProfileOverride?.osProfile?.["adminPassword"],
+                                    customData:
+                                      p.virtualMachineProfileOverride?.osProfile?.["customData"],
+                                    windowsConfiguration: !p.virtualMachineProfileOverride
+                                      ?.osProfile?.windowsConfiguration
+                                      ? undefined
+                                      : {
+                                          provisionVMAgent:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.["provisionVMAgent"],
+                                          enableAutomaticUpdates:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.["enableAutomaticUpdates"],
+                                          timeZone:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.["timeZone"],
+                                          additionalUnattendContent:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.[
+                                              "additionalUnattendContent"
+                                            ] === undefined
+                                              ? p.virtualMachineProfileOverride?.osProfile
+                                                  ?.windowsConfiguration?.[
+                                                  "additionalUnattendContent"
+                                                ]
+                                              : p.virtualMachineProfileOverride?.osProfile?.windowsConfiguration?.[
+                                                  "additionalUnattendContent"
+                                                ].map((p: any) => {
+                                                  return {
+                                                    passName: p["passName"],
+                                                    componentName: p["componentName"],
+                                                    settingName: p["settingName"],
+                                                    content: p["content"],
+                                                  };
+                                                }),
+                                          patchSettings: !p.virtualMachineProfileOverride?.osProfile
+                                            ?.windowsConfiguration?.patchSettings
+                                            ? undefined
+                                            : {
+                                                patchMode:
+                                                  p.virtualMachineProfileOverride?.osProfile
+                                                    ?.windowsConfiguration?.patchSettings?.[
+                                                    "patchMode"
+                                                  ],
+                                                enableHotpatching:
+                                                  p.virtualMachineProfileOverride?.osProfile
+                                                    ?.windowsConfiguration?.patchSettings?.[
+                                                    "enableHotpatching"
+                                                  ],
+                                                assessmentMode:
+                                                  p.virtualMachineProfileOverride?.osProfile
+                                                    ?.windowsConfiguration?.patchSettings?.[
+                                                    "assessmentMode"
+                                                  ],
+                                                automaticByPlatformSettings: !p
+                                                  .virtualMachineProfileOverride?.osProfile
+                                                  ?.windowsConfiguration?.patchSettings
+                                                  ?.automaticByPlatformSettings
+                                                  ? undefined
+                                                  : {
+                                                      rebootSetting:
+                                                        p.virtualMachineProfileOverride?.osProfile
+                                                          ?.windowsConfiguration?.patchSettings
+                                                          ?.automaticByPlatformSettings?.[
+                                                          "rebootSetting"
+                                                        ],
+                                                      bypassPlatformSafetyChecksOnUserSchedule:
+                                                        p.virtualMachineProfileOverride?.osProfile
+                                                          ?.windowsConfiguration?.patchSettings
+                                                          ?.automaticByPlatformSettings?.[
+                                                          "bypassPlatformSafetyChecksOnUserSchedule"
+                                                        ],
+                                                    },
+                                              },
+                                          winRM: !p.virtualMachineProfileOverride?.osProfile
+                                            ?.windowsConfiguration?.winRM
+                                            ? undefined
+                                            : {
+                                                listeners:
+                                                  p.virtualMachineProfileOverride?.osProfile
+                                                    ?.windowsConfiguration?.winRM?.["listeners"] ===
+                                                  undefined
+                                                    ? p.virtualMachineProfileOverride?.osProfile
+                                                        ?.windowsConfiguration?.winRM?.["listeners"]
+                                                    : p.virtualMachineProfileOverride?.osProfile?.windowsConfiguration?.winRM?.[
+                                                        "listeners"
+                                                      ].map((p: any) => {
+                                                        return {
+                                                          protocol: p["protocol"],
+                                                          certificateUrl: p["certificateUrl"],
+                                                        };
+                                                      }),
+                                              },
+                                          enableVMAgentPlatformUpdates:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.windowsConfiguration?.[
+                                              "enableVMAgentPlatformUpdates"
+                                            ],
+                                        },
+                                    linuxConfiguration: !p.virtualMachineProfileOverride?.osProfile
+                                      ?.linuxConfiguration
+                                      ? undefined
+                                      : {
+                                          disablePasswordAuthentication:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.linuxConfiguration?.[
+                                              "disablePasswordAuthentication"
+                                            ],
+                                          ssh: !p.virtualMachineProfileOverride?.osProfile
+                                            ?.linuxConfiguration?.ssh
+                                            ? undefined
+                                            : {
+                                                publicKeys:
+                                                  p.virtualMachineProfileOverride?.osProfile
+                                                    ?.linuxConfiguration?.ssh?.["publicKeys"] ===
+                                                  undefined
+                                                    ? p.virtualMachineProfileOverride?.osProfile
+                                                        ?.linuxConfiguration?.ssh?.["publicKeys"]
+                                                    : p.virtualMachineProfileOverride?.osProfile?.linuxConfiguration?.ssh?.[
+                                                        "publicKeys"
+                                                      ].map((p: any) => {
+                                                        return {
+                                                          path: p["path"],
+                                                          keyData: p["keyData"],
+                                                        };
+                                                      }),
+                                              },
+                                          provisionVMAgent:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.linuxConfiguration?.["provisionVMAgent"],
+                                          patchSettings: !p.virtualMachineProfileOverride?.osProfile
+                                            ?.linuxConfiguration?.patchSettings
+                                            ? undefined
+                                            : {
+                                                patchMode:
+                                                  p.virtualMachineProfileOverride?.osProfile
+                                                    ?.linuxConfiguration?.patchSettings?.[
+                                                    "patchMode"
+                                                  ],
+                                                assessmentMode:
+                                                  p.virtualMachineProfileOverride?.osProfile
+                                                    ?.linuxConfiguration?.patchSettings?.[
+                                                    "assessmentMode"
+                                                  ],
+                                                automaticByPlatformSettings: !p
+                                                  .virtualMachineProfileOverride?.osProfile
+                                                  ?.linuxConfiguration?.patchSettings
+                                                  ?.automaticByPlatformSettings
+                                                  ? undefined
+                                                  : {
+                                                      rebootSetting:
+                                                        p.virtualMachineProfileOverride?.osProfile
+                                                          ?.linuxConfiguration?.patchSettings
+                                                          ?.automaticByPlatformSettings?.[
+                                                          "rebootSetting"
+                                                        ],
+                                                      bypassPlatformSafetyChecksOnUserSchedule:
+                                                        p.virtualMachineProfileOverride?.osProfile
+                                                          ?.linuxConfiguration?.patchSettings
+                                                          ?.automaticByPlatformSettings?.[
+                                                          "bypassPlatformSafetyChecksOnUserSchedule"
+                                                        ],
+                                                    },
+                                              },
+                                          enableVMAgentPlatformUpdates:
+                                            p.virtualMachineProfileOverride?.osProfile
+                                              ?.linuxConfiguration?.[
+                                              "enableVMAgentPlatformUpdates"
+                                            ],
+                                        },
+                                    secrets:
+                                      p.virtualMachineProfileOverride?.osProfile?.["secrets"] ===
+                                      undefined
+                                        ? p.virtualMachineProfileOverride?.osProfile?.["secrets"]
+                                        : p.virtualMachineProfileOverride?.osProfile?.[
+                                            "secrets"
+                                          ].map((p: any) => {
+                                            return {
+                                              sourceVault: !p.sourceVault
+                                                ? undefined
+                                                : {
+                                                    id: p.sourceVault?.["id"],
+                                                  },
+                                              vaultCertificates:
+                                                p["vaultCertificates"] === undefined
+                                                  ? p["vaultCertificates"]
+                                                  : p["vaultCertificates"].map((p: any) => {
+                                                      return {
+                                                        certificateUrl: p["certificateUrl"],
+                                                        certificateStore: p["certificateStore"],
+                                                      };
+                                                    }),
+                                            };
+                                          }),
+                                    allowExtensionOperations:
+                                      p.virtualMachineProfileOverride?.osProfile?.[
+                                        "allowExtensionOperations"
+                                      ],
+                                    requireGuestProvisionSignal:
+                                      p.virtualMachineProfileOverride?.osProfile?.[
+                                        "requireGuestProvisionSignal"
+                                      ],
+                                  },
+                              storageProfile: !p.virtualMachineProfileOverride?.storageProfile
+                                ? undefined
+                                : {
+                                    imageReference: !p.virtualMachineProfileOverride?.storageProfile
+                                      ?.imageReference
+                                      ? undefined
+                                      : {
+                                          id: p.virtualMachineProfileOverride?.storageProfile
+                                            ?.imageReference?.["id"],
+                                          publisher:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.imageReference?.["publisher"],
+                                          offer:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.imageReference?.["offer"],
+                                          sku: p.virtualMachineProfileOverride?.storageProfile
+                                            ?.imageReference?.["sku"],
+                                          version:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.imageReference?.["version"],
+                                          exactVersion:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.imageReference?.["exactVersion"],
+                                          sharedGalleryImageId:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.imageReference?.["sharedGalleryImageId"],
+                                          communityGalleryImageId:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.imageReference?.["communityGalleryImageId"],
+                                        },
+                                    osDisk: !p.virtualMachineProfileOverride?.storageProfile?.osDisk
+                                      ? undefined
+                                      : {
+                                          name: p.virtualMachineProfileOverride?.storageProfile
+                                            ?.osDisk?.["name"],
+                                          caching:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.["caching"],
+                                          writeAcceleratorEnabled:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.["writeAcceleratorEnabled"],
+                                          createOption:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.["createOption"],
+                                          diffDiskSettings: !p.virtualMachineProfileOverride
+                                            ?.storageProfile?.osDisk?.diffDiskSettings
+                                            ? undefined
+                                            : {
+                                                option:
+                                                  p.virtualMachineProfileOverride?.storageProfile
+                                                    ?.osDisk?.diffDiskSettings?.["option"],
+                                                placement:
+                                                  p.virtualMachineProfileOverride?.storageProfile
+                                                    ?.osDisk?.diffDiskSettings?.["placement"],
+                                              },
+                                          diskSizeGB:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.["diskSizeGB"],
+                                          osType:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.["osType"],
+                                          image: !p.virtualMachineProfileOverride?.storageProfile
+                                            ?.osDisk?.image
+                                            ? undefined
+                                            : {
+                                                uri: p.virtualMachineProfileOverride?.storageProfile
+                                                  ?.osDisk?.image?.["uri"],
+                                              },
+                                          vhdContainers:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.["vhdContainers"],
+                                          managedDisk: !p.virtualMachineProfileOverride
+                                            ?.storageProfile?.osDisk?.managedDisk
+                                            ? undefined
+                                            : {
+                                                storageAccountType:
+                                                  p.virtualMachineProfileOverride?.storageProfile
+                                                    ?.osDisk?.managedDisk?.["storageAccountType"],
+                                                diskEncryptionSet: !p.virtualMachineProfileOverride
+                                                  ?.storageProfile?.osDisk?.managedDisk
+                                                  ?.diskEncryptionSet
+                                                  ? undefined
+                                                  : {
+                                                      id: p.virtualMachineProfileOverride
+                                                        ?.storageProfile?.osDisk?.managedDisk
+                                                        ?.diskEncryptionSet?.["id"],
+                                                    },
+                                                securityProfile: !p.virtualMachineProfileOverride
+                                                  ?.storageProfile?.osDisk?.managedDisk
+                                                  ?.securityProfile
+                                                  ? undefined
+                                                  : {
+                                                      securityEncryptionType:
+                                                        p.virtualMachineProfileOverride
+                                                          ?.storageProfile?.osDisk?.managedDisk
+                                                          ?.securityProfile?.[
+                                                          "securityEncryptionType"
+                                                        ],
+                                                      diskEncryptionSet: !p
+                                                        .virtualMachineProfileOverride
+                                                        ?.storageProfile?.osDisk?.managedDisk
+                                                        ?.securityProfile?.diskEncryptionSet
+                                                        ? undefined
+                                                        : {
+                                                            id: p.virtualMachineProfileOverride
+                                                              ?.storageProfile?.osDisk?.managedDisk
+                                                              ?.securityProfile
+                                                              ?.diskEncryptionSet?.["id"],
+                                                          },
+                                                    },
+                                              },
+                                          deleteOption:
+                                            p.virtualMachineProfileOverride?.storageProfile
+                                              ?.osDisk?.["deleteOption"],
+                                        },
+                                    dataDisks:
+                                      p.virtualMachineProfileOverride?.storageProfile?.[
+                                        "dataDisks"
+                                      ] === undefined
+                                        ? p.virtualMachineProfileOverride?.storageProfile?.[
+                                            "dataDisks"
+                                          ]
+                                        : p.virtualMachineProfileOverride?.storageProfile?.[
+                                            "dataDisks"
+                                          ].map((p: any) => {
+                                            return {
+                                              name: p["name"],
+                                              lun: p["lun"],
+                                              caching: p["caching"],
+                                              writeAcceleratorEnabled: p["writeAcceleratorEnabled"],
+                                              createOption: p["createOption"],
+                                              diskSizeGB: p["diskSizeGB"],
+                                              managedDisk: !p.managedDisk
+                                                ? undefined
+                                                : {
+                                                    storageAccountType:
+                                                      p.managedDisk?.["storageAccountType"],
+                                                    diskEncryptionSet: !p.managedDisk
+                                                      ?.diskEncryptionSet
+                                                      ? undefined
+                                                      : {
+                                                          id: p.managedDisk?.diskEncryptionSet?.[
+                                                            "id"
+                                                          ],
+                                                        },
+                                                    securityProfile: !p.managedDisk?.securityProfile
+                                                      ? undefined
+                                                      : {
+                                                          securityEncryptionType:
+                                                            p.managedDisk?.securityProfile?.[
+                                                              "securityEncryptionType"
+                                                            ],
+                                                          diskEncryptionSet: !p.managedDisk
+                                                            ?.securityProfile?.diskEncryptionSet
+                                                            ? undefined
+                                                            : {
+                                                                id: p.managedDisk?.securityProfile
+                                                                  ?.diskEncryptionSet?.["id"],
+                                                              },
+                                                        },
+                                                  },
+                                              diskIOPSReadWrite: p["diskIOPSReadWrite"],
+                                              diskMBpsReadWrite: p["diskMBpsReadWrite"],
+                                              deleteOption: p["deleteOption"],
+                                            };
+                                          }),
+                                    diskControllerType:
+                                      p.virtualMachineProfileOverride?.storageProfile?.[
+                                        "diskControllerType"
+                                      ],
+                                  },
+                              networkProfile: !p.virtualMachineProfileOverride?.networkProfile
+                                ? undefined
+                                : {
+                                    healthProbe: !p.virtualMachineProfileOverride?.networkProfile
+                                      ?.healthProbe
+                                      ? undefined
+                                      : {
+                                          id: p.virtualMachineProfileOverride?.networkProfile
+                                            ?.healthProbe?.["id"],
+                                        },
+                                    networkInterfaceConfigurations:
+                                      p.virtualMachineProfileOverride?.networkProfile?.[
+                                        "networkInterfaceConfigurations"
+                                      ] === undefined
+                                        ? p.virtualMachineProfileOverride?.networkProfile?.[
+                                            "networkInterfaceConfigurations"
+                                          ]
+                                        : p.virtualMachineProfileOverride?.networkProfile?.[
+                                            "networkInterfaceConfigurations"
+                                          ].map((p: any) => {
+                                            return {
+                                              name: p["name"],
+                                              properties: !p.properties
+                                                ? undefined
+                                                : {
+                                                    primary: p.properties?.["primary"],
+                                                    enableAcceleratedNetworking:
+                                                      p.properties?.["enableAcceleratedNetworking"],
+                                                    disableTcpStateTracking:
+                                                      p.properties?.["disableTcpStateTracking"],
+                                                    enableFpga: p.properties?.["enableFpga"],
+                                                    networkSecurityGroup: !p.properties
+                                                      ?.networkSecurityGroup
+                                                      ? undefined
+                                                      : {
+                                                          id: p.properties?.networkSecurityGroup?.[
+                                                            "id"
+                                                          ],
+                                                        },
+                                                    dnsSettings: !p.properties?.dnsSettings
+                                                      ? undefined
+                                                      : {
+                                                          dnsServers:
+                                                            p.properties?.dnsSettings?.[
+                                                              "dnsServers"
+                                                            ],
+                                                        },
+                                                    ipConfigurations: p.properties?.[
+                                                      "ipConfigurations"
+                                                    ].map((p: any) => {
+                                                      return {
+                                                        name: p["name"],
+                                                        properties: !p.properties
+                                                          ? undefined
+                                                          : {
+                                                              subnet: !p.properties?.subnet
+                                                                ? undefined
+                                                                : {
+                                                                    id: p.properties?.subnet?.[
+                                                                      "id"
+                                                                    ],
+                                                                  },
+                                                              primary: p.properties?.["primary"],
+                                                              publicIPAddressConfiguration: !p
+                                                                .properties
+                                                                ?.publicIPAddressConfiguration
+                                                                ? undefined
+                                                                : {
+                                                                    name: p.properties
+                                                                      ?.publicIPAddressConfiguration?.[
+                                                                      "name"
+                                                                    ],
+                                                                    properties: !p.properties
+                                                                      ?.publicIPAddressConfiguration
+                                                                      ?.properties
+                                                                      ? undefined
+                                                                      : {
+                                                                          idleTimeoutInMinutes:
+                                                                            p.properties
+                                                                              ?.publicIPAddressConfiguration
+                                                                              ?.properties?.[
+                                                                              "idleTimeoutInMinutes"
+                                                                            ],
+                                                                          dnsSettings: !p.properties
+                                                                            ?.publicIPAddressConfiguration
+                                                                            ?.properties
+                                                                            ?.dnsSettings
+                                                                            ? undefined
+                                                                            : {
+                                                                                domainNameLabel:
+                                                                                  p.properties
+                                                                                    ?.publicIPAddressConfiguration
+                                                                                    ?.properties
+                                                                                    ?.dnsSettings?.[
+                                                                                    "domainNameLabel"
+                                                                                  ],
+                                                                                domainNameLabelScope:
+                                                                                  p.properties
+                                                                                    ?.publicIPAddressConfiguration
+                                                                                    ?.properties
+                                                                                    ?.dnsSettings?.[
+                                                                                    "domainNameLabelScope"
+                                                                                  ],
+                                                                              },
+                                                                          ipTags:
+                                                                            p.properties
+                                                                              ?.publicIPAddressConfiguration
+                                                                              ?.properties?.[
+                                                                              "ipTags"
+                                                                            ] === undefined
+                                                                              ? p.properties
+                                                                                  ?.publicIPAddressConfiguration
+                                                                                  ?.properties?.[
+                                                                                  "ipTags"
+                                                                                ]
+                                                                              : p.properties?.publicIPAddressConfiguration?.properties?.[
+                                                                                  "ipTags"
+                                                                                ].map((p: any) => {
+                                                                                  return {
+                                                                                    ipTagType:
+                                                                                      p[
+                                                                                        "ipTagType"
+                                                                                      ],
+                                                                                    tag: p["tag"],
+                                                                                  };
+                                                                                }),
+                                                                          publicIPPrefix: !p
+                                                                            .properties
+                                                                            ?.publicIPAddressConfiguration
+                                                                            ?.properties
+                                                                            ?.publicIPPrefix
+                                                                            ? undefined
+                                                                            : {
+                                                                                id: p.properties
+                                                                                  ?.publicIPAddressConfiguration
+                                                                                  ?.properties
+                                                                                  ?.publicIPPrefix?.[
+                                                                                  "id"
+                                                                                ],
+                                                                              },
+                                                                          publicIPAddressVersion:
+                                                                            p.properties
+                                                                              ?.publicIPAddressConfiguration
+                                                                              ?.properties?.[
+                                                                              "publicIPAddressVersion"
+                                                                            ],
+                                                                          deleteOption:
+                                                                            p.properties
+                                                                              ?.publicIPAddressConfiguration
+                                                                              ?.properties?.[
+                                                                              "deleteOption"
+                                                                            ],
+                                                                        },
+                                                                    sku: !p.properties
+                                                                      ?.publicIPAddressConfiguration
+                                                                      ?.sku
+                                                                      ? undefined
+                                                                      : {
+                                                                          name: p.properties
+                                                                            ?.publicIPAddressConfiguration
+                                                                            ?.sku?.["name"],
+                                                                          tier: p.properties
+                                                                            ?.publicIPAddressConfiguration
+                                                                            ?.sku?.["tier"],
+                                                                        },
+                                                                  },
+                                                              privateIPAddressVersion:
+                                                                p.properties?.[
+                                                                  "privateIPAddressVersion"
+                                                                ],
+                                                              applicationGatewayBackendAddressPools:
+                                                                p.properties?.[
+                                                                  "applicationGatewayBackendAddressPools"
+                                                                ] === undefined
+                                                                  ? p.properties?.[
+                                                                      "applicationGatewayBackendAddressPools"
+                                                                    ]
+                                                                  : p.properties?.[
+                                                                      "applicationGatewayBackendAddressPools"
+                                                                    ].map((p: any) => {
+                                                                      return {
+                                                                        id: p["id"],
+                                                                      };
+                                                                    }),
+                                                              applicationSecurityGroups:
+                                                                p.properties?.[
+                                                                  "applicationSecurityGroups"
+                                                                ] === undefined
+                                                                  ? p.properties?.[
+                                                                      "applicationSecurityGroups"
+                                                                    ]
+                                                                  : p.properties?.[
+                                                                      "applicationSecurityGroups"
+                                                                    ].map((p: any) => {
+                                                                      return {
+                                                                        id: p["id"],
+                                                                      };
+                                                                    }),
+                                                              loadBalancerBackendAddressPools:
+                                                                p.properties?.[
+                                                                  "loadBalancerBackendAddressPools"
+                                                                ] === undefined
+                                                                  ? p.properties?.[
+                                                                      "loadBalancerBackendAddressPools"
+                                                                    ]
+                                                                  : p.properties?.[
+                                                                      "loadBalancerBackendAddressPools"
+                                                                    ].map((p: any) => {
+                                                                      return {
+                                                                        id: p["id"],
+                                                                      };
+                                                                    }),
+                                                              loadBalancerInboundNatPools:
+                                                                p.properties?.[
+                                                                  "loadBalancerInboundNatPools"
+                                                                ] === undefined
+                                                                  ? p.properties?.[
+                                                                      "loadBalancerInboundNatPools"
+                                                                    ]
+                                                                  : p.properties?.[
+                                                                      "loadBalancerInboundNatPools"
+                                                                    ].map((p: any) => {
+                                                                      return {
+                                                                        id: p["id"],
+                                                                      };
+                                                                    }),
+                                                            },
+                                                      };
+                                                    }),
+                                                    enableIPForwarding:
+                                                      p.properties?.["enableIPForwarding"],
+                                                    deleteOption: p.properties?.["deleteOption"],
+                                                    auxiliaryMode: p.properties?.["auxiliaryMode"],
+                                                    auxiliarySku: p.properties?.["auxiliarySku"],
+                                                  },
+                                            };
+                                          }),
+                                    networkApiVersion:
+                                      p.virtualMachineProfileOverride?.networkProfile?.[
+                                        "networkApiVersion"
+                                      ],
+                                  },
+                              securityProfile: !p.virtualMachineProfileOverride?.securityProfile
+                                ? undefined
+                                : {
+                                    uefiSettings: !p.virtualMachineProfileOverride?.securityProfile
+                                      ?.uefiSettings
+                                      ? undefined
+                                      : {
+                                          secureBootEnabled:
+                                            p.virtualMachineProfileOverride?.securityProfile
+                                              ?.uefiSettings?.["secureBootEnabled"],
+                                          vTpmEnabled:
+                                            p.virtualMachineProfileOverride?.securityProfile
+                                              ?.uefiSettings?.["vTpmEnabled"],
+                                        },
+                                    encryptionAtHost:
+                                      p.virtualMachineProfileOverride?.securityProfile?.[
+                                        "encryptionAtHost"
+                                      ],
+                                    securityType:
+                                      p.virtualMachineProfileOverride?.securityProfile?.[
+                                        "securityType"
+                                      ],
+                                    encryptionIdentity: !p.virtualMachineProfileOverride
+                                      ?.securityProfile?.encryptionIdentity
+                                      ? undefined
+                                      : {
+                                          userAssignedIdentityResourceId:
+                                            p.virtualMachineProfileOverride?.securityProfile
+                                              ?.encryptionIdentity?.[
+                                              "userAssignedIdentityResourceId"
+                                            ],
+                                        },
+                                    proxyAgentSettings: !p.virtualMachineProfileOverride
+                                      ?.securityProfile?.proxyAgentSettings
+                                      ? undefined
+                                      : {
+                                          enabled:
+                                            p.virtualMachineProfileOverride?.securityProfile
+                                              ?.proxyAgentSettings?.["enabled"],
+                                          mode: p.virtualMachineProfileOverride?.securityProfile
+                                            ?.proxyAgentSettings?.["mode"],
+                                          keyIncarnationId:
+                                            p.virtualMachineProfileOverride?.securityProfile
+                                              ?.proxyAgentSettings?.["keyIncarnationId"],
+                                        },
+                                  },
+                              diagnosticsProfile: !p.virtualMachineProfileOverride
+                                ?.diagnosticsProfile
+                                ? undefined
+                                : {
+                                    bootDiagnostics: !p.virtualMachineProfileOverride
+                                      ?.diagnosticsProfile?.bootDiagnostics
+                                      ? undefined
+                                      : {
+                                          enabled:
+                                            p.virtualMachineProfileOverride?.diagnosticsProfile
+                                              ?.bootDiagnostics?.["enabled"],
+                                          storageUri:
+                                            p.virtualMachineProfileOverride?.diagnosticsProfile
+                                              ?.bootDiagnostics?.["storageUri"],
+                                        },
+                                  },
+                              extensionProfile: !p.virtualMachineProfileOverride?.extensionProfile
+                                ? undefined
+                                : {
+                                    extensions:
+                                      p.virtualMachineProfileOverride?.extensionProfile?.[
+                                        "extensions"
+                                      ] === undefined
+                                        ? p.virtualMachineProfileOverride?.extensionProfile?.[
+                                            "extensions"
+                                          ]
+                                        : p.virtualMachineProfileOverride?.extensionProfile?.[
+                                            "extensions"
+                                          ].map((p: any) => {
+                                            return {
+                                              id: p["id"],
+                                              name: p["name"],
+                                              type: p["type"],
+                                              properties: !p.properties
+                                                ? undefined
+                                                : {
+                                                    forceUpdateTag:
+                                                      p.properties?.["forceUpdateTag"],
+                                                    publisher: p.properties?.["publisher"],
+                                                    type: p.properties?.["type"],
+                                                    typeHandlerVersion:
+                                                      p.properties?.["typeHandlerVersion"],
+                                                    autoUpgradeMinorVersion:
+                                                      p.properties?.["autoUpgradeMinorVersion"],
+                                                    enableAutomaticUpgrade:
+                                                      p.properties?.["enableAutomaticUpgrade"],
+                                                    settings: p.properties?.["settings"],
+                                                    protectedSettings:
+                                                      p.properties?.["protectedSettings"],
+                                                    provisioningState:
+                                                      p.properties?.["provisioningState"],
+                                                    provisionAfterExtensions:
+                                                      p.properties?.["provisionAfterExtensions"],
+                                                    suppressFailures:
+                                                      p.properties?.["suppressFailures"],
+                                                    protectedSettingsFromKeyVault: !p.properties
+                                                      ?.protectedSettingsFromKeyVault
+                                                      ? undefined
+                                                      : {
+                                                          secretUrl:
+                                                            p.properties
+                                                              ?.protectedSettingsFromKeyVault?.[
+                                                              "secretUrl"
+                                                            ],
+                                                          sourceVault: {
+                                                            id: p.properties
+                                                              ?.protectedSettingsFromKeyVault
+                                                              ?.sourceVault["id"],
+                                                          },
+                                                        },
+                                                  },
+                                            };
+                                          }),
+                                    extensionsTimeBudget:
+                                      p.virtualMachineProfileOverride?.extensionProfile?.[
+                                        "extensionsTimeBudget"
+                                      ],
+                                  },
+                              licenseType: p.virtualMachineProfileOverride?.["licenseType"],
+                              scheduledEventsProfile: !p.virtualMachineProfileOverride
+                                ?.scheduledEventsProfile
+                                ? undefined
+                                : {
+                                    terminateNotificationProfile: !p.virtualMachineProfileOverride
+                                      ?.scheduledEventsProfile?.terminateNotificationProfile
+                                      ? undefined
+                                      : {
+                                          notBeforeTimeout:
+                                            p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                              ?.terminateNotificationProfile?.["notBeforeTimeout"],
+                                          enable:
+                                            p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                              ?.terminateNotificationProfile?.["enable"],
+                                        },
+                                    osImageNotificationProfile: !p.virtualMachineProfileOverride
+                                      ?.scheduledEventsProfile?.osImageNotificationProfile
+                                      ? undefined
+                                      : {
+                                          notBeforeTimeout:
+                                            p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                              ?.osImageNotificationProfile?.["notBeforeTimeout"],
+                                          enable:
+                                            p.virtualMachineProfileOverride?.scheduledEventsProfile
+                                              ?.osImageNotificationProfile?.["enable"],
+                                        },
+                                  },
+                              userData: p.virtualMachineProfileOverride?.["userData"],
+                              capacityReservation: !p.virtualMachineProfileOverride
+                                ?.capacityReservation
+                                ? undefined
+                                : {
+                                    capacityReservationGroup: !p.virtualMachineProfileOverride
+                                      ?.capacityReservation?.capacityReservationGroup
+                                      ? undefined
+                                      : {
+                                          id: p.virtualMachineProfileOverride?.capacityReservation
+                                            ?.capacityReservationGroup?.["id"],
+                                        },
+                                  },
+                              applicationProfile: !p.virtualMachineProfileOverride
+                                ?.applicationProfile
+                                ? undefined
+                                : {
+                                    galleryApplications:
+                                      p.virtualMachineProfileOverride?.applicationProfile?.[
+                                        "galleryApplications"
+                                      ] === undefined
+                                        ? p.virtualMachineProfileOverride?.applicationProfile?.[
+                                            "galleryApplications"
+                                          ]
+                                        : p.virtualMachineProfileOverride?.applicationProfile?.[
+                                            "galleryApplications"
+                                          ].map((p: any) => {
+                                            return {
+                                              tags: p["tags"],
+                                              order: p["order"],
+                                              packageReferenceId: p["packageReferenceId"],
+                                              configurationReference: p["configurationReference"],
+                                              treatFailureAsDeploymentFailure:
+                                                p["treatFailureAsDeploymentFailure"],
+                                              enableAutomaticUpgrade: p["enableAutomaticUpgrade"],
+                                            };
+                                          }),
+                                  },
+                              hardwareProfile: !p.virtualMachineProfileOverride?.hardwareProfile
+                                ? undefined
+                                : {
+                                    vmSizeProperties: !p.virtualMachineProfileOverride
+                                      ?.hardwareProfile?.vmSizeProperties
+                                      ? undefined
+                                      : {
+                                          vCPUsAvailable:
+                                            p.virtualMachineProfileOverride?.hardwareProfile
+                                              ?.vmSizeProperties?.["vCPUsAvailable"],
+                                          vCPUsPerCore:
+                                            p.virtualMachineProfileOverride?.hardwareProfile
+                                              ?.vmSizeProperties?.["vCPUsPerCore"],
+                                        },
+                                  },
+                              serviceArtifactReference: !p.virtualMachineProfileOverride
+                                ?.serviceArtifactReference
+                                ? undefined
+                                : {
+                                    id: p.virtualMachineProfileOverride?.serviceArtifactReference?.[
+                                      "id"
+                                    ],
+                                  },
+                              securityPostureReference: !p.virtualMachineProfileOverride
+                                ?.securityPostureReference
+                                ? undefined
+                                : {
+                                    id: p.virtualMachineProfileOverride?.securityPostureReference?.[
+                                      "id"
+                                    ],
+                                    excludeExtensions:
+                                      p.virtualMachineProfileOverride?.securityPostureReference?.[
+                                        "excludeExtensions"
+                                      ],
+                                    isOverridable:
+                                      p.virtualMachineProfileOverride?.securityPostureReference?.[
+                                        "isOverridable"
+                                      ],
+                                  },
+                              timeCreated:
+                                p.virtualMachineProfileOverride?.["timeCreated"] !== undefined
+                                  ? new Date(p.virtualMachineProfileOverride?.["timeCreated"])
+                                  : undefined,
+                            },
+                      };
+                    }),
+                  },
               computeProfile: {
                 baseVirtualMachineProfile: {
                   osProfile: !p.properties?.computeProfile.baseVirtualMachineProfile.osProfile
@@ -3976,7 +8618,7 @@ export async function _fleetsListBySubscriptionDeserialize(
                                       ?.windowsConfiguration?.["additionalUnattendContent"]
                                   : p.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.windowsConfiguration?.[
                                       "additionalUnattendContent"
-                                    ].map((p) => {
+                                    ].map((p: any) => {
                                       return {
                                         passName: p["passName"],
                                         componentName: p["componentName"],
@@ -4032,7 +8674,7 @@ export async function _fleetsListBySubscriptionDeserialize(
                                             .osProfile?.windowsConfiguration?.winRM?.["listeners"]
                                         : p.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.windowsConfiguration?.winRM?.[
                                             "listeners"
-                                          ].map((p) => {
+                                          ].map((p: any) => {
                                             return {
                                               protocol: p["protocol"],
                                               certificateUrl: p["certificateUrl"],
@@ -4062,7 +8704,7 @@ export async function _fleetsListBySubscriptionDeserialize(
                                             .osProfile?.linuxConfiguration?.ssh?.["publicKeys"]
                                         : p.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.linuxConfiguration?.ssh?.[
                                             "publicKeys"
-                                          ].map((p) => {
+                                          ].map((p: any) => {
                                             return {
                                               path: p["path"],
                                               keyData: p["keyData"],
@@ -4116,7 +8758,7 @@ export async function _fleetsListBySubscriptionDeserialize(
                               ]
                             : p.properties?.computeProfile.baseVirtualMachineProfile.osProfile?.[
                                 "secrets"
-                              ].map((p) => {
+                              ].map((p: any) => {
                                 return {
                                   sourceVault: !p.sourceVault
                                     ? undefined
@@ -4124,7 +8766,7 @@ export async function _fleetsListBySubscriptionDeserialize(
                                   vaultCertificates:
                                     p["vaultCertificates"] === undefined
                                       ? p["vaultCertificates"]
-                                      : p["vaultCertificates"].map((p) => {
+                                      : p["vaultCertificates"].map((p: any) => {
                                           return {
                                             certificateUrl: p["certificateUrl"],
                                             certificateStore: p["certificateStore"],
@@ -4265,7 +8907,7 @@ export async function _fleetsListBySubscriptionDeserialize(
                                 .storageProfile?.["dataDisks"]
                             : p.properties?.computeProfile.baseVirtualMachineProfile.storageProfile?.[
                                 "dataDisks"
-                              ].map((p) => {
+                              ].map((p: any) => {
                                 return {
                                   name: p["name"],
                                   lun: p["lun"],
@@ -4327,7 +8969,7 @@ export async function _fleetsListBySubscriptionDeserialize(
                                 .networkProfile?.["networkInterfaceConfigurations"]
                             : p.properties?.computeProfile.baseVirtualMachineProfile.networkProfile?.[
                                 "networkInterfaceConfigurations"
-                              ].map((p) => {
+                              ].map((p: any) => {
                                 return {
                                   name: p["name"],
                                   properties: !p.properties
@@ -4350,7 +8992,7 @@ export async function _fleetsListBySubscriptionDeserialize(
                                               dnsServers: p.properties?.dnsSettings?.["dnsServers"],
                                             },
                                         ipConfigurations: p.properties?.["ipConfigurations"].map(
-                                          (p) => {
+                                          (p: any) => {
                                             return {
                                               name: p["name"],
                                               properties: !p.properties
@@ -4411,7 +9053,7 @@ export async function _fleetsListBySubscriptionDeserialize(
                                                                         ?.properties?.["ipTags"]
                                                                     : p.properties?.publicIPAddressConfiguration?.properties?.[
                                                                         "ipTags"
-                                                                      ].map((p) => {
+                                                                      ].map((p: any) => {
                                                                         return {
                                                                           ipTagType: p["ipTagType"],
                                                                           tag: p["tag"],
@@ -4461,7 +9103,7 @@ export async function _fleetsListBySubscriptionDeserialize(
                                                           ]
                                                         : p.properties?.[
                                                             "applicationGatewayBackendAddressPools"
-                                                          ].map((p) => {
+                                                          ].map((p: any) => {
                                                             return {
                                                               id: p["id"],
                                                             };
@@ -4475,7 +9117,7 @@ export async function _fleetsListBySubscriptionDeserialize(
                                                           ]
                                                         : p.properties?.[
                                                             "applicationSecurityGroups"
-                                                          ].map((p) => {
+                                                          ].map((p: any) => {
                                                             return {
                                                               id: p["id"],
                                                             };
@@ -4489,7 +9131,7 @@ export async function _fleetsListBySubscriptionDeserialize(
                                                           ]
                                                         : p.properties?.[
                                                             "loadBalancerBackendAddressPools"
-                                                          ].map((p) => {
+                                                          ].map((p: any) => {
                                                             return {
                                                               id: p["id"],
                                                             };
@@ -4503,7 +9145,7 @@ export async function _fleetsListBySubscriptionDeserialize(
                                                           ]
                                                         : p.properties?.[
                                                             "loadBalancerInboundNatPools"
-                                                          ].map((p) => {
+                                                          ].map((p: any) => {
                                                             return {
                                                               id: p["id"],
                                                             };
@@ -4599,7 +9241,7 @@ export async function _fleetsListBySubscriptionDeserialize(
                                 .extensionProfile?.["extensions"]
                             : p.properties?.computeProfile.baseVirtualMachineProfile.extensionProfile?.[
                                 "extensions"
-                              ].map((p) => {
+                              ].map((p: any) => {
                                 return {
                                   id: p["id"],
                                   name: p["name"],
@@ -4701,7 +9343,7 @@ export async function _fleetsListBySubscriptionDeserialize(
                                 .applicationProfile?.["galleryApplications"]
                             : p.properties?.computeProfile.baseVirtualMachineProfile.applicationProfile?.[
                                 "galleryApplications"
-                              ].map((p) => {
+                              ].map((p: any) => {
                                 return {
                                   tags: p["tags"],
                                   order: p["order"],
@@ -4759,6 +9401,19 @@ export async function _fleetsListBySubscriptionDeserialize(
                 },
                 computeApiVersion: p.properties?.computeProfile["computeApiVersion"],
                 platformFaultDomainCount: p.properties?.computeProfile["platformFaultDomainCount"],
+                additionalVirtualMachineCapabilities: !p.properties?.computeProfile
+                  .additionalVirtualMachineCapabilities
+                  ? undefined
+                  : {
+                      ultraSSDEnabled:
+                        p.properties?.computeProfile.additionalVirtualMachineCapabilities?.[
+                          "ultraSSDEnabled"
+                        ],
+                      hibernationEnabled:
+                        p.properties?.computeProfile.additionalVirtualMachineCapabilities?.[
+                          "hibernationEnabled"
+                        ],
+                    },
               },
               timeCreated:
                 p.properties?.["timeCreated"] !== undefined
@@ -4800,6 +9455,7 @@ export function fleetsListBySubscription(
     context,
     () => _fleetsListBySubscriptionSend(context, subscriptionId, options),
     _fleetsListBySubscriptionDeserialize,
+    ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
@@ -4812,9 +9468,7 @@ export function _fleetsListVirtualMachineScaleSetsSend(
   options: FleetsListVirtualMachineScaleSetsOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod<
-  FleetsListVirtualMachineScaleSets200Response | FleetsListVirtualMachineScaleSetsDefaultResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureFleet/fleets/{name}/virtualMachineScaleSets",
@@ -4826,16 +9480,15 @@ export function _fleetsListVirtualMachineScaleSetsSend(
 }
 
 export async function _fleetsListVirtualMachineScaleSetsDeserialize(
-  result:
-    | FleetsListVirtualMachineScaleSets200Response
-    | FleetsListVirtualMachineScaleSetsDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<_VirtualMachineScaleSetListResult> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
   return {
-    value: result.body["value"].map((p) => {
+    value: result.body["value"].map((p: any) => {
       return {
         id: p["id"],
         type: p["type"],
@@ -4849,7 +9502,7 @@ export async function _fleetsListVirtualMachineScaleSetsDeserialize(
               details:
                 p.error?.["details"] === undefined
                   ? p.error?.["details"]
-                  : p.error?.["details"].map((p) => {
+                  : p.error?.["details"].map((p: any) => {
                       return {
                         code: p["code"],
                         target: p["target"],
@@ -4890,6 +9543,7 @@ export function fleetsListVirtualMachineScaleSets(
         options,
       ),
     _fleetsListVirtualMachineScaleSetsDeserialize,
+    ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }

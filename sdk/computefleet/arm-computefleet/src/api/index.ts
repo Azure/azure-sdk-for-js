@@ -3,8 +3,8 @@
 
 export {
   createAzureFleet,
-  AzureFleetClientOptionalParams,
   AzureFleetContext,
+  AzureFleetClientOptionalParams,
 } from "./azureFleetContext.js";
 export {
   fleetsGet,

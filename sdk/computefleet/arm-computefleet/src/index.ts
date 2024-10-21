@@ -1,6 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import {
+  PageSettings,
+  ContinuablePage,
+  PagedAsyncIterableIterator,
+} from "./static-helpers/pagingHelpers.js";
+
 export { AzureFleetClient, AzureFleetClientOptionalParams } from "./azureFleetClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
@@ -11,8 +17,7 @@ export {
   TrackedResource,
   Fleet,
   FleetProperties,
-  KnownResourceProvisioningState,
-  ResourceProvisioningState,
+  KnownProvisioningState,
   SpotPriorityProfile,
   KnownEvictionPolicy,
   EvictionPolicy,
@@ -22,7 +27,25 @@ export {
   KnownRegularPriorityAllocationStrategy,
   RegularPriorityAllocationStrategy,
   VmSizeProfile,
-  ComputeProfile,
+  VMAttributes,
+  VMAttributeMinMaxInteger,
+  VMAttributeMinMaxDouble,
+  KnownVMAttributeSupport,
+  VMAttributeSupport,
+  KnownLocalStorageDiskType,
+  LocalStorageDiskType,
+  KnownAcceleratorManufacturer,
+  AcceleratorManufacturer,
+  KnownAcceleratorType,
+  AcceleratorType,
+  KnownVMCategory,
+  VMCategory,
+  KnownArchitectureType,
+  ArchitectureType,
+  KnownCpuManufacturer,
+  CpuManufacturer,
+  AdditionalLocationsProfile,
+  LocationProfile,
   BaseVirtualMachineProfile,
   VirtualMachineScaleSetOSProfile,
   WindowsConfiguration,
@@ -134,14 +157,13 @@ export {
   VMSizeProperties,
   ServiceArtifactReference,
   SecurityPostureReference,
+  ComputeProfile,
+  AdditionalCapabilities,
   ManagedServiceIdentity,
   KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   Plan,
-  ErrorResponse,
-  ErrorDetail,
-  ErrorAdditionalInfo,
   FleetUpdate,
   ManagedServiceIdentityUpdate,
   ResourcePlanUpdate,
@@ -155,7 +177,6 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  Versions,
   ProvisioningState,
   OperationsListOptionalParams,
   FleetsGetOptionalParams,
@@ -165,8 +186,6 @@ export {
   FleetsListByResourceGroupOptionalParams,
   FleetsListBySubscriptionOptionalParams,
   FleetsListVirtualMachineScaleSetsOptionalParams,
-  PageSettings,
-  ContinuablePage,
-  PagedAsyncIterableIterator,
 } from "./models/index.js";
 export { FleetsOperations, OperationsOperations } from "./classic/index.js";
+export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

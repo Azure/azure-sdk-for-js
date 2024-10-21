@@ -1,7 +1,7 @@
 # Release History
     
-## 1.0.0-beta.1 (2024-07-22)
+## 1.0.0 (2024-10-21)
 
 ### Features Added
 
-Initial release of the Azure Compute Fleet package
+This is the first stable version with the package of @azure/arm-computefleet.

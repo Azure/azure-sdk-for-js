@@ -2,77 +2,6 @@
 // Licensed under the MIT License.
 
 import { serializeRecord } from "../helpers/serializerHelpers.js";
-import {
-  TrackedResource as TrackedResourceRest,
-  Fleet as FleetRest,
-  FleetProperties as FleetPropertiesRest,
-  SpotPriorityProfile as SpotPriorityProfileRest,
-  RegularPriorityProfile as RegularPriorityProfileRest,
-  VmSizeProfile as VmSizeProfileRest,
-  ComputeProfile as ComputeProfileRest,
-  BaseVirtualMachineProfile as BaseVirtualMachineProfileRest,
-  VirtualMachineScaleSetOSProfile as VirtualMachineScaleSetOSProfileRest,
-  WindowsConfiguration as WindowsConfigurationRest,
-  AdditionalUnattendContent as AdditionalUnattendContentRest,
-  PatchSettings as PatchSettingsRest,
-  WindowsVMGuestPatchAutomaticByPlatformSettings as WindowsVMGuestPatchAutomaticByPlatformSettingsRest,
-  WinRMConfiguration as WinRMConfigurationRest,
-  WinRMListener as WinRMListenerRest,
-  LinuxConfiguration as LinuxConfigurationRest,
-  SshConfiguration as SshConfigurationRest,
-  SshPublicKey as SshPublicKeyRest,
-  LinuxPatchSettings as LinuxPatchSettingsRest,
-  LinuxVMGuestPatchAutomaticByPlatformSettings as LinuxVMGuestPatchAutomaticByPlatformSettingsRest,
-  VaultSecretGroup as VaultSecretGroupRest,
-  SubResource as SubResourceRest,
-  VaultCertificate as VaultCertificateRest,
-  VirtualMachineScaleSetStorageProfile as VirtualMachineScaleSetStorageProfileRest,
-  ImageReference as ImageReferenceRest,
-  VirtualMachineScaleSetOSDisk as VirtualMachineScaleSetOSDiskRest,
-  DiffDiskSettings as DiffDiskSettingsRest,
-  VirtualHardDisk as VirtualHardDiskRest,
-  VirtualMachineScaleSetManagedDiskParameters as VirtualMachineScaleSetManagedDiskParametersRest,
-  DiskEncryptionSetParameters as DiskEncryptionSetParametersRest,
-  VMDiskSecurityProfile as VMDiskSecurityProfileRest,
-  VirtualMachineScaleSetDataDisk as VirtualMachineScaleSetDataDiskRest,
-  VirtualMachineScaleSetNetworkProfile as VirtualMachineScaleSetNetworkProfileRest,
-  ApiEntityReference as ApiEntityReferenceRest,
-  VirtualMachineScaleSetNetworkConfiguration as VirtualMachineScaleSetNetworkConfigurationRest,
-  VirtualMachineScaleSetNetworkConfigurationProperties as VirtualMachineScaleSetNetworkConfigurationPropertiesRest,
-  VirtualMachineScaleSetNetworkConfigurationDnsSettings as VirtualMachineScaleSetNetworkConfigurationDnsSettingsRest,
-  VirtualMachineScaleSetIPConfiguration as VirtualMachineScaleSetIPConfigurationRest,
-  VirtualMachineScaleSetIPConfigurationProperties as VirtualMachineScaleSetIPConfigurationPropertiesRest,
-  VirtualMachineScaleSetPublicIPAddressConfiguration as VirtualMachineScaleSetPublicIPAddressConfigurationRest,
-  VirtualMachineScaleSetPublicIPAddressConfigurationProperties as VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesRest,
-  VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings as VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsRest,
-  VirtualMachineScaleSetIpTag as VirtualMachineScaleSetIpTagRest,
-  PublicIPAddressSku as PublicIPAddressSkuRest,
-  SecurityProfile as SecurityProfileRest,
-  UefiSettings as UefiSettingsRest,
-  EncryptionIdentity as EncryptionIdentityRest,
-  ProxyAgentSettings as ProxyAgentSettingsRest,
-  DiagnosticsProfile as DiagnosticsProfileRest,
-  BootDiagnostics as BootDiagnosticsRest,
-  VirtualMachineScaleSetExtensionProfile as VirtualMachineScaleSetExtensionProfileRest,
-  VirtualMachineScaleSetExtension as VirtualMachineScaleSetExtensionRest,
-  VirtualMachineScaleSetExtensionProperties as VirtualMachineScaleSetExtensionPropertiesRest,
-  KeyVaultSecretReference as KeyVaultSecretReferenceRest,
-  ScheduledEventsProfile as ScheduledEventsProfileRest,
-  TerminateNotificationProfile as TerminateNotificationProfileRest,
-  OSImageNotificationProfile as OSImageNotificationProfileRest,
-  CapacityReservationProfile as CapacityReservationProfileRest,
-  ApplicationProfile as ApplicationProfileRest,
-  VMGalleryApplication as VMGalleryApplicationRest,
-  VirtualMachineScaleSetHardwareProfile as VirtualMachineScaleSetHardwareProfileRest,
-  VMSizeProperties as VMSizePropertiesRest,
-  ServiceArtifactReference as ServiceArtifactReferenceRest,
-  SecurityPostureReference as SecurityPostureReferenceRest,
-  ManagedServiceIdentity as ManagedServiceIdentityRest,
-  Plan as PlanRest,
-  FleetUpdate as FleetUpdateRest,
-  ManagedServiceIdentityUpdate as ManagedServiceIdentityUpdateRest,
-  ResourcePlanUpdate as ResourcePlanUpdateRest,
-} from "../rest/index.js";
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {
@@ -138,7 +67,7 @@ export interface TrackedResource extends Resource {
   location: string;
 }
 
-export function trackedResourceSerializer(item: TrackedResource): TrackedResourceRest {
+export function trackedResourceSerializer(item: TrackedResource): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -157,7 +86,7 @@ export interface Fleet extends TrackedResource {
   plan?: Plan;
 }
 
-export function fleetSerializer(item: Fleet): FleetRest {
+export function fleetSerializer(item: Fleet): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     location: item["location"],
@@ -178,6 +107,10 @@ export interface FleetProperties {
   regularPriorityProfile?: RegularPriorityProfile;
   /** List of VM sizes supported for Compute Fleet */
   vmSizesProfile: VmSizeProfile[];
+  /** Attribute based Fleet. */
+  vmAttributes?: VMAttributes;
+  /** Represents the configuration for additional locations where Fleet resources may be deployed. */
+  additionalLocationsProfile?: AdditionalLocationsProfile;
   /** Compute Profile to use for running user's workloads. */
   computeProfile: ComputeProfile;
   /** Specifies the time at which the Compute Fleet is created. */
@@ -186,7 +119,7 @@ export interface FleetProperties {
   readonly uniqueId?: string;
 }
 
-export function fleetPropertiesSerializer(item: FleetProperties): FleetPropertiesRest {
+export function fleetPropertiesSerializer(item: FleetProperties): Record<string, unknown> {
   return {
     spotPriorityProfile: !item.spotPriorityProfile
       ? item.spotPriorityProfile
@@ -195,30 +128,15 @@ export function fleetPropertiesSerializer(item: FleetProperties): FleetPropertie
       ? item.regularPriorityProfile
       : regularPriorityProfileSerializer(item.regularPriorityProfile),
     vmSizesProfile: item["vmSizesProfile"].map(vmSizeProfileSerializer),
+    vmAttributes: !item.vmAttributes
+      ? item.vmAttributes
+      : vMAttributesSerializer(item.vmAttributes),
+    additionalLocationsProfile: !item.additionalLocationsProfile
+      ? item.additionalLocationsProfile
+      : additionalLocationsProfileSerializer(item.additionalLocationsProfile),
     computeProfile: computeProfileSerializer(item.computeProfile),
   };
 }
-
-/** Known values of {@link ResourceProvisioningState} that the service accepts. */
-export enum KnownResourceProvisioningState {
-  /** Succeeded */
-  Succeeded = "Succeeded",
-  /** Failed */
-  Failed = "Failed",
-  /** Canceled */
-  Canceled = "Canceled",
-}
-
-/**
- * The provisioning state of a resource type. \
- * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
- */
-export type ResourceProvisioningState = string;
 
 /** Configuration Options for Spot instances in Compute Fleet. */
 export interface SpotPriorityProfile {
@@ -241,7 +159,7 @@ export interface SpotPriorityProfile {
   maintain?: boolean;
 }
 
-export function spotPriorityProfileSerializer(item: SpotPriorityProfile): SpotPriorityProfileRest {
+export function spotPriorityProfileSerializer(item: SpotPriorityProfile): Record<string, unknown> {
   return {
     capacity: item["capacity"],
     minCapacity: item["minCapacity"],
@@ -303,7 +221,7 @@ export interface RegularPriorityProfile {
 
 export function regularPriorityProfileSerializer(
   item: RegularPriorityProfile,
-): RegularPriorityProfileRest {
+): Record<string, unknown> {
   return {
     capacity: item["capacity"],
     minCapacity: item["minCapacity"],
@@ -340,37 +258,340 @@ export interface VmSizeProfile {
   rank?: number;
 }
 
-export function vmSizeProfileSerializer(item: VmSizeProfile): VmSizeProfileRest {
+export function vmSizeProfileSerializer(item: VmSizeProfile): Record<string, unknown> {
   return {
     name: item["name"],
     rank: item["rank"],
   };
 }
 
-/** Compute Profile to use for running user's workloads. */
-export interface ComputeProfile {
-  /** Base Virtual Machine Profile Properties to be specified according to "specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/{computeApiVersion}/virtualMachineScaleSet.json#/definitions/VirtualMachineScaleSetVMProfile" */
-  baseVirtualMachineProfile: BaseVirtualMachineProfile;
+/** VMAttributes that will be used to filter VMSizes which will be used to build Fleet. */
+export interface VMAttributes {
+  /** The range of vCpuCount specified from Min to Max. Must be specified if VMAttributes are specified, either Min or Max is required if specified. */
+  vCpuCount: VMAttributeMinMaxInteger;
+  /** The range of memory specified from Min to Max. Must be specified if VMAttributes are specified, either Min or Max is required if specified. */
+  memoryInGiB: VMAttributeMinMaxDouble;
+  /** The range of memory in GiB per vCPU specified from min to max. Optional parameter. Either Min or Max is required if specified. */
+  memoryInGiBPerVCpu?: VMAttributeMinMaxDouble;
+  /** Specifies whether the VMSize supporting local storage should be used to build Fleet or not. */
+  localStorageSupport?: VMAttributeSupport;
   /**
-   * Specifies the Microsoft.Compute API version to use when creating underlying Virtual Machine scale sets and Virtual Machines.
-   * The default value will be the latest supported computeApiVersion by Compute Fleet.
+   * LocalStorageSupport should be set to "Included" or "Required" to use this VMAttribute.
+   * If localStorageSupport is "Excluded", this VMAttribute can not be used.
    */
-  computeApiVersion?: string;
+  localStorageInGiB?: VMAttributeMinMaxDouble;
   /**
-   * Specifies the number of fault domains to use when creating the underlying VMSS.
-   * A fault domain is a logical group of hardware within an Azure datacenter.
-   * VMs in the same fault domain share a common power source and network switch.
-   * If not specified, defaults to 1, which represents "Max Spreading" (using as many fault domains as possible).
-   * This property cannot be updated.
+   * The local storage disk types specified as a list. LocalStorageSupport should be set to "Included" or "Required" to use this VMAttribute.
+   * If localStorageSupport is "Excluded", this VMAttribute can not be used.
    */
-  platformFaultDomainCount?: number;
+  localStorageDiskTypes?: LocalStorageDiskType[];
+  /** The range of data disk count specified from Min to Max. Optional parameter. Either Min or Max is required if specified. */
+  dataDiskCount?: VMAttributeMinMaxInteger;
+  /** The range of network interface count specified from Min to Max. Optional parameter. Either Min or Max is required if specified. */
+  networkInterfaceCount?: VMAttributeMinMaxInteger;
+  /** The range of network bandwidth in Mbps specified from Min to Max. Optional parameter. Either Min or Max is required if specified. */
+  networkBandwidthInMbps?: VMAttributeMinMaxDouble;
+  /** Specifies whether the VMSize supporting RDMA (Remote Direct Memory Access) should be used to build Fleet or not. */
+  rdmaSupport?: VMAttributeSupport;
+  /**
+   * The range of RDMA (Remote Direct Memory Access) network interface count specified from Min to Max. Optional parameter. Either Min or Max is required if specified.
+   * rdmaSupport should be set to "Included" or "Required" to use this VMAttribute.
+   * If rdmaSupport is "Excluded", this VMAttribute can not be used.
+   */
+  rdmaNetworkInterfaceCount?: VMAttributeMinMaxInteger;
+  /**
+   * Specifies whether the VMSize supporting accelerator should be used to build Fleet or not.
+   * acceleratorSupport should be set to "Included" or "Required" to use this VMAttribute.
+   * If acceleratorSupport is "Excluded", this VMAttribute can not be used.
+   */
+  acceleratorSupport?: VMAttributeSupport;
+  /**
+   * The accelerator manufacturers specified as a list.
+   * acceleratorSupport should be set to "Included" or "Required" to use this VMAttribute.
+   * If acceleratorSupport is "Excluded", this VMAttribute can not be used.
+   */
+  acceleratorManufacturers?: AcceleratorManufacturer[];
+  /**
+   * The accelerator types specified as a list. acceleratorSupport should be set to "Included" or "Required" to use this VMAttribute.
+   * If acceleratorSupport is "Excluded", this VMAttribute can not be used.
+   */
+  acceleratorTypes?: AcceleratorType[];
+  /**
+   * The range of accelerator count specified from min to max. Optional parameter. Either Min or Max is required if specified.
+   * acceleratorSupport should be set to "Included" or "Required" to use this VMAttribute.
+   * If acceleratorSupport is "Excluded", this VMAttribute can not be used.
+   */
+  acceleratorCount?: VMAttributeMinMaxInteger;
+  /** The VM category specified as a list. Optional parameter. */
+  vmCategories?: VMCategory[];
+  /** The VM architecture types specified as a list. Optional parameter. */
+  architectureTypes?: ArchitectureType[];
+  /** The VM CPU manufacturers specified as a list. Optional parameter. */
+  cpuManufacturers?: CpuManufacturer[];
+  /** Specifies whether the VMSize supporting burstable capability should be used to build Fleet or not. */
+  burstableSupport?: VMAttributeSupport;
+  /** Specifies which VMSizes should be excluded while building Fleet. Optional parameter. */
+  excludedVMSizes?: string[];
 }
 
-export function computeProfileSerializer(item: ComputeProfile): ComputeProfileRest {
+export function vMAttributesSerializer(item: VMAttributes): Record<string, unknown> {
   return {
-    baseVirtualMachineProfile: baseVirtualMachineProfileSerializer(item.baseVirtualMachineProfile),
-    computeApiVersion: item["computeApiVersion"],
-    platformFaultDomainCount: item["platformFaultDomainCount"],
+    vCpuCount: vMAttributeMinMaxIntegerSerializer(item.vCpuCount),
+    memoryInGiB: vMAttributeMinMaxDoubleSerializer(item.memoryInGiB),
+    memoryInGiBPerVCpu: !item.memoryInGiBPerVCpu
+      ? item.memoryInGiBPerVCpu
+      : vMAttributeMinMaxDoubleSerializer(item.memoryInGiBPerVCpu),
+    localStorageSupport: item["localStorageSupport"],
+    localStorageInGiB: !item.localStorageInGiB
+      ? item.localStorageInGiB
+      : vMAttributeMinMaxDoubleSerializer(item.localStorageInGiB),
+    localStorageDiskTypes: item["localStorageDiskTypes"],
+    dataDiskCount: !item.dataDiskCount
+      ? item.dataDiskCount
+      : vMAttributeMinMaxIntegerSerializer(item.dataDiskCount),
+    networkInterfaceCount: !item.networkInterfaceCount
+      ? item.networkInterfaceCount
+      : vMAttributeMinMaxIntegerSerializer(item.networkInterfaceCount),
+    networkBandwidthInMbps: !item.networkBandwidthInMbps
+      ? item.networkBandwidthInMbps
+      : vMAttributeMinMaxDoubleSerializer(item.networkBandwidthInMbps),
+    rdmaSupport: item["rdmaSupport"],
+    rdmaNetworkInterfaceCount: !item.rdmaNetworkInterfaceCount
+      ? item.rdmaNetworkInterfaceCount
+      : vMAttributeMinMaxIntegerSerializer(item.rdmaNetworkInterfaceCount),
+    acceleratorSupport: item["acceleratorSupport"],
+    acceleratorManufacturers: item["acceleratorManufacturers"],
+    acceleratorTypes: item["acceleratorTypes"],
+    acceleratorCount: !item.acceleratorCount
+      ? item.acceleratorCount
+      : vMAttributeMinMaxIntegerSerializer(item.acceleratorCount),
+    vmCategories: item["vmCategories"],
+    architectureTypes: item["architectureTypes"],
+    cpuManufacturers: item["cpuManufacturers"],
+    burstableSupport: item["burstableSupport"],
+    excludedVMSizes: item["excludedVMSizes"],
+  };
+}
+
+/** While retrieving VMSizes from CRS, Min = 0 (uint.MinValue) if not specified, Max = 4294967295 (uint.MaxValue) if not specified. This allows to filter VMAttributes on all available VMSizes. */
+export interface VMAttributeMinMaxInteger {
+  /** Min VMSize from CRS, Min = 0 (uint.MinValue) if not specified. */
+  min?: number;
+  /** Max VMSize from CRS, Max = 4294967295 (uint.MaxValue) if not specified. */
+  max?: number;
+}
+
+export function vMAttributeMinMaxIntegerSerializer(
+  item: VMAttributeMinMaxInteger,
+): Record<string, unknown> {
+  return {
+    min: item["min"],
+    max: item["max"],
+  };
+}
+
+/** VMAttributes using double values. */
+export interface VMAttributeMinMaxDouble {
+  /** Minimum value. default 0. Double.MinValue() */
+  min?: number;
+  /** Maximum value. Double.MaxValue(1.7976931348623157E+308) */
+  max?: number;
+}
+
+export function vMAttributeMinMaxDoubleSerializer(
+  item: VMAttributeMinMaxDouble,
+): Record<string, unknown> {
+  return {
+    min: item["min"],
+    max: item["max"],
+  };
+}
+
+/** Known values of {@link VMAttributeSupport} that the service accepts. */
+export enum KnownVMAttributeSupport {
+  /** Excluded */
+  Excluded = "Excluded",
+  /** Included */
+  Included = "Included",
+  /** Required */
+  Required = "Required",
+}
+
+/**
+ * VMSizes supported by Azure VMs. Included is a union of Excluded and Required. \
+ * {@link KnownVMAttributeSupport} can be used interchangeably with VMAttributeSupport,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Excluded** \
+ * **Included** \
+ * **Required**
+ */
+export type VMAttributeSupport = string;
+
+/** Known values of {@link LocalStorageDiskType} that the service accepts. */
+export enum KnownLocalStorageDiskType {
+  /** HDD */
+  HDD = "HDD",
+  /** SSD */
+  SSD = "SSD",
+}
+
+/**
+ * Different kind of Local storage disk types supported by Azure VMs. \
+ * {@link KnownLocalStorageDiskType} can be used interchangeably with LocalStorageDiskType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **HDD** \
+ * **SSD**
+ */
+export type LocalStorageDiskType = string;
+
+/** Known values of {@link AcceleratorManufacturer} that the service accepts. */
+export enum KnownAcceleratorManufacturer {
+  /** AMD */
+  AMD = "AMD",
+  /** Nvidia */
+  Nvidia = "Nvidia",
+  /** Xilinx */
+  Xilinx = "Xilinx",
+}
+
+/**
+ * Accelerator manufacturers supported by Azure VMs. \
+ * {@link KnownAcceleratorManufacturer} can be used interchangeably with AcceleratorManufacturer,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AMD** \
+ * **Nvidia** \
+ * **Xilinx**
+ */
+export type AcceleratorManufacturer = string;
+
+/** Known values of {@link AcceleratorType} that the service accepts. */
+export enum KnownAcceleratorType {
+  /** GPU */
+  GPU = "GPU",
+  /** FPGA */
+  FPGA = "FPGA",
+}
+
+/**
+ * Accelerator types supported by Azure VMs. \
+ * {@link KnownAcceleratorType} can be used interchangeably with AcceleratorType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GPU** \
+ * **FPGA**
+ */
+export type AcceleratorType = string;
+
+/** Known values of {@link VMCategory} that the service accepts. */
+export enum KnownVMCategory {
+  /** GeneralPurpose */
+  GeneralPurpose = "GeneralPurpose",
+  /** ComputeOptimized */
+  ComputeOptimized = "ComputeOptimized",
+  /** MemoryOptimized */
+  MemoryOptimized = "MemoryOptimized",
+  /** StorageOptimized */
+  StorageOptimized = "StorageOptimized",
+  /** GpuAccelerated */
+  GpuAccelerated = "GpuAccelerated",
+  /** FpgaAccelerated */
+  FpgaAccelerated = "FpgaAccelerated",
+  /** HighPerformanceCompute */
+  HighPerformanceCompute = "HighPerformanceCompute",
+}
+
+/**
+ * VMCategories defined for Azure VMs.
+ * See: https://learn.microsoft.com/en-us/azure/virtual-machines/sizes/overview?tabs=breakdownseries%2Cgeneralsizelist%2Ccomputesizelist%2Cmemorysizelist%2Cstoragesizelist%2Cgpusizelist%2Cfpgasizelist%2Chpcsizelist#general-purpose \
+ * {@link KnownVMCategory} can be used interchangeably with VMCategory,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GeneralPurpose** \
+ * **ComputeOptimized** \
+ * **MemoryOptimized** \
+ * **StorageOptimized** \
+ * **GpuAccelerated** \
+ * **FpgaAccelerated** \
+ * **HighPerformanceCompute**
+ */
+export type VMCategory = string;
+
+/** Known values of {@link ArchitectureType} that the service accepts. */
+export enum KnownArchitectureType {
+  /** ARM64 */
+  ARM64 = "ARM64",
+  /** X64 */
+  X64 = "X64",
+}
+
+/**
+ * Architecture types supported by Azure VMs. \
+ * {@link KnownArchitectureType} can be used interchangeably with ArchitectureType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ARM64** \
+ * **X64**
+ */
+export type ArchitectureType = string;
+
+/** Known values of {@link CpuManufacturer} that the service accepts. */
+export enum KnownCpuManufacturer {
+  /** Intel */
+  Intel = "Intel",
+  /** AMD */
+  AMD = "AMD",
+  /** Microsoft */
+  Microsoft = "Microsoft",
+  /** Ampere */
+  Ampere = "Ampere",
+}
+
+/**
+ * Cpu Manufacturers  supported by Azure VMs. \
+ * {@link KnownCpuManufacturer} can be used interchangeably with CpuManufacturer,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Intel** \
+ * **AMD** \
+ * **Microsoft** \
+ * **Ampere**
+ */
+export type CpuManufacturer = string;
+
+/** Represents the configuration for additional locations where Fleet resources may be deployed. */
+export interface AdditionalLocationsProfile {
+  /** The list of location profiles. */
+  locationProfiles: LocationProfile[];
+}
+
+export function additionalLocationsProfileSerializer(
+  item: AdditionalLocationsProfile,
+): Record<string, unknown> {
+  return {
+    locationProfiles: item["locationProfiles"].map(locationProfileSerializer),
+  };
+}
+
+/** Represents the profile for a single additional location in the Fleet. The location and the virtualMachineProfileOverride (optional). */
+export interface LocationProfile {
+  /** The ARM location name of the additional region. If LocationProfile is specified, then location is required. */
+  location: string;
+  /**
+   * An override for computeProfile.baseVirtualMachineProfile specific to this region.
+   * This override is merged with the base virtual machine profile to define the final virtual machine profile for the resources deployed in this location.
+   */
+  virtualMachineProfileOverride?: BaseVirtualMachineProfile;
+}
+
+export function locationProfileSerializer(item: LocationProfile): Record<string, unknown> {
+  return {
+    location: item["location"],
+    virtualMachineProfileOverride: !item.virtualMachineProfileOverride
+      ? item.virtualMachineProfileOverride
+      : baseVirtualMachineProfileSerializer(item.virtualMachineProfileOverride),
   };
 }
 
@@ -455,7 +676,7 @@ export interface BaseVirtualMachineProfile {
 
 export function baseVirtualMachineProfileSerializer(
   item: BaseVirtualMachineProfile,
-): BaseVirtualMachineProfileRest {
+): Record<string, unknown> {
   return {
     osProfile: !item.osProfile
       ? item.osProfile
@@ -570,7 +791,7 @@ export interface VirtualMachineScaleSetOSProfile {
 
 export function virtualMachineScaleSetOSProfileSerializer(
   item: VirtualMachineScaleSetOSProfile,
-): VirtualMachineScaleSetOSProfileRest {
+): Record<string, unknown> {
   return {
     computerNamePrefix: item["computerNamePrefix"],
     adminUsername: item["adminUsername"],
@@ -635,7 +856,7 @@ export interface WindowsConfiguration {
 
 export function windowsConfigurationSerializer(
   item: WindowsConfiguration,
-): WindowsConfigurationRest {
+): Record<string, unknown> {
   return {
     provisionVMAgent: item["provisionVMAgent"],
     enableAutomaticUpdates: item["enableAutomaticUpdates"],
@@ -680,7 +901,7 @@ export interface AdditionalUnattendContent {
 
 export function additionalUnattendContentSerializer(
   item: AdditionalUnattendContent,
-): AdditionalUnattendContentRest {
+): Record<string, unknown> {
   return {
     passName: item["passName"],
     componentName: item["componentName"],
@@ -745,7 +966,7 @@ export interface PatchSettings {
   automaticByPlatformSettings?: WindowsVMGuestPatchAutomaticByPlatformSettings;
 }
 
-export function patchSettingsSerializer(item: PatchSettings): PatchSettingsRest {
+export function patchSettingsSerializer(item: PatchSettings): Record<string, unknown> {
   return {
     patchMode: item["patchMode"],
     enableHotpatching: item["enableHotpatching"],
@@ -813,7 +1034,7 @@ export interface WindowsVMGuestPatchAutomaticByPlatformSettings {
 
 export function windowsVMGuestPatchAutomaticByPlatformSettingsSerializer(
   item: WindowsVMGuestPatchAutomaticByPlatformSettings,
-): WindowsVMGuestPatchAutomaticByPlatformSettingsRest {
+): Record<string, unknown> {
   return {
     rebootSetting: item["rebootSetting"],
     bypassPlatformSafetyChecksOnUserSchedule: item["bypassPlatformSafetyChecksOnUserSchedule"],
@@ -850,7 +1071,7 @@ export interface WinRMConfiguration {
   listeners?: WinRMListener[];
 }
 
-export function winRMConfigurationSerializer(item: WinRMConfiguration): WinRMConfigurationRest {
+export function winRMConfigurationSerializer(item: WinRMConfiguration): Record<string, unknown> {
   return {
     listeners:
       item["listeners"] === undefined
@@ -884,7 +1105,7 @@ export interface WinRMListener {
   certificateUrl?: string;
 }
 
-export function winRMListenerSerializer(item: WinRMListener): WinRMListenerRest {
+export function winRMListenerSerializer(item: WinRMListener): Record<string, unknown> {
   return {
     protocol: item["protocol"],
     certificateUrl: item["certificateUrl"],
@@ -936,7 +1157,7 @@ export interface LinuxConfiguration {
   enableVMAgentPlatformUpdates?: boolean;
 }
 
-export function linuxConfigurationSerializer(item: LinuxConfiguration): LinuxConfigurationRest {
+export function linuxConfigurationSerializer(item: LinuxConfiguration): Record<string, unknown> {
   return {
     disablePasswordAuthentication: item["disablePasswordAuthentication"],
     ssh: !item.ssh ? item.ssh : sshConfigurationSerializer(item.ssh),
@@ -954,7 +1175,7 @@ export interface SshConfiguration {
   publicKeys?: SshPublicKey[];
 }
 
-export function sshConfigurationSerializer(item: SshConfiguration): SshConfigurationRest {
+export function sshConfigurationSerializer(item: SshConfiguration): Record<string, unknown> {
   return {
     publicKeys:
       item["publicKeys"] === undefined
@@ -983,7 +1204,7 @@ export interface SshPublicKey {
   keyData?: string;
 }
 
-export function sshPublicKeySerializer(item: SshPublicKey): SshPublicKeyRest {
+export function sshPublicKeySerializer(item: SshPublicKey): Record<string, unknown> {
   return {
     path: item["path"],
     keyData: item["keyData"],
@@ -1016,7 +1237,7 @@ export interface LinuxPatchSettings {
   automaticByPlatformSettings?: LinuxVMGuestPatchAutomaticByPlatformSettings;
 }
 
-export function linuxPatchSettingsSerializer(item: LinuxPatchSettings): LinuxPatchSettingsRest {
+export function linuxPatchSettingsSerializer(item: LinuxPatchSettings): Record<string, unknown> {
   return {
     patchMode: item["patchMode"],
     assessmentMode: item["assessmentMode"],
@@ -1084,7 +1305,7 @@ export interface LinuxVMGuestPatchAutomaticByPlatformSettings {
 
 export function linuxVMGuestPatchAutomaticByPlatformSettingsSerializer(
   item: LinuxVMGuestPatchAutomaticByPlatformSettings,
-): LinuxVMGuestPatchAutomaticByPlatformSettingsRest {
+): Record<string, unknown> {
   return {
     rebootSetting: item["rebootSetting"],
     bypassPlatformSafetyChecksOnUserSchedule: item["bypassPlatformSafetyChecksOnUserSchedule"],
@@ -1127,7 +1348,7 @@ export interface VaultSecretGroup {
   vaultCertificates?: VaultCertificate[];
 }
 
-export function vaultSecretGroupSerializer(item: VaultSecretGroup): VaultSecretGroupRest {
+export function vaultSecretGroupSerializer(item: VaultSecretGroup): Record<string, unknown> {
   return {
     sourceVault: !item.sourceVault ? item.sourceVault : subResourceSerializer(item.sourceVault),
     vaultCertificates:
@@ -1143,7 +1364,7 @@ export interface SubResource {
   id?: string;
 }
 
-export function subResourceSerializer(item: SubResource): SubResourceRest {
+export function subResourceSerializer(item: SubResource): Record<string, unknown> {
   return {
     id: item["id"],
   };
@@ -1182,7 +1403,7 @@ export interface VaultCertificate {
   certificateStore?: string;
 }
 
-export function vaultCertificateSerializer(item: VaultCertificate): VaultCertificateRest {
+export function vaultCertificateSerializer(item: VaultCertificate): Record<string, unknown> {
   return {
     certificateUrl: item["certificateUrl"],
     certificateStore: item["certificateStore"],
@@ -1218,7 +1439,7 @@ export interface VirtualMachineScaleSetStorageProfile {
 
 export function virtualMachineScaleSetStorageProfileSerializer(
   item: VirtualMachineScaleSetStorageProfile,
-): VirtualMachineScaleSetStorageProfileRest {
+): Record<string, unknown> {
   return {
     imageReference: !item.imageReference
       ? item.imageReference
@@ -1282,7 +1503,7 @@ export interface ImageReference {
   communityGalleryImageId?: string;
 }
 
-export function imageReferenceSerializer(item: ImageReference): ImageReferenceRest {
+export function imageReferenceSerializer(item: ImageReference): Record<string, unknown> {
   return {
     id: item["id"],
     publisher: item["publisher"],
@@ -1356,7 +1577,7 @@ export interface VirtualMachineScaleSetOSDisk {
 
 export function virtualMachineScaleSetOSDiskSerializer(
   item: VirtualMachineScaleSetOSDisk,
-): VirtualMachineScaleSetOSDiskRest {
+): Record<string, unknown> {
   return {
     name: item["name"],
     caching: item["caching"],
@@ -1444,7 +1665,7 @@ export interface DiffDiskSettings {
   placement?: DiffDiskPlacement;
 }
 
-export function diffDiskSettingsSerializer(item: DiffDiskSettings): DiffDiskSettingsRest {
+export function diffDiskSettingsSerializer(item: DiffDiskSettings): Record<string, unknown> {
   return {
     option: item["option"],
     placement: item["placement"],
@@ -1521,7 +1742,7 @@ export interface VirtualHardDisk {
   uri?: string;
 }
 
-export function virtualHardDiskSerializer(item: VirtualHardDisk): VirtualHardDiskRest {
+export function virtualHardDiskSerializer(item: VirtualHardDisk): Record<string, unknown> {
   return {
     uri: item["uri"],
   };
@@ -1545,7 +1766,7 @@ export interface VirtualMachineScaleSetManagedDiskParameters {
 
 export function virtualMachineScaleSetManagedDiskParametersSerializer(
   item: VirtualMachineScaleSetManagedDiskParameters,
-): VirtualMachineScaleSetManagedDiskParametersRest {
+): Record<string, unknown> {
   return {
     storageAccountType: item["storageAccountType"],
     diskEncryptionSet: !item.diskEncryptionSet
@@ -1560,19 +1781,19 @@ export function virtualMachineScaleSetManagedDiskParametersSerializer(
 /** Known values of {@link StorageAccountTypes} that the service accepts. */
 export enum KnownStorageAccountTypes {
   /** Standard_LRS */
-  Standard_LRS = "Standard_LRS",
+  StandardLRS = "Standard_LRS",
   /** Premium_LRS */
-  Premium_LRS = "Premium_LRS",
+  PremiumLRS = "Premium_LRS",
   /** StandardSSD_LRS */
-  StandardSSD_LRS = "StandardSSD_LRS",
+  StandardSSDLRS = "StandardSSD_LRS",
   /** UltraSSD_LRS */
-  UltraSSD_LRS = "UltraSSD_LRS",
+  UltraSSDLRS = "UltraSSD_LRS",
   /** Premium_ZRS */
-  Premium_ZRS = "Premium_ZRS",
+  PremiumZRS = "Premium_ZRS",
   /** StandardSSD_ZRS */
-  StandardSSD_ZRS = "StandardSSD_ZRS",
+  StandardSSDZRS = "StandardSSD_ZRS",
   /** PremiumV2_LRS */
-  PremiumV2_LRS = "PremiumV2_LRS",
+  PremiumV2LRS = "PremiumV2_LRS",
 }
 
 /**
@@ -1613,7 +1834,7 @@ export interface DiskEncryptionSetParameters {
 
 export function diskEncryptionSetParametersSerializer(
   item: DiskEncryptionSetParameters,
-): DiskEncryptionSetParametersRest {
+): Record<string, unknown> {
   return {
     id: item["id"],
   };
@@ -1642,7 +1863,7 @@ export interface VMDiskSecurityProfile {
 
 export function vMDiskSecurityProfileSerializer(
   item: VMDiskSecurityProfile,
-): VMDiskSecurityProfileRest {
+): Record<string, unknown> {
   return {
     securityEncryptionType: item["securityEncryptionType"],
     diskEncryptionSet: !item.diskEncryptionSet
@@ -1749,7 +1970,7 @@ export interface VirtualMachineScaleSetDataDisk {
 
 export function virtualMachineScaleSetDataDiskSerializer(
   item: VirtualMachineScaleSetDataDisk,
-): VirtualMachineScaleSetDataDiskRest {
+): Record<string, unknown> {
   return {
     name: item["name"],
     lun: item["lun"],
@@ -1812,7 +2033,7 @@ export interface VirtualMachineScaleSetNetworkProfile {
 
 export function virtualMachineScaleSetNetworkProfileSerializer(
   item: VirtualMachineScaleSetNetworkProfile,
-): VirtualMachineScaleSetNetworkProfileRest {
+): Record<string, unknown> {
   return {
     healthProbe: !item.healthProbe
       ? item.healthProbe
@@ -1836,7 +2057,7 @@ export interface ApiEntityReference {
   id?: string;
 }
 
-export function apiEntityReferenceSerializer(item: ApiEntityReference): ApiEntityReferenceRest {
+export function apiEntityReferenceSerializer(item: ApiEntityReference): Record<string, unknown> {
   return {
     id: item["id"],
   };
@@ -1852,7 +2073,7 @@ export interface VirtualMachineScaleSetNetworkConfiguration {
 
 export function virtualMachineScaleSetNetworkConfigurationSerializer(
   item: VirtualMachineScaleSetNetworkConfiguration,
-): VirtualMachineScaleSetNetworkConfigurationRest {
+): Record<string, unknown> {
   return {
     name: item["name"],
     properties: !item.properties
@@ -1898,7 +2119,7 @@ export interface VirtualMachineScaleSetNetworkConfigurationProperties {
 
 export function virtualMachineScaleSetNetworkConfigurationPropertiesSerializer(
   item: VirtualMachineScaleSetNetworkConfigurationProperties,
-): VirtualMachineScaleSetNetworkConfigurationPropertiesRest {
+): Record<string, unknown> {
   return {
     primary: item["primary"],
     enableAcceleratedNetworking: item["enableAcceleratedNetworking"],
@@ -1926,7 +2147,7 @@ export interface VirtualMachineScaleSetNetworkConfigurationDnsSettings {
 
 export function virtualMachineScaleSetNetworkConfigurationDnsSettingsSerializer(
   item: VirtualMachineScaleSetNetworkConfigurationDnsSettings,
-): VirtualMachineScaleSetNetworkConfigurationDnsSettingsRest {
+): Record<string, unknown> {
   return {
     dnsServers: item["dnsServers"],
   };
@@ -1945,7 +2166,7 @@ export interface VirtualMachineScaleSetIPConfiguration {
 
 export function virtualMachineScaleSetIPConfigurationSerializer(
   item: VirtualMachineScaleSetIPConfiguration,
-): VirtualMachineScaleSetIPConfigurationRest {
+): Record<string, unknown> {
   return {
     name: item["name"],
     properties: !item.properties
@@ -1999,7 +2220,7 @@ export interface VirtualMachineScaleSetIPConfigurationProperties {
 
 export function virtualMachineScaleSetIPConfigurationPropertiesSerializer(
   item: VirtualMachineScaleSetIPConfigurationProperties,
-): VirtualMachineScaleSetIPConfigurationPropertiesRest {
+): Record<string, unknown> {
   return {
     subnet: !item.subnet ? item.subnet : apiEntityReferenceSerializer(item.subnet),
     primary: item["primary"],
@@ -2049,7 +2270,7 @@ export interface VirtualMachineScaleSetPublicIPAddressConfiguration {
 
 export function virtualMachineScaleSetPublicIPAddressConfigurationSerializer(
   item: VirtualMachineScaleSetPublicIPAddressConfiguration,
-): VirtualMachineScaleSetPublicIPAddressConfigurationRest {
+): Record<string, unknown> {
   return {
     name: item["name"],
     properties: !item.properties
@@ -2084,7 +2305,7 @@ export interface VirtualMachineScaleSetPublicIPAddressConfigurationProperties {
 
 export function virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSerializer(
   item: VirtualMachineScaleSetPublicIPAddressConfigurationProperties,
-): VirtualMachineScaleSetPublicIPAddressConfigurationPropertiesRest {
+): Record<string, unknown> {
   return {
     idleTimeoutInMinutes: item["idleTimeoutInMinutes"],
     dnsSettings: !item.dnsSettings
@@ -2121,7 +2342,7 @@ export interface VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings {
 
 export function virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSerializer(
   item: VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettings,
-): VirtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsRest {
+): Record<string, unknown> {
   return {
     domainNameLabel: item["domainNameLabel"],
     domainNameLabelScope: item["domainNameLabelScope"],
@@ -2165,7 +2386,7 @@ export interface VirtualMachineScaleSetIpTag {
 
 export function virtualMachineScaleSetIpTagSerializer(
   item: VirtualMachineScaleSetIpTag,
-): VirtualMachineScaleSetIpTagRest {
+): Record<string, unknown> {
   return {
     ipTagType: item["ipTagType"],
     tag: item["tag"],
@@ -2221,7 +2442,7 @@ export interface PublicIPAddressSku {
   tier?: PublicIPAddressSkuTier;
 }
 
-export function publicIPAddressSkuSerializer(item: PublicIPAddressSku): PublicIPAddressSkuRest {
+export function publicIPAddressSkuSerializer(item: PublicIPAddressSku): Record<string, unknown> {
   return {
     name: item["name"],
     tier: item["tier"],
@@ -2316,8 +2537,8 @@ export type NetworkInterfaceAuxiliarySku = string;
 
 /** Known values of {@link NetworkApiVersion} that the service accepts. */
 export enum KnownNetworkApiVersion {
-  /** 2020-11-01 */
-  "2020-11-01" = "2020-11-01",
+  /** v2020_11_01 */
+  V20201101 = "2020-11-01",
 }
 
 /**
@@ -2367,7 +2588,7 @@ export interface SecurityProfile {
   proxyAgentSettings?: ProxyAgentSettings;
 }
 
-export function securityProfileSerializer(item: SecurityProfile): SecurityProfileRest {
+export function securityProfileSerializer(item: SecurityProfile): Record<string, unknown> {
   return {
     uefiSettings: !item.uefiSettings
       ? item.uefiSettings
@@ -2400,7 +2621,7 @@ export interface UefiSettings {
   vTpmEnabled?: boolean;
 }
 
-export function uefiSettingsSerializer(item: UefiSettings): UefiSettingsRest {
+export function uefiSettingsSerializer(item: UefiSettings): Record<string, unknown> {
   return {
     secureBootEnabled: item["secureBootEnabled"],
     vTpmEnabled: item["vTpmEnabled"],
@@ -2436,7 +2657,7 @@ export interface EncryptionIdentity {
   userAssignedIdentityResourceId?: string;
 }
 
-export function encryptionIdentitySerializer(item: EncryptionIdentity): EncryptionIdentityRest {
+export function encryptionIdentitySerializer(item: EncryptionIdentity): Record<string, unknown> {
   return {
     userAssignedIdentityResourceId: item["userAssignedIdentityResourceId"],
   };
@@ -2466,7 +2687,7 @@ export interface ProxyAgentSettings {
   keyIncarnationId?: number;
 }
 
-export function proxyAgentSettingsSerializer(item: ProxyAgentSettings): ProxyAgentSettingsRest {
+export function proxyAgentSettingsSerializer(item: ProxyAgentSettings): Record<string, unknown> {
   return {
     enabled: item["enabled"],
     mode: item["mode"],
@@ -2507,7 +2728,7 @@ export interface DiagnosticsProfile {
   bootDiagnostics?: BootDiagnostics;
 }
 
-export function diagnosticsProfileSerializer(item: DiagnosticsProfile): DiagnosticsProfileRest {
+export function diagnosticsProfileSerializer(item: DiagnosticsProfile): Record<string, unknown> {
   return {
     bootDiagnostics: !item.bootDiagnostics
       ? item.bootDiagnostics
@@ -2532,7 +2753,7 @@ export interface BootDiagnostics {
   storageUri?: string;
 }
 
-export function bootDiagnosticsSerializer(item: BootDiagnostics): BootDiagnosticsRest {
+export function bootDiagnosticsSerializer(item: BootDiagnostics): Record<string, unknown> {
   return {
     enabled: item["enabled"],
     storageUri: item["storageUri"],
@@ -2554,7 +2775,7 @@ export interface VirtualMachineScaleSetExtensionProfile {
 
 export function virtualMachineScaleSetExtensionProfileSerializer(
   item: VirtualMachineScaleSetExtensionProfile,
-): VirtualMachineScaleSetExtensionProfileRest {
+): Record<string, unknown> {
   return {
     extensions:
       item["extensions"] === undefined
@@ -2578,7 +2799,7 @@ export interface VirtualMachineScaleSetExtension {
 
 export function virtualMachineScaleSetExtensionSerializer(
   item: VirtualMachineScaleSetExtension,
-): VirtualMachineScaleSetExtensionRest {
+): Record<string, unknown> {
   return {
     name: item["name"],
     properties: !item.properties
@@ -2641,7 +2862,7 @@ export interface VirtualMachineScaleSetExtensionProperties {
 
 export function virtualMachineScaleSetExtensionPropertiesSerializer(
   item: VirtualMachineScaleSetExtensionProperties,
-): VirtualMachineScaleSetExtensionPropertiesRest {
+): Record<string, unknown> {
   return {
     forceUpdateTag: item["forceUpdateTag"],
     publisher: item["publisher"],
@@ -2671,7 +2892,7 @@ export interface KeyVaultSecretReference {
 
 export function keyVaultSecretReferenceSerializer(
   item: KeyVaultSecretReference,
-): KeyVaultSecretReferenceRest {
+): Record<string, unknown> {
   return {
     secretUrl: item["secretUrl"],
     sourceVault: subResourceSerializer(item.sourceVault),
@@ -2688,7 +2909,7 @@ export interface ScheduledEventsProfile {
 
 export function scheduledEventsProfileSerializer(
   item: ScheduledEventsProfile,
-): ScheduledEventsProfileRest {
+): Record<string, unknown> {
   return {
     terminateNotificationProfile: !item.terminateNotificationProfile
       ? item.terminateNotificationProfile
@@ -2714,7 +2935,7 @@ export interface TerminateNotificationProfile {
 
 export function terminateNotificationProfileSerializer(
   item: TerminateNotificationProfile,
-): TerminateNotificationProfileRest {
+): Record<string, unknown> {
   return {
     notBeforeTimeout: item["notBeforeTimeout"],
     enable: item["enable"],
@@ -2736,7 +2957,7 @@ export interface OSImageNotificationProfile {
 
 export function oSImageNotificationProfileSerializer(
   item: OSImageNotificationProfile,
-): OSImageNotificationProfileRest {
+): Record<string, unknown> {
   return {
     notBeforeTimeout: item["notBeforeTimeout"],
     enable: item["enable"],
@@ -2756,7 +2977,7 @@ export interface CapacityReservationProfile {
 
 export function capacityReservationProfileSerializer(
   item: CapacityReservationProfile,
-): CapacityReservationProfileRest {
+): Record<string, unknown> {
   return {
     capacityReservationGroup: !item.capacityReservationGroup
       ? item.capacityReservationGroup
@@ -2773,7 +2994,7 @@ export interface ApplicationProfile {
   galleryApplications?: VMGalleryApplication[];
 }
 
-export function applicationProfileSerializer(item: ApplicationProfile): ApplicationProfileRest {
+export function applicationProfileSerializer(item: ApplicationProfile): Record<string, unknown> {
   return {
     galleryApplications:
       item["galleryApplications"] === undefined
@@ -2815,7 +3036,7 @@ export interface VMGalleryApplication {
 
 export function vMGalleryApplicationSerializer(
   item: VMGalleryApplication,
-): VMGalleryApplicationRest {
+): Record<string, unknown> {
   return {
     tags: item["tags"],
     order: item["order"],
@@ -2838,7 +3059,7 @@ export interface VirtualMachineScaleSetHardwareProfile {
 
 export function virtualMachineScaleSetHardwareProfileSerializer(
   item: VirtualMachineScaleSetHardwareProfile,
-): VirtualMachineScaleSetHardwareProfileRest {
+): Record<string, unknown> {
   return {
     vmSizeProperties: !item.vmSizeProperties
       ? item.vmSizeProperties
@@ -2867,7 +3088,7 @@ export interface VMSizeProperties {
   vCPUsPerCore?: number;
 }
 
-export function vMSizePropertiesSerializer(item: VMSizeProperties): VMSizePropertiesRest {
+export function vMSizePropertiesSerializer(item: VMSizeProperties): Record<string, unknown> {
   return {
     vCPUsAvailable: item["vCPUsAvailable"],
     vCPUsPerCore: item["vCPUsPerCore"],
@@ -2889,7 +3110,7 @@ export interface ServiceArtifactReference {
 
 export function serviceArtifactReferenceSerializer(
   item: ServiceArtifactReference,
-): ServiceArtifactReferenceRest {
+): Record<string, unknown> {
   return {
     id: item["id"],
   };
@@ -2916,11 +3137,68 @@ export interface SecurityPostureReference {
 
 export function securityPostureReferenceSerializer(
   item: SecurityPostureReference,
-): SecurityPostureReferenceRest {
+): Record<string, unknown> {
   return {
     id: item["id"],
     excludeExtensions: item["excludeExtensions"],
     isOverridable: item["isOverridable"],
+  };
+}
+
+/** Compute Profile to use for running user's workloads. */
+export interface ComputeProfile {
+  /** Base Virtual Machine Profile Properties to be specified according to "specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/{computeApiVersion}/virtualMachineScaleSet.json#/definitions/VirtualMachineScaleSetVMProfile" */
+  baseVirtualMachineProfile: BaseVirtualMachineProfile;
+  /**
+   * Specifies the Microsoft.Compute API version to use when creating underlying Virtual Machine scale sets and Virtual Machines.
+   * The default value will be the latest supported computeApiVersion by Compute Fleet.
+   */
+  computeApiVersion?: string;
+  /**
+   * Specifies the number of fault domains to use when creating the underlying VMSS.
+   * A fault domain is a logical group of hardware within an Azure datacenter.
+   * VMs in the same fault domain share a common power source and network switch.
+   * If not specified, defaults to 1, which represents "Max Spreading" (using as many fault domains as possible).
+   * This property cannot be updated.
+   */
+  platformFaultDomainCount?: number;
+  /**
+   * Specifies VMSS and VM API entity models support two additional capabilities as of today: ultraSSDEnabled and hibernationEnabled.
+   * ultraSSDEnabled: Enables UltraSSD_LRS storage account type on the VMSS VMs.
+   * hibernationEnabled: Enables the hibernation capability on the VMSS VMs.
+   * Default value is null if not specified. This property cannot be updated once set.
+   */
+  additionalVirtualMachineCapabilities?: AdditionalCapabilities;
+}
+
+export function computeProfileSerializer(item: ComputeProfile): Record<string, unknown> {
+  return {
+    baseVirtualMachineProfile: baseVirtualMachineProfileSerializer(item.baseVirtualMachineProfile),
+    computeApiVersion: item["computeApiVersion"],
+    platformFaultDomainCount: item["platformFaultDomainCount"],
+    additionalVirtualMachineCapabilities: !item.additionalVirtualMachineCapabilities
+      ? item.additionalVirtualMachineCapabilities
+      : additionalCapabilitiesSerializer(item.additionalVirtualMachineCapabilities),
+  };
+}
+
+/** AdditionalCapabilities for VM. */
+export interface AdditionalCapabilities {
+  /**
+   * The flag that enables or disables a capability to have one or more managed data disks with UltraSSD_LRS storage account type on the VM or VMSS.
+   * Managed disks with storage account type UltraSSD_LRS can be added to a virtual machine or virtual machine scale set only if this property is enabled.
+   */
+  ultraSSDEnabled?: boolean;
+  /** The flag that enables or disables hibernation capability on the VM. */
+  hibernationEnabled?: boolean;
+}
+
+export function additionalCapabilitiesSerializer(
+  item: AdditionalCapabilities,
+): Record<string, unknown> {
+  return {
+    ultraSSDEnabled: item["ultraSSDEnabled"],
+    hibernationEnabled: item["hibernationEnabled"],
   };
 }
 
@@ -2938,7 +3216,7 @@ export interface ManagedServiceIdentity {
 
 export function managedServiceIdentitySerializer(
   item: ManagedServiceIdentity,
-): ManagedServiceIdentityRest {
+): Record<string, unknown> {
   return {
     type: item["type"],
     userAssignedIdentities: !item.userAssignedIdentities
@@ -2958,8 +3236,8 @@ export enum KnownManagedServiceIdentityType {
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
   UserAssigned = "UserAssigned",
-  /** SystemAssigned,UserAssigned */
-  "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
+  /** SystemAndUserAssigned */
+  SystemAndUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -3000,7 +3278,7 @@ export interface Plan {
   version?: string;
 }
 
-export function planSerializer(item: Plan): PlanRest {
+export function planSerializer(item: Plan): Record<string, unknown> {
   return {
     name: item["name"],
     publisher: item["publisher"],
@@ -3008,34 +3286,6 @@ export function planSerializer(item: Plan): PlanRest {
     promotionCode: item["promotionCode"],
     version: item["version"],
   };
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
-  readonly type?: string;
-  /** The additional info. */
-  readonly info?: Record<string, any>;
 }
 
 /** Fleet Update Model */
@@ -3050,7 +3300,7 @@ export interface FleetUpdate {
   properties?: FleetProperties;
 }
 
-export function fleetUpdateSerializer(item: FleetUpdate): FleetUpdateRest {
+export function fleetUpdateSerializer(item: FleetUpdate): Record<string, unknown> {
   return {
     tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
     identity: !item.identity
@@ -3071,7 +3321,7 @@ export interface ManagedServiceIdentityUpdate {
 
 export function managedServiceIdentityUpdateSerializer(
   item: ManagedServiceIdentityUpdate,
-): ManagedServiceIdentityUpdateRest {
+): Record<string, unknown> {
   return {
     type: item["type"],
     userAssignedIdentities: !item.userAssignedIdentities
@@ -3097,7 +3347,7 @@ export interface ResourcePlanUpdate {
   version?: string;
 }
 
-export function resourcePlanUpdateSerializer(item: ResourcePlanUpdate): ResourcePlanUpdateRest {
+export function resourcePlanUpdateSerializer(item: ResourcePlanUpdate): Record<string, unknown> {
   return {
     name: item["name"],
     publisher: item["publisher"],
@@ -3207,11 +3457,11 @@ export interface OperationDisplay {
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** user */
-  user = "user",
+  User = "user",
   /** system */
-  system = "system",
+  System = "system",
   /** user,system */
-  "user,system" = "user,system",
+  UserSystem = "user,system",
 }
 
 /**
@@ -3239,13 +3489,37 @@ export enum KnownActionType {
  * **Internal**
  */
 export type ActionType = string;
-/** Api versions */
-export type Versions = "2023-11-01-preview" | "2024-05-01-preview";
-/** Alias for ProvisioningState */
-export type ProvisioningState =
-  | string
-  | ResourceProvisioningState
-  | "Creating"
-  | "Updating"
-  | "Deleting"
-  | "Migrating";
+
+/** Known values of {@link ProvisioningState} that the service accepts. */
+export enum KnownProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Migrating */
+  Migrating = "Migrating",
+}
+
+/**
+ * The provisioning state of a resource type. \
+ * {@link KnownProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Failed** \
+ * **Canceled** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Migrating**
+ */
+
+export type ProvisioningState = string;
