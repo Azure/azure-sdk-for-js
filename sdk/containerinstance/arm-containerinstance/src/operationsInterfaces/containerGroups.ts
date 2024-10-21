@@ -25,7 +25,7 @@ import {
   ContainerGroupsStopOptionalParams,
   ContainerGroupsStartOptionalParams,
   ContainerGroupsGetOutboundNetworkDependenciesEndpointsOptionalParams,
-  ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse
+  ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -38,35 +38,35 @@ export interface ContainerGroups {
    * @param options The options parameters.
    */
   list(
-    options?: ContainerGroupsListOptionalParams
+    options?: ContainerGroupsListOptionalParams,
   ): PagedAsyncIterableIterator<ContainerGroup>;
   /**
    * Get a list of container groups in a specified subscription and resource group. This operation
    * returns properties of each container group including containers, image registry credentials, restart
    * policy, IP address type, OS type, state, and volumes.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The options parameters.
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ContainerGroupsListByResourceGroupOptionalParams
+    options?: ContainerGroupsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ContainerGroup>;
   /**
    * Gets the properties of the specified container group in the specified subscription and resource
    * group. The operation returns the properties of each container group including containers, image
    * registry credentials, restart policy, IP address type, OS type, state, and volumes.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
   get(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsGetOptionalParams
+    options?: ContainerGroupsGetOptionalParams,
   ): Promise<ContainerGroupsGetResponse>;
   /**
    * Create or update container groups with specified configurations.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param containerGroup The properties of the container group to be created or updated.
    * @param options The options parameters.
@@ -75,7 +75,7 @@ export interface ContainerGroups {
     resourceGroupName: string,
     containerGroupName: string,
     containerGroup: ContainerGroup,
-    options?: ContainerGroupsCreateOrUpdateOptionalParams
+    options?: ContainerGroupsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerGroupsCreateOrUpdateResponse>,
@@ -84,7 +84,7 @@ export interface ContainerGroups {
   >;
   /**
    * Create or update container groups with specified configurations.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param containerGroup The properties of the container group to be created or updated.
    * @param options The options parameters.
@@ -93,11 +93,11 @@ export interface ContainerGroups {
     resourceGroupName: string,
     containerGroupName: string,
     containerGroup: ContainerGroup,
-    options?: ContainerGroupsCreateOrUpdateOptionalParams
+    options?: ContainerGroupsCreateOrUpdateOptionalParams,
   ): Promise<ContainerGroupsCreateOrUpdateResponse>;
   /**
    * Updates container group tags with specified values.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param resource The container group resource with just the tags to be updated.
    * @param options The options parameters.
@@ -106,19 +106,19 @@ export interface ContainerGroups {
     resourceGroupName: string,
     containerGroupName: string,
     resource: Resource,
-    options?: ContainerGroupsUpdateOptionalParams
+    options?: ContainerGroupsUpdateOptionalParams,
   ): Promise<ContainerGroupsUpdateResponse>;
   /**
    * Delete the specified container group in the specified subscription and resource group. The operation
    * does not delete other resources provided by the user, such as volumes.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
   beginDelete(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsDeleteOptionalParams
+    options?: ContainerGroupsDeleteOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ContainerGroupsDeleteResponse>,
@@ -128,85 +128,85 @@ export interface ContainerGroups {
   /**
    * Delete the specified container group in the specified subscription and resource group. The operation
    * does not delete other resources provided by the user, such as volumes.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
   beginDeleteAndWait(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsDeleteOptionalParams
+    options?: ContainerGroupsDeleteOptionalParams,
   ): Promise<ContainerGroupsDeleteResponse>;
   /**
    * Restarts all containers in a container group in place. If container image has updates, new image
    * will be downloaded.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
   beginRestart(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsRestartOptionalParams
+    options?: ContainerGroupsRestartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Restarts all containers in a container group in place. If container image has updates, new image
    * will be downloaded.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
   beginRestartAndWait(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsRestartOptionalParams
+    options?: ContainerGroupsRestartOptionalParams,
   ): Promise<void>;
   /**
    * Stops all containers in a container group. Compute resources will be deallocated and billing will
    * stop.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
   stop(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsStopOptionalParams
+    options?: ContainerGroupsStopOptionalParams,
   ): Promise<void>;
   /**
    * Starts all containers in a container group. Compute resources will be allocated and billing will
    * start.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
   beginStart(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsStartOptionalParams
+    options?: ContainerGroupsStartOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Starts all containers in a container group. Compute resources will be allocated and billing will
    * start.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
   beginStartAndWait(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsStartOptionalParams
+    options?: ContainerGroupsStartOptionalParams,
   ): Promise<void>;
   /**
    * Gets all the network dependencies for this container group to allow complete control of network
    * setting and configuration. For container groups, this will always be an empty list.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param options The options parameters.
    */
   getOutboundNetworkDependenciesEndpoints(
     resourceGroupName: string,
     containerGroupName: string,
-    options?: ContainerGroupsGetOutboundNetworkDependenciesEndpointsOptionalParams
+    options?: ContainerGroupsGetOutboundNetworkDependenciesEndpointsOptionalParams,
   ): Promise<ContainerGroupsGetOutboundNetworkDependenciesEndpointsResponse>;
 }

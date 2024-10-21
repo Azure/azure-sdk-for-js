@@ -11,7 +11,7 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
@@ -19,14 +19,18 @@ import {
   OperationsImpl,
   LocationImpl,
   ContainersImpl,
-  SubnetServiceAssociationLinkImpl
+  SubnetServiceAssociationLinkImpl,
+  ContainerGroupProfilesImpl,
+  ContainerGroupProfileOperationsImpl,
 } from "./operations";
 import {
   ContainerGroups,
   Operations,
   Location,
   Containers,
-  SubnetServiceAssociationLink
+  SubnetServiceAssociationLink,
+  ContainerGroupProfiles,
+  ContainerGroupProfileOperations,
 } from "./operationsInterfaces";
 import { ContainerInstanceManagementClientOptionalParams } from "./models";
 
@@ -38,14 +42,13 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
   /**
    * Initializes a new instance of the ContainerInstanceManagementClient class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param subscriptionId Subscription credentials which uniquely identify Microsoft Azure subscription.
-   *                       The subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
     subscriptionId: string,
-    options?: ContainerInstanceManagementClientOptionalParams
+    options?: ContainerInstanceManagementClientOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
@@ -60,10 +63,10 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
     }
     const defaults: ContainerInstanceManagementClientOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-containerinstance/9.1.1`;
+    const packageDetails = `azsdk-js-arm-containerinstance/9.2.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -73,20 +76,21 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -96,7 +100,7 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -106,9 +110,9 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
     // Parameter assignments
@@ -116,14 +120,17 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-05-01";
+    this.apiVersion = options.apiVersion || "2024-05-01-preview";
     this.containerGroups = new ContainerGroupsImpl(this);
     this.operations = new OperationsImpl(this);
     this.location = new LocationImpl(this);
     this.containers = new ContainersImpl(this);
     this.subnetServiceAssociationLink = new SubnetServiceAssociationLinkImpl(
-      this
+      this,
     );
+    this.containerGroupProfiles = new ContainerGroupProfilesImpl(this);
+    this.containerGroupProfileOperations =
+      new ContainerGroupProfileOperationsImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -136,7 +143,7 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -150,7 +157,7 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
@@ -160,4 +167,6 @@ export class ContainerInstanceManagementClient extends coreClient.ServiceClient 
   location: Location;
   containers: Containers;
   subnetServiceAssociationLink: SubnetServiceAssociationLink;
+  containerGroupProfiles: ContainerGroupProfiles;
+  containerGroupProfileOperations: ContainerGroupProfileOperations;
 }
