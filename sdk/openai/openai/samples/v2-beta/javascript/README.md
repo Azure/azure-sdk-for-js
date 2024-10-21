@@ -18,6 +18,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [audioTranscription.js][audiotranscription]                                         | audio transcription.                                                         |
 | [audioTranslation.js][audiotranslation]                                             | audio translation.                                                           |
 | [chatCompletions.js][chatcompletions]                                               | get chat completions.                                                        |
+| [chatCompletionsWithStructuredOutput.js][chatcompletionswithstructuredoutput]       | get chat completions.                                                        |
 | [codeInterpreter.js][codeinterpreter]                                               | interpreting code.                                                           |
 | [completions.js][completions]                                                       | get completions.                                                             |
 | [embeddings.js][embeddings]                                                         | generates embedding vectors from a prompt using Azure OpenAI Get Embeddings. |
@@ -72,6 +73,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [audiotranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/audioTranscription.js
 [audiotranslation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/audioTranslation.js
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/chatCompletions.js
+[chatcompletionswithstructuredoutput]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/chatCompletionsWithStructuredOutput.js
 [codeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/codeInterpreter.js
 [completions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/completions.js
 [embeddings]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/embeddings.js

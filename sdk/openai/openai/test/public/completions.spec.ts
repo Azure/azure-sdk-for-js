@@ -391,7 +391,7 @@ describe("Completions", function () {
             );
           });
 
-          it.only("structured output", async function ({ skip }) {
+          it("structured output", async function ({ skip }) {
             const Step = z.object({
               explanation: z.string(),
               output: z.string(),
