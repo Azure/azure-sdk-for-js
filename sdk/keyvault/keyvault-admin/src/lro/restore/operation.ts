@@ -69,7 +69,7 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
     options: FullRestoreOperationOptionalParams,
   ): Promise<FullRestoreOperationResponse> {
     return tracingClient.withSpan("KeyVaultRestorePoller.fullRestore", options, (updatedOptions) =>
-      this.client.fullRestoreOperation(this.vaultUrl, updatedOptions),
+      this.client.fullRestoreOperation(updatedOptions),
     );
   }
 
@@ -104,9 +104,8 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
     }
 
     if (!state.isStarted) {
-      const serviceOperation = await this.fullRestore({
-        ...this.requestOptions,
-        restoreBlobDetails: {
+      const serviceOperation = this.client.fullRestoreOperation(
+        {
           folderToRestore: folderName,
           sasTokenParameters: {
             storageResourceUri: folderUri,
@@ -114,9 +113,10 @@ export class KeyVaultRestorePollOperation extends KeyVaultAdminPollOperation<
             useManagedIdentity: sasToken === undefined,
           },
         },
-      });
-
-      this.mapState(serviceOperation);
+        this.requestOptions,
+      );
+      await serviceOperation.poll();
+      this.mapState(serviceOperation.getOperationState());
     } else if (!state.isCompleted) {
       if (!state.jobId) {
         throw new Error(`Missing "jobId" from the full restore operation.`);

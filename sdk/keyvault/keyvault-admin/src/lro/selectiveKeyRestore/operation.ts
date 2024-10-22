@@ -9,16 +9,9 @@ import {
   KeyVaultBeginSelectiveKeyRestoreOptions,
   KeyVaultSelectiveKeyRestoreResult,
 } from "../../backupClientModels.js";
-import {
-  RestoreOperation,
-  RestoreStatusResponse,
-  SelectiveKeyRestoreOperationOptionalParams,
-  SelectiveKeyRestoreOperationResponse,
-} from "../../generated/models/index.js";
+import { SelectiveKeyRestoreOperation } from "../../generated/models/index.js";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { KeyVaultClient } from "../../generated/keyVaultClient.js";
-import { OperationOptions } from "@azure/core-client";
-import { tracingClient } from "../../tracing.js";
 
 /**
  * An interface representing the publicly available properties of the state of a restore Key Vault's poll operation.
@@ -52,6 +45,7 @@ export interface KeyVaultSelectiveKeyRestorePollOperationState
 /**
  * The selective restore Key Vault's poll operation.
  */
+// Do I even need a whole class for this?
 export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollOperation<
   KeyVaultSelectiveKeyRestorePollOperationState,
   string
@@ -63,32 +57,6 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
     private requestOptions: KeyVaultBeginSelectiveKeyRestoreOptions = {},
   ) {
     super(state, { cancelMessage: "Cancelling a selective Key Vault restore is not supported." });
-  }
-
-  /**
-   * Tracing the selectiveRestore operation
-   */
-  private selectiveRestore(
-    keyName: string,
-    options: SelectiveKeyRestoreOperationOptionalParams,
-  ): Promise<SelectiveKeyRestoreOperationResponse> {
-    return tracingClient.withSpan(
-      "KeyVaultSelectiveKeyRestorePoller.selectiveRestore",
-      options,
-      (updatedOptions) =>
-        this.client.selectiveKeyRestoreOperation(this.vaultUrl, keyName, updatedOptions),
-    );
-  }
-
-  /**
-   * Tracing the restoreStatus operation.
-   */
-  private restoreStatus(jobId: string, options: OperationOptions): Promise<RestoreStatusResponse> {
-    return tracingClient.withSpan(
-      "KeyVaultSelectiveKeyRestorePoller.restoreStatus",
-      options,
-      (updatedOptions) => this.client.restoreStatus(this.vaultUrl, jobId, updatedOptions),
-    );
   }
 
   /**
@@ -108,9 +76,10 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
     }
 
     if (!state.isStarted) {
-      const selectiveRestoreOperation = await this.selectiveRestore(keyName, {
-        ...this.requestOptions,
-        restoreBlobDetails: {
+      // Are there any codegen helpers that can be used here?
+      const selectiveKeyRestoreOperation = this.client.selectiveKeyRestoreOperation(
+        keyName,
+        {
           folder: folderName,
           sasTokenParameters: {
             storageResourceUri: folderUri,
@@ -118,20 +87,39 @@ export class KeyVaultSelectiveKeyRestorePollOperation extends KeyVaultAdminPollO
             useManagedIdentity: sasToken === undefined,
           },
         },
-      });
-      this.mapState(selectiveRestoreOperation);
+        this.requestOptions,
+      );
+      await selectiveKeyRestoreOperation.poll();
+      const status = selectiveKeyRestoreOperation.getResult() || {};
+      state.isStarted = true;
+      state.jobId = status.jobId;
+      state.endTime = status.endTime;
+      state.startTime = status.startTime;
+      state.status = status.status;
+      state.statusDetails = status.statusDetails;
+      state.isCompleted = !!status.endTime;
+
+      if (state.isCompleted && status.error?.code) {
+        throw new Error(status.error?.message || status.statusDetails);
+      }
+      if (state.isCompleted) {
+        state.result = {
+          startTime: status.startTime!,
+          endTime: status.endTime,
+        };
+      }
     } else if (!state.isCompleted) {
       if (!state.jobId) {
         throw new Error(`Missing "jobId" from the full restore operation.`);
       }
-      const serviceOperation = await this.restoreStatus(state.jobId, this.requestOptions);
+      const serviceOperation = await this.client.restoreStatus(state.jobId, this.requestOptions);
       this.mapState(serviceOperation);
     }
 
     return this;
   }
 
-  private mapState(serviceOperation: RestoreOperation): void {
+  private mapState(serviceOperation: SelectiveKeyRestoreOperation): void {
     const state = this.state;
     const { startTime, jobId, endTime, error, status, statusDetails } = serviceOperation;
 
