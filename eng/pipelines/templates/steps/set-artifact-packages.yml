@@ -29,8 +29,10 @@ steps:
 
       $setting = $pkgNames -join ","
       $changedServices = $changedServicesArray -join " "
+      $commaChangedServices = $changedServicesArray -join ","
       Write-Host "Setting ChangedServices to : `n$changedServices"
       Write-Host "##vso[task.setvariable variable=ChangedServices;]$changedServices"
+      Write-Host "##vso[task.setvariable variable=CChangedServices;]$commaChangedServices"
       Write-Host "Setting ArtifactPackageNames to: `n$setting"
       Write-Host "##vso[task.setvariable variable=ArtifactPackageNames;]$setting"
     displayName: Resolve Targeted Packages
