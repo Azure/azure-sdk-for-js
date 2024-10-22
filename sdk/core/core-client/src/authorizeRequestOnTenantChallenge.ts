@@ -59,7 +59,7 @@ export const authorizeRequestOnTenantChallenge: (
 
     challengeOptions.request.headers.set(
       Constants.HeaderConstants.AUTHORIZATION,
-      `Bearer ${accessToken.token}`,
+      `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`,
     );
     return true;
   }

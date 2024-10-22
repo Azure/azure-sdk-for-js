@@ -5,7 +5,6 @@ extends:
   parameters:
     PackageName: "@azure/openai"
     ServiceDirectory: openai
-    Clouds: 'Public'
     CloudConfig:
       Public:
         ServiceConnection: azure-sdk-tests-openai

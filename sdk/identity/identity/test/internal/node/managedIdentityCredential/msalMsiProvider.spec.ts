@@ -9,6 +9,7 @@ import { tokenExchangeMsi } from "../../../../src/credentials/managedIdentityCre
 import { imdsMsi } from "../../../../src/credentials/managedIdentityCredential/imdsMsi";
 import { RestError } from "@azure/core-rest-pipeline";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../../../src/errors";
+import { AccessToken } from "@azure/core-auth";
 
 describe("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: Sinon.SinonStub;
@@ -103,7 +104,8 @@ describe("ManagedIdentityCredential (MSAL)", function () {
           const validToken = {
             token: "test_token",
             expiresOnTimestamp: new Date().getTime(),
-          };
+            tokenType: "Bearer",
+          } as AccessToken;
           Sinon.stub(tokenExchangeMsi, "isAvailable").resolves(true);
           Sinon.stub(tokenExchangeMsi, "getToken").resolves(validToken);
 
