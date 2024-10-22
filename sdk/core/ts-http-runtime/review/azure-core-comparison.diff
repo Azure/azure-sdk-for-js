@@ -546,14 +546,19 @@ index eabe718..0000000
 -
 -/// <reference lib="dom" />
 diff --git a/src/client/getClient.ts b/src/client/getClient.ts
-index 549d26f..4029937 100644
+index 079c3ac..4029937 100644
 --- a/src/client/getClient.ts
 +++ b/src/client/getClient.ts
-@@ -1,8 +1,10 @@
+@@ -1,13 +1,10 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--import { KeyCredential, TokenCredential, isKeyCredential, isTokenCredential } from "@azure/core-auth";
+-import {
+-  KeyCredential,
+-  TokenCredential,
+-  isKeyCredential,
+-  isTokenCredential,
+-} from "@azure/core-auth";
 -import { HttpClient, HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
 +import { TokenCredential, isTokenCredential } from "../auth/tokenCredential.js";
 +import { KeyCredential, isKeyCredential } from "../auth/keyCredential.js";
@@ -562,7 +567,7 @@ index 549d26f..4029937 100644
  import { createDefaultPipeline } from "./clientHelpers.js";
  import {
    Client,
-@@ -10,10 +12,12 @@ import {
+@@ -15,10 +12,12 @@ import {
    HttpBrowserStreamResponse,
    HttpNodeStreamResponse,
    RequestParameters,
@@ -575,7 +580,7 @@ index 549d26f..4029937 100644
  
  /**
   * Creates a client with a default pipeline
-@@ -60,8 +64,8 @@ export function getClient(
+@@ -65,8 +64,8 @@ export function getClient(
  
    const { allowInsecureConnection, httpClient } = clientOptions;
    const endpointUrl = clientOptions.endpoint ?? endpoint;
