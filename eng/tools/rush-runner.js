@@ -204,7 +204,7 @@ function rushRunAll(direction, packages) {
  * @param packagesWithDirection string[][] Any array of tuples containing [[direction, packageName]...]
  */
 function rushRunAll(packagesWithDirection) {
-  spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...packagesWithDirection, ...rushParams);
+  spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...(packagesWithDirection.flat()), ...rushParams);
 }
 
 /**
