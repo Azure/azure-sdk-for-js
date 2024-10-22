@@ -5,7 +5,7 @@
  * @summary Get Template list for a channel
  */
 
-const { paginate } = require("@azure-rest/communication-messages");
+const { isUnexpected, paginate } = require("@azure-rest/communication-messages");
 const MessageTemplateClient = require("@azure-rest/communication-messages").default;
 const { AzureKeyCredential } = require("@azure/core-auth");
 
@@ -23,14 +23,16 @@ async function main() {
       queryParameters: { maxPageSize: 2 },
     });
 
-  if (response.status == "200") {
-    // The paginate helper creates a paged async iterator using metadata from the first page.
-    const items = paginate(client, response);
+  if (isUnexpected(response)) {
+    throw new Error("Failed to get template for the channel.");
+  }
 
-    // We get an PageableAsyncIterator so we need to do `for await`.
-    for await (const item of items) {
-      console.log(JSON.stringify(item, null, 2));
-    }
+  // The paginate helper creates a paged async iterator using metadata from the first page.
+  const items = paginate(client, response);
+
+  // We get an PageableAsyncIterator so we need to do `for await`.
+  for await (const item of items) {
+    console.log(JSON.stringify(item, null, 2));
   }
 }
 

@@ -18,7 +18,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [GetMessageTemplateList.js][getmessagetemplatelist]                   | Get Template list for a channel                                     |
 | [SendAudioMessage.js][sendaudiomessage]                               | Send a audio message                                                |
 | [SendDocumentMessage.js][senddocumentmessage]                         | Send a document message                                             |
-| [SendImageMessage.js][sendimagemessage]                               | Send a image message                                                |
+| [SendImageMessage.js][sendimagemessage]                               | Send an image message                                               |
 | [SendTemplateMessage.js][sendtemplatemessage]                         | Send a template message                                             |
 | [SendTextMessage.js][sendtextmessage]                                 | Send a text message                                                 |
 | [SendTextTemplateMessageUsingAAD.js][sendtexttemplatemessageusingaad] | Use AAD token credentials when sending a whatsapp template message. |

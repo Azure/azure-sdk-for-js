@@ -18,7 +18,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [GetMessageTemplateList.ts][getmessagetemplatelist]                   | Get Template list for a channel                                     |
 | [SendAudioMessage.ts][sendaudiomessage]                               | Send a audio message                                                |
 | [SendDocumentMessage.ts][senddocumentmessage]                         | Send a document message                                             |
-| [SendImageMessage.ts][sendimagemessage]                               | Send a image message                                                |
+| [SendImageMessage.ts][sendimagemessage]                               | Send an image message                                               |
 | [SendTemplateMessage.ts][sendtemplatemessage]                         | Send a template message                                             |
 | [SendTextMessage.ts][sendtextmessage]                                 | Send a text message                                                 |
 | [SendTextTemplateMessageUsingAAD.ts][sendtexttemplatemessageusingaad] | Use AAD token credentials when sending a whatsapp template message. |

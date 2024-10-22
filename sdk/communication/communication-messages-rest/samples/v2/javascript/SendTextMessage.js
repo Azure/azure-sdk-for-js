@@ -5,7 +5,8 @@
  * @summary Send a text message
  */
 
-const NotificationClient = require("@azure-rest/communication-messages").default;
+const NotificationClient = require("@azure-rest/communication-messages").default,
+  { isUnexpected } = require("@azure-rest/communication-messages");
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -26,14 +27,14 @@ async function main() {
 
   console.log("Response: " + JSON.stringify(result, null, 2));
 
-  if (result.status === "202") {
-    const response = result;
-    response.body.receipts.forEach((receipt) => {
-      console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
-    });
-  } else {
+  if (isUnexpected(result)) {
     throw new Error("Failed to send message");
   }
+
+  const response = result;
+  response.body.receipts.forEach((receipt) => {
+    console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
+  });
 }
 
 main().catch((error) => {
