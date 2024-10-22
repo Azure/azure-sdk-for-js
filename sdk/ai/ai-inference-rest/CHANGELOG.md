@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.3 (2024-10-22)
+## 1.0.0-beta.3 (Unreleased)
 
 ### Features Added
 - Adds support for instrumentation using OpenTelemetry for chat completion without streaming.
