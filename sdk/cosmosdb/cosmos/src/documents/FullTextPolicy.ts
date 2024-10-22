@@ -9,8 +9,7 @@ export interface FullTextPolicy {
   /**
    * The paths to be indexed for full text search.
    */
-  paths: FullTextPath[];
-
+  fullTextPaths: FullTextPath[];
 }
 
 export interface FullTextPath {
