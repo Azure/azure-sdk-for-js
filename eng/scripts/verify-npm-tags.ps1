@@ -2,7 +2,7 @@ param (
   [Parameter(mandatory = $true)]
   $artifactName,
   [Parameter(mandatory = $true)]
-  $workingDirectory
+  $packageName
 )
 
 # TODO: delete testing comments below
@@ -17,7 +17,7 @@ $PSNativeCommandUseErrorActionPreference = $true
 
 . (Join-Path $PSScriptRoot "../common/scripts/common.ps1")
 
-$packageProperties = Get-PkgProperties -PackageName $artifactName
+$packageProperties = Get-PkgProperties -PackageName $packageName
 $packageName =  $packageProperties.Name
 Write-Host "Verify npm tag versions for package $packageName"
 $packageVersions = npm view $packageName versions --json | ConvertFrom-Json
@@ -33,9 +33,9 @@ if (!$validLatest) {
   $validLatest = $packageVersions | ? { $_ -match "alpha" } | Select-Object -Last 1
 }
 
-$currentDev = npm view $packageName@dev version --silent
-$currentNext = npm view $packageName@next version --silent
-$currentLatest = npm view $packageName@latest version --silent
+$currentDev = $packageVersions."dist-tags"."dev"
+$currentNext = $packageVersions."dist-tags"."next"
+$currentLatest = $packageVersions."dist-tags"."latest"
 
 if ($validDev) {
   Write-Host "Dev version should be: $validDev, current dev version: $currentDev"
