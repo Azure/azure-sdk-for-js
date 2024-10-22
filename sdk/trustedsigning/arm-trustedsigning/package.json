@@ -57,8 +57,8 @@
   },
   "dependencies": {
     "@azure/abort-controller": "workspace:*",
-    "@azure/core-util": "workspace:*",
     "@azure/core-auth": "workspace:*",
+    "@azure/core-util": "workspace:*",
     "@azure/core-lro": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
     "@azure/logger": "workspace:*",
@@ -67,7 +67,6 @@
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:*",
-    "@azure/identity": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure-tools/test-credential": "workspace:*",
     "@azure-tools/test-recorder": "workspace:*",

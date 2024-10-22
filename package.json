@@ -22,7 +22,7 @@
     "@vitest/browser": "^2.1.2",
     "@vitest/coverage-istanbul": "^2.1.2",
     "cspell": "^8.15.1",
-    "lage": "^2.11.6",
+    "lage": "^2.11.9",
     "prettier": "^3.3.3",
     "rimraf": "^5.0.10",
     "tsx": "^4.19.1",
