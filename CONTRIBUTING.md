@@ -39,24 +39,7 @@ If your contribution is significantly big, it is better to first check with the 
 
 ## Project orchestration
 
-This project uses [Rush](https://rushjs.io) to manage many of our Azure SDK libraries within a single repository. It is highly recommended that you read the [Rush Developer Tutorials](https://rushjs.io/pages/developer/new_developer/) to familiarize yourself with the tool.
-
-Rush provides many benefits:
-
-- Some of our devDependencies are not published to the public registry (e.g. our ESLint plugin), and Rush is configured to install them correctly.
-- Your local build results will match what occurs on our build server, since the build server uses Rush to build the SDK.
-- Rush will ensure that all libraries use the same versions of a given dependency, making it easier to reason about our dependency graph and reducing bundle size.
-- Rush uses [PNPM](https://pnpm.js.org) to install all dependencies across the SDK. Together they solve problems involving [phantom dependencies](https://rushjs.io/pages/advanced/phantom_deps/) and [NPM doppelgangers](https://rushjs.io/pages/advanced/npm_doppelgangers/). The way PNPM lays out packages also ensures that you can never accidentally use a dependency you don't directly declare in your package.json.
-- Dependencies between different libraries within the Azure SDK will be locally linked by default. This means you can make a local change in a library your library depends on, and it will just work without needing to use awkward "file:" paths in your package.json.
-- When a change is made in a local dependency, Rush will detect that the dependency is dirty and will rebuild it if you attempt to build a project that consumes that dependency.
-- Rush runs project tasks in parallel, subject to the inter-project dependencies that it detects. It also performs incremental builds by default, not rebuilding anything unnecessary (unless you tell it to).
-
-Not every library in the repository is managed by Rush yet, only those listed in the `projects` property in [rush.json](https://github.com/Azure/azure-sdk-for-js/blob/main/rush.json). Packages not managed by Rush can still be managed using `npm`.
-
-Check out our [wiki page on using rush](https://github.com/Azure/azure-sdk-for-js/wiki/Rush) for more information on
-
-- running `rush update` command
-- How to update to a newer version of Rush or PNPM.
+This project uses [pnpm](https://pnpm.io/) to manage many of our Azure SDK libraries within a single repository. It is highly recommended that you read the [pnpm Documentation](https://pnpm.io/motivation) to familiarize yourself with the tool.
 
 ## Setting up your environment
 
@@ -88,10 +71,9 @@ If you prefer to setup your own environment instead, make sure you have these pr
 
     **[setuptools](https://pypi.org/project/setuptools/) is also a required Python library**. It can be installed using `pip install setuptools`.
 
-- Rush 5.x
-  - Install / update Rush globally via `npm install -g @microsoft/rush`.
-  - Rush will automatically manage the specific version needed by this repo as long as you have any v5 version installed.
-  - If you're unable to install a global tool, you can instead call the wrapper script `node <repo root>/common/scripts/install-run-rush.js` any time the guide instructs you to run `rush`. The wrapper script will install a managed copy of Rush in a temporary directory for you.
+- pnpm
+  - Install / update pnpm using the [installation documentation](https://pnpm.io/installation).
+  - pnpm will automatically manage the specific version needed by this repo.
 
 ### Building our repository
 
@@ -101,13 +83,13 @@ If you prefer to setup your own environment instead, make sure you have these pr
 
 To build all packages:
 
-4. Install and link all dependencies (`rush update`)
-5. Build the code base (`rush rebuild`)
+4. Install and link all dependencies (`pnpm install`)
+5. Build the code base (`pnpm build`)
 
-To build specific package(s), use `-t` rush command-line option:
+To build specific package(s), use `--filter` rush command-line option:
 
-6. Install and link all dependencies (`rush update`)
-7. Build the package, for example, `rush build -t @azure/service-bus`. Alternatively when under the package folder, `rush build -t .`
+6. Install and link all dependencies (`pnpm update`)
+7. Build the package, for example, `pnpm --filter @azure/service-bus... build`. Alternatively when under the package folder, `pnpm build`
 
 ## Development Workflows
 
