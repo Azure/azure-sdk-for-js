@@ -12,7 +12,7 @@
 
 ### Breaking Changes
 
-- MediaNotificationcontent interface kind field is update with value "image_v0" from "image".
+- MediaNotificationContent interface kind field is update with value "image_v0" from "image".
 
 ## 1.0.1 (2024-03-07)
 
