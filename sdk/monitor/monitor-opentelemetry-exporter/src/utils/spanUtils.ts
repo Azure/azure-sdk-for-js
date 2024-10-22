@@ -432,9 +432,9 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
             isValidTraceId(parentSpanContext.traceId) && isValidSpanId(parentSpanContext.spanId);
         }
         /*
-          * Only generate exception telemetry for children of a remote span,
-          * internal spans, and top level spans. This is to avoid unresolvable exceptions from outgoing calls.
-          */
+         * Only generate exception telemetry for children of a remote span,
+         * internal spans, and top level spans. This is to avoid unresolvable exceptions from outgoing calls.
+         */
         if (!isValidParent || parentSpanContext?.isRemote || span.kind === SpanKind.INTERNAL) {
           name = "Microsoft.ApplicationInsights.Exception";
           baseType = "ExceptionData";
