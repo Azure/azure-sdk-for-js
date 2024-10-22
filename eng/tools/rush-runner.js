@@ -195,6 +195,8 @@ const packagesWithDirection = getDirectionMappedPackages(serviceDirs, packageNam
  */
 function rushRunAll(direction, packages) {
   const params = flatMap(packages, (p) => [direction, p]);
+
+  console.log(params);
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
 }
 
@@ -203,19 +205,18 @@ function rushRunAll(direction, packages) {
  *
  * @param packagesWithDirection string[] Any array of strings containing ["direction packageName"...]
  */
-function rushRunAll(packagesWithDirection) {
+function rushRunAllWithDirection(packagesWithDirection) {
   // we HAVE to split --from and --to into separate commands otherwise rush will crash on startup
   toPackages = [];
   fromPackages = [];
 
   for (const [direction, packageName] of packagesWithDirection) {
     if (direction === "--to") {
-      toPackages.push(`--to ${packageName}`);
+      toPackages.push("--to", packageName);
     } else {
-      fromPackages.push(`--from ${packageName}`);
+      fromPackages.push("--from", packageName);
     }
   }
-
 
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...toPackages, ...rushParams);
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...fromPackages, ...rushParams);
@@ -255,7 +256,7 @@ if (serviceDirs.length === 0) {
   // --from clause to resolve the package and all of its dependents
   switch (actionComponents[0]) {
     case "build":
-      rushRunAll(packagesWithDirection);
+      rushRunAllWithDirection(packagesWithDirection);
       break;
 
     case "test":
