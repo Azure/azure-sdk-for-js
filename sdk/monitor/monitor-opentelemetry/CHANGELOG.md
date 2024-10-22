@@ -4,7 +4,8 @@
 
 ### Features Added
 - Changed live metrics CPU/Memory perf counter metrics to emit normalized process CPU and process physical memory bytes.
-- Support for Live Metrics Filtering
+- Support for Live Metrics Filtering.
+- Support parsing AAD Audeince from the connection string for live metrics.
 
 ### Breaking Changes
 

@@ -184,13 +184,13 @@ export class LiveMetrics {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
       credential: this.config.azureMonitorExporterOptions.credential,
-      credentialScopes: this.config.azureMonitorExporterOptions.credentialScopes || parsedConnectionString.aadaudience,
+      credentialScopes: parsedConnectionString.aadaudience || this.config.azureMonitorExporterOptions.credentialScopes,
     });
     const exporterOptions: QuickpulseExporterOptions = {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
       credential: this.config.azureMonitorExporterOptions.credential,
-      credentialScopes: this.config.azureMonitorExporterOptions.credentialScopes || parsedConnectionString.aadaudience,
+      credentialScopes: parsedConnectionString.aadaudience || this.config.azureMonitorExporterOptions.credentialScopes,
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       postCallback: this.quickPulseDone.bind(this),
       getDocumentsFn: this.getDocuments.bind(this),
