@@ -9,6 +9,93 @@ import { createTokenCycler } from "../util/tokenCycler.js";
 import { logger as coreLogger } from "../log.js";
 
 /**
+ * Parameters parsed out of the WWW-Authenticate header value by the parseWWWAuthenticate function.
+ */
+export interface WWWAuthenticate {
+  /**
+   * The authorization parameter, if present.
+   */
+  authorization?: string;
+
+  /**
+   * The authorization_url parameter, if present.
+   */
+  authorization_url?: string;
+
+  /**
+   * The resource parameter, if present.
+   */
+  resource?: string;
+
+  /**
+   * The scope parameter, if present.
+   */
+  scope?: string;
+
+  /**
+   * The tenantId parameter, if present.
+   */
+  tenantId?: string;
+
+  /**
+   * The claims parameter, if present.
+   */
+  claims?: string;
+
+  /**
+   * The error parameter, if present.
+   */
+  error?: string;
+}
+
+const validWWWAuthenticateProperties: readonly (keyof WWWAuthenticate)[] = [
+  "authorization",
+  "authorization_url",
+  "resource",
+  "scope",
+  "tenantId",
+  "claims",
+  "error",
+] as const;
+
+/**
+ * Parses an WWW-Authenticate response header.
+ * This transforms a string value like:
+ * `Bearer authorization="https://some.url/tenantId", resource="https://some.url"`
+ * into an object like:
+ * `{ authorization: "https://some.url/tenantId", resource: "https://some.url" }`
+ * @param headerValue - String value in the WWW-Authenticate header
+ */
+export function parseWWWAuthenticateHeader(headerValue: string): WWWAuthenticate {
+  const pairDelimiter = /,? +/;
+  const parsed = headerValue.split(pairDelimiter).reduce<WWWAuthenticate>((kvPairs, p) => {
+    if (p.match(/\w="/)) {
+      // 'sampleKey="sample_value"' -> [sampleKey, "sample_value"] -> { sampleKey: sample_value }
+      const [key, ...value] = p.split("=");
+      if (validWWWAuthenticateProperties.includes(key as keyof WWWAuthenticate)) {
+        // The values will be wrapped in quotes, which need to be stripped out.
+        return { ...kvPairs, [key]: value.join("=").slice(1, -1) };
+      }
+    }
+    return kvPairs;
+  }, {});
+
+  // Finally, we pull the tenantId from the authorization header to support multi-tenant authentication.
+  if (parsed.authorization) {
+    try {
+      const tenantId = new URL(parsed.authorization).pathname.substring(1);
+      if (tenantId) {
+        parsed.tenantId = tenantId;
+      }
+    } catch (_) {
+      throw new Error(`The challenge authorization URI '${parsed.authorization}' is invalid.`);
+    }
+  }
+
+  return parsed;
+}
+
+/**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
  */
 export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPolicy";
@@ -107,10 +194,13 @@ export interface BearerTokenAuthenticationPolicyOptions {
  */
 async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promise<void> {
   const { scopes, getAccessToken, request } = options;
+  // Enable CAE true by default
   const getTokenOptions: GetTokenOptions = {
     abortSignal: request.abortSignal,
     tracingOptions: request.tracingOptions,
+    enableCae: true
   };
+  
   const accessToken = await getAccessToken(scopes, getTokenOptions);
 
   if (accessToken) {
@@ -128,6 +218,53 @@ function getChallenge(response: PipelineResponse): string | undefined {
     return challenge;
   }
   return;
+}
+
+/**
+ * We will retrieve the challenge only if the response status code was 401,
+ * and if the response contained the header "WWW-Authenticate" with a non-empty value.
+ */
+async function handleCAEChallenge(
+  onChallengeOptions: AuthorizeRequestOnChallengeOptions,
+): Promise<boolean> {
+  const { scopes, response } = onChallengeOptions;
+  const logger = onChallengeOptions.logger || coreLogger;
+
+  const challenge = response.headers.get("WWW-Authenticate");
+  // Parsing the challenge
+  const { claims: base64EncodedClaims, error, ...rest }: WWWAuthenticate =
+    parseWWWAuthenticateHeader(challenge as string);
+
+  if (base64EncodedClaims === undefined) {
+    logger.info(
+      `The WWW-Authenticate header was missing the necessary "claims". Failed to perform the Continuous Access Evaluation authentication flow.`,
+    );
+    return false;
+  }
+
+  if (error !== "insufficient_claims") {
+    logger.info(
+      `The WWW-Authenticate header ran into "insufficient_claims" error. Failed to perform the Continuous Access Evaluation authentication flow.`,
+    );
+    return false;
+  }
+
+  const claims = atob(base64EncodedClaims);
+
+  const accessToken = await onChallengeOptions.getAccessToken(rest.scope ? [rest.scope] : scopes , {
+    tenantId: rest.tenantId,
+    claims,
+  });
+
+  if (!accessToken) {
+    return false;
+  }
+
+  onChallengeOptions.request.headers.set(
+    "Authorization",
+    `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`,
+  );
+  return true;
 }
 
 /**
@@ -193,20 +330,33 @@ export function bearerTokenAuthenticationPolicy(
       }
 
       if (
-        callbacks.authorizeRequestOnChallenge &&
-        response?.status === 401 &&
         getChallenge(response)
       ) {
-        // processes challenge
-        const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
+        // processes challenge        
+        if (callbacks.authorizeRequestOnChallenge){
+            const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
+            scopes: Array.isArray(scopes) ? scopes : [scopes],
+            request,
+            response,
+            getAccessToken,
+            logger,
+          });
+
+          if (shouldSendRequest) {
+            return next(request);
+          }
+        }
+
+        // processes CAE challenge
+        const handleCAEchallenge = await handleCAEChallenge({
           scopes: Array.isArray(scopes) ? scopes : [scopes],
-          request,
           response,
+          request,
           getAccessToken,
           logger,
         });
 
-        if (shouldSendRequest) {
+        if (handleCAEchallenge) {
           return next(request);
         }
       }
