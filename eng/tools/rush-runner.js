@@ -209,25 +209,7 @@ function rushRunAll(direction, packages) {
  * @param packagesWithDirection string[] Any array of strings containing ["direction packageName"...]
  */
 function rushRunAllWithDirection(packagesWithDirection) {
-  // we HAVE to split --from and --to into separate commands otherwise rush will crash on startup...maybe?
-  // lets confirm this one last time with correct spacing
-  // toPackages = [];
-  // fromPackages = [];
-
-  // for (const [direction, packageName] of packagesWithDirection) {
-  //   if (direction === "--to") {
-  //     toPackages.push("--to", packageName);
-  //   } else {
-  //     fromPackages.push("--from", packageName);
-  //   }
-  // }
-
-  invocation = [];
-
-  for (const [direction, packageName] of packagesWithDirection) {
-    invocation.push(direction, packageName);
-  }
-
+  const invocation = packagesWithDirection.flatMap(([direction, packageName]) => [direction, packageName]);
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...invocation, ...rushParams);
 }
 

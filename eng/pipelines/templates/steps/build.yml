@@ -20,11 +20,9 @@ steps:
   # we are not passing service directory, so we only ever set dev build to true
   - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
 
-  # todo: update set-dev.js to handle multiple service directories based on the ChangedServices value of the diff
-  # currently defaulting to nothing, so we set the entire repo to dev build (we do this for python)
   - script: |
       npm install ./eng/tools/versioning
-      node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
+      node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)"
       node common/scripts/install-run-rush.js update
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
@@ -81,7 +79,6 @@ steps:
       node eng/tools/rush-runner.js unlink
     displayName: "Unlink dependencies"
 
-  # todo, modify this to walk the service directories
   - template: ../steps/generate-doc.yml
     parameters:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
