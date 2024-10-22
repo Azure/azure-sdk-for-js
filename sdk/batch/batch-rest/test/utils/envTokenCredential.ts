@@ -5,7 +5,7 @@ import { TokenCredential } from "@azure/identity";
 
 /**
  * A TokenCredential implementation that gets the token from the environment variable
- * AZURE_BATCH_ACCESS_TOKEN. It's only used in browser live tests.
+ * It's only used in browser live tests.
  */
 export class EnvTokenCredential implements TokenCredential {
   private token: string;
@@ -13,7 +13,7 @@ export class EnvTokenCredential implements TokenCredential {
   constructor() {
     const token = process.env["AZURE_BATCH_ACCESS_TOKEN"];
     if (!token) {
-      throw new Error("AZURE_BATCH_AUTHENTICATION_TOKEN must be set");
+      throw new Error("AZURE_BATCH_ACCESS_TOKEN must be set");
     }
     this.token = token;
   }
