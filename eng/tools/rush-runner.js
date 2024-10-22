@@ -133,7 +133,7 @@ const getDirectionMappedPackages = (serviceDirs, packageNames) => {
       rushCommandFlag = "--from";
     }
 
-    mappedPackages.push(`${rushCommandFlag} ${packageName}`);
+    mappedPackages.push([rushCommandFlag, packageName]);
   }
 
   return mappedPackages;
@@ -204,7 +204,21 @@ function rushRunAll(direction, packages) {
  * @param packagesWithDirection string[] Any array of strings containing ["direction packageName"...]
  */
 function rushRunAll(packagesWithDirection) {
-  spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...packagesWithDirection, ...rushParams);
+  // we HAVE to split --from and --to into separate commands otherwise rush will crash on startup
+  toPackages = [];
+  fromPackages = [];
+
+  for (const [direction, packageName] of packagesWithDirection) {
+    if (direction === "--to") {
+      toPackages.push(`--to ${packageName}`);
+    } else {
+      fromPackages.push(`--from ${packageName}`);
+    }
+  }
+
+
+  spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...toPackages, ...rushParams);
+  spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...fromPackages, ...rushParams);
 }
 
 /**
