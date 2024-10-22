@@ -1,21 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { ClientOptions, OperationOptions } from "@azure-rest/core-client";
 import {
   DataAction as KeyVaultDataAction,
   RoleScope as KeyVaultRoleScope,
-  KnownDataAction as KnownKeyVaultDataAction,
-  KnownRoleScope as KnownKeyVaultRoleScope,
 } from "./generated/index.js";
 import { SUPPORTED_API_VERSIONS } from "./constants.js";
 
-export { KeyVaultDataAction, KeyVaultRoleScope, KnownKeyVaultDataAction, KnownKeyVaultRoleScope };
+export {
+  KeyVaultDataAction as KnownKeyVaultDataAction,
+  KeyVaultRoleScope as KnownKeyVaultRoleScope,
+};
 
 /**
  * The optional parameters accepted by the Key Vault's AccessControlClient
  */
-export interface AccessControlClientOptions extends CommonClientOptions {
+export interface AccessControlClientOptions extends ClientOptions {
   /**
    * The accepted versions of the Key Vault's service API.
    */

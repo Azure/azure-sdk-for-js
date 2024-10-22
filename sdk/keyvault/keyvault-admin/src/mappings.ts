@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  KeyVaultRoleAssignment,
-  KeyVaultRoleDefinition,
-  KeyVaultRoleScope,
-} from "./accessControlModels.js";
+import { PagedAsyncIterableIterator } from "./generated/index.js";
+import { KeyVaultRoleAssignment, KeyVaultRoleDefinition } from "./accessControlModels.js";
 import { RoleAssignment, RoleDefinition } from "./generated/models/index.js";
 
 export const mappings = {
@@ -18,7 +15,7 @@ export const mappings = {
         name: name!,
         kind: type!,
         properties: {
-          scope: scope as KeyVaultRoleScope,
+          scope: scope,
           roleDefinitionId: roleDefinitionId!,
           principalId: principalId!,
         },
@@ -27,8 +24,8 @@ export const mappings = {
   },
   roleDefinition: {
     generatedToPublic(roleDefinition: RoleDefinition): KeyVaultRoleDefinition {
-      const { id, name, type, roleName, description, roleType, permissions, assignableScopes } =
-        roleDefinition;
+      const { id, name, type, properties } = roleDefinition;
+      const { roleName, description, roleType, permissions, assignableScopes } = properties || {};
       return {
         id: id!,
         name: name!,
@@ -56,3 +53,27 @@ export const mappings = {
     };
   },
 };
+export function mapPagedAsyncIterable<T, U>(
+  iter: PagedAsyncIterableIterator<T>,
+  mapper: (x: T) => U,
+): PagedAsyncIterableIterator<U> {
+  return {
+    async next() {
+      const result = await iter.next();
+
+      return {
+        ...result,
+        value: result.value && mapper(result.value),
+      };
+    },
+    [Symbol.asyncIterator]() {
+      return this;
+    },
+    async *byPage(settings) {
+      const iteratorByPage = iter.byPage(settings);
+      for await (const page of iteratorByPage) {
+        yield page.map(mapper);
+      }
+    },
+  };
+}

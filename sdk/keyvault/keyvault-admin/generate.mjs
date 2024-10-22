@@ -16,3 +16,5 @@ await $`mv src/generated/src/* src/generated/`;
 
 // Remove generated/src
 await $`rm -rf src/generated/src`;
+
+// Update package.json to include core-client-rest?

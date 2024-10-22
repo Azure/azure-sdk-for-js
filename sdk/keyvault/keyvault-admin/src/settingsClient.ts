@@ -76,10 +76,9 @@ export class KeyVaultSettingsClient {
   constructor(vaultUrl: string, credential: TokenCredential, options: SettingsClientOptions = {}) {
     this.vaultUrl = vaultUrl;
 
-    const apiVersion = options.serviceVersion || LATEST_API_VERSION;
-
     const clientOptions = {
       ...options,
+      apiVersion: options.serviceVersion || LATEST_API_VERSION,
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: [
@@ -90,7 +89,7 @@ export class KeyVaultSettingsClient {
       },
     };
 
-    this.client = new KeyVaultClient(apiVersion, clientOptions);
+    this.client = new KeyVaultClient(vaultUrl, credential, clientOptions);
 
     // The authentication policy must come after the deserialization policy since the deserialization policy
     // converts 401 responses to an Error, and we don't want to deal with that.
@@ -110,7 +109,7 @@ export class KeyVaultSettingsClient {
     options: UpdateSettingOptions = {},
   ): Promise<KeyVaultSetting> {
     return makeSetting(
-      await this.client.updateSetting(this.vaultUrl, setting.name, String(setting.value), options),
+      await this.client.updateSetting(setting.name, { value: String(setting.value) }, options),
     );
   }
 
@@ -121,7 +120,7 @@ export class KeyVaultSettingsClient {
    * @param options - the optional parameters.
    */
   async getSetting(settingName: string, options: GetSettingOptions = {}): Promise<KeyVaultSetting> {
-    return makeSetting(await this.client.getSetting(this.vaultUrl, settingName, options));
+    return makeSetting(await this.client.getSetting(settingName, options));
   }
 
   /**
@@ -131,7 +130,7 @@ export class KeyVaultSettingsClient {
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   async getSettings(options: ListSettingsOptions = {}): Promise<ListSettingsResponse> {
-    const { settings } = await this.client.getSettings(this.vaultUrl, options);
+    const { settings } = await this.client.getSettings(options);
     return { settings: settings?.map(makeSetting) ?? [] };
   }
 }

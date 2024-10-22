@@ -1,12 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  FullBackupOperation,
-  FullBackupOptionalParams,
-  FullBackupResponse,
-  FullBackupStatusResponse,
-} from "../../generated/models/index.js";
+import { FullBackupOperation, FullBackupOptionalParams } from "../../generated/models/index.js";
 import {
   KeyVaultAdminPollOperation,
   KeyVaultAdminPollOperationState,
