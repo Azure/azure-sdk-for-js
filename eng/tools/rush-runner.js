@@ -48,7 +48,6 @@ const parseArgs = () => {
   const baseDir = path.resolve(`${path.dirname(scriptPath)}/../..`);
 
   for (const arg of givenArgs) {
-    console.log(`Examining ${arg}`);
     if (arg === "-packages") {
       isPackageFilter = true;
       continue;
@@ -68,7 +67,6 @@ const parseArgs = () => {
       if (arg && arg !== "*") {
         // exclude empty value and special value "*" meaning all libraries
         arg.split(" ").forEach(serviceDirectory => services.push(serviceDirectory));
-        console.log(`Services is ${services}`)
       }
     }
   }
@@ -146,7 +144,6 @@ const getServicePackages = (baseDir, serviceDirs, artifactNames) => {
   console.log(`Packages to build: ${artifactNames}`);
   const artifacts = artifactNames.split(",");
   for (const serviceDir of serviceDirs) {
-    console.log(`Looking at ${serviceDir}`);
     const searchDir = path.resolve(path.join(baseDir, "sdk", serviceDir));
     const packageJsons = getPackageJsons(searchDir);
     for (const filePath of packageJsons) {
@@ -195,8 +192,6 @@ const packagesWithDirection = getDirectionMappedPackages(serviceDirs, packageNam
  */
 function rushRunAll(direction, packages) {
   const params = flatMap(packages, (p) => [direction, p]);
-
-  console.log(params);
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
 }
 
@@ -245,15 +240,6 @@ const rushx_runner_path = path.join(baseDir, "common/scripts/install-run-rushx.j
 if (serviceDirs.length === 0) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
 } else {
-
-  // if the targeted package is one of:
-  // - a core package
-  // - azure-identity
-  // - arm-resources
-  // use the --to clause with the package
-
-  // if the targeted package is NOT one of those, then run it with the
-  // --from clause to resolve the package and all of its dependents
   switch (actionComponents[0]) {
     case "build":
       rushRunAllWithDirection(packagesWithDirection);
