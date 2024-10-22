@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT Licence.
 
 /**
  * @summary Use AAD token credentials when sending a whatsapp template message.
@@ -85,7 +85,7 @@ async function main() {
 
 main().catch((error) => {
   console.error("Encountered an error while sending message: ", error);
-  throw error;
+  process.exit(1);
 });
 
 module.exports = { main };

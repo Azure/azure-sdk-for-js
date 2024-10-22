@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Send a video message
+ * @summary Send a media message
  */
 
 const { AzureKeyCredential } = require("@azure/core-auth");
@@ -20,9 +20,8 @@ async function main() {
     body: {
       channelRegistrationId: process.env.CHANNEL_ID || "",
       to: [process.env.RECIPIENT_PHONE_NUMBER || ""],
-      kind: "video",
-      mediaUri: "https://sample-videos.com/video321/mp4/480/big_buck_bunny_480p_1mb.mp4",
-      caption: "happy time!!",
+      kind: "image",
+      mediaUri: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
     },
   });
 
@@ -40,5 +39,5 @@ async function main() {
 
 main().catch((error) => {
   console.error("Encountered an error while sending message: ", error);
-  throw error;
+  process.exit(1);
 });

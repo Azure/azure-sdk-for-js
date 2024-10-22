@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Send a video message
+ * @summary Send a media message
  */
 
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -11,7 +11,7 @@ import NotificationClient, { Send202Response } from "@azure-rest/communication-m
 import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main(): Promise<void> {
+async function main() {
     const credential = new AzureKeyCredential(process.env.ACS_ACCESS_KEY || "");
     const endpoint = process.env.ACS_URL || "";
     const client = NotificationClient(endpoint, credential);
@@ -21,9 +21,8 @@ async function main(): Promise<void> {
         body: {
             channelRegistrationId: process.env.CHANNEL_ID || "",
             to: [process.env.RECIPIENT_PHONE_NUMBER || ""],
-            kind: "video",
-            mediaUri: "https://sample-videos.com/video321/mp4/480/big_buck_bunny_480p_1mb.mp4",
-            caption: "happy time!!"
+            kind: "image",
+            mediaUri: "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg"
         }
     });
 
@@ -32,7 +31,7 @@ async function main(): Promise<void> {
     if (result.status === "202") {
         const response:Send202Response = result as Send202Response;
         response.body.receipts.forEach((receipt) => {
-            console.log("Message sent to:" + receipt.to + " with message id:" + receipt.messageId);
+            console.log("Message sent to:"+receipt.to+" with message id:"+receipt.messageId);
         });
     } else {
         throw new Error("Failed to send message");
@@ -42,5 +41,5 @@ async function main(): Promise<void> {
 
 main().catch((error) => {
     console.error("Encountered an error while sending message: ", error);
-    throw error;
+    process.exit(1);
 });

@@ -13,7 +13,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main(): Promise<void> {
+async function main() {
     const credential = new AzureKeyCredential(process.env.ACS_ACCESS_KEY || "");
     const endpoint = process.env.ACS_URL || "";
     const client = MessageTemplateClient(endpoint, credential);
@@ -36,5 +36,5 @@ async function main(): Promise<void> {
 
 main().catch((error) => {
     console.error("Encountered an error while sending message: ", error);
-    throw error;
+    process.exit(1);
 });

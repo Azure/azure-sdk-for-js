@@ -1,13 +1,3 @@
----
-page_type: sample
-languages:
-  - javascript
-products:
-  - azure
-  - azure-communication-services
-urlFragment: communication-messages-javascript
----
-
 # Azure client library for Azure Communication Messages Services client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure client library for Azure Communication Messages Services in some common scenarios.
@@ -16,13 +6,10 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | --------------------------------------------------------------------- | ------------------------------------------------------------------- |
 | [DownloadMedia.js][downloadmedia]                                     | Download a media file                                               |
 | [GetMessageTemplateList.js][getmessagetemplatelist]                   | Get Template list for a channel                                     |
-| [SendAudioMessage.js][sendaudiomessage]                               | Send a audio message                                                |
-| [SendDocumentMessage.js][senddocumentmessage]                         | Send a document message                                             |
-| [SendImageMessage.js][sendimagemessage]                               | Send a image message                                                |
+| [SendMediaMessage.js][sendmediamessage]                               | Send a media message                                                |
 | [SendTemplateMessage.js][sendtemplatemessage]                         | Send a template message                                             |
 | [SendTextMessage.js][sendtextmessage]                                 | Send a text message                                                 |
 | [SendTextTemplateMessageUsingAAD.js][sendtexttemplatemessageusingaad] | Use AAD token credentials when sending a whatsapp template message. |
-| [SendVideoMessage.js][sendvideomessage]                               | Send a video message                                                |
 
 ## Prerequisites
 
@@ -60,17 +47,11 @@ npx cross-env ACS_ACCESS_KEY="<acs access key>" ACS_URL="<acs url>" node Downloa
 
 ## Next Steps
 
-Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
-
 [downloadmedia]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/DownloadMedia.js
 [getmessagetemplatelist]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/GetMessageTemplateList.js
-[sendaudiomessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/SendAudioMessage.js
-[senddocumentmessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/SendDocumentMessage.js
-[sendimagemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/SendImageMessage.js
+[sendmediamessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/SendMediaMessage.js
 [sendtemplatemessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/SendTemplateMessage.js
 [sendtextmessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/SendTextMessage.js
 [sendtexttemplatemessageusingaad]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/SendTextTemplateMessageUsingAAD.js
-[sendvideomessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v1/javascript/SendVideoMessage.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-messages
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-messages-rest/README.md
