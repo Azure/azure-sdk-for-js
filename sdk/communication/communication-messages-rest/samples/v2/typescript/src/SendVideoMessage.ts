@@ -2,27 +2,28 @@
 // Licensed under the MIT License.
 
 /**
- * @summary Send a text message
+ * @summary Send a video message
  */
 
-
+import { AzureKeyCredential } from "@azure/core-auth";
 import NotificationClient, { isUnexpected, Send202Response } from "@azure-rest/communication-messages";
-
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
 
 async function main(): Promise<void> {
-    const connectionString = process.env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING || "";
-    const client = NotificationClient(connectionString);
+    const credential = new AzureKeyCredential(process.env.ACS_ACCESS_KEY || "");
+    const endpoint = process.env.ACS_URL || "";
+    const client = NotificationClient(endpoint, credential);
     console.log("Sending message...");
     const  result = await client.path("/messages/notifications:send").post({
         contentType: "application/json",
         body: {
             channelRegistrationId: process.env.CHANNEL_ID || "",
             to: [process.env.RECIPIENT_PHONE_NUMBER || ""],
-            kind: "text",
-            content: "Arif The Great!!!"
+            kind: "video",
+            mediaUri: "https://sample-videos.com/video321/mp4/480/big_buck_bunny_480p_1mb.mp4",
+            caption: "happy time!!"
         }
     });
 
