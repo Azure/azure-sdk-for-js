@@ -12,6 +12,9 @@ param (
 #'@azure/template' alpha, beta, GA
 #$pkgProps.PackageId
 
+$ErrorActionPreference = 'Stop'
+$PSNativeCommandUseErrorActionPreference = $true
+
 . (Join-Path $PSScriptRoot "../common/scripts/common.ps1")
 
 $packageProperties = Get-PkgProperties -PackageName $artifactName
