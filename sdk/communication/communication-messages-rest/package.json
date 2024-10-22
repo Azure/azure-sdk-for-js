@@ -121,6 +121,6 @@
       "azure",
       "azure-communication-services"
     ],
-    "apiRefLink": "https://learn.microsoft.com/en-us/javascript/api/overview/azure/communication-messages-rest-readme?view=azure-node-latest"
+    "apiRefLink": "https://learn.microsoft.com/javascript/api/overview/azure/communication-messages-rest-readme?view=azure-node-latest"
   }
 }

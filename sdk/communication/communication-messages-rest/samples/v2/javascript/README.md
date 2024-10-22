@@ -71,6 +71,6 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sendtextmessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendTextMessage.js
 [sendtexttemplatemessageusingaad]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendTextTemplateMessageUsingAAD.js
 [sendvideomessage]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-messages-rest/samples/v2/javascript/SendVideoMessage.js
-[apiref]: https://learn.microsoft.com/en-us/javascript/api/overview/azure/communication-messages-rest-readme?view=azure-node-latest
+[apiref]: https://learn.microsoft.com/javascript/api/overview/azure/communication-messages-rest-readme?view=azure-node-latest
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-messages-rest/README.md
