@@ -111,7 +111,15 @@ const restrictedToPackages = [
   "@azure/identity",
   "@azure/arm-resources"
 ];
-const getDirectionMappedPackages = (serviceDirs, packageNames) => {
+
+/**
+ * Helper function that determines the rush command flag to use based on each individual package name for the 'build' check.
+ *
+ * If the targeted package is one of the restricted packages with a ton of dependents, we only want to run that package
+ * and not all of its dependents.
+ * @param packageNames string[] An array of strings containing the packages names to run the action on.
+ */
+const getDirectionMappedPackages = (packageNames) => {
   const mappedPackages = [];
 
   for (const packageName of packageNames) {
@@ -182,7 +190,7 @@ const actionComponents = action.toLowerCase().split(":");
 
 const [packageNames, packageDirs] = getServicePackages(baseDir, serviceDirs, artifactNames);
 
-const packagesWithDirection = getDirectionMappedPackages(serviceDirs, packageNames);
+const packagesWithDirection = getDirectionMappedPackages(packageNames);
 
 /**
  * Helper function to provide the rush logic that is used frequently below
@@ -196,25 +204,31 @@ function rushRunAll(direction, packages) {
 }
 
 /**
- * Helper function to invoke a bunch of combined rush commands.
+ * Helper function to invoke the rush logic split up by direction.
  *
  * @param packagesWithDirection string[] Any array of strings containing ["direction packageName"...]
  */
 function rushRunAllWithDirection(packagesWithDirection) {
-  // we HAVE to split --from and --to into separate commands otherwise rush will crash on startup
-  toPackages = [];
-  fromPackages = [];
+  // we HAVE to split --from and --to into separate commands otherwise rush will crash on startup...maybe?
+  // lets confirm this one last time with correct spacing
+  // toPackages = [];
+  // fromPackages = [];
+
+  // for (const [direction, packageName] of packagesWithDirection) {
+  //   if (direction === "--to") {
+  //     toPackages.push("--to", packageName);
+  //   } else {
+  //     fromPackages.push("--from", packageName);
+  //   }
+  // }
+
+  invocation = [];
 
   for (const [direction, packageName] of packagesWithDirection) {
-    if (direction === "--to") {
-      toPackages.push("--to", packageName);
-    } else {
-      fromPackages.push("--from", packageName);
-    }
+    invocation.push(direction, packageName);
   }
 
-  spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...toPackages, ...rushParams);
-  spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...fromPackages, ...rushParams);
+  spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...invocation, ...rushParams);
 }
 
 /**
