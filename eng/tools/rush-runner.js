@@ -133,7 +133,7 @@ const getDirectionMappedPackages = (serviceDirs, packageNames) => {
       rushCommandFlag = "--from";
     }
 
-    mappedPackages.push([rushCommandFlag, packageName]);
+    mappedPackages.push(`${rushCommandFlag} ${packageName}`);
   }
 
   return mappedPackages;
@@ -201,10 +201,10 @@ function rushRunAll(direction, packages) {
 /**
  * Helper function to invoke a bunch of combined rush commands.
  *
- * @param packagesWithDirection string[][] Any array of tuples containing [[direction, packageName]...]
+ * @param packagesWithDirection string[] Any array of strings containing ["direction packageName"...]
  */
 function rushRunAll(packagesWithDirection) {
-  spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...(packagesWithDirection.flat()), ...rushParams);
+  spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...packagesWithDirection, ...rushParams);
 }
 
 /**
