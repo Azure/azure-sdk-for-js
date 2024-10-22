@@ -94,6 +94,51 @@ const getPackageJsons = (searchDir) => {
   return sdkDirectories.concat(perfTestDirectories).filter((f) => fs.existsSync(f)); // only keep paths for files that actually exist
 };
 
+const restrictedToPackages = [
+  "@azure/abort-controller",
+  "@azure/core-amqp",
+  "@azure/core-auth",
+  "@azure/core-client",
+  "@azure/core-http-compat",
+  "@azure/core-lro",
+  "@azure/core-paging",
+  "@azure/core-rest-pipeline",
+  "@azure/core-sse",
+  "@azure/core-tracing",
+  "@azure/core-util",
+  "@azure/core-xml",
+  "@azure/logger",
+  "@azure-rest/core-client",
+  "@typespec/ts-http-runtime",
+  "@azure/identity",
+  "@azure/arm-resources"
+];
+const getDirectionMappedPackages = (serviceDirs, packageNames) => {
+  const mappedPackages = [];
+
+  for (const packageName of packageNames) {
+    // Build command without any additional option should build the project and downstream
+    // If service is configured to run only a set of downstream projects then build all projects leading to them to support testing
+    // If the package is a core package, azure-identity or arm-resources then build only the package,
+    // otherwise build the package and all its dependents
+    var rushCommandFlag = "--impacted-by";
+
+    if (restrictedToPackages.includes(packageName)) {
+      // if this is one of our restricted packages with a ton of deps, make it targeted
+      // as including all dependents will be too much
+      rushCommandFlag = "--to";
+    }
+    else if (actionComponents.length == 1) {
+      // else we are building the project and its dependents
+      rushCommandFlag = "--from";
+    }
+
+    mappedPackages.push([rushCommandFlag, packageName]);
+  }
+
+  return mappedPackages;
+};
+
 const getServicePackages = (baseDir, serviceDirs, artifactNames) => {
   const packageNames = [];
   const packageDirs = [];
@@ -136,8 +181,11 @@ const flatMap = (arr, f) => {
 };
 
 const [baseDir, action, serviceDirs, rushParams, artifactNames] = parseArgs();
+const actionComponents = action.toLowerCase().split(":");
 
 const [packageNames, packageDirs] = getServicePackages(baseDir, serviceDirs, artifactNames);
+
+const packagesWithDirection = getDirectionMappedPackages(serviceDirs, packageNames);
 
 /**
  * Helper function to provide the rush logic that is used frequently below
@@ -148,6 +196,15 @@ const [packageNames, packageDirs] = getServicePackages(baseDir, serviceDirs, art
 function rushRunAll(direction, packages) {
   const params = flatMap(packages, (p) => [direction, p]);
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...params, ...rushParams);
+}
+
+/**
+ * Helper function to invoke a bunch of combined rush commands.
+ *
+ * @param packagesWithDirection string[][] Any array of tuples containing [[direction, packageName]...]
+ */
+function rushRunAll(packagesWithDirection) {
+  spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...packagesWithDirection, ...rushParams);
 }
 
 /**
@@ -173,34 +230,25 @@ const rushx_runner_path = path.join(baseDir, "common/scripts/install-run-rushx.j
 if (serviceDirs.length === 0) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
 } else {
-  const actionComponents = action.toLowerCase().split(":");
+
+  // if the targeted package is one of:
+  // - a core package
+  // - azure-identity
+  // - arm-resources
+  // use the --to clause with the package
+
+  // if the targeted package is NOT one of those, then run it with the
+  // --from clause to resolve the package and all of its dependents
   switch (actionComponents[0]) {
     case "build":
-      // Build command without any additional option should build the project and downstream
-      // If service is configured to run only a set of downstream projects then build all projects leading to them to support testing
-      // if this is build:test for any non-configured package service then all impacted projects downstream and it's dependents should be built
-      var rushCommandFlag = "--impacted-by";
-      if (isReducedTestScopeEnabled || serviceDirs.length > 1) {
-        // if we include a core package, then we should only target the packages that are passed in
-        if (serviceDirs.indexOf("core") !== -1) {
-          rushCommandFlag = "--to";
-        }
-        // otherwise we pull other packages in by dependency
-        else {
-          rushCommandFlag = "--from";
-        }
-      }
-      else if (actionComponents.length == 1) {
-        rushCommandFlag = "--from";
-      }
-
-      rushRunAll(rushCommandFlag, packageNames);
+      rushRunAll(packagesWithDirection);
       break;
 
     case "test":
     case "unit-test":
     case "integration-test":
       var rushCommandFlag = "--impacted-by";
+
       if (isReducedTestScopeEnabled || serviceDirs.length > 1) {
         // If a service is configured to have reduced test matrix then run rush test only for those projects
         rushCommandFlag = "--only";
