@@ -1298,7 +1298,7 @@ describe("spanUtils.ts", () => {
     const expectedTags: Tags = {};
     expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
     expectedTags[KnownContextTagKeys.AiOperationParentId] = "spanId";
-    assert.ok(envelopes.length === 0);
+    assert.ok(envelopes.length === 1);
   });
   it("should create message envelope for span events", () => {
     const span = new Span(
