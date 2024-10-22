@@ -43,7 +43,6 @@
     "@microsoft/api-extractor": "catalog:",
     "@types/chai": "catalog:",
     "@types/chai-as-promised": "^7.1.0",
-    "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "catalog:",
     "@types/node": "catalog:",
     "@types/sinon": "catalog:",
@@ -59,13 +58,9 @@
     "karma-firefox-launcher": "catalog:",
     "karma-json-preprocessor": "catalog:",
     "karma-json-to-file-reporter": "catalog:",
-    "karma-json-preprocessor": "catalog:",
-    "karma-json-to-file-reporter": "catalog:",
     "karma-junit-reporter": "catalog:",
     "karma-mocha": "catalog:",
-    "karma-mocha": "catalog:",
     "karma-mocha-reporter": "catalog:",
-    "karma-source-map-support": "catalog:",
     "karma-source-map-support": "catalog:",
     "karma-sourcemap-loader": "catalog:",
     "mocha": "catalog:",
@@ -75,7 +70,7 @@
     "source-map-support": "^0.5.9",
     "ts-node": "catalog:",
     "typescript": "catalog:",
-    "uglify-js": "^3.4.9"
+    "uglify-js": "catalog:"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"

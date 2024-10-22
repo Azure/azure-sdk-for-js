@@ -49,12 +49,11 @@
     "karma-mocha-reporter": "catalog:",
     "karma-source-map-support": "catalog:",
     "karma-sourcemap-loader": "catalog:",
-    "karma-sourcemap-loader": "catalog:",
     "mocha": "catalog:",
     "rimraf": "catalog:",
     "ts-node": "catalog:",
     "typescript": "catalog:",
-    "uglify-js": "^3.4.9"
+    "uglify-js": "catalog:"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"

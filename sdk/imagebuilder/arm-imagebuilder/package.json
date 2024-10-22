@@ -21,7 +21,8 @@
     "azure",
     "typescript",
     "browser",
-    "isomorphic"
+    "isomorphic",
+    "cloud"
   ],
   "license": "MIT",
   "main": "./dist/index.js",
@@ -33,7 +34,6 @@
     "@azure/arm-compute": "^21.0.0",
     "@azure/arm-msi": "^2.0.0",
     "@azure/dev-tool": "workspace:*",
-    "@azure/identity": "workspace:*",
     "@microsoft/api-extractor": "catalog:",
     "@types/chai": "catalog:",
     "@types/mocha": "catalog:",
@@ -47,12 +47,9 @@
     "ts-node": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",
-    "uglify-js": "^3.4.9"
+    "uglify-js": "catalog:"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -65,7 +62,6 @@
     "dist-esm/**/*.js.map",
     "dist-esm/**/*.d.ts",
     "dist-esm/**/*.d.ts.map",
-    "src/**/*.ts",
     "README.md",
     "LICENSE",
     "tsconfig.json",

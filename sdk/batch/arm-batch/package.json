@@ -45,7 +45,7 @@
     "rimraf": "catalog:",
     "ts-node": "catalog:",
     "typescript": "catalog:",
-    "uglify-js": "^3.4.9"
+    "uglify-js": "catalog:"
   },
   "repository": {
     "type": "git",
