@@ -7,35 +7,16 @@ import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfac
 import type { PipelinePolicy } from "../pipeline.js";
 import { createTokenCycler } from "../util/tokenCycler.js";
 import { logger as coreLogger } from "../log.js";
+import { isRestError } from "../restError.js";
 
 /**
  * Parameters parsed out of the WWW-Authenticate header value by the parseWWWAuthenticate function.
  */
-export interface WWWAuthenticate {
-  /**
-   * The authorization parameter, if present.
-   */
-  authorization?: string;
-
+interface WWWAuthenticate {
   /**
    * The authorization_url parameter, if present.
    */
   authorization_url?: string;
-
-  /**
-   * The resource parameter, if present.
-   */
-  resource?: string;
-
-  /**
-   * The scope parameter, if present.
-   */
-  scope?: string;
-
-  /**
-   * The tenantId parameter, if present.
-   */
-  tenantId?: string;
 
   /**
    * The claims parameter, if present.
@@ -49,11 +30,7 @@ export interface WWWAuthenticate {
 }
 
 const validWWWAuthenticateProperties: readonly (keyof WWWAuthenticate)[] = [
-  "authorization",
   "authorization_url",
-  "resource",
-  "scope",
-  "tenantId",
   "claims",
   "error",
 ] as const;
@@ -66,7 +43,7 @@ const validWWWAuthenticateProperties: readonly (keyof WWWAuthenticate)[] = [
  * `{ authorization: "https://some.url/tenantId", resource: "https://some.url" }`
  * @param headerValue - String value in the WWW-Authenticate header
  */
-export function parseWWWAuthenticateHeader(headerValue: string): WWWAuthenticate {
+function parseWWWAuthenticateHeader(headerValue: string): WWWAuthenticate {
   const pairDelimiter = /,? +/;
   const parsed = headerValue.split(pairDelimiter).reduce<WWWAuthenticate>((kvPairs, p) => {
     if (p.match(/\w="/)) {
@@ -79,19 +56,6 @@ export function parseWWWAuthenticateHeader(headerValue: string): WWWAuthenticate
     }
     return kvPairs;
   }, {});
-
-  // Finally, we pull the tenantId from the authorization header to support multi-tenant authentication.
-  if (parsed.authorization) {
-    try {
-      const tenantId = new URL(parsed.authorization).pathname.substring(1);
-      if (tenantId) {
-        parsed.tenantId = tenantId;
-      }
-    } catch (_) {
-      throw new Error(`The challenge authorization URI '${parsed.authorization}' is invalid.`);
-    }
-  }
-
   return parsed;
 }
 
@@ -198,9 +162,9 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
   const getTokenOptions: GetTokenOptions = {
     abortSignal: request.abortSignal,
     tracingOptions: request.tracingOptions,
-    enableCae: true
+    enableCae: true,
   };
-  
+
   const accessToken = await getAccessToken(scopes, getTokenOptions);
 
   if (accessToken) {
@@ -212,19 +176,18 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
  * We will retrieve the challenge only if the response status code was 401,
  * and if the response contained the header "WWW-Authenticate" with a non-empty value.
  */
-function getChallenge(response: PipelineResponse): string | undefined {
-  const challenge = response.headers.get("WWW-Authenticate");
-  if (response.status === 401 && challenge) {
-    return challenge;
+function isChallengeResponse(response: PipelineResponse): boolean {
+  if (response.status === 401 && response.headers.get("WWW-Authenticate")) {
+    return true;
   }
-  return;
+  return false;
 }
 
 /**
  * We will retrieve the challenge only if the response status code was 401,
  * and if the response contained the header "WWW-Authenticate" with a non-empty value.
  */
-async function handleCAEChallenge(
+async function authorizeRequestOnCaeChallenge(
   onChallengeOptions: AuthorizeRequestOnChallengeOptions,
 ): Promise<boolean> {
   const { scopes, response } = onChallengeOptions;
@@ -232,8 +195,9 @@ async function handleCAEChallenge(
 
   const challenge = response.headers.get("WWW-Authenticate");
   // Parsing the challenge
-  const { claims: base64EncodedClaims, error, ...rest }: WWWAuthenticate =
-    parseWWWAuthenticateHeader(challenge as string);
+  const { claims: base64EncodedClaims, error }: WWWAuthenticate = parseWWWAuthenticateHeader(
+    challenge as string,
+  );
 
   if (base64EncodedClaims === undefined) {
     logger.info(
@@ -251,8 +215,8 @@ async function handleCAEChallenge(
 
   const claims = atob(base64EncodedClaims);
 
-  const accessToken = await onChallengeOptions.getAccessToken(rest.scope ? [rest.scope] : scopes , {
-    tenantId: rest.tenantId,
+  const accessToken = await onChallengeOptions.getAccessToken(scopes, {
+    enableCae: true,
     claims,
   });
 
@@ -325,30 +289,43 @@ export function bearerTokenAuthenticationPolicy(
       try {
         response = await next(request);
       } catch (err: any) {
-        error = err;
-        response = err.response;
+        if (isRestError(error)) {
+          response = err.response;
+          error = err;
+        } else {
+          throw err;
+        }
       }
 
-      if (
-        getChallenge(response)
-      ) {
-        // processes challenge        
-        if (callbacks.authorizeRequestOnChallenge){
-            const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
-            scopes: Array.isArray(scopes) ? scopes : [scopes],
-            request,
-            response,
-            getAccessToken,
-            logger,
-          });
+      // Handle challenge using client provided callback when a challenge is returned
+      if (isChallengeResponse(response) && callbacks.authorizeRequestOnChallenge) {
+        const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
+          scopes: Array.isArray(scopes) ? scopes : [scopes],
+          request,
+          response,
+          getAccessToken,
+          logger,
+        });
 
+        // Send updated request and handle response for RestError
+        try {
           if (shouldSendRequest) {
-            return next(request);
+            error = undefined;
+            response = await next(request);
+          }
+        } catch (err: any) {
+          if (isRestError(error)) {
+            response = err.response;
+            error = err;
+          } else {
+            throw err;
           }
         }
+      }
 
-        // processes CAE challenge
-        const handleCAEchallenge = await handleCAEChallenge({
+      // Handle CAE challenge by default when a challenge is returned regardless of whether the callback is provided
+      if (isChallengeResponse(response)) {
+        const shouldSendRequestAfterCaeChallenge = await authorizeRequestOnCaeChallenge({
           scopes: Array.isArray(scopes) ? scopes : [scopes],
           response,
           request,
@@ -356,7 +333,7 @@ export function bearerTokenAuthenticationPolicy(
           logger,
         });
 
-        if (handleCAEchallenge) {
+        if (shouldSendRequestAfterCaeChallenge) {
           return next(request);
         }
       }
