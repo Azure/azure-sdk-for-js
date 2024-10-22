@@ -386,6 +386,7 @@ packages:
   - sdk/trafficmanager/arm-trafficmanager
   - sdk/translation/ai-translation-document-rest
   - sdk/translation/ai-translation-text-rest
+  - sdk/trustedsigning/arm-trustedsigning
   - sdk/vision/ai-vision-image-analysis-rest
   - sdk/visualstudio/arm-visualstudio
   - sdk/vmwarecloudsimple/arm-vmwarecloudsimple
