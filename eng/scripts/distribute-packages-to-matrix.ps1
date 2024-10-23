@@ -5,7 +5,7 @@ dynamically. If an unexpected situation is encountered, the script will make no 
 
 .DESCRIPTION
 Because of the way the platform matrix file is structured, we need to distribute the packages in a way that
-honors the Include packages. We have these included this way because want to ensure that these python versions
+honors the Include packages. We have these included this way because want to ensure that these node versions
 run on that platform. This script is aware of these additional configurations and will set ArtifactPackageNames for
 them as well.
 #>
@@ -145,23 +145,18 @@ function Update-Matrix {
     }
 
     # a basic platform matrix has the following:
-    # "matrix" -> "PythonVersion" = ["3.6", "3.7", "3.8", "3.9", "3.10"]
-    # "include" -> "ConfigName" -> "ActualJobName" -> PythonVersion=3.9
+    # "matrix" -> "NodeVersion" = []
+    # "include" -> "ConfigName" -> NodeVersion=18.X
     # so what we need to do is for each batch
         # 1. assign the batch * matrix size to the matrix as "ArtifactPackagesNames", this will evenly distribute the packages to EACH node version non-sparsely
-            # So direct packages add their duplicated targetingstring [ "azure-core,azure-storage-blob", "azure-core,azure-storage-blob", "azure-core,azure-storage-blob"]
-            # a number of times indicated by the highest matrix multiplier. This forces a non-sparse coverage of this targetingstring batch
-            # even in a sparse matrix generation.
-        # 2. assign the batch to each include with the batch being the value for TargetingString for the include
+        # 2. assign the batch to each include with the batch being the value for ArtifactPackageNames for the include
             # the easiest way to do this is to take a copy of the `Include` object at the beginning of this script,
             # for each batch, assign the batch to the include object, and then add the include object to the matrix object
             # this will have the result of multiplexing our includes, so we will need to update the name there as well
-    # any other packages will be added to the matrix as additional targetingstring batches. it'll be sparse in that there won't be full matrix coverage
-
     foreach($batch in $DirectBatches) {
         $targetingString = ($batch | Select-Object -ExpandProperty ArtifactName) -join ","
 
-        # we need to equal the largest multiplier in the matrix. That is USUALLY python version,
+        # we need to equal the largest multiplier in the matrix. That is USUALLY nodeVersion version,
         # but in some cases it could be something else (like sdk/cosmos/cosmos-emulator-matrix.json) the multiplier
         # is a different property. We do this because we want to ensure that the matrix is fully covered, even if
         # we are generating the matrix sparsely, we still want full coverage of these targetingStrings
