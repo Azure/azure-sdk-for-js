@@ -74,6 +74,7 @@ jobs:
           MatrixConfigs: ${{ parameters.MatrixConfigs }}
           MatrixFilters: ${{ parameters.MatrixFilters }}
           MatrixReplace: ${{ parameters.MatrixReplace }}
+          SparseCheckoutPaths: [ "sdk/" ]
           PreGenerationSteps:
             - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
               parameters:
