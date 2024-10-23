@@ -38,8 +38,7 @@ steps:
 
       $packageSet = "$(ArtifactPackageNames)" -split ","
 
-      $changedServicesArray = $packageProperties | Foreach-Object { Get-Content -Raw -Path $_.FullName | ConvertFrom-Json } `
-        | Where-Object { $packageSet -contains $_.ArtifactName }
+      $changedServicesArray = $packageProperties | Where-Object { $packageSet -contains $_.ArtifactName }
         | ForEach-Object { $_.ServiceDirectory } | Get-Unique
 
       $changedServices = $changedServicesArray -join " "
