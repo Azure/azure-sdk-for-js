@@ -446,7 +446,8 @@ data: length=1024, [0.04196167, 0.029083252, ..., -0.0027484894, 0.0073127747]
 
 To generate embeddings for additional phrases, simply call `client.path("/embeddings").post` multiple times using the same `client`.
 
-### Instrumentation (Chat Completions only)
+### Instrumentation 
+Currently instrumentation is only supported for `Chat Completion without streaming`.
 To enable instrumentation, it is required to register exporter(s).
 
 Here is an example to add console as a exporter:
