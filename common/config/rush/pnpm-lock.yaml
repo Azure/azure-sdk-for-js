@@ -22178,7 +22178,7 @@ packages:
     dev: false
 
   file:projects/keyvault-admin.tgz:
-    resolution: {integrity: sha512-U401BMCc6mBMBA/YTTShWnwa1MRs3cgjArXhalz0a6IzDbzAOAGzqViYYJEPSEfwFF2q9h8fbQBd+aoLuCAfew==, tarball: file:projects/keyvault-admin.tgz}
+    resolution: {integrity: sha512-wT5Ko4h1T/0M+G6vUEjh5msO4sYZz+fshc257i7RiHaNub89ssmD3oqM9ZSyZmkzlktBUcdO+XgoqBaUWVVwuQ==, tarball: file:projects/keyvault-admin.tgz}
     name: '@rush-temp/keyvault-admin'
     version: 0.0.0
     dependencies:
