@@ -4,8 +4,6 @@
 
 ```ts
 
-import { OperationOptions } from '@azure-rest/core-client';
-
 // @public
 export type AcceleratorManufacturer = string;
 
@@ -174,37 +172,6 @@ export interface FleetProperties {
     readonly uniqueId?: string;
     vmAttributes?: VMAttributes;
     vmSizesProfile: VmSizeProfile[];
-}
-
-// @public
-export interface FleetsCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FleetsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface FleetsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FleetsListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FleetsListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FleetsListVirtualMachineScaleSetsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface FleetsUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -377,8 +344,8 @@ export enum KnownLocalStorageDiskType {
 // @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
-    SystemAndUserAssigned = "SystemAssigned,UserAssigned",
     SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -620,10 +587,6 @@ export interface OperationDisplay {
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
-}
-
-// @public
-export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public

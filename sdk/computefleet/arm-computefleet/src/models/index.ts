@@ -2,14 +2,10 @@
 // Licensed under the MIT License.
 
 export {
-  Resource,
-  SystemData,
-  KnownCreatedByType,
-  CreatedByType,
-  TrackedResource,
   Fleet,
   FleetProperties,
   KnownProvisioningState,
+  ProvisioningState,
   SpotPriorityProfile,
   KnownEvictionPolicy,
   EvictionPolicy,
@@ -156,6 +152,11 @@ export {
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   Plan,
+  TrackedResource,
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
   FleetUpdate,
   ManagedServiceIdentityUpdate,
   ResourcePlanUpdate,
@@ -169,15 +170,4 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  ProvisioningState,
 } from "./models.js";
-export {
-  OperationsListOptionalParams,
-  FleetsGetOptionalParams,
-  FleetsCreateOrUpdateOptionalParams,
-  FleetsUpdateOptionalParams,
-  FleetsDeleteOptionalParams,
-  FleetsListByResourceGroupOptionalParams,
-  FleetsListBySubscriptionOptionalParams,
-  FleetsListVirtualMachineScaleSetsOptionalParams,
-} from "./options.js";

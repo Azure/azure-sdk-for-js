@@ -7,16 +7,12 @@ import {
   PagedAsyncIterableIterator,
 } from "./static-helpers/pagingHelpers.js";
 
-export { AzureFleetClient, AzureFleetClientOptionalParams } from "./azureFleetClient.js";
+export { AzureFleetClient } from "./azureFleetClient.js";
 export { restorePoller, RestorePollerOptions } from "./restorePollerHelpers.js";
 export {
-  Resource,
-  SystemData,
-  KnownCreatedByType,
-  CreatedByType,
-  TrackedResource,
   Fleet,
   FleetProperties,
+  ProvisioningState,
   KnownProvisioningState,
   SpotPriorityProfile,
   KnownEvictionPolicy,
@@ -164,6 +160,11 @@ export {
   ManagedServiceIdentityType,
   UserAssignedIdentity,
   Plan,
+  TrackedResource,
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
   FleetUpdate,
   ManagedServiceIdentityUpdate,
   ResourcePlanUpdate,
@@ -177,7 +178,9 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  ProvisioningState,
+} from "./models/index.js";
+export {
+  AzureFleetClientOptionalParams,
   OperationsListOptionalParams,
   FleetsGetOptionalParams,
   FleetsCreateOrUpdateOptionalParams,
@@ -186,6 +189,6 @@ export {
   FleetsListByResourceGroupOptionalParams,
   FleetsListBySubscriptionOptionalParams,
   FleetsListVirtualMachineScaleSetsOptionalParams,
-} from "./models/index.js";
+} from "./api/index.js";
 export { FleetsOperations, OperationsOperations } from "./classic/index.js";
 export { PageSettings, ContinuablePage, PagedAsyncIterableIterator };

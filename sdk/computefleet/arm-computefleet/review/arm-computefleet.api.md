@@ -413,8 +413,8 @@ export enum KnownLocalStorageDiskType {
 // @public
 export enum KnownManagedServiceIdentityType {
     None = "None",
-    SystemAndUserAssigned = "SystemAssigned,UserAssigned",
     SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 

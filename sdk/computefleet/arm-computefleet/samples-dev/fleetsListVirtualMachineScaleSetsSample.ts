@@ -15,7 +15,10 @@ async function fleetsListVirtualMachineScaleSets() {
   const subscriptionId = "1DC2F28C-A625-4B0E-9748-9885A3C9E9EB";
   const client = new AzureFleetClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.fleets.listVirtualMachineScaleSets("rgazurefleet", "myFleet")) {
+  for await (let item of client.fleets.listVirtualMachineScaleSets(
+    "rgazurefleet",
+    "myFleet",
+  )) {
     resArray.push(item);
   }
 
