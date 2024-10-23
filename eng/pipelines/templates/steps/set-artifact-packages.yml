@@ -43,7 +43,6 @@ steps:
 
       $changedServices = $changedServicesArray -join " "
       $commaChangedServices = $changedServicesArray -join ","
-      Write-Host "Setting ChangedServices to : `n$changedServices"
       Write-Host "##vso[task.setvariable variable=ChangedServices;]$changedServices"
       Write-Host "##vso[task.setvariable variable=ChangedServicesCsv;]$commaChangedServices"
 
