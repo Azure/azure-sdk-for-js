@@ -1,6 +1,6 @@
 # Release History
 
-## 1.7.2 (2024-10-23)
+## 1.8.0 (2024-10-23)
 
 ### Features Added
 - Changed live metrics CPU/Memory perf counter metrics to emit normalized process CPU and process physical memory bytes.
