@@ -190,8 +190,6 @@ const actionComponents = action.toLowerCase().split(":");
 
 const [packageNames, packageDirs] = getServicePackages(baseDir, serviceDirs, artifactNames);
 
-const packagesWithDirection = getDirectionMappedPackages(packageNames);
-
 /**
  * Helper function to provide the rush logic that is used frequently below
  *
@@ -232,6 +230,7 @@ if (isReducedTestScopeEnabled) {
   console.log(`Found reduced test matrix configured for ${serviceDirs}.`);
   packageNames.push(...reducedDependencyTestMatrix[serviceDirs]);
 }
+const packagesWithDirection = getDirectionMappedPackages(packageNames);
 const rushx_runner_path = path.join(baseDir, "common/scripts/install-run-rushx.js");
 if (serviceDirs.length === 0) {
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...rushParams);
