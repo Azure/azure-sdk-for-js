@@ -24,21 +24,31 @@ steps:
       $pkgNames = $packageProperties | Foreach-Object { $_.Name } `
         | ForEach-Object { $_.Replace(".json", "") }
 
-      $changedServicesArray = $packageProperties | Foreach-Object { Get-Content -Raw -Path $_.FullName | ConvertFrom-Json } `
-        | ForEach-Object { $_.ServiceDirectory } | Get-Unique
-
       $setting = $pkgNames -join ","
-      $changedServices = $changedServicesArray -join " "
-      $commaChangedServices = $changedServicesArray -join ","
-      Write-Host "Setting ChangedServices to : `n$changedServices"
-      Write-Host "##vso[task.setvariable variable=ChangedServices;]$changedServices"
-      Write-Host "##vso[task.setvariable variable=CChangedServices;]$commaChangedServices"
       Write-Host "Setting ArtifactPackageNames to: `n$setting"
       Write-Host "##vso[task.setvariable variable=ArtifactPackageNames;]$setting"
     displayName: Resolve Targeted Packages
     condition: eq(variables['ArtifactPackageNames'], '')
 
   - pwsh: |
-      Write-Host "This run is targeting: `n$(ArtifactPackageNames) in [$(ChangedServices)]"
+      # set changed services given the set of changed packages, this will mean that
+      # ChangedServices will be appropriate for the batched set of packages if that is indeed how
+      # we set the targeted artifacts
+      $packageProperties = Get-ChildItem -Recurse "${{ parameters.PackageInfo }}" *.json `
+        | Foreach-Object { Get-Content -Raw -Path $_.FullName | ConvertFrom-Json }
+
+      $packageSet = "$(ArtifactPackagesNames)" -split ","
+
+      $changedServicesArray = $packageProperties | Foreach-Object { Get-Content -Raw -Path $_.FullName | ConvertFrom-Json } `
+        | Where-Object { $packageSet -contains $_.ArtifactName }
+        | ForEach-Object { $_.ServiceDirectory } | Get-Unique
+
+      $changedServices = $changedServicesArray -join " "
+      $commaChangedServices = $changedServicesArray -join ","
+      Write-Host "Setting ChangedServices to : `n$changedServices"
+      Write-Host "##vso[task.setvariable variable=ChangedServices;]$changedServices"
+      Write-Host "##vso[task.setvariable variable=CChangedServices;]$commaChangedServices"
+
+      Write-Host "This run is targeting: `n$(ArtifactPackageNames) in [$changedServices]"
     displayName: Resolve Targeted Packages
     condition: ne(variables['ArtifactPackageNames'], '')
