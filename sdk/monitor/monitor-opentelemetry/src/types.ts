@@ -16,7 +16,7 @@ export interface AzureMonitorOpenTelemetryOptions {
   /** Azure Monitor Exporter Configuration */
   azureMonitorExporterOptions?: AzureMonitorExporterOptions;
   /** OpenTelemetry Resource */
-  resource?: Resource;
+  resource?: Resource; 
   /** The rate of telemetry items tracked that should be transmitted (Default 1.0) */
   samplingRatio?: number;
   /** Enable Live Metrics feature (Default false)*/
