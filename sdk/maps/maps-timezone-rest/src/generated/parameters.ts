@@ -4,12 +4,12 @@
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
 
-export interface TimezoneGetTimezoneByIDHeaders {
+export interface TimeZoneGetTimeZoneByIDHeaders {
   /** Specifies the language code in which the timezone names should be returned. If no language code is provided, the response will be in "EN". Please refer to [Supported Languages](https://docs.microsoft.com/azure/azure-maps/supported-languages) for details. */
   "Accept-Language"?: string;
 }
 
-export interface TimezoneGetTimezoneByIDQueryParamProperties {
+export interface TimeZoneGetTimeZoneByIDQueryParamProperties {
   /** Alternatively, use alias "o". Options available for types of information returned in the result. */
   options?: "none" | "zoneInfo" | "transitions" | "all";
   /** Alternatively, use alias "stamp", or "s". Reference time, if omitted, the API will use the machine time serving the request. */
@@ -22,24 +22,24 @@ export interface TimezoneGetTimezoneByIDQueryParamProperties {
   query: string;
 }
 
-export interface TimezoneGetTimezoneByIDQueryParam {
-  queryParameters: TimezoneGetTimezoneByIDQueryParamProperties;
+export interface TimeZoneGetTimeZoneByIDQueryParam {
+  queryParameters: TimeZoneGetTimeZoneByIDQueryParamProperties;
 }
 
-export interface TimezoneGetTimezoneByIDHeaderParam {
-  headers?: RawHttpHeadersInput & TimezoneGetTimezoneByIDHeaders;
+export interface TimeZoneGetTimeZoneByIDHeaderParam {
+  headers?: RawHttpHeadersInput & TimeZoneGetTimeZoneByIDHeaders;
 }
 
-export type TimezoneGetTimezoneByIDParameters = TimezoneGetTimezoneByIDQueryParam &
-  TimezoneGetTimezoneByIDHeaderParam &
+export type TimeZoneGetTimeZoneByIDParameters = TimeZoneGetTimeZoneByIDQueryParam &
+  TimeZoneGetTimeZoneByIDHeaderParam &
   RequestParameters;
 
-export interface TimezoneGetTimezoneByCoordinatesHeaders {
+export interface TimeZoneGetTimeZoneByCoordinatesHeaders {
   /** Specifies the language code in which the timezone names should be returned. If no language code is provided, the response will be in "EN". Please refer to [Supported Languages](https://docs.microsoft.com/azure/azure-maps/supported-languages) for details. */
   "Accept-Language"?: string;
 }
 
-export interface TimezoneGetTimezoneByCoordinatesQueryParamProperties {
+export interface TimeZoneGetTimeZoneByCoordinatesQueryParamProperties {
   /** Alternatively, use alias "o". Options available for types of information returned in the result. */
   options?: "none" | "zoneInfo" | "transitions" | "all";
   /** Alternatively, use alias "stamp", or "s". Reference time, if omitted, the API will use the machine time serving the request. */
@@ -52,31 +52,31 @@ export interface TimezoneGetTimezoneByCoordinatesQueryParamProperties {
   query: Array<number>;
 }
 
-export interface TimezoneGetTimezoneByCoordinatesQueryParam {
-  queryParameters: TimezoneGetTimezoneByCoordinatesQueryParamProperties;
+export interface TimeZoneGetTimeZoneByCoordinatesQueryParam {
+  queryParameters: TimeZoneGetTimeZoneByCoordinatesQueryParamProperties;
 }
 
-export interface TimezoneGetTimezoneByCoordinatesHeaderParam {
-  headers?: RawHttpHeadersInput & TimezoneGetTimezoneByCoordinatesHeaders;
+export interface TimeZoneGetTimeZoneByCoordinatesHeaderParam {
+  headers?: RawHttpHeadersInput & TimeZoneGetTimeZoneByCoordinatesHeaders;
 }
 
-export type TimezoneGetTimezoneByCoordinatesParameters = TimezoneGetTimezoneByCoordinatesQueryParam &
-  TimezoneGetTimezoneByCoordinatesHeaderParam &
+export type TimeZoneGetTimeZoneByCoordinatesParameters = TimeZoneGetTimeZoneByCoordinatesQueryParam &
+  TimeZoneGetTimeZoneByCoordinatesHeaderParam &
   RequestParameters;
-export type TimezoneGetWindowsTimezoneIdsParameters = RequestParameters;
-export type TimezoneGetIanaTimezoneIdsParameters = RequestParameters;
-export type TimezoneGetIanaVersionParameters = RequestParameters;
+export type TimeZoneGetWindowsTimezoneIdsParameters = RequestParameters;
+export type TimeZoneGetIanaTimezoneIdsParameters = RequestParameters;
+export type TimeZoneGetIanaVersionParameters = RequestParameters;
 
-export interface TimezoneConvertWindowsTimezoneToIanaQueryParamProperties {
+export interface TimeZoneConvertWindowsTimezoneToIanaQueryParamProperties {
   /** The Windows time zone ID. */
   query: string;
   /** Windows Time Zone territory code. */
   territory?: string;
 }
 
-export interface TimezoneConvertWindowsTimezoneToIanaQueryParam {
-  queryParameters: TimezoneConvertWindowsTimezoneToIanaQueryParamProperties;
+export interface TimeZoneConvertWindowsTimezoneToIanaQueryParam {
+  queryParameters: TimeZoneConvertWindowsTimezoneToIanaQueryParamProperties;
 }
 
-export type TimezoneConvertWindowsTimezoneToIanaParameters = TimezoneConvertWindowsTimezoneToIanaQueryParam &
+export type TimeZoneConvertWindowsTimezoneToIanaParameters = TimeZoneConvertWindowsTimezoneToIanaQueryParam &
   RequestParameters;

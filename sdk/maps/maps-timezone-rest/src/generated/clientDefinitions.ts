@@ -2,51 +2,51 @@
 // Licensed under the MIT license.
 
 import {
-  TimezoneGetTimezoneByIDParameters,
-  TimezoneGetTimezoneByCoordinatesParameters,
-  TimezoneGetWindowsTimezoneIdsParameters,
-  TimezoneGetIanaTimezoneIdsParameters,
-  TimezoneGetIanaVersionParameters,
-  TimezoneConvertWindowsTimezoneToIanaParameters
+  TimeZoneGetTimeZoneByIDParameters,
+  TimeZoneGetTimeZoneByCoordinatesParameters,
+  TimeZoneGetWindowsTimezoneIdsParameters,
+  TimeZoneGetIanaTimezoneIdsParameters,
+  TimeZoneGetIanaVersionParameters,
+  TimeZoneConvertWindowsTimezoneToIanaParameters
 } from "./parameters";
 import {
-  TimezoneGetTimezoneByID200Response,
-  TimezoneGetTimezoneByIDDefaultResponse,
-  TimezoneGetTimezoneByCoordinates200Response,
-  TimezoneGetTimezoneByCoordinatesDefaultResponse,
-  TimezoneGetWindowsTimezoneIds200Response,
-  TimezoneGetWindowsTimezoneIdsDefaultResponse,
-  TimezoneGetIanaTimezoneIds200Response,
-  TimezoneGetIanaTimezoneIdsDefaultResponse,
-  TimezoneGetIanaVersion200Response,
-  TimezoneGetIanaVersionDefaultResponse,
-  TimezoneConvertWindowsTimezoneToIana200Response,
-  TimezoneConvertWindowsTimezoneToIanaDefaultResponse
+  TimeZoneGetTimeZoneByID200Response,
+  TimeZoneGetTimeZoneByIDDefaultResponse,
+  TimeZoneGetTimeZoneByCoordinates200Response,
+  TimeZoneGetTimeZoneByCoordinatesDefaultResponse,
+  TimeZoneGetWindowsTimezoneIds200Response,
+  TimeZoneGetWindowsTimezoneIdsDefaultResponse,
+  TimeZoneGetIanaTimezoneIds200Response,
+  TimeZoneGetIanaTimezoneIdsDefaultResponse,
+  TimeZoneGetIanaVersion200Response,
+  TimeZoneGetIanaVersionDefaultResponse,
+  TimeZoneConvertWindowsTimezoneToIana200Response,
+  TimeZoneConvertWindowsTimezoneToIanaDefaultResponse
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
-export interface GetTimezoneByID {
+export interface GetTimeZoneByID {
   /**
    *
    * The `Get Timezone By ID` API is an HTTP `GET` request that returns current, historical, and future time zone information for the specified IANA time zone ID.
    */
   get(
-    options: TimezoneGetTimezoneByIDParameters
+    options: TimeZoneGetTimeZoneByIDParameters
   ): StreamableMethod<
-    TimezoneGetTimezoneByID200Response | TimezoneGetTimezoneByIDDefaultResponse
+    TimeZoneGetTimeZoneByID200Response | TimeZoneGetTimeZoneByIDDefaultResponse
   >;
 }
 
-export interface GetTimezoneByCoordinates {
+export interface GetTimeZoneByCoordinates {
   /**
    *
    * The `Get Timezone By Coordinates` API is an HTTP `GET` request that returns current, historical, and future time zone information for a specified latitude-longitude pair. In addition, the API provides sunset and sunrise times for a given location, with the exception of regions that observe solar days.
    */
   get(
-    options: TimezoneGetTimezoneByCoordinatesParameters
+    options: TimeZoneGetTimeZoneByCoordinatesParameters
   ): StreamableMethod<
-    | TimezoneGetTimezoneByCoordinates200Response
-    | TimezoneGetTimezoneByCoordinatesDefaultResponse
+    | TimeZoneGetTimeZoneByCoordinates200Response
+    | TimeZoneGetTimeZoneByCoordinatesDefaultResponse
   >;
 }
 
@@ -56,10 +56,10 @@ export interface GetWindowsTimezoneIds {
    * The `Get Windows Time Zones` API is an HTTP `GET` request that returns a full list of Windows Time Zone IDs.
    */
   get(
-    options?: TimezoneGetWindowsTimezoneIdsParameters
+    options?: TimeZoneGetWindowsTimezoneIdsParameters
   ): StreamableMethod<
-    | TimezoneGetWindowsTimezoneIds200Response
-    | TimezoneGetWindowsTimezoneIdsDefaultResponse
+    | TimeZoneGetWindowsTimezoneIds200Response
+    | TimeZoneGetWindowsTimezoneIdsDefaultResponse
   >;
 }
 
@@ -69,10 +69,10 @@ export interface GetIanaTimezoneIds {
    * The `Get IANA Time Zones` API is an HTTP `GET` request that returns a full list of Internet Assigned Numbers Authority (IANA) time zone IDs. Updates to the IANA service are reflected in the system within one day.
    */
   get(
-    options?: TimezoneGetIanaTimezoneIdsParameters
+    options?: TimeZoneGetIanaTimezoneIdsParameters
   ): StreamableMethod<
-    | TimezoneGetIanaTimezoneIds200Response
-    | TimezoneGetIanaTimezoneIdsDefaultResponse
+    | TimeZoneGetIanaTimezoneIds200Response
+    | TimeZoneGetIanaTimezoneIdsDefaultResponse
   >;
 }
 
@@ -82,9 +82,9 @@ export interface GetIanaVersion {
    * The `Get Time Zone IANA Version` API is an HTTP `GET` request that returns the current Internet Assigned Numbers Authority (IANA) version number as Metadata.
    */
   get(
-    options?: TimezoneGetIanaVersionParameters
+    options?: TimeZoneGetIanaVersionParameters
   ): StreamableMethod<
-    TimezoneGetIanaVersion200Response | TimezoneGetIanaVersionDefaultResponse
+    TimeZoneGetIanaVersion200Response | TimeZoneGetIanaVersionDefaultResponse
   >;
 }
 
@@ -94,21 +94,21 @@ export interface ConvertWindowsTimezoneToIana {
    * The `Get Windows to IANA Time Zone` API is an HTTP `GET` request that returns a corresponding Internet Assigned Numbers Authority (IANA) ID, given a valid Windows Time Zone ID. Multiple IANA IDs may be returned for a single Windows ID. It is possible to narrow these results by adding an optional territory parameter.
    */
   get(
-    options: TimezoneConvertWindowsTimezoneToIanaParameters
+    options: TimeZoneConvertWindowsTimezoneToIanaParameters
   ): StreamableMethod<
-    | TimezoneConvertWindowsTimezoneToIana200Response
-    | TimezoneConvertWindowsTimezoneToIanaDefaultResponse
+    | TimeZoneConvertWindowsTimezoneToIana200Response
+    | TimeZoneConvertWindowsTimezoneToIanaDefaultResponse
   >;
 }
 
 export interface Routes {
   /** Resource for '/timezone/byId/\{format\}' has methods for the following verbs: get */
-  (path: "/timezone/byId/{format}", format: "json"): GetTimezoneByID;
+  (path: "/timezone/byId/{format}", format: "json"): GetTimeZoneByID;
   /** Resource for '/timezone/byCoordinates/\{format\}' has methods for the following verbs: get */
   (
     path: "/timezone/byCoordinates/{format}",
     format: "json"
-  ): GetTimezoneByCoordinates;
+  ): GetTimeZoneByCoordinates;
   /** Resource for '/timezone/enumWindows/\{format\}' has methods for the following verbs: get */
   (
     path: "/timezone/enumWindows/{format}",

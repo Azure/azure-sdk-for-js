@@ -2,16 +2,16 @@
 // Licensed under the MIT license.
 
 /** This object is returned from a successful Timezone By ID call or By Coordinates call */
-export interface TimezoneResultOutput {
+export interface TimeZoneResultOutput {
   /** Version property */
   Version?: string;
   /** Reference Utc Timestamp property */
   ReferenceUtcTimestamp?: string;
   /** TimeZoneId array */
-  TimeZones?: Array<TimezoneIdOutput>;
+  TimeZones?: Array<TimeZoneIdOutput>;
 }
 
-export interface TimezoneIdOutput {
+export interface TimeZoneIdOutput {
   /** Id property */
   Id?: string;
   /**
@@ -23,7 +23,7 @@ export interface TimezoneIdOutput {
   /** An array of country/region records. Only returned when [options]=*zoneinfo* or *all*. */
   Countries?: Array<CountryRecordOutput>;
   /** Timezone names object. */
-  Names?: TimezoneNamesOutput;
+  Names?: TimeZoneNamesOutput;
   /** Details in effect at the local time. */
   ReferenceTime?: ReferenceTimeOutput;
   /** Representative point property */
@@ -41,7 +41,7 @@ export interface CountryRecordOutput {
 }
 
 /** Timezone names object. */
-export interface TimezoneNamesOutput {
+export interface TimeZoneNamesOutput {
   /** The ISO 639-1 language code of the Names */
   ISO6391LanguageCode?: string;
   /** Generic Name */
@@ -121,7 +121,7 @@ export interface ErrorAdditionalInfoOutput {
   info?: Record<string, unknown>;
 }
 
-export interface TimezoneWindowsOutput {
+export interface TimeZoneWindowsOutput {
   /** Windows Id property */
   WindowsId?: string;
   /** Territory property */
@@ -142,7 +142,7 @@ export interface IanaIdOutput {
 }
 
 /** This object is returned from a successful Timezone IANA Version call */
-export interface TimezoneIanaVersionResultOutput {
+export interface TimeZoneIanaVersionResultOutput {
   /** Version property */
   Version?: string;
 }

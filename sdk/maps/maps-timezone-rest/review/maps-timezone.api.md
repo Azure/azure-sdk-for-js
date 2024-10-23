@@ -16,7 +16,7 @@ import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface ConvertWindowsTimezoneToIana {
-    get(options: TimezoneConvertWindowsTimezoneToIanaParameters): StreamableMethod<TimezoneConvertWindowsTimezoneToIana200Response | TimezoneConvertWindowsTimezoneToIanaDefaultResponse>;
+    get(options: TimeZoneConvertWindowsTimezoneToIanaParameters): StreamableMethod<TimeZoneConvertWindowsTimezoneToIana200Response | TimeZoneConvertWindowsTimezoneToIanaDefaultResponse>;
 }
 
 // @public
@@ -47,27 +47,27 @@ export interface ErrorResponseOutput {
 
 // @public (undocumented)
 export interface GetIanaTimezoneIds {
-    get(options?: TimezoneGetIanaTimezoneIdsParameters): StreamableMethod<TimezoneGetIanaTimezoneIds200Response | TimezoneGetIanaTimezoneIdsDefaultResponse>;
+    get(options?: TimeZoneGetIanaTimezoneIdsParameters): StreamableMethod<TimeZoneGetIanaTimezoneIds200Response | TimeZoneGetIanaTimezoneIdsDefaultResponse>;
 }
 
 // @public (undocumented)
 export interface GetIanaVersion {
-    get(options?: TimezoneGetIanaVersionParameters): StreamableMethod<TimezoneGetIanaVersion200Response | TimezoneGetIanaVersionDefaultResponse>;
+    get(options?: TimeZoneGetIanaVersionParameters): StreamableMethod<TimeZoneGetIanaVersion200Response | TimeZoneGetIanaVersionDefaultResponse>;
 }
 
 // @public (undocumented)
-export interface GetTimezoneByCoordinates {
-    get(options: TimezoneGetTimezoneByCoordinatesParameters): StreamableMethod<TimezoneGetTimezoneByCoordinates200Response | TimezoneGetTimezoneByCoordinatesDefaultResponse>;
+export interface GetTimeZoneByCoordinates {
+    get(options: TimeZoneGetTimeZoneByCoordinatesParameters): StreamableMethod<TimeZoneGetTimeZoneByCoordinates200Response | TimeZoneGetTimeZoneByCoordinatesDefaultResponse>;
 }
 
 // @public (undocumented)
-export interface GetTimezoneByID {
-    get(options: TimezoneGetTimezoneByIDParameters): StreamableMethod<TimezoneGetTimezoneByID200Response | TimezoneGetTimezoneByIDDefaultResponse>;
+export interface GetTimeZoneByID {
+    get(options: TimeZoneGetTimeZoneByIDParameters): StreamableMethod<TimeZoneGetTimeZoneByID200Response | TimeZoneGetTimeZoneByIDDefaultResponse>;
 }
 
 // @public (undocumented)
 export interface GetWindowsTimezoneIds {
-    get(options?: TimezoneGetWindowsTimezoneIdsParameters): StreamableMethod<TimezoneGetWindowsTimezoneIds200Response | TimezoneGetWindowsTimezoneIdsDefaultResponse>;
+    get(options?: TimeZoneGetWindowsTimezoneIdsParameters): StreamableMethod<TimeZoneGetWindowsTimezoneIds200Response | TimeZoneGetWindowsTimezoneIdsDefaultResponse>;
 }
 
 // @public (undocumented)
@@ -79,22 +79,22 @@ export interface IanaIdOutput {
 }
 
 // @public (undocumented)
-export function isUnexpected(response: TimezoneGetTimezoneByID200Response | TimezoneGetTimezoneByIDDefaultResponse): response is TimezoneGetTimezoneByIDDefaultResponse;
+export function isUnexpected(response: TimeZoneGetTimeZoneByID200Response | TimeZoneGetTimeZoneByIDDefaultResponse): response is TimeZoneGetTimeZoneByIDDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TimezoneGetTimezoneByCoordinates200Response | TimezoneGetTimezoneByCoordinatesDefaultResponse): response is TimezoneGetTimezoneByCoordinatesDefaultResponse;
+export function isUnexpected(response: TimeZoneGetTimeZoneByCoordinates200Response | TimeZoneGetTimeZoneByCoordinatesDefaultResponse): response is TimeZoneGetTimeZoneByCoordinatesDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TimezoneGetWindowsTimezoneIds200Response | TimezoneGetWindowsTimezoneIdsDefaultResponse): response is TimezoneGetWindowsTimezoneIdsDefaultResponse;
+export function isUnexpected(response: TimeZoneGetWindowsTimezoneIds200Response | TimeZoneGetWindowsTimezoneIdsDefaultResponse): response is TimeZoneGetWindowsTimezoneIdsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TimezoneGetIanaTimezoneIds200Response | TimezoneGetIanaTimezoneIdsDefaultResponse): response is TimezoneGetIanaTimezoneIdsDefaultResponse;
+export function isUnexpected(response: TimeZoneGetIanaTimezoneIds200Response | TimeZoneGetIanaTimezoneIdsDefaultResponse): response is TimeZoneGetIanaTimezoneIdsDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TimezoneGetIanaVersion200Response | TimezoneGetIanaVersionDefaultResponse): response is TimezoneGetIanaVersionDefaultResponse;
+export function isUnexpected(response: TimeZoneGetIanaVersion200Response | TimeZoneGetIanaVersionDefaultResponse): response is TimeZoneGetIanaVersionDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: TimezoneConvertWindowsTimezoneToIana200Response | TimezoneConvertWindowsTimezoneToIanaDefaultResponse): response is TimezoneConvertWindowsTimezoneToIanaDefaultResponse;
+export function isUnexpected(response: TimeZoneConvertWindowsTimezoneToIana200Response | TimeZoneConvertWindowsTimezoneToIanaDefaultResponse): response is TimeZoneConvertWindowsTimezoneToIanaDefaultResponse;
 
 // @public
 function MapsTimeZone(credential: AzureKeyCredential, options?: ClientOptions): MapsTimeZoneClient;
@@ -131,8 +131,8 @@ export interface RepresentativePointOutput {
 
 // @public (undocumented)
 export interface Routes {
-    (path: "/timezone/byId/{format}", format: "json"): GetTimezoneByID;
-    (path: "/timezone/byCoordinates/{format}", format: "json"): GetTimezoneByCoordinates;
+    (path: "/timezone/byId/{format}", format: "json"): GetTimeZoneByID;
+    (path: "/timezone/byCoordinates/{format}", format: "json"): GetTimeZoneByCoordinates;
     (path: "/timezone/enumWindows/{format}", format: "json"): GetWindowsTimezoneIds;
     (path: "/timezone/enumIana/{format}", format: "json"): GetIanaTimezoneIds;
     (path: "/timezone/ianaVersion/{format}", format: "json"): GetIanaVersion;
@@ -149,7 +149,7 @@ export interface TimeTransitionOutput {
 }
 
 // @public
-export interface TimezoneConvertWindowsTimezoneToIana200Response extends HttpResponse {
+export interface TimeZoneConvertWindowsTimezoneToIana200Response extends HttpResponse {
     // (undocumented)
     body: Array<IanaIdOutput>;
     // (undocumented)
@@ -157,7 +157,7 @@ export interface TimezoneConvertWindowsTimezoneToIana200Response extends HttpRes
 }
 
 // @public
-export interface TimezoneConvertWindowsTimezoneToIanaDefaultResponse extends HttpResponse {
+export interface TimeZoneConvertWindowsTimezoneToIanaDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
@@ -165,22 +165,22 @@ export interface TimezoneConvertWindowsTimezoneToIanaDefaultResponse extends Htt
 }
 
 // @public (undocumented)
-export type TimezoneConvertWindowsTimezoneToIanaParameters = TimezoneConvertWindowsTimezoneToIanaQueryParam & RequestParameters;
+export type TimeZoneConvertWindowsTimezoneToIanaParameters = TimeZoneConvertWindowsTimezoneToIanaQueryParam & RequestParameters;
 
 // @public (undocumented)
-export interface TimezoneConvertWindowsTimezoneToIanaQueryParam {
+export interface TimeZoneConvertWindowsTimezoneToIanaQueryParam {
     // (undocumented)
-    queryParameters: TimezoneConvertWindowsTimezoneToIanaQueryParamProperties;
+    queryParameters: TimeZoneConvertWindowsTimezoneToIanaQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface TimezoneConvertWindowsTimezoneToIanaQueryParamProperties {
+export interface TimeZoneConvertWindowsTimezoneToIanaQueryParamProperties {
     query: string;
     territory?: string;
 }
 
 // @public
-export interface TimezoneGetIanaTimezoneIds200Response extends HttpResponse {
+export interface TimeZoneGetIanaTimezoneIds200Response extends HttpResponse {
     // (undocumented)
     body: Array<IanaIdOutput>;
     // (undocumented)
@@ -188,7 +188,7 @@ export interface TimezoneGetIanaTimezoneIds200Response extends HttpResponse {
 }
 
 // @public
-export interface TimezoneGetIanaTimezoneIdsDefaultResponse extends HttpResponse {
+export interface TimeZoneGetIanaTimezoneIdsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
@@ -196,18 +196,18 @@ export interface TimezoneGetIanaTimezoneIdsDefaultResponse extends HttpResponse 
 }
 
 // @public (undocumented)
-export type TimezoneGetIanaTimezoneIdsParameters = RequestParameters;
+export type TimeZoneGetIanaTimezoneIdsParameters = RequestParameters;
 
 // @public
-export interface TimezoneGetIanaVersion200Response extends HttpResponse {
+export interface TimeZoneGetIanaVersion200Response extends HttpResponse {
     // (undocumented)
-    body: TimezoneIanaVersionResultOutput;
+    body: TimeZoneIanaVersionResultOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public
-export interface TimezoneGetIanaVersionDefaultResponse extends HttpResponse {
+export interface TimeZoneGetIanaVersionDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
@@ -215,18 +215,18 @@ export interface TimezoneGetIanaVersionDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export type TimezoneGetIanaVersionParameters = RequestParameters;
+export type TimeZoneGetIanaVersionParameters = RequestParameters;
 
 // @public
-export interface TimezoneGetTimezoneByCoordinates200Response extends HttpResponse {
+export interface TimeZoneGetTimeZoneByCoordinates200Response extends HttpResponse {
     // (undocumented)
-    body: TimezoneResultOutput;
+    body: TimeZoneResultOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public
-export interface TimezoneGetTimezoneByCoordinatesDefaultResponse extends HttpResponse {
+export interface TimeZoneGetTimeZoneByCoordinatesDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
@@ -234,27 +234,27 @@ export interface TimezoneGetTimezoneByCoordinatesDefaultResponse extends HttpRes
 }
 
 // @public (undocumented)
-export interface TimezoneGetTimezoneByCoordinatesHeaderParam {
+export interface TimeZoneGetTimeZoneByCoordinatesHeaderParam {
     // (undocumented)
-    headers?: RawHttpHeadersInput & TimezoneGetTimezoneByCoordinatesHeaders;
+    headers?: RawHttpHeadersInput & TimeZoneGetTimeZoneByCoordinatesHeaders;
 }
 
 // @public (undocumented)
-export interface TimezoneGetTimezoneByCoordinatesHeaders {
+export interface TimeZoneGetTimeZoneByCoordinatesHeaders {
     "Accept-Language"?: string;
 }
 
 // @public (undocumented)
-export type TimezoneGetTimezoneByCoordinatesParameters = TimezoneGetTimezoneByCoordinatesQueryParam & TimezoneGetTimezoneByCoordinatesHeaderParam & RequestParameters;
+export type TimeZoneGetTimeZoneByCoordinatesParameters = TimeZoneGetTimeZoneByCoordinatesQueryParam & TimeZoneGetTimeZoneByCoordinatesHeaderParam & RequestParameters;
 
 // @public (undocumented)
-export interface TimezoneGetTimezoneByCoordinatesQueryParam {
+export interface TimeZoneGetTimeZoneByCoordinatesQueryParam {
     // (undocumented)
-    queryParameters: TimezoneGetTimezoneByCoordinatesQueryParamProperties;
+    queryParameters: TimeZoneGetTimeZoneByCoordinatesQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface TimezoneGetTimezoneByCoordinatesQueryParamProperties {
+export interface TimeZoneGetTimeZoneByCoordinatesQueryParamProperties {
     options?: "none" | "zoneInfo" | "transitions" | "all";
     query: Array<number>;
     timeStamp?: Date | string;
@@ -263,15 +263,15 @@ export interface TimezoneGetTimezoneByCoordinatesQueryParamProperties {
 }
 
 // @public
-export interface TimezoneGetTimezoneByID200Response extends HttpResponse {
+export interface TimeZoneGetTimeZoneByID200Response extends HttpResponse {
     // (undocumented)
-    body: TimezoneResultOutput;
+    body: TimeZoneResultOutput;
     // (undocumented)
     status: "200";
 }
 
 // @public
-export interface TimezoneGetTimezoneByIDDefaultResponse extends HttpResponse {
+export interface TimeZoneGetTimeZoneByIDDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
@@ -279,27 +279,27 @@ export interface TimezoneGetTimezoneByIDDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface TimezoneGetTimezoneByIDHeaderParam {
+export interface TimeZoneGetTimeZoneByIDHeaderParam {
     // (undocumented)
-    headers?: RawHttpHeadersInput & TimezoneGetTimezoneByIDHeaders;
+    headers?: RawHttpHeadersInput & TimeZoneGetTimeZoneByIDHeaders;
 }
 
 // @public (undocumented)
-export interface TimezoneGetTimezoneByIDHeaders {
+export interface TimeZoneGetTimeZoneByIDHeaders {
     "Accept-Language"?: string;
 }
 
 // @public (undocumented)
-export type TimezoneGetTimezoneByIDParameters = TimezoneGetTimezoneByIDQueryParam & TimezoneGetTimezoneByIDHeaderParam & RequestParameters;
+export type TimeZoneGetTimeZoneByIDParameters = TimeZoneGetTimeZoneByIDQueryParam & TimeZoneGetTimeZoneByIDHeaderParam & RequestParameters;
 
 // @public (undocumented)
-export interface TimezoneGetTimezoneByIDQueryParam {
+export interface TimeZoneGetTimeZoneByIDQueryParam {
     // (undocumented)
-    queryParameters: TimezoneGetTimezoneByIDQueryParamProperties;
+    queryParameters: TimeZoneGetTimeZoneByIDQueryParamProperties;
 }
 
 // @public (undocumented)
-export interface TimezoneGetTimezoneByIDQueryParamProperties {
+export interface TimeZoneGetTimeZoneByIDQueryParamProperties {
     options?: "none" | "zoneInfo" | "transitions" | "all";
     query: string;
     timeStamp?: Date | string;
@@ -308,15 +308,15 @@ export interface TimezoneGetTimezoneByIDQueryParamProperties {
 }
 
 // @public
-export interface TimezoneGetWindowsTimezoneIds200Response extends HttpResponse {
+export interface TimeZoneGetWindowsTimezoneIds200Response extends HttpResponse {
     // (undocumented)
-    body: Array<TimezoneWindowsOutput>;
+    body: Array<TimeZoneWindowsOutput>;
     // (undocumented)
     status: "200";
 }
 
 // @public
-export interface TimezoneGetWindowsTimezoneIdsDefaultResponse extends HttpResponse {
+export interface TimeZoneGetWindowsTimezoneIdsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponseOutput;
     // (undocumented)
@@ -324,26 +324,26 @@ export interface TimezoneGetWindowsTimezoneIdsDefaultResponse extends HttpRespon
 }
 
 // @public (undocumented)
-export type TimezoneGetWindowsTimezoneIdsParameters = RequestParameters;
+export type TimeZoneGetWindowsTimezoneIdsParameters = RequestParameters;
 
 // @public
-export interface TimezoneIanaVersionResultOutput {
+export interface TimeZoneIanaVersionResultOutput {
     Version?: string;
 }
 
 // @public (undocumented)
-export interface TimezoneIdOutput {
+export interface TimeZoneIdOutput {
     Aliases?: Array<string>;
     Countries?: Array<CountryRecordOutput>;
     Id?: string;
-    Names?: TimezoneNamesOutput;
+    Names?: TimeZoneNamesOutput;
     ReferenceTime?: ReferenceTimeOutput;
     RepresentativePoint?: RepresentativePointOutput;
     TimeTransitions?: Array<TimeTransitionOutput>;
 }
 
 // @public
-export interface TimezoneNamesOutput {
+export interface TimeZoneNamesOutput {
     Daylight?: string;
     Generic?: string;
     ISO6391LanguageCode?: string;
@@ -351,14 +351,14 @@ export interface TimezoneNamesOutput {
 }
 
 // @public
-export interface TimezoneResultOutput {
+export interface TimeZoneResultOutput {
     ReferenceUtcTimestamp?: string;
-    TimeZones?: Array<TimezoneIdOutput>;
+    TimeZones?: Array<TimeZoneIdOutput>;
     Version?: string;
 }
 
 // @public (undocumented)
-export interface TimezoneWindowsOutput {
+export interface TimeZoneWindowsOutput {
     IanaIds?: Array<string>;
     Territory?: string;
     WindowsId?: string;

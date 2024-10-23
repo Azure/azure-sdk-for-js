@@ -3,27 +3,27 @@
 
 import { HttpResponse } from "@azure-rest/core-client";
 import {
-  TimezoneResultOutput,
+  TimeZoneResultOutput,
   ErrorResponseOutput,
-  TimezoneWindowsOutput,
+  TimeZoneWindowsOutput,
   IanaIdOutput,
-  TimezoneIanaVersionResultOutput
+  TimeZoneIanaVersionResultOutput
 } from "./outputModels";
 
 /**
  *
  * The `Get Timezone By ID` API is an HTTP `GET` request that returns current, historical, and future time zone information for the specified IANA time zone ID.
  */
-export interface TimezoneGetTimezoneByID200Response extends HttpResponse {
+export interface TimeZoneGetTimeZoneByID200Response extends HttpResponse {
   status: "200";
-  body: TimezoneResultOutput;
+  body: TimeZoneResultOutput;
 }
 
 /**
  *
  * The `Get Timezone By ID` API is an HTTP `GET` request that returns current, historical, and future time zone information for the specified IANA time zone ID.
  */
-export interface TimezoneGetTimezoneByIDDefaultResponse extends HttpResponse {
+export interface TimeZoneGetTimeZoneByIDDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -32,17 +32,17 @@ export interface TimezoneGetTimezoneByIDDefaultResponse extends HttpResponse {
  *
  * The `Get Timezone By Coordinates` API is an HTTP `GET` request that returns current, historical, and future time zone information for a specified latitude-longitude pair. In addition, the API provides sunset and sunrise times for a given location, with the exception of regions that observe solar days.
  */
-export interface TimezoneGetTimezoneByCoordinates200Response
+export interface TimeZoneGetTimeZoneByCoordinates200Response
   extends HttpResponse {
   status: "200";
-  body: TimezoneResultOutput;
+  body: TimeZoneResultOutput;
 }
 
 /**
  *
  * The `Get Timezone By Coordinates` API is an HTTP `GET` request that returns current, historical, and future time zone information for a specified latitude-longitude pair. In addition, the API provides sunset and sunrise times for a given location, with the exception of regions that observe solar days.
  */
-export interface TimezoneGetTimezoneByCoordinatesDefaultResponse
+export interface TimeZoneGetTimeZoneByCoordinatesDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
@@ -52,16 +52,16 @@ export interface TimezoneGetTimezoneByCoordinatesDefaultResponse
  *
  * The `Get Windows Time Zones` API is an HTTP `GET` request that returns a full list of Windows Time Zone IDs.
  */
-export interface TimezoneGetWindowsTimezoneIds200Response extends HttpResponse {
+export interface TimeZoneGetWindowsTimezoneIds200Response extends HttpResponse {
   status: "200";
-  body: Array<TimezoneWindowsOutput>;
+  body: Array<TimeZoneWindowsOutput>;
 }
 
 /**
  *
  * The `Get Windows Time Zones` API is an HTTP `GET` request that returns a full list of Windows Time Zone IDs.
  */
-export interface TimezoneGetWindowsTimezoneIdsDefaultResponse
+export interface TimeZoneGetWindowsTimezoneIdsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
@@ -71,7 +71,7 @@ export interface TimezoneGetWindowsTimezoneIdsDefaultResponse
  *
  * The `Get IANA Time Zones` API is an HTTP `GET` request that returns a full list of Internet Assigned Numbers Authority (IANA) time zone IDs. Updates to the IANA service are reflected in the system within one day.
  */
-export interface TimezoneGetIanaTimezoneIds200Response extends HttpResponse {
+export interface TimeZoneGetIanaTimezoneIds200Response extends HttpResponse {
   status: "200";
   body: Array<IanaIdOutput>;
 }
@@ -80,7 +80,7 @@ export interface TimezoneGetIanaTimezoneIds200Response extends HttpResponse {
  *
  * The `Get IANA Time Zones` API is an HTTP `GET` request that returns a full list of Internet Assigned Numbers Authority (IANA) time zone IDs. Updates to the IANA service are reflected in the system within one day.
  */
-export interface TimezoneGetIanaTimezoneIdsDefaultResponse
+export interface TimeZoneGetIanaTimezoneIdsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
@@ -90,16 +90,16 @@ export interface TimezoneGetIanaTimezoneIdsDefaultResponse
  *
  * The `Get Time Zone IANA Version` API is an HTTP `GET` request that returns the current Internet Assigned Numbers Authority (IANA) version number as Metadata.
  */
-export interface TimezoneGetIanaVersion200Response extends HttpResponse {
+export interface TimeZoneGetIanaVersion200Response extends HttpResponse {
   status: "200";
-  body: TimezoneIanaVersionResultOutput;
+  body: TimeZoneIanaVersionResultOutput;
 }
 
 /**
  *
  * The `Get Time Zone IANA Version` API is an HTTP `GET` request that returns the current Internet Assigned Numbers Authority (IANA) version number as Metadata.
  */
-export interface TimezoneGetIanaVersionDefaultResponse extends HttpResponse {
+export interface TimeZoneGetIanaVersionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;
 }
@@ -108,7 +108,7 @@ export interface TimezoneGetIanaVersionDefaultResponse extends HttpResponse {
  *
  * The `Get Windows to IANA Time Zone` API is an HTTP `GET` request that returns a corresponding Internet Assigned Numbers Authority (IANA) ID, given a valid Windows Time Zone ID. Multiple IANA IDs may be returned for a single Windows ID. It is possible to narrow these results by adding an optional territory parameter.
  */
-export interface TimezoneConvertWindowsTimezoneToIana200Response
+export interface TimeZoneConvertWindowsTimezoneToIana200Response
   extends HttpResponse {
   status: "200";
   body: Array<IanaIdOutput>;
@@ -118,7 +118,7 @@ export interface TimezoneConvertWindowsTimezoneToIana200Response
  *
  * The `Get Windows to IANA Time Zone` API is an HTTP `GET` request that returns a corresponding Internet Assigned Numbers Authority (IANA) ID, given a valid Windows Time Zone ID. Multiple IANA IDs may be returned for a single Windows ID. It is possible to narrow these results by adding an optional territory parameter.
  */
-export interface TimezoneConvertWindowsTimezoneToIanaDefaultResponse
+export interface TimeZoneConvertWindowsTimezoneToIanaDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponseOutput;

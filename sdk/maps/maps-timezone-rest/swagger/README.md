@@ -44,4 +44,82 @@ directive:
   where: $.securityDefinitions
   transform: |
     $["SharedKey"]["in"] = "header";
+  
+# Rename all definitions
+- from: swagger-document
+  where: $.definitions.TimezoneResult
+  transform: |
+    $["x-ms-client-name"] = "TimeZoneResult"
+
+- from: swagger-document
+  where: $.definitions.TimezoneEnumWindowsResult
+  transform: |
+    $["x-ms-client-name"] = "TimeZoneEnumWindowsResult"
+
+- from: swagger-document
+  where: $.definitions.TimezoneWindows
+  transform: |
+    $["x-ms-client-name"] = "TimeZoneWindows"
+
+- from: swagger-document
+  where: $.definitions.TimezoneEnumIanaResult
+  transform: |
+    $["x-ms-client-name"] = "TimeZoneEnumIanaResult"
+
+- from: swagger-document
+  where: $.definitions.TimezoneIanaVersionResult
+  transform: |
+    $["x-ms-client-name"] = "TimeZoneIanaVersionResult"
+
+- from: swagger-document
+  where: $.definitions.TimezoneWindowsToIanaResult
+  transform: |
+    $["x-ms-client-name"] = "TimeZoneWindowsToIanaResult"
+
+- from: swagger-document
+  where: $.definitions.TimezoneIds
+  transform: |
+    $["x-ms-client-name"] = "TimeZoneIds"
+
+- from: swagger-document
+  where: $.definitions.TimezoneId
+  transform: |
+    $["x-ms-client-name"] = "TimeZoneId"
+
+- from: swagger-document
+  where: $.definitions.TimezoneNames
+  transform: |
+    $["x-ms-client-name"] = "TimeZoneNames"
+
+# Rename all operation IDs
+- from: swagger-document
+  where: $.paths["/timezone/byId/{format}"].get
+  transform: |
+    $.operationId = "TimeZone_GetTimeZoneByID";
+
+- from: swagger-document
+  where: $.paths["/timezone/byCoordinates/{format}"].get
+  transform: |
+    $.operationId = "TimeZone_GetTimeZoneByCoordinates";
+
+- from: swagger-document
+  where: $.paths["/timezone/enumWindows/{format}"].get
+  transform: |
+    $.operationId = "TimeZone_GetTimeZoneEnumWindows";
+
+- from: swagger-document
+  where: $.paths["/timezone/enumIana/{format}"].get
+  transform: |
+    $.operationId = "TimeZone_GetTimeZoneEnumIANA";
+
+- from: swagger-document
+  where: $.paths["/timezone/ianaVersion/{format}"].get
+  transform: |
+    $.operationId = "TimeZone_GetIANAVersion";
+
+- from: swagger-document
+  where: $.paths["/timezone/windowsToIana/{format}"].get
+  transform: |
+    $.operationId = "TimeZone_ConvertWindowsTimeZoneToIANA";
+
 ```

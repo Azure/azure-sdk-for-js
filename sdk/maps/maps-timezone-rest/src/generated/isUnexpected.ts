@@ -2,18 +2,18 @@
 // Licensed under the MIT license.
 
 import {
-  TimezoneGetTimezoneByID200Response,
-  TimezoneGetTimezoneByIDDefaultResponse,
-  TimezoneGetTimezoneByCoordinates200Response,
-  TimezoneGetTimezoneByCoordinatesDefaultResponse,
-  TimezoneGetWindowsTimezoneIds200Response,
-  TimezoneGetWindowsTimezoneIdsDefaultResponse,
-  TimezoneGetIanaTimezoneIds200Response,
-  TimezoneGetIanaTimezoneIdsDefaultResponse,
-  TimezoneGetIanaVersion200Response,
-  TimezoneGetIanaVersionDefaultResponse,
-  TimezoneConvertWindowsTimezoneToIana200Response,
-  TimezoneConvertWindowsTimezoneToIanaDefaultResponse
+  TimeZoneGetTimeZoneByID200Response,
+  TimeZoneGetTimeZoneByIDDefaultResponse,
+  TimeZoneGetTimeZoneByCoordinates200Response,
+  TimeZoneGetTimeZoneByCoordinatesDefaultResponse,
+  TimeZoneGetWindowsTimezoneIds200Response,
+  TimeZoneGetWindowsTimezoneIdsDefaultResponse,
+  TimeZoneGetIanaTimezoneIds200Response,
+  TimeZoneGetIanaTimezoneIdsDefaultResponse,
+  TimeZoneGetIanaVersion200Response,
+  TimeZoneGetIanaVersionDefaultResponse,
+  TimeZoneConvertWindowsTimezoneToIana200Response,
+  TimeZoneConvertWindowsTimezoneToIanaDefaultResponse
 } from "./responses";
 
 const responseMap: Record<string, string[]> = {
@@ -27,55 +27,55 @@ const responseMap: Record<string, string[]> = {
 
 export function isUnexpected(
   response:
-    | TimezoneGetTimezoneByID200Response
-    | TimezoneGetTimezoneByIDDefaultResponse
-): response is TimezoneGetTimezoneByIDDefaultResponse;
+    | TimeZoneGetTimeZoneByID200Response
+    | TimeZoneGetTimeZoneByIDDefaultResponse
+): response is TimeZoneGetTimeZoneByIDDefaultResponse;
 export function isUnexpected(
   response:
-    | TimezoneGetTimezoneByCoordinates200Response
-    | TimezoneGetTimezoneByCoordinatesDefaultResponse
-): response is TimezoneGetTimezoneByCoordinatesDefaultResponse;
+    | TimeZoneGetTimeZoneByCoordinates200Response
+    | TimeZoneGetTimeZoneByCoordinatesDefaultResponse
+): response is TimeZoneGetTimeZoneByCoordinatesDefaultResponse;
 export function isUnexpected(
   response:
-    | TimezoneGetWindowsTimezoneIds200Response
-    | TimezoneGetWindowsTimezoneIdsDefaultResponse
-): response is TimezoneGetWindowsTimezoneIdsDefaultResponse;
+    | TimeZoneGetWindowsTimezoneIds200Response
+    | TimeZoneGetWindowsTimezoneIdsDefaultResponse
+): response is TimeZoneGetWindowsTimezoneIdsDefaultResponse;
 export function isUnexpected(
   response:
-    | TimezoneGetIanaTimezoneIds200Response
-    | TimezoneGetIanaTimezoneIdsDefaultResponse
-): response is TimezoneGetIanaTimezoneIdsDefaultResponse;
+    | TimeZoneGetIanaTimezoneIds200Response
+    | TimeZoneGetIanaTimezoneIdsDefaultResponse
+): response is TimeZoneGetIanaTimezoneIdsDefaultResponse;
 export function isUnexpected(
   response:
-    | TimezoneGetIanaVersion200Response
-    | TimezoneGetIanaVersionDefaultResponse
-): response is TimezoneGetIanaVersionDefaultResponse;
+    | TimeZoneGetIanaVersion200Response
+    | TimeZoneGetIanaVersionDefaultResponse
+): response is TimeZoneGetIanaVersionDefaultResponse;
 export function isUnexpected(
   response:
-    | TimezoneConvertWindowsTimezoneToIana200Response
-    | TimezoneConvertWindowsTimezoneToIanaDefaultResponse
-): response is TimezoneConvertWindowsTimezoneToIanaDefaultResponse;
+    | TimeZoneConvertWindowsTimezoneToIana200Response
+    | TimeZoneConvertWindowsTimezoneToIanaDefaultResponse
+): response is TimeZoneConvertWindowsTimezoneToIanaDefaultResponse;
 export function isUnexpected(
   response:
-    | TimezoneGetTimezoneByID200Response
-    | TimezoneGetTimezoneByIDDefaultResponse
-    | TimezoneGetTimezoneByCoordinates200Response
-    | TimezoneGetTimezoneByCoordinatesDefaultResponse
-    | TimezoneGetWindowsTimezoneIds200Response
-    | TimezoneGetWindowsTimezoneIdsDefaultResponse
-    | TimezoneGetIanaTimezoneIds200Response
-    | TimezoneGetIanaTimezoneIdsDefaultResponse
-    | TimezoneGetIanaVersion200Response
-    | TimezoneGetIanaVersionDefaultResponse
-    | TimezoneConvertWindowsTimezoneToIana200Response
-    | TimezoneConvertWindowsTimezoneToIanaDefaultResponse
+    | TimeZoneGetTimeZoneByID200Response
+    | TimeZoneGetTimeZoneByIDDefaultResponse
+    | TimeZoneGetTimeZoneByCoordinates200Response
+    | TimeZoneGetTimeZoneByCoordinatesDefaultResponse
+    | TimeZoneGetWindowsTimezoneIds200Response
+    | TimeZoneGetWindowsTimezoneIdsDefaultResponse
+    | TimeZoneGetIanaTimezoneIds200Response
+    | TimeZoneGetIanaTimezoneIdsDefaultResponse
+    | TimeZoneGetIanaVersion200Response
+    | TimeZoneGetIanaVersionDefaultResponse
+    | TimeZoneConvertWindowsTimezoneToIana200Response
+    | TimeZoneConvertWindowsTimezoneToIanaDefaultResponse
 ): response is
-  | TimezoneGetTimezoneByIDDefaultResponse
-  | TimezoneGetTimezoneByCoordinatesDefaultResponse
-  | TimezoneGetWindowsTimezoneIdsDefaultResponse
-  | TimezoneGetIanaTimezoneIdsDefaultResponse
-  | TimezoneGetIanaVersionDefaultResponse
-  | TimezoneConvertWindowsTimezoneToIanaDefaultResponse {
+  | TimeZoneGetTimeZoneByIDDefaultResponse
+  | TimeZoneGetTimeZoneByCoordinatesDefaultResponse
+  | TimeZoneGetWindowsTimezoneIdsDefaultResponse
+  | TimeZoneGetIanaTimezoneIdsDefaultResponse
+  | TimeZoneGetIanaVersionDefaultResponse
+  | TimeZoneConvertWindowsTimezoneToIanaDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
