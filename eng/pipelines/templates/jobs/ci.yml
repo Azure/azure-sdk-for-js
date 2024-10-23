@@ -80,11 +80,6 @@ jobs:
               parameters:
                 ServiceDirectory: ${{parameters.ServiceDirectory}}
 
-            - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
-              parameters:
-                PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
-                Artifacts: ${{ parameters.Artifacts }}
-
             - task: Powershell@2
               inputs:
                 pwsh: true

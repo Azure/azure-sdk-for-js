@@ -37,7 +37,7 @@ steps:
       $packageProperties = Get-ChildItem -Recurse "${{ parameters.PackageInfo }}" *.json `
         | Foreach-Object { Get-Content -Raw -Path $_.FullName | ConvertFrom-Json }
 
-      $packageSet = "$(ArtifactPackagesNames)" -split ","
+      $packageSet = "$(ArtifactPackageNames)" -split ","
 
       $changedServicesArray = $packageProperties | Foreach-Object { Get-Content -Raw -Path $_.FullName | ConvertFrom-Json } `
         | Where-Object { $packageSet -contains $_.ArtifactName }
