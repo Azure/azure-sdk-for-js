@@ -4,15 +4,15 @@
 
 ```ts
 
-import { CommonClientOptions } from '@azure/core-client';
-import { OperationOptions } from '@azure/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { OperationOptions } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface AccessControlClientOptions extends CommonClientOptions {
+export interface AccessControlClientOptions extends ClientOptions {
     disableChallengeResourceVerification?: boolean;
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }
@@ -53,46 +53,35 @@ export function isBooleanSetting(setting: KeyVaultSetting): setting is BooleanKe
 // @public
 export class KeyVaultAccessControlClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: AccessControlClientOptions);
-    createRoleAssignment(roleScope: KeyVaultRoleScope, name: string, roleDefinitionId: string, principalId: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    deleteRoleAssignment(roleScope: KeyVaultRoleScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<void>;
-    deleteRoleDefinition(roleScope: KeyVaultRoleScope, name: string, options?: DeleteRoleDefinitionOptions): Promise<void>;
-    getRoleAssignment(roleScope: KeyVaultRoleScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    getRoleDefinition(roleScope: KeyVaultRoleScope, name: string, options?: GetRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
-    listRoleAssignments(roleScope: KeyVaultRoleScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
-    listRoleDefinitions(roleScope: KeyVaultRoleScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
-    setRoleDefinition(roleScope: KeyVaultRoleScope, options?: SetRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
+    createRoleAssignment(roleScope: KnownKeyVaultRoleScope, name: string, roleDefinitionId: string, principalId: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    deleteRoleAssignment(roleScope: KnownKeyVaultRoleScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<void>;
+    deleteRoleDefinition(roleScope: KnownKeyVaultRoleScope, name: string, options?: DeleteRoleDefinitionOptions): Promise<void>;
+    getRoleAssignment(roleScope: KnownKeyVaultRoleScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    getRoleDefinition(roleScope: KnownKeyVaultRoleScope, name: string, options?: GetRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
+    listRoleAssignments(roleScope: KnownKeyVaultRoleScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
+    listRoleDefinitions(roleScope: KnownKeyVaultRoleScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
+    setRoleDefinition(roleScope: KnownKeyVaultRoleScope, options?: SetRoleDefinitionOptions): Promise<KeyVaultRoleDefinition>;
     readonly vaultUrl: string;
-}
-
-// @public
-export interface KeyVaultAdminPollOperationState<TResult> extends PollOperationState<TResult> {
-    endTime?: Date;
-    jobId?: string;
-    startTime?: Date;
-    status?: string;
-    statusDetails?: string;
 }
 
 // @public
 export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, options?: KeyVaultBackupClientOptions);
-    beginBackup(blobStorageUri: string, sasToken: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
-    beginBackup(blobStorageUri: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
-    beginRestore(folderUri: string, sasToken: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
-    beginRestore(folderUri: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
-    beginSelectiveKeyRestore(keyName: string, folderUri: string, sasToken: string, options?: KeyVaultBeginSelectiveKeyRestoreOptions): Promise<PollerLike<KeyVaultSelectiveKeyRestoreOperationState, KeyVaultSelectiveKeyRestoreResult>>;
-    beginSelectiveKeyRestore(keyName: string, folderUri: string, options?: KeyVaultBeginSelectiveKeyRestoreOptions): Promise<PollerLike<KeyVaultSelectiveKeyRestoreOperationState, KeyVaultSelectiveKeyRestoreResult>>;
+    beginBackup(blobStorageUri: string, sasToken: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<OperationState<KeyVaultBackupResult>, KeyVaultBackupResult>>;
+    beginBackup(blobStorageUri: string, options?: KeyVaultBeginBackupOptions): Promise<PollerLike<OperationState<KeyVaultBackupResult>, KeyVaultBackupResult>>;
+    beginRestore(folderUri: string, sasToken: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<OperationState<KeyVaultRestoreResult>, KeyVaultRestoreResult>>;
+    beginRestore(folderUri: string, options?: KeyVaultBeginRestoreOptions): Promise<PollerLike<OperationState<KeyVaultRestoreResult>, KeyVaultRestoreResult>>;
+    // Warning: (ae-forgotten-export) The symbol "SelectiveKeyRestoreOperation" needs to be exported by the entry point index.d.ts
+    beginSelectiveKeyRestore(keyName: string, folderUri: string, sasToken: string, options?: KeyVaultBeginSelectiveKeyRestoreOptions): Promise<PollerLike<OperationState<SelectiveKeyRestoreOperation>, SelectiveKeyRestoreOperation>>;
+    beginSelectiveKeyRestore(keyName: string, folderUri: string, options?: KeyVaultBeginSelectiveKeyRestoreOptions): Promise<PollerLike<OperationState<SelectiveKeyRestoreOperation>, SelectiveKeyRestoreOperation>>;
     readonly vaultUrl: string;
 }
 
 // @public
-export interface KeyVaultBackupClientOptions extends CommonClientOptions {
+export interface KeyVaultBackupClientOptions extends ClientOptions {
     disableChallengeResourceVerification?: boolean;
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }
-
-// @public
-export type KeyVaultBackupOperationState = KeyVaultAdminPollOperationState<KeyVaultBackupResult>;
 
 // @public
 export interface KeyVaultBackupPollerOptions extends OperationOptions {
@@ -120,18 +109,11 @@ export interface KeyVaultBeginSelectiveKeyRestoreOptions extends KeyVaultBackupP
 }
 
 // @public
-export type KeyVaultDataAction = string;
-
-// @public
 export interface KeyVaultPermission {
     actions?: string[];
-    dataActions?: KeyVaultDataAction[];
+    dataActions?: KnownKeyVaultDataAction[];
     notActions?: string[];
-    notDataActions?: KeyVaultDataAction[];
-}
-
-// @public
-export interface KeyVaultRestoreOperationState extends KeyVaultAdminPollOperationState<KeyVaultRestoreResult> {
+    notDataActions?: KnownKeyVaultDataAction[];
 }
 
 // @public
@@ -152,7 +134,7 @@ export interface KeyVaultRoleAssignment {
 export interface KeyVaultRoleAssignmentProperties {
     principalId: string;
     roleDefinitionId: string;
-    scope?: KeyVaultRoleScope;
+    scope?: KnownKeyVaultRoleScope;
 }
 
 // @public
@@ -165,13 +147,6 @@ export interface KeyVaultRoleDefinition {
     permissions: KeyVaultPermission[];
     roleName: string;
     roleType: string;
-}
-
-// @public
-export type KeyVaultRoleScope = string;
-
-// @public
-export interface KeyVaultSelectiveKeyRestoreOperationState extends KeyVaultAdminPollOperationState<KeyVaultSelectiveKeyRestoreResult> {
 }
 
 // @public
@@ -197,48 +172,10 @@ export class KeyVaultSettingsClient {
 }
 
 // @public
-export enum KnownKeyVaultDataAction {
-    BackupHsmKeys = "Microsoft.KeyVault/managedHsm/keys/backup/action",
-    CreateHsmKey = "Microsoft.KeyVault/managedHsm/keys/create",
-    DecryptHsmKey = "Microsoft.KeyVault/managedHsm/keys/decrypt/action",
-    DeleteHsmKey = "Microsoft.KeyVault/managedHsm/keys/delete",
-    DeleteRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/delete/action",
-    DeleteRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/delete/action",
-    DownloadHsmSecurityDomain = "Microsoft.KeyVault/managedHsm/securitydomain/download/action",
-    DownloadHsmSecurityDomainStatus = "Microsoft.KeyVault/managedHsm/securitydomain/download/read",
-    EncryptHsmKey = "Microsoft.KeyVault/managedHsm/keys/encrypt/action",
-    ExportHsmKey = "Microsoft.KeyVault/managedHsm/keys/export/action",
-    GetRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/read/action",
-    ImportHsmKey = "Microsoft.KeyVault/managedHsm/keys/import/action",
-    PurgeDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/delete",
-    RandomNumbersGenerate = "Microsoft.KeyVault/managedHsm/rng/action",
-    ReadDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/read/action",
-    ReadHsmBackupStatus = "Microsoft.KeyVault/managedHsm/backup/status/action",
-    ReadHsmKey = "Microsoft.KeyVault/managedHsm/keys/read/action",
-    ReadHsmRestoreStatus = "Microsoft.KeyVault/managedHsm/restore/status/action",
-    ReadHsmSecurityDomainStatus = "Microsoft.KeyVault/managedHsm/securitydomain/upload/read",
-    ReadHsmSecurityDomainTransferKey = "Microsoft.KeyVault/managedHsm/securitydomain/transferkey/read",
-    ReadRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/read/action",
-    RecoverDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/recover/action",
-    ReleaseKey = "Microsoft.KeyVault/managedHsm/keys/release/action",
-    RestoreHsmKeys = "Microsoft.KeyVault/managedHsm/keys/restore/action",
-    SignHsmKey = "Microsoft.KeyVault/managedHsm/keys/sign/action",
-    StartHsmBackup = "Microsoft.KeyVault/managedHsm/backup/start/action",
-    StartHsmRestore = "Microsoft.KeyVault/managedHsm/restore/start/action",
-    UnwrapHsmKey = "Microsoft.KeyVault/managedHsm/keys/unwrap/action",
-    UploadHsmSecurityDomain = "Microsoft.KeyVault/managedHsm/securitydomain/upload/action",
-    VerifyHsmKey = "Microsoft.KeyVault/managedHsm/keys/verify/action",
-    WrapHsmKey = "Microsoft.KeyVault/managedHsm/keys/wrap/action",
-    WriteHsmKey = "Microsoft.KeyVault/managedHsm/keys/write/action",
-    WriteRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/write/action",
-    WriteRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/write/action"
-}
+export type KnownKeyVaultDataAction = "Microsoft.KeyVault/managedHsm/keys/read/action" | "Microsoft.KeyVault/managedHsm/keys/write/action" | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/read/action" | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/recover/action" | "Microsoft.KeyVault/managedHsm/keys/backup/action" | "Microsoft.KeyVault/managedHsm/keys/restore/action" | "Microsoft.KeyVault/managedHsm/roleAssignments/delete/action" | "Microsoft.KeyVault/managedHsm/roleAssignments/read/action" | "Microsoft.KeyVault/managedHsm/roleAssignments/write/action" | "Microsoft.KeyVault/managedHsm/roleDefinitions/read/action" | "Microsoft.KeyVault/managedHsm/roleDefinitions/write/action" | "Microsoft.KeyVault/managedHsm/roleDefinitions/delete/action" | "Microsoft.KeyVault/managedHsm/keys/encrypt/action" | "Microsoft.KeyVault/managedHsm/keys/decrypt/action" | "Microsoft.KeyVault/managedHsm/keys/wrap/action" | "Microsoft.KeyVault/managedHsm/keys/unwrap/action" | "Microsoft.KeyVault/managedHsm/keys/sign/action" | "Microsoft.KeyVault/managedHsm/keys/verify/action" | "Microsoft.KeyVault/managedHsm/keys/create" | "Microsoft.KeyVault/managedHsm/keys/delete" | "Microsoft.KeyVault/managedHsm/keys/export/action" | "Microsoft.KeyVault/managedHsm/keys/release/action" | "Microsoft.KeyVault/managedHsm/keys/import/action" | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/delete" | "Microsoft.KeyVault/managedHsm/securitydomain/download/action" | "Microsoft.KeyVault/managedHsm/securitydomain/download/read" | "Microsoft.KeyVault/managedHsm/securitydomain/upload/action" | "Microsoft.KeyVault/managedHsm/securitydomain/upload/read" | "Microsoft.KeyVault/managedHsm/securitydomain/transferkey/read" | "Microsoft.KeyVault/managedHsm/backup/start/action" | "Microsoft.KeyVault/managedHsm/restore/start/action" | "Microsoft.KeyVault/managedHsm/backup/status/action" | "Microsoft.KeyVault/managedHsm/restore/status/action" | "Microsoft.KeyVault/managedHsm/rng/action";
 
 // @public
-export enum KnownKeyVaultRoleScope {
-    Global = "/",
-    Keys = "/keys"
-}
+export type KnownKeyVaultRoleScope = "/" | "/keys";
 
 // @public
 export const LATEST_API_VERSION = "7.5";
@@ -275,7 +212,7 @@ export const SDK_VERSION: string;
 
 // @public
 export interface SetRoleDefinitionOptions extends OperationOptions {
-    assignableScopes?: KeyVaultRoleScope[];
+    assignableScopes?: KnownKeyVaultRoleScope[];
     description?: string;
     permissions?: KeyVaultPermission[];
     roleDefinitionName?: string;
@@ -283,7 +220,7 @@ export interface SetRoleDefinitionOptions extends OperationOptions {
 }
 
 // @public
-export interface SettingsClientOptions extends CommonClientOptions {
+export interface SettingsClientOptions extends ClientOptions {
     disableChallengeResourceVerification?: boolean;
     serviceVersion?: SUPPORTED_API_VERSIONS;
 }
