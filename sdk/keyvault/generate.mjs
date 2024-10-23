@@ -16,4 +16,6 @@ await $`mv src/generated/src/* src/generated/`;
 // Remove generated/src
 await $`rm -rf src/generated/src`;
 
+// Remove tsp-location.yaml from generated folder
+await $`rm src/generated/tsp-location.yaml`;
 // Update package.json to include core-client-rest?
