@@ -98,18 +98,12 @@ function Update-Include {
     )
 
     foreach ($configElement in $IncludeConfig) {
-        Write-Host "Examining $configElement of include object"
-
         if (-not $configElement.PSObject.Properties["ArtifactPackageNames"]) {
-            Write-Host "Attempting to add ArtifactPackageNames to $configElement"
             $configElement | Add-Member -Force -MemberType NoteProperty -Name ArtifactPackageNames -Value ""
         }
-
-        Write-Host "I somehow got to here, what is in this object? $configElement"
         $configElement.ArtifactPackageNames = $TargetingString
+        $Matrix.include += $configElement
     }
-
-    $Matrix.include += $configElement
 }
 
 function Update-Matrix {
