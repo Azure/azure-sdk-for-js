@@ -205,7 +205,7 @@ export class LiveMetrics {
     this.quickpulseExporter = new QuickpulseMetricExporter(exporterOptions);
     this.isCollectingData = false;
     this.pingInterval = PING_INTERVAL; // Default
-    this.postInterval = POST_INTERVAL;
+    this.postInterval = POST_INTERVAL; 
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
     this.handle.unref(); // Don't block apps from terminating
