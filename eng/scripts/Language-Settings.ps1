@@ -44,14 +44,13 @@ function Get-javascript-AdditionalValidationPackagesFromPackageSet {
   function isOther($fileName) {
     $startsWithPrefixes = @(".config", ".devcontainer", ".github", ".scripts", ".vscode", "common", "design", "documentation", "eng", "samples")
 
-    $startsWith = $false
     foreach ($prefix in $startsWithPrefixes) {
       if ($fileName.StartsWith($prefix)) {
-        $startsWith = $true
+        return $true
       }
     }
 
-    return $startsWith
+    return $false
   }
 
   $changedServices = @()
@@ -69,7 +68,7 @@ function Get-javascript-AdditionalValidationPackagesFromPackageSet {
   }
 
   $engChanged = $diffObj.ChangedFiles | Where-Object { $_.StartsWith("eng")}
-  $othersChanged = $diffObj.ChangedFiles | Where-Object { isOther($_) }
+  $othersChanged = $diffObj.ChangedFiles | Where-Object { isOther $_ }
   $changedServices = $changedServices | Get-Unique
 
   if ($engChanged -or $othersChanged) {

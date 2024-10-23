@@ -18,8 +18,8 @@ steps:
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
 
   - pwsh: |
-      if ("$(ChangedServices)") {
-        foreach($service in "$(ChangedServices)".Split(" ")) {
+      if ('$(ChangedServices)' -and '$(ChangedServices)' -notlike '*ChangedServices*') {
+        foreach($service in '$(ChangedServices)'.Split(" ")) {
           node $(Build.SourcesDirectory)/eng/tools/generate-doc/dist/index.js --serviceDir "$service"
         }
       }

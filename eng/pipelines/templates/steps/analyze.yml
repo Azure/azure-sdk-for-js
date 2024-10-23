@@ -54,7 +54,7 @@ steps:
 
   - template: /eng/common/pipelines/templates/steps/verify-samples.yml
     parameters:
-      ServiceDirectories: $(CChangedServices)
+      ServiceDirectories: $(ChangedServicesCsv)
 
   - script: |
       npm ci

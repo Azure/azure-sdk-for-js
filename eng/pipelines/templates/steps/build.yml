@@ -89,16 +89,16 @@ steps:
 
       foreach ($artifact in $artifacts)
       {
-        $artifactDetails = Get-Content $(Build.ArtifactStagingDirectory)/PackageInfo/$artifact.json | ConvertFrom-Json
+        $artifactDetails = Get-Content -Raw $(Build.ArtifactStagingDirectory)/PackageInfo/$artifact.json | ConvertFrom-Json
 
         Write-Host "Copying $artifact artifacts to $(Build.ArtifactStagingDirectory)/$artifact"
-        New-Item -Type Directory -Name $artifact -Path $(Build.ArtifactStagingDirectory) > $null
+        New-Item -Type Directory -Force -Name $artifact -Path $(Build.ArtifactStagingDirectory) > $null
         Copy-Item sdk/$($artifactDetails.Service)/**/$artifact-[0-9]*.[0-9]*.[0-9]*.tgz $(Build.ArtifactStagingDirectory)/$artifact
         Copy-Item sdk/$($artifactDetails.Service)/**/browser/$artifact-[0-9]*.[0-9]*.[0-9]*.zip $(Build.ArtifactStagingDirectory)/$artifact
 
         if ($${{ parameters.IncludeRelease }} -eq $true -and $artifactDetails.ArtifactDetails.skipPublishDocMs -ne $true)
         {
-          New-Item -Type Directory -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifact > $null
+          New-Item -Type Directory -Force -Name documentation -Path $(Build.ArtifactStagingDirectory)/$artifact > $null
           Copy-Item $(Build.SourcesDirectory)/docGen/$artifact.zip $(Build.ArtifactStagingDirectory)/$artifact/documentation
         }
       }

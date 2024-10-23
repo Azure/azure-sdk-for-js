@@ -15,14 +15,13 @@ steps:
       $artifacts = '${{ convertToJson(parameters.Artifacts) }}' | ConvertFrom-Json
       $knownArtifacts = @()
       if ($artifacts) {
-        $knownArtifacts = $artifacts | ForEach-Object { $knownArtifacts += $_.name }
+        $knownArtifacts = $artifacts | ForEach-Object { $_.name }
       }
 
       $packageProperties = Get-ChildItem -Recurse "${{ parameters.PackageInfo }}" *.json `
         | Where-Object { if($knownArtifacts) { $knownArtifacts -contains $_.Name.Replace(".json", "") } else { $true } }
 
-      $pkgNames = $packageProperties | Foreach-Object { $_.Name } `
-        | ForEach-Object { $_.Replace(".json", "") }
+      $pkgNames = $packageProperties | ForEach-Object { $_.Name.Replace(".json", "") }
 
       $setting = $pkgNames -join ","
       Write-Host "Setting ArtifactPackageNames to: `n$setting"
@@ -47,7 +46,7 @@ steps:
       $commaChangedServices = $changedServicesArray -join ","
       Write-Host "Setting ChangedServices to : `n$changedServices"
       Write-Host "##vso[task.setvariable variable=ChangedServices;]$changedServices"
-      Write-Host "##vso[task.setvariable variable=CChangedServices;]$commaChangedServices"
+      Write-Host "##vso[task.setvariable variable=ChangedServicesCsv;]$commaChangedServices"
 
       Write-Host "This run is targeting: `n$(ArtifactPackageNames) in [$changedServices]"
     displayName: Resolve Targeted Packages
