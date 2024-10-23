@@ -23,8 +23,6 @@
     "cross-env": "catalog:legacy",
     "eslint": "catalog:",
     "express": "^4.21.1",
-    "rimraf": "catalog:",
-    "ts-node": "catalog:legacy",
     "tslib": "catalog:",
     "typescript": "catalog:"
   },

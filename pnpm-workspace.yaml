@@ -158,9 +158,9 @@ catalogs:
     '@azure-tools/test-recorder': ^3.0.0
   internal:
     '@azure/eventgrid': ^5.8.0
-    '@azure/identity': ^4.5.0
+    '@azure/identity': 4.5.0
     '@azure/keyvault-keys': ^4.8.0
-    '@azure/keyvault-secrets': ^4.9.0
+    '@azure/keyvault-secrets': 4.9.0
   legacy:
     '@types/chai': ^4.3.16
     '@types/mocha': ^10.0.0

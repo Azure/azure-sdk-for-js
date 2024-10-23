@@ -114,9 +114,8 @@
     "@azure/core-util": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@azure/identity": "workspace:*",
+    "@azure/identity": "catalog:internal",
     "@azure/msal-node": "^2.9.2",
-    "@microsoft/api-extractor": "catalog:",
     "@types/chai": "catalog:legacy",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
@@ -138,9 +137,7 @@
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
     "process": "^0.11.10",
-    "rimraf": "catalog:",
     "sinon": "catalog:legacy",
-    "ts-node": "catalog:legacy",
     "typescript": "catalog:"
   }
 }

@@ -129,7 +129,7 @@
     "@azure-tools/test-utils": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@azure/keyvault-keys": "catalog:internal",
+    "@azure/keyvault-keys": "npm:@azure/keyvault-keys@~4.9.0",
     "@types/chai": "catalog:legacy",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/jws": "^3.2.2",

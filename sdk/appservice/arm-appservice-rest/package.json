@@ -84,7 +84,7 @@
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@microsoft/api-extractor": "catalog:",
+    "@azure/identity": "catalog:internal",
     "@types/chai": "catalog:legacy",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
@@ -103,12 +103,9 @@
     "karma-mocha-reporter": "catalog:legacy",
     "karma-source-map-support": "catalog:legacy",
     "karma-sourcemap-loader": "catalog:legacy",
-    "mkdirp": "catalog:legacy",
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
-    "rimraf": "catalog:",
     "source-map-support": "^0.5.21",
-    "ts-node": "catalog:legacy",
     "typescript": "catalog:"
   },
   "browser": {

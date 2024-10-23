@@ -32,7 +32,7 @@
     "@azure-tools/test-credential": "catalog:test-credentialV1",
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure/dev-tool": "workspace:*",
-    "@microsoft/api-extractor": "catalog:",
+    "@azure/identity": "catalog:internal",
     "@types/chai": "catalog:legacy",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
@@ -40,8 +40,6 @@
     "cross-env": "catalog:legacy",
     "mkdirp": "catalog:legacy",
     "mocha": "catalog:legacy",
-    "rimraf": "catalog:",
-    "ts-node": "catalog:legacy",
     "typescript": "catalog:",
     "uglify-js": "catalog:legacy"
   },

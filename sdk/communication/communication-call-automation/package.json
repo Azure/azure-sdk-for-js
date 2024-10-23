@@ -117,9 +117,7 @@
     "karma-sourcemap-loader": "catalog:legacy",
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
-    "rimraf": "catalog:",
     "sinon": "catalog:legacy",
-    "ts-node": "catalog:legacy",
     "typescript": "catalog:",
     "util": "^0.12.1"
   }

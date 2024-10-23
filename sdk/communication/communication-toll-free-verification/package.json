@@ -77,8 +77,7 @@
     "@azure-tools/test-utils": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@azure/identity": "workspace:*",
-    "@microsoft/api-extractor": "catalog:",
+    "@azure/identity": "catalog:internal",
     "@types/chai": "catalog:legacy",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
@@ -99,9 +98,7 @@
     "karma-sourcemap-loader": "catalog:legacy",
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
-    "rimraf": "catalog:",
     "sinon": "catalog:legacy",
-    "ts-node": "catalog:legacy",
     "typescript": "catalog:"
   },
   "//metadata": {

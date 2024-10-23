@@ -61,9 +61,6 @@ catalogs:
     '@azure/identity':
       specifier: ^4.5.0
       version: 4.5.1
-    '@azure/keyvault-keys':
-      specifier: ^4.8.0
-      version: 4.9.1
     '@azure/keyvault-secrets':
       specifier: ^4.9.0
       version: 4.9.1
@@ -548,9 +545,6 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -569,18 +563,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -891,9 +876,6 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -909,18 +891,9 @@ importers:
       cross-env:
         specifier: catalog:legacy
         version: 7.0.3
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -967,9 +940,6 @@ importers:
       '@azure/identity':
         specifier: workspace:*
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -1027,24 +997,15 @@ importers:
       karma-sourcemap-loader:
         specifier: catalog:legacy
         version: 0.3.8
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -1347,9 +1308,6 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -1374,15 +1332,6 @@ importers:
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
-      tsx:
-        specifier: catalog:legacy
-        version: 4.19.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -1514,9 +1463,6 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -1541,12 +1487,6 @@ importers:
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -1557,11 +1497,11 @@ importers:
   sdk/appconfiguration/perf-tests/app-configuration:
     dependencies:
       '@azure-tools/test-perf':
-        specifier: ^1.0.0
+        specifier: workspace:*
         version: link:../../../test-utils/perf
       '@azure/app-configuration':
-        specifier: 1.5.0-beta.2
-        version: 1.5.0-beta.2
+        specifier: workspace:*
+        version: link:../../app-configuration
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../../core/core-util
@@ -1581,12 +1521,6 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       tslib:
         specifier: 'catalog:'
         version: 2.7.0
@@ -1627,9 +1561,6 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -1648,21 +1579,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
-      tsx:
-        specifier: catalog:legacy
-        version: 4.19.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -1697,9 +1616,6 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -1715,18 +1631,9 @@ importers:
       cross-env:
         specifier: catalog:legacy
         version: 7.0.3
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -1767,9 +1674,6 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -1788,18 +1692,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -1840,9 +1735,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -1867,15 +1762,6 @@ importers:
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
-      tsx:
-        specifier: catalog:legacy
-        version: 4.19.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -1916,9 +1802,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -1937,18 +1823,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -1992,9 +1869,9 @@ importers:
       '@azure/eslint-plugin-azure-sdk':
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -2049,24 +1926,15 @@ importers:
       karma-sourcemap-loader:
         specifier: catalog:legacy
         version: 0.3.8
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       source-map-support:
         specifier: ^0.5.21
         version: 0.5.21
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -2104,9 +1972,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -2125,18 +1993,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -2171,9 +2030,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -2189,18 +2048,9 @@ importers:
       cross-env:
         specifier: catalog:legacy
         version: 7.0.3
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -2245,11 +2095,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -2325,18 +2172,12 @@ importers:
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       safe-buffer:
         specifier: ^5.2.1
         version: 5.2.1
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -2377,9 +2218,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -2398,18 +2239,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -2444,9 +2276,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -2465,18 +2297,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -2512,11 +2335,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -2535,18 +2355,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -2587,9 +2398,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -2608,18 +2419,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -2660,9 +2462,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -2681,21 +2483,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
-      tsx:
-        specifier: catalog:legacy
-        version: 4.19.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -2736,9 +2526,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -2754,18 +2544,9 @@ importers:
       cross-env:
         specifier: catalog:legacy
         version: 7.0.3
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -2800,9 +2581,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -2824,12 +2605,6 @@ importers:
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -2870,9 +2645,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -2897,12 +2672,6 @@ importers:
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -2943,9 +2712,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -2970,12 +2739,6 @@ importers:
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -3020,11 +2783,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -3043,18 +2803,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -3316,9 +3067,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -3337,18 +3088,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -3389,9 +3131,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -3413,12 +3155,6 @@ importers:
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -3459,9 +3195,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -3486,12 +3222,6 @@ importers:
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -3532,9 +3262,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -3553,18 +3283,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -3599,9 +3320,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -3617,18 +3338,9 @@ importers:
       cross-env:
         specifier: catalog:legacy
         version: 7.0.3
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -3663,9 +3375,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -3687,12 +3399,6 @@ importers:
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -3736,9 +3442,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -3757,18 +3463,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -3816,14 +3513,11 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
       '@azure/logger':
         specifier: workspace:*
         version: link:../../core/logger
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -3902,9 +3596,6 @@ importers:
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -3961,14 +3652,11 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
       '@azure/storage-blob':
         specifier: ^12.23.0-beta.1
         version: 12.25.0
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -4041,18 +3729,12 @@ importers:
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -4087,9 +3769,6 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:*
-        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@microsoft/api-extractor':
         specifier: 'catalog:'
         version: 7.47.7(@types/node@18.19.45)
@@ -4108,24 +3787,15 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -4157,12 +3827,6 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       tslib:
         specifier: 'catalog:'
         version: 2.7.0
@@ -4203,9 +3867,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -4224,18 +3888,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -4270,9 +3925,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -4288,18 +3943,9 @@ importers:
       cross-env:
         specifier: catalog:legacy
         version: 7.0.3
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -4334,9 +3980,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -4355,18 +4001,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -4407,9 +4044,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -4428,18 +4065,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -4496,11 +4124,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -4561,15 +4186,9 @@ importers:
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -4697,15 +4316,9 @@ importers:
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -4770,9 +4383,6 @@ importers:
       '@azure/eslint-plugin-azure-sdk':
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -4842,15 +4452,9 @@ importers:
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -4964,9 +4568,6 @@ importers:
       '@azure/eslint-plugin-azure-sdk':
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -5027,12 +4628,6 @@ importers:
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -5092,14 +4687,11 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
       '@azure/msal-node':
         specifier: ^2.9.2
         version: 2.13.0
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -5163,15 +4755,9 @@ importers:
       process:
         specifier: ^0.11.10
         version: 0.11.10
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -5227,9 +4813,6 @@ importers:
       '@azure/eslint-plugin-azure-sdk':
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -5305,9 +4888,6 @@ importers:
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -5355,11 +4935,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -5423,15 +5000,9 @@ importers:
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -5476,7 +5047,7 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
       '@microsoft/api-extractor':
         specifier: 'catalog:'
@@ -5535,24 +5106,15 @@ importers:
       karma-sourcemap-loader:
         specifier: catalog:legacy
         version: 0.3.8
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -5612,11 +5174,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -5677,15 +5236,9 @@ importers:
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -5745,11 +5298,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -5813,15 +5363,9 @@ importers:
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -5871,9 +5415,6 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@azure/eslint-plugin-azure-sdk':
-        specifier: workspace:*
-        version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@microsoft/api-extractor':
         specifier: 'catalog:'
         version: 7.47.7(@types/node@18.19.45)
@@ -5907,24 +5448,15 @@ importers:
       karma-env-preprocessor:
         specifier: catalog:legacy
         version: 0.1.1
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -5984,11 +5516,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -6052,15 +5581,9 @@ importers:
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -6114,11 +5637,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -6185,9 +5705,6 @@ importers:
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -6250,11 +5767,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -6318,15 +5832,9 @@ importers:
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -6380,11 +5888,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -6445,15 +5950,9 @@ importers:
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -6494,9 +5993,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -6515,21 +6014,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
-      tsx:
-        specifier: catalog:legacy
-        version: 4.19.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -6570,9 +6057,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -6591,18 +6078,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -6650,11 +6128,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -6709,24 +6184,15 @@ importers:
       karma-sourcemap-loader:
         specifier: catalog:legacy
         version: 0.3.8
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -6916,9 +6382,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -6937,21 +6403,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      esm:
-        specifier: ^3.2.18
-        version: 3.2.25
-      mkdirp:
-        specifier: ^2.1.2
-        version: 2.1.6
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -6996,11 +6450,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -7028,15 +6479,9 @@ importers:
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       source-map-support:
         specifier: ^0.5.9
         version: 0.5.21
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -7074,9 +6519,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -7095,18 +6540,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -7147,9 +6583,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -7168,18 +6604,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -7214,9 +6641,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -7235,18 +6662,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -7287,9 +6705,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -7308,18 +6726,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -7360,9 +6769,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -7381,18 +6790,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -7446,11 +6846,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -7478,9 +6875,6 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      inherits:
-        specifier: ^2.0.3
-        version: 2.0.4
       karma:
         specifier: catalog:legacy
         version: 6.4.4
@@ -7514,18 +6908,9 @@ importers:
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      util:
-        specifier: ^0.12.1
-        version: 0.12.5
 
   sdk/containerregistry/perf-tests/container-registry:
     dependencies:
@@ -7551,12 +6936,6 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       tslib:
         specifier: 'catalog:'
         version: 2.7.0
@@ -7597,9 +6976,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -7618,21 +6997,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
-      tsx:
-        specifier: catalog:legacy
-        version: 4.19.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -7677,11 +7044,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -7745,15 +7109,6 @@ importers:
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      source-map-support:
-        specifier: ^0.5.9
-        version: 0.5.21
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -7791,9 +7146,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -7812,21 +7167,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
-      tsx:
-        specifier: catalog:legacy
-        version: 4.19.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -7871,11 +7214,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
+        specifier: catalog:internal
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -7930,24 +7270,12 @@ importers:
       karma-sourcemap-loader:
         specifier: catalog:legacy
         version: 0.3.8
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
       nyc:
         specifier: catalog:legacy
         version: 17.0.0
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      source-map-support:
-        specifier: ^0.5.9
-        version: 0.5.21
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -8725,12 +8053,6 @@ importers:
       express:
         specifier: ^4.21.1
         version: 4.21.1
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       tslib:
         specifier: 'catalog:'
         version: 2.7.0
@@ -8826,9 +8148,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: link:../../identity/identity
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -8847,21 +8169,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
-      tsx:
-        specifier: catalog:legacy
-        version: 4.19.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -9041,18 +8351,9 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -15491,7 +14792,7 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/keyvault-keys':
-        specifier: catalog:internal
+        specifier: npm:@azure/keyvault-keys@~4.9.0
         version: link:../../keyvault/keyvault-keys
       '@types/chai':
         specifier: catalog:legacy
@@ -33181,10 +32482,6 @@ packages:
     resolution: {integrity: sha512-nBrLsEWm4J2u5LpAPjxADTlq3trDgVZZXHNKabeXZtpq3d3AbN/KGO82R87rdDz5/lYB024rtEf10/q0urNgsA==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/app-configuration@1.5.0-beta.2':
-    resolution: {integrity: sha512-FhKvFKmMhu0P57lYO4i3JN8oGyvHs+YTsdz18cmKaqYHwlHD9ITHGKX59f3hT3rWZoK02sd0OajhCGrsKOmkmQ==}
-    engines: {node: '>=16.0.0'}
-
   '@azure/arm-compute@21.6.0':
     resolution: {integrity: sha512-Qk6kxoqMgzOvceUBqD1WTHrPh/iaxlTLQPp241u3iNVOE4FVSTqSzTxjG1tr/UL1rBWGvoLPZExUFddo+Qd5KQ==}
     engines: {node: '>=18.0.0'}
@@ -38981,22 +38278,6 @@ snapshots:
   '@azure/abort-controller@2.1.2':
     dependencies:
       tslib: 2.7.0
-
-  '@azure/app-configuration@1.5.0-beta.2':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.2
-      '@azure/core-client': 1.9.2
-      '@azure/core-http-compat': 2.1.2
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.16.3
-      '@azure/core-tracing': 1.1.2
-      '@azure/core-util': 1.9.2
-      '@azure/logger': 1.1.4
-      tslib: 2.7.0
-    transitivePeerDependencies:
-      - supports-color
 
   '@azure/arm-compute@21.6.0':
     dependencies:
