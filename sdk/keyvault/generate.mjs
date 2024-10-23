@@ -1,6 +1,5 @@
 // @ts-check
 
-import "zx/globals";
 $.verbose = true;
 
 // Steps:
