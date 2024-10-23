@@ -30,6 +30,7 @@ packages:
   - sdk/appconfiguration/app-configuration
   - sdk/appconfiguration/perf-tests/app-configuration
   - sdk/attestation/attestation
+  - sdk/batch/batch
   - sdk/cognitivelanguage/ai-language-conversations  
   - sdk/cognitivelanguage/ai-language-text  
   - sdk/cognitivelanguage/ai-language-textauthoring  
@@ -132,27 +133,6 @@ packages:
 
 catalog:
   '@microsoft/api-extractor': ^7.47.7
-  '@opentelemetry/api': ^1.9.0
-  '@opentelemetry/api-logs': ^0.53.0
-  '@opentelemetry/core': ^1.26.0
-  '@opentelemetry/instrumentation': ^0.53.0
-  '@opentelemetry/instrumentation-bunyan': ^0.41.0
-  '@opentelemetry/instrumentation-http': ^0.53.0
-  '@opentelemetry/instrumentation-mongodb': ^0.47.0
-  '@opentelemetry/instrumentation-mysql': ^0.41.0
-  '@opentelemetry/instrumentation-pg': ^0.45.0
-  '@opentelemetry/instrumentation-redis': ^0.42.0
-  '@opentelemetry/instrumentation-redis-4': ^0.42.0
-  '@opentelemetry/instrumentation-winston': ^0.39.0
-  '@opentelemetry/resource-detector-azure': ^0.2.11
-  '@opentelemetry/resources': ^1.26.0
-  '@opentelemetry/sdk-logs': ^0.53.0
-  '@opentelemetry/sdk-metrics': ^1.26.0
-  '@opentelemetry/sdk-node': ^0.53.0
-  '@opentelemetry/sdk-trace-base': ^1.26.0
-  '@opentelemetry/sdk-trace-node': ^1.26.0
-  '@opentelemetry/semantic-conventions': ^1.26.0
-  '@opentelemetry/winston-transport': ^0.6.0
   '@types/node': ^18.0.0
   '@vitest/browser': ^2.1.2
   '@vitest/coverage-istanbul': ^2.1.2
@@ -164,31 +144,6 @@ catalog:
   tslib: ^2.7.0
   typescript: ~5.6.2
   vitest: ^2.1.2
-  # legacy packages
-  '@types/chai': ^4.3.16
-  '@types/mocha': ^10.0.0
-  '@types/sinon': ^17.0.0
-  chai: ^4.5.0
-  cross-env: ^7.0.3
-  karma: ^6.2.0
-  karma-chrome-launcher: ^3.0.0
-  karma-coverage: ^2.0.0
-  karma-env-preprocessor: ^0.1.1
-  karma-firefox-launcher: ^1.1.0
-  karma-json-preprocessor: ^0.3.3
-  karma-json-to-file-reporter: ^1.0.1
-  karma-junit-reporter: ^2.0.1
-  karma-mocha: ^2.0.1
-  karma-mocha-reporter: ^2.2.5
-  karma-source-map-support: ~1.4.0
-  karma-sourcemap-loader: ^0.3.8
-  mkdirp: ^3.0.1
-  mocha: ^10.0.0
-  nyc: ^17.0.0
-  sinon: ^19.0.0
-  ts-node: ^10.0.0
-  tsx: ^4.19.1
-  uglify-js: ^3.19.3
 
 catalogs:
   abort-controllerV1:
@@ -206,3 +161,50 @@ catalogs:
     '@azure/identity': ^4.5.0
     '@azure/keyvault-keys': ^4.8.0
     '@azure/keyvault-secrets': ^4.9.0
+  legacy:
+    '@types/chai': ^4.3.16
+    '@types/mocha': ^10.0.0
+    '@types/sinon': ^17.0.0
+    chai: ^4.5.0
+    cross-env: ^7.0.3
+    karma: ^6.2.0
+    karma-chrome-launcher: ^3.0.0
+    karma-coverage: ^2.0.0
+    karma-env-preprocessor: ^0.1.1
+    karma-firefox-launcher: ^1.1.0
+    karma-json-preprocessor: ^0.3.3
+    karma-json-to-file-reporter: ^1.0.1
+    karma-junit-reporter: ^2.0.1
+    karma-mocha: ^2.0.1
+    karma-mocha-reporter: ^2.2.5
+    karma-source-map-support: ~1.4.0
+    karma-sourcemap-loader: ^0.3.8
+    mkdirp: ^3.0.1
+    mocha: ^10.0.0
+    nyc: ^17.0.0
+    sinon: ^19.0.0
+    ts-node: ^10.0.0
+    tsx: ^4.19.1
+    uglify-js: ^3.19.3
+  otel:
+    '@opentelemetry/api': ^1.9.0
+    '@opentelemetry/api-logs': ^0.53.0
+    '@opentelemetry/core': ^1.26.0
+    '@opentelemetry/instrumentation': ^0.53.0
+    '@opentelemetry/instrumentation-bunyan': ^0.41.0
+    '@opentelemetry/instrumentation-http': ^0.53.0
+    '@opentelemetry/instrumentation-mongodb': ^0.47.0
+    '@opentelemetry/instrumentation-mysql': ^0.41.0
+    '@opentelemetry/instrumentation-pg': ^0.45.0
+    '@opentelemetry/instrumentation-redis': ^0.42.0
+    '@opentelemetry/instrumentation-redis-4': ^0.42.0
+    '@opentelemetry/instrumentation-winston': ^0.39.0
+    '@opentelemetry/resource-detector-azure': ^0.2.11
+    '@opentelemetry/resources': ^1.26.0
+    '@opentelemetry/sdk-logs': ^0.53.0
+    '@opentelemetry/sdk-metrics': ^1.26.0
+    '@opentelemetry/sdk-node': ^0.53.0
+    '@opentelemetry/sdk-trace-base': ^1.26.0
+    '@opentelemetry/sdk-trace-node': ^1.26.0
+    '@opentelemetry/semantic-conventions': ^1.26.0
+    '@opentelemetry/winston-transport': ^0.6.0

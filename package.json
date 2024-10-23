@@ -7,9 +7,7 @@
     "pnpm": "^9.0.0"
   },
   "scripts": {
-    "build:lage": "lage build",
-    "build": "pnpm -r --aggregate-output --reporter=append-only build",
-    "build:pnpm:parallel": "pnpm -r --workspace-concurrency=Infinity --aggregate-output --reporter=append-only build",
+    "build": "lage build",
     "clean": "pnpm -r run clean",
     "cspell": "cspell --no-progress .",
     "format": "prettier . --write",

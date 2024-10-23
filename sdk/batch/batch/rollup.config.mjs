@@ -1,6 +1,6 @@
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
-import sourcemaps from "rollup-plugin-sourcemaps";
+import sourcemaps from "rollup-plugin-sourcemaps2";
 
 /**
  * @type {rollup.RollupFileOptions}

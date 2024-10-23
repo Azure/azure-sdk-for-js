@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "build:production": "npm run prestart && npm prune --production",
-    "clean": "rimraf --glob dist dist-*",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-*",
     "prestart": "npm run build:production && func extensions install",
     "start:host": "func start --typescript",
     "start": "npm-run-all --parallel start:host watch",
