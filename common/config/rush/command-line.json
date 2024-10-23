@@ -13,12 +13,6 @@
     // Required Scripts
     {
       "commandKind": "bulk",
-      "name": "audit",
-      "summary": "Audit projects",
-      "enableParallelism": true
-    },
-    {
-      "commandKind": "bulk",
       "name": "build",
       "summary": "Build all projects that haven't been built, or have changed since they were last built",
       "description": "This command is similar to \"rush rebuild\", except that \"rush build\" performs...",

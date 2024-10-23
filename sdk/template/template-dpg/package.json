@@ -27,7 +27,6 @@
   "//metadata": {},
   "types": "types/latest/template-dpg.d.ts",
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && dev-tool run vendored rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc -p . && dev-tool run bundle && dev-tool run extract-api && npm run build:output",
     "build:output": "node scripts/renameOutput.mjs",
     "build:samples": "echo Obsolete",
