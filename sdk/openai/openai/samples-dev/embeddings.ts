@@ -11,10 +11,11 @@
 import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 
-// Set AZURE_OPENAI_ENDPOINT to the endpoint of your
-// OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
 import "dotenv/config";
+
+// Your Azure OpenAI endpoint
+const endpoint = process.env["AZURE_OPENAI_ENDPOINT"] || "<endpoint>";
 
 // The prompt to generate the embeddings vector
 const input = ["This is the sample text to be embedded"];
@@ -26,7 +27,7 @@ export async function main() {
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const apiVersion = "2024-07-01-preview";
   const deployment = "text-embedding-3-large";
-  const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
+  const client = new AzureOpenAI({ endpoint, azureADTokenProvider, deployment, apiVersion });
   const embeddings = await client.embeddings.create({ input, model: "" });
 
   for (const embeddingData of embeddings.data) {
