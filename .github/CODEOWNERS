@@ -478,6 +478,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/datafactory/arm-datafactory/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/databoundaries/arm-databoundaries/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/datalake-analytics/arm-datalake-analytics/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
