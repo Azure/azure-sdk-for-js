@@ -17,7 +17,7 @@ import { PipelineOptions } from "../createPipelineFromOptions.js";
 import { LogPolicyOptions } from "../policies/logPolicy.js";
 
 /**
- * Shape of the default request parameters, this may be overriden by the specific
+ * Shape of the default request parameters, this may be overridden by the specific
  * request types to provide strong types
  */
 export type RequestParameters = {
@@ -91,6 +91,7 @@ export type RequestParameters = {
  * while performing the requested operation.
  * May be called multiple times.
  */
+// UNBRANDED DIFFERENCE: onResponse callback does not have a second __legacyError parameter which was provided for backwards compatibility
 export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown) => void;
 
 /**
@@ -190,7 +191,7 @@ export interface Client {
   pipeline: Pipeline;
   /**
    * This method will be used to send request that would check the path to provide
-   * strong types. When used by the codegen this type gets overriden wit the generated
+   * strong types. When used by the codegen this type gets overridden with the generated
    * types. For example:
    * ```typescript snippet:path_example
    * import { Client, Routes } from "@typespec/ts-http-runtime";
@@ -317,11 +318,9 @@ export type ClientOptions = PipelineOptions & {
      */
     apiKeyHeaderName?: string;
   };
-  /**
-   * Base url for the client
-   * @deprecated This property is deprecated and will be removed soon, please use endpoint instead
-   */
-  baseUrl?: string;
+
+  // UNBRANDED DIFFERENCE: The deprecated baseUrl property is removed in favor of the endpoint property in the unbranded Core package
+
   /**
    * Endpoint for the client
    */
@@ -389,7 +388,10 @@ export type PathParameters<
     // additional parameters we can call RouteParameters recursively on the Tail to match the remaining parts,
     // in case the Tail has more parameters, it will return a tuple with the parameters found in tail.
     // We spread the second path params to end up with a single dimension tuple at the end.
-    [pathParameter: string | PathParameterWithOptions, ...pathParameters: PathParameters<Tail>]
+    [
+      pathParameter: string | number | PathParameterWithOptions,
+      ...pathParameters: PathParameters<Tail>,
+    ]
   : // When the path doesn't match the template, it means that we have no path parameters so we return
     // an empty tuple.
     [];
@@ -429,7 +431,7 @@ export interface PathParameterWithOptions {
   /**
    * The value of the parameter.
    */
-  value: string;
+  value: string | number;
 
   /**
    * Whether to allow for reserved characters in the value. If set to true, special characters such as '/' in the parameter's value will not be URL encoded.
