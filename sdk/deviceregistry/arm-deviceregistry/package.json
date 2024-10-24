@@ -72,7 +72,7 @@
     "check-format": "echo skipped",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
-    "extract-api": "api-extractor run --local",
+    "extract-api": "dev-tool run extract-api",
     "format": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",

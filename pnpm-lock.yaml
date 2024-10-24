@@ -548,6 +548,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.5.0
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -724,6 +727,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.5.0
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -745,9 +751,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/ai/ai-inference-rest:
     dependencies:
@@ -879,6 +882,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.5.0
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -900,9 +906,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/anomalydetector/ai-anomaly-detector-rest:
     dependencies:
@@ -1046,9 +1049,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.5.0
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -1073,9 +1076,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/apimanagement/api-management-custom-widgets-scaffolder:
     dependencies:
@@ -1241,9 +1241,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.5.0
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -1262,21 +1262,12 @@ importers:
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/appcomplianceautomation/arm-appcomplianceautomation:
     dependencies:
@@ -1311,6 +1302,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.5.0
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -1338,9 +1332,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/appconfiguration/app-configuration:
     dependencies:
@@ -1466,6 +1457,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.5.0
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -1493,9 +1487,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/appcontainers/arm-appcontainers:
     dependencies:
@@ -1530,6 +1521,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.5.0
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -1554,9 +1548,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/applicationinsights/arm-appinsights:
     dependencies:
@@ -1585,6 +1576,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.5.0
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -1606,9 +1600,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/appplatform/arm-appplatform:
     dependencies:
@@ -1643,6 +1634,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.5.0
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -1667,9 +1661,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/appservice/arm-appservice:
     dependencies:
@@ -1734,9 +1725,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/appservice/arm-appservice-profile-2020-09-01-hybrid:
     dependencies:
@@ -1798,9 +1786,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/appservice/arm-appservice-rest:
     dependencies:
@@ -1968,9 +1953,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/attestation/arm-attestation:
     dependencies:
@@ -2023,9 +2005,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/attestation/attestation:
     dependencies:
@@ -2214,9 +2193,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/authorization/arm-authorization-profile-2020-09-01-hybrid:
     dependencies:
@@ -2272,9 +2248,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/automanage/arm-automanage:
     dependencies:
@@ -2330,9 +2303,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/automation/arm-automation:
     dependencies:
@@ -2394,9 +2364,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/avs/arm-avs:
     dependencies:
@@ -2458,9 +2425,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/azureadexternalidentities/arm-azureadexternalidentities:
     dependencies:
@@ -2519,9 +2483,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/azurestack/arm-azurestack:
     dependencies:
@@ -2577,9 +2538,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/azurestackhci/arm-azurestackhci:
     dependencies:
@@ -2644,9 +2602,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/baremetalinfrastructure/arm-baremetalinfrastructure:
     dependencies:
@@ -2711,9 +2666,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/batch/arm-batch:
     dependencies:
@@ -2778,9 +2730,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/batch/batch:
     dependencies:
@@ -3063,9 +3012,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/billingbenefits/arm-billingbenefits:
     dependencies:
@@ -3127,9 +3073,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/botservice/arm-botservice:
     dependencies:
@@ -3194,9 +3137,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/cdn/arm-cdn:
     dependencies:
@@ -3258,9 +3198,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/changeanalysis/arm-changeanalysis:
     dependencies:
@@ -3313,9 +3250,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/changes/arm-changes:
     dependencies:
@@ -3371,9 +3305,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/chaos/arm-chaos:
     dependencies:
@@ -3438,9 +3369,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/cognitivelanguage/ai-language-conversations:
     dependencies:
@@ -3829,9 +3757,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/commerce/arm-commerce:
     dependencies:
@@ -3884,9 +3809,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/commerce/arm-commerce-profile-2020-09-01-hybrid:
     dependencies:
@@ -3942,9 +3864,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/communication/arm-communication:
     dependencies:
@@ -4006,9 +3925,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/communication/communication-alpha-ids:
     dependencies:
@@ -5955,9 +5871,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/compute/arm-compute-profile-2020-09-01-hybrid:
     dependencies:
@@ -6019,9 +5932,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/compute/arm-compute-rest:
     dependencies:
@@ -6344,9 +6254,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/confidentialledger/confidential-ledger-rest:
     dependencies:
@@ -6481,9 +6388,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/connectedvmware/arm-connectedvmware:
     dependencies:
@@ -6545,9 +6449,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/consumption/arm-consumption:
     dependencies:
@@ -6603,9 +6504,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/containerinstance/arm-containerinstance:
     dependencies:
@@ -6667,9 +6565,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/containerregistry/arm-containerregistry:
     dependencies:
@@ -6731,9 +6626,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/containerregistry/container-registry:
     dependencies:
@@ -6907,9 +6799,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/containerservice/arm-containerservice-rest:
     dependencies:
@@ -7077,9 +6966,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/contentsafety/ai-content-safety-rest:
     dependencies:
@@ -8033,9 +7919,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/cosmosdb/cosmos:
     dependencies:
@@ -8188,9 +8071,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.5.0
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -8215,9 +8098,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/cost-management/arm-costmanagement:
     dependencies:
@@ -8279,9 +8159,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/customer-insights/arm-customerinsights:
     dependencies:
@@ -8340,9 +8217,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/dashboard/arm-dashboard:
     dependencies:
@@ -8404,9 +8278,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/databox/arm-databox:
     dependencies:
@@ -8468,9 +8339,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/databoxedge/arm-databoxedge:
     dependencies:
@@ -8529,9 +8397,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/databoxedge/arm-databoxedge-profile-2020-09-01-hybrid:
     dependencies:
@@ -8593,9 +8458,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/databricks/arm-databricks:
     dependencies:
@@ -8657,9 +8519,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/datacatalog/arm-datacatalog:
     dependencies:
@@ -8715,9 +8574,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/datadog/arm-datadog:
     dependencies:
@@ -8779,9 +8635,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/datafactory/arm-datafactory:
     dependencies:
@@ -8843,9 +8696,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/datalake-analytics/arm-datalake-analytics:
     dependencies:
@@ -8904,9 +8754,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/datamigration/arm-datamigration:
     dependencies:
@@ -8965,9 +8812,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/dataprotection/arm-dataprotection:
     dependencies:
@@ -9029,9 +8873,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/defendereasm/arm-defendereasm:
     dependencies:
@@ -9093,9 +8934,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/deploymentmanager/arm-deploymentmanager:
     dependencies:
@@ -9151,9 +8989,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/desktopvirtualization/arm-desktopvirtualization:
     dependencies:
@@ -9209,9 +9044,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/devcenter/arm-devcenter:
     dependencies:
@@ -9273,9 +9105,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/devcenter/developer-devcenter-rest:
     dependencies:
@@ -9416,9 +9245,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/deviceprovisioningservices/arm-deviceprovisioningservices:
     dependencies:
@@ -9480,9 +9306,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/deviceregistry/arm-deviceregistry:
     dependencies:
@@ -9547,9 +9370,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/deviceupdate/arm-deviceupdate:
     dependencies:
@@ -9614,9 +9434,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/deviceupdate/iot-device-update-rest:
     dependencies:
@@ -9793,9 +9610,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/devspaces/arm-devspaces:
     dependencies:
@@ -9854,9 +9668,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/devtestlabs/arm-devtestlabs:
     dependencies:
@@ -9915,9 +9726,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/digitaltwins/arm-digitaltwins:
     dependencies:
@@ -9979,9 +9787,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/digitaltwins/digital-twins-core:
     dependencies:
@@ -10155,9 +9960,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/dns/arm-dns-profile-2020-09-01-hybrid:
     dependencies:
@@ -10219,9 +10021,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/dnsresolver/arm-dnsresolver:
     dependencies:
@@ -10283,9 +10082,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/documentintelligence/ai-document-intelligence-rest:
     dependencies:
@@ -10526,9 +10322,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/dynatrace/arm-dynatrace:
     dependencies:
@@ -10590,9 +10383,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/easm/defender-easm-rest:
     dependencies:
@@ -10839,9 +10629,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/elastic/arm-elastic:
     dependencies:
@@ -10903,9 +10690,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/elasticsans/arm-elasticsan:
     dependencies:
@@ -10967,9 +10751,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/entra/functions-authentication-events:
     dependencies:
@@ -11146,9 +10927,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/eventgrid/eventgrid:
     dependencies:
@@ -11594,9 +11372,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/eventhub/arm-eventhub-profile-2020-09-01-hybrid:
     dependencies:
@@ -11658,9 +11433,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/eventhub/event-hubs:
     dependencies:
@@ -12107,9 +11879,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/fabric/arm-fabric:
     dependencies:
@@ -12229,9 +11998,6 @@ importers:
       '@azure/identity':
         specifier: workspace:*
         version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
@@ -12247,18 +12013,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       playwright:
         specifier: 'catalog:'
         version: 1.46.1
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      tshy:
-        specifier: 'catalog:'
-        version: 2.0.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -12317,9 +12074,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/fluidrelay/arm-fluidrelay:
     dependencies:
@@ -12375,9 +12129,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/formrecognizer/ai-form-recognizer:
     dependencies:
@@ -12569,9 +12320,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/graphservices/arm-graphservices:
     dependencies:
@@ -12633,9 +12381,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/guestconfiguration/arm-guestconfiguration:
     dependencies:
@@ -12694,9 +12439,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/hanaonazure/arm-hanaonazure:
     dependencies:
@@ -12755,9 +12497,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/hardwaresecuritymodules/arm-hardwaresecuritymodules:
     dependencies:
@@ -12819,9 +12558,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/hdinsight/arm-hdinsight:
     dependencies:
@@ -12883,9 +12619,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/hdinsight/arm-hdinsightcontainers:
     dependencies:
@@ -12947,9 +12680,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/healthbot/arm-healthbot:
     dependencies:
@@ -13008,9 +12738,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/healthcareapis/arm-healthcareapis:
     dependencies:
@@ -13072,9 +12799,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/healthdataaiservices/arm-healthdataaiservices:
     dependencies:
@@ -13119,11 +12843,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
-        version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+        specifier: catalog:internal
+        version: 4.5.0
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
@@ -13139,21 +12860,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       playwright:
         specifier: 'catalog:'
         version: 1.46.1
-      prettier:
-        specifier: ^3.2.5
-        version: 3.3.3
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      tshy:
-        specifier: 'catalog:'
-        version: 2.0.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -13633,9 +13342,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/hybridconnectivity/arm-hybridconnectivity:
     dependencies:
@@ -13691,9 +13397,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/hybridcontainerservice/arm-hybridcontainerservice:
     dependencies:
@@ -13755,9 +13458,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/hybridkubernetes/arm-hybridkubernetes:
     dependencies:
@@ -13816,9 +13516,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/hybridnetwork/arm-hybridnetwork:
     dependencies:
@@ -13880,9 +13577,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/identity/identity:
     dependencies:
@@ -14259,9 +13953,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/informatica/arm-informaticadatamanagement:
     dependencies:
@@ -14326,9 +14017,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/instrumentation/opentelemetry-instrumentation-azure-sdk:
     dependencies:
@@ -14605,9 +14293,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/iotfirmwaredefense/arm-iotfirmwaredefense:
     dependencies:
@@ -14663,9 +14348,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/iothub/arm-iothub:
     dependencies:
@@ -14727,9 +14409,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/iothub/arm-iothub-profile-2020-09-01-hybrid:
     dependencies:
@@ -14791,9 +14470,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/keyvault/arm-keyvault:
     dependencies:
@@ -14855,9 +14531,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/keyvault/arm-keyvault-profile-2020-09-01-hybrid:
     dependencies:
@@ -14919,9 +14592,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/keyvault/keyvault-admin:
     dependencies:
@@ -15435,9 +15105,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/kusto/arm-kusto:
     dependencies:
@@ -15499,9 +15166,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/labservices/arm-labservices:
     dependencies:
@@ -15563,9 +15227,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/largeinstance/arm-largeinstance:
     dependencies:
@@ -15627,9 +15288,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/liftrqumulo/arm-qumulo:
     dependencies:
@@ -15691,9 +15349,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/links/arm-links:
     dependencies:
@@ -15749,9 +15404,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/loadtesting/arm-loadtesting:
     dependencies:
@@ -15813,9 +15465,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/loadtesting/load-testing-rest:
     dependencies:
@@ -15986,9 +15635,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/locks/arm-locks-profile-2020-09-01-hybrid:
     dependencies:
@@ -16044,9 +15690,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/logic/arm-logic:
     dependencies:
@@ -16108,9 +15751,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/machinelearning/arm-commitmentplans:
     dependencies:
@@ -16163,9 +15803,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/machinelearning/arm-machinelearning:
     dependencies:
@@ -16227,9 +15864,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/machinelearning/arm-webservices:
     dependencies:
@@ -16288,9 +15922,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/machinelearning/arm-workspaces:
     dependencies:
@@ -16343,9 +15974,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/machinelearningcompute/arm-machinelearningcompute:
     dependencies:
@@ -16404,9 +16032,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/machinelearningexperimentation/arm-machinelearningexperimentation:
     dependencies:
@@ -16462,9 +16087,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/maintenance/arm-maintenance:
     dependencies:
@@ -16520,9 +16142,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/managedapplications/arm-managedapplications:
     dependencies:
@@ -16584,9 +16203,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/managednetworkfabric/arm-managednetworkfabric:
     dependencies:
@@ -16651,9 +16267,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/managementgroups/arm-managementgroups:
     dependencies:
@@ -16712,9 +16325,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/managementpartner/arm-managementpartner:
     dependencies:
@@ -16770,9 +16380,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/maps/arm-maps:
     dependencies:
@@ -16828,9 +16435,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/maps/maps-common:
     dependencies:
@@ -17374,9 +16978,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/marketplaceordering/arm-marketplaceordering:
     dependencies:
@@ -17432,9 +17033,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/mediaservices/arm-mediaservices:
     dependencies:
@@ -17499,9 +17097,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/metricsadvisor/ai-metrics-advisor:
     dependencies:
@@ -17703,9 +17298,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/migrationdiscovery/arm-migrationdiscoverysap:
     dependencies:
@@ -17767,9 +17359,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/mixedreality/arm-mixedreality:
     dependencies:
@@ -17822,9 +17411,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/mixedreality/mixed-reality-authentication:
     dependencies:
@@ -17986,9 +17572,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/mongocluster/arm-mongocluster:
     dependencies:
@@ -18036,11 +17619,8 @@ importers:
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
       '@azure/identity':
-        specifier: workspace:*
-        version: link:../../identity/identity
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+        specifier: catalog:internal
+        version: 4.5.0
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
@@ -18056,18 +17636,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       playwright:
         specifier: 'catalog:'
         version: 1.46.1
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      tshy:
-        specifier: 'catalog:'
-        version: 2.0.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -18109,14 +17680,14 @@ importers:
         specifier: workspace:*
         version: link:../../eventhub/arm-eventhub
       '@azure/arm-logic':
-        specifier: ^8.0.0
-        version: 8.2.0
+        specifier: workspace:*
+        version: link:../../logic/arm-logic
       '@azure/arm-operationalinsights':
-        specifier: ^9.0.0
-        version: 9.0.0
+        specifier: workspace:*
+        version: link:../../operationalinsights/arm-operationalinsights
       '@azure/arm-storage':
-        specifier: ^18.0.0
-        version: 18.3.0
+        specifier: workspace:*
+        version: link:../../storage/arm-storage
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -18150,9 +17721,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/monitor/arm-monitor-profile-2020-09-01-hybrid:
     dependencies:
@@ -18208,9 +17776,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/monitor/monitor-ingestion:
     dependencies:
@@ -18750,9 +18315,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/mysql/arm-mysql:
     dependencies:
@@ -18787,9 +18349,9 @@ importers:
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.5.0
       '@types/chai':
         specifier: catalog:legacy
         version: 4.3.17
@@ -18811,9 +18373,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/mysql/arm-mysql-flexible:
     dependencies:
@@ -18875,9 +18434,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/netapp/arm-netapp:
     dependencies:
@@ -18939,9 +18495,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/network/arm-network:
     dependencies:
@@ -19003,9 +18556,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/network/arm-network-profile-2020-09-01-hybrid:
     dependencies:
@@ -19067,9 +18617,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/network/arm-network-rest:
     dependencies:
@@ -19231,9 +18778,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/networkcloud/arm-networkcloud:
     dependencies:
@@ -19295,9 +18839,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/networkfunction/arm-networkfunction:
     dependencies:
@@ -19356,9 +18897,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/newrelicobservability/arm-newrelicobservability:
     dependencies:
@@ -19420,9 +18958,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/nginx/arm-nginx:
     dependencies:
@@ -19484,9 +19019,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/notificationhubs/arm-notificationhubs:
     dependencies:
@@ -19548,9 +19080,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/notificationhubs/notification-hubs:
     dependencies:
@@ -19688,9 +19217,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/openai/openai:
     dependencies:
@@ -19831,9 +19357,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/operationsmanagement/arm-operations:
     dependencies:
@@ -19892,9 +19415,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/oracledatabase/arm-oracledatabase:
     dependencies:
@@ -19956,9 +19476,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/orbital/arm-orbital:
     dependencies:
@@ -20020,9 +19537,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/paloaltonetworksngfw/arm-paloaltonetworksngfw:
     dependencies:
@@ -20084,9 +19598,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/peering/arm-peering:
     dependencies:
@@ -20139,9 +19650,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/playwrighttesting/arm-playwrighttesting:
     dependencies:
@@ -20203,9 +19711,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/playwrighttesting/create-microsoft-playwright-testing:
     dependencies:
@@ -20377,9 +19882,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/policy/arm-policy-profile-2020-09-01-hybrid:
     dependencies:
@@ -20435,9 +19937,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/policyinsights/arm-policyinsights:
     dependencies:
@@ -20499,9 +19998,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/portal/arm-portal:
     dependencies:
@@ -20557,9 +20053,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/postgresql/arm-postgresql:
     dependencies:
@@ -20618,9 +20111,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/postgresql/arm-postgresql-flexible:
     dependencies:
@@ -20682,9 +20172,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/powerbidedicated/arm-powerbidedicated:
     dependencies:
@@ -20746,9 +20233,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/powerbiembedded/arm-powerbiembedded:
     dependencies:
@@ -20807,9 +20291,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/privatedns/arm-privatedns:
     dependencies:
@@ -20871,9 +20352,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/purview/arm-purview:
     dependencies:
@@ -20932,9 +20410,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/purview/purview-administration-rest:
     dependencies:
@@ -21617,9 +21092,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/quantum/quantum-jobs:
     dependencies:
@@ -21790,9 +21262,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/recoveryservices/arm-recoveryservices:
     dependencies:
@@ -21854,9 +21323,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/recoveryservicesbackup/arm-recoveryservicesbackup:
     dependencies:
@@ -21921,9 +21387,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/recoveryservicesdatareplication/arm-recoveryservicesdatareplication:
     dependencies:
@@ -21985,9 +21448,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/recoveryservicessiterecovery/arm-recoveryservices-siterecovery:
     dependencies:
@@ -22049,9 +21509,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/redhatopenshift/arm-redhatopenshift:
     dependencies:
@@ -22113,9 +21570,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/redis/arm-rediscache:
     dependencies:
@@ -22180,9 +21634,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/redisenterprise/arm-redisenterprisecache:
     dependencies:
@@ -22244,9 +21695,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/relay/arm-relay:
     dependencies:
@@ -22308,9 +21756,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/remoterendering/mixed-reality-remote-rendering:
     dependencies:
@@ -22493,9 +21938,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/resourceconnector/arm-resourceconnector:
     dependencies:
@@ -22557,9 +21999,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/resourcegraph/arm-resourcegraph:
     dependencies:
@@ -22612,9 +22051,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/resourcehealth/arm-resourcehealth:
     dependencies:
@@ -22670,9 +22106,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/resourcemover/arm-resourcemover:
     dependencies:
@@ -22734,9 +22167,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/resources-subscriptions/arm-resources-subscriptions:
     dependencies:
@@ -22792,9 +22222,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/resources/arm-resources:
     dependencies:
@@ -22856,9 +22283,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/resources/arm-resources-profile-2020-09-01-hybrid:
     dependencies:
@@ -22920,9 +22344,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/resourcesdeploymentstacks/arm-resourcesdeploymentstacks:
     dependencies:
@@ -22984,9 +22405,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/schemaregistry/schema-registry:
     dependencies:
@@ -23345,9 +22763,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/search/arm-search:
     dependencies:
@@ -23409,9 +22824,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/search/search-documents:
     dependencies:
@@ -23603,9 +23015,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/securitydevops/arm-securitydevops:
     dependencies:
@@ -23667,9 +23076,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/securityinsight/arm-securityinsight:
     dependencies:
@@ -23731,9 +23137,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/selfhelp/arm-selfhelp:
     dependencies:
@@ -23795,9 +23198,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/serialconsole/arm-serialconsole:
     dependencies:
@@ -23847,9 +23247,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/service-map/arm-servicemap:
     dependencies:
@@ -23905,9 +23302,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/servicebus/arm-servicebus:
     dependencies:
@@ -23969,9 +23363,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/servicebus/service-bus:
     dependencies:
@@ -24184,9 +23575,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/servicefabric/arm-servicefabric-rest:
     dependencies:
@@ -24357,9 +23745,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/servicefabricmesh/arm-servicefabricmesh:
     dependencies:
@@ -24415,9 +23800,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/servicelinker/arm-servicelinker:
     dependencies:
@@ -24479,9 +23861,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/servicenetworking/arm-servicenetworking:
     dependencies:
@@ -24543,9 +23922,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/signalr/arm-signalr:
     dependencies:
@@ -24607,9 +23983,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/sphere/arm-sphere:
     dependencies:
@@ -24671,9 +24044,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/springappdiscovery/arm-springappdiscovery:
     dependencies:
@@ -24735,9 +24105,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/sql/arm-sql:
     dependencies:
@@ -24799,9 +24166,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/sqlvirtualmachine/arm-sqlvirtualmachine:
     dependencies:
@@ -24863,9 +24227,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/standbypool/arm-standbypool:
     dependencies:
@@ -25009,9 +24370,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/storage/arm-storage-profile-2020-09-01-hybrid:
     dependencies:
@@ -25073,9 +24431,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/storage/storage-blob:
     dependencies:
@@ -25878,9 +25233,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/storagecache/arm-storagecache:
     dependencies:
@@ -25942,9 +25294,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/storageimportexport/arm-storageimportexport:
     dependencies:
@@ -26000,9 +25349,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/storagemover/arm-storagemover:
     dependencies:
@@ -26064,9 +25410,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/storagesync/arm-storagesync:
     dependencies:
@@ -26125,9 +25468,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/storsimple1200series/arm-storsimple1200series:
     dependencies:
@@ -26186,9 +25526,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/storsimple8000series/arm-storsimple8000series:
     dependencies:
@@ -26247,9 +25584,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/streamanalytics/arm-streamanalytics:
     dependencies:
@@ -26311,9 +25645,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/subscription/arm-subscriptions:
     dependencies:
@@ -26372,9 +25703,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/subscription/arm-subscriptions-profile-2020-09-01-hybrid:
     dependencies:
@@ -26430,9 +25758,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/support/arm-support:
     dependencies:
@@ -26494,9 +25819,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/synapse/arm-synapse:
     dependencies:
@@ -26558,9 +25880,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/synapse/synapse-access-control:
     dependencies:
@@ -26673,9 +25992,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/synapse/synapse-access-control-rest:
     dependencies:
@@ -26788,9 +26104,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/synapse/synapse-artifacts:
     dependencies:
@@ -26915,9 +26228,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/synapse/synapse-managed-private-endpoints:
     dependencies:
@@ -27021,9 +26331,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/synapse/synapse-monitoring:
     dependencies:
@@ -27106,9 +26413,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/synapse/synapse-spark:
     dependencies:
@@ -27209,9 +26513,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/tables/data-tables:
     dependencies:
@@ -27567,9 +26868,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/test-utils/perf:
     dependencies:
@@ -28063,9 +27361,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/trafficmanager/arm-trafficmanager:
     dependencies:
@@ -28121,9 +27416,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/translation/ai-translation-document-rest:
     dependencies:
@@ -28376,9 +27668,6 @@ importers:
       '@azure/eslint-plugin-azure-sdk':
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
-      '@microsoft/api-extractor':
-        specifier: 'catalog:'
-        version: 7.47.7(@types/node@18.19.45)
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
@@ -28394,18 +27683,9 @@ importers:
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      mkdirp:
-        specifier: catalog:legacy
-        version: 3.0.1
       playwright:
         specifier: 'catalog:'
         version: 1.46.1
-      rimraf:
-        specifier: 'catalog:'
-        version: 5.0.10
-      tshy:
-        specifier: 'catalog:'
-        version: 2.0.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -28570,9 +27850,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/vmwarecloudsimple/arm-vmwarecloudsimple:
     dependencies:
@@ -28634,9 +27911,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/voiceservices/arm-voiceservices:
     dependencies:
@@ -28698,9 +27972,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/web-pubsub/arm-webpubsub:
     dependencies:
@@ -28762,9 +28033,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
   sdk/web-pubsub/web-pubsub:
     dependencies:
@@ -29254,9 +28522,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
 
 packages:
 
@@ -29296,10 +28561,6 @@ packages:
     resolution: {integrity: sha512-CsFpqHS3mH8dvdxv4ytQ5j4o8m2NvwGX287Cpdx8PybJIV87udDPAy+ePdVu6//C4QDCCAvJ2+Ya+5AZsJRZtQ==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/arm-logic@8.2.0':
-    resolution: {integrity: sha512-7OeNODWQWm4iXH6Vqh0l8sOrGDlfZ1gBDSqXUk4hUqcJUDnbwp5+9BszJPQJeuhxGutIRAwmt8J1/BhtIoG/Vg==}
-    engines: {node: '>=14.0.0'}
-
   '@azure/arm-managementgroups@2.0.2':
     resolution: {integrity: sha512-vR5g/LDdyVI5zTUJrNCYks3AMU7TYUqbDbQ2lfhGvyf+6Vvi9qh3BHVYTFE963x7/M9oEINK2lPvl21/dxFNyA==}
     engines: {node: '>=14.0.0'}
@@ -29310,10 +28571,6 @@ packages:
 
   '@azure/arm-network@32.2.0':
     resolution: {integrity: sha512-6QmZ9aGdiz+9u7jPhQEg2zY/Tn8hwJrmjAMuHlWpnqE2kHvSDnKCE3BiNLZsENfi/IeLKBuW0QIdZ5UhbSSA0A==}
-    engines: {node: '>=14.0.0'}
-
-  '@azure/arm-operationalinsights@9.0.0':
-    resolution: {integrity: sha512-2MGyYUdi0ITlqqVq1XEHf7oX20I5VX0/OH/Lu+g4MW6h4js+sPSLjTBpVbafD/NoroLAdVdltVCOR6h3b1bTxg==}
     engines: {node: '>=14.0.0'}
 
   '@azure/arm-recoveryservices@5.4.0':
@@ -35134,18 +34391,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/arm-logic@8.2.0':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.2
-      '@azure/core-client': 1.9.2
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.16.3
-      tslib: 2.7.0
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/arm-managementgroups@2.0.2':
     dependencies:
       '@azure/abort-controller': 1.1.0
@@ -35169,18 +34414,6 @@ snapshots:
       - supports-color
 
   '@azure/arm-network@32.2.0':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.2
-      '@azure/core-client': 1.9.2
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.16.3
-      tslib: 2.7.0
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/arm-operationalinsights@9.0.0':
     dependencies:
       '@azure/abort-controller': 1.1.0
       '@azure/core-auth': 1.7.2
@@ -35231,10 +34464,10 @@ snapshots:
   '@azure/communication-common@2.3.1':
     dependencies:
       '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.7.2
-      '@azure/core-rest-pipeline': 1.16.3
-      '@azure/core-tracing': 1.1.2
-      '@azure/core-util': 1.9.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-rest-pipeline': 1.17.0
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
       events: 3.3.0
       jwt-decode: 4.0.0
       tslib: 2.7.0
@@ -35296,7 +34529,7 @@ snapshots:
     dependencies:
       '@azure/abort-controller': 2.1.2
       '@azure/core-client': 1.9.2
-      '@azure/core-rest-pipeline': 1.16.3
+      '@azure/core-rest-pipeline': 1.17.0
     transitivePeerDependencies:
       - supports-color
 
@@ -35429,10 +34662,10 @@ snapshots:
   '@azure/keyvault-common@2.0.0':
     dependencies:
       '@azure/abort-controller': 2.1.2
-      '@azure/core-auth': 1.7.2
+      '@azure/core-auth': 1.9.0
       '@azure/core-client': 1.9.2
-      '@azure/core-rest-pipeline': 1.16.3
-      '@azure/core-tracing': 1.1.2
+      '@azure/core-rest-pipeline': 1.17.0
+      '@azure/core-tracing': 1.2.0
       '@azure/core-util': 1.11.0
       '@azure/logger': 1.1.4
       tslib: 2.7.0

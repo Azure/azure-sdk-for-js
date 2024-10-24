@@ -27,9 +27,10 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-advisor.d.ts",
   "devDependencies": {
-    "@azure/dev-tool": "workspace:*",
     "@azure-tools/test-credential": "catalog:test-credentialV1",
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/identity": "catalog:internal",
     "@types/chai": "catalog:legacy",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
