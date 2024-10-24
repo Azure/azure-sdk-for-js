@@ -4,9 +4,9 @@
 import { CommunicationSignalingClient, SignalingClient } from "@azure/communication-signaling";
 import { CommunicationTokenCredential } from "@azure/communication-common";
 import { AzureLogger } from "@azure/logger";
+import { ChatClientOptions } from "@azure/communication-chat";
 
-export interface SignalingClientOptions {
-  environment?: string;
+export interface SignalingClientOptions extends ChatClientOptions {
   resourceEndpoint?: string;
   gatewayApiVersion?: string;
 }
@@ -19,9 +19,10 @@ export const getSignalingClient = (
   if (typeof navigator !== "undefined" && navigator.product === "ReactNative") {
     // In React Native
     return new CommunicationSignalingClient(credential, logger, {
-      environment: options?.environment ?? undefined,
       resourceEndpoint: options?.resourceEndpoint ?? undefined,
       gatewayApiVersion: options?.gatewayApiVersion ?? undefined,
+      additionalPolicies: options?.additionalPolicies ?? undefined,
+      userAgentOptions: options?.userAgentOptions ?? undefined,
     });
   }
 
