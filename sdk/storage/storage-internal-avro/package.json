@@ -70,7 +70,6 @@
   "devDependencies": {
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@microsoft/api-extractor": "catalog:",
     "@types/chai": "catalog:legacy",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
@@ -79,7 +78,6 @@
     "dotenv": "catalog:",
     "es6-promise": "^4.2.5",
     "eslint": "catalog:",
-    "inherits": "^2.0.3",
     "karma": "catalog:legacy",
     "karma-chrome-launcher": "catalog:legacy",
     "karma-coverage": "catalog:legacy",
@@ -92,10 +90,6 @@
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
     "puppeteer": "^23.0.2",
-    "rimraf": "catalog:",
-    "source-map-support": "^0.5.9",
-    "ts-node": "catalog:legacy",
-    "typescript": "catalog:",
-    "util": "^0.12.1"
+    "typescript": "catalog:"
   }
 }

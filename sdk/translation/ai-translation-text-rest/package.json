@@ -77,18 +77,17 @@
   "autoPublish": false,
   "dependencies": {
     "@azure-rest/core-client": "catalog:core-rest-clientV1",
-    "@azure/core-auth": "workspace:~",
-    "@azure/core-rest-pipeline": "workspace:~",
-    "@azure/logger": "workspace:~",
+    "@azure/core-auth": "workspace:*",
+    "@azure/core-rest-pipeline": "workspace:*",
+    "@azure/logger": "workspace:*",
     "tslib": "catalog:"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "catalog:test-credentialV1",
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
-    "@azure/dev-tool": "workspace:~",
-    "@azure/eslint-plugin-azure-sdk": "workspace:~",
-    "@azure/identity": "workspace:~",
-    "@microsoft/api-extractor": "catalog:",
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@azure/identity": "catalog:internal",
     "@types/chai": "catalog:legacy",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
@@ -111,8 +110,6 @@
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
     "rimraf": "catalog:",
-    "source-map-support": "^0.5.9",
-    "ts-node": "catalog:legacy",
     "typescript": "catalog:"
   },
   "//metadata": {

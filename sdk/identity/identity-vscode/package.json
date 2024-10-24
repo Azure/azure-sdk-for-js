@@ -80,13 +80,10 @@
     "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
-    "inherits": "^2.0.3",
     "mocha": "catalog:legacy",
-    "puppeteer": "^23.0.2",
+    "puppeteer": "^23.6.0",
     "rimraf": "catalog:",
     "sinon": "catalog:legacy",
-    "ts-node": "catalog:legacy",
-    "typescript": "catalog:",
-    "util": "^0.12.1"
+    "typescript": "catalog:"
   }
 }

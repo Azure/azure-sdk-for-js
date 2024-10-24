@@ -73,12 +73,11 @@
   "devDependencies": {
     "@azure-tools/test-credential": "catalog:test-credentialV1",
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
-    "@azure-tools/test-utils": "~1.0.0",
+    "@azure-tools/test-utils": "workspace:*",
     "@azure/core-util": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@azure/identity": "workspace:*",
-    "@microsoft/api-extractor": "catalog:",
+    "@azure/identity": "catalog:internal",
     "@types/chai": "catalog:legacy",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
@@ -101,8 +100,6 @@
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
     "rimraf": "catalog:",
-    "source-map-support": "^0.5.9",
-    "ts-node": "catalog:legacy",
     "typescript": "catalog:"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/maps/maps-search-rest/README.md",

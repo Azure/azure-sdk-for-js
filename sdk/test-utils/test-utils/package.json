@@ -83,9 +83,7 @@
     "karma-chrome-launcher": "catalog:legacy",
     "karma-coverage": "catalog:legacy",
     "karma-env-preprocessor": "catalog:legacy",
-    "rimraf": "catalog:",
     "sinon": "catalog:legacy",
-    "ts-node": "catalog:legacy",
     "typescript": "catalog:"
   }
 }

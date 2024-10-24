@@ -75,7 +75,6 @@
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@microsoft/api-extractor": "catalog:",
     "@types/chai": "catalog:legacy",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
@@ -83,7 +82,6 @@
     "chai": "catalog:legacy",
     "cross-env": "catalog:legacy",
     "eslint": "catalog:",
-    "inherits": "^2.0.3",
     "karma": "catalog:legacy",
     "karma-chrome-launcher": "catalog:legacy",
     "karma-coverage": "catalog:legacy",
@@ -99,9 +97,7 @@
     "nyc": "catalog:legacy",
     "rimraf": "catalog:",
     "sinon": "catalog:legacy",
-    "ts-node": "catalog:legacy",
-    "typescript": "catalog:",
-    "util": "^0.12.1"
+    "typescript": "catalog:"
   },
   "standard": {
     "env": [

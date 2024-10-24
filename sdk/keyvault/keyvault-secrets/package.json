@@ -113,7 +113,6 @@
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/identity": "catalog:internal",
-    "@microsoft/api-extractor": "catalog:",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
     "@types/sinon": "catalog:legacy",
@@ -132,8 +131,6 @@
     "nyc": "catalog:legacy",
     "puppeteer": "^23.0.2",
     "sinon": "catalog:legacy",
-    "source-map-support": "^0.5.9",
-    "ts-node": "catalog:legacy",
     "typescript": "catalog:"
   },
   "type": "module",

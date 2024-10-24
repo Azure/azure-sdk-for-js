@@ -8,9 +8,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure-tools/test-perf": "^1.0.0",
+    "@azure-tools/test-perf": "workspace:*",
     "@azure/identity": "workspace:*",
-    "@azure/keyvault-keys": "^4.2.1",
+    "@azure/keyvault-keys": "workspace:*",
     "dotenv": "catalog:",
     "uuid": "^8.3.0"
   },
@@ -20,8 +20,6 @@
     "@types/uuid": "^8.0.0",
     "cross-env": "catalog:legacy",
     "eslint": "catalog:",
-    "rimraf": "catalog:",
-    "ts-node": "catalog:legacy",
     "tslib": "catalog:",
     "typescript": "catalog:"
   },

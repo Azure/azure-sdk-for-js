@@ -20,8 +20,6 @@
     "@types/uuid": "^8.0.0",
     "cross-env": "catalog:legacy",
     "eslint": "catalog:",
-    "rimraf": "catalog:",
-    "ts-node": "catalog:legacy",
     "tslib": "catalog:",
     "typescript": "catalog:"
   },

@@ -75,7 +75,7 @@
     "@azure-tools/test-utils": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@microsoft/api-extractor": "catalog:",
+    "@azure/identity": "catalog:internal",
     "@types/chai": "catalog:legacy",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "catalog:legacy",
@@ -84,7 +84,6 @@
     "chai-as-promised": "^7.1.1",
     "dotenv": "catalog:",
     "eslint": "catalog:",
-    "inherits": "^2.0.3",
     "karma": "catalog:legacy",
     "karma-chrome-launcher": "catalog:legacy",
     "karma-coverage": "catalog:legacy",
@@ -96,10 +95,7 @@
     "karma-sourcemap-loader": "catalog:legacy",
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
-    "rimraf": "catalog:",
-    "ts-node": "catalog:legacy",
-    "typescript": "catalog:",
-    "util": "^0.12.1"
+    "typescript": "catalog:"
   },
   "//metadata": {
     "constantPaths": [

@@ -21,8 +21,6 @@
     "@types/node": "catalog:",
     "cross-env": "catalog:legacy",
     "eslint": "catalog:",
-    "rimraf": "catalog:",
-    "ts-node": "catalog:legacy",
     "typescript": "catalog:"
   },
   "scripts": {

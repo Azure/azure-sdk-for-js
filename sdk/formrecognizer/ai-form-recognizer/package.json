@@ -96,7 +96,7 @@
     "@azure-tools/test-utils": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@azure/identity": "workspace:*",
+    "@azure/identity": "catalog:internal",
     "@microsoft/api-extractor": "catalog:",
     "@rollup/plugin-node-resolve": "^15.0.0",
     "@types/chai": "catalog:legacy",
@@ -120,11 +120,9 @@
     "magic-string": "~0.30.10",
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
-    "prettier": "^3.3.3",
     "rimraf": "catalog:",
     "rollup": "^4.0.0",
     "sinon": "catalog:legacy",
-    "ts-node": "catalog:legacy",
     "typescript": "catalog:"
   },
   "//sampleConfiguration": {

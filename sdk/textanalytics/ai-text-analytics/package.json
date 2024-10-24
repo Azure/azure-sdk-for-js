@@ -108,8 +108,7 @@
     "@azure-tools/test-utils": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@azure/identity": "workspace:*",
-    "@microsoft/api-extractor": "catalog:",
+    "@azure/identity": "catalog:internal",
     "@types/chai": "catalog:legacy",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "catalog:legacy",
@@ -130,13 +129,9 @@
     "karma-mocha-reporter": "catalog:legacy",
     "karma-source-map-support": "catalog:legacy",
     "karma-sourcemap-loader": "catalog:legacy",
-    "karma-sourcemap-loader": "catalog:legacy",
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
-    "rimraf": "catalog:",
     "sinon": "catalog:legacy",
-    "source-map-support": "^0.5.9",
-    "ts-node": "catalog:legacy",
     "typescript": "catalog:"
   }
 }

@@ -113,7 +113,6 @@
     "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
-    "inherits": "^2.0.3",
     "karma": "catalog:legacy",
     "karma-chrome-launcher": "catalog:legacy",
     "karma-coverage": "catalog:legacy",
@@ -127,12 +126,9 @@
     "karma-sourcemap-loader": "catalog:legacy",
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
-    "rimraf": "catalog:",
     "sinon": "catalog:legacy",
-    "ts-node": "catalog:legacy",
     "type-plus": "^7.6.2",
-    "typescript": "~5.3.3",
-    "util": "^0.12.1"
+    "typescript": "catalog:"
   },
   "//sampleConfiguration": {
     "productName": "Azure Search Documents",

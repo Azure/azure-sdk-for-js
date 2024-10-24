@@ -38,10 +38,7 @@
     "@types/node": "catalog:",
     "chai": "catalog:legacy",
     "cross-env": "catalog:legacy",
-    "mkdirp": "catalog:legacy",
     "mocha": "catalog:legacy",
-    "rimraf": "catalog:",
-    "ts-node": "catalog:legacy",
     "typescript": "catalog:",
     "uglify-js": "catalog:legacy"
   },
