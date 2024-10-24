@@ -9,20 +9,11 @@ extends:
       SupportedClouds: 'Public,UsGov,China'
       CloudConfig:
         Public:
-          ServiceConnection: azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzurePublicMsft.json
           Location: 'eastus2'
         UsGov:
-          ServiceConnection: usgov_azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzureUsGovMsft.json
           MatrixFilters:
             - ArmTemplateParameters=^(?!.*enableHsm.*true)
         China:
-          ServiceConnection: china_azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzureChinaMsft.json
           MatrixFilters:
             - ArmTemplateParameters=^(?!.*enableHsm.*true)
       # KV HSM limitation prevents us from running live tests

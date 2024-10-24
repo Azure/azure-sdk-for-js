@@ -314,6 +314,8 @@ export type TransferProgressEvent = {
   loadedBytes: number;
 };
 
+// UNBRANDED DIFFERENCE: HttpMethods are defined at the top level in unbranded instead of core-util since we don't
+//                       need to worry about creating a cyclic dependency
 /**
  * Supported HTTP methods to use when making requests.
  */
