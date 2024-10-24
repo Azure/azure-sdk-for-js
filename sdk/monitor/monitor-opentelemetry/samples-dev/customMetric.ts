@@ -19,7 +19,7 @@ const options: AzureMonitorOpenTelemetryOptions = {
   azureMonitorExporterOptions: {
     connectionString:
       process.env["APPLICATIONINSIGHTS_CONNECTION_STRING"] || "<your connection string>",
-    }
+  },
 };
 
 useAzureMonitor(options);
