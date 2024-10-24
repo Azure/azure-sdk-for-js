@@ -5,35 +5,32 @@ import { AnalyzeFromImageData200Response, ImageAnalysisResultOutput } from "../s
 
 describe("snippets", function () {
     it("Configure_Client", function () {
-        import { ImageAnalysisClient } from "@azure-rest/ai-vision-image-analysis"
-        import { AzureKeyCredential } from '@azure/core-auth'
+        import createImageAnalysisClient from "@azure-rest/ai-vision-image-analysis";
+        import { AzureKeyCredential } from "@azure/identity";
 
         const endpoint = "<your_endpoint>";
         const key = "<your_key>";
         const credential = new AzureKeyCredential(key);
 
-        // @ts-ignore
-        const client = new ImageAnalysisClient(endpoint, credential);
+        const client = createImageAnalysisClient(endpoint, credential);
     });
 
     it("ImageAnalysisEntraIDAuth", function () {
-        import { ImageAnalysisClient } from "@azure-rest/ai-vision-image-analysis"
-        import { DefaultAzureCredential } from '@azure/core-auth'
+        import createImageAnalysisClient from "@azure-rest/ai-vision-image-analysis"
+        import { DefaultAzureCredential } from "@azure/identity"
 
         const endpoint = "<your_endpoint>";
         const credential = new DefaultAzureCredential();
 
-        // @ts-ignore
-        const client = new ImageAnalysisClient(endpoint, credential);
+        const client = createImageAnalysisClient(endpoint, credential);
     });
 
-    import { ImageAnalysisClient } from"@azure-rest/ai-vision-image-analysis"
-    import { DefaultAzureCredential } from '@azure/core-auth'
+    import createImageAnalysisClient from "@azure-rest/ai-vision-image-analysis"
+    import { DefaultAzureCredential } from "@azure/identity"
     const endpoint = "<your_endpoint>";
     const credential = new DefaultAzureCredential();
 
-    // @ts-ignore
-    const client = new ImageAnalysisClient(endpoint, credential);
+    const client = createImageAnalysisClient(endpoint, credential);
 
     it("ImageAnalysisFromUrl", function () {
         const imageUrl = "https://example.com/image.jpg";
