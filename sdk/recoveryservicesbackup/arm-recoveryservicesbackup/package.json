@@ -41,8 +41,7 @@
     "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "mocha": "catalog:legacy",
-    "typescript": "catalog:",
-    "uglify-js": "catalog:legacy"
+    "typescript": "catalog:"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
@@ -79,7 +78,7 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.ts'",
     "lint": "echo skipped",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
+    "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "prepack": "npm run build",
     "test": "npm run integration-test",

@@ -74,8 +74,7 @@
     "nyc": "catalog:legacy",
     "rimraf": "catalog:",
     "sinon": "catalog:legacy",
-    "typescript": "catalog:",
-    "uglify-js": "catalog:legacy"
+    "typescript": "catalog:"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -95,7 +94,7 @@
   ],
   "scripts": {
     "build": "tsc && dev-tool run bundle && npm run minify && npm run extract-api",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
+    "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
     "integration-test:browser": "echo skip",

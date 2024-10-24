@@ -32,9 +32,9 @@
     "@azure-tools/test-credential": "catalog:test-credentialV1",
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure/arm-eventhub": "workspace:*",
-    "@azure/arm-logic": "^8.0.0",
-    "@azure/arm-operationalinsights": "^9.0.0",
-    "@azure/arm-storage": "^18.0.0",
+    "@azure/arm-logic": "workspace:*",
+    "@azure/arm-operationalinsights": "workspace:*",
+    "@azure/arm-storage": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/identity": "catalog:internal",
     "@types/chai": "catalog:legacy",
@@ -45,8 +45,7 @@
     "dotenv": "catalog:",
     "mkdirp": "catalog:legacy",
     "mocha": "catalog:legacy",
-    "typescript": "catalog:",
-    "uglify-js": "catalog:legacy"
+    "typescript": "catalog:"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
@@ -83,7 +82,7 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.ts'",
     "lint": "echo skipped",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
+    "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "prepack": "npm run build",
     "test": "npm run integration-test",
