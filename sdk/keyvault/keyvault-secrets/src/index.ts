@@ -13,7 +13,7 @@ import {
   SecretItem,
   DeletedSecretItem,
 } from "./generated/models/index.js";
-import { KeyVaultClient } from "./generated/keyVaultClient.js";
+import { KeyVaultClient, KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 
 import {
@@ -40,6 +40,7 @@ import { KeyVaultSecretIdentifier, parseKeyVaultSecretIdentifier } from "./ident
 import { getSecretFromSecretBundle, mapPagedAsyncIterable } from "./transformations.js";
 import { tracingClient } from "./tracing.js";
 import { FullOperationResponse } from "@azure-rest/core-client";
+import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 
 export type DeletionRecoveryLevel = string;
 
@@ -109,12 +110,12 @@ export class SecretClient {
   constructor(vaultUrl: string, credential: TokenCredential, options: SecretClientOptions = {}) {
     this.vaultUrl = vaultUrl;
 
-    const internalPipelineOptions = {
+    const internalPipelineOptions: KeyVaultClientOptionalParams = {
       ...options,
       apiVersion: options.serviceVersion || LATEST_API_VERSION,
       loggingOptions: {
         logger: logger.info,
-        allowedHeaderNames: [
+        additionalAllowedHeaderNames: [
           "x-ms-keyvault-region",
           "x-ms-keyvault-network-info",
           "x-ms-keyvault-service-version",
@@ -126,6 +127,8 @@ export class SecretClient {
 
     // The authentication policy must come after the deserialization policy since the deserialization policy
     // converts 401 responses to an Error, and we don't want to deal with that.
+    // TODO: discuss this with the codeGen crew
+    this.client.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
     this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, options), {
       afterPolicies: ["deserializationPolicy"],
     });
@@ -170,7 +173,16 @@ export class SecretClient {
       async (updatedOptions) => {
         const response = await this.client.setSecret(
           secretName,
-          { value, ...unflattenedOptions },
+          {
+            value,
+            contentType: options.contentType,
+            secretAttributes: {
+              enabled: options.enabled,
+              notBefore: options.notBefore,
+              expires: options.expiresOn,
+            },
+            tags: options.tags,
+          },
           updatedOptions,
         );
         return getSecretFromSecretBundle(response);
@@ -205,10 +217,10 @@ export class SecretClient {
    * @param secretName - The name of the secret.
    * @param options - The optional parameters.
    */
-  public async beginDeleteSecret(
+  public beginDeleteSecret(
     name: string,
     options: BeginDeleteSecretOptions = {},
-  ): Promise<PollerLike<OperationState<DeletedSecret>, DeletedSecret>> {
+  ): PollerLike<OperationState<DeletedSecret>, DeletedSecret> {
     const poller = createHttpPoller<DeletedSecret, OperationState<DeletedSecret>>({
       // TODO: can I / should I use the rest client for this?
       sendInitialRequest: async () => {
@@ -268,6 +280,7 @@ export class SecretClient {
         }
       },
     });
+    poller.poll();
     return poller;
   }
 

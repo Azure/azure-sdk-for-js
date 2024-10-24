@@ -75,8 +75,9 @@ describe("Secret client - list secrets in various ways", () => {
       await client.setSecret(name, "RSA");
     }
     for (const name of secretNames) {
-      const deletePoller = await client.beginDeleteSecret(name, testPollerProperties);
+      const deletePoller = client.beginDeleteSecret(name, testPollerProperties);
       await deletePoller.pollUntilDone();
+      // await deletePoller.pollUntilDone(); // TODO: avoid a breaking change in this poller
     }
 
     let found = 0;
