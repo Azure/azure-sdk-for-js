@@ -6,7 +6,7 @@ Microsoft.ServiceLinker provider
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicelinker/arm-servicelinker) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-servicelinker) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-servicelinker) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-servicelinker?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -53,15 +53,14 @@ const { ServiceLinkerManagementClient } = require("@azure/arm-servicelinker");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
-const subscriptionId = "00000000-0000-0000-0000-000000000000";
-const client = new ServiceLinkerManagementClient(new DefaultAzureCredential(), subscriptionId);
+const client = new ServiceLinkerManagementClient(new DefaultAzureCredential());
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new ServiceLinkerManagementClient(credential, subscriptionId);
+// const client = new ServiceLinkerManagementClient(credential);
 ```
 
 
