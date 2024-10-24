@@ -199,6 +199,7 @@ import {
 import { BlobSASPermissions } from "./sas/BlobSASPermissions";
 import { BlobLeaseClient } from "./BlobLeaseClient";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { UserDelegationKey } from "./BlobServiceClient";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -2196,6 +2197,68 @@ export class BlobClient extends StorageClient {
         ...options,
       },
       this.credential,
+    ).stringToSign;
+  }
+
+  /**
+   *
+   * Generates a Blob Service Shared Access Signature (SAS) URI based on
+   * the client properties and parameters passed in. The SAS is signed by the input user delegation key.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationSasUrl(
+    options: BlobGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): Promise<string> {
+    return new Promise((resolve) => {
+      const sas = generateBlobSASQueryParameters(
+        {
+          containerName: this._containerName,
+          blobName: this._name,
+          snapshotTime: this._snapshot,
+          versionId: this._versionId,
+          ...options,
+        },
+        userDelegationKey,
+        this.accountName,
+      ).toString();
+
+      resolve(appendToURLQuery(this.url, sas));
+    });
+  }
+
+  /**
+   * Only available for BlobClient constructed with a shared key credential.
+   *
+   * Generates string to sign for a Blob Service Shared Access Signature (SAS) URI based on
+   * the client properties and parameters passed in. The SAS is signed by the input user delegation key.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateUserDelegationSasStringToSign(
+    options: BlobGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+    return generateBlobSASQueryParametersInternal(
+      {
+        containerName: this._containerName,
+        blobName: this._name,
+        snapshotTime: this._snapshot,
+        versionId: this._versionId,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName,
     ).stringToSign;
   }
 

@@ -185,8 +185,8 @@ export function resourceMetricsToQuickpulseDataPoint(
 
         // Update name to expected value in Quickpulse, needed because those names are invalid in OTel
         switch (metric.descriptor.name) {
-          case QuickPulseOpenTelemetryMetricNames.COMMITTED_BYTES:
-            metricPoint.name = QuickPulseMetricNames.COMMITTED_BYTES;
+          case QuickPulseOpenTelemetryMetricNames.PHYSICAL_BYTES:
+            metricPoint.name = QuickPulseMetricNames.PHYSICAL_BYTES;
             break;
           case QuickPulseOpenTelemetryMetricNames.DEPENDENCY_DURATION:
             metricPoint.name = QuickPulseMetricNames.DEPENDENCY_DURATION;
@@ -200,8 +200,8 @@ export function resourceMetricsToQuickpulseDataPoint(
           case QuickPulseOpenTelemetryMetricNames.EXCEPTION_RATE:
             metricPoint.name = QuickPulseMetricNames.EXCEPTION_RATE;
             break;
-          case QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME:
-            metricPoint.name = QuickPulseMetricNames.PROCESSOR_TIME;
+          case QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME_NORMALIZED:
+            metricPoint.name = QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED;
             break;
           case QuickPulseOpenTelemetryMetricNames.REQUEST_DURATION:
             metricPoint.name = QuickPulseMetricNames.REQUEST_DURATION;
@@ -225,6 +225,23 @@ export function resourceMetricsToQuickpulseDataPoint(
           metricPoint.value = (dataPoint.value as Histogram).sum || 0;
         }
         metricPoints.push(metricPoint);
+
+        // TODO: remove the metric points with the old metric names after
+        // UI side has done their changes to support the new names.
+        if (
+          metricPoint.name === QuickPulseMetricNames.PHYSICAL_BYTES ||
+          metricPoint.name === QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED
+        ) {
+          const oldMetricPoint: MetricPoint = {
+            weight: 1,
+            name:
+              metricPoint.name === QuickPulseMetricNames.PHYSICAL_BYTES
+                ? QuickPulseMetricNames.COMMITTED_BYTES
+                : QuickPulseMetricNames.PROCESSOR_TIME,
+            value: dataPoint.value as number,
+          };
+          metricPoints.push(oldMetricPoint);
+        }
       });
     });
   });
