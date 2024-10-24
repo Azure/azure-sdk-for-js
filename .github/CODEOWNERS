@@ -595,6 +595,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/iotfirmwaredefense/arm-iotfirmwaredefense @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/iotoperations/arm-iotoperations/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/iothub/arm-iothub/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
