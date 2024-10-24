@@ -8,7 +8,10 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { NetAppManagementClient } from "@azure/arm-netapp";
+import {
+  NetAppResourceCheckFilePathAvailabilityOptionalParams,
+  NetAppManagementClient,
+} from "@azure/arm-netapp";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -18,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Check if a file path is available.
  *
  * @summary Check if a file path is available.
- * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-03-01/examples/CheckFilePathAvailability.json
+ * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2024-07-01/examples/CheckFilePathAvailability.json
  */
 async function checkFilePathAvailability() {
   const subscriptionId =
@@ -28,12 +31,17 @@ async function checkFilePathAvailability() {
   const name = "my-exact-filepth";
   const subnetId =
     "/subscriptions/9760acf5-4638-11e7-9bdb-020073ca7778/resourceGroups/myRP/providers/Microsoft.Network/virtualNetworks/testvnet3/subnets/testsubnet3";
+  const availabilityZone = "undefined";
+  const options: NetAppResourceCheckFilePathAvailabilityOptionalParams = {
+    availabilityZone,
+  };
   const credential = new DefaultAzureCredential();
   const client = new NetAppManagementClient(credential, subscriptionId);
   const result = await client.netAppResource.checkFilePathAvailability(
     location,
     name,
     subnetId,
+    options,
   );
   console.log(result);
 }
