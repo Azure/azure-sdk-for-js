@@ -171,11 +171,7 @@ export interface CallInvite {
 }
 
 /** The locator type of a call. */
-export type CallLocatorType =
-  | "unknown"
-  | "serverCallLocator"
-  | "groupCallLocator"
-  | "roomCallLocator";
+export type CallLocatorType = "serverCallLocator" | "groupCallLocator" | "roomCallLocator";
 
 /** The content type of a call recording. */
 export type RecordingContent = "audio" | "audioVideo";

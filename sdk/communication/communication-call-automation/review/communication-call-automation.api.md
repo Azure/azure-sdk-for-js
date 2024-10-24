@@ -167,7 +167,7 @@ export interface CallLocator {
 }
 
 // @public
-export type CallLocatorType = "unknown" | "serverCallLocator" | "groupCallLocator" | "roomCallLocator";
+export type CallLocatorType = "serverCallLocator" | "groupCallLocator" | "roomCallLocator";
 
 // @public
 export class CallMedia {
