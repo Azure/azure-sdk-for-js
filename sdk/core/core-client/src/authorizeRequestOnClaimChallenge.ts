@@ -94,6 +94,9 @@ export async function authorizeRequestOnClaimChallenge(
     return false;
   }
 
-  onChallengeOptions.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
+  onChallengeOptions.request.headers.set(
+    "Authorization",
+    `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`,
+  );
   return true;
 }
