@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import { getFleetsOperations, FleetsOperations } from "./classic/fleets/index.js";
 import {
   createAzureFleet,
-  AzureFleetClientOptionalParams,
   AzureFleetContext,
+  AzureFleetClientOptionalParams,
 } from "./api/index.js";
+import { Pipeline } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
 
 export { AzureFleetClientOptionalParams } from "./api/azureFleetContext.js";
 
@@ -27,7 +27,6 @@ export class AzureFleetClient {
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`
       : "azsdk-js-client";
-
     this._client = createAzureFleet(credential, {
       ...options,
       userAgentOptions: { userAgentPrefix },
