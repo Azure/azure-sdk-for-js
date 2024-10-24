@@ -8,7 +8,7 @@
 
 import {
   ExternalUserCreateOrUpdateOptionalParams,
-  ExternalUserCreateOrUpdateResponse
+  ExternalUserCreateOrUpdateResponse,
 } from "../models";
 
 /** Interface representing a ExternalUser. */
@@ -16,13 +16,13 @@ export interface ExternalUser {
   /**
    * Create User inside elastic deployment which are used by customers to perform operations on the
    * elastic deployment
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   createOrUpdate(
     resourceGroupName: string,
     monitorName: string,
-    options?: ExternalUserCreateOrUpdateOptionalParams
+    options?: ExternalUserCreateOrUpdateOptionalParams,
   ): Promise<ExternalUserCreateOrUpdateResponse>;
 }

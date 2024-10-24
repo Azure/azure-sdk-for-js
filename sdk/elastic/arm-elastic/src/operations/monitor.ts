@@ -14,7 +14,7 @@ import { MicrosoftElastic } from "../microsoftElastic";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import { MonitorUpgradeOptionalParams } from "../models";
@@ -33,32 +33,31 @@ export class MonitorImpl implements Monitor {
 
   /**
    * Upgradable version for a monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   async beginUpgrade(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorUpgradeOptionalParams
+    options?: MonitorUpgradeOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -67,8 +66,8 @@ export class MonitorImpl implements Monitor {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -76,19 +75,19 @@ export class MonitorImpl implements Monitor {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, monitorName, options },
-      spec: upgradeOperationSpec
+      spec: upgradeOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -96,19 +95,19 @@ export class MonitorImpl implements Monitor {
 
   /**
    * Upgradable version for a monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   async beginUpgradeAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: MonitorUpgradeOptionalParams
+    options?: MonitorUpgradeOptionalParams,
   ): Promise<void> {
     const poller = await this.beginUpgrade(
       resourceGroupName,
       monitorName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -117,8 +116,7 @@ export class MonitorImpl implements Monitor {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const upgradeOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/upgrade",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/upgrade",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -126,18 +124,18 @@ const upgradeOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
-  requestBody: Parameters.body5,
+  requestBody: Parameters.body6,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
