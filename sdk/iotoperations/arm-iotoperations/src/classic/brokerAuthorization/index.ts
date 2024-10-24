@@ -36,10 +36,7 @@ export interface BrokerAuthorizationOperations {
     authorizationName: string,
     resource: BrokerAuthorizationResource,
     options?: BrokerAuthorizationCreateOrUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<BrokerAuthorizationResource>,
-    BrokerAuthorizationResource
-  >;
+  ) => PollerLike<OperationState<BrokerAuthorizationResource>, BrokerAuthorizationResource>;
   /** Delete a BrokerAuthorizationResource */
   delete: (
     resourceGroupName: string,
@@ -57,10 +54,7 @@ export interface BrokerAuthorizationOperations {
   ) => PagedAsyncIterableIterator<BrokerAuthorizationResource>;
 }
 
-export function getBrokerAuthorization(
-  context: IoTOperationsContext,
-  subscriptionId: string,
-) {
+export function getBrokerAuthorization(context: IoTOperationsContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,

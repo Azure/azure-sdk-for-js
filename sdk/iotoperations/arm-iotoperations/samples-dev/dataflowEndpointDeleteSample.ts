@@ -14,11 +14,7 @@ async function dataflowEndpointDelete() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
-  await client.dataflowEndpoint.delete(
-    "rgiotoperations",
-    "resource-name123",
-    "resource-name123",
-  );
+  await client.dataflowEndpoint.delete("rgiotoperations", "resource-name123", "resource-name123");
 }
 
 async function main() {

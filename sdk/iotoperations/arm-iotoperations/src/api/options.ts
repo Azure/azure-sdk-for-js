@@ -25,12 +25,10 @@ export interface InstanceDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface InstanceListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface InstanceListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface InstanceListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface InstanceListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface BrokerGetOptionalParams extends OperationOptions {}
@@ -48,15 +46,13 @@ export interface BrokerDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface BrokerListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface BrokerListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface BrokerListenerGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BrokerListenerCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface BrokerListenerCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -68,59 +64,49 @@ export interface BrokerListenerDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface BrokerListenerListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface BrokerListenerListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BrokerAuthenticationGetOptionalParams
-  extends OperationOptions {}
+export interface BrokerAuthenticationGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BrokerAuthenticationCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface BrokerAuthenticationCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface BrokerAuthenticationDeleteOptionalParams
-  extends OperationOptions {
+export interface BrokerAuthenticationDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface BrokerAuthenticationListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface BrokerAuthenticationListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BrokerAuthorizationGetOptionalParams
-  extends OperationOptions {}
+export interface BrokerAuthorizationGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface BrokerAuthorizationCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface BrokerAuthorizationCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface BrokerAuthorizationDeleteOptionalParams
-  extends OperationOptions {
+export interface BrokerAuthorizationDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface BrokerAuthorizationListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface BrokerAuthorizationListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DataflowProfileGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface DataflowProfileCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface DataflowProfileCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -132,8 +118,7 @@ export interface DataflowProfileDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface DataflowProfileListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface DataflowProfileListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DataflowGetOptionalParams extends OperationOptions {}
@@ -151,15 +136,13 @@ export interface DataflowDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface DataflowListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface DataflowListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface DataflowEndpointGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface DataflowEndpointCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface DataflowEndpointCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -171,5 +154,4 @@ export interface DataflowEndpointDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface DataflowEndpointListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface DataflowEndpointListByResourceGroupOptionalParams extends OperationOptions {}

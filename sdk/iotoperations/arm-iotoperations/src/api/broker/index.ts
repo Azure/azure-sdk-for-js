@@ -122,26 +122,21 @@ export function brokerCreateOrUpdate(
   resource: BrokerResource,
   options: BrokerCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<BrokerResource>, BrokerResource> {
-  return getLongRunningPoller(
-    context,
-    _brokerCreateOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _brokerCreateOrUpdateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          instanceName,
-          brokerName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<BrokerResource>, BrokerResource>;
+  return getLongRunningPoller(context, _brokerCreateOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _brokerCreateOrUpdateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        instanceName,
+        brokerName,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<BrokerResource>, BrokerResource>;
 }
 
 export function _brokerDeleteSend(
@@ -163,9 +158,7 @@ export function _brokerDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _brokerDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _brokerDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -183,25 +176,20 @@ export function brokerDelete(
   brokerName: string,
   options: BrokerDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _brokerDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _brokerDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          instanceName,
-          brokerName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _brokerDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _brokerDeleteSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        instanceName,
+        brokerName,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }
 
 export function _brokerListByResourceGroupSend(

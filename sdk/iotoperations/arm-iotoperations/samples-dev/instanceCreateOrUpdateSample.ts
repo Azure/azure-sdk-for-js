@@ -14,26 +14,22 @@ async function instanceCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "F8C729F9-DF9C-4743-848F-96EE433D8E53";
   const client = new IoTOperationsClient(credential, subscriptionId);
-  const result = await client.instance.createOrUpdate(
-    "rgiotoperations",
-    "aio-instance",
-    {
-      properties: {
-        schemaRegistryRef: {
-          resourceId:
-            "/subscriptions/0000000-0000-0000-0000-000000000000/resourceGroups/resourceGroup123/providers/Microsoft.DeviceRegistry/schemaRegistries/resource-name123",
-        },
-        description: "kpqtgocs",
+  const result = await client.instance.createOrUpdate("rgiotoperations", "aio-instance", {
+    properties: {
+      schemaRegistryRef: {
+        resourceId:
+          "/subscriptions/0000000-0000-0000-0000-000000000000/resourceGroups/resourceGroup123/providers/Microsoft.DeviceRegistry/schemaRegistries/resource-name123",
       },
-      extendedLocation: {
-        name: "qmbrfwcpwwhggszhrdjv",
-        type: "CustomLocation",
-      },
-      identity: { type: "None", userAssignedIdentities: {} },
-      tags: {},
-      location: "xvewadyhycrjpu",
+      description: "kpqtgocs",
     },
-  );
+    extendedLocation: {
+      name: "qmbrfwcpwwhggszhrdjv",
+      type: "CustomLocation",
+    },
+    identity: { type: "None", userAssignedIdentities: {} },
+    tags: {},
+    location: "xvewadyhycrjpu",
+  });
   console.log(result);
 }
 

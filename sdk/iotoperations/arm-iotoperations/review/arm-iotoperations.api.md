@@ -705,26 +705,6 @@ export interface DiskBackedMessageBuffer {
 export type EndpointType = string;
 
 // @public
-export interface ErrorAdditionalInfo {
-    readonly info?: Record<string, any>;
-    readonly type?: string;
-}
-
-// @public
-export interface ErrorDetail {
-    readonly additionalInfo?: ErrorAdditionalInfo[];
-    readonly code?: string;
-    readonly details?: ErrorDetail[];
-    readonly message?: string;
-    readonly target?: string;
-}
-
-// @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
-}
-
-// @public
 export interface ExtendedLocation {
     name: string;
     type: ExtendedLocationType;

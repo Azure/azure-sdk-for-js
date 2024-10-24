@@ -6,9 +6,7 @@
     "rootDir": ".",
     "skipLibCheck": true,
     "paths": {
-      "@azure/arm-iotoperations": [
-        "./src/index"
-      ]
+      "@azure/arm-iotoperations": ["./src/index"]
     }
   },
   "include": [

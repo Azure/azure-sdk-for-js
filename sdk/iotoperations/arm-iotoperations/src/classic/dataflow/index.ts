@@ -54,10 +54,7 @@ export interface DataflowOperations {
   ) => PagedAsyncIterableIterator<DataflowResource>;
 }
 
-export function getDataflow(
-  context: IoTOperationsContext,
-  subscriptionId: string,
-) {
+export function getDataflow(context: IoTOperationsContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,
