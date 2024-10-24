@@ -151,10 +151,6 @@
 # ServiceLabel: %Azure.Identity
 # AzureSdkOwners:  @KarishmaGhiya @maorleger
 
-# PRLabel: %Iot
-# ServiceLabel: %Iot
-/sdk/iot/ @xirzec
-
 # PRLabel: %KeyVault
 /sdk/keyvault/ @maorleger @timovv
 
@@ -281,12 +277,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # ServiceLabel: %Notification Hub
 # AzureSdkOwners: @mpodwysocki
 # ServiceOwners: @lomagdal2
-
-# PRLabel: %Cognitive - Content Safety
-/sdk/contentsafety/ @xirzec
-
-# ServiceLabel: %Cognitive - Content Safety
-# AzureSdkOwners: @xirzec
 
 # PRLabel: %Operator Nexus - Network Cloud
 # ServiceLabel: %Operator Nexus - Network Cloud
@@ -995,9 +985,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # ServiceLabel: %AAD %Service Attention
 #/<NotInRepo>/          @adamedx
 
-# ServiceLabel: %AKS %Service Attention
-#/<NotInRepo>/          @Azure/aks-pm
-
 # ServiceLabel: %Alerts Management %Service Attention
 #/<NotInRepo>/          @liadtal @yairgil
 
@@ -1038,7 +1025,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @antcp @AzureAppServiceCLI
 
 # ServiceLabel: %App Configuration %Service Attention
-#/<NotInRepo>/          @zhiyuanliang-ms @avanigupta
+#/<NotInRepo>/          @avanigupta
 
 # ServiceLabel: %ARO %Service Attention
 #/<NotInRepo>/          @mjudeikis @jim-minter @julienstroheker @amanohar
@@ -1215,7 +1202,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # ServiceLabel: %Devtestlab %Service Attention
 #/<NotInRepo>/          @Tanmayeekamath
 
-# ServiceLabel: %Device Provisioning Service %Service Attention
+# ServiceLabel: %Device Update %Service Attention
 #/<NotInRepo>/          @nberdy
 
 # ServiceLabel: %Digital Twins %Service Attention
@@ -1253,9 +1240,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %Lab Services %Service Attention
 #/<NotInRepo>/          @Tanmayeekamath
-
-# ServiceLabel: %Logic App %Service Attention
-#/<NotInRepo>/          @Azure/azure-logicapps-team
 
 # ServiceLabel: %LOUIS %Service Attention
 #/<NotInRepo>/          @minamnmik
@@ -1417,7 +1401,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @xgithubtriage
 
 # ServiceLabel: %Service Attention %Storsimple
-#/<NotInRepo>/          @anoobbacker @ganzee @manuaery @patelkunal
+#/<NotInRepo>/          @anoobbacker @ganzee @manuaery
 
 # ServiceLabel: %Service Attention %Stream Analytics
 #/<NotInRepo>/          @atpham256
@@ -1466,9 +1450,6 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %SecurityInsights %Service Attention
 #/<NotInRepo>/          @amirkeren
-
-# ServiceLabel: %IoT - CLI %Service Attention
-#/<NotInRepo>/          @Azure/azure-iot-cli-triage
 
 # ServiceLabel: %Communication %Service Attention
 #/<NotInRepo>/          @acsdevx-msft
