@@ -7,6 +7,26 @@ export {
   KubernetesRuntimeClientOptionalParams,
 } from "./kubernetesRuntimeContext.js";
 export {
+  StorageClassGetOptionalParams,
+  StorageClassCreateOrUpdateOptionalParams,
+  StorageClassUpdateOptionalParams,
+  StorageClassDeleteOptionalParams,
+  StorageClassListOptionalParams,
+  OperationsListOptionalParams,
+  LoadBalancersGetOptionalParams,
+  LoadBalancersCreateOrUpdateOptionalParams,
+  LoadBalancersDeleteOptionalParams,
+  LoadBalancersListOptionalParams,
+  BgpPeersGetOptionalParams,
+  BgpPeersCreateOrUpdateOptionalParams,
+  BgpPeersDeleteOptionalParams,
+  BgpPeersListOptionalParams,
+  ServicesGetOptionalParams,
+  ServicesCreateOrUpdateOptionalParams,
+  ServicesDeleteOptionalParams,
+  ServicesListOptionalParams,
+} from "./options.js";
+export {
   bgpPeersGet,
   bgpPeersCreateOrUpdate,
   bgpPeersDelete,

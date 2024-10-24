@@ -4,8 +4,6 @@
 
 ```ts
 
-import { OperationOptions } from '@azure-rest/core-client';
-
 // @public
 export type AccessMode = string;
 
@@ -26,23 +24,6 @@ export interface BgpPeerProperties {
     peerAddress: string;
     peerAsn: number;
     readonly provisioningState?: ProvisioningState;
-}
-
-// @public
-export interface BgpPeersCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface BgpPeersDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BgpPeersGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface BgpPeersListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -174,23 +155,6 @@ export interface LoadBalancerProperties {
 }
 
 // @public
-export interface LoadBalancersCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface LoadBalancersDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface LoadBalancersGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface LoadBalancersListOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface NativeStorageClassTypeProperties extends StorageClassTypeProperties {
     type: "Native";
 }
@@ -223,10 +187,6 @@ export interface OperationDisplay {
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
-}
-
-// @public
-export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -267,22 +227,6 @@ export interface ServiceResource extends ExtensionResource {
 }
 
 // @public
-export interface ServicesCreateOrUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ServicesDeleteOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ServicesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface ServicesListOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface SmbStorageClassTypeProperties extends StorageClassTypeProperties {
     domain?: string;
     password?: string;
@@ -290,24 +234,6 @@ export interface SmbStorageClassTypeProperties extends StorageClassTypePropertie
     subDir?: string;
     type: "SMB";
     username?: string;
-}
-
-// @public
-export interface StorageClassCreateOrUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface StorageClassDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface StorageClassGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface StorageClassListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -371,11 +297,6 @@ export interface StorageClassTypePropertiesUpdate {
     source?: string;
     subDir?: string;
     username?: string;
-}
-
-// @public
-export interface StorageClassUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public

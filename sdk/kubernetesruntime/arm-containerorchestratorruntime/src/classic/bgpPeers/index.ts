@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import { KubernetesRuntimeContext } from "../../api/kubernetesRuntimeContext.js";
-import { BgpPeer } from "../../models/models.js";
 import {
   bgpPeersGet,
   bgpPeersCreateOrUpdate,
   bgpPeersDelete,
   bgpPeersList,
 } from "../../api/bgpPeers/index.js";
+import { BgpPeer } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -16,7 +16,7 @@ import {
   BgpPeersCreateOrUpdateOptionalParams,
   BgpPeersDeleteOptionalParams,
   BgpPeersListOptionalParams,
-} from "../../models/options.js";
+} from "../../api/options.js";
 
 /** Interface representing a BgpPeers operations. */
 export interface BgpPeersOperations {
@@ -48,22 +48,37 @@ export interface BgpPeersOperations {
 
 export function getBgpPeers(context: KubernetesRuntimeContext) {
   return {
-    get: (resourceUri: string, bgpPeerName: string, options?: BgpPeersGetOptionalParams) =>
-      bgpPeersGet(context, resourceUri, bgpPeerName, options),
+    get: (
+      resourceUri: string,
+      bgpPeerName: string,
+      options?: BgpPeersGetOptionalParams,
+    ) => bgpPeersGet(context, resourceUri, bgpPeerName, options),
     createOrUpdate: (
       resourceUri: string,
       bgpPeerName: string,
       resource: BgpPeer,
       options?: BgpPeersCreateOrUpdateOptionalParams,
-    ) => bgpPeersCreateOrUpdate(context, resourceUri, bgpPeerName, resource, options),
-    delete: (resourceUri: string, bgpPeerName: string, options?: BgpPeersDeleteOptionalParams) =>
-      bgpPeersDelete(context, resourceUri, bgpPeerName, options),
+    ) =>
+      bgpPeersCreateOrUpdate(
+        context,
+        resourceUri,
+        bgpPeerName,
+        resource,
+        options,
+      ),
+    delete: (
+      resourceUri: string,
+      bgpPeerName: string,
+      options?: BgpPeersDeleteOptionalParams,
+    ) => bgpPeersDelete(context, resourceUri, bgpPeerName, options),
     list: (resourceUri: string, options?: BgpPeersListOptionalParams) =>
       bgpPeersList(context, resourceUri, options),
   };
 }
 
-export function getBgpPeersOperations(context: KubernetesRuntimeContext): BgpPeersOperations {
+export function getBgpPeersOperations(
+  context: KubernetesRuntimeContext,
+): BgpPeersOperations {
   return {
     ...getBgpPeers(context),
   };

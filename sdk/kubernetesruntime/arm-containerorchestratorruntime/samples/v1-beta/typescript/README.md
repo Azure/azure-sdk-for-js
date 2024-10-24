@@ -1,4 +1,4 @@
-# @azure/arm-containerorchestratorruntime client library samples for TypeScript
+# @azure/arm-containerorchestratorruntime client library samples for TypeScript (Beta)
 
 These sample programs show how to use the TypeScript client libraries for @azure/arm-containerorchestratorruntime in some common scenarios.
 
@@ -73,24 +73,24 @@ npx cross-env  node dist/bgpPeersCreateOrUpdateSample.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[bgppeerscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/bgpPeersCreateOrUpdateSample.ts
-[bgppeersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/bgpPeersDeleteSample.ts
-[bgppeersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/bgpPeersGetSample.ts
-[bgppeerslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/bgpPeersListSample.ts
-[loadbalancerscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/loadBalancersCreateOrUpdateSample.ts
-[loadbalancersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/loadBalancersDeleteSample.ts
-[loadbalancersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/loadBalancersGetSample.ts
-[loadbalancerslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/loadBalancersListSample.ts
-[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/operationsListSample.ts
-[servicescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/servicesCreateOrUpdateSample.ts
-[servicesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/servicesDeleteSample.ts
-[servicesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/servicesGetSample.ts
-[serviceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/servicesListSample.ts
-[storageclasscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/storageClassCreateOrUpdateSample.ts
-[storageclassdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/storageClassDeleteSample.ts
-[storageclassgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/storageClassGetSample.ts
-[storageclasslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/storageClassListSample.ts
-[storageclassupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1/typescript/src/storageClassUpdateSample.ts
+[bgppeerscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/bgpPeersCreateOrUpdateSample.ts
+[bgppeersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/bgpPeersDeleteSample.ts
+[bgppeersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/bgpPeersGetSample.ts
+[bgppeerslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/bgpPeersListSample.ts
+[loadbalancerscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/loadBalancersCreateOrUpdateSample.ts
+[loadbalancersdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/loadBalancersDeleteSample.ts
+[loadbalancersgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/loadBalancersGetSample.ts
+[loadbalancerslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/loadBalancersListSample.ts
+[operationslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/operationsListSample.ts
+[servicescreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/servicesCreateOrUpdateSample.ts
+[servicesdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/servicesDeleteSample.ts
+[servicesgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/servicesGetSample.ts
+[serviceslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/servicesListSample.ts
+[storageclasscreateorupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/storageClassCreateOrUpdateSample.ts
+[storageclassdeletesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/storageClassDeleteSample.ts
+[storageclassgetsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/storageClassGetSample.ts
+[storageclasslistsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/storageClassListSample.ts
+[storageclassupdatesample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/samples/v1-beta/typescript/src/storageClassUpdateSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/arm-containerorchestratorruntime?view=azure-node-preview
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/kubernetesruntime/arm-containerorchestratorruntime/README.md

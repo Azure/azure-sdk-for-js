@@ -10,7 +10,10 @@ import {
 import { _loadBalancersCreateOrUpdateDeserialize } from "./api/loadBalancers/index.js";
 import { _bgpPeersCreateOrUpdateDeserialize } from "./api/bgpPeers/index.js";
 import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
-import { OperationOptions, PathUncheckedResponse } from "@azure-rest/core-client";
+import {
+  OperationOptions,
+  PathUncheckedResponse,
+} from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   PollerLike,
@@ -41,7 +44,9 @@ export interface RestorePollerOptions<
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   client: KubernetesRuntimeClient,
   serializedState: string,
-  sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
+  sourceOperation: (
+    ...args: any[]
+  ) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,
 ): PollerLike<OperationState<TResult>, TResult> {
   const pollerConfig = deserializeState(serializedState).config;
@@ -82,26 +87,31 @@ interface DeserializationHelper {
 }
 
 const deserializeMap: Record<string, DeserializationHelper> = {
-  "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}": {
-    deserializer: _storageClassCreateOrUpdateDeserialize,
-    expectedStatuses: ["200", "201"],
-  },
-  "PATCH /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}": {
-    deserializer: _storageClassUpdateDeserialize,
-    expectedStatuses: ["200", "202"],
-  },
-  "DELETE /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}": {
-    deserializer: _storageClassDeleteDeserialize,
-    expectedStatuses: ["202", "204", "200"],
-  },
-  "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}": {
-    deserializer: _loadBalancersCreateOrUpdateDeserialize,
-    expectedStatuses: ["200", "201"],
-  },
-  "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}": {
-    deserializer: _bgpPeersCreateOrUpdateDeserialize,
-    expectedStatuses: ["200", "201"],
-  },
+  "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}":
+    {
+      deserializer: _storageClassCreateOrUpdateDeserialize,
+      expectedStatuses: ["200", "201"],
+    },
+  "PATCH /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}":
+    {
+      deserializer: _storageClassUpdateDeserialize,
+      expectedStatuses: ["200", "202"],
+    },
+  "DELETE /{resourceUri}/providers/Microsoft.KubernetesRuntime/storageClasses/{storageClassName}":
+    {
+      deserializer: _storageClassDeleteDeserialize,
+      expectedStatuses: ["202", "204", "200"],
+    },
+  "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers/{loadBalancerName}":
+    {
+      deserializer: _loadBalancersCreateOrUpdateDeserialize,
+      expectedStatuses: ["200", "201"],
+    },
+  "PUT /{resourceUri}/providers/Microsoft.KubernetesRuntime/bgpPeers/{bgpPeerName}":
+    {
+      deserializer: _bgpPeersCreateOrUpdateDeserialize,
+      expectedStatuses: ["200", "201"],
+    },
 };
 
 function getDeserializationHelper(
@@ -130,17 +140,24 @@ function getDeserializationHelper(
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;

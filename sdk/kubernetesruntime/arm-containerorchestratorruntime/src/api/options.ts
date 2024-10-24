@@ -7,7 +7,8 @@ import { OperationOptions } from "@azure-rest/core-client";
 export interface StorageClassGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface StorageClassCreateOrUpdateOptionalParams extends OperationOptions {
+export interface StorageClassCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -34,7 +35,8 @@ export interface OperationsListOptionalParams extends OperationOptions {}
 export interface LoadBalancersGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface LoadBalancersCreateOrUpdateOptionalParams extends OperationOptions {
+export interface LoadBalancersCreateOrUpdateOptionalParams
+  extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -64,7 +66,8 @@ export interface BgpPeersListOptionalParams extends OperationOptions {}
 export interface ServicesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ServicesCreateOrUpdateOptionalParams extends OperationOptions {}
+export interface ServicesCreateOrUpdateOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ServicesDeleteOptionalParams extends OperationOptions {}

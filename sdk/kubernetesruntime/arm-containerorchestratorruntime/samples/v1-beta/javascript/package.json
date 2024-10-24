@@ -1,14 +1,10 @@
 {
-  "name": "@azure-samples/arm-containerorchestratorruntime-ts",
+  "name": "@azure-samples/arm-containerorchestratorruntime-js-beta",
   "private": true,
   "version": "1.0.0",
-  "description": "@azure/arm-containerorchestratorruntime client library samples for TypeScript",
+  "description": "@azure/arm-containerorchestratorruntime client library samples for JavaScript (Beta)",
   "engines": {
     "node": ">=18.0.0"
-  },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
@@ -30,13 +26,8 @@
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/kubernetesruntime/arm-containerorchestratorruntime",
   "dependencies": {
-    "@azure/arm-containerorchestratorruntime": "latest",
+    "@azure/arm-containerorchestratorruntime": "next",
     "dotenv": "latest",
     "@azure/identity": "^4.2.1"
-  },
-  "devDependencies": {
-    "@types/node": "^18.0.0",
-    "typescript": "~5.6.2",
-    "rimraf": "latest"
   }
 }
