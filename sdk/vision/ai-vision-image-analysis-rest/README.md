@@ -79,12 +79,7 @@ The `ImageAnalysisClient` is the primary interface for developers interacting wi
 Here's an example of how to create an `ImageAnalysisClient` instance using a key-based authentication.
 
 
-```javascript Snippet:const endpoint = "<your_endpoint>";
-const key = "<your_key>";
-const credential = new AzureKeyCredential(key);
-
-const client = new ImageAnalysisClient(endpoint, credential);
-
+```javascript snippet:Configure_Client
 const { ImageAnalysisClient } = require("@azure-rest/ai-vision-image-analysis");
 const { AzureKeyCredential } = require('@azure/core-auth');
 
@@ -92,7 +87,7 @@ const endpoint = "<your_endpoint>";
 const key = "<your_key>";
 const credential = new AzureKeyCredential(key);
 
-const client = new ImageAnalysisClient(endpoint, credential);
+let client = new ImageAnalysisClient(endpoint, credential);
 ```
 
 #### Create ImageAnalysisClient with a Microsoft Entra ID Credential
@@ -110,7 +105,10 @@ Client subscription key authentication is used in most of the examples in this g
 npm install @azure/identity
 ```
 
-```javascript Snippet:ImageAnalysisEntraIDAuth
+```javascript snippet:ImageAnalysisEntraIDAuth
+const { ImageAnalysisClient } = require("@azure-rest/ai-vision-image-analysis");
+const { DefaultAzureCredential } = require('@azure/core-auth');
+
 const endpoint = "<your_endpoint>";
 const credential = new DefaultAzureCredential();
 
@@ -120,23 +118,23 @@ const client = new ImageAnalysisClient(endpoint, credential);
 
 The following example demonstrates how to analyze an image using the Image Analysis client library for JavaScript.
 
-```javascript Snippet:ImageAnalysisFromUrl
+```javascript snippet:ImageAnalysisFromUrl
 const imageUrl = "https://example.com/image.jpg";
 const features = ["Caption", "DenseCaptions", "Objects", "People", "Read", "SmartCrops", "Tags"];
 
 async function analyzeImageFromUrl() {
-  const result = await client.path("/imageanalysis:analyze").post({
-    body: {
-      url: imageUrl,
-    },
-    queryParameters: {
-      features: features,
-      "smartCrops-aspect-ratios": [0.9, 1.33],
-    },
-    contentType: "application/json",
-  });
+    const result = await client.path("/imageanalysis:analyze").post({
+        body: {
+            url: imageUrl,
+        },
+        queryParameters: {
+            features: features,
+            "smartCrops-aspect-ratios": [0.9, 1.33],
+        },
+        contentType: "application/json",
+    });
 
-  console.log("Image analysis result:", result.body);
+    console.log("Image analysis result:", result.body);
 }
 
 analyzeImageFromUrl();
@@ -146,56 +144,54 @@ analyzeImageFromUrl();
 
 In this example, we will analyze an image from a local file using the Image Analysis client library for JavaScript.
 
-```javascript Snippet:ImageAnalysisFromLocalFile
+```javascript snippet:ImageAnalysisFromLocalFile
 const fs = require("fs");
 
 const imagePath = "./path/to/your/image.jpg";
 const features = ["Caption", "DenseCaptions", "Objects", "People", "Read", "SmartCrops", "Tags"];
 
 async function analyzeImageFromFile() {
-  const imageBuffer = fs.readFileSync(imagePath);
+    const imageBuffer = fs.readFileSync(imagePath);
 
-  const result = await client.path("/imageanalysis:analyze").post({
-    body: imageBuffer,
-    queryParameters: {
-      features: features,
-      "smartCrops-aspect-ratios": [0.9, 1.33],
-    },
-    contentType: "application/octet-stream",
-  });
+    const result = await client.path("/imageanalysis:analyze").post({
+        body: imageBuffer,
+        queryParameters: {
+            features: features,
+            "smartCrops-aspect-ratios": [0.9, 1.33],
+        },
+        contentType: "application/octet-stream",
+    });
 
-  console.log("Image analysis result:", result.body);
+    console.log("Image analysis result:", result.body);
 }
-
 analyzeImageFromFile();
 ```
 
 ### Extract text from an image Url
 This example demonstrates how to extract printed or hand-written text for the image file [sample.jpg](https://aka.ms/azsdk/image-analysis/sample.jpg) using the ImageAnalysisClient. The method call returns an ImageAnalysisResult object. The ReadResult property on the returned object includes a list of text lines and a bounding polygon surrounding each text line. For each line, it also returns a list of words in the text line and a bounding polygon surrounding each word.
-``` javascript Snippet:readmeText
-const client: ImageAnalysisClient = createImageAnalysisClient(endpoint, credential);
-
+``` javascript snippet:readmeText
 const features: string[] = [
-  'Read'
+    'Read'
 ];
 
 const imageUrl: string = 'https://aka.ms/azsdk/image-analysis/sample.jpg';
 
 client.path('/imageanalysis:analyze').post({
-  body: { url: imageUrl },
-  queryParameters: { features: features },
-  contentType: 'application/json'
-}).then(result => {
-  const iaResult: ImageAnalysisResultOutput = result.body as ImageAnalysisResultOutput;
+    body: { url: imageUrl },
+    queryParameters: { features: features },
+    contentType: 'application/json'
+}).then( (result: AnalyzeFromImageData200Response) => {
+    const iaResult: ImageAnalysisResultOutput = result.body as ImageAnalysisResultOutput;
 
-  // Process the response
-  if (iaResult.readResult && iaResult.readResult.blocks.length > 0) {
-    iaResult.readResult.blocks.forEach(block => {
-      console.log(`Detected text block: ${JSON.stringify(block)}`);
-    });
-  } else {
-    console.log('No text blocks detected.');
-  }
+    // Process the response
+    if (iaResult.readResult && iaResult.readResult.blocks.length > 0) {
+        iaResult.readResult.blocks.forEach(block => {
+            console.log(`Detected text block: ${JSON.stringify(block)}`);
+        });
+    } else {
+        console.log('No text blocks detected.');
+    }
+});
 ```
 
 ## Troubleshooting
@@ -204,7 +200,7 @@ client.path('/imageanalysis:analyze').post({
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```javascript snippet:logging
 const { setLogLevel } = require("@azure/logger");
 
 setLogLevel("info");
