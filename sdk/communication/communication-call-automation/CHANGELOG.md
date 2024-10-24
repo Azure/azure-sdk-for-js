@@ -1,12 +1,16 @@
 # Release History
 
-## ga4
+## 1.3.0 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
 
 ### Other Changes
 - Added CreateCallFailed event to signify when create call API fails to establish a call
-- Added AnswerFailed event to signify when answer call API fails to anwwer a call
-
-## 1.3.0-beta.2 (2024-08-12)
+- Added AnswerFailed event to signify when answer call API fails to answer a call
 
 ## 1.3.0-beta.1 (2024-08-02)
 ### Features Added
