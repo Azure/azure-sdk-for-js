@@ -1,8 +1,11 @@
-import fs from "fs";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import fs from "node:fs";
 import MagicString from "magic-string";
 
 import nodeResolve from "@rollup/plugin-node-resolve";
-import { readFile } from "fs/promises";
+import { readFile } from "node:fs/promises";
 
 // Some magic code to preserve the shebang and set the executable bit on the generated bundle.
 const executable = (options = {}) => {
@@ -49,6 +52,7 @@ const config = {
   output: {
     format: "cjs",
     file: "dist-bin/gen-model.js",
+    inlineDynamicImports: true,
   },
   external: [...Object.keys(pkg.dependencies), ...Object.keys(pkg.devDependencies)],
   plugins: [
