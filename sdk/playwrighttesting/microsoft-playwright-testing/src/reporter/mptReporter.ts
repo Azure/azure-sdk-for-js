@@ -231,7 +231,7 @@ class MPTReporter implements Reporter {
         `\nTest run report successfully initialized: ${testRunResponse?.displayName}.`,
       );
       process.stdout.write(
-        `Initializing reporting for this test run. You can view the results at: https://playwright.microsoft.com/workspaces/${this.envVariables.accountId}/runs/${this.envVariables.runId}\n`,
+        `Initializing reporting for this test run. You can view the results at: https://playwright.microsoft.com/workspaces/${encodeURIComponent(this.envVariables.accountId!)}/runs/${encodeURIComponent(this.envVariables.runId!)}\n`,
       );
       const shardResponse = await this.serviceClient.postTestRunShardStart();
       this.shard = shardResponse;
@@ -241,9 +241,9 @@ class MPTReporter implements Reporter {
         this.envVariables.accountId &&
         this.envVariables.runId
       ) {
-        this.testRunUrl = `${Constants.DEFAULT_DASHBOARD_ENDPOINT}/workspaces/${encodeURI(
+        this.testRunUrl = `${Constants.DEFAULT_DASHBOARD_ENDPOINT}/workspaces/${encodeURIComponent(
           this.envVariables.accountId,
-        )}/runs/${encodeURI(this.envVariables.runId)}`;
+        )}/runs/${encodeURIComponent(this.envVariables.runId)}`;
       }
       return true;
     } catch (err: any) {
