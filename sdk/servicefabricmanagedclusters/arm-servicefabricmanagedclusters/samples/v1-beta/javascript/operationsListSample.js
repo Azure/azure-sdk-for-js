@@ -18,7 +18,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the list of available Service Fabric resource provider API operations.
  *
  * @summary Get the list of available Service Fabric resource provider API operations.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/Operations_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/Operations_example.json
  */
 async function listAvailableOperations() {
   const subscriptionId =

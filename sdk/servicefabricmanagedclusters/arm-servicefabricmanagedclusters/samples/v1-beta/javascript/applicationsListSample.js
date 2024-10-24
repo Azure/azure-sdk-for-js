@@ -18,7 +18,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all managed application resources created or in the process of being created in the Service Fabric cluster resource.
  *
  * @summary Gets all managed application resources created or in the process of being created in the Service Fabric cluster resource.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ApplicationListOperation_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/ApplicationListOperation_example.json
  */
 async function getAListOfApplicationResources() {
   const subscriptionId =

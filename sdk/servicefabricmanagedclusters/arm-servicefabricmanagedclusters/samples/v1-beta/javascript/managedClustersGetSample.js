@@ -18,7 +18,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a Service Fabric managed cluster resource created or in the process of being created in the specified resource group.
  *
  * @summary Get a Service Fabric managed cluster resource created or in the process of being created in the specified resource group.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ManagedClusterGetOperation_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/ManagedClusterGetOperation_example.json
  */
 async function getACluster() {
   const subscriptionId =

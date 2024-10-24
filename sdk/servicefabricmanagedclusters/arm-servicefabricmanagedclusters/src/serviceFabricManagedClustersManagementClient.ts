@@ -78,10 +78,10 @@ export class ServiceFabricManagedClustersManagementClient extends coreClient.Ser
       options = {};
     }
     const defaults: ServiceFabricManagedClustersManagementClientOptionalParams =
-    {
-      requestContentType: "application/json; charset=utf-8",
-      credential: credentials,
-    };
+      {
+        requestContentType: "application/json; charset=utf-8",
+        credential: credentials,
+      };
 
     const packageDetails = `azsdk-js-arm-servicefabricmanagedclusters/1.0.0-beta.2`;
     const userAgentPrefix =
@@ -137,7 +137,7 @@ export class ServiceFabricManagedClustersManagementClient extends coreClient.Ser
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-04-01";
+    this.apiVersion = options.apiVersion || "2024-06-01-preview";
     this.applicationTypes = new ApplicationTypesImpl(this);
     this.applicationTypeVersions = new ApplicationTypeVersionsImpl(this);
     this.applications = new ApplicationsImpl(this);

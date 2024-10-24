@@ -18,7 +18,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get long running operation status.
  *
  * @summary Get long running operation status.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/Long_running_operation_status_failed.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/Long_running_operation_status_failed.json
  */
 async function getFailedOperationStatus() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function getFailedOperationStatus() {
  * This sample demonstrates how to Get long running operation status.
  *
  * @summary Get long running operation status.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/Long_running_operation_status_succeeded.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/Long_running_operation_status_succeeded.json
  */
 async function getSucceededOperationResult() {
   const subscriptionId =
