@@ -502,6 +502,7 @@ export const Constants: {
         EnableCrossPartitionQuery: string;
         ParallelizeCrossPartitionQuery: string;
         ResponseContinuationTokenLimitInKB: string;
+        SDKSupportedCapabilities: string;
         PopulateQueryMetrics: string;
         QueryMetrics: string;
         PopulateIndexMetrics: string;
