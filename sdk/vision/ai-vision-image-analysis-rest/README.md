@@ -80,14 +80,14 @@ Here's an example of how to create an `ImageAnalysisClient` instance using a key
 
 
 ```javascript snippet:Configure_Client
-const { ImageAnalysisClient } = require("@azure-rest/ai-vision-image-analysis");
-const { AzureKeyCredential } = require('@azure/core-auth');
+import { ImageAnalysisClient } from "@azure-rest/ai-vision-image-analysis"
+import { AzureKeyCredential } from '@azure/core-auth'
 
 const endpoint = "<your_endpoint>";
 const key = "<your_key>";
 const credential = new AzureKeyCredential(key);
 
-let client = new ImageAnalysisClient(endpoint, credential);
+const client = new ImageAnalysisClient(endpoint, credential);
 ```
 
 #### Create ImageAnalysisClient with a Microsoft Entra ID Credential
@@ -106,8 +106,8 @@ npm install @azure/identity
 ```
 
 ```javascript snippet:ImageAnalysisEntraIDAuth
-const { ImageAnalysisClient } = require("@azure-rest/ai-vision-image-analysis");
-const { DefaultAzureCredential } = require('@azure/core-auth');
+import { ImageAnalysisClient } from "@azure-rest/ai-vision-image-analysis"
+import { DefaultAzureCredential } from '@azure/core-auth'
 
 const endpoint = "<your_endpoint>";
 const credential = new DefaultAzureCredential();
@@ -145,7 +145,7 @@ analyzeImageFromUrl();
 In this example, we will analyze an image from a local file using the Image Analysis client library for JavaScript.
 
 ```javascript snippet:ImageAnalysisFromLocalFile
-const fs = require("fs");
+import * as fs from "fs"
 
 const imagePath = "./path/to/your/image.jpg";
 const features = ["Caption", "DenseCaptions", "Objects", "People", "Read", "SmartCrops", "Tags"];
@@ -191,6 +191,10 @@ client.path('/imageanalysis:analyze').post({
     } else {
         console.log('No text blocks detected.');
     }
+
+    return;
+}).catch( (error) => {
+    console.error('Error:', error);
 });
 ```
 
@@ -201,7 +205,7 @@ client.path('/imageanalysis:analyze').post({
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript snippet:logging
-const { setLogLevel } = require("@azure/logger");
+import { setLogLevel } from "@azure/logger"
 
 setLogLevel("info");
 ```

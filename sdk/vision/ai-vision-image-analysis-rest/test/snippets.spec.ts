@@ -5,20 +5,20 @@ import { AnalyzeFromImageData200Response, ImageAnalysisResultOutput } from "../s
 
 describe("snippets", function () {
     it("Configure_Client", function () {
-        const { ImageAnalysisClient } = require("@azure-rest/ai-vision-image-analysis");
-        const { AzureKeyCredential } = require('@azure/core-auth');
+        import { ImageAnalysisClient } from "@azure-rest/ai-vision-image-analysis"
+        import { AzureKeyCredential } from '@azure/core-auth'
 
         const endpoint = "<your_endpoint>";
         const key = "<your_key>";
         const credential = new AzureKeyCredential(key);
 
         // @ts-ignore
-        let client = new ImageAnalysisClient(endpoint, credential);
+        const client = new ImageAnalysisClient(endpoint, credential);
     });
 
     it("ImageAnalysisEntraIDAuth", function () {
-        const { ImageAnalysisClient } = require("@azure-rest/ai-vision-image-analysis");
-        const { DefaultAzureCredential } = require('@azure/core-auth');
+        import { ImageAnalysisClient } from "@azure-rest/ai-vision-image-analysis"
+        import { DefaultAzureCredential } from '@azure/core-auth'
 
         const endpoint = "<your_endpoint>";
         const credential = new DefaultAzureCredential();
@@ -27,8 +27,8 @@ describe("snippets", function () {
         const client = new ImageAnalysisClient(endpoint, credential);
     });
 
-    const { ImageAnalysisClient } = require("@azure-rest/ai-vision-image-analysis");
-    const { DefaultAzureCredential } = require('@azure/core-auth');
+    import { ImageAnalysisClient } from"@azure-rest/ai-vision-image-analysis"
+    import { DefaultAzureCredential } from '@azure/core-auth'
     const endpoint = "<your_endpoint>";
     const credential = new DefaultAzureCredential();
 
@@ -58,7 +58,7 @@ describe("snippets", function () {
     });
 
     it("ImageAnalysisFromLocalFile", function () {
-        const fs = require("fs");
+        import * as fs from "fs"
 
         const imagePath = "./path/to/your/image.jpg";
         const features = ["Caption", "DenseCaptions", "Objects", "People", "Read", "SmartCrops", "Tags"];
@@ -102,11 +102,15 @@ describe("snippets", function () {
             } else {
                 console.log('No text blocks detected.');
             }
+
+            return;
+        }).catch( (error) => {
+            console.error('Error:', error);
         });
     });
 
     it("logging", function () {
-        const { setLogLevel } = require("@azure/logger");
+        import { setLogLevel } from "@azure/logger"
 
         setLogLevel("info");
     });
