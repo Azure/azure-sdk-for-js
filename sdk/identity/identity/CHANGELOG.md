@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Added `subscription` property in `AzureCliCredentialOptions`. [#31451](https://github.com/Azure/azure-sdk-for-js/pull/31451).
+- Added `subscription` property in `AzureCliCredentialOptions` [#31451](https://github.com/Azure/azure-sdk-for-js/pull/31451).
 
 ### Breaking Changes
 
@@ -12,7 +12,7 @@
 
 ### Other Changes
 
-- Mark `AzureAuthorityHosts.AZURE_GERMANY` deprecated as the Germany cloud closed in 2021.
+- Mark `AzureAuthorityHosts.AZURE_GERMANY` deprecated as the Germany cloud closed in 2021. [#31519](https://github.com/Azure/azure-sdk-for-js/pull/31519)
 
 ## 4.5.0 (2024-10-15)
 
