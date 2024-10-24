@@ -11,6 +11,7 @@ import {
 import { AppConfigurationClient } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
+//  a different new comment
 describe("etags", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
