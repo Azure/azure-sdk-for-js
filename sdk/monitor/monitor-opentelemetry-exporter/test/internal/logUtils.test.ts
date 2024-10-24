@@ -34,7 +34,7 @@ function assertEnvelope(
   sampleRate?: number,
   baseType?: string,
   expectedProperties?: Properties,
-  expectedMeasurements?: Measurements | undefined,
+  expectedMeasurements?: Measurements,
   expectedBaseData?: Partial<MonitorDomain>,
   expectedTime?: Date,
 ): void {

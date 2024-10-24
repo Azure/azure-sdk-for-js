@@ -40,9 +40,12 @@ export class ServiceClient {
 
   async patchTestRun(ciInfo: CIInfo): Promise<TestRun> {
     const testRun = await this.reporterUtils.getTestRunObject(ciInfo);
+
+    // Escape the runId to avoid issues with special characters
+    const escapedRunId = encodeURIComponent(this.envVariables.runId!);
     const response: PipelineResponse = await this.httpService.callAPI(
       "PATCH",
-      `${this.getServiceEndpoint()}/${Constants.testRunsEndpoint.replace("{workspaceId}", this.envVariables.accountId!)}/${this.envVariables.runId}?api-version=${Constants.API_VERSION}`,
+      `${this.getServiceEndpoint()}/${Constants.testRunsEndpoint.replace("{workspaceId}", this.envVariables.accountId!)}/${escapedRunId}?api-version=${Constants.API_VERSION}`,
       JSON.stringify(testRun),
       this.envVariables.accessToken,
       "application/merge-patch+json",
@@ -72,9 +75,10 @@ export class ServiceClient {
 
   async postTestRunShardStart(): Promise<Shard> {
     const postTestRunShardObject = this.reporterUtils.getTestRunShardStartObject();
+    const escapedRunId = encodeURIComponent(this.envVariables.runId!);
     const response: PipelineResponse = await this.httpService.callAPI(
       "POST",
-      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", this.envVariables.runId)}/?api-version=${Constants.API_VERSION}`,
+      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", escapedRunId)}/?api-version=${Constants.API_VERSION}`,
       JSON.stringify(postTestRunShardObject),
       this.envVariables.accessToken,
       "application/json",
@@ -105,9 +109,10 @@ export class ServiceClient {
       attachmentMetadata,
       workers,
     );
+    const escapedRunId = encodeURIComponent(this.envVariables.runId!);
     const response: PipelineResponse = await this.httpService.callAPI(
       "POST",
-      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", this.envVariables.runId)}/?api-version=${Constants.API_VERSION}`,
+      `${this.getServiceEndpoint()}/${Constants.testRunsShardEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", escapedRunId)}/?api-version=${Constants.API_VERSION}`,
       JSON.stringify(postTestRunShardObject),
       this.envVariables.accessToken,
       "application/json",
@@ -147,9 +152,10 @@ export class ServiceClient {
   }
 
   async createStorageUri(): Promise<StorageUri> {
+    const escapedRunId = encodeURIComponent(this.envVariables.runId!);
     const response: PipelineResponse = await this.httpService.callAPI(
       "POST",
-      `${this.getServiceEndpoint()}/${Constants.storageUriEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", this.envVariables.runId)}?api-version=${Constants.API_VERSION}`,
+      `${this.getServiceEndpoint()}/${Constants.storageUriEndpoint.replace("{workspaceId}", this.envVariables.accountId!).replace("{testRunId}", escapedRunId)}?api-version=${Constants.API_VERSION}`,
       null,
       this.envVariables.accessToken,
       "application/json",
