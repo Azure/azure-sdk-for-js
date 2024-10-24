@@ -23,8 +23,8 @@ export function fleetSerializer(item: Fleet): any {
     zones: !item["zones"]
       ? item["zones"]
       : item["zones"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentitySerializer(item["identity"]),
@@ -48,8 +48,8 @@ export function fleetDeserializer(item: any): Fleet {
     zones: !item["zones"]
       ? item["zones"]
       : item["zones"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityDeserializer(item["identity"]),
@@ -93,9 +93,7 @@ export function fleetPropertiesSerializer(item: FleetProperties): any {
       : vMAttributesSerializer(item["vmAttributes"]),
     additionalLocationsProfile: !item["additionalLocationsProfile"]
       ? item["additionalLocationsProfile"]
-      : additionalLocationsProfileSerializer(
-        item["additionalLocationsProfile"],
-      ),
+      : additionalLocationsProfileSerializer(item["additionalLocationsProfile"]),
     computeProfile: computeProfileSerializer(item["computeProfile"]),
   };
 }
@@ -117,13 +115,9 @@ export function fleetPropertiesDeserializer(item: any): FleetProperties {
       : vMAttributesDeserializer(item["vmAttributes"]),
     additionalLocationsProfile: !item["additionalLocationsProfile"]
       ? item["additionalLocationsProfile"]
-      : additionalLocationsProfileDeserializer(
-        item["additionalLocationsProfile"],
-      ),
+      : additionalLocationsProfileDeserializer(item["additionalLocationsProfile"]),
     computeProfile: computeProfileDeserializer(item["computeProfile"]),
-    timeCreated: !item["timeCreated"]
-      ? item["timeCreated"]
-      : new Date(item["timeCreated"]),
+    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
     uniqueId: item["uniqueId"],
   };
 }
@@ -202,9 +196,7 @@ export function spotPriorityProfileSerializer(item: SpotPriorityProfile): any {
   };
 }
 
-export function spotPriorityProfileDeserializer(
-  item: any,
-): SpotPriorityProfile {
+export function spotPriorityProfileDeserializer(item: any): SpotPriorityProfile {
   return {
     capacity: item["capacity"],
     minCapacity: item["minCapacity"],
@@ -264,9 +256,7 @@ export interface RegularPriorityProfile {
   allocationStrategy?: RegularPriorityAllocationStrategy;
 }
 
-export function regularPriorityProfileSerializer(
-  item: RegularPriorityProfile,
-): any {
+export function regularPriorityProfileSerializer(item: RegularPriorityProfile): any {
   return {
     capacity: item["capacity"],
     minCapacity: item["minCapacity"],
@@ -274,9 +264,7 @@ export function regularPriorityProfileSerializer(
   };
 }
 
-export function regularPriorityProfileDeserializer(
-  item: any,
-): RegularPriorityProfile {
+export function regularPriorityProfileDeserializer(item: any): RegularPriorityProfile {
   return {
     capacity: item["capacity"],
     minCapacity: item["minCapacity"],
@@ -324,17 +312,13 @@ export function vmSizeProfileDeserializer(item: any): VmSizeProfile {
   };
 }
 
-export function vmSizeProfileArraySerializer(
-  result: Array<VmSizeProfile>,
-): any[] {
+export function vmSizeProfileArraySerializer(result: Array<VmSizeProfile>): any[] {
   return result.map((item) => {
     return vmSizeProfileSerializer(item);
   });
 }
 
-export function vmSizeProfileArrayDeserializer(
-  result: Array<VmSizeProfile>,
-): any[] {
+export function vmSizeProfileArrayDeserializer(result: Array<VmSizeProfile>): any[] {
   return result.map((item) => {
     return vmSizeProfileDeserializer(item);
   });
@@ -426,8 +410,8 @@ export function vMAttributesSerializer(item: VMAttributes): any {
     localStorageDiskTypes: !item["localStorageDiskTypes"]
       ? item["localStorageDiskTypes"]
       : item["localStorageDiskTypes"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     dataDiskCount: !item["dataDiskCount"]
       ? item["dataDiskCount"]
       : vMAttributeMinMaxIntegerSerializer(item["dataDiskCount"]),
@@ -445,37 +429,37 @@ export function vMAttributesSerializer(item: VMAttributes): any {
     acceleratorManufacturers: !item["acceleratorManufacturers"]
       ? item["acceleratorManufacturers"]
       : item["acceleratorManufacturers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     acceleratorTypes: !item["acceleratorTypes"]
       ? item["acceleratorTypes"]
       : item["acceleratorTypes"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     acceleratorCount: !item["acceleratorCount"]
       ? item["acceleratorCount"]
       : vMAttributeMinMaxIntegerSerializer(item["acceleratorCount"]),
     vmCategories: !item["vmCategories"]
       ? item["vmCategories"]
       : item["vmCategories"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     architectureTypes: !item["architectureTypes"]
       ? item["architectureTypes"]
       : item["architectureTypes"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     cpuManufacturers: !item["cpuManufacturers"]
       ? item["cpuManufacturers"]
       : item["cpuManufacturers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     burstableSupport: item["burstableSupport"],
     excludedVMSizes: !item["excludedVMSizes"]
       ? item["excludedVMSizes"]
       : item["excludedVMSizes"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -493,8 +477,8 @@ export function vMAttributesDeserializer(item: any): VMAttributes {
     localStorageDiskTypes: !item["localStorageDiskTypes"]
       ? item["localStorageDiskTypes"]
       : item["localStorageDiskTypes"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     dataDiskCount: !item["dataDiskCount"]
       ? item["dataDiskCount"]
       : vMAttributeMinMaxIntegerDeserializer(item["dataDiskCount"]),
@@ -512,37 +496,37 @@ export function vMAttributesDeserializer(item: any): VMAttributes {
     acceleratorManufacturers: !item["acceleratorManufacturers"]
       ? item["acceleratorManufacturers"]
       : item["acceleratorManufacturers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     acceleratorTypes: !item["acceleratorTypes"]
       ? item["acceleratorTypes"]
       : item["acceleratorTypes"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     acceleratorCount: !item["acceleratorCount"]
       ? item["acceleratorCount"]
       : vMAttributeMinMaxIntegerDeserializer(item["acceleratorCount"]),
     vmCategories: !item["vmCategories"]
       ? item["vmCategories"]
       : item["vmCategories"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     architectureTypes: !item["architectureTypes"]
       ? item["architectureTypes"]
       : item["architectureTypes"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     cpuManufacturers: !item["cpuManufacturers"]
       ? item["cpuManufacturers"]
       : item["cpuManufacturers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     burstableSupport: item["burstableSupport"],
     excludedVMSizes: !item["excludedVMSizes"]
       ? item["excludedVMSizes"]
       : item["excludedVMSizes"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -554,15 +538,11 @@ export interface VMAttributeMinMaxInteger {
   max?: number;
 }
 
-export function vMAttributeMinMaxIntegerSerializer(
-  item: VMAttributeMinMaxInteger,
-): any {
+export function vMAttributeMinMaxIntegerSerializer(item: VMAttributeMinMaxInteger): any {
   return { min: item["min"], max: item["max"] };
 }
 
-export function vMAttributeMinMaxIntegerDeserializer(
-  item: any,
-): VMAttributeMinMaxInteger {
+export function vMAttributeMinMaxIntegerDeserializer(item: any): VMAttributeMinMaxInteger {
   return {
     min: item["min"],
     max: item["max"],
@@ -577,15 +557,11 @@ export interface VMAttributeMinMaxDouble {
   max?: number;
 }
 
-export function vMAttributeMinMaxDoubleSerializer(
-  item: VMAttributeMinMaxDouble,
-): any {
+export function vMAttributeMinMaxDoubleSerializer(item: VMAttributeMinMaxDouble): any {
   return { min: item["min"], max: item["max"] };
 }
 
-export function vMAttributeMinMaxDoubleDeserializer(
-  item: any,
-): VMAttributeMinMaxDouble {
+export function vMAttributeMinMaxDoubleDeserializer(item: any): VMAttributeMinMaxDouble {
   return {
     min: item["min"],
     max: item["max"],
@@ -773,21 +749,15 @@ export interface AdditionalLocationsProfile {
   locationProfiles: LocationProfile[];
 }
 
-export function additionalLocationsProfileSerializer(
-  item: AdditionalLocationsProfile,
-): any {
+export function additionalLocationsProfileSerializer(item: AdditionalLocationsProfile): any {
   return {
     locationProfiles: locationProfileArraySerializer(item["locationProfiles"]),
   };
 }
 
-export function additionalLocationsProfileDeserializer(
-  item: any,
-): AdditionalLocationsProfile {
+export function additionalLocationsProfileDeserializer(item: any): AdditionalLocationsProfile {
   return {
-    locationProfiles: locationProfileArrayDeserializer(
-      item["locationProfiles"],
-    ),
+    locationProfiles: locationProfileArrayDeserializer(item["locationProfiles"]),
   };
 }
 
@@ -807,9 +777,7 @@ export function locationProfileSerializer(item: LocationProfile): any {
     location: item["location"],
     virtualMachineProfileOverride: !item["virtualMachineProfileOverride"]
       ? item["virtualMachineProfileOverride"]
-      : baseVirtualMachineProfileSerializer(
-        item["virtualMachineProfileOverride"],
-      ),
+      : baseVirtualMachineProfileSerializer(item["virtualMachineProfileOverride"]),
   };
 }
 
@@ -818,9 +786,7 @@ export function locationProfileDeserializer(item: any): LocationProfile {
     location: item["location"],
     virtualMachineProfileOverride: !item["virtualMachineProfileOverride"]
       ? item["virtualMachineProfileOverride"]
-      : baseVirtualMachineProfileDeserializer(
-        item["virtualMachineProfileOverride"],
-      ),
+      : baseVirtualMachineProfileDeserializer(item["virtualMachineProfileOverride"]),
   };
 }
 
@@ -903,9 +869,7 @@ export interface BaseVirtualMachineProfile {
   readonly timeCreated?: Date;
 }
 
-export function baseVirtualMachineProfileSerializer(
-  item: BaseVirtualMachineProfile,
-): any {
+export function baseVirtualMachineProfileSerializer(item: BaseVirtualMachineProfile): any {
   return {
     osProfile: !item["osProfile"]
       ? item["osProfile"]
@@ -924,9 +888,7 @@ export function baseVirtualMachineProfileSerializer(
       : diagnosticsProfileSerializer(item["diagnosticsProfile"]),
     extensionProfile: !item["extensionProfile"]
       ? item["extensionProfile"]
-      : virtualMachineScaleSetExtensionProfileSerializer(
-        item["extensionProfile"],
-      ),
+      : virtualMachineScaleSetExtensionProfileSerializer(item["extensionProfile"]),
     licenseType: item["licenseType"],
     scheduledEventsProfile: !item["scheduledEventsProfile"]
       ? item["scheduledEventsProfile"]
@@ -940,9 +902,7 @@ export function baseVirtualMachineProfileSerializer(
       : applicationProfileSerializer(item["applicationProfile"]),
     hardwareProfile: !item["hardwareProfile"]
       ? item["hardwareProfile"]
-      : virtualMachineScaleSetHardwareProfileSerializer(
-        item["hardwareProfile"],
-      ),
+      : virtualMachineScaleSetHardwareProfileSerializer(item["hardwareProfile"]),
     serviceArtifactReference: !item["serviceArtifactReference"]
       ? item["serviceArtifactReference"]
       : serviceArtifactReferenceSerializer(item["serviceArtifactReference"]),
@@ -952,23 +912,17 @@ export function baseVirtualMachineProfileSerializer(
   };
 }
 
-export function baseVirtualMachineProfileDeserializer(
-  item: any,
-): BaseVirtualMachineProfile {
+export function baseVirtualMachineProfileDeserializer(item: any): BaseVirtualMachineProfile {
   return {
     osProfile: !item["osProfile"]
       ? item["osProfile"]
       : virtualMachineScaleSetOSProfileDeserializer(item["osProfile"]),
     storageProfile: !item["storageProfile"]
       ? item["storageProfile"]
-      : virtualMachineScaleSetStorageProfileDeserializer(
-        item["storageProfile"],
-      ),
+      : virtualMachineScaleSetStorageProfileDeserializer(item["storageProfile"]),
     networkProfile: !item["networkProfile"]
       ? item["networkProfile"]
-      : virtualMachineScaleSetNetworkProfileDeserializer(
-        item["networkProfile"],
-      ),
+      : virtualMachineScaleSetNetworkProfileDeserializer(item["networkProfile"]),
     securityProfile: !item["securityProfile"]
       ? item["securityProfile"]
       : securityProfileDeserializer(item["securityProfile"]),
@@ -977,9 +931,7 @@ export function baseVirtualMachineProfileDeserializer(
       : diagnosticsProfileDeserializer(item["diagnosticsProfile"]),
     extensionProfile: !item["extensionProfile"]
       ? item["extensionProfile"]
-      : virtualMachineScaleSetExtensionProfileDeserializer(
-        item["extensionProfile"],
-      ),
+      : virtualMachineScaleSetExtensionProfileDeserializer(item["extensionProfile"]),
     licenseType: item["licenseType"],
     scheduledEventsProfile: !item["scheduledEventsProfile"]
       ? item["scheduledEventsProfile"]
@@ -993,18 +945,14 @@ export function baseVirtualMachineProfileDeserializer(
       : applicationProfileDeserializer(item["applicationProfile"]),
     hardwareProfile: !item["hardwareProfile"]
       ? item["hardwareProfile"]
-      : virtualMachineScaleSetHardwareProfileDeserializer(
-        item["hardwareProfile"],
-      ),
+      : virtualMachineScaleSetHardwareProfileDeserializer(item["hardwareProfile"]),
     serviceArtifactReference: !item["serviceArtifactReference"]
       ? item["serviceArtifactReference"]
       : serviceArtifactReferenceDeserializer(item["serviceArtifactReference"]),
     securityPostureReference: !item["securityPostureReference"]
       ? item["securityPostureReference"]
       : securityPostureReferenceDeserializer(item["securityPostureReference"]),
-    timeCreated: !item["timeCreated"]
-      ? item["timeCreated"]
-      : new Date(item["timeCreated"]),
+    timeCreated: !item["timeCreated"] ? item["timeCreated"] : new Date(item["timeCreated"]),
   };
 }
 
@@ -1092,9 +1040,7 @@ export function virtualMachineScaleSetOSProfileSerializer(
     linuxConfiguration: !item["linuxConfiguration"]
       ? item["linuxConfiguration"]
       : linuxConfigurationSerializer(item["linuxConfiguration"]),
-    secrets: !item["secrets"]
-      ? item["secrets"]
-      : vaultSecretGroupArraySerializer(item["secrets"]),
+    secrets: !item["secrets"] ? item["secrets"] : vaultSecretGroupArraySerializer(item["secrets"]),
     allowExtensionOperations: item["allowExtensionOperations"],
     requireGuestProvisionSignal: item["requireGuestProvisionSignal"],
   };
@@ -1164,46 +1110,34 @@ export interface WindowsConfiguration {
   enableVMAgentPlatformUpdates?: boolean;
 }
 
-export function windowsConfigurationSerializer(
-  item: WindowsConfiguration,
-): any {
+export function windowsConfigurationSerializer(item: WindowsConfiguration): any {
   return {
     provisionVMAgent: item["provisionVMAgent"],
     enableAutomaticUpdates: item["enableAutomaticUpdates"],
     timeZone: item["timeZone"],
     additionalUnattendContent: !item["additionalUnattendContent"]
       ? item["additionalUnattendContent"]
-      : additionalUnattendContentArraySerializer(
-        item["additionalUnattendContent"],
-      ),
+      : additionalUnattendContentArraySerializer(item["additionalUnattendContent"]),
     patchSettings: !item["patchSettings"]
       ? item["patchSettings"]
       : patchSettingsSerializer(item["patchSettings"]),
-    winRM: !item["winRM"]
-      ? item["winRM"]
-      : winRMConfigurationSerializer(item["winRM"]),
+    winRM: !item["winRM"] ? item["winRM"] : winRMConfigurationSerializer(item["winRM"]),
     enableVMAgentPlatformUpdates: item["enableVMAgentPlatformUpdates"],
   };
 }
 
-export function windowsConfigurationDeserializer(
-  item: any,
-): WindowsConfiguration {
+export function windowsConfigurationDeserializer(item: any): WindowsConfiguration {
   return {
     provisionVMAgent: item["provisionVMAgent"],
     enableAutomaticUpdates: item["enableAutomaticUpdates"],
     timeZone: item["timeZone"],
     additionalUnattendContent: !item["additionalUnattendContent"]
       ? item["additionalUnattendContent"]
-      : additionalUnattendContentArrayDeserializer(
-        item["additionalUnattendContent"],
-      ),
+      : additionalUnattendContentArrayDeserializer(item["additionalUnattendContent"]),
     patchSettings: !item["patchSettings"]
       ? item["patchSettings"]
       : patchSettingsDeserializer(item["patchSettings"]),
-    winRM: !item["winRM"]
-      ? item["winRM"]
-      : winRMConfigurationDeserializer(item["winRM"]),
+    winRM: !item["winRM"] ? item["winRM"] : winRMConfigurationDeserializer(item["winRM"]),
     enableVMAgentPlatformUpdates: item["enableVMAgentPlatformUpdates"],
   };
 }
@@ -1234,9 +1168,7 @@ export interface AdditionalUnattendContent {
   content?: string;
 }
 
-export function additionalUnattendContentSerializer(
-  item: AdditionalUnattendContent,
-): any {
+export function additionalUnattendContentSerializer(item: AdditionalUnattendContent): any {
   return {
     passName: item["passName"],
     componentName: item["componentName"],
@@ -1245,9 +1177,7 @@ export function additionalUnattendContentSerializer(
   };
 }
 
-export function additionalUnattendContentDeserializer(
-  item: any,
-): AdditionalUnattendContent {
+export function additionalUnattendContentDeserializer(item: any): AdditionalUnattendContent {
   return {
     passName: item["passName"],
     componentName: item["componentName"],
@@ -1339,8 +1269,8 @@ export function patchSettingsSerializer(item: PatchSettings): any {
     automaticByPlatformSettings: !item["automaticByPlatformSettings"]
       ? item["automaticByPlatformSettings"]
       : windowsVMGuestPatchAutomaticByPlatformSettingsSerializer(
-        item["automaticByPlatformSettings"],
-      ),
+          item["automaticByPlatformSettings"],
+        ),
   };
 }
 
@@ -1352,8 +1282,8 @@ export function patchSettingsDeserializer(item: any): PatchSettings {
     automaticByPlatformSettings: !item["automaticByPlatformSettings"]
       ? item["automaticByPlatformSettings"]
       : windowsVMGuestPatchAutomaticByPlatformSettingsDeserializer(
-        item["automaticByPlatformSettings"],
-      ),
+          item["automaticByPlatformSettings"],
+        ),
   };
 }
 
@@ -1437,8 +1367,7 @@ export function windowsVMGuestPatchAutomaticByPlatformSettingsSerializer(
 ): any {
   return {
     rebootSetting: item["rebootSetting"],
-    bypassPlatformSafetyChecksOnUserSchedule:
-      item["bypassPlatformSafetyChecksOnUserSchedule"],
+    bypassPlatformSafetyChecksOnUserSchedule: item["bypassPlatformSafetyChecksOnUserSchedule"],
   };
 }
 
@@ -1447,8 +1376,7 @@ export function windowsVMGuestPatchAutomaticByPlatformSettingsDeserializer(
 ): WindowsVMGuestPatchAutomaticByPlatformSettings {
   return {
     rebootSetting: item["rebootSetting"],
-    bypassPlatformSafetyChecksOnUserSchedule:
-      item["bypassPlatformSafetyChecksOnUserSchedule"],
+    bypassPlatformSafetyChecksOnUserSchedule: item["bypassPlatformSafetyChecksOnUserSchedule"],
   };
 }
 
@@ -1556,17 +1484,13 @@ export enum KnownProtocolTypes {
  */
 export type ProtocolTypes = string;
 
-export function winRMListenerArraySerializer(
-  result: Array<WinRMListener>,
-): any[] {
+export function winRMListenerArraySerializer(result: Array<WinRMListener>): any[] {
   return result.map((item) => {
     return winRMListenerSerializer(item);
   });
 }
 
-export function winRMListenerArrayDeserializer(
-  result: Array<WinRMListener>,
-): any[] {
+export function winRMListenerArrayDeserializer(result: Array<WinRMListener>): any[] {
   return result.map((item) => {
     return winRMListenerDeserializer(item);
   });
@@ -1675,17 +1599,13 @@ export function sshPublicKeyDeserializer(item: any): SshPublicKey {
   };
 }
 
-export function sshPublicKeyArraySerializer(
-  result: Array<SshPublicKey>,
-): any[] {
+export function sshPublicKeyArraySerializer(result: Array<SshPublicKey>): any[] {
   return result.map((item) => {
     return sshPublicKeySerializer(item);
   });
 }
 
-export function sshPublicKeyArrayDeserializer(
-  result: Array<SshPublicKey>,
-): any[] {
+export function sshPublicKeyArrayDeserializer(result: Array<SshPublicKey>): any[] {
   return result.map((item) => {
     return sshPublicKeyDeserializer(item);
   });
@@ -1723,9 +1643,7 @@ export function linuxPatchSettingsSerializer(item: LinuxPatchSettings): any {
     assessmentMode: item["assessmentMode"],
     automaticByPlatformSettings: !item["automaticByPlatformSettings"]
       ? item["automaticByPlatformSettings"]
-      : linuxVMGuestPatchAutomaticByPlatformSettingsSerializer(
-        item["automaticByPlatformSettings"],
-      ),
+      : linuxVMGuestPatchAutomaticByPlatformSettingsSerializer(item["automaticByPlatformSettings"]),
   };
 }
 
@@ -1736,8 +1654,8 @@ export function linuxPatchSettingsDeserializer(item: any): LinuxPatchSettings {
     automaticByPlatformSettings: !item["automaticByPlatformSettings"]
       ? item["automaticByPlatformSettings"]
       : linuxVMGuestPatchAutomaticByPlatformSettingsDeserializer(
-        item["automaticByPlatformSettings"],
-      ),
+          item["automaticByPlatformSettings"],
+        ),
   };
 }
 
@@ -1812,8 +1730,7 @@ export function linuxVMGuestPatchAutomaticByPlatformSettingsSerializer(
 ): any {
   return {
     rebootSetting: item["rebootSetting"],
-    bypassPlatformSafetyChecksOnUserSchedule:
-      item["bypassPlatformSafetyChecksOnUserSchedule"],
+    bypassPlatformSafetyChecksOnUserSchedule: item["bypassPlatformSafetyChecksOnUserSchedule"],
   };
 }
 
@@ -1822,8 +1739,7 @@ export function linuxVMGuestPatchAutomaticByPlatformSettingsDeserializer(
 ): LinuxVMGuestPatchAutomaticByPlatformSettings {
   return {
     rebootSetting: item["rebootSetting"],
-    bypassPlatformSafetyChecksOnUserSchedule:
-      item["bypassPlatformSafetyChecksOnUserSchedule"],
+    bypassPlatformSafetyChecksOnUserSchedule: item["bypassPlatformSafetyChecksOnUserSchedule"],
   };
 }
 
@@ -1951,33 +1867,25 @@ export function vaultCertificateDeserializer(item: any): VaultCertificate {
   };
 }
 
-export function vaultCertificateArraySerializer(
-  result: Array<VaultCertificate>,
-): any[] {
+export function vaultCertificateArraySerializer(result: Array<VaultCertificate>): any[] {
   return result.map((item) => {
     return vaultCertificateSerializer(item);
   });
 }
 
-export function vaultCertificateArrayDeserializer(
-  result: Array<VaultCertificate>,
-): any[] {
+export function vaultCertificateArrayDeserializer(result: Array<VaultCertificate>): any[] {
   return result.map((item) => {
     return vaultCertificateDeserializer(item);
   });
 }
 
-export function vaultSecretGroupArraySerializer(
-  result: Array<VaultSecretGroup>,
-): any[] {
+export function vaultSecretGroupArraySerializer(result: Array<VaultSecretGroup>): any[] {
   return result.map((item) => {
     return vaultSecretGroupSerializer(item);
   });
 }
 
-export function vaultSecretGroupArrayDeserializer(
-  result: Array<VaultSecretGroup>,
-): any[] {
+export function vaultSecretGroupArrayDeserializer(result: Array<VaultSecretGroup>): any[] {
   return result.map((item) => {
     return vaultSecretGroupDeserializer(item);
   });
@@ -2179,9 +2087,7 @@ export interface VirtualMachineScaleSetOSDisk {
   deleteOption?: DiskDeleteOptionTypes;
 }
 
-export function virtualMachineScaleSetOSDiskSerializer(
-  item: VirtualMachineScaleSetOSDisk,
-): any {
+export function virtualMachineScaleSetOSDiskSerializer(item: VirtualMachineScaleSetOSDisk): any {
   return {
     name: item["name"],
     caching: item["caching"],
@@ -2192,26 +2098,20 @@ export function virtualMachineScaleSetOSDiskSerializer(
       : diffDiskSettingsSerializer(item["diffDiskSettings"]),
     diskSizeGB: item["diskSizeGB"],
     osType: item["osType"],
-    image: !item["image"]
-      ? item["image"]
-      : virtualHardDiskSerializer(item["image"]),
+    image: !item["image"] ? item["image"] : virtualHardDiskSerializer(item["image"]),
     vhdContainers: !item["vhdContainers"]
       ? item["vhdContainers"]
       : item["vhdContainers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     managedDisk: !item["managedDisk"]
       ? item["managedDisk"]
-      : virtualMachineScaleSetManagedDiskParametersSerializer(
-        item["managedDisk"],
-      ),
+      : virtualMachineScaleSetManagedDiskParametersSerializer(item["managedDisk"]),
     deleteOption: item["deleteOption"],
   };
 }
 
-export function virtualMachineScaleSetOSDiskDeserializer(
-  item: any,
-): VirtualMachineScaleSetOSDisk {
+export function virtualMachineScaleSetOSDiskDeserializer(item: any): VirtualMachineScaleSetOSDisk {
   return {
     name: item["name"],
     caching: item["caching"],
@@ -2222,19 +2122,15 @@ export function virtualMachineScaleSetOSDiskDeserializer(
       : diffDiskSettingsDeserializer(item["diffDiskSettings"]),
     diskSizeGB: item["diskSizeGB"],
     osType: item["osType"],
-    image: !item["image"]
-      ? item["image"]
-      : virtualHardDiskDeserializer(item["image"]),
+    image: !item["image"] ? item["image"] : virtualHardDiskDeserializer(item["image"]),
     vhdContainers: !item["vhdContainers"]
       ? item["vhdContainers"]
       : item["vhdContainers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     managedDisk: !item["managedDisk"]
       ? item["managedDisk"]
-      : virtualMachineScaleSetManagedDiskParametersDeserializer(
-        item["managedDisk"],
-      ),
+      : virtualMachineScaleSetManagedDiskParametersDeserializer(item["managedDisk"]),
     deleteOption: item["deleteOption"],
   };
 }
@@ -2530,15 +2426,11 @@ export interface DiskEncryptionSetParameters {
   id?: string;
 }
 
-export function diskEncryptionSetParametersSerializer(
-  item: DiskEncryptionSetParameters,
-): any {
+export function diskEncryptionSetParametersSerializer(item: DiskEncryptionSetParameters): any {
   return { id: item["id"] };
 }
 
-export function diskEncryptionSetParametersDeserializer(
-  item: any,
-): DiskEncryptionSetParameters {
+export function diskEncryptionSetParametersDeserializer(item: any): DiskEncryptionSetParameters {
   return {
     id: item["id"],
   };
@@ -2565,9 +2457,7 @@ export interface VMDiskSecurityProfile {
   diskEncryptionSet?: DiskEncryptionSetParameters;
 }
 
-export function vMDiskSecurityProfileSerializer(
-  item: VMDiskSecurityProfile,
-): any {
+export function vMDiskSecurityProfileSerializer(item: VMDiskSecurityProfile): any {
   return {
     securityEncryptionType: item["securityEncryptionType"],
     diskEncryptionSet: !item["diskEncryptionSet"]
@@ -2576,9 +2466,7 @@ export function vMDiskSecurityProfileSerializer(
   };
 }
 
-export function vMDiskSecurityProfileDeserializer(
-  item: any,
-): VMDiskSecurityProfile {
+export function vMDiskSecurityProfileDeserializer(item: any): VMDiskSecurityProfile {
   return {
     securityEncryptionType: item["securityEncryptionType"],
     diskEncryptionSet: !item["diskEncryptionSet"]
@@ -2716,9 +2604,7 @@ export function virtualMachineScaleSetDataDiskSerializer(
     diskSizeGB: item["diskSizeGB"],
     managedDisk: !item["managedDisk"]
       ? item["managedDisk"]
-      : virtualMachineScaleSetManagedDiskParametersSerializer(
-        item["managedDisk"],
-      ),
+      : virtualMachineScaleSetManagedDiskParametersSerializer(item["managedDisk"]),
     diskIOPSReadWrite: item["diskIOPSReadWrite"],
     diskMBpsReadWrite: item["diskMBpsReadWrite"],
     deleteOption: item["deleteOption"],
@@ -2737,9 +2623,7 @@ export function virtualMachineScaleSetDataDiskDeserializer(
     diskSizeGB: item["diskSizeGB"],
     managedDisk: !item["managedDisk"]
       ? item["managedDisk"]
-      : virtualMachineScaleSetManagedDiskParametersDeserializer(
-        item["managedDisk"],
-      ),
+      : virtualMachineScaleSetManagedDiskParametersDeserializer(item["managedDisk"]),
     diskIOPSReadWrite: item["diskIOPSReadWrite"],
     diskMBpsReadWrite: item["diskMBpsReadWrite"],
     deleteOption: item["deleteOption"],
@@ -2826,8 +2710,8 @@ export function virtualMachineScaleSetNetworkProfileSerializer(
     networkInterfaceConfigurations: !item["networkInterfaceConfigurations"]
       ? item["networkInterfaceConfigurations"]
       : virtualMachineScaleSetNetworkConfigurationArraySerializer(
-        item["networkInterfaceConfigurations"],
-      ),
+          item["networkInterfaceConfigurations"],
+        ),
     networkApiVersion: item["networkApiVersion"],
   };
 }
@@ -2842,8 +2726,8 @@ export function virtualMachineScaleSetNetworkProfileDeserializer(
     networkInterfaceConfigurations: !item["networkInterfaceConfigurations"]
       ? item["networkInterfaceConfigurations"]
       : virtualMachineScaleSetNetworkConfigurationArrayDeserializer(
-        item["networkInterfaceConfigurations"],
-      ),
+          item["networkInterfaceConfigurations"],
+        ),
     networkApiVersion: item["networkApiVersion"],
   };
 }
@@ -2882,9 +2766,7 @@ export function virtualMachineScaleSetNetworkConfigurationSerializer(
     name: item["name"],
     properties: !item["properties"]
       ? item["properties"]
-      : virtualMachineScaleSetNetworkConfigurationPropertiesSerializer(
-        item["properties"],
-      ),
+      : virtualMachineScaleSetNetworkConfigurationPropertiesSerializer(item["properties"]),
   };
 }
 
@@ -2895,9 +2777,7 @@ export function virtualMachineScaleSetNetworkConfigurationDeserializer(
     name: item["name"],
     properties: !item["properties"]
       ? item["properties"]
-      : virtualMachineScaleSetNetworkConfigurationPropertiesDeserializer(
-        item["properties"],
-      ),
+      : virtualMachineScaleSetNetworkConfigurationPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -2949,9 +2829,7 @@ export function virtualMachineScaleSetNetworkConfigurationPropertiesSerializer(
       : subResourceSerializer(item["networkSecurityGroup"]),
     dnsSettings: !item["dnsSettings"]
       ? item["dnsSettings"]
-      : virtualMachineScaleSetNetworkConfigurationDnsSettingsSerializer(
-        item["dnsSettings"],
-      ),
+      : virtualMachineScaleSetNetworkConfigurationDnsSettingsSerializer(item["dnsSettings"]),
     ipConfigurations: virtualMachineScaleSetIPConfigurationArraySerializer(
       item["ipConfigurations"],
     ),
@@ -2975,9 +2853,7 @@ export function virtualMachineScaleSetNetworkConfigurationPropertiesDeserializer
       : subResourceDeserializer(item["networkSecurityGroup"]),
     dnsSettings: !item["dnsSettings"]
       ? item["dnsSettings"]
-      : virtualMachineScaleSetNetworkConfigurationDnsSettingsDeserializer(
-        item["dnsSettings"],
-      ),
+      : virtualMachineScaleSetNetworkConfigurationDnsSettingsDeserializer(item["dnsSettings"]),
     ipConfigurations: virtualMachineScaleSetIPConfigurationArrayDeserializer(
       item["ipConfigurations"],
     ),
@@ -3001,8 +2877,8 @@ export function virtualMachineScaleSetNetworkConfigurationDnsSettingsSerializer(
     dnsServers: !item["dnsServers"]
       ? item["dnsServers"]
       : item["dnsServers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -3013,8 +2889,8 @@ export function virtualMachineScaleSetNetworkConfigurationDnsSettingsDeserialize
     dnsServers: !item["dnsServers"]
       ? item["dnsServers"]
       : item["dnsServers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -3036,9 +2912,7 @@ export function virtualMachineScaleSetIPConfigurationSerializer(
     name: item["name"],
     properties: !item["properties"]
       ? item["properties"]
-      : virtualMachineScaleSetIPConfigurationPropertiesSerializer(
-        item["properties"],
-      ),
+      : virtualMachineScaleSetIPConfigurationPropertiesSerializer(item["properties"]),
   };
 }
 
@@ -3049,9 +2923,7 @@ export function virtualMachineScaleSetIPConfigurationDeserializer(
     name: item["name"],
     properties: !item["properties"]
       ? item["properties"]
-      : virtualMachineScaleSetIPConfigurationPropertiesDeserializer(
-        item["properties"],
-      ),
+      : virtualMachineScaleSetIPConfigurationPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -3102,23 +2974,17 @@ export function virtualMachineScaleSetIPConfigurationPropertiesSerializer(
   item: VirtualMachineScaleSetIPConfigurationProperties,
 ): any {
   return {
-    subnet: !item["subnet"]
-      ? item["subnet"]
-      : apiEntityReferenceSerializer(item["subnet"]),
+    subnet: !item["subnet"] ? item["subnet"] : apiEntityReferenceSerializer(item["subnet"]),
     primary: item["primary"],
     publicIPAddressConfiguration: !item["publicIPAddressConfiguration"]
       ? item["publicIPAddressConfiguration"]
       : virtualMachineScaleSetPublicIPAddressConfigurationSerializer(
-        item["publicIPAddressConfiguration"],
-      ),
+          item["publicIPAddressConfiguration"],
+        ),
     privateIPAddressVersion: item["privateIPAddressVersion"],
-    applicationGatewayBackendAddressPools: !item[
-      "applicationGatewayBackendAddressPools"
-    ]
+    applicationGatewayBackendAddressPools: !item["applicationGatewayBackendAddressPools"]
       ? item["applicationGatewayBackendAddressPools"]
-      : subResourceArraySerializer(
-        item["applicationGatewayBackendAddressPools"],
-      ),
+      : subResourceArraySerializer(item["applicationGatewayBackendAddressPools"]),
     applicationSecurityGroups: !item["applicationSecurityGroups"]
       ? item["applicationSecurityGroups"]
       : subResourceArraySerializer(item["applicationSecurityGroups"]),
@@ -3135,23 +3001,17 @@ export function virtualMachineScaleSetIPConfigurationPropertiesDeserializer(
   item: any,
 ): VirtualMachineScaleSetIPConfigurationProperties {
   return {
-    subnet: !item["subnet"]
-      ? item["subnet"]
-      : apiEntityReferenceDeserializer(item["subnet"]),
+    subnet: !item["subnet"] ? item["subnet"] : apiEntityReferenceDeserializer(item["subnet"]),
     primary: item["primary"],
     publicIPAddressConfiguration: !item["publicIPAddressConfiguration"]
       ? item["publicIPAddressConfiguration"]
       : virtualMachineScaleSetPublicIPAddressConfigurationDeserializer(
-        item["publicIPAddressConfiguration"],
-      ),
+          item["publicIPAddressConfiguration"],
+        ),
     privateIPAddressVersion: item["privateIPAddressVersion"],
-    applicationGatewayBackendAddressPools: !item[
-      "applicationGatewayBackendAddressPools"
-    ]
+    applicationGatewayBackendAddressPools: !item["applicationGatewayBackendAddressPools"]
       ? item["applicationGatewayBackendAddressPools"]
-      : subResourceArrayDeserializer(
-        item["applicationGatewayBackendAddressPools"],
-      ),
+      : subResourceArrayDeserializer(item["applicationGatewayBackendAddressPools"]),
     applicationSecurityGroups: !item["applicationSecurityGroups"]
       ? item["applicationSecurityGroups"]
       : subResourceArrayDeserializer(item["applicationSecurityGroups"]),
@@ -3190,9 +3050,7 @@ export function virtualMachineScaleSetPublicIPAddressConfigurationSerializer(
     name: item["name"],
     properties: !item["properties"]
       ? item["properties"]
-      : virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSerializer(
-        item["properties"],
-      ),
+      : virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSerializer(item["properties"]),
     sku: !item["sku"] ? item["sku"] : publicIPAddressSkuSerializer(item["sku"]),
   };
 }
@@ -3205,11 +3063,9 @@ export function virtualMachineScaleSetPublicIPAddressConfigurationDeserializer(
     properties: !item["properties"]
       ? item["properties"]
       : virtualMachineScaleSetPublicIPAddressConfigurationPropertiesDeserializer(
-        item["properties"],
-      ),
-    sku: !item["sku"]
-      ? item["sku"]
-      : publicIPAddressSkuDeserializer(item["sku"]),
+          item["properties"],
+        ),
+    sku: !item["sku"] ? item["sku"] : publicIPAddressSkuDeserializer(item["sku"]),
   };
 }
 
@@ -3244,8 +3100,8 @@ export function virtualMachineScaleSetPublicIPAddressConfigurationPropertiesSeri
     dnsSettings: !item["dnsSettings"]
       ? item["dnsSettings"]
       : virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsSerializer(
-        item["dnsSettings"],
-      ),
+          item["dnsSettings"],
+        ),
     ipTags: !item["ipTags"]
       ? item["ipTags"]
       : virtualMachineScaleSetIpTagArraySerializer(item["ipTags"]),
@@ -3265,8 +3121,8 @@ export function virtualMachineScaleSetPublicIPAddressConfigurationPropertiesDese
     dnsSettings: !item["dnsSettings"]
       ? item["dnsSettings"]
       : virtualMachineScaleSetPublicIPAddressConfigurationDnsSettingsDeserializer(
-        item["dnsSettings"],
-      ),
+          item["dnsSettings"],
+        ),
     ipTags: !item["ipTags"]
       ? item["ipTags"]
       : virtualMachineScaleSetIpTagArrayDeserializer(item["ipTags"]),
@@ -3353,15 +3209,11 @@ export interface VirtualMachineScaleSetIpTag {
   tag?: string;
 }
 
-export function virtualMachineScaleSetIpTagSerializer(
-  item: VirtualMachineScaleSetIpTag,
-): any {
+export function virtualMachineScaleSetIpTagSerializer(item: VirtualMachineScaleSetIpTag): any {
   return { ipTagType: item["ipTagType"], tag: item["tag"] };
 }
 
-export function virtualMachineScaleSetIpTagDeserializer(
-  item: any,
-): VirtualMachineScaleSetIpTag {
+export function virtualMachineScaleSetIpTagDeserializer(item: any): VirtualMachineScaleSetIpTag {
   return {
     ipTagType: item["ipTagType"],
     tag: item["tag"],
@@ -3490,9 +3342,7 @@ export function subResourceArraySerializer(result: Array<SubResource>): any[] {
   });
 }
 
-export function subResourceArrayDeserializer(
-  result: Array<SubResource>,
-): any[] {
+export function subResourceArrayDeserializer(result: Array<SubResource>): any[] {
   return result.map((item) => {
     return subResourceDeserializer(item);
   });
@@ -3940,9 +3790,7 @@ export function virtualMachineScaleSetExtensionDeserializer(
     type: item["type"],
     properties: !item["properties"]
       ? item["properties"]
-      : virtualMachineScaleSetExtensionPropertiesDeserializer(
-        item["properties"],
-      ),
+      : virtualMachineScaleSetExtensionPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -4013,14 +3861,12 @@ export function virtualMachineScaleSetExtensionPropertiesSerializer(
     provisionAfterExtensions: !item["provisionAfterExtensions"]
       ? item["provisionAfterExtensions"]
       : item["provisionAfterExtensions"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     suppressFailures: item["suppressFailures"],
     protectedSettingsFromKeyVault: !item["protectedSettingsFromKeyVault"]
       ? item["protectedSettingsFromKeyVault"]
-      : keyVaultSecretReferenceSerializer(
-        item["protectedSettingsFromKeyVault"],
-      ),
+      : keyVaultSecretReferenceSerializer(item["protectedSettingsFromKeyVault"]),
   };
 }
 
@@ -4040,14 +3886,12 @@ export function virtualMachineScaleSetExtensionPropertiesDeserializer(
     provisionAfterExtensions: !item["provisionAfterExtensions"]
       ? item["provisionAfterExtensions"]
       : item["provisionAfterExtensions"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     suppressFailures: item["suppressFailures"],
     protectedSettingsFromKeyVault: !item["protectedSettingsFromKeyVault"]
       ? item["protectedSettingsFromKeyVault"]
-      : keyVaultSecretReferenceDeserializer(
-        item["protectedSettingsFromKeyVault"],
-      ),
+      : keyVaultSecretReferenceDeserializer(item["protectedSettingsFromKeyVault"]),
   };
 }
 
@@ -4059,18 +3903,14 @@ export interface KeyVaultSecretReference {
   sourceVault: SubResource;
 }
 
-export function keyVaultSecretReferenceSerializer(
-  item: KeyVaultSecretReference,
-): any {
+export function keyVaultSecretReferenceSerializer(item: KeyVaultSecretReference): any {
   return {
     secretUrl: item["secretUrl"],
     sourceVault: subResourceSerializer(item["sourceVault"]),
   };
 }
 
-export function keyVaultSecretReferenceDeserializer(
-  item: any,
-): KeyVaultSecretReference {
+export function keyVaultSecretReferenceDeserializer(item: any): KeyVaultSecretReference {
   return {
     secretUrl: item["secretUrl"],
     sourceVault: subResourceDeserializer(item["sourceVault"]),
@@ -4101,37 +3941,25 @@ export interface ScheduledEventsProfile {
   osImageNotificationProfile?: OSImageNotificationProfile;
 }
 
-export function scheduledEventsProfileSerializer(
-  item: ScheduledEventsProfile,
-): any {
+export function scheduledEventsProfileSerializer(item: ScheduledEventsProfile): any {
   return {
     terminateNotificationProfile: !item["terminateNotificationProfile"]
       ? item["terminateNotificationProfile"]
-      : terminateNotificationProfileSerializer(
-        item["terminateNotificationProfile"],
-      ),
+      : terminateNotificationProfileSerializer(item["terminateNotificationProfile"]),
     osImageNotificationProfile: !item["osImageNotificationProfile"]
       ? item["osImageNotificationProfile"]
-      : oSImageNotificationProfileSerializer(
-        item["osImageNotificationProfile"],
-      ),
+      : oSImageNotificationProfileSerializer(item["osImageNotificationProfile"]),
   };
 }
 
-export function scheduledEventsProfileDeserializer(
-  item: any,
-): ScheduledEventsProfile {
+export function scheduledEventsProfileDeserializer(item: any): ScheduledEventsProfile {
   return {
     terminateNotificationProfile: !item["terminateNotificationProfile"]
       ? item["terminateNotificationProfile"]
-      : terminateNotificationProfileDeserializer(
-        item["terminateNotificationProfile"],
-      ),
+      : terminateNotificationProfileDeserializer(item["terminateNotificationProfile"]),
     osImageNotificationProfile: !item["osImageNotificationProfile"]
       ? item["osImageNotificationProfile"]
-      : oSImageNotificationProfileDeserializer(
-        item["osImageNotificationProfile"],
-      ),
+      : oSImageNotificationProfileDeserializer(item["osImageNotificationProfile"]),
   };
 }
 
@@ -4148,15 +3976,11 @@ export interface TerminateNotificationProfile {
   enable?: boolean;
 }
 
-export function terminateNotificationProfileSerializer(
-  item: TerminateNotificationProfile,
-): any {
+export function terminateNotificationProfileSerializer(item: TerminateNotificationProfile): any {
   return { notBeforeTimeout: item["notBeforeTimeout"], enable: item["enable"] };
 }
 
-export function terminateNotificationProfileDeserializer(
-  item: any,
-): TerminateNotificationProfile {
+export function terminateNotificationProfileDeserializer(item: any): TerminateNotificationProfile {
   return {
     notBeforeTimeout: item["notBeforeTimeout"],
     enable: item["enable"],
@@ -4176,15 +4000,11 @@ export interface OSImageNotificationProfile {
   enable?: boolean;
 }
 
-export function oSImageNotificationProfileSerializer(
-  item: OSImageNotificationProfile,
-): any {
+export function oSImageNotificationProfileSerializer(item: OSImageNotificationProfile): any {
   return { notBeforeTimeout: item["notBeforeTimeout"], enable: item["enable"] };
 }
 
-export function oSImageNotificationProfileDeserializer(
-  item: any,
-): OSImageNotificationProfile {
+export function oSImageNotificationProfileDeserializer(item: any): OSImageNotificationProfile {
   return {
     notBeforeTimeout: item["notBeforeTimeout"],
     enable: item["enable"],
@@ -4202,9 +4022,7 @@ export interface CapacityReservationProfile {
   capacityReservationGroup?: SubResource;
 }
 
-export function capacityReservationProfileSerializer(
-  item: CapacityReservationProfile,
-): any {
+export function capacityReservationProfileSerializer(item: CapacityReservationProfile): any {
   return {
     capacityReservationGroup: !item["capacityReservationGroup"]
       ? item["capacityReservationGroup"]
@@ -4212,9 +4030,7 @@ export function capacityReservationProfileSerializer(
   };
 }
 
-export function capacityReservationProfileDeserializer(
-  item: any,
-): CapacityReservationProfile {
+export function capacityReservationProfileDeserializer(item: any): CapacityReservationProfile {
   return {
     capacityReservationGroup: !item["capacityReservationGroup"]
       ? item["capacityReservationGroup"]
@@ -4278,9 +4094,7 @@ export interface VMGalleryApplication {
   enableAutomaticUpgrade?: boolean;
 }
 
-export function vMGalleryApplicationSerializer(
-  item: VMGalleryApplication,
-): any {
+export function vMGalleryApplicationSerializer(item: VMGalleryApplication): any {
   return {
     tags: item["tags"],
     order: item["order"],
@@ -4291,9 +4105,7 @@ export function vMGalleryApplicationSerializer(
   };
 }
 
-export function vMGalleryApplicationDeserializer(
-  item: any,
-): VMGalleryApplication {
+export function vMGalleryApplicationDeserializer(item: any): VMGalleryApplication {
   return {
     tags: item["tags"],
     order: item["order"],
@@ -4304,17 +4116,13 @@ export function vMGalleryApplicationDeserializer(
   };
 }
 
-export function vMGalleryApplicationArraySerializer(
-  result: Array<VMGalleryApplication>,
-): any[] {
+export function vMGalleryApplicationArraySerializer(result: Array<VMGalleryApplication>): any[] {
   return result.map((item) => {
     return vMGalleryApplicationSerializer(item);
   });
 }
 
-export function vMGalleryApplicationArrayDeserializer(
-  result: Array<VMGalleryApplication>,
-): any[] {
+export function vMGalleryApplicationArrayDeserializer(result: Array<VMGalleryApplication>): any[] {
   return result.map((item) => {
     return vMGalleryApplicationDeserializer(item);
   });
@@ -4398,15 +4206,11 @@ export interface ServiceArtifactReference {
   id?: string;
 }
 
-export function serviceArtifactReferenceSerializer(
-  item: ServiceArtifactReference,
-): any {
+export function serviceArtifactReferenceSerializer(item: ServiceArtifactReference): any {
   return { id: item["id"] };
 }
 
-export function serviceArtifactReferenceDeserializer(
-  item: any,
-): ServiceArtifactReference {
+export function serviceArtifactReferenceDeserializer(item: any): ServiceArtifactReference {
   return {
     id: item["id"],
   };
@@ -4431,45 +4235,37 @@ export interface SecurityPostureReference {
   isOverridable?: boolean;
 }
 
-export function securityPostureReferenceSerializer(
-  item: SecurityPostureReference,
-): any {
+export function securityPostureReferenceSerializer(item: SecurityPostureReference): any {
   return {
     id: item["id"],
     excludeExtensions: !item["excludeExtensions"]
       ? item["excludeExtensions"]
       : item["excludeExtensions"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     isOverridable: item["isOverridable"],
   };
 }
 
-export function securityPostureReferenceDeserializer(
-  item: any,
-): SecurityPostureReference {
+export function securityPostureReferenceDeserializer(item: any): SecurityPostureReference {
   return {
     id: item["id"],
     excludeExtensions: !item["excludeExtensions"]
       ? item["excludeExtensions"]
       : item["excludeExtensions"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     isOverridable: item["isOverridable"],
   };
 }
 
-export function locationProfileArraySerializer(
-  result: Array<LocationProfile>,
-): any[] {
+export function locationProfileArraySerializer(result: Array<LocationProfile>): any[] {
   return result.map((item) => {
     return locationProfileSerializer(item);
   });
 }
 
-export function locationProfileArrayDeserializer(
-  result: Array<LocationProfile>,
-): any[] {
+export function locationProfileArrayDeserializer(result: Array<LocationProfile>): any[] {
   return result.map((item) => {
     return locationProfileDeserializer(item);
   });
@@ -4508,13 +4304,9 @@ export function computeProfileSerializer(item: ComputeProfile): any {
     ),
     computeApiVersion: item["computeApiVersion"],
     platformFaultDomainCount: item["platformFaultDomainCount"],
-    additionalVirtualMachineCapabilities: !item[
-      "additionalVirtualMachineCapabilities"
-    ]
+    additionalVirtualMachineCapabilities: !item["additionalVirtualMachineCapabilities"]
       ? item["additionalVirtualMachineCapabilities"]
-      : additionalCapabilitiesSerializer(
-        item["additionalVirtualMachineCapabilities"],
-      ),
+      : additionalCapabilitiesSerializer(item["additionalVirtualMachineCapabilities"]),
   };
 }
 
@@ -4525,13 +4317,9 @@ export function computeProfileDeserializer(item: any): ComputeProfile {
     ),
     computeApiVersion: item["computeApiVersion"],
     platformFaultDomainCount: item["platformFaultDomainCount"],
-    additionalVirtualMachineCapabilities: !item[
-      "additionalVirtualMachineCapabilities"
-    ]
+    additionalVirtualMachineCapabilities: !item["additionalVirtualMachineCapabilities"]
       ? item["additionalVirtualMachineCapabilities"]
-      : additionalCapabilitiesDeserializer(
-        item["additionalVirtualMachineCapabilities"],
-      ),
+      : additionalCapabilitiesDeserializer(item["additionalVirtualMachineCapabilities"]),
   };
 }
 
@@ -4546,18 +4334,14 @@ export interface AdditionalCapabilities {
   hibernationEnabled?: boolean;
 }
 
-export function additionalCapabilitiesSerializer(
-  item: AdditionalCapabilities,
-): any {
+export function additionalCapabilitiesSerializer(item: AdditionalCapabilities): any {
   return {
     ultraSSDEnabled: item["ultraSSDEnabled"],
     hibernationEnabled: item["hibernationEnabled"],
   };
 }
 
-export function additionalCapabilitiesDeserializer(
-  item: any,
-): AdditionalCapabilities {
+export function additionalCapabilitiesDeserializer(item: any): AdditionalCapabilities {
   return {
     ultraSSDEnabled: item["ultraSSDEnabled"],
     hibernationEnabled: item["hibernationEnabled"],
@@ -4576,18 +4360,14 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(
-  item: ManagedServiceIdentity,
-): any {
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(
-  item: any,
-): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -4628,15 +4408,11 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(
-  item: UserAssignedIdentity,
-): any {
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(
-  item: any,
-): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
     principalId: item["principalId"],
     clientId: item["clientId"],
@@ -4749,9 +4525,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -4802,9 +4576,7 @@ export function fleetUpdateSerializer(item: FleetUpdate): any {
     identity: !item["identity"]
       ? item["identity"]
       : managedServiceIdentityUpdateSerializer(item["identity"]),
-    plan: !item["plan"]
-      ? item["plan"]
-      : resourcePlanUpdateSerializer(item["plan"]),
+    plan: !item["plan"] ? item["plan"] : resourcePlanUpdateSerializer(item["plan"]),
     properties: !item["properties"]
       ? item["properties"]
       : fleetPropertiesSerializer(item["properties"]),
@@ -4819,9 +4591,7 @@ export interface ManagedServiceIdentityUpdate {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentityUpdateSerializer(
-  item: ManagedServiceIdentityUpdate,
-): any {
+export function managedServiceIdentityUpdateSerializer(item: ManagedServiceIdentityUpdate): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
@@ -4911,9 +4681,7 @@ export interface VirtualMachineScaleSet {
   readonly error?: ApiError;
 }
 
-export function virtualMachineScaleSetDeserializer(
-  item: any,
-): VirtualMachineScaleSet {
+export function virtualMachineScaleSetDeserializer(item: any): VirtualMachineScaleSet {
   return {
     id: item["id"],
     type: item["type"],
@@ -4941,9 +4709,7 @@ export function apiErrorDeserializer(item: any): ApiError {
     code: item["code"],
     target: item["target"],
     message: item["message"],
-    details: !item["details"]
-      ? item["details"]
-      : apiErrorBaseArrayDeserializer(item["details"]),
+    details: !item["details"] ? item["details"] : apiErrorBaseArrayDeserializer(item["details"]),
     innererror: !item["innererror"]
       ? item["innererror"]
       : innerErrorDeserializer(item["innererror"]),
@@ -4968,9 +4734,7 @@ export function apiErrorBaseDeserializer(item: any): ApiErrorBase {
   };
 }
 
-export function apiErrorBaseArrayDeserializer(
-  result: Array<ApiErrorBase>,
-): any[] {
+export function apiErrorBaseArrayDeserializer(result: Array<ApiErrorBase>): any[] {
   return result.map((item) => {
     return apiErrorBaseDeserializer(item);
   });
@@ -5007,9 +4771,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -5034,9 +4796,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };

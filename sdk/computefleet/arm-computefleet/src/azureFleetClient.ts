@@ -1,14 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
-import {
-  getFleetsOperations,
-  FleetsOperations,
-} from "./classic/fleets/index.js";
+import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import { getFleetsOperations, FleetsOperations } from "./classic/fleets/index.js";
 import {
   createAzureFleet,
   AzureFleetContext,
