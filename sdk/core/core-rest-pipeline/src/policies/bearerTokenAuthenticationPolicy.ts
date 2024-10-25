@@ -7,6 +7,57 @@ import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfac
 import type { PipelinePolicy } from "../pipeline.js";
 import { createTokenCycler } from "../util/tokenCycler.js";
 import { logger as coreLogger } from "../log.js";
+import { isRestError } from "../restError.js";
+
+/**
+ * Parameters parsed out of the WWW-Authenticate header value by the parseWWWAuthenticate function.
+ */
+interface WWWAuthenticate {
+  /**
+   * The authorization_url parameter, if present.
+   */
+  authorization_url?: string;
+
+  /**
+   * The claims parameter, if present.
+   */
+  claims?: string;
+
+  /**
+   * The error parameter, if present.
+   */
+  error?: string;
+}
+
+const validWWWAuthenticateProperties: readonly (keyof WWWAuthenticate)[] = [
+  "authorization_url",
+  "claims",
+  "error",
+] as const;
+
+/**
+ * Parses an WWW-Authenticate response header.
+ * This transforms a string value like:
+ * `Bearer authorization="https://some.url/tenantId", resource="https://some.url"`
+ * into an object like:
+ * `{ authorization: "https://some.url/tenantId", resource: "https://some.url" }`
+ * @param headerValue - String value in the WWW-Authenticate header
+ */
+function parseWWWAuthenticateHeader(headerValue: string): WWWAuthenticate {
+  const pairDelimiter = /,? +/;
+  const parsed = headerValue.split(pairDelimiter).reduce<WWWAuthenticate>((kvPairs, p) => {
+    if (p.match(/\w="/)) {
+      // 'sampleKey="sample_value"' -> [sampleKey, "sample_value"] -> { sampleKey: sample_value }
+      const [key, ...value] = p.split("=");
+      if (validWWWAuthenticateProperties.includes(key as keyof WWWAuthenticate)) {
+        // The values will be wrapped in quotes, which need to be stripped out.
+        return { ...kvPairs, [key]: value.join("=").slice(1, -1) };
+      }
+    }
+    return kvPairs;
+  }, {});
+  return parsed;
+}
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -107,10 +158,13 @@ export interface BearerTokenAuthenticationPolicyOptions {
  */
 async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promise<void> {
   const { scopes, getAccessToken, request } = options;
+  // Enable CAE true by default
   const getTokenOptions: GetTokenOptions = {
     abortSignal: request.abortSignal,
     tracingOptions: request.tracingOptions,
+    enableCae: true,
   };
+
   const accessToken = await getAccessToken(scopes, getTokenOptions);
 
   if (accessToken) {
@@ -122,12 +176,59 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
  * We will retrieve the challenge only if the response status code was 401,
  * and if the response contained the header "WWW-Authenticate" with a non-empty value.
  */
-function getChallenge(response: PipelineResponse): string | undefined {
-  const challenge = response.headers.get("WWW-Authenticate");
-  if (response.status === 401 && challenge) {
-    return challenge;
+function isChallengeResponse(response: PipelineResponse): boolean {
+  if (response.status === 401 && response.headers.get("WWW-Authenticate")) {
+    return true;
   }
-  return;
+  return false;
+}
+
+/**
+ * We will retrieve the challenge only if the response status code was 401,
+ * and if the response contained the header "WWW-Authenticate" with a non-empty value.
+ */
+async function authorizeRequestOnCaeChallenge(
+  onChallengeOptions: AuthorizeRequestOnChallengeOptions,
+): Promise<boolean> {
+  const { scopes, response } = onChallengeOptions;
+  const logger = onChallengeOptions.logger || coreLogger;
+
+  const challenge = response.headers.get("WWW-Authenticate");
+  // Parsing the challenge
+  const { claims: base64EncodedClaims, error }: WWWAuthenticate = parseWWWAuthenticateHeader(
+    challenge as string,
+  );
+
+  if (base64EncodedClaims === undefined) {
+    logger.info(
+      `The WWW-Authenticate header was missing the necessary "claims". Failed to perform the Continuous Access Evaluation authentication flow.`,
+    );
+    return false;
+  }
+
+  if (error !== "insufficient_claims") {
+    logger.info(
+      `The WWW-Authenticate header ran into "insufficient_claims" error. Failed to perform the Continuous Access Evaluation authentication flow.`,
+    );
+    return false;
+  }
+
+  const claims = atob(base64EncodedClaims);
+
+  const accessToken = await onChallengeOptions.getAccessToken(scopes, {
+    enableCae: true,
+    claims,
+  });
+
+  if (!accessToken) {
+    return false;
+  }
+
+  onChallengeOptions.request.headers.set(
+    "Authorization",
+    `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`,
+  );
+  return true;
 }
 
 /**
@@ -188,16 +289,16 @@ export function bearerTokenAuthenticationPolicy(
       try {
         response = await next(request);
       } catch (err: any) {
-        error = err;
-        response = err.response;
+        if (isRestError(error)) {
+          response = err.response;
+          error = err;
+        } else {
+          throw err;
+        }
       }
 
-      if (
-        callbacks.authorizeRequestOnChallenge &&
-        response?.status === 401 &&
-        getChallenge(response)
-      ) {
-        // processes challenge
+      // Handle challenge using client provided callback when a challenge is returned
+      if (isChallengeResponse(response) && callbacks.authorizeRequestOnChallenge) {
         const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
           scopes: Array.isArray(scopes) ? scopes : [scopes],
           request,
@@ -206,7 +307,33 @@ export function bearerTokenAuthenticationPolicy(
           logger,
         });
 
-        if (shouldSendRequest) {
+        // Send updated request and handle response for RestError
+        try {
+          if (shouldSendRequest) {
+            error = undefined;
+            response = await next(request);
+          }
+        } catch (err: any) {
+          if (isRestError(error)) {
+            response = err.response;
+            error = err;
+          } else {
+            throw err;
+          }
+        }
+      }
+
+      // Handle CAE challenge by default when a challenge is returned regardless of whether the callback is provided
+      if (isChallengeResponse(response)) {
+        const shouldSendRequestAfterCaeChallenge = await authorizeRequestOnCaeChallenge({
+          scopes: Array.isArray(scopes) ? scopes : [scopes],
+          response,
+          request,
+          getAccessToken,
+          logger,
+        });
+
+        if (shouldSendRequestAfterCaeChallenge) {
           return next(request);
         }
       }
