@@ -14963,7 +14963,7 @@ packages:
     dev: false
 
   file:projects/arm-dnsresolver.tgz:
-    resolution: {integrity: sha512-9YtTmaOlxRxDrWaRQLGAznsoRkp6LXuiX85fqvxjDLIjb748IqN0j/fQyitjqY+G+jSZhcp1fk3C7rgn/Ke+TA==, tarball: file:projects/arm-dnsresolver.tgz}
+    resolution: {integrity: sha512-F4rdV9I2V9l77Eael5xYcrnWVxZetub79CO/uSVk4dfuax9wWkyZcTB74eqUWBOAJxv9lZ+y9Vnag59RHEHk/Q==, tarball: file:projects/arm-dnsresolver.tgz}
     name: '@rush-temp/arm-dnsresolver'
     version: 0.0.0
     dependencies:
@@ -14983,6 +14983,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
       tslib: 2.8.0
+      tsx: 4.19.1
       typescript: 5.6.3
       uglify-js: 3.19.3
     transitivePeerDependencies:
