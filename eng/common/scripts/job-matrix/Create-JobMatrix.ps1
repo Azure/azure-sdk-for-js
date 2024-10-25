@@ -38,7 +38,8 @@ $Filters = $Filters | Where-Object { $_ }
     -nonSparseParameters $NonSparseParameters
 
 if (Test-Path $PostGenerationScript) {
-    $matrix = &$PostGenerationScript -Matrix $matrix
+    Write-Host "Invoking post-generation script: $PostGenerationScript"
+    $matrix = &"$PostGenerationScript" -Matrix $matrix
 }
 
 $serialized = SerializePipelineMatrix $matrix
