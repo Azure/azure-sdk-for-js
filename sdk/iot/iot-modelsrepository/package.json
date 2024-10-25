@@ -95,7 +95,6 @@
     "karma-sourcemap-loader": "catalog:legacy",
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
-    "rimraf": "catalog:",
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
   },

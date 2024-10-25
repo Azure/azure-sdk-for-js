@@ -13,14 +13,14 @@
   "dependencies": {
     "applicationinsights": "^1.8.8",
     "@azure/service-bus": "latest",
-    "dotenv": "catalog:",
+    "dotenv": "^18.0.0",
     "minimist": "^1.2.8",
-    "uuid": "^8.3.0"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@types/minimist": "^1.2.1",
-    "@types/node": "catalog:",
-    "@types/uuid": "^8.3.0",
+    "@types/node": "^18.0.0",
+    "@types/uuid": "^10.0.0",
     "typescript": "~5.6.2"
   }
 }

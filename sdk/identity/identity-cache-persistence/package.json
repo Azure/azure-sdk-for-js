@@ -84,7 +84,6 @@
     "eslint": "catalog:",
     "mocha": "catalog:legacy",
     "puppeteer": "^23.6.0",
-    "rimraf": "catalog:",
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
   }

@@ -91,9 +91,8 @@
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "mocha": "catalog:legacy",
-    "nock": "^13.5.4",
+    "nock": "catalog:legacy",
     "nyc": "catalog:legacy",
-    "rimraf": "catalog:",
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
   },

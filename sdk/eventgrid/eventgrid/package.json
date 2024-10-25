@@ -98,7 +98,7 @@
     "@azure/core-tracing": "workspace:*",
     "@azure/logger": "workspace:*",
     "tslib": "catalog:",
-    "uuid": "^8.3.0"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "catalog:test-credentialV1",
@@ -109,13 +109,13 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/service-bus": "workspace:*",
     "@types/chai": "catalog:legacy",
-    "@types/chai-as-promised": "^7.1.0",
+    "@types/chai-as-promised": "catalog:legacy",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
     "@types/sinon": "catalog:legacy",
     "@types/uuid": "^8.0.0",
     "chai": "catalog:legacy",
-    "chai-as-promised": "^7.1.1",
+    "chai-as-promised": "catalog:legacy",
     "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
@@ -130,7 +130,6 @@
     "karma-sourcemap-loader": "catalog:legacy",
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
-    "rimraf": "catalog:",
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
   }

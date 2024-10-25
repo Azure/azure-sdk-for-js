@@ -117,9 +117,8 @@
     "eslint": "catalog:",
     "execa": "^5.0.0",
     "mocha": "catalog:legacy",
-    "nock": "^13.5.5",
+    "nock": "catalog:legacy",
     "requirejs": "^2.3.5",
-    "rimraf": "catalog:",
     "sinon": "catalog:legacy",
     "ts-node": "catalog:legacy",
     "typescript": "catalog:"

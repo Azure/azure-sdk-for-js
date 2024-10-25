@@ -96,7 +96,6 @@
     "karma-mocha-reporter": "catalog:legacy",
     "karma-source-map-support": "catalog:legacy",
     "karma-sourcemap-loader": "catalog:legacy",
-    "mkdirp": "catalog:legacy",
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
     "typescript": "catalog:"

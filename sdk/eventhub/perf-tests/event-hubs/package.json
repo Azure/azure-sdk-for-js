@@ -13,12 +13,12 @@
     "@azure/event-hubs": "workspace:*",
     "dotenv": "catalog:",
     "moment": "^2.24.0",
-    "uuid": "^8.3.0"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:*",
     "@types/node": "catalog:",
-    "@types/uuid": "^8.0.0",
+    "@types/uuid": "^10.0.0",
     "cross-env": "catalog:legacy",
     "eslint": "catalog:",
     "tslib": "catalog:",

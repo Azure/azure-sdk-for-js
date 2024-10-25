@@ -55,7 +55,7 @@
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
     "chai": "catalog:legacy",
-    "chai-as-promised": "^7.1.1",
+    "chai-as-promised": "catalog:legacy",
     "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",

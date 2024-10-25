@@ -73,10 +73,10 @@
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
-    "concurrently": "^8.2.0",
+    "concurrently": "^9.0.1",
     "cross-env": "catalog:legacy",
     "eslint": "catalog:",
-    "express": "^4.19.2",
+    "express": "^4.21.1",
     "playwright": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"

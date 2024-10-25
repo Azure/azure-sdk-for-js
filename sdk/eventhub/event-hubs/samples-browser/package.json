@@ -29,11 +29,11 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/event-hubs": "^5.12.0",
-    "@azure/identity": "workspace:*"
+    "@azure/identity": "^4.5.0"
   },
   "devDependencies": {
     "http-server": "^0.12.1",
-    "rimraf": "catalog:",
+    "rimraf": "^5.0.5",
     "webpack": "^5.92.1",
     "webpack-cli": "^5.1.4"
   }

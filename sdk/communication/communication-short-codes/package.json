@@ -71,7 +71,7 @@
     "@azure/logger": "workspace:*",
     "events": "^3.0.0",
     "tslib": "catalog:",
-    "uuid": "^8.3.2"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
@@ -84,7 +84,7 @@
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
     "@types/sinon": "catalog:legacy",
-    "@types/uuid": "^8.3.2",
+    "@types/uuid": "^10.0.0",
     "chai": "catalog:legacy",
     "cross-env": "catalog:legacy",
     "dotenv": "catalog:",

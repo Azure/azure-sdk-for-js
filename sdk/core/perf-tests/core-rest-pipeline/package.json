@@ -17,7 +17,7 @@
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:*",
-    "@types/express": "^4.17.13",
+    "@types/express": "^4.17.21",
     "@types/node": "catalog:",
     "concurrently": "^9.0.1",
     "cross-env": "catalog:legacy",

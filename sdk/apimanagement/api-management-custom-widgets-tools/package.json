@@ -52,13 +52,11 @@
   "devDependencies": {
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@microsoft/api-extractor": "catalog:",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:",
-    "rimraf": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
   },

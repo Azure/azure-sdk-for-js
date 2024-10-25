@@ -56,15 +56,15 @@
   "devDependencies": {
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@types/express": "^4.16.0",
-    "@types/express-serve-static-core": "^4.17.19",
+    "@types/express": "^4.17.21",
+    "@types/express-serve-static-core": "^4.19.5",
     "@types/jsonwebtoken": "^9.0.0",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
     "dotenv": "catalog:",
     "eslint": "catalog:",
-    "express": "^4.16.3",
+    "express": "^4.21.1",
     "typescript": "catalog:",
     "vitest": "catalog:"
   },

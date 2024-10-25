@@ -91,7 +91,7 @@
     "@types/chai": "catalog:legacy",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
-    "@types/uuid": "^8.3.4",
+    "@types/uuid": "^10.0.0",
     "autorest": "latest",
     "chai": "catalog:legacy",
     "cross-env": "catalog:legacy",
@@ -109,9 +109,8 @@
     "karma-sourcemap-loader": "catalog:legacy",
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
-    "rimraf": "catalog:",
     "typescript": "catalog:",
-    "uuid": "^9.0.0"
+    "uuid": "^10.0.0"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/loadtesting/load-testing-rest/README.md",
   "//metadata": {

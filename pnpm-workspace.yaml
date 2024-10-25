@@ -147,9 +147,12 @@ catalogs:
     '@azure/keyvault-secrets': 4.9.0
   legacy:
     '@types/chai': ^4.3.16
+    '@types/chai-as-promised': ^7.1.4
     '@types/mocha': ^10.0.0
     '@types/sinon': ^17.0.0
     chai: ^4.5.0
+    chai-as-promised: ^7.1.1
+    chai-exclude: ^2.1.0
     cross-env: ^7.0.3
     karma: ^6.2.0
     karma-chrome-launcher: ^3.0.0
@@ -166,6 +169,7 @@ catalogs:
     karma-sourcemap-loader: ^0.3.8
     mkdirp: ^3.0.1
     mocha: ^10.0.0
+    nock: ^13.5.5
     nyc: ^17.0.0
     sinon: ^19.0.0
     ts-node: ^10.0.0

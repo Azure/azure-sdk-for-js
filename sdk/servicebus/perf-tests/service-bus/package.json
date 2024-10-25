@@ -8,19 +8,19 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@azure-tools/test-perf": "workspace:*",
-    "@azure/service-bus": "workspace:*",
-    "dotenv": "catalog:",
-    "uuid": "^8.3.0"
+    "@azure-tools/test-perf": "^1.0.0",
+    "@azure/service-bus": "latest",
+    "dotenv": "^16.0.0",
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@azure/dev-tool": "workspace:*",
+    "@azure/dev-tool": "^1.0.0",
     "@types/node": "catalog:",
     "@types/uuid": "^8.0.0",
-    "cross-env": "catalog:legacy",
-    "eslint": "catalog:",
-    "tslib": "catalog:",
-    "typescript": "catalog:"
+    "cross-env": "^7.0.3",
+    "eslint": "^9.9.0",
+    "tslib": "^2.7.0",
+    "typescript": "~5.6.3"
   },
   "private": true,
   "scripts": {

@@ -38,8 +38,8 @@
     "dotenv": "latest"
   },
   "devDependencies": {
-    "@types/node": "^14.0.0",
+    "@types/node": "^18.0.0",
     "typescript": "~5.6.2",
-    "rimraf": "latest"
+    "rimraf": "^5.0.5"
   }
 }

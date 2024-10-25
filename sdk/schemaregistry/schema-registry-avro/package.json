@@ -85,7 +85,7 @@
     "@azure/identity": "workspace:*",
     "@rollup/plugin-inject": "^5.0.5",
     "@types/node": "catalog:",
-    "@types/uuid": "^8.3.0",
+    "@types/uuid": "^10.0.0",
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
     "buffer": "^6.0.3",
@@ -96,7 +96,7 @@
     "process": "^0.11.10",
     "stream": "^0.0.3",
     "typescript": "catalog:",
-    "uuid": "^8.3.0",
+    "uuid": "^10.0.0",
     "vitest": "catalog:"
   },
   "type": "module",
