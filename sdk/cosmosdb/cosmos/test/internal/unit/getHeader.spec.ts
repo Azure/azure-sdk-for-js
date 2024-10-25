@@ -5,7 +5,7 @@ import { Constants } from "../../../src/common/constants";
 import { getHeaders } from "../../../src/request/request";
 import { CosmosHeaders, FeedOptions } from "../../../src";
 
-describe("Test ParallelizeCrossPartitionQuery header value", function () {
+describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value", function () {
   const mockedEndpoint = "https://localhost:8081";
   function getHeadersFunc(feedOptions: FeedOptions): Promise<CosmosHeaders> {
     return getHeaders({
