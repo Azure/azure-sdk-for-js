@@ -7,7 +7,6 @@ import { TokenCredential } from "@azure/core-auth";
 import { logger } from "./log.js";
 
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { createHttpPoller, PollerLike, OperationState } from "@azure/core-lro";
 import {
   DeletionRecoveryLevel as KnownDeletionRecoveryLevel,
   SecretItem,
@@ -39,8 +38,10 @@ import {
 import { KeyVaultSecretIdentifier, parseKeyVaultSecretIdentifier } from "./identifier.js";
 import { getSecretFromSecretBundle, mapPagedAsyncIterable } from "./transformations.js";
 import { tracingClient } from "./tracing.js";
-import { FullOperationResponse } from "@azure-rest/core-client";
+import { FullOperationResponse, getClient } from "@azure-rest/core-client";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
+import { createHttpPoller, SimplePollerLike } from "./lroShim.js";
+import { OperationState } from "@azure/core-lro";
 
 export type DeletionRecoveryLevel = string;
 
@@ -60,7 +61,7 @@ export {
   PageSettings,
   KeyVaultSecretIdentifier,
   parseKeyVaultSecretIdentifier,
-  PollerLike,
+  SimplePollerLike as PollerLike,
   KeyVaultSecret,
   SecretProperties,
   SecretPollerOptions,
@@ -124,7 +125,6 @@ export class SecretClient {
     };
 
     this.client = new KeyVaultClient(vaultUrl, credential, internalPipelineOptions);
-
     // The authentication policy must come after the deserialization policy since the deserialization policy
     // converts 401 responses to an Error, and we don't want to deal with that.
     // TODO: discuss this with the codeGen crew
@@ -217,11 +217,11 @@ export class SecretClient {
    * @param secretName - The name of the secret.
    * @param options - The optional parameters.
    */
-  public beginDeleteSecret(
+  public async beginDeleteSecret(
     name: string,
     options: BeginDeleteSecretOptions = {},
-  ): PollerLike<OperationState<DeletedSecret>, DeletedSecret> {
-    const poller = createHttpPoller<DeletedSecret, OperationState<DeletedSecret>>({
+  ): Promise<SimplePollerLike<OperationState<DeletedSecret>, DeletedSecret>> {
+    const poller = await createHttpPoller<DeletedSecret, OperationState<DeletedSecret>>({
       // TODO: can I / should I use the rest client for this?
       sendInitialRequest: async () => {
         let rawResponse: FullOperationResponse | undefined;
@@ -280,7 +280,6 @@ export class SecretClient {
         }
       },
     });
-    poller.poll();
     return poller;
   }
 
@@ -442,8 +441,8 @@ export class SecretClient {
   public async beginRecoverDeletedSecret(
     _name: string,
     _options: BeginRecoverDeletedSecretOptions = {},
-  ): Promise<PollerLike<OperationState<SecretProperties>, SecretProperties>> {
-    throw new Error("I hate LROs");
+  ): Promise<SimplePollerLike<OperationState<SecretProperties>, SecretProperties>> {
+    throw new Error("Not implemented");
   }
 
   /**

@@ -4,13 +4,14 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { AzureLogger } from '@azure/logger';
+import { CancelOnProgress } from '@azure/core-lro';
 import * as coreClient from '@azure-rest/core-client';
 import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
 import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
-import { PollerLike } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -91,7 +92,23 @@ export { PageSettings }
 // @public
 export function parseKeyVaultSecretIdentifier(id: string): KeyVaultSecretIdentifier;
 
-export { PollerLike }
+// @public
+export interface PollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    toString(): string;
+}
 
 // @public
 export interface PurgeDeletedSecretOptions extends coreClient.OperationOptions {
