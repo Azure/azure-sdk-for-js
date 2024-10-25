@@ -2,6 +2,7 @@
 .SYNOPSIS
 Used to update a generated matrix with targeted information for packages that are being built.
 #>
+[CmdletBinding()]
 param(
     [parameter(Mandatory=$true)]
     [array]$Matrix
