@@ -67,11 +67,10 @@ function Get-javascript-AdditionalValidationPackagesFromPackageSet {
     }
   }
 
-  $engChanged = $diffObj.ChangedFiles | Where-Object { $_.StartsWith("eng")}
   $othersChanged = $diffObj.ChangedFiles | Where-Object { isOther $_ }
   $changedServices = $changedServices | Get-Unique
 
-  if ($engChanged -or $othersChanged) {
+  if ($othersChanged) {
     $additionalPackages = $ReducedDependencyLookup["core"] | ForEach-Object { $me=$_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
     $additionalValidationPackages += $additionalPackages
   }

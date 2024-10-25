@@ -15,7 +15,7 @@ param (
     [Parameter(Mandatory=$False)][array] $Filters,
     [Parameter(Mandatory=$False)][array] $Replace,
     [Parameter(Mandatory=$False)][array] $NonSparseParameters,
-    [Parameter(Mandatory=$False)][array] $PostGenerationScript,
+    [Parameter(Mandatory=$False)][string] $PostGenerationScript,
     [Parameter()][switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID)
 )
 
