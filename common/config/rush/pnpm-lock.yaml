@@ -4509,6 +4509,39 @@ packages:
       - vite
     dev: false
 
+  /@vitest/browser@2.1.2(playwright@1.47.2)(typescript@5.6.3)(vitest@2.1.2):
+    resolution: {integrity: sha512-tqpGfz2sfjFFNuZ2iLZ6EGRVnH8z18O93ZIicbLsxDhiLgRNz84UcjSvX4pbheuddW+BJeNbLGdM3BU8vohbEg==}
+    peerDependencies:
+      playwright: '*'
+      safaridriver: '*'
+      vitest: 2.1.2
+      webdriverio: '*'
+    peerDependenciesMeta:
+      playwright:
+        optional: true
+      safaridriver:
+        optional: true
+      webdriverio:
+        optional: true
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 2.1.2(msw@2.4.9)
+      '@vitest/utils': 2.1.2
+      magic-string: 0.30.11
+      msw: 2.4.9(typescript@5.6.3)
+      playwright: 1.47.2
+      sirv: 2.0.4
+      tinyrainbow: 1.2.0
+      vitest: 2.1.2(@types/node@18.19.54)(@vitest/browser@2.1.2)
+      ws: 8.18.0
+    transitivePeerDependencies:
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+    dev: false
+
   /@vitest/coverage-istanbul@1.6.0(vitest@1.6.0):
     resolution: {integrity: sha512-h/BwpXehkkS0qsNCS00QxiupAqVkNi0WT19BR0dQvlge5oHghoSVLx63fABYFoKxVb7Ue7+k6V2KokmQ1zdMpg==}
     peerDependencies:
@@ -8631,6 +8664,37 @@ packages:
       strict-event-emitter: 0.5.1
       type-fest: 4.26.1
       typescript: 5.6.2
+      yargs: 17.7.2
+    dev: false
+
+  /msw@2.4.9(typescript@5.6.3):
+    resolution: {integrity: sha512-1m8xccT6ipN4PTqLinPwmzhxQREuxaEJYdx4nIbggxP8aM7r1e71vE7RtOUSQoAm1LydjGfZKy7370XD/tsuYg==}
+    engines: {node: '>=18'}
+    hasBin: true
+    requiresBuild: true
+    peerDependencies:
+      typescript: '>= 4.8.x'
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+    dependencies:
+      '@bundled-es-modules/cookie': 2.0.0
+      '@bundled-es-modules/statuses': 1.0.1
+      '@bundled-es-modules/tough-cookie': 0.1.6
+      '@inquirer/confirm': 3.2.0
+      '@mswjs/interceptors': 0.35.9
+      '@open-draft/until': 2.1.0
+      '@types/cookie': 0.6.0
+      '@types/statuses': 2.0.5
+      chalk: 4.1.2
+      graphql: 16.9.0
+      headers-polyfill: 4.0.3
+      is-node-process: 1.2.0
+      outvariant: 1.4.3
+      path-to-regexp: 6.3.0
+      strict-event-emitter: 0.5.1
+      type-fest: 4.26.1
+      typescript: 5.6.3
       yargs: 17.7.2
     dev: false
 
@@ -15396,14 +15460,14 @@ packages:
     dev: false
 
   file:projects/arm-fabric.tgz:
-    resolution: {integrity: sha512-4u6kKh1l8jg7Op7TgZ01rDJOQ+syARzRYjz0QfLkD2vL+ZDRDd3tVP8pgIvlmdMfrn6Jz01ZEJzsIWuGUr6GMw==, tarball: file:projects/arm-fabric.tgz}
+    resolution: {integrity: sha512-DWfFgqHfgTiuH3NNu60qsQbVvXs1fKragfniZrJLTdbpqS+qbT6vpDjhYG/kuLN/FmX8ls89FAUd6T+etr8Hpg==, tarball: file:projects/arm-fabric.tgz}
     name: '@rush-temp/arm-fabric'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.54)
       '@types/node': 18.19.54
-      '@vitest/browser': 2.1.2(playwright@1.47.2)(typescript@5.5.4)(vitest@2.1.2)
+      '@vitest/browser': 2.1.2(playwright@1.47.2)(typescript@5.6.3)(vitest@2.1.2)
       '@vitest/coverage-istanbul': 2.1.2(vitest@2.1.2)
       dotenv: 16.4.5
       eslint: 8.57.1
@@ -15413,7 +15477,7 @@ packages:
       rimraf: 5.0.10
       tshy: 1.18.0
       tslib: 2.7.0
-      typescript: 5.5.4
+      typescript: 5.6.3
       vitest: 2.1.2(@types/node@18.19.54)(@vitest/browser@2.1.2)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
