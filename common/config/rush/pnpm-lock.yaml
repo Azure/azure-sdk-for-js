@@ -18803,7 +18803,7 @@ packages:
     dev: false
 
   file:projects/arm-servicelinker.tgz:
-    resolution: {integrity: sha512-bZNFA29HHVOw7AazyGRCBbTib0eKe2eBCDEYgQCqyM7eQWq+OYPZGUt97+mJjgN784JH/vDSTRjZpWWSVD1dtg==, tarball: file:projects/arm-servicelinker.tgz}
+    resolution: {integrity: sha512-LqYGnKNVKhgEUZGLvVxDO02uL/YOkB9CibwFvJqj4JXK8omBBEZ207WivqhvsVHu9Ot4VARa/WpXP/XWMxSd4A==, tarball: file:projects/arm-servicelinker.tgz}
     name: '@rush-temp/arm-servicelinker'
     version: 0.0.0
     dependencies:
@@ -18823,6 +18823,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
       tslib: 2.8.0
+      tsx: 4.19.1
       typescript: 5.6.3
       uglify-js: 3.19.3
     transitivePeerDependencies:
