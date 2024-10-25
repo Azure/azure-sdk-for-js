@@ -11,3 +11,4 @@ https://docs.microsoft.com/javascript/api/@azure/arm-healthdataaiservices?view=a
 https://docs.microsoft.com/javascript/api/@azure/arm-fabric?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-trustedsigning?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-containerorchestratorruntime?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-iotoperations?view=azure-node-preview

@@ -18,7 +18,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all application type version resources created or in the process of being created in the Service Fabric managed application type name resource.
  *
  * @summary Gets all application type version resources created or in the process of being created in the Service Fabric managed application type name resource.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ApplicationTypeVersionListOperation_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/ApplicationTypeVersionListOperation_example.json
  */
 async function getAListOfApplicationTypeVersionResources() {
   const subscriptionId =
