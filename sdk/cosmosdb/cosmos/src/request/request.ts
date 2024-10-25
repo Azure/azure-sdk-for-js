@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { setAuthorizationHeader } from "../auth";
-import { Constants, HTTPMethod, jsonStringifyAndEscapeNonASCII, ResourceType } from "../common";
+import {
+  Constants,
+  HTTPMethod,
+  jsonStringifyAndEscapeNonASCII,
+  ResourceType,
+  SDKSupportedCapabilities,
+} from "../common";
 import { CosmosClientOptions } from "../CosmosClientOptions";
 import { PartitionKeyInternal } from "../documents";
 import { CosmosHeaders } from "../queryExecutionContext";
@@ -69,7 +75,7 @@ export async function getHeaders({
   };
 
   // Adding SDKSupportedCapabilities header to hint that SDK supports partition merge
-  headers[Constants.HttpHeaders.SDKSupportedCapabilities] = 1;
+  headers[Constants.HttpHeaders.SDKSupportedCapabilities] = SDKSupportedCapabilities.PartitionMerge;
 
   if (useMultipleWriteLocations) {
     headers[Constants.HttpHeaders.ALLOW_MULTIPLE_WRITES] = true;

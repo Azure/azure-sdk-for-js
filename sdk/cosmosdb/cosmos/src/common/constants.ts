@@ -493,3 +493,7 @@ export enum QueryFeature {
   NonStreamingOrderBy = "NonStreamingOrderBy",
   ListAndSetAggregate = "ListAndSetAggregate",
 }
+
+export enum SDKSupportedCapabilities {
+  PartitionMerge = 1,
+}
