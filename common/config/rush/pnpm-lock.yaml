@@ -14196,7 +14196,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservicefleet.tgz:
-    resolution: {integrity: sha512-oa2+Ichut7Y+8ILS6vV4tRfLpT+e4bXoUNH9s+Hc4SqvRwVHqfyFhO9RaqNEV2tQ75PElFif2lZEjGTwc9/QOA==, tarball: file:projects/arm-containerservicefleet.tgz}
+    resolution: {integrity: sha512-KCq2YZ77g9Zox8STQywVyLqzimQg13c9/7xMRo9+yZmf9x4EDxNZ2Q0CFpK6W4bhwERmmQwj1erO6hSJLaTQgQ==, tarball: file:projects/arm-containerservicefleet.tgz}
     name: '@rush-temp/arm-containerservicefleet'
     version: 0.0.0
     dependencies:
@@ -14214,10 +14214,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.5.4)
+      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
       tslib: 2.8.0
       tsx: 4.19.1
-      typescript: 5.5.4
+      typescript: 5.6.3
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
