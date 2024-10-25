@@ -486,6 +486,44 @@ describe("FileClient", () => {
     assert.ok(result.filePermissionKey);
   });
 
+  it("startCopy - with sddl file permission", async function () {
+    await fileClient.create(1024);
+    const newFileClient = dirClient.getFileClient(
+      recorder.variable("copiedfile", getUniqueName("copiedfile")),
+    );
+    const result = await newFileClient.startCopyFromURL(fileClient.url, {
+      filePermissionFormat: "Sddl",
+      filePermission: filePermissionInSDDL,
+      copyFileSmbInfo: {
+        filePermissionCopyMode: "override",
+      },
+    });
+    assert.ok(result.copyId);
+
+    const properties = await newFileClient.getProperties();
+    assert.ok(properties.lastModified);
+    assert.ok(properties.filePermissionKey);
+  });
+
+  it("startCopy - with binary file permission", async function () {
+    await fileClient.create(1024);
+    const newFileClient = dirClient.getFileClient(
+      recorder.variable("copiedfile", getUniqueName("copiedfile")),
+    );
+    const result = await newFileClient.startCopyFromURL(fileClient.url, {
+      filePermissionFormat: "Binary",
+      filePermission: filePermissionInBinaryFormat,
+      copyFileSmbInfo: {
+        filePermissionCopyMode: "override",
+      },
+    });
+    assert.ok(result.copyId);
+
+    const properties = await newFileClient.getProperties();
+    assert.ok(properties.lastModified);
+    assert.ok(properties.filePermissionKey);
+  });
+
   it("delete", async function () {
     await fileClient.create(content.length);
     await fileClient.delete();

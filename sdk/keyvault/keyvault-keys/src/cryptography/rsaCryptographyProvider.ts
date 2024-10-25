@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { RSA_PKCS1_OAEP_PADDING, RSA_PKCS1_PADDING } from "constants";
-import { publicEncrypt } from "crypto";
-import { createVerify } from "./crypto";
+import { publicEncrypt } from "node:crypto";
+import { createVerify } from "./crypto.js";
 import {
   DecryptOptions,
   DecryptParameters,
@@ -22,13 +22,13 @@ import {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-} from "..";
-import { convertJWKtoPEM } from "./conversions";
+} from "../index.js";
+import { convertJWKtoPEM } from "./conversions.js";
 import {
   CryptographyProvider,
   CryptographyProviderOperation,
   LocalCryptographyUnsupportedError,
-} from "./models";
+} from "./models.js";
 
 /**
  * An RSA cryptography provider supporting RSA algorithms.
