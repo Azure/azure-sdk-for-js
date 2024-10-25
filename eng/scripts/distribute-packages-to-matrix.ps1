@@ -39,6 +39,7 @@ function Split-ArrayIntoBatches {
 # calculate the batches, then duplicate the entire matrix if need be
 $packageProperties = $env:ArtifactPackageNames.Split(",")
 $batches = Split-ArrayIntoBatches -InputArray $packageProperties -BatchSize $BATCHSIZE
+
 $ModifiedMatrix = @()
 # to understand this iteration, one must understand that the matrix is a list of hashtables, each with a couple keys:
 # [
@@ -51,7 +52,7 @@ else {
   foreach($config in $Matrix) {
       # we just need to iterate across them, grab the parameters hashtable, and add the new key
       # if there is more than one batch, we will need to add a suffix including the batch name to the job name
-      $config["parameters"]["ArtifactPackageNames"] = $batch
+      $config["parameters"]["ArtifactPackageNames"] = ($batches -join ",")
   }
 }
 
