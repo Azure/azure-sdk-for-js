@@ -15214,7 +15214,7 @@ packages:
     dev: false
 
   file:projects/arm-elastic.tgz:
-    resolution: {integrity: sha512-qIQn704I9g7/nKpGJPafEK7/Qzz5nNeyYqi2ZQJTLvTN3udnhpI5aefaVV8OMtwXLa3gjDqulir4HlpdknE7Zg==, tarball: file:projects/arm-elastic.tgz}
+    resolution: {integrity: sha512-t1V8IKPwH+aeIVNXCsVlper38gUfU/w3+YmmR23PUnDVnDK8eedVunJ66WffZ2BC44C5JlvmIRkfCpMqnWkW7A==, tarball: file:projects/arm-elastic.tgz}
     name: '@rush-temp/arm-elastic'
     version: 0.0.0
     dependencies:
@@ -15234,6 +15234,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
       tslib: 2.8.0
+      tsx: 4.19.1
       typescript: 5.6.3
       uglify-js: 3.19.3
     transitivePeerDependencies:
