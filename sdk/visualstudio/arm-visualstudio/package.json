@@ -37,7 +37,6 @@
     "@types/node": "catalog:",
     "chai": "catalog:legacy",
     "cross-env": "catalog:legacy",
-    "mkdirp": "catalog:legacy",
     "mocha": "catalog:legacy",
     "typescript": "catalog:"
   },

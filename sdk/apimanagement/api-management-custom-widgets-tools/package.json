@@ -38,8 +38,8 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "npm run build:test && dev-tool run test:vitest --no-test-proxy --browser -- --coverage",
     "integration-test:node": "dev-tool run test:vitest --no-test-proxy -- -coverage",
-    "lint": "dev-tool run vendored eslintpackage.json api-extractor.json src test",
-    "lint:fix": "dev-tool run vendored eslintpackage.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "dev-tool run vendored eslint package.json api-extractor.json src test",
+    "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -59,14 +59,13 @@
     "eslint": "catalog:",
     "playwright": "catalog:",
     "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
   },
   "dependencies": {
     "@azure-rest/core-client": "catalog:core-rest-clientV1",
     "@azure/identity": "workspace:*",
-    "@azure/storage-blob": "^12.25.0",
+    "@azure/storage-blob": "workspace:*",
     "mime": "^4.0.4",
     "tslib": "catalog:"
   },

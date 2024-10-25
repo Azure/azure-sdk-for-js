@@ -20,7 +20,6 @@
     "@types/node": "catalog:",
     "cross-env": "catalog:legacy",
     "eslint": "catalog:",
-    "rimraf": "catalog:",
     "typescript": "catalog:"
   },
   "private": true,

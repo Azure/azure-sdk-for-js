@@ -38,8 +38,7 @@
     "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "mocha": "catalog:legacy",
-    "typescript": "catalog:",
-    "uglify-js": "catalog:legacy"
+    "typescript": "catalog:"
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {

@@ -8,7 +8,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "audit": "skipped",
+    "audit": "node ../../../common/scripts/rush-audit.js && dev-tool run vendored rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && dev-tool run build-package",
     "build:samples": "echo Obsolete",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
@@ -60,15 +60,12 @@
     "@azure-tools/vite-plugin-browser-test-map": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@microsoft/api-extractor": "catalog:",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
-    "@vitest/expect": "^2.0.5",
+    "@vitest/expect": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:",
-    "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:"
   },
   "tshy": {

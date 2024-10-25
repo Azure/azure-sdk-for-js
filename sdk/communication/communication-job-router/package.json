@@ -22,8 +22,8 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
-    "lint": "dev-tool run vendored eslintpackage.json api-extractor.json src test",
-    "lint:fix": "dev-tool run vendored eslintpackage.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "dev-tool run vendored eslint package.json api-extractor.json src test",
+    "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -105,7 +105,6 @@
     "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
-    "inherits": "^2.0.3",
     "karma": "catalog:legacy",
     "karma-chrome-launcher": "catalog:legacy",
     "karma-coverage": "catalog:legacy",
@@ -121,7 +120,6 @@
     "nyc": "catalog:legacy",
     "rimraf": "catalog:",
     "sinon": "catalog:legacy",
-    "typescript": "catalog:",
-    "util": "^0.12.1"
+    "typescript": "catalog:"
   }
 }

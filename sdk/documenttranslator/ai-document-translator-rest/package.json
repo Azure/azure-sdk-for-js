@@ -71,8 +71,8 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
-    "lint": "dev-tool run vendored eslintpackage.json api-extractor.json src test",
-    "lint:fix": "dev-tool run vendored eslintpackage.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "dev-tool run vendored eslint package.json api-extractor.json src test",
+    "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
@@ -118,7 +118,6 @@
     "karma-sourcemap-loader": "catalog:legacy",
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
-    "rimraf": "catalog:",
     "typescript": "catalog:"
   }
 }

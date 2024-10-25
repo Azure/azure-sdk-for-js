@@ -40,7 +40,6 @@
     "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "mocha": "catalog:legacy",
-    "rimraf": "catalog:",
     "typescript": "catalog:"
   },
   "repository": "github:Azure/azure-sdk-for-js",

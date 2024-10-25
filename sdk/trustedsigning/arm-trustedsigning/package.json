@@ -81,7 +81,7 @@
   },
   "scripts": {
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "extract-api": "rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
+    "extract-api": "dev-tool run vendored rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
     "pack": "npm pack 2>&1",
     "lint": "echo skipped",
     "lint:fix": "echo skipped",

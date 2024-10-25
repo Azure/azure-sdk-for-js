@@ -112,9 +112,14 @@ packages:
 
 catalog:
   '@microsoft/api-extractor': ^7.47.7
+  '@types/chai-as-promised': ^8.0.1
   '@types/node': ^18.0.0
   '@vitest/browser': ^2.1.2
   '@vitest/coverage-istanbul': ^2.1.2
+  '@vitest/expect': ^2.1.2
+  chai: ^5.1.1
+  chai-as-promised: ^8.0.0
+  chai-exclude: ^3.0.0
   dotenv: ^16.4.5
   eslint: ^9.9.0
   playwright: ^1.46.1

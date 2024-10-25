@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-chat",
-  "version": "1.5.2",
+  "version": "1.5.3",
   "description": "Azure client library for Azure Communication Chat services",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -22,8 +22,8 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
-    "lint": "dev-tool run vendored eslintpackage.json api-extractor.json README.md src test",
-    "lint:fix": "dev-tool run vendored eslintpackage.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
+    "lint": "dev-tool run vendored eslint package.json api-extractor.json README.md src test",
+    "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "test:browser": "npm run build:test && npm run unit-test:browser",
@@ -65,7 +65,7 @@
   "dependencies": {
     "@azure/abort-controller": "workspace:*",
     "@azure/communication-common": "workspace:*",
-    "@azure/communication-signaling": "1.0.0-beta.28",
+    "@azure/communication-signaling": "^1.0.0-beta.29",
     "@azure/core-auth": "workspace:*",
     "@azure/core-client": "workspace:*",
     "@azure/core-paging": "workspace:*",
@@ -92,7 +92,6 @@
     "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
-    "inherits": "^2.0.3",
     "karma": "catalog:legacy",
     "karma-chrome-launcher": "catalog:legacy",
     "karma-coverage": "catalog:legacy",
@@ -107,8 +106,7 @@
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
     "sinon": "catalog:legacy",
-    "typescript": "catalog:",
-    "util": "^0.12.1"
+    "typescript": "catalog:"
   },
   "//metadata": {
     "constantPaths": [

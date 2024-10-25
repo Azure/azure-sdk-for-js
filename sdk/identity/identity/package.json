@@ -59,8 +59,8 @@
     "integration-test:browser": "echo skipped",
     "integration-test:managed-identity": "dev-tool run test:node-ts-input -- --timeout 180000 'test/integration/**/*.spec.ts'",
     "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 180000 'test/public/node/*.spec.ts' 'test/internal/node/*.spec.ts'",
-    "lint": "dev-tool run vendored eslintpackage.json api-extractor.json src test",
-    "lint:fix": "dev-tool run vendored eslintpackage.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "dev-tool run vendored eslint package.json api-extractor.json src test",
+    "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && npm run build:test && npm run unit-test && npm run integration-test",
     "test:browser": "npm run clean && tsc -p . && dev-tool run bundle && npm run unit-test:browser && npm run integration-test:browser",
@@ -143,7 +143,6 @@
     "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
-    "inherits": "^2.0.3",
     "jsonwebtoken": "^9.0.0",
     "karma": "catalog:legacy",
     "karma-chrome-launcher": "catalog:legacy",
@@ -158,7 +157,6 @@
     "nyc": "catalog:legacy",
     "puppeteer": "^23.0.2",
     "sinon": "catalog:legacy",
-    "typescript": "catalog:",
-    "util": "^0.12.1"
+    "typescript": "catalog:"
   }
 }

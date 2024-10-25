@@ -48,8 +48,8 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
-    "lint": "dev-tool run vendored eslintpackage.json CHANGELOG.md README.md src",
-    "lint:fix": "dev-tool run vendored eslintpackage.json CHANGELOG.md README.md src --fix --fix-type [problem,suggestion]",
+    "lint": "dev-tool run vendored eslint package.json CHANGELOG.md README.md src",
+    "lint:fix": "dev-tool run vendored eslint package.json CHANGELOG.md README.md src --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -70,13 +70,10 @@
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
     "@types/prompts": "^2.4.9",
-    "@types/sinon": "catalog:legacy",
-    "cross-env": "catalog:legacy",
+    "@vitest/coverage-istanbul": "catalog:",
     "eslint": "catalog:",
-    "mocha": "catalog:legacy",
-    "rimraf": "catalog:",
-    "sinon": "catalog:legacy",
-    "typescript": "^5.5.3"
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//sampleConfiguration": {

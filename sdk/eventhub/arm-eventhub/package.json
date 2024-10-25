@@ -31,8 +31,8 @@
   "devDependencies": {
     "@azure-tools/test-credential": "catalog:test-credentialV1",
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
-    "@azure/arm-network": "^32.2.0",
-    "@azure/arm-storage": "^18.0.0",
+    "@azure/arm-network": "workspace:*",
+    "@azure/arm-storage": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/identity": "catalog:internal",
     "@types/chai": "catalog:legacy",

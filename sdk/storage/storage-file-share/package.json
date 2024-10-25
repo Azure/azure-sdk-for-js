@@ -35,7 +35,7 @@
     "build:test": "tsc -p . && dev-tool run bundle",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
-    "clean:samples": "rimraf samples/v12/javascript/node_modules samples/v12/typescript/node_modules samples/v12/typescript/dist samples/v12/typescript/package-lock.json samples/v12/javascript/package-lock.json",
+    "clean:samples": "dev-tool run vendored rimraf samples/v12/javascript/node_modules samples/v12/typescript/node_modules samples/v12/typescript/dist samples/v12/typescript/package-lock.json samples/v12/javascript/package-lock.json",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
@@ -43,8 +43,8 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/storage-file-share/test/**/*.spec.js'",
-    "lint": "dev-tool run vendored eslintpackage.json api-extractor.json README.md src test",
-    "lint:fix": "dev-tool run vendored eslintpackage.json api-extractor.json README.md src test --fix",
+    "lint": "dev-tool run vendored eslint package.json api-extractor.json README.md src test",
+    "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json README.md src test --fix",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
@@ -159,7 +159,6 @@
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
     "puppeteer": "^23.0.2",
-    "rimraf": "catalog:",
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
   }

@@ -18,7 +18,6 @@
     "@types/node": "catalog:",
     "@types/uuid": "^8.0.0",
     "eslint": "catalog:",
-    "rimraf": "catalog:",
     "tslib": "catalog:",
     "typescript": "catalog:"
   },

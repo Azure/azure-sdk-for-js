@@ -17,7 +17,6 @@
     "@azure/dev-tool": "workspace:*",
     "@types/node": "catalog:",
     "eslint": "catalog:",
-    "rimraf": "catalog:",
     "typescript": "catalog:"
   },
   "private": true,

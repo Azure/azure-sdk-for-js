@@ -88,11 +88,8 @@
     "@vitest/coverage-istanbul": "catalog:",
     "eslint": "catalog:",
     "loupe": "~3.1.1",
-    "mkdirp": "catalog:legacy",
     "playwright": "catalog:",
-    "rimraf": "catalog:",
-    "tshy": "catalog:",
-    "typescript": "~5.4.5",
+    "typescript": "catalog:",
     "vitest": "catalog:"
   },
   "scripts": {
@@ -110,8 +107,8 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "integration-test:node": "dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest",
-    "lint": "dev-tool run vendored eslintpackage.json api-extractor.json src test",
-    "lint:fix": "dev-tool run vendored eslintpackage.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "lint": "dev-tool run vendored eslint package.json api-extractor.json src test",
+    "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",

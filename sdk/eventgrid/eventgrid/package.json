@@ -78,8 +78,8 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 \"dist-esm/test/**/*.spec.js\"",
-    "lint": "dev-tool run vendored eslintpackage.json api-extractor.json README.md src test",
-    "lint:fix": "dev-tool run vendored eslintpackage.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
+    "lint": "dev-tool run vendored eslint package.json api-extractor.json README.md src test",
+    "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
@@ -108,7 +108,6 @@
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/service-bus": "workspace:*",
-    "@microsoft/api-extractor": "catalog:",
     "@types/chai": "catalog:legacy",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "catalog:legacy",
@@ -133,8 +132,6 @@
     "nyc": "catalog:legacy",
     "rimraf": "catalog:",
     "sinon": "catalog:legacy",
-    "source-map-support": "^0.5.9",
-    "tsx": "catalog:legacy",
     "typescript": "catalog:"
   }
 }

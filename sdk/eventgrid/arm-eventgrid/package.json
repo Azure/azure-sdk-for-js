@@ -39,9 +39,7 @@
     "chai": "catalog:legacy",
     "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
-    "mkdirp": "catalog:legacy",
     "mocha": "catalog:legacy",
-    "rimraf": "catalog:",
     "typescript": "catalog:"
   },
   "repository": "github:Azure/azure-sdk-for-js",

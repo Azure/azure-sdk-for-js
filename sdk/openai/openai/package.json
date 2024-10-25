@@ -115,7 +115,6 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/identity": "workspace:*",
     "@azure/logger": "workspace:*",
-    "@microsoft/api-extractor": "catalog:",
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
@@ -124,8 +123,6 @@
     "eslint": "catalog:",
     "openai": "^4.47.2",
     "playwright": "catalog:",
-    "rimraf": "catalog:",
-    "tshy": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
   },
