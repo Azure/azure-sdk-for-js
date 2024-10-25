@@ -11,7 +11,7 @@ $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot ".." ".."))
 Set-StrictMode -Version 4
 $BATCHSIZE = 10
 
-if (!(Test-Path $Matrix)) {
+if (!$Matrix) {
     Write-Error "Matrix input not found: $Matrix"
     exit 1
 }
@@ -36,18 +36,35 @@ function Split-ArrayIntoBatches {
     return ,$batches
 }
 
-# calculate general targeting information and create our batches prior to updating any matrix
+# calculate the batches, then duplicate the entire matrix if need be
 $packageProperties = $env:ArtifactPackageNames.Split(",")
-
 $batches = Split-ArrayIntoBatches -InputArray $packageProperties -BatchSize $BATCHSIZE
 
-# we just smear the batches across the matrix now
-
-Write-Host "Ok I see the following batches: "
+Write-Host "I will invoke for the following batches: "
 
 foreach ($batch in $batches) {
     Write-Host "-> " $batch
 }
-Write-Host "Returning the exact same matrix that was passed in"
+
+Write-Host "This is the input: "
+Write-Host $Matrix
+Write-Host "End input`n`n`n"
+
+
+$ModifiedMatrix = @()
+# to understand this iteration, one must understand that the matrix is a list of hashtables, each with a couple keys:
+# [
+#  { "name": "jobname", "parameters": { matrixSetting1: matrixValue1, ...} },
+# ]
+if($batches.Length -gt 1) {
+  throw "This script is not prepared to handle more than one batch. We will need to duplicate the input objects."
+}
+else {
+  foreach($config in $Matrix) {
+      # we just need to iterate across them, grab the parameters hashtable, and add the new key
+      # if there is more than one batch, we will need to add a suffix including the batch name to the job name
+      $config["parameters"]["ArtifactPackageNames"] = $batch
+  }
+}
 
 return $Matrix
