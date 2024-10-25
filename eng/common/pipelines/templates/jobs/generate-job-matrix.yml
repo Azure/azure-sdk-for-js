@@ -42,6 +42,8 @@ parameters:
 - name: PreGenerationSteps
   type: stepList
   default: []
+- name: PostGenerationScript
+  type: string
 # Mappings to OS name required at template compile time by 1es pipeline templates
 - name: Pools
   type: object
@@ -98,6 +100,7 @@ jobs:
                 -Filters '${{ join(''',''', parameters.MatrixFilters) }}', 'container=^$', 'SupportedClouds=^$|${{ parameters.CloudConfig.Cloud }}', 'Pool=${{ pool.filter }}'
                 -Replace '${{ join(''',''', parameters.MatrixReplace) }}'
                 -NonSparseParameters '${{ join(''',''', config.NonSparseParameters) }}'
+                -PostGenerationScript '${{ parameters.PostGenerationScript }}'
             displayName: Create ${{ pool.name }} Matrix ${{ config.Name }}
             name: vm_job_matrix_${{ config.Name }}_${{ pool.name }}
 
@@ -112,6 +115,7 @@ jobs:
                 -DisplayNameFilter '$(displayNameFilter)'
                 -Filters '${{ join(''',''', parameters.MatrixFilters) }}', 'container=^$', 'SupportedClouds=^$|${{ parameters.CloudConfig.Cloud }}', 'Pool=${{ pool.filter }}'
                 -NonSparseParameters '${{ join(''',''', config.NonSparseParameters) }}'
+                -PostGenerationScript '${{ parameters.PostGenerationScript }}'
             displayName: Create ${{ pool.name }} Container Matrix ${{ config.Name }}
             name: container_job_matrix_${{ config.Name }}_${{ pool.name }}
 

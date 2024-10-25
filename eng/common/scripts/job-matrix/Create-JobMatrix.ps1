@@ -15,6 +15,7 @@ param (
     [Parameter(Mandatory=$False)][array] $Filters,
     [Parameter(Mandatory=$False)][array] $Replace,
     [Parameter(Mandatory=$False)][array] $NonSparseParameters,
+    [Parameter(Mandatory=$False)][array] $PostGenerationScript,
     [Parameter()][switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID)
 )
 
@@ -35,6 +36,10 @@ $Filters = $Filters | Where-Object { $_ }
     -filters $Filters `
     -replace $Replace `
     -nonSparseParameters $NonSparseParameters
+
+if (Test-Path $PostGenerationScript) {
+    $matrix = &$PostGenerationScript -Matrix $matrix
+}
 
 $serialized = SerializePipelineMatrix $matrix
 

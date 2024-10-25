@@ -1,70 +1,19 @@
 <#
 .SYNOPSIS
-Distributes a set of packages to a platform matrix file by adding computing and adding a ArtifactPackageNames property
-dynamically. If an unexpected situation is encountered, the script will make no changes to the input file.
-
-.DESCRIPTION
-Because of the way the platform matrix file is structured, we need to distribute the packages in a way that
-honors the Include packages. We have these included this way because want to ensure that these node versions
-run on that platform. This script is aware of these additional configurations and will set ArtifactPackageNames for
-them as well.
+Used to update a generated matrix with targeted information for packages that are being built.
 #>
 param(
     [parameter(Mandatory=$true)]
-    [string]$PackageInfoFolder,
-    [parameter(Mandatory=$true)]
-    [string]$PlatformMatrix
+    [array]$Matrix
 )
 
 $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot ".." ".."))
 Set-StrictMode -Version 4
 $BATCHSIZE = 10
 
-if (!(Test-Path $PackageInfoFolder)) {
-    Write-Error "PackageInfo folder file not found: $PackageInfoFolder"
+if (!(Test-Path $Matrix)) {
+    Write-Error "Matrix input not found: $Matrix"
     exit 1
-}
-
-if (!(Test-Path $PlatformMatrix)) {
-    Write-Error "Platform matrix file not found: $PlatformMatrix"
-    exit 1
-}
-
-function Extract-MatrixMultiplier {
-    param (
-        [Parameter(Mandatory=$true)]
-        [PSCustomObject]$Matrix
-    )
-
-    $highestCount = 1
-
-    foreach ($property in $Matrix.PSObject.Properties) {
-        $type = $property.Value.GetType().Name
-        switch ($type) {
-            "PSCustomObject" {
-                $itemCount = 0
-
-                # this looks very strange to loop over the properties of a PSCustomObject,
-                # but this is the only way to actually count. The Count/Length property is
-                # NOT available
-                foreach($innerProperty in $property.Value.PSObject.Properties) {
-                    $itemCount++
-                }
-
-                if ($itemCount -gt $highestCount) {
-                    $highestCount = $itemCount
-                }
-            }
-            "Object[]" {
-                $count = $property.Value.Length
-                if ($count -gt $highestCount) {
-                    $highestCount = $count
-                }
-            }
-        }
-    }
-
-    return $highestCount
 }
 
 function Split-ArrayIntoBatches {
@@ -87,147 +36,18 @@ function Split-ArrayIntoBatches {
     return ,$batches
 }
 
-function Update-Include {
-    param (
-        [Parameter(Mandatory=$true)]
-        $Matrix,
-        [Parameter(Mandatory=$true)]
-        $IncludeConfig,
-        [Parameter(Mandatory=$true)]
-        $TargetingString
-    )
-
-    foreach ($configElement in $IncludeConfig) {
-        if (-not $configElement.PSObject.Properties["ArtifactPackageNames"]) {
-            $configElement | Add-Member -Force -MemberType NoteProperty -Name ArtifactPackageNames -Value ""
-        }
-        $configElement.ArtifactPackageNames = $TargetingString
-        $Matrix.include += $configElement
-    }
-}
-
-function Update-Matrix {
-    param (
-        [Parameter(Mandatory=$true)]
-        $Matrix,
-
-        [Parameter(Mandatory=$true)]
-        $DirectBatches,
-
-        [Parameter(Mandatory=$true)]
-        $IndirectBatches,
-
-        [Parameter(Mandatory=$true)]
-        $MatrixMultiplier,
-
-        [Parameter(Mandatory=$true)]
-        $IncludeCount,
-
-        [Parameter(Mandatory=$false)]
-        $OriginalIncludeObject
-    )
-
-    $matrixUpdate = $true
-    if ($Matrix.matrix.PSObject.Properties["`$IMPORT"]) {
-        $matrixUpdate = $false
-    }
-
-    # we need to ensure the presence of TargetingString in the matrix object
-    if ($matrixUpdate) {
-        if ($directBatches -or $indirectBatches) {
-            if (-not $Matrix.matrix.PSObject.Properties["ArtifactPackageNames"]) {
-                $Matrix.matrix | Add-Member -Force -MemberType NoteProperty -Name ArtifactPackageNames -Value @()
-            }
-            else {
-                $Matrix.matrix.ArtifactPackageNames = @()
-            }
-        }
-    }
-
-    # a basic platform matrix has the following:
-    # "matrix" -> "NodeVersion" = []
-    # "include" -> "ConfigName" -> NodeVersion=18.X
-    # so what we need to do is for each batch
-        # 1. assign the batch * matrix size to the matrix as "ArtifactPackagesNames", this will evenly distribute the packages to EACH node version non-sparsely
-        # 2. assign the batch to each include with the batch being the value for ArtifactPackageNames for the include
-            # the easiest way to do this is to take a copy of the `Include` object at the beginning of this script,
-            # for each batch, assign the batch to the include object, and then add the include object to the matrix object
-            # this will have the result of multiplexing our includes, so we will need to update the name there as well
-    foreach($batch in $DirectBatches) {
-        $targetingString = ($batch | Select-Object -ExpandProperty ArtifactName) -join ","
-
-        # we need to equal the largest multiplier in the matrix. That is USUALLY nodeVersion version,
-        # but in some cases it could be something else (like sdk/cosmos/cosmos-emulator-matrix.json) the multiplier
-        # is a different property. We do this because we want to ensure that the matrix is fully covered, even if
-        # we are generating the matrix sparsely, we still want full coverage of these targetingStrings
-        $targetingStringArray = @($targetingString) * $MatrixMultiplier
-
-        if ($matrixUpdate) {
-            $matrix.matrix.ArtifactPackageNames += $targetingStringArray
-        }
-
-        # if there were any include objects, we need to duplicate them exactly and add the targeting string to each
-        # this means that the number of includes at the end of this operation will be incoming # of includes * the number of batches
-        if ($includeCount -gt 0) {
-            $includeCopy = $OriginalIncludeObject | ConvertTo-Json -Depth 100 | ConvertFrom-Json
-
-            Update-Include -Matrix $matrix -IncludeConfig $includeCopy -TargetingString $targetingString
-        }
-    }
-
-    foreach($batch in $IndirectBatches) {
-        $targetingString = ($batch | Select-Object -ExpandProperty Name) -join ","
-        if ($matrixUpdate) {
-            $matrix.matrix.ArtifactPackageNames += @($targetingString)
-        }
-    }
-
-}
-
 # calculate general targeting information and create our batches prior to updating any matrix
-$packageProperties = Get-ChildItem -Recurse "$PackageInfoFolder" *.json `
-    | % { Get-Content -Path $_.FullName | ConvertFrom-Json }
+$packageProperties = $env:ArtifactPackageNames.Split(",")
 
-# I will assign all the direct included packages first. our goal is to get full coverage of the direct included packages
-# then, for the indirect packages, we will add them as sparse ArtifactPackageNames bundles to the matrix
 $batches = Split-ArrayIntoBatches -InputArray $packageProperties -BatchSize $BATCHSIZE
 
-$matrix = Get-Content -Path $PlatformMatrix | ConvertFrom-Json
+# we just smear the batches across the matrix now
 
-$matrixLocation = $PlatformMatrix
+Write-Host "Ok I see the following batches: "
 
-# handle the case where we discover an import, we need to climb the dependency in that case
-if ($matrix.matrix.PSObject.Properties["`$IMPORT"]) {
-    $originalMatrix = $matrix
-    $originalMatrixLocation = $PlatformMatrix
-
-    # rest of the update will happen to that matrix object
-    $matrixLocation = (Join-Path $RepoRoot $matrix.matrix."`$IMPORT")
-    $matrix = Get-Content -Path $matrixLocation | ConvertFrom-Json
-
-    # we just need to walk the include objects and update the targeting string for the batches we have before
-    # updating in place, then continuing on to update the actual matrix object that we imported
-    # there is a clear and present edge case here with nested import. We will not handle that case
-
-    $originalInclude = $originalMatrix.include
-    $originalMatrix.include = @()
-
-    # update the include objects for the original matrix that was importing
-    Update-Matrix -Matrix $originalMatrix -DirectBatches $directBatches -IndirectBatches @() -MatrixMultiplier 1 -IncludeCount $matrix.include.Count -OriginalIncludeObject $originalInclude
-    $originalMatrix | ConvertTo-Json -Depth 100 | Set-Content -Path $originalMatrixLocation
+foreach ($batch in $batches) {
+    Write-Host "-> " $batch
 }
+Write-Host "Returning the exact same matrix that was passed in"
 
-$matrixMultiplier = Extract-MatrixMultiplier -Matrix $matrix.matrix
-
-$includeCount = 0
-$includeObject = $null
-$originalInclude = $null
-if ($matrix.PSObject.Properties.Name -contains "include") {
-    $includeCount = $matrix.include.Count
-    $originalInclude = $matrix.include
-    $matrix.include = @()
-}
-
-Update-Matrix -Matrix $matrix -DirectBatches $batches -IndirectBatches @() -MatrixMultiplier $matrixMultiplier -IncludeCount $includeCount -OriginalIncludeObject $originalInclude
-
-$matrix | ConvertTo-Json -Depth 100 | Set-Content -Path $matrixLocation
+return $Matrix
