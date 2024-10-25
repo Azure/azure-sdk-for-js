@@ -38,8 +38,6 @@ $Filters = $Filters | Where-Object { $_ }
     -nonSparseParameters $NonSparseParameters
 
 if (Test-Path $PostGenerationScript) {
-    Write-Host "Invoking post-generation script: $PostGenerationScript"
-    cat $PostGenerationScript
     $matrix = & $PostGenerationScript -Matrix $matrix
 }
 
