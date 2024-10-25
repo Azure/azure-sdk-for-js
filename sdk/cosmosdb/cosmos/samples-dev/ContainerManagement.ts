@@ -164,14 +164,14 @@ async function run(): Promise<void> {
       {
         path: "/vector2",
         type: VectorIndexType.QuantizedFlat,
-        quantizationByteSize: 1,
+        quantizationByteSize: 2,
         vectorIndexShardKey: ["/Country"],
       },
       {
         path: "/vector3",
         type: VectorIndexType.DiskANN,
         quantizationByteSize: 2,
-        indexingSearchListSize: 5,
+        indexingSearchListSize: 50,
         vectorIndexShardKey: ["/ZipCode"],
       },
     ],
