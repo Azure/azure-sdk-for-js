@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { UnknownObject, isObject } from "./object.js";
+import { type UnknownObject, isObject } from "./object.js";
 
 /**
  * @internal

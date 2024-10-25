@@ -10,6 +10,12 @@
 
 ### Other Changes
 
+## 5.12.2 (2024-10-11)
+
+### Bugs Fixed
+
+- The desired capabilities array should be omitted if it is empty.
+
 ## 5.12.1 (2024-10-08)
 
 ### Bugs Fixed
