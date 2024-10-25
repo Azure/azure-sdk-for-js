@@ -9,7 +9,7 @@ trigger:
   paths:
     include:
       - sdk/kubernetesruntime/ci.mgmt.yml
-      - sdk/kubernetesruntime/arm-kubernetesruntime
+      - sdk/kubernetesruntime/arm-containerorchestratorruntime
 pr:
   branches:
     include:
@@ -22,11 +22,11 @@ pr:
   paths:
     include:
       - sdk/kubernetesruntime/ci.mgmt.yml
-      - sdk/kubernetesruntime/arm-kubernetesruntime
+      - sdk/kubernetesruntime/arm-containerorchestratorruntime
 extends:
   template: /eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
     ServiceDirectory: kubernetesruntime
     Artifacts:
-      - name: azure-arm-kubernetesruntime
+      - name: azure-arm-containerorchestratorruntime
         safeName: azurearmkubernetesruntime
