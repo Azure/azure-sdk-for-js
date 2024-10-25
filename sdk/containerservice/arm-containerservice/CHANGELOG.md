@@ -1,15 +1,12 @@
 # Release History
-
-## 21.2.0-beta.2 (Unreleased)
-
+    
+## 21.2.0 (2024-10-15)
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Interface AgentPoolsDeleteOptionalParams has a new optional parameter ignorePodDisruptionBudget
+    
+    
 ## 21.2.0-beta.1 (2024-09-27)
 Compared with version 21.1.0
     
