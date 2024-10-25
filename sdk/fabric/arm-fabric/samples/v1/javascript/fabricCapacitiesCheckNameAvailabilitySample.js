@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FabricClient } from "@azure/arm-fabric";
-import { DefaultAzureCredential } from "@azure/identity";
+const { FabricClient } = require("@azure/arm-fabric");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 /**
  * This sample demonstrates how to implements local CheckNameAvailability operations
@@ -14,10 +14,10 @@ async function checkNameAvailabilityOfACapacity() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "548B7FB7-3B2A-4F46-BB02-66473F1FC22C";
   const client = new FabricClient(credential, subscriptionId);
-  const result = await client.fabricCapacities.checkNameAvailability(
-    "westcentralus",
-    { name: "azsdktest", type: "Microsoft.Fabric/capacities" },
-  );
+  const result = await client.fabricCapacities.checkNameAvailability("westcentralus", {
+    name: "azsdktest",
+    type: "Microsoft.Fabric/capacities",
+  });
   console.log(result);
 }
 

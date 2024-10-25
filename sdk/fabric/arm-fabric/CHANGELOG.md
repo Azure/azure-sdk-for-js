@@ -1,7 +1,7 @@
 # Release History
     
-## 1.0.0-beta.1 (2024-09-27)
+## 1.0.0 (2024-10-14)
 
 ### Features Added
 
-Initial release of the Azure Fabric package
+This is the first stable version with the package of @azure/arm-fabric
