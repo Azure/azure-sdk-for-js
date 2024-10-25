@@ -9,7 +9,6 @@ param(
 )
 
 $RepoRoot = (Resolve-Path (Join-Path $PSScriptRoot ".." ".."))
-Set-StrictMode -Version 4
 $BATCHSIZE = 10
 
 if (!$Matrix) {
@@ -40,18 +39,6 @@ function Split-ArrayIntoBatches {
 # calculate the batches, then duplicate the entire matrix if need be
 $packageProperties = $env:ArtifactPackageNames.Split(",")
 $batches = Split-ArrayIntoBatches -InputArray $packageProperties -BatchSize $BATCHSIZE
-
-Write-Host "I will invoke for the following batches: "
-
-foreach ($batch in $batches) {
-    Write-Host "-> " $batch
-}
-
-Write-Host "This is the input: "
-Write-Host $Matrix
-Write-Host "End input`n`n`n"
-
-
 $ModifiedMatrix = @()
 # to understand this iteration, one must understand that the matrix is a list of hashtables, each with a couple keys:
 # [
