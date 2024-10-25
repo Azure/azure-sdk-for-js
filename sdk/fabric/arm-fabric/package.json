@@ -70,7 +70,7 @@
     "@types/node": "^18.0.0",
     "eslint": "^8.55.0",
     "prettier": "^3.2.5",
-    "typescript": "~5.5.3",
+    "typescript": "~5.6.2",
     "tshy": "^1.11.1",
     "@azure/identity": "^4.2.1",
     "@vitest/browser": "^2.0.5",
