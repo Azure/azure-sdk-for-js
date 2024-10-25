@@ -52,7 +52,7 @@ Compared with version 5.1.0
     
 ## 5.0.1 (2022-04-18)
 
-**features**
+### Features Added
 
   - Bug fix
 
