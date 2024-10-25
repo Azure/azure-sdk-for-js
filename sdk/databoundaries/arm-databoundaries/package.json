@@ -25,7 +25,7 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-databoundaries.d.ts",
   "devDependencies": {
-    "typescript": "~5.5.3",
+    "typescript": "~5.6.2",
     "uglify-js": "^3.4.9",
     "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
