@@ -25,7 +25,19 @@ describe("Vector search feature", async () => {
       const indexingPolicy: IndexingPolicy = {
         vectorIndexes: [
           { path: "/vector1", type: VectorIndexType.Flat },
-          { path: "/vector2", type: VectorIndexType.QuantizedFlat },
+          {
+            path: "/vector2",
+            type: VectorIndexType.QuantizedFlat,
+            quantizationByteSize: 1,
+            vectorIndexShardKey: ["/Country"],
+          },
+          {
+            path: "/vector3",
+            type: VectorIndexType.DiskANN,
+            quantizationByteSize: 2,
+            indexingSearchListSize: 100,
+            vectorIndexShardKey: ["/ZipCode"],
+          },
         ],
       };
       const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
@@ -64,6 +76,21 @@ describe("Vector search feature", async () => {
       assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[0].path === "/vector1");
       assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[1].path === "/vector2");
       assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[2].path === "/vector3");
+
+      assert(containerdef.indexingPolicy.vectorIndexes.length === 3);
+      assert(containerdef.indexingPolicy.vectorIndexes[0].path === "/vector1");
+      assert(containerdef.indexingPolicy.vectorIndexes[1].path === "/vector2");
+      assert(containerdef.indexingPolicy.vectorIndexes[2].path === "/vector3");
+
+      assert(containerdef.indexingPolicy.vectorIndexes[0].type === VectorIndexType.Flat);
+      assert(containerdef.indexingPolicy.vectorIndexes[1].type === VectorIndexType.QuantizedFlat);
+      assert(containerdef.indexingPolicy.vectorIndexes[2].type === VectorIndexType.DiskANN);
+
+      assert(containerdef.indexingPolicy.vectorIndexes[1].quantizationByteSize === 1);
+      assert(containerdef.indexingPolicy.vectorIndexes[2].quantizationByteSize === 2);
+      assert(containerdef.indexingPolicy.vectorIndexes[2].indexingSearchListSize === 100);
+      assert(containerdef.indexingPolicy.vectorIndexes[1].vectorIndexShardKey[0] === "/Country");
+      assert(containerdef.indexingPolicy.vectorIndexes[2].vectorIndexShardKey[0] === "/ZipCode");
     });
 
     it("should fail to create vector indexing policy", async function () {

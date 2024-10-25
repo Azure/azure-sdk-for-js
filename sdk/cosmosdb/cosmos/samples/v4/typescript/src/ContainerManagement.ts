@@ -161,8 +161,19 @@ async function run(): Promise<void> {
     spatialIndexes: [{ path: "/location/*", types: ["Point", "Polygon"] }] as SpatialIndex[],
     vectorIndexes: [
       { path: "/vector1", type: VectorIndexType.Flat },
-      { path: "/vector2", type: VectorIndexType.QuantizedFlat },
-      { path: "/vector3", type: VectorIndexType.DiskANN },
+      {
+        path: "/vector2",
+        type: VectorIndexType.QuantizedFlat,
+        quantizationByteSize: 1,
+        vectorIndexShardKey: ["/Country"],
+      },
+      {
+        path: "/vector3",
+        type: VectorIndexType.DiskANN,
+        quantizationByteSize: 2,
+        indexingSearchListSize: 5,
+        vectorIndexShardKey: ["/ZipCode"],
+      },
     ],
   };
 
