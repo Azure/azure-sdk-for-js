@@ -222,7 +222,7 @@ catalogs:
       version: 1.2.0
   test-recorderV3:
     '@azure-tools/test-recorder':
-      specifier: ^3.0.0
+      specifier: ^3.5.2
       version: 3.5.2
 
 importers:
@@ -621,6 +621,9 @@ importers:
       '@azure-tools/test-utils':
         specifier: workspace:*
         version: link:../../test-utils/test-utils
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -940,6 +943,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -1796,6 +1802,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -2802,8 +2811,8 @@ importers:
         version: 2.7.0
     devDependencies:
       '@azure-tools/test-credential':
-        specifier: catalog:test-credentialV1
-        version: 1.2.0
+        specifier: workspace:*
+        version: link:../../test-utils/test-credential
       '@azure-tools/test-recorder':
         specifier: workspace:*
         version: link:../../test-utils/recorder
@@ -4626,6 +4635,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -4738,6 +4750,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -5789,6 +5804,9 @@ importers:
       '@azure/arm-network':
         specifier: workspace:*
         version: link:../../network/arm-network
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -6084,6 +6102,9 @@ importers:
       '@azure-tools/test-utils':
         specifier: workspace:*
         version: link:../../test-utils/test-utils
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -6626,6 +6647,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -6787,6 +6811,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -9141,6 +9168,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -9621,6 +9651,9 @@ importers:
       cross-env:
         specifier: catalog:legacy
         version: 7.0.3
+      dotenv:
+        specifier: 'catalog:'
+        version: 16.4.5
       mocha:
         specifier: catalog:legacy
         version: 10.7.3
@@ -9825,9 +9858,6 @@ importers:
       '@azure-rest/core-client':
         specifier: catalog:core-rest-clientV1
         version: 1.4.0
-      '@azure-tools/test-recorder':
-        specifier: catalog:test-recorderV3
-        version: 3.5.2
       '@azure/core-auth':
         specifier: workspace:*
         version: link:../../core/core-auth
@@ -9844,6 +9874,12 @@ importers:
       '@azure-tools/test-credential':
         specifier: catalog:test-credentialV1
         version: 1.2.0
+      '@azure-tools/test-recorder':
+        specifier: catalog:test-recorderV3
+        version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -10072,6 +10108,9 @@ importers:
       '@azure-tools/test-utils':
         specifier: workspace:*
         version: link:../../test-utils/test-utils
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -11563,6 +11602,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: workspace:*
         version: link:../../test-utils/recorder
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -12547,6 +12589,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -12650,6 +12695,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -12753,6 +12801,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -15026,6 +15077,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -16039,6 +16093,9 @@ importers:
       '@azure-tools/test-utils':
         specifier: workspace:*
         version: link:../../test-utils/test-utils
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -16142,6 +16199,9 @@ importers:
       '@azure-tools/test-utils':
         specifier: workspace:*
         version: link:../../test-utils/test-utils
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -16248,6 +16308,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -16354,6 +16417,9 @@ importers:
       '@azure-tools/test-utils':
         specifier: workspace:*
         version: link:../../test-utils/test-utils
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -18133,6 +18199,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -19890,6 +19959,9 @@ importers:
       '@azure-tools/test-utils':
         specifier: workspace:*
         version: link:../../test-utils/test-utils
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -19990,6 +20062,9 @@ importers:
       '@azure-tools/test-utils':
         specifier: workspace:*
         version: link:../../test-utils/test-utils
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -20084,6 +20159,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -20187,6 +20265,9 @@ importers:
       '@azure-tools/test-utils':
         specifier: workspace:*
         version: link:../../test-utils/test-utils
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -20290,6 +20371,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -20390,6 +20474,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -23025,6 +23112,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -25400,6 +25490,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -26803,6 +26896,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -26903,6 +26999,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -27070,6 +27169,9 @@ importers:
       '@azure-tools/test-recorder':
         specifier: catalog:test-recorderV3
         version: 3.5.2
+      '@azure/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -33640,9 +33742,9 @@ snapshots:
 
   '@azure-tools/test-recorder@3.5.2':
     dependencies:
-      '@azure/core-auth': 1.7.2
-      '@azure/core-rest-pipeline': 1.16.3
-      '@azure/core-util': 1.9.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-rest-pipeline': 1.17.0
+      '@azure/core-util': 1.11.0
       '@azure/logger': 1.1.4
     transitivePeerDependencies:
       - supports-color

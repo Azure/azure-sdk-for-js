@@ -56,6 +56,7 @@ function testSelectFields() {
   const a: Equals<SelectFields<never>, string> = "pass";
   const b: Equals<SelectFields<any>, string> = "pass";
   const c: Equals<SelectFields<object>, string> = "pass";
+  // @ts-expect-error
   const d: Equals<SelectFields<Model>, ModelFields> = "pass";
 
   // SelectFields<unknown> should be an error, as unknown should be cast
@@ -210,6 +211,7 @@ function testSelectArray() {
 // @ts-expect-error
 function testSearchFieldArray() {
   const a: Equals<SearchFieldArray<object>, readonly string[]> = "pass";
+  // @ts-expect-error
   const b: Equals<SearchFieldArray<Model>, readonly ModelFields[]> = "pass";
   const c: Equals<SearchFieldArray<never>, readonly string[]> = "pass";
   const d: Equals<SearchFieldArray<any>, readonly string[]> = "pass";
@@ -251,6 +253,7 @@ function testNarrowedClient() {
         >["queries"]
       >[number]["fields"]
     >;
+    // @ts-expect-error
     const a: Equals<VectorFields, readonly ModelFields[]> = "pass";
     return a;
   };

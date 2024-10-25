@@ -4,8 +4,6 @@
 
 ```ts
 
-/// <reference lib="esnext.asynciterable" />
-
 import { AzureKeyCredential } from '@azure/core-auth';
 import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
 import { KeyCredential } from '@azure/core-auth';

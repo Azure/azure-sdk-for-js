@@ -69,7 +69,7 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "catalog:test-credentialV1",
+    "@azure-tools/test-credential": "workspace:*",
     "@azure-tools/test-recorder": "workspace:*",
     "@azure-tools/test-utils": "workspace:*",
     "@azure-tools/vite-plugin-browser-test-map": "workspace:*",

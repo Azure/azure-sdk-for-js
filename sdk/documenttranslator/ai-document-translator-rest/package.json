@@ -85,15 +85,16 @@
   "sideEffects": false,
   "autoPublish": false,
   "dependencies": {
-    "@azure-rest/core-client": "catalog:core-rest-clientV1",
-    "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure/core-auth": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
     "@azure/logger": "workspace:*",
+    "@azure-rest/core-client": "catalog:core-rest-clientV1",
     "tslib": "catalog:"
   },
   "devDependencies": {
+    "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure-tools/test-credential": "catalog:test-credentialV1",
+    "@azure/core-client": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/identity": "catalog:internal",

@@ -139,7 +139,7 @@ catalogs:
   test-credentialV1:
     '@azure-tools/test-credential': ^1.0.0
   test-recorderV3:
-    '@azure-tools/test-recorder': ^3.0.0
+    '@azure-tools/test-recorder': ^3.5.2
   internal:
     '@azure/eventgrid': ^5.8.0
     '@azure/identity': 4.5.0

@@ -38,6 +38,7 @@
     "@types/node": "catalog:",
     "chai": "catalog:legacy",
     "cross-env": "catalog:legacy",
+    "dotenv": "catalog:",
     "mocha": "catalog:legacy",
     "typescript": "catalog:"
   },
