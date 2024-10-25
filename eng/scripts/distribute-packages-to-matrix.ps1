@@ -36,8 +36,6 @@ param(
 #     return ,$batches
 # }
 
-Write-Host $env:ArtifactPackageNames
-
 # # calculate the batches, then duplicate the entire matrix if need be
 # $packageProperties = $env:ArtifactPackageNames.Split(",")
 # $batches = Split-ArrayIntoBatches -InputArray $packageProperties -BatchSize $BATCHSIZE
