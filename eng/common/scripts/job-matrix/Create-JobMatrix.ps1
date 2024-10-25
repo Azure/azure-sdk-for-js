@@ -40,7 +40,7 @@ $Filters = $Filters | Where-Object { $_ }
 if (Test-Path $PostGenerationScript) {
     Write-Host "Invoking post-generation script: $PostGenerationScript"
     cat $PostGenerationScript
-    $matrix = &"$PostGenerationScript" -Matrix $matrix
+    $matrix = & $PostGenerationScript -Matrix $matrix
 }
 
 $serialized = SerializePipelineMatrix $matrix
