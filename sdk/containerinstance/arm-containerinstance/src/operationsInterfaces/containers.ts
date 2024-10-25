@@ -13,14 +13,14 @@ import {
   ContainersExecuteCommandOptionalParams,
   ContainersExecuteCommandResponse,
   ContainersAttachOptionalParams,
-  ContainersAttachResponse
+  ContainersAttachResponse,
 } from "../models";
 
 /** Interface representing a Containers. */
 export interface Containers {
   /**
    * Get the logs for a specified container instance in a specified resource group and container group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param containerName The name of the container instance.
    * @param options The options parameters.
@@ -29,12 +29,12 @@ export interface Containers {
     resourceGroupName: string,
     containerGroupName: string,
     containerName: string,
-    options?: ContainersListLogsOptionalParams
+    options?: ContainersListLogsOptionalParams,
   ): Promise<ContainersListLogsResponse>;
   /**
    * Executes a command for a specific container instance in a specified resource group and container
    * group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param containerName The name of the container instance.
    * @param containerExecRequest The request for the exec command.
@@ -45,12 +45,12 @@ export interface Containers {
     containerGroupName: string,
     containerName: string,
     containerExecRequest: ContainerExecRequest,
-    options?: ContainersExecuteCommandOptionalParams
+    options?: ContainersExecuteCommandOptionalParams,
   ): Promise<ContainersExecuteCommandResponse>;
   /**
    * Attach to the output stream of a specific container instance in a specified resource group and
    * container group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param containerName The name of the container instance.
    * @param options The options parameters.
@@ -59,6 +59,6 @@ export interface Containers {
     resourceGroupName: string,
     containerGroupName: string,
     containerName: string,
-    options?: ContainersAttachOptionalParams
+    options?: ContainersAttachOptionalParams,
   ): Promise<ContainersAttachResponse>;
 }

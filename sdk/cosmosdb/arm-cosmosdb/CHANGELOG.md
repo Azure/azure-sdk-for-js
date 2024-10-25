@@ -1,6 +1,6 @@
 # Release History
 
-## 16.0.1 (Unreleased)
+## 16.1.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,19 @@
 
 ### Other Changes
 
+## 16.1.0 (2024-10-08)
+    
+### Features Added
+
+  - Added Interface ErrorAdditionalInfo
+  - Added Interface ErrorDetail
+  - Interface ErrorResponse has a new optional parameter error
+  - Interface RestoreParametersBase has a new optional parameter restoreWithTtlDisabled
+  - Enum KnownServerVersion has a new value Seven0
+  - Interface ErrorResponse no longer has parameter code
+  - Interface ErrorResponse no longer has parameter message
+    
+    
 ## 16.0.0 (2024-06-24)
     
 ### Features Added

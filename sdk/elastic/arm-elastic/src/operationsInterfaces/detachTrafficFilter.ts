@@ -13,24 +13,24 @@ import { DetachTrafficFilterUpdateOptionalParams } from "../models";
 export interface DetachTrafficFilter {
   /**
    * Detach traffic filter for the given deployment.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   beginUpdate(
     resourceGroupName: string,
     monitorName: string,
-    options?: DetachTrafficFilterUpdateOptionalParams
+    options?: DetachTrafficFilterUpdateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Detach traffic filter for the given deployment.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   beginUpdateAndWait(
     resourceGroupName: string,
     monitorName: string,
-    options?: DetachTrafficFilterUpdateOptionalParams
+    options?: DetachTrafficFilterUpdateOptionalParams,
   ): Promise<void>;
 }

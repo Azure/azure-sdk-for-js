@@ -15,7 +15,7 @@ import {
   TagRulesCreateOrUpdateResponse,
   TagRulesGetOptionalParams,
   TagRulesGetResponse,
-  TagRulesDeleteOptionalParams
+  TagRulesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -23,18 +23,18 @@ import {
 export interface TagRules {
   /**
    * List the tag rules for a given monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: TagRulesListOptionalParams
+    options?: TagRulesListOptionalParams,
   ): PagedAsyncIterableIterator<MonitoringTagRules>;
   /**
    * Create or update a tag rule set for a given monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param ruleSetName Tag Rule Set resource name
    * @param options The options parameters.
@@ -43,11 +43,11 @@ export interface TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesCreateOrUpdateOptionalParams
+    options?: TagRulesCreateOrUpdateOptionalParams,
   ): Promise<TagRulesCreateOrUpdateResponse>;
   /**
    * Get a tag rule set for a given monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param ruleSetName Tag Rule Set resource name
    * @param options The options parameters.
@@ -56,11 +56,11 @@ export interface TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesGetOptionalParams
+    options?: TagRulesGetOptionalParams,
   ): Promise<TagRulesGetResponse>;
   /**
    * Delete a tag rule set for a given monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param ruleSetName Tag Rule Set resource name
    * @param options The options parameters.
@@ -69,11 +69,11 @@ export interface TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesDeleteOptionalParams
+    options?: TagRulesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a tag rule set for a given monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param ruleSetName Tag Rule Set resource name
    * @param options The options parameters.
@@ -82,6 +82,6 @@ export interface TagRules {
     resourceGroupName: string,
     monitorName: string,
     ruleSetName: string,
-    options?: TagRulesDeleteOptionalParams
+    options?: TagRulesDeleteOptionalParams,
   ): Promise<void>;
 }

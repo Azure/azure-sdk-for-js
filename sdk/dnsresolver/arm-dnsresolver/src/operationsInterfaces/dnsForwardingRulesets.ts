@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DnsForwardingRuleset,
   DnsForwardingRulesetsListByResourceGroupOptionalParams,
@@ -21,7 +21,7 @@ import {
   DnsForwardingRulesetsUpdateResponse,
   DnsForwardingRulesetsDeleteOptionalParams,
   DnsForwardingRulesetsGetOptionalParams,
-  DnsForwardingRulesetsGetResponse
+  DnsForwardingRulesetsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,14 +34,14 @@ export interface DnsForwardingRulesets {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DnsForwardingRulesetsListByResourceGroupOptionalParams
+    options?: DnsForwardingRulesetsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DnsForwardingRuleset>;
   /**
    * Lists DNS forwarding rulesets in all resource groups of a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: DnsForwardingRulesetsListOptionalParams
+    options?: DnsForwardingRulesetsListOptionalParams,
   ): PagedAsyncIterableIterator<DnsForwardingRuleset>;
   /**
    * Lists DNS forwarding ruleset resource IDs attached to a virtual network.
@@ -52,7 +52,7 @@ export interface DnsForwardingRulesets {
   listByVirtualNetwork(
     resourceGroupName: string,
     virtualNetworkName: string,
-    options?: DnsForwardingRulesetsListByVirtualNetworkOptionalParams
+    options?: DnsForwardingRulesetsListByVirtualNetworkOptionalParams,
   ): PagedAsyncIterableIterator<VirtualNetworkDnsForwardingRuleset>;
   /**
    * Creates or updates a DNS forwarding ruleset.
@@ -65,10 +65,10 @@ export interface DnsForwardingRulesets {
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
     parameters: DnsForwardingRuleset,
-    options?: DnsForwardingRulesetsCreateOrUpdateOptionalParams
+    options?: DnsForwardingRulesetsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DnsForwardingRulesetsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DnsForwardingRulesetsCreateOrUpdateResponse>,
       DnsForwardingRulesetsCreateOrUpdateResponse
     >
   >;
@@ -83,7 +83,7 @@ export interface DnsForwardingRulesets {
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
     parameters: DnsForwardingRuleset,
-    options?: DnsForwardingRulesetsCreateOrUpdateOptionalParams
+    options?: DnsForwardingRulesetsCreateOrUpdateOptionalParams,
   ): Promise<DnsForwardingRulesetsCreateOrUpdateResponse>;
   /**
    * Updates a DNS forwarding ruleset.
@@ -96,10 +96,10 @@ export interface DnsForwardingRulesets {
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
     parameters: DnsForwardingRulesetPatch,
-    options?: DnsForwardingRulesetsUpdateOptionalParams
+    options?: DnsForwardingRulesetsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DnsForwardingRulesetsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DnsForwardingRulesetsUpdateResponse>,
       DnsForwardingRulesetsUpdateResponse
     >
   >;
@@ -114,7 +114,7 @@ export interface DnsForwardingRulesets {
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
     parameters: DnsForwardingRulesetPatch,
-    options?: DnsForwardingRulesetsUpdateOptionalParams
+    options?: DnsForwardingRulesetsUpdateOptionalParams,
   ): Promise<DnsForwardingRulesetsUpdateResponse>;
   /**
    * Deletes a DNS forwarding ruleset. WARNING: This operation cannot be undone. All forwarding rules
@@ -126,8 +126,8 @@ export interface DnsForwardingRulesets {
   beginDelete(
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
-    options?: DnsForwardingRulesetsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: DnsForwardingRulesetsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a DNS forwarding ruleset. WARNING: This operation cannot be undone. All forwarding rules
    * within the ruleset will be deleted.
@@ -138,7 +138,7 @@ export interface DnsForwardingRulesets {
   beginDeleteAndWait(
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
-    options?: DnsForwardingRulesetsDeleteOptionalParams
+    options?: DnsForwardingRulesetsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a DNS forwarding ruleset properties.
@@ -149,6 +149,6 @@ export interface DnsForwardingRulesets {
   get(
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
-    options?: DnsForwardingRulesetsGetOptionalParams
+    options?: DnsForwardingRulesetsGetOptionalParams,
   ): Promise<DnsForwardingRulesetsGetResponse>;
 }

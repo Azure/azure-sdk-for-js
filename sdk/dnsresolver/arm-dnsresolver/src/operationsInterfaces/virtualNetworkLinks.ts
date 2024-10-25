@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   VirtualNetworkLink,
   VirtualNetworkLinksListOptionalParams,
@@ -18,7 +18,7 @@ import {
   VirtualNetworkLinksUpdateResponse,
   VirtualNetworkLinksDeleteOptionalParams,
   VirtualNetworkLinksGetOptionalParams,
-  VirtualNetworkLinksGetResponse
+  VirtualNetworkLinksGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface VirtualNetworkLinks {
   list(
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
-    options?: VirtualNetworkLinksListOptionalParams
+    options?: VirtualNetworkLinksListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualNetworkLink>;
   /**
    * Creates or updates a virtual network link to a DNS forwarding ruleset.
@@ -48,10 +48,10 @@ export interface VirtualNetworkLinks {
     dnsForwardingRulesetName: string,
     virtualNetworkLinkName: string,
     parameters: VirtualNetworkLink,
-    options?: VirtualNetworkLinksCreateOrUpdateOptionalParams
+    options?: VirtualNetworkLinksCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkLinksCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkLinksCreateOrUpdateResponse>,
       VirtualNetworkLinksCreateOrUpdateResponse
     >
   >;
@@ -68,7 +68,7 @@ export interface VirtualNetworkLinks {
     dnsForwardingRulesetName: string,
     virtualNetworkLinkName: string,
     parameters: VirtualNetworkLink,
-    options?: VirtualNetworkLinksCreateOrUpdateOptionalParams
+    options?: VirtualNetworkLinksCreateOrUpdateOptionalParams,
   ): Promise<VirtualNetworkLinksCreateOrUpdateResponse>;
   /**
    * Updates a virtual network link to a DNS forwarding ruleset.
@@ -83,10 +83,10 @@ export interface VirtualNetworkLinks {
     dnsForwardingRulesetName: string,
     virtualNetworkLinkName: string,
     parameters: VirtualNetworkLinkPatch,
-    options?: VirtualNetworkLinksUpdateOptionalParams
+    options?: VirtualNetworkLinksUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<VirtualNetworkLinksUpdateResponse>,
+    SimplePollerLike<
+      OperationState<VirtualNetworkLinksUpdateResponse>,
       VirtualNetworkLinksUpdateResponse
     >
   >;
@@ -103,7 +103,7 @@ export interface VirtualNetworkLinks {
     dnsForwardingRulesetName: string,
     virtualNetworkLinkName: string,
     parameters: VirtualNetworkLinkPatch,
-    options?: VirtualNetworkLinksUpdateOptionalParams
+    options?: VirtualNetworkLinksUpdateOptionalParams,
   ): Promise<VirtualNetworkLinksUpdateResponse>;
   /**
    * Deletes a virtual network link to a DNS forwarding ruleset. WARNING: This operation cannot be
@@ -117,8 +117,8 @@ export interface VirtualNetworkLinks {
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
     virtualNetworkLinkName: string,
-    options?: VirtualNetworkLinksDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: VirtualNetworkLinksDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a virtual network link to a DNS forwarding ruleset. WARNING: This operation cannot be
    * undone.
@@ -131,7 +131,7 @@ export interface VirtualNetworkLinks {
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
     virtualNetworkLinkName: string,
-    options?: VirtualNetworkLinksDeleteOptionalParams
+    options?: VirtualNetworkLinksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets properties of a virtual network link to a DNS forwarding ruleset.
@@ -144,6 +144,6 @@ export interface VirtualNetworkLinks {
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
     virtualNetworkLinkName: string,
-    options?: VirtualNetworkLinksGetOptionalParams
+    options?: VirtualNetworkLinksGetOptionalParams,
   ): Promise<VirtualNetworkLinksGetResponse>;
 }
