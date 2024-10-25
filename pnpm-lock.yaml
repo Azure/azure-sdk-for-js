@@ -6304,8 +6304,8 @@ importers:
   sdk/containerinstance/arm-containerinstance:
     dependencies:
       '@azure/abort-controller':
-        specifier: catalog:abort-controllerV1
-        version: 1.1.0
+        specifier: workspace:*
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: workspace:*
         version: link:../../core/core-auth
@@ -6702,8 +6702,8 @@ importers:
   sdk/containerservice/arm-containerservicefleet:
     dependencies:
       '@azure/abort-controller':
-        specifier: catalog:abort-controllerV1
-        version: 1.1.0
+        specifier: workspace:*
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: workspace:*
         version: link:../../core/core-auth
@@ -9573,8 +9573,8 @@ importers:
   sdk/dns/arm-dns:
     dependencies:
       '@azure/abort-controller':
-        specifier: catalog:abort-controllerV1
-        version: 1.1.0
+        specifier: workspace:*
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: workspace:*
         version: link:../../core/core-auth
@@ -9692,8 +9692,8 @@ importers:
   sdk/dnsresolver/arm-dnsresolver:
     dependencies:
       '@azure/abort-controller':
-        specifier: catalog:abort-controllerV1
-        version: 1.1.0
+        specifier: workspace:*
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: workspace:*
         version: link:../../core/core-auth
@@ -10276,8 +10276,8 @@ importers:
   sdk/elastic/arm-elastic:
     dependencies:
       '@azure/abort-controller':
-        specifier: catalog:abort-controllerV1
-        version: 1.1.0
+        specifier: workspace:*
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: workspace:*
         version: link:../../core/core-auth
@@ -10337,8 +10337,8 @@ importers:
   sdk/elasticsans/arm-elasticsan:
     dependencies:
       '@azure/abort-controller':
-        specifier: catalog:abort-controllerV1
-        version: 1.1.0
+        specifier: workspace:*
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: workspace:*
         version: link:../../core/core-auth
@@ -13981,6 +13981,73 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
+
+  sdk/iotoperations/arm-iotoperations:
+    dependencies:
+      '@azure-rest/core-client':
+        specifier: workspace:*
+        version: link:../../core/core-client-rest
+      '@azure/abort-controller':
+        specifier: workspace:*
+        version: link:../../core/abort-controller
+      '@azure/core-auth':
+        specifier: workspace:*
+        version: link:../../core/core-auth
+      '@azure/core-lro':
+        specifier: workspace:*
+        version: link:../../core/core-lro
+      '@azure/core-rest-pipeline':
+        specifier: workspace:*
+        version: link:../../core/core-rest-pipeline
+      '@azure/core-util':
+        specifier: workspace:*
+        version: link:../../core/core-util
+      '@azure/logger':
+        specifier: workspace:*
+        version: link:../../core/logger
+      tslib:
+        specifier: 'catalog:'
+        version: 2.7.0
+    devDependencies:
+      '@azure-tools/test-credential':
+        specifier: workspace:*
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:*
+        version: link:../../test-utils/recorder
+      '@azure/dev-tool':
+        specifier: workspace:*
+        version: link:../../../common/tools/dev-tool
+      '@azure/eslint-plugin-azure-sdk':
+        specifier: workspace:*
+        version: link:../../../common/tools/eslint-plugin-azure-sdk
+      '@azure/identity':
+        specifier: catalog:internal
+        version: 4.5.0
+      '@types/node':
+        specifier: 'catalog:'
+        version: 18.19.45
+      '@vitest/browser':
+        specifier: 'catalog:'
+        version: 2.0.5(playwright@1.46.1)(typescript@5.6.3)(vitest@2.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: 'catalog:'
+        version: 2.0.5(vitest@2.0.5)
+      dotenv:
+        specifier: 'catalog:'
+        version: 16.4.5
+      eslint:
+        specifier: 'catalog:'
+        version: 9.12.0
+      playwright:
+        specifier: 'catalog:'
+        version: 1.46.1
+      typescript:
+        specifier: 'catalog:'
+        version: 5.6.3
+      vitest:
+        specifier: 'catalog:'
+        version: 2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5)
 
   sdk/keyvault/arm-keyvault:
     dependencies:
@@ -17856,8 +17923,8 @@ importers:
   sdk/netapp/arm-netapp:
     dependencies:
       '@azure/abort-controller':
-        specifier: catalog:abort-controllerV1
-        version: 1.1.0
+        specifier: workspace:*
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: workspace:*
         version: link:../../core/core-auth
@@ -23034,8 +23101,8 @@ importers:
   sdk/servicefabricmanagedclusters/arm-servicefabricmanagedclusters:
     dependencies:
       '@azure/abort-controller':
-        specifier: catalog:abort-controllerV1
-        version: 1.1.0
+        specifier: workspace:*
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: workspace:*
         version: link:../../core/core-auth
@@ -23150,8 +23217,8 @@ importers:
   sdk/servicelinker/arm-servicelinker:
     dependencies:
       '@azure/abort-controller':
-        specifier: catalog:abort-controllerV1
-        version: 1.1.0
+        specifier: workspace:*
+        version: link:../../core/abort-controller
       '@azure/core-auth':
         specifier: workspace:*
         version: link:../../core/core-auth
@@ -35413,7 +35480,7 @@ snapshots:
 
   '@types/is-buffer@2.0.2':
     dependencies:
-      '@types/node': 20.10.8
+      '@types/node': 18.19.45
 
   '@types/json-schema@7.0.15': {}
 
@@ -35495,7 +35562,7 @@ snapshots:
 
   '@types/prompts@2.4.9':
     dependencies:
-      '@types/node': 20.10.8
+      '@types/node': 18.19.45
       kleur: 3.0.3
 
   '@types/qs@6.9.15': {}
