@@ -34,7 +34,6 @@ async function metricExport(): Promise<void> {
 }
 
 async function setupRoutes(): Promise<void> {
-  app.get('/', async (_req: any, res: any) => {
   app.get("/", async (_req: any, res: any) => {
     await metricExport().then(() => {
       res.send("Metrics sent to Azure Monitor");
