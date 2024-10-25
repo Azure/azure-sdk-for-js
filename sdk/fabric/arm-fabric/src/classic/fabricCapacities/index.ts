@@ -3,14 +3,6 @@
 
 import { FabricContext } from "../../api/fabricContext.js";
 import {
-  FabricCapacity,
-  FabricCapacityUpdate,
-  CheckNameAvailabilityRequest,
-  CheckNameAvailabilityResponse,
-  RpSkuDetailsForExistingResource,
-  RpSkuDetailsForNewResource,
-} from "../../models/models.js";
-import {
   fabricCapacitiesGet,
   fabricCapacitiesCreateOrUpdate,
   fabricCapacitiesUpdate,
@@ -23,6 +15,14 @@ import {
   fabricCapacitiesListSkusForCapacity,
   fabricCapacitiesListSkus,
 } from "../../api/fabricCapacities/index.js";
+import {
+  FabricCapacity,
+  FabricCapacityUpdate,
+  CheckNameAvailabilityRequest,
+  CheckNameAvailabilityResponse,
+  RpSkuDetailsForExistingResource,
+  RpSkuDetailsForNewResource,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -37,7 +37,7 @@ import {
   FabricCapacitiesCheckNameAvailabilityOptionalParams,
   FabricCapacitiesListSkusForCapacityOptionalParams,
   FabricCapacitiesListSkusOptionalParams,
-} from "../../models/options.js";
+} from "../../api/options.js";
 
 /** Interface representing a FabricCapacities operations. */
 export interface FabricCapacitiesOperations {

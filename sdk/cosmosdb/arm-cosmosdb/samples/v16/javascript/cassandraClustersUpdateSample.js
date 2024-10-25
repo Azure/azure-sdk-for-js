@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Updates some of the properties of a managed Cassandra cluster.
  *
  * @summary Updates some of the properties of a managed Cassandra cluster.
- * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-05-15/examples/CosmosDBManagedCassandraClusterPatch.json
+ * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2024-08-15/examples/CosmosDBManagedCassandraClusterPatch.json
  */
 async function cosmosDbManagedCassandraClusterPatch() {
   const subscriptionId =
