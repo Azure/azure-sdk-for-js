@@ -90,4 +90,7 @@ jobs:
                 parameters:
                   PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
                   Artifacts: ${{ parameters.Artifacts }}
+              - pwsh: |
+                  Write-Host "This is what I see in environment variables"
+                  Get-ChildItem env:
             PostGenerationScript: $(Build.SourcesDirectory)/eng/scripts/distribute-packages-to-matrix.ps1
