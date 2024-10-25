@@ -221,15 +221,16 @@ export function handleMsalError(
   return new AuthenticationRequiredError({ scopes, getTokenOptions, message: error.message });
 }
 
-// transformations.ts
-
-export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountInfo {
-  const [environment] = account.authority.match(/([a-z]*\.[a-z]*\.[a-z]*)/) || [""];
-  return {
-    ...account,
-    localAccountId: account.homeAccountId,
-    environment,
-  };
+// transformations
+export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountInfo | null {
+  const [environment] = account.authority.match(/([a-z]*(\.[a-z]*)*)/) || [];
+  if (environment)
+    return {
+      ...account,
+      localAccountId: account.homeAccountId,
+      environment,
+    };
+  else return null;
 }
 
 export function msalToPublic(clientId: string, account: MsalAccountInfo): AuthenticationRecord {
