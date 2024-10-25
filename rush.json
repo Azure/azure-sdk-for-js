@@ -2288,6 +2288,11 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-iotoperations",
+      "projectFolder": "sdk/iotoperations/arm-iotoperations",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-trustedsigning",
       "projectFolder": "sdk/trustedsigning/arm-trustedsigning",
       "versionPolicyName": "management"

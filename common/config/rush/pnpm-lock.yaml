@@ -413,6 +413,9 @@ dependencies:
   '@rush-temp/arm-iothub-profile-2020-09-01-hybrid':
     specifier: file:./projects/arm-iothub-profile-2020-09-01-hybrid.tgz
     version: file:projects/arm-iothub-profile-2020-09-01-hybrid.tgz
+  '@rush-temp/arm-iotoperations':
+    specifier: file:./projects/arm-iotoperations.tgz
+    version: file:projects/arm-iotoperations.tgz
   '@rush-temp/arm-keyvault':
     specifier: file:./projects/arm-keyvault.tgz
     version: file:projects/arm-keyvault.tgz
@@ -4298,7 +4301,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 22.7.7
+      '@types/node': 18.19.57
     dev: false
     optional: true
 
@@ -4596,39 +4599,6 @@ packages:
       playwright: 1.48.1
       sirv: 2.0.4
       vitest: 1.6.0(@types/node@18.19.57)(@vitest/browser@1.6.0)
-    dev: false
-
-  /@vitest/browser@2.1.3(playwright@1.48.1)(typescript@5.5.4)(vitest@2.1.3):
-    resolution: {integrity: sha512-PQ2kLLc9q8ukJutuuYsynHSr31E78/dtYEvPy4jCHLht1LmITqXTVTqu7THWdZ1kXNGrWwtdMqtt3z2mvSKdIg==}
-    peerDependencies:
-      playwright: '*'
-      safaridriver: '*'
-      vitest: 2.1.3
-      webdriverio: '*'
-    peerDependenciesMeta:
-      playwright:
-        optional: true
-      safaridriver:
-        optional: true
-      webdriverio:
-        optional: true
-    dependencies:
-      '@testing-library/dom': 10.4.0
-      '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
-      '@vitest/mocker': 2.1.3(msw@2.4.12)
-      '@vitest/utils': 2.1.3
-      magic-string: 0.30.12
-      msw: 2.4.12(typescript@5.5.4)
-      playwright: 1.48.1
-      sirv: 2.0.4
-      tinyrainbow: 1.2.0
-      vitest: 2.1.3(@types/node@18.19.57)(@vitest/browser@2.1.3)
-      ws: 8.18.0
-    transitivePeerDependencies:
-      - bufferutil
-      - typescript
-      - utf-8-validate
-      - vite
     dev: false
 
   /@vitest/browser@2.1.3(playwright@1.48.1)(typescript@5.6.3)(vitest@2.1.3):
@@ -8668,37 +8638,6 @@ packages:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
     dev: false
 
-  /msw@2.4.12(typescript@5.5.4):
-    resolution: {integrity: sha512-upQMKZt0fYIB0Gj6gKc5i/PK4JrICTu3ItfXiju3FTdgQLaqARv7+jugPCsOkrWpTzzjo5iLW+4F6L/mGNukbA==}
-    engines: {node: '>=18'}
-    hasBin: true
-    requiresBuild: true
-    peerDependencies:
-      typescript: '>= 4.8.x'
-    peerDependenciesMeta:
-      typescript:
-        optional: true
-    dependencies:
-      '@bundled-es-modules/cookie': 2.0.0
-      '@bundled-es-modules/statuses': 1.0.1
-      '@bundled-es-modules/tough-cookie': 0.1.6
-      '@inquirer/confirm': 3.2.0
-      '@mswjs/interceptors': 0.36.5
-      '@open-draft/until': 2.1.0
-      '@types/cookie': 0.6.0
-      '@types/statuses': 2.0.5
-      chalk: 4.1.2
-      graphql: 16.9.0
-      headers-polyfill: 4.0.3
-      is-node-process: 1.2.0
-      outvariant: 1.4.3
-      path-to-regexp: 6.3.0
-      strict-event-emitter: 0.5.1
-      type-fest: 4.26.1
-      typescript: 5.5.4
-      yargs: 17.7.2
-    dev: false
-
   /msw@2.4.12(typescript@5.6.3):
     resolution: {integrity: sha512-upQMKZt0fYIB0Gj6gKc5i/PK4JrICTu3ItfXiju3FTdgQLaqARv7+jugPCsOkrWpTzzjo5iLW+4F6L/mGNukbA==}
     engines: {node: '>=18'}
@@ -10743,37 +10682,6 @@ packages:
       yn: 3.1.1
     dev: false
 
-  /ts-node@10.9.2(@types/node@18.19.57)(typescript@5.5.4):
-    resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
-    hasBin: true
-    peerDependencies:
-      '@swc/core': '>=1.2.50'
-      '@swc/wasm': '>=1.2.50'
-      '@types/node': '*'
-      typescript: '>=2.7'
-    peerDependenciesMeta:
-      '@swc/core':
-        optional: true
-      '@swc/wasm':
-        optional: true
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.11
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 18.19.57
-      acorn: 8.13.0
-      acorn-walk: 8.3.4
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 5.5.4
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-    dev: false
-
   /ts-node@10.9.2(@types/node@18.19.57)(typescript@5.6.3):
     resolution: {integrity: sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==}
     hasBin: true
@@ -10850,7 +10758,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.3
       walk-up-path: 3.0.1
     dev: false
 
@@ -11021,12 +10929,6 @@ packages:
 
   /typescript@5.4.2:
     resolution: {integrity: sha512-+2/g0Fds1ERlP6JsakQQDXjZdZMM+rqpamFZJEKh4kwTIn3iDkgKtby0CeNd5ATNZ4Ry1ax15TMx0W2V+miizQ==}
-    engines: {node: '>=14.17'}
-    hasBin: true
-    dev: false
-
-  /typescript@5.5.4:
-    resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -13910,13 +13812,13 @@ packages:
     dev: false
 
   file:projects/arm-computeschedule.tgz:
-    resolution: {integrity: sha512-kBuXJmhPVrng+CM8lWH2rNjH484SrE/dQauJVni1OZQwpehs56aJ8pndxwKJ/vp++f4kBIPPIhhr0Ri+9xf6ww==, tarball: file:projects/arm-computeschedule.tgz}
+    resolution: {integrity: sha512-kQydbFDg9v7mEcbdz789oU+y/QD+PrWrszkjfctseMwEArveNWtV8lhRxV7pSREyvgJ6oDR/gQgRK9ch8nHWTg==, tarball: file:projects/arm-computeschedule.tgz}
     name: '@rush-temp/arm-computeschedule'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.11(@types/node@18.19.57)
       '@types/node': 18.19.57
-      '@vitest/browser': 2.1.3(playwright@1.48.1)(typescript@5.5.4)(vitest@2.1.3)
+      '@vitest/browser': 2.1.3(playwright@1.48.1)(typescript@5.6.3)(vitest@2.1.3)
       '@vitest/coverage-istanbul': 2.1.3(vitest@2.1.3)
       dotenv: 16.4.5
       eslint: 8.57.1
@@ -13926,7 +13828,7 @@ packages:
       rimraf: 5.0.10
       tshy: 1.18.0
       tslib: 2.8.0
-      typescript: 5.5.4
+      typescript: 5.6.3
       vitest: 2.1.3(@types/node@18.19.57)(@vitest/browser@2.1.3)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -14065,7 +13967,7 @@ packages:
     dev: false
 
   file:projects/arm-containerinstance.tgz:
-    resolution: {integrity: sha512-Khplp9KqsN5Wc9XeZuVDa3gVERhNysqThpZd6itnMsNGTlL5w+jFPrTrTbzLYzR9y1G8uIQ+wuBq+ZavIkP8gw==, tarball: file:projects/arm-containerinstance.tgz}
+    resolution: {integrity: sha512-rQmNKnhKq8ieBAwtGrJejDNW/szDJXCv2YyEQ+y0NSaGw5VMs3qyz+SAc6Ee3OwQj9Wsz+4MgCfmFRPC0tQonQ==, tarball: file:projects/arm-containerinstance.tgz}
     name: '@rush-temp/arm-containerinstance'
     version: 0.0.0
     dependencies:
@@ -14083,10 +13985,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.5.4)
+      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
       tslib: 2.8.0
       tsx: 4.19.1
-      typescript: 5.5.4
+      typescript: 5.6.3
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -14124,7 +14026,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-pUvAsKo3PkjdMOfzHw/550qwsaoFAQjNweeOS1qxyLvpWcJwX32fbnnh+vC1TGHtm/4LPUCAhfxx8ko7Zq+c/Q==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-OzYrCZbTeVg23JVQg0S4HpI1wDoVmlMoEzHkzcwWPVgSe0vS+zb3134H/iQNwQf4947G7ey0Umfim9uByF3pEg==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -14141,10 +14043,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.5.4)
+      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
       tslib: 2.8.0
       tsx: 4.19.1
-      typescript: 5.5.4
+      typescript: 5.6.3
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -14199,7 +14101,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservicefleet.tgz:
-    resolution: {integrity: sha512-7VmWSITuPIdJZPiM2JXi+1nlg3IiGMYs2sar/bWdriB95EhcOgB6BGpVaoo2WDETSt3vMcKfQuPcZOkoEfWBiw==, tarball: file:projects/arm-containerservicefleet.tgz}
+    resolution: {integrity: sha512-KCq2YZ77g9Zox8STQywVyLqzimQg13c9/7xMRo9+yZmf9x4EDxNZ2Q0CFpK6W4bhwERmmQwj1erO6hSJLaTQgQ==, tarball: file:projects/arm-containerservicefleet.tgz}
     name: '@rush-temp/arm-containerservicefleet'
     version: 0.0.0
     dependencies:
@@ -14229,7 +14131,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-2v6rqNsp3P65qn1zTQugNY4WpyjrpSlNV4fJiakvfiwyCdgDP7roXWbcXGfrp3KDJXH0soobfEehPV8zfDfWJw==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-isHxEpq7bScszTE3o6ML/F7FgseAxz0jzQ3QvL06v/O+x7cW+0eSKoIxnFy0qGk4DvUqGJylr2FtoVBmAKGmvA==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -15059,7 +14961,7 @@ packages:
     dev: false
 
   file:projects/arm-dns.tgz:
-    resolution: {integrity: sha512-62eABHBXpoL7JIR7Xz0wCVs8C9a1IDdWUImh5KvHxTm2M46fNw4s7gJD45Uc+SYFUZYWmcxAwvxXk1woNuNHVA==, tarball: file:projects/arm-dns.tgz}
+    resolution: {integrity: sha512-FP3+m6UVBiNg87XItEXkp8blZXIAtGSZ2etA2J9taiBdYL0rqCQQgfgxoD4sU5K8OKH6+wi5X/0PZeQH+Wenvw==, tarball: file:projects/arm-dns.tgz}
     name: '@rush-temp/arm-dns'
     version: 0.0.0
     dependencies:
@@ -15073,11 +14975,13 @@ packages:
       '@types/node': 18.19.57
       chai: 4.3.10
       cross-env: 7.0.3
+      dotenv: 16.4.5
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
       tslib: 2.8.0
+      tsx: 4.19.1
       typescript: 5.6.3
       uglify-js: 3.19.3
     transitivePeerDependencies:
@@ -15240,7 +15144,7 @@ packages:
     dev: false
 
   file:projects/arm-elastic.tgz:
-    resolution: {integrity: sha512-qIQn704I9g7/nKpGJPafEK7/Qzz5nNeyYqi2ZQJTLvTN3udnhpI5aefaVV8OMtwXLa3gjDqulir4HlpdknE7Zg==, tarball: file:projects/arm-elastic.tgz}
+    resolution: {integrity: sha512-t1V8IKPwH+aeIVNXCsVlper38gUfU/w3+YmmR23PUnDVnDK8eedVunJ66WffZ2BC44C5JlvmIRkfCpMqnWkW7A==, tarball: file:projects/arm-elastic.tgz}
     name: '@rush-temp/arm-elastic'
     version: 0.0.0
     dependencies:
@@ -15260,6 +15164,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
       tslib: 2.8.0
+      tsx: 4.19.1
       typescript: 5.6.3
       uglify-js: 3.19.3
     transitivePeerDependencies:
@@ -15269,7 +15174,7 @@ packages:
     dev: false
 
   file:projects/arm-elasticsan.tgz:
-    resolution: {integrity: sha512-dy6sMLYtkbQs07JJoBu5N5PkTJ7i0fVLW3Gdl894VJaww9EFAYc9pCrMLhsOSBLvmfzgwpyAY2L1DGg7h5Yi4Q==, tarball: file:projects/arm-elasticsan.tgz}
+    resolution: {integrity: sha512-5/gwmooleUnum1LJ7BaIOssENX8rSEtb6cy1TK3nh1CCzNlXIH+G5QF16/KPT4+OH6+WdAwLjrATGxX/caI6gg==, tarball: file:projects/arm-elasticsan.tgz}
     name: '@rush-temp/arm-elasticsan'
     version: 0.0.0
     dependencies:
@@ -15417,13 +15322,13 @@ packages:
     dev: false
 
   file:projects/arm-fabric.tgz:
-    resolution: {integrity: sha512-Tz4gsKXNWDI+P3BdbZP71wMDyk/7n2cQV6pYMB23IStmLZ2u4kgzOH6ltINclmTc+yyr6XtHW+22E4lCk6vg/A==, tarball: file:projects/arm-fabric.tgz}
+    resolution: {integrity: sha512-fsC4YDGpwTkL2mW+m3h1FKq4LnKMTIJcdcznTRbca/Qv53WZvkng75BBWLXy/oTbT6yz7zIk7m4MtaxL9vgc1Q==, tarball: file:projects/arm-fabric.tgz}
     name: '@rush-temp/arm-fabric'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.11(@types/node@18.19.57)
       '@types/node': 18.19.57
-      '@vitest/browser': 2.1.3(playwright@1.48.1)(typescript@5.5.4)(vitest@2.1.3)
+      '@vitest/browser': 2.1.3(playwright@1.48.1)(typescript@5.6.3)(vitest@2.1.3)
       '@vitest/coverage-istanbul': 2.1.3(vitest@2.1.3)
       dotenv: 16.4.5
       eslint: 8.57.1
@@ -15433,7 +15338,7 @@ packages:
       rimraf: 5.0.10
       tshy: 1.18.0
       tslib: 2.8.0
-      typescript: 5.5.4
+      typescript: 5.6.3
       vitest: 2.1.3(@types/node@18.19.57)(@vitest/browser@2.1.3)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -15809,7 +15714,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-BBw6uVLr84QMpWaiYx3RQuI70+HczqWoWYGvM+gvFQiTLsOX9ygMl9DzBnEJ7QCLYfcjdp9ayaSZwfUe+u/h2A==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-BqpgXZVU7hHZMs5aOk6HfKDqwfNGQYIPg4zfUEAqAs+zzC+UQ3tK+7XM308kT7ZGGYclhxqWUEGJtxoWPhC7Fw==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
@@ -15826,10 +15731,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.5.4)
+      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
       tslib: 2.8.0
       tsx: 4.19.1
-      typescript: 5.5.4
+      typescript: 5.6.3
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
@@ -16122,6 +16027,42 @@ packages:
       - '@swc/core'
       - '@swc/wasm'
       - supports-color
+    dev: false
+
+  file:projects/arm-iotoperations.tgz:
+    resolution: {integrity: sha512-05wnGxIuuCy3nJ4z2Pd4Taqvo1N3b3lxd24za/KYk/lQ+wiSt2+fGRmG3WTNo0/Okp0rVy4BsGW6Xp2wNYH1ow==, tarball: file:projects/arm-iotoperations.tgz}
+    name: '@rush-temp/arm-iotoperations'
+    version: 0.0.0
+    dependencies:
+      '@types/node': 18.19.57
+      '@vitest/browser': 2.1.3(playwright@1.48.1)(typescript@5.6.3)(vitest@2.1.3)
+      '@vitest/coverage-istanbul': 2.1.3(vitest@2.1.3)
+      dotenv: 16.4.5
+      eslint: 8.57.1
+      playwright: 1.48.1
+      tshy: 2.0.1
+      tslib: 2.8.0
+      typescript: 5.6.3
+      vitest: 2.1.3(@types/node@18.19.57)(@vitest/browser@2.1.3)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/arm-keyvault-profile-2020-09-01-hybrid.tgz:
@@ -17065,7 +17006,7 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-k1UDyEaQ3Lxzw49eKji67qoeXoNU0ypFwEtd8aSEg1vjodz4rPJMwNL8XN/9TL5GhErm5jBc451hV27aWmMzKQ==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-zdIMf2MynU2WP/Z9LuHs2A30Ctp5HNCpYtq+5DZMPGN0FEWwAiphMVeWablB33JBdsGxZEiALPOHfgADUZvL+Q==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
@@ -18772,7 +18713,7 @@ packages:
     dev: false
 
   file:projects/arm-servicefabricmanagedclusters.tgz:
-    resolution: {integrity: sha512-gFF/sNcIgmKVyjv4Yd4uU5WX57WFVgrj4PgmJHHwK1RlKFpGob/roNOEwTVHUdhY0ZVxRriZT/1Q8UcB/EZLMw==, tarball: file:projects/arm-servicefabricmanagedclusters.tgz}
+    resolution: {integrity: sha512-mBF9anrHozmDN7bROJOGmbZFSk2zU5k4QveDu5wau6DrxA5mShPzlfix+pn3mlqe2Mi8VEEWhiy6RjY2d447SQ==, tarball: file:projects/arm-servicefabricmanagedclusters.tgz}
     name: '@rush-temp/arm-servicefabricmanagedclusters'
     version: 0.0.0
     dependencies:
@@ -18829,7 +18770,7 @@ packages:
     dev: false
 
   file:projects/arm-servicelinker.tgz:
-    resolution: {integrity: sha512-bZNFA29HHVOw7AazyGRCBbTib0eKe2eBCDEYgQCqyM7eQWq+OYPZGUt97+mJjgN784JH/vDSTRjZpWWSVD1dtg==, tarball: file:projects/arm-servicelinker.tgz}
+    resolution: {integrity: sha512-LqYGnKNVKhgEUZGLvVxDO02uL/YOkB9CibwFvJqj4JXK8omBBEZ207WivqhvsVHu9Ot4VARa/WpXP/XWMxSd4A==, tarball: file:projects/arm-servicelinker.tgz}
     name: '@rush-temp/arm-servicelinker'
     version: 0.0.0
     dependencies:
@@ -18849,6 +18790,7 @@ packages:
       rimraf: 5.0.10
       ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
       tslib: 2.8.0
+      tsx: 4.19.1
       typescript: 5.6.3
       uglify-js: 3.19.3
     transitivePeerDependencies:
@@ -23185,13 +23127,13 @@ packages:
     dev: false
 
   file:projects/notification-hubs.tgz:
-    resolution: {integrity: sha512-FRyt3Bdu1ses0Gl+6uOIEi3b1aKolG5k0X4aD0pDrkO4+Lpg4c/kk4vhvk11Smlw53ybEh8BJnnvaEYTVgRmwQ==, tarball: file:projects/notification-hubs.tgz}
+    resolution: {integrity: sha512-g1pwLcMuOaTjljwQ9fIY6KM/uZTSTiZReOl36Q5kftxvBjt7gBY0/x0Hjse6TNq/SsgJQNkAgjR5K+grm5Oo0Q==, tarball: file:projects/notification-hubs.tgz}
     name: '@rush-temp/notification-hubs'
     version: 0.0.0
     dependencies:
       '@microsoft/api-extractor': 7.47.11(@types/node@18.19.57)
       '@types/node': 18.19.57
-      '@vitest/browser': 2.1.3(playwright@1.48.1)(typescript@5.5.4)(vitest@2.1.3)
+      '@vitest/browser': 2.1.3(playwright@1.48.1)(typescript@5.6.3)(vitest@2.1.3)
       '@vitest/coverage-istanbul': 2.1.3(vitest@2.1.3)
       dotenv: 16.4.5
       eslint: 9.13.0
@@ -23199,7 +23141,7 @@ packages:
       rimraf: 5.0.10
       tslib: 2.8.0
       tsx: 4.19.1
-      typescript: 5.5.4
+      typescript: 5.6.3
       vitest: 2.1.3(@types/node@18.19.57)(@vitest/browser@2.1.3)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -24946,14 +24888,14 @@ packages:
     dev: false
 
   file:projects/template.tgz:
-    resolution: {integrity: sha512-0QCNp+IOT02W4+huQ+hhinFgVznSw96NR3U5SR34/ajPGWomAhwBfGxenAggMrb1K7kyhsmVaIzSutHrjLhdEw==, tarball: file:projects/template.tgz}
+    resolution: {integrity: sha512-XRufHBFsDzlUNLV5bh81P0gJPlE8FKnjNwbVXsA61N/8H8ZTrCftj7zGgd6yruBgl1hQmTmazsznx4vStZQTjw==, tarball: file:projects/template.tgz}
     name: '@rush-temp/template'
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 2.7.2
       '@microsoft/api-extractor': 7.47.11(@types/node@18.19.57)
       '@types/node': 18.19.57
-      '@vitest/browser': 2.1.3(playwright@1.48.1)(typescript@5.5.4)(vitest@2.1.3)
+      '@vitest/browser': 2.1.3(playwright@1.48.1)(typescript@5.6.3)(vitest@2.1.3)
       '@vitest/coverage-istanbul': 2.1.3(vitest@2.1.3)
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -24963,7 +24905,7 @@ packages:
       rimraf: 5.0.10
       source-map-support: 0.5.21
       tslib: 2.8.0
-      typescript: 5.5.4
+      typescript: 5.6.3
       vitest: 2.1.3(@types/node@18.19.57)(@vitest/browser@2.1.3)
     transitivePeerDependencies:
       - '@edge-runtime/vm'

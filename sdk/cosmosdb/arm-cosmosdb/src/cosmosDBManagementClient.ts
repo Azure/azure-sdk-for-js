@@ -126,7 +126,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-cosmosdb/16.0.1`;
+    const packageDetails = `azsdk-js-arm-cosmosdb/16.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -180,7 +180,7 @@ export class CosmosDBManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-05-15";
+    this.apiVersion = options.apiVersion || "2024-08-15";
     this.databaseAccounts = new DatabaseAccountsImpl(this);
     this.operations = new OperationsImpl(this);
     this.database = new DatabaseImpl(this);
