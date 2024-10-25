@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DataBoundary } from "@azure/arm-databoundaries";
+import { DataboundariesManegementClient } from "@azure/arm-databoundaries";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
 
@@ -23,7 +23,7 @@ dotenv.config();
 async function getDataBoundaryForTenant() {
   const defaultParam = "default";
   const credential = new DefaultAzureCredential();
-  const client = new DataBoundary(credential);
+  const client = new DataboundariesManegementClient(credential);
   const result = await client.dataBoundaries.getTenant(defaultParam);
   console.log(result);
 }

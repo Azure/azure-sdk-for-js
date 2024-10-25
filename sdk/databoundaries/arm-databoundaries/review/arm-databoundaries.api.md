@@ -31,18 +31,11 @@ export interface DataBoundariesGetTenantOptionalParams extends coreClient.Operat
 // @public
 export type DataBoundariesGetTenantResponse = DataBoundaryDefinition;
 
-// @public
-export interface DataBoundariesPutOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type DataBoundariesPutResponse = DataBoundaryDefinition;
-
 // @public (undocumented)
-export class DataBoundary extends coreClient.ServiceClient {
+export class DataboundariesManegementClient extends coreClient.ServiceClient {
     // (undocumented)
     $host: string;
-    constructor(credentials: coreAuth.TokenCredential, options?: DataBoundaryOptionalParams);
+    constructor(credentials: coreAuth.TokenCredential, options?: DataboundariesManegementClientOptionalParams);
     // (undocumented)
     apiVersion: string;
     // (undocumented)
@@ -50,21 +43,30 @@ export class DataBoundary extends coreClient.ServiceClient {
 }
 
 // @public
-export interface DataBoundaryDefinition extends ProxyResource {
-    properties?: DataBoundaryProperties;
-}
-
-// @public
-export interface DataBoundaryOptionalParams extends coreClient.ServiceClientOptions {
+export interface DataboundariesManegementClientOptionalParams extends coreClient.ServiceClientOptions {
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
 }
 
 // @public
+export interface DataBoundariesPutOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type DataBoundariesPutResponse = DataBoundaryDefinition;
+
+// @public
+export type DataBoundary = string;
+
+// @public
+export interface DataBoundaryDefinition extends ProxyResource {
+    properties?: DataBoundaryProperties;
+}
+
+// @public
 export interface DataBoundaryProperties {
-    // Warning: (ae-forgotten-export) The symbol "DataBoundary_2" needs to be exported by the entry point index.d.ts
-    dataBoundary?: DataBoundary_2;
+    dataBoundary?: DataBoundary;
     readonly provisioningState?: ProvisioningState;
 }
 

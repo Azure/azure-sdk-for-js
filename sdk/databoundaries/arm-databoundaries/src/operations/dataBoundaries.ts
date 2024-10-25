@@ -10,7 +10,7 @@ import { DataBoundaries } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
-import { DataBoundary } from "../dataBoundary";
+import { DataboundariesManegementClient } from "../databoundariesManegementClient";
 import {
   DataBoundaryDefinition,
   DefaultName,
@@ -24,13 +24,13 @@ import {
 
 /** Class containing DataBoundaries operations. */
 export class DataBoundariesImpl implements DataBoundaries {
-  private readonly client: DataBoundary;
+  private readonly client: DataboundariesManegementClient;
 
   /**
    * Initialize a new instance of the class DataBoundaries class.
    * @param client Reference to the service client
    */
-  constructor(client: DataBoundary) {
+  constructor(client: DataboundariesManegementClient) {
     this.client = client;
   }
 

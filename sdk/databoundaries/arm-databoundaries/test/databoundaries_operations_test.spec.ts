@@ -16,7 +16,7 @@ import {
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { Context } from "mocha";
-import { DataBoundary } from "../src/dataBoundary";
+import { DataboundariesManegementClient } from "../src/databoundariesManegementClient";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "88888888-8888-8888-8888-888888888888"
@@ -37,7 +37,7 @@ export const testPollingOptions = {
 describe("DataBoundary test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
-  let client: DataBoundary;
+  let client: DataboundariesManegementClient;
   let location: string;
   let resourceGroup: string;
   let resourcename: string;
@@ -48,7 +48,7 @@ describe("DataBoundary test", () => {
     subscriptionId = env.SUBSCRIPTION_ID || '';
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
-    client = new DataBoundary(credential, recorder.configureClientOptions({}));
+    client = new DataboundariesManegementClient(credential, recorder.configureClientOptions({}));
     location = "eastus";
     resourceGroup = "myjstest";
     resourcename = "resourcetest";

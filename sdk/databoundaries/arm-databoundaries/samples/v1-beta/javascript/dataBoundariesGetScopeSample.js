@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { DataBoundary } = require("@azure/arm-databoundaries");
+const { DataboundariesManegementClient } = require("@azure/arm-databoundaries");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -23,7 +23,7 @@ async function getDataBoundaryAtScope() {
     "subscriptions/11111111-1111-1111-1111-111111111111/resourcegroups/my-resource-group";
   const defaultParam = "default";
   const credential = new DefaultAzureCredential();
-  const client = new DataBoundary(credential);
+  const client = new DataboundariesManegementClient(credential);
   const result = await client.dataBoundaries.getScope(scope, defaultParam);
   console.log(result);
 }

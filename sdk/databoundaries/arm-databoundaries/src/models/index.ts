@@ -232,7 +232,7 @@ export interface DataBoundariesGetScopeOptionalParams
 export type DataBoundariesGetScopeResponse = DataBoundaryDefinition;
 
 /** Optional parameters. */
-export interface DataBoundaryOptionalParams
+export interface DataboundariesManegementClientOptionalParams
   extends coreClient.ServiceClientOptions {
   /** server parameter */
   $host?: string;

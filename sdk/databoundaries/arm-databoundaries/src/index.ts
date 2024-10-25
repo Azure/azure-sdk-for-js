@@ -7,5 +7,5 @@
  */
 
 export * from "./models";
-export { DataBoundary } from "./dataBoundary";
+export { DataboundariesManegementClient } from "./databoundariesManegementClient";
 export * from "./operationsInterfaces";

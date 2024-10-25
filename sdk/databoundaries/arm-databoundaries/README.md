@@ -1,12 +1,12 @@
-# Azure DataBoundary client library for JavaScript
+# Azure DataboundariesManegement client library for JavaScript
 
-This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure DataBoundary client.
+This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure DataboundariesManegement client.
 
 Provides APIs for data boundary operations.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/databoundaries/arm-databoundaries) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-databoundaries) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-databoundaries?view=azure-node-preview) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-databoundaries) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started
@@ -24,16 +24,16 @@ See our [support policy](https://github.com/Azure/azure-sdk-for-js/blob/main/SUP
 
 ### Install the `@azure/arm-databoundaries` package
 
-Install the Azure DataBoundary client library for JavaScript with `npm`:
+Install the Azure DataboundariesManegement client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure/arm-databoundaries
 ```
 
-### Create and authenticate a `DataBoundary`
+### Create and authenticate a `DataboundariesManegementClient`
 
-To create a client object to access the Azure DataBoundary API, you will need the `endpoint` of your Azure DataBoundary resource and a `credential`. The Azure DataBoundary client can use Azure Active Directory credentials to authenticate.
-You can find the endpoint for your Azure DataBoundary resource in the [Azure Portal][azure_portal].
+To create a client object to access the Azure DataboundariesManegement API, you will need the `endpoint` of your Azure DataboundariesManegement resource and a `credential`. The Azure DataboundariesManegement client can use Azure Active Directory credentials to authenticate.
+You can find the endpoint for your Azure DataboundariesManegement resource in the [Azure Portal][azure_portal].
 
 You can authenticate with Azure Active Directory using a credential from the [@azure/identity][azure_identity] library or [an existing AAD Token](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token).
 
@@ -43,24 +43,24 @@ To use the [DefaultAzureCredential][defaultazurecredential] provider shown below
 npm install @azure/identity
 ```
 
-You will also need to **register a new AAD application and grant access to Azure DataBoundary** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
+You will also need to **register a new AAD application and grant access to Azure DataboundariesManegement** by assigning the suitable role to your service principal (note: roles such as `"Owner"` will not grant the necessary permissions).
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
 For more information about how to create an Azure AD Application check out [this guide](https://docs.microsoft.com/azure/active-directory/develop/howto-create-service-principal-portal).
 
 ```javascript
-const { DataBoundary } = require("@azure/arm-databoundaries");
+const { DataboundariesManegementClient } = require("@azure/arm-databoundaries");
 const { DefaultAzureCredential } = require("@azure/identity");
 // For client-side applications running in the browser, use InteractiveBrowserCredential instead of DefaultAzureCredential. See https://aka.ms/azsdk/js/identity/examples for more details.
 
-const client = new DataBoundary(new DefaultAzureCredential());
+const client = new DataboundariesManegementClient(new DefaultAzureCredential());
 
 // For client-side applications running in the browser, use this code instead:
 // const credential = new InteractiveBrowserCredential({
 //   tenantId: "<YOUR_TENANT_ID>",
 //   clientId: "<YOUR_CLIENT_ID>"
 // });
-// const client = new DataBoundary(credential);
+// const client = new DataboundariesManegementClient(credential);
 ```
 
 
@@ -69,9 +69,9 @@ To use this client library in the browser, first you need to use a bundler. For 
 
 ## Key concepts
 
-### DataBoundary
+### DataboundariesManegementClient
 
-`DataBoundary` is the primary interface for developers using the Azure DataBoundary client library. Explore the methods on this client object to understand the different features of the Azure DataBoundary service that you can access.
+`DataboundariesManegementClient` is the primary interface for developers using the Azure DataboundariesManegement client library. Explore the methods on this client object to understand the different features of the Azure DataboundariesManegement service that you can access.
 
 ## Troubleshooting
 

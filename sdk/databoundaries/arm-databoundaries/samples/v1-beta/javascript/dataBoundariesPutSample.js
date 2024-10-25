@@ -8,7 +8,7 @@
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-const { DataBoundary } = require("@azure/arm-databoundaries");
+const { DataboundariesManegementClient } = require("@azure/arm-databoundaries");
 const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
@@ -24,7 +24,7 @@ async function optInToDataBoundary() {
     properties: { dataBoundary: "EU" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new DataBoundary(credential);
+  const client = new DataboundariesManegementClient(credential);
   const result = await client.dataBoundaries.put(defaultParam, dataBoundaryDefinition);
   console.log(result);
 }

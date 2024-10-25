@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DataBoundaryDefinition,
-  DataBoundary,
+  DataboundariesManegementClient,
 } from "@azure/arm-databoundaries";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -29,7 +29,7 @@ async function optInToDataBoundary() {
     properties: { dataBoundary: "EU" },
   };
   const credential = new DefaultAzureCredential();
-  const client = new DataBoundary(credential);
+  const client = new DataboundariesManegementClient(credential);
   const result = await client.dataBoundaries.put(
     defaultParam,
     dataBoundaryDefinition,
