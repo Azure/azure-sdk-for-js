@@ -2,21 +2,21 @@
 // Licensed under the MIT License.
 
 import { KubernetesRuntimeContext } from "../../api/kubernetesRuntimeContext.js";
-import { LoadBalancer } from "../../models/models.js";
 import {
   loadBalancersGet,
   loadBalancersCreateOrUpdate,
   loadBalancersDelete,
   loadBalancersList,
 } from "../../api/loadBalancers/index.js";
-import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   LoadBalancersGetOptionalParams,
   LoadBalancersCreateOrUpdateOptionalParams,
   LoadBalancersDeleteOptionalParams,
   LoadBalancersListOptionalParams,
-} from "../../models/options.js";
+} from "../../api/options.js";
+import { LoadBalancer } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 /** Interface representing a LoadBalancers operations. */
 export interface LoadBalancersOperations {
@@ -58,7 +58,14 @@ export function getLoadBalancers(context: KubernetesRuntimeContext) {
       loadBalancerName: string,
       resource: LoadBalancer,
       options?: LoadBalancersCreateOrUpdateOptionalParams,
-    ) => loadBalancersCreateOrUpdate(context, resourceUri, loadBalancerName, resource, options),
+    ) =>
+      loadBalancersCreateOrUpdate(
+        context,
+        resourceUri,
+        loadBalancerName,
+        resource,
+        options,
+      ),
     delete: (
       resourceUri: string,
       loadBalancerName: string,

@@ -3607,7 +3607,7 @@ const migrateSqlDatabaseToAutoscaleOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -3639,7 +3639,7 @@ const migrateSqlDatabaseToManualThroughputOperationSpec: coreClient.OperationSpe
         bodyMapper: Mappers.ThroughputSettingsGetResults,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
     queryParameters: [Parameters.apiVersion],
@@ -3819,7 +3819,7 @@ const migrateSqlContainerToAutoscaleOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -3852,7 +3852,7 @@ const migrateSqlContainerToManualThroughputOperationSpec: coreClient.OperationSp
         bodyMapper: Mappers.ThroughputSettingsGetResults,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
     queryParameters: [Parameters.apiVersion],
@@ -3945,7 +3945,7 @@ const listSqlStoredProceduresOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SqlStoredProcedureListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -4255,7 +4255,7 @@ const getSqlRoleDefinitionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SqlRoleDefinitionGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -4286,7 +4286,7 @@ const createUpdateSqlRoleDefinitionOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SqlRoleDefinitionGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.createUpdateSqlRoleDefinitionParameters,
@@ -4311,7 +4311,7 @@ const deleteSqlRoleDefinitionOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -4333,7 +4333,7 @@ const listSqlRoleDefinitionsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SqlRoleDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -4354,7 +4354,7 @@ const getSqlRoleAssignmentOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SqlRoleAssignmentGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -4385,7 +4385,7 @@ const createUpdateSqlRoleAssignmentOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SqlRoleAssignmentGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.createUpdateSqlRoleAssignmentParameters,
@@ -4410,7 +4410,7 @@ const deleteSqlRoleAssignmentOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -4432,7 +4432,7 @@ const listSqlRoleAssignmentsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.SqlRoleAssignmentListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -4463,7 +4463,7 @@ const retrieveContinuousBackupInformationOperationSpec: coreClient.OperationSpec
         bodyMapper: Mappers.BackupInformation,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
     requestBody: Parameters.location,

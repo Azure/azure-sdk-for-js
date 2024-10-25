@@ -91,6 +91,7 @@ import {
   ContainerListBlobHierarchySegmentResponse as ContainerListBlobHierarchySegmentResponseModel,
   ContainerGetAccountInfoHeaders,
 } from "./generated/src";
+import { UserDelegationKey } from "./BlobServiceClient";
 
 /**
  * Options to configure {@link ContainerClient.create} operation.
@@ -2078,6 +2079,59 @@ export class ContainerClient extends StorageClient {
         ...options,
       },
       this.credential,
+    ).stringToSign;
+  }
+
+  /**
+   * Generates a Blob Container Service Shared Access Signature (SAS) URI based on the client properties
+   * and parameters passed in. The SAS is signed by the input user delegation key.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationSasUrl(
+    options: ContainerGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): Promise<string> {
+    return new Promise((resolve) => {
+      const sas = generateBlobSASQueryParameters(
+        {
+          containerName: this._containerName,
+          ...options,
+        },
+        userDelegationKey,
+        this.accountName,
+      ).toString();
+
+      resolve(appendToURLQuery(this.url, sas));
+    });
+  }
+
+  /**
+   * Generates string to sign for a Blob Container Service Shared Access Signature (SAS) URI
+   * based on the client properties and parameters passed in. The SAS is signed by the input user delegation key.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+  public generateUserDelegationSasStringToSign(
+    options: ContainerGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+    return generateBlobSASQueryParametersInternal(
+      {
+        containerName: this._containerName,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName,
     ).stringToSign;
   }
 

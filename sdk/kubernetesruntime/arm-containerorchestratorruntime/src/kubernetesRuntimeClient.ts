@@ -1,21 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { getStorageClassOperations, StorageClassOperations } from "./classic/storageClass/index.js";
-import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
+import {
+  getStorageClassOperations,
+  StorageClassOperations,
+} from "./classic/storageClass/index.js";
+import {
+  getOperationsOperations,
+  OperationsOperations,
+} from "./classic/operations/index.js";
 import {
   getLoadBalancersOperations,
   LoadBalancersOperations,
 } from "./classic/loadBalancers/index.js";
-import { getBgpPeersOperations, BgpPeersOperations } from "./classic/bgpPeers/index.js";
-import { getServicesOperations, ServicesOperations } from "./classic/services/index.js";
+import {
+  getBgpPeersOperations,
+  BgpPeersOperations,
+} from "./classic/bgpPeers/index.js";
+import {
+  getServicesOperations,
+  ServicesOperations,
+} from "./classic/services/index.js";
 import {
   createKubernetesRuntime,
   KubernetesRuntimeContext,
   KubernetesRuntimeClientOptionalParams,
 } from "./api/index.js";
+import { Pipeline } from "@azure/core-rest-pipeline";
+import { TokenCredential } from "@azure/core-auth";
 
 export { KubernetesRuntimeClientOptionalParams } from "./api/kubernetesRuntimeContext.js";
 
@@ -24,7 +36,10 @@ export class KubernetesRuntimeClient {
   /** The pipeline used by this client to make requests */
   public readonly pipeline: Pipeline;
 
-  constructor(credential: TokenCredential, options: KubernetesRuntimeClientOptionalParams = {}) {
+  constructor(
+    credential: TokenCredential,
+    options: KubernetesRuntimeClientOptionalParams = {},
+  ) {
     const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
     const userAgentPrefix = prefixFromOptions
       ? `${prefixFromOptions} azsdk-js-client`

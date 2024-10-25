@@ -63,9 +63,10 @@ export function getClient(
   }
 
   const { allowInsecureConnection, httpClient } = clientOptions;
+  const endpointUrl = clientOptions.endpoint ?? endpoint;
   const client = (path: string, ...args: Array<any>): ResourceMethods<StreamableMethod> => {
     const getUrl = (requestOptions: RequestParameters): string =>
-      buildRequestUrl(endpoint, path, args, { allowInsecureConnection, ...requestOptions });
+      buildRequestUrl(endpointUrl, path, args, { allowInsecureConnection, ...requestOptions });
 
     return {
       get: (requestOptions: RequestParameters = {}): StreamableMethod => {

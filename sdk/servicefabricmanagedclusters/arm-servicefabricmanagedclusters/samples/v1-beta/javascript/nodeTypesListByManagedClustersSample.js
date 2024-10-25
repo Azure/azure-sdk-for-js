@@ -18,7 +18,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all Node types of the specified managed cluster.
  *
  * @summary Gets all Node types of the specified managed cluster.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/NodeTypeListOperation_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/NodeTypeListOperation_example.json
  */
 async function listNodeTypeOfTheSpecifiedManagedCluster() {
   const subscriptionId =
