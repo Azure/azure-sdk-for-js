@@ -1644,7 +1644,7 @@ const migrateGremlinDatabaseToAutoscaleOperationSpec: coreClient.OperationSpec =
         bodyMapper: Mappers.ThroughputSettingsGetResults,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
     queryParameters: [Parameters.apiVersion],
@@ -1676,7 +1676,7 @@ const migrateGremlinDatabaseToManualThroughputOperationSpec: coreClient.Operatio
         bodyMapper: Mappers.ThroughputSettingsGetResults,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
     queryParameters: [Parameters.apiVersion],
@@ -1856,7 +1856,7 @@ const migrateGremlinGraphToAutoscaleOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ThroughputSettingsGetResults,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -1889,7 +1889,7 @@ const migrateGremlinGraphToManualThroughputOperationSpec: coreClient.OperationSp
         bodyMapper: Mappers.ThroughputSettingsGetResults,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
     queryParameters: [Parameters.apiVersion],
@@ -1922,7 +1922,7 @@ const retrieveContinuousBackupInformationOperationSpec: coreClient.OperationSpec
         bodyMapper: Mappers.BackupInformation,
       },
       default: {
-        bodyMapper: Mappers.CloudError,
+        bodyMapper: Mappers.ErrorResponse,
       },
     },
     requestBody: Parameters.location,
