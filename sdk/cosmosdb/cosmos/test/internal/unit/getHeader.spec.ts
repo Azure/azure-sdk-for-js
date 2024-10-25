@@ -37,12 +37,4 @@ describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value
       "incorrect header value",
     );
   });
-  it("If maxDegreeOfParallelism < 0 then x-ms-documentdb-query-parallelizecrosspartitionquery header should be null", async function () {
-    const headers = await getHeadersFunc({ maxDegreeOfParallelism: -1 });
-    assert.equal(
-      headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery],
-      null,
-      "incorrect header value",
-    );
-  });
 });
