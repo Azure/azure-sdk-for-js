@@ -52,7 +52,7 @@ else {
   foreach($config in $Matrix) {
       # we just need to iterate across them, grab the parameters hashtable, and add the new key
       # if there is more than one batch, we will need to add a suffix including the batch name to the job name
-      $config["parameters"]["ArtifactPackageNames"] = ($batches -join ",")
+      $config["parameters"]["ArtifactPackageNames"] = $batches
   }
 }
 
