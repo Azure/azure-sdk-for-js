@@ -5,9 +5,12 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { createClient } from "./utils/recordedClient";
 
-import { Context } from "mocha";
-import { PurviewWorkflowClient } from "../../src/clientDefinitions";
-import { ApproveApprovalTaskParameters, RejectApprovalTaskParameters } from "../../src/parameters";
+import type { Context } from "mocha";
+import type { PurviewWorkflowClient } from "../../src/clientDefinitions";
+import type {
+  ApproveApprovalTaskParameters,
+  RejectApprovalTaskParameters,
+} from "../../src/parameters";
 import { isUnexpected } from "../../src/isUnexpected";
 
 describe("Operate the workflow task.", () => {

@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentSpan } from "..";
+import type { DocumentSpan } from "..";
 
-import { AddressValue, CurrencyValue, DocumentField as GeneratedDocumentField } from "../generated";
+import type {
+  AddressValue,
+  CurrencyValue,
+  DocumentField as GeneratedDocumentField,
+} from "../generated";
 import { toBoundingRegions } from "../transforms/polygon";
 import { capitalize } from "../util";
-import { BoundingRegion } from "./documentElements";
+import type { BoundingRegion } from "./documentElements";
 
 /**
  * Fields that are common to all DocumentField variants.

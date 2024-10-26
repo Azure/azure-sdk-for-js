@@ -8,12 +8,13 @@ import {
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { PollOperationState, PollerLike } from "@azure/core-lro";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import type { PollOperationState, PollerLike } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
-import {
+import type {
   OperatorInformationResult,
   PhoneNumberAreaCode,
   PhoneNumberCapabilitiesRequest,
@@ -23,7 +24,7 @@ import {
   PhoneNumberSearchResult,
   PurchasedPhoneNumber,
 } from "./generated/src/models/";
-import {
+import type {
   GetPurchasedPhoneNumberOptions,
   ListAvailableCountriesOptions,
   ListGeographicAreaCodesOptions,
@@ -36,14 +37,14 @@ import {
   SearchAvailablePhoneNumbersRequest,
   SearchOperatorInformationOptions,
 } from "./models";
-import {
+import type {
   BeginPurchasePhoneNumbersOptions,
   BeginReleasePhoneNumberOptions,
   BeginSearchAvailablePhoneNumbersOptions,
   BeginUpdatePhoneNumberCapabilitiesOptions,
 } from "./lroModels";
 import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
-import { CommonClientOptions } from "@azure/core-client";
+import type { CommonClientOptions } from "@azure/core-client";
 import { logger } from "./utils";
 import { tracingClient } from "./generated/src/tracing";
 

@@ -7,7 +7,7 @@ import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions"
 
 import { KnownContextTagKeys } from "../../../generated";
 import * as ai from "../../../utils/constants/applicationinsights";
-import { Tags } from "../../../types";
+import type { Tags } from "../../../types";
 
 let instance: Context | null = null;
 

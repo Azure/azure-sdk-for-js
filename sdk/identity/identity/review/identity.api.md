@@ -5,10 +5,10 @@
 ```ts
 
 import { AccessToken } from '@azure/core-auth';
-import { AzureLogger } from '@azure/logger';
-import { CommonClientOptions } from '@azure/core-client';
+import type { AzureLogger } from '@azure/logger';
+import type { CommonClientOptions } from '@azure/core-client';
 import { GetTokenOptions } from '@azure/core-auth';
-import { LogPolicyOptions } from '@azure/core-rest-pipeline';
+import type { LogPolicyOptions } from '@azure/core-rest-pipeline';
 import { TokenCredential } from '@azure/core-auth';
 import type { TracingContext } from '@azure/core-auth';
 

@@ -3,7 +3,7 @@
 
 import { RestError, TableClient, TableServiceClient } from "../../src";
 
-import { TableServiceErrorResponse } from "../../src/utils/errorHelpers";
+import type { TableServiceErrorResponse } from "../../src/utils/errorHelpers";
 import { assert } from "chai";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 

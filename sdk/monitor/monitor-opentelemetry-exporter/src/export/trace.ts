@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 
 import { diag } from "@opentelemetry/api";
-import { ExportResult, ExportResultCode } from "@opentelemetry/core";
-import { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace-base";
+import type { ExportResult } from "@opentelemetry/core";
+import { ExportResultCode } from "@opentelemetry/core";
+import type { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace-base";
 import { AzureMonitorBaseExporter } from "./base";
-import { AzureMonitorExporterOptions } from "../config";
-import { TelemetryItem as Envelope } from "../generated";
+import type { AzureMonitorExporterOptions } from "../config";
+import type { TelemetryItem as Envelope } from "../generated";
 import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtils";
 import { createResourceMetricEnvelope, shouldCreateResourceMetric } from "../utils/common";
 import { HttpSender } from "../platform";

@@ -2,20 +2,18 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { env } from "process";
-import {
-  RecorderAndLogsClient,
-  createRecorderAndLogsClient,
-  getLogsArmResourceId,
-} from "./shared/testShared";
+import type { RecorderAndLogsClient } from "./shared/testShared";
+import { createRecorderAndLogsClient, getLogsArmResourceId } from "./shared/testShared";
 import { Recorder } from "@azure-tools/test-recorder";
-import { Durations, LogsQueryClient, LogsQueryResultStatus, QueryBatch } from "../../src";
+import type { LogsQueryClient, QueryBatch } from "../../src";
+import { Durations, LogsQueryResultStatus } from "../../src";
 // import { runWithTelemetry } from "../setupOpenTelemetry";
 
 import { assertQueryTable, getMonitorWorkspaceId, loggerForTest } from "./shared/testShared";
-import { ErrorInfo } from "../../src/generated/logquery/src";
-import { RestError } from "@azure/core-rest-pipeline";
+import type { ErrorInfo } from "../../src/generated/logquery/src";
+import type { RestError } from "@azure/core-rest-pipeline";
 import { setLogLevel } from "@azure/logger";
 
 describe("LogsQueryClient live tests", function () {

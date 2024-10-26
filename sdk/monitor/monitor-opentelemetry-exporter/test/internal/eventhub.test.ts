@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SpanAttributes, HrTime, SpanContext, SpanKind, ROOT_CONTEXT } from "@opentelemetry/api";
+import type { SpanAttributes, HrTime, SpanContext } from "@opentelemetry/api";
+import { SpanKind, ROOT_CONTEXT } from "@opentelemetry/api";
 import { timeInputToHrTime } from "@opentelemetry/core";
 import { BasicTracerProvider, Span } from "@opentelemetry/sdk-trace-base";
 import * as assert from "assert";
@@ -12,7 +13,7 @@ import {
   MicrosoftEventHub,
 } from "../../src/utils/constants/span/azAttributes";
 import { parseEventHubSpan } from "../../src/utils/eventhub";
-import { RemoteDependencyData, TelemetryItem as Envelope } from "../../src/generated";
+import type { RemoteDependencyData, TelemetryItem as Envelope } from "../../src/generated";
 
 const tracer = new BasicTracerProvider().getTracer("default");
 

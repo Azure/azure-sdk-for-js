@@ -3,7 +3,7 @@
 
 import { diag } from "@opentelemetry/api";
 import { ConnectionStringParser } from "../utils/connectionStringParser";
-import { AzureMonitorExporterOptions } from "../config";
+import type { AzureMonitorExporterOptions } from "../config";
 import {
   DEFAULT_BREEZE_ENDPOINT,
   ENV_CONNECTION_STRING,

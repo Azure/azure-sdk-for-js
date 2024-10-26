@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { diag } from "@opentelemetry/api";
-import { ConnectionString, ConnectionStringKey } from "../Declarations/Contracts";
+import type { ConnectionString, ConnectionStringKey } from "../Declarations/Contracts";
 
 import * as Constants from "../Declarations/Constants";
 

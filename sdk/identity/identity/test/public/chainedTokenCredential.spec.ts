@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { AccessToken, AggregateAuthenticationError, TokenCredential } from "../../src";
 import {
-  AccessToken,
-  AggregateAuthenticationError,
   AuthenticationRequiredError,
   ChainedTokenCredential,
   CredentialUnavailableError,
-  TokenCredential,
 } from "../../src";
 import { assert } from "chai";
 import { getError } from "../authTestUtils";

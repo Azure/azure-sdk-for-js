@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
-import { TokenCredential, KeyCredential } from "@azure/core-auth";
-import { FaceClient } from "./clientDefinitions.js";
-import { Versions } from "./models.js";
+import type { TokenCredential, KeyCredential } from "@azure/core-auth";
+import type { FaceClient } from "./clientDefinitions.js";
+import type { Versions } from "./models.js";
 
 export interface FaceClientOptions extends ClientOptions {
   apiVersion?: Versions;

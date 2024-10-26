@@ -3,10 +3,12 @@
 
 import * as msal from "@azure/msal-node";
 
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { AuthenticationRecord, CertificateParts } from "../types";
-import { CredentialLogger, credentialLogger, formatSuccess } from "../../util/logging";
-import { PluginConfiguration, msalPlugins } from "./msalPlugins";
+import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import type { AuthenticationRecord, CertificateParts } from "../types";
+import type { CredentialLogger } from "../../util/logging";
+import { credentialLogger, formatSuccess } from "../../util/logging";
+import type { PluginConfiguration } from "./msalPlugins";
+import { msalPlugins } from "./msalPlugins";
 import {
   defaultLoggerCallback,
   ensureValidMsalToken,
@@ -20,11 +22,11 @@ import {
 } from "../utils";
 
 import { AuthenticationRequiredError } from "../../errors";
-import { BrokerOptions } from "./brokerOptions";
-import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
+import type { BrokerOptions } from "./brokerOptions";
+import type { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 import { IdentityClient } from "../../client/identityClient";
-import { InteractiveBrowserCredentialNodeOptions } from "../../credentials/interactiveBrowserCredentialOptions";
-import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
+import type { InteractiveBrowserCredentialNodeOptions } from "../../credentials/interactiveBrowserCredentialOptions";
+import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { calculateRegionalAuthority } from "../../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
 import open from "open";

@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { credentialLogger, formatError } from "../util/logging";
-import { AccessToken } from "@azure/core-auth";
+import type { AccessToken } from "@azure/core-auth";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import type { TokenCredentialOptions } from "../tokenCredentialOptions";
 
 const BrowserNotSupportedError = new Error(
   "ApplicationCredential is not supported in the browser. Use InteractiveBrowserCredential instead.",

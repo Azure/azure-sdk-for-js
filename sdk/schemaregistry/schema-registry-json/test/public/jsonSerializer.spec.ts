@@ -1,18 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  CreateTestSerializerOptions,
-  createTestSerializer,
-  registerTestSchema,
-} from "./utils/mockedSerializer";
+import type { CreateTestSerializerOptions } from "./utils/mockedSerializer";
+import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer";
 import { assert } from "@azure-tools/test-utils";
 import { createContentType, encoder, testGroup, testSchema, testValue } from "./utils/dummies";
-import { Context } from "mocha";
-import { MessageContent } from "../../src";
+import type { Context } from "mocha";
+import type { MessageContent } from "../../src";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { SchemaRegistry } from "@azure/schema-registry";
+import type { SchemaRegistry } from "@azure/schema-registry";
 
 describe("JsonSchemaSerializer", async function () {
   let serializerOptions: CreateTestSerializerOptions<any>;

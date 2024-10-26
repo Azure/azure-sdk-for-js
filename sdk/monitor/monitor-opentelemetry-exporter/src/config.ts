@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TokenCredential } from "@azure/core-auth";
-import { ServiceApiVersion } from "./Declarations/Constants";
-import { ApplicationInsightsClientOptionalParams } from "./generated";
+import type { TokenCredential } from "@azure/core-auth";
+import type { ServiceApiVersion } from "./Declarations/Constants";
+import type { ApplicationInsightsClientOptionalParams } from "./generated";
 
 /**
  * Provides configuration options for AzureMonitorTraceExporter.

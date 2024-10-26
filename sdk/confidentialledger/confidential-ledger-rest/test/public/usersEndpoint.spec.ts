@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ConfidentialLedgerClient, isUnexpected } from "../../src";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { ConfidentialLedgerClient } from "../../src";
+import { isUnexpected } from "../../src";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { assert } from "chai";
 
 describe("Get user", function () {
