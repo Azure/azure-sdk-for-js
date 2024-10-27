@@ -155,7 +155,7 @@
     "mocha": "catalog:legacy",
     "ms": "^2.1.3",
     "nyc": "catalog:legacy",
-    "puppeteer": "^23.0.2",
+    "puppeteer": "catalog:legacy",
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
   }

@@ -160,7 +160,7 @@
     "karma-sourcemap-loader": "catalog:legacy",
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
-    "puppeteer": "^23.0.2",
+    "puppeteer": "catalog:legacy",
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
   }

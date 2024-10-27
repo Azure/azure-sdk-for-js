@@ -140,6 +140,9 @@ catalogs:
     nyc:
       specifier: ^17.0.0
       version: 17.0.0
+    puppeteer:
+      specifier: ^23.6.0
+      version: 23.6.0
     sinon:
       specifier: ^19.0.0
       version: 19.0.2
@@ -2744,7 +2747,7 @@ importers:
         specifier: catalog:legacy
         version: 17.0.0
       puppeteer:
-        specifier: ^23.6.0
+        specifier: catalog:legacy
         version: 23.6.0(typescript@5.6.3)
       rollup:
         specifier: ^4.24.0
@@ -13231,8 +13234,8 @@ importers:
         specifier: catalog:legacy
         version: 17.0.0
       puppeteer:
-        specifier: ^23.0.2
-        version: 23.1.1(typescript@5.6.3)
+        specifier: catalog:legacy
+        version: 23.6.0(typescript@5.6.3)
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
@@ -13307,7 +13310,7 @@ importers:
         specifier: catalog:legacy
         version: 10.7.3
       puppeteer:
-        specifier: ^23.6.0
+        specifier: catalog:legacy
         version: 23.6.0(typescript@5.6.3)
       sinon:
         specifier: catalog:legacy
@@ -13374,7 +13377,7 @@ importers:
         specifier: catalog:legacy
         version: 10.7.3
       puppeteer:
-        specifier: ^23.6.0
+        specifier: catalog:legacy
         version: 23.6.0(typescript@5.6.3)
       sinon:
         specifier: catalog:legacy
@@ -23927,8 +23930,8 @@ importers:
         specifier: catalog:legacy
         version: 17.0.0
       puppeteer:
-        specifier: ^23.0.2
-        version: 23.1.1(typescript@5.6.3)
+        specifier: catalog:legacy
+        version: 23.6.0(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -24048,8 +24051,8 @@ importers:
         specifier: catalog:legacy
         version: 17.0.0
       puppeteer:
-        specifier: ^23.0.2
-        version: 23.1.1(typescript@5.6.3)
+        specifier: catalog:legacy
+        version: 23.6.0(typescript@5.6.3)
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
@@ -24187,8 +24190,8 @@ importers:
         specifier: catalog:legacy
         version: 17.0.0
       puppeteer:
-        specifier: ^23.0.2
-        version: 23.1.1(typescript@5.6.3)
+        specifier: catalog:legacy
+        version: 23.6.0(typescript@5.6.3)
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
@@ -24320,8 +24323,8 @@ importers:
         specifier: catalog:legacy
         version: 17.0.0
       puppeteer:
-        specifier: ^23.0.2
-        version: 23.1.1(typescript@5.6.3)
+        specifier: catalog:legacy
+        version: 23.6.0(typescript@5.6.3)
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
@@ -24405,8 +24408,8 @@ importers:
         specifier: catalog:legacy
         version: 17.0.0
       puppeteer:
-        specifier: ^23.0.2
-        version: 23.1.1(typescript@5.6.3)
+        specifier: catalog:legacy
+        version: 23.6.0(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -24526,8 +24529,8 @@ importers:
         specifier: catalog:legacy
         version: 17.0.0
       puppeteer:
-        specifier: ^23.0.2
-        version: 23.1.1(typescript@5.6.3)
+        specifier: catalog:legacy
+        version: 23.6.0(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -26152,8 +26155,8 @@ importers:
         specifier: catalog:legacy
         version: 17.0.0
       puppeteer:
-        specifier: ^23.0.2
-        version: 23.1.1(typescript@5.6.3)
+        specifier: catalog:legacy
+        version: 23.6.0(typescript@5.6.3)
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
@@ -27454,8 +27457,8 @@ importers:
         specifier: catalog:legacy
         version: 17.0.0
       puppeteer:
-        specifier: ^23.0.2
-        version: 23.1.1(typescript@5.6.3)
+        specifier: catalog:legacy
+        version: 23.6.0(typescript@5.6.3)
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
@@ -27584,8 +27587,8 @@ importers:
         specifier: catalog:legacy
         version: 17.0.0
       puppeteer:
-        specifier: ^23.0.2
-        version: 23.1.1(typescript@5.6.3)
+        specifier: catalog:legacy
+        version: 23.6.0(typescript@5.6.3)
       sinon:
         specifier: catalog:legacy
         version: 19.0.2
@@ -29071,11 +29074,6 @@ packages:
   '@protobufjs/utf8@1.1.0':
     resolution: {integrity: sha512-Vvn3zZrhQZkkBE8LSuW3em98c0FwgO4nxzv6OdSxPKJIEKY2bGbHn+mhGIPerzI4twdxaP8/0+06HBpwf345Lw==}
 
-  '@puppeteer/browsers@2.3.1':
-    resolution: {integrity: sha512-uK7o3hHkK+naEobMSJ+2ySYyXtQkBxIH8Gn4MK9ciePjNV+Pf+PgY/W7iPzn2MTjl3stcYB5AlcTmPYw7AXDwA==}
-    engines: {node: '>=18'}
-    hasBin: true
-
   '@puppeteer/browsers@2.4.0':
     resolution: {integrity: sha512-x8J1csfIygOwf6D6qUAZ0ASk3z63zPb7wkNeHRerCMh82qWKUrOgkuP005AJC8lDL6/evtXETGEJVcwykKT4/g==}
     engines: {node: '>=18'}
@@ -30133,11 +30131,6 @@ packages:
   chownr@1.1.4:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
 
-  chromium-bidi@0.6.4:
-    resolution: {integrity: sha512-8zoq6ogmhQQkAKZVKO2ObFTl4uOkqoX1PlKQX3hZQ5E9cbUotcAb7h4pTNVAGGv8Z36PF3CtdOriEp/Rz82JqQ==}
-    peerDependencies:
-      devtools-protocol: '*'
-
   chromium-bidi@0.8.0:
     resolution: {integrity: sha512-uJydbGdTw0DEUjhoogGveneJVWX/9YuqkWePzMmkBYwtdAqo5d3J/ovNKFr+/2hWXYmYCr6it8mSSTIj6SS6Ug==}
     peerDependencies:
@@ -30491,9 +30484,6 @@ packages:
   detect-libc@2.0.3:
     resolution: {integrity: sha512-bwy0MGW55bG41VqxxypOsdSdGqLwXPI/focwgTYCFMbdUiBAxLg9CFzG08sz2aqzknwiX7Hkl0bQENjg8iLByw==}
     engines: {node: '>=8'}
-
-  devtools-protocol@0.0.1312386:
-    resolution: {integrity: sha512-DPnhUXvmvKT2dFA/j7B+riVLUt9Q6RKJlcppojL5CoRywJJKLDYnRlw0gTFKfgDPHP5E04UoB71SxoJlVZy8FA==}
 
   devtools-protocol@0.0.1354347:
     resolution: {integrity: sha512-BlmkSqV0V84E2WnEnoPnwyix57rQxAM5SKJjf4TbYOCGLAWtz8CDH8RIaGOjPgPCXo2Mce3kxSY497OySidY3Q==}
@@ -32336,18 +32326,9 @@ packages:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
 
-  puppeteer-core@23.1.1:
-    resolution: {integrity: sha512-OeTqNiYGF9qZtwZU4Yc88DDqFJs4TJ4rnK81jkillh6MwDeQodyisM9xe5lBmPhwiDy92s5J5DQtQLjCKHFQ3g==}
-    engines: {node: '>=18'}
-
   puppeteer-core@23.6.0:
     resolution: {integrity: sha512-se1bhgUpR9C529SgHGr/eyT92mYyQPAhA2S9pGtGrVG2xob9qE6Pbp7TlqiSPlnnY1lINqhn6/67EwkdzOmKqQ==}
     engines: {node: '>=18'}
-
-  puppeteer@23.1.1:
-    resolution: {integrity: sha512-giN4Ikwl5hkkouH/dVyxIPTPslWuqZ8fjALdSw5Cvt+r0LuDpLdfPxRADlB75YJ2UjPZhgok+xYBYk8ffzv4MA==}
-    engines: {node: '>=18'}
-    hasBin: true
 
   puppeteer@23.6.0:
     resolution: {integrity: sha512-l+Fgo8SVFSd51STtq2crz8t1Y3VXowsuR4zfR64qDOn6oggz7YIZauWiNR4IJjczQ6nvFs3S4cgng55/nesxTQ==}
@@ -35032,19 +35013,6 @@ snapshots:
 
   '@protobufjs/utf8@1.1.0': {}
 
-  '@puppeteer/browsers@2.3.1':
-    dependencies:
-      debug: 4.3.7(supports-color@8.1.1)
-      extract-zip: 2.0.1
-      progress: 2.0.3
-      proxy-agent: 6.4.0
-      semver: 7.6.3
-      tar-fs: 3.0.6
-      unbzip2-stream: 1.4.3
-      yargs: 17.7.2
-    transitivePeerDependencies:
-      - supports-color
-
   '@puppeteer/browsers@2.4.0':
     dependencies:
       debug: 4.3.7(supports-color@8.1.1)
@@ -36271,13 +36239,6 @@ snapshots:
 
   chownr@1.1.4: {}
 
-  chromium-bidi@0.6.4(devtools-protocol@0.0.1312386):
-    dependencies:
-      devtools-protocol: 0.0.1312386
-      mitt: 3.0.1
-      urlpattern-polyfill: 10.0.0
-      zod: 3.23.8
-
   chromium-bidi@0.8.0(devtools-protocol@0.0.1354347):
     dependencies:
       devtools-protocol: 0.0.1354347
@@ -36682,8 +36643,6 @@ snapshots:
   destroy@1.2.0: {}
 
   detect-libc@2.0.3: {}
-
-  devtools-protocol@0.0.1312386: {}
 
   devtools-protocol@0.0.1354347: {}
 
@@ -38735,19 +38694,6 @@ snapshots:
 
   punycode@2.3.1: {}
 
-  puppeteer-core@23.1.1:
-    dependencies:
-      '@puppeteer/browsers': 2.3.1
-      chromium-bidi: 0.6.4(devtools-protocol@0.0.1312386)
-      debug: 4.3.7(supports-color@8.1.1)
-      devtools-protocol: 0.0.1312386
-      typed-query-selector: 2.12.0
-      ws: 8.18.0
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - utf-8-validate
-
   puppeteer-core@23.6.0:
     dependencies:
       '@puppeteer/browsers': 2.4.0
@@ -38759,20 +38705,6 @@ snapshots:
     transitivePeerDependencies:
       - bufferutil
       - supports-color
-      - utf-8-validate
-
-  puppeteer@23.1.1(typescript@5.6.3):
-    dependencies:
-      '@puppeteer/browsers': 2.3.1
-      chromium-bidi: 0.6.4(devtools-protocol@0.0.1312386)
-      cosmiconfig: 9.0.0(typescript@5.6.3)
-      devtools-protocol: 0.0.1312386
-      puppeteer-core: 23.1.1
-      typed-query-selector: 2.12.0
-    transitivePeerDependencies:
-      - bufferutil
-      - supports-color
-      - typescript
       - utf-8-validate
 
   puppeteer@23.6.0(typescript@5.6.3):

@@ -80,7 +80,7 @@
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "mocha": "catalog:legacy",
-    "puppeteer": "^23.6.0",
+    "puppeteer": "catalog:legacy",
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
   }

@@ -171,6 +171,7 @@ catalogs:
     mocha: ^10.0.0
     nock: ^13.5.5
     nyc: ^17.0.0
+    puppeteer: ^23.6.0
     sinon: ^19.0.0
     ts-node: ^10.0.0
     tsx: ^4.19.1

@@ -54,7 +54,7 @@
     "karma-mocha-reporter": "catalog:legacy",
     "mocha": "catalog:legacy",
     "moment": "^2.29.1",
-    "puppeteer": "^23.6.0",
+    "puppeteer": "catalog:legacy",
     "rollup": "^4.24.0",
     "rollup-plugin-sourcemaps2": "^0.4.2",
     "ts-node": "catalog:legacy",
