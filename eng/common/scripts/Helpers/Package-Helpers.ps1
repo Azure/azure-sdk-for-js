@@ -177,3 +177,23 @@ function GetValueSafelyFrom-Yaml {
 
   return [object]$current
 }
+
+function Split-ArrayIntoBatches {
+    param (
+        [Parameter(Mandatory=$true)]
+        [string[]]$InputArray,
+
+        [Parameter(Mandatory=$true)]
+        [int]$BatchSize
+    )
+
+    $batches = @()
+
+    for ($i = 0; $i -lt $InputArray.Count; $i += $BatchSize) {
+        $batch = $InputArray[$i..[math]::Min($i + $BatchSize - 1, $InputArray.Count - 1)]
+
+        $batches += ,$batch
+    }
+
+    return ,$batches
+}
