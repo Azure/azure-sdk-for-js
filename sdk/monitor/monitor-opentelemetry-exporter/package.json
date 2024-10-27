@@ -1,23 +1,48 @@
 {
   "name": "@azure/monitor-opentelemetry-exporter",
-  "author": "Microsoft Corporation",
-  "sdk-type": "client",
   "version": "1.0.0-beta.27",
   "description": "Application Insights exporter for the OpenTelemetry JavaScript (Node.js) SDK",
+  "keywords": [
+    "node",
+    "azure",
+    "monitor",
+    "javascript",
+    "applicationinsights",
+    "opentelemetry",
+    "exporter",
+    "cloud"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter/",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "types/monitor-opentelemetry-exporter.d.ts",
+  "files": [
+    "dist-esm/src/",
+    "dist/src/",
+    "browser/src/",
+    "types/monitor-opentelemetry-exporter.d.ts",
+    "README.md",
+    "SECURITY.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "npm run build:node && npm run build:browser && dev-tool run extract-api",
     "build:browser": "echo skipped",
     "build:node": "tsc -p . && dev-tool run bundle --browser-test=false",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && dev-tool run bundle --browser-test=false",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist-esm types dist",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
@@ -36,25 +61,40 @@
     "unit-test:node:debug": "dev-tool run test:node-tsx-ts -- --timeout 1200000 \"test/internal/**/*.test.ts\"",
     "update-snippets": "echo skipped"
   },
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "dependencies": {
+    "@azure/core-auth": "workspace:*",
+    "@azure/core-client": "workspace:*",
+    "@azure/core-rest-pipeline": "workspace:*",
+    "@opentelemetry/api": "catalog:otel",
+    "@opentelemetry/api-logs": "catalog:otel",
+    "@opentelemetry/core": "catalog:otel",
+    "@opentelemetry/resources": "catalog:otel",
+    "@opentelemetry/sdk-logs": "catalog:otel",
+    "@opentelemetry/sdk-metrics": "catalog:otel",
+    "@opentelemetry/sdk-trace-base": "catalog:otel",
+    "@opentelemetry/semantic-conventions": "catalog:otel",
+    "tslib": "catalog:"
+  },
+  "devDependencies": {
+    "@azure/dev-tool": "workspace:*",
+    "@azure/eslint-plugin-azure-sdk": "workspace:*",
+    "@opentelemetry/instrumentation": "catalog:otel",
+    "@opentelemetry/instrumentation-http": "catalog:otel",
+    "@opentelemetry/sdk-trace-node": "catalog:otel",
+    "@types/mocha": "catalog:legacy",
+    "@types/node": "catalog:",
+    "dotenv": "catalog:",
+    "eslint": "catalog:",
+    "mocha": "catalog:legacy",
+    "nock": "catalog:legacy",
+    "nyc": "catalog:legacy",
+    "sinon": "catalog:legacy",
+    "typescript": "catalog:"
+  },
   "engines": {
     "node": ">=18.0.0"
   },
-  "files": [
-    "dist-esm/src/",
-    "dist/src/",
-    "browser/src/",
-    "types/monitor-opentelemetry-exporter.d.ts",
-    "README.md",
-    "SECURITY.md",
-    "LICENSE"
-  ],
-  "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/monitor/monitor-opentelemetry-exporter/",
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": [
       {
@@ -80,45 +120,5 @@
       "Azure Application Insights workspace instance": "https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview"
     }
   },
-  "devDependencies": {
-    "@azure/dev-tool": "workspace:*",
-    "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@opentelemetry/instrumentation": "catalog:otel",
-    "@opentelemetry/instrumentation-http": "catalog:otel",
-    "@opentelemetry/sdk-trace-node": "catalog:otel",
-    "@types/mocha": "catalog:legacy",
-    "@types/node": "catalog:",
-    "dotenv": "catalog:",
-    "eslint": "catalog:",
-    "mocha": "catalog:legacy",
-    "nock": "catalog:legacy",
-    "nyc": "catalog:legacy",
-    "sinon": "catalog:legacy",
-    "typescript": "catalog:"
-  },
-  "dependencies": {
-    "@azure/core-auth": "workspace:*",
-    "@azure/core-client": "workspace:*",
-    "@azure/core-rest-pipeline": "workspace:*",
-    "@opentelemetry/api": "catalog:otel",
-    "@opentelemetry/api-logs": "catalog:otel",
-    "@opentelemetry/core": "catalog:otel",
-    "@opentelemetry/resources": "catalog:otel",
-    "@opentelemetry/sdk-logs": "catalog:otel",
-    "@opentelemetry/sdk-metrics": "catalog:otel",
-    "@opentelemetry/sdk-trace-base": "catalog:otel",
-    "@opentelemetry/semantic-conventions": "catalog:otel",
-    "tslib": "catalog:"
-  },
-  "sideEffects": false,
-  "keywords": [
-    "node",
-    "azure",
-    "monitor",
-    "javascript",
-    "applicationinsights",
-    "opentelemetry",
-    "exporter",
-    "cloud"
-  ]
+  "sdk-type": "client"
 }

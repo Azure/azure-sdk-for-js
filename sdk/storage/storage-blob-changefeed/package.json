@@ -1,8 +1,26 @@
 {
   "name": "@azure/storage-blob-changefeed",
-  "sdk-type": "client",
   "version": "12.0.0-preview.5",
   "description": "Microsoft Azure Storage SDK for JavaScript - Blob Change Feed",
+  "keywords": [
+    "azure",
+    "storage",
+    "blob",
+    "cloud",
+    "changefeed",
+    "node.js",
+    "typescript",
+    "javascript",
+    "browser"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob-changefeed/",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
   "main": "./dist/index.js",
   "module": "./dist-esm/storage-blob-changefeed/src/index.js",
   "browser": {
@@ -13,22 +31,30 @@
     "process": false
   },
   "types": "./types/latest/storage-blob-changefeed.d.ts",
-  "engines": {
-    "node": ">=18.0.0"
-  },
+  "files": [
+    "BreakingChanges.md",
+    "types/",
+    "dist/",
+    "dist-browser/",
+    "dist-esm/storage-blob-changefeed/src/",
+    "dist-esm/storage-internal-avro/src/",
+    "types/latest/storage-blob-changefeed.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "npm run clean && npm run build:es6 && dev-tool run bundle --browser-test=false && dev-tool run extract-api",
     "build:es6": "tsc -p tsconfig.json",
     "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",
     "build:samples": "echo Obsolete.",
     "build:test": "npm run build:es6 && dev-tool run bundle --browser-test=false",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* types temp statistics.html coverage coverage-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "clean:samples": "dev-tool run vendored rimraf samples/v12-beta/javascript/node_modules samples/v12-beta/typescript/node_modules samples/v12-beta/typescript/dist samples/v12-beta/typescript/package-lock.json samples/v12-beta/javascript/package-lock.json",
     "emulator-tests": "cross-env STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true && npm run test:node",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/storage-blob-changefeed/test/**/*.spec.js'",
@@ -42,44 +68,6 @@
     "unit-test:browser": "echo 'browser not supported yet.'",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
-  },
-  "files": [
-    "BreakingChanges.md",
-    "types/",
-    "dist/",
-    "dist-browser/",
-    "dist-esm/storage-blob-changefeed/src/",
-    "dist-esm/storage-internal-avro/src/",
-    "types/latest/storage-blob-changefeed.d.ts",
-    "README.md",
-    "LICENSE"
-  ],
-  "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": [
-    "azure",
-    "storage",
-    "blob",
-    "cloud",
-    "changefeed",
-    "node.js",
-    "typescript",
-    "javascript",
-    "browser"
-  ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/storage/storage-blob-changefeed/",
-  "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/utils/constants.ts",
-        "prefix": "SDK_VERSION"
-      }
-    ]
   },
   "dependencies": {
     "@azure/abort-controller": "workspace:*",
@@ -125,6 +113,17 @@
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
+  },
   "//sampleConfiguration": {
     "skipFolder": true,
     "productName": "Azure Storage Blob Change Feed",
@@ -135,5 +134,6 @@
     "requiredResources": {
       "Azure Storage Account": "https://docs.microsoft.com/azure/storage/common/storage-account-overview"
     }
-  }
+  },
+  "sdk-type": "client"
 }

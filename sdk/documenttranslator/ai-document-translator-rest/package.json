@@ -1,9 +1,7 @@
 {
   "name": "@azure-rest/ai-document-translator",
-  "sdk-type": "client",
-  "author": "Microsoft Corporation",
-  "description": "An isomorphic rest level client library for the Azure Document Translator service.",
   "version": "1.0.0-beta.2",
+  "description": "An isomorphic rest level client library for the Azure Document Translator service.",
   "keywords": [
     "node",
     "azure",
@@ -12,15 +10,17 @@
     "browser",
     "isomorphic"
   ],
-  "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./dist-esm/src/index.js",
-  "types": "./types/ai-document-translator.d.ts",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/documenttranslator/ai-document-translator/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist-esm/src/index.js",
+  "types": "./types/ai-document-translator.d.ts",
   "files": [
     "dist/",
     "dist-esm/src/",
@@ -28,32 +28,6 @@
     "README.md",
     "LICENSE"
   ],
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
-      }
-    ]
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "//sampleConfiguration": {
-    "productName": "Azure Document Translator rest",
-    "productSlugs": [
-      "azure",
-      "azure-cognitive-services",
-      "azure-translator"
-    ],
-    "requiredResources": {
-      "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
-    }
-  },
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
@@ -61,11 +35,11 @@
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/README.md && npm run format",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
@@ -81,18 +55,16 @@
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
   },
-  "sideEffects": false,
-  "autoPublish": false,
   "dependencies": {
+    "@azure-rest/core-client": "catalog:core-rest-clientV1",
     "@azure/core-auth": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
     "@azure/logger": "workspace:*",
-    "@azure-rest/core-client": "catalog:core-rest-clientV1",
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure-tools/test-credential": "catalog:test-credentialV1",
+    "@azure-tools/test-recorder": "catalog:test-recorderV3",
     "@azure/core-client": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
@@ -119,5 +91,33 @@
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
     "typescript": "catalog:"
-  }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Document Translator rest",
+    "productSlugs": [
+      "azure",
+      "azure-cognitive-services",
+      "azure-translator"
+    ],
+    "requiredResources": {
+      "Azure Cognitive Services instance": "https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account"
+    }
+  },
+  "autoPublish": false,
+  "sdk-type": "client"
 }

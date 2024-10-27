@@ -1,10 +1,21 @@
 {
   "name": "@azure/core-amqp",
-  "sdk-type": "client",
   "version": "4.3.3",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
-  "author": "Microsoft Corporation",
+  "keywords": [
+    "azure",
+    "amqp",
+    "cloud"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-amqp/README.md",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
+  "type": "module",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -27,15 +38,10 @@
     }
   },
   "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
   "browser": "./dist/browser/index.js",
   "react-native": "./dist/react-native/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "type": "module",
-  "keywords": [
-    "azure",
-    "amqp",
-    "cloud"
-  ],
   "files": [
     "dist/",
     "README.md",
@@ -46,11 +52,11 @@
     "build:samples": "echo Obsolete",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
     "bundle": "dev-tool run build-package && dev-tool run bundle --polyfill-node false --inject-node-polyfills true --ignore-missing-node-builtins true",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types coverage coverage-browser .nyc_output *.tgz *.log test*.xml",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -64,15 +70,6 @@
     "unit-test:browser": "npm run clean && dev-tool run build-package &&  dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
     "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "update-snippets": "dev-tool run update-snippets"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-amqp/README.md",
-  "sideEffects": false,
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "dependencies": {
     "@azure/abort-controller": "workspace:*",
@@ -103,9 +100,13 @@
     "vitest": "catalog:",
     "ws": "^8.17.0"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "//metadata": {
     "migrationDate": "2023-03-08T18:36:03.000Z"
   },
+  "sdk-type": "client",
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
@@ -120,6 +121,5 @@
       "react-native"
     ],
     "selfLink": false
-  },
-  "module": "./dist/esm/index.js"
+  }
 }

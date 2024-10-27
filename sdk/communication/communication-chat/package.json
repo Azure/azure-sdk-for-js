@@ -2,21 +2,45 @@
   "name": "@azure/communication-chat",
   "version": "1.5.4",
   "description": "Azure client library for Azure Communication Chat services",
-  "sdk-type": "client",
+  "keywords": [
+    "azure",
+    "cloud",
+    "Azure",
+    "communication",
+    "chat"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-chat/",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
+  "browser": {
+    "./dist-esm/src/signaling/signalingClient.js": "./dist-esm/src/signaling/signalingClient.browser.js"
+  },
   "types": "types/communication-chat.d.ts",
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/communication-chat.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md && rushx format",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
@@ -32,34 +56,6 @@
     "unit-test:node": "cross-env TS_NODE_FILES=true dev-tool run test:node-ts-input -- --timeout 1200000 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
   },
-  "files": [
-    "dist/",
-    "dist-esm/src/",
-    "types/communication-chat.d.ts",
-    "README.md",
-    "LICENSE"
-  ],
-  "browser": {
-    "./dist-esm/src/signaling/signalingClient.js": "./dist-esm/src/signaling/signalingClient.browser.js"
-  },
-  "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": [
-    "azure",
-    "cloud",
-    "Azure",
-    "communication",
-    "chat"
-  ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-chat/",
-  "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/abort-controller": "workspace:*",
@@ -107,6 +103,9 @@
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "//metadata": {
     "constantPaths": [
       {
@@ -132,5 +131,6 @@
     "requiredResources": {
       "Azure Communication Services account": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
     }
-  }
+  },
+  "sdk-type": "client"
 }

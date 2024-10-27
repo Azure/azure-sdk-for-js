@@ -2,10 +2,29 @@
   "name": "@azure/communication-identity",
   "version": "1.3.2",
   "description": "SDK for Azure Communication service which facilitates user token administration.",
-  "sdk-type": "client",
+  "keywords": [
+    "azure",
+    "cloud",
+    "communication"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-identity/",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "types/communication-identity.d.ts",
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/communication-identity.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
@@ -13,13 +32,13 @@
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:js-samples": "dev-tool samples run dist-samples/javascript",
     "execute:samples": "dev-tool samples run samples-dev",
     "execute:ts-samples": "dev-tool samples run dist-samples/typescript/dist/dist-samples/typescript/src/",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md && rushx format",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
@@ -36,62 +55,6 @@
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
   },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/generated/src/identityRestClient.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/generated/src/tracing.ts",
-        "prefix": "packageVersion"
-      },
-      {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
-      }
-    ]
-  },
-  "//sampleConfiguration": {
-    "productName": "Azure Communication Services - Identity",
-    "productSlugs": [
-      "azure",
-      "azure-communication-services"
-    ],
-    "skip": [
-      "getTokenForTeamsUser.js"
-    ],
-    "requiredResources": {
-      "Azure Communication Services account": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
-    }
-  },
-  "files": [
-    "dist/",
-    "dist-esm/src/",
-    "types/communication-identity.d.ts",
-    "README.md",
-    "LICENSE"
-  ],
-  "keywords": [
-    "azure",
-    "cloud",
-    "communication"
-  ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-identity/",
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/abort-controller": "workspace:*",
@@ -137,5 +100,42 @@
     "process": "^0.11.10",
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
-  }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/src/identityRestClient.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "src/generated/src/tracing.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Communication Services - Identity",
+    "productSlugs": [
+      "azure",
+      "azure-communication-services"
+    ],
+    "skip": [
+      "getTokenForTeamsUser.js"
+    ],
+    "requiredResources": {
+      "Azure Communication Services account": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
+    }
+  },
+  "sdk-type": "client"
 }

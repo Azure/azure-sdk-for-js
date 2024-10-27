@@ -1,20 +1,45 @@
 {
   "name": "@azure/identity-cache-persistence",
   "version": "1.1.2",
-  "sdk-type": "client",
   "description": "A secure, persistent token cache for Azure Identity credentials that uses the OS secret-management API",
+  "keywords": [
+    "azure",
+    "cloud",
+    "active directory",
+    "authentication",
+    "credential",
+    "certificate",
+    "persistence",
+    "cache"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-cache-persistence/README.md",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist-esm/identity-cache-persistence/src/index.js",
   "types": "./types/identity-cache-persistence.d.ts",
+  "files": [
+    "dist/",
+    "dist-esm/identity/src",
+    "dist-esm/identity-cache-persistence/src",
+    "types/identity-cache-persistence.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "npm run clean && npm run extract-api && tsc -p . && dev-tool run bundle",
     "build:samples": "echo skipped",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\" \"samples-dev/**/*.ts\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -29,35 +54,6 @@
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 300000 --exclude \"test/**/browser/**/*.spec.ts\" --exclude \"test/snippets.spec.ts\"  \"test/**/**/*.spec.ts\"",
     "update-snippets": "dev-tool run update-snippets"
   },
-  "files": [
-    "dist/",
-    "dist-esm/identity/src",
-    "dist-esm/identity-cache-persistence/src",
-    "types/identity-cache-persistence.d.ts",
-    "README.md",
-    "LICENSE"
-  ],
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": [
-    "azure",
-    "cloud",
-    "active directory",
-    "authentication",
-    "credential",
-    "certificate",
-    "persistence",
-    "cache"
-  ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/identity/identity-cache-persistence/README.md",
-  "sideEffects": false,
   "dependencies": {
     "@azure/core-auth": "workspace:*",
     "@azure/identity": "workspace:*",
@@ -85,5 +81,9 @@
     "puppeteer": "catalog:legacy",
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
-  }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "sdk-type": "client"
 }

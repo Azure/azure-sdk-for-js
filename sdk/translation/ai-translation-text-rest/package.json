@@ -1,10 +1,7 @@
 {
   "name": "@azure-rest/ai-translation-text",
-  "sdk-type": "client",
-  "author": "Microsoft Corporation",
   "version": "1.0.1",
   "description": "An isomorphic client library for the Azure Cognitive Translator Service",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-text-rest/README.md",
   "keywords": [
     "node",
     "azure",
@@ -15,14 +12,17 @@
     "translate",
     "translation"
   ],
-  "license": "MIT",
-  "main": "dist/index.js",
-  "module": "./dist-esm/src/index.js",
-  "types": "./types/ai-translation-text.d.ts",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/translation/ai-translation-text-rest/README.md",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
+  "main": "dist/index.js",
+  "module": "./dist-esm/src/index.js",
+  "types": "./types/ai-translation-text.d.ts",
   "files": [
     "dist/",
     "dist-esm/src/",
@@ -31,20 +31,6 @@
     "CHANGELOG.md",
     "LICENSE"
   ],
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "//sampleConfiguration": {
-    "productName": "Azure Text Translation Service",
-    "productSlugs": [
-      "azure",
-      "azure-cognitive-services",
-      "azure-translator"
-    ],
-    "requiredResources": {
-      "Translator resource instance": "https://learn.microsoft.com/azure/cognitive-services/Translator/create-translator-resource"
-    }
-  },
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
@@ -52,11 +38,11 @@
     "build:node": "tsc -p . && dev-tool run bundle --browser-test false",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run vendored rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
@@ -72,8 +58,6 @@
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
   },
-  "sideEffects": false,
-  "autoPublish": false,
   "dependencies": {
     "@azure-rest/core-client": "catalog:core-rest-clientV1",
     "@azure/core-auth": "workspace:*",
@@ -110,6 +94,9 @@
     "nyc": "catalog:legacy",
     "typescript": "catalog:"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "//metadata": {
     "constantPaths": [
       {
@@ -117,5 +104,18 @@
         "prefix": "userAgentInfo"
       }
     ]
-  }
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Text Translation Service",
+    "productSlugs": [
+      "azure",
+      "azure-cognitive-services",
+      "azure-translator"
+    ],
+    "requiredResources": {
+      "Translator resource instance": "https://learn.microsoft.com/azure/cognitive-services/Translator/create-translator-resource"
+    }
+  },
+  "autoPublish": false,
+  "sdk-type": "client"
 }

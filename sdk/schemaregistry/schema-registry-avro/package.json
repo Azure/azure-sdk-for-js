@@ -2,22 +2,61 @@
   "name": "@azure/schema-registry-avro",
   "version": "1.1.1",
   "description": "Schema Registry Avro Serializer Library with typescript type definitions for node.js and browser.",
-  "sdk-type": "client",
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-avro/",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "browser": "./dist/browser/index.js",
   "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:browser": "npm run bundle",
     "build:node": "npm run bundle",
     "build:samples": "echo Obsolete.",
     "build:test": "dev-tool run build-package & dev-tool run build-test",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp \"types/!(schema-registry-avro.shims.d.ts)\" *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "npm run build:test && dev-tool run test:vitest --browser --no-test-proxy",
     "integration-test:node": "dev-tool run test:vitest --no-test-proxy",
@@ -32,39 +71,7 @@
     "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "update-snippets": "echo skipped"
   },
-  "files": [
-    "dist/",
-    "README.md",
-    "LICENSE"
-  ],
-  "repository": "github:Azure/azure-sdk-for-js",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "keywords": [
-    "azure",
-    "cloud",
-    "typescript"
-  ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/schemaregistry/schema-registry-avro/",
-  "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
-  "//sampleConfiguration": {
-    "disableDocsMs": true,
-    "productName": "Azure Schema Registry",
-    "productSlugs": [
-      "azure",
-      "azure-schema-registry-avro"
-    ],
-    "requiredResources": {
-      "Azure Schema Registry resource": "https://aka.ms/schemaregistry"
-    }
-  },
   "dependencies": {
     "@azure/logger": "workspace:*",
     "@azure/schema-registry": "workspace:*",
@@ -98,7 +105,21 @@
     "uuid": "^10.0.0",
     "vitest": "catalog:"
   },
-  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "//sampleConfiguration": {
+    "disableDocsMs": true,
+    "productName": "Azure Schema Registry",
+    "productSlugs": [
+      "azure",
+      "azure-schema-registry-avro"
+    ],
+    "requiredResources": {
+      "Azure Schema Registry resource": "https://aka.ms/schemaregistry"
+    }
+  },
+  "sdk-type": "client",
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
@@ -113,26 +134,5 @@
       "react-native"
     ],
     "selfLink": false
-  },
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
-      }
-    }
   }
 }

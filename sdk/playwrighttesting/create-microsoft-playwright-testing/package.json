@@ -2,9 +2,6 @@
   "name": "@azure/create-microsoft-playwright-testing",
   "version": "1.0.0-beta.2",
   "description": "Package to setup @azure/microsoft-playwright-testing",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/playwrighttesting/create-microsoft-playwright-testing/README.md",
-  "sdk-type": "client",
-  "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
     "cloud",
@@ -13,16 +10,28 @@
     "reporting",
     "playwright testing"
   ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/playwrighttesting/create-microsoft-playwright-testing/README.md",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "engines": {
-    "node": ">=18.0.0"
-  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
   "sideEffects": false,
   "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
@@ -39,11 +48,11 @@
     "build": "npm run clean && dev-tool run build-package",
     "build:samples": "echo Obsolete",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist *.log dist-test temp types *.tgz *.xml samples/**/test-results/",
     "execute:samples": "echo skipped",
     "extract-api": "echo skipped",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -58,6 +67,7 @@
     "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "update-snippets": "echo skipped"
   },
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "prompts": "^2.4.2",
     "tslib": "catalog:"
@@ -74,7 +84,9 @@
     "typescript": "catalog:",
     "vitest": "catalog:"
   },
-  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "//sampleConfiguration": {
     "productName": "Microsoft Playwright Testing",
     "productSlugs": [
@@ -84,23 +96,11 @@
       "Microsoft Playwright Testing workspace": "https://learn.microsoft.com/azure/playwright-testing/"
     }
   },
+  "sdk-type": "client",
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts"
-    }
-  },
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
-      }
     }
   }
 }

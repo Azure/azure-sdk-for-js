@@ -2,15 +2,35 @@
   "name": "@azure/digital-twins-core",
   "version": "2.0.0",
   "description": "An isomorphic client library for Azure Digital Twins",
-  "sdk-type": "client",
-  "author": "Microsoft Corporation",
+  "keywords": [
+    "azure",
+    "iot",
+    "digital-twins-core",
+    "cloud",
+    "twins",
+    "node",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/digital-twins-core/",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "types/digital-twins-core.d.ts",
-  "engines": {
-    "node": ">=18.0.0"
-  },
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/digital-twins-core.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
@@ -19,12 +39,12 @@
     "build:test": "tsc -p . && dev-tool run bundle",
     "build:test:browser": "tsc -p . && dev-tool run bundle",
     "build:test:node": "tsc -p . && dev-tool run bundle",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-esm dist-browser test-dist test-browser types *.tgz *.log",
     "execute:js-samples": "node ../../../common/scripts/run-samples.js samples/javascript/",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
@@ -38,29 +58,6 @@
     "unit-test:browser": "dev-tool run test:browser",
     "unit-test:node": "dev-tool run test:node-tsx-ts -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
-  },
-  "files": [
-    "dist/",
-    "dist-esm/src/",
-    "types/digital-twins-core.d.ts",
-    "README.md",
-    "LICENSE"
-  ],
-  "keywords": [
-    "azure",
-    "iot",
-    "digital-twins-core",
-    "cloud",
-    "twins",
-    "node",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
-  "repository": "github:Azure/azure-sdk-for-js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/digitaltwins/digital-twins-core/",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "dependencies": {
     "@azure/core-auth": "workspace:*",
@@ -102,7 +99,9 @@
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
   },
-  "sideEffects": false,
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "//metadata": {
     "constantPaths": [
       {
@@ -135,5 +134,6 @@
       "Azure Digital Twins instance": "https://docs.microsoft.com/azure/digital-twins/how-to-set-up-instance-portal"
     },
     "skipFolder": true
-  }
+  },
+  "sdk-type": "client"
 }

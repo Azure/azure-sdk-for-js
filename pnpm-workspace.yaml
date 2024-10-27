@@ -28,7 +28,7 @@ packages:
   - sdk/apimanagement/api-management-custom-widgets-tools
   - sdk/appconfiguration/app-configuration
   - sdk/attestation/attestation
-  - sdk/batch/batch
+#  - sdk/batch/batch
   - sdk/cognitivelanguage/ai-language-conversations  
   - sdk/cognitivelanguage/ai-language-text  
   - sdk/cognitivelanguage/ai-language-textauthoring  

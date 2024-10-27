@@ -1,9 +1,7 @@
 {
   "name": "@azure/eventgrid",
-  "sdk-type": "client",
-  "author": "Microsoft Corporation",
-  "description": "An isomorphic client library for the Azure Event Grid service.",
   "version": "5.8.0",
+  "description": "An isomorphic client library for the Azure Event Grid service.",
   "keywords": [
     "node",
     "azure",
@@ -12,18 +10,20 @@
     "isomorphic",
     "cloud"
   ],
-  "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./dist-esm/src/index.js",
-  "types": "./types/eventgrid.d.ts",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventgrid/eventgrid/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "engines": {
-    "node": ">=18.0.0"
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist-esm/src/index.js",
+  "browser": {
+    "./dist-esm/src/cryptoHelpers.js": "./dist-esm/src/cryptoHelpers.browser.js"
   },
+  "types": "./types/eventgrid.d.ts",
   "files": [
     "dist/",
     "dist-esm/src/",
@@ -31,48 +31,17 @@
     "README.md",
     "LICENSE"
   ],
-  "//sampleConfiguration": {
-    "productName": "Azure Event Grid",
-    "productSlugs": [
-      "azure",
-      "azure-event-grid"
-    ],
-    "requiredResources": {
-      "Azure Event Grid Custom Topic, configured to use the Event Grid Schema": "https://docs.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic",
-      "Azure Event Grid Custom Topic, configured to use the Cloud Event 1.0 Schema": "https://docs.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic",
-      "Azure Service Bus Queue": "https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal"
-    }
-  },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
-      },
-      {
-        "path": "src/generated/generatedClientContext.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/tracing.ts",
-        "prefix": "packageVersion"
-      }
-    ]
-  },
-  "browser": {
-    "./dist-esm/src/cryptoHelpers.js": "./dist-esm/src/cryptoHelpers.browser.js"
-  },
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "echo Obsolete",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm dist-test temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md && node ./scripts/setPathToEmpty.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
@@ -88,8 +57,6 @@
     "unit-test:node": "dev-tool run test:node-tsx-ts -- --timeout 1200000 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
   },
-  "sideEffects": false,
-  "autoPublish": false,
   "dependencies": {
     "@azure/core-auth": "workspace:*",
     "@azure/core-client": "workspace:*",
@@ -131,5 +98,38 @@
     "nyc": "catalog:legacy",
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
-  }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      },
+      {
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "src/tracing.ts",
+        "prefix": "packageVersion"
+      }
+    ]
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Event Grid",
+    "productSlugs": [
+      "azure",
+      "azure-event-grid"
+    ],
+    "requiredResources": {
+      "Azure Event Grid Custom Topic, configured to use the Event Grid Schema": "https://docs.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic",
+      "Azure Event Grid Custom Topic, configured to use the Cloud Event 1.0 Schema": "https://docs.microsoft.com/azure/event-grid/scripts/event-grid-cli-create-custom-topic",
+      "Azure Service Bus Queue": "https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal"
+    }
+  },
+  "autoPublish": false,
+  "sdk-type": "client"
 }

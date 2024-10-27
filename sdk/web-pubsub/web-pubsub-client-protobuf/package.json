@@ -2,8 +2,32 @@
   "name": "@azure/web-pubsub-client-protobuf",
   "version": "1.0.0-beta.3",
   "description": "Azure Web PubSub Client Protobuf",
-  "sdk-type": "client",
+  "keywords": [
+    "azure",
+    "cloud"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-client/README.md",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
   "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "browser": {
@@ -11,6 +35,14 @@
     "default": "dist/browser/index.js"
   },
   "types": "./dist/commonjs/index.d.ts",
+  "files": [
+    "dist/",
+    "dist-esm/",
+    "types/web-pubsub-client-protobuf.d.ts",
+    "types/web-pubsub-client-protobuf.d.ts.map",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "npm run clean && npm run build-protobuf && dev-tool run build-package && npm run copy-files && dev-tool run extract-api",
     "build-protobuf": "npm run build-protobuf:cjs && npm run build-protobuf:esm",
@@ -20,14 +52,14 @@
     "build:node": "npm run build-protobuf && dev-tool run build-package && npm run copy-files",
     "build:samples": "dev-tool samples publish -f",
     "build:test": "npm run build-protobuf && dev-tool run build-package && npm run copy-files",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-esm test-dist temp types *.tgz *.log",
     "copy-files": "npm run copy-files:cjs && npm run copy-files:esm",
     "copy-files:cjs": "cpy --flat --rename=clientProto.js ./src/generated/clientProto.cjs ./dist/commonjs/generated/ && cpy --flat ./src/generated/clientProto.d.ts ./dist/esm/generated/",
     "copy-files:esm": "cpy --flat ./src/generated/clientProto.js ./dist/esm/generated/ && cpy --flat ./src/generated/clientProto.d.ts ./dist/esm/generated/",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -42,29 +74,6 @@
     "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "update-snippets": "echo skipped"
   },
-  "files": [
-    "dist/",
-    "dist-esm/",
-    "types/web-pubsub-client-protobuf.d.ts",
-    "types/web-pubsub-client-protobuf.d.ts.map",
-    "README.md",
-    "LICENSE"
-  ],
-  "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": [
-    "azure",
-    "cloud"
-  ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/web-pubsub/web-pubsub-client/README.md",
-  "sideEffects": false,
   "dependencies": {
     "@azure/logger": "workspace:*",
     "@azure/web-pubsub-client": "workspace:*",
@@ -86,12 +95,16 @@
     "typescript": "catalog:",
     "vitest": "catalog:"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "//sampleConfiguration": {
     "productName": "Azure Web PubSub Client",
     "productSlugs": [
       "azure"
     ]
   },
+  "sdk-type": "client",
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
@@ -102,18 +115,5 @@
       "commonjs"
     ],
     "selfLink": false
-  },
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
-      }
-    }
   }
 }

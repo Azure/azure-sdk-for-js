@@ -1,29 +1,65 @@
 {
   "name": "@azure/service-bus",
-  "sdk-type": "client",
-  "author": "Microsoft Corporation",
   "version": "7.10.0",
-  "license": "MIT",
   "description": "Azure Service Bus SDK for JavaScript",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/",
-  "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
     "cloud",
     "service bus",
-    "AMQP",
-    "azure"
+    "AMQP"
   ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/servicebus/service-bus/",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    },
+    "./experimental": {
+      "browser": {
+        "types": "./dist/browser/experimental/index.d.ts",
+        "default": "./dist/browser/experimental/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/experimental/index.d.ts",
+        "default": "./dist/react-native/experimental/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/experimental/index.d.ts",
+        "default": "./dist/esm/experimental/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/experimental/index.d.ts",
+        "default": "./dist/commonjs/experimental/index.js"
+      }
+    }
   },
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "browser": "./dist/browser/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "files": [
     "dist/",
     "README.md",
@@ -35,11 +71,11 @@
     "build:node": "npm run bundle",
     "build:samples": "echo Obsolete.",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log coverage coverage-browser .nyc_output",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"samples/**/*.{ts,js}\" \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"samples/**/*.{ts,js}\" \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser --no-test-proxy",
     "integration-test:node": "dev-tool run test:vitest --no-test-proxy",
@@ -54,36 +90,6 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:vitest --no-test-proxy -- -c vitest.unit.config.ts",
     "update-snippets": "echo skipped"
-  },
-  "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/util/constants.ts",
-        "prefix": "version"
-      }
-    ]
-  },
-  "//sampleConfiguration": {
-    "productName": "Azure Service Bus",
-    "productSlugs": [
-      "azure",
-      "azure-service-bus"
-    ],
-    "requiredResources": {
-      "Azure Service Bus": "https://docs.microsoft.com/azure/service-bus-messaging"
-    },
-    "skip": [
-      "receiveMessagesLoop.js",
-      "receiveMessagesStreaming.js",
-      "useProxy.js",
-      "administrationClient.js",
-      "listingEntities.js",
-      "sessionState.js",
-      "session.js",
-      "deferral.js",
-      "sessionRoundRobin.js"
-    ]
   },
   "dependencies": {
     "@azure/abort-controller": "workspace:*",
@@ -136,7 +142,39 @@
     "vitest": "catalog:",
     "ws": "^8.0.0"
   },
-  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/util/constants.ts",
+        "prefix": "version"
+      }
+    ]
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Service Bus",
+    "productSlugs": [
+      "azure",
+      "azure-service-bus"
+    ],
+    "requiredResources": {
+      "Azure Service Bus": "https://docs.microsoft.com/azure/service-bus-messaging"
+    },
+    "skip": [
+      "receiveMessagesLoop.js",
+      "receiveMessagesStreaming.js",
+      "useProxy.js",
+      "administrationClient.js",
+      "listingEntities.js",
+      "sessionState.js",
+      "session.js",
+      "deferral.js",
+      "sessionRoundRobin.js"
+    ]
+  },
+  "sdk-type": "client",
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
@@ -152,44 +190,5 @@
       "react-native"
     ],
     "selfLink": false
-  },
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/index.d.ts",
-        "default": "./dist/react-native/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
-      }
-    },
-    "./experimental": {
-      "browser": {
-        "types": "./dist/browser/experimental/index.d.ts",
-        "default": "./dist/browser/experimental/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/experimental/index.d.ts",
-        "default": "./dist/react-native/experimental/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/experimental/index.d.ts",
-        "default": "./dist/esm/experimental/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/experimental/index.d.ts",
-        "default": "./dist/commonjs/experimental/index.js"
-      }
-    }
   }
 }

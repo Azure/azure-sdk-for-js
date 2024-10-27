@@ -2,12 +2,20 @@
   "name": "@azure/core-tracing",
   "version": "1.2.1",
   "description": "Provides low-level interfaces and helper methods for tracing in Azure SDK",
-  "sdk-type": "client",
+  "keywords": [
+    "azure",
+    "tracing",
+    "cloud"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/README.md",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
   "type": "module",
-  "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts",
-  "browser": "./dist/browser/index.js",
-  "react-native": "./dist/react-native/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
@@ -29,36 +37,25 @@
       }
     }
   },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "browser": "./dist/browser/index.js",
+  "react-native": "./dist/react-native/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "files": [
     "dist/",
     "README.md",
     "LICENSE"
   ],
-  "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": [
-    "azure",
-    "tracing",
-    "cloud"
-  ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-tracing/README.md",
-  "sideEffects": false,
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
@@ -88,6 +85,9 @@
     "typescript": "catalog:",
     "vitest": "catalog:"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "//metadata": {
     "sampleConfiguration": {
       "disableDocsMs": true,
@@ -98,6 +98,7 @@
     },
     "migrationDate": "2023-03-08T18:36:03.000Z"
   },
+  "sdk-type": "client",
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
@@ -112,6 +113,5 @@
       "react-native"
     ],
     "selfLink": false
-  },
-  "module": "./dist/esm/index.js"
+  }
 }

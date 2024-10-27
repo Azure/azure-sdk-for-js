@@ -1,23 +1,7 @@
 {
   "name": "@azure/communication-rooms",
-  "sdk-type": "client",
-  "author": "Microsoft Corporation",
-  "description": "Azure client library for Azure Communication Rooms services",
   "version": "1.1.0",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "dependencies": {
-    "@azure/communication-common": "workspace:*",
-    "@azure/core-auth": "workspace:*",
-    "@azure/core-client": "workspace:*",
-    "@azure/core-paging": "workspace:*",
-    "@azure/core-rest-pipeline": "workspace:*",
-    "@azure/core-tracing": "workspace:*",
-    "@azure/core-util": "workspace:*",
-    "@azure/logger": "workspace:*",
-    "tslib": "catalog:"
-  },
+  "description": "Azure client library for Azure Communication Rooms services",
   "keywords": [
     "node",
     "azure",
@@ -29,10 +13,62 @@
     "rooms",
     "cloud"
   ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms/",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "types/communication-rooms.d.ts",
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/communication-rooms.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
+    "build:browser": "tsc -p . && dev-tool run bundle",
+    "build:node": "tsc -p . && dev-tool run bundle",
+    "build:samples": "dev-tool samples publish --force",
+    "build:test": "tsc -p . && dev-tool run bundle",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "extract-api": "tsc -p . && dev-tool run extract-api",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "generate:client": "autorest --typescript --disable-async-iterators ./swagger/README.md && rushx format",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "integration-test:browser": "dev-tool run test:browser",
+    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
+    "lint": "dev-tool run vendored eslint package.json api-extractor.json README.md src test",
+    "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
+    "pack": "npm pack 2>&1",
+    "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "test:browser": "npm run build:test && npm run unit-test:browser",
+    "test:node": "npm run build:test && npm run unit-test:node",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "unit-test:browser": "dev-tool run test:browser",
+    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" dev-tool run test:node-ts-input -- --timeout 1200000 'test/**/*.spec.ts'",
+    "update-snippets": "echo skipped"
+  },
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "dependencies": {
+    "@azure/communication-common": "workspace:*",
+    "@azure/core-auth": "workspace:*",
+    "@azure/core-client": "workspace:*",
+    "@azure/core-paging": "workspace:*",
+    "@azure/core-rest-pipeline": "workspace:*",
+    "@azure/core-tracing": "workspace:*",
+    "@azure/core-util": "workspace:*",
+    "@azure/logger": "workspace:*",
+    "tslib": "catalog:"
+  },
   "devDependencies": {
     "@azure-tools/test-credential": "catalog:test-credentialV1",
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
@@ -54,47 +90,9 @@
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms/",
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  "engines": {
+    "node": ">=18.0.0"
   },
-  "files": [
-    "dist/",
-    "dist-esm/src/",
-    "types/communication-rooms.d.ts",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
-    "build:browser": "tsc -p . && dev-tool run bundle",
-    "build:node": "tsc -p . && dev-tool run bundle",
-    "build:samples": "dev-tool samples publish --force",
-    "build:test": "tsc -p . && dev-tool run bundle",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
-    "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript --disable-async-iterators ./swagger/README.md && rushx format",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "dev-tool run test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
-    "lint": "dev-tool run vendored eslint package.json api-extractor.json README.md src test",
-    "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
-    "pack": "npm pack 2>&1",
-    "test": "npm run build:test && npm run unit-test && npm run integration-test",
-    "test:browser": "npm run build:test && npm run unit-test:browser",
-    "test:node": "npm run build:test && npm run unit-test:node",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "dev-tool run test:browser",
-    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" dev-tool run test:node-ts-input -- --timeout 1200000 'test/**/*.spec.ts'",
-    "update-snippets": "echo skipped"
-  },
-  "sideEffects": false,
-  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
-  "autoPublish": true,
   "//metadata": {
     "constantPaths": [
       {
@@ -116,5 +114,7 @@
     "requiredResources": {
       "Azure Communication Services account": "https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource"
     }
-  }
+  },
+  "autoPublish": true,
+  "sdk-type": "client"
 }

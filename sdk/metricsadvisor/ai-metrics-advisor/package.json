@@ -1,9 +1,7 @@
 {
   "name": "@azure/ai-metrics-advisor",
-  "sdk-type": "client",
-  "author": "Microsoft Corporation",
-  "description": "An isomorphic client library for the Azure Metrics Advisor service.",
   "version": "1.0.1",
+  "description": "An isomorphic client library for the Azure Metrics Advisor service.",
   "keywords": [
     "node",
     "azure",
@@ -12,19 +10,18 @@
     "isomorphic",
     "cloud"
   ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/metricsadvisor/ai-metrics-advisor/README.md",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "browser": {},
   "types": "./types/ai-metrics-advisor.d.ts",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/metricsadvisor/ai-metrics-advisor/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
   "files": [
     "dist/",
     "dist-esm/src/",
@@ -33,33 +30,17 @@
     "README.md",
     "LICENSE"
   ],
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/generated/generatedClientContext.ts",
-        "prefix": "packageVersion"
-      },
-      {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
-      }
-    ]
-  },
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-esm dist-browser dist-test dist-test temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
@@ -79,8 +60,6 @@
     "unit-test:node:real": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
   },
-  "sideEffects": false,
-  "autoPublish": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/core-auth": "workspace:*",
@@ -123,6 +102,25 @@
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
   "//sampleConfiguration": {
     "skip": [
       "alertingConfig.js",
@@ -148,5 +146,7 @@
     "skipFolder": false,
     "disableDocsMs": false,
     "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/ai-metrics-advisor/"
-  }
+  },
+  "autoPublish": false,
+  "sdk-type": "client"
 }

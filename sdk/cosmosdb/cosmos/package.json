@@ -2,7 +2,6 @@
   "name": "@azure/cosmos",
   "version": "4.1.2",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for NOSQL API",
-  "sdk-type": "client",
   "keywords": [
     "cosmosdb",
     "cosmos db",
@@ -11,13 +10,18 @@
     "azure",
     "nosql",
     "database",
-    "cloud",
-    "azure"
+    "cloud"
   ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/cosmos/README.md",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
   "author": "Microsoft Corporation",
+  "sideEffects": false,
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
-  "react-native": "./dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/request/defaultAgent.js": "./dist-esm/src/request/defaultAgent.browser.js",
     "./dist-esm/src/utils/atob.js": "./dist-esm/src/utils/atob.browser.js",
@@ -25,6 +29,8 @@
     "./dist-esm/src/utils/hmac.js": "./dist-esm/src/utils/hmac.browser.js",
     "./dist-esm/src/utils/envUtils.js": "./dist-esm/src/utils/envUtils.browser.js"
   },
+  "react-native": "./dist-esm/src/index.js",
+  "types": "./dist/types/latest/cosmos.d.ts",
   "files": [
     "changelog.md",
     "dist/",
@@ -32,20 +38,6 @@
     "README.md",
     "LICENSE"
   ],
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cosmosdb/cosmos/README.md",
-  "sideEffects": false,
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/common/constants.ts",
-        "prefix": "SDKVersion"
-      }
-    ]
-  },
-  "types": "./dist/types/latest/cosmos.d.ts",
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "scripts": {
     "build": "npm run clean && npm run extract-api && npm run bundle",
     "build:samples": "echo Obsolete.",
@@ -53,12 +45,12 @@
     "build:test": "tsc",
     "bundle": "dev-tool run bundle",
     "bundle-types": "node bundle-types.js",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "check:src:strict": "tsc --pretty --project tsconfig.strict.json",
     "clean": "dev-tool run vendored rimraf --glob dist dist-esm temp types *.tgz *.html *.log *.tsbuildinfo test/**/*.{js,js.map,d.ts}",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "npm run check:src:strict && npm run build:src && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples-dev/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "cross-env NODE_OPTIONS='--dns-result-order=ipv4first' mocha -r test/mocha.env.ts -r ts-node/register -r dotenv/config -r ./test/public/common/setup.ts --reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml \"./test/internal/**/*.spec.ts\" \"./test/public/**/*.spec.ts\"  --timeout 100000",
@@ -74,14 +66,6 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "update-snippets": "echo skipped"
-  },
-  "repository": "github:Azure/azure-sdk-for-js",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "tsdoc": {
-    "tsdocFlavor": "AEDoc"
   },
   "dependencies": {
     "@azure/abort-controller": "workspace:*",
@@ -122,6 +106,17 @@
     "ts-node": "catalog:legacy",
     "typescript": "catalog:"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/common/constants.ts",
+        "prefix": "SDKVersion"
+      }
+    ]
+  },
   "//sampleConfiguration": {
     "skip": [
       "EntraAuth.ts",
@@ -156,5 +151,9 @@
         "javascript/Data/Families.json"
       ]
     }
+  },
+  "sdk-type": "client",
+  "tsdoc": {
+    "tsdocFlavor": "AEDoc"
   }
 }

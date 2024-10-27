@@ -2,19 +2,38 @@
   "name": "@azure/functions-authentication-events",
   "version": "1.0.0-beta.3",
   "description": "Typescript Trigger SDK for Azure AD Authentication event custom extensions. Lets you focus on your business logic.",
-  "sdk-type": "client",
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/entra/azure-functions-authentication-events/README.md",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "types/latest/functions-authentication-events.d.ts",
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/latest/",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "npm run build:test && dev-tool run extract-api",
     "build:samples": "echo Obsolete",
     "build:test": "npm run clean && tsc -p . && dev-tool run bundle",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
@@ -30,29 +49,6 @@
     "unit-test:node": "npm run integration-test:node",
     "update-snippets": "echo skipped"
   },
-  "files": [
-    "dist/",
-    "dist-esm/src/",
-    "types/latest/",
-    "README.md",
-    "LICENSE"
-  ],
-  "repository": "github:Azure/azure-sdk-for-js",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "keywords": [
-    "azure",
-    "cloud",
-    "typescript"
-  ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/entra/azure-functions-authentication-events/README.md",
-  "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/core-auth": "workspace:*",
@@ -91,6 +87,9 @@
     "nyc": "catalog:legacy",
     "typescript": "catalog:"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "//sampleConfiguration": {
     "skipFolder": false,
     "disableDocsMs": true,
@@ -100,5 +99,6 @@
     "requiredResources": {
       "Azure App Configuration": "https://docs.microsoft.com/azure/azure-app-configuration/"
     }
-  }
+  },
+  "sdk-type": "client"
 }

@@ -1,12 +1,7 @@
 {
   "name": "@azure/keyvault-admin",
-  "sdk-type": "client",
-  "author": "Microsoft Corporation",
   "version": "4.6.1",
-  "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's administrative functions.",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "node",
     "azure",
@@ -20,15 +15,31 @@
     "access",
     "role"
   ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/keyvault/keyvault-admin/README.md",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   },
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "files": [
     "dist/",
     "README.md",
@@ -38,11 +49,11 @@
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
     "build:test": "npm run clean && dev-tool run build-package",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log statistics.html coverage && dev-tool run vendored rimraf --glob src/**/*.js && dev-tool run vendored rimraf --glob test/**/*.js",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/README.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
@@ -58,37 +69,6 @@
     "unit-test:node": "dev-tool run test:vitest -- --test-timeout 100000 --hook-timeout 100000",
     "update-snippets": "echo skipped"
   },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/generated/keyVaultClientContext.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "src/constants.ts",
-        "prefix": "SDK_VERSION"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
-      }
-    ]
-  },
-  "//sampleConfiguration": {
-    "productName": "Azure Key Vault Administration",
-    "productSlugs": [
-      "azure",
-      "azure-key-vault"
-    ],
-    "requiredResources": {
-      "Azure Key Vault": "https://docs.microsoft.com/azure/key-vault/quick-create-portal"
-    },
-    "customSnippets": {
-      "prerequisites": "samples-dev/snippets/_prerequisites.md"
-    },
-    "skipFolder": true
-  },
-  "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "workspace:*",
     "@azure/core-auth": "workspace:*",
@@ -120,7 +100,40 @@
     "typescript": "catalog:",
     "vitest": "catalog:"
   },
-  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/keyVaultClientContext.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure Key Vault Administration",
+    "productSlugs": [
+      "azure",
+      "azure-key-vault"
+    ],
+    "requiredResources": {
+      "Azure Key Vault": "https://docs.microsoft.com/azure/key-vault/quick-create-portal"
+    },
+    "customSnippets": {
+      "prerequisites": "samples-dev/snippets/_prerequisites.md"
+    },
+    "skipFolder": true
+  },
+  "sdk-type": "client",
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
@@ -131,18 +144,5 @@
       "commonjs"
     ],
     "selfLink": false
-  },
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
-      }
-    }
   }
 }

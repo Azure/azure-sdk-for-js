@@ -152,9 +152,6 @@ catalogs:
     tsx:
       specifier: ^4.19.1
       version: 4.19.1
-    uglify-js:
-      specifier: ^3.19.3
-      version: 3.19.3
   otel:
     '@opentelemetry/api':
       specifier: ^1.9.0
@@ -244,6 +241,9 @@ importers:
       prettier:
         specifier: ^3.3.3
         version: 3.3.3
+      prettier-plugin-packagejson:
+        specifier: ^2.5.3
+        version: 2.5.3(prettier@3.3.3)
       rimraf:
         specifier: ^5.0.10
         version: 5.0.10
@@ -2646,127 +2646,6 @@ importers:
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
-
-  sdk/batch/batch:
-    dependencies:
-      '@azure/ms-rest-azure-js':
-        specifier: ^2.1.0
-        version: 2.1.0
-      '@azure/ms-rest-js':
-        specifier: ^2.2.0
-        version: 2.7.0
-      jssha:
-        specifier: ^3.2.0
-        version: 3.3.1
-      tslib:
-        specifier: ^2.7.0
-        version: 2.7.0
-      url-parse:
-        specifier: ^1.5.3
-        version: 1.5.10
-    devDependencies:
-      '@rollup/plugin-commonjs':
-        specifier: ^28.0.0
-        version: 28.0.1(rollup@4.24.0)
-      '@rollup/plugin-node-resolve':
-        specifier: ^15.3.0
-        version: 15.3.0(rollup@4.24.0)
-      '@types/chai':
-        specifier: catalog:legacy
-        version: 4.3.17
-      '@types/chai-as-promised':
-        specifier: 'catalog:'
-        version: 8.0.1
-      '@types/mocha':
-        specifier: catalog:legacy
-        version: 10.0.7
-      '@types/node':
-        specifier: 'catalog:'
-        version: 18.19.45
-      '@types/url-parse':
-        specifier: ^1.4.3
-        version: 1.4.11
-      '@types/uuid':
-        specifier: ^10.0.0
-        version: 10.0.0
-      buffer:
-        specifier: ^6.0.0
-        version: 6.0.3
-      chai:
-        specifier: 'catalog:'
-        version: 5.1.1
-      chai-as-promised:
-        specifier: 'catalog:'
-        version: 8.0.0(chai@5.1.1)
-      cross-env:
-        specifier: catalog:legacy
-        version: 7.0.3
-      dotenv:
-        specifier: 'catalog:'
-        version: 16.4.5
-      eslint:
-        specifier: 'catalog:'
-        version: 9.12.0
-      karma:
-        specifier: catalog:legacy
-        version: 6.4.4
-      karma-chrome-launcher:
-        specifier: catalog:legacy
-        version: 3.2.0
-      karma-coverage:
-        specifier: catalog:legacy
-        version: 2.2.1
-      karma-env-preprocessor:
-        specifier: catalog:legacy
-        version: 0.1.1
-      karma-firefox-launcher:
-        specifier: catalog:legacy
-        version: 1.3.0
-      karma-json-preprocessor:
-        specifier: catalog:legacy
-        version: 0.3.3(karma@6.4.4)
-      karma-json-to-file-reporter:
-        specifier: catalog:legacy
-        version: 1.0.1
-      karma-junit-reporter:
-        specifier: catalog:legacy
-        version: 2.0.1(karma@6.4.4)
-      karma-mocha:
-        specifier: catalog:legacy
-        version: 2.0.1
-      karma-mocha-reporter:
-        specifier: catalog:legacy
-        version: 2.2.5(karma@6.4.4)
-      mocha:
-        specifier: catalog:legacy
-        version: 10.7.3
-      moment:
-        specifier: ^2.29.1
-        version: 2.30.1
-      nyc:
-        specifier: catalog:legacy
-        version: 17.0.0
-      puppeteer:
-        specifier: catalog:legacy
-        version: 23.6.0(typescript@5.6.3)
-      rollup:
-        specifier: ^4.24.0
-        version: 4.24.0
-      rollup-plugin-sourcemaps2:
-        specifier: ^0.4.2
-        version: 0.4.2(@types/node@18.19.45)(rollup@4.24.0)
-      ts-node:
-        specifier: catalog:legacy
-        version: 10.9.2(@types/node@18.19.45)(typescript@5.6.3)
-      typescript:
-        specifier: 'catalog:'
-        version: 5.6.3
-      uglify-js:
-        specifier: catalog:legacy
-        version: 3.19.3
-      uuid:
-        specifier: ^10.0.0
-        version: 10.0.0
 
   sdk/batch/batch-rest:
     dependencies:
@@ -10722,9 +10601,6 @@ importers:
       '@types/sinon':
         specifier: catalog:legacy
         version: 17.0.3
-      '@types/uuid':
-        specifier: ^8.0.0
-        version: 8.3.4
       chai:
         specifier: catalog:legacy
         version: 4.5.0
@@ -10837,9 +10713,6 @@ importers:
       '@types/sinon':
         specifier: catalog:legacy
         version: 17.0.3
-      '@types/uuid':
-        specifier: ^8.0.0
-        version: 8.3.4
       chai:
         specifier: catalog:legacy
         version: 4.5.0
@@ -27983,12 +27856,6 @@ packages:
     resolution: {integrity: sha512-aOn8mZkGgXbncIIMPuBXaZOoc4wzTCylajGZdqciwCyuwgXKHonxRTx5E5w7DjfmA1sAX75Sqdw/Nl3ZFOMtkA==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/ms-rest-azure-js@2.1.0':
-    resolution: {integrity: sha512-CjZjB8apvXl5h97Ck6SbeeCmU0sk56YPozPtTyGudPp1RGoHXNjFNtoOvwOG76EdpmMpxbK10DqcygI16Lu60Q==}
-
-  '@azure/ms-rest-js@2.7.0':
-    resolution: {integrity: sha512-ngbzWbqF+NmztDOpLBVDxYM+XLcUj7nKhxGbSU9WtIsXfRB//cf2ZbAG5HkOrhU9/wd/ORRB6lM/d69RKVjiyA==}
-
   '@azure/msal-browser@3.21.0':
     resolution: {integrity: sha512-BAwcFsVvOrYzKuUZHhFuvRykUmQGq6lDxst2qGnjxnpNZc3d/tnVPcmhgvUdeKl28VSE0ltgBzT3HkdpDtz9rg==}
     engines: {node: '>=0.8.0'}
@@ -29036,6 +28903,10 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
+  '@pkgr/core@0.1.1':
+    resolution: {integrity: sha512-cq8o4cWH0ibXh9VGi5P20Tu9XF/0fFXl9EUinr9QfTM7a7p0oTA4iJRCQWppXR1Pg8dSM0UCItCkPwsk9qWWYA==}
+    engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
+
   '@playwright/test@1.46.1':
     resolution: {integrity: sha512-Fq6SwLujA/DOIvNC2EL/SojJnkKf/rAwJ//APpJJHRyMi1PdKrY3Az+4XNQ51N4RTbItbIByQ0jgd1tayq1aeA==}
     engines: {node: '>=18'}
@@ -29082,15 +28953,6 @@ packages:
   '@rollup/plugin-commonjs@25.0.8':
     resolution: {integrity: sha512-ZEZWTK5n6Qde0to4vS9Mr5x/0UZoqCxPVR9KRUjU4kA2sO7GEUn1fop0DAwpO6z0Nw/kJON9bDmSxdWxO/TT1A==}
     engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^2.68.0||^3.0.0||^4.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-
-  '@rollup/plugin-commonjs@28.0.1':
-    resolution: {integrity: sha512-+tNWdlWKbpB3WgBN7ijjYkq9X5uhjmcvyjEght4NmH5fAU++zfQzAJ6wumLS+dNcvwEZhKx2Z+skY8m7v0wGSA==}
-    engines: {node: '>=16.0.0 || 14 >= 14.17'}
     peerDependencies:
       rollup: ^2.68.0||^3.0.0||^4.0.0
     peerDependenciesMeta:
@@ -29144,15 +29006,6 @@ packages:
 
   '@rollup/pluginutils@5.1.0':
     resolution: {integrity: sha512-XTIWOPPcpvyKI6L1NHo0lFlCyznUEyPmPY1mc3KpPVDYulHSTvyeLNVW00QTLIAFNhR3kYnJTQHeGqU4M3n09g==}
-    engines: {node: '>=14.0.0'}
-    peerDependencies:
-      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
-    peerDependenciesMeta:
-      rollup:
-        optional: true
-
-  '@rollup/pluginutils@5.1.2':
-    resolution: {integrity: sha512-/FIdS3PyZ39bjZlwqFnWqCOVnW7o963LtKMwQOD0NhQqw22gSr2YY1afu3FxRip4ZCZNsD5jq6Aaz6QV3D/Njw==}
     engines: {node: '>=14.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
@@ -29519,9 +29372,6 @@ packages:
 
   '@types/unist@2.0.11':
     resolution: {integrity: sha512-CmBKiL6NNo/OqgmMn95Fk9Whlp2mtvIv+KNpQKN2F4SjvrEesubTRWGYSg+BnWZOnlCaSTU1sMpsBOzgbYhnsA==}
-
-  '@types/url-parse@1.4.11':
-    resolution: {integrity: sha512-FKvKIqRaykZtd4n47LbK/W/5fhQQ1X7cxxzG9A48h0BGN+S04NH7ervcCjM8tyR0lyGru83FAHSmw2ObgKoESg==}
 
   '@types/uuid@10.0.0':
     resolution: {integrity: sha512-7gqG38EyHgyP1S+7+xomFtL+ZNHcKv6DwNaCZmJmo1vgMugyF3TCnXVg4t1uk89mLNwnLtnY3TpOpCOyp1/xHQ==}
@@ -30481,9 +30331,17 @@ packages:
     resolution: {integrity: sha512-2sJGJTaXIIaR1w4iJSNoN0hnMY7Gpc/n8D4qSCJw8QqFWXf7cuAgnEHxBpweaVcPevC2l3KpjYCx3NypQQgaJg==}
     engines: {node: '>= 0.8', npm: 1.2.8000 || >= 1.4.16}
 
+  detect-indent@7.0.1:
+    resolution: {integrity: sha512-Mc7QhQ8s+cLrnUfU/Ji94vG/r8M26m8f++vyres4ZoojaRDpZ1eSIh/EpzLNwlWuvzSZ3UbDFspjFvTDXe6e/g==}
+    engines: {node: '>=12.20'}
+
   detect-libc@2.0.3:
     resolution: {integrity: sha512-bwy0MGW55bG41VqxxypOsdSdGqLwXPI/focwgTYCFMbdUiBAxLg9CFzG08sz2aqzknwiX7Hkl0bQENjg8iLByw==}
     engines: {node: '>=8'}
+
+  detect-newline@4.0.1:
+    resolution: {integrity: sha512-qE3Veg1YXzGHQhlA6jzebZN2qVf6NX+A7m7qlhCGG30dJixrAQhYOsJjsnBjJkCSmuOPpCk30145fr8FV0bzog==}
+    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
 
   devtools-protocol@0.0.1354347:
     resolution: {integrity: sha512-BlmkSqV0V84E2WnEnoPnwyix57rQxAM5SKJjf4TbYOCGLAWtz8CDH8RIaGOjPgPCXo2Mce3kxSY497OySidY3Q==}
@@ -30915,10 +30773,6 @@ packages:
   form-data-encoder@1.7.2:
     resolution: {integrity: sha512-qfqtYan3rxrnCk1VYaA4H+Ms9xdpPqvLZa6xmMgFvhO32x7/3J/ExcTd6qpxM0vH2GdMI+poehyBZvqfMTto8A==}
 
-  form-data@2.5.2:
-    resolution: {integrity: sha512-GgwY0PS7DbXqajuGf4OYlsrIu3zgxD6Vvql43IBhm6MahqA5SK/7mwhtNj2AdH2z35YR34ujJ7BN+3fFC3jP5Q==}
-    engines: {node: '>= 0.12'}
-
   form-data@4.0.0:
     resolution: {integrity: sha512-ETEklSGi5t0QMZuiXoA/Q6vcnxcLQP5vdugSpuAyi6SVGi2clPPp+xgEhuMaHC+zGgn31Kd235W35f7Hykkaww==}
     engines: {node: '>= 6'}
@@ -31018,6 +30872,9 @@ packages:
   get-uri@6.0.3:
     resolution: {integrity: sha512-BzUrJBS9EcUb4cFol8r4W3v1cPsSyajLSthNkz5BxbpDcHN5tIrM10E2eNvfnvBn3DaT3DUgx0OpsBKkaOpanw==}
     engines: {node: '>= 14'}
+
+  git-hooks-list@3.1.0:
+    resolution: {integrity: sha512-LF8VeHeR7v+wAbXqfgRlTSX/1BJR9Q1vEMR8JAz1cEg6GX07+zyj3sAdDvYjj/xnlIfVuGgj4qBei1K3hKH+PA==}
 
   github-from-package@0.0.0:
     resolution: {integrity: sha512-SyHy3T1v2NUXn29OsWdxmK6RwHD+vkj3v8en8AOBZ1wBQ/hCAQ5bAQTD02kW4W9tUp/3Qh6J8r9EvntiyCmOOw==}
@@ -31295,6 +31152,10 @@ packages:
   is-plain-obj@2.1.0:
     resolution: {integrity: sha512-YWnfyRwxL/+SsrWYfOpUtz5b3YD+nyfkHvjbcanzk8zgyO4ASD67uVMRt8k5bM4lLMDnXfriRhOpemw+NfT1eA==}
     engines: {node: '>=8'}
+
+  is-plain-obj@4.1.0:
+    resolution: {integrity: sha512-+Pgi+vMuUNkJyExiMBt5IlFoMyKnr5zhJ4Uspz58WOhBF5QoIZkFyNHIbBAtHwzVAgk5RtndVNsDRN61/mmDqg==}
+    engines: {node: '>=12'}
 
   is-reference@1.2.1:
     resolution: {integrity: sha512-U82MsXXiFIrjCK4otLT+o2NA2Cd2g5MLoOVXUZjIOhLurrRxpEXzI8O0KZHr3IjLvlAH1kTPYSuqer5T9ZVBKQ==}
@@ -32252,6 +32113,14 @@ packages:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==}
     engines: {node: '>= 0.8.0'}
 
+  prettier-plugin-packagejson@2.5.3:
+    resolution: {integrity: sha512-ATMEEXr+ywls1kgrZEWl4SBPEm0uDdyDAjyNzUC0/Z8WZTD3RqbJcQDR+Dau+wYkW9KHK6zqQIsFyfn+9aduWg==}
+    peerDependencies:
+      prettier: '>= 1.16.0'
+    peerDependenciesMeta:
+      prettier:
+        optional: true
+
   prettier@3.3.3:
     resolution: {integrity: sha512-i2tDNA0O5IrMO757lfrdQZCc2jPNDVntV0m/+4whiDfWaTKfMNgR7Qz0NAeGz/nRqF4m5/6CLzbP4/liHt12Ew==}
     engines: {node: '>=14'}
@@ -32490,16 +32359,6 @@ packages:
     peerDependencies:
       rollup: ^1.20.0 || ^2.0.0 || ^3.0.0 || ^4.0.0
 
-  rollup-plugin-sourcemaps2@0.4.2:
-    resolution: {integrity: sha512-FnDh9akYxaMjFCluD3hZBbMduC6hbslQqoEzN5UnWqIPjNqNcdE2S0BjuXNSCWi09uVRZfVJ2PliX4kq8qpCrA==}
-    engines: {node: '>=18.0.0'}
-    peerDependencies:
-      '@types/node': '>=18.0.0'
-      rollup: '>=4'
-    peerDependenciesMeta:
-      '@types/node':
-        optional: true
-
   rollup-plugin-visualizer@5.12.0:
     resolution: {integrity: sha512-8/NU9jXcHRs7Nnj07PF2o4gjxmm9lXIrZ8r175bT9dK8qoLlvKTwRMArRCMgpMGlq8CTLugRvEmyMeMXIU2pNQ==}
     engines: {node: '>=14'}
@@ -32537,9 +32396,6 @@ packages:
 
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
-
-  sax@1.4.1:
-    resolution: {integrity: sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==}
 
   seek-bzip@1.0.6:
     resolution: {integrity: sha512-e1QtP3YL5tWww8uKaOCQ18UxIT2laNBXHjV/S2WYCiK4udiv8lkG89KRIoCjUagnAmCBurjF4zEVX2ByBbnCjQ==}
@@ -32658,6 +32514,13 @@ packages:
   socks@2.8.3:
     resolution: {integrity: sha512-l5x7VUUWbjVFbafGLxPWkYsHIhEvmF85tbIeFZWc8ZPtoMyybuEhL7Jye/ooC4/d48FgOjSJXgsF/AJPYCW8Zw==}
     engines: {node: '>= 10.0.0', npm: '>= 3.0.0'}
+
+  sort-object-keys@1.1.3:
+    resolution: {integrity: sha512-855pvK+VkU7PaKYPc+Jjnmt4EzejQHyhhF33q31qG8x7maDzkeFhAAThdCYay11CISO+qAMwjOBP+fPZe0IPyg==}
+
+  sort-package-json@2.10.1:
+    resolution: {integrity: sha512-d76wfhgUuGypKqY72Unm5LFnMpACbdxXsLPcL27pOsSrmVqH3PztFp1uq+Z22suk15h7vXmTesuh2aEjdCqb5w==}
+    hasBin: true
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -32814,6 +32677,10 @@ packages:
     engines: {node: '>=14'}
     hasBin: true
 
+  synckit@0.9.2:
+    resolution: {integrity: sha512-vrozgXDQwYO72vHjUb/HnFbQx1exDjoKzqx23aXEg2a9VIg2TSFZ8FmeZpTjUCFMYw7mpX4BE2SFu8wI7asYsw==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+
   tapable@2.2.1:
     resolution: {integrity: sha512-GNzQvQTOIP6RyTfE2Qxb8ZVlNmw0n88vp1szwWRimP02mnTsx3Wtn5qRdqY9w2XduFNUgvOwhNnQsjwCp+kqaQ==}
     engines: {node: '>=6'}
@@ -32967,10 +32834,6 @@ packages:
 
   tunnel-agent@0.6.0:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
-
-  tunnel@0.0.6:
-    resolution: {integrity: sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==}
-    engines: {node: '>=0.6.11 <=0.7.0 || >=0.7.3'}
 
   turbo-darwin-64@2.2.3:
     resolution: {integrity: sha512-Rcm10CuMKQGcdIBS3R/9PMeuYnv6beYIHqfZFeKWVYEWH69sauj4INs83zKMTUiZJ3/hWGZ4jet9AOwhsssLyg==}
@@ -33390,14 +33253,6 @@ packages:
   xdg-basedir@5.1.0:
     resolution: {integrity: sha512-GCPAHLvrIH13+c0SuacwvRYj2SxJXQ4kaVTT5xgL3kPrz56XxkF21IGhjSE1+W0aw7gpBWRGXLCPnPby6lSpmQ==}
     engines: {node: '>=12'}
-
-  xml2js@0.5.0:
-    resolution: {integrity: sha512-drPFnkQJik/O+uPKpqSgr22mpuFHqKdbS835iAQrUC73L2F5WkboIRd63ai/2Yg6I1jzifPFKH2NTK+cfglkIA==}
-    engines: {node: '>=4.0.0'}
-
-  xmlbuilder@11.0.1:
-    resolution: {integrity: sha512-fDlsI/kFEx7gLvbecc0/ohLG50fugQp8ryHzMTuW9vSa1GJ0XYWKnhsUx7oie3G98+r56aTQIUB4kht42R3JvA==}
-    engines: {node: '>=4.0'}
 
   xmlbuilder@12.0.0:
     resolution: {integrity: sha512-lMo8DJ8u6JRWp0/Y4XLa/atVDr75H9litKlb2E5j3V3MesoL50EBgZDWoLT3F/LztVnG67GjPXLZpqcky/UMnQ==}
@@ -33873,27 +33728,6 @@ snapshots:
       tslib: 2.7.0
     transitivePeerDependencies:
       - supports-color
-
-  '@azure/ms-rest-azure-js@2.1.0':
-    dependencies:
-      '@azure/core-auth': 1.7.2
-      '@azure/ms-rest-js': 2.7.0
-      tslib: 1.14.1
-    transitivePeerDependencies:
-      - encoding
-
-  '@azure/ms-rest-js@2.7.0':
-    dependencies:
-      '@azure/core-auth': 1.7.2
-      abort-controller: 3.0.0
-      form-data: 2.5.2
-      node-fetch: 2.7.0
-      tslib: 1.14.1
-      tunnel: 0.0.6
-      uuid: 8.3.2
-      xml2js: 0.5.0
-    transitivePeerDependencies:
-      - encoding
 
   '@azure/msal-browser@3.21.0':
     dependencies:
@@ -34984,6 +34818,8 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
+  '@pkgr/core@0.1.1': {}
+
   '@playwright/test@1.46.1':
     dependencies:
       playwright: 1.46.1
@@ -35037,18 +34873,6 @@ snapshots:
     optionalDependencies:
       rollup: 4.24.0
 
-  '@rollup/plugin-commonjs@28.0.1(rollup@4.24.0)':
-    dependencies:
-      '@rollup/pluginutils': 5.1.0(rollup@4.24.0)
-      commondir: 1.0.1
-      estree-walker: 2.0.2
-      fdir: 6.4.0(picomatch@4.0.2)
-      is-reference: 1.2.1
-      magic-string: 0.30.12
-      picomatch: 4.0.2
-    optionalDependencies:
-      rollup: 4.24.0
-
   '@rollup/plugin-inject@5.0.5(rollup@4.24.0)':
     dependencies:
       '@rollup/pluginutils': 5.1.0(rollup@4.24.0)
@@ -35085,14 +34909,6 @@ snapshots:
       rollup: 4.24.0
 
   '@rollup/pluginutils@5.1.0(rollup@4.24.0)':
-    dependencies:
-      '@types/estree': 1.0.6
-      estree-walker: 2.0.2
-      picomatch: 2.3.1
-    optionalDependencies:
-      rollup: 4.24.0
-
-  '@rollup/pluginutils@5.1.2(rollup@4.24.0)':
     dependencies:
       '@types/estree': 1.0.6
       estree-walker: 2.0.2
@@ -35473,8 +35289,6 @@ snapshots:
   '@types/underscore@1.11.15': {}
 
   '@types/unist@2.0.11': {}
-
-  '@types/url-parse@1.4.11': {}
 
   '@types/uuid@10.0.0': {}
 
@@ -36642,7 +36456,11 @@ snapshots:
 
   destroy@1.2.0: {}
 
+  detect-indent@7.0.1: {}
+
   detect-libc@2.0.3: {}
+
+  detect-newline@4.0.1: {}
 
   devtools-protocol@0.0.1354347: {}
 
@@ -37178,13 +36996,6 @@ snapshots:
 
   form-data-encoder@1.7.2: {}
 
-  form-data@2.5.2:
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
-      safe-buffer: 5.2.1
-
   form-data@4.0.0:
     dependencies:
       asynckit: 0.4.0
@@ -37277,6 +37088,8 @@ snapshots:
       fs-extra: 11.2.0
     transitivePeerDependencies:
       - supports-color
+
+  git-hooks-list@3.1.0: {}
 
   github-from-package@0.0.0: {}
 
@@ -37539,6 +37352,8 @@ snapshots:
   is-plain-obj@1.1.0: {}
 
   is-plain-obj@2.1.0: {}
+
+  is-plain-obj@4.1.0: {}
 
   is-reference@1.2.1:
     dependencies:
@@ -38605,6 +38420,13 @@ snapshots:
 
   prelude-ls@1.2.1: {}
 
+  prettier-plugin-packagejson@2.5.3(prettier@3.3.3):
+    dependencies:
+      sort-package-json: 2.10.1
+      synckit: 0.9.2
+    optionalDependencies:
+      prettier: 3.3.3
+
   prettier@3.3.3: {}
 
   pretty-format@27.5.1:
@@ -38890,13 +38712,6 @@ snapshots:
       '@rollup/plugin-inject': 5.0.5(rollup@4.24.0)
       rollup: 4.24.0
 
-  rollup-plugin-sourcemaps2@0.4.2(@types/node@18.19.45)(rollup@4.24.0):
-    dependencies:
-      '@rollup/pluginutils': 5.1.2(rollup@4.24.0)
-      rollup: 4.24.0
-    optionalDependencies:
-      '@types/node': 18.19.45
-
   rollup-plugin-visualizer@5.12.0(rollup@4.24.0):
     dependencies:
       open: 8.4.2
@@ -38945,8 +38760,6 @@ snapshots:
   safe-stable-stringify@2.4.3: {}
 
   safer-buffer@2.1.2: {}
-
-  sax@1.4.1: {}
 
   seek-bzip@1.0.6:
     dependencies:
@@ -39103,6 +38916,19 @@ snapshots:
       ip-address: 9.0.5
       smart-buffer: 4.2.0
 
+  sort-object-keys@1.1.3: {}
+
+  sort-package-json@2.10.1:
+    dependencies:
+      detect-indent: 7.0.1
+      detect-newline: 4.0.1
+      get-stdin: 9.0.0
+      git-hooks-list: 3.1.0
+      globby: 13.2.2
+      is-plain-obj: 4.1.0
+      semver: 7.6.3
+      sort-object-keys: 1.1.3
+
   source-map-js@1.2.1: {}
 
   source-map-support@0.5.21:
@@ -39251,6 +39077,11 @@ snapshots:
       mkdirp: 3.0.1
       path-scurry: 1.11.1
       rimraf: 5.0.10
+
+  synckit@0.9.2:
+    dependencies:
+      '@pkgr/core': 0.1.1
+      tslib: 2.7.0
 
   tapable@2.2.1: {}
 
@@ -39427,8 +39258,6 @@ snapshots:
   tunnel-agent@0.6.0:
     dependencies:
       safe-buffer: 5.2.1
-
-  tunnel@0.0.6: {}
 
   turbo-darwin-64@2.2.3:
     optional: true
@@ -39852,13 +39681,6 @@ snapshots:
   ws@8.18.0: {}
 
   xdg-basedir@5.1.0: {}
-
-  xml2js@0.5.0:
-    dependencies:
-      sax: 1.4.1
-      xmlbuilder: 11.0.1
-
-  xmlbuilder@11.0.1: {}
 
   xmlbuilder@12.0.0: {}
 

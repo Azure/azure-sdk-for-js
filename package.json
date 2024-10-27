@@ -2,17 +2,10 @@
   "name": "@azure/monorepo",
   "version": "0.0.1",
   "private": true,
-  "packageManager": "pnpm@9.12.2",
-  "engines": {
-    "pnpm": "^9.0.0"
-  },
   "scripts": {
-    "build": "lage build",
+    "build": "turbo build",
     "clean": "pnpm -r run clean",
     "cspell": "cspell --no-progress .",
-    "format": "prettier . --write",
-    "format:check": "prettier . --check",
-    "format:dir": "prettier --write",
     "preinstall": "npx only-allow pnpm",
     "purge": "rimraf --glob \"sdk/**/node_modules/\""
   },
@@ -21,10 +14,15 @@
     "@vitest/coverage-istanbul": "^2.1.2",
     "cspell": "^8.15.1",
     "prettier": "^3.3.3",
+    "prettier-plugin-packagejson": "^2.5.3",
     "rimraf": "^5.0.10",
     "tsx": "^4.19.1",
     "turbo": "^2.2.3",
     "typescript": "~5.5.4",
     "vitest": "^2.1.2"
+  },
+  "packageManager": "pnpm@9.12.2",
+  "engines": {
+    "pnpm": "^9.0.0"
   }
 }

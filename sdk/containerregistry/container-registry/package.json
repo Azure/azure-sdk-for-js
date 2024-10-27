@@ -2,7 +2,19 @@
   "name": "@azure/container-registry",
   "version": "1.1.1",
   "description": "An isomorphic client library for the Azure Container Registry service.",
-  "sdk-type": "client",
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/README.md",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
@@ -10,33 +22,24 @@
     "./dist-esm/test/utils/isNode.js": "./dist-esm/src/test/isNode.browser.js"
   },
   "types": "types/container-registry.d.ts",
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/generated/generatedClientContext.ts",
-        "prefix": "const packageDetails"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
-      },
-      {
-        "path": "src/constants.ts",
-        "prefix": "const SDK_VERSION"
-      }
-    ]
-  },
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/container-registry.d.ts",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false && dev-tool run extract-api",
     "build:browser": "echo \"Browser is not supported\" && exit 0",
     "build:node": "tsc -p . && dev-tool run bundle --browser-test=false",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && dev-tool run bundle --browser-test=false",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
@@ -52,29 +55,6 @@
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --full-trace \"test/**/*.spec.ts\"",
     "update-snippets": "echo skipped"
   },
-  "files": [
-    "dist/",
-    "dist-esm/src/",
-    "types/container-registry.d.ts",
-    "README.md",
-    "LICENSE"
-  ],
-  "repository": "github:Azure/azure-sdk-for-js",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "keywords": [
-    "azure",
-    "cloud",
-    "typescript"
-  ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/containerregistry/container-registry/README.md",
-  "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/abort-controller": "workspace:*",
@@ -116,6 +96,25 @@
     "nyc": "catalog:legacy",
     "typescript": "catalog:"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "const packageDetails"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "const SDK_VERSION"
+      }
+    ]
+  },
   "//sampleConfiguration": {
     "skipFolder": true,
     "productName": "Azure Container Registry",
@@ -126,5 +125,6 @@
     "requiredResources": {
       "Azure Container Registry": "https://docs.microsoft.com/azure/container-registry/container-registry-get-started-portal"
     }
-  }
+  },
+  "sdk-type": "client"
 }

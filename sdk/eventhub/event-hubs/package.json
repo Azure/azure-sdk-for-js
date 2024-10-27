@@ -1,13 +1,7 @@
 {
   "name": "@azure/event-hubs",
-  "sdk-type": "client",
   "version": "5.13.0",
   "description": "Azure Event Hubs SDK for JS.",
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/",
-  "repository": "github:Azure/azure-sdk-for-js",
-  "sideEffects": false,
   "keywords": [
     "azure",
     "cloud",
@@ -15,11 +9,31 @@
     "events",
     "Azure"
   ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/eventhub/event-hubs/",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "engines": {
-    "node": ">=18.0.0"
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   },
   "main": "./dist/commonjs/index.js",
   "module": "./dist/esm/index.js",
@@ -35,11 +49,11 @@
     "build:test": "npm run build:test:node",
     "build:test:browser": "dev-tool run build-package && dev-tool run build-test",
     "build:test:node": "dev-tool run build-package && dev-tool run build-test && npm run generate-certs && copyfiles -f ./test/internal/node/partitionKeyHashMap.json ./dist-esm/test/internal/node",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp *.tgz *.log .tshy *.xml",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"samples-dev/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "generate-certs": "tsx ./scripts/generateCerts.mts",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && cross-env TEST_MODE=live dev-tool run test:vitest --browser --no-test-proxy",
@@ -56,49 +70,6 @@
     "unit-test:node": "cross-env NODE_EXTRA_CA_CERTS=\"./certs/my-private-root-ca.crt.pem\" AZURE_LOG_LEVEL=\"info\" npm run vitest:node",
     "update-snippets": "echo skipped",
     "vitest:node": "dev-tool run test:vitest --no-test-proxy"
-  },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/util/constants.ts",
-        "prefix": "version"
-      }
-    ]
-  },
-  "//sampleConfiguration": {
-    "extraFiles": {
-      "./samples-browser": [
-        "browser"
-      ],
-      "./samples-express": [
-        "express"
-      ]
-    },
-    "skip": [
-      "useWithIotHub.js"
-    ],
-    "productName": "Azure Event Hubs",
-    "productSlugs": [
-      "azure",
-      "azure-event-hubs"
-    ],
-    "requiredResources": {
-      "Azure Event Hub": "https://docs.microsoft.com/azure/event-hubs/event-hubs-create"
-    }
-  },
-  "tshy": {
-    "exports": {
-      "./package.json": "./package.json",
-      ".": "./src/index.ts"
-    },
-    "dialects": [
-      "esm",
-      "commonjs"
-    ],
-    "esmDialects": [
-      "browser"
-    ],
-    "selfLink": false
   },
   "dependencies": {
     "@azure/abort-controller": "workspace:*",
@@ -144,22 +115,51 @@
     "vitest": "catalog:",
     "ws": "^8.2.0"
   },
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/util/constants.ts",
+        "prefix": "version"
       }
+    ]
+  },
+  "//sampleConfiguration": {
+    "extraFiles": {
+      "./samples-browser": [
+        "browser"
+      ],
+      "./samples-express": [
+        "express"
+      ]
+    },
+    "skip": [
+      "useWithIotHub.js"
+    ],
+    "productName": "Azure Event Hubs",
+    "productSlugs": [
+      "azure",
+      "azure-event-hubs"
+    ],
+    "requiredResources": {
+      "Azure Event Hub": "https://docs.microsoft.com/azure/event-hubs/event-hubs-create"
     }
   },
-  "type": "module"
+  "sdk-type": "client",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser"
+    ],
+    "selfLink": false
+  }
 }

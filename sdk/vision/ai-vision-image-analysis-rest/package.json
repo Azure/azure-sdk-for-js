@@ -1,7 +1,5 @@
 {
   "name": "@azure-rest/ai-vision-image-analysis",
-  "sdk-type": "client",
-  "author": "Microsoft Corporation",
   "version": "1.0.0",
   "description": "undefined",
   "keywords": [
@@ -12,15 +10,20 @@
     "browser",
     "isomorphic"
   ],
-  "license": "MIT",
-  "main": "dist/index.js",
-  "module": "./dist-esm/src/index.js",
-  "types": "./types/ai-vision-image-analysis.d.ts",
-  "repository": "github:Azure/azure-sdk-for-js",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/vision/ai-vision-image-analysis-rest/README.md",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
+  "main": "dist/index.js",
+  "module": "./dist-esm/src/index.js",
+  "browser": {
+    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+  },
+  "types": "./types/ai-vision-image-analysis.d.ts",
   "files": [
     "dist/",
     "dist-esm/src/",
@@ -30,9 +33,6 @@
     "CHANGELOG.md",
     "review/*"
   ],
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
@@ -40,11 +40,11 @@
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "echo skipped.",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "dev-tool run vendored rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
+    "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"*.{js,json}\"  \"test/**/*.ts\"",
     "generate:client": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
@@ -60,8 +60,6 @@
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
   },
-  "sideEffects": false,
-  "autoPublish": false,
   "dependencies": {
     "@azure-rest/core-client": "catalog:core-rest-clientV1",
     "@azure/core-auth": "workspace:*",
@@ -98,6 +96,9 @@
     "nyc": "catalog:legacy",
     "typescript": "catalog:"
   },
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "//metadata": {
     "constantPaths": [
       {
@@ -106,7 +107,6 @@
       }
     ]
   },
-  "browser": {
-    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
-  }
+  "autoPublish": false,
+  "sdk-type": "client"
 }
