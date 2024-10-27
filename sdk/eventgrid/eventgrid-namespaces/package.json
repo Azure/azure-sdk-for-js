@@ -44,7 +44,6 @@
     }
   },
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:node": "tsc -p . && dev-tool run bundle",
@@ -95,7 +94,6 @@
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
     "@types/sinon": "catalog:legacy",
-    "@types/uuid": "^8.0.0",
     "chai": "catalog:legacy",
     "chai-as-promised": "catalog:legacy",
     "cross-env": "catalog:legacy",

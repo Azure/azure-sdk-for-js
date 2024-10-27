@@ -18,7 +18,6 @@
   },
   "types": "types/web-pubsub-client.d.ts",
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:node": "tsc -p . && dev-tool run bundle",

@@ -13,7 +13,6 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && tsc -p . && dev-tool run bundle",
     "build:samples": "echo Skipped.",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",

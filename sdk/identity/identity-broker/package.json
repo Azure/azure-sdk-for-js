@@ -7,7 +7,6 @@
   "module": "dist-esm/identity-broker/src/index.js",
   "types": "./types/identity-broker.d.ts",
   "scripts": {
-    "audit": "skipped",
     "build": "npm run extract-api && tsc -p . && dev-tool run bundle",
     "build:samples": "echo skipped",
     "build:test": "tsc -p . && dev-tool run bundle",

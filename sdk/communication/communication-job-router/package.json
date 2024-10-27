@@ -7,7 +7,6 @@
   "module": "dist-esm/src/index.js",
   "types": "types/communication-job-router.d.ts",
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api --verbose",
     "build:autorest": "autorest ./swagger/README.md && rushx format",
     "build:browser": "tsc -p . && dev-tool run bundle && cross-env ONLY_BROWSER=true ",

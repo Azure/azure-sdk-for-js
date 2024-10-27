@@ -21,7 +21,6 @@
   },
   "private": true,
   "scripts": {
-    "audit": "skipped",
     "build": "tsc -p .",
     "build:samples": "echo skipped",
     "build:test": "echo skipped",

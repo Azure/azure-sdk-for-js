@@ -7,7 +7,6 @@
   "module": "dist-esm/identity-vscode/src/index.js",
   "types": "./types/identity-vscode.d.ts",
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && npm run extract-api && tsc -p . && dev-tool run bundle",
     "build:samples": "echo skipped",
     "build:test": "tsc -p . && dev-tool run bundle",

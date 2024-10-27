@@ -46,7 +46,6 @@
     }
   },
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && npm run extract-api && tsc -p . && dev-tool run bundle",
     "build:samples": "echo Obsolete.",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",

@@ -35,7 +35,6 @@
     "LICENSE"
   ],
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
     "build:test": "npm run clean && dev-tool run build-package",

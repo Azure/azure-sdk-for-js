@@ -47,7 +47,6 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && npm run extract-api && npm run bundle",
     "build:samples": "echo Obsolete.",
     "build:src": "echo Using TypeScript && tsc --version && tsc -b --pretty",

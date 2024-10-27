@@ -60,7 +60,6 @@
     "types/*"
   ],
   "scripts": {
-    "audit": "echo skipped",
     "build": "npm run clean && tsc && dev-tool run bundle && npm run minify && dev-tool run vendored mkdirp ./review && npm run extract-api",
     "build:browser": "echo skipped",
     "build:node": "echo skipped",

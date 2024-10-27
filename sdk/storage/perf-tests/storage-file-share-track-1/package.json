@@ -21,7 +21,6 @@
   "private": true,
   "scripts": {
     "perf-test:node": "npm run build && node dist-esm/index.spec.js",
-    "audit": "skipped",
     "build": "npm run clean && tsc -p .",
     "build:samples": "echo skipped",
     "build:test": "echo skipped",

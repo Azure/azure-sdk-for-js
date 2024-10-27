@@ -38,7 +38,6 @@
     "LICENSE"
   ],
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && npm run build:es6 && dev-tool run bundle && dev-tool run extract-api",
     "build:es6": "tsc -p tsconfig.json",
     "build:samples": "echo Skipped.",

@@ -31,7 +31,6 @@
   ],
   "type": "module",
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && dev-tool run build-package && npm run bundle:bin && dev-tool run extract-api",
     "build:samples": "echo skipped",
     "build:test": "echo skip",

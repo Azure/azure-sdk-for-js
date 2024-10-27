@@ -23,7 +23,6 @@
   },
   "private": true,
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && tsc -p .",
     "build:samples": "echo skipped",
     "build:test": "echo skipped",

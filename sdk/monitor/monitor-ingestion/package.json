@@ -30,7 +30,6 @@
   },
   "types": "types/latest/monitor-ingestion.d.ts",
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && tsc -p . && npm run build:nodebrowser && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:node": "tsc -p . && dev-tool run bundle",

@@ -17,7 +17,6 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && npm run build:es6 && dev-tool run bundle --browser-test=false && dev-tool run extract-api",
     "build:es6": "tsc -p tsconfig.json",
     "build:prep-samples": "dev-tool samples prep && cd dist-samples && tsc",

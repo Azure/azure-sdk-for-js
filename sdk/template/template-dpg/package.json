@@ -27,7 +27,6 @@
   "//metadata": {},
   "types": "types/latest/template-dpg.d.ts",
   "scripts": {
-    "audit": "skipped",
     "build": "tsc -p . && dev-tool run bundle && dev-tool run extract-api && npm run build:output",
     "build:output": "node scripts/renameOutput.mjs",
     "build:samples": "echo Obsolete",

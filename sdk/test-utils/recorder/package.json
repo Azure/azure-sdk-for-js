@@ -6,7 +6,6 @@
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && dev-tool run build-package",
     "build:browser": "echo skipped",
     "build:node": "dev-tool run build-package",

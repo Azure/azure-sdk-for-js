@@ -10,7 +10,6 @@
   "module": "./dist/esm/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo skipped",
     "build:test": "npm run clean && dev-tool run build-package",

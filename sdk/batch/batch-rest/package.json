@@ -89,7 +89,6 @@
     "vitest": "catalog:"
   },
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && dev-tool run build-package && npm run extract-api",
     "build:samples": "echo skipped",
     "build:test": "npm run clean && dev-tool run build-package && dev-tool run build-test",

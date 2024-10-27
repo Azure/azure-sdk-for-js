@@ -7,7 +7,6 @@
   "module": "dist-esm/src/index.js",
   "types": "types/schema-registry-json.d.ts",
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && npm run bundle && dev-tool run extract-api",
     "build:browser": "npm run bundle",
     "build:node": "npm run bundle",

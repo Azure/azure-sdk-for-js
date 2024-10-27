@@ -12,7 +12,6 @@
   },
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && npm run build-protobuf && dev-tool run build-package && npm run copy-files && dev-tool run extract-api",
     "build-protobuf": "npm run build-protobuf:cjs && npm run build-protobuf:esm",
     "build-protobuf:cjs": "pbjs -t static-module -w commonjs -o ./src/generated/clientProto.js ./src/protos/client.proto && pbts -o ./src/generated/clientProto.d.ts ./src/generated/clientProto.js && move-file ./src/generated/clientProto.js ./src/generated/clientProto.cjs",

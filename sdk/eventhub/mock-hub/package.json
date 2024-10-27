@@ -14,7 +14,6 @@
   "types": "./dist/commonjs/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete.",
     "build:test": "echo skipped",

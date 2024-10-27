@@ -27,7 +27,6 @@
     ]
   },
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false && dev-tool run extract-api",
     "build:browser": "echo \"Browser is not supported\" && exit 0",
     "build:node": "tsc -p . && dev-tool run bundle --browser-test=false",

@@ -51,7 +51,6 @@
     "apiRefLink": "https://docs.microsoft.com/azure/confidential-ledger"
   },
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false && dev-tool run extract-api",
     "build:browser": "echo \"Browser is not supported.\" && exit 0",
     "build:debug": "tsc -p . && dev-tool run bundle && dev-tool run extract-api",

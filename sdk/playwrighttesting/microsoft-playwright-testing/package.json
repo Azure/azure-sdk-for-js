@@ -45,7 +45,6 @@
     "types"
   ],
   "scripts": {
-    "audit": "skipped",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && npm run extract-api",
     "build:samples": "echo obsolete",
     "build:test": "tsc -p . && dev-tool run bundle",
