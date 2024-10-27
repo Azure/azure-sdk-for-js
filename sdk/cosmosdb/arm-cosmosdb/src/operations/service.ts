@@ -339,7 +339,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ServiceResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -369,7 +369,7 @@ const createOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ServiceResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   requestBody: Parameters.createUpdateParameters1,
@@ -393,7 +393,7 @@ const getOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ServiceResource,
     },
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
@@ -416,7 +416,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError,
+      bodyMapper: Mappers.ErrorResponse,
     },
   },
   queryParameters: [Parameters.apiVersion],
