@@ -3,11 +3,12 @@
 // Licensed under the MIT License.
 
 import { Client } from "@azure-rest/core-client";
-import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileContentResponseOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, ThreadDeletionStatusOutput } from "../generated/src/outputModels.js";
-import { AgentsCreateAgentParameters, AgentsCreateThreadParameters, AgentsDeleteAgentParameters, AgentsDeleteFileParameters, AgentsDeleteThreadParameters, AgentsGetAgentParameters, AgentsGetFileContentParameters, AgentsGetFileParameters, AgentsGetThreadParameters, AgentsListAgentsParameters, AgentsListFilesParameters, AgentsUpdateAgentParameters, AgentsUpdateThreadParameters, AgentsUploadFileParameters } from "../generated/src/parameters.js";
+import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileContentResponseOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadRunOutput, ThreadDeletionStatusOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
+import { AgentsCancelRunParameters, AgentsCreateAgentParameters, AgentsCreateRunParameters, AgentsCreateThreadAndRunParameters, AgentsCreateThreadParameters, AgentsDeleteAgentParameters, AgentsDeleteFileParameters, AgentsDeleteThreadParameters, AgentsGetAgentParameters, AgentsGetFileContentParameters, AgentsGetFileParameters, AgentsGetRunParameters, AgentsGetThreadParameters, AgentsListAgentsParameters, AgentsListFilesParameters, AgentsListRunsParameters, AgentsSubmitToolOutputsToRunParameters, AgentsUpdateAgentParameters, AgentsUpdateRunParameters, AgentsUpdateThreadParameters, AgentsUploadFileParameters } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
+import { cancelRun, createRun, createThreadAndRun, getRun, listRuns, submitToolOutputsToRun, updateRun } from "./runs.js";
 
 export interface AgentsOperations {
     /** Creates a new agent. */
@@ -53,6 +54,45 @@ export interface AgentsOperations {
       threadId: string,
       options?: AgentsDeleteThreadParameters,
     ) => Promise<ThreadDeletionStatusOutput>;
+
+    /** Creates and starts a new run of the specified thread using the specified agent. */
+    createRun: (
+      threadId: string,
+      options: AgentsCreateRunParameters,
+    ) => Promise<ThreadRunOutput>;
+    /** Gets a list of runs for a specified thread. */
+    listRuns: (
+      threadId: string,
+      options?: AgentsListRunsParameters,
+    ) => Promise<OpenAIPageableListOfThreadRunOutput>;
+    /** Gets an existing run from an existing thread. */
+    getRun: (
+      threadId: string,
+      runId: string,
+      options?: AgentsGetRunParameters,
+    ) => Promise<ThreadRunOutput>;
+    /** Modifies an existing thread run. */
+    updateRun: (
+      threadId: string,
+      runId: string,
+      options: AgentsUpdateRunParameters,
+    ) => Promise<ThreadRunOutput>;
+    /** Submits outputs from tools as requested by tool calls in a run. Runs that need submitted tool outputs will have a status of 'requires_action' with a required_action.type of 'submit_tool_outputs'. */
+    submitToolOutputsToRun: (
+      threadId: string,
+      runId: string,
+      options: AgentsSubmitToolOutputsToRunParameters,
+    ) => Promise<ThreadRunOutput>;
+    /** Cancels a run of an in progress thread. */
+    cancelRun: (
+      threadId: string,
+      runId: string,
+      options?: AgentsCancelRunParameters,
+    ) => Promise<ThreadRunOutput>;
+    /** Creates a new thread and immediately starts a run of that thread. */
+    createThreadAndRun: (
+      options: AgentsCreateThreadAndRunParameters,
+    ) => Promise<ThreadRunOutput>;
 
     /** Gets a list of previously uploaded files. */
     listFiles: (
@@ -105,6 +145,21 @@ export function getAgents(context: Client)  {
         updateThread(context, threadId, options),
       deleteThread: (threadId: string, options?: AgentsDeleteThreadParameters) =>
         deleteThread(context, threadId, options),
+
+      createRun: (threadId: string, options: AgentsCreateRunParameters) =>
+        createRun(context, threadId, options),
+      listRuns: (threadId: string, options?: AgentsListRunsParameters) =>
+        listRuns(context, threadId, options),
+      getRun: (threadId: string, runId: string, options?: AgentsGetRunParameters) =>
+        getRun(context, threadId, runId, options),
+      updateRun: (threadId: string, runId: string, options: AgentsUpdateRunParameters) =>
+        updateRun(context, threadId, runId, options),
+      submitToolOutputsToRun: (threadId: string, runId: string, options: AgentsSubmitToolOutputsToRunParameters) =>
+        submitToolOutputsToRun(context, threadId, runId, options),
+      cancelRun: (threadId: string, runId: string, options?: AgentsCancelRunParameters) =>
+        cancelRun(context, threadId, runId, options),
+      createThreadAndRun: (options: AgentsCreateThreadAndRunParameters) =>
+        createThreadAndRun(context, options),
 
       listFiles: (options?: AgentsListFilesParameters) =>
         listFiles(context, options),
