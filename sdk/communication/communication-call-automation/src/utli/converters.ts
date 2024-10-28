@@ -25,6 +25,7 @@ import {
   KnownCommunicationIdentifierModelKind,
   PhoneNumberIdentifierModel,
   CommunicationUserIdentifierModel,
+  MicrosoftTeamsAppIdentifierModel,
 } from "../generated/src";
 import { CallParticipant } from "../models/models";
 
@@ -218,4 +219,26 @@ export function communicationUserIdentifierConverter(
   }
 
   return { communicationUserId: identifier.id };
+}
+
+/** Convert MicrosoftTeamsAppIdentifier to MicrosoftTeamsAppIdentifierModel (Internal usage class) */
+export function microsoftTeamsAppIdentifierModelConverter(
+  identifier: MicrosoftTeamsAppIdentifier | undefined,
+): MicrosoftTeamsAppIdentifierModel | undefined {
+  if (!identifier || !identifier.teamsAppId) {
+    return undefined;
+  }
+
+  return { appId: identifier.teamsAppId };
+}
+
+/** Convert MicrosoftTeamsAppIdentifierModel to MicrosoftTeamsAppIdentifier (Public usage class) */
+export function microsoftTeamsAppIdentifierConverter(
+  identifier: MicrosoftTeamsAppIdentifierModel | undefined,
+): MicrosoftTeamsAppIdentifier | undefined {
+  if (!identifier || !identifier.appId) {
+    return undefined;
+  }
+
+  return { teamsAppId: identifier.appId };
 }

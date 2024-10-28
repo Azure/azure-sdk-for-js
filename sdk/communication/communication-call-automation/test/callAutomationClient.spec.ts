@@ -11,7 +11,11 @@ import {
   CALL_TARGET_ID,
   CALL_TARGET_ID_2,
 } from "./utils/connectionUtils";
-import { CommunicationIdentifier, CommunicationUserIdentifier } from "@azure/communication-common";
+import {
+  CommunicationIdentifier,
+  CommunicationUserIdentifier,
+  MicrosoftTeamsAppIdentifier,
+} from "@azure/communication-common";
 import { assert } from "chai";
 import { Context } from "mocha";
 import {
@@ -37,6 +41,17 @@ import {
 } from "./utils/recordedClient";
 import { AnswerCallEventResult, CreateCallEventResult } from "../src/eventprocessor/eventResponses";
 import { randomUUID } from "@azure/core-util";
+import { KnownCommunicationCloudEnvironmentModel } from "../src/generated/src";
+
+function createOPSCallAutomationClient(
+  oPSSourceIdentity: MicrosoftTeamsAppIdentifier,
+): CallAutomationClient {
+  const connectionString = "endpoint=https://redacted.communication.azure.com/;accesskey=redacted";
+
+  return new CallAutomationClient(connectionString, {
+    oPSSourceIdentity,
+  });
+}
 
 describe("Call Automation Client Unit Tests", () => {
   let targets: CommunicationIdentifier[];
@@ -125,6 +140,57 @@ describe("Call Automation Client Unit Tests", () => {
         assert.isNotNull(result);
         assert.isTrue(client.createGroupCall.calledWith(targets, CALL_CALLBACK_URL));
         assert.equal(result, createGroupCallResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
+  });
+
+  it("CreateOPSCall", async () => {
+    // defined dummy variables
+    const appId = "28:acs:redacted";
+    const appCloud = KnownCommunicationCloudEnvironmentModel.Public;
+    const oPSSouceStub = {
+      teamsAppId: appId,
+      cloud: appCloud,
+    };
+
+    // stub an OPS CallAutomationClient
+    const createOPSClientStub = Sinon.stub().callsFake(() =>
+      createOPSCallAutomationClient(oPSSouceStub),
+    );
+
+    // Use the stubbed factory function to create the client
+    const oPSClient: SinonStubbedInstance<CallAutomationClient> & CallAutomationClient =
+      createOPSClientStub();
+
+    // Explicitly stub the createCall method
+    oPSClient.createCall = Sinon.stub();
+
+    // mocks
+    const createCallResultMock: CreateCallResult = {
+      callConnectionProperties: {
+        source: {
+          rawId: appId,
+          teamsAppId: appId,
+          cloud: appCloud,
+        } as MicrosoftTeamsAppIdentifier,
+      } as CallConnectionProperties,
+      callConnection: {} as CallConnection,
+      waitForEventProcessor: async () => {
+        return {} as CreateCallEventResult;
+      },
+    };
+
+    (oPSClient.createCall as Sinon.SinonStub).returns(Promise.resolve(createCallResultMock));
+
+    const promiseResult = oPSClient.createCall(target, CALL_CALLBACK_URL);
+
+    // asserts
+    promiseResult
+      .then((result: CreateCallResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(oPSClient.createCall.calledWith(target, CALL_CALLBACK_URL));
+        assert.equal(result, createCallResultMock);
         return;
       })
       .catch((error) => console.error(error));

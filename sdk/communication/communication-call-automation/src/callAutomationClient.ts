@@ -8,12 +8,14 @@ import {
   isKeyCredential,
   CommunicationIdentifier,
   CommunicationUserIdentifier,
+  MicrosoftTeamsAppIdentifier,
 } from "@azure/communication-common";
 import { logger } from "./models/logger";
 import {
   AnswerCallRequest,
   CallAutomationApiClient,
   CommunicationUserIdentifierModel,
+  MicrosoftTeamsAppIdentifierModel,
   CreateCallRequest,
   RedirectCallRequest,
   RejectCallRequest,
@@ -34,6 +36,7 @@ import {
   communicationIdentifierModelConverter,
   communicationUserIdentifierConverter,
   communicationUserIdentifierModelConverter,
+  microsoftTeamsAppIdentifierModelConverter,
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
@@ -49,6 +52,10 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
    * The identifier of the source of the call for call creating/answering/inviting operation.
    */
   sourceIdentity?: CommunicationUserIdentifier;
+  /**
+   * The identifier of the OPS of the call for call creating operation.
+   */
+  oPSSourceIdentity?: MicrosoftTeamsAppIdentifier;
 }
 
 /**
@@ -65,6 +72,7 @@ const isCallAutomationClientOptions = (options: any): options is CallAutomationC
 export class CallAutomationClient {
   private readonly callAutomationApiClient: CallAutomationApiClient;
   private readonly sourceIdentity?: CommunicationUserIdentifierModel;
+  private readonly oPSSourceIdentity?: MicrosoftTeamsAppIdentifierModel;
   private readonly credential: TokenCredential | KeyCredential;
   private readonly internalPipelineOptions: InternalPipelineOptions;
   private readonly callAutomationEventProcessor: CallAutomationEventProcessor;
@@ -127,6 +135,7 @@ export class CallAutomationClient {
     );
 
     this.sourceIdentity = communicationUserIdentifierModelConverter(options.sourceIdentity);
+    this.oPSSourceIdentity = microsoftTeamsAppIdentifierModelConverter(options.oPSSourceIdentity);
   }
 
   /**
@@ -245,6 +254,7 @@ export class CallAutomationClient {
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
       source: this.sourceIdentity,
+      opsSource: this.oPSSourceIdentity,
       targets: [communicationIdentifierModelConverter(targetParticipant.targetParticipant)],
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
@@ -277,6 +287,7 @@ export class CallAutomationClient {
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
       source: this.sourceIdentity,
+      opsSource: this.oPSSourceIdentity,
       targets: targetParticipants.map((target) => communicationIdentifierModelConverter(target)),
       callbackUri: callbackUrl,
       operationContext: options.operationContext,

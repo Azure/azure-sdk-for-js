@@ -52,9 +52,8 @@ export class CallDialogImpl implements CallDialog {
   }
 
   /**
-   * Stop a dialog.
-   * @param callConnectionId The call connection id
-   * @param dialogId The dialog id
+   * @param callConnectionId
+   * @param dialogId
    * @param options The options parameters.
    */
   stopDialog(
