@@ -28,7 +28,6 @@ packages:
   - sdk/apimanagement/api-management-custom-widgets-tools
   - sdk/appconfiguration/app-configuration
   - sdk/attestation/attestation
-#  - sdk/batch/batch
   - sdk/cognitivelanguage/ai-language-conversations  
   - sdk/cognitivelanguage/ai-language-text  
   - sdk/cognitivelanguage/ai-language-textauthoring  
@@ -73,7 +72,6 @@ packages:
   - sdk/keyvault/keyvault-secrets  
   - sdk/maps/maps-common
   - sdk/metricsadvisor/ai-metrics-advisor
-  - sdk/metricsadvisor/perf-tests/ai-metrics-advisor
   - sdk/mixedreality/mixed-reality-authentication
   - sdk/monitor/monitor-ingestion
   - sdk/monitor/monitor-opentelemetry

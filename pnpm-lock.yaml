@@ -16565,34 +16565,6 @@ importers:
         specifier: 'catalog:'
         version: 5.6.3
 
-  sdk/metricsadvisor/perf-tests/ai-metrics-advisor:
-    dependencies:
-      '@azure-tools/test-perf':
-        specifier: workspace:*
-        version: link:../../../test-utils/perf
-      '@azure/ai-metrics-advisor':
-        specifier: workspace:*
-        version: link:../../ai-metrics-advisor
-      dotenv:
-        specifier: 'catalog:'
-        version: 16.4.5
-      tslib:
-        specifier: 'catalog:'
-        version: 2.7.0
-    devDependencies:
-      '@azure/dev-tool':
-        specifier: workspace:*
-        version: link:../../../../common/tools/dev-tool
-      '@types/node':
-        specifier: 'catalog:'
-        version: 18.19.45
-      eslint:
-        specifier: 'catalog:'
-        version: 9.12.0
-      typescript:
-        specifier: 'catalog:'
-        version: 5.6.3
-
   sdk/migrate/arm-migrate:
     dependencies:
       '@azure/core-auth':

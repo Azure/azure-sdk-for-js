@@ -3,7 +3,8 @@
   "ui": "tui",
   "tasks": {
     "build": {
-      "dependsOn": ["^build"]
+      "dependsOn": ["^build"],
+      "outputs": ["dist/**", "dist-esm/**"]
     },
     "test": {
       "dependsOn": ["^build"]
