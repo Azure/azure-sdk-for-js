@@ -185,11 +185,7 @@ export class RequestResponseLink implements ReqResLink {
         },
       });
 
-      logger.verbose(
-        "[%s] %s request sent: %O",
-        this.connection.id,
-        request.to || "$management",
-      );
+      logger.verbose("[%s] %s request sent: %O", this.connection.id, request.to || "$management");
       this.sender.send(request);
     });
   }
