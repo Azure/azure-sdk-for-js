@@ -3,10 +3,11 @@
 // Licensed under the MIT License.
 
 import { Client } from "@azure-rest/core-client";
-import { AgentDeletionStatusOutput, AgentOutput, FileContentResponseOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput } from "../generated/src/outputModels.js";
-import { AgentsCreateAgentParameters, AgentsDeleteAgentParameters, AgentsDeleteFileParameters, AgentsGetAgentParameters, AgentsGetFileContentParameters, AgentsGetFileParameters, AgentsListAgentsParameters, AgentsListFilesParameters, AgentsUpdateAgentParameters, AgentsUploadFileParameters } from "../generated/src/parameters.js";
+import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileContentResponseOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, ThreadDeletionStatusOutput } from "../generated/src/outputModels.js";
+import { AgentsCreateAgentParameters, AgentsCreateThreadParameters, AgentsDeleteAgentParameters, AgentsDeleteFileParameters, AgentsDeleteThreadParameters, AgentsGetAgentParameters, AgentsGetFileContentParameters, AgentsGetFileParameters, AgentsGetThreadParameters, AgentsListAgentsParameters, AgentsListFilesParameters, AgentsUpdateAgentParameters, AgentsUpdateThreadParameters, AgentsUploadFileParameters } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
+import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
 
 export interface AgentsOperations {
     /** Creates a new agent. */
@@ -32,6 +33,26 @@ export interface AgentsOperations {
       assistantId: string,
       options?: AgentsDeleteAgentParameters,
     ) => Promise<AgentDeletionStatusOutput>;
+
+    /** Creates a new thread. Threads contain messages and can be run by agents. */
+    createThread: (
+      options: AgentsCreateThreadParameters,
+    ) => Promise<AgentThreadOutput>;
+    /** Gets information about an existing thread. */
+    getThread: (
+      threadId: string,
+      options?: AgentsGetThreadParameters,
+    ) => Promise<AgentThreadOutput>;
+    /** Modifies an existing thread. */
+    updateThread: (
+      threadId: string,
+      options: AgentsUpdateThreadParameters,
+    ) => Promise<AgentThreadOutput>;
+    /** Deletes an existing thread. */
+    deleteThread: (
+      threadId: string,
+      options?: AgentsDeleteThreadParameters,
+    ) => Promise<ThreadDeletionStatusOutput>;
 
     /** Gets a list of previously uploaded files. */
     listFiles: (
@@ -75,6 +96,15 @@ export function getAgents(context: Client)  {
         assistantId: string,
         options?: AgentsDeleteAgentParameters,
       ) => deleteAgent(context, assistantId, options),
+
+      createThread: (options: AgentsCreateThreadParameters) =>
+        createThread(context, options),
+      getThread: (threadId: string, options?: AgentsGetThreadParameters) =>
+        getThread(context, threadId, options),
+      updateThread: (threadId: string, options: AgentsUpdateThreadParameters) =>
+        updateThread(context, threadId, options),
+      deleteThread: (threadId: string, options?: AgentsDeleteThreadParameters) =>
+        deleteThread(context, threadId, options),
 
       listFiles: (options?: AgentsListFilesParameters) =>
         listFiles(context, options),
