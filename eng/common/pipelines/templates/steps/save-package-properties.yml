@@ -22,7 +22,7 @@ steps:
 
   # The other public CI builds will pass a real service directory, which will not activate the PR diff logic and as such will operate
   # as before this change.
-  - ${{ if and(eq(variables['Build.Reason'], 'PullRequest'), eq(parameters.ServiceDirectory, 'auto')) }}:
+  - ${{ if eq(parameters.ServiceDirectory, 'auto') }}:
       - task: Powershell@2
         displayName: Generate PR Diff
         inputs:
