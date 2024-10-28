@@ -52,6 +52,7 @@ function GenerateMatrixForConfig {
 }
 
 # calculate general targeting information and create our batches prior to generating any matrix
+# this prototype doesn't handle direct and indirect, it just batches for simplicity of the proto
 $packageProperties = Get-ChildItem -Recurse "$PackagePropertiesFolder" *.json `
     | % { Get-Content -Path $_.FullName | ConvertFrom-Json }
 
@@ -67,7 +68,6 @@ $configs = @(
 )
 
 $OverallResult = @()
-# this prototype doesn't handle direct and indirect, it just batches for simplicity of the proto
 foreach($matrixConfig in $configs) {
   Write-Host "Generating config for $($matrixConfig.ConfigPath)"
   $generatedMatrix = GenerateMatrixForConfig -ConfigPath $matrixConfig.ConfigPath -Selection $matrixConfig.Selection -DisplayNameFilter $DisplayNameFilter -Filters $Filters -Replace $Replace
