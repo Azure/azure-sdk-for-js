@@ -1,20 +1,8 @@
 {
   "name": "@azure-samples/defender-easm-ts-beta",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "Defender EASM Client client library samples for TypeScript (Beta)",
-  "engines": {
-    "node": ">=14.0.0"
-  },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/easm/defender-easm-rest"
-  },
   "keywords": [
     "node",
     "azure",
@@ -23,20 +11,32 @@
     "browser",
     "isomorphic"
   ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/easm/defender-easm-rest",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/easm/defender-easm-rest",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/easm/defender-easm-rest"
+  },
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "scripts": {
+    "prebuild": "rimraf dist/",
+    "build": "tsc"
+  },
   "dependencies": {
     "@azure-rest/defender-easm": "next",
-    "dotenv": "latest",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "^4.2.1",
+    "dotenv": "latest"
   },
   "devDependencies": {
     "@types/node": "^14.0.0",
-    "typescript": "~5.6.2",
-    "rimraf": "latest"
+    "rimraf": "latest",
+    "typescript": "~5.6.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
   }
 }

@@ -1,28 +1,28 @@
 {
   "name": "@azure-samples/core-rest-pipeline-js",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "Azure SDK Core client library samples for JavaScript",
-  "engines": {
-    "node": ">=18.0.0"
+  "keywords": [
+    "azure",
+    "cloud"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-rest-pipeline",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
     "directory": "sdk/core/core-rest-pipeline"
   },
-  "keywords": [
-    "azure",
-    "cloud"
-  ],
-  "author": "Microsoft Corporation",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-rest-pipeline",
+  "author": "Microsoft Corporation",
   "dependencies": {
     "@azure/core-rest-pipeline": "latest",
     "dotenv": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

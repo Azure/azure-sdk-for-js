@@ -1,16 +1,8 @@
 {
   "name": "@azure-samples/ai-language-text-js-beta",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "Azure Cognitive Language Service client library samples for JavaScript (Beta)",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/cognitivelanguage/ai-language-text"
-  },
   "keywords": [
     "node",
     "azure",
@@ -19,15 +11,23 @@
     "browser",
     "isomorphic"
   ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-text",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/cognitivelanguage/ai-language-text"
+  },
+  "license": "MIT",
+  "author": "Microsoft Corporation",
   "dependencies": {
     "@azure/ai-language-text": "next",
-    "dotenv": "latest",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "^4.2.1",
+    "dotenv": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

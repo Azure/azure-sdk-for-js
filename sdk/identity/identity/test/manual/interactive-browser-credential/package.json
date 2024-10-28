@@ -2,15 +2,15 @@
   "name": "identity-browser-manual-tests",
   "version": "0.1.0",
   "description": "Manual tests for Azure SDK browser use scenarios",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
   "main": "dist/bundle.js",
   "scripts": {
     "build": "webpack --config webpack.config.js",
-    "start": "webpack-dev-server",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../../../prettier.config.cjs --ignore-path ../../../../../.prettierignore \"src/**/*.tsx\"",
-    "format": "dev-tool run vendored prettier --write --config ../../../../../prettier.config.cjs --ignore-path ../../../../../.prettierignore \"src/**/*.tsx\""
+    "format": "dev-tool run vendored prettier --write --config ../../../../../prettier.config.cjs --ignore-path ../../../../../.prettierignore \"src/**/*.tsx\"",
+    "start": "webpack-dev-server"
   },
-  "author": "Microsoft Corporation",
-  "license": "MIT",
   "dependencies": {
     "@azure/identity": "workspace:*",
     "@azure/service-bus": "workspace:*",

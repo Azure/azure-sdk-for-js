@@ -2,12 +2,12 @@
   "name": "azurearctest",
   "version": "1.0.0",
   "description": "",
+  "license": "ISC",
+  "author": "",
   "main": "dist/index.js",
   "scripts": {
     "build": "tsc"
   },
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@azure/identity": "workspace:*",
     "@azure/keyvault-secrets": "^4.1.0",

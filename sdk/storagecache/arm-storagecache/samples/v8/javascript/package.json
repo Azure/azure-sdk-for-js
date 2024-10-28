@@ -1,16 +1,8 @@
 {
   "name": "@azure-samples/arm-storagecache-js",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": " client library samples for JavaScript",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/storagecache/arm-storagecache"
-  },
   "keywords": [
     "node",
     "azure",
@@ -18,15 +10,23 @@
     "browser",
     "isomorphic"
   ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storagecache/arm-storagecache",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storagecache/arm-storagecache",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/storagecache/arm-storagecache"
+  },
+  "license": "MIT",
+  "author": "Microsoft Corporation",
   "dependencies": {
     "@azure/arm-storagecache": "latest",
-    "dotenv": "latest",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "^4.2.1",
+    "dotenv": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

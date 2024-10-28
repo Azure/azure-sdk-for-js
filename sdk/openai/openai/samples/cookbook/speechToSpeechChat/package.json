@@ -2,17 +2,17 @@
   "name": "azure-openai-speech-to-speech-chat",
   "version": "1.0.0",
   "description": "SPA to demonstrate Speech to Speech chat using OpenAI and Azure Speech JS SDKs",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
+    "start": "node app.js",
     "watch": "webpack --watch"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "@azure/identity": "^4.2.0",
     "express": "^4.19.2",
@@ -20,9 +20,9 @@
     "openai": "^4.47.2"
   },
   "devDependencies": {
-    "dotenv": "^16.4.5",
     "@webpack-cli/generators": "^3.0.4",
     "babel-loader": "^9.1.2",
+    "dotenv": "^16.4.5",
     "html-webpack-plugin": "^5.5.1",
     "webpack": "^5.86.0",
     "webpack-cli": "^5.1.4"

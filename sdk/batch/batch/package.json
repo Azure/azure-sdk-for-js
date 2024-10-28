@@ -1,19 +1,7 @@
 {
   "name": "@azure/batch",
-  "author": "Microsoft Corporation",
-  "description": "BatchServiceClient Library with typescript type definitions for node.js and browser.",
   "version": "12.0.0",
-  "sdk-type": "client",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "dependencies": {
-    "@azure/ms-rest-azure-js": "^2.1.0",
-    "@azure/ms-rest-js": "^2.2.0",
-    "jssha": "^3.2.0",
-    "tslib": "^2.7.0",
-    "url-parse": "^1.5.3"
-  },
+  "description": "BatchServiceClient Library with typescript type definitions for node.js and browser.",
   "keywords": [
     "node",
     "azure",
@@ -22,10 +10,58 @@
     "isomorphic",
     "cloud"
   ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/batch/batch",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./types/src/index.d.ts",
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/src/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "npm run clean && tsc -p . && npm run build:nodebrowser",
+    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
+    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:nodebrowser": "rollup -c 2>&1",
+    "build:samples": "echo Obsolete.",
+    "build:test": "tsc -p . && rollup -c 2>&1",
+    "build:types": "downlevel-dts types/latest types/3.1",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "extract-api": "tsc -p . && dev-tool run extract-api",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "integration-test:browser": "karma start --single-run",
+    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}/*.spec.js\"",
+    "lint": "dev-tool run vendored eslint package.json api-extractor.json src test",
+    "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
+    "prepack": "npm install && npm run build",
+    "pack": "npm pack 2>&1",
+    "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\"  mocha"
+  },
+  "dependencies": {
+    "@azure/ms-rest-azure-js": "^2.1.0",
+    "@azure/ms-rest-js": "^2.2.0",
+    "jssha": "^3.2.0",
+    "tslib": "^2.7.0",
+    "url-parse": "^1.5.3"
+  },
   "devDependencies": {
     "@rollup/plugin-commonjs": "^28.0.0",
     "@rollup/plugin-node-resolve": "^15.3.0",
@@ -36,7 +72,6 @@
     "@types/url-parse": "^1.4.3",
     "@types/uuid": "^10.0.0",
     "buffer": "^6.0.0",
-    "nyc": "catalog:legacy",
     "chai": "catalog:",
     "chai-as-promised": "catalog:",
     "cross-env": "catalog:legacy",
@@ -54,6 +89,7 @@
     "karma-mocha-reporter": "catalog:legacy",
     "mocha": "catalog:legacy",
     "moment": "^2.29.1",
+    "nyc": "catalog:legacy",
     "puppeteer": "catalog:legacy",
     "rollup": "^4.24.0",
     "rollup-plugin-sourcemaps2": "^0.4.2",
@@ -62,45 +98,9 @@
     "uglify-js": "catalog:legacy",
     "uuid": "^10.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/batch/batch",
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  "engines": {
+    "node": ">=18.0.0"
   },
-  "files": [
-    "dist/",
-    "dist-esm/src/",
-    "types/src/",
-    "README.md",
-    "LICENSE"
-  ],
-  "scripts": {
-    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
-    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:nodebrowser": "rollup -c 2>&1",
-    "build:samples": "echo Obsolete.",
-    "build:test": "tsc -p . && rollup -c 2>&1",
-    "build:types": "downlevel-dts types/latest types/3.1",
-    "build": "npm run clean && tsc -p . && npm run build:nodebrowser",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
-    "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tsc -p . && dev-tool run extract-api",
-    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 --full-trace \"dist-esm/test/{,!(browser)/**/}/*.spec.js\"",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
-    "lint": "dev-tool run vendored eslint package.json api-extractor.json src test",
-    "pack": "npm pack 2>&1",
-    "prepack": "npm install && npm run build",
-    "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run build:test && npm run unit-test && npm run integration-test",
-    "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\"  mocha",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
-  },
-  "sideEffects": false,
-  "autoPublish": true
+  "autoPublish": true,
+  "sdk-type": "client"
 }

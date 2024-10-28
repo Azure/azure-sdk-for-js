@@ -1,29 +1,13 @@
 {
   "name": "@azure-tests/perf-monitor-opentelemetry",
-  "sdk-type": "perf-test",
   "version": "1.0.0",
-  "description": "",
-  "main": "",
-  "type": "module",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@azure-tools/test-perf": "^1.0.0",
-    "@azure/monitor-opentelemetry": "^1.8.0",
-    "@opentelemetry/api": "^1.9.0",
-    "@opentelemetry/api-logs": "^0.53.0",
-    "@opentelemetry/sdk-logs": "^0.53.0",
-    "dotenv": "^16.0.0",
-    "tslib": "^2.6.2"
-  },
-  "devDependencies": {
-    "@azure/dev-tool": "^1.0.0",
-    "@types/node": "^18.0.0",
-    "eslint": "^9.9.0",
-    "typescript": "~5.6.2"
-  },
   "private": true,
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "type": "module",
+  "main": "",
   "scripts": {
     "build": "npm run clean && tsc -p .",
     "build:samples": "echo skipped",
@@ -45,5 +29,21 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "update-snippets": "echo skipped"
-  }
+  },
+  "dependencies": {
+    "@azure-tools/test-perf": "^1.0.0",
+    "@azure/monitor-opentelemetry": "^1.8.0",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/api-logs": "^0.53.0",
+    "@opentelemetry/sdk-logs": "^0.53.0",
+    "dotenv": "^16.0.0",
+    "tslib": "^2.6.2"
+  },
+  "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
+    "@types/node": "^18.0.0",
+    "eslint": "^9.9.0",
+    "typescript": "~5.6.2"
+  },
+  "sdk-type": "perf-test"
 }

@@ -1,29 +1,29 @@
 {
   "name": "@azure-samples/iot-modelsrepository-js",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "Azure IoT Models Repository client library samples for JavaScript",
-  "engine": {
-    "node": ">=18.0.0"
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iot/iot-modelsrepository",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
     "directory": "sdk/iot/iot-modelsrepository"
   },
-  "keywords": [
-    "azure",
-    "cloud",
-    "typescript"
-  ],
-  "author": "Microsoft Corporation",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/iot/iot-modelsrepository",
+  "author": "Microsoft Corporation",
   "dependencies": {
     "@azure/iot-modelsrepository": "next",
     "dotenv": "latest"
+  },
+  "engine": {
+    "node": ">=18.0.0"
   }
 }

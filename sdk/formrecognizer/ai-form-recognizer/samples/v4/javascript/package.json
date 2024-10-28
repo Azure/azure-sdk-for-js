@@ -1,16 +1,8 @@
 {
   "name": "@azure-samples/ai-form-recognizer-js",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "Azure Form Recognizer client library samples for JavaScript",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/formrecognizer/ai-form-recognizer"
-  },
   "keywords": [
     "node",
     "azure",
@@ -19,14 +11,22 @@
     "isomorphic",
     "cloud"
   ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/formrecognizer/ai-form-recognizer",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/formrecognizer/ai-form-recognizer"
+  },
+  "license": "MIT",
+  "author": "Microsoft Corporation",
   "dependencies": {
     "@azure/ai-form-recognizer": "latest",
     "dotenv": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

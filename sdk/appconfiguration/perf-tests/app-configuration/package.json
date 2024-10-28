@@ -1,27 +1,12 @@
 {
   "name": "@azure-tests/perf-app-configuration",
-  "sdk-type": "perf-test",
   "version": "1.0.0",
-  "description": "",
-  "main": "",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@azure-tools/test-perf": "workspace:*",
-    "@azure/app-configuration": "workspace:*",
-    "@azure/core-util": "workspace:*",
-    "dotenv": "catalog:"
-  },
-  "devDependencies": {
-    "@azure/dev-tool": "workspace:*",
-    "@types/node": "catalog:",
-    "cross-env": "catalog:legacy",
-    "eslint": "catalog:",
-    "tslib": "catalog:",
-    "typescript": "catalog:"
-  },
   "private": true,
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "main": "",
   "scripts": {
     "build": "npm run clean && tsc -p .",
     "build:samples": "echo skipped",
@@ -43,5 +28,20 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "update-snippets": "echo skipped"
-  }
+  },
+  "dependencies": {
+    "@azure-tools/test-perf": "workspace:*",
+    "@azure/app-configuration": "workspace:*",
+    "@azure/core-util": "workspace:*",
+    "dotenv": "catalog:"
+  },
+  "devDependencies": {
+    "@azure/dev-tool": "workspace:*",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:legacy",
+    "eslint": "catalog:",
+    "tslib": "catalog:",
+    "typescript": "catalog:"
+  },
+  "sdk-type": "perf-test"
 }

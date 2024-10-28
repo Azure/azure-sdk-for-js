@@ -2,17 +2,17 @@
   "name": "stress-test-track-2",
   "version": "1.0.0",
   "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "main": "index.js",
   "scripts": {
     "build": "tsc -p .",
     "test": "ts-node src/scenarioBatchReceive.ts --testDurationInMs=10000 --receiveMode=receiveAndDelete"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
-    "applicationinsights": "^1.8.8",
     "@azure/service-bus": "latest",
+    "applicationinsights": "^1.8.8",
     "dotenv": "^18.0.0",
     "minimist": "^1.2.8",
     "uuid": "^10.0.0"

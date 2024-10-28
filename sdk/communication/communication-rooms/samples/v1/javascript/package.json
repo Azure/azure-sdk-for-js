@@ -1,16 +1,8 @@
 {
   "name": "@azure-samples/communication-rooms-js",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "Azure Communication Services - Rooms client library samples for JavaScript",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/communication/communication-rooms"
-  },
   "keywords": [
     "node",
     "azure",
@@ -22,16 +14,24 @@
     "rooms",
     "cloud"
   ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/communication/communication-rooms",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/communication/communication-rooms"
+  },
+  "license": "MIT",
+  "author": "Microsoft Corporation",
   "dependencies": {
-    "@azure/communication-rooms": "latest",
-    "dotenv": "latest",
     "@azure/communication-identity": "^1.1.0-beta.2",
-    "@azure/core-paging": "^1.5.0"
+    "@azure/communication-rooms": "latest",
+    "@azure/core-paging": "^1.5.0",
+    "dotenv": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

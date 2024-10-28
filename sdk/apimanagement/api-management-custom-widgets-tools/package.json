@@ -1,18 +1,6 @@
 {
   "name": "@azure/api-management-custom-widgets-tools",
   "version": "1.0.0-beta.3",
-  "author": "Microsoft Corporation",
-  "license": "MIT",
-  "sdk-type": "client",
-  "type": "module",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apimanagement/api-management-custom-widgets-tools/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "keywords": [
     "azure",
     "cloud",
@@ -20,7 +8,35 @@
     "apimanagement",
     "developer-portal"
   ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/apimanagement/api-management-custom-widgets-tools/README.md",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
   "sideEffects": false,
+  "type": "module",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "files": [
     "dist/",
     "LICENSE",
@@ -48,6 +64,13 @@
     "unit-test:node": "dev-tool run test:vitest --no-test-proxy",
     "update-snippets": "echo skipped"
   },
+  "dependencies": {
+    "@azure-rest/core-client": "catalog:core-rest-clientV1",
+    "@azure/identity": "workspace:*",
+    "@azure/storage-blob": "workspace:*",
+    "mime": "^4.0.4",
+    "tslib": "catalog:"
+  },
   "devDependencies": {
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
@@ -59,13 +82,10 @@
     "typescript": "catalog:",
     "vitest": "catalog:"
   },
-  "dependencies": {
-    "@azure-rest/core-client": "catalog:core-rest-clientV1",
-    "@azure/identity": "workspace:*",
-    "@azure/storage-blob": "workspace:*",
-    "mime": "^4.0.4",
-    "tslib": "catalog:"
+  "engines": {
+    "node": ">=18.0.0"
   },
+  "sdk-type": "client",
   "tshy": {
     "exports": {
       "./package.json": "./package.json",
@@ -79,25 +99,5 @@
       "browser"
     ],
     "selfLink": false
-  },
-  "exports": {
-    "./package.json": "./package.json",
-    ".": {
-      "browser": {
-        "types": "./dist/browser/index.d.ts",
-        "default": "./dist/browser/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/index.d.ts",
-        "default": "./dist/esm/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/index.d.ts",
-        "default": "./dist/commonjs/index.js"
-      }
-    }
-  },
-  "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts",
-  "module": "./dist/esm/index.js"
+  }
 }

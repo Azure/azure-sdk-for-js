@@ -1,9 +1,7 @@
 {
   "name": "@azure-rest/agrifood-farming",
-  "sdk-type": "client",
-  "author": "Microsoft Corporation",
-  "description": "An isomorphic REST client library for the Azure FarmBeats Service.",
   "version": "1.0.0-beta.3",
+  "description": "An isomorphic REST client library for the Azure FarmBeats Service.",
   "keywords": [
     "node",
     "azure",
@@ -12,15 +10,20 @@
     "browser",
     "isomorphic"
   ],
-  "license": "MIT",
-  "main": "./dist/index.js",
-  "module": "./dist-esm/src/index.js",
-  "types": "./types/agrifood-farming-rest.d.ts",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/agrifood/agrifood-farming/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist-esm/src/index.js",
+  "browser": {
+    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+  },
+  "types": "./types/agrifood-farming-rest.d.ts",
   "files": [
     "dist/",
     "dist-esm/src/",
@@ -28,30 +31,6 @@
     "README.md",
     "LICENSE"
   ],
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
-      }
-    ]
-  },
-  "//sampleConfiguration": {
-    "productName": "Azure FarmBeats rest",
-    "productSlugs": [
-      "azure",
-      "azure-farmbeats"
-    ],
-    "requiredResources": {
-      "Azure FarmBeats Service instance": "https://docs.microsoft.com/azure/industry/agriculture/install-azure-farmbeats"
-    }
-  },
-  "browser": {
-    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
-  },
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
@@ -79,8 +58,6 @@
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
   },
-  "sideEffects": false,
-  "autoPublish": false,
   "dependencies": {
     "@azure-rest/core-client": "catalog:core-rest-clientV1",
     "@azure/core-auth": "workspace:*",
@@ -121,5 +98,28 @@
     "mocha": "catalog:legacy",
     "nyc": "catalog:legacy",
     "typescript": "catalog:"
-  }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
+  "//sampleConfiguration": {
+    "productName": "Azure FarmBeats rest",
+    "productSlugs": [
+      "azure",
+      "azure-farmbeats"
+    ],
+    "requiredResources": {
+      "Azure FarmBeats Service instance": "https://docs.microsoft.com/azure/industry/agriculture/install-azure-farmbeats"
+    }
+  },
+  "autoPublish": false,
+  "sdk-type": "client"
 }

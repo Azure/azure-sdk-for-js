@@ -1,16 +1,8 @@
 {
   "name": "@azure-samples/synapse-access-control-js-beta",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "Azure Synapse Access Control Rest client library samples for JavaScript (Beta)",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/synapse/synapse-access-control-rest"
-  },
   "keywords": [
     "node",
     "azure",
@@ -19,16 +11,24 @@
     "cloud",
     "isomorphic"
   ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/synapse/synapse-access-control-rest",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/synapse/synapse-access-control-rest",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/synapse/synapse-access-control-rest"
+  },
+  "license": "MIT",
+  "author": "Microsoft Corporation",
   "dependencies": {
     "@azure-rest/synapse-access-control": "next",
-    "dotenv": "latest",
     "@azure/identity": "^4.2.1",
+    "dotenv": "latest",
     "uuid": "^8.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

@@ -1,15 +1,15 @@
 {
   "name": "customising-service-parameters",
   "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "main": "index.js",
   "scripts": {},
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
   "devDependencies": {
-    "@azure/microsoft-playwright-testing": "1.0.0-beta.1",
     "@azure/identity": "4.3.0",
+    "@azure/microsoft-playwright-testing": "1.0.0-beta.1",
     "@playwright/test": "next",
     "@types/node": "^20.14.6"
   }

@@ -1,20 +1,8 @@
 {
   "name": "@azure-samples/event-hubs-samples-express",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "Azure Event Hubs client library samples with Express",
-  "engine": {
-    "node": ">=18.0.0"
-  },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/",
-    "start": "node ./dist/index.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
-  },
   "keywords": [
     "Azure",
     "Event Hubs",
@@ -22,16 +10,25 @@
     "TypeScript",
     "Express"
   ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "license": "MIT",
+  "author": "Microsoft Corporation",
   "sideEffects": false,
+  "scripts": {
+    "prebuild": "rimraf dist/",
+    "build": "tsc",
+    "start": "node ./dist/index.js"
+  },
   "dependencies": {
-    "@azure/event-hubs": "^5.12.0",
     "@azure/abort-controller": "^2.1.2",
+    "@azure/event-hubs": "^5.12.0",
     "@azure/identity": "^4.4.1",
     "express": "^4.21.1",
     "uuid": "^10.0.0"
@@ -41,5 +38,8 @@
     "@types/node": "^18.0.0",
     "rimraf": "^5.0.5",
     "typescript": "^5.5.3"
+  },
+  "engine": {
+    "node": ">=18.0.0"
   }
 }

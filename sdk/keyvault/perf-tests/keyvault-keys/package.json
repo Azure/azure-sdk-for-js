@@ -1,28 +1,12 @@
 {
   "name": "@azure-tests/perf-keyvault-keys",
-  "sdk-type": "perf-test",
   "version": "1.0.0",
-  "description": "",
-  "main": "",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@azure-tools/test-perf": "workspace:*",
-    "@azure/identity": "workspace:*",
-    "@azure/keyvault-keys": "workspace:*",
-    "dotenv": "catalog:",
-    "uuid": "^10.0.0"
-  },
-  "devDependencies": {
-    "@azure/dev-tool": "workspace:*",
-    "@types/node": "catalog:",
-    "@types/uuid": "^10.0.0",
-    "eslint": "catalog:",
-    "tslib": "catalog:",
-    "typescript": "catalog:"
-  },
   "private": true,
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "main": "",
   "scripts": {
     "build": "npm run clean && tsc -p .",
     "build:samples": "echo skipped",
@@ -44,5 +28,21 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "update-snippets": "echo skipped"
-  }
+  },
+  "dependencies": {
+    "@azure-tools/test-perf": "workspace:*",
+    "@azure/identity": "workspace:*",
+    "@azure/keyvault-keys": "workspace:*",
+    "dotenv": "catalog:",
+    "uuid": "^10.0.0"
+  },
+  "devDependencies": {
+    "@azure/dev-tool": "workspace:*",
+    "@types/node": "catalog:",
+    "@types/uuid": "^10.0.0",
+    "eslint": "catalog:",
+    "tslib": "catalog:",
+    "typescript": "catalog:"
+  },
+  "sdk-type": "perf-test"
 }

@@ -1,7 +1,5 @@
 {
   "name": "@azure-rest/ai-anomaly-detector",
-  "sdk-type": "client",
-  "author": "Microsoft Corporation",
   "version": "1.0.0-beta.2",
   "description": "A generated SDK for AnomalyDetectorRest.",
   "keywords": [
@@ -12,14 +10,20 @@
     "browser",
     "isomorphic"
   ],
-  "license": "MIT",
-  "main": "dist/index.js",
-  "module": "./dist-esm/src/index.js",
-  "types": "./types/ai-anomaly-detector.d.ts",
-  "repository": "github:Azure/azure-sdk-for-js",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector-rest/README.md",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
+  "main": "dist/index.js",
+  "module": "./dist-esm/src/index.js",
+  "browser": {
+    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+  },
+  "types": "./types/ai-anomaly-detector.d.ts",
   "files": [
     "dist/",
     "dist-esm/src/",
@@ -28,9 +32,6 @@
     "LICENSE",
     "review/*"
   ],
-  "engines": {
-    "node": ">=18.0.0"
-  },
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
@@ -58,8 +59,6 @@
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
   },
-  "sideEffects": false,
-  "autoPublish": false,
   "dependencies": {
     "@azure-rest/core-client": "catalog:core-rest-clientV1",
     "@azure/core-auth": "workspace:*",
@@ -99,7 +98,9 @@
     "nyc": "catalog:legacy",
     "typescript": "catalog:"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/anomalydetector/ai-anomaly-detector-rest/README.md",
+  "engines": {
+    "node": ">=18.0.0"
+  },
   "//metadata": {
     "constantPaths": [
       {
@@ -108,9 +109,6 @@
       }
     ]
   },
-  "browser": {
-    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
-  },
   "//sampleConfiguration": {
     "productName": "AnomalyDetectorRest",
     "productSlugs": [
@@ -118,5 +116,7 @@
     ],
     "disableDocsMs": true,
     "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/ai-anomaly-detector?view=azure-node-preview"
-  }
+  },
+  "autoPublish": false,
+  "sdk-type": "client"
 }

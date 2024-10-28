@@ -1,20 +1,8 @@
 {
   "name": "@azure-samples/keyvault-admin-ts-beta",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "Azure Key Vault Administration client library samples for TypeScript (Beta)",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/keyvault/keyvault-admin"
-  },
   "keywords": [
     "node",
     "azure",
@@ -28,23 +16,35 @@
     "access",
     "role"
   ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/keyvault/keyvault-admin",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/keyvault/keyvault-admin"
+  },
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "scripts": {
+    "prebuild": "rimraf dist/",
+    "build": "tsc"
+  },
   "dependencies": {
-    "@azure/keyvault-admin": "next",
-    "dotenv": "latest",
     "@azure/identity": "^4.2.1",
-    "uuid": "^8.3.0",
-    "@azure/keyvault-keys": "^4.2.1"
+    "@azure/keyvault-admin": "next",
+    "@azure/keyvault-keys": "^4.2.1",
+    "dotenv": "latest",
+    "uuid": "^8.3.0"
   },
   "devDependencies": {
-    "@types/uuid": "^8.0.0",
     "@types/node": "^18.0.0",
-    "typescript": "~5.6.2",
-    "rimraf": "latest"
+    "@types/uuid": "^8.0.0",
+    "rimraf": "latest",
+    "typescript": "~5.6.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

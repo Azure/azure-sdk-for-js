@@ -1,26 +1,14 @@
 {
   "name": "@azure-tests/perf-container-registry",
   "version": "1.0.0",
-  "description": "",
-  "main": "",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@azure-tools/test-perf": "^1.0.0",
-    "@azure/container-registry": "^1.1.0-beta.1",
-    "dotenv": "catalog:"
-  },
-  "devDependencies": {
-    "@azure/dev-tool": "workspace:*",
-    "@types/node": "catalog:",
-    "cross-env": "catalog:legacy",
-    "eslint": "catalog:",
-    "tslib": "catalog:",
-    "typescript": "catalog:"
-  },
   "private": true,
+  "description": "",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "main": "",
   "scripts": {
+    "prebuild": "npm run clean",
     "build": "tsc -p .",
     "build:samples": "echo skipped",
     "build:test": "echo skipped",
@@ -34,7 +22,6 @@
     "lint:fix": "dev-tool run vendored eslint-c ../../../../common/tools/eslint-plugin-azure-sdk/eslint.perftests.config.mjs test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "perf-test:node": "npm run build && node dist-esm/index.spec.js",
-    "prebuild": "npm run clean",
     "test": "echo skipped",
     "test:browser": "echo skipped",
     "test:node": "echo skipped",
@@ -42,5 +29,18 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "update-snippets": "echo skipped"
+  },
+  "dependencies": {
+    "@azure-tools/test-perf": "^1.0.0",
+    "@azure/container-registry": "^1.1.0-beta.1",
+    "dotenv": "catalog:"
+  },
+  "devDependencies": {
+    "@azure/dev-tool": "workspace:*",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:legacy",
+    "eslint": "catalog:",
+    "tslib": "catalog:",
+    "typescript": "catalog:"
   }
 }

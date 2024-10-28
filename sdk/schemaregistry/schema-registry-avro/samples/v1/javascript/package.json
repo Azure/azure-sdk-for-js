@@ -1,32 +1,32 @@
 {
   "name": "@azure-samples/schema-registry-avro-js",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "Azure Schema Registry client library samples for JavaScript",
-  "engines": {
-    "node": ">=18.0.0"
+  "keywords": [
+    "azure",
+    "cloud",
+    "typescript"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-avro",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
     "directory": "sdk/schemaregistry/schema-registry-avro"
   },
-  "keywords": [
-    "azure",
-    "cloud",
-    "typescript"
-  ],
-  "author": "Microsoft Corporation",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
-  },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/schemaregistry/schema-registry-avro",
+  "author": "Microsoft Corporation",
   "dependencies": {
-    "@azure/schema-registry-avro": "latest",
-    "dotenv": "latest",
+    "@azure/event-hubs": "^5.8.0",
     "@azure/identity": "^4.4.1",
     "@azure/schema-registry": "^1.2.0",
-    "@azure/event-hubs": "^5.8.0"
+    "@azure/schema-registry-avro": "latest",
+    "dotenv": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

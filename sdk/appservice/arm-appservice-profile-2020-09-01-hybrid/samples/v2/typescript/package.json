@@ -1,20 +1,8 @@
 {
   "name": "@azure-samples/arm-appservice-profile-2020-09-01-hybrid-ts",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": " client library samples for TypeScript",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/appservice/arm-appservice-profile-2020-09-01-hybrid"
-  },
   "keywords": [
     "node",
     "azure",
@@ -22,20 +10,32 @@
     "browser",
     "isomorphic"
   ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appservice/arm-appservice-profile-2020-09-01-hybrid",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/appservice/arm-appservice-profile-2020-09-01-hybrid",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/appservice/arm-appservice-profile-2020-09-01-hybrid"
+  },
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "scripts": {
+    "prebuild": "rimraf dist/",
+    "build": "tsc"
+  },
   "dependencies": {
     "@azure/arm-appservice-profile-2020-09-01-hybrid": "latest",
-    "dotenv": "latest",
-    "@azure/identity": "^4.2.1"
+    "@azure/identity": "^4.2.1",
+    "dotenv": "latest"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",
-    "typescript": "~5.6.2",
-    "rimraf": "latest"
+    "rimraf": "latest",
+    "typescript": "~5.6.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

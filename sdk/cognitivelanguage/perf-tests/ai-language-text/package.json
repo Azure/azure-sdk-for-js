@@ -1,27 +1,12 @@
 {
   "name": "@azure-tests/perf-ai-language-text",
-  "sdk-type": "perf-test",
   "version": "1.0.0",
-  "description": "Performance tests for @azure/ai-language-text",
-  "main": "",
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "@azure-tools/test-perf": "^1.0.0",
-    "@azure/ai-language-text": "^1.1.0",
-    "@azure/identity": "workspace:*",
-    "dotenv": "catalog:"
-  },
-  "devDependencies": {
-    "@azure/dev-tool": "workspace:*",
-    "@types/node": "catalog:",
-    "cross-env": "catalog:legacy",
-    "eslint": "catalog:",
-    "tslib": "catalog:",
-    "typescript": "catalog:"
-  },
   "private": true,
+  "description": "Performance tests for @azure/ai-language-text",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
+  "main": "",
   "scripts": {
     "build": "npm run clean && tsc -p .",
     "build:samples": "echo skipped",
@@ -43,5 +28,20 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "update-snippets": "echo skipped"
-  }
+  },
+  "dependencies": {
+    "@azure-tools/test-perf": "^1.0.0",
+    "@azure/ai-language-text": "^1.1.0",
+    "@azure/identity": "workspace:*",
+    "dotenv": "catalog:"
+  },
+  "devDependencies": {
+    "@azure/dev-tool": "workspace:*",
+    "@types/node": "catalog:",
+    "cross-env": "catalog:legacy",
+    "eslint": "catalog:",
+    "tslib": "catalog:",
+    "typescript": "catalog:"
+  },
+  "sdk-type": "perf-test"
 }

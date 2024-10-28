@@ -1,34 +1,7 @@
 {
   "name": "@azure/synapse-access-control",
-  "author": "Microsoft Corporation",
-  "description": "A generated SDK for AccessControlClient.",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/synapse-access-control/README.md",
-  "repository": "github:Azure/azure-sdk-for-js",
-  "sdk-type": "client",
   "version": "1.0.0-beta.5",
-  "dependencies": {
-    "@azure/core-auth": "workspace:*",
-    "@azure/core-client": "workspace:*",
-    "@azure/core-paging": "workspace:*",
-    "@azure/core-rest-pipeline": "workspace:*",
-    "@azure/core-tracing": "workspace:*",
-    "tslib": "catalog:"
-  },
-  "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/accessControlClientContext.ts",
-        "prefix": "packageDetails"
-      },
-      {
-        "path": "swagger/README.md",
-        "prefix": "package-version"
-      }
-    ]
-  },
-  "browser": {
-    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
-  },
+  "description": "A generated SDK for AccessControlClient.",
   "keywords": [
     "node",
     "azure",
@@ -37,13 +10,62 @@
     "cloud",
     "isomorphic"
   ],
-  "license": "MIT",
-  "engines": {
-    "node": ">=18.0.0"
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/synapse/synapse-access-control/README.md",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
+  "repository": "github:Azure/azure-sdk-for-js",
+  "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
+  "browser": {
+    "./dist-esm/test/public/utils/env.js": "./dist-esm/test/public/utils/env.browser.js"
+  },
   "types": "./types/synapse-access-control.d.ts",
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "dist/**/*.d.ts",
+    "dist/**/*.d.ts.map",
+    "dist-esm/**/*.js",
+    "dist-esm/**/*.js.map",
+    "dist-esm/**/*.d.ts",
+    "dist-esm/**/*.d.ts.map",
+    "types/synapse-access-control.d.ts",
+    "README.md",
+    "tsconfig.json"
+  ],
+  "scripts": {
+    "build": "tsc && dev-tool run bundle && npm run minify && npm run extract-api",
+    "build:samples": "echo Skipped.",
+    "build:test": "echo skipped. actual commands inlined in browser test scripts",
+    "check-format": "echo skip format check as this package has only auto generated code",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
+    "extract-api": "dev-tool run extract-api",
+    "format": "echo skip format as this package has only auto generated code",
+    "integration-test": "echo skip",
+    "integration-test:browser": "echo skip",
+    "integration-test:node": "echo skip",
+    "lint": "echo skip",
+    "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
+    "pack": "npm pack 2>&1",
+    "test": "npm run unit-test",
+    "test:browser": "npm run clean && tsc -p . && dev-tool run bundle && npm run unit-test:browser",
+    "test:node": "npm run unit-test:node",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "unit-test:browser": "dev-tool run test:browser",
+    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'"
+  },
+  "dependencies": {
+    "@azure/core-auth": "workspace:*",
+    "@azure/core-client": "workspace:*",
+    "@azure/core-paging": "workspace:*",
+    "@azure/core-rest-pipeline": "workspace:*",
+    "@azure/core-tracing": "workspace:*",
+    "tslib": "catalog:"
+  },
   "devDependencies": {
     "@azure-tools/test-credential": "catalog:test-credentialV1",
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
@@ -75,43 +97,21 @@
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
   },
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  "engines": {
+    "node": ">=18.0.0"
   },
-  "files": [
-    "dist/**/*.js",
-    "dist/**/*.js.map",
-    "dist/**/*.d.ts",
-    "dist/**/*.d.ts.map",
-    "dist-esm/**/*.js",
-    "dist-esm/**/*.js.map",
-    "dist-esm/**/*.d.ts",
-    "dist-esm/**/*.d.ts.map",
-    "types/synapse-access-control.d.ts",
-    "README.md",
-    "tsconfig.json"
-  ],
-  "scripts": {
-    "build": "tsc && dev-tool run bundle && npm run minify && npm run extract-api",
-    "build:samples": "echo Skipped.",
-    "build:test": "echo skipped. actual commands inlined in browser test scripts",
-    "check-format": "echo skip format check as this package has only auto generated code",
-    "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
-    "extract-api": "dev-tool run extract-api",
-    "format": "echo skip format as this package has only auto generated code",
-    "integration-test": "echo skip",
-    "integration-test:browser": "echo skip",
-    "integration-test:node": "echo skip",
-    "lint": "echo skip",
-    "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
-    "pack": "npm pack 2>&1",
-    "test:browser": "npm run clean && tsc -p . && dev-tool run bundle && npm run unit-test:browser",
-    "test:node": "npm run unit-test:node",
-    "test": "npm run unit-test",
-    "unit-test:browser": "dev-tool run test:browser",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/accessControlClientContext.ts",
+        "prefix": "packageDetails"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
   },
-  "sideEffects": false,
-  "autoPublish": true
+  "autoPublish": true,
+  "sdk-type": "client"
 }

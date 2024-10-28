@@ -2,15 +2,33 @@
   "name": "@azure/quantum-jobs",
   "version": "1.0.0-beta.2",
   "description": "An isomorphic client library for Azure Quantum",
-  "sdk-type": "client",
-  "author": "Microsoft Corporation",
+  "keywords": [
+    "azure",
+    "quantum",
+    "cloud",
+    "node",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs/",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "repository": "github:Azure/azure-sdk-for-js",
   "license": "MIT",
+  "author": "Microsoft Corporation",
+  "sideEffects": false,
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./types/latest/quantum-jobs.d.ts",
-  "engines": {
-    "node": ">=18.0.0"
-  },
+  "files": [
+    "dist/",
+    "dist-esm/src/",
+    "types/latest/quantum-jobs.d.ts",
+    "README.md",
+    "LICENSE.txt"
+  ],
   "scripts": {
     "build": "npm run clean && npm run build:node && npm run build:browser",
     "build:browser": "tsc -p . && dev-tool run bundle",
@@ -38,27 +56,6 @@
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
-  },
-  "files": [
-    "dist/",
-    "dist-esm/src/",
-    "types/latest/quantum-jobs.d.ts",
-    "README.md",
-    "LICENSE.txt"
-  ],
-  "keywords": [
-    "azure",
-    "quantum",
-    "cloud",
-    "node",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
-  "repository": "github:Azure/azure-sdk-for-js",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/quantum/quantum-jobs/",
-  "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "dependencies": {
     "@azure/core-auth": "workspace:*",
@@ -99,5 +96,8 @@
     "sinon": "catalog:legacy",
     "typescript": "catalog:"
   },
-  "sideEffects": false
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "sdk-type": "client"
 }

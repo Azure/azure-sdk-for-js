@@ -2,16 +2,16 @@
   "name": "azure-function-test",
   "version": "1.0.0",
   "private": true,
+  "description": "",
   "scripts": {
     "build": "tsc",
     "build:production": "npm run prestart && npm prune --production",
     "watch": "tsc --w",
     "prestart": "npm run build && func extensions install",
-    "start:host": "func start --typescript",
     "start": "npm-run-all --parallel start:host watch",
+    "start:host": "func start --typescript",
     "test": "echo \"No tests yet...\""
   },
-  "description": "",
   "devDependencies": {
     "@azure/functions": "1.2.3",
     "@azure/identity": "workspace:*",

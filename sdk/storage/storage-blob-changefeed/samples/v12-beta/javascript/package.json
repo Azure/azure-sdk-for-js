@@ -1,16 +1,8 @@
 {
   "name": "@azure-samples/storage-blob-changefeed-js-beta",
-  "private": true,
   "version": "1.0.0",
+  "private": true,
   "description": "Azure Storage Blob Change Feed client library samples for JavaScript (Beta)",
-  "engines": {
-    "node": ">=18.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/storage/storage-blob-changefeed"
-  },
   "keywords": [
     "azure",
     "storage",
@@ -22,15 +14,23 @@
     "javascript",
     "browser"
   ],
-  "author": "Microsoft Corporation",
-  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/storage/storage-blob-changefeed",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/storage/storage-blob-changefeed"
+  },
+  "license": "MIT",
+  "author": "Microsoft Corporation",
   "dependencies": {
+    "@azure/storage-blob": "^12.8.0",
     "@azure/storage-blob-changefeed": "next",
-    "dotenv": "latest",
-    "@azure/storage-blob": "^12.8.0"
+    "dotenv": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }
