@@ -18,7 +18,7 @@ import {
   RouteGetRouteMatrix200Response,
   getLongRunningPoller,
   isUnexpected,
-} from "../../src/generated";
+} from "../../generated";
 import { LatLon } from "@azure/maps-common";
 
 describe("Endpoint can be overwritten", function (this: Suite) {
