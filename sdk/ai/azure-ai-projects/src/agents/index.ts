@@ -3,9 +3,10 @@
 // Licensed under the MIT License.
 
 import { Client } from "@azure-rest/core-client";
-import { AgentDeletionStatusOutput, AgentOutput, OpenAIPageableListOfAgentOutput } from "../generated/src/outputModels.js";
-import { AgentsCreateAgentParameters, AgentsDeleteAgentParameters, AgentsGetAgentParameters, AgentsListAgentsParameters, AgentsUpdateAgentParameters } from "../generated/src/parameters.js";
+import { AgentDeletionStatusOutput, AgentOutput, FileContentResponseOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput } from "../generated/src/outputModels.js";
+import { AgentsCreateAgentParameters, AgentsDeleteAgentParameters, AgentsDeleteFileParameters, AgentsGetAgentParameters, AgentsGetFileContentParameters, AgentsGetFileParameters, AgentsListAgentsParameters, AgentsListFilesParameters, AgentsUpdateAgentParameters, AgentsUploadFileParameters } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
+import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
 
 export interface AgentsOperations {
     /** Creates a new agent. */
@@ -31,6 +32,30 @@ export interface AgentsOperations {
       assistantId: string,
       options?: AgentsDeleteAgentParameters,
     ) => Promise<AgentDeletionStatusOutput>;
+
+    /** Gets a list of previously uploaded files. */
+    listFiles: (
+      options?: AgentsListFilesParameters,
+    ) => Promise<FileListResponseOutput>;
+    /** Uploads a file for use by other operations. */
+    uploadFile: (
+      options: AgentsUploadFileParameters,
+    ) => Promise<OpenAIFileOutput>;
+    /** Delete a previously uploaded file. */
+    deleteFile: (
+      fileId: string,
+      options?: AgentsDeleteFileParameters,
+    ) => Promise<FileDeletionStatusOutput>;
+    /** Returns information about a specific file. Does not retrieve file content. */
+    getFile: (
+      fileId: string,
+      options?: AgentsGetFileParameters,
+    ) => Promise<OpenAIFileOutput>;
+    /** Returns the content of a specific file. */
+    getFileContent: (
+      fileId: string,
+      options?: AgentsGetFileContentParameters,
+    ) => Promise<FileContentResponseOutput>;
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/explicit-module-boundary-types
@@ -50,6 +75,17 @@ export function getAgents(context: Client)  {
         assistantId: string,
         options?: AgentsDeleteAgentParameters,
       ) => deleteAgent(context, assistantId, options),
+
+      listFiles: (options?: AgentsListFilesParameters) =>
+        listFiles(context, options),
+      uploadFile: (options: AgentsUploadFileParameters) =>
+        uploadFile(context, options),
+      deleteFile: (fileId: string, options?: AgentsDeleteFileParameters) =>
+        deleteFile(context, fileId, options),
+      getFile: (fileId: string, options?: AgentsGetFileParameters) =>
+        getFile(context, fileId, options),
+      getFileContent: (fileId: string, options?: AgentsGetFileContentParameters) =>
+        getFileContent(context, fileId, options),
     };
 }
 
