@@ -4885,7 +4885,7 @@ export interface VerifyFromPersonGroupDefaultResponse extends HttpResponse {
 export type VerifyFromPersonGroupParameters = VerifyFromPersonGroupBodyParam & RequestParameters;
 
 // @public
-export type Versions = "v1.1-preview.1" | "v1.2-preview.1";
+export type Versions = "v1.2-preview.1";
 
 // (No @packageDocumentation comment for this package)
 
