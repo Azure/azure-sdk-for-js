@@ -92,7 +92,7 @@ export function provisioningStateDeserializer(item: any): ProvisioningState {
 }
 
 /** The base extension resource. */
-export interface ExtensionResource extends Resource { }
+export interface ExtensionResource extends Resource {}
 
 export function extensionResourceSerializer(item: ExtensionResource): any {
   return item;
@@ -156,9 +156,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -199,26 +197,20 @@ export interface _ServiceResourceListResult {
   nextLink?: string;
 }
 
-export function _serviceResourceListResultDeserializer(
-  item: any,
-): _ServiceResourceListResult {
+export function _serviceResourceListResultDeserializer(item: any): _ServiceResourceListResult {
   return {
     value: serviceResourceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function serviceResourceArraySerializer(
-  result: Array<ServiceResource>,
-): any[] {
+export function serviceResourceArraySerializer(result: Array<ServiceResource>): any[] {
   return result.map((item) => {
     return serviceResourceSerializer(item);
   });
 }
 
-export function serviceResourceArrayDeserializer(
-  result: Array<ServiceResource>,
-): any[] {
+export function serviceResourceArrayDeserializer(result: Array<ServiceResource>): any[] {
   return result.map((item) => {
     return serviceResourceDeserializer(item);
   });
@@ -352,9 +344,7 @@ export interface LoadBalancerProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function loadBalancerPropertiesSerializer(
-  item: LoadBalancerProperties,
-): any {
+export function loadBalancerPropertiesSerializer(item: LoadBalancerProperties): any {
   return {
     addresses: item["addresses"].map((p: any) => {
       return p;
@@ -364,14 +354,12 @@ export function loadBalancerPropertiesSerializer(
     bgpPeers: !item["bgpPeers"]
       ? item["bgpPeers"]
       : item["bgpPeers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
-export function loadBalancerPropertiesDeserializer(
-  item: any,
-): LoadBalancerProperties {
+export function loadBalancerPropertiesDeserializer(item: any): LoadBalancerProperties {
   return {
     addresses: item["addresses"].map((p: any) => {
       return p;
@@ -381,8 +369,8 @@ export function loadBalancerPropertiesDeserializer(
     bgpPeers: !item["bgpPeers"]
       ? item["bgpPeers"]
       : item["bgpPeers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     provisioningState: !item["provisioningState"]
       ? item["provisioningState"]
       : provisioningStateDeserializer(item["provisioningState"]),
@@ -418,26 +406,20 @@ export interface _LoadBalancerListResult {
   nextLink?: string;
 }
 
-export function _loadBalancerListResultDeserializer(
-  item: any,
-): _LoadBalancerListResult {
+export function _loadBalancerListResultDeserializer(item: any): _LoadBalancerListResult {
   return {
     value: loadBalancerArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
   };
 }
 
-export function loadBalancerArraySerializer(
-  result: Array<LoadBalancer>,
-): any[] {
+export function loadBalancerArraySerializer(result: Array<LoadBalancer>): any[] {
   return result.map((item) => {
     return loadBalancerSerializer(item);
   });
 }
 
-export function loadBalancerArrayDeserializer(
-  result: Array<LoadBalancer>,
-): any[] {
+export function loadBalancerArrayDeserializer(result: Array<LoadBalancer>): any[] {
   return result.map((item) => {
     return loadBalancerDeserializer(item);
   });
@@ -451,9 +433,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -478,9 +458,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };
@@ -555,9 +533,7 @@ export interface StorageClassResource extends ExtensionResource {
   properties?: StorageClassProperties;
 }
 
-export function storageClassResourceSerializer(
-  item: StorageClassResource,
-): any {
+export function storageClassResourceSerializer(item: StorageClassResource): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -565,9 +541,7 @@ export function storageClassResourceSerializer(
   };
 }
 
-export function storageClassResourceDeserializer(
-  item: any,
-): StorageClassResource {
+export function storageClassResourceDeserializer(item: any): StorageClassResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -609,67 +583,59 @@ export interface StorageClassProperties {
   readonly provisioningState?: ProvisioningState;
 }
 
-export function storageClassPropertiesSerializer(
-  item: StorageClassProperties,
-): any {
+export function storageClassPropertiesSerializer(item: StorageClassProperties): any {
   return {
     allowVolumeExpansion: item["allowVolumeExpansion"],
     mountOptions: !item["mountOptions"]
       ? item["mountOptions"]
       : item["mountOptions"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     provisioner: item["provisioner"],
     volumeBindingMode: item["volumeBindingMode"],
     accessModes: !item["accessModes"]
       ? item["accessModes"]
       : item["accessModes"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     dataResilience: item["dataResilience"],
     failoverSpeed: item["failoverSpeed"],
     limitations: !item["limitations"]
       ? item["limitations"]
       : item["limitations"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     performance: item["performance"],
     priority: item["priority"],
-    typeProperties: storageClassTypePropertiesUnionSerializer(
-      item["typeProperties"],
-    ),
+    typeProperties: storageClassTypePropertiesUnionSerializer(item["typeProperties"]),
   };
 }
 
-export function storageClassPropertiesDeserializer(
-  item: any,
-): StorageClassProperties {
+export function storageClassPropertiesDeserializer(item: any): StorageClassProperties {
   return {
     allowVolumeExpansion: item["allowVolumeExpansion"],
     mountOptions: !item["mountOptions"]
       ? item["mountOptions"]
       : item["mountOptions"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     provisioner: item["provisioner"],
     volumeBindingMode: item["volumeBindingMode"],
     accessModes: !item["accessModes"]
       ? item["accessModes"]
       : item["accessModes"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     dataResilience: item["dataResilience"],
     failoverSpeed: item["failoverSpeed"],
     limitations: !item["limitations"]
       ? item["limitations"]
       : item["limitations"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     performance: item["performance"],
     priority: item["priority"],
-    typeProperties: storageClassTypePropertiesUnionDeserializer(
-      item["typeProperties"],
-    ),
+    typeProperties: storageClassTypePropertiesUnionDeserializer(item["typeProperties"]),
     provisioningState: !item["provisioningState"]
       ? item["provisioningState"]
       : provisioningStateDeserializer(item["provisioningState"]),
@@ -806,15 +772,11 @@ export interface StorageClassTypeProperties {
   type: SCType;
 }
 
-export function storageClassTypePropertiesSerializer(
-  item: StorageClassTypeProperties,
-): any {
+export function storageClassTypePropertiesSerializer(item: StorageClassTypeProperties): any {
   return { type: item["type"] };
 }
 
-export function storageClassTypePropertiesDeserializer(
-  item: any,
-): StorageClassTypeProperties {
+export function storageClassTypePropertiesDeserializer(item: any): StorageClassTypeProperties {
   return {
     type: item["type"],
   };
@@ -834,29 +796,19 @@ export function storageClassTypePropertiesUnionSerializer(
 ): any {
   switch (item.type) {
     case "Native":
-      return nativeStorageClassTypePropertiesSerializer(
-        item as NativeStorageClassTypeProperties,
-      );
+      return nativeStorageClassTypePropertiesSerializer(item as NativeStorageClassTypeProperties);
 
     case "RWX":
-      return rwxStorageClassTypePropertiesSerializer(
-        item as RwxStorageClassTypeProperties,
-      );
+      return rwxStorageClassTypePropertiesSerializer(item as RwxStorageClassTypeProperties);
 
     case "Blob":
-      return blobStorageClassTypePropertiesSerializer(
-        item as BlobStorageClassTypeProperties,
-      );
+      return blobStorageClassTypePropertiesSerializer(item as BlobStorageClassTypeProperties);
 
     case "NFS":
-      return nfsStorageClassTypePropertiesSerializer(
-        item as NfsStorageClassTypeProperties,
-      );
+      return nfsStorageClassTypePropertiesSerializer(item as NfsStorageClassTypeProperties);
 
     case "SMB":
-      return smbStorageClassTypePropertiesSerializer(
-        item as SmbStorageClassTypeProperties,
-      );
+      return smbStorageClassTypePropertiesSerializer(item as SmbStorageClassTypeProperties);
 
     default:
       return storageClassTypePropertiesSerializer(item);
@@ -868,29 +820,19 @@ export function storageClassTypePropertiesUnionDeserializer(
 ): StorageClassTypePropertiesUnion {
   switch (item.type) {
     case "Native":
-      return nativeStorageClassTypePropertiesDeserializer(
-        item as NativeStorageClassTypeProperties,
-      );
+      return nativeStorageClassTypePropertiesDeserializer(item as NativeStorageClassTypeProperties);
 
     case "RWX":
-      return rwxStorageClassTypePropertiesDeserializer(
-        item as RwxStorageClassTypeProperties,
-      );
+      return rwxStorageClassTypePropertiesDeserializer(item as RwxStorageClassTypeProperties);
 
     case "Blob":
-      return blobStorageClassTypePropertiesDeserializer(
-        item as BlobStorageClassTypeProperties,
-      );
+      return blobStorageClassTypePropertiesDeserializer(item as BlobStorageClassTypeProperties);
 
     case "NFS":
-      return nfsStorageClassTypePropertiesDeserializer(
-        item as NfsStorageClassTypeProperties,
-      );
+      return nfsStorageClassTypePropertiesDeserializer(item as NfsStorageClassTypeProperties);
 
     case "SMB":
-      return smbStorageClassTypePropertiesDeserializer(
-        item as SmbStorageClassTypeProperties,
-      );
+      return smbStorageClassTypePropertiesDeserializer(item as SmbStorageClassTypeProperties);
 
     default:
       return storageClassTypePropertiesDeserializer(item);
@@ -925,8 +867,7 @@ export enum KnownSCType {
 export type SCType = string;
 
 /** The properties of Native StorageClass */
-export interface NativeStorageClassTypeProperties
-  extends StorageClassTypeProperties {
+export interface NativeStorageClassTypeProperties extends StorageClassTypeProperties {
   /** Native StorageClass */
   type: "Native";
 }
@@ -946,17 +887,14 @@ export function nativeStorageClassTypePropertiesDeserializer(
 }
 
 /** The properties of RWX StorageClass */
-export interface RwxStorageClassTypeProperties
-  extends StorageClassTypeProperties {
+export interface RwxStorageClassTypeProperties extends StorageClassTypeProperties {
   /** RWX StorageClass */
   type: "RWX";
   /** The backing storageclass used to create new storageclass */
   backingStorageClassName: string;
 }
 
-export function rwxStorageClassTypePropertiesSerializer(
-  item: RwxStorageClassTypeProperties,
-): any {
+export function rwxStorageClassTypePropertiesSerializer(item: RwxStorageClassTypeProperties): any {
   return {
     type: item["type"],
     backingStorageClassName: item["backingStorageClassName"],
@@ -973,8 +911,7 @@ export function rwxStorageClassTypePropertiesDeserializer(
 }
 
 /** The properties of Blob StorageClass */
-export interface BlobStorageClassTypeProperties
-  extends StorageClassTypeProperties {
+export interface BlobStorageClassTypeProperties extends StorageClassTypeProperties {
   /** Blob StorageClass */
   type: "Blob";
   /** Azure Storage Account Name */
@@ -1004,8 +941,7 @@ export function blobStorageClassTypePropertiesDeserializer(
 }
 
 /** The properties of NFS StorageClass */
-export interface NfsStorageClassTypeProperties
-  extends StorageClassTypeProperties {
+export interface NfsStorageClassTypeProperties extends StorageClassTypeProperties {
   /** NFS StorageClass */
   type: "NFS";
   /** NFS Server */
@@ -1020,9 +956,7 @@ export interface NfsStorageClassTypeProperties
   onDelete?: NfsDirectoryActionOnVolumeDeletion;
 }
 
-export function nfsStorageClassTypePropertiesSerializer(
-  item: NfsStorageClassTypeProperties,
-): any {
+export function nfsStorageClassTypePropertiesSerializer(item: NfsStorageClassTypeProperties): any {
   return {
     type: item["type"],
     server: item["server"],
@@ -1065,8 +999,7 @@ export enum KnownNfsDirectoryActionOnVolumeDeletion {
 export type NfsDirectoryActionOnVolumeDeletion = string;
 
 /** The properties of SMB StorageClass */
-export interface SmbStorageClassTypeProperties
-  extends StorageClassTypeProperties {
+export interface SmbStorageClassTypeProperties extends StorageClassTypeProperties {
   /** SMB StorageClass */
   type: "SMB";
   /** SMB Source */
@@ -1081,9 +1014,7 @@ export interface SmbStorageClassTypeProperties
   domain?: string;
 }
 
-export function smbStorageClassTypePropertiesSerializer(
-  item: SmbStorageClassTypeProperties,
-): any {
+export function smbStorageClassTypePropertiesSerializer(item: SmbStorageClassTypeProperties): any {
   return {
     type: item["type"],
     source: item["source"],
@@ -1113,9 +1044,7 @@ export interface StorageClassResourceUpdate {
   properties?: StorageClassPropertiesUpdate;
 }
 
-export function storageClassResourceUpdateSerializer(
-  item: StorageClassResourceUpdate,
-): any {
+export function storageClassResourceUpdateSerializer(item: StorageClassResourceUpdate): any {
   return {
     properties: !item["properties"]
       ? item["properties"]
@@ -1145,28 +1074,26 @@ export interface StorageClassPropertiesUpdate {
   typeProperties?: StorageClassTypePropertiesUpdate;
 }
 
-export function storageClassPropertiesUpdateSerializer(
-  item: StorageClassPropertiesUpdate,
-): any {
+export function storageClassPropertiesUpdateSerializer(item: StorageClassPropertiesUpdate): any {
   return {
     allowVolumeExpansion: item["allowVolumeExpansion"],
     mountOptions: !item["mountOptions"]
       ? item["mountOptions"]
       : item["mountOptions"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     accessModes: !item["accessModes"]
       ? item["accessModes"]
       : item["accessModes"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     dataResilience: item["dataResilience"],
     failoverSpeed: item["failoverSpeed"],
     limitations: !item["limitations"]
       ? item["limitations"]
       : item["limitations"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     performance: item["performance"],
     priority: item["priority"],
     typeProperties: !item["typeProperties"]
@@ -1239,17 +1166,13 @@ export function _storageClassResourceListResultDeserializer(
   };
 }
 
-export function storageClassResourceArraySerializer(
-  result: Array<StorageClassResource>,
-): any[] {
+export function storageClassResourceArraySerializer(result: Array<StorageClassResource>): any[] {
   return result.map((item) => {
     return storageClassResourceSerializer(item);
   });
 }
 
-export function storageClassResourceArrayDeserializer(
-  result: Array<StorageClassResource>,
-): any[] {
+export function storageClassResourceArrayDeserializer(result: Array<StorageClassResource>): any[] {
   return result.map((item) => {
     return storageClassResourceDeserializer(item);
   });

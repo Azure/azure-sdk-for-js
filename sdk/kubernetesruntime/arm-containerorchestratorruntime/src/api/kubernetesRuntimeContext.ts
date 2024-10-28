@@ -5,7 +5,7 @@ import { logger } from "../logger.js";
 import { Client, ClientOptions, getClient } from "@azure-rest/core-client";
 import { TokenCredential } from "@azure/core-auth";
 
-export interface KubernetesRuntimeContext extends Client { }
+export interface KubernetesRuntimeContext extends Client {}
 
 /** Optional parameters for the client. */
 export interface KubernetesRuntimeClientOptionalParams extends ClientOptions {
@@ -17,8 +17,7 @@ export function createKubernetesRuntime(
   credential: TokenCredential,
   options: KubernetesRuntimeClientOptionalParams = {},
 ): KubernetesRuntimeContext {
-  const endpointUrl =
-    options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `https://management.azure.com`;
 
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
   const userAgentInfo = `azsdk-js-arm-containerorchestratorruntime/1.0.0-beta.1`;
@@ -43,8 +42,9 @@ export function createKubernetesRuntime(
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
       if (!url.searchParams.get("api-version")) {
-        req.url = `${req.url}${Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-          }api-version=${apiVersion}`;
+        req.url = `${req.url}${
+          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+        }api-version=${apiVersion}`;
       }
 
       return next(req);

@@ -61,12 +61,7 @@ export async function loadBalancersGet(
   loadBalancerName: string,
   options: LoadBalancersGetOptionalParams = { requestOptions: {} },
 ): Promise<LoadBalancer> {
-  const result = await _loadBalancersGetSend(
-    context,
-    resourceUri,
-    loadBalancerName,
-    options,
-  );
+  const result = await _loadBalancersGetSend(context, resourceUri, loadBalancerName, options);
   return _loadBalancersGetDeserialize(result);
 }
 
@@ -108,24 +103,13 @@ export function loadBalancersCreateOrUpdate(
   resource: LoadBalancer,
   options: LoadBalancersCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<LoadBalancer>, LoadBalancer> {
-  return getLongRunningPoller(
-    context,
-    _loadBalancersCreateOrUpdateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _loadBalancersCreateOrUpdateSend(
-          context,
-          resourceUri,
-          loadBalancerName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<LoadBalancer>, LoadBalancer>;
+  return getLongRunningPoller(context, _loadBalancersCreateOrUpdateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _loadBalancersCreateOrUpdateSend(context, resourceUri, loadBalancerName, resource, options),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<LoadBalancer>, LoadBalancer>;
 }
 
 export function _loadBalancersDeleteSend(
@@ -161,12 +145,7 @@ export async function loadBalancersDelete(
   loadBalancerName: string,
   options: LoadBalancersDeleteOptionalParams = { requestOptions: {} },
 ): Promise<void> {
-  const result = await _loadBalancersDeleteSend(
-    context,
-    resourceUri,
-    loadBalancerName,
-    options,
-  );
+  const result = await _loadBalancersDeleteSend(context, resourceUri, loadBalancerName, options);
   return _loadBalancersDeleteDeserialize(result);
 }
 
@@ -176,10 +155,10 @@ export function _loadBalancersListSend(
   options: LoadBalancersListOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
-    .path(
-      "/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers",
-      { value: resourceUri, allowReserved: true },
-    )
+    .path("/{resourceUri}/providers/Microsoft.KubernetesRuntime/loadBalancers", {
+      value: resourceUri,
+      allowReserved: true,
+    })
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 

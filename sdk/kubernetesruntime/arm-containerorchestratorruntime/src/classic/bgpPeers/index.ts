@@ -48,37 +48,22 @@ export interface BgpPeersOperations {
 
 export function getBgpPeers(context: KubernetesRuntimeContext) {
   return {
-    get: (
-      resourceUri: string,
-      bgpPeerName: string,
-      options?: BgpPeersGetOptionalParams,
-    ) => bgpPeersGet(context, resourceUri, bgpPeerName, options),
+    get: (resourceUri: string, bgpPeerName: string, options?: BgpPeersGetOptionalParams) =>
+      bgpPeersGet(context, resourceUri, bgpPeerName, options),
     createOrUpdate: (
       resourceUri: string,
       bgpPeerName: string,
       resource: BgpPeer,
       options?: BgpPeersCreateOrUpdateOptionalParams,
-    ) =>
-      bgpPeersCreateOrUpdate(
-        context,
-        resourceUri,
-        bgpPeerName,
-        resource,
-        options,
-      ),
-    delete: (
-      resourceUri: string,
-      bgpPeerName: string,
-      options?: BgpPeersDeleteOptionalParams,
-    ) => bgpPeersDelete(context, resourceUri, bgpPeerName, options),
+    ) => bgpPeersCreateOrUpdate(context, resourceUri, bgpPeerName, resource, options),
+    delete: (resourceUri: string, bgpPeerName: string, options?: BgpPeersDeleteOptionalParams) =>
+      bgpPeersDelete(context, resourceUri, bgpPeerName, options),
     list: (resourceUri: string, options?: BgpPeersListOptionalParams) =>
       bgpPeersList(context, resourceUri, options),
   };
 }
 
-export function getBgpPeersOperations(
-  context: KubernetesRuntimeContext,
-): BgpPeersOperations {
+export function getBgpPeersOperations(context: KubernetesRuntimeContext): BgpPeersOperations {
   return {
     ...getBgpPeers(context),
   };

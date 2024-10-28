@@ -58,14 +58,7 @@ export function getLoadBalancers(context: KubernetesRuntimeContext) {
       loadBalancerName: string,
       resource: LoadBalancer,
       options?: LoadBalancersCreateOrUpdateOptionalParams,
-    ) =>
-      loadBalancersCreateOrUpdate(
-        context,
-        resourceUri,
-        loadBalancerName,
-        resource,
-        options,
-      ),
+    ) => loadBalancersCreateOrUpdate(context, resourceUri, loadBalancerName, resource, options),
     delete: (
       resourceUri: string,
       loadBalancerName: string,
