@@ -25,6 +25,52 @@ describe("Vector search feature", async () => {
       const indexingPolicy: IndexingPolicy = {
         vectorIndexes: [
           { path: "/vector1", type: VectorIndexType.Flat },
+          { path: "/vector2", type: VectorIndexType.QuantizedFlat },
+        ],
+      };
+      const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
+        vectorEmbeddings: [
+          {
+            path: "/vector1",
+            dataType: VectorEmbeddingDataType.Float32,
+            dimensions: 500,
+            distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
+          },
+          {
+            path: "/vector2",
+            dataType: VectorEmbeddingDataType.Int8,
+            dimensions: 200,
+            distanceFunction: VectorEmbeddingDistanceFunction.DotProduct,
+          },
+          {
+            path: "/vector3",
+            dataType: VectorEmbeddingDataType.UInt8,
+            dimensions: 400,
+            distanceFunction: VectorEmbeddingDistanceFunction.Cosine,
+          },
+        ],
+      };
+      const containerName = "JSApp-vector embedding container";
+      // create container
+      const { resource: containerdef } = await database.containers.createIfNotExists({
+        id: containerName,
+        vectorEmbeddingPolicy: vectorEmbeddingPolicy,
+        indexingPolicy: indexingPolicy,
+      });
+
+      assert(containerdef.indexingPolicy !== undefined);
+      assert(containerdef.vectorEmbeddingPolicy !== undefined);
+      assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings.length === 3);
+      assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[0].path === "/vector1");
+      assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[1].path === "/vector2");
+      assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[2].path === "/vector3");
+    });
+
+    // skipping the test case for now. Will enable it once the changes are live on backend
+    it.skip("validate VectorEmbeddingPolicy", async function () {
+      const indexingPolicy: IndexingPolicy = {
+        vectorIndexes: [
+          { path: "/vector1", type: VectorIndexType.Flat },
           {
             path: "/vector2",
             type: VectorIndexType.QuantizedFlat,
