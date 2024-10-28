@@ -10,56 +10,6 @@ import { logger as coreLogger } from "../log.js";
 import { isRestError } from "../restError.js";
 
 /**
- * Parameters parsed out of the WWW-Authenticate header value by the parseWWWAuthenticate function.
- */
-interface WWWAuthenticate {
-  /**
-   * The authorization_url parameter, if present.
-   */
-  authorization_url?: string;
-
-  /**
-   * The claims parameter, if present.
-   */
-  claims?: string;
-
-  /**
-   * The error parameter, if present.
-   */
-  error?: string;
-}
-
-const validWWWAuthenticateProperties: readonly (keyof WWWAuthenticate)[] = [
-  "authorization_url",
-  "claims",
-  "error",
-] as const;
-
-/**
- * Parses an WWW-Authenticate response header.
- * This transforms a string value like:
- * `Bearer authorization="https://some.url/tenantId", resource="https://some.url"`
- * into an object like:
- * `{ authorization: "https://some.url/tenantId", resource: "https://some.url" }`
- * @param headerValue - String value in the WWW-Authenticate header
- */
-function parseWWWAuthenticateHeader(headerValue: string): WWWAuthenticate {
-  const pairDelimiter = /,? +/;
-  const parsed = headerValue.split(pairDelimiter).reduce<WWWAuthenticate>((kvPairs, p) => {
-    if (p.match(/\w="/)) {
-      // 'sampleKey="sample_value"' -> [sampleKey, "sample_value"] -> { sampleKey: sample_value }
-      const [key, ...value] = p.split("=");
-      if (validWWWAuthenticateProperties.includes(key as keyof WWWAuthenticate)) {
-        // The values will be wrapped in quotes, which need to be stripped out.
-        return { ...kvPairs, [key]: value.join("=").slice(1, -1) };
-      }
-    }
-    return kvPairs;
-  }, {});
-  return parsed;
-}
-
-/**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
  */
 export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPolicy";
@@ -184,40 +134,19 @@ function isChallengeResponse(response: PipelineResponse): boolean {
 }
 
 /**
- * We will retrieve the challenge only if the response status code was 401,
- * and if the response contained the header "WWW-Authenticate" with a non-empty value.
+ * Re-authorize the request for CAE challenge.
+ * The response containing the challenge is `options.response`.
+ * If this method returns true, the underlying request will be sent once again.
  */
 async function authorizeRequestOnCaeChallenge(
   onChallengeOptions: AuthorizeRequestOnChallengeOptions,
+  caeClaims: string,
 ): Promise<boolean> {
-  const { scopes, response } = onChallengeOptions;
-  const logger = onChallengeOptions.logger || coreLogger;
-
-  const challenge = response.headers.get("WWW-Authenticate");
-  // Parsing the challenge
-  const { claims: base64EncodedClaims, error }: WWWAuthenticate = parseWWWAuthenticateHeader(
-    challenge as string,
-  );
-
-  if (base64EncodedClaims === undefined) {
-    logger.info(
-      `The WWW-Authenticate header was missing the necessary "claims". Failed to perform the Continuous Access Evaluation authentication flow.`,
-    );
-    return false;
-  }
-
-  if (error !== "insufficient_claims") {
-    logger.info(
-      `The WWW-Authenticate header ran into "insufficient_claims" error. Failed to perform the Continuous Access Evaluation authentication flow.`,
-    );
-    return false;
-  }
-
-  const claims = atob(base64EncodedClaims);
+  const { scopes } = onChallengeOptions;
 
   const accessToken = await onChallengeOptions.getAccessToken(scopes, {
     enableCae: true,
-    claims,
+    claims: caeClaims,
   });
 
   if (!accessToken) {
@@ -297,19 +226,17 @@ export function bearerTokenAuthenticationPolicy(
         }
       }
 
-      // Handle challenge using client provided callback when a challenge is returned
-      if (isChallengeResponse(response) && callbacks.authorizeRequestOnChallenge) {
-        const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
+      async function handleCaeChallenge(claims: string): Promise<PipelineResponse> {
+        const shouldSendRequestAfterCaeChallenge = await authorizeRequestOnCaeChallenge({
           scopes: Array.isArray(scopes) ? scopes : [scopes],
-          request,
           response,
+          request,
           getAccessToken,
           logger,
-        });
-
+        }, claims);
         // Send updated request and handle response for RestError
         try {
-          if (shouldSendRequest) {
+          if (shouldSendRequestAfterCaeChallenge) {
             error = undefined;
             response = await next(request);
           }
@@ -321,21 +248,46 @@ export function bearerTokenAuthenticationPolicy(
             throw err;
           }
         }
+        return response;
       }
 
-      // Handle CAE challenge by default when a challenge is returned regardless of whether the callback is provided
+      // Logic to handle challenge
       if (isChallengeResponse(response)) {
-        const shouldSendRequestAfterCaeChallenge = await authorizeRequestOnCaeChallenge({
-          scopes: Array.isArray(scopes) ? scopes : [scopes],
-          response,
-          request,
-          getAccessToken,
-          logger,
-        });
+        const claims = getCaeChallengeClaims(response);
+        // If we can get CAE claim: process it as CAE challenge
+        if (claims) {
+          response = await handleCaeChallenge(claims);
+        } else if (callbacks.authorizeRequestOnChallenge) {
+          // If the client inputs their custom callback, we will process the challenge as such
+            const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
+              scopes: Array.isArray(scopes) ? scopes : [scopes],
+              request,
+              response,
+              getAccessToken,
+              logger,
+            });
 
-        if (shouldSendRequestAfterCaeChallenge) {
-          return next(request);
-        }
+            // Send updated request and handle response for RestError
+            try {
+              if (shouldSendRequest) {
+                error = undefined;
+                response = await next(request);
+              }
+            } catch (err: any) {
+              if (isRestError(error)) {
+                response = err.response;
+                error = err;
+              } else {
+                throw err;
+              }
+            }
+
+            // If we get another CAE Claim, we will process it as CAE challenge:
+            const claims = getCaeChallengeClaims(response);
+            if (claims) {
+              response = await handleCaeChallenge(claims);
+            }
+          }
       }
 
       if (error) {
@@ -345,4 +297,76 @@ export function bearerTokenAuthenticationPolicy(
       }
     },
   };
+}
+
+/**
+ *
+ * Interface to represent a parsed challenge.
+ *
+ * @internal
+ */
+interface AuthChallenge {
+  scheme: string;
+  params: Record<string, string>;
+}
+
+/**
+ * Converts: `Bearer a="b", c="d", Pop e="f", g="h"`.
+ * Into: `[ { scheme: 'Bearer', params: { a: 'b', c: 'd' } }, { scheme: 'Pop', params: { e: 'f', g: 'h' } } ]`.
+ *
+ * @internal
+ */
+export function parseChallenges(challenges: string): AuthChallenge[] {
+  // Split the input string by schemes and parameters
+  // Challenge regex seperates the string to individual challenges with different schemes in the format `Scheme a="b", c="d"`
+  const challengeRegex = /(\w+) ((?:\w+="[^"]*",?\s*)+)/g;
+  // Parameter regex captures the claims group removed from the scheme in the format `a="b"` and `c="d"`
+  const paramRegex = /(\w+)="([^"]*)"/g;
+
+  const parsedChallenges: AuthChallenge[] = [];
+  let match;
+
+  // Iterate over each challenge match
+  while ((match = challengeRegex.exec(challenges)) !== null) {
+    const scheme = match[1];
+    const paramsString = match[2];
+    const params: { [key: string]: string } = {};
+    let paramMatch;
+
+    // Iterate over each parameter match
+    while ((paramMatch = paramRegex.exec(paramsString)) !== null) {
+      params[paramMatch[1]] = paramMatch[2];
+    }
+
+    parsedChallenges.push({ scheme, params });
+  }
+
+  return parsedChallenges;
+}
+
+/**
+ * Parse a pipeline response and look for a CAE challenge with "Bearer" scheme
+ * @internal
+ */
+function getCaeChallengeClaims(response: PipelineResponse): string | undefined {
+  const challenges = response.headers.get("WWW-Authenticate");
+  // Find all challenges present in the header
+  const parsedChallenges = parseChallenges(challenges as string);
+  let caeChallenge: AuthChallenge | undefined;
+  // Find the CAE challenge
+  for (const challenge of parsedChallenges) {
+    if (challenge.scheme === "Bearer" && challenge.params["claims"] && challenge.params["error"] === "insufficient_claims") {
+      caeChallenge = challenge;
+    }
+  }
+  // Return when no CAE challenge is found
+  if (!caeChallenge) {
+    return;
+  }
+  const base64EncodedClaims = caeChallenge.params["claims"];
+  try {
+    return atob(base64EncodedClaims);
+  } catch (e) {
+    return
+  }
 }
