@@ -11,6 +11,7 @@
 ### Other Changes
 
 - Move the constant for the geographic replication feature to Event Hubs.
+- Remove request from `RequestResponseLink` logging.
 
 ## 4.3.2 (2024-08-01)
 
