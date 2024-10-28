@@ -41,6 +41,9 @@ dependencies:
   '@rush-temp/ai-metrics-advisor':
     specifier: file:./projects/ai-metrics-advisor.tgz
     version: file:projects/ai-metrics-advisor.tgz
+  '@rush-temp/ai-projects':
+    specifier: file:./projects/ai-projects.tgz
+    version: file:projects/ai-projects.tgz
   '@rush-temp/ai-text-analytics':
     specifier: file:./projects/ai-text-analytics.tgz
     version: file:projects/ai-text-analytics.tgz
@@ -3873,7 +3876,7 @@ packages:
   /@types/decompress@4.2.7:
     resolution: {integrity: sha512-9z+8yjKr5Wn73Pt17/ldnmQToaFHZxK0N1GHysuk/JIPT8RIdQeoInM01wWPgypRcvb6VH1drjuFpQ4zmY437g==}
     dependencies:
-      '@types/node': 18.19.55
+      '@types/node': 22.7.5
     dev: false
 
   /@types/eslint-config-prettier@6.11.3:
@@ -4689,7 +4692,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
     dev: false
 
   /ajv@6.12.6:
@@ -10632,7 +10635,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.5.4
+      typescript: 5.6.3
       walk-up-path: 3.0.1
     dev: false
 
@@ -12112,6 +12115,25 @@ packages:
       - jiti
       - supports-color
       - utf-8-validate
+    dev: false
+
+  file:projects/ai-projects.tgz:
+    resolution: {integrity: sha512-XKRzdMyMJsJGJXK6it9184tJ5wmCI9zFxpTRbGRC2cc3EnLbuyVOlMoljnd5oypOPdMU4db2wn+OeaGavyGmDQ==, tarball: file:projects/ai-projects.tgz}
+    name: '@rush-temp/ai-projects'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.47.9(@types/node@18.19.55)
+      '@types/node': 18.19.55
+      dotenv: 16.4.5
+      eslint: 8.57.1
+      mkdirp: 3.0.1
+      prettier: 3.3.3
+      rimraf: 5.0.10
+      tshy: 1.18.0
+      tslib: 2.7.0
+      typescript: 5.5.4
+    transitivePeerDependencies:
+      - supports-color
     dev: false
 
   file:projects/ai-text-analytics.tgz:
