@@ -613,6 +613,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/kubernetesconfiguration/arm-kubernetesconfiguration/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/kubernetesruntime/arm-containerorchestratorruntime/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/kusto/arm-kusto/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
