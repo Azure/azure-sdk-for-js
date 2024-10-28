@@ -4,8 +4,12 @@
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "clean": "pnpm -r run clean",
+    "clean": "turbo run clean",
+    "check-format": "turbo run check-format",
     "cspell": "cspell --no-progress .",
+    "format": "turbo run format",
+    "lint": "turbo run lint",
+    "lint:fix": "turbo run lint:fix",
     "preinstall": "npx only-allow pnpm",
     "purge": "rimraf --glob \"sdk/**/node_modules/\""
   },

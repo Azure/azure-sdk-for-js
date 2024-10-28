@@ -4,13 +4,29 @@
   "tasks": {
     "build": {
       "dependsOn": ["^build"],
-      "outputs": ["dist/**", "dist-esm/**"]
+      "outputs": ["dist/**", "dist-esm/**", "dist-test/**", "types/**"]
+    },
+    "clean": {
+      "dependsOn": ["^clean"],
+      "cache": false
     },
     "test": {
       "dependsOn": ["^build"]
     },
+    "format": {
+      "dependsOn": ["^format"]
+    },
+    "check-format": {
+      "dependsOn": ["^check-format"],
+      "cache": false
+    },
     "lint": {
-      "dependsOn": ["^lint"]
+      "dependsOn": ["^lint"],
+      "cache": false
+    },
+    "lint:fix": {
+      "dependsOn": ["^lint:fix"],
+      "cache": false
     },
     "dev": {
       "cache": true,
