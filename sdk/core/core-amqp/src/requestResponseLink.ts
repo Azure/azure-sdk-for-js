@@ -189,7 +189,6 @@ export class RequestResponseLink implements ReqResLink {
         "[%s] %s request sent: %O",
         this.connection.id,
         request.to || "$management",
-        request,
       );
       this.sender.send(request);
     });
