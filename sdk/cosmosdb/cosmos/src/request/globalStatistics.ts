@@ -9,4 +9,4 @@ export interface FullTextStatistics {
 export interface GlobalStatistics {
   documentCount: number;
   fullTextStatistics: FullTextStatistics[];
-} 
+}

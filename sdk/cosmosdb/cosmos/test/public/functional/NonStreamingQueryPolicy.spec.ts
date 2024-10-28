@@ -8,7 +8,7 @@ import {
   VectorEmbeddingPolicy,
   VectorIndexType,
 } from "../../../src/documents";
-import { getTestDatabase } from "../common/TestHelpers";
+import { getTestDatabase, getTestDatabaseName } from "../common/TestHelpers";
 import { Database } from "../../../src/client/Database/Database";
 import { Container } from "../../../src/client";
 
@@ -479,55 +479,68 @@ async function executeQueryAndVerifyOrder(
   assert.equal(count, size);
 }
 
-describe.skip("Full text search feature", async () => {
-
+describe("Full text search feature", async () => {
   let database: Database;
 
   before(async function () {
-    database = await getTestDatabase("full text search database");
+    // database = await getTestDatabase("full text search database");
   });
   after(async function () {
-      await database.delete();
-    });
-    const indexingPolicy: IndexingPolicy = {
-      includedPaths: [{ path: "/*" }], 
-      excludedPaths: [ { path: "/\"_etag\"/?" } ],
-    fullTextIndexes: [ { path: "/text1" }, { path: "/text2" } ], 
-    };
-    it("validate full text search policy", async function () {
-
+    await database.delete();
+  });
+  const indexingPolicy: IndexingPolicy = {
+    includedPaths: [{ path: "/*" }],
+    excludedPaths: [{ path: '/"_etag"/?' }],
+    fullTextIndexes: [{ path: "/text1" }, { path: "/text2" }],
+  };
+  it.skip("validate full text search policy", async function () {
     const containerName = "full text search container";
 
-    const fullTextPolicy = { 
-    defaultLanguage: "en-US",
-    fullTextPaths: [ 
-        { 
-            path: "/text1" ,
-            language: "1033" 
-        }, 
-        { 
-            path: "/text2" ,
-            language: "en-US", 
-        } 
-    ] }
+    const fullTextPolicy = {
+      defaultLanguage: "en-US",
+      fullTextPaths: [
+        {
+          path: "/text1",
+          language: "1033",
+        },
+        {
+          path: "/text2",
+          language: "en-US",
+        },
+      ],
+    };
 
-
-    const {resource: containerdef} = 
-      await database.containers.createIfNotExists({
-        id: containerName,
-        fullTextPolicy: fullTextPolicy,
-        indexingPolicy: indexingPolicy,
-        throughput: 1000,
-      });
-
-    
-    assert(containerdef.indexingPolicy !== undefined);
-      assert(containerdef.fullTextPolicy !== undefined);
-      assert(containerdef.fullTextPolicy.defaultLanguage === "en-US");
-      assert(containerdef.fullTextPolicy.fullTextPaths.length === 2);
-      assert(containerdef.fullTextPolicy.fullTextPaths[0].path === "/text1");
-      assert(containerdef.fullTextPolicy.fullTextPaths[1].path === "/text2");
+    const { resource: containerdef } = await database.containers.createIfNotExists({
+      id: containerName,
+      fullTextPolicy: fullTextPolicy,
+      indexingPolicy: indexingPolicy,
+      throughput: 1000,
     });
 
-    
+    assert(containerdef.indexingPolicy !== undefined);
+    assert(containerdef.fullTextPolicy !== undefined);
+    assert(containerdef.fullTextPolicy.defaultLanguage === "en-US");
+    assert(containerdef.fullTextPolicy.fullTextPaths.length === 2);
+    assert(containerdef.fullTextPolicy.fullTextPaths[0].path === "/text1");
+    assert(containerdef.fullTextPolicy.fullTextPaths[1].path === "/text2");
   });
+
+  it("should execute a global statistics query", async function () {
+    database = await getTestDatabaseName("FTS-DB");
+    const containerName = "full text search container";
+
+    const query = "SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.text, ['swim', 'run'])";
+
+    const { container } = await database.containers.createIfNotExists({
+      id: containerName,
+      throughput: 15000,
+    });
+    await container.items.create({ id: "1", text: "I like to swim" });
+    await container.items.create({ id: "2", text: "I like to run" });
+    const queryOptions = { forceQueryPlan: true };
+    const queryIterator = container.items.query(query, queryOptions);
+
+    const result = await queryIterator.fetchNext();
+    console.log(result);
+  });
+});
