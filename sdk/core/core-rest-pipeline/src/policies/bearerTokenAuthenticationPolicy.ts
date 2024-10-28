@@ -172,8 +172,6 @@ export function bearerTokenAuthenticationPolicy(
   const callbacks = {
     authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
     authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
-    // keep all other properties
-    ...challengeCallbacks,
   };
 
   // This function encapsulates the entire process of reliably retrieving the token
@@ -227,16 +225,19 @@ export function bearerTokenAuthenticationPolicy(
       }
 
       async function handleCaeChallenge(claims: string): Promise<PipelineResponse> {
-        const shouldSendRequestAfterCaeChallenge = await authorizeRequestOnCaeChallenge({
-          scopes: Array.isArray(scopes) ? scopes : [scopes],
-          response,
-          request,
-          getAccessToken,
-          logger,
-        }, claims);
+        const shouldSendRequest = await authorizeRequestOnCaeChallenge(
+          {
+            scopes: Array.isArray(scopes) ? scopes : [scopes],
+            response,
+            request,
+            getAccessToken,
+            logger,
+          },
+          claims,
+        );
         // Send updated request and handle response for RestError
         try {
-          if (shouldSendRequestAfterCaeChallenge) {
+          if (shouldSendRequest) {
             error = undefined;
             response = await next(request);
           }
@@ -251,43 +252,61 @@ export function bearerTokenAuthenticationPolicy(
         return response;
       }
 
-      // Logic to handle challenge
       if (isChallengeResponse(response)) {
         const claims = getCaeChallengeClaims(response);
-        // If we can get CAE claim: process it as CAE challenge
+        // Handle CAE by default when receive CAE claim
         if (claims) {
-          response = await handleCaeChallenge(claims);
+          let parsedClaim: string;
+          // Return the response immediately if claims is not a valid base64 encoded string
+          try {
+            parsedClaim = atob(claims);
+          } catch (e) {
+            logger.warning(
+              `The WWW-Authenticate header contains "claims" that cannot be parsed. Unable to perform the Continuous Access Evaluation authentication flow.`,
+            );
+            return response;
+          }
+          response = await handleCaeChallenge(parsedClaim);
         } else if (callbacks.authorizeRequestOnChallenge) {
-          // If the client inputs their custom callback, we will process the challenge as such
-            const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
-              scopes: Array.isArray(scopes) ? scopes : [scopes],
-              request,
-              response,
-              getAccessToken,
-              logger,
-            });
+          // Handle custom challenges when client provides custom callback
+          const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
+            scopes: Array.isArray(scopes) ? scopes : [scopes],
+            request,
+            response,
+            getAccessToken,
+            logger,
+          });
 
-            // Send updated request and handle response for RestError
-            try {
-              if (shouldSendRequest) {
-                error = undefined;
-                response = await next(request);
-              }
-            } catch (err: any) {
-              if (isRestError(error)) {
-                response = err.response;
-                error = err;
-              } else {
-                throw err;
-              }
+          // Send updated request and handle response for RestError
+          try {
+            if (shouldSendRequest) {
+              error = undefined;
+              response = await next(request);
             }
-
-            // If we get another CAE Claim, we will process it as CAE challenge:
-            const claims = getCaeChallengeClaims(response);
-            if (claims) {
-              response = await handleCaeChallenge(claims);
+          } catch (err: any) {
+            if (isRestError(error)) {
+              response = err.response;
+              error = err;
+            } else {
+              throw err;
             }
           }
+
+          // If we get another CAE Claim, we will handle it by default and return whatever value we receive for this
+          const claims = getCaeChallengeClaims(response);
+          if (claims) {
+            let parsedClaim: string;
+            try {
+              parsedClaim = atob(claims);
+            } catch (e) {
+              logger.warning(
+                `The WWW-Authenticate header contains "claims" that cannot be parsed. Unable to perform the Continuous Access Evaluation authentication flow.`,
+              );
+              return response;
+            }
+            response = await handleCaeChallenge(parsedClaim);
+          }
+        }
       }
 
       if (error) {
@@ -346,6 +365,7 @@ export function parseChallenges(challenges: string): AuthChallenge[] {
 
 /**
  * Parse a pipeline response and look for a CAE challenge with "Bearer" scheme
+ * Return the value in the header without parsing the challenge
  * @internal
  */
 function getCaeChallengeClaims(response: PipelineResponse): string | undefined {
@@ -355,18 +375,17 @@ function getCaeChallengeClaims(response: PipelineResponse): string | undefined {
   let caeChallenge: AuthChallenge | undefined;
   // Find the CAE challenge
   for (const challenge of parsedChallenges) {
-    if (challenge.scheme === "Bearer" && challenge.params["claims"] && challenge.params["error"] === "insufficient_claims") {
+    if (
+      challenge.scheme === "Bearer" &&
+      challenge.params["claims"] &&
+      challenge.params["error"] === "insufficient_claims"
+    ) {
       caeChallenge = challenge;
     }
   }
-  // Return when no CAE challenge is found
+  // Return empty when no CAE challenge is found
   if (!caeChallenge) {
     return;
   }
-  const base64EncodedClaims = caeChallenge.params["claims"];
-  try {
-    return atob(base64EncodedClaims);
-  } catch (e) {
-    return
-  }
+  return caeChallenge.params["claims"];
 }

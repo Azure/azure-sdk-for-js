@@ -16,6 +16,7 @@ import {
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
 
+import { matrix } from "@azure-tools/test-utils-vitest";
 const { refreshWindowInMs: defaultRefreshWindow } = DEFAULT_CYCLER_OPTIONS;
 
 describe("BearerTokenAuthenticationPolicy", function () {
@@ -51,6 +52,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
     expect(fakeGetToken).toHaveBeenCalledWith(tokenScopes, {
       abortSignal: undefined,
+      enableCae: true,
       tracingOptions: undefined,
     });
     assert.strictEqual(request.headers.get("Authorization"), `Bearer ${mockToken}`);
@@ -357,6 +359,76 @@ describe("BearerTokenAuthenticationPolicy", function () {
     assert.strictEqual(credential.authCount, 3);
   });
 
+  // TODO: Add matrix with scenarios for test challenges returned
+  matrix([testCasesMatrix] as const, async function (testCase: Challenge) {
+    it(`Single CAE Challenge: ${testCase.testName}`, async function () {
+      const tokenExpiration = Date.now() + 1000 * 60; // One minute later.
+      const getToken = vi.fn<() => Promise<AccessToken | null>>();
+
+      // First time getToken is called to put the header on the initial request
+      // This will return a bad token that will have authorization challenge
+      getToken.mockResolvedValueOnce({
+        token: "bad-token",
+        expiresOnTimestamp: tokenExpiration,
+      });
+      // This will return a good token after the authorization challenge is handled
+      getToken.mockResolvedValueOnce({
+        token: "good-token",
+        expiresOnTimestamp: tokenExpiration,
+      });
+      const credential: TokenCredential = {
+        getToken,
+      };
+      const tokenScopes = ["test-scope"];
+      const request = createPipelineRequest({ url: "https://example.com" });
+
+      const challengeResponse: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: testCase.challenge ? 401 : 200,
+      };
+      if (testCase.challenge) {
+        challengeResponse.headers.set("WWW-Authenticate", testCase.challenge);
+      }
+
+      const successResponse: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      };
+
+      const next = vi.fn<SendRequest>();
+      next.mockResolvedValueOnce(challengeResponse).mockResolvedValueOnce(successResponse);
+
+      const policy = createBearerTokenPolicy(tokenScopes, credential);
+
+      let response: PipelineResponse;
+      try {
+        response = await policy.sendRequest(request, next);
+      } catch (e) {
+        // Should not encounter an error. A request with failed status code should be returned
+        assert.fail();
+      }
+      // First getToken request will return a bad token
+      expect(getToken).toHaveBeenCalledWith(tokenScopes, {
+        enableCae: true,
+      });
+      // Second getToken request will inject the correct token with the claims
+      if (testCase.expectedClaims) {
+        expect(getToken).toHaveBeenCalledWith(tokenScopes, {
+          enableCae: true,
+          claims: testCase.expectedClaims,
+        });
+      }
+
+      if (testCase.expectedResponseCode === 200) {
+        assert.strictEqual(response.request.headers.get("Authorization"), `Bearer good-token`);
+      } else {
+        assert.strictEqual(response.request.headers.get("Authorization"), `Bearer bad-token`);
+      }
+    });
+  });
+
   function createBearerTokenPolicy(
     scopes: string | string[],
     credential: TokenCredential,
@@ -397,5 +469,106 @@ class MockRefreshAzureCredential implements TokenCredential {
       expiresOnTimestamp: this.expiresOnTimestamp,
       refreshAfterTimestamp: this.options?.refreshAfterTimestamp,
     };
+  }
+}
+interface Challenge {
+  testName: string;
+  challenge: string | null;
+  expectedResponseCode: number;
+  expectedClaims: string | null;
+  encodedClaims: string | null;
+}
+
+const testCasesMatrix: Challenge[] = [
+  {
+    testName: "unexpected error value",
+    challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey=="`,
+    expectedResponseCode: 401,
+    expectedClaims: null,
+    encodedClaims: "ey==",
+  },
+  {
+    testName: "cannot parse claims",
+    challenge: `Bearer claims="not base64", error="insufficient_claims"`,
+    expectedResponseCode: 401,
+    expectedClaims: null,
+    encodedClaims: "not base64",
+  },
+  {
+    testName: "more parameters, different order",
+    challenge: `Bearer realm="", authorization_uri="http://localhost", client_id="00000003-0000-0000-c000-000000000000", error="insufficient_claims", claims="ey=="`,
+    expectedResponseCode: 200,
+    expectedClaims: "{",
+    encodedClaims: "ey==",
+  },
+  {
+    testName: "standard CAE challenge",
+    challenge: `Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ=="`,
+    expectedResponseCode: 200,
+    expectedClaims: `{"access_token":{"nbf":{"essential":true,"value":"1726077595"},"xms_caeerror":{"value":"10012"}}}`,
+    encodedClaims:
+      "eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ==",
+  },
+  {
+    testName: "parse multiple challenges with different scheme",
+    challenge: `PoP realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", client_id="00000003-0000-0000-c000-000000000000", nonce="ey==", Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", client_id="00000003-0000-0000-c000-000000000000", error_description="Continuous access evaluation resulted in challenge with result: InteractionRequired and code: TokenIssuedBeforeRevocationTimestamp", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0="`,
+    expectedResponseCode: 200,
+    expectedClaims: `{"access_token":{"nbf":{"essential":true, "value":"1726258122"}}}`,
+    encodedClaims:
+      "eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0=",
+  },
+  {
+    testName: "parse multiple challenges with claims",
+    challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey==", Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", client_id="00000003-0000-0000-c000-000000000000", error_description="Continuous access evaluation resulted in challenge with result: InteractionRequired and code: TokenIssuedBeforeRevocationTimestamp", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0="`,
+    expectedResponseCode: 200,
+    expectedClaims: `{"access_token":{"nbf":{"essential":true, "value":"1726258122"}}}`,
+    encodedClaims:
+      "eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0=",
+  },
+];
+
+// Brought over from azure-tools/test-utils-vitest/src/matrix.ts because we cannot depend on the library
+/**
+ * Takes a jagged 2D array and a function and runs the function with every
+ * possible combination of elements of each of the arrays
+ *
+ * For strong type-checking, it is important that the `matrix` have a strong
+ * type, such as a `const` literal.
+ *
+ * @param values - jagged 2D array specifying the arguments and their possible
+ *                 values
+ * @param handler - the function to run with the different argument combinations
+ *
+ * @example
+ * ```typescript
+ * matrix([
+ *     [true, false],
+ *     [1, 2, 3]
+ *   ] as const,
+ *   (useLabels: boolean, attempts: number) => {
+ *     // This body will run six times with the following parameters:
+ *     // - true, 1
+ *     // - true, 2
+ *     // - true, 3
+ *     // - false, 1
+ *     // - false, 2
+ *     // - false, 3
+ *   });
+ * ```
+ */
+export function matrix<T extends ReadonlyArray<readonly unknown[]>>(
+  values: T,
+  handler: (
+    ...args: { [idx in keyof T]: T[idx] extends ReadonlyArray<infer U> ? U : never }
+  ) => Promise<void>,
+): void {
+  // Classic recursive approach
+  if (values.length === 0) {
+    (handler as () => Promise<void>)();
+  } else {
+    for (const v of values[0]) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      matrix(values.slice(1), (...args) => (handler as any)(v, ...args));
+    }
   }
 }
