@@ -77,6 +77,7 @@ jobs:
           SparseCheckoutPaths: [ "sdk/", ".vscode"]
           ${{ if eq(parameters.ServiceDirectory, 'auto') }}:
             EnablePRGeneration: true
+
             PRMatrix:
               Name: pr_test_base
               Path: eng/pipelines/templates/stages/platform-matrix.json
