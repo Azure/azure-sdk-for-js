@@ -101,9 +101,6 @@ catalogs:
     karma-coverage:
       specifier: ^2.0.0
       version: 2.2.1
-    karma-edge-launcher:
-      specifier: ^0.4.2
-      version: 0.4.2
     karma-env-preprocessor:
       specifier: ^0.1.1
       version: 0.1.1
@@ -25992,8 +25989,8 @@ importers:
   sdk/template/template-dpg:
     dependencies:
       '@azure-rest/core-client':
-        specifier: catalog:core-rest-clientV1
-        version: 1.4.0
+        specifier: workspace:*
+        version: link:../../core/core-client-rest
       '@azure/core-auth':
         specifier: workspace:*
         version: link:../../core/core-auth
@@ -26011,11 +26008,11 @@ importers:
         version: 2.7.0
     devDependencies:
       '@azure-tools/test-credential':
-        specifier: catalog:test-credentialV1
-        version: 1.2.0
+        specifier: workspace:*
+        version: link:../../test-utils/test-credential
       '@azure-tools/test-recorder':
-        specifier: catalog:test-recorderV3
-        version: 3.5.2
+        specifier: workspace:*
+        version: link:../../test-utils/recorder
       '@azure-tools/test-utils':
         specifier: workspace:*
         version: link:../../test-utils/test-utils
@@ -26025,69 +26022,30 @@ importers:
       '@azure/eslint-plugin-azure-sdk':
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
-      '@types/chai':
-        specifier: catalog:legacy
-        version: 4.3.17
-      '@types/mocha':
-        specifier: catalog:legacy
-        version: 10.0.7
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
-      chai:
-        specifier: catalog:legacy
-        version: 4.5.0
-      cross-env:
-        specifier: catalog:legacy
-        version: 7.0.3
+      '@vitest/browser':
+        specifier: 'catalog:'
+        version: 2.0.5(playwright@1.46.1)(typescript@5.6.3)(vitest@2.0.5)
+      '@vitest/coverage-istanbul':
+        specifier: 'catalog:'
+        version: 2.0.5(vitest@2.0.5)
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      karma:
-        specifier: catalog:legacy
-        version: 6.4.4
-      karma-chrome-launcher:
-        specifier: catalog:legacy
-        version: 3.2.0
-      karma-coverage:
-        specifier: catalog:legacy
-        version: 2.2.1
-      karma-edge-launcher:
-        specifier: catalog:legacy
-        version: 0.4.2(karma@6.4.4)
-      karma-env-preprocessor:
-        specifier: catalog:legacy
-        version: 0.1.1
-      karma-firefox-launcher:
-        specifier: catalog:legacy
-        version: 1.3.0
-      karma-junit-reporter:
-        specifier: catalog:legacy
-        version: 2.0.1(karma@6.4.4)
-      karma-mocha:
-        specifier: catalog:legacy
-        version: 2.0.1
-      karma-mocha-reporter:
-        specifier: catalog:legacy
-        version: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader:
-        specifier: catalog:legacy
-        version: 0.3.8
-      mocha:
-        specifier: catalog:legacy
-        version: 10.7.3
-      nyc:
-        specifier: catalog:legacy
-        version: 17.0.0
-      puppeteer:
-        specifier: catalog:legacy
-        version: 23.6.0(typescript@5.6.3)
+      playwright:
+        specifier: 'catalog:'
+        version: 1.46.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
+      vitest:
+        specifier: 'catalog:'
+        version: 2.0.5(@types/node@18.19.45)(@vitest/browser@2.0.5)
 
   sdk/templatespecs/arm-templatespecs:
     dependencies:
@@ -30440,9 +30398,6 @@ packages:
   ecdsa-sig-formatter@1.0.11:
     resolution: {integrity: sha512-nagl3RYrbNv6kQkeJIpt6NJZy8twLB/2vtz6yN9Z4vRKHN4/QZJIEbqohALSgwKdnksuY3k5Addp5lg8sVoVcQ==}
 
-  edge-launcher@1.2.2:
-    resolution: {integrity: sha512-JcD5WBi3BHZXXVSSeEhl6sYO8g5cuynk/hifBzds2Bp4JdzCGLNMHgMCKu5DvrO1yatMgF0goFsxXRGus0yh1g==}
-
   ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
 
@@ -31402,12 +31357,6 @@ packages:
   karma-coverage@2.2.1:
     resolution: {integrity: sha512-yj7hbequkQP2qOSb20GuNSIyE//PgJWHwC2IydLE6XRtsnaflv+/OSGNssPjobYUlhVVagy99TQpqUt3vAUG7A==}
     engines: {node: '>=10.0.0'}
-
-  karma-edge-launcher@0.4.2:
-    resolution: {integrity: sha512-YAJZb1fmRcxNhMIWYsjLuxwODBjh2cSHgTW/jkVmdpGguJjLbs9ZgIK/tEJsMQcBLUkO+yO4LBbqYxqgGW2HIw==}
-    engines: {node: '>=4'}
-    peerDependencies:
-      karma: '>=0.9'
 
   karma-env-preprocessor@0.1.1:
     resolution: {integrity: sha512-3FAuA0B1lS4DXNyOpD1Y+BjteVmnfX0WXUpsZ19aYykTk/GPz0kqnjzdApDiEe4sapreVeVSme2qTALnbHJb/A==}
@@ -36560,8 +36509,6 @@ snapshots:
     dependencies:
       safe-buffer: 5.2.1
 
-  edge-launcher@1.2.2: {}
-
   ee-first@1.1.1: {}
 
   electron-to-chromium@1.5.34: {}
@@ -37644,11 +37591,6 @@ snapshots:
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
-
-  karma-edge-launcher@0.4.2(karma@6.4.4):
-    dependencies:
-      edge-launcher: 1.2.2
-      karma: 6.4.4
 
   karma-env-preprocessor@0.1.1: {}
 

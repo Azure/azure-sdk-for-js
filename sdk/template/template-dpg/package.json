@@ -17,26 +17,32 @@
   "sideEffects": false,
   "type": "module",
   "exports": {
+    "./package.json": "./package.json",
     ".": {
-      "types": "./types/src/index.d.ts",
-      "require": "./dist/index.cjs",
-      "import": "./dist-esm/src/index.js"
-    },
-    "./api": {
-      "types": "./types/src/api/index.d.ts",
-      "import": "./dist-esm/src/api/index.js"
-    },
-    "./rest": {
-      "types": "./types/src/rest/index.d.ts",
-      "import": "./dist-esm/src/rest/index.js"
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
     }
   },
-  "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
   "react-native": {
     "./dist/index.js": "./dist-esm/src/index.js"
   },
-  "types": "types/latest/template-dpg.d.ts",
+  "types": "./dist/commonjs/index.d.ts",
   "files": [
     "dist/",
     "dist-esm/src/",
@@ -46,35 +52,34 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsc -p . && dev-tool run bundle && dev-tool run extract-api && npm run build:output",
-    "build:output": "node scripts/renameOutput.mjs",
+    "build": "dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo Obsolete",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
-    "build:test:browser": "tsc -p . && dev-tool run bundle",
-    "build:test:node": "tsc -p . && dev-tool run bundle",
+    "build:test:browser": "dev-tool run build-package",
+    "build:test:node": "dev-tool run build-package",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
     "customize": "dev-tool customization apply -s sources/generated/src -c sources/customizations/src && npm run format",
     "execute:samples": "dev-tool samples run samples-dev",
-    "extract-api": "tsc -p . && dev-tool run extract-api",
+    "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"sources/customizations/**/*.ts\" \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "tsc -p . && dev-tool run bundle && dev-tool run test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
+    "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "integration-test:node": "dev-tool run test:vitest",
     "lint": "dev-tool run vendored eslint README.md package.json api-extractor.json src test",
     "lint:fix": "dev-tool run vendored eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
-    "test": "npm run clean && tsc -p . && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
+    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run unit-test:browser && npm run integration-test",
     "test:browser": "npm run clean && npm run build && npm run integration-test:browser",
-    "test:node": "npm run clean && tsc -p . && npm run integration-test:node",
+    "test:node": "npm run clean && dev-tool run build-package && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "tsc -p . && dev-tool run bundle && dev-tool run test:browser",
-    "unit-test:node": "dev-tool run test:node-ts-input -- \"test/internal/unit/{,!(browser)/**/}*.spec.ts\" \"test/public/{,!(browser)/**/}*.spec.ts\"",
+    "unit-test:browser": "npm run integration-test:browser",
+    "unit-test:node": "npm run integration-test:node",
     "update-snippets": "echo skipped"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure-rest/core-client": "catalog:core-rest-clientV1",
+    "@azure-rest/core-client": "workspace:*",
     "@azure/core-auth": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
     "@azure/core-util": "workspace:*",
@@ -82,36 +87,38 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "catalog:test-credentialV1",
-    "@azure-tools/test-recorder": "catalog:test-recorderV3",
-    "@azure-tools/test-utils": "workspace:*",
+    "@azure-tools/test-credential": "workspace:*",
+    "@azure-tools/test-recorder": "workspace:*",
+    "@azure-tools/test-utils-vitest": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
-    "@types/chai": "catalog:legacy",
-    "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
-    "chai": "catalog:legacy",
-    "cross-env": "catalog:legacy",
+    "@vitest/browser": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
     "dotenv": "catalog:",
     "eslint": "catalog:",
-    "karma": "catalog:legacy",
-    "karma-chrome-launcher": "catalog:legacy",
-    "karma-coverage": "catalog:legacy",
-    "karma-edge-launcher": "catalog:legacy",
-    "karma-env-preprocessor": "catalog:legacy",
-    "karma-firefox-launcher": "catalog:legacy",
-    "karma-junit-reporter": "catalog:legacy",
-    "karma-mocha": "catalog:legacy",
-    "karma-mocha-reporter": "catalog:legacy",
-    "karma-sourcemap-loader": "catalog:legacy",
-    "mocha": "catalog:legacy",
-    "nyc": "catalog:legacy",
-    "puppeteer": "catalog:legacy",
-    "typescript": "catalog:"
+    "playwright": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "engines": {
     "node": ">=18.0.0"
   },
   "//metadata": {},
-  "sdk-type": "client"
+  "sdk-type": "client",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
+    "selfLink": false
+  }
 }
