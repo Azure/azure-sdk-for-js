@@ -183,8 +183,6 @@ function Get-ObjectKey {
     [object]$Object
   )
 
-  Write-Host "In Get-ObjectKey with $Object"
-
   if (-not $Object) {
     return "unset"
   }

@@ -61,12 +61,12 @@ $matrixBatchesByConfig = Group-ByObjectKey $packageProperties "CIMatrixConfigs"
 
 $OverallResult = @()
 foreach ($matrixBatchKey in $matrixBatchesByConfig.Keys) {
-  Write-Host "Generating config for $($matrixConfig.Path)"
   $matrixBatch = $matrixBatchesByConfig[$matrixBatchKey]
   $matrixConfigs = $matrixBatch | Select-Object -First 1 -ExpandProperty CIMatrixConfigs
 
   $matrixResults = @()
   foreach ($matrixConfig in $matrixConfigs) {
+    Write-Host "Generating config for $($matrixConfig.Path)"
     $matrixResults = GenerateMatrixForConfig `
       -ConfigPath $matrixConfig.Path `
       -Selection $matrixConfig.Selection `
