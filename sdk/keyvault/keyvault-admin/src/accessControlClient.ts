@@ -16,7 +16,7 @@ import {
   ListRoleDefinitionsOptions,
   SetRoleDefinitionOptions,
 } from "./accessControlModels.js";
-import { KeyVaultClient } from "./generated/keyVaultClient.js";
+import { KeyVaultClient, KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
 import { LATEST_API_VERSION } from "./constants.js";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { TokenCredential } from "@azure/core-auth";
@@ -69,10 +69,12 @@ export class KeyVaultAccessControlClient {
   ) {
     this.vaultUrl = vaultUrl;
 
-    const serviceVersion = options.serviceVersion || LATEST_API_VERSION;
+    // TODO: fix the bug here (options.apiVersion)
+    const apiVersion = options.serviceVersion || LATEST_API_VERSION;
 
-    const clientOptions = {
+    const clientOptions: KeyVaultClientOptionalParams = {
       ...options,
+      apiVersion,
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: [
@@ -83,12 +85,12 @@ export class KeyVaultAccessControlClient {
       },
     };
 
-    this.client = new KeyVaultClient(serviceVersion, credential, clientOptions);
+    this.client = new KeyVaultClient(vaultUrl, credential, clientOptions);
 
     // The authentication policy must come after the deserialization policy since the deserialization policy
     // converts 401 responses to an Error, and we don't want to deal with that.
     this.client.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
-    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions), {
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, options), {
       afterPolicies: ["deserializationPolicy"],
     });
   }

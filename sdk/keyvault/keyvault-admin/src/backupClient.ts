@@ -23,6 +23,7 @@ import { PollerLike } from "@azure/core-lro";
 import { TokenCredential } from "@azure/core-auth";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { logger } from "./log.js";
+import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 
 // TODO: discuss no longer exporting the state at the top level as a bugfix
 // export {
@@ -77,6 +78,7 @@ export class KeyVaultBackupClient {
 
     const clientOptions = {
       ...options,
+      apiVersion,
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: [
@@ -87,9 +89,10 @@ export class KeyVaultBackupClient {
       },
     };
 
-    this.client = new KeyVaultClient(apiVersion, credential, clientOptions);
+    this.client = new KeyVaultClient(vaultUrl, credential, clientOptions);
     // The authentication policy must come after the deserialization policy since the deserialization policy
     // converts 401 responses to an Error, and we don't want to deal with that.
+    this.client.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
     this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions), {
       afterPolicies: ["deserializationPolicy"],
     });

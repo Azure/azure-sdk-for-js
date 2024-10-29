@@ -77,10 +77,12 @@ export class KeyVaultSettingsClient {
   constructor(vaultUrl: string, credential: TokenCredential, options: SettingsClientOptions = {}) {
     this.vaultUrl = vaultUrl;
 
+    // TODO: fix the bug here (apiVersion)
     const apiVersion = options.serviceVersion || LATEST_API_VERSION;
 
     const clientOptions = {
       ...options,
+      apiVersion,
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: [
@@ -91,7 +93,7 @@ export class KeyVaultSettingsClient {
       },
     };
 
-    this.client = new KeyVaultClient(apiVersion, credential, clientOptions);
+    this.client = new KeyVaultClient(vaultUrl, credential, clientOptions);
 
     // The authentication policy must come after the deserialization policy since the deserialization policy
     // converts 401 responses to an Error, and we don't want to deal with that.
