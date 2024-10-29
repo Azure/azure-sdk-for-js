@@ -14251,7 +14251,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-BS6Bdkgad0I2ELx3DT+0VtYCILebs4nipopSMk6XoB9BvNPghWTEq8ZjDkkLQsOTfzZ35fNJ0HWMe3xR/sRqbw==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-fXubMN+cHmmHXVNv1bgWUv5ZLSST0v2rrlyhh0CzxbzAuLhT4V04Vy9xRziizveGlXXgQQFd5HuheorTMtJChw==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
@@ -14269,10 +14269,10 @@ packages:
       mkdirp: 3.0.1
       mocha: 10.7.3
       rimraf: 5.0.10
-      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.5.4)
+      ts-node: 10.9.2(@types/node@18.19.57)(typescript@5.6.3)
       tslib: 2.8.0
       tsx: 4.19.1
-      typescript: 5.5.4
+      typescript: 5.6.3
       uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
