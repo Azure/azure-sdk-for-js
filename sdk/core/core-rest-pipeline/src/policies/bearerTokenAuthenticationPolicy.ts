@@ -349,7 +349,7 @@ export function parseChallenges(challenges: string): AuthChallenge[] {
   while ((match = challengeRegex.exec(challenges)) !== null) {
     const scheme = match[1];
     const paramsString = match[2];
-    const params: { [key: string]: string } = {};
+    const params: Record<string, string> = {};
     let paramMatch;
 
     // Iterate over each parameter match
@@ -359,7 +359,6 @@ export function parseChallenges(challenges: string): AuthChallenge[] {
 
     parsedChallenges.push({ scheme, params });
   }
-
   return parsedChallenges;
 }
 
