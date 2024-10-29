@@ -33,7 +33,10 @@
   ],
   "//sampleConfiguration": {
     "productName": "Azure Maps Route",
-    "productSlugs": ["azure", "azure-maps"],
+    "productSlugs": [
+      "azure",
+      "azure-maps"
+    ],
     "requiredResources": {
       "Azure Maps Resource": "https://docs.microsoft.com/azure/azure-maps/how-to-create-template"
     },
