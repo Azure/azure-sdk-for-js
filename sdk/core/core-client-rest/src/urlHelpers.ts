@@ -121,7 +121,6 @@ function appendQueryParams(url: string, options: RequestParameters = {}): string
   if (!options.queryParameters) {
     return url;
   }
-  console.log({ url, ...options });
   const parsedUrl = new URL(url);
   const queryParams = options.queryParameters;
 
