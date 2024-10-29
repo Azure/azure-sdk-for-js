@@ -279,7 +279,7 @@ describe("LRO", function (this: Suite) {
       const originalPoller = getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
       });
-      const serializedState = originalPoller.toString();
+      const serializedState = await (await originalPoller).serialize();
 
       // Use serialized state to retrieve the result
       const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
@@ -334,7 +334,8 @@ describe("LRO", function (this: Suite) {
       const originalResult = await originalPoller.pollUntilDone();
 
       // Use serialized state to retrieve the result
-      const serializedState = originalPoller.toString();
+      const serializedState = await (await originalPoller).serialize();
+
       const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
         restoreFrom: serializedState,
         intervalInMs: pollingInterval,
@@ -404,7 +405,7 @@ describe("LRO", function (this: Suite) {
       const originalPoller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
       });
-      const serializedState = originalPoller.toString();
+      const serializedState = await (await originalPoller).serialize();
 
       // Use saved batchId to retrieve the result
       const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
@@ -447,7 +448,8 @@ describe("LRO", function (this: Suite) {
       const originalResult = await originalPoller.pollUntilDone();
 
       // Use serialized state to retrieve the result
-      const serializedState = originalPoller.toString();
+      const serializedState = await (await originalPoller).serialize();
+
       const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
         restoreFrom: serializedState,
