@@ -6,6 +6,8 @@
 
 ### Breaking Changes
 
+- Poller creation is now asynchronous, requiring an await statement. The resumeFrom parameter has been replaced with restoreFrom, and state serialization is now also asynchronous.
+
 ### Bugs Fixed
 
 - Fix the Microsoft Entra ID authentication when providing `baseUrl`.
