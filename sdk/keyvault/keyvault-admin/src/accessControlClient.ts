@@ -17,7 +17,7 @@ import {
   SetRoleDefinitionOptions,
 } from "./accessControlModels.js";
 import { KeyVaultClient, KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
-import { LATEST_API_VERSION } from "./constants.js";
+import { LATEST_API_VERSION, SDK_VERSION } from "./constants.js";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { TokenCredential } from "@azure/core-auth";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
@@ -75,6 +75,9 @@ export class KeyVaultAccessControlClient {
     const clientOptions: KeyVaultClientOptionalParams = {
       ...options,
       apiVersion,
+      userAgentOptions: {
+        userAgentPrefix: `azsdk-js-keyvault-admin/${SDK_VERSION}`, // TODO: cant this be codegen'd from metadata?
+      },
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: [

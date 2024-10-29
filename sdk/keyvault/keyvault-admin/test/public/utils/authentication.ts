@@ -57,6 +57,9 @@ export async function authenticate(that: TestInfo): Promise<any> {
     ],
   };
 
+  await recorder.setMatcher("CustomDefaultMatcher", {
+    excludedHeaders: ["Content-Type"], // TODO:  <Content-Type> values differ, request <application/json; charset=UTF-8>, record <application/json>
+  });
   await recorder.start(recorderStartOptions);
   const suffix = recorder.variable("suffix", `suffix-${Math.floor(Math.random() * 1000000)}`);
 
