@@ -190,16 +190,19 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
           "Silent authentication failed. We couldn't retrieve an active account from the cache.",
       });
     }
+   
 
     const parameters: msalBrowser.SilentRequest = {
       authority: options?.authority || this.msalConfig.auth.authority!,
       correlationId: options?.correlationId,
       claims: options?.claims,
-      account: publicToMsal(account),
       forceRefresh: false,
       scopes,
     };
-
+    if(publicToMsal(account)!==null){
+      parameters.account = publicToMsal(account)
+    }
+ 
     try {
       this.logger.info("Attempting to acquire token silently");
       const app = await this.getApp();

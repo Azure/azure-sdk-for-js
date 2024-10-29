@@ -560,22 +560,22 @@ describe("MsalClient", function () {
   assert.deepEqual(publicToMsal(authenticationRecord),accountInfo)
  })
 
- it("returns null on an invalid authority url single word",function(){
+ it("returns undefined on an invalid authority url single word",function(){
   authenticationRecord.authority = "https://cn/tenant-id"
-  assert.deepEqual(publicToMsal(authenticationRecord),null)
+  assert.deepEqual(publicToMsal(authenticationRecord),undefined)
  })
 
- it("returns null on an invalid authority url empty string",function(){
+ it("returns undefined on an invalid authority url empty string",function(){
   authenticationRecord.authority = ""
-  assert.deepEqual(publicToMsal(authenticationRecord),null)
+  assert.deepEqual(publicToMsal(authenticationRecord),undefined)
  })
- it("returns null on an invalid authority url . character",function(){
+ it("returns undefined on an invalid authority url . character",function(){
   authenticationRecord.authority = "."
-  assert.deepEqual(publicToMsal(authenticationRecord),null)
+  assert.deepEqual(publicToMsal(authenticationRecord),undefined)
  })
- it("returns null on an invalid authority url whitespace",function(){
+ it("returns undefined on an invalid authority url whitespace",function(){
   authenticationRecord.authority = " "
-  assert.deepEqual(publicToMsal(authenticationRecord),null)
+  assert.deepEqual(publicToMsal(authenticationRecord),undefined)
  })
   });
 });

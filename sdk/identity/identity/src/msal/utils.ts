@@ -222,17 +222,21 @@ export function handleMsalError(
 }
 
 // transformations
-export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountInfo | null {
-  const [environment] = account.authority.match(/([a-z]+(\.[a-z]+)+)/) || [];
-  if (environment)
-    return {
-      localAccountId: account.homeAccountId,
-      environment,
-      username: account.username,
-      homeAccountId: account.homeAccountId,
-      tenantId: account.tenantId
-    };
-  else return null;
+export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountInfo {
+  // Purpose is to convert the `authority host` to `enviroment` which is essentially the doamin + top-level domain
+  const matches = account.authority.match(/([a-z]+(\.[a-z]+)+)/);
+  // Ideally authority host should always be a valid url 
+  // and it should never hit this case
+  if(matches == null){
+    throw new Error(`Invalid authority ${account.authority}`)
+  }
+  return {
+    localAccountId: account.homeAccountId,
+    environment:  matches[0],
+    username: account.username,
+    homeAccountId: account.homeAccountId,
+    tenantId: account.tenantId
+  };
 }
 
 export function msalToPublic(clientId: string, account: MsalAccountInfo): AuthenticationRecord {
