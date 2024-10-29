@@ -238,7 +238,7 @@ export interface HubHasPermissionOptions extends OperationOptions {
 /**
  * The type of client endpoint that is being requested.
  */
-export type WebPubSubClientProtocol = "default" | "mqtt";
+export type WebPubSubClientProtocol = "default" | "mqtt" | "socketio";
 
 /**
  * Options for generating a token to connect a client to the Azure Web Pubsub service.
@@ -958,10 +958,14 @@ export class WebPubSubServiceClient {
         const endpoint = this.endpoint.endsWith("/") ? this.endpoint : this.endpoint + "/";
         const clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
         const clientProtocol = updatedOptions.clientProtocol;
-        const clientPath =
-          clientProtocol && clientProtocol === "mqtt"
-            ? `clients/mqtt/hubs/${this.hubName}`
-            : `client/hubs/${this.hubName}`;
+        let clientPath = `client/hubs/${this.hubName}`;
+        switch(clientProtocol) {
+          case "mqtt":
+            clientPath = `clients/mqtt/hubs/${this.hubName}`;
+            break;
+          case "socketio":
+            clientPath = `clients/socketio/hubs/${this.hubName}`;
+        }
         const baseUrl = clientEndpoint + clientPath;
 
         let token: string;
