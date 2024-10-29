@@ -122,6 +122,8 @@ export class KeyVaultAccessControlClient {
     principalId: string,
     options: CreateRoleAssignmentOptions = {},
   ): Promise<KeyVaultRoleAssignment> {
+    options.requestOptions ??= {};
+    options.requestOptions.skipUrlEncoding = true; // TODO: can we config this?
     return tracingClient.withSpan(
       "KeyVaultAccessControlClient.createRoleAssignment",
       options,
@@ -230,6 +232,8 @@ export class KeyVaultAccessControlClient {
     roleScope: KeyVaultRoleScope,
     options: ListRoleAssignmentsOptions = {},
   ): PagedAsyncIterableIterator<KeyVaultRoleAssignment> {
+    options.requestOptions ??= {};
+    options.requestOptions.skipUrlEncoding = true; // TODO: can we config this?
     return mapPagedAsyncIterable(
       this.client.roleAssignments.listForScope(roleScope, options),
       mappings.roleAssignment.generatedToPublic,
@@ -254,6 +258,8 @@ export class KeyVaultAccessControlClient {
     roleScope: KeyVaultRoleScope,
     options: ListRoleDefinitionsOptions = {},
   ): PagedAsyncIterableIterator<KeyVaultRoleDefinition> {
+    options.requestOptions ??= {};
+    options.requestOptions.skipUrlEncoding = true; // TODO: can we config this?
     return mapPagedAsyncIterable(
       this.client.roleDefinitions.list(roleScope, options),
       mappings.roleDefinition.generatedToPublic,
@@ -278,6 +284,8 @@ export class KeyVaultAccessControlClient {
     name: string,
     options: GetRoleDefinitionOptions = {},
   ): Promise<KeyVaultRoleDefinition> {
+    options.requestOptions ??= {};
+    options.requestOptions.skipUrlEncoding = true; // TODO: can we config this?
     return tracingClient.withSpan(
       "KeyVaultAccessControlClient.getRoleDefinition",
       options,
@@ -306,6 +314,8 @@ export class KeyVaultAccessControlClient {
     roleScope: KeyVaultRoleScope,
     options: SetRoleDefinitionOptions = {},
   ): Promise<KeyVaultRoleDefinition> {
+    options.requestOptions ??= {};
+    options.requestOptions.skipUrlEncoding = true; // TODO: can we config this?
     return tracingClient.withSpan(
       "KeyVaultAccessControlClient.setRoleDefinition",
       options,
@@ -348,6 +358,8 @@ export class KeyVaultAccessControlClient {
     name: string,
     options: DeleteRoleDefinitionOptions = {},
   ): Promise<void> {
+    options.requestOptions ??= {};
+    options.requestOptions.skipUrlEncoding = true; // TODO: can we config this?
     return tracingClient.withSpan(
       "KeyVaultAccessControlClient.deleteRoleDefinition",
       options,
