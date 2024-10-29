@@ -3,12 +3,13 @@
 // Licensed under the MIT License.
 
 import { Client } from "@azure-rest/core-client";
-import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileContentResponseOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadRunOutput, ThreadDeletionStatusOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
-import { AgentsCancelRunParameters, AgentsCreateAgentParameters, AgentsCreateRunParameters, AgentsCreateThreadAndRunParameters, AgentsCreateThreadParameters, AgentsDeleteAgentParameters, AgentsDeleteFileParameters, AgentsDeleteThreadParameters, AgentsGetAgentParameters, AgentsGetFileContentParameters, AgentsGetFileParameters, AgentsGetRunParameters, AgentsGetThreadParameters, AgentsListAgentsParameters, AgentsListFilesParameters, AgentsListRunsParameters, AgentsSubmitToolOutputsToRunParameters, AgentsUpdateAgentParameters, AgentsUpdateRunParameters, AgentsUpdateThreadParameters, AgentsUploadFileParameters } from "../generated/src/parameters.js";
+import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileContentResponseOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadRunOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
+import { AgentsCancelRunParameters, AgentsCreateAgentParameters, AgentsCreateMessageParameters, AgentsCreateRunParameters, AgentsCreateThreadAndRunParameters, AgentsCreateThreadParameters, AgentsDeleteAgentParameters, AgentsDeleteFileParameters, AgentsDeleteThreadParameters, AgentsGetAgentParameters, AgentsGetFileContentParameters, AgentsGetFileParameters, AgentsGetRunParameters, AgentsGetThreadParameters, AgentsListAgentsParameters, AgentsListFilesParameters, AgentsListMessagesParameters, AgentsListRunsParameters, AgentsSubmitToolOutputsToRunParameters, AgentsUpdateAgentParameters, AgentsUpdateMessageParameters, AgentsUpdateRunParameters, AgentsUpdateThreadParameters, AgentsUploadFileParameters } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
 import { cancelRun, createRun, createThreadAndRun, getRun, listRuns, submitToolOutputsToRun, updateRun } from "./runs.js";
+import { createMessage, listMessages, updateMessage } from "./messages.js";
 
 export interface AgentsOperations {
     /** Creates a new agent. */
@@ -94,6 +95,23 @@ export interface AgentsOperations {
       options: AgentsCreateThreadAndRunParameters,
     ) => Promise<ThreadRunOutput>;
 
+    /** Creates a new message on a specified thread. */
+    createMessage: (
+      threadId: string,
+      options: AgentsCreateMessageParameters,
+    ) => Promise<ThreadMessageOutput>;
+    /** Gets a list of messages that exist on a thread. */
+    listMessages: (
+      threadId: string,
+      options?: AgentsListMessagesParameters,
+    ) => Promise<ThreadMessageOutput>;
+    /** Modifies an existing message on an existing thread. */
+    updateMessage: (
+      threadId: string,
+      messageId: string,
+      options: AgentsUpdateMessageParameters,
+    ) => Promise<ThreadMessageOutput>;
+
     /** Gets a list of previously uploaded files. */
     listFiles: (
       options?: AgentsListFilesParameters,
@@ -160,6 +178,13 @@ export function getAgents(context: Client)  {
         cancelRun(context, threadId, runId, options),
       createThreadAndRun: (options: AgentsCreateThreadAndRunParameters) =>
         createThreadAndRun(context, options),
+
+      createMessage: (threadId: string, options: AgentsCreateMessageParameters) =>
+        createMessage(context, threadId, options),
+      listMessages: (threadId: string, options?: AgentsListMessagesParameters) =>
+        listMessages(context, threadId, options),
+      updateMessage: (threadId: string, messageId: string, options: AgentsUpdateMessageParameters) =>
+        updateMessage(context, threadId, messageId, options),
 
       listFiles: (options?: AgentsListFilesParameters) =>
         listFiles(context, options),
