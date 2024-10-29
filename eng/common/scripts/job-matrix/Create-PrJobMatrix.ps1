@@ -32,8 +32,11 @@ function GenerateMatrixForConfig {
     [Parameter(Mandatory = $false)][array] $Filters,
     [Parameter(Mandatory = $false)][array] $Replace
   )
+  $matrixFile = Join-Path $PSScriptRoot ".." ".." ".." ".." $ConfigPath
 
-  $config = GetMatrixConfigFromFile (Get-Content $ConfigPath -Raw)
+  $resolvedMatrixFile = Resolve-Path $matrixFile
+
+  $config = GetMatrixConfigFromFile (Get-Content $resolvedMatrixFile -Raw)
   # Strip empty string filters in order to be able to use azure pipelines yaml join()
   $Filters = $Filters | Where-Object { $_ }
 
@@ -85,7 +88,7 @@ $matrixBatchesByConfig = Group-ByObjectKey $packageProperties "CIMatrixConfigs"
 $OverallResult = @()
 foreach ($matrixBatchKey in $matrixBatchesByConfig.Keys) {
   $matrixBatch = $matrixBatchesByConfig[$matrixBatchKey]
-  $matrixConfig = $matrixBatch | Select-Object -First 1 -ExpandProperty CIMatrixConfigs
+  $matrixConfigs = $matrixBatch | Select-Object -First 1 -ExpandProperty CIMatrixConfigs
   Write-Host "Generating config for $($matrixConfig.Path)"
 
   $results = @()
