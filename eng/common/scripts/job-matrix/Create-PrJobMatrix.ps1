@@ -24,33 +24,6 @@ param (
 . $PSScriptRoot/../Helpers/Package-Helpers.ps1
 $BATCHSIZE = 10
 
-function GenerateMatrixForConfig {
-  param (
-    [Parameter(Mandatory = $true)][string] $ConfigPath,
-    [Parameter(Mandatory = $True)][string] $Selection,
-    [Parameter(Mandatory = $false)][string] $DisplayNameFilter,
-    [Parameter(Mandatory = $false)][array] $Filters,
-    [Parameter(Mandatory = $false)][array] $Replace
-  )
-  $matrixFile = Join-Path $PSScriptRoot ".." ".." ".." ".." $ConfigPath
-
-  $resolvedMatrixFile = Resolve-Path $matrixFile
-
-  $config = GetMatrixConfigFromFile (Get-Content $resolvedMatrixFile -Raw)
-  # Strip empty string filters in order to be able to use azure pipelines yaml join()
-  $Filters = $Filters | Where-Object { $_ }
-
-  [array]$matrix = GenerateMatrix `
-    -config $config `
-    -selectFromMatrixType $Selection `
-    -displayNameFilter $DisplayNameFilter `
-    -filters $Filters `
-    -replace $Replace
-
-  return , $matrix
-}
-
-
 if (!(Test-Path $PackagePropertiesFolder)) {
   Write-Error "Package Properties folder doesn't exist"
   exit 1
@@ -72,7 +45,8 @@ $configs = @(
 # calculate general targeting information and create our batches prior to generating any matrix
 # this prototype doesn't handle direct and indirect, it just batches for simplicity of the proto
 $packageProperties = Get-ChildItem -Recurse "$PackagePropertiesFolder" *.json `
-| ForEach-Object { Get-Content -Path $_.FullName | ConvertFrom-Json }
+| ForEach-Object { Get-Content -Path $_.FullName | ConvertFrom-Json } `
+| ForEach-Object { [PSCustomObject]$_ }
 
 # set default matrix config for each package if there isn't an override
 $packageProperties | ForEach-Object {
@@ -87,36 +61,47 @@ $matrixBatchesByConfig = Group-ByObjectKey $packageProperties "CIMatrixConfigs"
 
 $OverallResult = @()
 foreach ($matrixBatchKey in $matrixBatchesByConfig.Keys) {
+  Write-Host "Generating config for $($matrixConfig.Path)"
   $matrixBatch = $matrixBatchesByConfig[$matrixBatchKey]
   $matrixConfigs = $matrixBatch | Select-Object -First 1 -ExpandProperty CIMatrixConfigs
-  Write-Host "Generating config for $($matrixConfig.Path)"
 
-  $results = @()
+  $matrixResults = @()
   foreach ($matrixConfig in $matrixConfigs) {
-    $results = GenerateMatrixForConfig -ConfigPath $matrixConfig.Path -Selection $matrixConfig.Selection -DisplayNameFilter $DisplayNameFilter -Filters $Filters -Replace $Replace
-  }
+    $matrixResults = GenerateMatrixForConfig `
+      -ConfigPath $matrixConfig.Path `
+      -Selection $matrixConfig.Selection `
+      -DisplayNameFilter $DisplayNameFilter `
+      -Filters $Filters `
+      -Replace $Replace
 
-  $packageBatches = Split-ArrayIntoBatches -InputArray $results -BatchSize $BATCHSIZE
+    $packageBatches = Split-ArrayIntoBatches -InputArray $matrixBatch -BatchSize $BATCHSIZE
 
-  foreach ($batch in $packageBatches) {
-    Write-Host "Ok walking through $batch"
-    # $ModifiedMatrix = @()
-    # # to understand this iteration, one must understand that the matrix is a list of hashtables, each with a couple keys:
-    # # [
-    # #  { "name": "jobname", "parameters": { matrixSetting1: matrixValue1, ...} },
-    # # ]
-    # if ($batches.Length -gt 1) {
-    #   throw "This script is not prepared to handle more than one batch. We will need to duplicate the input objects."
-    # }
-    # else {
-    #   foreach ($config in $generatedMatrix) {
-    #     $namesForBatch = $batches[0] -join ","
-    #     # we just need to iterate across them, grab the parameters hashtable, and add the new key
-    #     # if there is more than one batch, we will need to add a suffix including the batch name to the job name
-    #     $config["parameters"]["$PRMatrixSetting"] = $namesForBatch
-    #     $OverallResult += $config
-    #   }
-    # }
+    # we only need to modify the generated job name if there is more than one matrix config or batch in the matrix
+    $matrixSuffixNecessary = $matrixConfigs.Count -gt 1
+    $batchSuffixNecessary = $packageBatches.Length -gt 1
+
+    foreach ($batch in $packageBatches) {
+      # to understand this iteration, one must understand that the matrix is a list of hashtables, each with a couple keys:
+      # [
+      #  { "name": "jobname", "parameters": { matrixSetting1: matrixValue1, ...} },
+      # ]
+      foreach ($matrixOutputItem in $matrixResults) {
+        $namesForBatch = ($batch | ForEach-Object { $_.ArtifactName }) -join "-"
+        # we just need to iterate across them, grab the parameters hashtable, and add the new key
+        # if there is more than one batch, we will need to add a suffix including the batch name to the job name
+        $matrixOutputItem["parameters"]["$PRMatrixSetting"] = $namesForBatch
+
+        if ($matrixSuffixNecessary) {
+          $matrixOutputItem["name"] = $matrixOutputItem["name"] + $matrixConfig.Name
+        }
+
+        if ($batchSuffixNecessary) {
+          $matrixOutputItem["name"] = $matrixOutputItem["name"] + $namesForBatch
+        }
+
+        $OverallResult += $matrixOutputItem
+      }
+    }
   }
 }
 

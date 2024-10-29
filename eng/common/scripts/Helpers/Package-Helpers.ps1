@@ -246,7 +246,7 @@ function Group-ByObjectKey {
 function Split-ArrayIntoBatches {
   param (
     [Parameter(Mandatory = $true)]
-    [string[]]$InputArray,
+    [Object[]]$InputArray,
 
     [Parameter(Mandatory = $true)]
     [int]$BatchSize
