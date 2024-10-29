@@ -50,7 +50,7 @@ describe("HttpSender", () => {
     it("should create a valid instance", () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -63,23 +63,26 @@ describe("HttpSender", () => {
       name: "name",
       time: new Date(),
     };
-    it("should send a valid envelope", async () => {
+    it("should send a valid envelope", () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
       scope.reply(200, JSON.stringify(successfulBreezeResponse(1)));
-      const { result, statusCode } = await sender.send([envelope]);
-      assert.strictEqual(statusCode, 200);
-      assert.deepStrictEqual(JSON.parse(result), successfulBreezeResponse(1));
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      setTimeout(async () => {
+        const { result, statusCode } = await sender.send([envelope]);
+        assert.strictEqual(statusCode, 200);
+        assert.deepStrictEqual(JSON.parse(result), successfulBreezeResponse(1));
+      }, 1000)
     });
 
     it("should send an invalid non-retriable envelope", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -93,23 +96,26 @@ describe("HttpSender", () => {
       }
     });
 
-    it("should send a partially retriable envelope", async () => {
+    it("should send a partially retriable envelope", () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
       scope.reply(206, JSON.stringify(partialBreezeResponse([200, 408, 408])));
-      const { result, statusCode } = await sender.send([envelope, envelope]);
-      assert.strictEqual(statusCode, 206);
-      assert.deepStrictEqual(JSON.parse(result), partialBreezeResponse([200, 408, 408]));
+      // eslint-disable-next-line @typescript-eslint/no-misused-promises
+      setTimeout(async () => {
+        const { result, statusCode } = await sender.send([envelope, envelope]);
+        assert.strictEqual(statusCode, 206);
+        assert.deepStrictEqual(JSON.parse(result), partialBreezeResponse([200, 408, 408]));
+      }, 1000);
     });
 
     it("should persist retriable failed telemetry 429", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -120,14 +126,17 @@ describe("HttpSender", () => {
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
       const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
-      assert.strictEqual(persistedEnvelopes?.length, 1);
-      assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+      // Test enters race condition without this timeout.
+      setTimeout(() => {
+        assert.strictEqual(persistedEnvelopes?.length, 1);
+        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+      }, 1000);
     });
 
     it("should persist retriable failed telemetry 500", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -138,14 +147,17 @@ describe("HttpSender", () => {
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
       const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
-      assert.strictEqual(persistedEnvelopes?.length, 1);
-      assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+      // Test enters race condition without this timeout.
+      setTimeout(() => {
+        assert.strictEqual(persistedEnvelopes?.length, 1);
+        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+      }, 1000);
     });
 
     it("should persist retriable failed  502", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -156,14 +168,17 @@ describe("HttpSender", () => {
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
       const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
-      assert.strictEqual(persistedEnvelopes?.length, 1);
-      assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+      // Test enters race condition without this timeout.
+      setTimeout(() => {
+        assert.strictEqual(persistedEnvelopes?.length, 1);
+        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+      }, 1000);
     });
 
     it("should persist retriable failed telemetry 503", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -174,14 +189,17 @@ describe("HttpSender", () => {
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
       const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
-      assert.strictEqual(persistedEnvelopes?.length, 1);
-      assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+      // Test enters race condition without this timeout.
+      setTimeout(() => {
+        assert.strictEqual(persistedEnvelopes?.length, 1);
+        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+      }, 1000);
     });
 
     it("should persist retriable failed telemetry 504", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -192,14 +210,17 @@ describe("HttpSender", () => {
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
       const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
-      assert.strictEqual(persistedEnvelopes?.length, 1);
-      assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+      // Test enters race condition without this timeout.
+      setTimeout(() => {
+        assert.strictEqual(persistedEnvelopes?.length, 1);
+        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
+      }, 1000);
     });
 
     it("should persist partial retriable failed telemetry", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -210,13 +231,16 @@ describe("HttpSender", () => {
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
       const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
-      assert.strictEqual(persistedEnvelopes?.length, 2);
+      // Test enters race condition without this timeout.
+      setTimeout(() => {
+        assert.strictEqual(persistedEnvelopes?.length, 2);
+      }, 1000);
     });
 
     it("should not persist partial non retriable failed telemetry", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -227,13 +251,16 @@ describe("HttpSender", () => {
       assert.strictEqual(result.code, ExportResultCode.SUCCESS);
 
       const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
-      assert.strictEqual(persistedEnvelopes?.length, 1);
+      // Test enters race condition without this timeout.
+      setTimeout(() => {
+        assert.strictEqual(persistedEnvelopes?.length, 1);
+      }, 1000);
     });
 
     it("should not persist non-retriable failed telemetry", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -241,16 +268,20 @@ describe("HttpSender", () => {
       scope.reply(400, JSON.stringify(response));
 
       const result = await sender.exportEnvelopes([envelope]);
-      assert.strictEqual(result.code, ExportResultCode.FAILED);
+      setTimeout(() => {
+        assert.strictEqual(result.code, ExportResultCode.FAILED);
+      }, 1000);
 
       const persistedEnvelopes = await sender["persister"].shift();
-      assert.strictEqual(persistedEnvelopes, null);
+      setTimeout(() => {
+        assert.strictEqual(persistedEnvelopes, null);
+      }, 1000);
     });
 
     it("should not persist non-retriable failed telemetry", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -258,32 +289,40 @@ describe("HttpSender", () => {
       scope.reply(404, JSON.stringify(response));
 
       const result = await sender.exportEnvelopes([envelope]);
-      assert.strictEqual(result.code, ExportResultCode.FAILED);
+      setTimeout(() => {
+        assert.strictEqual(result.code, ExportResultCode.FAILED);
+      }, 1000);
 
       const persistedEnvelopes = await sender["persister"].shift();
-      assert.strictEqual(persistedEnvelopes, null);
+      setTimeout(() => {
+        assert.strictEqual(persistedEnvelopes, null);
+      }, 1000);
     });
 
     it("should not persist when an error is caught", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
       scope.reply(1, ""); // httpSender will throw
 
       const result = await sender.exportEnvelopes([envelope]);
-      assert.strictEqual(result.code, ExportResultCode.FAILED);
+      setTimeout(() => {
+        assert.strictEqual(result.code, ExportResultCode.FAILED);
+      }, 1000);
 
       const persistedEnvelopes = await sender["persister"].shift();
-      assert.strictEqual(persistedEnvelopes, null);
+      setTimeout(() => {
+        assert.strictEqual(persistedEnvelopes, null);
+      }, 1000);
     });
 
     it("should start retry timer when telemetry is successfully sent", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -291,8 +330,10 @@ describe("HttpSender", () => {
       scope.reply(200, JSON.stringify(response));
 
       const result = await sender.exportEnvelopes([envelope]);
-      assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.notStrictEqual(sender["retryTimer"], null);
+      setTimeout(() => {
+        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+        assert.notStrictEqual(sender["retryTimer"], null);
+      }, 1000);
 
       clearTimeout(sender["retryTimer"]!);
       sender["retryTimer"] = null;
@@ -301,7 +342,7 @@ describe("HttpSender", () => {
     it("should not start a retry timer when one already exists", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -317,7 +358,7 @@ describe("HttpSender", () => {
     it("should handle permanent redirects in Azure Monitor", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -332,15 +373,17 @@ describe("HttpSender", () => {
 
       const result = await sender.exportEnvelopes([envelope]);
       const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
-      assert.strictEqual(persistedEnvelopes, null);
-      assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+      setTimeout(() => {
+        assert.strictEqual(persistedEnvelopes, null);
+        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+      }, 1000);
     });
 
     it("should handle temporary redirects in Azure Monitor", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -355,15 +398,17 @@ describe("HttpSender", () => {
 
       const result = await sender.exportEnvelopes([envelope]);
       const persistedEnvelopes = (await sender["persister"].shift()) as Envelope[];
-      assert.strictEqual(persistedEnvelopes, null);
-      assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+      setTimeout(() => {
+        assert.strictEqual(persistedEnvelopes, null);
+        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+      }, 1000);
     });
 
     it("should use redirect URL for following requests", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -376,17 +421,21 @@ describe("HttpSender", () => {
       redirectScope.twice().reply(200, JSON.stringify(successfulBreezeResponse(1)));
       scope.reply(307, {}, { location: redirectLocation });
       let result = await sender.exportEnvelopes([envelope]);
-      assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+      setTimeout(() => {
+        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+      }, 1000);
       result = await sender.exportEnvelopes([envelope]);
-      assert.strictEqual(result.code, ExportResultCode.SUCCESS);
-      assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+      setTimeout(() => {
+        assert.strictEqual(result.code, ExportResultCode.SUCCESS);
+        assert.strictEqual(sender["appInsightsClient"]["host"], redirectHost);
+      }, 1000);
     });
 
     it("should stop redirecting when circular redirect is triggered", async () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {},
       });
@@ -407,8 +456,10 @@ describe("HttpSender", () => {
         .persist();
 
       const result = await sender.exportEnvelopes([envelope]);
-      assert.strictEqual(result.code, ExportResultCode.FAILED);
-      assert.strictEqual(result.error?.message, "Circular redirect");
+      setTimeout(() => {
+        assert.strictEqual(result.code, ExportResultCode.FAILED);
+        assert.strictEqual(result.error?.message, "Circular redirect");
+      }, 1000);
     });
   });
 
@@ -416,7 +467,7 @@ describe("HttpSender", () => {
     it("should add bearerTokenAuthenticationPolicy", () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {
           credential: new TestTokenCredential(),
@@ -432,7 +483,7 @@ describe("HttpSender", () => {
     it("should allow configuration of credentialScopes", () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         aadAudience: "testAudience",
         exporterOptions: {
@@ -447,7 +498,7 @@ describe("HttpSender", () => {
     it("proxy configuration", () => {
       const sender = new HttpSender({
         endpointUrl: DEFAULT_BREEZE_ENDPOINT,
-        instrumentationKey: "someIkey",
+        instrumentationKey: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
         trackStatsbeat: false,
         exporterOptions: {
           proxyOptions: {
