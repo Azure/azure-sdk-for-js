@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a resiliency policy for a Dapr component.
  *
  * @summary Delete a resiliency policy for a Dapr component.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DaprComponentResiliencyPolicies_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprComponentResiliencyPolicies_Delete.json
  */
 async function deleteDaprComponentResiliencyPolicy() {
   const subscriptionId =

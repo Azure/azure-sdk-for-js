@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Bulk Updates documents with a Stored Procedure. Prefer `container.items().bulk()` to this behavior.

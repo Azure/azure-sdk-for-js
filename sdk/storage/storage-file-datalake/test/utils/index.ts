@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
@@ -293,4 +293,10 @@ export function getSASConnectionStringFromEnvironment(): string {
     ".queue.",
     ".file.",
   )}/;TableEndpoint=${blobEndpoint.replace(".queue.", ".table.")}/;SharedAccessSignature=${sas}`;
+}
+
+export function getSignatureFromSasUrl(sasUrl: string): string {
+  const url = new URL(sasUrl);
+  const signature = url.searchParams.get("sig");
+  return signature!;
 }

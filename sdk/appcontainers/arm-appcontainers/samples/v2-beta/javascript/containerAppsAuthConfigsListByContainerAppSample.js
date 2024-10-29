@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the Container App AuthConfigs in a given resource group.
  *
  * @summary Get the Container App AuthConfigs in a given resource group.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/AuthConfigs_ListByContainer.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/AuthConfigs_ListByContainer.json
  */
 async function listAuthConfigsByContainerApps() {
   const subscriptionId =

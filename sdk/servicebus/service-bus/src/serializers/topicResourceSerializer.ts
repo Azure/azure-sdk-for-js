@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
   serializeToAtomXmlRequest,
-} from "../util/atomXmlHelper";
-import * as Constants from "../util/constants";
+} from "../util/atomXmlHelper.js";
+import * as Constants from "../util/constants.js";
 import {
   AuthorizationRule,
   EntityStatus,
@@ -21,7 +21,7 @@ import {
   getStringOrUndefined,
   getDate,
   getMessageCountDetails,
-} from "../util/utils";
+} from "../util/utils.js";
 
 /**
  * @internal

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
 import { TracingContext } from "../tracing/interfaces.js";
@@ -74,6 +74,13 @@ export interface AccessToken {
    * The access token's expiration timestamp in milliseconds, UNIX epoch time.
    */
   expiresOnTimestamp: number;
+
+  /**
+   * The timestamp when the access token should be refreshed, in milliseconds, UNIX epoch time.
+   */
+  refreshAfterTimestamp?: number;
+
+  // UNBRANDED DIFFERENCE: Unbranded Core does not support PoP ("Proof-of-Presence") tokens.
 }
 
 /**

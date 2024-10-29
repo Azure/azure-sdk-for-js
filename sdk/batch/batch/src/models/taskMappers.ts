@@ -18,6 +18,7 @@ export {
   CloudTaskListSubtasksResult,
   ComputeNodeIdentityReference,
   ComputeNodeInformation,
+  ContainerHostBatchBindMountEntry,
   ContainerRegistry,
   EnvironmentSetting,
   ErrorMessage,

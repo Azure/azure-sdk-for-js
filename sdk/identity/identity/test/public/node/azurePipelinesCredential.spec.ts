@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzurePipelinesCredential } from "../../../src";
 import { isLiveMode } from "@azure-tools/test-recorder";
@@ -30,7 +30,7 @@ describe("AzurePipelinesCredential", function () {
     if (token?.expiresOnTimestamp) assert.ok(token?.expiresOnTimestamp > Date.now());
   });
 
-  it("fails with with invalid service connection", async function () {
+  it("fails with invalid service connection", async function () {
     if (!isLiveMode()) {
       this.skip();
     }
@@ -44,11 +44,40 @@ describe("AzurePipelinesCredential", function () {
       systemAccessToken,
     );
     const regExp: RegExp =
-      /AzurePipelinesCredential: Authenticated Failed. Received null token from OIDC request. Response status- 404./;
+      /invalid_client: Error\(s\): 700213 .* AADSTS700213: No matching federated identity record found for presented assertion subject .* Please note that the matching is done using a case-sensitive comparison. Check your federated identity credential Subject, Audience and Issuer against the presented assertion/;
     await assert.isRejected(
       credential.getToken(scope),
       regExp,
       "error thrown doesn't match or promise not rejected",
+    );
+  });
+
+  it("failure includes the expected response headers", async function () {
+    if (!isLiveMode()) {
+      this.skip();
+    }
+    // clientId for above service connection
+    const clientId = process.env.AZURE_SERVICE_CONNECTION_CLIENT_ID!;
+    const existingServiceConnectionId = process.env.AZURE_SERVICE_CONNECTION_ID!;
+    const credential = new AzurePipelinesCredential(
+      tenantId,
+      clientId,
+      existingServiceConnectionId,
+      "invalidSystemAccessToken",
+    );
+    const regExpHeader1: RegExp = /"x-vss-e2eid"/gm;
+    const regExpHeader2: RegExp = /"x-msedge-ref"/gm;
+
+    await assert.isRejected(
+      credential.getToken(scope),
+      regExpHeader1,
+      "error thrown doesn't contain expected header 'x-vss-e2eid'",
+    );
+
+    await assert.isRejected(
+      credential.getToken(scope),
+      regExpHeader2,
+      "error thrown doesn't contain expected header 'x-msedge-ref'",
     );
   });
 
@@ -83,8 +112,8 @@ describe("AzurePipelinesCredential", function () {
       tenantId,
       clientId,
       existingServiceConnectionId,
-      "systemAccessToken",
+      "invalidSystemAccessToken",
     );
-    await assert.isRejected(credential.getToken(scope), /Status code: 302/);
+    await assert.isRejected(credential.getToken(scope), /Status code: 401/);
   });
 });

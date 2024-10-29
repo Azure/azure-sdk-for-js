@@ -279,6 +279,8 @@ export interface ManagedClusterAgentPoolProfileProperties {
   networkProfile?: AgentPoolNetworkProfile;
   /** The Windows agent pool's specific profile. */
   windowsProfile?: AgentPoolWindowsProfile;
+  /** The security settings of an agent pool. */
+  securityProfile?: AgentPoolSecurityProfile;
 }
 
 /** Settings for upgrading an agentpool */
@@ -427,6 +429,14 @@ export interface PortRange {
 export interface AgentPoolWindowsProfile {
   /** The default value is false. Outbound NAT can only be disabled if the cluster outboundType is NAT Gateway and the Windows agent pool does not have node public IP enabled. */
   disableOutboundNat?: boolean;
+}
+
+/** The security settings of an agent pool. */
+export interface AgentPoolSecurityProfile {
+  /** vTPM is a Trusted Launch feature for configuring a dedicated secure vault for keys and measurements held locally on the node. For more details, see aka.ms/aks/trustedlaunch. If not specified, the default is false. */
+  enableVtpm?: boolean;
+  /** Secure Boot is a feature of Trusted Launch which ensures that only signed operating systems and drivers can boot. For more details, see aka.ms/aks/trustedlaunch.  If not specified, the default is false. */
+  enableSecureBoot?: boolean;
 }
 
 /** Profile for Linux VMs in the container service cluster. */
@@ -1295,6 +1305,61 @@ export interface AgentPoolUpgradeProfilePropertiesUpgradesItem {
   isPreview?: boolean;
 }
 
+/** Specifies a list of machine names from the agent pool to be deleted. */
+export interface AgentPoolDeleteMachinesParameter {
+  /** The agent pool machine names. */
+  machineNames: string[];
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** The list of available versions for an agent pool. */
 export interface AgentPoolAvailableVersions {
   /**
@@ -1534,55 +1599,6 @@ export interface TrustedAccessRoleBindingListResult {
   readonly nextLink?: string;
 }
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
-}
-
 /** List of trusted access roles */
 export interface TrustedAccessRoleListResult {
   /**
@@ -1643,6 +1659,54 @@ export interface TrustedAccessRoleRule {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nonResourceURLs?: string[];
+}
+
+/** The response from the List Machines operation. */
+export interface MachineListResult {
+  /**
+   * The URL to get the next set of machine results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+  /** The list of Machines in cluster. */
+  value?: Machine[];
+}
+
+/** The properties of the machine */
+export interface MachineProperties {
+  /**
+   * network properties of the machine
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly network?: MachineNetworkProperties;
+  /**
+   * Azure resource id of the machine. It can be used to GET underlying VM Instance
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceId?: string;
+}
+
+/** network properties of the machine */
+export interface MachineNetworkProperties {
+  /**
+   * IPv4, IPv6 addresses of the machine
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ipAddresses?: MachineIpAddress[];
+}
+
+/** The machine IP address details. */
+export interface MachineIpAddress {
+  /**
+   * To determine if address belongs IPv4 or IPv6 family
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly family?: IpFamily;
+  /**
+   * IPv4 or IPv6 address of the machine
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly ip?: string;
 }
 
 /** Profile for the container service agent pool. */
@@ -1794,6 +1858,17 @@ export interface AgentPool extends SubResource {
   networkProfile?: AgentPoolNetworkProfile;
   /** The Windows agent pool's specific profile. */
   windowsProfile?: AgentPoolWindowsProfile;
+  /** The security settings of an agent pool. */
+  securityProfile?: AgentPoolSecurityProfile;
+}
+
+/** A machine. Contains details about the underlying virtual machine. A machine may be visible here but not in kubectl get nodes; if so it may be because the machine has not been registered with the Kubernetes API Server yet. */
+export interface Machine extends SubResource {
+  /**
+   * The properties of the machine
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: MachineProperties;
 }
 
 /** Mesh upgrade profile properties for a major.minor release. */
@@ -2042,6 +2117,12 @@ export interface AgentPoolsAbortLatestOperationHeaders {
 
 /** Defines headers for AgentPools_delete operation. */
 export interface AgentPoolsDeleteHeaders {
+  /** URL to query for status of the operation. */
+  location?: string;
+}
+
+/** Defines headers for AgentPools_deleteMachines operation. */
+export interface AgentPoolsDeleteMachinesHeaders {
   /** URL to query for status of the operation. */
   location?: string;
 }
@@ -3323,6 +3404,8 @@ export type AgentPoolsCreateOrUpdateResponse = AgentPool;
 /** Optional parameters. */
 export interface AgentPoolsDeleteOptionalParams
   extends coreClient.OperationOptions {
+  /** ignore-pod-disruption-budget=true to delete those pods on a node without considering Pod Disruption Budget */
+  ignorePodDisruptionBudget?: boolean;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3338,6 +3421,18 @@ export interface AgentPoolsGetUpgradeProfileOptionalParams
 
 /** Contains response data for the getUpgradeProfile operation. */
 export type AgentPoolsGetUpgradeProfileResponse = AgentPoolUpgradeProfile;
+
+/** Optional parameters. */
+export interface AgentPoolsDeleteMachinesOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the deleteMachines operation. */
+export type AgentPoolsDeleteMachinesResponse = AgentPoolsDeleteMachinesHeaders;
 
 /** Optional parameters. */
 export interface AgentPoolsGetAvailableAgentPoolVersionsOptionalParams
@@ -3524,6 +3619,27 @@ export interface TrustedAccessRolesListNextOptionalParams
 
 /** Contains response data for the listNext operation. */
 export type TrustedAccessRolesListNextResponse = TrustedAccessRoleListResult;
+
+/** Optional parameters. */
+export interface MachinesListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type MachinesListResponse = MachineListResult;
+
+/** Optional parameters. */
+export interface MachinesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type MachinesGetResponse = Machine;
+
+/** Optional parameters. */
+export interface MachinesListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type MachinesListNextResponse = MachineListResult;
 
 /** Optional parameters. */
 export interface ContainerServiceClientOptionalParams

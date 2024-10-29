@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import { AccessToken, NamedKeyCredential } from "@azure/core-auth";
 import { createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
-import { generateKey } from "./crypto";
+import { generateKey } from "./crypto.js";
 import { createSasTokenProvider, SasTokenProvider } from "@azure/core-amqp";
 
 /**

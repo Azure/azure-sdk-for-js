@@ -14,7 +14,7 @@ output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/webpubsub/data-plane/WebPubSub/stable/2024-01-01/webpubsub.json
 add-credentials: false
-package-version: 1.1.3
+package-version: 1.1.4
 v3: true
 hide-clients: true
 use-core-v2: true

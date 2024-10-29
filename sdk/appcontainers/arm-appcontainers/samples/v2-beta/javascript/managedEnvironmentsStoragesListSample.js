@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get all storages for a managedEnvironment.
  *
  * @summary Get all storages for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ManagedEnvironmentsStorages_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironmentsStorages_List.json
  */
 async function listEnvironmentsStoragesBySubscription() {
   const subscriptionId =

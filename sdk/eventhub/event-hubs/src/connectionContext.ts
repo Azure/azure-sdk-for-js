@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable no-inner-declarations */
@@ -121,7 +121,7 @@ export interface ConnectionContextOptions extends EventHubClientOptions {
 /**
  * Helper type to get the names of all the functions on an object.
  */
-type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]; // eslint-disable-line @typescript-eslint/ban-types
+type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]; // eslint-disable-line @typescript-eslint/no-unsafe-function-type
 /**
  * Helper type to get the types of all the functions on an object.
  */

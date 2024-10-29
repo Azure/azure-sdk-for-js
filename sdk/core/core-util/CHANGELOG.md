@@ -1,5 +1,17 @@
 # Release History
 
+## 1.11.0 (2024-10-15)
+
+### Features Added
+
+- Added support for `HttpMethods` type
+
+## 1.10.0 (2024-09-12)
+
+### Features Added
+
+- Added `calculateRetryDelay` helper that can be used to calculate the next delay interval for exponential delay with jitter. [#30572](https://github.com/Azure/azure-sdk-for-js/pull/30572)
+
 ## 1.9.2 (2024-08-01)
 
 ### Other Changes

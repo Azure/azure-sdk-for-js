@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import Sinon from "sinon";
 import { assert } from "@azure-tools/test-utils";
@@ -9,6 +9,7 @@ import { tokenExchangeMsi } from "../../../../src/credentials/managedIdentityCre
 import { imdsMsi } from "../../../../src/credentials/managedIdentityCredential/imdsMsi";
 import { RestError } from "@azure/core-rest-pipeline";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../../../src/errors";
+import { AccessToken } from "@azure/core-auth";
 
 describe("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: Sinon.SinonStub;
@@ -37,13 +38,49 @@ describe("ManagedIdentityCredential (MSAL)", function () {
       it("throws when both clientId and resourceId are provided", function () {
         assert.throws(
           () => new MsalMsiProvider("id", { resourceId: "id" }),
-          /provided at the same time./,
+          /only one of 'clientId', 'resourceId', or 'objectId' can be provided/,
         );
       });
+
       it("throws when both clientId and resourceId are provided via options", function () {
         assert.throws(
           () => new MsalMsiProvider({ clientId: "id", resourceId: "id" }),
-          /provided at the same time./,
+          /only one of 'clientId', 'resourceId', or 'objectId' can be provided/,
+        );
+      });
+
+      it("throws when both clientId and objectId are provided", function () {
+        assert.throws(
+          () => new MsalMsiProvider("id", { objectId: "id" }),
+          /only one of 'clientId', 'resourceId', or 'objectId' can be provided/,
+        );
+      });
+
+      it("throws when both resourceId and objectId are provided via options", function () {
+        assert.throws(
+          () => new MsalMsiProvider({ resourceId: "id", objectId: "id" }),
+          /only one of 'clientId', 'resourceId', or 'objectId' can be provided/,
+        );
+      });
+    });
+
+    describe("when using CloudShell Managed Identity", function () {
+      it("throws when user-assigned IDs are provided", function () {
+        Sinon.stub(ManagedIdentityApplication.prototype, "getManagedIdentitySource").returns(
+          "CloudShell",
+        );
+
+        assert.throws(
+          () => new MsalMsiProvider({ clientId: "id" }),
+          /Specifying a user-assigned managed identity is not supported for CloudShell at runtime/,
+        );
+        assert.throws(
+          () => new MsalMsiProvider({ resourceId: "id" }),
+          /Specifying a user-assigned managed identity is not supported for CloudShell at runtime/,
+        );
+        assert.throws(
+          () => new MsalMsiProvider({ objectId: "id" }),
+          /Specifying a user-assigned managed identity is not supported for CloudShell at runtime/,
         );
       });
     });
@@ -67,7 +104,8 @@ describe("ManagedIdentityCredential (MSAL)", function () {
           const validToken = {
             token: "test_token",
             expiresOnTimestamp: new Date().getTime(),
-          };
+            tokenType: "Bearer",
+          } as AccessToken;
           Sinon.stub(tokenExchangeMsi, "isAvailable").resolves(true);
           Sinon.stub(tokenExchangeMsi, "getToken").resolves(validToken);
 

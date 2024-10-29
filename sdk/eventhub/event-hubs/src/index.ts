@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-/// <reference lib="esnext.asynciterable" />
+// Licensed under the MIT License.
 
 export { EventData, ReceivedEventData } from "./eventData.js";
 export { WebSocketImpl } from "rhea-promise";

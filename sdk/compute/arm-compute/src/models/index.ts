@@ -291,7 +291,7 @@ export interface VirtualMachineScaleSetVMProfile {
   /** Specifies the security posture to be used in the scale set. Minimum api-version: 2023-03-01 */
   securityPostureReference?: SecurityPostureReference;
   /**
-   * Specifies the time in which this VM profile for the Virtual Machine Scale Set was created. Minimum API version for this property is 2024-03-01. This value will be added to VMSS Flex VM tags when creating/updating the VMSS VM Profile with minimum api-version 2024-03-01.
+   * Specifies the time in which this VM profile for the Virtual Machine Scale Set was created. This value will be added to VMSS Flex VM tags when creating/updating the VMSS VM Profile. Minimum API version for this property is 2023-09-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -333,8 +333,11 @@ export interface WindowsConfiguration {
   patchSettings?: PatchSettings;
   /** Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell. */
   winRM?: WinRMConfiguration;
-  /** Indicates whether VMAgent Platform Updates is enabled for the Windows virtual machine. Default value is false. */
-  enableVMAgentPlatformUpdates?: boolean;
+  /**
+   * Indicates whether VMAgent Platform Updates are enabled for the Windows Virtual Machine.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly enableVMAgentPlatformUpdates?: boolean;
 }
 
 /** Specifies additional XML formatted information that can be included in the Unattend.xml file, which is used by Windows Setup. Contents are defined by setting name, component name, and the pass in which the content is applied. */
@@ -669,7 +672,7 @@ export interface SecurityProfile {
   securityType?: SecurityTypes;
   /** Specifies the Managed Identity used by ADE to get access token for keyvault operations. */
   encryptionIdentity?: EncryptionIdentity;
-  /** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2024-03-01. */
+  /** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2023-09-01. */
   proxyAgentSettings?: ProxyAgentSettings;
 }
 
@@ -687,7 +690,7 @@ export interface EncryptionIdentity {
   userAssignedIdentityResourceId?: string;
 }
 
-/** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2024-03-01. */
+/** Specifies ProxyAgent settings while creating the virtual machine. Minimum api-version: 2023-09-01. */
 export interface ProxyAgentSettings {
   /** Specifies whether ProxyAgent feature should be enabled on the virtual machine or virtual machine scale set. */
   enabled?: boolean;
@@ -870,6 +873,20 @@ export interface ResilientVMCreationPolicy {
 export interface ResilientVMDeletionPolicy {
   /** Specifies whether resilient VM deletion should be enabled on the virtual machine scale set. The default value is false. */
   enabled?: boolean;
+}
+
+/** Specifies the sku profile for the virtual machine scale set. With this property the customer is able to specify a list of VM sizes and an allocation strategy. */
+export interface SkuProfile {
+  /** Specifies the VM sizes for the virtual machine scale set. */
+  vmSizes?: SkuProfileVMSize[];
+  /** Specifies the allocation strategy for the virtual machine scale set based on which the VMs will be allocated. */
+  allocationStrategy?: AllocationStrategy;
+}
+
+/** Specifies the VM Size. */
+export interface SkuProfileVMSize {
+  /** Specifies the name of the VM Size. */
+  name?: string;
 }
 
 /** Identity for the virtual machine scale set. */
@@ -2780,7 +2797,7 @@ export interface CapacityReservationGroupInstanceView {
    */
   readonly capacityReservations?: CapacityReservationInstanceViewWithName[];
   /**
-   * List of the subscriptions that the capacity reservation group is shared with. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details.
+   * List of the subscriptions that the capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sharedSubscriptionIds?: SubResourceReadOnly[];
@@ -2809,7 +2826,7 @@ export interface CapacityReservationUtilization {
 }
 
 export interface ResourceSharingProfile {
-  /** Specifies an array of subscription resource IDs that capacity reservation group is shared with. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  /** Specifies an array of subscription resource IDs that capacity reservation group is shared with. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   subscriptionIds?: SubResource[];
 }
 
@@ -5144,7 +5161,7 @@ export interface VirtualMachineScaleSet extends Resource {
   plan?: Plan;
   /** The identity of the virtual machine scale set, if configured. */
   identity?: VirtualMachineScaleSetIdentity;
-  /** The virtual machine scale set zones. NOTE: Availability zones can only be set when you create the scale set */
+  /** The virtual machine scale set zones. */
   zones?: string[];
   /** The extended location of the Virtual Machine Scale Set. */
   extendedLocation?: ExtendedLocation;
@@ -5204,6 +5221,10 @@ export interface VirtualMachineScaleSet extends Resource {
   constrainedMaximumCapacity?: boolean;
   /** Policy for Resiliency */
   resiliencyPolicy?: ResiliencyPolicy;
+  /** Specifies the align mode between Virtual Machine Scale Set compute and storage Fault Domain count. */
+  zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode;
+  /** Specifies the sku profile for the virtual machine scale set. */
+  skuProfile?: SkuProfile;
 }
 
 /** The status of the latest virtual machine scale set rolling upgrade. */
@@ -5308,10 +5329,10 @@ export interface VirtualMachineScaleSetVM extends Resource {
   readonly modelDefinitionApplied?: string;
   /** Specifies the protection policy of the virtual machine. */
   protectionPolicy?: VirtualMachineScaleSetVMProtectionPolicy;
-  /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01 */
+  /** UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. Minimum api-version: 2021-03-01 */
   userData?: string;
   /**
-   * Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2021-11-01.
+   * Specifies the time at which the Virtual Machine resource was created. Minimum api-version: 2021-11-01.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly timeCreated?: Date;
@@ -5441,6 +5462,8 @@ export interface AvailabilitySet extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly statuses?: InstanceViewStatus[];
+  /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. */
+  scheduledEventsPolicy?: ScheduledEventsPolicy;
 }
 
 /** Specifies information about the proximity placement group. */
@@ -5597,7 +5620,7 @@ export interface CapacityReservationGroup extends Resource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceView?: CapacityReservationGroupInstanceView;
-  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   sharingProfile?: ResourceSharingProfile;
 }
 
@@ -6050,6 +6073,8 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
   plan?: Plan;
   /** The identity of the virtual machine scale set, if configured. */
   identity?: VirtualMachineScaleSetIdentity;
+  /** The virtual machine scale set zones. */
+  zones?: string[];
   /** The upgrade policy. */
   upgradePolicy?: UpgradePolicy;
   /** Policy for automatic repairs. */
@@ -6074,6 +6099,10 @@ export interface VirtualMachineScaleSetUpdate extends UpdateResource {
   spotRestorePolicy?: SpotRestorePolicy;
   /** Policy for Resiliency */
   resiliencyPolicy?: ResiliencyPolicy;
+  /** Specifies the align mode between Virtual Machine Scale Set compute and storage Fault Domain count. */
+  zonalPlatformFaultDomainAlignMode?: ZonalPlatformFaultDomainAlignMode;
+  /** Specifies the sku profile for the virtual machine scale set. */
+  skuProfile?: SkuProfile;
 }
 
 /** Describes a Virtual Machine Extension. */
@@ -6193,6 +6222,8 @@ export interface AvailabilitySetUpdate extends UpdateResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly statuses?: InstanceViewStatus[];
+  /** Specifies Redeploy, Reboot and ScheduledEventsAdditionalPublishingTargets Scheduled Event related configurations for the availability set. */
+  scheduledEventsPolicy?: ScheduledEventsPolicy;
 }
 
 /** Specifies information about the proximity placement group. */
@@ -6321,7 +6352,7 @@ export interface CapacityReservationGroupUpdate extends UpdateResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly instanceView?: CapacityReservationGroupInstanceView;
-  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2024-03-01. Please refer to https://aka.ms/computereservationsharing for more details. */
+  /** Specifies the settings to enable sharing across subscriptions for the capacity reservation group resource. Pls. keep in mind the capacity reservation group resource generally can be shared across subscriptions belonging to a single azure AAD tenant or cross AAD tenant if there is a trust relationship established between the AAD tenants. **Note:** Minimum api-version: 2023-09-01. Please refer to https://aka.ms/computereservationsharing for more details. */
   sharingProfile?: ResourceSharingProfile;
 }
 
@@ -6579,6 +6610,11 @@ export interface DiskRestorePoint extends ProxyOnlyResource {
   readonly sourceResourceLocation?: string;
   /** Contains the security related information for the resource. */
   securityProfile?: DiskSecurityProfile;
+  /**
+   * Logical sector size in bytes for disk restore points of UltraSSD_LRS and PremiumV2_LRS disks. Supported values are 512 and 4096. 4096 is the default.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly logicalSectorSize?: number;
 }
 
 /** Specifies information about the Shared Image Gallery that you want to update. */
@@ -7511,6 +7547,42 @@ export enum KnownOrchestrationMode {
  * **Flexible**
  */
 export type OrchestrationMode = string;
+
+/** Known values of {@link ZonalPlatformFaultDomainAlignMode} that the service accepts. */
+export enum KnownZonalPlatformFaultDomainAlignMode {
+  /** Aligned */
+  Aligned = "Aligned",
+  /** Unaligned */
+  Unaligned = "Unaligned",
+}
+
+/**
+ * Defines values for ZonalPlatformFaultDomainAlignMode. \
+ * {@link KnownZonalPlatformFaultDomainAlignMode} can be used interchangeably with ZonalPlatformFaultDomainAlignMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Aligned** \
+ * **Unaligned**
+ */
+export type ZonalPlatformFaultDomainAlignMode = string;
+
+/** Known values of {@link AllocationStrategy} that the service accepts. */
+export enum KnownAllocationStrategy {
+  /** LowestPrice */
+  LowestPrice = "LowestPrice",
+  /** CapacityOptimized */
+  CapacityOptimized = "CapacityOptimized",
+}
+
+/**
+ * Defines values for AllocationStrategy. \
+ * {@link KnownAllocationStrategy} can be used interchangeably with AllocationStrategy,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **LowestPrice** \
+ * **CapacityOptimized**
+ */
+export type AllocationStrategy = string;
 
 /** Known values of {@link ExtendedLocationTypes} that the service accepts. */
 export enum KnownExtendedLocationTypes {

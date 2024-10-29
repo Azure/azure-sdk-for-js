@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create or Update a Container Apps Job.
  *
  * @summary Create or Update a Container Apps Job.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Job_CreateorUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Job_CreateorUpdate.json
  */
 async function createOrUpdateContainerAppsJob() {
   const subscriptionId =
@@ -28,6 +28,14 @@ async function createOrUpdateContainerAppsJob() {
   const jobName = "testcontainerAppsJob0";
   const jobEnvelope: Job = {
     configuration: {
+      identitySettings: [
+        {
+          identity:
+            "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity",
+          lifecycle: "All",
+        },
+        { identity: "system", lifecycle: "Init" },
+      ],
       manualTriggerConfig: { parallelism: 4, replicaCompletionCount: 1 },
       replicaRetryLimit: 10,
       replicaTimeout: 10,
@@ -35,6 +43,13 @@ async function createOrUpdateContainerAppsJob() {
     },
     environmentId:
       "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
+    identity: {
+      type: "SystemAssigned,UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/34adfa4fCedf4dc0Ba29B6d1a69ab345/resourcegroups/rg/providers/MicrosoftManagedIdentity/userAssignedIdentities/myidentity":
+          {},
+      },
+    },
     location: "East US",
     template: {
       containers: [
@@ -92,7 +107,7 @@ async function createOrUpdateContainerAppsJob() {
  * This sample demonstrates how to Create or Update a Container Apps Job.
  *
  * @summary Create or Update a Container Apps Job.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Job_CreateorUpdate_ConnectedEnvironment.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Job_CreateorUpdate_ConnectedEnvironment.json
  */
 async function createOrUpdateContainerAppsJobOnAConnectedEnvironment() {
   const subscriptionId =
@@ -158,7 +173,7 @@ async function createOrUpdateContainerAppsJobOnAConnectedEnvironment() {
  * This sample demonstrates how to Create or Update a Container Apps Job.
  *
  * @summary Create or Update a Container Apps Job.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Job_CreateorUpdate_EventTrigger.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Job_CreateorUpdate_EventTrigger.json
  */
 async function createOrUpdateContainerAppsJobWithEventDrivenTrigger() {
   const subscriptionId =
@@ -179,6 +194,8 @@ async function createOrUpdateContainerAppsJobWithEventDrivenTrigger() {
             {
               name: "servicebuscalingrule",
               type: "azure-servicebus",
+              identity:
+                "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myidentity",
               metadata: { topicName: "my-topic" },
             },
           ],
@@ -190,6 +207,13 @@ async function createOrUpdateContainerAppsJobWithEventDrivenTrigger() {
     },
     environmentId:
       "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/managedEnvironments/demokube",
+    identity: {
+      type: "UserAssigned",
+      userAssignedIdentities: {
+        "/subscriptions/34adfa4fCedf4dc0Ba29B6d1a69ab345/resourcegroups/rg/providers/MicrosoftManagedIdentity/userAssignedIdentities/myidentity":
+          {},
+      },
+    },
     location: "East US",
     template: {
       containers: [

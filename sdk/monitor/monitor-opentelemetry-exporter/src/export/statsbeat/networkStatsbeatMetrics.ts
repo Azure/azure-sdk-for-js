@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   diag,
@@ -25,8 +25,10 @@ import {
   StatsbeatOptions,
 } from "./types";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter";
+import { ENV_DISABLE_STATSBEAT } from "../../Declarations/Constants";
 
 export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
+  private disableNonEssentialStatsbeat: boolean = !!process.env[ENV_DISABLE_STATSBEAT];
   private commonProperties: CommonStatsbeatProperties;
   private networkProperties: NetworkStatsbeatProperties;
   private isInitialized: boolean = false;
@@ -52,6 +54,9 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   private throttleCountGauge: ObservableGauge;
   private exceptionCountGauge: ObservableGauge;
   private averageDurationGauge: ObservableGauge;
+  // Non-essential Statsbeat Gauges
+  private readFailureGauge: ObservableGauge | undefined;
+  private writeFailureGauge: ObservableGauge | undefined;
 
   // Network attributes
   private connectionString: string;
@@ -106,6 +111,14 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     this.averageDurationGauge = this.networkStatsbeatMeter.createObservableGauge(
       StatsbeatCounter.AVERAGE_DURATION,
     );
+    if (!this.disableNonEssentialStatsbeat) {
+      this.readFailureGauge = this.networkStatsbeatMeter.createObservableGauge(
+        StatsbeatCounter.READ_FAILURE_COUNT,
+      );
+      this.writeFailureGauge = this.networkStatsbeatMeter.createObservableGauge(
+        StatsbeatCounter.WRITE_FAILURE_COUNT,
+      );
+    }
 
     this.commonProperties = {
       os: this.os,
@@ -148,6 +161,10 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
       this.networkStatsbeatMeter.addBatchObservableCallback(this.exceptionCallback.bind(this), [
         this.exceptionCountGauge,
       ]);
+      if (!this.disableNonEssentialStatsbeat) {
+        this.readFailureGauge?.addCallback(this.readFailureCallback.bind(this));
+        this.writeFailureGauge?.addCallback(this.writeFailureCallback.bind(this));
+      }
       this.averageDurationGauge.addCallback(this.durationCallback.bind(this));
     } catch (error) {
       diag.debug("Call to get the resource provider failed.");
@@ -162,9 +179,8 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     counter.totalSuccesfulRequestCount = 0;
   }
 
-  private failureCallback(observableResult: BatchObservableResult) {
+  private failureCallback(observableResult: BatchObservableResult): void {
     const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
-
     /*
       Takes the failureCountGauge, value (of the counter), and attributes
       create a unqiue counter based on statusCode as well
@@ -243,6 +259,20 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     counter.averageRequestExecutionTime = 0;
   }
 
+  private readFailureCallback(observableResult: ObservableResult): void {
+    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const attributes = { ...this.commonProperties, ...this.networkProperties };
+    observableResult.observe(counter.totalReadFailureCount, attributes);
+    counter.totalReadFailureCount = 0;
+  }
+
+  private writeFailureCallback(observableResult: ObservableResult): void {
+    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    const attributes = { ...this.commonProperties, ...this.networkProperties };
+    observableResult.observe(counter.totalWriteFailureCount, attributes);
+    counter.totalWriteFailureCount = 0;
+  }
+
   // Public methods to increase counters
   public countSuccess(duration: number): void {
     if (!this.isInitialized) {
@@ -254,7 +284,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     counter.intervalRequestExecutionTime += duration;
   }
 
-  public countFailure(duration: number, statusCode: number) {
+  public countFailure(duration: number, statusCode: number): void {
     if (!this.isInitialized) {
       return;
     }
@@ -305,6 +335,22 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
     }
   }
 
+  public countReadFailure(): void {
+    if (!this.isInitialized || this.disableNonEssentialStatsbeat) {
+      return;
+    }
+    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    counter.totalReadFailureCount++;
+  }
+
+  public countWriteFailure(): void {
+    if (!this.isInitialized || this.disableNonEssentialStatsbeat) {
+      return;
+    }
+    const counter: NetworkStatsbeat = this.getNetworkStatsbeatCounter(this.endpointUrl, this.host);
+    counter.totalWriteFailureCount++;
+  }
+
   public countException(exceptionType: Error): void {
     if (!this.isInitialized) {
       return;
@@ -341,7 +387,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   private getShortHost(originalHost: string): string {
     let shortHost = originalHost;
     try {
-      const hostRegex = new RegExp(/^https?:\/\/(?:www\.)?([^\/.-]+)/);
+      const hostRegex = new RegExp(/^https?:\/\/(?:www\.)?([^/.-]+)/);
       const res = hostRegex.exec(originalHost);
       if (res !== null && res.length > 1) {
         shortHost = res[1];

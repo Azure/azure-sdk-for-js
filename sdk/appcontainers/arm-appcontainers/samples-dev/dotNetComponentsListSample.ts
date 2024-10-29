@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the .NET Components for a managed environment.
  *
  * @summary Get the .NET Components for a managed environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DotNetComponents_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_List.json
  */
 async function listNetComponents() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function listNetComponents() {
  * This sample demonstrates how to Get the .NET Components for a managed environment.
  *
  * @summary Get the .NET Components for a managed environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DotNetComponents_List_ServiceBind.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_List_ServiceBind.json
  */
 async function listNetComponentsWithServiceBinds() {
   const subscriptionId =

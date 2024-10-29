@@ -1,27 +1,27 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ProxyTracerProvider, metrics, trace } from "@opentelemetry/api";
+import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 import { NodeSDK, NodeSDKConfiguration } from "@opentelemetry/sdk-node";
 import { InternalConfig } from "./shared/config";
 import { MetricHandler } from "./metrics";
 import { TraceHandler } from "./traces/handler";
-import { Logger as InternalLogger } from "./shared/logging";
 import { LogHandler } from "./logs";
 import {
   AZURE_MONITOR_OPENTELEMETRY_VERSION,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
   BrowserSdkLoaderOptions,
-  StatsbeatOptions,
+  StatsbeatFeatures,
+  StatsbeatInstrumentations,
 } from "./types";
 import { BrowserSdkLoader } from "./browserSdkLoader/browserSdkLoader";
 import { setSdkPrefix } from "./metrics/quickpulse/utils";
 import { SpanProcessor } from "@opentelemetry/sdk-trace-base";
-import { LogRecordProcessor, LoggerProvider } from "@opentelemetry/sdk-logs";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { LogRecordProcessor } from "@opentelemetry/sdk-logs";
 import { getInstance } from "./utils/statsbeat";
+import { patchOpenTelemetryInstrumentationEnable } from "./utils/opentelemetryInstrumentationPatcher";
 import { parseResourceDetectorsFromEnvVar } from "./utils/common";
 
 export { AzureMonitorOpenTelemetryOptions, InstrumentationOptions, BrowserSdkLoaderOptions };
@@ -33,11 +33,12 @@ let browserSdkLoader: BrowserSdkLoader | undefined;
 
 /**
  * Initialize Azure Monitor Distro
- * @param options Azure Monitor OpenTelemetry Options
+ * @param options - Azure Monitor OpenTelemetry Options
  */
-export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
+export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions): void {
   const config = new InternalConfig(options);
-  const statsbeatOptions: StatsbeatOptions = {
+  patchOpenTelemetryInstrumentationEnable();
+  const statsbeatInstrumentations: StatsbeatInstrumentations = {
     // Instrumentations
     azureSdk: config.instrumentationOptions?.azureSdk?.enabled,
     mongoDb: config.instrumentationOptions?.mongoDb?.enabled,
@@ -46,17 +47,18 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
     redis: config.instrumentationOptions?.redis?.enabled,
     bunyan: config.instrumentationOptions?.bunyan?.enabled,
     winston: config.instrumentationOptions?.winston?.enabled,
-    // Features
+  };
+  const statsbeatFeatures: StatsbeatFeatures = {
     browserSdkLoader: config.browserSdkLoaderOptions.enabled,
     aadHandling: !!config.azureMonitorExporterOptions?.credential,
     diskRetry: !config.azureMonitorExporterOptions?.disableOfflineStorage,
   };
-  getInstance().setStatsbeatFeatures(statsbeatOptions);
+  getInstance().setStatsbeatFeatures(statsbeatInstrumentations, statsbeatFeatures);
 
   if (config.browserSdkLoaderOptions.enabled) {
     browserSdkLoader = new BrowserSdkLoader(config);
   }
-  // Remove global providers in OpenTelemetry, these would be overriden if present
+  // Remove global providers in OpenTelemetry, these would be overridden if present
   metrics.disable();
   trace.disable();
   logs.disable();
@@ -72,56 +74,33 @@ export function useAzureMonitor(options?: AzureMonitorOpenTelemetryOptions) {
 
   const resourceDetectorsList = parseResourceDetectorsFromEnvVar();
 
+  // Add extra SpanProcessors, and logRecordProcessors from user configuration
+  const spanProcessors: SpanProcessor[] = options?.spanProcessors || [];
+  const logRecordProcessors: LogRecordProcessor[] = options?.logRecordProcessors || [];
+
   // Initialize OpenTelemetry SDK
   const sdkConfig: Partial<NodeSDKConfiguration> = {
     autoDetectResources: true,
     metricReader: metricHandler.getMetricReader(),
     views: metricHandler.getViews(),
     instrumentations: instrumentations,
-    logRecordProcessor: logHandler.getAzureLogRecordProcessor(),
+    logRecordProcessors: [
+      logHandler.getAzureLogRecordProcessor(),
+      ...logRecordProcessors,
+      logHandler.getBatchLogRecordProcessor(),
+    ],
     resource: config.resource,
     sampler: traceHandler.getSampler(),
-    spanProcessors: [traceHandler.getAzureMonitorSpanProcessor()],
+    spanProcessors: [
+      traceHandler.getAzureMonitorSpanProcessor(),
+      ...spanProcessors,
+      traceHandler.getBatchSpanProcessor(),
+    ],
     resourceDetectors: resourceDetectorsList,
   };
   sdk = new NodeSDK(sdkConfig);
   setSdkPrefix();
   sdk.start();
-
-  // TODO: Send processors as NodeSDK config once arrays are supported
-  // https://github.com/open-telemetry/opentelemetry-js/issues/4451
-
-  // Add extra SpanProcessors, MetricReaders and LogRecordProcessors
-  let spanProcessors: SpanProcessor[] = options?.spanProcessors || [];
-  // Add batch processor as the last one
-  spanProcessors.push(traceHandler.getBatchSpanProcessor());
-
-  // Add extra SpanProcessors, MetricReaders and LogRecordProcessors
-  let logRecordProcessors: LogRecordProcessor[] = options?.logRecordProcessors || [];
-  // Add batch processor as the last one
-  logRecordProcessors.push(logHandler.getBatchLogRecordProcessor());
-
-  try {
-    const tracerProvider = (
-      trace.getTracerProvider() as ProxyTracerProvider
-    ).getDelegate() as NodeTracerProvider;
-    spanProcessors.forEach((spanProcessor) => {
-      tracerProvider.addSpanProcessor(spanProcessor);
-    });
-  } catch (error) {
-    InternalLogger.getInstance().error("Failed to add SpanProcessors to TracerProvider.", error);
-  }
-  try {
-    const logProvider = logs.getLoggerProvider() as LoggerProvider;
-    logRecordProcessors.forEach((logRecordProcessor) => {
-      logProvider.addLogRecordProcessor(logRecordProcessor);
-    });
-  } catch (error) {
-    InternalLogger.getInstance().error(
-      "Failed to add LogRecordProcessors to LoggerProvider.",
-      error,
-    );
-  }
 }
 
 /**

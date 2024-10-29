@@ -12,17 +12,17 @@
 
 ## 1.0.0-beta.5 (2023-02-02)
 
-**Features**
+### Features Added
 
   - Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
+### Bugs Fixed
 
   - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 1.0.0-beta.4 (2022-07-08)
     
-**Features**
+### Features Added
 
   - Added Interface Configuration
   - Added Interface MarkdownPartMetadata
@@ -30,7 +30,7 @@
     
 ## 1.0.0-beta.3 (2022-04-28)
 
-**Features**
+### Features Added
 
   - Bug fix
 

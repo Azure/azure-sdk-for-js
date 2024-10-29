@@ -12,7 +12,7 @@
 
 ## 2.0.0 (2022-11-24)
     
-**Features**
+### Features Added
 
   - Added operation CollectorPolicies.updateTags
   - Added Interface CollectorPoliciesUpdateTagsOptionalParams
@@ -21,7 +21,7 @@
   - Interface CollectorPoliciesCreateOrUpdateOptionalParams has a new optional parameter tags
   - Added Enum KnownApiVersionParameter
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation AzureTrafficCollectors.beginCreateOrUpdate has a new signature
   - Operation AzureTrafficCollectors.beginCreateOrUpdateAndWait has a new signature

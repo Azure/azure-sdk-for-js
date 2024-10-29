@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import {
   getBSU,
+  getGenericBSU,
   getSASConnectionStringFromEnvironment,
   getTokenBSU,
   getUniqueName,
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils";
-import { ShareClient, ShareServiceClient } from "../src";
-import { Recorder } from "@azure-tools/test-recorder";
+import { ShareClient, ShareItem, ShareServiceClient } from "../src";
+import { delay, Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { configureStorageClient } from "./utils";
 
@@ -353,20 +354,6 @@ describe("ShareClient - OAuth", () => {
     await recorder.stop();
   });
 
-  it("create with TokenCredentials should fail", async () => {
-    try {
-      await serviceClient
-        .getShareClient(recorder.variable("newshare", getUniqueName("newshare")))
-        .create();
-    } catch (err) {
-      assert.ok(
-        (err as any).statusCode === 409 &&
-          (err as any).code === "FileOAuthManagementApiRestrictedToSrp",
-        "Should get correct error mesage when creating a share with TokenCredentials",
-      );
-    }
-  });
-
   it("create and get permission", async () => {
     const directoryName = recorder.variable("dir", getUniqueName("dir"));
     const directoryClient = shareClient.getDirectoryClient(directoryName);
@@ -650,6 +637,30 @@ describe("ShareClient", () => {
     assert.ok(createPermResp.version!);
   });
 
+  it("create and get binary permission", async () => {
+    const filePermission =
+      "AQAUhGwAAACIAAAAAAAAABQAAAACAFgAAwAAAAAAFAD/AR8AAQEAAAAAAAUSAAAAAAAYAP8BHwABAgAAAAAABSAAAAAgAgAAAAAkAKkAEgABBQAAAAAABRUAAABZUbgXZnJdJWRjOwuMmS4AAQUAAAAAAAUVAAAAoGXPfnhLm1/nfIdwr/1IAQEFAAAAAAAFFQAAAKBlz354S5tf53yHcAECAAA=";
+
+    const createPermResp = await shareClient.createPermission({
+      permission: filePermission,
+      format: "Binary",
+    });
+    assert.ok(createPermResp.filePermissionKey!);
+    assert.ok(createPermResp.date!);
+    assert.equal(createPermResp.errorCode, undefined);
+    assert.ok(createPermResp.requestId!);
+    assert.ok(createPermResp.version!);
+
+    const getPermissionResp = await shareClient.getPermission(createPermResp.filePermissionKey!, {
+      filePermissionFormat: "Binary",
+    });
+    assert.ok(getPermissionResp.date!);
+    assert.equal(getPermissionResp.errorCode, undefined);
+    assert.ok(getPermissionResp.permission && getPermissionResp.permission !== "");
+    assert.ok(getPermissionResp.requestId!);
+    assert.ok(getPermissionResp.version!);
+  });
+
   it("create share specifying accessTier and listShare", async () => {
     const newShareName = recorder.variable("newshare", getUniqueName("newshare"));
     const newShareClient = serviceClient.getShareClient(newShareName);
@@ -716,5 +727,180 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
 
     assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
     assert.equal(newClient.name, shareName, "Share name is not the same as the one provided.");
+  });
+});
+
+describe("ShareClient Provisioned", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
+
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    try {
+      serviceClient = getGenericBSU(recorder, "PROVISIONED_FILE_");
+    } catch (error: any) {
+      console.log(error);
+      this.skip();
+    }
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  // Skipped for now as it needs be enabled on the account.
+  it("Create share with Provisioned Max Iops and Bandwidth", async function (this: Context) {
+    const shareName = recorder.variable("share", getUniqueName("share"));
+    const shareClient = serviceClient.getShareClient(shareName);
+
+    const result = await shareClient.create({
+      shareProvisionedIops: 500,
+      shareProvisionedBandwidthMibps: 125,
+    });
+    assert.equal(result.shareProvisionedBandwidthMibps, 125);
+    assert.equal(result.shareProvisionedIops, 500);
+    assert.ok(result.shareIncludedBurstIops);
+
+    const deleteResult = await shareClient.delete();
+    assert.ok(deleteResult.usageBytes !== undefined);
+    assert.ok(deleteResult.snapshotUsageBytes !== undefined);
+  });
+
+  it("setProperties with Provisioned Max Iops and Bandwidth", async function (this: Context) {
+    const shareName = recorder.variable("share", getUniqueName("share"));
+    const shareClient = serviceClient.getShareClient(shareName);
+
+    await shareClient.create();
+
+    const result = await shareClient.setProperties({
+      shareProvisionedIops: 500,
+      shareProvisionedBandwidthMibps: 125,
+    });
+
+    assert.equal(result.provisionedIops, 500);
+    assert.equal(result.provisionedBandwidthMibps, 125);
+    assert.ok(result.includedBurstIops);
+    assert.ok(result.quota);
+    assert.ok(result.maxBurstCreditsForIops);
+    assert.ok(result.nextAllowedProvisionedBandwidthDowngradeTime);
+    assert.ok(result.nextAllowedProvisionedIopsDowngradeTime);
+    assert.ok(result.nextAllowedQuotaDowngradeTime);
+
+    const propertiesResult = await shareClient.getProperties();
+    assert.equal(propertiesResult.provisionedIops, 500);
+    assert.equal(propertiesResult.provisionedBandwidthMibps, 125);
+    assert.ok(propertiesResult.includedBurstIops);
+    assert.ok(propertiesResult.quota);
+    assert.ok(propertiesResult.maxBurstCreditsForIops);
+    assert.ok(propertiesResult.nextAllowedProvisionedBandwidthDowngradeTime);
+    assert.ok(propertiesResult.nextAllowedProvisionedIopsDowngradeTime);
+    assert.ok(propertiesResult.nextAllowedQuotaDowngradeTime);
+
+    let found = false;
+    for await (const item of serviceClient.listShares()) {
+      if (item.name === shareName) {
+        assert.equal(item.properties.provisionedIops, 500);
+        assert.equal(item.properties.provisionedBandwidthMiBps, 125);
+        found = true;
+      }
+      assert.ok(item.properties.includedBurstIops);
+      assert.ok(item.properties.quota);
+      assert.ok(item.properties.maxBurstCreditsForIops);
+      assert.ok(item.properties.nextAllowedProvisionedBandwidthDowngradeTime);
+      assert.ok(item.properties.nextAllowedProvisionedIopsDowngradeTime);
+      assert.ok(item.properties.nextAllowedQuotaDowngradeTime);
+      assert.ok(item.properties.includedBurstIops);
+    }
+
+    assert.ok(found);
+    const deleteResult = await shareClient.delete();
+    assert.ok(deleteResult.usageBytes !== undefined);
+    assert.ok(deleteResult.snapshotUsageBytes !== undefined);
+  });
+
+  it("Restore share", async function (this: Context) {
+    const shareName = recorder.variable("share", getUniqueName("share"));
+    const shareClient = serviceClient.getShareClient(shareName);
+
+    const result = await shareClient.create({
+      shareProvisionedIops: 500,
+      shareProvisionedBandwidthMibps: 125,
+    });
+    assert.equal(result.shareProvisionedBandwidthMibps, 125);
+    assert.equal(result.shareProvisionedIops, 500);
+    assert.ok(result.shareIncludedBurstIops);
+
+    const deleteResult = await shareClient.delete();
+    assert.ok(deleteResult.usageBytes !== undefined);
+    assert.ok(deleteResult.snapshotUsageBytes !== undefined);
+
+    let found = false;
+    let shareDeleted: ShareItem | undefined;
+    for await (const share of serviceClient.listShares({ includeDeleted: true })) {
+      if (share.name === shareClient.name) {
+        found = true;
+        assert.ok(share.version);
+        assert.ok(share.deleted);
+        assert.ok(share.properties.deletedTime);
+        assert.ok(share.properties.remainingRetentionDays);
+
+        shareDeleted = share;
+      }
+    }
+    assert.ok(found);
+    assert.ok(shareDeleted);
+    await delay(60000);
+
+    await serviceClient.undeleteShare(shareDeleted.name, shareDeleted.version!);
+  });
+});
+
+describe("ShareClient Premium", () => {
+  let serviceClient: ShareServiceClient;
+  let recorder: Recorder;
+
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["record", "playback"]);
+    try {
+      serviceClient = getGenericBSU(recorder, "PREMIUM_FILE_");
+    } catch (error: any) {
+      console.log(error);
+      this.skip();
+    }
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  it("create share with premium accessTier and listShare", async () => {
+    const newShareName = recorder.variable("newshare", getUniqueName("newshare"));
+    const newShareClient = serviceClient.getShareClient(newShareName);
+    await newShareClient.create({ accessTier: "Premium" });
+
+    for await (const shareItem of serviceClient.listShares({ prefix: newShareName })) {
+      if (shareItem.name === newShareName) {
+        assert.deepStrictEqual(shareItem.properties.accessTier, "Premium");
+        break;
+      }
+    }
+
+    await newShareClient.delete();
+  });
+
+  it("setProperties with premium access tier", async () => {
+    const newShareName = recorder.variable("newshare", getUniqueName("newshare"));
+    const newShareClient = serviceClient.getShareClient(newShareName);
+    await newShareClient.create();
+    const accessTier = "Premium";
+    await newShareClient.setProperties({ accessTier });
+    const getRes = await newShareClient.getProperties();
+
+    assert.deepStrictEqual(getRes.accessTier, accessTier);
+    await newShareClient.delete();
   });
 });

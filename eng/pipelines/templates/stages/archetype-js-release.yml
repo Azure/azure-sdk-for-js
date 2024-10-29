@@ -171,10 +171,9 @@ stages:
                             - template: /eng/common/pipelines/templates/steps/publish-blobs.yml
                               parameters:
                                 FolderForUpload: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                                BlobName: $(azure-sdk-docs-prod-blob-name)
                                 TargetLanguage: javascript
                                 ArtifactLocation: $(Pipeline.Workspace)/${{parameters.ArtifactName}}/${{artifact.name}}
-                                ScriptPath: eng/common/scripts/copy-docs-to-blobstorage.ps1
+
               - ${{if ne(artifact.skipUpdatePackageVersion, 'true')}}:
                   - deployment: UpdatePackageVersion
                     displayName: Update Package Version
@@ -266,7 +265,7 @@ stages:
                       Tag: "dev"
 
       - job: PublishDocsToNightlyBranch
-        condition: or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true')))
+        condition: and(succeeded(), or(eq(variables['SetDevVersion'], 'true'), and(eq(variables['Build.Reason'],'Schedule'), eq(variables['System.TeamProject'], 'internal'),  ne(variables['Skip.PublishDocs'], 'true'))))
         dependsOn: PublishPackages
         pool:
           name: azsdk-pool-mms-ubuntu-2004-general

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the verification id of a subscription used for verifying custom domains
  *
  * @summary Get the verification id of a subscription used for verifying custom domains
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Subscriptions_GetCustomDomainVerificationId.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Subscriptions_GetCustomDomainVerificationId.json
  */
 async function listAllOperations() {
   const subscriptionId =

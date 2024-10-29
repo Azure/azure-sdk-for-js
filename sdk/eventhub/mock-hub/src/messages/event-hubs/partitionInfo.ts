@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Message, types } from "rhea";
+import rhea from "rhea";
 
 /**
  * Checks whether the provided message is requesting the partition info from the Event Hub.
@@ -9,7 +9,7 @@ import { Message, types } from "rhea";
  * Expected to be `$management` if the message is requesting runtime info.
  * @param message - The message sent by the client.
  */
-export function isPartitionInfo(entityPath: string, message: Message): boolean {
+export function isPartitionInfo(entityPath: string, message: rhea.Message): boolean {
   if (entityPath !== "$management") {
     return false;
   }
@@ -67,16 +67,16 @@ export function generatePartitionInfoResponse({
   lastEnqueuedTimeUtc,
   isPartitionEmpty,
   partitionId,
-}: GeneratePartitionInfoResponseOptions): Message {
+}: GeneratePartitionInfoResponseOptions): rhea.Message {
   return {
     to: targetLinkName,
     correlation_id: correlationId,
-    application_properties: { operation: "READ", "status-code": types.wrap_int(200) },
+    application_properties: { operation: "READ", "status-code": rhea.types.wrap_int(200) },
     body: {
       name: eventHubName,
       type: "com.microsoft:partition",
-      begin_sequence_number: types.wrap_long(beginningSequenceNumber),
-      last_enqueued_sequence_number: types.wrap_long(lastEnqueuedSequenceNumber),
+      begin_sequence_number: rhea.types.wrap_long(beginningSequenceNumber),
+      last_enqueued_sequence_number: rhea.types.wrap_long(lastEnqueuedSequenceNumber),
       last_enqueued_offset: lastEnqueuedOffset,
       last_enqueued_time_utc: lastEnqueuedTimeUtc,
       is_partition_empty: isPartitionEmpty,
@@ -93,7 +93,7 @@ export interface GenerateBadPartitionInfoResponseOptions {
 export function generateBadPartitionInfoResponse({
   correlationId,
   targetLinkName,
-}: GenerateBadPartitionInfoResponseOptions): Message {
+}: GenerateBadPartitionInfoResponseOptions): rhea.Message {
   return {
     to: targetLinkName,
     correlation_id: correlationId,

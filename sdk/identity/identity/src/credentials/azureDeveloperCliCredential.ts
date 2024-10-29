@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
@@ -197,7 +197,8 @@ export class AzureDeveloperCliCredential implements TokenCredential {
           return {
             token: resp.token,
             expiresOnTimestamp: new Date(resp.expiresOn).getTime(),
-          };
+            tokenType: "Bearer",
+          } as AccessToken;
         } catch (e: any) {
           if (obj.stderr) {
             throw new CredentialUnavailableError(obj.stderr);

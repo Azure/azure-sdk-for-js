@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AvroSerializer, AvroSerializerOptions } from "../../../src";
-import { testGroup, testSchemaName, testSchema } from "./dummies";
+import { AvroSerializer, AvroSerializerOptions } from "../../../src/index.js";
+import { testGroup, testSchemaName, testSchema } from "./dummies.js";
 import { SchemaRegistry } from "@azure/schema-registry";
-import { createTestRegistry } from "./mockedRegistryClient";
+import { createTestRegistry } from "./mockedRegistryClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
 
 export interface CreateTestSerializerOptions<T> {

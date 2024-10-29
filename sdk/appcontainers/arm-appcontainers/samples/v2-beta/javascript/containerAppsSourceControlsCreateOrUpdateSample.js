@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update the SourceControl for a Container App.
  *
  * @summary Create or update the SourceControl for a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/SourceControls_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/SourceControls_CreateOrUpdate.json
  */
 async function createOrUpdateContainerAppSourceControl() {
   const subscriptionId =
@@ -24,6 +24,7 @@ async function createOrUpdateContainerAppSourceControl() {
   const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "workerapps-rg-xj";
   const containerAppName = "testcanadacentral";
   const sourceControlName = "current";
+  const xMsGithubAuxiliary = "githubaccesstoken";
   const sourceControlEnvelope = {
     branch: "master",
     githubActionConfiguration: {
@@ -38,6 +39,7 @@ async function createOrUpdateContainerAppSourceControl() {
         { name: "foo2", value: "bar2" },
       ],
       contextPath: "./",
+      dockerfilePath: "./Dockerfile",
       githubPersonalAccessToken: "test",
       image: "image/tag",
       registryInfo: {
@@ -48,6 +50,9 @@ async function createOrUpdateContainerAppSourceControl() {
     },
     repoUrl: "https://github.com/xwang971/ghatest",
   };
+  const options = {
+    xMsGithubAuxiliary,
+  };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.containerAppsSourceControls.beginCreateOrUpdateAndWait(
@@ -55,6 +60,7 @@ async function createOrUpdateContainerAppSourceControl() {
     containerAppName,
     sourceControlName,
     sourceControlEnvelope,
+    options,
   );
   console.log(result);
 }

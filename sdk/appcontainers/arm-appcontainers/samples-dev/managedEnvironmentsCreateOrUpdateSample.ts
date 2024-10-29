@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a Managed Environment used to host container apps.
  *
  * @summary Creates or updates a Managed Environment used to host container apps.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ManagedEnvironments_CustomInfrastructureResourceGroup_Create.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironments_CustomInfrastructureResourceGroup_Create.json
  */
 async function createEnvironmentWithCustomInfrastructureResourceGroup() {
   const subscriptionId =
@@ -50,6 +50,7 @@ async function createEnvironmentWithCustomInfrastructureResourceGroup() {
     workloadProfiles: [
       {
         name: "My-GP-01",
+        enableFips: true,
         maximumCount: 12,
         minimumCount: 3,
         workloadProfileType: "GeneralPurpose",
@@ -84,7 +85,7 @@ async function createEnvironmentWithCustomInfrastructureResourceGroup() {
  * This sample demonstrates how to Creates or updates a Managed Environment used to host container apps.
  *
  * @summary Creates or updates a Managed Environment used to host container apps.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ManagedEnvironments_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironments_CreateOrUpdate.json
  */
 async function createEnvironments() {
   const subscriptionId =
@@ -136,10 +137,11 @@ async function createEnvironments() {
         ],
       },
       logsConfiguration: { destinations: ["appInsights"] },
-      metricsConfiguration: { destinations: ["dataDog"] },
-      tracesConfiguration: { destinations: ["appInsights"] },
+      metricsConfiguration: { destinations: ["dataDog"], includeKeda: true },
+      tracesConfiguration: { destinations: ["appInsights"], includeDapr: true },
     },
     peerAuthentication: { mtls: { enabled: true } },
+    peerTrafficConfiguration: { encryption: { enabled: true } },
     vnetConfiguration: {
       infrastructureSubnetId:
         "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/RGName/providers/Microsoft.Network/virtualNetworks/VNetName/subnets/subnetName1",
@@ -147,6 +149,7 @@ async function createEnvironments() {
     workloadProfiles: [
       {
         name: "My-GP-01",
+        enableFips: true,
         maximumCount: 12,
         minimumCount: 3,
         workloadProfileType: "GeneralPurpose",

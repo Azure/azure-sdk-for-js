@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List BuildResource resources by BuilderResource
  *
  * @summary List BuildResource resources by BuilderResource
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Builds_ListByBuilderResource.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builds_ListByBuilderResource.json
  */
 async function buildsListByBuilderResource0() {
   const subscriptionId =

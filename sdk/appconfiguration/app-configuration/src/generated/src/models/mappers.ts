@@ -326,6 +326,20 @@ export const ConfigurationSettingsFilter: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      tagsFilter: {
+        constraints: {
+          UniqueItems: true,
+        },
+        serializedName: "tags",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
     },
   },
 };
@@ -357,7 +371,7 @@ export const LabelListResult: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Label",
+              className: "SettingLabel",
             },
           },
         },
@@ -372,10 +386,10 @@ export const LabelListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const Label: coreClient.CompositeMapper = {
+export const SettingLabel: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Label",
+    className: "SettingLabel",
     modelProperties: {
       name: {
         serializedName: "name",

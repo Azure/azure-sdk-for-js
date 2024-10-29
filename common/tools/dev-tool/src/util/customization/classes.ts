@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import {
   ClassDeclaration,
@@ -227,7 +227,9 @@ export function addMethodToClass(
   if (isAugmentingMethod(customMethod) && !isOverload(customMethod.getStructure())) {
     const regex = new RegExp(`this\\.${AUGMENT_CLASS_TOKEN}\\.`, "g");
     const modifiedMethodContent = customMethod.getBodyText()?.replace(regex, `this._`);
-    modifiedMethodContent && customMethod.setBodyText(modifiedMethodContent);
+    if (modifiedMethodContent) {
+      customMethod.setBodyText(modifiedMethodContent);
+    }
   }
 
   const methodStructure = customMethod.getStructure();

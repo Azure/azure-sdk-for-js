@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
@@ -12,6 +12,10 @@ import {
   MessageTemplateValue,
   MessageTemplateBindings,
   PagedMessageTemplateItemOutput,
+  ImageNotificationContent,
+  AudioNotificationContent,
+  VideoNotificationContent,
+  DocumentNotificationContent,
 } from "../../src/generated/src";
 
 describe("Notification Messages Test", () => {
@@ -44,15 +48,72 @@ describe("Notification Messages Test", () => {
     assert.isDefined(response.body.receipts[0].messageId);
   });
 
-  it("send image message test", async function () {
+  it("send document message test", async function () {
+    const documentMessage: DocumentNotificationContent = {
+      kind: "document",
+      mediaUri: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
+      channelRegistrationId: env.CHANNEL_ID || "",
+      to: [env.RECIPIENT_PHONE_NUMBER || ""],
+    };
+
     const result = await client.path("/messages/notifications:send").post({
       contentType: "application/json",
-      body: {
-        channelRegistrationId: env.CHANNEL_ID || "",
-        to: [env.RECIPIENT_PHONE_NUMBER || ""],
-        kind: "image",
-        mediaUri: "https://www.w3schools.com/w3css/img_lights.jpg",
-      },
+      body: documentMessage,
+    });
+    assert.equal(result.status, "202");
+    const response: Send202Response = result as Send202Response;
+    assert.equal(response.body.receipts.length, 1);
+    assert.isDefined(response.body.receipts[0].messageId);
+  });
+
+  it("send video message test", async function () {
+    const videoMessage: VideoNotificationContent = {
+      kind: "video",
+      mediaUri: "https://sample-videos.com/video321/mp4/480/big_buck_bunny_480p_1mb.mp4",
+      channelRegistrationId: env.CHANNEL_ID || "",
+      to: [env.RECIPIENT_PHONE_NUMBER || ""],
+    };
+
+    const result = await client.path("/messages/notifications:send").post({
+      contentType: "application/json",
+      body: videoMessage,
+    });
+    assert.equal(result.status, "202");
+    const response: Send202Response = result as Send202Response;
+    assert.equal(response.body.receipts.length, 1);
+    assert.isDefined(response.body.receipts[0].messageId);
+  });
+
+  it("send audio message test", async function () {
+    const audioMessage: AudioNotificationContent = {
+      kind: "audio",
+      mediaUri: "https://sample-videos.com/audio/mp3/wave.mp3",
+      channelRegistrationId: env.CHANNEL_ID || "",
+      to: [env.RECIPIENT_PHONE_NUMBER || ""],
+    };
+
+    const result = await client.path("/messages/notifications:send").post({
+      contentType: "application/json",
+      body: audioMessage,
+    });
+    assert.equal(result.status, "202");
+    const response: Send202Response = result as Send202Response;
+    assert.equal(response.body.receipts.length, 1);
+    assert.isDefined(response.body.receipts[0].messageId);
+  });
+
+  it("send image message test", async function () {
+    const imageMessage: ImageNotificationContent = {
+      kind: "image",
+      mediaUri: "https://www.w3schools.com/w3css/img_lights.jpg",
+      channelRegistrationId: env.CHANNEL_ID || "",
+      to: [env.RECIPIENT_PHONE_NUMBER || ""],
+      caption: "awesome",
+    };
+
+    const result = await client.path("/messages/notifications:send").post({
+      contentType: "application/json",
+      body: imageMessage,
     });
     assert.equal(result.status, "202");
     const response: Send202Response = result as Send202Response;

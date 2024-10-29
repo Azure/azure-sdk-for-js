@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TokenCredential } from "@azure/core-auth";
 import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";

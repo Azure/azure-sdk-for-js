@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /// <reference lib="esnext.asynciterable" />
 
+/* eslint-disable @azure/azure-sdk/ts-naming-options */
 import {
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,

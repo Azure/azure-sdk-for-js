@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   AuthorizeRequestOnChallengeOptions,
@@ -59,7 +59,7 @@ export const authorizeRequestOnTenantChallenge: (
 
     challengeOptions.request.headers.set(
       Constants.HeaderConstants.AUTHORIZATION,
-      `Bearer ${accessToken.token}`,
+      `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`,
     );
     return true;
   }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a Managed Environment if it does not have any container apps.
  *
  * @summary Delete a Managed Environment if it does not have any container apps.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ManagedEnvironments_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironments_Delete.json
  */
 async function deleteEnvironmentByName() {
   const subscriptionId =

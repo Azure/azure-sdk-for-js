@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as msal from "@azure/msal-node";
 
@@ -11,6 +11,7 @@ import {
   defaultLoggerCallback,
   ensureValidMsalToken,
   getAuthority,
+  getAuthorityHost,
   getKnownAuthorities,
   getMSALLogLevel,
   handleMsalError,
@@ -269,10 +270,7 @@ export function generateMsalConfiguration(
   );
 
   // TODO: move and reuse getIdentityClientAuthorityHost
-  const authority = getAuthority(
-    resolvedTenant,
-    msalClientOptions.authorityHost ?? process.env.AZURE_AUTHORITY_HOST,
-  );
+  const authority = getAuthority(resolvedTenant, getAuthorityHost(msalClientOptions));
 
   const httpClient = new IdentityClient({
     ...msalClientOptions.tokenCredentialOptions,
@@ -468,6 +466,12 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       }
     }
 
+    if (options.proofOfPossessionOptions) {
+      silentRequest.shrNonce = options.proofOfPossessionOptions.nonce;
+      silentRequest.authenticationScheme = "pop";
+      silentRequest.resourceRequestMethod = options.proofOfPossessionOptions.resourceRequestMethod;
+      silentRequest.resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
+    }
     state.logger.getToken.info("Attempting to acquire token silently");
     return app.acquireTokenSilent(silentRequest);
   }
@@ -478,7 +482,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
    */
   function calculateRequestAuthority(options?: GetTokenOptions): string | undefined {
     if (options?.tenantId) {
-      return getAuthority(options.tenantId, createMsalClientOptions.authorityHost);
+      return getAuthority(options.tenantId, getAuthorityHost(createMsalClientOptions));
     }
     return state.msalConfig.auth.authority;
   }
@@ -530,11 +534,12 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
     state.cachedAccount = response?.account ?? null;
 
     state.logger.getToken.info(formatSuccess(scopes));
-
     return {
       token: response.accessToken,
       expiresOnTimestamp: response.expiresOn.getTime(),
-    };
+      refreshAfterTimestamp: response.refreshOn?.getTime(),
+      tokenType: response.tokenType,
+    } as AccessToken;
   }
 
   async function getTokenByClientSecret(
@@ -556,13 +561,13 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         claims: options?.claims,
       });
       ensureValidMsalToken(scopes, response, options);
-
       state.logger.getToken.info(formatSuccess(scopes));
-
       return {
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
-      };
+        refreshAfterTimestamp: response.refreshOn?.getTime(),
+        tokenType: response.tokenType,
+      } as AccessToken;
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
     }
@@ -590,11 +595,12 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       ensureValidMsalToken(scopes, response, options);
 
       state.logger.getToken.info(formatSuccess(scopes));
-
       return {
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
-      };
+        refreshAfterTimestamp: response.refreshOn?.getTime(),
+        tokenType: response.tokenType,
+      } as AccessToken;
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
     }
@@ -620,11 +626,12 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       ensureValidMsalToken(scopes, response, options);
 
       state.logger.getToken.info(formatSuccess(scopes));
-
       return {
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
-      };
+        refreshAfterTimestamp: response.refreshOn?.getTime(),
+        tokenType: response.tokenType,
+      } as AccessToken;
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
     }
@@ -751,11 +758,12 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       ensureValidMsalToken(scopes, response, options);
 
       msalLogger.getToken.info(formatSuccess(scopes));
-
       return {
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
-      };
+        refreshAfterTimestamp: response.refreshOn?.getTime(),
+        tokenType: response.tokenType,
+      } as AccessToken;
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
     }
@@ -802,6 +810,13 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         msalLogger.verbose("Attempting broker authentication without the default broker account");
       }
 
+      if (options.proofOfPossessionOptions) {
+        interactiveRequest.shrNonce = options.proofOfPossessionOptions.nonce;
+        interactiveRequest.authenticationScheme = "pop";
+        interactiveRequest.resourceRequestMethod =
+          options.proofOfPossessionOptions.resourceRequestMethod;
+        interactiveRequest.resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
+      }
       try {
         return await app.acquireTokenInteractive(interactiveRequest);
       } catch (e: any) {
@@ -835,7 +850,13 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       if (state.pluginConfiguration.broker.isEnabled) {
         return getBrokeredToken(state.pluginConfiguration.broker.useDefaultBrokerAccount ?? false);
       }
-
+      if (options.proofOfPossessionOptions) {
+        interactiveRequest.shrNonce = options.proofOfPossessionOptions.nonce;
+        interactiveRequest.authenticationScheme = "pop";
+        interactiveRequest.resourceRequestMethod =
+          options.proofOfPossessionOptions.resourceRequestMethod;
+        interactiveRequest.resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
+      }
       return app.acquireTokenInteractive(interactiveRequest);
     });
   }

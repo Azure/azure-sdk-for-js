@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a Dapr subscription from a Managed Environment.
  *
  * @summary Delete a Dapr subscription from a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DaprSubscriptions_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_Delete.json
  */
 async function deleteDaprSubscription() {
   const subscriptionId =

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { stringToUint8Array } from "../util/bytesEncoding.js";
 import { isNodeLike } from "../util/checkEnvironment.js";
@@ -103,6 +103,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
           "Content-Disposition",
           `form-data; name="${fieldName}"; filename="${fileName}"`,
         );
+
         // again, || is used since an empty value.type means the content type is unset
         headers.set("Content-Type", value.type || "application/octet-stream");
 
@@ -113,6 +114,5 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
       }
     }
   }
-
   request.multipartBody = { parts };
 }

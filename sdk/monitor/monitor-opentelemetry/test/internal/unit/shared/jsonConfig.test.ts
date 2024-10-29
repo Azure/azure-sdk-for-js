@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as assert from "assert";
 import * as sinon from "sinon";
@@ -28,7 +28,7 @@ describe("Json Config", () => {
   describe("config path", () => {
     it("Default file path", () => {
       const config = JsonConfig.getInstance();
-      let defaultPath = path.join(process.cwd(), "../", "applicationinsights.json");
+      const defaultPath = path.join(process.cwd(), "../", "applicationinsights.json");
       assert.deepStrictEqual(config["_tempDir"], defaultPath);
     });
 
@@ -107,7 +107,7 @@ describe("Json Config", () => {
     it("JSON config through env variable", () => {
       const env = <{ [id: string]: string }>{};
 
-      let inputJson = {
+      const inputJson = {
         azureMonitorExporterOptions: {
           connectionString: "testConnString",
           storageDirectory: "teststorageDirectory",

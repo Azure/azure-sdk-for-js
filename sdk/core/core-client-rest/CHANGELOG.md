@@ -1,6 +1,6 @@
 # Release History
 
-## 2.2.1 (Unreleased)
+## 2.3.2 (Unreleased)
 
 ### Features Added
 
@@ -10,11 +10,23 @@
 
 ### Other Changes
 
+## 2.3.1 (2024-10-10)
+
+### Bugs Fixed
+
+- Allow `number` path parameters. PR [#31352](https://github.com/Azure/azure-sdk-for-js/pull/31352/files)
+
+## 2.3.0 (2024-10-03)
+
+### Features Added
+
+- Add support for `allowReserved` (in query and path parameters) and `explode` (in query parameters only). PR [#31058](https://github.com/Azure/azure-sdk-for-js/pull/31058/files)
+
 ## 2.2.0 (2024-07-11)
 
 ### Other Changes
 
-- Update serialization to not serialize Uint8Array if the content type is "application/json". 
+- Update serialization to not serialize Uint8Array if the content type is "application/json".
 
 ## 2.1.0 (2024-06-27)
 

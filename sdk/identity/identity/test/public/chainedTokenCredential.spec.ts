@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   AccessToken,
@@ -30,8 +30,12 @@ describe("ChainedTokenCredential", function () {
           }),
         ),
       ),
-      mockCredential(Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0 })),
-      mockCredential(Promise.resolve({ token: "secondToken", expiresOnTimestamp: 0 })),
+      mockCredential(
+        Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0, tokenType: "Bearer" }),
+      ),
+      mockCredential(
+        Promise.resolve({ token: "secondToken", expiresOnTimestamp: 0, tokenType: "Bearer" }),
+      ),
     );
     const accessToken = await chainedTokenCredential.getToken("scope");
     assert.notStrictEqual(accessToken, null);

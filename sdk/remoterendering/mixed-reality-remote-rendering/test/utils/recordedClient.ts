@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Context } from "mocha";
 
@@ -24,6 +24,8 @@ const envSetupForPlayback: Record<string, string> = {
   REMOTERENDERING_ARR_SAS_TOKEN: "arr_sas_token",
   REMOTERENDERING_ARR_SERVICE_ENDPOINT: "https://remoterendering.eastus2.mixedreality.azure.com",
   REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME: "sdktest",
+  STORAGE_ACCOUNT_NO_ACCESS_NAME: "sdktestnoaccess",
+  BLOB_CONTAINER_NO_ACCESS_NAME: "testnoaccess",
 };
 
 export const recorderStartOptions: RecorderStartOptions = {

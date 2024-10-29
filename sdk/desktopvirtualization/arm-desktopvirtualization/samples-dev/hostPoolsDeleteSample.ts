@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   HostPoolsDeleteOptionalParams,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Remove a host pool.
  *
  * @summary Remove a host pool.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/HostPool_Delete.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/HostPool_Delete.json
  */
 async function hostPoolDelete() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function hostPoolDelete() {
   const result = await client.hostPools.delete(
     resourceGroupName,
     hostPoolName,
-    options
+    options,
   );
   console.log(result);
 }

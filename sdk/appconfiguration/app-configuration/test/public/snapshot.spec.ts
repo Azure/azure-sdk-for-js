@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Recorder, isPlaybackMode, testPollingOptions } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { AppConfigurationClient } from "../../src/appConfigurationClient";
+import { AppConfigurationClient } from "../../src/appConfigurationClient.js";
 import {
   ConfigurationSnapshot,
   ConfigurationSettingsFilter,
   CreateSnapshotResponse,
   ConfigurationSettingId,
-} from "../../src/models";
+} from "../../src/models.js";
 import {
   assertEqualSnapshot,
   assertThrowsAbortError,
   createAppConfigurationClientForTests,
   startRecorder,
-} from "./utils/testHelpers";
+} from "./utils/testHelpers.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("AppConfigurationClient snapshot", () => {
   let client: AppConfigurationClient;
@@ -29,8 +28,8 @@ describe("AppConfigurationClient snapshot", () => {
   let filter2: ConfigurationSettingsFilter;
   let newSnapshot: CreateSnapshotResponse;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async function (ctx) {
+    recorder = await startRecorder(ctx);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
     key1 = recorder.variable("key1", `key1-${new Date().getTime()}`);
     key2 = recorder.variable("key2", `key2-${new Date().getTime()}`);
@@ -47,6 +46,7 @@ describe("AppConfigurationClient snapshot", () => {
     filter1 = {
       keyFilter: key1,
       labelFilter: label1,
+      tagsFilter: [],
     };
     filter2 = {
       keyFilter: key2,
@@ -58,11 +58,19 @@ describe("AppConfigurationClient snapshot", () => {
       filters: [filter1],
     };
 
-    await client.addConfigurationSetting({ ...configSetting1, value: "value1" });
-    await client.addConfigurationSetting({ ...configSetting2, value: "value2" });
+    await client.addConfigurationSetting({
+      ...configSetting1,
+      value: "value1",
+      tags: { production: "1" },
+    });
+    await client.addConfigurationSetting({
+      ...configSetting2,
+      value: "value2",
+      tags: { production: "2" },
+    });
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function () {
     await client.deleteConfigurationSetting({ ...configSetting1 });
     await client.deleteConfigurationSetting({ ...configSetting2 });
     await recorder.stop();
@@ -101,8 +109,8 @@ describe("AppConfigurationClient snapshot", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async function () {
-      if (isPlaybackMode()) this.skip();
+    it.skip("accepts  operation options", async function (ctx) {
+      if (isPlaybackMode()) ctx.skip();
       await assertThrowsAbortError(async () => {
         await client.beginCreateSnapshotAndWait(snapshot1, {
           requestOptions: {
@@ -132,6 +140,27 @@ describe("AppConfigurationClient snapshot", () => {
 
       await client.archiveSnapshot(newSnapshot.name);
     });
+
+    it("list configuration setting snapshot with filters", async () => {
+      snapshot1 = {
+        name: recorder.variable("snapshot1", `snapshot-${new Date().getTime()}`),
+        retentionPeriodInSeconds: 2592000,
+        filters: [{ keyFilter: "key*", tagsFilter: ["production=1"] }],
+      };
+      newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
+      const snapshotConfigurationSettings = client.listConfigurationSettingsForSnapshot(
+        newSnapshot.name,
+      );
+
+      for await (const setting of snapshotConfigurationSettings) {
+        assert.equal(setting.key, key1);
+        assert.equal(setting.label, "label1");
+        assert.equal(setting.value, "value1");
+        assert.deepEqual(setting.tags, { production: "1" });
+      }
+
+      await client.archiveSnapshot(newSnapshot.name);
+    });
   });
 
   describe("archiveSnapshot", () => {
@@ -146,8 +175,8 @@ describe("AppConfigurationClient snapshot", () => {
       );
     });
 
-    it.skip("accepts operation options", async function () {
-      if (isPlaybackMode()) this.skip();
+    it.skip("accepts operation options", async function (ctx) {
+      if (isPlaybackMode()) ctx.skip();
       await assertThrowsAbortError(async () => {
         await client.archiveSnapshot(newSnapshot.name, {
           requestOptions: {
@@ -173,8 +202,8 @@ describe("AppConfigurationClient snapshot", () => {
       await client.archiveSnapshot(newSnapshot.name);
     });
 
-    it.skip("accepts operation options", async function () {
-      if (isPlaybackMode()) this.skip();
+    it.skip("accepts operation options", async function (ctx) {
+      if (isPlaybackMode()) ctx.skip();
       await assertThrowsAbortError(async () => {
         await client.recoverSnapshot(newSnapshot.name, {
           requestOptions: {
@@ -196,8 +225,8 @@ describe("AppConfigurationClient snapshot", () => {
     });
 
     // Check issue https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts operation options", async function () {
-      if (isPlaybackMode()) this.skip();
+    it.skip("accepts operation options", async function (ctx) {
+      if (isPlaybackMode()) ctx.skip();
       newSnapshot = await client.beginCreateSnapshotAndWait(snapshot1, testPollingOptions);
       await assertThrowsAbortError(async () => {
         await client.getSnapshot(newSnapshot.name, {

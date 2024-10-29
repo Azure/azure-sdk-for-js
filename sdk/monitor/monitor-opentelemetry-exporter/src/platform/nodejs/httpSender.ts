@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import url from "url";
 import { diag } from "@opentelemetry/api";
 import { FullOperationResponse } from "@azure/core-client";
@@ -79,11 +79,12 @@ export class HttpSender extends BaseSender {
    * Shutdown sender
    * @internal
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   async shutdown(): Promise<void> {
     diag.info("HttpSender shutting down");
   }
 
-  handlePermanentRedirect(location: string | undefined) {
+  handlePermanentRedirect(location: string | undefined): void {
     if (location) {
       const locUrl = new url.URL(location);
       if (locUrl && locUrl.host) {

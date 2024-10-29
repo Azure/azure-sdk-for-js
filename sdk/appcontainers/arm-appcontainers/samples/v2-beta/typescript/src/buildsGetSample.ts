@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a BuildResource
  *
  * @summary Get a BuildResource
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Builds_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builds_Get.json
  */
 async function buildsGet0() {
   const subscriptionId =

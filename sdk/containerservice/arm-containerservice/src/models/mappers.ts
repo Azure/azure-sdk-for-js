@@ -733,6 +733,13 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
             className: "AgentPoolWindowsProfile",
           },
         },
+        securityProfile: {
+          serializedName: "securityProfile",
+          type: {
+            name: "Composite",
+            className: "AgentPoolSecurityProfile",
+          },
+        },
       },
     },
   };
@@ -1200,6 +1207,27 @@ export const AgentPoolWindowsProfile: coreClient.CompositeMapper = {
     modelProperties: {
       disableOutboundNat: {
         serializedName: "disableOutboundNat",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const AgentPoolSecurityProfile: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolSecurityProfile",
+    modelProperties: {
+      enableVtpm: {
+        serializedName: "enableVTPM",
+        type: {
+          name: "Boolean",
+        },
+      },
+      enableSecureBoot: {
+        serializedName: "enableSecureBoot",
         type: {
           name: "Boolean",
         },
@@ -3744,6 +3772,123 @@ export const AgentPoolUpgradeProfilePropertiesUpgradesItem: coreClient.Composite
     },
   };
 
+export const AgentPoolDeleteMachinesParameter: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolDeleteMachinesParameter",
+    modelProperties: {
+      machineNames: {
+        serializedName: "machineNames",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ErrorResponse: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail",
+        },
+      },
+    },
+  },
+};
+
+export const ErrorDetail: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      message: {
+        serializedName: "message",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      target: {
+        serializedName: "target",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      details: {
+        serializedName: "details",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorDetail",
+            },
+          },
+        },
+      },
+      additionalInfo: {
+        serializedName: "additionalInfo",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      info: {
+        serializedName: "info",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
 export const AgentPoolAvailableVersions: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4344,102 +4489,6 @@ export const TrustedAccessRoleBindingListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const ErrorResponse: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorResponse",
-    modelProperties: {
-      error: {
-        serializedName: "error",
-        type: {
-          name: "Composite",
-          className: "ErrorDetail",
-        },
-      },
-    },
-  },
-};
-
-export const ErrorDetail: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorDetail",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      message: {
-        serializedName: "message",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      target: {
-        serializedName: "target",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      details: {
-        serializedName: "details",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorDetail",
-            },
-          },
-        },
-      },
-      additionalInfo: {
-        serializedName: "additionalInfo",
-        readOnly: true,
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ErrorAdditionalInfo",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "ErrorAdditionalInfo",
-    modelProperties: {
-      type: {
-        serializedName: "type",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      info: {
-        serializedName: "info",
-        readOnly: true,
-        type: {
-          name: "Dictionary",
-          value: { type: { name: "any" } },
-        },
-      },
-    },
-  },
-};
-
 export const TrustedAccessRoleListResult: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -4568,6 +4617,102 @@ export const TrustedAccessRoleRule: coreClient.CompositeMapper = {
               name: "String",
             },
           },
+        },
+      },
+    },
+  },
+};
+
+export const MachineListResult: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MachineListResult",
+    modelProperties: {
+      nextLink: {
+        serializedName: "nextLink",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Machine",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const MachineProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MachineProperties",
+    modelProperties: {
+      network: {
+        serializedName: "network",
+        type: {
+          name: "Composite",
+          className: "MachineNetworkProperties",
+        },
+      },
+      resourceId: {
+        serializedName: "resourceId",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const MachineNetworkProperties: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MachineNetworkProperties",
+    modelProperties: {
+      ipAddresses: {
+        serializedName: "ipAddresses",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MachineIpAddress",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const MachineIpAddress: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MachineIpAddress",
+    modelProperties: {
+      family: {
+        serializedName: "family",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      ip: {
+        serializedName: "ip",
+        readOnly: true,
+        type: {
+          name: "String",
         },
       },
     },
@@ -5020,6 +5165,30 @@ export const AgentPool: coreClient.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AgentPoolWindowsProfile",
+        },
+      },
+      securityProfile: {
+        serializedName: "properties.securityProfile",
+        type: {
+          name: "Composite",
+          className: "AgentPoolSecurityProfile",
+        },
+      },
+    },
+  },
+};
+
+export const Machine: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "Machine",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "MachineProperties",
         },
       },
     },
@@ -5666,6 +5835,21 @@ export const AgentPoolsDeleteHeaders: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AgentPoolsDeleteHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AgentPoolsDeleteMachinesHeaders: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AgentPoolsDeleteMachinesHeaders",
     modelProperties: {
       location: {
         serializedName: "location",

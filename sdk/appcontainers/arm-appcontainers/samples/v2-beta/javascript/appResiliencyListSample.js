@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List container app resiliency policies.
  *
  * @summary List container app resiliency policies.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/AppResiliency_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/AppResiliency_List.json
  */
 async function listAppResiliency() {
   const subscriptionId =

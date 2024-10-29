@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createIdentifierFromRawId } from "@azure/communication-common";
 import { TranscriptionMetadata, TranscriptionData } from "../models/transcription";

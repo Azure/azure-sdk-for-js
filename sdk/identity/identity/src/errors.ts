@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { GetTokenOptions } from "@azure/core-auth";
 
@@ -103,7 +103,6 @@ export class AuthenticationError extends Error {
    */
   public readonly errorResponse: ErrorResponse;
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
   constructor(
     statusCode: number,
     errorBody: object | string | undefined | null,
@@ -236,9 +235,7 @@ export class AuthenticationRequiredError extends Error {
     super(
       options.message,
       // @ts-expect-error - TypeScript does not recognize this until we use ES2022 as the target; however, all our major runtimes do support the `cause` property
-      {
-        cause: options.cause,
-      },
+      options.cause ? { cause: options.cause } : undefined,
     );
     this.scopes = options.scopes;
     this.getTokenOptions = options.getTokenOptions;

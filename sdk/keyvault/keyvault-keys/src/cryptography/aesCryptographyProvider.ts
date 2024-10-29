@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { OperationOptions } from "@azure/core-client";
-import * as crypto from "crypto";
+import * as crypto from "node:crypto";
 import {
   AesCbcEncryptParameters,
   DecryptOptions,
@@ -19,13 +19,13 @@ import {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-} from "..";
-import { AesCbcDecryptParameters } from "../cryptographyClientModels";
+} from "../index.js";
+import { AesCbcDecryptParameters } from "../cryptographyClientModels.js";
 import {
   CryptographyProvider,
   CryptographyProviderOperation,
   LocalCryptographyUnsupportedError,
-} from "./models";
+} from "./models.js";
 
 /**
  * An AES cryptography provider supporting AES algorithms.

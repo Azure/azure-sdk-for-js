@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a Container App AuthConfig.
  *
  * @summary Delete a Container App AuthConfig.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/AuthConfigs_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/AuthConfigs_Delete.json
  */
 async function deleteContainerAppAuthConfig() {
   const subscriptionId =

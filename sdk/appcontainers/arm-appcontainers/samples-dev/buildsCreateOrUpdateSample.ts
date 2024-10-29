@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create a BuildResource
  *
  * @summary Create a BuildResource
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Builds_CreateOrUpdate_NoConfig.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builds_CreateOrUpdate_NoConfig.json
  */
 async function buildsCreateOrUpdateNoConfig() {
   const subscriptionId =
@@ -46,7 +46,7 @@ async function buildsCreateOrUpdateNoConfig() {
  * This sample demonstrates how to Create a BuildResource
  *
  * @summary Create a BuildResource
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Builds_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builds_CreateOrUpdate.json
  */
 async function buildsCreateOrUpdateWithConfig() {
   const subscriptionId =

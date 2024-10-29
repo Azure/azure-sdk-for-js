@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { AggregateAuthenticationError, CredentialUnavailableError } from "../errors";
@@ -12,8 +12,9 @@ import { tracingClient } from "../util/tracing";
 export const logger = credentialLogger("ChainedTokenCredential");
 
 /**
- * Enables multiple `TokenCredential` implementations to be tried in order
- * until one of the getToken methods returns an access token.
+ * Enables multiple `TokenCredential` implementations to be tried in order until
+ * one of the getToken methods returns an access token. For more information, see
+ * [ChainedTokenCredential overview](https://aka.ms/azsdk/js/identity/credential-chains#use-chainedtokencredential-for-granularity).
  */
 export class ChainedTokenCredential implements TokenCredential {
   private _sources: TokenCredential[] = [];
@@ -24,7 +25,14 @@ export class ChainedTokenCredential implements TokenCredential {
    * @param sources - `TokenCredential` implementations to be tried in order.
    *
    * Example usage:
-   * ```javascript
+   * ```ts snippet:chained_token_credential_example
+   * import { ClientSecretCredential, ChainedTokenCredential } from "@azure/identity";
+   *
+   * const tenantId = "<tenant-id>";
+   * const clientId = "<client-id>";
+   * const clientSecret = "<client-secret>";
+   * const anotherClientId = "<another-client-id>";
+   * const anotherSecret = "<another-client-secret>";
    * const firstCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
    * const secondCredential = new ClientSecretCredential(tenantId, anotherClientId, anotherSecret);
    * const credentialChain = new ChainedTokenCredential(firstCredential, secondCredential);

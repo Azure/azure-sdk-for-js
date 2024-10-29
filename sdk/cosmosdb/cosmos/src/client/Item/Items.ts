@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
 import { ChangeFeedOptions } from "../../ChangeFeedOptions";
@@ -129,7 +129,7 @@ export class Items {
         options: innerOptions,
         partitionKey: options.partitionKey,
         diagnosticNode,
-        correlatedActivityId,
+        correlatedActivityId: correlatedActivityId,
       });
       return response;
     };
@@ -460,7 +460,7 @@ export class Items {
    * ```
    *
    * @param operations - List of operations. Limit 100
-   * @param bulkOptions - Optional options object to modify bulk behavior. Pass \{ continueOnError: true \} to continue executing operations when one fails. (Defaults to false) ** NOTE: THIS WILL DEFAULT TO TRUE IN THE 4.0 RELEASE
+   * @param bulkOptions - Optional options object to modify bulk behavior. Pass \{ continueOnError: false \} to stop executing operations when one fails. (Defaults to true)
    * @param options - Used for modifying the request.
    */
   public async bulk(
@@ -551,8 +551,8 @@ export class Items {
         // partition key types as well since we don't support them, so for now we throw
         if (err.code === StatusCodes.Gone) {
           const isPartitionSplit =
-            err.subStatusCode === SubStatusCodes.PartitionKeyRangeGone ||
-            err.subStatusCode === SubStatusCodes.CompletingSplit;
+            err.substatus === SubStatusCodes.PartitionKeyRangeGone ||
+            err.substatus === SubStatusCodes.CompletingSplit;
 
           if (isPartitionSplit) {
             const queryRange = new QueryRange(batch.min, batch.max, true, false);

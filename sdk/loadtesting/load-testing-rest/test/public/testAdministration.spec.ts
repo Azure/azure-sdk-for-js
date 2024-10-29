@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
-import { AbortController } from "@azure/abort-controller";
 import { AzureLoadTestingClient, isUnexpected } from "../../src";
 import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 import * as fs from "fs";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { getLongRunningPoller } from "../../src/pollingHelper";
 
 describe("Test Creation", () => {
@@ -19,7 +18,7 @@ describe("Test Creation", () => {
 
   beforeEach(async function (this: Context) {
     recorder = await createRecorder(this);
-    if (!isNode || isPlaybackMode()) {
+    if (!isNodeLike || isPlaybackMode()) {
       this.skip();
     }
     client = createClient(recorder);
@@ -77,7 +76,7 @@ describe("Test Creation", () => {
     const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
     try {
       await fileValidatePoller.pollUntilDone({
-        abortSignal: AbortController.timeout(10), // timeout of 10 milliseconds
+        abortSignal: AbortSignal.timeout(10), // timeout of 10 milliseconds
       });
     } catch (ex: any) {
       assert.equal(ex.message, "The polling was aborted.");
@@ -101,7 +100,7 @@ describe("Test Creation", () => {
 
     const fileValidatePoller = await getLongRunningPoller(client, fileUploadResult);
     await fileValidatePoller.pollUntilDone({
-      abortSignal: AbortController.timeout(60000), // timeout of 60 seconds
+      abortSignal: AbortSignal.timeout(60000), // timeout of 60 seconds
     });
     assert.equal(fileValidatePoller.getOperationState().status, "succeeded");
   });

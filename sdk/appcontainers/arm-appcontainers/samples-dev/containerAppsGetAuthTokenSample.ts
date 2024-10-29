@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get auth token for a container app
  *
  * @summary Get auth token for a container app
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ContainerApps_GetAuthToken.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerApps_GetAuthToken.json
  */
 async function getContainerAppAuthToken() {
   const subscriptionId =

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccessToken, ChainedTokenCredential, TokenCredential } from "../../../src";
 import Sinon from "sinon";
@@ -17,7 +17,9 @@ class TestMockCredential implements TokenCredential {
 describe("ChainedTokenCredential", function () {
   it("Logs the expected successful message", async () => {
     const chainedTokenCredential = new ChainedTokenCredential(
-      new TestMockCredential(Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0 })),
+      new TestMockCredential(
+        Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0, tokenType: "Bearer" }),
+      ),
     );
 
     const infoSpy = Sinon.spy(chainedTokenCredentialLogger.parent, "info");
@@ -47,7 +49,9 @@ describe("ChainedTokenCredential", function () {
     }
 
     const chainedTokenCredential = new ChainedTokenCredential(
-      mockCredential(Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0 })),
+      mockCredential(
+        Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0, tokenType: "Bearer" }),
+      ),
     );
 
     const infoSpy = Sinon.spy(chainedTokenCredentialLogger.parent, "info");

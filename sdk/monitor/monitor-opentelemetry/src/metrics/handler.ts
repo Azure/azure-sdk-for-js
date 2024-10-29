@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
 import {
@@ -57,7 +57,7 @@ export class MetricHandler {
       this._views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-redis" }));
     }
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
-    let metricReaderOptions: PeriodicExportingMetricReaderOptions = {
+    const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
       exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
     };
@@ -99,6 +99,7 @@ export class MetricHandler {
   /**
    * Shutdown handler
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async shutdown(): Promise<void> {
     this._standardMetrics?.shutdown();
     this._liveMetrics?.shutdown();

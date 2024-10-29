@@ -35,6 +35,9 @@ import {
   ClusterUpgrade,
   ClustersUpgradeOptionalParams,
   ClustersUpgradeResponse,
+  ClusterUpgradeRollback,
+  ClustersUpgradeManualRollbackOptionalParams,
+  ClustersUpgradeManualRollbackResponse,
   ClusterResizeData,
   ClustersResizeOptionalParams,
   ClustersResizeResponse,
@@ -454,6 +457,112 @@ export class ClustersImpl implements Clusters {
       clusterPoolName,
       clusterName,
       clusterUpgradeRequest,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Manual rollback upgrade for a cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterPoolName The name of the cluster pool.
+   * @param clusterName The name of the HDInsight cluster.
+   * @param clusterRollbackUpgradeRequest Manual rollback upgrade for a cluster.
+   * @param options The options parameters.
+   */
+  async beginUpgradeManualRollback(
+    resourceGroupName: string,
+    clusterPoolName: string,
+    clusterName: string,
+    clusterRollbackUpgradeRequest: ClusterUpgradeRollback,
+    options?: ClustersUpgradeManualRollbackOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClustersUpgradeManualRollbackResponse>,
+      ClustersUpgradeManualRollbackResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<ClustersUpgradeManualRollbackResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        clusterPoolName,
+        clusterName,
+        clusterRollbackUpgradeRequest,
+        options,
+      },
+      spec: upgradeManualRollbackOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      ClustersUpgradeManualRollbackResponse,
+      OperationState<ClustersUpgradeManualRollbackResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Manual rollback upgrade for a cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterPoolName The name of the cluster pool.
+   * @param clusterName The name of the HDInsight cluster.
+   * @param clusterRollbackUpgradeRequest Manual rollback upgrade for a cluster.
+   * @param options The options parameters.
+   */
+  async beginUpgradeManualRollbackAndWait(
+    resourceGroupName: string,
+    clusterPoolName: string,
+    clusterName: string,
+    clusterRollbackUpgradeRequest: ClusterUpgradeRollback,
+    options?: ClustersUpgradeManualRollbackOptionalParams,
+  ): Promise<ClustersUpgradeManualRollbackResponse> {
+    const poller = await this.beginUpgradeManualRollback(
+      resourceGroupName,
+      clusterPoolName,
+      clusterName,
+      clusterRollbackUpgradeRequest,
       options,
     );
     return poller.pollUntilDone();
@@ -1046,6 +1155,39 @@ const upgradeOperationSpec: coreClient.OperationSpec = {
     },
   },
   requestBody: Parameters.clusterUpgradeRequest,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterPoolName,
+    Parameters.clusterName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const upgradeManualRollbackOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusterpools/{clusterPoolName}/clusters/{clusterName}/rollback",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.Cluster,
+    },
+    201: {
+      bodyMapper: Mappers.Cluster,
+    },
+    202: {
+      bodyMapper: Mappers.Cluster,
+    },
+    204: {
+      bodyMapper: Mappers.Cluster,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.clusterRollbackUpgradeRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

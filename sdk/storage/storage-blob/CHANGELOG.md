@@ -1,14 +1,30 @@
 # Release History
 
-## 12.24.1 (Unreleased)
+## 12.26.0-beta.1 (2024-10-15)
 
 ### Features Added
 
-### Breaking Changes
+- Added support for service version 2025-01-05.
+- Added generateUserDelegationSasUrl() to BlobClient and ContainerClient.
+- Added BlobErrorCode.BlobAccessTierNotSupportedForAccountType enum value.
 
-### Bugs Fixed
+## 12.25.0 (2024-09-22)
+
+### Features Added
+
+- Includes all features released in 12.25.0-beta.1.
+- Added support for customer provided key in BlockBlobClient.uploadStream().
 
 ### Other Changes
+
+- Upgraded dependency on `@azure/core-xml` to version `1.4.3`.
+
+## 12.25.0-beta.1 (2024-08-09)
+
+### Features Added
+
+- Added support for service version 2024-11-04.
+- Added ability to retrieve SAS string to sign for debugging purposes.
 
 ## 12.24.0 (2024-07-18)
 

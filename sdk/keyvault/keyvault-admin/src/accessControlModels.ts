@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import {
@@ -7,8 +7,8 @@ import {
   RoleScope as KeyVaultRoleScope,
   KnownDataAction as KnownKeyVaultDataAction,
   KnownRoleScope as KnownKeyVaultRoleScope,
-} from "./generated/index";
-import { SUPPORTED_API_VERSIONS } from "./constants";
+} from "./generated/index.js";
+import { SUPPORTED_API_VERSIONS } from "./constants.js";
 
 export { KeyVaultDataAction, KeyVaultRoleScope, KnownKeyVaultDataAction, KnownKeyVaultRoleScope };
 

@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TokenCredential } from "@azure/core-auth";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 import {
   DecryptOptions,
@@ -19,23 +18,23 @@ import {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-} from "../cryptographyClientModels";
-import { SDK_VERSION } from "../constants";
-import { UnwrapResult } from "../cryptographyClientModels";
-import { KeyVaultClient } from "../generated";
-import { parseKeyVaultKeyIdentifier } from "../identifier";
+} from "../cryptographyClientModels.js";
+import { SDK_VERSION } from "../constants.js";
+import { UnwrapResult } from "../cryptographyClientModels.js";
+import { KeyVaultClient } from "../generated/index.js";
+import { parseKeyVaultKeyIdentifier } from "../identifier.js";
 import {
   CryptographyClientOptions,
   GetKeyOptions,
   KeyVaultKey,
   LATEST_API_VERSION,
-} from "../keysModels";
-import { getKeyFromKeyBundle } from "../transformations";
-import { createHash } from "./crypto";
-import { CryptographyProvider, CryptographyProviderOperation } from "./models";
-import { logger } from "../log";
-import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
-import { tracingClient } from "../tracing";
+} from "../keysModels.js";
+import { getKeyFromKeyBundle } from "../transformations.js";
+import { createHash } from "./crypto.js";
+import { CryptographyProvider, CryptographyProviderOperation } from "./models.js";
+import { logger } from "../log.js";
+import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
+import { tracingClient } from "../tracing.js";
 
 /**
  * The remote cryptography provider is used to run crypto operations against KeyVault.
@@ -382,12 +381,6 @@ function getOrInitializeClient(
         : libInfo,
   };
 
-  const authPolicy = bearerTokenAuthenticationPolicy({
-    credential,
-    scopes: [], // Scopes are going to be defined by the challenge callbacks.
-    challengeCallbacks: createKeyVaultChallengeCallbacks(options),
-  });
-
   const internalPipelineOptions = {
     ...options,
     loggingOptions: {
@@ -404,7 +397,12 @@ function getOrInitializeClient(
     options.serviceVersion || LATEST_API_VERSION,
     internalPipelineOptions,
   );
-  client.pipeline.addPolicy(authPolicy);
+
+  // The authentication policy must come after the deserialization policy since the deserialization policy
+  // converts 401 responses to an Error, and we don't want to deal with that.
+  client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, options), {
+    afterPolicies: ["deserializationPolicy"],
+  });
 
   return client;
 }

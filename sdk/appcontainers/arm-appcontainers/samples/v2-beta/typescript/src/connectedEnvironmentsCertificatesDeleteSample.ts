@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specified Certificate.
  *
  * @summary Deletes the specified Certificate.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ConnectedEnvironmentsCertificate_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ConnectedEnvironmentsCertificate_Delete.json
  */
 async function deleteCertificate() {
   const subscriptionId =

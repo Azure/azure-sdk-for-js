@@ -39,7 +39,7 @@ Write-Host "Working directory: $workingFolder"
 
 if ($CI) {
   Write-Host "Logging in to service principal"
-  az login --service-principal -u $DeploymentOutputs['IDENTITY_CLIENT_ID'] -p $DeploymentOutputs['IDENTITY_CLIENT_SECRET'] --tenant $DeploymentOutputs['IDENTITY_TENANT_ID']
+  az login --service-principal -u $env:ARM_CLIENT_ID --tenant $env:ARM_TENANT_ID --allow-no-subscriptions --federated-token $env:ARM_OIDC_TOKEN
   az account set --subscription $DeploymentOutputs['IDENTITY_SUBSCRIPTION_ID']
 }
 

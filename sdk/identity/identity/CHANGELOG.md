@@ -1,16 +1,59 @@
 # Release History
 
-## 4.5.0-beta.2 (Unreleased)
+## 4.5.1 (Unreleased)
 
 ### Features Added
 
-- Added support in `EnvironmentCredential` and `DefaultAzureCredential` for `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN` environment variable to configure subject name / issuer authentication. [#30570](https://github.com/Azure/azure-sdk-for-js/pull/30570)
+- Added `subscription` property in `AzureCliCredentialOptions` [#31451](https://github.com/Azure/azure-sdk-for-js/pull/31451).
 
 ### Breaking Changes
 
 ### Bugs Fixed
 
+### Other Changes
+
+- Mark `AzureAuthorityHosts.AZURE_GERMANY` deprecated as the Germany cloud closed in 2021. [#31519](https://github.com/Azure/azure-sdk-for-js/pull/31519)
+
+## 4.5.0 (2024-10-15)
+
+### Features Added
+
+- Added Proof-of-Possession via Signed HTTP Request (SHR) support to `AccessToken` and `GetTokenOptions` for native broker scenarios in `InteractiveBrowserCredential` to be used with plugin `@azure/identity-broker` [#30961](https://github.com/Azure/azure-sdk-for-js/pull/30961).
+
+### Bugs Fixed
+
+- Fixed the request sent in AzurePipelinesCredential so it doesn't result in a redirect response when an invalid system access token is provided [#31209](https://github.com/Azure/azure-sdk-for-js/pull/31209).
+
+### Other Changes
+
+- Allow certain response headers to be logged in `AzurePipelinesCredential` for diagnostics and include them in the error message [#31209](https://github.com/Azure/azure-sdk-for-js/pull/31209)
+
+<!-- dev-tool snippets ignore -->
+
+## 4.5.0-beta.3 (2024-09-18)
+
+### Features Added
+
+- Added support for the field `refreshAfterTimestamp` in `AccessToken` [#30402](https://github.com/Azure/azure-sdk-for-js/pull/30402)
+- Added support for providing an object ID to `ManagedIdentityCredential`. [#30771](https://github.com/Azure/azure-sdk-for-js/pull/30771)
+- Added support for token cache persistence via the `CredentialTokenPersistence` options to the `ClientAssertionCredential`. [#31129](https://github.com/Azure/azure-sdk-for-js/pull/31129)
+
+### Bugs Fixed
+
+- `ManagedIdentityCredential` now throws an error when attempting to pass a user-assigned Managed Identity in a CloudShell environment instead of silently ignoring it. [#30955](https://github.com/Azure/azure-sdk-for-js/pull/30955)
+- Fixed an issue where cross-tenant federation did not read the AZURE_AUTHORITY_HOST environment in all scenarios. [#31134](https://github.com/Azure/azure-sdk-for-js/pull/31134)
+
+## 4.5.0-beta.2 (2024-08-13)
+
+### Features Added
+
+- Added support in `EnvironmentCredential` and `DefaultAzureCredential` for `AZURE_CLIENT_SEND_CERTIFICATE_CHAIN` environment variable to configure subject name / issuer authentication. [#30570](https://github.com/Azure/azure-sdk-for-js/pull/30570)
+- Added support for `AsSecureString` in `AzurePowerShellCredential`. [#30720](https://github.com/Azure/azure-sdk-for-js/pull/30720)
+
+### Bugs Fixed
+
 - Fixed an issue where an incorrect error message was returned when the service responds with a 400 status code. [#30532](https://github.com/Azure/azure-sdk-for-js/pull/30532)
+- Improved error messages for credential parameter validation. [#30610](https://github.com/Azure/azure-sdk-for-js/pull/30610)
 
 ### Other Changes
 
@@ -22,6 +65,10 @@
 
 - Improved error messages for `AzurePipelinesCredential` for Authentication Failed scenarios. [#30387](https://github.com/Azure/azure-sdk-for-js/pull/30387)
 - Improved token parsing for `AzurePowerShellCredential` even with warning messages. [#30508](https://github.com/Azure/azure-sdk-for-js/pull/30508)
+
+### Other Changes
+
+- `ManagedIdentityCredential` migrated to use [MSAL](https://www.npmjs.com/package/@azure/msal-node) for handling the majority of the managed identity implementation. [#30172](https://github.com/Azure/azure-sdk-for-js/pull/30172)
 
 ## 4.5.0-beta.1 (2024-07-17)
 
@@ -886,7 +933,7 @@ This release doesn't have the changes from `1.2.4-beta.1`.
 
 ## 1.0.0-preview.1 (2019-06-27)
 
-For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
+For release notes and more information please visit <https://aka.ms/azsdk/releases/july2019preview>
 
 - Introduced the following credential types:
   - `DefaultAzureCredential`.

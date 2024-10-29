@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the Certificates in a given connected environment.
  *
  * @summary Get the Certificates in a given connected environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ConnectedEnvironmentsCertificates_ListByConnectedEnvironment.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ConnectedEnvironmentsCertificates_ListByConnectedEnvironment.json
  */
 async function listCertificatesByConnectedEnvironment() {
   const subscriptionId =

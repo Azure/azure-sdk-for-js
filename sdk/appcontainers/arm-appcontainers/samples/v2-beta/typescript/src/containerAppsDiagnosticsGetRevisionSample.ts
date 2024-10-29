@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a revision of a Container App.
  *
  * @summary Get a revision of a Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Revisions_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Revisions_Get.json
  */
 async function getContainerAppRevision() {
   const subscriptionId =

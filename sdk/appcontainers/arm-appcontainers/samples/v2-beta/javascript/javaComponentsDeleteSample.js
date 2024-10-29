@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a Java Component.
  *
  * @summary Delete a Java Component.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/JavaComponents_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/JavaComponents_Delete.json
  */
 async function deleteJavaComponent() {
   const subscriptionId =

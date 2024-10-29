@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AssetConversion, assetConversionFromConversion } from "./assetConversion";
 import { RenderingSession, renderingSessionFromSessionProperties } from "./renderingSession";

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the Java Components for a managed environment.
  *
  * @summary Get the Java Components for a managed environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/JavaComponents_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/JavaComponents_List.json
  */
 async function listJavaComponents() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function listJavaComponents() {
  * This sample demonstrates how to Get the Java Components for a managed environment.
  *
  * @summary Get the Java Components for a managed environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/JavaComponents_List_ServiceBind.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/JavaComponents_List_ServiceBind.json
  */
 async function listJavaComponentsWithServiceBinds() {
   const subscriptionId =
