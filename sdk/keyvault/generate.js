@@ -30,6 +30,15 @@ async function main() {
   packageJson.dependencies["@azure/core-lro"] = "^3.0.0";
 
   await fs.writeJson("./package.json", packageJson, { spaces: 2 });
+
+  // Codemods:
+  /*
+  1. replace imports from "@azure/core-client" to "@azure-rest/core-client"
+  2. remove this.vaultUrl from calls to client
+  3. Add mapper for paging
+  4. Pass credential to generated client constructor
+  5. Remove all paging helpers and use the mapper
+  */
 }
 
 main().catch(console.error);

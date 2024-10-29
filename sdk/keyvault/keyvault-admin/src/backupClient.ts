@@ -10,27 +10,27 @@ import {
   KeyVaultRestoreResult,
   KeyVaultSelectiveKeyRestoreResult,
 } from "./backupClientModels.js";
-import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller.js";
+// import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller.js";
 import { KeyVaultBackupOperationState } from "./lro/backup/operation.js";
-import { KeyVaultBackupPoller } from "./lro/backup/poller.js";
+// import { KeyVaultBackupPoller } from "./lro/backup/poller.js";
 import { KeyVaultClient } from "./generated/keyVaultClient.js";
 import { KeyVaultRestoreOperationState } from "./lro/restore/operation.js";
-import { KeyVaultRestorePoller } from "./lro/restore/poller.js";
+// import { KeyVaultRestorePoller } from "./lro/restore/poller.js";
 import { KeyVaultSelectiveKeyRestoreOperationState } from "./lro/selectiveKeyRestore/operation.js";
-import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/poller.js";
+// import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/poller.js";
 import { LATEST_API_VERSION } from "./constants.js";
 import { PollerLike } from "@azure/core-lro";
 import { TokenCredential } from "@azure/core-auth";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { logger } from "./log.js";
-import { mappings } from "./mappings.js";
 
-export {
-  KeyVaultBackupOperationState,
-  KeyVaultRestoreOperationState,
-  KeyVaultSelectiveKeyRestoreOperationState,
-  KeyVaultAdminPollOperationState,
-};
+// TODO: discuss no longer exporting the state at the top level as a bugfix
+// export {
+//   KeyVaultBackupOperationState,
+//   KeyVaultRestoreOperationState,
+//   KeyVaultSelectiveKeyRestoreOperationState,
+//   KeyVaultAdminPollOperationState,
+// };
 
 /**
  * The KeyVaultBackupClient provides methods to generate backups
@@ -87,7 +87,7 @@ export class KeyVaultBackupClient {
       },
     };
 
-    this.client = new KeyVaultClient(apiVersion, clientOptions);
+    this.client = new KeyVaultClient(apiVersion, credential, clientOptions);
     // The authentication policy must come after the deserialization policy since the deserialization policy
     // converts 401 responses to an Error, and we don't want to deal with that.
     this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions), {
@@ -169,28 +169,29 @@ export class KeyVaultBackupClient {
   ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
 
   public async beginBackup(
-    blobStorageUri: string,
-    sasTokenOrOptions: string | KeyVaultBeginBackupOptions = {},
-    optionsWhenSasTokenSpecified: KeyVaultBeginBackupOptions = {},
+    _blobStorageUri: string,
+    _sasTokenOrOptions: string | KeyVaultBeginBackupOptions = {},
+    _optionsWhenSasTokenSpecified: KeyVaultBeginBackupOptions = {},
   ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>> {
-    const sasToken = typeof sasTokenOrOptions === "string" ? sasTokenOrOptions : undefined;
-    const options =
-      typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
+    throw new Error("TODO: working with codegen on legacy -> v3 migration");
+    // const sasToken = typeof sasTokenOrOptions === "string" ? sasTokenOrOptions : undefined;
+    // const options =
+    //   typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
 
-    const poller = new KeyVaultBackupPoller({
-      blobStorageUri,
-      sasToken,
-      client: this.client,
-      vaultUrl: this.vaultUrl,
-      intervalInMs: options.intervalInMs,
-      resumeFrom: options.resumeFrom,
-      requestOptions: options,
-    });
+    // const poller = new KeyVaultBackupPoller({
+    //   blobStorageUri,
+    //   sasToken,
+    //   client: this.client,
+    //   vaultUrl: this.vaultUrl,
+    //   intervalInMs: options.intervalInMs,
+    //   resumeFrom: options.resumeFrom,
+    //   requestOptions: options,
+    // });
 
-    // This will initialize the poller's operation (the generation of the backup).
-    await poller.poll();
+    // // This will initialize the poller's operation (the generation of the backup).
+    // await poller.poll();
 
-    return poller;
+    // return poller;
   }
 
   /**
@@ -269,28 +270,29 @@ export class KeyVaultBackupClient {
   ): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
 
   public async beginRestore(
-    folderUri: string,
-    sasTokenOrOptions: string | KeyVaultBeginRestoreOptions = {},
-    optionsWhenSasTokenSpecified: KeyVaultBeginRestoreOptions = {},
+    _folderUri: string,
+    _sasTokenOrOptions: string | KeyVaultBeginRestoreOptions = {},
+    _optionsWhenSasTokenSpecified: KeyVaultBeginRestoreOptions = {},
   ): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>> {
-    const sasToken = typeof sasTokenOrOptions === "string" ? sasTokenOrOptions : undefined;
-    const options =
-      typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
+    throw new Error("TODO: working with codegen on legacy -> v3 migration");
+    // const sasToken = typeof sasTokenOrOptions === "string" ? sasTokenOrOptions : undefined;
+    // const options =
+    //   typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
 
-    const poller = new KeyVaultRestorePoller({
-      ...mappings.folderUriParts(folderUri),
-      sasToken,
-      client: this.client,
-      vaultUrl: this.vaultUrl,
-      intervalInMs: options.intervalInMs,
-      resumeFrom: options.resumeFrom,
-      requestOptions: options,
-    });
+    // const poller = new KeyVaultRestorePoller({
+    //   ...mappings.folderUriParts(folderUri),
+    //   sasToken,
+    //   client: this.client,
+    //   vaultUrl: this.vaultUrl,
+    //   intervalInMs: options.intervalInMs,
+    //   resumeFrom: options.resumeFrom,
+    //   requestOptions: options,
+    // });
 
-    // This will initialize the poller's operation (the generation of the backup).
-    await poller.poll();
+    // // This will initialize the poller's operation (the generation of the backup).
+    // await poller.poll();
 
-    return poller;
+    // return poller;
   }
 
   /**
@@ -377,31 +379,32 @@ export class KeyVaultBackupClient {
   >;
 
   public async beginSelectiveKeyRestore(
-    keyName: string,
-    folderUri: string,
-    sasTokenOrOptions: string | KeyVaultBeginSelectiveKeyRestoreOptions = {},
-    optionsWhenSasTokenSpecified: KeyVaultBeginSelectiveKeyRestoreOptions = {},
+    _keyName: string,
+    _folderUri: string,
+    _sasTokenOrOptions: string | KeyVaultBeginSelectiveKeyRestoreOptions = {},
+    _optionsWhenSasTokenSpecified: KeyVaultBeginSelectiveKeyRestoreOptions = {},
   ): Promise<
     PollerLike<KeyVaultSelectiveKeyRestoreOperationState, KeyVaultSelectiveKeyRestoreResult>
   > {
-    const sasToken = typeof sasTokenOrOptions === "string" ? sasTokenOrOptions : undefined;
-    const options =
-      typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
+    throw new Error("TODO: working with codegen on legacy -> v3 migration");
+    // const sasToken = typeof sasTokenOrOptions === "string" ? sasTokenOrOptions : undefined;
+    // const options =
+    //   typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
 
-    const poller = new KeyVaultSelectiveKeyRestorePoller({
-      ...mappings.folderUriParts(folderUri),
-      keyName,
-      sasToken,
-      client: this.client,
-      vaultUrl: this.vaultUrl,
-      intervalInMs: options.intervalInMs,
-      resumeFrom: options.resumeFrom,
-      requestOptions: options,
-    });
+    // const poller = new KeyVaultSelectiveKeyRestorePoller({
+    //   ...mappings.folderUriParts(folderUri),
+    //   keyName,
+    //   sasToken,
+    //   client: this.client,
+    //   vaultUrl: this.vaultUrl,
+    //   intervalInMs: options.intervalInMs,
+    //   resumeFrom: options.resumeFrom,
+    //   requestOptions: options,
+    // });
 
-    // This will initialize the poller's operation (the generation of the backup).
-    await poller.poll();
+    // // This will initialize the poller's operation (the generation of the backup).
+    // await poller.poll();
 
-    return poller;
+    // return poller;
   }
 }

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import { ClientOptions, OperationOptions } from "@azure-rest/core-client";
 import { SUPPORTED_API_VERSIONS } from "./constants.js";
 
 /**
  * The optional parameters accepted by the KeyVaultBackupClient
  */
-export interface KeyVaultBackupClientOptions extends CommonClientOptions {
+export interface KeyVaultBackupClientOptions extends ClientOptions {
   /**
    * The accepted versions of the Key Vault's service API.
    */
