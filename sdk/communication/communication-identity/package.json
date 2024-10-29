@@ -77,7 +77,7 @@
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/identity": "catalog:internal",
-    "@azure/msal-node": "^2.9.2",
+    "@azure/msal-node": "catalog:identity",
     "@types/chai": "catalog:legacy",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",

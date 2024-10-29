@@ -6,19 +6,26 @@
       "dependsOn": ["^build"],
       "outputs": ["dist/**", "dist-esm/**", "dist-test/**", "types/**"]
     },
+    "check-format": {
+      "dependsOn": ["^check-format"],
+      "cache": false
+    },
     "clean": {
       "dependsOn": ["^clean"],
       "cache": false
     },
-    "test": {
-      "dependsOn": ["^build"]
-    },
     "format": {
-      "dependsOn": ["^format"]
-    },
-    "check-format": {
-      "dependsOn": ["^check-format"],
+      "dependsOn": ["^format"],
       "cache": false
+    },
+    "integration-test": {
+      "dependsOn": ["^integration-test"]
+    },
+    "integration-test:browser": {
+      "dependsOn": ["^integration-test:browser"]
+    },
+    "integration-test:node": {
+      "dependsOn": ["^integration-test:node"]
     },
     "lint": {
       "dependsOn": ["^lint"],
@@ -26,6 +33,22 @@
     },
     "lint:fix": {
       "dependsOn": ["^lint:fix"],
+      "cache": false
+    },
+    "test": {
+      "dependsOn": ["^test"]
+    },
+    "unit-test": {
+      "dependsOn": ["^unit-test"]
+    },
+    "unit-test:browser": {
+      "dependsOn": ["^unit-test:browser"]
+    },
+    "unit-test:node": {
+      "dependsOn": ["^unit-test:node"]
+    },
+    "update-snippets": {
+      "dependsOn": ["^update-snippets"],
       "cache": false
     },
     "dev": {

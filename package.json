@@ -8,10 +8,18 @@
     "check-format": "turbo run check-format",
     "cspell": "cspell --no-progress .",
     "format": "turbo run format",
+    "integration-test": "turbo run integration-test",
+    "integration-test:browser": "turbo run integration-test:browser",
+    "integration-test:node": "turbo run integration-test:node",
     "lint": "turbo run lint",
     "lint:fix": "turbo run lint:fix",
     "preinstall": "npx only-allow pnpm",
-    "purge": "rimraf --glob \"sdk/**/node_modules/\""
+    "purge": "rimraf --glob \"sdk/**/node_modules/\"",
+    "test": "turbo run test",
+    "unit-test": "turbo run unit-test",
+    "unit-test:browser": "turbo run unit-test:browser",
+    "unit-test:node": "turbo run unit-test:node",
+    "update-snippets": "turbo run update-snippets"
   },
   "devDependencies": {
     "@vitest/browser": "^2.1.2",
