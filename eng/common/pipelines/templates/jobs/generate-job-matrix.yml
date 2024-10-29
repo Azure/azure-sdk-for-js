@@ -122,21 +122,21 @@ jobs:
 
       # This else being set also currently assumes that the $(Build.ArtifactStagingDirectory)/PackageInfo folder is populated by PreGenerationSteps.
       # Not currently not hardcoded, so not doing the needful and populating this folder before we hit this step will result in generation errors.
-      - ${{ else }}:
-        - ${{ each pool in parameters.Pools }}:
-          - task: Powershell@2
-            inputs:
-              pwsh: true
-              filePath: eng/common/scripts/job-matrix/Create-PrJobMatrix.ps1
-              arguments: >
-                -PackagePropertiesFolder $(Build.ArtifactStagingDirectory)/PackageInfo
-                -PRMatrixFile ${{ parameters.PRMatrix.Path }}
-                -PRMatrixSetting ${{ parameters.PRMatrix.Setting }}
-                -DisplayNameFilter '$(displayNameFilter)'
-                -Filters '${{ join(''',''', parameters.MatrixFilters) }}', 'container=^$', 'SupportedClouds=^$|${{ parameters.CloudConfig.Cloud }}', 'Pool=${{ pool.filter }}'
-                -Replace '${{ join(''',''', parameters.MatrixReplace) }}'
-            displayName: Create ${{ pool.name }} PR Matrix
-            name: vm_job_matrix_pr_${{ pool.name }}
+    - ${{ else }}:
+      - ${{ each pool in parameters.Pools }}:
+        - task: Powershell@2
+          inputs:
+            pwsh: true
+            filePath: eng/common/scripts/job-matrix/Create-PrJobMatrix.ps1
+            arguments: >
+              -PackagePropertiesFolder $(Build.ArtifactStagingDirectory)/PackageInfo
+              -PRMatrixFile ${{ parameters.PRMatrix.Path }}
+              -PRMatrixSetting ${{ parameters.PRMatrix.Setting }}
+              -DisplayNameFilter '$(displayNameFilter)'
+              -Filters '${{ join(''',''', parameters.MatrixFilters) }}', 'container=^$', 'SupportedClouds=^$|${{ parameters.CloudConfig.Cloud }}', 'Pool=${{ pool.filter }}'
+              -Replace '${{ join(''',''', parameters.MatrixReplace) }}'
+          displayName: Create ${{ pool.name }} PR Matrix
+          name: vm_job_matrix_pr_${{ pool.name }}
 
 - ${{ if eq(parameters.EnablePRGeneration, false) }}:
   - ${{ each config in parameters.MatrixConfigs }}:
