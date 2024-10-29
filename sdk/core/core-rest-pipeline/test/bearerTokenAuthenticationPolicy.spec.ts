@@ -771,10 +771,10 @@ const nonCaeChallengeTests: Challenge[] = [
     encodedClaims: null,
   },
   {
-    testName: "Challenge with no claims",
-    challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token"`,
+    testName: "Challenge with unexpected error",
+    challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey=="`,
     expectedResponseCode: 200,
-    expectedClaims: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token"`,
+    expectedClaims: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey=="`,
     encodedClaims: null,
   },
 ];
