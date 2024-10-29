@@ -526,7 +526,7 @@ describe("Full text search feature", async () => {
   });
 
   it("should execute a global statistics query", async function () {
-    database = await getTestDatabaseName("FTS-DB");
+    database = await getTestDatabaseName("FTS-DB-test");
     const containerName = "full text search container";
 
     const query = "SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.text, ['swim', 'run'])";
@@ -537,8 +537,8 @@ describe("Full text search feature", async () => {
     });
     await container.items.create({ id: "1", text: "I like to swim" });
     await container.items.create({ id: "2", text: "I like to run" });
-    const queryOptions = { forceQueryPlan: true };
-    const queryIterator = container.items.query(query, queryOptions);
+    // const queryOptions = { forceQueryPlan: true };
+    const queryIterator = container.items.query(query);
 
     const result = await queryIterator.fetchNext();
     console.log(result);

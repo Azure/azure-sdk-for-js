@@ -7,15 +7,18 @@ import {
   FeedOptions,
   GlobalStatistics,
   PartitionedQueryExecutionInfo,
+  QueryInfo,
   QueryRange,
   Response,
 } from "../request";
+import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult";
 import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator";
 import { ExecutionContext } from "./ExecutionContext";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 import { getInitialHeader } from "./headerUtils";
 // import { OrderByComparator } from "./orderByComparator";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
+import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext";
 
 /** @hidden */
 export enum HybridQueryExecutionContextBaseStates {
@@ -26,10 +29,11 @@ export enum HybridQueryExecutionContextBaseStates {
 }
 export class HybridQueryExecutionContext implements ExecutionContext {
   private globalStatisticsExecutionContext: ExecutionContext;
-  // private componentsExecutionContext: ExecutionContext[] = [];
+  private componentsExecutionContext: ExecutionContext[] = [];
   private pageSize: number;
   private state: HybridQueryExecutionContextBaseStates;
   private globalStatisticsAggregator: GlobalStatisticsAggregator;
+  private emitRawOrderByPayload: boolean = true;
 
   constructor(
     private clientContext: ClientContext,
@@ -72,6 +76,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         this.correlatedActivityId,
       );
       this.state = HybridQueryExecutionContextBaseStates.uninitialized;
+    } else {
+      // initialise context without global statistics
+      this.state = HybridQueryExecutionContextBaseStates.initialized;
     }
   }
   nextItem: (diagnosticNode: DiagnosticNodeInternal) => Promise<Response<any>>;
@@ -84,15 +91,18 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     switch (this.state) {
       case HybridQueryExecutionContextBaseStates.uninitialized:
         await this.initialize(diagnosticNode);
-        this.state = HybridQueryExecutionContextBaseStates.initialized;
-        console.log("fetchMore GloabalStatitics", this.globalStatisticsAggregator.getResult());
         return {
           result: undefined,
           headers: getInitialHeader(),
         };
 
-      // case HybridQueryExecutionContextBaseStates.initialized:
-      //   return this.processComponentQueries(diagnosticNode);
+      case HybridQueryExecutionContextBaseStates.initialized:
+        // await this.executeComponentQueries(diagnosticNode);
+        this.state = HybridQueryExecutionContextBaseStates.draining;
+        return {
+          result: undefined,
+          headers: getInitialHeader(),
+        };
       // case HybridQueryExecutionContextBaseStates.draining:
       //   return this.drain(diagnosticNode);
       // case HybridQueryExecutionContextBaseStates.done:
@@ -101,28 +111,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         throw new Error(`Invalid state: ${this.state}`);
     }
 
-    //     const globalStatistics: GlobalStatistics = result.result;
-    //     //iterate over the components update placeholders from globalStatistics
-
-    //     // TODO: update to get data from all ranges instead of just target ranges for globalStatistics
-    //     this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.componentQueryInfos = processComponentQueries(this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.componentQueryInfos, globalStatistics);
-
-    //     for (const componentQueryInfo of this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.componentQueryInfos){
-
-    //           const componentPartitionExecutionInfo: PartitionedQueryExecutionInfo = {
-    //               partitionedQueryExecutionInfoVersion: 1,
-    //               queryInfo: componentQueryInfo,
-    //               queryRanges: this.partitionedQueryExecutionInfo.queryRanges
-    //           };
-    //           this.componentsExecutionContext.push(new PipelinedQueryExecutionContext(this.clientContext,
-    //               this.collectionLink,
-    //               this.query,
-    //               this.options,
-    //               componentPartitionExecutionInfo,
-    //               this.correlatedActivityId));
-    //       }
-
-    //   this.isInitialized = true;
     //   } else {
     //     // update response such that it holds unique rid's
 
@@ -177,48 +165,135 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private async initialize(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     // const requestCharge = 0;
     // TODO: Add request charge to the response and other headers
-
-    while (this.globalStatisticsExecutionContext.hasMoreResults()) {
-      const result = await this.globalStatisticsExecutionContext.nextItem(diagnosticNode);
-      console.log("result gloabal statistics", result);
-      const globalStatistics: GlobalStatistics = result.result;
-      //iterate over the components update placeholders from globalStatistics
-      this.globalStatisticsAggregator.aggregate(globalStatistics);
+    // TODO: either add a check for require global statistics or create pipeline inside 
+    try {
+      while (this.globalStatisticsExecutionContext.hasMoreResults()) {
+        const result = await this.globalStatisticsExecutionContext.nextItem(diagnosticNode);
+        console.log("result gloabal statistics", result);
+        const globalStatistics: GlobalStatistics = result.result;
+        //iterate over the components update placeholders from globalStatistics
+        this.globalStatisticsAggregator.aggregate(globalStatistics);
+      }
+    } catch (error) {
+      this.state = HybridQueryExecutionContextBaseStates.done;
+      throw error;
     }
+
+    // create component execution contexts for each component query
+    this.createComponentExecutionContexts();
+    this.state = HybridQueryExecutionContextBaseStates.initialized;
+
+    //TODO: remove this
+    await this.executeComponentQueries(diagnosticNode);
+  }
+
+  private async executeComponentQueries(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+    if(this.componentsExecutionContext.length === 1){
+       const result = await this.drainSingleComponent(diagnosticNode);
+        console.log("result from single drain", JSON.stringify(result));
+       return;
+    }
+
+
+  }
+
+  private async drainSingleComponent(diagNode: DiagnosticNodeInternal): Promise<Response<any>> {
+    if(this.componentsExecutionContext && this.componentsExecutionContext.length !== 1){
+      throw new Error("drainSingleComponent called on multiple components");
+    }
+    const componentExecutionContext = this.componentsExecutionContext[0];
+    if(componentExecutionContext.hasMoreResults()){
+      const result = await componentExecutionContext.fetchMore(diagNode);
+      const response = result.result;
+      const hybridSearchResult: HybridSearchQueryResult[] = [];
+      if(response){
+        response.forEach((item: any) => {
+          hybridSearchResult.push(HybridSearchQueryResult.create(item));
+       
+      });
+    }
+      // this.state = HybridQueryExecutionContextBaseStates.draining;
+      // return hybridSearchResult;
+    } else {
+      this.state = HybridQueryExecutionContextBaseStates.done;
+      return {
+        result: undefined,
+        headers: getInitialHeader(),
+      };
+    }
+  }
+
+
+  private createComponentExecutionContexts(): void {
+    // rewrite queries based on global statistics
+    const rewrittenQueryInfos = this.processComponentQueries(
+      this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.componentQueryInfos,
+      this.globalStatisticsAggregator.getResult(),
+    );
+    console.log("rewrittenQueryInfo", rewrittenQueryInfos);
+    // create component execution contexts
+    for (const componentQueryInfo of rewrittenQueryInfos) {
+      const componentPartitionExecutionInfo: PartitionedQueryExecutionInfo = {
+        partitionedQueryExecutionInfoVersion: 1,
+        queryInfo: componentQueryInfo,
+        queryRanges: this.partitionedQueryExecutionInfo.queryRanges,
+      };
+      this.componentsExecutionContext.push(
+        new PipelinedQueryExecutionContext(
+          this.clientContext,
+          this.collectionLink,
+          this.query,
+          this.options,
+          componentPartitionExecutionInfo,
+          this.correlatedActivityId,
+           this.emitRawOrderByPayload,
+        ),
+      );
+    }
+  }
+  private processComponentQueries(
+    componentQueryInfos: QueryInfo[],
+    globalStats: GlobalStatistics,
+  ): QueryInfo[] {
+    return componentQueryInfos.map((queryInfo) => {
+      if (!queryInfo.hasNonStreamingOrderBy) {
+        throw new Error("The component query should a non streaming order by");
+      }
+      return {
+        ...queryInfo,
+        rewrittenQuery: this.replacePlaceholders(queryInfo.rewrittenQuery, globalStats),
+        orderByExpressions: queryInfo.orderByExpressions.map((expr) =>
+          this.replacePlaceholders(expr, globalStats),
+        ),
+      };
+    });
+  }
+
+  private replacePlaceholders(query: string, globalStats: GlobalStatistics): string {
+    // Replace total document count
+    query = query.replace(
+      /{documentdb-formattablehybridsearchquery-totaldocumentcount}/g,
+      globalStats.documentCount.toString(),
+    );
+
+    // Replace total word counts and hit counts from fullTextStatistics
+    globalStats.fullTextStatistics.forEach((stats, index) => {
+      // Replace total word counts
+      query = query.replace(
+        new RegExp(`{documentdb-formattablehybridsearchquery-totalwordcount-${index}}`, "g"),
+        stats.totalWordCount.toString(),
+      );
+      // Replace hit counts
+      query = query.replace(
+        new RegExp(`{documentdb-formattablehybridsearchquery-hitcountsarray-${index}}`, "g"),
+        `[${stats.hitCounts.join(",")}]`,
+      );
+    });
+
+    return query;
   }
 }
 
-//     function processComponentQueries(componentQueryInfos: QueryInfo[], globalStats: GlobalStatistics): QueryInfo[] {
-//       return componentQueryInfos.map((queryInfo) => {
-//         return {
-//           ...queryInfo,
-//           rewrittenQuery: replacePlaceholders(queryInfo.rewrittenQuery, globalStats),
-//           orderByExpressions: queryInfo.orderByExpressions.map(expr => replacePlaceholders(expr, globalStats)),
-//         };
-//       });
-//     }
-
-//     function replacePlaceholders(query: string, globalStats: GlobalStatistics): string {
-//   // Replace total document count
-//   query = query.replace(/{documentdb-formattablehybridsearchquery-totaldocumentcount}/g, globalStats.documentCount.toString());
-
-//   // Replace total word counts and hit counts from fullTextStatistics
-//   globalStats.fullTextStatistics.forEach((stats, index) => {
-//     // Replace total word counts
-//     query = query.replace(
-//       new RegExp(`{documentdb-formattablehybridsearchquery-totalwordcount-${index}}`, 'g'),
-//       stats.totalWordCount.toString()
-//     );
-
-//     // Replace hit counts
-//       query = query.replace(
-//         new RegExp(`{documentdb-formattablehybridsearchquery-hitcountsarray-${index}}`, 'g'),
-//         stats.hitCounts.toString()
-//       );
-//     });
-
-//   return query;
-// }
 
 // function rankComponents(responseSet: Map<string, any>): Map<string, any> {
 //   // Convert the map values (ComponentObjects) into an array

@@ -13,16 +13,23 @@ export class OrderByEndpointComponent implements ExecutionContext {
    * @param executionContext - Underlying Execution Context
    * @hidden
    */
-  constructor(private executionContext: ExecutionContext) {}
+  constructor(private executionContext: ExecutionContext, private emitRawOrderByPayload: boolean = false) {}
   /**
    * Execute a provided function on the next element in the OrderByEndpointComponent.
    */
   public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
     const { result: item, headers } = await this.executionContext.nextItem(diagnosticNode);
+    if(this.emitRawOrderByPayload){
+      return {
+        result: item !== undefined ? item : undefined,
+        headers,
+      };
+    }else{
     return {
       result: item !== undefined ? item.payload : undefined,
       headers,
     };
+  }
   }
 
   /**
