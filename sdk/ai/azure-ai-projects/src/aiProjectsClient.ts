@@ -75,7 +75,7 @@ export class AIProjectsClient {
   } {
     const parts = connectionString.split(";");
     return {
-      endpointParam: parts[0],
+      endpointParam: `https://${parts[0]}`,
       subscriptionId: parts[1],
       resourceGroupName: parts[2],
       projectName: parts[3],
