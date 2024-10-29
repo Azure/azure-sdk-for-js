@@ -223,12 +223,14 @@ export function handleMsalError(
 
 // transformations
 export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountInfo | null {
-  const [environment] = account.authority.match(/([a-z]*(\.[a-z]*)*)/) || [];
+  const [environment] = account.authority.match(/([a-z]+(\.[a-z]+)+)/) || [];
   if (environment)
     return {
-      ...account,
       localAccountId: account.homeAccountId,
       environment,
+      username: account.username,
+      homeAccountId: account.homeAccountId,
+      tenantId: account.tenantId
     };
   else return null;
 }

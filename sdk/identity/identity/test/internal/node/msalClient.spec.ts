@@ -4,6 +4,7 @@
 import * as msalClient from "../../../src/msal/nodeFlows/msalClient";
 
 import {
+  AccountInfo,
   AuthenticationResult,
   ClientApplication,
   ConfidentialClientApplication,
@@ -22,6 +23,7 @@ import { credentialLogger } from "../../../src/util/logging";
 import { getUsernamePasswordStaticResources } from "../../msalTestUtils";
 import { msalPlugins } from "../../../src/msal/nodeFlows/msalPlugins";
 import sinon from "sinon";
+import { publicToMsal } from "../../../src/msal/utils";
 
 describe("MsalClient", function () {
   describe("recorded tests", function () {
@@ -526,5 +528,54 @@ describe("MsalClient", function () {
         assert.equal(requestAuthority, expectedAuthority);
       });
     });
+  });
+
+  describe("publicToMsal transformation regex",function(){
+    const authenticationRecord = {
+      authority: "https://login.microsoftonline.com/tenant-id",
+      tenantId: "tenant-id",
+      username: "testuser",
+      homeAccountId: "home-account-id",
+      clientId: "client-id",
+    };
+ it("extracts from basic authority url",function(){
+  const accountInfo: AccountInfo = {
+      homeAccountId:"home-account-id",
+      environment: "login.microsoftonline.com",
+      tenantId: "tenant-id",
+      username: "testuser",
+      localAccountId: "home-account-id"
+  };
+  assert.deepEqual(publicToMsal(authenticationRecord),accountInfo)
+ })
+ it("extracts from complex authority url",function(){
+  authenticationRecord.authority = "https://login.partner.microsoftonline.cn/tenant-id"
+  const accountInfo = {
+      homeAccountId:"home-account-id",
+      environment: "login.partner.microsoftonline.cn",
+      tenantId: "tenant-id",
+      username: "testuser",
+      localAccountId: "home-account-id"
+  };
+  assert.deepEqual(publicToMsal(authenticationRecord),accountInfo)
+ })
+
+ it("returns null on an invalid authority url single word",function(){
+  authenticationRecord.authority = "https://cn/tenant-id"
+  assert.deepEqual(publicToMsal(authenticationRecord),null)
+ })
+
+ it("returns null on an invalid authority url empty string",function(){
+  authenticationRecord.authority = ""
+  assert.deepEqual(publicToMsal(authenticationRecord),null)
+ })
+ it("returns null on an invalid authority url . character",function(){
+  authenticationRecord.authority = "."
+  assert.deepEqual(publicToMsal(authenticationRecord),null)
+ })
+ it("returns null on an invalid authority url whitespace",function(){
+  authenticationRecord.authority = " "
+  assert.deepEqual(publicToMsal(authenticationRecord),null)
+ })
   });
 });
