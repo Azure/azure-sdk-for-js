@@ -12886,7 +12886,7 @@ packages:
     dev: false
 
   file:projects/arm-appcontainers.tgz:
-    resolution: {integrity: sha512-UbyyHFu8AAkdsh3DvfJrpsBBwrJqrNDPcqC+VQ8NQn3A+HjF/JREqyJjG7O2YXKmL4eaifjSBs+X31r845XcGg==, tarball: file:projects/arm-appcontainers.tgz}
+    resolution: {integrity: sha512-Yqtot2evM9nL+uI+iWzElSQpPP3/7pkaKkO1eYCqXzoQesY8FmqePzAjjicGA2xS45P2QAYGrVjrTyKKEGYxBw==, tarball: file:projects/arm-appcontainers.tgz}
     name: '@rush-temp/arm-appcontainers'
     version: 0.0.0
     dependencies:
@@ -14251,7 +14251,7 @@ packages:
     dev: false
 
   file:projects/arm-cosmosdb.tgz:
-    resolution: {integrity: sha512-isHxEpq7bScszTE3o6ML/F7FgseAxz0jzQ3QvL06v/O+x7cW+0eSKoIxnFy0qGk4DvUqGJylr2FtoVBmAKGmvA==, tarball: file:projects/arm-cosmosdb.tgz}
+    resolution: {integrity: sha512-fXubMN+cHmmHXVNv1bgWUv5ZLSST0v2rrlyhh0CzxbzAuLhT4V04Vy9xRziizveGlXXgQQFd5HuheorTMtJChw==, tarball: file:projects/arm-cosmosdb.tgz}
     name: '@rush-temp/arm-cosmosdb'
     version: 0.0.0
     dependencies:
