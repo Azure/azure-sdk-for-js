@@ -53,7 +53,7 @@ describe("AppContainer test", () => {
     // This is an example of how the environment variables are used
     const credential = createTestCredential();
     client = new ContainerAppsAPIClient(credential, subscriptionId, recorder.configureClientOptions({}));
-    location = "eastus";
+    location = "westus";
     resourceGroup = "myjstest";
     containerAppName = "mycontainerappxxx";
     environmentName = "testcontainerenv12";
@@ -73,7 +73,7 @@ describe("AppContainer test", () => {
 
   it("managedEnvironments create test", async function () {
     environmentEnvelope = {
-      location: "East US",
+      location,
       zoneRedundant: false
     };
     const res = await client.managedEnvironments.beginCreateOrUpdateAndWait(
