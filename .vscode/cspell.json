@@ -157,7 +157,8 @@
     "Cifs",
     "dataserviceid",
     "uefi",
-    "Uefi"
+    "Uefi",
+    "Reimage"
   ],
   "allowCompoundWords": true,
   "overrides": [
