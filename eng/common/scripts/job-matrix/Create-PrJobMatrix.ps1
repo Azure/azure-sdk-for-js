@@ -28,44 +28,58 @@ if (!(Test-Path $PackagePropertiesFolder)) {
     exit 1
 }
 
-function GenerateMatrixForConfig {
-    param (
-        [Parameter(Mandatory=$true)][string] $ConfigPath,
-        [Parameter(Mandatory=$True)][string] $Selection,
-        [Parameter(Mandatory=$false)][string] $DisplayNameFilter,
-        [Parameter(Mandatory=$false)][array] $Filters,
-        [Parameter(Mandatory=$false)][array] $Replace
-    )
+# create batching by grouping packages based on the matrix config
+Write-Host "Generating PR job matrix for $PackagePropertiesFolder"
 
-    $config = GetMatrixConfigFromFile (Get-Content $ConfigPath -Raw)
-    # Strip empty string filters in order to be able to use azure pipelines yaml join()
-    $Filters = $Filters | Where-Object { $_ }
+# this will become a parameter in the future, we will pass MatrixConfigs as a paremeter
+# these will be the "default" matrices that we will use to generate the PR matrix in lieu of
+# a matrix file
+$configs = @(
+  [PsCustomObject]@{
+    Name = "default_platform_matrix"
+    ConfigPath = $PRMatrixFile
+    Selection = "sparse"
+  }
+)
 
-    [array]$matrix = GenerateMatrix `
-        -config $config `
-        -selectFromMatrixType $Selection `
-        -displayNameFilter $DisplayNameFilter `
-        -filters $Filters `
-        -replace $Replace
-
-    return ,$matrix
-}
 
 # calculate general targeting information and create our batches prior to generating any matrix
 # this prototype doesn't handle direct and indirect, it just batches for simplicity of the proto
 $packageProperties = Get-ChildItem -Recurse "$PackagePropertiesFolder" *.json `
     | % { Get-Content -Path $_.FullName | ConvertFrom-Json }
 
+$packageProperties | ForEach-Object {
+  if (-not $_.CIMatrixConfigs) {
+    $_.CIMatrixConfigs = $configs
+  }
+}
+
+foreach ($package in $packageProperties) {
+  Write-Host "$($package.ArtifactName) has the following matrix configs: $($package.CIMatrixConfigs)"
+}
+
+# this will group the packages, but the values of the grouping itself won't be super useful given how they were
+# constructed
+$batchesByConfig = Group-ByObjectKey $packageProperties "CIMatrixConfigs"
+
+foreach($key in $batchesByConfig.Keys) {
+  Write-Host $key
+  foreach($package in $batchesByConfig[$key]) {
+    Write-Host $package.ArtifactName
+  }
+}
+
+exit 0
+
+# the key here is that after we group the packages by the matrix config objects, we can use the first item's MatrixConfig
+# to generate the matrix for the group, no reason to have to parse the key value backwards to get the matrix config
+
+
 # in the full proto, we will compress the CIMatrixConfig value into a single string, then use it as a key
 # to group the packages
 # then we will simply iterate over the groups and generate the matrix for each group
 # at the very end, will distribute the packages to the matrix based on the group key (batched over course)
-$configs = @(
-  [PsCustomObject]@{
-    ConfigPath = $PRMatrixFile
-    Selection = "sparse"
-  }
-)
+
 
 $OverallResult = @()
 foreach($matrixConfig in $configs) {
