@@ -4,7 +4,11 @@
 import { TokenCredential } from "@azure/core-auth";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { LATEST_API_VERSION } from "./constants.js";
-import { KeyVaultClient, Setting as GeneratedSetting } from "./generated/index.js";
+import {
+  KeyVaultClient,
+  Setting as GeneratedSetting,
+  KeyVaultClientOptionalParams,
+} from "./generated/index.js";
 import { logger } from "./log.js";
 import {
   UpdateSettingOptions,
@@ -80,7 +84,7 @@ export class KeyVaultSettingsClient {
     // TODO: fix the bug here (apiVersion)
     const apiVersion = options.serviceVersion || LATEST_API_VERSION;
 
-    const clientOptions = {
+    const clientOptions: KeyVaultClientOptionalParams = {
       ...options,
       apiVersion,
       loggingOptions: {
@@ -99,7 +103,7 @@ export class KeyVaultSettingsClient {
     // converts 401 responses to an Error, and we don't want to deal with that.
     // TODO: discuss with codegen folks
     this.client.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
-    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions), {
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, options), {
       afterPolicies: ["deserializationPolicy"],
     });
   }

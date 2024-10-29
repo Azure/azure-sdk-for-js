@@ -30,7 +30,10 @@ describe("KeyVaultSettingsClient", () => {
   it("can get and update settings", async () => {
     const setting = await client.getSetting("AllowKeyManagementOperationsThroughARM");
     setting.value = true;
-    const updated = await client.updateSetting(setting);
+    const updated = await client.updateSetting(setting, {
+      requestOptions: { headers: { "content-type": "application/json" } }, // TODO: the default of "application/json; charset=UTF-8" causes " Unsupported Content Type" error
+      // TODO: requestOptions: { headers: { "Content-Type": "application/json" }} did not work, but http headers should be case insensitive
+    });
 
     expect(setting.kind).toEqual("boolean");
     expect(setting.value).toBeTypeOf("boolean");

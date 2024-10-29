@@ -28,6 +28,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
           headers: createHttpHeaders(),
           request: request,
           bodyAsText: JSON.stringify({
+            value: [], // TODO: why is this needed now?
             id: `${baseUrl}${path}`,
             startTime: new Date(),
             attributes: {},

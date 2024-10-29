@@ -161,6 +161,8 @@ export class KeyVaultAccessControlClient {
     name: string,
     options: DeleteRoleAssignmentOptions = {},
   ): Promise<void> {
+    options.requestOptions ??= {};
+    options.requestOptions.skipUrlEncoding = true; // TODO: can we config this? (/ is a valid scope and should not be urlEncoded)
     return tracingClient.withSpan(
       "KeyVaultAccessControlClient.deleteRoleAssignment",
       options,
@@ -198,6 +200,8 @@ export class KeyVaultAccessControlClient {
     name: string,
     options: GetRoleAssignmentOptions = {},
   ): Promise<KeyVaultRoleAssignment> {
+    options.requestOptions ??= {};
+    options.requestOptions.skipUrlEncoding = true; // TODO: can we config this?
     return tracingClient.withSpan(
       "KeyVaultAccessControlClient.getRoleAssignment",
       options,
