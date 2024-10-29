@@ -58,6 +58,8 @@ export async function main() {
     await sendMessage(sbClient, listOfScientists[8], "session-2");
     await sendMessage(sbClient, listOfScientists[9], "session-2");
 
+    await listSessions(sbClient);
+
     await receiveMessages(sbClient, "session-1");
     await receiveMessages(sbClient, "session-2");
   } finally {
@@ -110,7 +112,7 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
       endDate = now + 20000;
     }
 
-    let remainingTime: number = endDate - now;
+    const remainingTime: number = endDate - now;
 
     console.log(`Waiting for ${remainingTime} milliseconds for messages to arrive.`);
 
@@ -122,11 +124,24 @@ async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
 
       await receiver.close();
       break;
-    } catch (err: any) {
+    } catch {
       // `err` was already logged part of `processError` above.
       await receiver.close();
     }
   }
+}
+
+async function listSessions(sbClient: ServiceBusClient) {
+  const receiver = sbClient.createReceiver(queueName);
+  // also available on session receivers
+  // const receiver = await sbClient.acceptNextSession(queueName);
+
+  const sessionIterator = receiver.listSessions();
+  console.log(`Listing sessions:`);
+  for await (const id of sessionIterator) {
+    console.log(`    ${id}`);
+  }
+  await receiver.close();
 }
 
 main().catch((err) => {
