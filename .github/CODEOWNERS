@@ -146,7 +146,7 @@
 /sdk/healthinsights/ @tomsft @koen-mertens
 
 # PRLabel: %Azure.Identity
-/sdk/identity/ @KarishmaGhiya @maorleger @schaabs @Azure/azure-sdk-write-identity
+/sdk/identity/ @KarishmaGhiya @minhanh-phan @maorleger @schaabs @Azure/azure-sdk-write-identity
 
 # ServiceLabel: %Azure.Identity
 # AzureSdkOwners:  @KarishmaGhiya @maorleger
