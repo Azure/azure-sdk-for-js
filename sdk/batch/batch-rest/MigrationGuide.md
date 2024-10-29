@@ -118,7 +118,7 @@ try {
 }
 ```
 
-Now, for `@azure-rest/batch`, the client operation won't throw errors even when the returned status code is unexpected, instead it exports a helper method `isUnexpected` to help you check if the response is unexpected. The following example demostarte how to handle different errors might occur in the get pool request.
+Now, for `@azure-rest/batch`, the client operation won't throw errors even when the returned HTTP status code is unexpected, instead it exports a helper method `isUnexpected` to help you check if the response is unexpected. The following example demostarte how to handle different errors might occur in the get pool request.
 
 ```typescript
 try {
