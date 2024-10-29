@@ -1,6 +1,6 @@
 # Release History
     
-## 17.0.0-beta.1 (2024-10-28)
+## 17.0.0-beta.1 (2024-10-29)
 Compared with version 16.1.0
     
 ### Features Added
