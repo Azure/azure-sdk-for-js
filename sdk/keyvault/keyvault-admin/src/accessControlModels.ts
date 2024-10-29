@@ -3,7 +3,7 @@
 
 import { ClientOptions, OperationOptions } from "@azure-rest/core-client";
 import {
-  DataAction as KnownKeyVaultDataAction,
+  DataAction as KnownKeyVaultDataAction, // TODO: this isn't quite right as I need an enum, not a union
   RoleScope as KnownKeyVaultRoleScope,
 } from "./generated/index.js";
 import { SUPPORTED_API_VERSIONS } from "./constants.js";

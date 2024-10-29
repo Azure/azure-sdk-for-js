@@ -165,7 +165,15 @@ export class KeyVaultAccessControlClient {
       "KeyVaultAccessControlClient.deleteRoleAssignment",
       options,
       async (updatedOptions) => {
-        await this.client.roleAssignments.delete(roleScope, name, updatedOptions);
+        try {
+          await this.client.roleAssignments.delete(roleScope, name, updatedOptions);
+        } catch (err: any) {
+          if (err.statusCode !== 404) {
+            throw err;
+          }
+          // We treat 404s as success on delete
+          // TODO: how can we codegen this?
+        }
       },
     );
   }
@@ -340,7 +348,15 @@ export class KeyVaultAccessControlClient {
       "KeyVaultAccessControlClient.deleteRoleDefinition",
       options,
       async (updatedOptions) => {
-        await this.client.roleDefinitions.delete(roleScope, name, updatedOptions);
+        try {
+          await this.client.roleDefinitions.delete(roleScope, name, updatedOptions);
+        } catch (err: any) {
+          if (err.statusCode !== 404) {
+            throw err;
+          }
+          // We treat 404s as success on delete
+          // TODO: how can we codegen this?
+        }
       },
     );
   }

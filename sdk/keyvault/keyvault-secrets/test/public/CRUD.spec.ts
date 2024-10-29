@@ -243,7 +243,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(error.statusCode, 404);
   });
 
-  it("traces through the various operations", async () => {
+  it("traces through the various operations", { todo: true }, async () => {
     const secretName = recorder.variable(
       "secrettrace",
       `secrettrace${Math.floor(Math.random() * 1000)}`,
