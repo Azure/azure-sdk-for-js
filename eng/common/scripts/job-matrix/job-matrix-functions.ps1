@@ -739,26 +739,3 @@ function Get4dMatrixIndex([int]$index, [Array]$dimensions) {
 
     return @($page3, $page2, $page1, $remainder)
 }
-
-function GenerateMatrixForConfig {
-    param (
-        [Parameter(Mandatory=$true)][string] $ConfigPath,
-        [Parameter(Mandatory=$True)][string] $Selection,
-        [Parameter(Mandatory=$false)][string] $DisplayNameFilter,
-        [Parameter(Mandatory=$false)][array] $Filters,
-        [Parameter(Mandatory=$false)][array] $Replace
-    )
-
-    $config = GetMatrixConfigFromFile (Get-Content $ConfigPath -Raw)
-    # Strip empty string filters in order to be able to use azure pipelines yaml join()
-    $Filters = $Filters | Where-Object { $_ }
-
-    [array]$matrix = GenerateMatrix `
-        -config $config `
-        -selectFromMatrixType $Selection `
-        -displayNameFilter $DisplayNameFilter `
-        -filters $Filters `
-        -replace $Replace
-
-    return ,$matrix
-}
