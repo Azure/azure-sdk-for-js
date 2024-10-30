@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck TODO: Poller v3 has breaking changes that must be resolved (awaiting the async function should not poll until done)
+
 import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
 
 import { KeyVaultBackupClient } from "../../src/index.js";

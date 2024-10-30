@@ -24,6 +24,7 @@ import { TokenCredential } from "@azure/core-auth";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { logger } from "./log.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
+import { mappings } from "./mappings.js";
 
 // TODO: discuss no longer exporting the state at the top level as a bugfix
 // export {
@@ -172,29 +173,28 @@ export class KeyVaultBackupClient {
   ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>>;
 
   public async beginBackup(
-    _blobStorageUri: string,
-    _sasTokenOrOptions: string | KeyVaultBeginBackupOptions = {},
-    _optionsWhenSasTokenSpecified: KeyVaultBeginBackupOptions = {},
+    blobStorageUri: string,
+    sasTokenOrOptions: string | KeyVaultBeginBackupOptions = {},
+    optionsWhenSasTokenSpecified: KeyVaultBeginBackupOptions = {},
   ): Promise<PollerLike<KeyVaultBackupOperationState, KeyVaultBackupResult>> {
-    throw new Error("TODO: working with codegen on legacy -> v3 migration");
-    // const sasToken = typeof sasTokenOrOptions === "string" ? sasTokenOrOptions : undefined;
-    // const options =
-    //   typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
+    // throw new Error("TODO: working with codegen on legacy -> v3 migration");
+    const sasToken = typeof sasTokenOrOptions === "string" ? sasTokenOrOptions : undefined;
+    const options =
+      typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
 
-    // const poller = new KeyVaultBackupPoller({
-    //   blobStorageUri,
-    //   sasToken,
-    //   client: this.client,
-    //   vaultUrl: this.vaultUrl,
-    //   intervalInMs: options.intervalInMs,
-    //   resumeFrom: options.resumeFrom,
-    //   requestOptions: options,
-    // });
+    const poller = this.client.fullBackup(
+      {
+        storageResourceUri: blobStorageUri,
+        token: sasToken,
+        useManagedIdentity: sasToken === undefined,
+      },
+      options,
+    );
 
-    // // This will initialize the poller's operation (the generation of the backup).
-    // await poller.poll();
+    await poller.submitted();
 
-    // return poller;
+    // @ts-expect-error TODO: Poller's type assumes no result, but we need a KeyVaultBackupResult
+    return poller;
   }
 
   /**
@@ -273,29 +273,31 @@ export class KeyVaultBackupClient {
   ): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>>;
 
   public async beginRestore(
-    _folderUri: string,
-    _sasTokenOrOptions: string | KeyVaultBeginRestoreOptions = {},
-    _optionsWhenSasTokenSpecified: KeyVaultBeginRestoreOptions = {},
+    folderUri: string,
+    sasTokenOrOptions: string | KeyVaultBeginRestoreOptions = {},
+    optionsWhenSasTokenSpecified: KeyVaultBeginRestoreOptions = {},
   ): Promise<PollerLike<KeyVaultRestoreOperationState, KeyVaultRestoreResult>> {
-    throw new Error("TODO: working with codegen on legacy -> v3 migration");
-    // const sasToken = typeof sasTokenOrOptions === "string" ? sasTokenOrOptions : undefined;
-    // const options =
-    //   typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
+    const sasToken = typeof sasTokenOrOptions === "string" ? sasTokenOrOptions : undefined;
+    const options =
+      typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
 
-    // const poller = new KeyVaultRestorePoller({
-    //   ...mappings.folderUriParts(folderUri),
-    //   sasToken,
-    //   client: this.client,
-    //   vaultUrl: this.vaultUrl,
-    //   intervalInMs: options.intervalInMs,
-    //   resumeFrom: options.resumeFrom,
-    //   requestOptions: options,
-    // });
+    const folderParts = mappings.folderUriParts(folderUri);
+    const poller = this.client.fullRestoreOperation(
+      {
+        folderToRestore: folderParts.folderName,
+        sasTokenParameters: {
+          storageResourceUri: folderParts.folderUri,
+          token: sasToken,
+          useManagedIdentity: sasToken === undefined,
+        },
+      },
+      options,
+    );
 
-    // // This will initialize the poller's operation (the generation of the backup).
-    // await poller.poll();
+    await poller.submitted();
 
-    // return poller;
+    // @ts-expect-error TODO: startTime should be required in the spec
+    return poller;
   }
 
   /**
@@ -382,32 +384,32 @@ export class KeyVaultBackupClient {
   >;
 
   public async beginSelectiveKeyRestore(
-    _keyName: string,
-    _folderUri: string,
-    _sasTokenOrOptions: string | KeyVaultBeginSelectiveKeyRestoreOptions = {},
-    _optionsWhenSasTokenSpecified: KeyVaultBeginSelectiveKeyRestoreOptions = {},
+    keyName: string,
+    folderUri: string,
+    sasTokenOrOptions: string | KeyVaultBeginSelectiveKeyRestoreOptions = {},
+    optionsWhenSasTokenSpecified: KeyVaultBeginSelectiveKeyRestoreOptions = {},
   ): Promise<
     PollerLike<KeyVaultSelectiveKeyRestoreOperationState, KeyVaultSelectiveKeyRestoreResult>
   > {
-    throw new Error("TODO: working with codegen on legacy -> v3 migration");
-    // const sasToken = typeof sasTokenOrOptions === "string" ? sasTokenOrOptions : undefined;
-    // const options =
-    //   typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
+    const sasToken = typeof sasTokenOrOptions === "string" ? sasTokenOrOptions : undefined;
+    const options =
+      typeof sasTokenOrOptions === "string" ? optionsWhenSasTokenSpecified : sasTokenOrOptions;
 
-    // const poller = new KeyVaultSelectiveKeyRestorePoller({
-    //   ...mappings.folderUriParts(folderUri),
-    //   keyName,
-    //   sasToken,
-    //   client: this.client,
-    //   vaultUrl: this.vaultUrl,
-    //   intervalInMs: options.intervalInMs,
-    //   resumeFrom: options.resumeFrom,
-    //   requestOptions: options,
-    // });
-
-    // // This will initialize the poller's operation (the generation of the backup).
-    // await poller.poll();
-
-    // return poller;
+    const folderParts = mappings.folderUriParts(folderUri);
+    const poller = this.client.selectiveKeyRestoreOperation(
+      keyName,
+      {
+        folder: folderParts.folderName,
+        sasTokenParameters: {
+          storageResourceUri: folderParts.folderUri,
+          token: sasToken,
+          useManagedIdentity: sasToken === undefined,
+        },
+      },
+      options,
+    );
+    await poller.submitted();
+    // @ts-expect-error TODO: startTime should be required in the spec
+    return poller;
   }
 }

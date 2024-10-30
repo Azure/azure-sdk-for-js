@@ -1,0 +1,3 @@
+directory: specification/keyvault/data-plane/Security.KeyVault.Secrets/
+commit: 3b8b88ac46c13de87d715033b570b7de935bd43d
+repo: maorleger/azure-rest-api-specs
