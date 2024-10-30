@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { DeletedSecretBundle, SecretBundle } from "./generated/models/index.js";
 import { parseKeyVaultSecretIdentifier } from "./identifier.js";
 import { DeletedSecret, KeyVaultSecret } from "./secretsModels.js";
@@ -71,4 +72,29 @@ export function getSecretFromSecretBundle(
   }
 
   return resultObject;
+}
+
+export function mapPagedAsyncIterable<T, U>(
+  iter: PagedAsyncIterableIterator<T>,
+  mapper: (x: T) => U,
+): PagedAsyncIterableIterator<U> {
+  return {
+    async next() {
+      const result = await iter.next();
+
+      return {
+        ...result,
+        value: result.value && mapper(result.value),
+      };
+    },
+    [Symbol.asyncIterator]() {
+      return this;
+    },
+    async *byPage(settings) {
+      const iteratorByPage = iter.byPage(settings);
+      for await (const page of iteratorByPage) {
+        yield page.map(mapper);
+      }
+    },
+  };
 }

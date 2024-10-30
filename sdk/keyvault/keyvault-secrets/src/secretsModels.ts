@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as coreClient from "@azure/core-client";
+import * as coreClient from "@azure-rest/core-client";
 import { DeletionRecoveryLevel } from "./generated/models/index.js";
 import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 

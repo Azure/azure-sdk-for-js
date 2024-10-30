@@ -5,12 +5,12 @@
 ```ts
 
 import { AzureLogger } from '@azure/logger';
-import * as coreClient from '@azure/core-client';
+import * as coreClient from '@azure-rest/core-client';
 import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
+import { OperationState } from '@azure/core-lro';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -39,7 +39,7 @@ export interface DeletedSecret {
     value?: string;
 }
 
-// @public
+// @public (undocumented)
 export type DeletionRecoveryLevel = string;
 
 // @public
@@ -67,15 +67,7 @@ export interface KeyVaultSecretIdentifier {
 }
 
 // @public
-export enum KnownDeletionRecoveryLevel {
-    CustomizedRecoverable = "CustomizedRecoverable",
-    CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
-    CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
-    Purgeable = "Purgeable",
-    Recoverable = "Recoverable",
-    RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
-    RecoverablePurgeable = "Recoverable+Purgeable"
-}
+export type KnownDeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription" | "CustomizedRecoverable+Purgeable" | "CustomizedRecoverable" | "CustomizedRecoverable+ProtectedSubscription";
 
 // @public
 export interface ListDeletedSecretsOptions extends coreClient.OperationOptions {
@@ -101,8 +93,6 @@ export function parseKeyVaultSecretIdentifier(id: string): KeyVaultSecretIdentif
 
 export { PollerLike }
 
-export { PollOperationState }
-
 // @public
 export interface PurgeDeletedSecretOptions extends coreClient.OperationOptions {
 }
@@ -115,8 +105,8 @@ export interface RestoreSecretBackupOptions extends coreClient.OperationOptions 
 export class SecretClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: SecretClientOptions);
     backupSecret(secretName: string, options?: BackupSecretOptions): Promise<Uint8Array | undefined>;
-    beginDeleteSecret(name: string, options?: BeginDeleteSecretOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
-    beginRecoverDeletedSecret(name: string, options?: BeginRecoverDeletedSecretOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
+    beginDeleteSecret(_name: string, _options?: BeginDeleteSecretOptions): Promise<PollerLike<OperationState<DeletedSecret>, DeletedSecret>>;
+    beginRecoverDeletedSecret(_name: string, _options?: BeginRecoverDeletedSecretOptions): Promise<PollerLike<OperationState<SecretProperties>, SecretProperties>>;
     getDeletedSecret(secretName: string, options?: GetDeletedSecretOptions): Promise<DeletedSecret>;
     getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
     listDeletedSecrets(options?: ListDeletedSecretsOptions): PagedAsyncIterableIterator<DeletedSecret>;
@@ -155,7 +145,7 @@ export interface SecretProperties {
     name: string;
     readonly notBefore?: Date;
     recoverableDays?: number;
-    readonly recoveryLevel?: DeletionRecoveryLevel;
+    readonly recoveryLevel?: KnownDeletionRecoveryLevel;
     tags?: {
         [propertyName: string]: string;
     };
