@@ -959,7 +959,7 @@ export class WebPubSubServiceClient {
         const clientEndpoint = endpoint.replace(/(http)(s?:\/\/)/gi, "ws$2");
         const clientProtocol = updatedOptions.clientProtocol;
         let clientPath = `client/hubs/${this.hubName}`;
-        switch(clientProtocol) {
+        switch (clientProtocol) {
           case "mqtt":
             clientPath = `clients/mqtt/hubs/${this.hubName}`;
             break;
