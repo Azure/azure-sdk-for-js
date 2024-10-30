@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { isUnexpected } from "../src/generated";
+import { isUnexpected } from "../generated";
 import MapsRender from "../src/mapsRender";
 
 /**

@@ -8,7 +8,7 @@ import {
   MapTilesetOutput,
   MapAttributionOutput,
   CopyrightCaptionOutput,
-  CopyrightOutput
+  CopyrightOutput,
 } from "./outputModels";
 
 export interface RenderGetMapTile200Headers {
