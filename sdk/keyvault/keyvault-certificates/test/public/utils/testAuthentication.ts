@@ -3,13 +3,8 @@
 
 import { CertificateClient } from "../../../src/index.js";
 import { uniqueString } from "./recorderUtils.js";
-import {
-  env,
-  isLiveMode,
-  Recorder,
-  RecorderStartOptions,
-  TestInfo,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
+import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import TestClient from "./testClient.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 

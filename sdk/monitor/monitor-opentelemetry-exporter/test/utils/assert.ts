@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { Expectation } from "./types";
-import {
+import type { Expectation } from "./types";
+import type {
   MetricsData,
   MonitorBase,
   RequestData,
   TelemetryItem as Envelope,
-  KnownContextTagKeys,
   MonitorDomain,
 } from "../../src/generated";
+import { KnownContextTagKeys } from "../../src/generated";
 import { TelemetryItem as EnvelopeMapper } from "../../src/generated/models/mappers";
 
 export const assertData = (actual: MonitorBase, expected: MonitorBase): void => {

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { tracingClient } from "./tracing";
 import {
   AzureMonitorMetricBatch as GeneratedMonitorMetricClient,
@@ -11,9 +11,9 @@ import {
   convertRequestForMetricsBatchQuery,
 } from "./internal/modelConverters";
 import { SDK_VERSION, KnownMonitorAudience } from "./constants";
-import { MetricsQueryResourcesOptions } from "./models/publicBatchModels";
-import { MetricsQueryResult } from "./models/publicMetricsModels";
-import { MetricsQueryClientOptions } from "./metricsQueryClient";
+import type { MetricsQueryResourcesOptions } from "./models/publicBatchModels";
+import type { MetricsQueryResult } from "./models/publicMetricsModels";
+import type { MetricsQueryClientOptions } from "./metricsQueryClient";
 
 export const getSubscriptionFromResourceId = function (resourceId: string): string {
   const startPos: number = resourceId.indexOf("subscriptions/") + 14;

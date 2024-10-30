@@ -1,19 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as RestModel from "../generated/src/models";
-import {
+import type * as RestModel from "../generated/src/models";
+import type {
   CommunicationRoom,
   ParticipantRole,
   RoomParticipant,
   RoomParticipantPatch,
 } from "./models";
-import {
-  CommunicationIdentifier,
-  getIdentifierKind,
-  getIdentifierRawId,
-} from "@azure/communication-common";
-import {
+import type { CommunicationIdentifier } from "@azure/communication-common";
+import { getIdentifierKind, getIdentifierRawId } from "@azure/communication-common";
+import type {
   ParticipantProperties,
   RoomParticipant as RESTRoomParticipant,
 } from "../generated/src/models";

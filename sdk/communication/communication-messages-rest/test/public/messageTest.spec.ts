@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorderWithConnectionString } from "./utils/recordedClient";
-import { Context } from "mocha";
-import {
+import type { Context } from "mocha";
+import type {
   MessagesServiceClient,
   Send202Response,
   MessageTemplate,

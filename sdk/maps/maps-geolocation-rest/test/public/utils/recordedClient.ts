@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import "./env";
-import { ClientOptions } from "@azure-rest/core-client";
-import MapsGeolocation, { MapsGeolocationClient } from "../../../src/";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { MapsGeolocationClient } from "../../../src/";
+import MapsGeolocation from "../../../src/";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: Record<string, string> = {

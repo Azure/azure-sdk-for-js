@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
 
-import { TokenCredentialOptions } from "../../tokenCredentialOptions";
+import type { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import { credentialLogger, formatError } from "../../util/logging";
 
 const BrowserNotSupportedError = new Error(

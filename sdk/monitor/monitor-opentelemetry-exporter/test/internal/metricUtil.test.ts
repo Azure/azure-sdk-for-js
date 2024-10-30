@@ -5,24 +5,24 @@ import { Resource } from "@opentelemetry/resources";
 import fs from "fs";
 import path from "path";
 import * as os from "os";
-import {
+import type {
   ResourceMetrics,
-  MeterProvider,
   PeriodicExportingMetricReaderOptions,
-  PeriodicExportingMetricReader,
 } from "@opentelemetry/sdk-metrics";
+import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { resourceMetricsToEnvelope } from "../../src/utils/metricUtils";
 import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
 import { AzureMonitorMetricExporter } from "../../src/export/metric";
-import { AzureMonitorExporterOptions } from "../../src/config";
-import {
+import type { AzureMonitorExporterOptions } from "../../src/config";
+import type {
   TelemetryItem as Envelope,
-  KnownContextTagKeys,
   RemoteDependencyData,
   RequestData,
 } from "../../src/generated";
+import { KnownContextTagKeys } from "../../src/generated";
 import assert from "assert";
-import { BreezePerformanceCounterNames, OTelPerformanceCounterNames, Tags } from "../../src/types";
+import type { Tags } from "../../src/types";
+import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../../src/types";
 import { Context, getInstance } from "../../src/platform";
 
 const context = getInstance();

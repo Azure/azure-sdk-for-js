@@ -1,30 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  diag,
+import type {
   BatchObservableResult,
   ObservableGauge,
   ObservableResult,
   Meter,
 } from "@opentelemetry/api";
-import { ExportResult, ExportResultCode } from "@opentelemetry/core";
-import {
-  MeterProvider,
-  PeriodicExportingMetricReader,
-  PeriodicExportingMetricReaderOptions,
-} from "@opentelemetry/sdk-metrics";
-import { AzureMonitorExporterOptions } from "../../index";
+import { diag } from "@opentelemetry/api";
+import type { ExportResult } from "@opentelemetry/core";
+import { ExportResultCode } from "@opentelemetry/core";
+import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
+import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import type { AzureMonitorExporterOptions } from "../../index";
 import * as ai from "../../utils/constants/applicationinsights";
 import { StatsbeatMetrics } from "./statsbeatMetrics";
-import {
-  StatsbeatCounter,
-  STATSBEAT_LANGUAGE,
+import type {
   CommonStatsbeatProperties,
   AttachStatsbeatProperties,
-  StatsbeatFeatureType,
   StatsbeatOptions,
 } from "./types";
+import { StatsbeatCounter, STATSBEAT_LANGUAGE, StatsbeatFeatureType } from "./types";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter";
 
 let instance: LongIntervalStatsbeatMetrics | null = null;

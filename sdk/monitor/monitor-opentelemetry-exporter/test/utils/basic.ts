@@ -3,16 +3,13 @@
 
 import * as opentelemetry from "@opentelemetry/api";
 import { BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
-import {
-  MeterProvider,
-  PeriodicExportingMetricReader,
-  PeriodicExportingMetricReaderOptions,
-} from "@opentelemetry/sdk-metrics";
+import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
+import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 
 import { AzureMonitorTraceExporter, AzureMonitorMetricExporter } from "../../src";
-import { Expectation, Scenario } from "./types";
+import type { Expectation, Scenario } from "./types";
 import { SpanStatusCode } from "@opentelemetry/api";
-import { TelemetryItem as Envelope } from "../../src/generated";
+import type { TelemetryItem as Envelope } from "../../src/generated";
 import { FlushSpanProcessor } from "./flushSpanProcessor";
 import { Resource } from "@opentelemetry/resources";
 import {

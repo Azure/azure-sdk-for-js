@@ -1,22 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "mocha";
-import {
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-  assertEnvironmentVariable,
-} from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { StaticAccessTokenCredential } from "./StaticAccessTokenCredential";
-import createTextTranslationClient, {
+import type {
   TranslatorCredential,
   TranslatorTokenCredential,
   TextTranslationClient,
 } from "../../../src";
-import { ClientOptions } from "@azure-rest/core-client";
+import createTextTranslationClient from "../../../src";
+import type { ClientOptions } from "@azure-rest/core-client";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { ClientSecretCredential } from "@azure/identity";
 
 const envSetupForPlayback: Record<string, string> = {

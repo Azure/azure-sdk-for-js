@@ -6,7 +6,7 @@ import { TraceBasicScenario } from "../../utils/basic";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
 import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
-import { TelemetryItem as Envelope } from "../../../src/generated";
+import type { TelemetryItem as Envelope } from "../../../src/generated";
 
 describe("Trace Exporter Scenarios", () => {
   describe(TraceBasicScenario.prototype.constructor.name, () => {

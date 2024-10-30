@@ -5,11 +5,11 @@ import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
 import { diag } from "@opentelemetry/api";
-import { PersistentStorage } from "../../../types";
+import type { PersistentStorage } from "../../../types";
 import { FileAccessControl } from "./fileAccessControl";
 import { confirmDirExists, getShallowDirectorySize } from "./fileSystemHelpers";
 import { promisify } from "util";
-import { AzureMonitorExporterOptions } from "../../../config";
+import type { AzureMonitorExporterOptions } from "../../../config";
 
 const statAsync = promisify(fs.stat);
 const readdirAsync = promisify(fs.readdir);

@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isUnexpected, paginate, PurviewSharingClient, ShareResourceOutput } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { PurviewSharingClient, ShareResourceOutput } from "../../src";
+import { isUnexpected, paginate } from "../../src";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("Share Resources Operations", () => {
   let recorder: Recorder;

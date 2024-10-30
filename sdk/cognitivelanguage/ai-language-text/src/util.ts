@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ErrorModel, LanguageDetectionInput, TextDocumentInput } from "./generated";
-import { TextAnalysisOperationOptions } from "./models";
+import type { ErrorModel, LanguageDetectionInput, TextDocumentInput } from "./generated";
+import type { TextAnalysisOperationOptions } from "./models";
 import { logger } from "./logger";
 
 /**

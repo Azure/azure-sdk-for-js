@@ -38,13 +38,14 @@ import {
   SEMRESATTRS_TELEMETRY_SDK_LANGUAGE,
   SEMRESATTRS_TELEMETRY_SDK_NAME,
 } from "@opentelemetry/semantic-conventions";
-import { Tags } from "../types";
+import type { Tags } from "../types";
 import { getInstance } from "../platform";
-import { KnownContextTagKeys, TelemetryItem as Envelope, MetricsData } from "../generated";
-import { Resource } from "@opentelemetry/resources";
-import { Attributes, HrTime } from "@opentelemetry/api";
+import type { TelemetryItem as Envelope, MetricsData } from "../generated";
+import { KnownContextTagKeys } from "../generated";
+import type { Resource } from "@opentelemetry/resources";
+import type { Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
-import { AnyValue } from "@opentelemetry/api-logs";
+import type { AnyValue } from "@opentelemetry/api-logs";
 
 export function hrTimeToDate(hrTime: HrTime): Date {
   return new Date(hrTimeToNanoseconds(hrTime) / 1000000);

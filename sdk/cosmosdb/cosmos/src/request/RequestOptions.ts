@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { SharedOptions } from "..";
+import type { SharedOptions } from "..";
 
 /**
  * Options that can be specified for a requested issued to the Azure Cosmos DB servers.=
