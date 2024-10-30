@@ -68,7 +68,7 @@ The [`@azure/identity`][azure_identity] package provides a variety of credential
 const { DefaultAzureCredential } = require("@azure/identity");
 const { TenDlcClient } = require("@azure-tools/communication-ten-dlc");
 
-let credential = new DefaultAzureCredential();
+const credential = new DefaultAzureCredential();
 const client = new TenDlcClient("<endpoint-from-resource>", credential);
 ```
 
