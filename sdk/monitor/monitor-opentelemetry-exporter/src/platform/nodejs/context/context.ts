@@ -3,11 +3,10 @@
 
 import * as os from "node:os";
 import { SDK_INFO } from "@opentelemetry/core";
-import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
-
+import { ATTR_TELEMETRY_SDK_VERSION } from "@opentelemetry/semantic-conventions";
 import { KnownContextTagKeys } from "../../../generated/index.js";
 import * as ai from "../../../utils/constants/applicationinsights.js";
-import { Tags } from "../../../types.js";
+import type { Tags } from "../../../types.js";
 
 let instance: Context | null = null;
 
@@ -37,7 +36,7 @@ export class Context {
   private _loadInternalContext(): void {
     const { node } = process.versions;
     [Context.nodeVersion] = node.split(".");
-    Context.opentelemetryVersion = SDK_INFO[SemanticResourceAttributes.TELEMETRY_SDK_VERSION];
+    Context.opentelemetryVersion = SDK_INFO[ATTR_TELEMETRY_SDK_VERSION];
     Context.sdkVersion = ai.packageVersion;
 
     const prefix = process.env["AZURE_MONITOR_PREFIX"] ? process.env["AZURE_MONITOR_PREFIX"] : "";

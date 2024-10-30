@@ -3,30 +3,27 @@
 
 import * as Mappers from "./generated/models/mappers";
 import * as Parameters from "./generated/models/parameters";
-import {
+import type {
   AnalyzeBatchActionUnion,
   AnalyzeTextJobStatusOptionalParams,
   AnalyzeTextJobStatusResponse,
   GeneratedClient,
   TextDocumentInput,
 } from "./generated";
-import {
+import type {
   AnalyzeBatchOperationState,
   AnalyzeBatchResult,
   PagedAnalyzeBatchResult,
   PollerLike,
 } from "./models";
-import {
-  FullOperationResponse,
-  OperationOptions,
-  OperationSpec,
-  createSerializer,
-} from "@azure/core-client";
-import { LongRunningOperation, LroResponse, SimplePollerLike } from "@azure/core-lro";
-import { PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
+import type { FullOperationResponse, OperationOptions, OperationSpec } from "@azure/core-client";
+import { createSerializer } from "@azure/core-client";
+import type { LongRunningOperation, LroResponse, SimplePollerLike } from "@azure/core-lro";
+import type { PagedResult } from "@azure/core-paging";
+import { getPagedAsyncIterator } from "@azure/core-paging";
 import { throwError, transformAnalyzeBatchResults } from "./transforms";
-import { HttpMethods } from "@azure/core-rest-pipeline";
-import { TracingClient } from "@azure/core-tracing";
+import type { HttpMethods } from "@azure/core-rest-pipeline";
+import type { TracingClient } from "@azure/core-tracing";
 import { clientName } from "./constants";
 import { logger } from "./logger";
 

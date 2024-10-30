@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { getYieldedValue } from "@azure-tools/test-utils";
-import { Durations, MetricsQueryClient } from "../../src";
+import type { MetricsQueryClient } from "../../src";
+import { Durations } from "../../src";
 
+import type { RecorderAndMetricsClient } from "./shared/testShared";
 import {
-  RecorderAndMetricsClient,
   createRecorderAndMetricsClient,
   getMetricsArmResourceId,
   loggerForTest,

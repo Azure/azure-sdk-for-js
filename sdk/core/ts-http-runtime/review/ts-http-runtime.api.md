@@ -30,6 +30,7 @@ export interface AbortSignalLike {
 // @public
 export interface AccessToken {
     expiresOnTimestamp: number;
+    refreshAfterTimestamp?: number;
     token: string;
 }
 
@@ -140,7 +141,6 @@ export type ClientOptions = PipelineOptions & {
         scopes?: string[];
         apiKeyHeaderName?: string;
     };
-    baseUrl?: string;
     endpoint?: string;
     apiVersion?: string;
     allowInsecureConnection?: boolean;
@@ -487,7 +487,7 @@ export type OptionsWithTracingContext<Options extends {
 
 // @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
-pathParameter: string | PathParameterWithOptions,
+pathParameter: string | number | PathParameterWithOptions,
 ...pathParameters: PathParameters<Tail>
 ] : [
 ];
@@ -495,7 +495,7 @@ pathParameter: string | PathParameterWithOptions,
 // @public
 export interface PathParameterWithOptions {
     allowReserved?: boolean;
-    value: string;
+    value: string | number;
 }
 
 // @public

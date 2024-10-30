@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AvailabilityData,
   TelemetryItem as Envelope,
-  KnownContextTagKeys,
-  KnownSeverityLevel,
   MessageData,
   MonitorDomain,
   PageViewData,
@@ -13,14 +11,16 @@ import {
   TelemetryExceptionData,
   TelemetryExceptionDetails,
 } from "../generated/index.js";
+import { KnownContextTagKeys, KnownSeverityLevel } from "../generated/index.js";
 import { createTagsFromResource, hrTimeToDate, serializeAttribute } from "./common.js";
-import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
+import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import {
-  SEMATTRS_EXCEPTION_MESSAGE,
-  SEMATTRS_EXCEPTION_STACKTRACE,
-  SEMATTRS_EXCEPTION_TYPE,
+  ATTR_EXCEPTION_MESSAGE,
+  ATTR_EXCEPTION_STACKTRACE,
+  ATTR_EXCEPTION_TYPE,
 } from "@opentelemetry/semantic-conventions";
-import { MaxPropertyLengths, Measurements, Properties, Tags } from "../types.js";
+import type { Measurements, Properties, Tags } from "../types.js";
+import { MaxPropertyLengths } from "../types.js";
 import { diag } from "@opentelemetry/api";
 import {
   ApplicationInsightsAvailabilityBaseType,
@@ -53,10 +53,10 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
 
   if (!log.attributes[ApplicationInsightsBaseType]) {
     // Get Exception attributes if available
-    const exceptionType = log.attributes[SEMATTRS_EXCEPTION_TYPE];
+    const exceptionType = log.attributes[ATTR_EXCEPTION_TYPE];
     if (exceptionType) {
-      const exceptionMessage = log.attributes[SEMATTRS_EXCEPTION_MESSAGE];
-      const exceptionStacktrace = log.attributes[SEMATTRS_EXCEPTION_STACKTRACE];
+      const exceptionMessage = log.attributes[ATTR_EXCEPTION_MESSAGE];
+      const exceptionStacktrace = log.attributes[ATTR_EXCEPTION_STACKTRACE];
       name = ApplicationInsightsExceptionName;
       baseType = ApplicationInsightsExceptionBaseType;
       const exceptionDetails: TelemetryExceptionDetails = {
@@ -139,9 +139,9 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
       if (
         !(
           key.startsWith("_MS.") ||
-          key === SEMATTRS_EXCEPTION_TYPE ||
-          key === SEMATTRS_EXCEPTION_MESSAGE ||
-          key === SEMATTRS_EXCEPTION_STACKTRACE
+          key === ATTR_EXCEPTION_TYPE ||
+          key === ATTR_EXCEPTION_MESSAGE ||
+          key === ATTR_EXCEPTION_STACKTRACE
         )
       ) {
         properties[key] = serializeAttribute(log.attributes[key]);

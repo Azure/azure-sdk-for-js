@@ -6,14 +6,15 @@ import { MetricBasicScenario } from "../../utils/basic.js";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants.js";
 import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
-import { TelemetryItem as Envelope } from "../../../src/generated/index.js";
+import type { TelemetryItem as Envelope } from "../../../src/generated/index.js";
+import { describe, it, beforeAll, afterAll } from "vitest";
 
 describe("Metric Exporter Scenarios", () => {
   describe(MetricBasicScenario.prototype.constructor.name, () => {
     const scenario = new MetricBasicScenario();
 
     let ingest: Envelope[] = [];
-    before(() => {
+    beforeAll(() => {
       nock(DEFAULT_BREEZE_ENDPOINT)
         .post("/v2.1/track", (body: Envelope[]) => {
           ingest.push(...body);
@@ -24,27 +25,19 @@ describe("Metric Exporter Scenarios", () => {
       scenario.prepare();
     });
 
-    after(() => {
+    afterAll(() => {
       scenario.cleanup();
       nock.cleanAll();
       ingest = [];
     });
 
-    it("should work", (done) => {
-      scenario
-        .run()
-        .then(() => {
-          // promisify doesn't work on this, so use callbacks/done for now
-          // eslint-disable-next-line promise/always-return
-          return scenario.flush().then(() => {
-            assertMetricExpectation(ingest, scenario.expectation);
-            assertCount(ingest, scenario.expectation);
-            done();
-          });
-        })
-        .catch((e) => {
-          done(e);
-        });
+    it("should work", async () => {
+      await scenario.run();
+      // promisify doesn't work on this, so use callbacks/done for now
+      // eslint-disable-next-line promise/always-return
+      await scenario.flush();
+      assertMetricExpectation(ingest, scenario.expectation);
+      assertCount(ingest, scenario.expectation);
     });
   });
 });

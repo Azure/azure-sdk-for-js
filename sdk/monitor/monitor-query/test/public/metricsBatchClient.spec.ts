@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { Context } from "mocha";
-import { MetricsClient, MetricsQueryResult } from "../../src";
+import type { Context } from "mocha";
+import type { MetricsClient, MetricsQueryResult } from "../../src";
+import type { RecorderAndMetricsBatchQueryClient } from "./shared/testShared";
 import {
-  RecorderAndMetricsBatchQueryClient,
   createRecorderAndMetricsBatchQueryClient,
   getMetricsBatchResourceIds,
   getMetricsBatchNamespace,

@@ -12,8 +12,8 @@ import {
   QuickPulseOpenTelemetryMetricNames,
 } from "../../../../src/metrics/quickpulse/types";
 /* eslint-disable-next-line @typescript-eslint/no-redeclare */
-import { Exception, RemoteDependency, Request } from "../../../../src/generated";
-import { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { Exception, RemoteDependency, Request } from "../../../../src/generated";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import { resourceMetricsToQuickpulseDataPoint } from "../../../../src/metrics/quickpulse/utils";
 
 describe("#LiveMetrics", () => {
@@ -318,6 +318,51 @@ describe("#LiveMetrics", () => {
     assert.equal(
       testAuto["quickpulseExporter"]["sender"]["quickpulseClientOptions"]["credentialScopes"],
       "testScope",
+    );
+  });
+  it("support credential scopes from connection string", () => {
+    const testConfig = new InternalConfig();
+    const testCredential = {
+      getToken() {
+        const accessToken = {
+          token: "testToken",
+          expiresOnTimestamp: Date.now() + 10000,
+        };
+        return Promise.resolve(accessToken);
+      },
+    };
+    testConfig.azureMonitorExporterOptions.connectionString =
+      "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;LiveEndpoint=https://westus2.livediagnostics.monitor.azure.com/;AADAudience=testScope1";
+    testConfig.azureMonitorExporterOptions.credential = testCredential;
+    const testAuto = new LiveMetrics(testConfig);
+    assert.equal(
+      testAuto["pingSender"]["endpointUrl"],
+      "https://westus2.livediagnostics.monitor.azure.com",
+    );
+    assert.equal(
+      testAuto["pingSender"]["instrumentationKey"],
+      "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+    );
+    assert.equal(testAuto["pingSender"]["quickpulseClientOptions"]["credential"], testCredential);
+    assert.equal(
+      testAuto["pingSender"]["quickpulseClientOptions"]["credentialScopes"],
+      "testScope1",
+    );
+    assert.equal(
+      testAuto["quickpulseExporter"]["sender"]["endpointUrl"],
+      "https://westus2.livediagnostics.monitor.azure.com",
+    );
+    assert.equal(
+      testAuto["quickpulseExporter"]["sender"]["instrumentationKey"],
+      "1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
+    );
+    assert.equal(
+      testAuto["quickpulseExporter"]["sender"]["quickpulseClientOptions"]["credential"],
+      testCredential,
+    );
+    assert.equal(
+      testAuto["quickpulseExporter"]["sender"]["quickpulseClientOptions"]["credentialScopes"],
+      "testScope1",
     );
   });
 });

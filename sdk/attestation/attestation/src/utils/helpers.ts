@@ -4,7 +4,7 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 /// <reference path="../jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
-import { base64EncodeByteArray, hexToByteArray } from "./base64";
+import { base64EncodeByteArray, hexToByteArray } from "./base64.js";
 
 /** Create an AttestationSigningKey from the provided private key and certificate.
  *

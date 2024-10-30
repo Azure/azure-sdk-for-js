@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import { assert } from "vitest";
-import { Expectation } from "./types.js";
-import {
+import type { Expectation } from "./types.js";
+import type {
   MetricsData,
   MonitorBase,
   RequestData,
   TelemetryItem as Envelope,
-  KnownContextTagKeys,
   MonitorDomain,
 } from "../../src/generated/index.js";
+import { KnownContextTagKeys } from "../../src/generated/index.js";
 import { TelemetryItem as EnvelopeMapper } from "../../src/generated/models/mappers.js";
 
 export const assertData = (actual: MonitorBase, expected: MonitorBase): void => {

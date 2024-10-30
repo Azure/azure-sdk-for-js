@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   BatchQueryRequest as GeneratedBatchQueryRequest,
   BatchQueryResponse as GeneratedBatchQueryResponse,
   BatchQueryResults as GeneratedBatchQueryResults,
@@ -12,22 +12,22 @@ import {
   QueryBody,
 } from "../generated/logquery/src";
 
-import {
+import type {
   Metric as GeneratedMetric,
   MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
   MetricsListResponse as GeneratedMetricsListResponse,
   TimeSeriesElement as GeneratedTimeSeriesElement,
 } from "../generated/metrics/src";
 
-import {
+import type {
   MetricDefinition as GeneratedMetricDefinition,
   MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams,
 } from "../generated/metricsdefinitions/src";
 
-import { MetricNamespace as GeneratedMetricNamespace } from "../generated/metricsnamespaces/src";
+import type { MetricNamespace as GeneratedMetricNamespace } from "../generated/metricsnamespaces/src";
 import { formatPreferHeader } from "./util";
 
-import {
+import type {
   ListMetricDefinitionsOptions,
   LogsQueryBatchResult,
   LogsTable,
@@ -35,32 +35,31 @@ import {
   MetricsQueryResult,
   QueryBatch,
 } from "../../src";
-import {
+import type {
   Metric,
   MetricAvailability,
   MetricDefinition,
   MetricNamespace,
   TimeSeriesElement,
-  createMetricsQueryResult,
-  getMetricByName,
 } from "../models/publicMetricsModels";
-import { FullOperationResponse } from "@azure/core-client";
+import { createMetricsQueryResult, getMetricByName } from "../models/publicMetricsModels";
+import type { FullOperationResponse } from "@azure/core-client";
 import {
   convertIntervalToTimeIntervalObject,
   convertTimespanToInterval,
 } from "../timespanConversion";
-import {
+import type {
   LogsErrorInfo,
   LogsQueryError,
   LogsQueryPartialResult,
-  LogsQueryResultStatus,
   LogsQuerySuccessfulResult,
 } from "../models/publicLogsModels";
-import {
+import { LogsQueryResultStatus } from "../models/publicLogsModels";
+import type {
   MetricsBatchBatchResponse as GeneratedMetricsBatchResponse,
   MetricsBatchBatchOptionalParams as GeneratedMetricsBatchOptionalParams,
 } from "../generated/metricBatch/src";
-import { MetricsQueryResourcesOptions } from "../models/publicBatchModels";
+import type { MetricsQueryResourcesOptions } from "../models/publicBatchModels";
 
 /**
  * @internal

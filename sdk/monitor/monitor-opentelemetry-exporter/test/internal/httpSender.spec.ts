@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import { HttpSender } from "../../src/platform/nodejs/httpSender.js";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants.js";
 import {
@@ -9,9 +9,9 @@ import {
   failedBreezeResponse,
   partialBreezeResponse,
 } from "../utils/breezeTestUtils.js";
-import { TelemetryItem as Envelope } from "../../src/generated/index.js";
+import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import nock from "nock";
-import { PipelinePolicy } from "@azure/core-rest-pipeline";
+import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { ExportResultCode } from "@opentelemetry/core";
 import { describe, it, assert, afterAll } from "vitest";
 
@@ -76,7 +76,7 @@ describe("HttpSender", () => {
         const { result, statusCode } = await sender.send([envelope]);
         assert.strictEqual(statusCode, 200);
         assert.deepStrictEqual(JSON.parse(result), successfulBreezeResponse(1));
-      }, 1000)
+      }, 1000);
     });
 
     it("should send an invalid non-retriable envelope", async () => {

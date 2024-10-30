@@ -13,7 +13,7 @@ import {
   CloudPlatformValues,
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
-import { AzureMonitorOpenTelemetryOptions } from "../../../../src/types";
+import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/types";
 
 const vmTestResponse = {
   additionalCapabilities: {

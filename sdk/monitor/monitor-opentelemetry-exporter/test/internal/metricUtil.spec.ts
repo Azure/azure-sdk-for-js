@@ -5,27 +5,26 @@ import { Resource } from "@opentelemetry/resources";
 import fs from "node:fs";
 import path from "node:path";
 import * as os from "node:os";
-import {
+import type {
   ResourceMetrics,
-  MeterProvider,
   PeriodicExportingMetricReaderOptions,
-  PeriodicExportingMetricReader,
 } from "@opentelemetry/sdk-metrics";
+import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
 import { resourceMetricsToEnvelope } from "../../src/utils/metricUtils.js";
-import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
-import { AzureMonitorMetricExporter } from "../../src/export/metric.js";
-import { AzureMonitorExporterOptions } from "../../src/config.js";
 import {
+  SemanticResourceAttributes,
+  SEMRESATTRS_SERVICE_INSTANCE_ID,
+} from "@opentelemetry/semantic-conventions";
+import { AzureMonitorMetricExporter } from "../../src/export/metric.js";
+import type { AzureMonitorExporterOptions } from "../../src/config.js";
+import type {
   TelemetryItem as Envelope,
-  KnownContextTagKeys,
   RemoteDependencyData,
   RequestData,
 } from "../../src/generated/index.js";
-import {
-  BreezePerformanceCounterNames,
-  OTelPerformanceCounterNames,
-  Tags,
-} from "../../src/types.js";
+import { KnownContextTagKeys } from "../../src/generated/index.js";
+import type { Tags } from "../../src/types.js";
+import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../../src/types.js";
 import { Context, getInstance } from "../../src/platform/index.js";
 import { describe, it, assert } from "vitest";
 
@@ -42,7 +41,7 @@ class TestExporter extends AzureMonitorMetricExporter {
   async export(metrics: ResourceMetrics): Promise<void> {
     testMetrics = metrics;
     testMetrics.resource = new Resource({
-      [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "testServiceInstanceID",
+      [SEMRESATTRS_SERVICE_INSTANCE_ID]: "testServiceInstanceID",
       [SemanticResourceAttributes.SERVICE_NAME]: "testServiceName",
       [SemanticResourceAttributes.SERVICE_NAMESPACE]: "testServiceNamespace",
     });
