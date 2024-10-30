@@ -12152,7 +12152,7 @@ packages:
     dev: false
 
   file:projects/ai-translation-document.tgz:
-    resolution: {integrity: sha512-jgp898nJu2T8LSEmHZJydRpvv6ayNehaMtQpiVSTMzv6KSpqlrREMYNsE7KYCE4GB+xYQa0kX9RbQb9a8ha1Sg==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-kLfAuurq8WLBA7YJbBtaXrCtEBAf72TbcQySRIBCEAOsqypoQogXLMCO70OnPooaggmRCf/Q509Aic0i3Pxp0Q==, tarball: file:projects/ai-translation-document.tgz}
     name: '@rush-temp/ai-translation-document'
     version: 0.0.0
     dependencies:
@@ -13485,7 +13485,7 @@ packages:
     dev: false
 
   file:projects/arm-computefleet.tgz:
-    resolution: {integrity: sha512-uX7CZEmbUHQEKVWvzk7I9zkFKMhlZnbDNbj9pQ/CR8+hvhAts/OUZFoKiu25n8YoyxH9iOTXiAqJzabEvAcMfg==, tarball: file:projects/arm-computefleet.tgz}
+    resolution: {integrity: sha512-6/T4PDvH2k2L4yVEAs/wyfYf8xhVHNvXNMlMFbDM+VxiLN37O2HI+uqTa6AGqx7qcPzRjyBZfTPAcUK8HI7G0A==, tarball: file:projects/arm-computefleet.tgz}
     name: '@rush-temp/arm-computefleet'
     version: 0.0.0
     dependencies:
@@ -13521,7 +13521,7 @@ packages:
     dev: false
 
   file:projects/arm-computeschedule.tgz:
-    resolution: {integrity: sha512-kQydbFDg9v7mEcbdz789oU+y/QD+PrWrszkjfctseMwEArveNWtV8lhRxV7pSREyvgJ6oDR/gQgRK9ch8nHWTg==, tarball: file:projects/arm-computeschedule.tgz}
+    resolution: {integrity: sha512-GgVAVrMUsXbo7MWQG9Ioi4dWOg1pNvhetLZpUXa92AyTgIK8WHuL3EqGpGjTy9HO1YYRC6v/YBho1KKF33vgUw==, tarball: file:projects/arm-computeschedule.tgz}
     name: '@rush-temp/arm-computeschedule'
     version: 0.0.0
     dependencies:
@@ -13687,7 +13687,7 @@ packages:
     dev: false
 
   file:projects/arm-containerorchestratorruntime.tgz:
-    resolution: {integrity: sha512-6mDLotsF4S9KDInSAWAVuQmOCqOgReU1i/IctXhh0abalQtssqfSFFd1wVa5FBsjZOnvHEasFh6Cc/EYOPjTqg==, tarball: file:projects/arm-containerorchestratorruntime.tgz}
+    resolution: {integrity: sha512-5SpApVxYGPizH4rRvkMlLK55bj9rkVVfoG5w5mBeB2uZX+mCY9g0g5j4gKf1g4rmbZ3HQgORWuE8TxmdLTdNHg==, tarball: file:projects/arm-containerorchestratorruntime.tgz}
     name: '@rush-temp/arm-containerorchestratorruntime'
     version: 0.0.0
     dependencies:
@@ -14914,7 +14914,7 @@ packages:
     dev: false
 
   file:projects/arm-fabric.tgz:
-    resolution: {integrity: sha512-DWfFgqHfgTiuH3NNu60qsQbVvXs1fKragfniZrJLTdbpqS+qbT6vpDjhYG/kuLN/FmX8ls89FAUd6T+etr8Hpg==, tarball: file:projects/arm-fabric.tgz}
+    resolution: {integrity: sha512-SFH1vDEKPQWOWsgrtk66s3+ZPKzVKFLD1961AAe/XLzHP6vNizf6JyCAOpS3Xh4/os4CeocBa9vT+CgA9UQBZg==, tarball: file:projects/arm-fabric.tgz}
     name: '@rush-temp/arm-fabric'
     version: 0.0.0
     dependencies:
@@ -15550,7 +15550,7 @@ packages:
     dev: false
 
   file:projects/arm-iotoperations.tgz:
-    resolution: {integrity: sha512-05wnGxIuuCy3nJ4z2Pd4Taqvo1N3b3lxd24za/KYk/lQ+wiSt2+fGRmG3WTNo0/Okp0rVy4BsGW6Xp2wNYH1ow==, tarball: file:projects/arm-iotoperations.tgz}
+    resolution: {integrity: sha512-t5QJr31o81EF3dX5/7stmGinUIk/yNXXkq27iowhAgZIPcKV27V9MxHmvsmnvBnZR5kPndkRaqnJl+gDavTCFw==, tarball: file:projects/arm-iotoperations.tgz}
     name: '@rush-temp/arm-iotoperations'
     version: 0.0.0
     dependencies:
@@ -16264,7 +16264,7 @@ packages:
     dev: false
 
   file:projects/arm-mongocluster.tgz:
-    resolution: {integrity: sha512-hlWf28oBX4FCDiH4yROX4odiVqH/YZEF+HvzEw90MYaoIoI/rQax7NB+b2cKzPB7eeColUb3rrX9ecJePNKRPQ==, tarball: file:projects/arm-mongocluster.tgz}
+    resolution: {integrity: sha512-0cIKdDqo8SucLoVDs7HobYbgm2dX7HXlQ7WaCHLrPLrLmKVvfOGAs7TjYERvORqKlIUs/tIzAtp9oM1zOPaN3A==, tarball: file:projects/arm-mongocluster.tgz}
     name: '@rush-temp/arm-mongocluster'
     version: 0.0.0
     dependencies:
@@ -18215,7 +18215,7 @@ packages:
     dev: false
 
   file:projects/arm-standbypool.tgz:
-    resolution: {integrity: sha512-0Vt1jIelltknz/Tsd+RLwdf2pG3doc9ybKC0s+qjU5iAhXxGNltLbOmb8/34lVDDLbuvkpRKko286oE81Zbr5g==, tarball: file:projects/arm-standbypool.tgz}
+    resolution: {integrity: sha512-d2xnd2nJyWATOqT3IDONbjSerCpYzZzzoD96MrMUpOEwjbePLcyjJw8ft9YyO2QHK7OOUG0WuN9rqv6eCQLxIQ==, tarball: file:projects/arm-standbypool.tgz}
     name: '@rush-temp/arm-standbypool'
     version: 0.0.0
     dependencies:
@@ -18682,7 +18682,7 @@ packages:
     dev: false
 
   file:projects/arm-trustedsigning.tgz:
-    resolution: {integrity: sha512-Uqtlmb9jZLW/j3/5Xk5lNZcw4STcHT3lhWODOQLmJGl+6xM6iKOnxipHdMin2uUxnSJl2K1XOHljOxUBrpF8kg==, tarball: file:projects/arm-trustedsigning.tgz}
+    resolution: {integrity: sha512-/kLL/gGGZ5j6Yohrwb+FrM2goy4TVtPVZsV9xDfifm+kn0cCdhj40K4YBxD0E7+WaCIMaY1CitATyM+lvW+fag==, tarball: file:projects/arm-trustedsigning.tgz}
     name: '@rush-temp/arm-trustedsigning'
     version: 0.0.0
     dependencies:
@@ -21994,7 +21994,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
-    resolution: {integrity: sha512-1Jw6Ymwb5gnPUZLWJwaXcjTs/s8Sv3VF30mmzQbO0ujJctYHgzec9FCoHlxO4aw0GqPYptt3RNsEseeEibdcNg==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
+    resolution: {integrity: sha512-PKcQfcMWprkQyR8yhbauSh6UnNh6Cj1m17jX1SNWOjfGlEV7Wp+NAJGRtBgubCATiHVG5Fc1XcLaiw39adHFng==, tarball: file:projects/monitor-opentelemetry-exporter.tgz}
     name: '@rush-temp/monitor-opentelemetry-exporter'
     version: 0.0.0
     dependencies:
@@ -22011,19 +22011,40 @@ packages:
       '@opentelemetry/semantic-conventions': 1.27.0
       '@types/mocha': 10.0.9
       '@types/node': 18.19.61
+      '@vitest/browser': 2.1.4(@types/node@18.19.61)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       cross-env: 7.0.3
       dotenv: 16.4.5
       eslint: 9.13.0
       mocha: 10.8.2
       nock: 13.5.5
       nyc: 17.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       tslib: 2.8.0
       tsx: 4.19.2
       typescript: 5.6.3
+      vitest: 2.1.4(@types/node@18.19.61)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
