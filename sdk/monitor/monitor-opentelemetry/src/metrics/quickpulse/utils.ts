@@ -4,13 +4,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 
 import * as os from "os";
-import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
-import { LogRecord } from "@opentelemetry/sdk-logs";
-import {
+import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import type { LogRecord } from "@opentelemetry/sdk-logs";
+import type {
   DocumentIngress,
   Exception,
   KeyValuePairString,
-  KnownDocumentType,
   MetricPoint,
   MonitoringDataPoint,
   RemoteDependency,
@@ -19,7 +18,9 @@ import {
   Trace,
   CollectionConfigurationError,
 } from "../../generated";
-import { Attributes, SpanKind, SpanStatusCode } from "@opentelemetry/api";
+import { KnownDocumentType } from "../../generated";
+import type { Attributes } from "@opentelemetry/api";
+import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
   SEMATTRS_EXCEPTION_MESSAGE,
   SEMATTRS_EXCEPTION_TYPE,
@@ -56,27 +57,24 @@ import {
   SEMATTRS_DB_STATEMENT,
 } from "@opentelemetry/semantic-conventions";
 import { SDK_INFO, hrTimeToMilliseconds } from "@opentelemetry/core";
-import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
+import type { Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
+import { DataPointType } from "@opentelemetry/sdk-metrics";
 import {
   AZURE_MONITOR_AUTO_ATTACH,
   AZURE_MONITOR_OPENTELEMETRY_VERSION,
   AZURE_MONITOR_PREFIX,
   AttachTypePrefix,
 } from "../../types";
-import { Resource } from "@opentelemetry/resources";
+import type { Resource } from "@opentelemetry/resources";
+import type { RequestData, DependencyData, ExceptionData, TraceData, TelemetryData } from "./types";
 import {
   QuickPulseMetricNames,
   QuickPulseOpenTelemetryMetricNames,
-  RequestData,
-  DependencyData,
-  ExceptionData,
-  TraceData,
-  TelemetryData,
   DependencyTypes,
 } from "./types";
 import { getOsPrefix } from "../../utils/common";
 import { getResourceProvider } from "../../utils/common";
-import { LogAttributes } from "@opentelemetry/api-logs";
+import type { LogAttributes } from "@opentelemetry/api-logs";
 import { getDependencyTarget, isSqlDB, isExceptionTelemetry } from "../utils";
 
 /** Get the internal SDK version */
@@ -185,8 +183,8 @@ export function resourceMetricsToQuickpulseDataPoint(
 
         // Update name to expected value in Quickpulse, needed because those names are invalid in OTel
         switch (metric.descriptor.name) {
-          case QuickPulseOpenTelemetryMetricNames.COMMITTED_BYTES:
-            metricPoint.name = QuickPulseMetricNames.COMMITTED_BYTES;
+          case QuickPulseOpenTelemetryMetricNames.PHYSICAL_BYTES:
+            metricPoint.name = QuickPulseMetricNames.PHYSICAL_BYTES;
             break;
           case QuickPulseOpenTelemetryMetricNames.DEPENDENCY_DURATION:
             metricPoint.name = QuickPulseMetricNames.DEPENDENCY_DURATION;
@@ -200,8 +198,8 @@ export function resourceMetricsToQuickpulseDataPoint(
           case QuickPulseOpenTelemetryMetricNames.EXCEPTION_RATE:
             metricPoint.name = QuickPulseMetricNames.EXCEPTION_RATE;
             break;
-          case QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME:
-            metricPoint.name = QuickPulseMetricNames.PROCESSOR_TIME;
+          case QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME_NORMALIZED:
+            metricPoint.name = QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED;
             break;
           case QuickPulseOpenTelemetryMetricNames.REQUEST_DURATION:
             metricPoint.name = QuickPulseMetricNames.REQUEST_DURATION;
@@ -225,6 +223,23 @@ export function resourceMetricsToQuickpulseDataPoint(
           metricPoint.value = (dataPoint.value as Histogram).sum || 0;
         }
         metricPoints.push(metricPoint);
+
+        // TODO: remove the metric points with the old metric names after
+        // UI side has done their changes to support the new names.
+        if (
+          metricPoint.name === QuickPulseMetricNames.PHYSICAL_BYTES ||
+          metricPoint.name === QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED
+        ) {
+          const oldMetricPoint: MetricPoint = {
+            weight: 1,
+            name:
+              metricPoint.name === QuickPulseMetricNames.PHYSICAL_BYTES
+                ? QuickPulseMetricNames.COMMITTED_BYTES
+                : QuickPulseMetricNames.PROCESSOR_TIME,
+            value: dataPoint.value as number,
+          };
+          metricPoints.push(oldMetricPoint);
+        }
       });
     });
   });

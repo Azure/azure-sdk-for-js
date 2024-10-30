@@ -6,15 +6,15 @@
 
 import { AzureNamedKeyCredential } from '@azure/core-auth';
 import { AzureSASCredential } from '@azure/core-auth';
-import { CommonClientOptions } from '@azure/core-client';
+import type { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
 import { NamedKeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { Pipeline } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure/core-client';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
-import { SASCredential } from '@azure/core-auth';
-import { TokenCredential } from '@azure/core-auth';
+import type { SASCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AccessPolicy {

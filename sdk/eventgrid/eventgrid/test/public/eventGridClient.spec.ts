@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 import { assert } from "@azure-tools/test-utils";
-import { Suite, Context } from "mocha";
+import type { Suite, Context } from "mocha";
 
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 
 import { createRecordedClient } from "./utils/recordedClient";
 
-import { EventGridPublisherClient } from "../../src";
+import type { EventGridPublisherClient } from "../../src";
 
-import { RestError } from "@azure/core-rest-pipeline";
-import { AdditionalPolicyConfig } from "@azure/core-client";
+import type { RestError } from "@azure/core-rest-pipeline";
+import type { AdditionalPolicyConfig } from "@azure/core-client";
 import { getRandomNumber } from "./utils/testUtils";
 import {
   TraceParentHeaderName,

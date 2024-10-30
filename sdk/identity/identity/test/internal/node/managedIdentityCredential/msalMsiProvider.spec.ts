@@ -3,12 +3,14 @@
 
 import Sinon from "sinon";
 import { assert } from "@azure-tools/test-utils";
-import { AuthError, AuthenticationResult, ManagedIdentityApplication } from "@azure/msal-node";
+import type { AuthenticationResult } from "@azure/msal-node";
+import { AuthError, ManagedIdentityApplication } from "@azure/msal-node";
 import { MsalMsiProvider } from "../../../../src/credentials/managedIdentityCredential/msalMsiProvider";
 import { tokenExchangeMsi } from "../../../../src/credentials/managedIdentityCredential/tokenExchangeMsi";
 import { imdsMsi } from "../../../../src/credentials/managedIdentityCredential/imdsMsi";
 import { RestError } from "@azure/core-rest-pipeline";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../../../src/errors";
+import type { AccessToken } from "@azure/core-auth";
 
 describe("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: Sinon.SinonStub;
@@ -103,7 +105,8 @@ describe("ManagedIdentityCredential (MSAL)", function () {
           const validToken = {
             token: "test_token",
             expiresOnTimestamp: new Date().getTime(),
-          };
+            tokenType: "Bearer",
+          } as AccessToken;
           Sinon.stub(tokenExchangeMsi, "isAvailable").resolves(true);
           Sinon.stub(tokenExchangeMsi, "getToken").resolves(validToken);
 

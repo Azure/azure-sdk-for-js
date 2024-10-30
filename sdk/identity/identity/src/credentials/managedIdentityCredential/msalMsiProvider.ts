@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
-import { MsalToken, ValidMsalToken } from "../../msal/types";
+import type { MsalToken, ValidMsalToken } from "../../msal/types";
 import { credentialLogger, formatError, formatSuccess } from "../../util/logging";
 import { defaultLoggerCallback, getMSALLogLevel } from "../../msal/utils";
 
 import { IdentityClient } from "../../client/identityClient";
-import { MSIConfiguration } from "./models";
+import type { MSIConfiguration } from "./models";
 import { ManagedIdentityApplication } from "@azure/msal-node";
-import { TokenCredentialOptions } from "../../tokenCredentialOptions";
+import type { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import { getLogLevel } from "@azure/logger";
 import { imdsMsi } from "./imdsMsi";
 import { imdsRetryPolicy } from "./imdsRetryPolicy";
@@ -157,7 +157,9 @@ export class MsalMsiProvider {
     const resource = mapScopesToResource(scopes);
     if (!resource) {
       throw new CredentialUnavailableError(
-        `ManagedIdentityCredential: Multiple scopes are not supported. Scopes: ${JSON.stringify(scopes)}`,
+        `ManagedIdentityCredential: Multiple scopes are not supported. Scopes: ${JSON.stringify(
+          scopes,
+        )}`,
       );
     }
 
@@ -235,7 +237,8 @@ export class MsalMsiProvider {
           expiresOnTimestamp: token.expiresOn.getTime(),
           token: token.accessToken,
           refreshAfterTimestamp: token.refreshOn?.getTime(),
-        };
+          tokenType: "Bearer",
+        } as AccessToken;
       } catch (err: any) {
         logger.getToken.error(formatError(scopes, err));
 

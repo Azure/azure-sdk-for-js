@@ -12,12 +12,12 @@ import {
   SEMATTRS_EXCEPTION_STACKTRACE,
 } from "@opentelemetry/semantic-conventions";
 import { SeverityNumber, logs } from "@opentelemetry/api-logs";
-import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
-import { MeterProvider } from "@opentelemetry/sdk-metrics";
-import { LoggerProvider } from "@opentelemetry/sdk-logs";
+import type { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import type { MeterProvider } from "@opentelemetry/sdk-metrics";
+import type { LoggerProvider } from "@opentelemetry/sdk-logs";
 
 import { useAzureMonitor } from "../../src";
-import { Expectation, Scenario } from "./types";
+import type { Expectation, Scenario } from "./types";
 
 function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));

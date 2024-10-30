@@ -3,7 +3,7 @@
 import os from "os";
 import * as assert from "assert";
 import { Resource } from "@opentelemetry/resources";
-import { Tags } from "../../src/types";
+import type { Tags } from "../../src/types";
 import { createTagsFromResource, serializeAttribute } from "../../src/utils/common";
 
 describe("commonUtils.ts", () => {

@@ -1,23 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { RestError, RequestBodyType } from "@azure/core-rest-pipeline";
+import type {
+  CommonClientOptions,
+  FullOperationResponse,
+  OperationOptions,
+} from "@azure/core-client";
+import type { RequestBodyType } from "@azure/core-rest-pipeline";
+import { RestError } from "@azure/core-rest-pipeline";
 import { GeneratedClient } from "./generated/generatedClient";
-import {
+import type {
   WebPubSubGroup,
-  WebPubSubGroupImpl,
   GroupAddConnectionOptions,
   GroupRemoveConnectionOptions,
 } from "./groupClient";
-import { AzureKeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import { WebPubSubGroupImpl } from "./groupClient";
+import type { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
 import { webPubSubKeyCredentialPolicy } from "./webPubSubCredentialPolicy";
 import { tracingClient } from "./tracing";
 import { logger } from "./logger";
 import { parseConnectionString } from "./parseConnectionString";
 import jwt from "jsonwebtoken";
 import { getPayloadForMessage } from "./utils";
-import {
+import type {
   GeneratedClientOptionalParams,
   AddToGroupsRequest,
   RemoveFromGroupsRequest,

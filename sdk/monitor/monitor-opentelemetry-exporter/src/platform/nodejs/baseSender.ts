@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { diag } from "@opentelemetry/api";
-import { PersistentStorage, SenderResult } from "../../types";
-import { AzureMonitorExporterOptions } from "../../config";
+import type { PersistentStorage, SenderResult } from "../../types";
+import type { AzureMonitorExporterOptions } from "../../config";
 import { FileSystemPersist } from "./persist";
-import { ExportResult, ExportResultCode } from "@opentelemetry/core";
+import type { ExportResult } from "@opentelemetry/core";
+import { ExportResultCode } from "@opentelemetry/core";
 import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics";
 import { getInstance } from "../../export/statsbeat/longIntervalStatsbeatMetrics";
-import { RestError } from "@azure/core-rest-pipeline";
+import type { RestError } from "@azure/core-rest-pipeline";
 import { MAX_STATSBEAT_FAILURES, isStatsbeatShutdownStatus } from "../../export/statsbeat/types";
-import { BreezeResponse, isRetriable } from "../../utils/breezeUtils";
-import { TelemetryItem as Envelope } from "../../generated";
+import type { BreezeResponse } from "../../utils/breezeUtils";
+import { isRetriable } from "../../utils/breezeUtils";
+import type { TelemetryItem as Envelope } from "../../generated";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 

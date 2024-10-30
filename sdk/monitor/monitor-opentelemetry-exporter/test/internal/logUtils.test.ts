@@ -7,11 +7,11 @@ import {
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
 
-import { Tags, Properties, Measurements, MaxPropertyLengths } from "../../src/types";
+import type { Tags, Properties, Measurements } from "../../src/types";
+import { MaxPropertyLengths } from "../../src/types";
 import { getInstance } from "../../src/platform";
-import {
+import type {
   AvailabilityData,
-  KnownContextTagKeys,
   MessageData,
   MonitorDomain,
   PageViewData,
@@ -19,11 +19,13 @@ import {
   TelemetryExceptionData,
   TelemetryExceptionDetails,
 } from "../../src/generated";
-import { TelemetryItem as Envelope } from "../../src/generated";
-import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
+import { KnownContextTagKeys } from "../../src/generated";
+import type { TelemetryItem as Envelope } from "../../src/generated";
+import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import { logToEnvelope } from "../../src/utils/logUtils";
 import { SeverityNumber } from "@opentelemetry/api-logs";
-import { HrTime, TraceFlags } from "@opentelemetry/api";
+import type { HrTime } from "@opentelemetry/api";
+import { TraceFlags } from "@opentelemetry/api";
 import { hrTimeToDate } from "../../src/utils/common";
 
 const context = getInstance();
@@ -34,7 +36,7 @@ function assertEnvelope(
   sampleRate?: number,
   baseType?: string,
   expectedProperties?: Properties,
-  expectedMeasurements?: Measurements | undefined,
+  expectedMeasurements?: Measurements,
   expectedBaseData?: Partial<MonitorDomain>,
   expectedTime?: Date,
 ): void {

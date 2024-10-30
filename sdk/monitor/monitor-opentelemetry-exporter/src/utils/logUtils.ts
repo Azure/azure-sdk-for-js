@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AvailabilityData,
   TelemetryItem as Envelope,
-  KnownContextTagKeys,
-  KnownSeverityLevel,
   MessageData,
   MonitorDomain,
   PageViewData,
@@ -13,14 +11,16 @@ import {
   TelemetryExceptionData,
   TelemetryExceptionDetails,
 } from "../generated";
+import { KnownContextTagKeys, KnownSeverityLevel } from "../generated";
 import { createTagsFromResource, hrTimeToDate, serializeAttribute } from "./common";
-import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
+import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
 import {
   SEMATTRS_EXCEPTION_MESSAGE,
   SEMATTRS_EXCEPTION_STACKTRACE,
   SEMATTRS_EXCEPTION_TYPE,
 } from "@opentelemetry/semantic-conventions";
-import { MaxPropertyLengths, Measurements, Properties, Tags } from "../types";
+import type { Measurements, Properties, Tags } from "../types";
+import { MaxPropertyLengths } from "../types";
 import { diag } from "@opentelemetry/api";
 import {
   ApplicationInsightsAvailabilityBaseType,

@@ -3,7 +3,8 @@
 
 import fs from "fs";
 import path from "path";
-import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/sdk-trace-base";
+import type { TracerConfig } from "@opentelemetry/sdk-trace-base";
+import { Span, BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
 import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import * as assert from "assert";
 import { Resource } from "@opentelemetry/resources";
@@ -32,17 +33,18 @@ import {
   SEMRESATTRS_SERVICE_NAMESPACE,
 } from "@opentelemetry/semantic-conventions";
 
-import { Tags, Properties, Measurements, MaxPropertyLengths } from "../../src/types";
+import type { Tags, Properties, Measurements } from "../../src/types";
+import { MaxPropertyLengths } from "../../src/types";
 import { Context, getInstance } from "../../src/platform";
 import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../../src/utils/spanUtils";
-import {
+import type {
   RemoteDependencyData,
   RequestData,
-  KnownContextTagKeys,
   TelemetryExceptionData,
   MessageData,
 } from "../../src/generated";
-import { TelemetryItem as Envelope } from "../../src/generated";
+import { KnownContextTagKeys } from "../../src/generated";
+import type { TelemetryItem as Envelope } from "../../src/generated";
 import { DependencyTypes } from "../../src/utils/constants/applicationinsights";
 import { hrTimeToDate } from "../../src/utils/common";
 
@@ -1218,13 +1220,13 @@ describe("spanUtils.ts", () => {
     });
   });
   describe("#spanEventsToEnvelopes", () => {
-    it("should create exception envelope for server exception events", () => {
+    it("should create exception envelope for remote exception events", () => {
       const testError = new Error("test error");
       const span = new Span(
         tracer,
         ROOT_CONTEXT,
         "parent span",
-        { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+        { traceId: "traceid", spanId: "spanId", traceFlags: 0, isRemote: true },
         SpanKind.SERVER,
         "parentSpanId",
       );
@@ -1267,7 +1269,7 @@ describe("spanUtils.ts", () => {
         tracer,
         ROOT_CONTEXT,
         "parent span",
-        { traceId: "traceid", spanId: "spanId", traceFlags: 0 },
+        { traceId: "4bf92f3577b34da6a3ce929d0e0e4736", spanId: "00f067aa0ba902b7", traceFlags: 0 },
         SpanKind.CLIENT,
         "parentSpanId",
       );
@@ -1280,6 +1282,25 @@ describe("spanUtils.ts", () => {
       expectedTags[KnownContextTagKeys.AiOperationParentId] = "spanId";
       assert.ok(envelopes.length === 0);
     });
+  });
+  it("should create an envelope for internal exception span events", () => {
+    const testError = new Error("test error");
+    const span = new Span(
+      tracer,
+      ROOT_CONTEXT,
+      "parent span",
+      { traceId: "4bf92f3577b34da6a3ce929d0e0e4736", spanId: "00f067aa0ba902b7", traceFlags: 0 },
+      SpanKind.INTERNAL,
+      "parentSpanId",
+    );
+    span.recordException(testError);
+    span.end();
+    const envelopes = spanEventsToEnvelopes(span, "ikey");
+
+    const expectedTags: Tags = {};
+    expectedTags[KnownContextTagKeys.AiOperationId] = span.spanContext().traceId;
+    expectedTags[KnownContextTagKeys.AiOperationParentId] = "spanId";
+    assert.ok(envelopes.length === 1);
   });
   it("should create message envelope for span events", () => {
     const span = new Span(

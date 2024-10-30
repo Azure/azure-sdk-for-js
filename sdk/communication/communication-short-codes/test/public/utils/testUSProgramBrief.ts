@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RestError } from "@azure/core-rest-pipeline";
+import type { RestError } from "@azure/core-rest-pipeline";
+import type { ShortCodesClient, USProgramBrief } from "../../../src";
 import {
   CompanyInformationMapper,
   MessageDetailsMapper,
   ProgramDetailsMapper,
-  ShortCodesClient,
   TrafficDetailsMapper,
-  USProgramBrief,
 } from "../../../src";
 import { assert } from "chai";
-import { CompositeMapper } from "@azure/core-client";
+import type { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { v4 as uuid } from "uuid";
 

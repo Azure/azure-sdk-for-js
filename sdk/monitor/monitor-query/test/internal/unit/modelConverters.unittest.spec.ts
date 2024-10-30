@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import {
+import type {
   BatchQueryRequest,
   BatchRequest as GeneratedBatchRequest,
 } from "../../../src/generated/logquery/src";
-import {
+import type {
   MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
   MetricsListResponse as GeneratedMetricsListResponse,
 } from "../../../src/generated/metrics/src";
-import { MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams } from "../../../src/generated/metricsdefinitions/src";
+import type { MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams } from "../../../src/generated/metricsdefinitions/src";
 import {
   convertRequestForMetrics,
   convertRequestForQueryBatch,
@@ -18,19 +18,19 @@ import {
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions,
 } from "../../../src/internal/modelConverters";
-import {
+import type {
   OperationRequestOptions,
   RawResponseCallback,
   SerializerOptions,
 } from "@azure/core-client";
-import { OperationTracingOptions } from "@azure/core-tracing";
-import {
-  Durations,
+import type { OperationTracingOptions } from "@azure/core-tracing";
+import type {
   ListMetricDefinitionsOptions,
   MetricsQueryOptions,
   MetricsQueryResult,
 } from "../../../src";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { Durations } from "../../../src";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import {
   convertIntervalToTimeIntervalObject,
   convertTimespanToInterval,

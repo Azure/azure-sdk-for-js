@@ -3,10 +3,11 @@
 
 import fs from "fs";
 import * as path from "path";
-import { RestError, RestErrorOptions } from "@azure/core-rest-pipeline";
-import { Fetcher } from "./fetcherAbstract";
+import type { RestErrorOptions } from "@azure/core-rest-pipeline";
+import { RestError } from "@azure/core-rest-pipeline";
+import type { Fetcher } from "./fetcherAbstract";
 import { logger } from "./logger";
-import { DTDL } from "./psuedoDtdl";
+import type { DTDL } from "./psuedoDtdl";
 
 function readFilePromise(filePath: string): Promise<string> {
   return new Promise((resolve, reject) => {

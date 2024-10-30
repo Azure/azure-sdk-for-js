@@ -5,7 +5,7 @@ import { InternalEnvironmentVariables, ServiceAuth } from "../common/constants";
 import customerConfig from "../common/customerConfig";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig";
 import playwrightServiceEntra from "./playwrightServiceEntra";
-import {
+import type {
   PlaywrightServiceAdditionalOptions,
   PlaywrightConfig,
   PlaywrightConfigInput,
@@ -96,6 +96,7 @@ const getServiceConfig = (
       connectOptions: {
         wsEndpoint: getServiceWSEndpoint(
           playwrightServiceConfig.runId,
+          playwrightServiceConfig.runName,
           playwrightServiceConfig.serviceOs,
         ),
         headers: {
@@ -148,6 +149,7 @@ const getConnectOptions = async (
   return {
     wsEndpoint: getServiceWSEndpoint(
       playwrightServiceConfig.runId,
+      playwrightServiceConfig.runName,
       playwrightServiceConfig.serviceOs,
     ),
     options: {
