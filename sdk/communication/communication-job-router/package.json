@@ -29,7 +29,7 @@
   ],
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api --verbose",
-    "build:autorest": "autorest ./swagger/README.md && rushx format",
+    "build:autorest": "autorest ./swagger/README.md && npm run format",
     "build:browser": "tsc -p . && dev-tool run bundle && cross-env ONLY_BROWSER=true ",
     "build:node": "tsc -p . && dev-tool run bundle && cross-env ONLY_NODE=true ",
     "build:samples": "dev-tool samples publish -f",

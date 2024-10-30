@@ -27,9 +27,8 @@
   ],
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
-    "build:autorest": "autorest --typescript --version=3.0.6267 --v3 ./swagger/README.md && rushx format",
+    "build:autorest": "autorest --typescript --version=3.0.6267 --v3 ./swagger/README.md && npm run format",
     "build:browser": "tsc -p . && dev-tool run bundle",
-    "build:clean": "rush update --recheck && rush rebuild && npm run build",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "dev-tool samples publish --force",
     "build:test": "tsc -p . && dev-tool run bundle",

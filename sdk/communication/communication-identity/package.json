@@ -28,7 +28,6 @@
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
-    "build:clean": "rush update --recheck && rush rebuild && npm run build",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && dev-tool run bundle",
@@ -39,7 +38,7 @@
     "execute:ts-samples": "dev-tool samples run dist-samples/typescript/dist/dist-samples/typescript/src/",
     "extract-api": "tsc -p . && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript ./swagger/README.md && rushx format",
+    "generate:client": "autorest --typescript ./swagger/README.md && npm run format",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 --exclude 'dist-esm/test/**/browser/*.spec.js' 'dist-esm/test/**/*.spec.js'",

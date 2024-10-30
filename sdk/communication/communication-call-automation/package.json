@@ -32,7 +32,7 @@
   ],
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
-    "build:autorest": "autorest ./swagger/README.md && rushx format",
+    "build:autorest": "autorest ./swagger/README.md && npm run format",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "dev-tool samples publish --force",
@@ -42,7 +42,7 @@
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "generate:client": "autorest --typescript ./swagger/README.md && rushx format",
+    "generate:client": "autorest --typescript ./swagger/README.md && npm run format",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
