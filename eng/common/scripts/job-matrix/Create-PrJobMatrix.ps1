@@ -1,12 +1,31 @@
 <#
 .SYNOPSIS
 Generates a combined PR job matrix from a package properties folder. It is effectively a combination of
-Create-JobMatrix and distribute-packages-to-matrix
+Create-JobMatrix and distribute-packages-to-matrix.
 
-This script is intended to be used within an Azure DevOps pipeline to generate a job matrix for a PR.
+.DESCRIPTION
+Create-JobMatrix has a limitation in that it accepts one or multiple matrix files, but it doesn't allow runtime
+selection of the matrix file based on what is being built. Due to this, this script exists to provide exactly
+that mapping.
+
+It should be called from a PR build only.
+
+It generates the matrix by the following algorithm:
+  - load all package properties files
+  - group the package properties by their targeted CI Matrix Configs
+    - for each package group, generate the matrix for each matrix config in the group (remember MatrixConfigs is a list not a single object)
+      - for each matrix config, generate the matrix
+        - calculate if batching is necessary for this matrix config
+        - for each batch
+          - create combined property name for the batch
+          - walk each matrix item
+            - add suffixes for batch and matrix config if nececessary to the job name
+            - add the combined property name to the parameters of the matrix item
 
 .EXAMPLE
-./eng/common/scripts/Create-PRJobMatrix $(Build.ArtifactStagingDirectory)/PackageProperties
+./eng/common/scripts/job-matrix/Create-PrJobMatrix.ps1 `
+  -PackagePropertiesFolder "path/to/populated/PackageInfo" `
+  -PrMatrixSetting "<Name of variable to set in the matrix>"
 #>
 
 [CmdletBinding()]

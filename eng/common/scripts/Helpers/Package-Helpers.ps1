@@ -209,6 +209,7 @@ function Get-ObjectKey {
   }
 }
 
+
 function Group-ByObjectKey {
   param (
     [Parameter(Mandatory)]
@@ -221,20 +222,14 @@ function Group-ByObjectKey {
   $groupedDictionary = @{}
 
   foreach ($item in $Items) {
-    Write-Host "Getting object key for $($item.Name)"
     $key = Get-ObjectKey $item."$GroupByProperty"
 
-    if ($key) {
-      if (-not $groupedDictionary.ContainsKey($key)) {
-        $groupedDictionary[$key] = @()
-      }
+    if (-not $groupedDictionary.ContainsKey($key)) {
+      $groupedDictionary[$key] = @()
+    }
 
-      # Add the current item to the array for this key
-      $groupedDictionary[$key] += $item
-    }
-    else {
-      Write-Host "Apparently don't have a key for $($item.Name)"
-    }
+    # Add the current item to the array for this key
+    $groupedDictionary[$key] += $item
   }
 
   return $groupedDictionary

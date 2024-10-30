@@ -124,17 +124,22 @@ jobs:
       # Not currently not hardcoded, so not doing the needful and populating this folder before we hit this step will result in generation errors.
     - ${{ else }}:
       - ${{ each pool in parameters.Pools }}:
-        - task: Powershell@2
-          inputs:
-            pwsh: true
-            filePath: eng/common/scripts/job-matrix/Create-PrJobMatrix.ps1
-            arguments: >
-              -PackagePropertiesFolder $(Build.ArtifactStagingDirectory)/PackageInfo
-              -PRMatrixFile ${{ parameters.PRMatrix.Path }}
-              -PRMatrixSetting ${{ parameters.PRMatrix.Setting }}
-              -DisplayNameFilter '$(displayNameFilter)'
-              -Filters '${{ join(''',''', parameters.MatrixFilters) }}', 'container=^$', 'SupportedClouds=^$|${{ parameters.CloudConfig.Cloud }}', 'Pool=${{ pool.filter }}'
-              -Replace '${{ join(''',''', parameters.MatrixReplace) }}'
+
+        - pwsh: |
+            $defaultMatrixes = '${{ convertToJson(parameters.MatrixConfigs) }}'
+            $defaultMatrixes >> matrix.json
+
+            cat matrix.json
+
+            ./eng/scripts/try-package-config.ps1 -MatrixConfigFile matrix.json
+
+            # ./eng/common/scripts/job-matrix/Create-PrJobMatrix.ps1 `
+            #   -PackagePropertiesFolder $(Build.ArtifactStagingDirectory)/PackageInfo `
+            #   -PRMatrixFile ${{ parameters.PRMatrix.Path }} `
+            #   -PRMatrixSetting ${{ parameters.PRMatrix.Setting }} `
+            #   -DisplayNameFilter '$(displayNameFilter)' `
+            #   -Filters '${{ join(''',''', parameters.MatrixFilters) }}', 'container=^$', 'SupportedClouds=^$|${{ parameters.CloudConfig.Cloud }}', 'Pool=${{ pool.filter }}' `
+            #   -Replace '${{ join(''',''', parameters.MatrixReplace) }}'
           displayName: Create ${{ pool.name }} PR Matrix
           name: vm_job_matrix_pr_${{ pool.name }}
 
