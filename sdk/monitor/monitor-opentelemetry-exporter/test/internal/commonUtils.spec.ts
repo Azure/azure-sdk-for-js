@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import os from "os";
-import * as assert from "assert";
+
+import os from "node:os";
 import { Resource } from "@opentelemetry/resources";
-import type { Tags } from "../../src/types";
-import { createTagsFromResource, serializeAttribute } from "../../src/utils/common";
+import type { Tags } from "../../src/types.js";
+import { createTagsFromResource, serializeAttribute } from "../../src/utils/common.js";
+import { describe, it, assert } from "vitest";
 
 describe("commonUtils.ts", () => {
   describe("#createTagsFromResource", () => {

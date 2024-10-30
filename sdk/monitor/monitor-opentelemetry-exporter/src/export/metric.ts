@@ -5,11 +5,11 @@ import type { PushMetricExporter, ResourceMetrics } from "@opentelemetry/sdk-met
 import { AggregationTemporality, InstrumentType } from "@opentelemetry/sdk-metrics";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode, suppressTracing } from "@opentelemetry/core";
-import { AzureMonitorBaseExporter } from "./base";
-import type { TelemetryItem as Envelope } from "../generated";
-import { resourceMetricsToEnvelope } from "../utils/metricUtils";
-import type { AzureMonitorExporterOptions } from "../config";
-import { HttpSender } from "../platform";
+import { AzureMonitorBaseExporter } from "./base.js";
+import type { TelemetryItem as Envelope } from "../generated/index.js";
+import { resourceMetricsToEnvelope } from "../utils/metricUtils.js";
+import type { AzureMonitorExporterOptions } from "../config.js";
+import { HttpSender } from "../platform/index.js";
 
 /**
  * Azure Monitor OpenTelemetry Metric Exporter.

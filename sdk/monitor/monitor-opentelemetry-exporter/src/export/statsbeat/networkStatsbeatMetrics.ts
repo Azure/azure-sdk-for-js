@@ -10,17 +10,17 @@ import type {
 import { diag } from "@opentelemetry/api";
 import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
-import type { AzureMonitorExporterOptions } from "../../index";
-import * as ai from "../../utils/constants/applicationinsights";
-import { StatsbeatMetrics } from "./statsbeatMetrics";
+import type { AzureMonitorExporterOptions } from "../../index.js";
+import * as ai from "../../utils/constants/applicationinsights.js";
+import { StatsbeatMetrics } from "./statsbeatMetrics.js";
 import type {
   CommonStatsbeatProperties,
   NetworkStatsbeatProperties,
   StatsbeatOptions,
-} from "./types";
-import { StatsbeatCounter, STATSBEAT_LANGUAGE, NetworkStatsbeat } from "./types";
-import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter";
-import { ENV_DISABLE_STATSBEAT } from "../../Declarations/Constants";
+} from "./types.js";
+import { StatsbeatCounter, STATSBEAT_LANGUAGE, NetworkStatsbeat } from "./types.js";
+import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
+import { ENV_DISABLE_STATSBEAT } from "../../Declarations/Constants.js";
 
 export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
   private disableNonEssentialStatsbeat: boolean = !!process.env[ENV_DISABLE_STATSBEAT];
