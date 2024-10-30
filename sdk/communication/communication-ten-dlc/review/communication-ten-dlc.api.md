@@ -4,10 +4,10 @@
 
 ```ts
 
-import { CommonClientOptions } from '@azure/core-client';
+import type { CommonClientOptions } from '@azure/core-client';
 import * as coreClient from '@azure/core-client';
 import { KeyCredential } from '@azure/core-auth';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
@@ -70,22 +70,6 @@ export interface ContactInformation {
 export type ContentType = "TwoFactorAuthentication" | "AccountNotification" | "CustomerCare" | "DeliveryNotification" | "FraudAlert" | "HigherEducation" | "LowVolume" | "Marketing" | "Mixed" | "PollingVoting" | "PublicServiceAnnouncement" | "SecurityAlert";
 
 // @public
-export interface CreateOrUpdateBrandOptions extends TenDlcGetUSBrandOptionalParams {
-    // (undocumented)
-    brandDetails: BrandDetails | undefined;
-}
-
-// @public
-export interface CreateOrUpdateCampaignOptions extends TenDlcGetUSCampaignOptionalParams {
-    // (undocumented)
-    brandId: string | undefined;
-    // (undocumented)
-    campaignDetails: CampaignDetails | undefined;
-    // (undocumented)
-    messageDetails: MessageDetails | undefined;
-}
-
-// @public
 export interface DeleteBrandOptionalParams extends TenDlcDeleteUSBrandOptionalParams {
 }
 
@@ -113,7 +97,7 @@ export interface ListCampaignsOptionalParams extends TenDlcGetUSCampaignsOptiona
 }
 
 // @public
-export interface ListTenDlcCostsOptions extends TenDlcGetCostsOptionalParams {
+export interface ListCostsOptions extends TenDlcGetCostsOptionalParams {
 }
 
 // @public (undocumented)
@@ -191,7 +175,7 @@ export class TenDlcClient {
     // (undocumented)
     getUSCampaign(campaignId: string, options?: GetCampaignOptionalParams): Promise<USCampaign>;
     // (undocumented)
-    listCosts(options?: ListTenDlcCostsOptions): PagedAsyncIterableIterator<TenDlcCost>;
+    listCosts(options?: ListCostsOptions): PagedAsyncIterableIterator<TenDlcCost>;
     // (undocumented)
     listUSBrands(options?: GetBrandsOptionalParams): PagedAsyncIterableIterator<USBrand>;
     // (undocumented)
@@ -201,9 +185,9 @@ export class TenDlcClient {
     // (undocumented)
     submitUSCampaign(campaignId: string, options?: SubmitCampaignOptionalParams): Promise<USCampaign>;
     // (undocumented)
-    upsertUSBrand(brandId: string, options?: CreateOrUpdateBrandOptions): Promise<USBrand>;
+    upsertUSBrand(brandId: string, options?: UpsertUSBrandOptions): Promise<USBrand>;
     // (undocumented)
-    upsertUSCampaign(campaingId: string, options?: CreateOrUpdateCampaignOptions): Promise<USCampaign>;
+    upsertUSCampaign(campaingId: string, options?: UpsertUSCampaignOptions): Promise<USCampaign>;
 }
 
 // @public
@@ -276,6 +260,22 @@ export interface TenDlcSubmitUSBrandOptionalParams extends coreClient.OperationO
 
 // @public
 export interface TenDlcSubmitUSCampaignOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface UpsertUSBrandOptions extends TenDlcGetUSBrandOptionalParams {
+    // (undocumented)
+    brandDetails: BrandDetails | undefined;
+}
+
+// @public
+export interface UpsertUSCampaignOptions extends TenDlcGetUSCampaignOptionalParams {
+    // (undocumented)
+    brandId: string | undefined;
+    // (undocumented)
+    campaignDetails: CampaignDetails | undefined;
+    // (undocumented)
+    messageDetails: MessageDetails | undefined;
 }
 
 // @public (undocumented)

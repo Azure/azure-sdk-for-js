@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { TenDlcClient } from "../../src";
+import type { Context } from "mocha";
+import type { TenDlcClient } from "../../src";
 import { assert } from "chai";
 import { createRecordedClient } from "../utils/recordedClient";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 
 describe("TenDlcClient - Costs", function () {
   let recorder: Recorder;

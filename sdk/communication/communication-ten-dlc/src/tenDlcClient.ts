@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import type { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
+import { type KeyCredential, type TokenCredential, isTokenCredential } from "@azure/core-auth";
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
 import { TenDLCClient as TenDlcGeneratedClient } from "./generated/src/tenDLCClient";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { tracingClient } from "./generated/src/tracing";
 import { logger } from "./utils/logger";
 import { createTenDlcPagingPolicy } from "./utils/customPipelinePolicies";
-import {
+import type {
   TenDlcCancelUSBrandOptionalParams,
   TenDlcCancelUSBrandResponse,
   TenDlcCancelUSCampaignOptionalParams,
@@ -24,18 +24,18 @@ import {
   USBrand,
   USCampaign,
 } from "./generated/src/models";
-import {
-  CreateOrUpdateBrandOptions,
-  CreateOrUpdateCampaignOptions,
+import type {
   DeleteBrandOptionalParams,
   DeleteCampaignOptionalParams,
   GetBrandOptionalParams,
   GetBrandsOptionalParams,
   GetCampaignOptionalParams,
   ListCampaignsOptionalParams,
-  ListTenDlcCostsOptions,
+  ListCostsOptions,
   SubmitBrandOptionalParams,
   SubmitCampaignOptionalParams,
+  UpsertUSBrandOptions,
+  UpsertUSCampaignOptions,
 } from "./models";
 
 /**
@@ -85,7 +85,7 @@ export class TenDlcClient {
 
   public upsertUSBrand(
     brandId: string,
-    options: CreateOrUpdateBrandOptions = {
+    options: UpsertUSBrandOptions = {
       brandDetails: {},
     },
   ): Promise<USBrand> {
@@ -105,7 +105,7 @@ export class TenDlcClient {
 
   public upsertUSCampaign(
     campaingId: string,
-    options: CreateOrUpdateCampaignOptions = {
+    options: UpsertUSCampaignOptions = {
       brandId: "",
       campaignDetails: {},
       messageDetails: {},
@@ -232,7 +232,7 @@ export class TenDlcClient {
     }
   }
 
-  public listCosts(options: ListTenDlcCostsOptions = {}): PagedAsyncIterableIterator<TenDlcCost> {
+  public listCosts(options: ListCostsOptions = {}): PagedAsyncIterableIterator<TenDlcCost> {
     const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-listCosts", options);
     try {
       return this.client.tenDlc.listCosts(updatedOptions);

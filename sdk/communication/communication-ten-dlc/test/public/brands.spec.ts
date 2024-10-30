@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { TenDlcClient } from "../../src";
+import type { Context } from "mocha";
+import type { TenDlcClient } from "../../src";
 import { assert } from "chai";
 import { createRecordedClient } from "../utils/recordedClient";
 import { CreateUUID } from "../utils/helpers";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import { type Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 
 describe("TenDlcClient - Brands", function () {
   let recorder: Recorder;

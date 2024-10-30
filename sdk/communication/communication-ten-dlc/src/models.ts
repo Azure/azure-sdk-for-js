@@ -19,14 +19,14 @@ import type {
 /**
  * Additional options for the Create or update brand request.
  */
-export interface CreateOrUpdateBrandOptions extends TenDlcGetUSBrandOptionalParams {
+export interface UpsertUSBrandOptions extends TenDlcGetUSBrandOptionalParams {
   brandDetails: BrandDetails | undefined;
 }
 
 /**
  * Additional options for the Create or update campaign request.
  */
-export interface CreateOrUpdateCampaignOptions extends TenDlcGetUSCampaignOptionalParams {
+export interface UpsertUSCampaignOptions extends TenDlcGetUSCampaignOptionalParams {
   brandId: string | undefined;
   campaignDetails: CampaignDetails | undefined;
   messageDetails: MessageDetails | undefined;
@@ -65,7 +65,7 @@ export interface ListCampaignsOptionalParams extends TenDlcGetUSCampaignsOptiona
 /**
  * Additional options for the List local number costs request.
  */
-export interface ListTenDlcCostsOptions extends TenDlcGetCostsOptionalParams {}
+export interface ListCostsOptions extends TenDlcGetCostsOptionalParams {}
 
 /**
  * Additional options for the Submit brand request.
