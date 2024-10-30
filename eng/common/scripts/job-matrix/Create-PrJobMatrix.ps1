@@ -55,13 +55,11 @@ if (!(Test-Path $PRMatrixFile)) {
 
 Write-Host "Generating PR job matrix for $PackagePropertiesFolder"
 
-$configs = Get-Content -Raw $PRMatrixFile | ConvertFrom-Json | ForEach-Object { [PSCustomObject]$_ }
+$configs = Get-Content -Raw $PRMatrixFile | ConvertFrom-Json
 
 # calculate general targeting information and create our batches prior to generating any matrix
-# this prototype doesn't handle direct and indirect, it just batches for simplicity of the proto
 $packageProperties = Get-ChildItem -Recurse "$PackagePropertiesFolder" *.json `
-| ForEach-Object { Get-Content -Path $_.FullName | ConvertFrom-Json } `
-| ForEach-Object { [PSCustomObject]$_ }
+| ForEach-Object { Get-Content -Path $_.FullName | ConvertFrom-Json }
 
 # set default matrix config for each package if there isn't an override
 $packageProperties | ForEach-Object {
