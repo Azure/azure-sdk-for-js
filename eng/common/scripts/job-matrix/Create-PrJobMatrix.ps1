@@ -48,18 +48,14 @@ if (!(Test-Path $PackagePropertiesFolder)) {
   exit 1
 }
 
+if (!(Test-Path $PRMatrixFile)) {
+  Write-Error "PR Matrix file doesn't exist"
+  exit 1
+}
+
 Write-Host "Generating PR job matrix for $PackagePropertiesFolder"
 
-# this will become a parameter in the future, we will pass MatrixConfigs as a parameter
-# these will be the "default" matrices that we will use to generate the PR matrix in lieu of
-# a matrix file
-$configs = @(
-  [PsCustomObject]@{
-    Name      = "default_platform_matrix"
-    Path      = $PRMatrixFile
-    Selection = "sparse"
-  }
-)
+$configs = Get-Content -Raw $PRMatrixFile | ConvertFrom-Json | ForEach-Object { [PSCustomObject]$_ }
 
 # calculate general targeting information and create our batches prior to generating any matrix
 # this prototype doesn't handle direct and indirect, it just batches for simplicity of the proto

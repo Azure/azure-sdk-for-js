@@ -77,12 +77,6 @@ jobs:
           SparseCheckoutPaths: [ "sdk/", ".vscode"]
           ${{ if eq(parameters.ServiceDirectory, 'auto') }}:
             EnablePRGeneration: true
-
-            PRMatrix:
-              Name: pr_test_base
-              Path: eng/pipelines/templates/stages/platform-matrix.json
-              Setting: ArtifactPackageNames
-
             PreGenerationSteps:
               - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
                 parameters:

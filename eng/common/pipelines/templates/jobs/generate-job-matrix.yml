@@ -45,9 +45,9 @@ parameters:
 - name: EnablePRGeneration
   type: boolean
   default: false
-- name: PRMatrix
-  type: object
-# Mappings to OS name required at template compile time by 1es pipeline templates
+- name: PRMatrixSetting
+  type: string
+  default: 'ArtifactPackageNames'
 - name: Pools
   type: object
   default:
@@ -126,20 +126,16 @@ jobs:
       - ${{ each pool in parameters.Pools }}:
 
         - pwsh: |
-            $defaultMatrixes = '${{ convertToJson(parameters.MatrixConfigs) }}'
-            $defaultMatrixes >> matrix.json
+            # dump the conglomerated CI matrix
+            '${{ convertToJson(parameters.MatrixConfigs) }}' | Set-Content matrix.json
 
-            cat matrix.json
-
-            ./eng/scripts/try-package-config.ps1 -MatrixConfigFile matrix.json
-
-            # ./eng/common/scripts/job-matrix/Create-PrJobMatrix.ps1 `
-            #   -PackagePropertiesFolder $(Build.ArtifactStagingDirectory)/PackageInfo `
-            #   -PRMatrixFile ${{ parameters.PRMatrix.Path }} `
-            #   -PRMatrixSetting ${{ parameters.PRMatrix.Setting }} `
-            #   -DisplayNameFilter '$(displayNameFilter)' `
-            #   -Filters '${{ join(''',''', parameters.MatrixFilters) }}', 'container=^$', 'SupportedClouds=^$|${{ parameters.CloudConfig.Cloud }}', 'Pool=${{ pool.filter }}' `
-            #   -Replace '${{ join(''',''', parameters.MatrixReplace) }}'
+            ./eng/common/scripts/job-matrix/Create-PrJobMatrix.ps1 `
+              -PackagePropertiesFolder $(Build.ArtifactStagingDirectory)/PackageInfo `
+              -PRMatrixFile matrix.json `
+              -PRMatrixSetting ${{ parameters.PRMatrixSetting }} `
+              -DisplayNameFilter '$(displayNameFilter)' `
+              -Filters '${{ join(''',''', parameters.MatrixFilters) }}', 'container=^$', 'SupportedClouds=^$|${{ parameters.CloudConfig.Cloud }}', 'Pool=${{ pool.filter }}' `
+              -Replace '${{ join(''',''', parameters.MatrixReplace) }}'
           displayName: Create ${{ pool.name }} PR Matrix
           name: vm_job_matrix_pr_${{ pool.name }}
 
