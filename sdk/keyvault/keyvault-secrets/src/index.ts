@@ -36,6 +36,7 @@ import { KeyVaultSecretIdentifier, parseKeyVaultSecretIdentifier } from "./ident
 import { getSecretFromSecretBundle, mapPagedAsyncIterable } from "./transformations.js";
 import { tracingClient } from "./tracing.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
+import { SDK_VERSION } from "./constants.js";
 
 export type DeletionRecoveryLevel = string;
 export {
@@ -110,6 +111,9 @@ export class SecretClient {
     const internalPipelineOptions: KeyVaultClientOptionalParams = {
       ...pipelineOptions,
       // TODO: fix the bug (pipelineOptions.apiVersion)
+      userAgentOptions: {
+        userAgentPrefix: `${pipelineOptions.userAgentOptions?.userAgentPrefix ?? ""} azsdk-js-keyvault-secrets/${SDK_VERSION}`,
+      },
       apiVersion: pipelineOptions.serviceVersion || LATEST_API_VERSION,
       loggingOptions: {
         logger: logger.info,

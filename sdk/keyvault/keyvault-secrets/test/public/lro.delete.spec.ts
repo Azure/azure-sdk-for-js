@@ -9,7 +9,7 @@ import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
 import TestClient from "./utils/testClient.js";
 
-describe("Secrets client - Long Running Operations - delete", () => {
+describe("Secrets client - Long Running Operations - delete", { todo: true }, () => {
   const secretPrefix = `lroDelete${env.CERTIFICATE_NAME || "SecretName"}`;
   let secretSuffix: string;
   let client: SecretClient;

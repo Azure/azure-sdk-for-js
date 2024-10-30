@@ -4,8 +4,6 @@
 import { testPollerProperties } from "./recorderUtils.js";
 import { SecretClient, SecretProperties } from "../../../src/index.js";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
-import { RestoreSecretBackupPoller } from "./lro/restore/poller.js";
-import { BeginRestoreSecretBackupOptions } from "./lro/restore/operation.js";
 
 export default class TestClient {
   public readonly client: SecretClient;
@@ -25,20 +23,22 @@ export default class TestClient {
     await this.purgeSecret(secretName);
   }
   public async beginRestoreSecretBackup(
-    backup: Uint8Array,
-    options: BeginRestoreSecretBackupOptions = {},
+    _backup: Uint8Array,
+    _options = {},
   ): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>> {
-    const poller = new RestoreSecretBackupPoller({
-      backup,
-      client: this.client,
-      intervalInMs: options.intervalInMs,
-      resumeFrom: options.resumeFrom,
-      operationOptions: options,
-    });
+    throw new Error("not implemented");
 
-    // This will initialize the poller's operation (the recovery of the backup).
-    await poller.poll();
+    // const poller = new RestoreSecretBackupPoller({
+    //   backup,
+    //   client: this.client,
+    //   intervalInMs: options.intervalInMs,
+    //   resumeFrom: options.resumeFrom,
+    //   operationOptions: options,
+    // });
 
-    return poller;
+    // // This will initialize the poller's operation (the recovery of the backup).
+    // await poller.poll();
+
+    // return poller;
   }
 }

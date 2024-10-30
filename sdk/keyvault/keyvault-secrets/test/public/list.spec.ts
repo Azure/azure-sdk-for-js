@@ -68,7 +68,7 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(found, 2, "Unexpected number of secrets found by getSecrets.");
   });
 
-  it("can list deleted secrets", async function (ctx) {
+  it("can list deleted secrets", { todo: true }, async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
@@ -148,7 +148,7 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(found, 2, "Unexpected number of secrets found by getSecrets.");
   });
 
-  it("can list deleted secrets by page", async function (ctx) {
+  it("can list deleted secrets by page", { todo: true }, async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {

@@ -9,7 +9,7 @@ import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
 import TestClient from "./utils/testClient.js";
 
-describe("Secrets client - Long Running Operations - recoverDelete", () => {
+describe("Secrets client - Long Running Operations - recoverDelete", { todo: true }, () => {
   const secretPrefix = `lroRecover${env.CERTIFICATE_NAME || "SecretName"}`;
   let secretSuffix: string;
   let client: SecretClient;

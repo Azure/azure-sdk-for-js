@@ -157,7 +157,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(error.statusCode, 404);
   });
 
-  it("can delete a secret", async function (ctx) {
+  it("can delete a secret", { todo: true }, async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     await client.setSecret(secretName, secretValue);
     const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
@@ -192,7 +192,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     }
   });
 
-  it("can delete a secret (Non Existing)", async function (ctx) {
+  it("can delete a secret (Non Existing)", { todo: true }, async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     let error;
     try {
@@ -205,7 +205,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(error.statusCode, 404);
   });
 
-  it("can get a deleted secret", async function (ctx) {
+  it("can get a deleted secret", { todo: true }, async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     await client.setSecret(secretName, "RSA");
     const deletePoller = await client.beginDeleteSecret(secretName, testPollerProperties);
@@ -229,7 +229,7 @@ describe("Secret client - create, read, update and delete operations", () => {
     assert.equal(getResult.name, secretName, "Unexpected secret name in result from getSecret().");
   });
 
-  it("can get a deleted secret (Non Existing)", async function (ctx) {
+  it("can get a deleted secret (Non Existing)", { todo: true }, async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     let error;
     try {

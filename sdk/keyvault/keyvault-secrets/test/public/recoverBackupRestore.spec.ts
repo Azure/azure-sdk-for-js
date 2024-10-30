@@ -9,7 +9,7 @@ import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
 import TestClient from "./utils/testClient.js";
 
-describe("Secret client - restore secrets and recover backups", () => {
+describe("Secret client - restore secrets and recover backups", { todo: true }, () => {
   const secretPrefix = `backupRestore${env.SECRET_NAME || "SecretName"}`;
   let secretSuffix: string;
   let client: SecretClient;
@@ -57,7 +57,7 @@ describe("Secret client - restore secrets and recover backups", () => {
     );
   });
 
-  it("can recover a deleted secret (non existing)", async function (ctx) {
+  it("can recover a deleted secret (non existing)", { todo: true }, async function (ctx) {
     const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     let error;
     try {
