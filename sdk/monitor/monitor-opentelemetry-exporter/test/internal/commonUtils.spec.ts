@@ -3,7 +3,7 @@
 
 import os from "node:os";
 import { Resource } from "@opentelemetry/resources";
-import { Tags } from "../../src/types.js";
+import type { Tags } from "../../src/types.js";
 import { createTagsFromResource, serializeAttribute } from "../../src/utils/common.js";
 import { describe, it, assert } from "vitest";
 

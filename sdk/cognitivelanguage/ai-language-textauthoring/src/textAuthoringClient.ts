@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { TokenCredential, KeyCredential } from "@azure/core-auth";
-import { TextAuthoringClient } from "./clientDefinitions";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential, KeyCredential } from "@azure/core-auth";
+import type { TextAuthoringClient } from "./clientDefinitions";
 
 /**
  * Initialize a new instance of the class TextAuthoringClient class.

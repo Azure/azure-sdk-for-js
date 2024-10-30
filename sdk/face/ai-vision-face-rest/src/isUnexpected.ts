@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   GetOperationResult200Response,
   GetOperationResultDefaultResponse,
   DetectFromUrl200Response,

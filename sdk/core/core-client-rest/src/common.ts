@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   HttpClient,
   LogPolicyOptions,
   Pipeline,
@@ -13,9 +13,9 @@ import {
   RequestBodyType,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * Shape of the default request parameters, this may be overridden by the specific

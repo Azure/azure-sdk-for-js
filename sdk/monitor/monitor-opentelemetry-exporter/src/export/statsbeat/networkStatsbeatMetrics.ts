@@ -1,29 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  diag,
+import type {
   BatchObservableResult,
   Meter,
   ObservableGauge,
   ObservableResult,
 } from "@opentelemetry/api";
-import {
-  MeterProvider,
-  PeriodicExportingMetricReader,
-  PeriodicExportingMetricReaderOptions,
-} from "@opentelemetry/sdk-metrics";
-import { AzureMonitorExporterOptions } from "../../index.js";
+import { diag } from "@opentelemetry/api";
+import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
+import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import type { AzureMonitorExporterOptions } from "../../index.js";
 import * as ai from "../../utils/constants/applicationinsights.js";
 import { StatsbeatMetrics } from "./statsbeatMetrics.js";
-import {
-  StatsbeatCounter,
-  STATSBEAT_LANGUAGE,
-  NetworkStatsbeat,
+import type {
   CommonStatsbeatProperties,
   NetworkStatsbeatProperties,
   StatsbeatOptions,
 } from "./types.js";
+import { StatsbeatCounter, STATSBEAT_LANGUAGE, NetworkStatsbeat } from "./types.js";
 import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 import { ENV_DISABLE_STATSBEAT } from "../../Declarations/Constants.js";
 

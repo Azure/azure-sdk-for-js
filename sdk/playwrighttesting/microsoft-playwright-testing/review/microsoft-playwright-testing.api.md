@@ -69,6 +69,7 @@ export type PlaywrightServiceAdditionalOptions = {
     exposeNetwork?: string;
     useCloudHostedBrowsers?: boolean;
     credential?: TokenCredential;
+    runName?: string;
 };
 
 // @public

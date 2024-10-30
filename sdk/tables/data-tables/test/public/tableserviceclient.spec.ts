@@ -2,9 +2,10 @@
 // Licensed under the MIT License.
 
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { TableItem, TableItemResultPage, TableServiceClient, odata } from "../../src";
-import { Context } from "mocha";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import type { TableItem, TableItemResultPage, TableServiceClient } from "../../src";
+import { odata } from "../../src";
+import type { Context } from "mocha";
+import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { createTableServiceClient } from "./utils/recordedClient";
 import { assert } from "@azure-tools/test-utils";
 import { isNodeLike } from "@azure/core-util";

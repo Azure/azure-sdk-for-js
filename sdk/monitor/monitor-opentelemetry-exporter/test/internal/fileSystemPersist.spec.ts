@@ -5,7 +5,7 @@ import * as fs from "node:fs";
 import * as os from "node:os";
 import * as path from "node:path";
 import { FileSystemPersist } from "../../src/platform/nodejs/persist/fileSystemPersist.js";
-import { TelemetryItem as Envelope } from "../../src/generated/index.js";
+import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
 import { promisify } from "node:util";
 import { FileAccessControl } from "../../src/platform/nodejs/persist/fileAccessControl.js";
 import { describe, it, assert, expect, beforeEach } from "vitest";

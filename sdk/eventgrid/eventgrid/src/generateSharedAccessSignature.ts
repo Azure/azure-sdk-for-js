@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyCredential } from "@azure/core-auth";
+import type { KeyCredential } from "@azure/core-auth";
 import { DEFAULT_API_VERSION } from "./constants";
 import { sha256Hmac } from "./cryptoHelpers";
 import { dateToServiceTimeString } from "./util";

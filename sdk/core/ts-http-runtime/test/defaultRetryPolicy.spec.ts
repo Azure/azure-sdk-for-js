@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
-import { RestError, SendRequest, createPipelineRequest, defaultRetryPolicy } from "../src/index.js";
+import type { SendRequest } from "../src/index.js";
+import { RestError, createPipelineRequest, defaultRetryPolicy } from "../src/index.js";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 
 describe("defaultRetryPolicy", function () {

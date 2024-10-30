@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MSI, MSIConfiguration, MSIToken } from "./models";
-import {
-  PipelineRequestOptions,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
+import type { MSI, MSIConfiguration, MSIToken } from "./models";
+import type { PipelineRequestOptions } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 
 import { AuthenticationError } from "../../errors";
-import { GetTokenOptions } from "@azure/core-auth";
-import { IdentityClient } from "../../client/identityClient";
+import type { GetTokenOptions } from "@azure/core-auth";
+import type { IdentityClient } from "../../client/identityClient";
 import { azureArcAPIVersion } from "./constants";
 import { credentialLogger } from "../../util/logging";
 import fs from "node:fs";

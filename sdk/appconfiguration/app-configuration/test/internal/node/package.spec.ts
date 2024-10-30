@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { AppConfigurationClient } from "../../../src/appConfigurationClient.js";
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { packageVersion } from "../../../src/internal/constants.js";
 import { describe, it, assert } from "vitest";
 

@@ -5,9 +5,9 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { createClient } from "./utils/recordedClient";
 
-import { Context } from "mocha";
-import { PurviewWorkflowClient } from "../../src/clientDefinitions";
-import { SubmitUserRequestsParameters } from "../../src/parameters";
+import type { Context } from "mocha";
+import type { PurviewWorkflowClient } from "../../src/clientDefinitions";
+import type { SubmitUserRequestsParameters } from "../../src/parameters";
 import { isUnexpected } from "../../src/isUnexpected";
 import { assert } from "chai";
 
