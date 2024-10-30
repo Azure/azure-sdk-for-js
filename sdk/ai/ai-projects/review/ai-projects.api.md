@@ -4,7 +4,6 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
@@ -81,9 +80,6 @@ export class AIProjectsClient {
     static fromConnectionString(connectionString: string, credential: TokenCredential, options?: CreateProjectsClient): AIProjectsClient;
     readonly pipeline: Pipeline;
 }
-
-// @public (undocumented)
-export function getAgentsOperations(context: Client): AgentsOperations;
 
 // (No @packageDocumentation comment for this package)
 
