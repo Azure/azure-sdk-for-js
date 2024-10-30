@@ -21,6 +21,7 @@ It generates the matrix by the following algorithm:
           - walk each matrix item
             - add suffixes for batch and matrix config if nececessary to the job name
             - add the combined property name to the parameters of the matrix item
+            - add the matrix item to the overall result
 
 .EXAMPLE
 ./eng/common/scripts/job-matrix/Create-PrJobMatrix.ps1 `
@@ -63,9 +64,7 @@ $packageProperties = Get-ChildItem -Recurse "$PackagePropertiesFolder" *.json `
 
 # set default matrix config for each package if there isn't an override
 $packageProperties | ForEach-Object {
-  if (-not $_.CIMatrixConfigs) {
-    $_.CIMatrixConfigs = $configs
-  }
+  $_.CIMatrixConfigs = $_.CIMatrixConfigs ?? $configs
 }
 
 # The key here is that after we group the packages by the matrix config objects, we can use the first item's MatrixConfig
