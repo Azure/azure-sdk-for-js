@@ -72,8 +72,7 @@
     "mocha": "^10.0.0",
     "nyc": "^17.0.0",
     "ts-node": "^10.0.0",
-    "typescript": "~5.6.2",
-    "uglify-js": "^3.4.9"
+    "typescript": "~5.6.2"
   },
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -103,7 +102,7 @@
     "integration-test:browser": "echo skip",
     "integration-test:node": "echo skip",
     "lint": "echo skipped",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
+    "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",

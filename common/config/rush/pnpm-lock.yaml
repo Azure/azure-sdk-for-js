@@ -20349,7 +20349,7 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-euXkgkGXdTx7vQdcSoNe659V3EO9RWucSpDPjatBS8UjE8oOcRTitP2b35pt4yzDNm9TOtH6DaLVVJt+LPl/Nw==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-ploFXn1xRaagTl77FhJEkOSeovopEsE4iZeQV8oBf9TfGEHugbqCQ7TWzjC9sSMdsTqDKUUE70bLWRUD0b9FBg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
@@ -20400,6 +20400,7 @@ packages:
       tsx: 4.19.2
       typescript: 5.6.3
       typescript-eslint: 8.2.0(eslint@9.13.0)(typescript@5.6.3)
+      uglify-js: 3.19.3
       vitest: 2.1.4(@types/node@18.19.60)(@vitest/browser@2.1.4)
       yaml: 2.6.0
     transitivePeerDependencies:

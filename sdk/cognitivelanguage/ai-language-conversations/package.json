@@ -61,8 +61,7 @@
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.6.2",
-    "uglify-js": "^3.4.9"
+    "typescript": "~5.6.2"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
