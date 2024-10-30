@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { isUnexpected } from "../generated";
-import MapsRender from "../src/mapsRender";
+import MapsRender, { isUnexpected } from "@azure-rest/maps-render";
+
 
 /**
  * @summary How to get the copyright all around the world.
