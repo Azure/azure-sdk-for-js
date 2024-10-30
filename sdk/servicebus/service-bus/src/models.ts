@@ -63,7 +63,7 @@ export interface MessageHandlers {
    *
    * @param message - A message received from Service Bus.
    */
-  processMessage(message: ServiceBusReceivedMessage): Promise<void>;
+  processMessage(message: ServiceBusReceivedMessage): Promise<unknown>;
   /**
    * Handler that processes errors that occur during receiving.
    *
