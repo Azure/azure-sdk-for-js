@@ -181,10 +181,11 @@ export class QueryIterator<T> {
       if (!this.isInitialized) {
         await this.init(diagnosticNode);
       }
-
+      console.log("fetchNext called");
       let response: Response<any>;
       try {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
+        console.log("Response fetchNext: ", response);
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
           await this.createExecutionContext(diagnosticNode);
@@ -197,6 +198,7 @@ export class QueryIterator<T> {
           throw error;
         }
       }
+      console.log("Response fetchNext: ", response);
       return new FeedResponse<T>(
         response.result,
         response.headers,

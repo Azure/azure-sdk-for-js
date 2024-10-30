@@ -34,7 +34,6 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     private priorityQueueBufferSize: number,
     private offset: number = 0,
     private emitRawOrderByPayload: boolean = false,
-
   ) {
     const comparator = new OrderByComparator(this.sortOrders);
     this.nonStreamingOrderByPQ = new FixedSizePriorityQueue<NonStreamingOrderByResult>(
@@ -93,8 +92,8 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
       let item;
       if (this.emitRawOrderByPayload) {
         item = this.nonStreamingOrderByPQ.dequeue();
-      } else{
-       item = this.nonStreamingOrderByPQ.dequeue()?.payload;
+      } else {
+        item = this.nonStreamingOrderByPQ.dequeue()?.payload;
       }
       return {
         result: item,

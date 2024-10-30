@@ -129,10 +129,10 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       this.finalResultArray = new Array(finalArraySize);
       // Only keep the final result array size number of items in the final result array and discard the rest.
       for (let count = finalArraySize - 1; count >= 0; count--) {
-        if(this.emitRawOrderByPayload) {
+        if (this.emitRawOrderByPayload) {
           this.finalResultArray[count] = this.nonStreamingOrderByPQ.dequeue();
         } else {
-        this.finalResultArray[count] = this.nonStreamingOrderByPQ.dequeue()?.payload;
+          this.finalResultArray[count] = this.nonStreamingOrderByPQ.dequeue()?.payload;
         }
       }
     }

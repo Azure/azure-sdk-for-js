@@ -537,10 +537,60 @@ describe("Full text search feature", async () => {
     });
     await container.items.create({ id: "1", text: "I like to swim" });
     await container.items.create({ id: "2", text: "I like to run" });
-    // const queryOptions = { forceQueryPlan: true };
-    const queryIterator = container.items.query(query);
+    const queryOptions = { forceQueryPlan: true };
+    const queryIterator = container.items.query(query, queryOptions);
 
     const result = await queryIterator.fetchNext();
     console.log(result);
+  });
+
+  it("should execute a full text query with RRF score", async function () {
+    database = await getTestDatabaseName("FTS-DB-test");
+    const containerName = "full text search container";
+    const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
+      vectorEmbeddings: [
+        {
+          path: "/image",
+          dataType: VectorEmbeddingDataType.Float32,
+          dimensions: 3,
+          distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
+        },
+      ],
+    };
+
+    const query =
+      "SELECT TOP 10 c FROM c WHERE FullTextContains(c.text, 'swim') AND FullTextContains(c.text2, 'swim') ORDER BY RANK RRF (FullTextScore(c.text, ['swim', 'run']),FullTextScore(c.text2, ['swim', 'run']))";
+
+    const { container } = await database.containers.createIfNotExists({
+      id: containerName,
+      throughput: 15000,
+      vectorEmbeddingPolicy: vectorEmbeddingPolicy,
+    });
+    await container.items.create({
+      id: "1",
+      text: "I like to swim",
+      image: [1, 2, 3],
+      text2: "I do not like to swim",
+    });
+    await container.items.create({
+      id: "2",
+      text: "I like to run",
+      image: [2, 2, 3],
+      text2: "I do not like to run",
+    });
+    await container.items.create({
+      id: "3",
+      text: "I like to run and swim",
+      image: [2, 2, 3],
+      text2: "I do not like to run and swim",
+    });
+
+    const queryOptions = { forceQueryPlan: true };
+    const queryIterator = container.items.query(query, queryOptions);
+
+    // while (queryIterator.hasMoreResults()) {
+    //   const result = await queryIterator.fetchNext();
+    //   console.log("final query result", result);
+    // }
   });
 });

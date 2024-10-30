@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 import { GlobalStatistics } from "../../request/globalStatistics";
 import { Aggregator } from "./Aggregator";
 

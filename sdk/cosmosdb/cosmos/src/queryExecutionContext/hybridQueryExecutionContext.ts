@@ -34,6 +34,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private state: HybridQueryExecutionContextBaseStates;
   private globalStatisticsAggregator: GlobalStatisticsAggregator;
   private emitRawOrderByPayload: boolean = true;
+  private buffer: HybridSearchQueryResult[] = [];
 
   constructor(
     private clientContext: ClientContext,
@@ -44,6 +45,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     private correlatedActivityId: string,
     private allPartitionsRanges: QueryRange[],
   ) {
+    this.state = HybridQueryExecutionContextBaseStates.uninitialized;
     this.pageSize = this.options.maxItemCount;
     console.log("query", this.query);
     if (partitionedQueryExecutionInfo.hybridSearchQueryInfo.requiresGlobalStatistics) {
@@ -75,7 +77,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         globalStatisticsQueryExecutionInfo,
         this.correlatedActivityId,
       );
-      this.state = HybridQueryExecutionContextBaseStates.uninitialized;
     } else {
       // initialise context without global statistics
       this.state = HybridQueryExecutionContextBaseStates.initialized;
@@ -84,7 +85,19 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   nextItem: (diagnosticNode: DiagnosticNodeInternal) => Promise<Response<any>>;
 
   public hasMoreResults(): boolean {
-    return this.state !== HybridQueryExecutionContextBaseStates.done;
+    console.log("state", this.state);
+    switch (this.state) {
+      case HybridQueryExecutionContextBaseStates.uninitialized:
+        return true;
+      case HybridQueryExecutionContextBaseStates.initialized:
+        return true;
+      case HybridQueryExecutionContextBaseStates.draining:
+        return this.buffer.length > 0;
+      case HybridQueryExecutionContextBaseStates.done:
+        return false;
+      default:
+        return false;
+    }
   }
 
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
@@ -92,80 +105,30 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       case HybridQueryExecutionContextBaseStates.uninitialized:
         await this.initialize(diagnosticNode);
         return {
-          result: undefined,
+          result: [],
           headers: getInitialHeader(),
         };
 
       case HybridQueryExecutionContextBaseStates.initialized:
-        // await this.executeComponentQueries(diagnosticNode);
-        this.state = HybridQueryExecutionContextBaseStates.draining;
+        await this.executeComponentQueries(diagnosticNode);
         return {
-          result: undefined,
+          result: [],
           headers: getInitialHeader(),
         };
-      // case HybridQueryExecutionContextBaseStates.draining:
-      //   return this.drain(diagnosticNode);
-      // case HybridQueryExecutionContextBaseStates.done:
-      //   return this.done();
+      case HybridQueryExecutionContextBaseStates.draining:
+        const result = await this.drain();
+        return result;
+      case HybridQueryExecutionContextBaseStates.done:
+        return this.done();
       default:
         throw new Error(`Invalid state: ${this.state}`);
     }
-
-    //   } else {
-    //     // update response such that it holds unique rid's
-
-    //     const responseSet = new Map<string, any>();
-
-    //     for (const componentExecutionContext of this.componentsExecutionContext){
-    //       while(componentExecutionContext.hasMoreResults()){
-
-    //       const result = await componentExecutionContext.fetchMore(diagnosticNode);
-    //       // add all the pages of result to response
-
-    //       for (const item of result.result){
-    //         if(!responseSet.has(item.rid)){
-    //           responseSet.set(item.rid, item);
-    //         }
-    //       }
-
-    //     }
-    //   }
-
-    //   // continue from assigning ranks to the responseSet
-
-    //   const rankedResponseSet = rankComponents(responseSet);
-
-    //   // compute rrf ranks
-    //   // set k as constant 60
-    //   const rrfScoreSet = computeRRFScoreForSet(rankedResponseSet, 60);
-
-    //   // sort the responseSet based on rrfScore
-    //   const sortedResponseSet = new Map([...rrfScoreSet.entries()].sort((a, b) => b[1].RRFscore - a[1].RRFscore));
-
-    //   // skip elements based on skip value in hybridSearchQueryInfo and take elements based on take value in hybridSearchQueryInfo
-    //   const skip = this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.skip;
-    //   const take = this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.take;
-    //   let i = 0;
-    //   const response = new Map<string, any>();
-    //   for (const [key, value] of sortedResponseSet.entries()) {
-    //     if (i < skip) {
-    //       i++;
-    //       continue;
-    //     }
-    //     response.set(key, value); // Add the item to the response
-    //     if (response.size >= take) {
-    //       break;
-    //     }
-    //   }
-    //   return response;
-
-    // }
   }
 
   private async initialize(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
     // const requestCharge = 0;
     // TODO: Add request charge to the response and other headers
-    // TODO: either add a check for require global statistics or create pipeline inside 
+    // TODO: either add a check for require global statistics or create pipeline inside
     try {
       while (this.globalStatisticsExecutionContext.hasMoreResults()) {
         const result = await this.globalStatisticsExecutionContext.nextItem(diagnosticNode);
@@ -182,47 +145,155 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     // create component execution contexts for each component query
     this.createComponentExecutionContexts();
     this.state = HybridQueryExecutionContextBaseStates.initialized;
-
-    //TODO: remove this
-    await this.executeComponentQueries(diagnosticNode);
   }
 
   private async executeComponentQueries(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
-    if(this.componentsExecutionContext.length === 1){
-       const result = await this.drainSingleComponent(diagnosticNode);
-        console.log("result from single drain", JSON.stringify(result));
-       return;
+    if (this.componentsExecutionContext.length === 1) {
+      const result = await this.drainSingleComponent(diagnosticNode);
+      console.log("result from single drain", JSON.stringify(result));
+      return;
+    }
+    console.log("componentsExecutionContext", this.componentsExecutionContext.length);
+    try {
+      const hybridSearchResult: HybridSearchQueryResult[] = [];
+      const uniqueItems = new Map<string, HybridSearchQueryResult>();
+
+      for (const componentExecutionContext of this.componentsExecutionContext) {
+        console.log("componentExecutionContext", componentExecutionContext);
+        while (componentExecutionContext.hasMoreResults()) {
+          const result = await componentExecutionContext.fetchMore(diagnosticNode);
+          const response = result.result;
+          console.log("individual component response", JSON.stringify(response));
+          if (response) {
+            response.forEach((item: any) => {
+              const hybridItem = HybridSearchQueryResult.create(item);
+              console.log("hybridItem", hybridItem);
+              if (!uniqueItems.has(hybridItem.rid)) {
+                uniqueItems.set(hybridItem.rid, hybridItem);
+              }
+            });
+          }
+        }
+      }
+      console.log("uniqueItems", uniqueItems);
+      uniqueItems.forEach((item) => hybridSearchResult.push(item));
+      console.log("hybridSearchResult", hybridSearchResult);
+      if (hybridSearchResult.length === 0 || hybridSearchResult.length === 1) {
+        // return the result as no or one element is present
+        this.state = HybridQueryExecutionContextBaseStates.draining;
+        return;
+      }
+
+      // Initialize an array to hold ranks for each document
+      const sortedHybridSearchResult = this.sortHybridSearchResultByRRFScore(hybridSearchResult);
+
+      console.log("sortedHybridSearchResult", sortedHybridSearchResult);
+      // store the result to buffer
+      // add only data from the sortedHybridSearchResult in the buffer
+      sortedHybridSearchResult.forEach((item) => this.buffer.push(item.data));
+      this.state = HybridQueryExecutionContextBaseStates.draining;
+      console.log("draining");
+      // remove this
+    } catch (error) {
+      this.state = HybridQueryExecutionContextBaseStates.done;
+      throw error;
+    }
+  }
+
+  private async drain(): Promise<Response<any>> {
+    try {
+      const result = this.buffer.slice(0, this.pageSize);
+      this.buffer = this.buffer.splice(this.pageSize);
+      console.log("drain result", result.length);
+      console.log("buffer length", this.buffer.length);
+      console.log("drain result", result);
+      if (this.buffer.length === 0) {
+        this.state = HybridQueryExecutionContextBaseStates.done;
+        console.log("done:", this.state);
+      }
+      return {
+        result: result,
+        headers: getInitialHeader(),
+      };
+    } catch (error) {
+      this.state = HybridQueryExecutionContextBaseStates.done;
+      throw error;
+    }
+  }
+
+  private done(): Response<any> {
+    console.log("done");
+    return {
+      result: undefined,
+      headers: getInitialHeader(),
+    };
+  }
+
+  private sortHybridSearchResultByRRFScore(hybridSearchResult: HybridSearchQueryResult[]) {
+    const ranksArray: { rid: string; ranks: number[] }[] = hybridSearchResult.map((item) => ({
+      rid: item.rid,
+      ranks: new Array(item.componentScores.length).fill(0),
+    }));
+
+    // Compute ranks for each component score
+    for (let i = 0; i < hybridSearchResult[0].componentScores.length; i++) {
+      // Sort based on the i-th component score
+      hybridSearchResult.sort((a, b) => b.componentScores[i] - a.componentScores[i]);
+
+      // Assign ranks
+      hybridSearchResult.forEach((item, index) => {
+        const rankIndex = ranksArray.findIndex((rankItem) => rankItem.rid === item.rid);
+        ranksArray[rankIndex].ranks[i] = index + 1; // 1-based rank
+      });
     }
 
+    // Function to compute RRF score
+    const computeRRFScore = (ranks: number[], k: number): number => {
+      return ranks.reduce((acc, rank) => acc + 1 / (k + rank), 0);
+    };
 
+    // Compute RRF scores and sort based on them
+    const k = 60; // Constant for RRF score calculation
+    const rrfScores = ranksArray.map((item) => ({
+      rid: item.rid,
+      rrfScore: computeRRFScore(item.ranks, k),
+    }));
+
+    // Sort based on RRF scores
+    rrfScores.sort((a, b) => b.rrfScore - a.rrfScore);
+
+    // Map sorted RRF scores back to hybridSearchResult
+    const sortedHybridSearchResult = rrfScores.map((scoreItem) =>
+      hybridSearchResult.find((item) => item.rid === scoreItem.rid),
+    );
+    return sortedHybridSearchResult;
   }
 
   private async drainSingleComponent(diagNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    if(this.componentsExecutionContext && this.componentsExecutionContext.length !== 1){
+    if (this.componentsExecutionContext && this.componentsExecutionContext.length !== 1) {
       throw new Error("drainSingleComponent called on multiple components");
     }
-    const componentExecutionContext = this.componentsExecutionContext[0];
-    if(componentExecutionContext.hasMoreResults()){
-      const result = await componentExecutionContext.fetchMore(diagNode);
-      const response = result.result;
+    try {
+      const componentExecutionContext = this.componentsExecutionContext[0];
       const hybridSearchResult: HybridSearchQueryResult[] = [];
-      if(response){
+      while (componentExecutionContext.hasMoreResults()) {
+        const result = await componentExecutionContext.fetchMore(diagNode);
+        const response = result.result;
         response.forEach((item: any) => {
           hybridSearchResult.push(HybridSearchQueryResult.create(item));
-       
-      });
-    }
-      // this.state = HybridQueryExecutionContextBaseStates.draining;
-      // return hybridSearchResult;
-    } else {
-      this.state = HybridQueryExecutionContextBaseStates.done;
+        });
+      }
+
+      this.state = HybridQueryExecutionContextBaseStates.draining;
       return {
-        result: undefined,
+        result: hybridSearchResult,
         headers: getInitialHeader(),
       };
+    } catch (error) {
+      this.state = HybridQueryExecutionContextBaseStates.done;
+      throw error;
     }
   }
-
 
   private createComponentExecutionContexts(): void {
     // rewrite queries based on global statistics
@@ -242,11 +313,11 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         new PipelinedQueryExecutionContext(
           this.clientContext,
           this.collectionLink,
-          this.query,
+          componentQueryInfo.rewrittenQuery,
           this.options,
           componentPartitionExecutionInfo,
           this.correlatedActivityId,
-           this.emitRawOrderByPayload,
+          this.emitRawOrderByPayload,
         ),
       );
     }
@@ -293,7 +364,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     return query;
   }
 }
-
 
 // function rankComponents(responseSet: Map<string, any>): Map<string, any> {
 //   // Convert the map values (ComponentObjects) into an array

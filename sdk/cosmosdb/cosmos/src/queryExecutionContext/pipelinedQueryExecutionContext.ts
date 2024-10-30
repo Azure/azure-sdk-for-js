@@ -86,14 +86,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           sortOrders,
           this.vectorSearchBufferSize,
           partitionedQueryExecutionInfo.queryInfo.offset,
-          this.emitRawOrderByPayload
+          this.emitRawOrderByPayload,
         );
       } else {
         this.endpoint = new NonStreamingOrderByDistinctEndpointComponent(
           context,
           partitionedQueryExecutionInfo.queryInfo,
           this.vectorSearchBufferSize,
-          this.emitRawOrderByPayload
+          this.emitRawOrderByPayload,
         );
       }
     } else {
@@ -109,7 +109,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
             this.partitionedQueryExecutionInfo,
             correlatedActivityId,
           ),
-          this.emitRawOrderByPayload
+          this.emitRawOrderByPayload,
         );
       } else {
         this.endpoint = new ParallelQueryExecutionContext(
