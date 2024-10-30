@@ -46,7 +46,7 @@ export interface BrandDetails {
 }
 
 // @public
-export type BrandStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCancellation" | "Denied" | "Approved";
+export type BrandStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCancellation" | "Denied" | "Approved" | "MicrosoftSupportEngaged" | "VettingSubmitted";
 
 // @public (undocumented)
 export interface CampaignDetails {
@@ -55,7 +55,7 @@ export interface CampaignDetails {
 }
 
 // @public
-export type CampaignStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCancellation" | "Denied" | "Approved";
+export type CampaignStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCancellation" | "Denied" | "Approved" | "MicrosoftSupportEngaged";
 
 // @public
 export type CompanyVertical = "Agriculture" | "Communication" | "Construction" | "Education" | "Energy" | "Entertainment" | "Financial" | "Gambling" | "Government" | "Healthcare" | "Hospitality" | "HumanResources" | "Insurance" | "Legal" | "Manufacturing" | "Ngo" | "Political" | "Postal" | "Professional" | "RealEstate" | "Retail" | "Technology" | "Transportation";
