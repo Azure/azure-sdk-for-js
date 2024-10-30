@@ -83,9 +83,9 @@
     "vitest": "^2.0.5"
   },
   "scripts": {
-    "build": "npm run clean && tshy && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
     "build:samples": "dev-tool run typecheck --paths samples-dev/*.ts && dev-tool samples publish -f",
-    "build:test": "npm run clean && tshy && dev-tool run build-test",
+    "build:test": "npm run clean && dev-tool run build-package && dev-tool run build-test",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
