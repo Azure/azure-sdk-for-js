@@ -1,5 +1,11 @@
 # Release History
 
+## 1.3.0-beta.3 (2024-10-30)
+
+### Features Added
+
+- Added CreateCallFailed event to signify when create call API fails to establish a call
+
 ## 1.3.0-beta.2 (2024-08-12)
 
 ### Bugs Fixed
