@@ -4,11 +4,11 @@ import { context } from "@opentelemetry/api";
 import type { PushMetricExporter, ResourceMetrics } from "@opentelemetry/sdk-metrics";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode, suppressTracing } from "@opentelemetry/core";
-import type { AzureMonitorExporterOptions } from "../../config";
-import type { TelemetryItem as Envelope } from "../../generated";
-import { resourceMetricsToEnvelope } from "../../utils/metricUtils";
-import { AzureMonitorBaseExporter } from "../base";
-import { HttpSender } from "../../platform";
+import type { AzureMonitorExporterOptions } from "../../config.js";
+import type { TelemetryItem as Envelope } from "../../generated/index.js";
+import { resourceMetricsToEnvelope } from "../../utils/metricUtils.js";
+import { AzureMonitorBaseExporter } from "../base.js";
+import { HttpSender } from "../../platform/index.js";
 
 /**
  * Azure Monitor Statsbeat Exporter

@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 import type { TracerConfig } from "@opentelemetry/sdk-trace-base";
 import { Span, BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
 import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
-import * as assert from "assert";
 import { Resource } from "@opentelemetry/resources";
 import {
   DBSYSTEMVALUES_HIVE,
@@ -33,20 +32,21 @@ import {
   SEMRESATTRS_SERVICE_NAMESPACE,
 } from "@opentelemetry/semantic-conventions";
 
-import type { Tags, Properties, Measurements } from "../../src/types";
-import { MaxPropertyLengths } from "../../src/types";
-import { Context, getInstance } from "../../src/platform";
-import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../../src/utils/spanUtils";
+import type { Tags, Properties, Measurements } from "../../src/types.js";
+import { MaxPropertyLengths } from "../../src/types.js";
+import { Context, getInstance } from "../../src/platform/index.js";
+import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../../src/utils/spanUtils.js";
 import type {
   RemoteDependencyData,
   RequestData,
   TelemetryExceptionData,
   MessageData,
-} from "../../src/generated";
-import { KnownContextTagKeys } from "../../src/generated";
-import type { TelemetryItem as Envelope } from "../../src/generated";
-import { DependencyTypes } from "../../src/utils/constants/applicationinsights";
-import { hrTimeToDate } from "../../src/utils/common";
+} from "../../src/generated/index.js";
+import { KnownContextTagKeys } from "../../src/generated/index.js";
+import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
+import { DependencyTypes } from "../../src/utils/constants/applicationinsights.js";
+import { hrTimeToDate } from "../../src/utils/common.js";
+import { describe, it, assert } from "vitest";
 
 const context = getInstance();
 
@@ -109,7 +109,7 @@ function assertEnvelope(
   if (envelope.data?.baseData) {
     delete envelope.data.baseData.duration;
   }
-  assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData);
+  assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData as MonitorDomain);
 }
 
 const emptyMeasurements: Measurements = {};

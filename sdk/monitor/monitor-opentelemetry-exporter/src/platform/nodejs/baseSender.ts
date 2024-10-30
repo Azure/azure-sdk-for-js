@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { diag } from "@opentelemetry/api";
-import type { PersistentStorage, SenderResult } from "../../types";
-import type { AzureMonitorExporterOptions } from "../../config";
-import { FileSystemPersist } from "./persist";
+import type { PersistentStorage, SenderResult } from "../../types.js";
+import type { AzureMonitorExporterOptions } from "../../config.js";
+import { FileSystemPersist } from "./persist/index.js";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
-import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics";
-import { getInstance } from "../../export/statsbeat/longIntervalStatsbeatMetrics";
+import { NetworkStatsbeatMetrics } from "../../export/statsbeat/networkStatsbeatMetrics.js";
+import { getInstance } from "../../export/statsbeat/longIntervalStatsbeatMetrics.js";
 import type { RestError } from "@azure/core-rest-pipeline";
-import { MAX_STATSBEAT_FAILURES, isStatsbeatShutdownStatus } from "../../export/statsbeat/types";
-import type { BreezeResponse } from "../../utils/breezeUtils";
-import { isRetriable } from "../../utils/breezeUtils";
-import type { TelemetryItem as Envelope } from "../../generated";
+import { MAX_STATSBEAT_FAILURES, isStatsbeatShutdownStatus } from "../../export/statsbeat/types.js";
+import type { BreezeResponse } from "../../utils/breezeUtils.js";
+import { isRetriable } from "../../utils/breezeUtils.js";
+import type { TelemetryItem as Envelope } from "../../generated/index.js";
 
 const DEFAULT_BATCH_SEND_RETRY_INTERVAL_MS = 60_000;
 

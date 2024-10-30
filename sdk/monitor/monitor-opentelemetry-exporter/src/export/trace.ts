@@ -5,12 +5,12 @@ import { diag } from "@opentelemetry/api";
 import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
 import type { ReadableSpan, SpanExporter } from "@opentelemetry/sdk-trace-base";
-import { AzureMonitorBaseExporter } from "./base";
-import type { AzureMonitorExporterOptions } from "../config";
-import type { TelemetryItem as Envelope } from "../generated";
-import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtils";
-import { createResourceMetricEnvelope, shouldCreateResourceMetric } from "../utils/common";
-import { HttpSender } from "../platform";
+import { AzureMonitorBaseExporter } from "./base.js";
+import type { AzureMonitorExporterOptions } from "../config.js";
+import type { TelemetryItem as Envelope } from "../generated/index.js";
+import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../utils/spanUtils.js";
+import { createResourceMetricEnvelope, shouldCreateResourceMetric } from "../utils/common.js";
+import { HttpSender } from "../platform/index.js";
 
 /**
  * Azure Monitor OpenTelemetry Trace Exporter.
