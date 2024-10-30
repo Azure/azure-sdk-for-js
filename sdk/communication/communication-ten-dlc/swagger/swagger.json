@@ -632,14 +632,17 @@
         },
         "city": {
           "description": "The City for US addresses, for example",
+          "maxLength": 100,
           "type": "string"
         },
         "state": {
           "description": "The State for US addresses, for example",
+          "maxLength": 20,
           "type": "string"
         },
         "postalCode": {
           "description": "Postal code",
+          "maxLength": 10,
           "type": "string"
         },
         "country": {
@@ -653,10 +656,12 @@
       "properties": {
         "name": {
           "description": "Gets or sets Name",
+          "maxLength": 255,
           "type": "string"
         },
         "companyName": {
           "description": "Gets or sets Company Name",
+          "maxLength": 255,
           "type": "string"
         },
         "companyVertical": {
@@ -750,6 +755,7 @@
         },
         "stockSymbol": {
           "description": "Stock Exchange",
+          "maxLength": 10,
           "type": "string"
         },
         "alternateBusinessIdType": {
@@ -767,10 +773,12 @@
         },
         "alternateBusinessId": {
           "description": "Alternate Business Id",
+          "maxLength": 50,
           "type": "string"
         },
         "taxNumber": {
           "description": "Business Id that corresponds to your business",
+          "maxLength": 21,
           "type": "string"
         },
         "taxNumberIssuingCountry": {
@@ -780,6 +788,7 @@
         "url": {
           "format": "uri",
           "description": "URL",
+          "maxLength": 100,
           "type": "string"
         }
       }
@@ -808,6 +817,7 @@
         "email": {
           "format": "email",
           "description": "Contact email address number for the authorized user for the customer",
+          "maxLength": 100,
           "type": "string"
         }
       }
@@ -957,7 +967,9 @@
             "Cancelled",
             "PendingCancellation",
             "Denied",
-            "Approved"
+            "Approved",
+            "MicrosoftSupportEngaged",
+            "VettingSubmitted"
           ],
           "type": "string",
           "x-ms-enum": {
@@ -1013,7 +1025,8 @@
             "Cancelled",
             "PendingCancellation",
             "Denied",
-            "Approved"
+            "Approved",
+            "MicrosoftSupportEngaged"
           ],
           "type": "string",
           "x-ms-enum": {

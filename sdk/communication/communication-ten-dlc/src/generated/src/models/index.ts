@@ -224,7 +224,9 @@ export type BrandStatus =
   | "Cancelled"
   | "PendingCancellation"
   | "Denied"
-  | "Approved";
+  | "Approved"
+  | "MicrosoftSupportEngaged"
+  | "VettingSubmitted";
 /** Defines values for TenDlcCostType. */
 export type TenDlcCostType = "Brand" | "StandardCampaign";
 /** Defines values for BillingFrequency. */
@@ -297,7 +299,8 @@ export type CampaignStatus =
   | "Cancelled"
   | "PendingCancellation"
   | "Denied"
-  | "Approved";
+  | "Approved"
+  | "MicrosoftSupportEngaged";
 /** Defines values for ContentType. */
 export type ContentType =
   | "TwoFactorAuthentication"

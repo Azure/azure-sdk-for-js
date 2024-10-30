@@ -139,12 +139,18 @@ export const BrandDetails: coreClient.CompositeMapper = {
     className: "BrandDetails",
     modelProperties: {
       name: {
+        constraints: {
+          MaxLength: 255,
+        },
         serializedName: "name",
         type: {
           name: "String",
         },
       },
       companyName: {
+        constraints: {
+          MaxLength: 255,
+        },
         serializedName: "companyName",
         type: {
           name: "String",
@@ -183,6 +189,9 @@ export const BrandDetails: coreClient.CompositeMapper = {
         },
       },
       stockSymbol: {
+        constraints: {
+          MaxLength: 10,
+        },
         serializedName: "stockSymbol",
         type: {
           name: "String",
@@ -195,12 +204,18 @@ export const BrandDetails: coreClient.CompositeMapper = {
         },
       },
       alternateBusinessId: {
+        constraints: {
+          MaxLength: 50,
+        },
         serializedName: "alternateBusinessId",
         type: {
           name: "String",
         },
       },
       taxNumber: {
+        constraints: {
+          MaxLength: 21,
+        },
         serializedName: "taxNumber",
         type: {
           name: "String",
@@ -213,6 +228,9 @@ export const BrandDetails: coreClient.CompositeMapper = {
         },
       },
       url: {
+        constraints: {
+          MaxLength: 100,
+        },
         serializedName: "url",
         type: {
           name: "String",
@@ -234,6 +252,9 @@ export const ContactInformation: coreClient.CompositeMapper = {
         },
       },
       email: {
+        constraints: {
+          MaxLength: 100,
+        },
         serializedName: "email",
         type: {
           name: "String",
@@ -261,18 +282,27 @@ export const Address: coreClient.CompositeMapper = {
         },
       },
       city: {
+        constraints: {
+          MaxLength: 100,
+        },
         serializedName: "city",
         type: {
           name: "String",
         },
       },
       state: {
+        constraints: {
+          MaxLength: 20,
+        },
         serializedName: "state",
         type: {
           name: "String",
         },
       },
       postalCode: {
+        constraints: {
+          MaxLength: 10,
+        },
         serializedName: "postalCode",
         type: {
           name: "String",
