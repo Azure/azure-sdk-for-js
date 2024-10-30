@@ -26,7 +26,7 @@ describe("getBearerTokenProvider", function () {
     const credential: TokenCredential = {
       getToken: () =>
         Promise.resolve({
-          token: "token",
+          token: "Example-token",
           tokenType: "Bearer",
           expiresOnTimestamp: new Date().getTime() + 10000,
         }),
@@ -39,6 +39,7 @@ describe("getBearerTokenProvider", function () {
         await delay(500);
       }
       const token = await getAccessToken();
+      assert.equal(token, "Example-token");
       assert.isString(token);
     }
   });
