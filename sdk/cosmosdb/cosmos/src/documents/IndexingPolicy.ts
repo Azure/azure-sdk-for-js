@@ -71,7 +71,7 @@ export interface VectorIndex {
   /**
    * The number of bytes used in product quantization of the vectors.
    * This is an optional parameter and applies to index types DiskANN and quantizedFlat.
-   * The allowed range for this parameter is between 1 and 200.
+   * The allowed range for this parameter is between 1 and min(Dimensions, 512).
    */
   quantizationByteSize?: number;
   /**
