@@ -42,6 +42,7 @@ export const defaultClient = new CosmosClient({
   endpoint,
   key: masterKey,
   connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+  diagnosticLevel: CosmosDbDiagnosticLevel.info,
 });
 
 export const defaultComputeGatewayClient = new CosmosClient({
@@ -424,6 +425,11 @@ export async function getTestDatabase(
   const id = `${testName.replace(" ", "").substring(0, 30)}${entropy}`;
   await client.databases.create({ id, ...attrs });
   return client.database(id);
+}
+
+export async function getTestDatabaseName(db: string) {
+  await defaultClient.databases.createIfNotExists({ id: db });
+  return defaultClient.database(db);
 }
 
 export async function getTestContainer(

@@ -37,6 +37,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     private options: FeedOptions,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
     correlatedActivityId: string,
+    private emitRawOrderByPayload: boolean = false,
   ) {
     this.endpoint = null;
     this.pageSize = options["maxItemCount"];
@@ -85,12 +86,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           sortOrders,
           this.vectorSearchBufferSize,
           partitionedQueryExecutionInfo.queryInfo.offset,
+          this.emitRawOrderByPayload,
         );
       } else {
         this.endpoint = new NonStreamingOrderByDistinctEndpointComponent(
           context,
           partitionedQueryExecutionInfo.queryInfo,
           this.vectorSearchBufferSize,
+          this.emitRawOrderByPayload,
         );
       }
     } else {
@@ -106,6 +109,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
             this.partitionedQueryExecutionInfo,
             correlatedActivityId,
           ),
+          this.emitRawOrderByPayload,
         );
       } else {
         this.endpoint = new ParallelQueryExecutionContext(

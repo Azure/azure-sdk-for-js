@@ -491,4 +491,6 @@ export enum QueryFeature {
   MultipleAggregates = "MultipleAggregates",
   NonStreamingOrderBy = "NonStreamingOrderBy",
   ListAndSetAggregate = "ListAndSetAggregate",
+  CountIf = "CountIf",
+  HybridSearch = "HybridSearch",
 }
