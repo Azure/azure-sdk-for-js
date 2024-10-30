@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DefaultAzureCredential, getBearerTokenProvider } from "../../../src";
+import { AzurePowerShellCredential, getBearerTokenProvider } from "../../../src";
 import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 import { Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
 import { assert } from "@azure-tools/test-utils";
 
-describe("getBearerTokenProvider", function () {
+describe.only("getBearerTokenProvider", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
 
@@ -23,7 +23,7 @@ describe("getBearerTokenProvider", function () {
   const scope = "https://vault.azure.net/.default";
 
   it("returns a callback that returns string tokens", async function () {
-    const credential = new DefaultAzureCredential(recorder.configureClientOptions({}));
+    const credential = new AzurePowerShellCredential(recorder.configureClientOptions({}));
 
     const getAccessToken = getBearerTokenProvider(credential, scope);
 

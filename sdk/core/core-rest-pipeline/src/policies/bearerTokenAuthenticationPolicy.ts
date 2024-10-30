@@ -253,7 +253,7 @@ export function bearerTokenAuthenticationPolicy(
       }
 
       if (isChallengeResponse(response)) {
-        const claims = getCaeChallengeClaims(response);
+        let claims = getCaeChallengeClaims(response);
         // Handle CAE by default when receive CAE claim
         if (claims) {
           let parsedClaim: string;
@@ -293,7 +293,7 @@ export function bearerTokenAuthenticationPolicy(
           }
 
           // If we get another CAE Claim, we will handle it by default and return whatever value we receive for this
-          const claims = getCaeChallengeClaims(response);
+          claims = getCaeChallengeClaims(response);
           if (claims) {
             let parsedClaim: string;
             try {
