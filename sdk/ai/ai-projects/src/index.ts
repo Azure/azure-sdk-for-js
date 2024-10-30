@@ -3,6 +3,6 @@
 
 import { AIProjectsClient } from "./aiProjectsClient.js";
 
-export* from "./agents/index.js";
+export {} from "./agents/index.js";
 
 export { AIProjectsClient };

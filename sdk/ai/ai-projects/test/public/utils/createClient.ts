@@ -37,5 +37,5 @@ export function createProjectsClient(
 ): AIProjectsClient {
   const credential = createTestCredential();
   const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "";
-  return AIProjectsClient.createProjectsClient(connectionString, credential, recorder?.configureClientOptions(options ?? {}));
+  return AIProjectsClient.fromConnectionString(connectionString, credential, recorder?.configureClientOptions(options ?? {}));
 }

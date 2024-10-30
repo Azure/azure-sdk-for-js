@@ -50,13 +50,13 @@ export class AIProjectsClient {
    * @param credential - The credential to use
    * @param options - The parameter for all optional parameters
    */
-  static createProjectsClient(
+  static fromConnectionString(
     connectionString: string,
     credential: TokenCredential,
     options: CreateProjectsClient = {},
   ): AIProjectsClient {
     const { endpointParam, subscriptionId, resourceGroupName, projectName } =
-      AIProjectsClient.fromConnectionString(connectionString);
+      AIProjectsClient.praseConnectionString(connectionString);
     return new AIProjectsClient(
       endpointParam,
       subscriptionId,
@@ -67,7 +67,7 @@ export class AIProjectsClient {
     );
   }
 
-  private static fromConnectionString(connectionString: string): {
+  private static praseConnectionString(connectionString: string): {
     endpointParam: string;
     subscriptionId: string;
     resourceGroupName: string;

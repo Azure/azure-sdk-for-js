@@ -28,17 +28,15 @@ export interface AgentsOperations {
     createThread: (options: AgentsCreateThreadParameters) => Promise<AgentThreadOutput>;
     // Warning: (ae-forgotten-export) The symbol "AgentsCreateThreadAndRunParameters" needs to be exported by the entry point index.d.ts
     createThreadAndRun: (options: AgentsCreateThreadAndRunParameters) => Promise<ThreadRunOutput>;
-    // Warning: (ae-forgotten-export) The symbol "AgentsDeleteAgentParameters" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "AgentDeletionStatusOutput" needs to be exported by the entry point index.d.ts
-    deleteAgent: (assistantId: string, options?: AgentsDeleteAgentParameters) => Promise<AgentDeletionStatusOutput>;
+    deleteAgent: (assistantId: string) => Promise<AgentDeletionStatusOutput>;
     // Warning: (ae-forgotten-export) The symbol "AgentsDeleteFileParameters" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "FileDeletionStatusOutput" needs to be exported by the entry point index.d.ts
     deleteFile: (fileId: string, options?: AgentsDeleteFileParameters) => Promise<FileDeletionStatusOutput>;
     // Warning: (ae-forgotten-export) The symbol "AgentsDeleteThreadParameters" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ThreadDeletionStatusOutput" needs to be exported by the entry point index.d.ts
     deleteThread: (threadId: string, options?: AgentsDeleteThreadParameters) => Promise<ThreadDeletionStatusOutput>;
-    // Warning: (ae-forgotten-export) The symbol "AgentsGetAgentParameters" needs to be exported by the entry point index.d.ts
-    getAgent: (assistantId: string, options?: AgentsGetAgentParameters) => Promise<AgentOutput>;
+    getAgent: (assistantId: string) => Promise<AgentOutput>;
     // Warning: (ae-forgotten-export) The symbol "AgentsGetFileParameters" needs to be exported by the entry point index.d.ts
     getFile: (fileId: string, options?: AgentsGetFileParameters) => Promise<OpenAIFileOutput>;
     // Warning: (ae-forgotten-export) The symbol "AgentsGetFileContentParameters" needs to be exported by the entry point index.d.ts
@@ -48,9 +46,9 @@ export interface AgentsOperations {
     getRun: (threadId: string, runId: string, options?: AgentsGetRunParameters) => Promise<ThreadRunOutput>;
     // Warning: (ae-forgotten-export) The symbol "AgentsGetThreadParameters" needs to be exported by the entry point index.d.ts
     getThread: (threadId: string, options?: AgentsGetThreadParameters) => Promise<AgentThreadOutput>;
-    // Warning: (ae-forgotten-export) The symbol "AgentsListAgentsParameters" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "AgentsListAgentsQueryParamProperties" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "OpenAIPageableListOfAgentOutput" needs to be exported by the entry point index.d.ts
-    listAgents: (options?: AgentsListAgentsParameters) => Promise<OpenAIPageableListOfAgentOutput>;
+    listAgents: (options?: AgentsListAgentsQueryParamProperties) => Promise<OpenAIPageableListOfAgentOutput>;
     // Warning: (ae-forgotten-export) The symbol "AgentsListFilesParameters" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "FileListResponseOutput" needs to be exported by the entry point index.d.ts
     listFiles: (options?: AgentsListFilesParameters) => Promise<FileListResponseOutput>;
@@ -80,37 +78,9 @@ export class AIProjectsClient {
     constructor(endpointParam: string, subscriptionId: string, resourceGroupName: string, projectName: string, credential: TokenCredential, options?: AIProjectsClientOptions);
     readonly agents: AgentsOperations;
     // Warning: (ae-forgotten-export) The symbol "CreateProjectsClient" needs to be exported by the entry point index.d.ts
-    static createProjectsClient(connectionString: string, credential: TokenCredential, options?: CreateProjectsClient): AIProjectsClient;
+    static fromConnectionString(connectionString: string, credential: TokenCredential, options?: CreateProjectsClient): AIProjectsClient;
     readonly pipeline: Pipeline;
 }
-
-// @public (undocumented)
-export function getAgents(context: Client): {
-    createAgent: (options: CreateAgentOptions) => Promise<AgentOutput>;
-    listAgents: (options?: AgentsListAgentsParameters) => Promise<OpenAIPageableListOfAgentOutput>;
-    getAgent: (assistantId: string, options?: AgentsGetAgentParameters) => Promise<AgentOutput>;
-    updateAgent: (assistantId: string, options: UpdateAgentOptions) => Promise<AgentOutput>;
-    deleteAgent: (assistantId: string, options?: AgentsDeleteAgentParameters) => Promise<AgentDeletionStatusOutput>;
-    createThread: (options: AgentsCreateThreadParameters) => Promise<AgentThreadOutput>;
-    getThread: (threadId: string, options?: AgentsGetThreadParameters) => Promise<AgentThreadOutput>;
-    updateThread: (threadId: string, options: AgentsUpdateThreadParameters) => Promise<AgentThreadOutput>;
-    deleteThread: (threadId: string, options?: AgentsDeleteThreadParameters) => Promise<ThreadDeletionStatusOutput>;
-    createRun: (threadId: string, options: AgentsCreateRunParameters) => Promise<ThreadRunOutput>;
-    listRuns: (threadId: string, options?: AgentsListRunsParameters) => Promise<OpenAIPageableListOfThreadRunOutput>;
-    getRun: (threadId: string, runId: string, options?: AgentsGetRunParameters) => Promise<ThreadRunOutput>;
-    updateRun: (threadId: string, runId: string, options: AgentsUpdateRunParameters) => Promise<ThreadRunOutput>;
-    submitToolOutputsToRun: (threadId: string, runId: string, options: AgentsSubmitToolOutputsToRunParameters) => Promise<ThreadRunOutput>;
-    cancelRun: (threadId: string, runId: string, options?: AgentsCancelRunParameters) => Promise<ThreadRunOutput>;
-    createThreadAndRun: (options: AgentsCreateThreadAndRunParameters) => Promise<ThreadRunOutput>;
-    createMessage: (threadId: string, options: AgentsCreateMessageParameters) => Promise<ThreadMessageOutput>;
-    listMessages: (threadId: string, options?: AgentsListMessagesParameters) => Promise<ThreadMessageOutput>;
-    updateMessage: (threadId: string, messageId: string, options: AgentsUpdateMessageParameters) => Promise<ThreadMessageOutput>;
-    listFiles: (options?: AgentsListFilesParameters) => Promise<FileListResponseOutput>;
-    uploadFile: (options: AgentsUploadFileParameters) => Promise<OpenAIFileOutput>;
-    deleteFile: (fileId: string, options?: AgentsDeleteFileParameters) => Promise<FileDeletionStatusOutput>;
-    getFile: (fileId: string, options?: AgentsGetFileParameters) => Promise<OpenAIFileOutput>;
-    getFileContent: (fileId: string, options?: AgentsGetFileContentParameters) => Promise<FileContentResponseOutput>;
-};
 
 // @public (undocumented)
 export function getAgentsOperations(context: Client): AgentsOperations;
