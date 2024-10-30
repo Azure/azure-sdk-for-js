@@ -1481,10 +1481,10 @@ index 55110a0..0000000
 -  };
 -}
 diff --git a/src/policies/bearerTokenAuthenticationPolicy.ts b/src/policies/bearerTokenAuthenticationPolicy.ts
-index 8398172..d4b2706 100644
+index 434eb85..d4b2706 100644
 --- a/src/policies/bearerTokenAuthenticationPolicy.ts
 +++ b/src/policies/bearerTokenAuthenticationPolicy.ts
-@@ -1,10 +1,10 @@
+@@ -1,13 +1,12 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
@@ -1498,8 +1498,11 @@ index 8398172..d4b2706 100644
 +import { PipelinePolicy } from "../pipeline.js";
  import { createTokenCycler } from "../util/tokenCycler.js";
  import { logger as coreLogger } from "../log.js";
+-import { isRestError } from "../restError.js";
  
-@@ -32,7 +32,7 @@ export interface AuthorizeRequestOptions {
+ /**
+  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
+@@ -33,7 +32,7 @@ export interface AuthorizeRequestOptions {
    /**
     * A logger, if one was sent through the HTTP pipeline.
     */
@@ -1508,7 +1511,7 @@ index 8398172..d4b2706 100644
  }
  
  /**
-@@ -58,7 +58,7 @@ export interface AuthorizeRequestOnChallengeOptions {
+@@ -59,7 +58,7 @@ export interface AuthorizeRequestOnChallengeOptions {
    /**
     * A logger, if one was sent through the HTTP pipeline.
     */
@@ -1517,7 +1520,7 @@ index 8398172..d4b2706 100644
  }
  
  /**
-@@ -99,7 +99,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
+@@ -100,7 +99,7 @@ export interface BearerTokenAuthenticationPolicyOptions {
    /**
     * A logger can be sent for debugging purposes.
     */
@@ -1526,6 +1529,251 @@ index 8398172..d4b2706 100644
  }
  
  /**
+@@ -108,13 +107,10 @@ export interface BearerTokenAuthenticationPolicyOptions {
+  */
+ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promise<void> {
+   const { scopes, getAccessToken, request } = options;
+-  // Enable CAE true by default
+   const getTokenOptions: GetTokenOptions = {
+     abortSignal: request.abortSignal,
+     tracingOptions: request.tracingOptions,
+-    enableCae: true,
+   };
+-
+   const accessToken = await getAccessToken(scopes, getTokenOptions);
+ 
+   if (accessToken) {
+@@ -126,38 +122,12 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
+  * We will retrieve the challenge only if the response status code was 401,
+  * and if the response contained the header "WWW-Authenticate" with a non-empty value.
+  */
+-function isChallengeResponse(response: PipelineResponse): boolean {
+-  if (response.status === 401 && response.headers.get("WWW-Authenticate")) {
+-    return true;
+-  }
+-  return false;
+-}
+-
+-/**
+- * Re-authorize the request for CAE challenge.
+- * The response containing the challenge is `options.response`.
+- * If this method returns true, the underlying request will be sent once again.
+- */
+-async function authorizeRequestOnCaeChallenge(
+-  onChallengeOptions: AuthorizeRequestOnChallengeOptions,
+-  caeClaims: string,
+-): Promise<boolean> {
+-  const { scopes } = onChallengeOptions;
+-
+-  const accessToken = await onChallengeOptions.getAccessToken(scopes, {
+-    enableCae: true,
+-    claims: caeClaims,
+-  });
+-
+-  if (!accessToken) {
+-    return false;
++function getChallenge(response: PipelineResponse): string | undefined {
++  const challenge = response.headers.get("WWW-Authenticate");
++  if (response.status === 401 && challenge) {
++    return challenge;
+   }
+-
+-  onChallengeOptions.request.headers.set(
+-    "Authorization",
+-    `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`,
+-  );
+-  return true;
++  return;
+ }
+ 
+ /**
+@@ -172,6 +142,8 @@ export function bearerTokenAuthenticationPolicy(
+   const callbacks = {
+     authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
+     authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
++    // keep all other properties
++    ...challengeCallbacks,
+   };
+ 
+   // This function encapsulates the entire process of reliably retrieving the token
+@@ -216,59 +188,16 @@ export function bearerTokenAuthenticationPolicy(
+       try {
+         response = await next(request);
+       } catch (err: any) {
+-        if (isRestError(error)) {
+-          response = err.response;
+         error = err;
+-        } else {
+-          throw err;
+-        }
+-      }
+-
+-      async function handleCaeChallenge(claims: string): Promise<PipelineResponse> {
+-        const shouldSendRequest = await authorizeRequestOnCaeChallenge(
+-          {
+-            scopes: Array.isArray(scopes) ? scopes : [scopes],
+-            response,
+-            request,
+-            getAccessToken,
+-            logger,
+-          },
+-          claims,
+-        );
+-        // Send updated request and handle response for RestError
+-        try {
+-          if (shouldSendRequest) {
+-            error = undefined;
+-            response = await next(request);
+-          }
+-        } catch (err: any) {
+-          if (isRestError(error)) {
+         response = err.response;
+-            error = err;
+-          } else {
+-            throw err;
+-          }
+-        }
+-        return response;
+       }
+ 
+-      if (isChallengeResponse(response)) {
+-        let claims = getCaeChallengeClaims(response);
+-        // Handle CAE by default when receive CAE claim
+-        if (claims) {
+-          let parsedClaim: string;
+-          // Return the response immediately if claims is not a valid base64 encoded string
+-          try {
+-            parsedClaim = atob(claims);
+-          } catch (e) {
+-            logger.warning(
+-              `The WWW-Authenticate header contains "claims" that cannot be parsed. Unable to perform the Continuous Access Evaluation authentication flow.`,
+-            );
+-            return response;
+-          }
+-          response = await handleCaeChallenge(parsedClaim);
+-        } else if (callbacks.authorizeRequestOnChallenge) {
+-          // Handle custom challenges when client provides custom callback
++      if (
++        callbacks.authorizeRequestOnChallenge &&
++        response?.status === 401 &&
++        getChallenge(response)
++      ) {
++        // processes challenge
+         const shouldSendRequest = await callbacks.authorizeRequestOnChallenge({
+           scopes: Array.isArray(scopes) ? scopes : [scopes],
+           request,
+@@ -277,35 +206,8 @@ export function bearerTokenAuthenticationPolicy(
+           logger,
+         });
+ 
+-          // Send updated request and handle response for RestError
+-          try {
+         if (shouldSendRequest) {
+-              error = undefined;
+-              response = await next(request);
+-            }
+-          } catch (err: any) {
+-            if (isRestError(error)) {
+-              response = err.response;
+-              error = err;
+-            } else {
+-              throw err;
+-            }
+-          }
+-
+-          // If we get another CAE Claim, we will handle it by default and return whatever value we receive for this
+-          claims = getCaeChallengeClaims(response);
+-          if (claims) {
+-            let parsedClaim: string;
+-            try {
+-              parsedClaim = atob(claims);
+-            } catch (e) {
+-              logger.warning(
+-                `The WWW-Authenticate header contains "claims" that cannot be parsed. Unable to perform the Continuous Access Evaluation authentication flow.`,
+-              );
+-              return response;
+-            }
+-            response = await handleCaeChallenge(parsedClaim);
+-          }
++          return next(request);
+         }
+       }
+ 
+@@ -317,74 +219,3 @@ export function bearerTokenAuthenticationPolicy(
+     },
+   };
+ }
+-
+-/**
+- *
+- * Interface to represent a parsed challenge.
+- *
+- * @internal
+- */
+-interface AuthChallenge {
+-  scheme: string;
+-  params: Record<string, string>;
+-}
+-
+-/**
+- * Converts: `Bearer a="b", c="d", Pop e="f", g="h"`.
+- * Into: `[ { scheme: 'Bearer', params: { a: 'b', c: 'd' } }, { scheme: 'Pop', params: { e: 'f', g: 'h' } } ]`.
+- *
+- * @internal
+- */
+-export function parseChallenges(challenges: string): AuthChallenge[] {
+-  // Split the input string by schemes and parameters
+-  // Challenge regex seperates the string to individual challenges with different schemes in the format `Scheme a="b", c="d"`
+-  const challengeRegex = /(\w+) ((?:\w+="[^"]*",?\s*)+)/g;
+-  // Parameter regex captures the claims group removed from the scheme in the format `a="b"` and `c="d"`
+-  const paramRegex = /(\w+)="([^"]*)"/g;
+-
+-  const parsedChallenges: AuthChallenge[] = [];
+-  let match;
+-
+-  // Iterate over each challenge match
+-  while ((match = challengeRegex.exec(challenges)) !== null) {
+-    const scheme = match[1];
+-    const paramsString = match[2];
+-    const params: Record<string, string> = {};
+-    let paramMatch;
+-
+-    // Iterate over each parameter match
+-    while ((paramMatch = paramRegex.exec(paramsString)) !== null) {
+-      params[paramMatch[1]] = paramMatch[2];
+-    }
+-
+-    parsedChallenges.push({ scheme, params });
+-  }
+-  return parsedChallenges;
+-}
+-
+-/**
+- * Parse a pipeline response and look for a CAE challenge with "Bearer" scheme
+- * Return the value in the header without parsing the challenge
+- * @internal
+- */
+-function getCaeChallengeClaims(response: PipelineResponse): string | undefined {
+-  const challenges = response.headers.get("WWW-Authenticate");
+-  // Find all challenges present in the header
+-  const parsedChallenges = parseChallenges(challenges as string);
+-  let caeChallenge: AuthChallenge | undefined;
+-  // Find the CAE challenge
+-  for (const challenge of parsedChallenges) {
+-    if (
+-      challenge.scheme === "Bearer" &&
+-      challenge.params["claims"] &&
+-      challenge.params["error"] === "insufficient_claims"
+-    ) {
+-      caeChallenge = challenge;
+-    }
+-  }
+-  // Return empty when no CAE challenge is found
+-  if (!caeChallenge) {
+-    return;
+-  }
+-  return caeChallenge.params["claims"];
+-}
 diff --git a/src/policies/decompressResponsePolicy.ts b/src/policies/decompressResponsePolicy.ts
 index 252e2ad..e365833 100644
 --- a/src/policies/decompressResponsePolicy.ts
