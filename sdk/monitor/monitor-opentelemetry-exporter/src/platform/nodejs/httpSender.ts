@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 import url from "url";
 import { diag } from "@opentelemetry/api";
-import { FullOperationResponse } from "@azure/core-client";
+import type { FullOperationResponse } from "@azure/core-client";
 import { redirectPolicyName } from "@azure/core-rest-pipeline";
-import { SenderResult } from "../../types";
-import {
+import type { SenderResult } from "../../types";
+import type {
   TelemetryItem as Envelope,
-  ApplicationInsightsClient,
   ApplicationInsightsClientOptionalParams,
   TrackOptionalParams,
 } from "../../generated";
-import { AzureMonitorExporterOptions } from "../../config";
+import { ApplicationInsightsClient } from "../../generated";
+import type { AzureMonitorExporterOptions } from "../../config";
 import { BaseSender } from "./baseSender";
 
 const applicationInsightsResource = "https://monitor.azure.com//.default";

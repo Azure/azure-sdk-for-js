@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { ClientSecretCredential } from "@azure/identity";
-import { NoOpCredential } from "@azure-tools/test-credential";
+import type { ClientSecretCredential } from "@azure/identity";
+import type { NoOpCredential } from "@azure-tools/test-credential";
 
-import { CryptographyClient, KeyClient, KeyVaultKey } from "../../src/index.js";
+import type { KeyClient, KeyVaultKey } from "../../src/index.js";
+import { CryptographyClient } from "../../src/index.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto.js";
 import TestClient from "./utils/testClient.js";

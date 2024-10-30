@@ -27,7 +27,7 @@ index 7f2adc4..0000000
 -export { AbortError } from "./AbortError.js";
 -export { AbortSignalLike } from "./AbortSignalLike.js";
 diff --git a/src/accessTokenCache.ts b/src/accessTokenCache.ts
-index f8d603b..cca6d34 100644
+index f8d603b..22e61bb 100644
 --- a/src/accessTokenCache.ts
 +++ b/src/accessTokenCache.ts
 @@ -1,7 +1,7 @@
@@ -35,20 +35,20 @@ index f8d603b..cca6d34 100644
  // Licensed under the MIT License.
  
 -import type { AccessToken } from "@azure/core-auth";
-+import { AccessToken } from "./auth/tokenCredential.js";
++import type { AccessToken } from "./auth/tokenCredential.js";
  
  /**
   * Defines the default token refresh buffer duration.
 diff --git a/src/auth/azureKeyCredential.ts b/src/auth/azureKeyCredential.ts
 deleted file mode 100644
-index 6bdadc3..0000000
+index 65676e7..0000000
 --- a/src/auth/azureKeyCredential.ts
 +++ /dev/null
 @@ -1,45 +0,0 @@
 -// Copyright (c) Microsoft Corporation.
 -// Licensed under the MIT License.
 -
--import { KeyCredential } from "./keyCredential.js";
+-import type { KeyCredential } from "./keyCredential.js";
 -
 -/**
 - * A static-key-based credential that supports updating
@@ -300,18 +300,18 @@ index 9db25cf..df8291c 100644
  /**
   * Represents a credential defined by a static API key.
 diff --git a/src/auth/tokenCredential.ts b/src/auth/tokenCredential.ts
-index ff71b14..a8903bb 100644
+index 395b112..6a42777 100644
 --- a/src/auth/tokenCredential.ts
 +++ b/src/auth/tokenCredential.ts
 @@ -1,9 +1,8 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--import { AbortSignalLike } from "@azure/abort-controller";
--import { TracingContext } from "./tracing.js";
--import { HttpMethods } from "@azure/core-util";
-+import { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
-+import { TracingContext } from "../tracing/interfaces.js";
+-import type { AbortSignalLike } from "@azure/abort-controller";
+-import type { TracingContext } from "./tracing.js";
+-import type { HttpMethods } from "@azure/core-util";
++import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
++import type { TracingContext } from "../tracing/interfaces.js";
  
  /**
   * Represents a credential capable of providing an authentication token.
@@ -411,46 +411,48 @@ index 8e846bb..0000000
 -  deleteValue(key: symbol): TracingContext;
 -}
 diff --git a/src/client/apiVersionPolicy.ts b/src/client/apiVersionPolicy.ts
-index a4e1c22..aedf8e2 100644
+index 56cb7b8..da27584 100644
 --- a/src/client/apiVersionPolicy.ts
 +++ b/src/client/apiVersionPolicy.ts
 @@ -1,7 +1,7 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--import { PipelinePolicy } from "@azure/core-rest-pipeline";
-+import { PipelinePolicy } from "../pipeline.js";
- import { ClientOptions } from "./common.js";
+-import type { PipelinePolicy } from "@azure/core-rest-pipeline";
++import type { PipelinePolicy } from "../pipeline.js";
+ import type { ClientOptions } from "./common.js";
  
  export const apiVersionPolicyName = "ApiVersionPolicy";
 diff --git a/src/client/clientHelpers.ts b/src/client/clientHelpers.ts
-index b7a7a6d..56553a5 100644
+index 30dac33..66ea99c 100644
 --- a/src/client/clientHelpers.ts
 +++ b/src/client/clientHelpers.ts
-@@ -1,15 +1,13 @@
+@@ -1,15 +1,15 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
+-import type { HttpClient, Pipeline } from "@azure/core-rest-pipeline";
 -import {
--  HttpClient,
--  Pipeline,
 -  bearerTokenAuthenticationPolicy,
 -  createDefaultHttpClient,
 -  createPipelineFromOptions,
 -} from "@azure/core-rest-pipeline";
--import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+-import { isTokenCredential } from "@azure/core-auth";
 -
-+import { HttpClient } from "../interfaces.js";
-+import { Pipeline } from "../pipeline.js";
++import type { HttpClient } from "../interfaces.js";
++import type { Pipeline } from "../pipeline.js";
 +import { bearerTokenAuthenticationPolicy } from "../policies/bearerTokenAuthenticationPolicy.js";
 +import { createDefaultHttpClient } from "../defaultHttpClient.js";
 +import { createPipelineFromOptions } from "../createPipelineFromOptions.js";
-+import { TokenCredential, isTokenCredential } from "../auth/tokenCredential.js";
-+import { KeyCredential, isKeyCredential } from "../auth/keyCredential.js";
- import { ClientOptions } from "./common.js";
++import type { TokenCredential } from "../auth/tokenCredential.js";
++import { isTokenCredential } from "../auth/tokenCredential.js";
++import type { KeyCredential } from "../auth/keyCredential.js";
++import { isKeyCredential } from "../auth/keyCredential.js";
+ import type { ClientOptions } from "./common.js";
  import { apiVersionPolicy } from "./apiVersionPolicy.js";
  import { keyCredentialAuthenticationPolicy } from "./keyCredentialAuthenticationPolicy.js";
-@@ -77,10 +75,6 @@ export function createDefaultPipeline(
+@@ -77,10 +77,6 @@ export function createDefaultPipeline(
    return pipeline;
  }
  
@@ -462,12 +464,12 @@ index b7a7a6d..56553a5 100644
    if (!cachedHttpClient) {
      cachedHttpClient = createDefaultHttpClient();
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 916c4d5..a5f6d91 100644
+index 4e49dde..f43f7c1 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
 @@ -3,19 +3,18 @@
  
- import {
+ import type {
    HttpClient,
 -  LogPolicyOptions,
 -  Pipeline,
@@ -479,16 +481,16 @@ index 916c4d5..a5f6d91 100644
    RequestBodyType,
    TransferProgressEvent,
 -} from "@azure/core-rest-pipeline";
--import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
--import { AbortSignalLike } from "@azure/abort-controller";
--import { OperationTracingOptions } from "@azure/core-tracing";
+-import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+-import type { AbortSignalLike } from "@azure/abort-controller";
+-import type { OperationTracingOptions } from "@azure/core-tracing";
 +  RawHttpHeadersInput,
 +} from "../interfaces.js";
-+import { Pipeline, PipelinePolicy } from "../pipeline.js";
-+import { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
-+import { OperationTracingOptions } from "../tracing/interfaces.js";
-+import { PipelineOptions } from "../createPipelineFromOptions.js";
-+import { LogPolicyOptions } from "../policies/logPolicy.js";
++import type { Pipeline, PipelinePolicy } from "../pipeline.js";
++import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
++import type { OperationTracingOptions } from "../tracing/interfaces.js";
++import type { PipelineOptions } from "../createPipelineFromOptions.js";
++import type { LogPolicyOptions } from "../policies/logPolicy.js";
  
  /**
   * Shape of the default request parameters, this may be overridden by the specific
@@ -546,28 +548,26 @@ index eabe718..0000000
 -
 -/// <reference lib="dom" />
 diff --git a/src/client/getClient.ts b/src/client/getClient.ts
-index 079c3ac..4029937 100644
+index f6415d8..2e4f603 100644
 --- a/src/client/getClient.ts
 +++ b/src/client/getClient.ts
-@@ -1,13 +1,10 @@
+@@ -1,9 +1,12 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--import {
--  KeyCredential,
--  TokenCredential,
--  isKeyCredential,
--  isTokenCredential,
--} from "@azure/core-auth";
--import { HttpClient, HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
-+import { TokenCredential, isTokenCredential } from "../auth/tokenCredential.js";
-+import { KeyCredential, isKeyCredential } from "../auth/keyCredential.js";
-+import { HttpClient, HttpMethods } from "../interfaces.js";
-+import { Pipeline } from "../pipeline.js";
+-import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+-import { isKeyCredential, isTokenCredential } from "@azure/core-auth";
+-import type { HttpClient, HttpMethods, Pipeline, PipelineOptions } from "@azure/core-rest-pipeline";
++import type { TokenCredential } from "../auth/tokenCredential.js";
++import { isTokenCredential } from "../auth/tokenCredential.js";
++import type { KeyCredential } from "../auth/keyCredential.js";
++import { isKeyCredential } from "../auth/keyCredential.js";
++import type { HttpClient, HttpMethods } from "../interfaces.js";
++import type { Pipeline } from "../pipeline.js";
  import { createDefaultPipeline } from "./clientHelpers.js";
- import {
+ import type {
    Client,
-@@ -15,10 +12,12 @@ import {
+@@ -11,10 +14,12 @@ import type {
    HttpBrowserStreamResponse,
    HttpNodeStreamResponse,
    RequestParameters,
@@ -576,11 +576,11 @@ index 079c3ac..4029937 100644
  } from "./common.js";
  import { sendRequest } from "./sendRequest.js";
  import { buildRequestUrl } from "./urlHelpers.js";
-+import { PipelineOptions } from "../createPipelineFromOptions.js";
++import type { PipelineOptions } from "../createPipelineFromOptions.js";
  
  /**
   * Creates a client with a default pipeline
-@@ -65,8 +64,8 @@ export function getClient(
+@@ -61,8 +66,8 @@ export function getClient(
  
    const { allowInsecureConnection, httpClient } = clientOptions;
    const endpointUrl = clientOptions.endpoint ?? endpoint;
@@ -678,44 +678,43 @@ index 1cd7d94..0000000
 -export * from "./getClient.js";
 -export * from "./common.js";
 diff --git a/src/client/keyCredentialAuthenticationPolicy.ts b/src/client/keyCredentialAuthenticationPolicy.ts
-index effa2d0..ea5783e 100644
+index 06bc091..90e6659 100644
 --- a/src/client/keyCredentialAuthenticationPolicy.ts
 +++ b/src/client/keyCredentialAuthenticationPolicy.ts
 @@ -1,13 +1,9 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--import { KeyCredential } from "@azure/core-auth";
--import {
+-import type { KeyCredential } from "@azure/core-auth";
+-import type {
 -  PipelinePolicy,
 -  PipelineRequest,
 -  PipelineResponse,
 -  SendRequest,
 -} from "@azure/core-rest-pipeline";
-+import { KeyCredential } from "../auth/keyCredential.js";
-+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
-+import { PipelinePolicy } from "../pipeline.js";
++import type { KeyCredential } from "../auth/keyCredential.js";
++import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
++import type { PipelinePolicy } from "../pipeline.js";
  
  /**
   * The programmatic identifier of the bearerTokenAuthenticationPolicy.
 diff --git a/src/client/multipart.ts b/src/client/multipart.ts
-index b36fa7a..1d66e36 100644
+index e34a065..2bc3df1 100644
 --- a/src/client/multipart.ts
 +++ b/src/client/multipart.ts
-@@ -1,15 +1,11 @@
+@@ -1,14 +1,11 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--import {
+-import type {
 -  BodyPart,
 -  MultipartRequestBody,
 -  RawHttpHeadersInput,
--  RestError,
--  createHttpHeaders,
 -} from "@azure/core-rest-pipeline";
+-import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
 -import { stringToUint8Array } from "@azure/core-util";
 -import { isBinaryBody } from "./helpers/isBinaryBody.js";
-+import { BodyPart, MultipartRequestBody, RawHttpHeadersInput } from "../interfaces.js";
++import type { BodyPart, MultipartRequestBody, RawHttpHeadersInput } from "../interfaces.js";
 +import { RestError } from "../restError.js";
 +import { createHttpHeaders } from "../httpHeaders.js";
 +import { stringToUint8Array } from "../util/bytesEncoding.js";
@@ -724,25 +723,26 @@ index b36fa7a..1d66e36 100644
  /**
   * Describes a single part in a multipart body.
 diff --git a/src/client/restError.ts b/src/client/restError.ts
-index b85a503..9d98299 100644
+index 1ecc969..9b98b21 100644
 --- a/src/client/restError.ts
 +++ b/src/client/restError.ts
-@@ -1,7 +1,9 @@
+@@ -1,8 +1,9 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--import { PipelineResponse, RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
-+import { PipelineResponse } from "../interfaces.js";
+-import type { PipelineResponse } from "@azure/core-rest-pipeline";
+-import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
++import type { PipelineResponse } from "../interfaces.js";
 +import { RestError } from "../restError.js";
 +import { createHttpHeaders } from "../httpHeaders.js";
- import { PathUncheckedResponse } from "./common.js";
+ import type { PathUncheckedResponse } from "./common.js";
  
  /**
 diff --git a/src/client/sendRequest.ts b/src/client/sendRequest.ts
-index 9a96a4a..de08109 100644
+index 9e947e6..2f30ba0 100644
 --- a/src/client/sendRequest.ts
 +++ b/src/client/sendRequest.ts
-@@ -5,17 +5,16 @@ import {
+@@ -5,19 +5,16 @@ import type {
    HttpClient,
    HttpMethods,
    MultipartRequestBody,
@@ -750,6 +750,8 @@ index 9a96a4a..de08109 100644
    PipelineRequest,
    PipelineResponse,
    RequestBodyType,
+-} from "@azure/core-rest-pipeline";
+-import {
 -  RestError,
 -  createHttpHeaders,
 -  createPipelineRequest,
@@ -757,16 +759,16 @@ index 9a96a4a..de08109 100644
 -} from "@azure/core-rest-pipeline";
 +} from "../interfaces.js";
 +import { isRestError, RestError } from "../restError.js";
-+import { Pipeline } from "../pipeline.js";
++import type { Pipeline } from "../pipeline.js";
 +import { createHttpHeaders } from "../httpHeaders.js";
 +import { createPipelineRequest } from "../pipelineRequest.js";
  import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
 -import { isReadableStream } from "./helpers/isReadableStream.js";
 +import { isReadableStream } from "../util/typeGuards.js";
- import { HttpResponse, RequestParameters } from "./common.js";
- import { PartDescriptor, buildMultipartBody } from "./multipart.js";
- 
-@@ -60,7 +59,8 @@ export async function sendRequest(
+ import type { HttpResponse, RequestParameters } from "./common.js";
+ import type { PartDescriptor } from "./multipart.js";
+ import { buildMultipartBody } from "./multipart.js";
+@@ -63,7 +60,8 @@ export async function sendRequest(
      if (isRestError(e) && e.response && options.onResponse) {
        const { response } = e;
        const rawHeaders = response.headers.toJSON();
@@ -823,47 +825,19 @@ index 2a2bd41..ede8855 100644
    // The multipart policy is added after policies with no phase, so that
    // policies can be added between it and formDataPolicy to modify
    // properties (e.g., making the boundary constant in recorded tests).
-diff --git a/src/defaultHttpClient.ts b/src/defaultHttpClient.ts
-index 7da85d9..5baca04 100644
---- a/src/defaultHttpClient.ts
-+++ b/src/defaultHttpClient.ts
-@@ -1,7 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type { HttpClient } from "./interfaces.js";
-+import { HttpClient } from "./interfaces.js";
- import { createNodeHttpClient } from "./nodeHttpClient.js";
- 
- /**
 diff --git a/src/fetchHttpClient.ts b/src/fetchHttpClient.ts
-index e9751e2..794a398 100644
+index e9751e2..e4f8769 100644
 --- a/src/fetchHttpClient.ts
 +++ b/src/fetchHttpClient.ts
-@@ -1,8 +1,8 @@
+@@ -1,7 +1,7 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
 -import { AbortError } from "@azure/abort-controller";
--import type {
 +import { AbortError } from "./abort-controller/AbortError.js";
-+import {
+ import type {
    HttpClient,
    HttpHeaders as PipelineHeaders,
-   PipelineRequest,
-diff --git a/src/httpHeaders.ts b/src/httpHeaders.ts
-index 9e2914b..0bdb7be 100644
---- a/src/httpHeaders.ts
-+++ b/src/httpHeaders.ts
-@@ -1,7 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type { HttpHeaders, RawHttpHeaders, RawHttpHeadersInput } from "./interfaces.js";
-+import { HttpHeaders, RawHttpHeaders, RawHttpHeadersInput } from "./interfaces.js";
- 
- interface HeaderEntry {
-   name: string;
 diff --git a/src/index.ts b/src/index.ts
 index 688a7ea..76ca028 100644
 --- a/src/index.ts
@@ -1068,7 +1042,7 @@ index 688a7ea..76ca028 100644
 +export * from "./client/getClient.js";
 +export * from "./client/common.js";
 diff --git a/src/interfaces.ts b/src/interfaces.ts
-index 26b806d..6ef7c4b 100644
+index 26b806d..3e3ca58 100644
 --- a/src/interfaces.ts
 +++ b/src/interfaces.ts
 @@ -1,9 +1,8 @@
@@ -1078,8 +1052,8 @@ index 26b806d..6ef7c4b 100644
 -import type { AbortSignalLike } from "@azure/abort-controller";
 -import type { OperationTracingOptions } from "@azure/core-tracing";
 -import type { HttpMethods } from "@azure/core-util";
-+import { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
-+import { OperationTracingOptions } from "./tracing/interfaces.js";
++import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
++import type { OperationTracingOptions } from "./tracing/interfaces.js";
  
  /**
   * A HttpHeaders collection represented as a simple JSON object.
@@ -1138,16 +1112,17 @@ diff --git a/src/logger/index.ts b/src/logger/logger.ts
 similarity index 52%
 rename from src/logger/index.ts
 rename to src/logger/logger.ts
-index 3e33a3b..dd3965c 100644
+index 3e33a3b..3654566 100644
 --- a/src/logger/index.ts
 +++ b/src/logger/logger.ts
-@@ -1,22 +1,23 @@
+@@ -1,22 +1,24 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
 -import debug, { type Debugger } from "./debug.js";
 -export type { Debugger } from "./debug.js";
-+import debug, { Debugger } from "./debug.js";
++import type { Debugger } from "./debug.js";
++import debug from "./debug.js";
 +export { Debugger } from "./debug.js";
  
 -const registeredLoggers = new Set<AzureDebugger>();
@@ -1173,7 +1148,7 @@ index 3e33a3b..dd3965c 100644
    debug.log(...args);
  };
  
-@@ -28,23 +29,23 @@ AzureLogger.log = (...args) => {
+@@ -28,23 +30,23 @@ AzureLogger.log = (...args) => {
   * - warning
   * - error
   */
@@ -1204,7 +1179,7 @@ index 3e33a3b..dd3965c 100644
          ", ",
        )}.`,
      );
-@@ -60,13 +61,13 @@ if (logLevelFromEnv) {
+@@ -60,13 +62,13 @@ if (logLevelFromEnv) {
   * - warning
   * - error
   */
@@ -1222,7 +1197,7 @@ index 3e33a3b..dd3965c 100644
  
    const enabledNamespaces = [];
    for (const logger of registeredLoggers) {
-@@ -81,8 +82,8 @@ export function setLogLevel(level?: AzureLogLevel): void {
+@@ -81,8 +83,8 @@ export function setLogLevel(level?: AzureLogLevel): void {
  /**
   * Retrieves the currently specified log level.
   */
@@ -1233,7 +1208,7 @@ index 3e33a3b..dd3965c 100644
  }
  
  const levelMap = {
-@@ -96,7 +97,7 @@ const levelMap = {
+@@ -96,7 +98,7 @@ const levelMap = {
   * Defines the methods available on the SDK-facing logger.
   */
  // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -1242,7 +1217,7 @@ index 3e33a3b..dd3965c 100644
    /**
     * Used for failures the program is unlikely to recover from,
     * such as Out of Memory.
-@@ -121,13 +122,13 @@ export interface AzureLogger {
+@@ -121,13 +123,13 @@ export interface AzureLogger {
  }
  
  /**
@@ -1260,7 +1235,7 @@ index 3e33a3b..dd3965c 100644
    return {
      error: createLogger(clientRootLogger, "error"),
      warning: createLogger(clientRootLogger, "warning"),
-@@ -136,14 +137,20 @@ export function createClientLogger(namespace: string): AzureLogger {
+@@ -136,14 +138,20 @@ export function createClientLogger(namespace: string): AzureLogger {
    };
  }
  
@@ -1284,7 +1259,7 @@ index 3e33a3b..dd3965c 100644
      level,
    });
  
-@@ -159,10 +166,12 @@ function createLogger(parent: AzureClientLogger, level: AzureLogLevel): AzureDeb
+@@ -159,10 +167,12 @@ function createLogger(parent: AzureClientLogger, level: AzureLogLevel): AzureDeb
    return logger;
  }
  
@@ -1302,52 +1277,24 @@ index 3e33a3b..dd3965c 100644
 +  return TYPESPEC_RUNTIME_LOG_LEVELS.includes(logLevel as any);
  }
 diff --git a/src/nodeHttpClient.ts b/src/nodeHttpClient.ts
-index 1ac007a..76796b2 100644
+index 1ac007a..66abe50 100644
 --- a/src/nodeHttpClient.ts
 +++ b/src/nodeHttpClient.ts
-@@ -5,8 +5,8 @@ import * as http from "node:http";
+@@ -5,7 +5,7 @@ import * as http from "node:http";
  import * as https from "node:https";
  import * as zlib from "node:zlib";
  import { Transform } from "node:stream";
 -import { AbortError } from "@azure/abort-controller";
--import type {
 +import { AbortError } from "./abort-controller/AbortError.js";
-+import {
+ import type {
    HttpClient,
    HttpHeaders,
-   PipelineRequest,
-@@ -17,7 +17,7 @@ import type {
- } from "./interfaces.js";
- import { createHttpHeaders } from "./httpHeaders.js";
- import { RestError } from "./restError.js";
--import type { IncomingMessage } from "node:http";
-+import { IncomingMessage } from "node:http";
- import { logger } from "./log.js";
- 
- const DEFAULT_TLS_SETTINGS = {};
-diff --git a/src/pipeline.ts b/src/pipeline.ts
-index f5612f8..13fc101 100644
---- a/src/pipeline.ts
-+++ b/src/pipeline.ts
-@@ -1,7 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type { HttpClient, PipelineRequest, PipelineResponse, SendRequest } from "./interfaces.js";
-+import { HttpClient, PipelineRequest, PipelineResponse, SendRequest } from "./interfaces.js";
- 
- /**
-  * Policies are executed in phases.
 diff --git a/src/pipelineRequest.ts b/src/pipelineRequest.ts
-index 8d1648d..b28ae0c 100644
+index 8d1648d..50d7f83 100644
 --- a/src/pipelineRequest.ts
 +++ b/src/pipelineRequest.ts
-@@ -1,9 +1,10 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type {
-+import {
+@@ -4,6 +4,7 @@
+ import type {
    FormDataMap,
    HttpHeaders,
 +  HttpMethods,
@@ -1362,9 +1309,9 @@ index 8d1648d..b28ae0c 100644
 -import { randomUUID } from "@azure/core-util";
 -import type { OperationTracingOptions } from "@azure/core-tracing";
 -import type { HttpMethods } from "@azure/core-util";
-+import { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
++import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
 +import { randomUUID } from "./util/uuidUtils.js";
-+import { OperationTracingOptions } from "./tracing/interfaces.js";
++import type { OperationTracingOptions } from "./tracing/interfaces.js";
  
  /**
   * Settings to initialize a request.
@@ -1481,7 +1428,7 @@ index 55110a0..0000000
 -  };
 -}
 diff --git a/src/policies/bearerTokenAuthenticationPolicy.ts b/src/policies/bearerTokenAuthenticationPolicy.ts
-index 434eb85..d4b2706 100644
+index 434eb85..87e8f5e 100644
 --- a/src/policies/bearerTokenAuthenticationPolicy.ts
 +++ b/src/policies/bearerTokenAuthenticationPolicy.ts
 @@ -1,13 +1,12 @@
@@ -1490,12 +1437,10 @@ index 434eb85..d4b2706 100644
  
 -import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 -import type { AzureLogger } from "@azure/logger";
--import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
--import type { PipelinePolicy } from "../pipeline.js";
-+import { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
-+import { TypeSpecRuntimeLogger } from "../logger/logger.js";
-+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
-+import { PipelinePolicy } from "../pipeline.js";
++import type { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
++import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
+ import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+ import type { PipelinePolicy } from "../pipeline.js";
  import { createTokenCycler } from "../util/tokenCycler.js";
  import { logger as coreLogger } from "../log.js";
 -import { isRestError } from "../restError.js";
@@ -1774,54 +1719,11 @@ index 434eb85..d4b2706 100644
 -  }
 -  return caeChallenge.params["claims"];
 -}
-diff --git a/src/policies/decompressResponsePolicy.ts b/src/policies/decompressResponsePolicy.ts
-index 252e2ad..e365833 100644
---- a/src/policies/decompressResponsePolicy.ts
-+++ b/src/policies/decompressResponsePolicy.ts
-@@ -1,8 +1,8 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
--import type { PipelinePolicy } from "../pipeline.js";
-+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
-+import { PipelinePolicy } from "../pipeline.js";
- 
- /**
-  * The programmatic identifier of the decompressResponsePolicy.
-diff --git a/src/policies/defaultRetryPolicy.ts b/src/policies/defaultRetryPolicy.ts
-index 169a7ca..d4ca014 100644
---- a/src/policies/defaultRetryPolicy.ts
-+++ b/src/policies/defaultRetryPolicy.ts
-@@ -1,8 +1,8 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type { PipelineRetryOptions } from "../interfaces.js";
--import type { PipelinePolicy } from "../pipeline.js";
-+import { PipelineRetryOptions } from "../interfaces.js";
-+import { PipelinePolicy } from "../pipeline.js";
- import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy.js";
- import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy.js";
- import { retryPolicy } from "./retryPolicy.js";
-diff --git a/src/policies/exponentialRetryPolicy.ts b/src/policies/exponentialRetryPolicy.ts
-index 24f6e16..914f506 100644
---- a/src/policies/exponentialRetryPolicy.ts
-+++ b/src/policies/exponentialRetryPolicy.ts
-@@ -1,7 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type { PipelinePolicy } from "../pipeline.js";
-+import { PipelinePolicy } from "../pipeline.js";
- import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy.js";
- import { retryPolicy } from "./retryPolicy.js";
- import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
 diff --git a/src/policies/formDataPolicy.ts b/src/policies/formDataPolicy.ts
-index 86d7e12..31fc06e 100644
+index 86d7e12..4265f06 100644
 --- a/src/policies/formDataPolicy.ts
 +++ b/src/policies/formDataPolicy.ts
-@@ -1,9 +1,10 @@
+@@ -1,7 +1,8 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
@@ -1829,39 +1731,23 @@ index 86d7e12..31fc06e 100644
 +import { stringToUint8Array } from "../util/bytesEncoding.js";
 +import { isNodeLike } from "../util/checkEnvironment.js";
  import { createHttpHeaders } from "../httpHeaders.js";
--import type {
-+import {
+ import type {
    BodyPart,
-   FormDataMap,
-   FormDataValue,
-@@ -11,7 +12,7 @@ import type {
-   PipelineResponse,
-   SendRequest,
- } from "../interfaces.js";
--import type { PipelinePolicy } from "../pipeline.js";
-+import { PipelinePolicy } from "../pipeline.js";
- 
- /**
-  * The programmatic identifier of the formDataPolicy.
 diff --git a/src/policies/logPolicy.ts b/src/policies/logPolicy.ts
-index a8383c6..e8b9724 100644
+index a8383c6..6b7d1ab 100644
 --- a/src/policies/logPolicy.ts
 +++ b/src/policies/logPolicy.ts
-@@ -1,9 +1,9 @@
+@@ -1,7 +1,7 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
 -import type { Debugger } from "@azure/logger";
--import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
--import type { PipelinePolicy } from "../pipeline.js";
-+import { Debugger } from "../logger/logger.js";
-+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
-+import { PipelinePolicy } from "../pipeline.js";
++import type { Debugger } from "../logger/logger.js";
+ import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+ import type { PipelinePolicy } from "../pipeline.js";
  import { logger as coreLogger } from "../log.js";
- import { Sanitizer } from "../util/sanitizer.js";
- 
 diff --git a/src/policies/multipartPolicy.ts b/src/policies/multipartPolicy.ts
-index 2b70494..2353450 100644
+index 2b70494..268c132 100644
 --- a/src/policies/multipartPolicy.ts
 +++ b/src/policies/multipartPolicy.ts
 @@ -1,11 +1,12 @@
@@ -1870,9 +1756,8 @@ index 2b70494..2353450 100644
  
 -import { randomUUID, stringToUint8Array } from "@azure/core-util";
  import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces.js";
--import type { PipelinePolicy } from "../pipeline.js";
+ import type { PipelinePolicy } from "../pipeline.js";
 -import { concat } from "../util/concat.js";
-+import { PipelinePolicy } from "../pipeline.js";
 +import { stringToUint8Array } from "../util/bytesEncoding.js";
  import { isBlob } from "../util/typeGuards.js";
 +import { randomUUID } from "../util/uuidUtils.js";
@@ -1915,46 +1800,25 @@ index deeee45..0000000
 -    },
 -  };
 -}
-diff --git a/src/policies/redirectPolicy.ts b/src/policies/redirectPolicy.ts
-index 1b8bf2c..3bbeb17 100644
---- a/src/policies/redirectPolicy.ts
-+++ b/src/policies/redirectPolicy.ts
-@@ -1,8 +1,8 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
--import type { PipelinePolicy } from "../pipeline.js";
-+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
-+import { PipelinePolicy } from "../pipeline.js";
- 
- /**
-  * The programmatic identifier of the redirectPolicy.
 diff --git a/src/policies/retryPolicy.ts b/src/policies/retryPolicy.ts
-index f937b36..1071226 100644
+index f937b36..63f4f2a 100644
 --- a/src/policies/retryPolicy.ts
 +++ b/src/policies/retryPolicy.ts
-@@ -1,13 +1,13 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
--import type { PipelinePolicy } from "../pipeline.js";
-+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
-+import { PipelinePolicy } from "../pipeline.js";
+@@ -4,10 +4,11 @@
+ import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+ import type { PipelinePolicy } from "../pipeline.js";
  import { delay } from "../util/helpers.js";
 -import { type AzureLogger, createClientLogger } from "@azure/logger";
--import type { RetryStrategy } from "../retryStrategies/retryStrategy.js";
--import type { RestError } from "../restError.js";
+ import type { RetryStrategy } from "../retryStrategies/retryStrategy.js";
+ import type { RestError } from "../restError.js";
 -import { AbortError } from "@azure/abort-controller";
-+import { RetryStrategy } from "../retryStrategies/retryStrategy.js";
-+import { RestError } from "../restError.js";
 +import { AbortError } from "../abort-controller/AbortError.js";
-+import { TypeSpecRuntimeLogger, createClientLogger } from "../logger/logger.js";
++import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
++import { createClientLogger } from "../logger/logger.js";
  import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
  
  const retryPolicyLogger = createClientLogger("core-rest-pipeline retryPolicy");
-@@ -28,7 +28,7 @@ export interface RetryPolicyOptions {
+@@ -28,7 +29,7 @@ export interface RetryPolicyOptions {
    /**
     * Logger. If it's not provided, a default logger is used.
     */
@@ -1999,49 +1863,8 @@ index a40d4ab..0000000
 -    },
 -  };
 -}
-diff --git a/src/policies/systemErrorRetryPolicy.ts b/src/policies/systemErrorRetryPolicy.ts
-index 4c8bf62..8622650 100644
---- a/src/policies/systemErrorRetryPolicy.ts
-+++ b/src/policies/systemErrorRetryPolicy.ts
-@@ -1,7 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type { PipelinePolicy } from "../pipeline.js";
-+import { PipelinePolicy } from "../pipeline.js";
- import { exponentialRetryStrategy } from "../retryStrategies/exponentialRetryStrategy.js";
- import { retryPolicy } from "./retryPolicy.js";
- import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
-diff --git a/src/policies/throttlingRetryPolicy.ts b/src/policies/throttlingRetryPolicy.ts
-index 07cd51c..168851d 100644
---- a/src/policies/throttlingRetryPolicy.ts
-+++ b/src/policies/throttlingRetryPolicy.ts
-@@ -1,7 +1,7 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type { PipelinePolicy } from "../pipeline.js";
-+import { PipelinePolicy } from "../pipeline.js";
- import { throttlingRetryStrategy } from "../retryStrategies/throttlingRetryStrategy.js";
- import { retryPolicy } from "./retryPolicy.js";
- import { DEFAULT_RETRY_POLICY_COUNT } from "../constants.js";
-diff --git a/src/policies/tlsPolicy.ts b/src/policies/tlsPolicy.ts
-index 0e78872..79f19f1 100644
---- a/src/policies/tlsPolicy.ts
-+++ b/src/policies/tlsPolicy.ts
-@@ -1,8 +1,8 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type { PipelinePolicy } from "../pipeline.js";
--import type { TlsSettings } from "../interfaces.js";
-+import { PipelinePolicy } from "../pipeline.js";
-+import { TlsSettings } from "../interfaces.js";
- 
- /**
-  * Name of the TLS Policy
 diff --git a/src/policies/tracingPolicy.ts b/src/policies/tracingPolicy.ts
-index 5e69548..1d824c0 100644
+index 5e69548..34fad89 100644
 --- a/src/policies/tracingPolicy.ts
 +++ b/src/policies/tracingPolicy.ts
 @@ -1,18 +1,14 @@
@@ -2054,13 +1877,11 @@ index 5e69548..1d824c0 100644
 -  type TracingSpan,
 -  createTracingClient,
 -} from "@azure/core-tracing";
-+import { TracingClient, TracingContext, TracingSpan } from "../tracing/interfaces.js";
++import type { TracingClient, TracingContext, TracingSpan } from "../tracing/interfaces.js";
 +import { createTracingClient } from "../tracing/tracingClient.js";
  import { SDK_VERSION } from "../constants.js";
--import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
--import type { PipelinePolicy } from "../pipeline.js";
-+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
-+import { PipelinePolicy } from "../pipeline.js";
+ import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+ import type { PipelinePolicy } from "../pipeline.js";
  import { getUserAgentValue } from "../util/userAgent.js";
  import { logger } from "../log.js";
 -import { getErrorMessage, isError } from "@azure/core-util";
@@ -2077,72 +1898,45 @@ index 5e69548..1d824c0 100644
        packageVersion: SDK_VERSION,
      });
    } catch (e: unknown) {
-diff --git a/src/policies/userAgentPolicy.ts b/src/policies/userAgentPolicy.ts
-index bd5de30..e8a144a 100644
---- a/src/policies/userAgentPolicy.ts
-+++ b/src/policies/userAgentPolicy.ts
-@@ -1,8 +1,8 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
--import type { PipelinePolicy } from "../pipeline.js";
-+import { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
-+import { PipelinePolicy } from "../pipeline.js";
- import { getUserAgentHeaderName, getUserAgentValue } from "../util/userAgent.js";
- 
- const UserAgentHeaderName = getUserAgentHeaderName();
 diff --git a/src/restError.ts b/src/restError.ts
-index 0b2e69f..71472b4 100644
+index 0b2e69f..bc09e78 100644
 --- a/src/restError.ts
 +++ b/src/restError.ts
-@@ -1,8 +1,8 @@
+@@ -1,7 +1,7 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
 -import { isError } from "@azure/core-util";
--import type { PipelineRequest, PipelineResponse } from "./interfaces.js";
 +import { isError } from "./util/error.js";
-+import { PipelineRequest, PipelineResponse } from "./interfaces.js";
+ import type { PipelineRequest, PipelineResponse } from "./interfaces.js";
  import { custom } from "./util/inspect.js";
  import { Sanitizer } from "./util/sanitizer.js";
- 
 diff --git a/src/retryStrategies/exponentialRetryStrategy.ts b/src/retryStrategies/exponentialRetryStrategy.ts
-index c6943b8..d33e7fe 100644
+index c6943b8..568e864 100644
 --- a/src/retryStrategies/exponentialRetryStrategy.ts
 +++ b/src/retryStrategies/exponentialRetryStrategy.ts
-@@ -1,10 +1,10 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
+@@ -3,7 +3,7 @@
  
--import type { PipelineResponse } from "../interfaces.js";
--import type { RestError } from "../restError.js";
+ import type { PipelineResponse } from "../interfaces.js";
+ import type { RestError } from "../restError.js";
 -import { calculateRetryDelay } from "@azure/core-util";
--import type { RetryStrategy } from "./retryStrategy.js";
-+import { PipelineResponse } from "../interfaces.js";
-+import { RestError } from "../restError.js";
 +import { calculateRetryDelay } from "../util/delay.js";
-+import { RetryStrategy } from "./retryStrategy.js";
+ import type { RetryStrategy } from "./retryStrategy.js";
  import { isThrottlingRetryResponse } from "./throttlingRetryStrategy.js";
  
- // intervals are in milliseconds
 diff --git a/src/retryStrategies/retryStrategy.ts b/src/retryStrategies/retryStrategy.ts
-index a8b94fc..332b8b8 100644
+index a8b94fc..bc11b52 100644
 --- a/src/retryStrategies/retryStrategy.ts
 +++ b/src/retryStrategies/retryStrategy.ts
-@@ -1,9 +1,9 @@
+@@ -1,7 +1,7 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
 -import type { AzureLogger } from "@azure/logger";
--import type { PipelineResponse } from "../interfaces.js";
--import type { RestError } from "../restError.js";
-+import { TypeSpecRuntimeLogger } from "../logger/logger.js";
-+import { PipelineResponse } from "../interfaces.js";
-+import { RestError } from "../restError.js";
++import type { TypeSpecRuntimeLogger } from "../logger/logger.js";
+ import type { PipelineResponse } from "../interfaces.js";
+ import type { RestError } from "../restError.js";
  
- /**
-  * Information provided to the retry strategy about the current progress of the retry policy.
 @@ -57,7 +57,7 @@ export interface RetryStrategy {
    /**
     * Logger. If it's not provided, a default logger for all retry strategies is used.
@@ -2153,18 +1947,11 @@ index a8b94fc..332b8b8 100644
     * Function that determines how to proceed with the subsequent requests.
     * @param state - Retry state
 diff --git a/src/retryStrategies/throttlingRetryStrategy.ts b/src/retryStrategies/throttlingRetryStrategy.ts
-index 2d4f87f..b729714 100644
+index 2d4f87f..5c8d4ed 100644
 --- a/src/retryStrategies/throttlingRetryStrategy.ts
 +++ b/src/retryStrategies/throttlingRetryStrategy.ts
-@@ -1,17 +1,17 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
--import type { PipelineResponse } from "../index.js";
-+import { PipelineResponse } from "../index.js";
- import { parseHeaderValueAsNumber } from "../util/helpers.js";
--import type { RetryStrategy } from "./retryStrategy.js";
-+import { RetryStrategy } from "./retryStrategy.js";
+@@ -6,12 +6,12 @@ import { parseHeaderValueAsNumber } from "../util/helpers.js";
+ import type { RetryStrategy } from "./retryStrategy.js";
  
  /**
 - * The header that comes back from Azure services representing
@@ -2221,11 +2008,11 @@ index 04d0785..fe8f87b 100644
     * const tracingClient = createTracingClient({
     *   namespace: "test.namespace",
 diff --git a/src/tracing/state.ts b/src/tracing/state.ts
-index ae1efaf..852ef3b 100644
+index c7e7a4a..ccb13f4 100644
 --- a/src/tracing/state.ts
 +++ b/src/tracing/state.ts
 @@ -4,7 +4,7 @@
- import { Instrumenter } from "./interfaces.js";
+ import type { Instrumenter } from "./interfaces.js";
  // @ts-expect-error The recommended approach to sharing module state between ESM and CJS.
  // See https://github.com/isaacs/tshy/blob/main/README.md#module-local-state for additional information.
 -import { state as cjsState } from "../commonjs/state.js";
@@ -2234,10 +2021,10 @@ index ae1efaf..852ef3b 100644
  /**
   * Defines the shared state between CJS and ESM by re-exporting the CJS state.
 diff --git a/src/tracing/tracingContext.ts b/src/tracing/tracingContext.ts
-index 1688905..0d6dc15 100644
+index 84999ab..5528c7a 100644
 --- a/src/tracing/tracingContext.ts
 +++ b/src/tracing/tracingContext.ts
-@@ -5,8 +5,8 @@ import { TracingContext, TracingSpan } from "./interfaces.js";
+@@ -5,8 +5,8 @@ import type { TracingContext, TracingSpan } from "./interfaces.js";
  
  /** @internal */
  export const knownContextKeys = {
@@ -2249,7 +2036,7 @@ index 1688905..0d6dc15 100644
  
  /**
 diff --git a/src/util/aborterUtils.ts b/src/util/aborterUtils.ts
-index ce29be9..82e102a 100644
+index ce29be9..cde2d52 100644
 --- a/src/util/aborterUtils.ts
 +++ b/src/util/aborterUtils.ts
 @@ -1,7 +1,7 @@
@@ -2257,7 +2044,7 @@ index ce29be9..82e102a 100644
  // Licensed under the MIT License.
  
 -import type { AbortSignalLike } from "@azure/abort-controller";
-+import { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
++import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
  
  /**
   * Options related to abort controller.
@@ -2277,20 +2064,18 @@ index 457bc22..cbadccf 100644
  import { getRawContent } from "./file.js";
  
 diff --git a/src/util/createAbortablePromise.ts b/src/util/createAbortablePromise.ts
-index 25cf55a..5eba77e 100644
+index 25cf55a..685eaed 100644
 --- a/src/util/createAbortablePromise.ts
 +++ b/src/util/createAbortablePromise.ts
-@@ -1,8 +1,8 @@
+@@ -1,7 +1,7 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
 -import { AbortError } from "@azure/abort-controller";
--import type { AbortOptions } from "./aborterUtils.js";
 +import { AbortError } from "../abort-controller/AbortError.js";
-+import { AbortOptions } from "./aborterUtils.js";
+ import type { AbortOptions } from "./aborterUtils.js";
  
  /**
-  * Options for the createAbortablePromise function.
 diff --git a/src/util/file.ts b/src/util/file.ts
 index 5b65155..73d19de 100644
 --- a/src/util/file.ts
@@ -2305,21 +2090,19 @@ index 5b65155..73d19de 100644
  
  /**
 diff --git a/src/util/helpers.ts b/src/util/helpers.ts
-index f6819e8..421e298 100644
+index f6819e8..7272d5d 100644
 --- a/src/util/helpers.ts
 +++ b/src/util/helpers.ts
-@@ -1,8 +1,9 @@
+@@ -1,7 +1,8 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
 -import { AbortError, type AbortSignalLike } from "@azure/abort-controller";
--import type { PipelineResponse } from "../interfaces.js";
 +import { AbortError } from "../abort-controller/AbortError.js";
-+import { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
-+import { PipelineResponse } from "../interfaces.js";
++import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
+ import type { PipelineResponse } from "../interfaces.js";
  
  const StandardAbortMessage = "The operation was aborted.";
- 
 diff --git a/src/util/httpMethods.ts b/src/util/httpMethods.ts
 deleted file mode 100644
 index 2748031..0000000
@@ -2406,7 +2189,7 @@ index 80a1a23..794d26a 100644
  /**
   * Generates a SHA-256 HMAC signature.
 diff --git a/src/util/tokenCycler.ts b/src/util/tokenCycler.ts
-index 32e2343..034c7b0 100644
+index 32e2343..723a36d 100644
 --- a/src/util/tokenCycler.ts
 +++ b/src/util/tokenCycler.ts
 @@ -1,7 +1,7 @@
@@ -2414,7 +2197,7 @@ index 32e2343..034c7b0 100644
  // Licensed under the MIT License.
  
 -import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-+import { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
++import type { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
  import { delay } from "./helpers.js";
  
  /**
@@ -2491,17 +2274,15 @@ index bd11d61..3f6a12b 100644
  interface Crypto {
    randomUUID(): string;
 diff --git a/src/xhrHttpClient.ts b/src/xhrHttpClient.ts
-index 71bc439..20040f8 100644
+index 71bc439..c82fcb7 100644
 --- a/src/xhrHttpClient.ts
 +++ b/src/xhrHttpClient.ts
-@@ -1,8 +1,8 @@
+@@ -1,7 +1,7 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
 -import { AbortError } from "@azure/abort-controller";
--import type {
 +import { AbortError } from "./abort-controller/AbortError.js";
-+import {
+ import type {
    HttpClient,
    HttpHeaders,
-   PipelineRequest,

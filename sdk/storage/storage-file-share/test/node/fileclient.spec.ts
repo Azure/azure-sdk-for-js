@@ -4,22 +4,20 @@
 import { assert } from "chai";
 import { Buffer } from "buffer";
 import * as fs from "fs";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import * as path from "path";
 import { Duplex } from "stream";
 import * as zlib from "zlib";
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 
+import type { ShareClient, ShareDirectoryClient, StorageSharedKeyCredential } from "../../src";
 import {
   FileSASPermissions,
   generateFileSASQueryParameters,
   getFileServiceAccountAudience,
   newPipeline,
-  ShareClient,
-  ShareDirectoryClient,
   ShareFileClient,
-  StorageSharedKeyCredential,
 } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 import {

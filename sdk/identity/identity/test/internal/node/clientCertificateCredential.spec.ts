@@ -3,11 +3,13 @@
 
 import * as path from "path";
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
 import { ClientCertificateCredential } from "../../../src";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { assert } from "chai";
 import { parseCertificate } from "../../../src/credentials/clientCertificateCredential";
 

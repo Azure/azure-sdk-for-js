@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import { StartTranslationDetails } from "./models";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type { StartTranslationDetails } from "./models";
 
 export interface StartTranslationBodyParam {
   body: StartTranslationDetails;

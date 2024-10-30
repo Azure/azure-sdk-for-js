@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PlayRequest,
   PlaySourceInternal,
   FileSourceInternal,
   TextSourceInternal,
   SsmlSourceInternal,
-  KnownPlaySourceType,
   RecognizeRequest,
-  KnownRecognizeInputType,
   RecognizeOptions,
   DtmfOptions,
   CallAutomationApiClient,
@@ -26,16 +24,15 @@ import {
   HoldRequest,
   UnholdRequest,
 } from "./generated/src";
+import { KnownPlaySourceType, KnownRecognizeInputType } from "./generated/src";
 
 import { CallMediaImpl } from "./generated/src/operations";
 
-import {
-  CommunicationIdentifier,
-  serializeCommunicationIdentifier,
-} from "@azure/communication-common";
+import type { CommunicationIdentifier } from "@azure/communication-common";
+import { serializeCommunicationIdentifier } from "@azure/communication-common";
 
-import { FileSource, TextSource, SsmlSource, DtmfTone } from "./models/models";
-import {
+import type { FileSource, TextSource, SsmlSource, DtmfTone } from "./models/models";
+import type {
   PlayOptions,
   CallMediaRecognizeDtmfOptions,
   CallMediaRecognizeChoiceOptions,
@@ -48,20 +45,20 @@ import {
   HoldOptions,
   UnholdOptions,
 } from "./models/options";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type {
   CancelAllMediaOperationsResult,
   PlayResult,
   SendDtmfTonesResult,
   StartRecognizingResult,
 } from "./models/responses";
-import {
+import type {
   CancelAllMediaOperationsEventResult,
   PlayEventResult,
   SendDtmfEventResult,
   StartRecognizingEventResult,
 } from "./eventprocessor/eventResponses";
-import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
+import type { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
 import { randomUUID } from "@azure/core-util";
 import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
 

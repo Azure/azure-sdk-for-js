@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
-import { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
+import type { ClientSecretCredentialOptions } from "./clientSecretCredentialOptions";
 import { IdentityClient } from "../client/identityClient";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { tracingClient } from "../util/tracing";

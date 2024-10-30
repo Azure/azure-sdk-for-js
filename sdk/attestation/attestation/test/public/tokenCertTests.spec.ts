@@ -12,7 +12,7 @@ import {
   getAttestationUri,
   recorderOptions,
 } from "../utils/recordedClient.js";
-import { AttestationClient } from "../../src/index.js";
+import type { AttestationClient } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("TokenCertTests", function () {

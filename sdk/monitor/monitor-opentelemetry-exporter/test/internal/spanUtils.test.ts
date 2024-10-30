@@ -3,7 +3,8 @@
 
 import fs from "fs";
 import path from "path";
-import { Span, BasicTracerProvider, TracerConfig } from "@opentelemetry/sdk-trace-base";
+import type { TracerConfig } from "@opentelemetry/sdk-trace-base";
+import { Span, BasicTracerProvider } from "@opentelemetry/sdk-trace-base";
 import { SpanKind, SpanStatusCode, ROOT_CONTEXT } from "@opentelemetry/api";
 import * as assert from "assert";
 import { Resource } from "@opentelemetry/resources";
@@ -32,17 +33,18 @@ import {
   SEMRESATTRS_SERVICE_NAMESPACE,
 } from "@opentelemetry/semantic-conventions";
 
-import { Tags, Properties, Measurements, MaxPropertyLengths } from "../../src/types";
+import type { Tags, Properties, Measurements } from "../../src/types";
+import { MaxPropertyLengths } from "../../src/types";
 import { Context, getInstance } from "../../src/platform";
 import { readableSpanToEnvelope, spanEventsToEnvelopes } from "../../src/utils/spanUtils";
-import {
+import type {
   RemoteDependencyData,
   RequestData,
-  KnownContextTagKeys,
   TelemetryExceptionData,
   MessageData,
 } from "../../src/generated";
-import { TelemetryItem as Envelope } from "../../src/generated";
+import { KnownContextTagKeys } from "../../src/generated";
+import type { TelemetryItem as Envelope } from "../../src/generated";
 import { DependencyTypes } from "../../src/utils/constants/applicationinsights";
 import { hrTimeToDate } from "../../src/utils/common";
 

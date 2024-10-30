@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import * as assert from "assert";
-import { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import { HttpSender } from "../../src/platform/nodejs/httpSender";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import {
@@ -10,9 +10,9 @@ import {
   failedBreezeResponse,
   partialBreezeResponse,
 } from "../utils/breezeTestUtils";
-import { TelemetryItem as Envelope } from "../../src/generated";
+import type { TelemetryItem as Envelope } from "../../src/generated";
 import nock from "nock";
-import { PipelinePolicy } from "@azure/core-rest-pipeline";
+import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import { ExportResultCode } from "@opentelemetry/core";
 
 function toObject<T>(obj: T): T {

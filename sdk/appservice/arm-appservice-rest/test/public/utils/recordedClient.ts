@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { ClientOptions } from "@azure-rest/core-client";
+import type { Context } from "mocha";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
+import type { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
-import WebSiteClient, { WebSiteManagementClient } from "../../../src/index";
+import type { WebSiteManagementClient } from "../../../src/index";
+import WebSiteClient from "../../../src/index";
 
 const envSetupForPlayback: { [k: string]: string } = {
   ENDPOINT: "https://endpoint",

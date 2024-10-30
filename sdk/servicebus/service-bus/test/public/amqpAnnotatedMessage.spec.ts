@@ -4,7 +4,7 @@ import {
   testPeekMsgsLength,
   addServiceBusClientForLiveTesting,
 } from "../public/utils/testutils2.js";
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { v4 as generateUuid } from "uuid";
 import { TestClientType } from "./utils/testUtils.js";
 import { describe, it } from "vitest";

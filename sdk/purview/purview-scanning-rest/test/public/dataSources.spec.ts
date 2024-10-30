@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PurviewScanningRestClient, paginate, DataSource } from "../../src";
+import type { PurviewScanningRestClient, DataSource } from "../../src";
+import { paginate } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
 import { createClient } from "./utils/recordedClient";
-import { Context } from "mocha";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { Context } from "mocha";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 
 describe("List data sources", () => {
   let recorder: Recorder;

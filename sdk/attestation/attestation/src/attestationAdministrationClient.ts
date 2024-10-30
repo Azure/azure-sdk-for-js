@@ -5,7 +5,7 @@
 import { GeneratedClient } from "./generated/generatedClient.js";
 import { logger } from "./logger.js";
 
-import {
+import type {
   AttestationCertificateManagementBody,
   GeneratedClientOptionalParams,
   JsonWebKey,
@@ -14,7 +14,7 @@ import {
 
 import { bytesToString } from "./utils/utf8.js";
 
-import {
+import type {
   AttestationResponse,
   AttestationSigner,
   AttestationTokenValidationOptions,
@@ -24,8 +24,8 @@ import {
 } from "./models/index.js";
 import { StoredAttestationPolicy } from "./models/storedAttestationPolicy.js";
 
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { TokenCredential } from "@azure/core-auth";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { TokenCredential } from "@azure/core-auth";
 import { TypeDeserializer } from "./utils/typeDeserializer.js";
 import * as Mappers from "./generated/models/mappers.js";
 

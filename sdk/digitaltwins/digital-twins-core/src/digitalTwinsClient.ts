@@ -2,16 +2,16 @@
 // Licensed under the MIT License.
 
 /* eslint-disable @azure/azure-sdk/ts-naming-options */
-import {
+import type {
   OperationOptions,
   InternalClientPipelineOptions,
   CommonClientOptions,
 } from "@azure/core-client";
-import { TokenCredential } from "@azure/core-auth";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { TokenCredential } from "@azure/core-auth";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { v4 as generateUuid } from "uuid";
 import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI";
-import {
+import type {
   DigitalTwinsGetByIdResponse,
   DigitalTwinsAddOptionalParams,
   DigitalTwinsAddResponse,
@@ -34,6 +34,8 @@ import {
   EventRoutesGetByIdResponse,
   EventRoute,
   QueryQueryTwinsResponse,
+} from "./generated/models";
+import {
   DigitalTwinModelsGetByIdOptionalParams as GetModelOptions,
   DigitalTwinModelsListOptionalParams as ListModelsOptions,
   QueryQueryTwinsOptionalParams as QueryTwinsOptions,

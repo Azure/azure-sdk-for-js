@@ -4,7 +4,7 @@
 
 ```ts
 
-import express from 'express-serve-static-core';
+import type express from 'express-serve-static-core';
 
 // @public
 export interface Certificate {
