@@ -10,30 +10,30 @@
   },
   "types": "types/mixed-reality-authentication.d.ts",
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:node": "tsc -p . && dev-tool run bundle",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && dev-tool run bundle",
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-* temp types *.tgz *.log",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "tsc -p . && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript swagger/README.md",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run test:browser",
     "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json tsconfig.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json tsconfig.json api-extractor.json README.md src test",
+    "lint:fix": "eslint package.json tsconfig.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
+    "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
-    "test": "npm run build:test && npm run unit-test && npm run integration-test",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "karma start --single-run",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser"
+    "update-snippets": "echo skipped"
   },
   "files": [
     "dist/",
@@ -69,12 +69,11 @@
     "tslib": "^2.2.0"
   },
   "devDependencies": {
+    "@azure-tools/test-credential": "^1.0.0",
+    "@azure-tools/test-recorder": "^3.0.0",
+    "@azure-tools/test-utils": "^1.0.1",
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure-tools/test-utils": "^1.0.1",
-    "@azure-tools/test-recorder": "^3.0.0",
-    "@azure-tools/test-credential": "^1.0.0",
-    "@microsoft/api-extractor": "^7.31.1",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^10.0.0",
@@ -96,10 +95,9 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
     "nyc": "^17.0.0",
-    "rimraf": "^5.0.5",
+    "ts-node": "^10.0.0",
     "typescript": "~5.6.2",
-    "util": "^0.12.1",
-    "ts-node": "^10.0.0"
+    "util": "^0.12.1"
   },
   "//metadata": {
     "constantPaths": [

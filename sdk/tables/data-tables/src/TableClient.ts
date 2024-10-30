@@ -793,6 +793,7 @@ export class TableClient {
    * Shared Access Signatures.
    * @param options - The options parameters.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public getAccessPolicy(options: OperationOptions = {}): Promise<GetAccessPolicyResponse> {
     return tracingClient.withSpan(
       "TableClient.getAccessPolicy",
@@ -811,6 +812,7 @@ export class TableClient {
    */
   public setAccessPolicy(
     tableAcl: SignedIdentifier[],
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<SetAccessPolicyResponse> {
     return tracingClient.withSpan("TableClient.setAccessPolicy", options, (updatedOptions) => {

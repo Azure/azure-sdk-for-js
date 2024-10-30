@@ -12,7 +12,6 @@ import {
   types,
 } from "rhea-promise";
 import {
-  Constants,
   ErrorNameConditionMapper,
   RetryConfig,
   RetryOperationType,
@@ -45,6 +44,7 @@ import { getRetryAttemptTimeoutInMs } from "./util/retries.js";
 import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL,
+  geoReplication,
 } from "./util/constants.js";
 import { isDefined } from "@azure/core-util";
 import { translateError } from "./util/error.js";
@@ -429,7 +429,7 @@ export class EventHubSender {
       onSessionClose: this._onSessionClose,
     };
 
-    srOptions.desired_capabilities = [Constants.geoReplication];
+    srOptions.desired_capabilities = [geoReplication];
     if (this._isIdempotentProducer) {
       srOptions.desired_capabilities.push(idempotentProducerAmqpPropertyNames.capability);
       const idempotentProperties = generateIdempotentLinkProperties(

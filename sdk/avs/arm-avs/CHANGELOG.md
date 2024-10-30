@@ -1,6 +1,6 @@
 # Release History
 
-## 5.0.1 (Unreleased)
+## 6.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,56 @@
 
 ### Other Changes
 
+## 6.0.0 (2024-09-19)
+    
+### Features Added
+
+  - Added Interface AddonList
+  - Added Interface CloudLinkList
+  - Added Interface ClusterList
+  - Added Interface DatastoreList
+  - Added Interface ExpressRouteAuthorizationList
+  - Added Interface GlobalReachConnectionList
+  - Added Interface HcxEnterpriseSiteList
+  - Added Interface PlacementPoliciesList
+  - Added Interface PrivateCloudIdentity
+  - Added Interface PrivateCloudList
+  - Added Interface ScriptCmdletsList
+  - Added Interface ScriptExecutionsList
+  - Added Interface ScriptPackagesList
+  - Added Interface VirtualMachinesList
+  - Added Interface WorkloadNetworkDhcpList
+  - Added Interface WorkloadNetworkDnsServicesList
+  - Added Interface WorkloadNetworkDnsZonesList
+  - Added Interface WorkloadNetworkGatewayList
+  - Added Interface WorkloadNetworkList
+  - Added Interface WorkloadNetworkPortMirroringList
+  - Added Interface WorkloadNetworkPublicIPsList
+  - Added Interface WorkloadNetworkSegmentsList
+  - Added Interface WorkloadNetworkVirtualMachinesList
+  - Added Interface WorkloadNetworkVMGroupsList
+  - Added Type Alias ResourceIdentityType
+  - Added Enum KnownResourceIdentityType
+
+### Breaking Changes
+
+  - Operation WorkloadNetworks.beginUpdateDhcp has a new signature
+  - Operation WorkloadNetworks.beginUpdateDhcpAndWait has a new signature
+  - Operation WorkloadNetworks.beginUpdateDnsService has a new signature
+  - Operation WorkloadNetworks.beginUpdateDnsServiceAndWait has a new signature
+  - Operation WorkloadNetworks.beginUpdateDnsZone has a new signature
+  - Operation WorkloadNetworks.beginUpdateDnsZoneAndWait has a new signature
+  - Operation WorkloadNetworks.beginUpdatePortMirroring has a new signature
+  - Operation WorkloadNetworks.beginUpdatePortMirroringAndWait has a new signature
+  - Operation WorkloadNetworks.beginUpdateSegments has a new signature
+  - Operation WorkloadNetworks.beginUpdateSegmentsAndWait has a new signature
+  - Operation WorkloadNetworks.beginUpdateVMGroup has a new signature
+  - Operation WorkloadNetworks.beginUpdateVMGroupAndWait has a new signature
+  - Type of parameter identity of interface PrivateCloud is changed from SystemAssignedServiceIdentity to PrivateCloudIdentity
+  - Type of parameter identity of interface PrivateCloudUpdate is changed from SystemAssignedServiceIdentity to PrivateCloudIdentity
+  - Removed Enum KnownSystemAssignedServiceIdentityType
+    
+    
 ## 5.0.0 (2024-06-28)
     
 ### Features Added

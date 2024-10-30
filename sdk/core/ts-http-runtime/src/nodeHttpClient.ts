@@ -27,10 +27,21 @@ function isReadableStream(body: any): body is NodeJS.ReadableStream {
 }
 
 function isStreamComplete(stream: NodeJS.ReadableStream): Promise<void> {
+  if (stream.readable === false) {
+    return Promise.resolve();
+  }
+
   return new Promise((resolve) => {
-    stream.on("close", resolve);
-    stream.on("end", resolve);
-    stream.on("error", resolve);
+    const handler = (): void => {
+      resolve();
+      stream.removeListener("close", handler);
+      stream.removeListener("end", handler);
+      stream.removeListener("error", handler);
+    };
+
+    stream.on("close", handler);
+    stream.on("end", handler);
+    stream.on("error", handler);
   });
 }
 
@@ -177,7 +188,6 @@ class NodeHttpClient implements HttpClient {
         if (isReadableStream(responseStream)) {
           downloadStreamDone = isStreamComplete(responseStream);
         }
-
         Promise.all([uploadStreamDone, downloadStreamDone])
           .then(() => {
             // eslint-disable-next-line promise/always-return

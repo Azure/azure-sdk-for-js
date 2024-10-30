@@ -54,16 +54,9 @@ class ReporterUtils {
 
   public async getTestRunObject(ciInfo: CIInfo): Promise<TestRun> {
     const testRun = new TestRun();
-    const runName = await this.getRunName(ciInfo);
-    if (ReporterUtils.isNullOrEmpty(this.envVariables.runId)) {
-      if (!ReporterUtils.isNullOrEmpty(runName)) {
-        this.envVariables.runId = runName;
-      } else {
-        this.envVariables.runId = randomUUID();
-      }
-    }
+    const runName = this.envVariables.runName || (await this.getRunName(ciInfo));
     testRun.testRunId = this.envVariables.runId;
-    testRun.displayName = ReporterUtils.isNullOrEmpty(runName) ? randomUUID() : runName;
+    testRun.displayName = ReporterUtils.isNullOrEmpty(runName) ? this.envVariables.runId : runName;
     testRun.creatorName = this.envVariables.userName;
     testRun.creatorId = this.envVariables.userId!;
     testRun.startTime = ReporterUtils.timestampToRFC3339(this.startTime);
@@ -158,7 +151,7 @@ class ReporterUtils {
     testResult.webTestConfig = {
       jobName: jobName,
       projectName: test.parent.project()!.name,
-      browserType: browserName!.toUpperCase(),
+      browserType: browserName ? browserName.toUpperCase() : "",
       os: this.getOsName(),
     };
     testResult.annotations = this.extractTestAnnotations(test.annotations);
@@ -354,7 +347,6 @@ class ReporterUtils {
       return 0;
     }
   }
-
   public redactAccessToken(info: string | undefined): string {
     if (!info || ReporterUtils.isNullOrEmpty(this.envVariables.accessToken)) {
       return "";
@@ -362,27 +354,6 @@ class ReporterUtils {
     const accessTokenRegex = new RegExp(this.envVariables.accessToken, "g");
     return info.replace(accessTokenRegex, Constants.DEFAULT_REDACTED_MESSAGE);
   }
-
-  public static populateValuesFromServiceUrl(): {
-    region: string;
-    accountId: string;
-  } | null {
-    // Service URL format: wss://<region>.api.playwright.microsoft.com/accounts/<workspace-id>/browsers
-    const url = process.env["PLAYWRIGHT_SERVICE_URL"]!;
-    if (!ReporterUtils.isNullOrEmpty(url)) {
-      const parts = url.split("/");
-
-      if (parts.length > 2) {
-        const subdomainParts = parts[2]!.split(".");
-        const region = subdomainParts.length > 0 ? subdomainParts[0] : null;
-        const accountId = parts[4];
-
-        return { region: region!, accountId: accountId! };
-      }
-    }
-    return null;
-  }
-
   public static getRegionFromAccountID(accountId: string): string | undefined {
     if (accountId.includes("_")) {
       return accountId.split("_")[0]!;

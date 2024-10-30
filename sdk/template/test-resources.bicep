@@ -1,7 +1,9 @@
 param baseName string = resourceGroup().name
 param sku string = 'Standard'
 param uniqueString string = newGuid()
+param testApplicationOid string
 
+var roleDefinitionId = '5ae67dd6-50cb-40e7-96ff-dc2bfa4b606b'
 var configurationApiVersion = '2020-07-01-preview'
 var accountName = baseName
 var testKeyName = 'test-key'
@@ -23,6 +25,15 @@ resource keyValue 'Microsoft.AppConfiguration/configurationStores/keyValues@2023
     contentType: 'text/plain'
   }
   parent: configurationStore
+}
+
+// Assign Role to Test Application
+resource roleAssignment 'Microsoft.Authorization/roleAssignments@2022-04-01' = {
+  name: guid(resourceGroup().id)
+  properties: {
+    roleDefinitionId: resourceId('Microsoft.Authorization/roleDefinitions', roleDefinitionId)
+    principalId: testApplicationOid
+  }
 }
 
 // Outputs

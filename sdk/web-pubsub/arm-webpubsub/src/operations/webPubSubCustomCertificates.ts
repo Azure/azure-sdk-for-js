@@ -16,7 +16,7 @@ import { WebPubSubManagementClient } from "../webPubSubManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,13 +29,14 @@ import {
   WebPubSubCustomCertificatesCreateOrUpdateOptionalParams,
   WebPubSubCustomCertificatesCreateOrUpdateResponse,
   WebPubSubCustomCertificatesDeleteOptionalParams,
-  WebPubSubCustomCertificatesListNextResponse
+  WebPubSubCustomCertificatesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing WebPubSubCustomCertificates operations. */
 export class WebPubSubCustomCertificatesImpl
-  implements WebPubSubCustomCertificates {
+  implements WebPubSubCustomCertificates
+{
   private readonly client: WebPubSubManagementClient;
 
   /**
@@ -55,7 +56,7 @@ export class WebPubSubCustomCertificatesImpl
   public list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubCustomCertificatesListOptionalParams
+    options?: WebPubSubCustomCertificatesListOptionalParams,
   ): PagedAsyncIterableIterator<CustomCertificate> {
     const iter = this.listPagingAll(resourceGroupName, resourceName, options);
     return {
@@ -73,9 +74,9 @@ export class WebPubSubCustomCertificatesImpl
           resourceGroupName,
           resourceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +84,7 @@ export class WebPubSubCustomCertificatesImpl
     resourceGroupName: string,
     resourceName: string,
     options?: WebPubSubCustomCertificatesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<CustomCertificate[]> {
     let result: WebPubSubCustomCertificatesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +100,7 @@ export class WebPubSubCustomCertificatesImpl
         resourceGroupName,
         resourceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,12 +112,12 @@ export class WebPubSubCustomCertificatesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubCustomCertificatesListOptionalParams
+    options?: WebPubSubCustomCertificatesListOptionalParams,
   ): AsyncIterableIterator<CustomCertificate> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       resourceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -131,11 +132,11 @@ export class WebPubSubCustomCertificatesImpl
   private _list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubCustomCertificatesListOptionalParams
+    options?: WebPubSubCustomCertificatesListOptionalParams,
   ): Promise<WebPubSubCustomCertificatesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -150,11 +151,11 @@ export class WebPubSubCustomCertificatesImpl
     resourceGroupName: string,
     resourceName: string,
     certificateName: string,
-    options?: WebPubSubCustomCertificatesGetOptionalParams
+    options?: WebPubSubCustomCertificatesGetOptionalParams,
   ): Promise<WebPubSubCustomCertificatesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, certificateName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -171,7 +172,7 @@ export class WebPubSubCustomCertificatesImpl
     resourceName: string,
     certificateName: string,
     parameters: CustomCertificate,
-    options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams
+    options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubCustomCertificatesCreateOrUpdateResponse>,
@@ -180,21 +181,20 @@ export class WebPubSubCustomCertificatesImpl
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<WebPubSubCustomCertificatesCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -203,8 +203,8 @@ export class WebPubSubCustomCertificatesImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -212,8 +212,8 @@ export class WebPubSubCustomCertificatesImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -224,9 +224,9 @@ export class WebPubSubCustomCertificatesImpl
         resourceName,
         certificateName,
         parameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       WebPubSubCustomCertificatesCreateOrUpdateResponse,
@@ -234,7 +234,7 @@ export class WebPubSubCustomCertificatesImpl
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -253,14 +253,14 @@ export class WebPubSubCustomCertificatesImpl
     resourceName: string,
     certificateName: string,
     parameters: CustomCertificate,
-    options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams
+    options?: WebPubSubCustomCertificatesCreateOrUpdateOptionalParams,
   ): Promise<WebPubSubCustomCertificatesCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       resourceName,
       certificateName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -276,11 +276,11 @@ export class WebPubSubCustomCertificatesImpl
     resourceGroupName: string,
     resourceName: string,
     certificateName: string,
-    options?: WebPubSubCustomCertificatesDeleteOptionalParams
+    options?: WebPubSubCustomCertificatesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, certificateName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -295,11 +295,11 @@ export class WebPubSubCustomCertificatesImpl
     resourceGroupName: string,
     resourceName: string,
     nextLink: string,
-    options?: WebPubSubCustomCertificatesListNextOptionalParams
+    options?: WebPubSubCustomCertificatesListNextOptionalParams,
   ): Promise<WebPubSubCustomCertificatesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, resourceName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -307,38 +307,15 @@ export class WebPubSubCustomCertificatesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customCertificates",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customCertificates",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomCertificateList
+      bodyMapper: Mappers.CustomCertificateList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.resourceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customCertificates/{certificateName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.CustomCertificate
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -346,31 +323,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.certificateName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customCertificates/{certificateName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CustomCertificate,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.resourceName,
+    Parameters.certificateName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customCertificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customCertificates/{certificateName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomCertificate
+      bodyMapper: Mappers.CustomCertificate,
     },
     201: {
-      bodyMapper: Mappers.CustomCertificate
+      bodyMapper: Mappers.CustomCertificate,
     },
     202: {
-      bodyMapper: Mappers.CustomCertificate
+      bodyMapper: Mappers.CustomCertificate,
     },
     204: {
-      bodyMapper: Mappers.CustomCertificate
+      bodyMapper: Mappers.CustomCertificate,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -379,22 +376,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customCertificates/{certificateName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SignalRService/webPubSub/{resourceName}/customCertificates/{certificateName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -402,29 +398,29 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.resourceName,
-    Parameters.certificateName
+    Parameters.certificateName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.CustomCertificateList
+      bodyMapper: Mappers.CustomCertificateList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.resourceName
+    Parameters.resourceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -32,7 +32,6 @@ export const ServiceAuth = {
  */
 export const ServiceEnvironmentVariable = {
   PLAYWRIGHT_SERVICE_OS: "PLAYWRIGHT_SERVICE_OS",
-  PLAYWRIGHT_SERVICE_RUN_ID: "PLAYWRIGHT_SERVICE_RUN_ID",
   PLAYWRIGHT_SERVICE_EXPOSE_NETWORK_ENVIRONMENT_VARIABLE: "PLAYWRIGHT_SERVICE_EXPOSE_NETWORK",
   PLAYWRIGHT_SERVICE_ACCESS_TOKEN: "PLAYWRIGHT_SERVICE_ACCESS_TOKEN",
   PLAYWRIGHT_SERVICE_URL: "PLAYWRIGHT_SERVICE_URL",
@@ -100,7 +99,6 @@ export class Constants {
   public static readonly patchTestRunShardEnd: string = "patchTestRunShardEnd";
   public static readonly postTestResults: string = "postTestResults";
   public static readonly getStorageUri: string = "getStorageUri";
-
   public static readonly ERROR_MESSAGE: ApiErrorMessage = {
     patchTestRun: {
       400: "The request made to the server is invalid. Please check the request parameters and try again.",
@@ -165,7 +163,7 @@ export const TestErrorType = {
 
 export const TestResultErrorConstants = [
   {
-    key: "Unauthorized_Scalable",
+    key: "401",
     message: "The authentication token provided is invalid. Please check the token and try again.",
     pattern: /(?=.*browserType\.connect)(?=.*401 Unauthorized)/i,
     type: TestErrorType.Scalable,
@@ -189,7 +187,7 @@ export const TestResultErrorConstants = [
     type: TestErrorType.Scalable,
   },
   {
-    key: "InvalidAccessToken_Scalable",
+    key: "InvalidAccessToken",
     message:
       "The provided access token does not match the specified workspace URL. Please verify that both values are correct.",
     pattern: /(?=.*browserType\.connect)(?=.*403 Forbidden)(?=[\s\S]*InvalidAccessToken)/i,
@@ -211,13 +209,13 @@ export const TestResultErrorConstants = [
     type: TestErrorType.Scalable,
   },
   {
-    key: "ServiceUnavailable_Scalable",
+    key: "503",
     message: "The service is currently unavailable. Please check the service status and try again.",
     pattern: /(?=.*browserType\.connect)(?=.*503 Service Unavailable)/i,
     type: TestErrorType.Scalable,
   },
   {
-    key: "GatewayTimeout_Scalable",
+    key: "504",
     message: "The request to the service timed out. Please try again later.",
     pattern: /(?=.*browserType\.connect)(?=.*504 Gateway Timeout)/i,
     type: TestErrorType.Scalable,
@@ -240,6 +238,8 @@ export const TestResultErrorConstants = [
 export const InternalEnvironmentVariables = {
   MPT_PLAYWRIGHT_VERSION: "_MPT_PLAYWRIGHT_VERSION",
   MPT_SETUP_FATAL_ERROR: "_MPT_SETUP_FATAL_ERROR",
+  MPT_SERVICE_RUN_NAME: "_MPT_SERVICE_RUN_NAME",
+  MPT_SERVICE_RUN_ID: "_MPT_SERVICE_RUN_ID",
   MPT_CLOUD_HOSTED_BROWSER_USED: "_MPT_CLOUD_HOSTED_BROWSER_USED",
 };
 
