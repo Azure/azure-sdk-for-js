@@ -9,7 +9,6 @@ import { createClient, createRecorder } from "./utils/recordedClient";
 import { Context } from "mocha";
 import MapsTimeZone, { isUnexpected, IanaIdOutput } from "../../src";
 
-
 describe("Authentication", function () {
   let recorder: Recorder;
 
@@ -22,7 +21,6 @@ describe("Authentication", function () {
   });
 
   it("should work with Microsoft Entra ID authentication", async function () {
-    
     /**
      * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
      * But it requires user's interaction, which is not testable in karma.
@@ -30,9 +28,9 @@ describe("Authentication", function () {
     if (!isNodeLike) this.skip();
     const credential = createTestCredential();
     const client = MapsTimeZone(
-        credential,
-        env["MAPS_RESOURCE_CLIENT_ID"] as string,
-        recorder.configureClientOptions({})
+      credential,
+      env["MAPS_RESOURCE_CLIENT_ID"] as string,
+      recorder.configureClientOptions({})
     );
 
     const response = await client.path("/timezone/byId/{format}", "json").get({
@@ -54,7 +52,6 @@ describe("Endpoint can be overwritten", function () {
   });
 
   it("should be executed without specifying baseUrl", async function () {
-    
     const client = createClient(recorder.configureClientOptions({}));
     const response = await client.path("/timezone/byId/{format}", "json").get({
       queryParameters: { query: "America/New_York" },
@@ -64,9 +61,8 @@ describe("Endpoint can be overwritten", function () {
   });
 
   it("should be executed with different baseUrl", async function () {
-    
     const client = createClient(
-        recorder.configureClientOptions({ baseUrl: "https://us.atlas.microsoft.com/" })
+      recorder.configureClientOptions({ baseUrl: "https://us.atlas.microsoft.com/" })
     );
     const response = await client.path("/timezone/byId/{format}", "json").get({
       queryParameters: { query: "America/New_York" },
@@ -90,21 +86,22 @@ describe("MapsTimeZone", () => {
   });
 
   it("can get timezone by ID", async function () {
-    
     const response = await client.path("/timezone/byId/{format}", "json").get({
       queryParameters: { query: "America/New_York" },
     });
     if (isUnexpected(response)) {
       assert.fail(response.body.error?.message || "Unexpected error.");
     } else {
-      assert.isTrue(response.body.TimeZones?.length === 1, "TimeZones array should contain one element.");
+      assert.isTrue(
+        response.body.TimeZones?.length === 1,
+        "TimeZones array should contain one element."
+      );
     }
   });
 
   it("can get timezone by coordinates", async function () {
-    
     const response = await client.path("/timezone/byCoordinates/{format}", "json").get({
-      queryParameters: { query: [40.7128, -74.0060] },
+      queryParameters: { query: [40.7128, -74.006] },
     });
 
     if (isUnexpected(response)) {
@@ -116,7 +113,6 @@ describe("MapsTimeZone", () => {
   });
 
   it("can get Windows timezone IDs", async function () {
-    
     const response = await client.path("/timezone/enumWindows/{format}", "json").get();
 
     if (isUnexpected(response)) {
@@ -127,7 +123,6 @@ describe("MapsTimeZone", () => {
   });
 
   it("can get IANA timezone IDs", async function () {
-    
     const response = await client.path("/timezone/enumIana/{format}", "json").get();
 
     if (isUnexpected(response)) {
@@ -138,7 +133,6 @@ describe("MapsTimeZone", () => {
   });
 
   it("can get IANA version", async function () {
-    
     const response = await client.path("/timezone/ianaVersion/{format}", "json").get();
 
     if (isUnexpected(response)) {
@@ -149,7 +143,6 @@ describe("MapsTimeZone", () => {
   });
 
   it("can convert Windows timezone to IANA", async function () {
-    
     const response = await client.path("/timezone/windowsToIana/{format}", "json").get({
       queryParameters: { query: "Eastern Standard Time" },
     });
@@ -173,17 +166,16 @@ describe("MapsTimeZone", () => {
         "America/Indiana/Winamac",
         "America/Kentucky/Monticello",
         "America/Louisville",
-        "EST5EDT"
+        "EST5EDT",
       ];
 
       // Extract the IANA IDs from the response
       const ianaIds: string[] = response.body
-          .map((ianaId: IanaIdOutput) => ianaId.Id)
-          .filter((id: string | undefined): id is string => id !== undefined);
+        .map((ianaId: IanaIdOutput) => ianaId.Id)
+        .filter((id: string | undefined): id is string => id !== undefined);
 
       // Assert that the IANA IDs returned by the API match the expected IDs
       assert.deepEqual(ianaIds, expectedIanaIds, "The IANA IDs should match the expected values.");
     }
   });
 });
-

@@ -30,7 +30,7 @@ import createClient from "./generated/mapsTimeZoneClient";
  */
 export default function MapsTimeZone(
   credential: AzureKeyCredential,
-  options?: ClientOptions,
+  options?: ClientOptions
 ): MapsTimeZoneClient;
 /**
  * Creates an instance of MapsTimeZone from an Azure Identity `TokenCredential`.
@@ -51,7 +51,7 @@ export default function MapsTimeZone(
 export default function MapsTimeZone(
   credential: TokenCredential,
   mapsAccountClientId: string,
-  options?: ClientOptions,
+  options?: ClientOptions
 ): MapsTimeZoneClient;
 /**
  * Creates an instance of MapsTimeZone from an Azure Identity `AzureSASCredential`.
@@ -70,12 +70,12 @@ export default function MapsTimeZone(
  */
 export default function MapsTimeZone(
   credential: AzureSASCredential,
-  options?: ClientOptions,
+  options?: ClientOptions
 ): MapsTimeZoneClient;
 export default function MapsTimeZone(
   credential: TokenCredential | AzureKeyCredential | AzureSASCredential,
   clientIdOrOptions: string | ClientOptions = {},
-  maybeOptions: ClientOptions = {},
+  maybeOptions: ClientOptions = {}
 ): MapsTimeZoneClient {
   const options = typeof clientIdOrOptions === "string" ? maybeOptions : clientIdOrOptions;
 
@@ -94,7 +94,7 @@ export default function MapsTimeZone(
       bearerTokenAuthenticationPolicy({
         credential,
         scopes: "https://atlas.microsoft.com/.default",
-      }),
+      })
     );
     client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));
     return client;
