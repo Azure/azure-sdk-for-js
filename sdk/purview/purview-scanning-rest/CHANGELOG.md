@@ -1,14 +1,9 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.3 (2024-10-31)
 
 ### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
+- refresh package with latest code generator.
 
 ## 1.0.0-beta.2 (2021-09-30)
 
