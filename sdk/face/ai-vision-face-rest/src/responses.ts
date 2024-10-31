@@ -11,31 +11,31 @@ import {
   IdentificationResultOutput,
   VerificationResultOutput,
   GroupingResultOutput,
-  FaceListOutput,
-  FaceListItemOutput,
-  AddFaceResultOutput,
-  LargeFaceListOutput,
-  TrainingResultOutput,
-  LargeFaceListFaceOutput,
-  PersonGroupOutput,
-  CreatePersonResultOutput,
-  PersonGroupPersonOutput,
-  PersonGroupPersonFaceOutput,
-  LargePersonGroupOutput,
-  LargePersonGroupPersonOutput,
-  LargePersonGroupPersonFaceOutput,
   CreateLivenessSessionResultOutput,
   LivenessSessionOutput,
   LivenessSessionItemOutput,
   LivenessSessionAuditEntryOutput,
   CreateLivenessWithVerifySessionResultOutput,
   LivenessWithVerifySessionOutput,
+  FaceListOutput,
+  FaceListItemOutput,
+  AddFaceResultOutput,
+  LargeFaceListOutput,
+  TrainingResultOutput,
+  LargeFaceListFaceOutput,
+  CreatePersonResultOutput,
   PersonDirectoryPersonOutput,
   ListGroupReferenceResultOutput,
   PersonDirectoryFaceOutput,
   ListFaceResultOutput,
   DynamicPersonGroupOutput,
   ListPersonResultOutput,
+  PersonGroupOutput,
+  PersonGroupPersonOutput,
+  PersonGroupPersonFaceOutput,
+  LargePersonGroupOutput,
+  LargePersonGroupPersonOutput,
+  LargePersonGroupPersonFaceOutput,
 } from "./outputModels.js";
 
 /** A successful call returns the long running operation status. */
@@ -134,7 +134,8 @@ export interface FindSimilarFromLargeFaceListDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface FindSimilarFromLargeFaceListDefaultResponse extends HttpResponse {
+export interface FindSimilarFromLargeFaceListDefaultResponse
+  extends HttpResponse {
   status: string;
   body: FaceErrorResponseOutput;
   headers: RawHttpHeaders & FindSimilarFromLargeFaceListDefaultHeaders;
@@ -168,7 +169,8 @@ export interface IdentifyFromLargePersonGroupDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface IdentifyFromLargePersonGroupDefaultResponse extends HttpResponse {
+export interface IdentifyFromLargePersonGroupDefaultResponse
+  extends HttpResponse {
   status: string;
   body: FaceErrorResponseOutput;
   headers: RawHttpHeaders & IdentifyFromLargePersonGroupDefaultHeaders;
@@ -185,14 +187,16 @@ export interface IdentifyFromPersonDirectoryDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface IdentifyFromPersonDirectoryDefaultResponse extends HttpResponse {
+export interface IdentifyFromPersonDirectoryDefaultResponse
+  extends HttpResponse {
   status: string;
   body: FaceErrorResponseOutput;
   headers: RawHttpHeaders & IdentifyFromPersonDirectoryDefaultHeaders;
 }
 
 /** A successful call returns the identified candidate person(s) for each query face. */
-export interface IdentifyFromDynamicPersonGroup200Response extends HttpResponse {
+export interface IdentifyFromDynamicPersonGroup200Response
+  extends HttpResponse {
   status: "200";
   body: Array<IdentificationResultOutput>;
 }
@@ -202,7 +206,8 @@ export interface IdentifyFromDynamicPersonGroupDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface IdentifyFromDynamicPersonGroupDefaultResponse extends HttpResponse {
+export interface IdentifyFromDynamicPersonGroupDefaultResponse
+  extends HttpResponse {
   status: string;
   body: FaceErrorResponseOutput;
   headers: RawHttpHeaders & IdentifyFromDynamicPersonGroupDefaultHeaders;
@@ -253,7 +258,8 @@ export interface VerifyFromLargePersonGroupDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface VerifyFromLargePersonGroupDefaultResponse extends HttpResponse {
+export interface VerifyFromLargePersonGroupDefaultResponse
+  extends HttpResponse {
   status: string;
   body: FaceErrorResponseOutput;
   headers: RawHttpHeaders & VerifyFromLargePersonGroupDefaultHeaders;
@@ -291,6 +297,206 @@ export interface GroupDefaultResponse extends HttpResponse {
   status: string;
   body: FaceErrorResponseOutput;
   headers: RawHttpHeaders & GroupDefaultHeaders;
+}
+
+/** A successful call create a session for a client device and provide an authorization token for use by the client application for a limited purpose and time. */
+export interface CreateLivenessSession200Response extends HttpResponse {
+  status: "200";
+  body: CreateLivenessSessionResultOutput;
+}
+
+export interface CreateLivenessSessionDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface CreateLivenessSessionDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & CreateLivenessSessionDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DeleteLivenessSession200Response extends HttpResponse {
+  status: "200";
+}
+
+export interface DeleteLivenessSessionDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeleteLivenessSessionDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & DeleteLivenessSessionDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetLivenessSessionResult200Response extends HttpResponse {
+  status: "200";
+  body: LivenessSessionOutput;
+}
+
+export interface GetLivenessSessionResultDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetLivenessSessionResultDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetLivenessSessionResultDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetLivenessSessions200Response extends HttpResponse {
+  status: "200";
+  body: Array<LivenessSessionItemOutput>;
+}
+
+export interface GetLivenessSessionsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetLivenessSessionsDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetLivenessSessionsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetLivenessSessionAuditEntries200Response
+  extends HttpResponse {
+  status: "200";
+  body: Array<LivenessSessionAuditEntryOutput>;
+}
+
+export interface GetLivenessSessionAuditEntriesDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetLivenessSessionAuditEntriesDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetLivenessSessionAuditEntriesDefaultHeaders;
+}
+
+/** A successful call create a session for a client device and provide an authorization token for use by the client application for a limited purpose and time. */
+export interface CreateLivenessWithVerifySessionWithVerifyImage200Response
+  extends HttpResponse {
+  status: "200";
+  body: CreateLivenessWithVerifySessionResultOutput;
+}
+
+export interface CreateLivenessWithVerifySessionWithVerifyImageDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface CreateLivenessWithVerifySessionWithVerifyImageDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders &
+  CreateLivenessWithVerifySessionWithVerifyImageDefaultHeaders;
+}
+
+/** A successful call create a session for a client device and provide an authorization token for use by the client application for a limited purpose and time. */
+export interface CreateLivenessWithVerifySession200Response
+  extends HttpResponse {
+  status: "200";
+  body: CreateLivenessWithVerifySessionResultOutput;
+}
+
+export interface CreateLivenessWithVerifySessionDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface CreateLivenessWithVerifySessionDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & CreateLivenessWithVerifySessionDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DeleteLivenessWithVerifySession200Response
+  extends HttpResponse {
+  status: "200";
+}
+
+export interface DeleteLivenessWithVerifySessionDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeleteLivenessWithVerifySessionDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & DeleteLivenessWithVerifySessionDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetLivenessWithVerifySessionResult200Response
+  extends HttpResponse {
+  status: "200";
+  body: LivenessWithVerifySessionOutput;
+}
+
+export interface GetLivenessWithVerifySessionResultDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetLivenessWithVerifySessionResultDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetLivenessWithVerifySessionResultDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetLivenessWithVerifySessions200Response extends HttpResponse {
+  status: "200";
+  body: Array<LivenessSessionItemOutput>;
+}
+
+export interface GetLivenessWithVerifySessionsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetLivenessWithVerifySessionsDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetLivenessWithVerifySessionsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetLivenessWithVerifySessionAuditEntries200Response
+  extends HttpResponse {
+  status: "200";
+  body: Array<LivenessSessionAuditEntryOutput>;
+}
+
+export interface GetLivenessWithVerifySessionAuditEntriesDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetLivenessWithVerifySessionAuditEntriesDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders &
+  GetLivenessWithVerifySessionAuditEntriesDefaultHeaders;
 }
 
 /** The request has succeeded. */
@@ -508,7 +714,8 @@ export interface GetLargeFaceListsDefaultResponse extends HttpResponse {
 }
 
 /** A successful call returns the Large Face List's training status. */
-export interface GetLargeFaceListTrainingStatus200Response extends HttpResponse {
+export interface GetLargeFaceListTrainingStatus200Response
+  extends HttpResponse {
   status: "200";
   body: TrainingResultOutput;
 }
@@ -518,7 +725,8 @@ export interface GetLargeFaceListTrainingStatusDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface GetLargeFaceListTrainingStatusDefaultResponse extends HttpResponse {
+export interface GetLargeFaceListTrainingStatusDefaultResponse
+  extends HttpResponse {
   status: string;
   body: FaceErrorResponseOutput;
   headers: RawHttpHeaders & GetLargeFaceListTrainingStatusDefaultHeaders;
@@ -561,7 +769,8 @@ export interface AddLargeFaceListFaceFromUrlDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface AddLargeFaceListFaceFromUrlDefaultResponse extends HttpResponse {
+export interface AddLargeFaceListFaceFromUrlDefaultResponse
+  extends HttpResponse {
   status: string;
   body: FaceErrorResponseOutput;
   headers: RawHttpHeaders & AddLargeFaceListFaceFromUrlDefaultHeaders;
@@ -648,774 +857,6 @@ export interface GetLargeFaceListFacesDefaultResponse extends HttpResponse {
   status: string;
   body: FaceErrorResponseOutput;
   headers: RawHttpHeaders & GetLargeFaceListFacesDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface CreatePersonGroup200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface CreatePersonGroupDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface CreatePersonGroupDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & CreatePersonGroupDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface DeletePersonGroup200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface DeletePersonGroupDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface DeletePersonGroupDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & DeletePersonGroupDefaultHeaders;
-}
-
-/** A successful call returns the Person Group's information. */
-export interface GetPersonGroup200Response extends HttpResponse {
-  status: "200";
-  body: PersonGroupOutput;
-}
-
-export interface GetPersonGroupDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetPersonGroupDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetPersonGroupDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface UpdatePersonGroup200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface UpdatePersonGroupDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface UpdatePersonGroupDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & UpdatePersonGroupDefaultHeaders;
-}
-
-/** A successful call returns an array of Person Groups and their information (personGroupId, name and userData). */
-export interface GetPersonGroups200Response extends HttpResponse {
-  status: "200";
-  body: Array<PersonGroupOutput>;
-}
-
-export interface GetPersonGroupsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetPersonGroupsDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetPersonGroupsDefaultHeaders;
-}
-
-/** A successful call returns the Person Group's training status. */
-export interface GetPersonGroupTrainingStatus200Response extends HttpResponse {
-  status: "200";
-  body: TrainingResultOutput;
-}
-
-export interface GetPersonGroupTrainingStatusDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetPersonGroupTrainingStatusDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetPersonGroupTrainingStatusDefaultHeaders;
-}
-
-export interface TrainPersonGroup202Headers {
-  "operation-location": string;
-}
-
-/** A successful call returns an empty response body. */
-export interface TrainPersonGroup202Response extends HttpResponse {
-  status: "202";
-  headers: RawHttpHeaders & TrainPersonGroup202Headers;
-}
-
-export interface TrainPersonGroupDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TrainPersonGroupDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & TrainPersonGroupDefaultHeaders;
-}
-
-/** The final response for long-running trainPersonGroup operation */
-export interface TrainPersonGroupLogicalResponse extends HttpResponse {
-  status: "200";
-}
-
-/** A successful call returns a new personId created. */
-export interface CreatePersonGroupPerson200Response extends HttpResponse {
-  status: "200";
-  body: CreatePersonResultOutput;
-}
-
-export interface CreatePersonGroupPersonDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface CreatePersonGroupPersonDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & CreatePersonGroupPersonDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface DeletePersonGroupPerson200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface DeletePersonGroupPersonDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface DeletePersonGroupPersonDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & DeletePersonGroupPersonDefaultHeaders;
-}
-
-/** A successful call returns the person's information. */
-export interface GetPersonGroupPerson200Response extends HttpResponse {
-  status: "200";
-  body: PersonGroupPersonOutput;
-}
-
-export interface GetPersonGroupPersonDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetPersonGroupPersonDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetPersonGroupPersonDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface UpdatePersonGroupPerson200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface UpdatePersonGroupPersonDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface UpdatePersonGroupPersonDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & UpdatePersonGroupPersonDefaultHeaders;
-}
-
-/** A successful call returns an array of person information that belong to the Person Group. */
-export interface GetPersonGroupPersons200Response extends HttpResponse {
-  status: "200";
-  body: Array<PersonGroupPersonOutput>;
-}
-
-export interface GetPersonGroupPersonsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetPersonGroupPersonsDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetPersonGroupPersonsDefaultHeaders;
-}
-
-/** A successful call returns a new persistedFaceId. */
-export interface AddPersonGroupPersonFaceFromUrl200Response extends HttpResponse {
-  status: "200";
-  body: AddFaceResultOutput;
-}
-
-export interface AddPersonGroupPersonFaceFromUrlDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface AddPersonGroupPersonFaceFromUrlDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & AddPersonGroupPersonFaceFromUrlDefaultHeaders;
-}
-
-/** A successful call returns a new persistedFaceId. */
-export interface AddPersonGroupPersonFace200Response extends HttpResponse {
-  status: "200";
-  body: AddFaceResultOutput;
-}
-
-export interface AddPersonGroupPersonFaceDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface AddPersonGroupPersonFaceDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & AddPersonGroupPersonFaceDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface DeletePersonGroupPersonFace200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface DeletePersonGroupPersonFaceDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface DeletePersonGroupPersonFaceDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & DeletePersonGroupPersonFaceDefaultHeaders;
-}
-
-/** A successful call returns target persisted face's information (persistedFaceId and userData). */
-export interface GetPersonGroupPersonFace200Response extends HttpResponse {
-  status: "200";
-  body: PersonGroupPersonFaceOutput;
-}
-
-export interface GetPersonGroupPersonFaceDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetPersonGroupPersonFaceDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetPersonGroupPersonFaceDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface UpdatePersonGroupPersonFace200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface UpdatePersonGroupPersonFaceDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface UpdatePersonGroupPersonFaceDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & UpdatePersonGroupPersonFaceDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface CreateLargePersonGroup200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface CreateLargePersonGroupDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface CreateLargePersonGroupDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & CreateLargePersonGroupDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface DeleteLargePersonGroup200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface DeleteLargePersonGroupDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface DeleteLargePersonGroupDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & DeleteLargePersonGroupDefaultHeaders;
-}
-
-/** A successful call returns the Large Person Group's information. */
-export interface GetLargePersonGroup200Response extends HttpResponse {
-  status: "200";
-  body: LargePersonGroupOutput;
-}
-
-export interface GetLargePersonGroupDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetLargePersonGroupDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetLargePersonGroupDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface UpdateLargePersonGroup200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface UpdateLargePersonGroupDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface UpdateLargePersonGroupDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & UpdateLargePersonGroupDefaultHeaders;
-}
-
-/** A successful call returns an array of Large Person Groups and their information (largePersonGroupId, name and userData). */
-export interface GetLargePersonGroups200Response extends HttpResponse {
-  status: "200";
-  body: Array<LargePersonGroupOutput>;
-}
-
-export interface GetLargePersonGroupsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetLargePersonGroupsDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetLargePersonGroupsDefaultHeaders;
-}
-
-/** A successful call returns the Large Person Group's training status. */
-export interface GetLargePersonGroupTrainingStatus200Response extends HttpResponse {
-  status: "200";
-  body: TrainingResultOutput;
-}
-
-export interface GetLargePersonGroupTrainingStatusDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetLargePersonGroupTrainingStatusDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetLargePersonGroupTrainingStatusDefaultHeaders;
-}
-
-export interface TrainLargePersonGroup202Headers {
-  "operation-location": string;
-}
-
-/** A successful call returns an empty response body. */
-export interface TrainLargePersonGroup202Response extends HttpResponse {
-  status: "202";
-  headers: RawHttpHeaders & TrainLargePersonGroup202Headers;
-}
-
-export interface TrainLargePersonGroupDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface TrainLargePersonGroupDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & TrainLargePersonGroupDefaultHeaders;
-}
-
-/** The final response for long-running trainLargePersonGroup operation */
-export interface TrainLargePersonGroupLogicalResponse extends HttpResponse {
-  status: "200";
-}
-
-/** A successful call returns a new personId created. */
-export interface CreateLargePersonGroupPerson200Response extends HttpResponse {
-  status: "200";
-  body: CreatePersonResultOutput;
-}
-
-export interface CreateLargePersonGroupPersonDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface CreateLargePersonGroupPersonDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & CreateLargePersonGroupPersonDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface DeleteLargePersonGroupPerson200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface DeleteLargePersonGroupPersonDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface DeleteLargePersonGroupPersonDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & DeleteLargePersonGroupPersonDefaultHeaders;
-}
-
-/** A successful call returns the person's information. */
-export interface GetLargePersonGroupPerson200Response extends HttpResponse {
-  status: "200";
-  body: LargePersonGroupPersonOutput;
-}
-
-export interface GetLargePersonGroupPersonDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetLargePersonGroupPersonDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetLargePersonGroupPersonDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface UpdateLargePersonGroupPerson200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface UpdateLargePersonGroupPersonDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface UpdateLargePersonGroupPersonDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & UpdateLargePersonGroupPersonDefaultHeaders;
-}
-
-/** A successful call returns an array of person information that belong to the Large Person Group. */
-export interface GetLargePersonGroupPersons200Response extends HttpResponse {
-  status: "200";
-  body: Array<LargePersonGroupPersonOutput>;
-}
-
-export interface GetLargePersonGroupPersonsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetLargePersonGroupPersonsDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetLargePersonGroupPersonsDefaultHeaders;
-}
-
-/** A successful call returns a new persistedFaceId. */
-export interface AddLargePersonGroupPersonFaceFromUrl200Response extends HttpResponse {
-  status: "200";
-  body: AddFaceResultOutput;
-}
-
-export interface AddLargePersonGroupPersonFaceFromUrlDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface AddLargePersonGroupPersonFaceFromUrlDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & AddLargePersonGroupPersonFaceFromUrlDefaultHeaders;
-}
-
-/** A successful call returns a new persistedFaceId. */
-export interface AddLargePersonGroupPersonFace200Response extends HttpResponse {
-  status: "200";
-  body: AddFaceResultOutput;
-}
-
-export interface AddLargePersonGroupPersonFaceDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface AddLargePersonGroupPersonFaceDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & AddLargePersonGroupPersonFaceDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface DeleteLargePersonGroupPersonFace200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface DeleteLargePersonGroupPersonFaceDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface DeleteLargePersonGroupPersonFaceDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & DeleteLargePersonGroupPersonFaceDefaultHeaders;
-}
-
-/** A successful call returns target persisted face's information (persistedFaceId and userData). */
-export interface GetLargePersonGroupPersonFace200Response extends HttpResponse {
-  status: "200";
-  body: LargePersonGroupPersonFaceOutput;
-}
-
-export interface GetLargePersonGroupPersonFaceDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetLargePersonGroupPersonFaceDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetLargePersonGroupPersonFaceDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface UpdateLargePersonGroupPersonFace200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface UpdateLargePersonGroupPersonFaceDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface UpdateLargePersonGroupPersonFaceDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & UpdateLargePersonGroupPersonFaceDefaultHeaders;
-}
-
-/** A successful call create a session for a client device and provide an authorization token for use by the client application for a limited purpose and time. */
-export interface CreateLivenessSession200Response extends HttpResponse {
-  status: "200";
-  body: CreateLivenessSessionResultOutput;
-}
-
-export interface CreateLivenessSessionDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface CreateLivenessSessionDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & CreateLivenessSessionDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface DeleteLivenessSession200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface DeleteLivenessSessionDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface DeleteLivenessSessionDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & DeleteLivenessSessionDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface GetLivenessSessionResult200Response extends HttpResponse {
-  status: "200";
-  body: LivenessSessionOutput;
-}
-
-export interface GetLivenessSessionResultDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetLivenessSessionResultDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetLivenessSessionResultDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface GetLivenessSessions200Response extends HttpResponse {
-  status: "200";
-  body: Array<LivenessSessionItemOutput>;
-}
-
-export interface GetLivenessSessionsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetLivenessSessionsDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetLivenessSessionsDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface GetLivenessSessionAuditEntries200Response extends HttpResponse {
-  status: "200";
-  body: Array<LivenessSessionAuditEntryOutput>;
-}
-
-export interface GetLivenessSessionAuditEntriesDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetLivenessSessionAuditEntriesDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetLivenessSessionAuditEntriesDefaultHeaders;
-}
-
-/** A successful call create a session for a client device and provide an authorization token for use by the client application for a limited purpose and time. */
-export interface CreateLivenessWithVerifySessionWithVerifyImage200Response extends HttpResponse {
-  status: "200";
-  body: CreateLivenessWithVerifySessionResultOutput;
-}
-
-export interface CreateLivenessWithVerifySessionWithVerifyImageDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface CreateLivenessWithVerifySessionWithVerifyImageDefaultResponse
-  extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & CreateLivenessWithVerifySessionWithVerifyImageDefaultHeaders;
-}
-
-/** A successful call create a session for a client device and provide an authorization token for use by the client application for a limited purpose and time. */
-export interface CreateLivenessWithVerifySession200Response extends HttpResponse {
-  status: "200";
-  body: CreateLivenessWithVerifySessionResultOutput;
-}
-
-export interface CreateLivenessWithVerifySessionDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface CreateLivenessWithVerifySessionDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & CreateLivenessWithVerifySessionDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface DeleteLivenessWithVerifySession200Response extends HttpResponse {
-  status: "200";
-}
-
-export interface DeleteLivenessWithVerifySessionDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface DeleteLivenessWithVerifySessionDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & DeleteLivenessWithVerifySessionDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface GetLivenessWithVerifySessionResult200Response extends HttpResponse {
-  status: "200";
-  body: LivenessWithVerifySessionOutput;
-}
-
-export interface GetLivenessWithVerifySessionResultDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetLivenessWithVerifySessionResultDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetLivenessWithVerifySessionResultDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface GetLivenessWithVerifySessions200Response extends HttpResponse {
-  status: "200";
-  body: Array<LivenessSessionItemOutput>;
-}
-
-export interface GetLivenessWithVerifySessionsDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetLivenessWithVerifySessionsDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetLivenessWithVerifySessionsDefaultHeaders;
-}
-
-/** The request has succeeded. */
-export interface GetLivenessWithVerifySessionAuditEntries200Response extends HttpResponse {
-  status: "200";
-  body: Array<LivenessSessionAuditEntryOutput>;
-}
-
-export interface GetLivenessWithVerifySessionAuditEntriesDefaultHeaders {
-  /** String error code indicating what went wrong. */
-  "x-ms-error-code"?: string;
-}
-
-export interface GetLivenessWithVerifySessionAuditEntriesDefaultResponse extends HttpResponse {
-  status: string;
-  body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & GetLivenessWithVerifySessionAuditEntriesDefaultHeaders;
 }
 
 export interface CreatePerson202Headers {
@@ -1524,7 +965,8 @@ export interface GetPersonsDefaultResponse extends HttpResponse {
 }
 
 /** A successful call returns an array of dynamicPersonGroups information that reference the provided personId. */
-export interface GetDynamicPersonGroupReferences200Response extends HttpResponse {
+export interface GetDynamicPersonGroupReferences200Response
+  extends HttpResponse {
   status: "200";
   body: ListGroupReferenceResultOutput;
 }
@@ -1534,7 +976,8 @@ export interface GetDynamicPersonGroupReferencesDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface GetDynamicPersonGroupReferencesDefaultResponse extends HttpResponse {
+export interface GetDynamicPersonGroupReferencesDefaultResponse
+  extends HttpResponse {
   status: string;
   body: FaceErrorResponseOutput;
   headers: RawHttpHeaders & GetDynamicPersonGroupReferencesDefaultHeaders;
@@ -1679,7 +1122,8 @@ export interface CreateDynamicPersonGroupWithPerson202Headers {
 }
 
 /** A successful call returns an empty response body. The service has accepted the request and will start processing soon. The client can query the operation status and result using the URL specified in the 'Operation-Location' response header. The URL expires in 48 hours. The URL provides the status of when Person Directory "Get Dynamic Person Group References" will return the changes made in this request. */
-export interface CreateDynamicPersonGroupWithPerson202Response extends HttpResponse {
+export interface CreateDynamicPersonGroupWithPerson202Response
+  extends HttpResponse {
   status: "202";
   headers: RawHttpHeaders & CreateDynamicPersonGroupWithPerson202Headers;
 }
@@ -1689,14 +1133,16 @@ export interface CreateDynamicPersonGroupWithPersonDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface CreateDynamicPersonGroupWithPersonDefaultResponse extends HttpResponse {
+export interface CreateDynamicPersonGroupWithPersonDefaultResponse
+  extends HttpResponse {
   status: string;
   body: FaceErrorResponseOutput;
   headers: RawHttpHeaders & CreateDynamicPersonGroupWithPersonDefaultHeaders;
 }
 
 /** The final response for long-running createDynamicPersonGroupWithPerson operation */
-export interface CreateDynamicPersonGroupWithPersonLogicalResponse extends HttpResponse {
+export interface CreateDynamicPersonGroupWithPersonLogicalResponse
+  extends HttpResponse {
   status: "200";
 }
 
@@ -1764,7 +1210,8 @@ export interface UpdateDynamicPersonGroupWithPersonChanges202Headers {
 }
 
 /** A successful call returns an empty response body. The service has accepted the request and will start processing soon. The client can query the operation status and result using the URL specified in the 'Operation-Location' response header. The URL expires in 48 hours. The URL provides the status of when Person Directory "Get Dynamic Person Group References" will return the changes made in this request. */
-export interface UpdateDynamicPersonGroupWithPersonChanges202Response extends HttpResponse {
+export interface UpdateDynamicPersonGroupWithPersonChanges202Response
+  extends HttpResponse {
   status: "202";
   headers: RawHttpHeaders & UpdateDynamicPersonGroupWithPersonChanges202Headers;
 }
@@ -1774,14 +1221,17 @@ export interface UpdateDynamicPersonGroupWithPersonChangesDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface UpdateDynamicPersonGroupWithPersonChangesDefaultResponse extends HttpResponse {
+export interface UpdateDynamicPersonGroupWithPersonChangesDefaultResponse
+  extends HttpResponse {
   status: string;
   body: FaceErrorResponseOutput;
-  headers: RawHttpHeaders & UpdateDynamicPersonGroupWithPersonChangesDefaultHeaders;
+  headers: RawHttpHeaders &
+  UpdateDynamicPersonGroupWithPersonChangesDefaultHeaders;
 }
 
 /** The final response for long-running updateDynamicPersonGroupWithPersonChanges operation */
-export interface UpdateDynamicPersonGroupWithPersonChangesLogicalResponse extends HttpResponse {
+export interface UpdateDynamicPersonGroupWithPersonChangesLogicalResponse
+  extends HttpResponse {
   status: "200";
 }
 
@@ -1829,8 +1279,610 @@ export interface GetDynamicPersonGroupPersonsDefaultHeaders {
   "x-ms-error-code"?: string;
 }
 
-export interface GetDynamicPersonGroupPersonsDefaultResponse extends HttpResponse {
+export interface GetDynamicPersonGroupPersonsDefaultResponse
+  extends HttpResponse {
   status: string;
   body: FaceErrorResponseOutput;
   headers: RawHttpHeaders & GetDynamicPersonGroupPersonsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface CreatePersonGroup200Response extends HttpResponse {
+  status: "200";
+}
+
+export interface CreatePersonGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface CreatePersonGroupDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & CreatePersonGroupDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DeletePersonGroup200Response extends HttpResponse {
+  status: "200";
+}
+
+export interface DeletePersonGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeletePersonGroupDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & DeletePersonGroupDefaultHeaders;
+}
+
+/** A successful call returns the Person Group's information. */
+export interface GetPersonGroup200Response extends HttpResponse {
+  status: "200";
+  body: PersonGroupOutput;
+}
+
+export interface GetPersonGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetPersonGroupDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetPersonGroupDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface UpdatePersonGroup200Response extends HttpResponse {
+  status: "200";
+}
+
+export interface UpdatePersonGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface UpdatePersonGroupDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & UpdatePersonGroupDefaultHeaders;
+}
+
+/** A successful call returns an array of Person Groups and their information (personGroupId, name and userData). */
+export interface GetPersonGroups200Response extends HttpResponse {
+  status: "200";
+  body: Array<PersonGroupOutput>;
+}
+
+export interface GetPersonGroupsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetPersonGroupsDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetPersonGroupsDefaultHeaders;
+}
+
+/** A successful call returns the Person Group's training status. */
+export interface GetPersonGroupTrainingStatus200Response extends HttpResponse {
+  status: "200";
+  body: TrainingResultOutput;
+}
+
+export interface GetPersonGroupTrainingStatusDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetPersonGroupTrainingStatusDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetPersonGroupTrainingStatusDefaultHeaders;
+}
+
+export interface TrainPersonGroup202Headers {
+  "operation-location": string;
+}
+
+/** A successful call returns an empty response body. */
+export interface TrainPersonGroup202Response extends HttpResponse {
+  status: "202";
+  headers: RawHttpHeaders & TrainPersonGroup202Headers;
+}
+
+export interface TrainPersonGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TrainPersonGroupDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & TrainPersonGroupDefaultHeaders;
+}
+
+/** The final response for long-running trainPersonGroup operation */
+export interface TrainPersonGroupLogicalResponse extends HttpResponse {
+  status: "200";
+}
+
+/** A successful call returns a new personId created. */
+export interface CreatePersonGroupPerson200Response extends HttpResponse {
+  status: "200";
+  body: CreatePersonResultOutput;
+}
+
+export interface CreatePersonGroupPersonDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface CreatePersonGroupPersonDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & CreatePersonGroupPersonDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DeletePersonGroupPerson200Response extends HttpResponse {
+  status: "200";
+}
+
+export interface DeletePersonGroupPersonDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeletePersonGroupPersonDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & DeletePersonGroupPersonDefaultHeaders;
+}
+
+/** A successful call returns the person's information. */
+export interface GetPersonGroupPerson200Response extends HttpResponse {
+  status: "200";
+  body: PersonGroupPersonOutput;
+}
+
+export interface GetPersonGroupPersonDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetPersonGroupPersonDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetPersonGroupPersonDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface UpdatePersonGroupPerson200Response extends HttpResponse {
+  status: "200";
+}
+
+export interface UpdatePersonGroupPersonDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface UpdatePersonGroupPersonDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & UpdatePersonGroupPersonDefaultHeaders;
+}
+
+/** A successful call returns an array of person information that belong to the Person Group. */
+export interface GetPersonGroupPersons200Response extends HttpResponse {
+  status: "200";
+  body: Array<PersonGroupPersonOutput>;
+}
+
+export interface GetPersonGroupPersonsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetPersonGroupPersonsDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetPersonGroupPersonsDefaultHeaders;
+}
+
+/** A successful call returns a new persistedFaceId. */
+export interface AddPersonGroupPersonFaceFromUrl200Response
+  extends HttpResponse {
+  status: "200";
+  body: AddFaceResultOutput;
+}
+
+export interface AddPersonGroupPersonFaceFromUrlDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface AddPersonGroupPersonFaceFromUrlDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & AddPersonGroupPersonFaceFromUrlDefaultHeaders;
+}
+
+/** A successful call returns a new persistedFaceId. */
+export interface AddPersonGroupPersonFace200Response extends HttpResponse {
+  status: "200";
+  body: AddFaceResultOutput;
+}
+
+export interface AddPersonGroupPersonFaceDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface AddPersonGroupPersonFaceDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & AddPersonGroupPersonFaceDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DeletePersonGroupPersonFace200Response extends HttpResponse {
+  status: "200";
+}
+
+export interface DeletePersonGroupPersonFaceDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeletePersonGroupPersonFaceDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & DeletePersonGroupPersonFaceDefaultHeaders;
+}
+
+/** A successful call returns target persisted face's information (persistedFaceId and userData). */
+export interface GetPersonGroupPersonFace200Response extends HttpResponse {
+  status: "200";
+  body: PersonGroupPersonFaceOutput;
+}
+
+export interface GetPersonGroupPersonFaceDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetPersonGroupPersonFaceDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetPersonGroupPersonFaceDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface UpdatePersonGroupPersonFace200Response extends HttpResponse {
+  status: "200";
+}
+
+export interface UpdatePersonGroupPersonFaceDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface UpdatePersonGroupPersonFaceDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & UpdatePersonGroupPersonFaceDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface CreateLargePersonGroup200Response extends HttpResponse {
+  status: "200";
+}
+
+export interface CreateLargePersonGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface CreateLargePersonGroupDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & CreateLargePersonGroupDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DeleteLargePersonGroup200Response extends HttpResponse {
+  status: "200";
+}
+
+export interface DeleteLargePersonGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeleteLargePersonGroupDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & DeleteLargePersonGroupDefaultHeaders;
+}
+
+/** A successful call returns the Large Person Group's information. */
+export interface GetLargePersonGroup200Response extends HttpResponse {
+  status: "200";
+  body: LargePersonGroupOutput;
+}
+
+export interface GetLargePersonGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetLargePersonGroupDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetLargePersonGroupDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface UpdateLargePersonGroup200Response extends HttpResponse {
+  status: "200";
+}
+
+export interface UpdateLargePersonGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface UpdateLargePersonGroupDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & UpdateLargePersonGroupDefaultHeaders;
+}
+
+/** A successful call returns an array of Large Person Groups and their information (largePersonGroupId, name and userData). */
+export interface GetLargePersonGroups200Response extends HttpResponse {
+  status: "200";
+  body: Array<LargePersonGroupOutput>;
+}
+
+export interface GetLargePersonGroupsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetLargePersonGroupsDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetLargePersonGroupsDefaultHeaders;
+}
+
+/** A successful call returns the Large Person Group's training status. */
+export interface GetLargePersonGroupTrainingStatus200Response
+  extends HttpResponse {
+  status: "200";
+  body: TrainingResultOutput;
+}
+
+export interface GetLargePersonGroupTrainingStatusDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetLargePersonGroupTrainingStatusDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetLargePersonGroupTrainingStatusDefaultHeaders;
+}
+
+export interface TrainLargePersonGroup202Headers {
+  "operation-location": string;
+}
+
+/** A successful call returns an empty response body. */
+export interface TrainLargePersonGroup202Response extends HttpResponse {
+  status: "202";
+  headers: RawHttpHeaders & TrainLargePersonGroup202Headers;
+}
+
+export interface TrainLargePersonGroupDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface TrainLargePersonGroupDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & TrainLargePersonGroupDefaultHeaders;
+}
+
+/** The final response for long-running trainLargePersonGroup operation */
+export interface TrainLargePersonGroupLogicalResponse extends HttpResponse {
+  status: "200";
+}
+
+/** A successful call returns a new personId created. */
+export interface CreateLargePersonGroupPerson200Response extends HttpResponse {
+  status: "200";
+  body: CreatePersonResultOutput;
+}
+
+export interface CreateLargePersonGroupPersonDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface CreateLargePersonGroupPersonDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & CreateLargePersonGroupPersonDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DeleteLargePersonGroupPerson200Response extends HttpResponse {
+  status: "200";
+}
+
+export interface DeleteLargePersonGroupPersonDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeleteLargePersonGroupPersonDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & DeleteLargePersonGroupPersonDefaultHeaders;
+}
+
+/** A successful call returns the person's information. */
+export interface GetLargePersonGroupPerson200Response extends HttpResponse {
+  status: "200";
+  body: LargePersonGroupPersonOutput;
+}
+
+export interface GetLargePersonGroupPersonDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetLargePersonGroupPersonDefaultResponse extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetLargePersonGroupPersonDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface UpdateLargePersonGroupPerson200Response extends HttpResponse {
+  status: "200";
+}
+
+export interface UpdateLargePersonGroupPersonDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface UpdateLargePersonGroupPersonDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & UpdateLargePersonGroupPersonDefaultHeaders;
+}
+
+/** A successful call returns an array of person information that belong to the Large Person Group. */
+export interface GetLargePersonGroupPersons200Response extends HttpResponse {
+  status: "200";
+  body: Array<LargePersonGroupPersonOutput>;
+}
+
+export interface GetLargePersonGroupPersonsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetLargePersonGroupPersonsDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetLargePersonGroupPersonsDefaultHeaders;
+}
+
+/** A successful call returns a new persistedFaceId. */
+export interface AddLargePersonGroupPersonFaceFromUrl200Response
+  extends HttpResponse {
+  status: "200";
+  body: AddFaceResultOutput;
+}
+
+export interface AddLargePersonGroupPersonFaceFromUrlDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface AddLargePersonGroupPersonFaceFromUrlDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & AddLargePersonGroupPersonFaceFromUrlDefaultHeaders;
+}
+
+/** A successful call returns a new persistedFaceId. */
+export interface AddLargePersonGroupPersonFace200Response extends HttpResponse {
+  status: "200";
+  body: AddFaceResultOutput;
+}
+
+export interface AddLargePersonGroupPersonFaceDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface AddLargePersonGroupPersonFaceDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & AddLargePersonGroupPersonFaceDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DeleteLargePersonGroupPersonFace200Response
+  extends HttpResponse {
+  status: "200";
+}
+
+export interface DeleteLargePersonGroupPersonFaceDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DeleteLargePersonGroupPersonFaceDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & DeleteLargePersonGroupPersonFaceDefaultHeaders;
+}
+
+/** A successful call returns target persisted face's information (persistedFaceId and userData). */
+export interface GetLargePersonGroupPersonFace200Response extends HttpResponse {
+  status: "200";
+  body: LargePersonGroupPersonFaceOutput;
+}
+
+export interface GetLargePersonGroupPersonFaceDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetLargePersonGroupPersonFaceDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & GetLargePersonGroupPersonFaceDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface UpdateLargePersonGroupPersonFace200Response
+  extends HttpResponse {
+  status: "200";
+}
+
+export interface UpdateLargePersonGroupPersonFaceDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface UpdateLargePersonGroupPersonFaceDefaultResponse
+  extends HttpResponse {
+  status: string;
+  body: FaceErrorResponseOutput;
+  headers: RawHttpHeaders & UpdateLargePersonGroupPersonFaceDefaultHeaders;
 }
