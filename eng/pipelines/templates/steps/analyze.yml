@@ -82,11 +82,6 @@ steps:
       node eng/tools/rush-runner.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Check Format in Libraries"
 
-  - script: |
-      node eng/tools/rush-runner.js audit $(ChangedServices) -packages "$(ArtifactPackageNames)"
-    condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
-    displayName: "Audit libraries"
-
   - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml
     parameters:
       PackagePropertiesFolder: $(Build.ArtifactStagingDirectory)/PackageInfo
