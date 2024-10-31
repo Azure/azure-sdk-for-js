@@ -4,6 +4,9 @@
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { Durations, MetricsQueryClient } from "../../../src/index.js";
 import { describe, it, assert } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+
+expect.extend({ toSupportTracing })
 
 it("verify tracing", async () => {
   const scopesPassed: string[] = [];
@@ -25,24 +28,21 @@ it("verify tracing", async () => {
   const client = new MetricsQueryClient(tokenCredential, {
     endpoint: "https://customEndpoint1",
   });
-  await assert.supportsTracing(
-    async (options) => {
-      const promises: Promise<any>[] = [
+  await expect(async (options) => {
+    const promises: Promise<any>[] = [
         client.queryResource("resourceId", ["metricName1", "metricName2"], {
-          granularity: "PT1M",
-          timespan: { duration: Durations.fiveMinutes },
-          ...options,
+            granularity: "PT1M",
+            timespan: { duration: Durations.fiveMinutes },
+            ...options,
         }),
         client.listMetricNamespaces("resourceUri", options).next(),
         client.listMetricDefinitions("resourceUri", options).next(),
-      ];
-      // We don't care about errors, only that we created (and closed) the appropriate spans.
-      await Promise.all(promises.map((p) => p.catch(() => undefined)));
-    },
-    [
-      "MetricsQueryClient.queryResource",
-      "MetricsQueryClient.listSegmentOfMetricNamespaces",
-      "MetricsQueryClient.listSegmentOfMetricDefinitions",
-    ],
-  );
+    ];
+    // We don't care about errors, only that we created (and closed) the appropriate spans.
+    await Promise.all(promises.map((p) => p.catch(() => undefined)));
+}).toSupportTracing([
+    "MetricsQueryClient.queryResource",
+    "MetricsQueryClient.listSegmentOfMetricNamespaces",
+    "MetricsQueryClient.listSegmentOfMetricDefinitions",
+]);
 });

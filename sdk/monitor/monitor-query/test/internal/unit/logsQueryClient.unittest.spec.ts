@@ -4,6 +4,9 @@
 import { Durations, LogsQueryClient } from "../../../src/index.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { describe, it, assert } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+
+expect.extend({ toSupportTracing })
 
 describe("LogsQueryClient unit tests", () => {
   /**
@@ -49,30 +52,19 @@ describe("LogsQueryClient unit tests", () => {
     const client = new LogsQueryClient(tokenCredential, {
       endpoint: "https://customEndpoint1",
     });
-    await assert.supportsTracing(
-      async (options) => {
-        const promises: Promise<any>[] = [
-          client.queryWorkspace(
-            "workspaceId",
-            "query",
-            { duration: Durations.fiveMinutes },
-            options,
-          ),
-          client.queryBatch(
-            [
-              {
+    await expect(async (options) => {
+    const promises: Promise<any>[] = [
+        client.queryWorkspace("workspaceId", "query", { duration: Durations.fiveMinutes }, options),
+        client.queryBatch([
+            {
                 workspaceId: "monitorWorkspaceId",
                 query: "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1",
                 timespan: { duration: "P1D" },
-              },
-            ],
-            options,
-          ),
-        ];
-        // We don't care about errors, only that we created (and closed) the appropriate spans.
-        await Promise.all(promises.map((p) => p.catch(() => undefined)));
-      },
-      ["LogsQueryClient.queryWorkspace", "LogsQueryClient.queryBatch"],
-    );
+            },
+        ], options),
+    ];
+    // We don't care about errors, only that we created (and closed) the appropriate spans.
+    await Promise.all(promises.map((p) => p.catch(() => undefined)));
+}).toSupportTracing(["LogsQueryClient.queryWorkspace", "LogsQueryClient.queryBatch"]);
   });
 });
