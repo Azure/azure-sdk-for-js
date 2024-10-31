@@ -5,19 +5,19 @@ import { assert } from "chai";
 import type {
   BatchQueryRequest,
   BatchRequest as GeneratedBatchRequest,
-} from "../../../src/generated/logquery/src";
+} from "../../../src/generated/logquery/src/index.js";
 import type {
   MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
   MetricsListResponse as GeneratedMetricsListResponse,
-} from "../../../src/generated/metrics/src";
-import type { MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams } from "../../../src/generated/metricsdefinitions/src";
+} from "../../../src/generated/metrics/src/index.js";
+import type { MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams } from "../../../src/generated/metricsdefinitions/src/index.js";
 import {
   convertRequestForMetrics,
   convertRequestForQueryBatch,
   convertRequestOptionsForMetricsDefinitions,
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions,
-} from "../../../src/internal/modelConverters";
+} from "../../../src/internal/modelConverters.js";
 import type {
   OperationRequestOptions,
   RawResponseCallback,
@@ -28,13 +28,13 @@ import type {
   ListMetricDefinitionsOptions,
   MetricsQueryOptions,
   MetricsQueryResult,
-} from "../../../src";
-import { Durations } from "../../../src";
+} from "../../../src/index.js";
+import { Durations } from "../../../src/index.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import {
   convertIntervalToTimeIntervalObject,
   convertTimespanToInterval,
-} from "../../../src/timespanConversion";
+} from "../../../src/timespanConversion.js";
 
 describe("Model unit tests", () => {
   describe("LogsClient", () => {

@@ -3,10 +3,10 @@
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
-import * as assert from "assert";
+import * as assert from "node:assert";
 import { createClientLogger } from "@azure/logger";
-import type { LogsTable } from "../../../src";
-import { LogsQueryClient, MetricsQueryClient, MetricsClient } from "../../../src";
+import type { LogsTable } from "../../../src/index.js";
+import { LogsQueryClient, MetricsQueryClient, MetricsClient } from "../../../src/index.js";
 import type { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
 export const loggerForTest = createClientLogger("test");
 const replacementForLogsResourceId = env["LOGS_RESOURCE_ID"]?.startsWith("/")

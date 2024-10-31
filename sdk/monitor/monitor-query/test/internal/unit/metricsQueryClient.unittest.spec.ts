@@ -3,7 +3,7 @@
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { assert } from "@azure-tools/test-utils";
-import { Durations, MetricsQueryClient } from "../../../src";
+import { Durations, MetricsQueryClient } from "../../../src/index.js";
 
 it("verify tracing", async () => {
   const scopesPassed: string[] = [];

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Durations, LogsQueryClient } from "../../../src";
+import { Durations, LogsQueryClient } from "../../../src/index.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { assert } from "@azure-tools/test-utils";
 

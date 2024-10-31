@@ -3,14 +3,14 @@
 
 import { assert } from "chai";
 import type { Context } from "mocha";
-import type { MetricsClient, MetricsQueryResult } from "../../src";
-import type { RecorderAndMetricsBatchQueryClient } from "./shared/testShared";
+import type { MetricsClient, MetricsQueryResult } from "../../src/index.js";
+import type { RecorderAndMetricsBatchQueryClient } from "./shared/testShared.js";
 import {
   createRecorderAndMetricsBatchQueryClient,
   getMetricsBatchResourceIds,
   getMetricsBatchNamespace,
   getMetricsBatchNames,
-} from "./shared/testShared";
+} from "./shared/testShared.js";
 
 describe.skip("MetricsBatchClient live tests", function () {
   let resourceIds: string[];
@@ -18,7 +18,7 @@ describe.skip("MetricsBatchClient live tests", function () {
   let metricNames: string[];
   let metricsBatchQueryClient: MetricsClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     const recordedClient: RecorderAndMetricsBatchQueryClient =
       await createRecorderAndMetricsBatchQueryClient();
     resourceIds = getMetricsBatchResourceIds();
