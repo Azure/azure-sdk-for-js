@@ -28,7 +28,7 @@ Install the Azure Maps Timezone REST client library for JavaScript with `npm`:
 npm install @azure-rest/maps-timezone
 ```
 
-### Create and authenticate a `MapsTimeZoneClient`
+### Create and authenticate a `MapsTimeZone`
 
 You'll need a `credential` instance for authentication when creating the `MapsTimeZone` instance used to access the Azure Maps timezone APIs. You can use a Microsoft Entra ID credential, an Azure subscription key, or a Shared Access Signature (SAS) Token to authenticate. For more information on authentication, see [Authentication with Azure Maps](https://learn.microsoft.com/azure/azure-maps/azure-maps-authentication).
 
