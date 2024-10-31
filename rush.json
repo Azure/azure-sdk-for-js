@@ -2294,7 +2294,7 @@
     },
      {
       "packageName": "@azure/ai-projects",
-      "projectFolder": "sdk/ai/azure-ai-projects",
+      "projectFolder": "sdk/ai/ai-projects",
       "versionPolicyName": "client"
     }
   ]
