@@ -109,7 +109,7 @@ const client = MapsTimeZone(sasCredential);
 
 ## Key concepts
 
-### MapsTimeZoneClient
+### MapsTimeZone
 
 `MapsTimeZone` is the primary interface for developers using the Azure Maps Timezone client library. Explore the methods on this client object to understand the different features of the Azure Maps Timezone service that you can access.
 
