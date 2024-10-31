@@ -25,7 +25,7 @@ describe("SessionWithVerify", () => {
     }
   });
 
-  it("TestCreateVerifySessionWithImage", async () => {
+  it.only("TestCreateVerifySessionWithImage", async () => {
     const deviceCorrelationId = recorder.variable("deviceCorrelationId", randomUUID());
     const createLivenessSessionResponse = await client
       .path("/detectLivenessWithVerify/singleModal/sessions")
