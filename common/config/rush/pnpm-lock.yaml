@@ -12238,7 +12238,7 @@ packages:
     dev: false
 
   file:projects/ai-vision-face.tgz:
-    resolution: {integrity: sha512-V3gBbCDsT7KVwKIMrvawk7pkMpD8UxUrL2FJNCndmNQVrHF7FkN+Cing6pN9wEfnlA2TLiq8C41kp0lz+VtzqA==, tarball: file:projects/ai-vision-face.tgz}
+    resolution: {integrity: sha512-ffejZRSIsy9IatYOLMHRiNiN41hBEDAvzSJSsCPu2DNp2xhHiKVhpn1v97MJwbV/SoLQM9ugMnbZO4bPXt5LZw==, tarball: file:projects/ai-vision-face.tgz}
     name: '@rush-temp/ai-vision-face'
     version: 0.0.0
     dependencies:
@@ -12250,6 +12250,8 @@ packages:
       dotenv: 16.4.5
       eslint: 9.13.0
       playwright: 1.48.2
+      prettier: 3.3.3
+      tshy: 1.18.0
       tslib: 2.8.0
       typescript: 5.6.3
       vitest: 2.1.4(@types/node@18.19.60)(@vitest/browser@2.1.4)
