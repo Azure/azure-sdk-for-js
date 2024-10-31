@@ -1428,7 +1428,7 @@ index 55110a0..0000000
 -  };
 -}
 diff --git a/src/policies/bearerTokenAuthenticationPolicy.ts b/src/policies/bearerTokenAuthenticationPolicy.ts
-index e173cc9..87e8f5e 100644
+index af8734d..87e8f5e 100644
 --- a/src/policies/bearerTokenAuthenticationPolicy.ts
 +++ b/src/policies/bearerTokenAuthenticationPolicy.ts
 @@ -1,13 +1,12 @@
@@ -1561,12 +1561,13 @@ index e173cc9..87e8f5e 100644
    };
  
    // This function encapsulates the entire process of reliably retrieving the token
-@@ -232,39 +185,20 @@ export function bearerTokenAuthenticationPolicy(
+@@ -232,40 +185,20 @@ export function bearerTokenAuthenticationPolicy(
  
        let response: PipelineResponse;
        let error: Error | undefined;
 -      let shouldSendRequest: boolean;
 -      [response, error] = await trySendRequest(request, next);
+-
 -      if (isChallengeResponse(response)) {
 -        let claims = getCaeChallengeClaims(response.headers.get("WWW-Authenticate"));
 -        // Handle CAE by default when receive CAE claim
@@ -1614,12 +1615,12 @@ index e173cc9..87e8f5e 100644
            scopes: Array.isArray(scopes) ? scopes : [scopes],
            request,
            response,
-@@ -272,41 +206,8 @@ export function bearerTokenAuthenticationPolicy(
+@@ -273,41 +206,8 @@ export function bearerTokenAuthenticationPolicy(
            logger,
          });
  
 -          // Send updated request and handle response for RestError
--          if (shouldSendRequest) {
+         if (shouldSendRequest) {
 -            [response, error] = await trySendRequest(request, next);
 -          }
 -
@@ -1648,7 +1649,7 @@ index e173cc9..87e8f5e 100644
 -                parsedClaim,
 -              );
 -              // Send updated request and handle response for RestError
-         if (shouldSendRequest) {
+-              if (shouldSendRequest) {
 -                [response, error] = await trySendRequest(request, next);
 -              }
 -            }
@@ -1657,7 +1658,7 @@ index e173cc9..87e8f5e 100644
          }
        }
  
-@@ -318,62 +219,3 @@ export function bearerTokenAuthenticationPolicy(
+@@ -319,67 +219,3 @@ export function bearerTokenAuthenticationPolicy(
      },
    };
  }
@@ -1681,16 +1682,18 @@ index e173cc9..87e8f5e 100644
 - */
 -export function parseChallenges(challenges: string): AuthChallenge[] {
 -  // Split the input string by schemes and parameters
--  // Challenge regex seperates the string to individual challenges with different schemes in the format `Scheme a="b", c="d"`
--  const challengeRegex = /(\w+) ((?:\w+="[^"]*",?\s*)+)/g;
+-  // Challenge regex seperates the string to individual challenges with different schemes in the format `Scheme a="b", c=d`
+-  // The regex captures parameteres with either quotes values or unquoted values
+-  const challengeRegex = /(\w+)\s+((?:\w+=(?:"[^"]*"|[^,]*),?\s*)+)/g;
 -  // Parameter regex captures the claims group removed from the scheme in the format `a="b"` and `c="d"`
--  const paramRegex = /(\w+)="([^"]*)"/g;
+-  const paramRegex = /(\w+)=(?:"([^"]*)"|([^,]*))/g;
 -
 -  const parsedChallenges: AuthChallenge[] = [];
 -  let match;
 -
 -  // Iterate over each challenge match
 -  while ((match = challengeRegex.exec(challenges)) !== null) {
+-    console.log("Match: ", match);
 -    const scheme = match[1];
 -    const paramsString = match[2];
 -    const params: Record<string, string> = {};
@@ -1698,6 +1701,7 @@ index e173cc9..87e8f5e 100644
 -
 -    // Iterate over each parameter match
 -    while ((paramMatch = paramRegex.exec(paramsString)) !== null) {
+-      console.log("param: ", paramMatch);
 -      params[paramMatch[1]] = paramMatch[2];
 -    }
 -
@@ -1717,8 +1721,10 @@ index e173cc9..87e8f5e 100644
 -  }
 -  // Find all challenges present in the header
 -  const parsedChallenges = parseChallenges(challenges);
--  return parsedChallenges.find((x) => x.scheme === "Bearer" && x.params.claims && x.params.error)
--    ?.params.claims;
+-  console.log(parsedChallenges);
+-  return parsedChallenges.find(
+-    (x) => x.scheme === "Bearer" && x.params.claims && x.params.error == "insufficient_claims",
+-  )?.params.claims;
 -}
 diff --git a/src/policies/formDataPolicy.ts b/src/policies/formDataPolicy.ts
 index 86d7e12..4265f06 100644

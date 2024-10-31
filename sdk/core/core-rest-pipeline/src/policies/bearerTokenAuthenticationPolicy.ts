@@ -234,6 +234,7 @@ export function bearerTokenAuthenticationPolicy(
       let error: Error | undefined;
       let shouldSendRequest: boolean;
       [response, error] = await trySendRequest(request, next);
+
       if (isChallengeResponse(response)) {
         let claims = getCaeChallengeClaims(response.headers.get("WWW-Authenticate"));
         // Handle CAE by default when receive CAE claim
@@ -338,16 +339,18 @@ interface AuthChallenge {
  */
 export function parseChallenges(challenges: string): AuthChallenge[] {
   // Split the input string by schemes and parameters
-  // Challenge regex seperates the string to individual challenges with different schemes in the format `Scheme a="b", c="d"`
-  const challengeRegex = /(\w+) ((?:\w+="[^"]*",?\s*)+)/g;
+  // Challenge regex seperates the string to individual challenges with different schemes in the format `Scheme a="b", c=d`
+  // The regex captures parameteres with either quotes values or unquoted values
+  const challengeRegex = /(\w+)\s+((?:\w+=(?:"[^"]*"|[^,]*),?\s*)+)/g;
   // Parameter regex captures the claims group removed from the scheme in the format `a="b"` and `c="d"`
-  const paramRegex = /(\w+)="([^"]*)"/g;
+  const paramRegex = /(\w+)=(?:"([^"]*)"|([^,]*))/g;
 
   const parsedChallenges: AuthChallenge[] = [];
   let match;
 
   // Iterate over each challenge match
   while ((match = challengeRegex.exec(challenges)) !== null) {
+    console.log("Match: ", match);
     const scheme = match[1];
     const paramsString = match[2];
     const params: Record<string, string> = {};
@@ -355,6 +358,7 @@ export function parseChallenges(challenges: string): AuthChallenge[] {
 
     // Iterate over each parameter match
     while ((paramMatch = paramRegex.exec(paramsString)) !== null) {
+      console.log("param: ", paramMatch);
       params[paramMatch[1]] = paramMatch[2];
     }
 
@@ -374,6 +378,8 @@ function getCaeChallengeClaims(challenges: string | undefined): string | undefin
   }
   // Find all challenges present in the header
   const parsedChallenges = parseChallenges(challenges);
-  return parsedChallenges.find((x) => x.scheme === "Bearer" && x.params.claims && x.params.error)
-    ?.params.claims;
+  console.log(parsedChallenges);
+  return parsedChallenges.find(
+    (x) => x.scheme === "Bearer" && x.params.claims && x.params.error == "insufficient_claims",
+  )?.params.claims;
 }

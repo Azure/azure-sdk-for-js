@@ -12,6 +12,7 @@ import {
   bearerTokenAuthenticationPolicy,
   createHttpHeaders,
   createPipelineRequest,
+  RestError,
 } from "../src/index.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { DEFAULT_CYCLER_OPTIONS } from "../src/util/tokenCycler.js";
@@ -358,6 +359,74 @@ describe("BearerTokenAuthenticationPolicy", function () {
     assert.strictEqual(credential.authCount, 3);
   });
 
+  it(`should throw for 401 RestError that we can't handle`, async function () {
+    const tokenExpiration = Date.now() + 1000 * 60; // One minute later.
+    const getToken = vi.fn<() => Promise<AccessToken | null>>();
+    getToken.mockResolvedValue({
+      token: "bad-token",
+      expiresOnTimestamp: tokenExpiration,
+    });
+    const credential: TokenCredential = {
+      getToken,
+    };
+    const tokenScopes = ["test-scope"];
+    const request = createPipelineRequest({ url: "https://example.com" });
+
+    const next = vi.fn<SendRequest>();
+
+    // An error response we can't handle
+    const errorResponse: PipelineResponse = {
+      headers: createHttpHeaders({
+        "WWW-Authenticate": `Basic realm="Unauthorized"`,
+      }),
+      request,
+      status: 401,
+    };
+    const requestError = new RestError("Unauthorized Request.", {
+      statusCode: 401,
+      response: errorResponse,
+    });
+    next.mockRejectedValue(requestError);
+
+    const policy = createBearerTokenPolicy(tokenScopes, credential);
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(requestError);
+
+    // First getToken request will return a bad token
+    expect(getToken).toHaveBeenCalledWith(tokenScopes, {
+      abortSignal: undefined,
+      tracingOptions: undefined,
+      enableCae: true,
+    });
+  });
+
+  it(`show throw regular error we can't handle`, async function () {
+    const tokenExpiration = Date.now() + 1000 * 60; // One minute later.
+    const getToken = vi.fn<() => Promise<AccessToken | null>>();
+
+    getToken.mockResolvedValue({
+      token: "token",
+      expiresOnTimestamp: tokenExpiration,
+    });
+    const credential: TokenCredential = {
+      getToken,
+    };
+    const tokenScopes = ["test-scope"];
+    const request = createPipelineRequest({ url: "https://example.com" });
+
+    const next = vi.fn<SendRequest>();
+    const requestError = new Error("Arbitray error");
+    next.mockRejectedValue(requestError);
+
+    const policy = createBearerTokenPolicy(tokenScopes, credential);
+    await expect(policy.sendRequest(request, next)).rejects.toThrow(requestError);
+
+    expect(getToken).toHaveBeenCalledWith(tokenScopes, {
+      abortSignal: undefined,
+      tracingOptions: undefined,
+      enableCae: true,
+    });
+  });
+
   describe("tests for challenge handler", function () {
     const standardCAEChallenge = {
       challenge: `Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ=="`,
@@ -427,7 +496,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         });
         // Second getToken request will inject the correct token with the claims
         if (testCase.expectedClaims) {
-          expect(getToken).toHaveBeenCalledWith(tokenScopes, {
+          expect(getToken).toHaveBeenLastCalledWith(tokenScopes, {
             enableCae: true,
             claims: testCase.expectedClaims,
             abortSignal: undefined,
@@ -522,7 +591,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         });
         // Second getToken request will inject the correct token with the claims
         if (testCase.expectedClaims) {
-          expect(getToken).toHaveBeenCalledWith(scopes, {
+          expect(getToken).toHaveBeenLastCalledWith(scopes, {
             claims: testCase.expectedClaims,
           });
         }
@@ -655,6 +724,162 @@ describe("BearerTokenAuthenticationPolicy", function () {
         }
       });
     });
+
+    it(`should handle RestError with CAE`, async function () {
+      const tokenExpiration = Date.now() + 1000 * 60; // One minute later.
+      const getToken = vi.fn<() => Promise<AccessToken | null>>();
+
+      // First time getToken is called will return a bad token that will have authorization challenge
+      getToken.mockResolvedValueOnce({
+        token: "bad-token",
+        expiresOnTimestamp: tokenExpiration,
+      });
+      // This will return a good token after the authorization challenge is handled
+      getToken.mockResolvedValueOnce({
+        token: "good-token",
+        expiresOnTimestamp: tokenExpiration,
+      });
+      const credential: TokenCredential = {
+        getToken,
+      };
+      const tokenScopes = ["test-scope"];
+      const request = createPipelineRequest({ url: "https://example.com" });
+
+      const challengeResponse: PipelineResponse = {
+        headers: createHttpHeaders({
+          "WWW-Authenticate": standardCAEChallenge.challenge,
+        }),
+        request,
+        status: 401,
+      };
+      const successResponse: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      };
+
+      const next = vi.fn<SendRequest>();
+      const requestError = new RestError("Bad Request.", {
+        statusCode: 401,
+        response: challengeResponse,
+      });
+      // Throw rest error with a 401 response with valid CAE challenge
+      next.mockRejectedValueOnce(requestError).mockResolvedValueOnce(successResponse);
+
+      const policy = createBearerTokenPolicy(tokenScopes, credential);
+      let response: PipelineResponse;
+      try {
+        response = await policy.sendRequest(request, next);
+      } catch (e) {
+        assert.fail();
+      }
+      // First getToken request will return a bad token
+      expect(getToken).toHaveBeenCalledWith(tokenScopes, {
+        abortSignal: undefined,
+        tracingOptions: undefined,
+        enableCae: true,
+      });
+
+      // Last getToken request will be updated with a claim
+      expect(getToken).toHaveBeenLastCalledWith(tokenScopes, {
+        abortSignal: undefined,
+        tracingOptions: undefined,
+        enableCae: true,
+        claims: standardCAEChallenge.expectedClaims,
+      });
+      assert.strictEqual(response.request.headers.get("Authorization"), `Bearer good-token`);
+    });
+
+    it(`should handle RestError with custom challenge handler`, async function () {
+      const tokenExpiration = Date.now() + 1000 * 60; // One minute later.
+      const getToken = vi.fn<() => Promise<AccessToken | null>>();
+
+      // First time getToken is called will return a bad token that will have authorization challenge
+      getToken.mockResolvedValueOnce({
+        token: "bad-token",
+        expiresOnTimestamp: tokenExpiration,
+      });
+      // This will return a good token after the authorization challenge is handled
+      getToken.mockResolvedValueOnce({
+        token: "good-token",
+        expiresOnTimestamp: tokenExpiration,
+      });
+      const credential: TokenCredential = {
+        getToken,
+      };
+      const scopes = ["test-scope"];
+      const request = createPipelineRequest({ url: "https://example.com" });
+
+      const challengeResponse: PipelineResponse = {
+        headers: createHttpHeaders({
+          "WWW-Authenticate": standardNonCAEChallenge.challenge,
+        }),
+        request,
+        status: 401,
+      };
+
+      const successResponse: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      };
+
+      let isCallbackCalled = false;
+      async function authorizeRequestOnChallenge(
+        options: AuthorizeRequestOnChallengeOptions,
+      ): Promise<boolean> {
+        isCallbackCalled = true;
+        assert.equal(
+          standardNonCAEChallenge.challenge,
+          options.response.headers.get("WWW-Authenticate"),
+        );
+        // Should set the good token here in the second get access token
+        const token = await options.getAccessToken(scopes, {
+          claims: "a claim",
+        });
+        if (token) {
+          options.request.headers.set("Authorization", `Bearer ${token.token}`);
+          return true;
+        }
+        return false;
+      }
+
+      const next = vi.fn<SendRequest>();
+      const requestError = new RestError("Bad Request.", {
+        statusCode: 401,
+        response: challengeResponse,
+      });
+      // Mock 401 error with valid challenge we can handle with a custom challenge handler
+      next.mockRejectedValueOnce(requestError).mockResolvedValueOnce(successResponse);
+
+      const policy = bearerTokenAuthenticationPolicy({
+        scopes,
+        credential,
+        challengeCallbacks: {
+          authorizeRequestOnChallenge,
+        },
+      });
+
+      let response: PipelineResponse;
+      try {
+        response = await policy.sendRequest(request, next);
+      } catch (e) {
+        // Should not encounter an error
+        assert.fail();
+      }
+      expect(getToken).toHaveBeenCalledWith(scopes, {
+        abortSignal: undefined,
+        tracingOptions: undefined,
+        enableCae: true,
+      });
+      expect(getToken).toHaveBeenLastCalledWith(scopes, {
+        abortSignal: undefined,
+        tracingOptions: undefined,
+        claims: "a claim",
+      });
+      assert.isTrue(isCallbackCalled);
+      assert.strictEqual(response.request.headers.get("Authorization"), `Bearer good-token`);
+    });
   });
 
   function createBearerTokenPolicy(
@@ -728,6 +953,14 @@ const caeTestCases: Challenge[] = [
     expectedResponseCode: 200,
     expectedClaims: "{",
     encodedClaims: "ey==",
+  }, 
+  {
+    testName: "some params don't have quotes",
+    challenge: `Bearer realm="test", algorithm=SHA-256, error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ=="`,
+    expectedResponseCode: 200,
+    expectedClaims: `{"access_token":{"nbf":{"essential":true,"value":"1726077595"},"xms_caeerror":{"value":"10012"}}}`,
+    encodedClaims:
+      "eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ==",
   },
   {
     testName: "standard CAE challenge",
@@ -761,6 +994,13 @@ const nonCaeChallengeTests: Challenge[] = [
     challenge: `Bearer authorization_uri="https://login.windows.net/", error="insufficient_claims"`,
     expectedResponseCode: 200,
     expectedClaims: `Bearer authorization_uri="https://login.windows.net/", error="insufficient_claims"`,
+    encodedClaims: null,
+  },
+  {
+    testName: "no quotes with the params",
+    challenge: `Bearer authorization_uri=https://login.windows.net/, error=insufficient_claims`,
+    expectedResponseCode: 200,
+    expectedClaims: `Bearer authorization_uri=https://login.windows.net/, error=insufficient_claims`,
     encodedClaims: null,
   },
   {
