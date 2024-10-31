@@ -101,7 +101,7 @@ foreach ($matrixBatchKey in $matrixBatchesByConfig.Keys) {
       #  { "name": "jobname", "parameters": { matrixSetting1: matrixValue1, ...} },
       # ]
       foreach ($matrixOutputItem in $matrixResults) {
-        $namesForBatch = ($batch | ForEach-Object { $_.ArtifactName }) -join "-"
+        $namesForBatch = ($batch | ForEach-Object { $_.ArtifactName }) -join ","
         # we just need to iterate across them, grab the parameters hashtable, and add the new key
         # if there is more than one batch, we will need to add a suffix including the batch name to the job name
         $matrixOutputItem["parameters"]["$PRMatrixSetting"] = $namesForBatch
