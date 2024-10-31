@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PurviewScanningRestClient, DataSource } from "../../src";
+import type { PurviewScanningClient, DataSource, DataSourceListOutput } from "../../src";
 import { paginate } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
@@ -11,7 +11,7 @@ import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-pagin
 
 describe("List data sources", () => {
   let recorder: Recorder;
-  let client: PurviewScanningRestClient;
+  let client: PurviewScanningClient;
 
   beforeEach(async function (this: Context) {
     recorder = new Recorder(this.currentTest);
@@ -39,7 +39,7 @@ describe("List data sources", () => {
     if (result.status !== "200") {
       assert.fail(`GET "/datasources" failed with ${result.status}`);
     }
-
-    assert.isDefined(result.body.value?.length);
+    const datasourcesOutput = result.body as DataSourceListOutput;
+    assert.isDefined(datasourcesOutput.value?.length);
   });
 });

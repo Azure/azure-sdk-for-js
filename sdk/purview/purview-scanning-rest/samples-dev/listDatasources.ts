@@ -8,7 +8,7 @@
  * @azsdk-weight 40
  */
 
-import PurviewScanning, { DataSource, paginate } from "@azure-rest/purview-scanning";
+import PurviewScanning, { DataSourceOutput, ErrorResponseModelOutput, paginate } from "@azure-rest/purview-scanning";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 import dotenv from "dotenv";
@@ -23,13 +23,14 @@ async function main() {
 
   const dataSources = await client.path("/datasources").get();
   if (dataSources.status !== "200") {
-    throw dataSources.body.error;
+    const dataSourcesOutput = dataSources.body as ErrorResponseModelOutput;
+    throw dataSourcesOutput.error;
   }
   const iter = paginate(client, dataSources);
 
-  const items: DataSource[] = [];
+  const items: DataSourceOutput[] = [];
 
-  for await (const item of <PagedAsyncIterableIterator<DataSource, DataSource[], PageSettings>>(
+  for await (const item of <PagedAsyncIterableIterator<DataSourceOutput, DataSourceOutput[], PageSettings>>(
     iter
   )) {
     items.push(item);

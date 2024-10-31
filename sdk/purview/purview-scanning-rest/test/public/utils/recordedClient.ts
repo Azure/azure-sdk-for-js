@@ -3,7 +3,7 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import type { PurviewScanningRestClient } from "../../../src";
+import type { PurviewScanningClient } from "../../../src";
 import PurviewScanning from "../../../src";
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
@@ -25,7 +25,7 @@ const recorderOptions: RecorderStartOptions = {
 export async function createClient(
   recorder: Recorder,
   options?: ClientOptions,
-): Promise<PurviewScanningRestClient> {
+): Promise<PurviewScanningClient> {
   const credential = createTestCredential();
   await recorder.start(recorderOptions);
   return PurviewScanning(

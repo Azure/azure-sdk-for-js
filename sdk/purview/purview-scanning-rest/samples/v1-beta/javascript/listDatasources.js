@@ -20,7 +20,8 @@ async function main() {
 
   const dataSources = await client.path("/datasources").get();
   if (dataSources.status !== "200") {
-    throw dataSources.body.error;
+    const dataSourcesOutput = dataSources.body;
+    throw dataSourcesOutput.error;
   }
   const iter = paginate(client, dataSources);
 

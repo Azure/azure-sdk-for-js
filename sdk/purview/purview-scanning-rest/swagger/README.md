@@ -5,6 +5,9 @@
 ## Configuration
 
 ```yaml
+flavor: azure
+openapi-type: data-plane
+generate-test: true
 package-name: "@azure-rest/purview-scanning"
 title: PurviewScanning
 description: Purview Scanning Client
@@ -18,7 +21,7 @@ rest-level-client: true
 add-credentials: true
 credential-scopes: "https://purview.azure.net/.default"
 use-extension:
-  "@autorest/typescript": "6.0.0-beta.13"
+  "@autorest/typescript": "latest"
 modelerfour:
   lenient-model-deduplication: true
 ```
