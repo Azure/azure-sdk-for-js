@@ -26,7 +26,7 @@ export interface AzureChatEnhancementsOutput {
 }
 
 // @public
-export type AzureChatExtensionConfiguration = AzureChatExtensionConfigurationParent | AzureSearchChatExtensionConfiguration | AzureMachineLearningIndexChatExtensionConfiguration | AzureCosmosDBChatExtensionConfiguration | ElasticsearchChatExtensionConfiguration | PineconeChatExtensionConfiguration | MongoDBChatExtensionConfiguration;
+export type AzureChatExtensionConfiguration = AzureChatExtensionConfigurationParent | AzureSearchChatExtensionConfiguration | AzureCosmosDBChatExtensionConfiguration | ElasticsearchChatExtensionConfiguration | PineconeChatExtensionConfiguration | MongoDBChatExtensionConfiguration;
 
 // @public
 export interface AzureChatExtensionConfigurationParent {
@@ -136,28 +136,6 @@ export interface AzureGroundingEnhancementLineSpanOutput {
 // @public
 export interface AzureGroundingEnhancementOutput {
     lines: Array<AzureGroundingEnhancementLineOutput>;
-}
-
-// @public
-export interface AzureMachineLearningIndexChatExtensionConfiguration extends AzureChatExtensionConfigurationParent {
-    parameters: AzureMachineLearningIndexChatExtensionParameters;
-    type: "azure_ml_index";
-}
-
-// @public
-export interface AzureMachineLearningIndexChatExtensionParameters {
-    allow_partial_result?: boolean;
-    authentication?: OnYourDataAuthenticationOptions;
-    filter?: string;
-    in_scope?: boolean;
-    include_contexts?: OnYourDataContextProperty[];
-    max_search_queries?: number;
-    name: string;
-    project_resource_id: string;
-    role_information?: string;
-    strictness?: number;
-    top_n_documents?: number;
-    version: string;
 }
 
 // @public

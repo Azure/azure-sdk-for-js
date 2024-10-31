@@ -376,61 +376,6 @@ export interface AzureChatExtensionConfigurationParent {
 }
 
 /**
- * A specific representation of configurable options for Azure Machine Learning vector index when using it as an Azure
- * OpenAI chat extension.
- */
-export interface AzureMachineLearningIndexChatExtensionConfiguration
-  extends AzureChatExtensionConfigurationParent {
-  /**
-   * The type label to use when configuring Azure OpenAI chat extensions. This should typically not be changed from its
-   * default value for Azure Machine Learning vector index.
-   */
-  type: "azure_ml_index";
-  /** The parameters for the Azure Machine Learning vector index chat extension. */
-  parameters: AzureMachineLearningIndexChatExtensionParameters;
-}
-
-/** Parameters for the Azure Machine Learning vector index chat extension. The supported authentication types are AccessToken, SystemAssignedManagedIdentity and UserAssignedManagedIdentity. */
-export interface AzureMachineLearningIndexChatExtensionParameters {
-  /**
-   * The authentication method to use when accessing the defined data source.
-   * Each data source type supports a specific set of available authentication methods; please see the documentation of
-   * the data source for supported mechanisms.
-   * If not otherwise provided, On Your Data will attempt to use System Managed Identity (default credential)
-   * authentication.
-   */
-  authentication?: OnYourDataAuthenticationOptions;
-  /** The configured top number of documents to feature for the configured query. */
-  top_n_documents?: number;
-  /** Whether queries should be restricted to use of indexed data. */
-  in_scope?: boolean;
-  /** The configured strictness of the search relevance filtering. The higher of strictness, the higher of the precision but lower recall of the answer. */
-  strictness?: number;
-  /** Give the model instructions about how it should behave and any context it should reference when generating a response. You can describe the assistant's personality and tell it how to format responses. There's a 100 token limit for it, and it counts against the overall token limit. */
-  role_information?: string;
-  /**
-   * The max number of rewritten queries should be send to search provider for one user message. If not specified,
-   * the system will decide the number of queries to send.
-   */
-  max_search_queries?: number;
-  /**
-   * If specified as true, the system will allow partial search results to be used and the request fails if all the queries fail.
-   * If not specified, or specified as false, the request will fail if any search query fails.
-   */
-  allow_partial_result?: boolean;
-  /** The included properties of the output context. If not specified, the default value is `citations` and `intent`. */
-  include_contexts?: OnYourDataContextProperty[];
-  /** The resource ID of the Azure Machine Learning project. */
-  project_resource_id: string;
-  /** The Azure Machine Learning vector index name. */
-  name: string;
-  /** The version of the Azure Machine Learning vector index. */
-  version: string;
-  /** Search filter. Only supported if the Azure Machine Learning vector index is of type AzureSearch. */
-  filter?: string;
-}
-
-/**
  * A specific representation of configurable options for Pinecone when using it as an Azure OpenAI chat
  * extension.
  */
@@ -669,7 +614,6 @@ export type OnYourDataVectorizationSource =
 export type AzureChatExtensionConfiguration =
   | AzureChatExtensionConfigurationParent
   | AzureSearchChatExtensionConfiguration
-  | AzureMachineLearningIndexChatExtensionConfiguration
   | AzureCosmosDBChatExtensionConfiguration
   | ElasticsearchChatExtensionConfiguration
   | PineconeChatExtensionConfiguration
