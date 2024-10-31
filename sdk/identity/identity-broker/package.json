@@ -7,7 +7,6 @@
   "module": "dist-esm/identity-broker/src/index.js",
   "types": "./types/identity-broker.d.ts",
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && dev-tool run vendored rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run extract-api && tsc -p . && dev-tool run bundle",
     "build:samples": "echo skipped",
     "build:test": "tsc -p . && dev-tool run bundle",
@@ -28,8 +27,8 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 300000 --exclude 'test/**/browser/**/*.spec.ts' --exclude 'test/snippets.spec.ts' 'test/**/**/*.spec.ts'",
-    "update-snippets": "dev-tool run update-snippets",
-    "unit-test:manual": "dev-tool run test:node-ts-input -- --timeout 300000 'test/manual/node/popTokenSupport.spec.ts'"
+    "unit-test:manual": "dev-tool run test:node-ts-input -- --timeout 300000 'test/manual/node/popTokenSupport.spec.ts'",
+    "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
     "dist/",

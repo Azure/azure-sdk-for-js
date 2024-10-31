@@ -3,18 +3,20 @@
 
 import * as msalClient from "../../../src/msal/nodeFlows/msalClient";
 
+import type { AuthenticationResult } from "@azure/msal-node";
 import {
-  AuthenticationResult,
   ClientApplication,
   ConfidentialClientApplication,
   PublicClientApplication,
 } from "@azure/msal-node";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isLiveMode } from "@azure-tools/test-recorder";
 
 import { AbortError } from "@azure/abort-controller";
 import { AuthenticationRequiredError } from "../../../src/errors";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { DeveloperSignOnClientId } from "../../../src/constants";
 import { IdentityClient } from "../../../src/client/identityClient";
 import { assert } from "@azure-tools/test-utils";

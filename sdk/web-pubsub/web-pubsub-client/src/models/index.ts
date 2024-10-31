@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { WebPubSubClientProtocol } from "../protocols";
-import { DisconnectedMessage, GroupDataMessage, ServerDataMessage } from "./messages";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { WebPubSubClientProtocol } from "../protocols";
+import type { DisconnectedMessage, GroupDataMessage, ServerDataMessage } from "./messages";
 
 /**
  * The client options

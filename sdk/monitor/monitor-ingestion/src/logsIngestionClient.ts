@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { CommonClientOptions } from "@azure/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import type { CommonClientOptions } from "@azure/core-client";
 import { GeneratedMonitorIngestionClient } from "./generated";
-import { AggregateLogsUploadError, LogsUploadFailure, LogsUploadOptions } from "./models";
+import type { LogsUploadFailure, LogsUploadOptions } from "./models";
+import { AggregateLogsUploadError } from "./models";
 import { GZippingPolicy } from "./gZippingPolicy";
 import { concurrentRun } from "./utils/concurrentPoolHelper";
 import { splitDataToChunks } from "./utils/splitDataToChunksHelper";

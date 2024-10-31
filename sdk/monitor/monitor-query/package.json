@@ -32,7 +32,6 @@
   },
   "types": "types/latest/monitor-query.d.ts",
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && dev-tool run vendored rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && tsc -p . && npm run build:nodebrowser && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:node": "tsc -p . && dev-tool run bundle",
@@ -107,8 +106,8 @@
     "@azure/identity": "^4.0.1",
     "@azure/monitor-opentelemetry-exporter": "1.0.0-beta.27",
     "@opentelemetry/api": "^1.9.0",
-    "@opentelemetry/sdk-trace-base": "^1.26.0",
-    "@opentelemetry/sdk-trace-node": "^1.26.0",
+    "@opentelemetry/sdk-trace-base": "^1.27.0",
+    "@opentelemetry/sdk-trace-node": "^1.27.0",
     "@types/chai": "^4.1.6",
     "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^10.0.0",

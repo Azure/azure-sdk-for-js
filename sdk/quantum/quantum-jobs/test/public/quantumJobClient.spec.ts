@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { ContainerClient, BlockBlobClient } from "@azure/storage-blob";
-import { QuantumJobClient } from "../../src";
+import type { QuantumJobClient } from "../../src";
 import { authenticate } from "../utils/testAuthentication";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import * as fs from "fs";
-import { TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { getRecorderUniqueVariable } from "../utils/recorderUtils";
 
 describe("Quantum job lifecycle", () => {

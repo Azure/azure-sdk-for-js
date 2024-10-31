@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken } from "@azure/core-auth";
-import { AuthenticationRecord } from "../types";
-import { CredentialFlowGetTokenOptions } from "../credentials";
-import { CredentialLogger } from "../../util/logging";
+import type { AccessToken } from "@azure/core-auth";
+import type { AuthenticationRecord } from "../types";
+import type { CredentialFlowGetTokenOptions } from "../credentials";
+import type { CredentialLogger } from "../../util/logging";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.

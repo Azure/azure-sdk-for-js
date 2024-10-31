@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TokenCredential } from "@azure/core-auth";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { CommonClientOptions } from "@azure/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { CommonClientOptions } from "@azure/core-client";
 import { tracingClient } from "./tracing";
 
-import {
+import type {
   ListMetricDefinitionsOptions,
   ListMetricNamespacesOptions,
   MetricDefinition,
@@ -22,10 +22,10 @@ import {
   MonitorManagementClient as GeneratedMetricsDefinitionsClient,
   KnownApiVersion20240201 as MetricDefinitionsApiVersion,
 } from "./generated/metricsdefinitions/src";
+import type { MetricNamespacesListOptionalParams } from "./generated/metricsnamespaces/src";
 import {
   MonitorManagementClient as GeneratedMetricsNamespacesClient,
   KnownApiVersion20240201 as MetricNamespacesApiVersion,
-  MetricNamespacesListOptionalParams,
 } from "./generated/metricsnamespaces/src";
 import {
   convertRequestForMetrics,

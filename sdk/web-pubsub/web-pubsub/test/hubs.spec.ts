@@ -5,7 +5,7 @@ import { Recorder, isLiveMode, assertEnvironmentVariable } from "@azure-tools/te
 import { WebPubSubServiceClient, AzureKeyCredential } from "../src";
 import { assert } from "@azure-tools/test-utils";
 import recorderOptions from "./testEnv";
-import { FullOperationResponse } from "@azure/core-client";
+import type { FullOperationResponse } from "@azure/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 /* eslint-disable @typescript-eslint/no-invalid-this */
 

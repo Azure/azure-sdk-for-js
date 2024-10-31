@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { SmsSendOptions, SmsSendRequest } from "../../../src";
+import type { SmsSendOptions, SmsSendRequest } from "../../../src";
 import { env } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { assertIsFailureResult, assertIsSuccessResult } from "../utils/assertHelpers";
 
 export default function testCases(): void {

@@ -4,26 +4,28 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import { assert, use as chaiUse } from "chai";
-import { Context, Suite } from "mocha";
+import type { Context, Suite } from "mocha";
 import chaiPromises from "chai-as-promised";
 chaiUse(chaiPromises);
 
 import { matrix } from "@azure-tools/test-utils";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 
-import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
-import {
+import type { AuthMethod } from "./utils/recordedClient";
+import { createClient, startRecorder } from "./utils/recordedClient";
+import type {
   AnalyzeSentimentResultArray,
   AnalyzeSentimentSuccessResult,
   AssessmentSentiment,
   DetectLanguageInput,
   DetectLanguageSuccessResult,
   Opinion,
-  PiiEntityDomain,
   SentenceSentiment,
   TextAnalyticsClient,
   TextDocumentInput,
 } from "../../src";
+import { PiiEntityDomain } from "../../src";
 import { assertAllSuccess, assertRestError, isSuccess } from "./utils/resultHelper";
 import { checkEntityTextOffset, checkOffsetAndLength } from "./utils/stringIndexTypeHelpers";
 

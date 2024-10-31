@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  CommunicationUserIdentifier,
-  isCommunicationUserIdentifier,
-} from "@azure/communication-common";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { CommunicationUserIdentifier } from "@azure/communication-common";
+import { isCommunicationUserIdentifier } from "@azure/communication-common";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
 } from "./utils/recordedClient";
-import { CommunicationIdentityClient, TokenScope } from "../../src";
-import { Context } from "mocha";
+import type { CommunicationIdentityClient, TokenScope } from "../../src";
+import type { Context } from "mocha";
 import { assert } from "chai";
 import { matrix } from "@azure-tools/test-utils";
 

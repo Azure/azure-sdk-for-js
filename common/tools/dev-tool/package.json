@@ -11,7 +11,6 @@
     "src"
   ],
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf --glob node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "tsc",
     "build:samples": "echo Skipped.",
     "build:test": "echo Skipped.",
@@ -93,6 +92,7 @@
     "mkdirp": "^3.0.1",
     "rimraf": "^5.0.5",
     "typescript-eslint": "~8.2.0",
+    "uglify-js": "^3.4.9",
     "vitest": "^2.0.5"
   }
 }

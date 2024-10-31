@@ -282,13 +282,11 @@ async function parseSnippetDefinitions(
         EOL +
         EOL +
         contents
-      )
-        .replace(
-          // Need to get rid of any ts-ignores that were added because of unused symbols
-          /\r?\n[ ]*\/\/\s*@ts-ignore\s*\r?\n/g,
-          EOL,
-        )
-        .trim();
+      ).replace(
+        // Need to get rid of any ts-ignores that were added because of unused symbols
+        /\r?\n[ ]*\/\/\s*@ts-ignore\s*\r?\n/g,
+        EOL,
+      );
 
       // Run the same syntax validation pass that we run on samples when we convert to JS. This will prevent you from
       // using any syntax that isn't supported by our min node in snippets!
