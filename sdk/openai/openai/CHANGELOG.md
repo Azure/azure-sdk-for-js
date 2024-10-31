@@ -10,6 +10,7 @@
 
 ### Breaking Changes
 
+- Remove the Azure ML connection in Azure On Your Data.
 - Remove the now deprecated `finish_details` field in chat completion responses. Use `finish_reason` instead.
 
 ## 2.0.0-beta.2 (2024-09-09)
