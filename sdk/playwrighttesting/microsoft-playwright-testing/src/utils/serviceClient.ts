@@ -3,15 +3,15 @@
 
 import type { FullResult } from "@playwright/test/reporter";
 import { Constants } from "../common/constants";
-import { EnvironmentVariables } from "../common/environmentVariables";
+import type { EnvironmentVariables } from "../common/environmentVariables";
 import { HttpService } from "../common/httpService";
-import { Shard, UploadMetadata } from "../model/shard";
-import { StorageUri } from "../model/storageUri";
-import { TestResult } from "../model/testResult";
-import { TestRun } from "../model/testRun";
-import { CIInfo } from "./cIInfoProvider";
-import ReporterUtils from "./reporterUtils";
-import { PipelineResponse } from "@azure/core-rest-pipeline";
+import type { Shard, UploadMetadata } from "../model/shard";
+import type { StorageUri } from "../model/storageUri";
+import type { TestResult } from "../model/testResult";
+import type { TestRun } from "../model/testRun";
+import type { CIInfo } from "./cIInfoProvider";
+import type ReporterUtils from "./reporterUtils";
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import { reporterLogger } from "../common/logger";
 
 export class ServiceClient {

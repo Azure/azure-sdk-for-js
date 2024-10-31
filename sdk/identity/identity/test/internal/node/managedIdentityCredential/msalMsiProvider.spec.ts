@@ -3,13 +3,14 @@
 
 import Sinon from "sinon";
 import { assert } from "@azure-tools/test-utils";
-import { AuthError, AuthenticationResult, ManagedIdentityApplication } from "@azure/msal-node";
+import type { AuthenticationResult } from "@azure/msal-node";
+import { AuthError, ManagedIdentityApplication } from "@azure/msal-node";
 import { MsalMsiProvider } from "../../../../src/credentials/managedIdentityCredential/msalMsiProvider";
 import { tokenExchangeMsi } from "../../../../src/credentials/managedIdentityCredential/tokenExchangeMsi";
 import { imdsMsi } from "../../../../src/credentials/managedIdentityCredential/imdsMsi";
 import { RestError } from "@azure/core-rest-pipeline";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../../../src/errors";
-import { AccessToken } from "@azure/core-auth";
+import type { AccessToken } from "@azure/core-auth";
 
 describe("ManagedIdentityCredential (MSAL)", function () {
   let acquireTokenStub: Sinon.SinonStub;

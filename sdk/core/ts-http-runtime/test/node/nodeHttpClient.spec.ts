@@ -3,8 +3,8 @@
 
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 import { PassThrough, Writable } from "node:stream";
-import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import { AbortSignalLike } from "../../src/abort-controller/AbortSignalLike.js";
+import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
+import type { AbortSignalLike } from "../../src/abort-controller/AbortSignalLike.js";
 import { createDefaultHttpClient, createPipelineRequest, delay } from "../../src/index.js";
 
 vi.mock("https", async () => {

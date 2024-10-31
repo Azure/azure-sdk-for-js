@@ -146,7 +146,7 @@
 /sdk/healthinsights/ @tomsft @koen-mertens
 
 # PRLabel: %Azure.Identity
-/sdk/identity/ @KarishmaGhiya @maorleger @schaabs @Azure/azure-sdk-write-identity
+/sdk/identity/ @KarishmaGhiya @minhanh-phan @maorleger @schaabs @Azure/azure-sdk-write-identity
 
 # ServiceLabel: %Azure.Identity
 # AzureSdkOwners:  @KarishmaGhiya @maorleger
@@ -468,6 +468,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/datafactory/arm-datafactory/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/databoundaries/arm-databoundaries/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/datalake-analytics/arm-datalake-analytics/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -611,6 +614,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/kubernetesconfiguration/arm-kubernetesconfiguration/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/kubernetesruntime/arm-containerorchestratorruntime/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/kusto/arm-kusto/ @qiaozha @MaryGao

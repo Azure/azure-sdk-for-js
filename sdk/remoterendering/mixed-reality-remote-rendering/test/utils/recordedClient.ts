@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
-import { AccessToken, AzureKeyCredential } from "@azure/core-auth";
-import {
-  Recorder,
-  RecorderStartOptions,
-  assertEnvironmentVariable,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { AccessToken } from "@azure/core-auth";
+import { AzureKeyCredential } from "@azure/core-auth";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 
 import { RemoteRenderingClient } from "../../src";
 

@@ -6,7 +6,7 @@ import {
   validateKeyFile,
 } from "../../../../src/credentials/managedIdentityCredential/arcMsi";
 
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import Sinon from "sinon";
 import { assert } from "chai";
 import fs from "node:fs";

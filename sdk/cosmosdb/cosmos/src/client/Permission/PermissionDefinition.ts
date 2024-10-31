@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PermissionMode } from "../../documents";
+import type { PermissionMode } from "../../documents";
 
 export interface PermissionDefinition {
   /** The id of the permission */

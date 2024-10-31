@@ -5,10 +5,11 @@
 /// <reference path="../jsrsasign.d.ts"/>
 import * as jsrsasign from "jsrsasign";
 
-import { JsonWebKey } from "../generated/models/index.js";
+import type { JsonWebKey } from "../generated/models/index.js";
 import { base64UrlDecodeString } from "../utils/base64.js";
 import { bytesToString } from "../utils/utf8.js";
-import { AttestationSigner, _attestationSignerFromGenerated } from "./attestationSigner.js";
+import type { AttestationSigner } from "./attestationSigner.js";
+import { _attestationSignerFromGenerated } from "./attestationSigner.js";
 
 import * as Mappers from "../generated/models/mappers.js";
 import { TypeDeserializer } from "../utils/typeDeserializer.js";

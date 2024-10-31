@@ -2,14 +2,12 @@
 // Licensed under the MIT License.
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import {
-  assertEnvironmentVariable,
-  Recorder,
-  RecorderStartOptions,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { DefaultAzureCredential, logger } from "@azure/identity";
-import { Context } from "mocha";
-import AHIClient, { AzureHealthInsightsClient } from "../../../src";
+import type { Context } from "mocha";
+import type { AzureHealthInsightsClient } from "../../../src";
+import AHIClient from "../../../src";
 import "./env";
 
 const envSetupForPlayback: Record<string, string> = {

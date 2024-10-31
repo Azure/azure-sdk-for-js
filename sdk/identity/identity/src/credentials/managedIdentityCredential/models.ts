@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 
-import { IdentityClient } from "../../client/identityClient";
+import type { IdentityClient } from "../../client/identityClient";
 
 /**
  * @internal

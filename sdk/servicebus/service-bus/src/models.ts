@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs.js";
-import Long from "long";
-import { ServiceBusReceivedMessage } from "./serviceBusMessage.js";
-import { ServiceBusError } from "./serviceBusError.js";
+import type { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs.js";
+import type Long from "long";
+import type { ServiceBusReceivedMessage } from "./serviceBusMessage.js";
+import type { ServiceBusError } from "./serviceBusError.js";
 
 /**
  * Arguments to the `processError` callback.

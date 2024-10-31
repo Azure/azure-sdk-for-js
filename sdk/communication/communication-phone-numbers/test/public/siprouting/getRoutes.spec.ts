@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
-import { SipRoutingClient } from "../../../src";
+import type { SipRoutingClient } from "../../../src";
 
 import { matrix } from "@azure-tools/test-utils";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   clearSipConfiguration,
   createRecordedClient,

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Durations, LogsQueryClient } from "../../../src";
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { assert } from "@azure-tools/test-utils";
 
 describe("LogsQueryClient unit tests", () => {
