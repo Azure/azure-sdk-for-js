@@ -4,7 +4,6 @@
 import { DefaultAzureCredential } from "@azure/identity";
 import MapsRender, { isUnexpected } from "@azure-rest/maps-render";
 
-
 /**
  * @summary How to get the copyright all around the world.
  */
