@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { assert } from "@azure-tools/test-utils";
 import { Durations, MetricsQueryClient } from "../../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 it("verify tracing", async () => {
   const scopesPassed: string[] = [];

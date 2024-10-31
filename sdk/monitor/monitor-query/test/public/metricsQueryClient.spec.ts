@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import type { Context } from "mocha";
 import { getYieldedValue } from "@azure-tools/test-utils";
 import type { MetricsQueryClient } from "../../src/index.js";
 import { Durations } from "../../src/index.js";
@@ -14,6 +11,8 @@ import {
   loggerForTest,
 } from "./shared/testShared.js";
 import { Recorder } from "@azure-tools/test-recorder";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+
 describe("MetricsClient live tests", function () {
   let resourceId: string;
   let metricsQueryClient: MetricsQueryClient;

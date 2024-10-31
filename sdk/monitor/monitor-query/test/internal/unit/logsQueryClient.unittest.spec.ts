@@ -3,7 +3,7 @@
 
 import { Durations, LogsQueryClient } from "../../../src/index.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { assert } from "@azure-tools/test-utils";
+import { describe, it, assert } from "vitest";
 
 describe("LogsQueryClient unit tests", () => {
   /**

@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "@azure-tools/test-utils";
 import { getLogQueryEndpoint } from "../../../src/internal/logQueryOptionUtils.js";
+import { describe, it, assert } from "vitest";
 
 describe("logQueryOptionsUtils", () => {
   describe("getLogQueryEndpoint", () => {

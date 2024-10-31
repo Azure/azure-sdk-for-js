@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import type {
   BatchQueryRequest,
   BatchRequest as GeneratedBatchRequest,
@@ -35,6 +33,7 @@ import {
   convertIntervalToTimeIntervalObject,
   convertTimespanToInterval,
 } from "../../../src/timespanConversion.js";
+import { describe, it, assert } from "vitest";
 
 describe("Model unit tests", () => {
   describe("LogsClient", () => {

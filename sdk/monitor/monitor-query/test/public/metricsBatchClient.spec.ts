@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type { MetricsClient, MetricsQueryResult } from "../../src/index.js";
 import type { RecorderAndMetricsBatchQueryClient } from "./shared/testShared.js";
 import {
@@ -11,6 +8,7 @@ import {
   getMetricsBatchNamespace,
   getMetricsBatchNames,
 } from "./shared/testShared.js";
+import { describe, it, assert } from "vitest";
 
 describe.skip("MetricsBatchClient live tests", function () {
   let resourceIds: string[];

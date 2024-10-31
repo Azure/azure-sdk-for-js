@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import type { Context } from "mocha";
 import { env } from "node:process";
 import type { RecorderAndLogsClient } from "./shared/testShared.js";
 import { createRecorderAndLogsClient, getLogsArmResourceId } from "./shared/testShared.js";
@@ -15,6 +12,7 @@ import { assertQueryTable, getMonitorWorkspaceId, loggerForTest } from "./shared
 import type { ErrorInfo } from "../../src/generated/logquery/src/index.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { setLogLevel } from "@azure/logger";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("LogsQueryClient live tests", function () {
   let monitorWorkspaceId: string;
