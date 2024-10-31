@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { formatPreferHeader } from "../../../src/internal/util.js";
 import { describe, it, assert } from "vitest";
 

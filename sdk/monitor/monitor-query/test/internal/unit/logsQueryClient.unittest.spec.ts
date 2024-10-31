@@ -3,10 +3,11 @@
 
 import { Durations, LogsQueryClient } from "../../../src/index.js";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect } from "vitest";
+import type { OperationOptions } from "@azure/core-client";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-expect.extend({ toSupportTracing })
+expect.extend({ toSupportTracing });
 
 describe("LogsQueryClient unit tests", () => {
   /**
@@ -52,19 +53,22 @@ describe("LogsQueryClient unit tests", () => {
     const client = new LogsQueryClient(tokenCredential, {
       endpoint: "https://customEndpoint1",
     });
-    await expect(async (options) => {
-    const promises: Promise<any>[] = [
+    await expect(async (options: OperationOptions) => {
+      const promises: Promise<any>[] = [
         client.queryWorkspace("workspaceId", "query", { duration: Durations.fiveMinutes }, options),
-        client.queryBatch([
+        client.queryBatch(
+          [
             {
-                workspaceId: "monitorWorkspaceId",
-                query: "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1",
-                timespan: { duration: "P1D" },
+              workspaceId: "monitorWorkspaceId",
+              query: "AppEvents | project TimeGenerated, Name, AppRoleInstance | limit 1",
+              timespan: { duration: "P1D" },
             },
-        ], options),
-    ];
-    // We don't care about errors, only that we created (and closed) the appropriate spans.
-    await Promise.all(promises.map((p) => p.catch(() => undefined)));
-}).toSupportTracing(["LogsQueryClient.queryWorkspace", "LogsQueryClient.queryBatch"]);
+          ],
+          options,
+        ),
+      ];
+      // We don't care about errors, only that we created (and closed) the appropriate spans.
+      await Promise.all(promises.map((p) => p.catch(() => undefined)));
+    }).toSupportTracing(["LogsQueryClient.queryWorkspace", "LogsQueryClient.queryBatch"]);
   });
 });

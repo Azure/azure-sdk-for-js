@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { TokenCredential } from "@azure/core-auth";
 import { tracingClient } from "./tracing.js";
 import {

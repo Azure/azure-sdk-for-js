@@ -8,7 +8,7 @@ import {
   getMetricsBatchNamespace,
   getMetricsBatchNames,
 } from "./shared/testShared.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach } from "vitest";
 
 describe.skip("MetricsBatchClient live tests", function () {
   let resourceIds: string[];
@@ -16,7 +16,7 @@ describe.skip("MetricsBatchClient live tests", function () {
   let metricNames: string[];
   let metricsBatchQueryClient: MetricsClient;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async function () {
     const recordedClient: RecorderAndMetricsBatchQueryClient =
       await createRecorderAndMetricsBatchQueryClient();
     resourceIds = getMetricsBatchResourceIds();
@@ -25,16 +25,11 @@ describe.skip("MetricsBatchClient live tests", function () {
     metricsBatchQueryClient = recordedClient.client;
   });
 
-  // afterEach(async function () {
-  //   loggerForTest.verbose("Recorder: stopping");
-  //   await recorder.stop();
-  // });
-
   it("batch query with no resource ids", async () => {
     try {
       await metricsBatchQueryClient.queryResources([], metricNames, metricsNamespace);
       assert.fail("Code should not reach here.");
-    } catch (e) {
+    } catch {
       assert.equal(1, 1);
     }
   });

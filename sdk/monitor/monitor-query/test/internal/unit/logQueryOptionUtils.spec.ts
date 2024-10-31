@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { getLogQueryEndpoint } from "../../../src/internal/logQueryOptionUtils.js";
 import { describe, it, assert } from "vitest";
 

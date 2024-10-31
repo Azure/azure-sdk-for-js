@@ -11,7 +11,7 @@ import {
   loggerForTest,
 } from "./shared/testShared.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("MetricsClient live tests", function () {
   let resourceId: string;
