@@ -46,6 +46,9 @@ export interface TenDlcClientOptions extends CommonClientOptions {}
 const isTenDlcClientOptions = (options: any): options is TenDlcClientOptions =>
   options && !isKeyCredential(options) && !isTokenCredential(options);
 
+/**
+ * Client class for interacting with Azure Communication Services 10DLC Administration.
+ */
 export class TenDlcClient {
   /**
    * A reference to the auto-generated 10 DLC HTTP client.
@@ -83,6 +86,13 @@ export class TenDlcClient {
     this.client.pipeline.addPolicy(tenDlcPagingPolicy);
   }
 
+  /**
+   * Upserts a US brand with the given brand ID.
+   * 
+   * @param brandId - The unique identifier for the brand.
+   * @param options - Optional parameters for upserting the US brand.
+   * @returns The upserted US brand.
+   */
   public upsertUSBrand(
     brandId: string,
     options: UpsertUSBrandOptions = {
@@ -103,6 +113,13 @@ export class TenDlcClient {
     }
   }
 
+  /**
+   * Upserts a US campaign with the given campaign ID and options.
+   *
+   * @param campaingId - The ID of the campaign to upsert.
+   * @param options - The options for upserting the US campaign.
+   * @returns The upserted US campaign.
+   */
   public upsertUSCampaign(
     campaingId: string,
     options: UpsertUSCampaignOptions = {
@@ -128,6 +145,13 @@ export class TenDlcClient {
     }
   }
 
+  /**
+   * Deletes a US brand by its ID.
+   *
+   * @param brandId - The unique identifier of the brand to be deleted.
+   * @param options - Optional parameters for the delete operation.
+   * @returns A promise that resolves when the brand is successfully deleted.
+   */
   public deleteUSBrand(brandId: string, options: DeleteBrandOptionalParams = {}): Promise<void> {
     const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-deleteUSBrand", options);
     try {
@@ -143,6 +167,13 @@ export class TenDlcClient {
     }
   }
 
+  /**
+   * Deletes a US campaign by its campaign ID.
+   *
+   * @param campaignId - The unique identifier of the campaign to be deleted.
+   * @param options - Optional parameters for the delete operation.
+   * @returns A promise that resolves when the campaign is successfully deleted.
+   */
   public deleteUSCampaign(
     campaignId: string,
     options: DeleteCampaignOptionalParams = {},
@@ -164,6 +195,13 @@ export class TenDlcClient {
     }
   }
 
+  /**
+   * Retrieves a US brand by its brand ID.
+   *
+   * @param brandId - The unique identifier of the US brand to retrieve.
+   * @param options - Optional parameters for the request.
+   * @returns The USBrand object.
+   */
   public getUSBrand(brandId: string, options: GetBrandOptionalParams = {}): Promise<USBrand> {
     const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-getUSBrand", options);
     try {
@@ -179,6 +217,12 @@ export class TenDlcClient {
     }
   }
 
+  /**
+   * Lists US brands with optional parameters.
+   *
+   * @param options - Optional parameters for listing US brands.
+   * @returns An async iterable iterator for US brands.
+   */
   public listUSBrands(options: GetBrandsOptionalParams = {}): PagedAsyncIterableIterator<USBrand> {
     const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-listUSBrands", options);
     try {
@@ -194,6 +238,13 @@ export class TenDlcClient {
     }
   }
 
+  /**
+   * Retrieves a US campaign by its campaign ID.
+   *
+   * @param campaignId - The unique identifier of the US campaign to retrieve.
+   * @param options - Optional parameters for the request.
+   * @returns The USCampaign object.
+   */
   public getUSCampaign(
     campaignId: string,
     options: GetCampaignOptionalParams = {},
@@ -212,6 +263,12 @@ export class TenDlcClient {
     }
   }
 
+  /**
+   * Lists US campaigns.
+   *
+   * @param options - Optional parameters for listing US campaigns.
+   * @returns An iterator that allows paging through US campaigns.
+   */
   public listUSCampaigns(
     options: ListCampaignsOptionalParams = {},
   ): PagedAsyncIterableIterator<USCampaign> {
@@ -232,6 +289,12 @@ export class TenDlcClient {
     }
   }
 
+  /**
+   * Lists the costs associated with the TenDlc service.
+   *
+   * @param options - The options for listing costs.
+   * @returns An async iterable iterator that allows paging through the costs.
+   */
   public listCosts(options: ListCostsOptions = {}): PagedAsyncIterableIterator<TenDlcCost> {
     const { span, updatedOptions } = tracingClient.startSpan("TenDlcClient-listCosts", options);
     try {
@@ -247,6 +310,13 @@ export class TenDlcClient {
     }
   }
 
+  /**
+   * Submits a US brand for registration.
+   *
+   * @param brandId - The unique identifier of the brand to be submitted.
+   * @param options - Optional parameters for submitting the brand.
+   * @returns The submitted US brand.
+   */
   public submitUSBrand(brandId: string, options: SubmitBrandOptionalParams = {}): Promise<USBrand> {
     return tracingClient.withSpan(
       "TenDlcClient-submitUSBrand",
@@ -257,6 +327,13 @@ export class TenDlcClient {
     );
   }
 
+  /**
+   * Submits a US campaign for approval.
+   *
+   * @param campaignId - The unique identifier of the campaign to be submitted.
+   * @param options - Optional parameters for submitting the campaign.
+   * @returns The submitted US campaign.
+   */
   public submitUSCampaign(
     campaignId: string,
     options: SubmitCampaignOptionalParams = {},
@@ -270,6 +347,13 @@ export class TenDlcClient {
     );
   }
 
+  /**
+   * Cancels a US brand.
+   *
+   * @param brandId - The ID of the brand to be canceled.
+   * @param options - Optional parameters for the cancellation request.
+   * @returns The response of the cancellation request.
+   */
   public cancelUSBrand(
     brandId: string,
     options?: TenDlcCancelUSBrandOptionalParams,
@@ -288,6 +372,13 @@ export class TenDlcClient {
     }
   }
 
+  /**
+   * Cancels a US campaign with the given campaign ID.
+   *
+   * @param campaignId - The ID of the campaign to be canceled.
+   * @param options - Optional parameters for canceling the campaign.
+   * @returns The response of the cancel operation.
+   */
   public cancelUSCampaign(
     campaignId: string,
     options?: TenDlcCancelUSCampaignOptionalParams,

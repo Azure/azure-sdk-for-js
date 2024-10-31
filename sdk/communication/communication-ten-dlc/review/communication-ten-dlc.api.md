@@ -10,7 +10,7 @@ import { KeyCredential } from '@azure/core-auth';
 import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-auth';
 
-// @public (undocumented)
+// @public
 export interface Address {
     city?: string;
     country?: string;
@@ -26,15 +26,13 @@ export type AlternateBusinessIdType = "Duns" | "Lei" | "Giin";
 // @public
 export type BillingFrequency = "Monthly" | "Once";
 
-// @public (undocumented)
+// @public
 export interface BrandDetails {
-    // (undocumented)
     address?: Address;
     alternateBusinessId?: string;
     alternateBusinessIdType?: AlternateBusinessIdType;
     companyName?: string;
     companyVertical?: CompanyVertical;
-    // (undocumented)
     contactInformation?: ContactInformation;
     entityType?: EntityType;
     name?: string;
@@ -48,7 +46,7 @@ export interface BrandDetails {
 // @public
 export type BrandStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCancellation" | "Denied" | "Approved" | "MicrosoftSupportEngaged" | "VettingSubmitted";
 
-// @public (undocumented)
+// @public
 export interface CampaignDetails {
     callToAction?: string;
     description?: string;
@@ -60,7 +58,7 @@ export type CampaignStatus = "Draft" | "Submitted" | "Cancelled" | "PendingCance
 // @public
 export type CompanyVertical = "Agriculture" | "Communication" | "Construction" | "Education" | "Energy" | "Entertainment" | "Financial" | "Gambling" | "Government" | "Healthcare" | "Hospitality" | "HumanResources" | "Insurance" | "Legal" | "Manufacturing" | "Ngo" | "Political" | "Postal" | "Professional" | "RealEstate" | "Retail" | "Technology" | "Transportation";
 
-// @public (undocumented)
+// @public
 export interface ContactInformation {
     email?: string;
     phone?: string;
@@ -100,15 +98,11 @@ export interface ListCampaignsOptionalParams extends TenDlcGetUSCampaignsOptiona
 export interface ListCostsOptions extends TenDlcGetCostsOptionalParams {
 }
 
-// @public (undocumented)
+// @public
 export interface MessageDetails {
-    // (undocumented)
     hasAgeGatedContent?: boolean;
-    // (undocumented)
     hasDirectLending?: boolean;
-    // (undocumented)
     hasEmbeddedLink?: boolean;
-    // (undocumented)
     hasEmbeddedPhone?: boolean;
     helpAnswerToUser?: string;
     helpAnswerToUserRequired?: boolean;
@@ -117,9 +111,7 @@ export interface MessageDetails {
     optInMessageToUserRequired?: boolean;
     optOutAnswerToUser?: string;
     optOutAnswerToUserRequired?: boolean;
-    // (undocumented)
     termsAndConditionsAccepted?: boolean;
-    // (undocumented)
     useCase?: UseCase;
 }
 
@@ -157,36 +149,23 @@ export interface TenDlcCancelUSCampaignOptionalParams extends coreClient.Operati
 // @public
 export type TenDlcCancelUSCampaignResponse = USCampaign;
 
-// @public (undocumented)
+// @public
 export class TenDlcClient {
     constructor(connectionString: string, options?: TenDlcClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: TenDlcClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: TenDlcClientOptions);
-    // (undocumented)
     cancelUSBrand(brandId: string, options?: TenDlcCancelUSBrandOptionalParams): Promise<TenDlcCancelUSBrandResponse>;
-    // (undocumented)
     cancelUSCampaign(campaignId: string, options?: TenDlcCancelUSCampaignOptionalParams): Promise<TenDlcCancelUSCampaignResponse>;
-    // (undocumented)
     deleteUSBrand(brandId: string, options?: DeleteBrandOptionalParams): Promise<void>;
-    // (undocumented)
     deleteUSCampaign(campaignId: string, options?: DeleteCampaignOptionalParams): Promise<void>;
-    // (undocumented)
     getUSBrand(brandId: string, options?: GetBrandOptionalParams): Promise<USBrand>;
-    // (undocumented)
     getUSCampaign(campaignId: string, options?: GetCampaignOptionalParams): Promise<USCampaign>;
-    // (undocumented)
     listCosts(options?: ListCostsOptions): PagedAsyncIterableIterator<TenDlcCost>;
-    // (undocumented)
     listUSBrands(options?: GetBrandsOptionalParams): PagedAsyncIterableIterator<USBrand>;
-    // (undocumented)
     listUSCampaigns(options?: ListCampaignsOptionalParams): PagedAsyncIterableIterator<USCampaign>;
-    // (undocumented)
     submitUSBrand(brandId: string, options?: SubmitBrandOptionalParams): Promise<USBrand>;
-    // (undocumented)
     submitUSCampaign(campaignId: string, options?: SubmitCampaignOptionalParams): Promise<USCampaign>;
-    // (undocumented)
     upsertUSBrand(brandId: string, options?: UpsertUSBrandOptions): Promise<USBrand>;
-    // (undocumented)
     upsertUSCampaign(campaingId: string, options?: UpsertUSCampaignOptions): Promise<USCampaign>;
 }
 
@@ -278,9 +257,8 @@ export interface UpsertUSCampaignOptions extends TenDlcGetUSCampaignOptionalPara
     messageDetails: MessageDetails | undefined;
 }
 
-// @public (undocumented)
+// @public
 export interface USBrand {
-    // (undocumented)
     brandDetails?: BrandDetails;
     costs?: TenDlcCost[];
     id: string;
@@ -296,14 +274,12 @@ export interface USBrands {
     nextLink?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface USCampaign {
     brandId?: string;
-    // (undocumented)
     campaignDetails?: CampaignDetails;
     costs?: TenDlcCost[];
     id: string;
-    // (undocumented)
     messageDetails?: MessageDetails;
     phoneNumberCount?: number;
     reviewNotes?: ReviewNote[];
@@ -318,7 +294,7 @@ export interface USCampaigns {
     nextLink?: string;
 }
 
-// @public (undocumented)
+// @public
 export interface UseCase {
     contentType?: ContentType;
     sampleMessages?: string[];

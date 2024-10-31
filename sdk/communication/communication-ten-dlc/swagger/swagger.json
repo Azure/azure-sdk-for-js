@@ -620,6 +620,7 @@
   },
   "definitions": {
     "Address": {
+      "description": "Represents postal address.",
       "type": "object",
       "properties": {
         "line1": {
@@ -631,12 +632,12 @@
           "type": "string"
         },
         "city": {
-          "description": "The City for US addresses, for example",
+          "description": "The city for the addresses, for example Los Angeles.",
           "maxLength": 100,
           "type": "string"
         },
         "state": {
-          "description": "The State for US addresses, for example",
+          "description": "The state for the addresses, for example California.",
           "maxLength": 20,
           "type": "string"
         },
@@ -652,6 +653,7 @@
       }
     },
     "BrandDetails": {
+      "description": "General information for a 10DLC brand.",
       "type": "object",
       "properties": {
         "name": {
@@ -794,6 +796,7 @@
       }
     },
     "CampaignDetails": {
+      "description": "Information about the campaign.",
       "type": "object",
       "properties": {
         "callToAction": {
@@ -807,6 +810,7 @@
       }
     },
     "ContactInformation": {
+      "description": "Represent contact information for the brand.",
       "type": "object",
       "properties": {
         "phone": {
@@ -823,6 +827,7 @@
       }
     },
     "MessageDetails": {
+      "description": "Compiles details describing how the messaging campaign will work, for example whether opt-in and opt-out will be required and how will the messages for those actions look like.",
       "type": "object",
       "properties": {
         "useCase": {
@@ -852,18 +857,23 @@
           "type": "string"
         },
         "hasEmbeddedLink": {
+          "description": "Indicates whether the message has an embedded link.",
           "type": "boolean"
         },
         "hasEmbeddedPhone": {
+          "description": "Indicates whether the message has an embedded phone number.",
           "type": "boolean"
         },
         "termsAndConditionsAccepted": {
+          "description": "Indicates whether the terms and conditions have been accepted.",
           "type": "boolean"
         },
         "hasAgeGatedContent": {
+          "description": "Indicates whether the message contains age-gated content.",
           "type": "boolean"
         },
         "hasDirectLending": {
+          "description": "Indicates whether the message involves direct lending.",
           "type": "boolean"
         }
       }
@@ -944,6 +954,7 @@
       }
     },
     "USBrand": {
+      "description": "Represents a US 10DLC brand with details and status information.",
       "required": [
         "id"
       ],
@@ -1002,6 +1013,7 @@
       }
     },
     "USCampaign": {
+      "description": "Represents a US 10DLC campaign.",
       "required": [
         "id"
       ],
@@ -1018,7 +1030,7 @@
           "type": "string"
         },
         "status": {
-          "description": "10 Dlc status e.g. 'submitted', 'approved', etc",
+          "description": "10DLC status e.g. 'submitted', 'approved', etc",
           "enum": [
             "Draft",
             "Submitted",
@@ -1072,6 +1084,7 @@
       }
     },
     "UseCase": {
+      "description": "Compiles information describing the user case for a 10DLC messaging campaign.",
       "type": "object",
       "properties": {
         "contentType": {
@@ -1100,6 +1113,7 @@
           "description": "Type of user sub-content",
           "type": "array",
           "items": {
+            "description": "Enum representing the sub-content types.",
             "enum": [
               "TwoFactorAuthentication",
               "AccountNotification",

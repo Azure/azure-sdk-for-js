@@ -8,6 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Represents a US 10DLC brand with details and status information. */
 export interface USBrand {
   /** Unique identifier that corresponds to a brand */
   id: string;
@@ -24,6 +25,7 @@ export interface USBrand {
    * review results and necessary follow up actions.
    */
   reviewNotes?: ReviewNote[];
+  /** General information for a 10DLC brand. */
   brandDetails?: BrandDetails;
 }
 
@@ -49,6 +51,7 @@ export interface ReviewNote {
   date?: Date;
 }
 
+/** General information for a 10DLC brand. */
 export interface BrandDetails {
   /** Gets or sets Name */
   name?: string;
@@ -56,7 +59,9 @@ export interface BrandDetails {
   companyName?: string;
   /** Category of companies motive/use case */
   companyVertical?: CompanyVertical;
+  /** Represent contact information for the brand. */
   contactInformation?: ContactInformation;
+  /** Represents postal address. */
   address?: Address;
   /** Legal structure or form a company takes */
   entityType?: EntityType;
@@ -76,6 +81,7 @@ export interface BrandDetails {
   url?: string;
 }
 
+/** Represent contact information for the brand. */
 export interface ContactInformation {
   /** Contact phone number for the authorized user for the customer. Use E164 format. e.g. +14086111111 */
   phone?: string;
@@ -83,14 +89,15 @@ export interface ContactInformation {
   email?: string;
 }
 
+/** Represents postal address. */
 export interface Address {
   /** Address line 1 */
   line1?: string;
   /** Address line 2 */
   line2?: string;
-  /** The City for US addresses, for example */
+  /** The city for the addresses, for example Los Angeles. */
   city?: string;
-  /** The State for US addresses, for example */
+  /** The state for the addresses, for example California. */
   state?: string;
   /** Postal code */
   postalCode?: string;
@@ -135,12 +142,13 @@ export interface USBrands {
   nextLink?: string;
 }
 
+/** Represents a US 10DLC campaign. */
 export interface USCampaign {
   /** Unique identifier that corresponds to a campaign */
   id: string;
   /** Unique identifier that corresponds to a brand */
   brandId?: string;
-  /** 10 Dlc status e.g. 'submitted', 'approved', etc */
+  /** 10DLC status e.g. 'submitted', 'approved', etc */
   status?: CampaignStatus;
   /** Last date and time when the 10DLC status was updated */
   statusUpdatedDate?: Date;
@@ -155,10 +163,13 @@ export interface USCampaign {
   reviewNotes?: ReviewNote[];
   /** Count of local phone numbers currently associated to the 10DLC Campaign. */
   phoneNumberCount?: number;
+  /** Information about the campaign. */
   campaignDetails?: CampaignDetails;
+  /** Compiles details describing how the messaging campaign will work, for example whether opt-in and opt-out will be required and how will the messages for those actions look like. */
   messageDetails?: MessageDetails;
 }
 
+/** Information about the campaign. */
 export interface CampaignDetails {
   /** Call to action text. To be provided when InteractiveVoiceResponse is specified as call to action type */
   callToAction?: string;
@@ -166,7 +177,9 @@ export interface CampaignDetails {
   description?: string;
 }
 
+/** Compiles details describing how the messaging campaign will work, for example whether opt-in and opt-out will be required and how will the messages for those actions look like. */
 export interface MessageDetails {
+  /** Compiles information describing the user case for a 10DLC messaging campaign. */
   useCase?: UseCase;
   /** Boolean to determine if HelpAnswerToUser is required */
   helpAnswerToUserRequired?: boolean;
@@ -185,13 +198,19 @@ export interface MessageDetails {
   /** Boolean to determine if optInMessage is required */
   optInMessageToUserRequired?: boolean;
   optInMessageToUser?: string;
+  /** Indicates whether the message has an embedded link. */
   hasEmbeddedLink?: boolean;
+  /** Indicates whether the message has an embedded phone number. */
   hasEmbeddedPhone?: boolean;
+  /** Indicates whether the terms and conditions have been accepted. */
   termsAndConditionsAccepted?: boolean;
+  /** Indicates whether the message contains age-gated content. */
   hasAgeGatedContent?: boolean;
+  /** Indicates whether the message involves direct lending. */
   hasDirectLending?: boolean;
 }
 
+/** Compiles information describing the user case for a 10DLC messaging campaign. */
 export interface UseCase {
   /** Type of user content */
   contentType?: ContentType;
@@ -344,6 +363,7 @@ export interface TenDlcUpsertUSBrandOptionalParams
    * review results and necessary follow up actions.
    */
   reviewNotes?: ReviewNote[];
+  /** General information for a 10DLC brand. */
   brandDetails?: BrandDetails;
 }
 
@@ -391,7 +411,7 @@ export interface TenDlcUpsertUSCampaignOptionalParams
   extends coreClient.OperationOptions {
   /** Unique identifier that corresponds to a brand */
   brandId?: string;
-  /** 10 Dlc status e.g. 'submitted', 'approved', etc */
+  /** 10DLC status e.g. 'submitted', 'approved', etc */
   status?: CampaignStatus;
   /** Last date and time when the 10DLC status was updated */
   statusUpdatedDate?: Date;
@@ -406,7 +426,9 @@ export interface TenDlcUpsertUSCampaignOptionalParams
   reviewNotes?: ReviewNote[];
   /** Count of local phone numbers currently associated to the 10DLC Campaign. */
   phoneNumberCount?: number;
+  /** Information about the campaign. */
   campaignDetails?: CampaignDetails;
+  /** Compiles details describing how the messaging campaign will work, for example whether opt-in and opt-out will be required and how will the messages for those actions look like. */
   messageDetails?: MessageDetails;
 }
 
