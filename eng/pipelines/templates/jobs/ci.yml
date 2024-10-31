@@ -81,16 +81,9 @@ jobs:
             ServiceDirectory: ${{ parameters.ServiceDirectory }}
             Artifacts: ${{ parameters.Artifacts }}
             TestProxy: ${{ parameters.TestProxy }}
-          ${{ if and(eq(variables['Build.Reason'], 'PullRequest'), eq(parameters.ServiceDirectory, 'auto')) }}:
+          ${{ if eq(parameters.ServiceDirectory, 'auto') }}:
+            EnablePRGeneration: true
             PreGenerationSteps:
               - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
                 parameters:
                   ServiceDirectory: ${{parameters.ServiceDirectory}}
-              - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
-                parameters:
-                  PackageInfo: $(Build.ArtifactStagingDirectory)/PackageInfo
-                  Artifacts: ${{ parameters.Artifacts }}
-              - pwsh: |
-                  Write-Host "This is what I see in environment variables"
-                  Get-ChildItem env:
-            PostGenerationScript: $(Build.SourcesDirectory)/eng/scripts/distribute-packages-to-matrix.ps1
