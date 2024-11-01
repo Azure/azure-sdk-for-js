@@ -8,6 +8,22 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** An enum to describe Azure Cloud. */
+export enum AzureClouds {
+  /**
+   * Azure Public
+   */
+  AzurePublicCloud = "AZURE_PUBLIC_CLOUD",
+  /**
+   * Azure Government
+   */
+  AzureUSGoverment = "AZURE_US_GOVERNMENT",
+  /**
+   * Azure China
+   */
+  AzureChinaCloud = "AZURE_CHINA_CLOUD",
+}
+
 /** The result of a request to list configuration stores. */
 export interface ConfigurationStoreListResult {
   /** The collection value. */
@@ -1159,4 +1175,6 @@ export interface AppConfigurationManagementClientOptionalParams
   apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
+  /** Api Version */
+  azureCloud?: string;
 }

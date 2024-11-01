@@ -76,8 +76,9 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
       userAgentOptions: {
         userAgentPrefix
       },
+      azureCloud: options.azureCloud?? "AZURE_PUBLIC_CLOUD",
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? getArmEndpoint(azureCloud)
     };
     super(optionsWithDefaults);
 
@@ -154,6 +155,30 @@ export class AppConfigurationManagementClient extends coreClient.ServiceClient {
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
+
+  private getArmEndpoint(cloudSetting?: string): string{ 
+    /**
+     * Get the ARM endpoint for the given cloud setting.
+     *
+     * @param {string} cloudSetting - The cloud setting for which to get the ARM endpoint.
+     * @return {string} The ARM endpoint.
+     * @throws {Error} If an unknown cloud setting is provided.
+     */    
+    if (cloudSetting === "AZURE_CHINA_CLOUD"){          
+        return "https://management.chinacloudapi.cn/";
+      }
+      else if (cloudSetting === "AZURE_US_GOVERNMENT")
+        return "https://management.usgovcloudapi.net/"
+      else if (cloudSetting === "AZURE_GERMAN_CLOUD"){          
+        return "https://management.microsoftazure.de/";
+      }
+      else if (cloudSetting === "AZURE_PUBLIC_CLOUD"){          
+        return "https://management.azure.com/";
+      }
+      else{
+        throw new Error("Unknown cloud setting: " + cloudSetting);
+      }
+    }
 
   configurationStores: ConfigurationStores;
   operations: Operations;
