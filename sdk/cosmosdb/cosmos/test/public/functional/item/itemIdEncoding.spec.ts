@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "assert";
-import { Suite } from "mocha";
-import { Container, CosmosClient } from "../../../../src";
+import type { Suite } from "mocha";
+import type { Container, CosmosClient } from "../../../../src";
 import {
   getTestContainer,
   removeAllDatabases,

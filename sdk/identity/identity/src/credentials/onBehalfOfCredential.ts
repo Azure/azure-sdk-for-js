@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
-import {
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { MsalClient } from "../msal/nodeFlows/msalClient";
+import { createMsalClient } from "../msal/nodeFlows/msalClient";
+import type {
   OnBehalfOfCredentialAssertionOptions,
   OnBehalfOfCredentialCertificateOptions,
   OnBehalfOfCredentialOptions,
@@ -15,11 +16,11 @@ import {
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 
-import { CertificateParts } from "../msal/types";
-import { ClientCertificatePEMCertificatePath } from "./clientCertificateCredential";
-import { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
+import type { CertificateParts } from "../msal/types";
+import type { ClientCertificatePEMCertificatePath } from "./clientCertificateCredential";
+import type { CredentialPersistenceOptions } from "./credentialPersistenceOptions";
 import { CredentialUnavailableError } from "../errors";
-import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
+import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
 import { createHash } from "node:crypto";
 import { ensureScopes } from "../util/scopeUtils";
 import { readFile } from "node:fs/promises";

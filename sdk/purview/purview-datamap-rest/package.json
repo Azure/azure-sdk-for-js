@@ -85,7 +85,7 @@
     "karma-chrome-launcher": "catalog:legacy",
     "karma-coverage": "catalog:legacy",
     "karma-env-preprocessor": "catalog:legacy",
-    "karma-firefox-launcher": "^2.1.2",
+    "karma-firefox-launcher": "catalog:legacy",
     "karma-junit-reporter": "catalog:legacy",
     "karma-mocha": "catalog:legacy",
     "karma-mocha-reporter": "catalog:legacy",

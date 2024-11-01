@@ -21,26 +21,23 @@ stages:
               ServiceDirectory: core
 
           - script: |
-              node common/scripts/install-run-rush.js install
+              npm install -g pnpm
+              pnpm install
             displayName: "Install library dependencies"
 
           - script: |
-              node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk -t @azure/monitor-opentelemetry-exporter
-              node common/scripts/install-run-rush.js lint -p max
+              pnpm build --filter=@azure/eslint-plugin-azure-sdk ---filter=@azure/monitor-opentelemetry-exporter
+              pnpm lint
             displayName: "Build ESLint Plugin and Lint All Packages"
 
           - script: |
-              node common/scripts/install-run-rush.js build -p max
+              pnpm build
             displayName: "Build All Packages"
 
           - script: |
-              node common/scripts/install-run-rush.js build:test -t @azure/identity -t @azure/app-configuration -t @azure/event-hubs -t @azure-rest/synapse-access-control -t @azure/storage-blob
-            displayName: "Build Tests for Selected Packages"
-
-          - script: |
-              node common/scripts/install-run-rush.js unit-test -t @azure/identity -t @azure/app-configuration -t @azure/event-hubs -p 1
+              pnpm unit-test --filter=@azure/identity --filter=@azure/app-configuration --filter=@azure/event-hubs
             displayName: "Run Unit Tests for Selected Packages"
 
           - script: |
-              node common/scripts/install-run-rush.js integration-test --only @azure/app-configuration --only @azure/storage-blob --only @azure-rest/synapse-access-control -p 1
+              pnpm integration-test --filter=@azure/app-configuration --filter=@azure/storage-blob --filter=@azure-rest/synapse-access-control
             displayName: "Run Integration Tests for Selected Packages"

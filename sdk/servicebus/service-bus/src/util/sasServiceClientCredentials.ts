@@ -4,10 +4,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, NamedKeyCredential } from "@azure/core-auth";
-import { createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
+import type { AccessToken, NamedKeyCredential } from "@azure/core-auth";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { generateKey } from "./crypto.js";
-import { createSasTokenProvider, SasTokenProvider } from "@azure/core-amqp";
+import type { SasTokenProvider } from "@azure/core-amqp";
+import { createSasTokenProvider } from "@azure/core-amqp";
 
 /**
  * @internal

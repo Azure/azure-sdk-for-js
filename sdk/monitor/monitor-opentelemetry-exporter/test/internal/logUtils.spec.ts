@@ -1,30 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as assert from "assert";
+
 import { Resource } from "@opentelemetry/resources";
 import {
-  SemanticAttributes,
-  SemanticResourceAttributes,
+  SEMRESATTRS_SERVICE_INSTANCE_ID,
+  SEMRESATTRS_SERVICE_NAME,
+  SEMRESATTRS_SERVICE_NAMESPACE,
+  SEMATTRS_EXCEPTION_TYPE,
+  SEMATTRS_MESSAGE_TYPE,
+  SEMATTRS_EXCEPTION_MESSAGE,
+  SEMATTRS_EXCEPTION_STACKTRACE,
 } from "@opentelemetry/semantic-conventions";
-
-import { Tags, Properties, Measurements, MaxPropertyLengths } from "../../src/types";
-import { getInstance } from "../../src/platform";
-import {
+import type { Tags, Properties, Measurements } from "../../src/types.js";
+import { MaxPropertyLengths } from "../../src/types.js";
+import { getInstance } from "../../src/platform/index.js";
+import type {
   AvailabilityData,
-  KnownContextTagKeys,
   MessageData,
   MonitorDomain,
   PageViewData,
   TelemetryEventData,
   TelemetryExceptionData,
   TelemetryExceptionDetails,
-} from "../../src/generated";
-import { TelemetryItem as Envelope } from "../../src/generated";
-import { ReadableLogRecord } from "@opentelemetry/sdk-logs";
-import { logToEnvelope } from "../../src/utils/logUtils";
+} from "../../src/generated/index.js";
+import { KnownContextTagKeys } from "../../src/generated/index.js";
+import type { TelemetryItem as Envelope } from "../../src/generated/index.js";
+import type { ReadableLogRecord } from "@opentelemetry/sdk-logs";
+import { logToEnvelope } from "../../src/utils/logUtils.js";
 import { SeverityNumber } from "@opentelemetry/api-logs";
-import { HrTime, TraceFlags } from "@opentelemetry/api";
-import { hrTimeToDate } from "../../src/utils/common";
+import type { HrTime } from "@opentelemetry/api";
+import { TraceFlags } from "@opentelemetry/api";
+import { hrTimeToDate } from "../../src/utils/common.js";
+import { describe, it, assert } from "vitest";
 
 const context = getInstance();
 
@@ -38,18 +45,18 @@ function assertEnvelope(
   expectedBaseData?: Partial<MonitorDomain>,
   expectedTime?: Date,
 ): void {
-  assert.ok(envelope);
-  assert.strictEqual(envelope.name, name);
-  assert.strictEqual(envelope.sampleRate, sampleRate);
-  assert.deepStrictEqual(envelope.data?.baseType, baseType);
+  assert.isDefined(envelope);
+  assert.strictEqual(envelope?.name, name);
+  assert.strictEqual(envelope?.sampleRate, sampleRate);
+  assert.deepStrictEqual(envelope?.data?.baseType, baseType);
 
-  assert.strictEqual(envelope.instrumentationKey, "ikey");
-  assert.ok(envelope.time);
-  assert.ok(envelope.version);
-  assert.ok(envelope.data);
+  assert.strictEqual(envelope?.instrumentationKey, "ikey");
+  assert.ok(envelope?.time);
+  assert.ok(envelope?.version);
+  assert.ok(envelope?.data);
 
   if (expectedTime) {
-    assert.deepStrictEqual(envelope.time, expectedTime);
+    assert.deepStrictEqual(envelope?.time, expectedTime);
   }
 
   const expectedServiceTags: Tags = {
@@ -58,13 +65,13 @@ function assertEnvelope(
     [KnownContextTagKeys.AiOperationId]: "1f1008dc8e270e85c40a0d7c3939b278",
     [KnownContextTagKeys.AiOperationParentId]: "5e107261f64fa53e",
   };
-  assert.deepStrictEqual(envelope.tags, {
+  assert.deepStrictEqual(envelope?.tags, {
     ...context.tags,
     ...expectedServiceTags,
   });
   assert.deepStrictEqual((envelope?.data?.baseData as any).properties, expectedProperties);
   assert.deepStrictEqual((envelope?.data?.baseData as any).measurements, expectedMeasurements);
-  assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData);
+  assert.deepStrictEqual(envelope?.data?.baseData, expectedBaseData);
 }
 
 const emptyMeasurements: Measurements = {};
@@ -72,9 +79,9 @@ const emptyMeasurements: Measurements = {};
 describe("logUtils.ts", () => {
   const testLogRecord: any = {
     resource: new Resource({
-      [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "testServiceInstanceID",
-      [SemanticResourceAttributes.SERVICE_NAME]: "testServiceName",
-      [SemanticResourceAttributes.SERVICE_NAMESPACE]: "testServiceNamespace",
+      [SEMRESATTRS_SERVICE_INSTANCE_ID]: "testServiceInstanceID",
+      [SEMRESATTRS_SERVICE_NAME]: "testServiceName",
+      [SEMRESATTRS_SERVICE_NAMESPACE]: "testServiceNamespace",
     }),
     instrumentationScope: {
       name: "scope_name_1",
@@ -103,11 +110,11 @@ describe("logUtils.ts", () => {
       testLogRecord.severityLevel = "Information";
       testLogRecord.attributes = {
         "extra.attribute": "foo",
-        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       const expectedProperties = {
         "extra.attribute": "foo",
-        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       const expectedBaseData: Partial<MessageData> = {
         message: `Test message`,
@@ -137,9 +144,9 @@ describe("logUtils.ts", () => {
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       testLogRecord.attributes = {
         "extra.attribute": "foo",
-        [SemanticAttributes.EXCEPTION_TYPE]: "test exception type",
-        [SemanticAttributes.EXCEPTION_MESSAGE]: "test exception message",
-        [SemanticAttributes.EXCEPTION_STACKTRACE]: "test exception stack",
+        [SEMATTRS_EXCEPTION_TYPE]: "test exception type",
+        [SEMATTRS_EXCEPTION_MESSAGE]: "test exception message",
+        [SEMATTRS_EXCEPTION_STACKTRACE]: "test exception stack",
       };
       const expectedProperties = {
         "extra.attribute": "foo",
@@ -184,14 +191,14 @@ describe("logUtils.ts", () => {
       testLogRecord.attributes = {
         "_MS.baseType": "MessageData",
         "extra.attribute": "foo",
-        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       testLogRecord.body = data;
 
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       const expectedProperties = {
         "extra.attribute": "foo",
-        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       const expectedMeasurements: Measurements = {
         testMeasurement: 1,
@@ -227,14 +234,14 @@ describe("logUtils.ts", () => {
       testLogRecord.attributes = {
         "_MS.baseType": "MessageData",
         "extra.attribute": "foo",
-        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       testLogRecord.body = data;
 
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       const expectedProperties = {
         "extra.attribute": "foo",
-        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       const expectedMeasurements: Measurements = {
         testMeasurement: 1,
@@ -276,13 +283,13 @@ describe("logUtils.ts", () => {
       testLogRecord.attributes = {
         "_MS.baseType": "ExceptionData",
         "extra.attribute": "foo",
-        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       testLogRecord.body = data;
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       const expectedProperties = {
         "extra.attribute": "foo",
-        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       const expectedBaseData: Partial<TelemetryExceptionData> = {
         message: `testMessage`,
@@ -325,13 +332,13 @@ describe("logUtils.ts", () => {
       testLogRecord.attributes = {
         "_MS.baseType": "AvailabilityData",
         "extra.attribute": "foo",
-        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       testLogRecord.body = data;
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       const expectedProperties = {
         "extra.attribute": "foo",
-        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       const expectedBaseData: Partial<AvailabilityData> = {
         id: "testId",
@@ -370,13 +377,13 @@ describe("logUtils.ts", () => {
       testLogRecord.attributes = {
         "_MS.baseType": "PageViewData",
         "extra.attribute": "foo",
-        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       testLogRecord.body = data;
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       const expectedProperties = {
         "extra.attribute": "foo",
-        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       const expectedBaseData: PageViewData = {
         id: "testId",
@@ -410,13 +417,13 @@ describe("logUtils.ts", () => {
       testLogRecord.attributes = {
         "_MS.baseType": "EventData",
         "extra.attribute": "foo",
-        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       testLogRecord.body = data;
       const expectedTime = hrTimeToDate(testLogRecord.hrTime);
       const expectedProperties = {
         "extra.attribute": "foo",
-        [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+        [SEMATTRS_MESSAGE_TYPE]: "test message type",
       };
       const expectedBaseData: TelemetryEventData = {
         name: "testName",
@@ -443,7 +450,7 @@ describe("logUtils.ts", () => {
     testLogRecord.attributes = {
       "_MS.baseType": "MessageData",
       "extra.attribute": "foo",
-      [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+      [SEMATTRS_MESSAGE_TYPE]: "test message type",
     };
     testLogRecord.body = {
       message: { nested: { nested2: { test: "test" } } },
@@ -453,7 +460,7 @@ describe("logUtils.ts", () => {
     const expectedTime = hrTimeToDate(testLogRecord.hrTime);
     const expectedProperties = {
       "extra.attribute": "foo",
-      [SemanticAttributes.MESSAGE_TYPE]: "test message type",
+      [SEMATTRS_MESSAGE_TYPE]: "test message type",
     };
     const expectedBaseData: Partial<MessageData> = {
       message: '{"nested":{"nested2":{"test":"test"}}}',

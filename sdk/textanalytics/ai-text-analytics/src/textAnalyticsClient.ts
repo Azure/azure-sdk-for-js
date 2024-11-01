@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CommonClientOptions } from "@azure/core-client";
-import {
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-} from "@azure/core-rest-pipeline";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import type { CommonClientOptions } from "@azure/core-client";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
-import {
+import type {
   DetectLanguageInput,
   JobManifestTasks as GeneratedActions,
   SentimentOptionalParams as GeneratedAnalyzeSentimentOptions,
@@ -22,31 +21,20 @@ import {
   PiiCategory,
   TextDocumentInput,
 } from "./generated/models";
-import {
-  DetectLanguageResultArray,
-  makeDetectLanguageResultArray,
-} from "./detectLanguageResultArray";
-import {
-  RecognizeCategorizedEntitiesResultArray,
-  makeRecognizeCategorizedEntitiesResultArray,
-} from "./recognizeCategorizedEntitiesResultArray";
-import {
-  AnalyzeSentimentResultArray,
-  makeAnalyzeSentimentResultArray,
-} from "./analyzeSentimentResultArray";
-import {
-  ExtractKeyPhrasesResultArray,
-  makeExtractKeyPhrasesResultArray,
-} from "./extractKeyPhrasesResultArray";
-import {
-  RecognizePiiEntitiesResultArray,
-  makeRecognizePiiEntitiesResultArray,
-} from "./recognizePiiEntitiesResultArray";
-import {
-  RecognizeLinkedEntitiesResultArray,
-  makeRecognizeLinkedEntitiesResultArray,
-} from "./recognizeLinkedEntitiesResultArray";
-import { TracingClient, createTracingClient } from "@azure/core-tracing";
+import type { DetectLanguageResultArray } from "./detectLanguageResultArray";
+import { makeDetectLanguageResultArray } from "./detectLanguageResultArray";
+import type { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
+import { makeRecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
+import type { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
+import { makeAnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
+import type { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
+import { makeExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
+import type { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
+import { makeRecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
+import type { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
+import { makeRecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
+import type { TracingClient } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
 import { textAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 import {
   StringIndexType,
@@ -67,7 +55,7 @@ import {
   AnalyzeHealthcareOperationState,
   BeginAnalyzeHealthcareEntitiesOptions,
 } from "./lro/health/operation";
-import { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
+import type { TextAnalyticsOperationOptions } from "./textAnalyticsOperationOptions";
 import { AnalyzeActionsPollerLike, BeginAnalyzeActionsPoller } from "./lro/analyze/poller";
 import {
   AnalyzeActionsOperationMetadata,
@@ -75,7 +63,7 @@ import {
   BeginAnalyzeActionsOptions,
 } from "./lro/analyze/operation";
 import { AnalysisPollOperationState, OperationMetadata } from "./lro/poller";
-import { TextAnalyticsAction } from "./textAnalyticsAction";
+import type { TextAnalyticsAction } from "./textAnalyticsAction";
 
 export {
   BeginAnalyzeActionsOptions,

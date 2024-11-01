@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   Metadata,
   BlobItem,
   ContainerListBlobFlatSegmentResponse,
@@ -12,7 +12,7 @@ import {
   BlobSetMetadataOptions,
   ContainerSetMetadataResponse,
 } from "@azure/storage-blob";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * An interface compatible with an instance of {@link BlobClient}.

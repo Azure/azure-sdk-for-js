@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError } from "../util/logging";
 
 const credentialName = "OnBehalfOfCredential";

@@ -4,13 +4,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-enum-comparison */
 
 import * as os from "os";
-import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
-import { LogRecord } from "@opentelemetry/sdk-logs";
-import {
+import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import type { LogRecord } from "@opentelemetry/sdk-logs";
+import type {
   DocumentIngress,
   Exception,
   KeyValuePairString,
-  KnownDocumentType,
   MetricPoint,
   MonitoringDataPoint,
   RemoteDependency,
@@ -19,7 +18,9 @@ import {
   Trace,
   CollectionConfigurationError,
 } from "../../generated";
-import { Attributes, SpanKind, SpanStatusCode } from "@opentelemetry/api";
+import { KnownDocumentType } from "../../generated";
+import type { Attributes } from "@opentelemetry/api";
+import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import {
   SEMATTRS_EXCEPTION_MESSAGE,
   SEMATTRS_EXCEPTION_TYPE,
@@ -56,27 +57,24 @@ import {
   SEMATTRS_DB_STATEMENT,
 } from "@opentelemetry/semantic-conventions";
 import { SDK_INFO, hrTimeToMilliseconds } from "@opentelemetry/core";
-import { DataPointType, Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
+import type { Histogram, ResourceMetrics } from "@opentelemetry/sdk-metrics";
+import { DataPointType } from "@opentelemetry/sdk-metrics";
 import {
   AZURE_MONITOR_AUTO_ATTACH,
   AZURE_MONITOR_OPENTELEMETRY_VERSION,
   AZURE_MONITOR_PREFIX,
   AttachTypePrefix,
 } from "../../types";
-import { Resource } from "@opentelemetry/resources";
+import type { Resource } from "@opentelemetry/resources";
+import type { RequestData, DependencyData, ExceptionData, TraceData, TelemetryData } from "./types";
 import {
   QuickPulseMetricNames,
   QuickPulseOpenTelemetryMetricNames,
-  RequestData,
-  DependencyData,
-  ExceptionData,
-  TraceData,
-  TelemetryData,
   DependencyTypes,
 } from "./types";
 import { getOsPrefix } from "../../utils/common";
 import { getResourceProvider } from "../../utils/common";
-import { LogAttributes } from "@opentelemetry/api-logs";
+import type { LogAttributes } from "@opentelemetry/api-logs";
 import { getDependencyTarget, isSqlDB, isExceptionTelemetry } from "../utils";
 
 /** Get the internal SDK version */

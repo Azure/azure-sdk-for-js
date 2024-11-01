@@ -6,7 +6,7 @@ It provides a place to centralize scripts, resources, and processes for developm
 
 ## Installation
 
-`dev-tool` runs using [tsx](https://tsx.is/), so it does not need to be built. It is ready-to-go after a `rush update`. It additionally does not need to be installed to a user's machine in order to be used in `package.json` scripts, since it provides the `dev-tool` binary to any dependent packages through the `bin` entry in its `package.json`. Simply add `@azure/dev-tool` to the `devDependencies` of a package, and the `dev-tool` binary will become available. If you wish to use `dev-tool` from the CLI manually, you can install it globally on your system by running `npm install -g` from this directory.
+`dev-tool` runs using [tsx](https://tsx.is/), so it does not need to be built. It is ready-to-go after a `pnpm install`. It additionally does not need to be installed to a user's machine in order to be used in `package.json` scripts, since it provides the `dev-tool` binary to any dependent packages through the `bin` entry in its `package.json`. Simply add `@azure/dev-tool` to the `devDependencies` of a package, and the `dev-tool` binary will become available. If you wish to use `dev-tool` from the CLI manually, you can install it globally on your system by running `npm install -g` from this directory.
 
 ## Usage
 
@@ -230,7 +230,7 @@ Each variant supports an optional `shortName` field that specifies a one-letter 
 
 - Using the `subCommand` and `leafCommand` helpers is not required. If a command module exports any function with the signature `(...args: string[]) => Promise<boolean>` as its default export, it will run when the command is invoked and will be given the arguments passed in the parameters. **However**, only `subCommand` and `leafCommand` provide automatic argument parsing and handling of `--help`. The functions used to provide this behavior are located in the `src/util/commandBuilder.ts` module.
 - Some additional helper modules can be found in `src/util` such as `resolveProject.ts` which walks up the directory hierarchy and finds the absolute path of the nearest SDK package directory (useful for commands like `samples` which always operate relative to the package directory)
-- The tool runs using the `transpileOnly` option in the `ts-node` configuration, meaning it does not perform run-time type-checking. The build step of the package will run type-checking using `tsc`, so to check the tool's code for type errors, simply use `rushx build`.
+- The tool runs using the `transpileOnly` option in the `ts-node` configuration, meaning it does not perform run-time type-checking. The build step of the package will run type-checking using `tsc`, so to check the tool's code for type errors, simply use `pnpm build`.
 
 ## Contributing
 

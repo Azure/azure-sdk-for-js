@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Suite } from "mocha";
+import type { Suite } from "mocha";
 import { assert } from "@azure-tools/test-utils";
 import createAuthoringClient from "../../src";
 import { AzureKeyCredential } from "@azure/core-auth";

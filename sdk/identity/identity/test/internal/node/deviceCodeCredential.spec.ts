@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isLiveMode } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
 import { DeviceCodeCredential } from "../../../src";
 import { PublicClientApplication } from "@azure/msal-node";
-import Sinon from "sinon";
+import type Sinon from "sinon";
 import { assert } from "chai";
 
 describe("DeviceCodeCredential (internal)", function () {

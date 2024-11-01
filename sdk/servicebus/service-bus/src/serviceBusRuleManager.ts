@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs.js";
-import { ConnectionContext } from "./connectionContext.js";
-import { RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
-import { CorrelationRuleFilter } from "./core/managementClient.js";
+import type { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs.js";
+import type { ConnectionContext } from "./connectionContext.js";
+import type { RetryConfig, RetryOptions } from "@azure/core-amqp";
+import { RetryOperationType, retry } from "@azure/core-amqp";
+import type { CorrelationRuleFilter } from "./core/managementClient.js";
 import { ruleManagerLogger as logger } from "./log.js";
-import {
-  isSqlRuleAction,
-  RuleProperties,
-  SqlRuleAction,
-} from "./serializers/ruleResourceSerializer.js";
+import type { RuleProperties, SqlRuleAction } from "./serializers/ruleResourceSerializer.js";
+import { isSqlRuleAction } from "./serializers/ruleResourceSerializer.js";
 import { getUniqueName } from "./util/utils.js";
 import { throwErrorIfConnectionClosed } from "./util/errors.js";
-import { SqlRuleFilter } from "./serializers/ruleResourceSerializer.js";
+import type { SqlRuleFilter } from "./serializers/ruleResourceSerializer.js";
 import { tracingClient } from "./diagnostics/tracing.js";
-import { getPagedAsyncIterator, PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
-import { OperationOptions } from "@azure/core-client";
-import { ListRequestOptions } from "./serviceBusAtomManagementClient.js";
+import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
+import { getPagedAsyncIterator } from "@azure/core-paging";
+import type { OperationOptions } from "@azure/core-client";
+import type { ListRequestOptions } from "./serviceBusAtomManagementClient.js";
 
 /**
  * Allows rules for a subscription to be managed. This rule manager requires only Listen claims, whereas the

@@ -4,15 +4,16 @@
 import * as arcMsi from "../../../src/credentials/managedIdentityCredential/arcMsi";
 
 import { AzureLogger, setLogLevel } from "@azure/logger";
-import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
+import type { IdentityTestContextInterface } from "../../httpRequestsCommon";
+import { createResponse } from "../../httpRequestsCommon";
 import {
   imdsApiVersion,
   imdsEndpointPath,
   imdsHost,
 } from "../../../src/credentials/managedIdentityCredential/constants";
 
-import { Context } from "mocha";
-import { GetTokenOptions } from "@azure/core-auth";
+import type { Context } from "mocha";
+import type { GetTokenOptions } from "@azure/core-auth";
 import { IdentityTestContext } from "../../httpRequests";
 import { LegacyMsiProvider } from "../../../src/credentials/managedIdentityCredential/legacyMsiProvider";
 import { RestError } from "@azure/core-rest-pipeline";

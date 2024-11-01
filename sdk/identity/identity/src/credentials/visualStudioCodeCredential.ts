@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import {
   processMultiTenantRequest,
@@ -10,8 +10,8 @@ import {
 import { AzureAuthorityHosts } from "../constants";
 import { CredentialUnavailableError } from "../errors";
 import { IdentityClient } from "../client/identityClient";
-import { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions";
-import { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin";
+import type { VisualStudioCodeCredentialOptions } from "./visualStudioCodeCredentialOptions";
+import type { VSCodeCredentialFinder } from "./visualStudioCodeCredentialPlugin";
 import { checkTenantId } from "../util/tenantIdUtils";
 import fs from "fs";
 import os from "os";

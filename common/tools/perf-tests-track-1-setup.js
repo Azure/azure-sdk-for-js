@@ -21,15 +21,9 @@ function spawn(command) {
   }
 }
 
-const navigateToPerfFolder = `cd ${path.resolve(
-  "..",
-  "..",
-  "..",
-  "test-utils",
-  "perf"
-)}`;
-const buildPerfPackage = `rush build -t test-utils-perf`;
-const rushxPack = `rushx pack`;
+const navigateToPerfFolder = `cd ${path.resolve("..", "..", "..", "test-utils", "perf")}`;
+const buildPerfPackage = `pnpm build --filter=test-utils-perf`;
+const rushxPack = `pnpm pack`;
 
 console.log(`\nGetting perf package...`);
 spawn(`${navigateToPerfFolder} && ${buildPerfPackage} && ${rushxPack}`);

@@ -2,28 +2,31 @@
 // Licensed under the MIT License.
 
 import { Resource } from "@opentelemetry/resources";
-import fs from "fs";
-import path from "path";
-import * as os from "os";
-import {
+import fs from "node:fs";
+import path from "node:path";
+import * as os from "node:os";
+import type {
   ResourceMetrics,
-  MeterProvider,
   PeriodicExportingMetricReaderOptions,
-  PeriodicExportingMetricReader,
 } from "@opentelemetry/sdk-metrics";
-import { resourceMetricsToEnvelope } from "../../src/utils/metricUtils";
-import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
-import { AzureMonitorMetricExporter } from "../../src/export/metric";
-import { AzureMonitorExporterOptions } from "../../src/config";
+import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import { resourceMetricsToEnvelope } from "../../src/utils/metricUtils.js";
 import {
+  SemanticResourceAttributes,
+  SEMRESATTRS_SERVICE_INSTANCE_ID,
+} from "@opentelemetry/semantic-conventions";
+import { AzureMonitorMetricExporter } from "../../src/export/metric.js";
+import type { AzureMonitorExporterOptions } from "../../src/config.js";
+import type {
   TelemetryItem as Envelope,
-  KnownContextTagKeys,
   RemoteDependencyData,
   RequestData,
-} from "../../src/generated";
-import assert from "assert";
-import { BreezePerformanceCounterNames, OTelPerformanceCounterNames, Tags } from "../../src/types";
-import { Context, getInstance } from "../../src/platform";
+} from "../../src/generated/index.js";
+import { KnownContextTagKeys } from "../../src/generated/index.js";
+import type { Tags } from "../../src/types.js";
+import { BreezePerformanceCounterNames, OTelPerformanceCounterNames } from "../../src/types.js";
+import { Context, getInstance } from "../../src/platform/index.js";
+import { describe, it, assert } from "vitest";
 
 const context = getInstance();
 const packageJsonPath = path.resolve(__dirname, "../../", "./package.json");
@@ -38,7 +41,7 @@ class TestExporter extends AzureMonitorMetricExporter {
   async export(metrics: ResourceMetrics): Promise<void> {
     testMetrics = metrics;
     testMetrics.resource = new Resource({
-      [SemanticResourceAttributes.SERVICE_INSTANCE_ID]: "testServiceInstanceID",
+      [SEMRESATTRS_SERVICE_INSTANCE_ID]: "testServiceInstanceID",
       [SemanticResourceAttributes.SERVICE_NAME]: "testServiceName",
       [SemanticResourceAttributes.SERVICE_NAMESPACE]: "testServiceNamespace",
     });

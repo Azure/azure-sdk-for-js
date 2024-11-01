@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isAggregateLogsUploadError, LogsIngestionClient, LogsUploadFailure } from "../../src";
-import { Context } from "mocha";
+import type { LogsUploadFailure } from "../../src";
+import { isAggregateLogsUploadError, LogsIngestionClient } from "../../src";
+import type { Context } from "mocha";
 import { assert } from "chai";
-import { AdditionalPolicyConfig } from "@azure/core-client";
+import type { AdditionalPolicyConfig } from "@azure/core-client";
+import type { RecorderAndLogsClient } from "./shared/testShared";
 import {
-  RecorderAndLogsClient,
   createClientAndStartRecorder,
   getDcrId,
   getLogsIngestionEndpoint,

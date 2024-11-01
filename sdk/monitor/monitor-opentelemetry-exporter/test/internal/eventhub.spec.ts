@@ -1,25 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { SpanAttributes, HrTime, SpanContext, SpanKind, ROOT_CONTEXT } from "@opentelemetry/api";
+import type { Attributes, HrTime, SpanContext } from "@opentelemetry/api";
+import { SpanKind, ROOT_CONTEXT } from "@opentelemetry/api";
 import { timeInputToHrTime } from "@opentelemetry/core";
 import { BasicTracerProvider, Span } from "@opentelemetry/sdk-trace-base";
-import * as assert from "assert";
-import { ENQUEUED_TIME, TIME_SINCE_ENQUEUED } from "../../src/utils/constants/applicationinsights";
+import {
+  ENQUEUED_TIME,
+  TIME_SINCE_ENQUEUED,
+} from "../../src/utils/constants/applicationinsights.js";
 import {
   AzNamespace,
   MessageBusDestination,
   MicrosoftEventHub,
-} from "../../src/utils/constants/span/azAttributes";
-import { parseEventHubSpan } from "../../src/utils/eventhub";
-import { RemoteDependencyData, TelemetryItem as Envelope } from "../../src/generated";
+} from "../../src/utils/constants/span/azAttributes.js";
+import { parseEventHubSpan } from "../../src/utils/eventhub.js";
+import type { RemoteDependencyData, TelemetryItem as Envelope } from "../../src/generated/index.js";
+import { describe, it, assert } from "vitest";
 
 const tracer = new BasicTracerProvider().getTracer("default");
 
 describe("#parseEventHubSpan(...)", () => {
   const peerAddress = "example.servicebus.windows.net";
   const destination = "test123";
-  const attributes: SpanAttributes = {
+  const attributes: Attributes = {
     [AzNamespace]: MicrosoftEventHub,
     ["peer.address"]: peerAddress,
     [MessageBusDestination]: destination,
