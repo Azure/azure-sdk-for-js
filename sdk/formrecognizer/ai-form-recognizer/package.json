@@ -103,7 +103,6 @@
     "@types/sinon": "^17.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "karma": "^6.2.0",

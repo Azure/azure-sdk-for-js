@@ -94,7 +94,6 @@
     "@typescript-eslint/parser": "~8.10.0",
     "@typescript-eslint/rule-tester": "~8.10.0",
     "@vitest/coverage-istanbul": "^1.4.0",
-    "cross-env": "^7.0.3",
     "eslint": "^9.9.0",
     "eslint-plugin-markdown": "^5.0.0",
     "prettier": "^3.3.3",

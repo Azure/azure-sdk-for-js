@@ -80,7 +80,6 @@
     "@types/node": "^18.0.0",
     "autorest": "latest",
     "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
     "csv-parse": "^5.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
