@@ -3,8 +3,6 @@
 
 import type { LogsUploadFailure } from "../../src/index.js";
 import { isAggregateLogsUploadError, LogsIngestionClient } from "../../src/index.js";
-import type { Context } from "mocha";
-import { assert } from "chai";
 import type { AdditionalPolicyConfig } from "@azure/core-client";
 import type { RecorderAndLogsClient } from "./shared/testShared.js";
 import {
@@ -15,6 +13,7 @@ import {
 } from "./shared/testShared.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
   return [

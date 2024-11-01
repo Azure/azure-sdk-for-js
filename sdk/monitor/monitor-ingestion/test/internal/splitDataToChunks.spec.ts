@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { splitDataToChunks } from "../../src/utils/splitDataToChunksHelper.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("LogsIngestionClient unit tests", function () {
   it("creates one chunk for single log record of 1MB size", () => {
