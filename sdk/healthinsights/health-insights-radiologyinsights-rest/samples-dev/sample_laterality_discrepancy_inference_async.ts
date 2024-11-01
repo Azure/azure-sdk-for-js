@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the laterality discrepancy of the Radiology Insights request.
+ * @summary Displays the laterality discrepancy of the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
 import "dotenv/config";

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Displays the follow up communication of the Radiology Insights request.
+ * @summary Displays the follow up communication of the Radiology Insights request.
  */
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -13,7 +13,7 @@ import AzureHealthInsightsClient, {
   RadiologyInsightsJobOutput,
   getLongRunningPoller,
   isUnexpected
-} from "@azure-rest/health-insights-radiologyinsights";
+} from "../src";
 
 dotenv.config();
 
@@ -189,7 +189,7 @@ function createRequestBody(): CreateJobParameters {
     }
   };
 
-  const param = {
+  return {
     body: RadiologyInsightsJob,
   };
 
