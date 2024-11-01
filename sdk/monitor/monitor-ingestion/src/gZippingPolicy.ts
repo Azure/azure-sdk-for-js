@@ -3,7 +3,7 @@
 
 import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import * as zlib from "zlib";
-import { promisify } from "util";
+import { promisify } from "node:util";
 const gzip = promisify(zlib.gzip);
 
 /**

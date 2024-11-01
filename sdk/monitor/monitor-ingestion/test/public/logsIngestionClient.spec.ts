@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { LogsUploadFailure } from "../../src";
-import { isAggregateLogsUploadError, LogsIngestionClient } from "../../src";
+import type { LogsUploadFailure } from "../../src/index.js";
+import { isAggregateLogsUploadError, LogsIngestionClient } from "../../src/index.js";
 import type { Context } from "mocha";
 import { assert } from "chai";
 import type { AdditionalPolicyConfig } from "@azure/core-client";
-import type { RecorderAndLogsClient } from "./shared/testShared";
+import type { RecorderAndLogsClient } from "./shared/testShared.js";
 import {
   createClientAndStartRecorder,
   getDcrId,
   getLogsIngestionEndpoint,
   loggerForTest,
-} from "./shared/testShared";
+} from "./shared/testShared.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -38,9 +38,9 @@ describe("LogsIngestionClient live tests", function () {
   let recorder: Recorder;
   let recordedClient: RecorderAndLogsClient;
   let client: LogsIngestionClient;
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     loggerForTest.verbose(`Recorder: starting...`);
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     recordedClient = await createClientAndStartRecorder(recorder);
     client = recordedClient.client;
   });

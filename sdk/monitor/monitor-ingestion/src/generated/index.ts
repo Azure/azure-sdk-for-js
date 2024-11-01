@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { GeneratedMonitorIngestionClient } from "./generatedMonitorIngestionClient";
-export { GeneratedMonitorIngestionClientContext } from "./generatedMonitorIngestionClientContext";
+export * from "./models/index.js";
+export { GeneratedMonitorIngestionClient } from "./generatedMonitorIngestionClient.js";
+export { GeneratedMonitorIngestionClientContext } from "./generatedMonitorIngestionClientContext.js";

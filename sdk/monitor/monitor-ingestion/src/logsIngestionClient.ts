@@ -3,14 +3,14 @@
 
 import type { TokenCredential } from "@azure/core-auth";
 import type { CommonClientOptions } from "@azure/core-client";
-import { GeneratedMonitorIngestionClient } from "./generated";
-import type { LogsUploadFailure, LogsUploadOptions } from "./models";
-import { AggregateLogsUploadError } from "./models";
-import { GZippingPolicy } from "./gZippingPolicy";
-import { concurrentRun } from "./utils/concurrentPoolHelper";
-import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
+import { GeneratedMonitorIngestionClient } from "./generated/index.js";
+import type { LogsUploadFailure, LogsUploadOptions } from "./models.js";
+import { AggregateLogsUploadError } from "./models.js";
+import { GZippingPolicy } from "./gZippingPolicy.js";
+import { concurrentRun } from "./utils/concurrentPoolHelper.js";
+import { splitDataToChunks } from "./utils/splitDataToChunksHelper.js";
 import { isError } from "@azure/core-util";
-import { KnownMonitorAudience } from "./constants";
+import { KnownMonitorAudience } from "./constants.js";
 /**
  * Options for Monitor Logs Ingestion Client
  */
