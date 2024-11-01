@@ -21,10 +21,10 @@ describe("snippets", function () {
   it("defaultazurecredential_authenticate", function () {
     // Configure vault URL
     const vaultUrl = "https://<your-unique-keyvault-name>.vault.azure.net";
-
+    // @ts-preserve-whitespace
     // Azure SDK clients accept the credential as a parameter
     const credential = new DefaultAzureCredential();
-
+    // @ts-preserve-whitespace
     // Create authenticated client
     // @ts-ignore
     const client = new KeyClient(vaultUrl, credential);
@@ -38,13 +38,13 @@ describe("snippets", function () {
     const clientSecret = "<client-secret>";
     const anotherClientId = "<another-client-id>";
     const anotherSecret = "<another-client-secret>";
-
+    // @ts-preserve-whitespace
     // When an access token is requested, the chain will try each
     // credential in order, stopping when one provides a token
     const firstCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
     const secondCredential = new ClientSecretCredential(tenantId, anotherClientId, anotherSecret);
     const credentialChain = new ChainedTokenCredential(firstCredential, secondCredential);
-
+    // @ts-preserve-whitespace
     // The chain can be used anywhere a credential is required
     // @ts-ignore
     const client = new KeyClient(vaultUrl, credentialChain);
@@ -93,7 +93,7 @@ describe("snippets", function () {
     const keyVaultUrl = "https://key-vault-name.vault.azure.net";
     const credential = new DefaultAzureCredential();
     const client = new KeyClient(keyVaultUrl, credential);
-
+    // @ts-preserve-whitespace
     try {
       // Retrieving the properties of the existing keys in that specific Key Vault.
       console.log(await client.listPropertiesOfKeys().next());
@@ -107,7 +107,7 @@ describe("snippets", function () {
     const keyVaultUrl = "https://key-vault-name.vault.azure.net";
     const credential = new DefaultAzureCredential();
     const client = new KeyClient(keyVaultUrl, credential);
-
+    // @ts-preserve-whitespace
     try {
       // Retrieving the properties of the existing keys in that specific Key Vault.
       console.log(await client.listPropertiesOfKeys().next());
@@ -127,7 +127,7 @@ describe("snippets", function () {
 
   it("troubleshooting_logging_identifiers", async function () {
     setLogLevel("info");
-
+    // @ts-preserve-whitespace
     // @ts-ignore
     const credential = new DefaultAzureCredential({
       loggingOptions: { allowLoggingAccountIdentifiers: true },
@@ -136,7 +136,7 @@ describe("snippets", function () {
 
   it("troubleshooting_pii_logging", async function () {
     setLogLevel("info");
-
+    // @ts-preserve-whitespace
     // @ts-ignore
     const credential = new DefaultAzureCredential({
       loggingOptions: { enableUnsafeSupportLogging: true },
@@ -172,7 +172,7 @@ describe("snippets", function () {
     const scope = "https://cognitiveservices.azure.com/.default";
     const getAccessToken = getBearerTokenProvider(credential, scope);
     const token = await getAccessToken();
-
+    // @ts-preserve-whitespace
     // usage
     const request = createPipelineRequest({ url: "https://example.com" });
     request.headers.set("Authorization", `Bearer ${token}`);
@@ -184,9 +184,10 @@ describe("snippets", function () {
     const clientSecret = "<client-secret>";
     const anotherClientId = "<another-client-id>";
     const anotherSecret = "<another-client-secret>";
-
+    // @ts-preserve-whitespace
     const firstCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
     const secondCredential = new ClientSecretCredential(tenantId, anotherClientId, anotherSecret);
+    // @ts-preserve-whitespace
     // @ts-ignore
     const credentialChain = new ChainedTokenCredential(firstCredential, secondCredential);
   });
@@ -194,7 +195,7 @@ describe("snippets", function () {
   it("credential_persistence_options_example", async function () {
     // @ts-ignore
     useIdentityPlugin(cachePersistencePlugin);
-
+    // @ts-preserve-whitespace
     // @ts-ignore
     const credential = new DeviceCodeCredential({
       tokenCachePersistenceOptions: {
@@ -222,7 +223,7 @@ describe("snippets", function () {
       userAssertionToken: "access-token",
     });
     const client = new KeyClient("vault-url", tokenCredential);
-
+    // @ts-preserve-whitespace
     await client.getKey("key-name");
   });
 
@@ -234,7 +235,7 @@ describe("snippets", function () {
       userAssertionToken: "access-token",
     });
     const client = new KeyClient("vault-url", tokenCredential);
-
+    // @ts-preserve-whitespace
     await client.getKey("key-name");
   });
 
@@ -248,7 +249,7 @@ describe("snippets", function () {
       userAssertionToken: "access-token",
     });
     const client = new KeyClient("vault-url", tokenCredential);
-
+    // @ts-preserve-whitespace
     await client.getKey("key-name");
   });
 

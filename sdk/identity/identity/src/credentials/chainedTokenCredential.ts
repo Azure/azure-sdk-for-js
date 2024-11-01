@@ -33,8 +33,10 @@ export class ChainedTokenCredential implements TokenCredential {
    * const clientSecret = "<client-secret>";
    * const anotherClientId = "<another-client-id>";
    * const anotherSecret = "<another-client-secret>";
+   *
    * const firstCredential = new ClientSecretCredential(tenantId, clientId, clientSecret);
    * const secondCredential = new ClientSecretCredential(tenantId, anotherClientId, anotherSecret);
+   *
    * const credentialChain = new ChainedTokenCredential(firstCredential, secondCredential);
    * ```
    */

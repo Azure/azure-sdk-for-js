@@ -57,11 +57,13 @@ This SDK for JavaScript offers two ways of interacting with Azure Notification H
 import { NotificationHubsClient, createAppleInstallation } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
+
 const installation = createAppleInstallation({
   installationId: "<installation-id>",
   pushChannel: "<push-channel>",
   tags: ["likes_javascript"],
 });
+
 const result = await client.createOrUpdateInstallation(installation);
 ```
 
@@ -81,11 +83,13 @@ import { createClientContext, createOrUpdateInstallation } from "@azure/notifica
 import { createAppleInstallation } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
+
 const installation = createAppleInstallation({
   installationId: "<installation-id>",
   pushChannel: "<push-channel>",
   tags: ["likes_javascript"],
 });
+
 const result = await createOrUpdateInstallation(context, installation);
 ```
 
@@ -137,12 +141,14 @@ Installations can be created through the `createOrUpdateInstallation` method suc
 import { NotificationHubsClient, createAppleInstallation } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
+
 // Create an installation for APNs
 const installation = createAppleInstallation({
   installationId: "0d8ab095-c449-493f-9195-17e4917806c4", // Must be unique
   pushChannel: "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0", // PNS specific handle
   tags: ["likes_hockey", "likes_football"],
 });
+
 const response = await client.createOrUpdateInstallation(installation);
 ```
 
@@ -153,12 +159,14 @@ import { createClientContext, createOrUpdateInstallation } from "@azure/notifica
 import { createAppleInstallation } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
+
 // Create an installation for APNs
 const installation = createAppleInstallation({
   installationId: "0d8ab095-c449-493f-9195-17e4917806c4", // Must be unique
   pushChannel: "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0", // PNS specific handle
   tags: ["likes_hockey", "likes_football"],
 });
+
 const response = await createOrUpdateInstallation(context, installation);
 ```
 
@@ -168,11 +176,13 @@ An update to an installation can be made through the JSON Patch schema such as a
 import { NotificationHubsClient, JsonPatch } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
+
 const installationId = "<unique installation ID>";
 const updates: JsonPatch[] = [
   { op: "add", path: "/tags", value: "likes_baseball" },
   { op: "add", path: "/userId", value: "bob@contoso.com" },
 ];
+
 const installation = await client.updateInstallation(installationId, updates);
 ```
 
@@ -183,11 +193,14 @@ import { createClientContext, updateInstallation } from "@azure/notification-hub
 import { JsonPatch } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
+
 const installationId = "<unique installation ID>";
+
 const updates: JsonPatch[] = [
   { op: "add", path: "/tags", value: "likes_baseball" },
   { op: "add", path: "/userId", value: "bob@contoso.com" },
 ];
+
 const installation = await updateInstallation(context, installationId, updates);
 ```
 
@@ -197,7 +210,9 @@ To retrieve an existing installation, use the `getInstallation` method with your
 import { NotificationHubsClient } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
+
 const installationId = "<unique installation ID>";
+
 const installation = client.getInstallation(installationId);
 ```
 
@@ -207,7 +222,9 @@ Using the modular approach, the code would be as follows:
 import { createClientContext, getInstallation } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
+
 const installationId = "<unique installation ID>";
+
 const installation = getInstallation(context, installationId);
 ```
 
@@ -224,6 +241,7 @@ import {
 } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
+
 const registration = createAppleRegistrationDescription({
   deviceToken: "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0",
   tags: ["likes_hockey", "likes_football"],
@@ -238,10 +256,12 @@ import { createClientContext, createRegistration } from "@azure/notification-hub
 import { createAppleRegistrationDescription } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
+
 const registration = createAppleRegistrationDescription({
   deviceToken: "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0",
   tags: ["likes_hockey", "likes_football"],
 });
+
 const updatedRegistration = await createRegistration(context, registration);
 ```
 
@@ -251,13 +271,17 @@ Updates can be done via the `updateRegistration` method but unlike installations
 import { NotificationHubsClient } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
+
 const registrationId = "<unique Registration ID>";
+
 const registration = await client.getRegistration(registrationId);
+
 if (registration.tags) {
   registration.tags.push("likes_sports");
 } else {
   registration.tags = ["likes_sports"];
 }
+
 const updatedRegistration = await client.updateRegistration(registration);
 ```
 
@@ -271,13 +295,17 @@ import {
 } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
+
 const registrationId = "<unique Registration ID>";
+
 const registration = await getRegistration(context, registrationId);
+
 if (registration.tags) {
   registration.tags.push("likes_sports");
 } else {
   registration.tags = ["likes_sports"];
 }
+
 const updatedRegistration = await updateRegistration(context, registration);
 ```
 
@@ -287,7 +315,9 @@ Registrations, unlike installations, can be queried to get all registrations, ma
 import { NotificationHubsClient } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
+
 const registrations = client.listRegistrationsByTag("likes_hockey");
+
 let page = 0;
 for await (const pages of registrations.byPage()) {
   console.log(`Page number ${page++}`);
@@ -303,7 +333,9 @@ Using the modular approach, the code would be as follows:
 import { createClientContext, listRegistrationsByTag } from "@azure/notification-hubs/api";
 
 const context = createClientContext("<connection string>", "<hub name>");
+
 const registrations = await listRegistrationsByTag(context, "likes_hockey");
+
 let page = 0;
 for await (const pages of registrations.byPage()) {
   console.log(`Page number ${page++}`);
@@ -333,6 +365,7 @@ const apnsBody = createAppleNotificationBody({
   sound: "default",
   interruptionLevel: "time-sensitive",
 });
+
 // Send the message using the modular approach
 const notification = createAppleNotification({
   body: apnsBody,
@@ -347,7 +380,9 @@ Notification Hubs can be used to send notifications to all registered devices pe
 import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
+
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
+
 const message = createAppleNotification({
   body: messageBody,
   headers: {
@@ -355,9 +390,12 @@ const message = createAppleNotification({
     "apns-push-type": "alert",
   },
 });
+
 const result = await client.sendBroadcastNotification(message);
+
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
+
 // Only available in Standard SKU and above
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
@@ -371,7 +409,9 @@ import { createClientContext, sendBroadcastNotification } from "@azure/notificat
 import { createAppleNotification } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
+
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
+
 const message = createAppleNotification({
   body: messageBody,
   headers: {
@@ -379,9 +419,12 @@ const message = createAppleNotification({
     "apns-push-type": "alert",
   },
 });
+
 const result = await sendBroadcastNotification(context, message);
+
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
+
 // Only available in Standard SKU and above
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
@@ -396,8 +439,10 @@ To send directly a device, the user can send using the platform provided unique 
 import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
+
 const deviceHandle = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
+
 const message = createAppleNotification({
   body: messageBody,
   headers: {
@@ -405,9 +450,12 @@ const message = createAppleNotification({
     "apns-push-type": "alert",
   },
 });
+
 const result = await client.sendNotification(message, { deviceHandle });
+
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
+
 // Only available in Standard SKU and above
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
@@ -421,8 +469,10 @@ import { createClientContext, sendNotification } from "@azure/notification-hubs/
 import { createAppleNotification } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
+
 const deviceHandle = "00fc13adff785122b4ad28809a3420982341241421348097878e577c991de8f0";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
+
 const message = createAppleNotification({
   body: messageBody,
   headers: {
@@ -430,9 +480,12 @@ const message = createAppleNotification({
     "apns-push-type": "alert",
   },
 });
+
 const result = await sendNotification(context, message, { deviceHandle });
+
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
+
 // Only available in Standard SKU and above
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
@@ -450,6 +503,7 @@ import { createTagExpression } from "@azure/notification-hubs";
 
 const tags = ["likes_football", "likes_hockey"];
 const tagExpression = createTagExpression(tags);
+
 console.log(tagExpression);
 ```
 
@@ -459,8 +513,10 @@ Tag expression messages can be sent using the following code:
 import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
+
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
+
 const notification = createAppleNotification({
   body: messageBody,
   headers: {
@@ -468,9 +524,12 @@ const notification = createAppleNotification({
     "apns-push-type": "alert",
   },
 });
+
 const result = await client.sendNotification(notification, { tagExpression });
+
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
+
 // Only available in Standard SKU and above
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
@@ -484,8 +543,10 @@ import { createClientContext, sendNotification } from "@azure/notification-hubs/
 import { createAppleNotification } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
+
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
+
 const notification = createAppleNotification({
   body: messageBody,
   headers: {
@@ -493,9 +554,12 @@ const notification = createAppleNotification({
     "apns-push-type": "alert",
   },
 });
+
 const result = await sendNotification(context, notification, { tagExpression });
+
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
+
 // Only available in Standard SKU and above
 if (result.notificationId) {
   console.log(`Notification ID: ${result.notificationId}`);
@@ -510,10 +574,13 @@ Push notifications can be scheduled up to seven days in advance with Standard SK
 import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
+
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
+
 // Schedule 8 hours from now
 const scheduledTime = new Date(Date.now() + 8 * 60 * 60 * 1000);
+
 const message = createAppleNotification({
   body: messageBody,
   headers: {
@@ -521,9 +588,12 @@ const message = createAppleNotification({
     "apns-push-type": "alert",
   },
 });
+
 const result = await client.scheduleNotification(scheduledTime, message, { tagExpression });
+
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
+
 // Can be used to cancel via the cancelScheduledSend method
 console.log(`Notification ID: ${result.notificationId}`);
 ```
@@ -535,10 +605,13 @@ import { createClientContext, scheduleNotification } from "@azure/notification-h
 import { createAppleNotification } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
+
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
+
 // Schedule 8 hours from now
 const scheduledTime = new Date(Date.now() + 8 * 60 * 60 * 1000);
+
 const message = createAppleNotification({
   body: messageBody,
   headers: {
@@ -546,9 +619,12 @@ const message = createAppleNotification({
     "apns-push-type": "alert",
   },
 });
+
 const result = await scheduleNotification(context, scheduledTime, message, { tagExpression });
+
 console.log(`Tracking ID: ${result.trackingId}`);
 console.log(`Correlation ID: ${result.correlationId}`);
+
 // Can be used to cancel via the cancelScheduledSend method
 console.log(`Notification ID: ${result.notificationId}`);
 ```
@@ -571,8 +647,10 @@ Azure Notification Hubs has a complete guide to troubleshooting problems with dr
 import { NotificationHubsClient, createAppleNotification } from "@azure/notification-hubs";
 
 const client = new NotificationHubsClient("<connection string>", "<hub name>");
+
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
+
 const notification = createAppleNotification({
   body: messageBody,
   headers: {
@@ -580,6 +658,7 @@ const notification = createAppleNotification({
     "apns-push-type": "alert",
   },
 });
+
 const result = await client.sendNotification(notification, {
   tagExpression,
   enableTestSend: true,
@@ -591,8 +670,10 @@ import { createClientContext, sendNotification } from "@azure/notification-hubs/
 import { createAppleNotification } from "@azure/notification-hubs";
 
 const context = createClientContext("<connection string>", "<hub name>");
+
 const tagExpression = "likes_hockey && likes_football";
 const messageBody = `{ "aps" : { "alert" : "Hello" } }`;
+
 const notification = createAppleNotification({
   body: messageBody,
   headers: {
@@ -600,6 +681,7 @@ const notification = createAppleNotification({
     "apns-push-type": "alert",
   },
 });
+
 const result = await sendNotification(context, notification, {
   tagExpression,
   enableTestSend: true,
