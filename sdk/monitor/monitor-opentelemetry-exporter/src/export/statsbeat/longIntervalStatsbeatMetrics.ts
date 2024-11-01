@@ -12,16 +12,16 @@ import type { ExportResult } from "@opentelemetry/core";
 import { ExportResultCode } from "@opentelemetry/core";
 import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
 import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
-import type { AzureMonitorExporterOptions } from "../../index";
-import * as ai from "../../utils/constants/applicationinsights";
-import { StatsbeatMetrics } from "./statsbeatMetrics";
+import type { AzureMonitorExporterOptions } from "../../index.js";
+import * as ai from "../../utils/constants/applicationinsights.js";
+import { StatsbeatMetrics } from "./statsbeatMetrics.js";
 import type {
   CommonStatsbeatProperties,
   AttachStatsbeatProperties,
   StatsbeatOptions,
-} from "./types";
-import { StatsbeatCounter, STATSBEAT_LANGUAGE, StatsbeatFeatureType } from "./types";
-import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter";
+} from "./types.js";
+import { StatsbeatCounter, STATSBEAT_LANGUAGE, StatsbeatFeatureType } from "./types.js";
+import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 
 let instance: LongIntervalStatsbeatMetrics | null = null;
 

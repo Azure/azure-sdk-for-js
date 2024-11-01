@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context, getInstance } from "../../src/platform";
-import * as assert from "assert";
+import { Context, getInstance } from "../../src/platform/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("context.ts", () => {
-  describe("#constructor", () => {
+  it("#constructor", () => {
     const context = getInstance();
     assert.ok(Context.nodeVersion, "Missing nodeVersion");
     assert.ok(Context.opentelemetryVersion, "Missing opentelemetryVersion");
@@ -14,7 +14,7 @@ describe("context.ts", () => {
     assert.ok(context.tags["ai.internal.sdkVersion"], "Missing ai.internal.sdkVersion");
   });
 
-  describe("#_loadInternalContext", () => {
+  it("#_loadInternalContext", () => {
     const context = getInstance();
     context["_loadInternalContext"]();
     assert.ok(

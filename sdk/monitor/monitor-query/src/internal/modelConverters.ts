@@ -10,22 +10,22 @@ import type {
   QueryBatchResponse as GeneratedQueryBatchResponse,
   Table as GeneratedTable,
   QueryBody,
-} from "../generated/logquery/src";
+} from "../generated/logquery/src/index.js";
 
 import type {
   Metric as GeneratedMetric,
   MetricsListOptionalParams as GeneratedMetricsListOptionalParams,
   MetricsListResponse as GeneratedMetricsListResponse,
   TimeSeriesElement as GeneratedTimeSeriesElement,
-} from "../generated/metrics/src";
+} from "../generated/metrics/src/index.js";
 
 import type {
   MetricDefinition as GeneratedMetricDefinition,
   MetricDefinitionsListOptionalParams as GeneratedMetricDefinitionsListOptionalParams,
-} from "../generated/metricsdefinitions/src";
+} from "../generated/metricsdefinitions/src/index.js";
 
-import type { MetricNamespace as GeneratedMetricNamespace } from "../generated/metricsnamespaces/src";
-import { formatPreferHeader } from "./util";
+import type { MetricNamespace as GeneratedMetricNamespace } from "../generated/metricsnamespaces/src/index.js";
+import { formatPreferHeader } from "./util.js";
 
 import type {
   ListMetricDefinitionsOptions,
@@ -34,32 +34,32 @@ import type {
   MetricsQueryOptions,
   MetricsQueryResult,
   QueryBatch,
-} from "../../src";
+} from "../../src/index.js";
 import type {
   Metric,
   MetricAvailability,
   MetricDefinition,
   MetricNamespace,
   TimeSeriesElement,
-} from "../models/publicMetricsModels";
-import { createMetricsQueryResult, getMetricByName } from "../models/publicMetricsModels";
+} from "../models/publicMetricsModels.js";
+import { createMetricsQueryResult, getMetricByName } from "../models/publicMetricsModels.js";
 import type { FullOperationResponse } from "@azure/core-client";
 import {
   convertIntervalToTimeIntervalObject,
   convertTimespanToInterval,
-} from "../timespanConversion";
+} from "../timespanConversion.js";
 import type {
   LogsErrorInfo,
   LogsQueryError,
   LogsQueryPartialResult,
   LogsQuerySuccessfulResult,
-} from "../models/publicLogsModels";
-import { LogsQueryResultStatus } from "../models/publicLogsModels";
+} from "../models/publicLogsModels.js";
+import { LogsQueryResultStatus } from "../models/publicLogsModels.js";
 import type {
   MetricsBatchBatchResponse as GeneratedMetricsBatchResponse,
   MetricsBatchBatchOptionalParams as GeneratedMetricsBatchOptionalParams,
-} from "../generated/metricBatch/src";
-import type { MetricsQueryResourcesOptions } from "../models/publicBatchModels";
+} from "../generated/metricBatch/src/index.js";
+import type { MetricsQueryResourcesOptions } from "../models/publicBatchModels.js";
 
 /**
  * @internal
