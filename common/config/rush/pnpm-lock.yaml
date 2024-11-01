@@ -21910,7 +21910,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-RDs8KBNRW7hQgx/kOuOp2Yr0F9LJDfwU82SrWb0w0s2kfPuzxg0FVAd6NRtIEPF2gX5P3pqtm0UpfutN1l+ZEQ==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-OSypGxs+EHy5klYlB1WMZSQlqxmpW/s0NDpinzmD5zpUN8gIGC2XLwK11ztBcX/qH+gw3YfoBny9Mgyk59lI9g==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -21921,6 +21921,8 @@ packages:
       '@types/node': 18.19.60
       '@types/pako': 2.0.3
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.4(@types/node@18.19.60)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       cross-env: 7.0.3
       dotenv: 16.4.5
@@ -21939,20 +21941,34 @@ packages:
       mocha: 10.7.3
       nyc: 17.1.0
       pako: 2.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.60)(typescript@5.6.3)
       tslib: 2.8.0
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.4(@types/node@18.19.60)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
@@ -22057,7 +22073,7 @@ packages:
     dev: false
 
   file:projects/monitor-query.tgz:
-    resolution: {integrity: sha512-HkkRUizRaOlpop0fq+/U++wYFe5iDv35zb3pwyLvCaYPja0tga3qIa8yKCYBUhipRbNhIXnnnjeWuSElJ2KTKg==, tarball: file:projects/monitor-query.tgz}
+    resolution: {integrity: sha512-q8yL4hV7Lzv4J8wDJcNBuIaeZfVGGpNfDhqQ+EuTzX4zXlJbks7OBa24nIgQAkW+Og1E5nsP2X+UnHrabKJq2g==, tarball: file:projects/monitor-query.tgz}
     name: '@rush-temp/monitor-query'
     version: 0.0.0
     dependencies:
@@ -22105,7 +22121,6 @@ packages:
       - less
       - lightningcss
       - msw
-      - rollup
       - safaridriver
       - sass
       - sass-embedded

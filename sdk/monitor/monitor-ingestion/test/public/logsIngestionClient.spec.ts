@@ -13,7 +13,7 @@ import {
 } from "./shared/testShared.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 function createFailedPolicies(failedInterval: { isFailed: boolean }): AdditionalPolicyConfig[] {
   return [
@@ -236,7 +236,7 @@ export function getObjects(logsCount: number): LogData[] {
 }
 /**
  * The data fields should match the column names exactly even with the
- * captilization in order for the data to show up in the logs
+ * capitalization in order for the data to show up in the logs
  */
 export type LogData = {
   Time: Date;
