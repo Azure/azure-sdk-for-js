@@ -54,10 +54,10 @@ export interface AzureChatExtensionDataSourceResponseCitationOutput {
 
 // @public
 export interface AzureChatExtensionRetrievedDocument extends AzureChatExtensionDataSourceResponseCitation {
-    dataSourceIndex: number;
-    filterReason?: AzureChatExtensionRetrieveDocumentFilterReason;
-    originalSearchScore?: number;
-    searchQueries: string[];
+    data_source_index: number;
+    filter_reason?: AzureChatExtensionRetrieveDocumentFilterReason;
+    original_search_score?: number;
+    search_queries: string[];
 }
 
 // @public

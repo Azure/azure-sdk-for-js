@@ -159,18 +159,18 @@ export interface AzureChatExtensionDataSourceResponseCitation {
 export interface AzureChatExtensionRetrievedDocument
   extends AzureChatExtensionDataSourceResponseCitation {
   /** The search queries used to retrieve the document. */
-  searchQueries: string[];
+  search_queries: string[];
 
   /** The index of the data source. */
-  dataSourceIndex: number;
+  data_source_index: number;
 
   /** The original search score of the retrieved document. */
-  originalSearchScore?: number;
+  original_search_score?: number;
 
   /** Represents the rationale for filtering the document. If the document does not undergo filtering,
    * this field will remain unset.
    */
-  filterReason?: AzureChatExtensionRetrieveDocumentFilterReason;
+  filter_reason?: AzureChatExtensionRetrieveDocumentFilterReason;
 }
 
 /** The reason for filtering the retrieved document. */
