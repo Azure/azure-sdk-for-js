@@ -1175,6 +1175,6 @@ export interface AppConfigurationManagementClientOptionalParams
   apiVersion?: string;
   /** Overrides client endpoint. */
   endpoint?: string;
-  /** Api Version */
+  /** Azure Cloud setting */
   azureCloud?: string;
 }
