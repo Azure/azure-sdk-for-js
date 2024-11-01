@@ -12,6 +12,16 @@ const envSetupForPlayback: Record<string, string> = {
 
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback,
+  sanitizerOptions: {
+    generalSanitizers: [
+      {
+        regex: true,
+        target: "(?<=http://|https://)(?<host>[^/?]+)",
+        value: "Sanitized",
+        groupForReplace: "host",
+      },
+    ],
+  },
 };
 
 export default recorderOptions;
