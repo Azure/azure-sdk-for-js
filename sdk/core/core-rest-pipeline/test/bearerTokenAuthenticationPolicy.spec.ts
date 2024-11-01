@@ -431,8 +431,6 @@ describe("BearerTokenAuthenticationPolicy", function () {
     const standardCAEChallenge = {
       challenge: `Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ=="`,
       expectedClaims: `{"access_token":{"nbf":{"essential":true,"value":"1726077595"},"xms_caeerror":{"value":"10012"}}}`,
-      encodedClaims:
-        "eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ==",
     };
     const standardNonCAEChallenge = {
       challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token"`,
@@ -929,7 +927,6 @@ interface Challenge {
   challenge: string;
   expectedResponseCode: number;
   expectedClaims: string | null;
-  encodedClaims: string | null;
 }
 
 const caeTestCases: Challenge[] = [
@@ -938,53 +935,42 @@ const caeTestCases: Challenge[] = [
     challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey=="`,
     expectedResponseCode: 401,
     expectedClaims: null,
-    encodedClaims: "ey==",
   },
   {
     testName: "cannot parse claims",
     challenge: `Bearer claims="not base64", error="insufficient_claims"`,
     expectedResponseCode: 401,
     expectedClaims: null,
-    encodedClaims: "not base64",
   },
   {
     testName: "more parameters, different order",
     challenge: `Bearer realm="", authorization_uri="http://localhost", client_id="00000003-0000-0000-c000-000000000000", error="insufficient_claims", claims="ey=="`,
     expectedResponseCode: 200,
     expectedClaims: "{",
-    encodedClaims: "ey==",
-  }, 
+  },
   {
     testName: "some params don't have quotes",
     challenge: `Bearer realm="test", algorithm=SHA-256, error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ=="`,
     expectedResponseCode: 200,
     expectedClaims: `{"access_token":{"nbf":{"essential":true,"value":"1726077595"},"xms_caeerror":{"value":"10012"}}}`,
-    encodedClaims:
-      "eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ==",
   },
   {
     testName: "standard CAE challenge",
     challenge: `Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ=="`,
     expectedResponseCode: 200,
     expectedClaims: `{"access_token":{"nbf":{"essential":true,"value":"1726077595"},"xms_caeerror":{"value":"10012"}}}`,
-    encodedClaims:
-      "eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ==",
   },
   {
     testName: "parse multiple challenges with different scheme",
     challenge: `PoP realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", client_id="00000003-0000-0000-c000-000000000000", nonce="ey==", Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", client_id="00000003-0000-0000-c000-000000000000", error_description="Continuous access evaluation resulted in challenge with result: InteractionRequired and code: TokenIssuedBeforeRevocationTimestamp", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0="`,
     expectedResponseCode: 200,
     expectedClaims: `{"access_token":{"nbf":{"essential":true, "value":"1726258122"}}}`,
-    encodedClaims:
-      "eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0=",
   },
   {
     testName: "parse multiple challenges with claims",
     challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey==", Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", client_id="00000003-0000-0000-c000-000000000000", error_description="Continuous access evaluation resulted in challenge with result: InteractionRequired and code: TokenIssuedBeforeRevocationTimestamp", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0="`,
     expectedResponseCode: 200,
     expectedClaims: `{"access_token":{"nbf":{"essential":true, "value":"1726258122"}}}`,
-    encodedClaims:
-      "eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwgInZhbHVlIjoiMTcyNjI1ODEyMiJ9fX0=",
   },
 ];
 
@@ -994,28 +980,24 @@ const nonCaeChallengeTests: Challenge[] = [
     challenge: `Bearer authorization_uri="https://login.windows.net/", error="insufficient_claims"`,
     expectedResponseCode: 200,
     expectedClaims: `Bearer authorization_uri="https://login.windows.net/", error="insufficient_claims"`,
-    encodedClaims: null,
   },
   {
     testName: "no quotes with the params",
     challenge: `Bearer authorization_uri=https://login.windows.net/, error=insufficient_claims`,
     expectedResponseCode: 200,
     expectedClaims: `Bearer authorization_uri=https://login.windows.net/, error=insufficient_claims`,
-    encodedClaims: null,
   },
   {
     testName: "no comma seperating the params",
     challenge: `Bearer authorization_uri="https://login.windows.net/" error_description="ran into some error"`,
     expectedResponseCode: 200,
     expectedClaims: `Bearer authorization_uri="https://login.windows.net/" error_description="ran into some error"`,
-    encodedClaims: null,
   },
   {
     testName: "Challenge with unexpected error",
     challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey=="`,
     expectedResponseCode: 200,
     expectedClaims: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey=="`,
-    encodedClaims: null,
   },
 ];
 
