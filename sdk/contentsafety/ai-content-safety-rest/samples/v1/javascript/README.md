@@ -39,7 +39,7 @@ node sampleAnalyzeImage.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env CONTENT_SAFETY_ENDPOINT="<content safety endpoint>" CONTENT_SAFETY_API_KEY="<content safety api key>" node sampleAnalyzeImage.js
+npx dev-tool run vendored cross-env CONTENT_SAFETY_ENDPOINT="<content safety endpoint>" CONTENT_SAFETY_API_KEY="<content safety api key>" node sampleAnalyzeImage.js
 ```
 
 ## Next Steps
