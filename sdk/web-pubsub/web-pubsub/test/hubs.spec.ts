@@ -303,7 +303,6 @@ describe("HubClient", function () {
       });
       const url = new URL(res.url);
       const tokenPayload = parseJwt(res.token!);
-      console.log("token: ", res.token);
       assert.ok(url.searchParams.has("access_token"));
       assert.equal(url.host, new URL(client.endpoint).host);
       assert.equal(url.pathname, `/client/hubs/${client.hubName}`);
