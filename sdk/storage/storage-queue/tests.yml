@@ -6,6 +6,5 @@ extends:
       PackageName: "@azure/storage-queue"
       ServiceDirectory: storage
       Location: canadacentral
-      Clouds: 'Preview'
       MatrixFilters:
         - DependencyVersion=^$

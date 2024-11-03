@@ -64,10 +64,10 @@ const getWeatherFunc = (location: string, unit: string): string => {
 
 const updateToolCalls = (toolCallArray: Array<any>, functionArray: Array<any>) => {
   const dummyFunction = { name: "", arguments: "", id: "" };
-  while ( functionArray.length < toolCallArray.length ) {
+  while (functionArray.length < toolCallArray.length) {
     functionArray.push(dummyFunction);
   }
-  
+
   let index = 0;
   for (const toolCall of toolCallArray) {
     if (toolCall.function.name) {
@@ -90,7 +90,7 @@ const handleToolCalls = (functionArray: Array<any>) => {
     let content = "";
 
     switch (func.name) {
-      
+
       case "get_current_weather":
         content = getWeatherFunc(funcArgs.location, funcArgs.unit ?? "fahrenheit");
         messageArray.push({
@@ -123,7 +123,7 @@ const streamToString = async (stream: NodeJS.ReadableStream) => {
 
 export async function main() {
   const client = createModelClient();
- 
+
   const messages = [{ role: "user", content: "What's the weather like in Boston?" }];
 
   let toolCallAnswer = "";
@@ -177,8 +177,7 @@ export async function main() {
           const messageArray = handleToolCalls(functionArray);
           messages.push(...messageArray);
         } else {
-          if (choice.delta?.content && choice.delta.content != '')
-          {
+          if (choice.delta?.content && choice.delta.content != '') {
             toolCallAnswer += choice.delta?.content;
             awaitingToolCallAnswer = false;
           }
@@ -186,7 +185,7 @@ export async function main() {
       }
     }
   }
-  
+
   console.log("Model response after tool call:");
   console.log(toolCallAnswer);
 
@@ -197,13 +196,21 @@ export async function main() {
   */
 function createModelClient() {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
-  // (only needed when targetting AOAI, do not use for Serverless API or Managed Computer Endpoints)
+  // auth scope for MaaS and MaaP is currently https://ml.azure.com
+  // (Do not use for Serverless API or Managed Computer Endpoints)
   if (key) {
-    return ModelClient(endpoint, new AzureKeyCredential(key));      
+    return ModelClient(endpoint, new AzureKeyCredential(key));
   } else {
-    const scopes = ["https://cognitiveservices.azure.com/.default"];
+    const scopes: string[] = [];
+    if (endpoint.includes(".models.ai.azure.com")) {
+      scopes.push("https://ml.azure.com");
+    }
+    else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
+      scopes.push("https://cognitiveservices.azure.com");
+    }
+
     const clientOptions = { credentials: { scopes } };
-    return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);      
+    return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);
   }
 }
 
