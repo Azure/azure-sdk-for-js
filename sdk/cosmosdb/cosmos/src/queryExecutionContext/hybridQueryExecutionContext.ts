@@ -35,6 +35,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private globalStatisticsAggregator: GlobalStatisticsAggregator;
   private emitRawOrderByPayload: boolean = true;
   private buffer: HybridSearchQueryResult[] = [];
+  private DEFAULT_PAGE_SIZE = 10;
 
   constructor(
     private clientContext: ClientContext,
@@ -47,6 +48,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   ) {
     this.state = HybridQueryExecutionContextBaseStates.uninitialized;
     this.pageSize = this.options.maxItemCount;
+     if (this.pageSize === undefined) {
+      this.pageSize = this.DEFAULT_PAGE_SIZE;
+    }
     console.log("query", this.query);
     if (partitionedQueryExecutionInfo.hybridSearchQueryInfo.requiresGlobalStatistics) {
       const globalStaticsQueryOptions: FeedOptions = { maxItemCount: this.pageSize };
@@ -203,7 +207,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private async drain(): Promise<Response<any>> {
     try {
       const result = this.buffer.slice(0, this.pageSize);
-      this.buffer = this.buffer.splice(this.pageSize);
+      this.buffer = this.buffer.slice(this.pageSize);
+      console.log("page size", this.pageSize);
       console.log("drain result", result.length);
       console.log("buffer length", this.buffer.length);
       console.log("drain result", result);
