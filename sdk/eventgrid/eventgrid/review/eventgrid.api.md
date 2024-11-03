@@ -246,6 +246,7 @@ export interface AcsIncomingCallEventData {
     customContext: AcsIncomingCallCustomContext;
     fromCommunicationIdentifier: CommunicationIdentifierModel;
     incomingCallContext: string;
+    onBehalfOfCallee: CommunicationIdentifierModel;
     serverCallId: string;
     toCommunicationIdentifier: CommunicationIdentifierModel;
 }

@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import Long from "long";
-import { MessageSender } from "./core/messageSender";
-import { ServiceBusMessage } from "./serviceBusMessage";
-import { ConnectionContext } from "./connectionContext";
+import { MessageSender } from "./core/messageSender.js";
+import { ServiceBusMessage } from "./serviceBusMessage.js";
+import { ConnectionContext } from "./connectionContext.js";
 import {
   errorInvalidMessageTypeSingleOrArray,
   getSenderClosedErrorMsg,
@@ -13,9 +13,9 @@ import {
   throwTypeErrorIfNotInstanceOfParameterType,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-} from "./util/errors";
-import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-import { CreateMessageBatchOptions } from "./models";
+} from "./util/errors.js";
+import { ServiceBusMessageBatch } from "./serviceBusMessageBatch.js";
+import { CreateMessageBatchOptions } from "./models.js";
 import {
   RetryConfig,
   RetryOperationType,
@@ -23,13 +23,13 @@ import {
   retry,
   AmqpAnnotatedMessage,
 } from "@azure/core-amqp";
-import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs.js";
 import { TracingSpanLink } from "@azure/core-tracing";
-import { senderLogger as logger } from "./log";
-import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
-import { ensureValidIdentifier } from "./util/utils";
-import { ServiceBusError } from "./serviceBusError";
-import { instrumentMessage } from "./diagnostics/instrumentServiceBusMessage";
+import { senderLogger as logger } from "./log.js";
+import { toSpanOptions, tracingClient } from "./diagnostics/tracing.js";
+import { ensureValidIdentifier } from "./util/utils.js";
+import { ServiceBusError } from "./serviceBusError.js";
+import { instrumentMessage } from "./diagnostics/instrumentServiceBusMessage.js";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time

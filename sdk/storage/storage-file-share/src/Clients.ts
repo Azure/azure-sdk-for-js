@@ -233,6 +233,14 @@ export interface ShareCreateOptions extends CommonOptions {
    * Optional. Integer. Default if not specified is the maximum IOPS the file share can support. Current maximum for a file share is 102,400 IOPS.
    */
   paidBurstingMaxIops?: number;
+  /**
+   * Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares.
+   * Specifies the provisioned number of input/output operations per second (IOPS) of the share. If this is not specified, the provisioned IOPS is set to value calculated based on recommendation formula.
+   */
+  shareProvisionedIops?: number;
+
+  /** Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares. Specifies the provisioned bandwidth of the share, in mebibytes per second (MiBps). If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula. */
+  shareProvisionedBandwidthMibps?: number;
 }
 
 /**
@@ -397,6 +405,13 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
    * Optional. Integer. Default if not specified is the maximum IOPS the file share can support. Current maximum for a file share is 102,400 IOPS.
    */
   paidBurstingMaxIops?: number;
+  /**
+   * Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares.
+   * Specifies the provisioned number of input/output operations per second (IOPS) of the share. If this is not specified, the provisioned IOPS is set to value calculated based on recommendation formula.
+   */
+  shareProvisionedIops?: number;
+  /** Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares. Specifies the provisioned bandwidth of the share, in mebibytes per second (MiBps). If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula. */
+  shareProvisionedBandwidthMibps?: number;
 }
 
 /**
@@ -3097,6 +3112,12 @@ export interface FileStartCopyOptions extends CommonOptions {
    * specified.
    */
   filePermission?: string;
+  /**
+   * Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned.
+   * Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format.
+   * If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission
+   */
+  filePermissionFormat?: FilePermissionFormat;
   /**
    * Key of the permission to be set for the directory/file. Note: Only one of the
    * x-ms-file-permission or x-ms-file-permission-key should be specified.

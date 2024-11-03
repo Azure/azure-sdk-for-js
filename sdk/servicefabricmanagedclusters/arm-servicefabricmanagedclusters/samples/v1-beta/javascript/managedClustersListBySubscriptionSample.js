@@ -18,7 +18,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets all Service Fabric cluster resources created or in the process of being created in the subscription.
  *
  * @summary Gets all Service Fabric cluster resources created or in the process of being created in the subscription.
- * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/stable/2024-04-01/examples/ManagedClusterListBySubscriptionOperation_example.json
+ * x-ms-original-file: specification/servicefabricmanagedclusters/resource-manager/Microsoft.ServiceFabric/preview/2024-06-01-preview/examples/ManagedClusterListBySubscriptionOperation_example.json
  */
 async function listManagedClusters() {
   const subscriptionId =

@@ -15,12 +15,12 @@ import {
   SASCredential,
   TokenCredential,
 } from "@azure/core-auth";
-import { ConnectionContext } from "./connectionContext";
+import { ConnectionContext } from "./connectionContext.js";
 import { UserAgentPolicyOptions } from "@azure/core-rest-pipeline";
 import {
   parseServiceBusConnectionString,
   ServiceBusConnectionStringProperties,
-} from "./util/connectionStringUtils";
+} from "./util/connectionStringUtils.js";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.

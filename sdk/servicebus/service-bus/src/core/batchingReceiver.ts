@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { receiverLogger as logger } from "../log";
+import { receiverLogger as logger } from "../log.js";
 import {
   AmqpError,
   EventContext,
@@ -11,18 +11,18 @@ import {
   Receiver as RheaPromiseReceiver,
   Session,
 } from "rhea-promise";
-import { ServiceBusMessageImpl } from "../serviceBusMessage";
-import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
-import { ConnectionContext } from "../connectionContext";
-import { throwErrorIfConnectionClosed } from "../util/errors";
+import { ServiceBusMessageImpl } from "../serviceBusMessage.js";
+import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver.js";
+import { ConnectionContext } from "../connectionContext.js";
+import { throwErrorIfConnectionClosed } from "../util/errors.js";
 import { AbortSignalLike } from "@azure/abort-controller";
-import { checkAndRegisterWithAbortSignal } from "../util/utils";
-import { receiveDrainTimeoutInMs } from "../util/constants";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage";
-import { ReceiveMode } from "../models";
-import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
-import { tracingClient } from "../diagnostics/tracing";
+import { checkAndRegisterWithAbortSignal } from "../util/utils.js";
+import { receiveDrainTimeoutInMs } from "../util/constants.js";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage.js";
+import { ReceiveMode } from "../models.js";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError.js";
+import { tracingClient } from "../diagnostics/tracing.js";
 
 /**
  * Describes the batching receiver where the user can receive a specified number of messages for
