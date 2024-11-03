@@ -588,9 +588,9 @@ describe("Full text search feature", async () => {
     const queryOptions = { forceQueryPlan: true };
     const queryIterator = container.items.query(query, queryOptions);
 
-    // while (queryIterator.hasMoreResults()) {
-    //   const result = await queryIterator.fetchNext();
-    //   console.log("final query result", result);
-    // }
+    while (queryIterator.hasMoreResults()) {
+      const result = await queryIterator.fetchNext();
+      console.log("final query result", result);
+    }
   });
 });
