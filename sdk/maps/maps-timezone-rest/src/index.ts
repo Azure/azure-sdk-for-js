@@ -3,5 +3,5 @@
 
 import MapsTimeZone from "./MapsTimeZone";
 
-export * from "./generated";
+export * from "../generated";
 export default MapsTimeZone;
