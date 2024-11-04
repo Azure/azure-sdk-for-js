@@ -9,25 +9,50 @@ import { Pipeline } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
+// @public
+export interface AgentDeletionStatusOutput {
+    deleted: boolean;
+    id: string;
+    object: "assistant.deleted";
+}
+
+// @public
+export interface AgentOutput {
+    created_at: number;
+    description: string | null;
+    id: string;
+    instructions: string | null;
+    metadata: Record<string, string> | null;
+    model: string;
+    name: string | null;
+    object: "assistant";
+    // Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatOptionOutput" needs to be exported by the entry point index.d.ts
+    response_format?: AgentsApiResponseFormatOptionOutput | null;
+    temperature: number | null;
+    // Warning: (ae-forgotten-export) The symbol "ToolResourcesOutput" needs to be exported by the entry point index.d.ts
+    tool_resources: ToolResourcesOutput | null;
+    // Warning: (ae-forgotten-export) The symbol "ToolDefinitionOutput" needs to be exported by the entry point index.d.ts
+    tools: Array<ToolDefinitionOutput>;
+    top_p: number | null;
+}
+
 // @public (undocumented)
 export interface AgentsOperations {
     // Warning: (ae-forgotten-export) The symbol "AgentsCancelRunParameters" needs to be exported by the entry point index.d.ts
     cancelRun: (threadId: string, runId: string, options?: AgentsCancelRunParameters) => Promise<ThreadRunOutput>;
-    // Warning: (ae-forgotten-export) The symbol "CreateAgentOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "AgentOutput" needs to be exported by the entry point index.d.ts
     createAgent: (options: CreateAgentOptions) => Promise<AgentOutput>;
-    // Warning: (ae-forgotten-export) The symbol "AgentsCreateMessageParameters" needs to be exported by the entry point index.d.ts
+    // Warning: (ae-forgotten-export) The symbol "ThreadMessageOptions" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ThreadMessageOutput" needs to be exported by the entry point index.d.ts
-    createMessage: (threadId: string, options: AgentsCreateMessageParameters) => Promise<ThreadMessageOutput>;
+    createMessage: (threadId: string, options: ThreadMessageOptions) => Promise<ThreadMessageOutput>;
     // Warning: (ae-forgotten-export) The symbol "AgentsCreateRunParameters" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "ThreadRunOutput" needs to be exported by the entry point index.d.ts
     createRun: (threadId: string, options: AgentsCreateRunParameters) => Promise<ThreadRunOutput>;
-    // Warning: (ae-forgotten-export) The symbol "AgentsCreateThreadParameters" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "AgentThreadOutput" needs to be exported by the entry point index.d.ts
-    createThread: (options: AgentsCreateThreadParameters) => Promise<AgentThreadOutput>;
+    createRunStreaming: (threadId: string, options: CreateRunOptions) => AsyncIterable<AgentStreamEventMessage>;
+    // Warning: (ae-forgotten-export) The symbol "AgentThreadCreationOptions" needs to be exported by the entry point index.d.ts
+    createThread: (options?: AgentThreadCreationOptions) => Promise<AgentThreadOutput>;
     // Warning: (ae-forgotten-export) The symbol "AgentsCreateThreadAndRunParameters" needs to be exported by the entry point index.d.ts
     createThreadAndRun: (options: AgentsCreateThreadAndRunParameters) => Promise<ThreadRunOutput>;
-    // Warning: (ae-forgotten-export) The symbol "AgentDeletionStatusOutput" needs to be exported by the entry point index.d.ts
+    createThreadAndRunStreaming: (options: CreateAndRunThreadOptions) => AsyncIterable<AgentStreamEventMessage>;
     deleteAgent: (assistantId: string) => Promise<AgentDeletionStatusOutput>;
     // Warning: (ae-forgotten-export) The symbol "AgentsDeleteFileParameters" needs to be exported by the entry point index.d.ts
     // Warning: (ae-forgotten-export) The symbol "FileDeletionStatusOutput" needs to be exported by the entry point index.d.ts
@@ -58,7 +83,6 @@ export interface AgentsOperations {
     listRuns: (threadId: string, options?: AgentsListRunsParameters) => Promise<OpenAIPageableListOfThreadRunOutput>;
     // Warning: (ae-forgotten-export) The symbol "AgentsSubmitToolOutputsToRunParameters" needs to be exported by the entry point index.d.ts
     submitToolOutputsToRun: (threadId: string, runId: string, options: AgentsSubmitToolOutputsToRunParameters) => Promise<ThreadRunOutput>;
-    // Warning: (ae-forgotten-export) The symbol "UpdateAgentOptions" needs to be exported by the entry point index.d.ts
     updateAgent: (assistantId: string, options: UpdateAgentOptions) => Promise<AgentOutput>;
     // Warning: (ae-forgotten-export) The symbol "AgentsUpdateMessageParameters" needs to be exported by the entry point index.d.ts
     updateMessage: (threadId: string, messageId: string, options: AgentsUpdateMessageParameters) => Promise<ThreadMessageOutput>;
@@ -72,6 +96,23 @@ export interface AgentsOperations {
 }
 
 // @public (undocumented)
+export interface AgentStreamEventMessage {
+    // (undocumented)
+    data: any;
+    // (undocumented)
+    eventType: string;
+}
+
+// @public
+export interface AgentThreadOutput {
+    created_at: number;
+    id: string;
+    metadata: Record<string, string> | null;
+    object: "thread";
+    tool_resources: ToolResourcesOutput | null;
+}
+
+// @public (undocumented)
 export class AIProjectsClient {
     // Warning: (ae-forgotten-export) The symbol "AIProjectsClientOptions" needs to be exported by the entry point index.d.ts
     constructor(endpointParam: string, subscriptionId: string, resourceGroupName: string, projectName: string, credential: TokenCredential, options?: AIProjectsClientOptions);
@@ -79,6 +120,79 @@ export class AIProjectsClient {
     // Warning: (ae-forgotten-export) The symbol "CreateProjectsClient" needs to be exported by the entry point index.d.ts
     static fromConnectionString(connectionString: string, credential: TokenCredential, options?: CreateProjectsClient): AIProjectsClient;
     readonly pipeline: Pipeline;
+}
+
+// @public
+export interface CreateAgentOptions {
+    description?: string | null;
+    instructions?: string | null;
+    metadata?: Record<string, string> | null;
+    model: string;
+    name?: string | null;
+    // Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatOption" needs to be exported by the entry point index.d.ts
+    response_format?: AgentsApiResponseFormatOption | null;
+    temperature?: number | null;
+    // Warning: (ae-forgotten-export) The symbol "ToolResources" needs to be exported by the entry point index.d.ts
+    tool_resources?: ToolResources | null;
+    // Warning: (ae-forgotten-export) The symbol "ToolDefinition" needs to be exported by the entry point index.d.ts
+    tools?: Array<ToolDefinition>;
+    top_p?: number | null;
+}
+
+// @public
+export interface CreateAndRunThreadOptions {
+    assistant_id: string;
+    instructions?: string | null;
+    max_completion_tokens?: number | null;
+    max_prompt_tokens?: number | null;
+    metadata?: Record<string, string> | null;
+    model?: string | null;
+    response_format?: AgentsApiResponseFormatOption | null;
+    stream?: boolean;
+    temperature?: number | null;
+    thread?: AgentThreadCreationOptions;
+    // Warning: (ae-forgotten-export) The symbol "AgentsApiToolChoiceOption" needs to be exported by the entry point index.d.ts
+    tool_choice?: AgentsApiToolChoiceOption | null;
+    // Warning: (ae-forgotten-export) The symbol "UpdateToolResourcesOptions" needs to be exported by the entry point index.d.ts
+    tool_resources?: UpdateToolResourcesOptions | null;
+    tools?: Array<ToolDefinition> | null;
+    top_p?: number | null;
+    // Warning: (ae-forgotten-export) The symbol "TruncationObject" needs to be exported by the entry point index.d.ts
+    truncation_strategy?: TruncationObject | null;
+}
+
+// @public
+export interface CreateRunOptions {
+    additional_instructions?: string | null;
+    // Warning: (ae-forgotten-export) The symbol "ThreadMessage" needs to be exported by the entry point index.d.ts
+    additional_messages?: Array<ThreadMessage> | null;
+    assistant_id: string;
+    instructions?: string | null;
+    max_completion_tokens?: number | null;
+    max_prompt_tokens?: number | null;
+    metadata?: Record<string, string> | null;
+    model?: string | null;
+    response_format?: AgentsApiResponseFormatOption | null;
+    stream?: boolean;
+    temperature?: number | null;
+    tool_choice?: AgentsApiToolChoiceOption | null;
+    tools?: Array<ToolDefinition> | null;
+    top_p?: number | null;
+    truncation_strategy?: TruncationObject | null;
+}
+
+// @public
+export interface UpdateAgentOptions {
+    description?: string | null;
+    instructions?: string | null;
+    metadata?: Record<string, string> | null;
+    model?: string;
+    name?: string | null;
+    response_format?: AgentsApiResponseFormatOption | null;
+    temperature?: number | null;
+    tool_resources?: ToolResources;
+    tools?: Array<ToolDefinition>;
+    top_p?: number | null;
 }
 
 // (No @packageDocumentation comment for this package)

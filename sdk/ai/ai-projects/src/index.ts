@@ -5,4 +5,6 @@ import { AIProjectsClient } from "./aiProjectsClient.js";
 
 export {AgentsOperations }  from "./agents/index.js";
 
+export  *   from "./agents/inputOutputs.js";
+
 export { AIProjectsClient };
