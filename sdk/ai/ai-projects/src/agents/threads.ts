@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Client, createRestError } from "@azure-rest/core-client";
-import { AgentsCreateThreadParameters, AgentsDeleteThreadParameters, AgentsGetThreadParameters, AgentsUpdateThreadParameters } from "../generated/src/parameters.js";
+import { CreateThreadParameters, DeleteThreadParameters, GetThreadParameters, UpdateThreadParameters } from "../generated/src/parameters.js";
 import { AgentThreadOutput, ThreadDeletionStatusOutput } from "../generated/src/outputModels.js";
 
 const expectedStatuses = ["200"];
@@ -10,7 +10,7 @@ const expectedStatuses = ["200"];
 /** Creates a new thread. Threads contain messages and can be run by agents. */
 export async function createThread(
   context: Client,
-  options: AgentsCreateThreadParameters,
+  options: CreateThreadParameters,
 ): Promise<AgentThreadOutput> {
   const result = await context.path("/threads").post(options);
   if (!expectedStatuses.includes(result.status)) {
@@ -23,7 +23,7 @@ export async function createThread(
 export async function getThread(
   context: Client,
   threadId: string,
-  options?: AgentsGetThreadParameters,
+  options?: GetThreadParameters,
 ): Promise<AgentThreadOutput> {
   const result = await context
     .path("/threads/{threadId}", threadId)
@@ -38,7 +38,7 @@ export async function getThread(
 export async function updateThread(
   context: Client,
   threadId: string,
-  options: AgentsUpdateThreadParameters,
+  options: UpdateThreadParameters,
 ): Promise<AgentThreadOutput> {
   const result = await context
     .path("/threads/{threadId}", threadId)
@@ -53,7 +53,7 @@ export async function updateThread(
 export async function deleteThread(
   context: Client,
   threadId: string,
-  options?: AgentsDeleteThreadParameters,
+  options?: DeleteThreadParameters,
 ): Promise<ThreadDeletionStatusOutput> {
   const result = await context
     .path("/threads/{threadId}", threadId)

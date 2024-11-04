@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Client, createRestError } from "@azure-rest/core-client";
-import { AgentsCancelRunParameters, AgentsCreateRunParameters, AgentsCreateThreadAndRunParameters, AgentsGetRunParameters, AgentsListRunsParameters, AgentsSubmitToolOutputsToRunParameters, AgentsUpdateRunParameters } from "../generated/src/parameters.js";
+import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, GetRunParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
 
 const expectedStatuses = ["200"];
@@ -11,7 +11,7 @@ const expectedStatuses = ["200"];
 export async function createRun(
   context: Client,
   threadId: string,
-  options: AgentsCreateRunParameters,
+  options: CreateRunParameters,
 ): Promise<ThreadRunOutput> {
     const result = await context
     .path("/threads/{threadId}/runs", threadId)
@@ -26,7 +26,7 @@ export async function createRun(
 export async function listRuns(
   context: Client,
   threadId: string,
-  options?: AgentsListRunsParameters,
+  options?: ListRunsParameters,
 ): Promise<OpenAIPageableListOfThreadRunOutput> {
     const result = await context
     .path("/threads/{threadId}/runs", threadId)
@@ -42,7 +42,7 @@ export async function getRun(
   context: Client,
   threadId: string,
   runId: string,
-  options?: AgentsGetRunParameters,
+  options?: GetRunParameters,
 ): Promise<ThreadRunOutput> {
     const result = await context
     .path("/threads/{threadId}/runs/{runId}", threadId, runId)
@@ -58,7 +58,7 @@ export async function updateRun(
   context: Client,
   threadId: string,
   runId: string,
-  options: AgentsUpdateRunParameters,
+  options: UpdateRunParameters,
 ): Promise<ThreadRunOutput> {
     const result = await context
     .path("/threads/{threadId}/runs/{runId}", threadId, runId)
@@ -74,7 +74,7 @@ export async function submitToolOutputsToRun(
   context: Client,
   threadId: string,
   runId: string,
-  options?: AgentsSubmitToolOutputsToRunParameters,
+  options?: SubmitToolOutputsToRunParameters,
 ): Promise<ThreadRunOutput> {
     const result = await context
     .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
@@ -90,7 +90,7 @@ export async function cancelRun(
   context: Client,
   threadId: string,
   runId: string,
-  options?: AgentsCancelRunParameters,
+  options?: CancelRunParameters,
 ): Promise<ThreadRunOutput> {
     const result = await context
     .path("/threads/{threadId}/runs/{runId}/cancel", threadId, runId)
@@ -104,7 +104,7 @@ export async function cancelRun(
 /** Creates a new thread and immediately starts a run of that thread. */
 export async function createThreadAndRun(
   context: Client,
-  options: AgentsCreateThreadAndRunParameters,
+  options: CreateThreadAndRunParameters,
 ): Promise<ThreadRunOutput> {
     const result = await context.path("/threads/runs").post(options);
   if (!expectedStatuses.includes(result.status)) {

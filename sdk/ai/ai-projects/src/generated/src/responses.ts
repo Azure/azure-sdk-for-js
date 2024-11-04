@@ -16,14 +16,15 @@ import {
   FileListResponseOutput,
   OpenAIFileOutput,
   FileDeletionStatusOutput,
-  FileContentResponseOutput,
   VectorStoreOutput,
   VectorStoreDeletionStatusOutput,
   VectorStoreFileOutput,
   VectorStoreFileDeletionStatusOutput,
   VectorStoreFileBatchOutput,
-  ConnectionsListResponseOutput,
-  ConnectionsListSecretsResponseOutput,
+  GetWorkspaceResponseOutput,
+  ListConnectionsResponseOutput,
+  GetConnectionResponseOutput,
+  GetAppInsightsResponseOutput,
   EvaluationOutput,
   PagedEvaluationOutput,
   EvaluationScheduleOutput,
@@ -35,924 +36,941 @@ import {
 } from "./outputModels.js";
 
 /** The new agent instance. */
-export interface AgentsCreateAgent200Response extends HttpResponse {
+export interface CreateAgent200Response extends HttpResponse {
   status: "200";
   body: AgentOutput;
 }
 
-export interface AgentsCreateAgentDefaultHeaders {
+export interface CreateAgentDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsCreateAgentDefaultResponse extends HttpResponse {
+export interface CreateAgentDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsCreateAgentDefaultHeaders;
+  headers: RawHttpHeaders & CreateAgentDefaultHeaders;
 }
 
 /** The requested list of agents. */
-export interface AgentsListAgents200Response extends HttpResponse {
+export interface ListAgents200Response extends HttpResponse {
   status: "200";
   body: OpenAIPageableListOfAgentOutput;
 }
 
-export interface AgentsListAgentsDefaultHeaders {
+export interface ListAgentsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsListAgentsDefaultResponse extends HttpResponse {
+export interface ListAgentsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsListAgentsDefaultHeaders;
+  headers: RawHttpHeaders & ListAgentsDefaultHeaders;
 }
 
 /** The requested agent instance. */
-export interface AgentsGetAgent200Response extends HttpResponse {
+export interface GetAgent200Response extends HttpResponse {
   status: "200";
   body: AgentOutput;
 }
 
-export interface AgentsGetAgentDefaultHeaders {
+export interface GetAgentDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsGetAgentDefaultResponse extends HttpResponse {
+export interface GetAgentDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsGetAgentDefaultHeaders;
+  headers: RawHttpHeaders & GetAgentDefaultHeaders;
 }
 
 /** The updated agent instance. */
-export interface AgentsUpdateAgent200Response extends HttpResponse {
+export interface UpdateAgent200Response extends HttpResponse {
   status: "200";
   body: AgentOutput;
 }
 
-export interface AgentsUpdateAgentDefaultHeaders {
+export interface UpdateAgentDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsUpdateAgentDefaultResponse extends HttpResponse {
+export interface UpdateAgentDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsUpdateAgentDefaultHeaders;
+  headers: RawHttpHeaders & UpdateAgentDefaultHeaders;
 }
 
 /** Status information about the requested deletion operation. */
-export interface AgentsDeleteAgent200Response extends HttpResponse {
+export interface DeleteAgent200Response extends HttpResponse {
   status: "200";
   body: AgentDeletionStatusOutput;
 }
 
-export interface AgentsDeleteAgentDefaultHeaders {
+export interface DeleteAgentDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsDeleteAgentDefaultResponse extends HttpResponse {
+export interface DeleteAgentDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsDeleteAgentDefaultHeaders;
+  headers: RawHttpHeaders & DeleteAgentDefaultHeaders;
 }
 
 /** Information about the newly created thread. */
-export interface AgentsCreateThread200Response extends HttpResponse {
+export interface CreateThread200Response extends HttpResponse {
   status: "200";
   body: AgentThreadOutput;
 }
 
-export interface AgentsCreateThreadDefaultHeaders {
+export interface CreateThreadDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsCreateThreadDefaultResponse extends HttpResponse {
+export interface CreateThreadDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsCreateThreadDefaultHeaders;
+  headers: RawHttpHeaders & CreateThreadDefaultHeaders;
 }
 
 /** Information about the requested thread. */
-export interface AgentsGetThread200Response extends HttpResponse {
+export interface GetThread200Response extends HttpResponse {
   status: "200";
   body: AgentThreadOutput;
 }
 
-export interface AgentsGetThreadDefaultHeaders {
+export interface GetThreadDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsGetThreadDefaultResponse extends HttpResponse {
+export interface GetThreadDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsGetThreadDefaultHeaders;
+  headers: RawHttpHeaders & GetThreadDefaultHeaders;
 }
 
 /** Information about the modified thread. */
-export interface AgentsUpdateThread200Response extends HttpResponse {
+export interface UpdateThread200Response extends HttpResponse {
   status: "200";
   body: AgentThreadOutput;
 }
 
-export interface AgentsUpdateThreadDefaultHeaders {
+export interface UpdateThreadDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsUpdateThreadDefaultResponse extends HttpResponse {
+export interface UpdateThreadDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsUpdateThreadDefaultHeaders;
+  headers: RawHttpHeaders & UpdateThreadDefaultHeaders;
 }
 
 /** Status information about the requested thread deletion operation. */
-export interface AgentsDeleteThread200Response extends HttpResponse {
+export interface DeleteThread200Response extends HttpResponse {
   status: "200";
   body: ThreadDeletionStatusOutput;
 }
 
-export interface AgentsDeleteThreadDefaultHeaders {
+export interface DeleteThreadDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsDeleteThreadDefaultResponse extends HttpResponse {
+export interface DeleteThreadDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsDeleteThreadDefaultHeaders;
+  headers: RawHttpHeaders & DeleteThreadDefaultHeaders;
 }
 
 /** A representation of the new message. */
-export interface AgentsCreateMessage200Response extends HttpResponse {
+export interface CreateMessage200Response extends HttpResponse {
   status: "200";
   body: ThreadMessageOutput;
 }
 
-export interface AgentsCreateMessageDefaultHeaders {
+export interface CreateMessageDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsCreateMessageDefaultResponse extends HttpResponse {
+export interface CreateMessageDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsCreateMessageDefaultHeaders;
+  headers: RawHttpHeaders & CreateMessageDefaultHeaders;
 }
 
 /** The requested list of messages. */
-export interface AgentsListMessages200Response extends HttpResponse {
+export interface ListMessages200Response extends HttpResponse {
   status: "200";
   body: OpenAIPageableListOfThreadMessageOutput;
 }
 
-export interface AgentsListMessagesDefaultHeaders {
+export interface ListMessagesDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsListMessagesDefaultResponse extends HttpResponse {
+export interface ListMessagesDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsListMessagesDefaultHeaders;
+  headers: RawHttpHeaders & ListMessagesDefaultHeaders;
 }
 
 /** A representation of the requested message. */
-export interface AgentsGetMessage200Response extends HttpResponse {
+export interface GetMessage200Response extends HttpResponse {
   status: "200";
   body: ThreadMessageOutput;
 }
 
-export interface AgentsGetMessageDefaultHeaders {
+export interface GetMessageDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsGetMessageDefaultResponse extends HttpResponse {
+export interface GetMessageDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsGetMessageDefaultHeaders;
+  headers: RawHttpHeaders & GetMessageDefaultHeaders;
 }
 
 /** A representation of the modified message. */
-export interface AgentsUpdateMessage200Response extends HttpResponse {
+export interface UpdateMessage200Response extends HttpResponse {
   status: "200";
   body: ThreadMessageOutput;
 }
 
-export interface AgentsUpdateMessageDefaultHeaders {
+export interface UpdateMessageDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsUpdateMessageDefaultResponse extends HttpResponse {
+export interface UpdateMessageDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsUpdateMessageDefaultHeaders;
+  headers: RawHttpHeaders & UpdateMessageDefaultHeaders;
 }
 
 /** Information about the new thread run. */
-export interface AgentsCreateRun200Response extends HttpResponse {
+export interface CreateRun200Response extends HttpResponse {
   status: "200";
   body: ThreadRunOutput;
 }
 
-export interface AgentsCreateRunDefaultHeaders {
+export interface CreateRunDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsCreateRunDefaultResponse extends HttpResponse {
+export interface CreateRunDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsCreateRunDefaultHeaders;
+  headers: RawHttpHeaders & CreateRunDefaultHeaders;
 }
 
 /** The requested list of thread runs. */
-export interface AgentsListRuns200Response extends HttpResponse {
+export interface ListRuns200Response extends HttpResponse {
   status: "200";
   body: OpenAIPageableListOfThreadRunOutput;
 }
 
-export interface AgentsListRunsDefaultHeaders {
+export interface ListRunsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsListRunsDefaultResponse extends HttpResponse {
+export interface ListRunsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsListRunsDefaultHeaders;
+  headers: RawHttpHeaders & ListRunsDefaultHeaders;
 }
 
 /** The requested information about the specified thread run. */
-export interface AgentsGetRun200Response extends HttpResponse {
+export interface GetRun200Response extends HttpResponse {
   status: "200";
   body: ThreadRunOutput;
 }
 
-export interface AgentsGetRunDefaultHeaders {
+export interface GetRunDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsGetRunDefaultResponse extends HttpResponse {
+export interface GetRunDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsGetRunDefaultHeaders;
+  headers: RawHttpHeaders & GetRunDefaultHeaders;
 }
 
 /** Information about the modified run. */
-export interface AgentsUpdateRun200Response extends HttpResponse {
+export interface UpdateRun200Response extends HttpResponse {
   status: "200";
   body: ThreadRunOutput;
 }
 
-export interface AgentsUpdateRunDefaultHeaders {
+export interface UpdateRunDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsUpdateRunDefaultResponse extends HttpResponse {
+export interface UpdateRunDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsUpdateRunDefaultHeaders;
+  headers: RawHttpHeaders & UpdateRunDefaultHeaders;
 }
 
 /** Updated information about the run. */
-export interface AgentsSubmitToolOutputsToRun200Response extends HttpResponse {
+export interface SubmitToolOutputsToRun200Response extends HttpResponse {
   status: "200";
   body: ThreadRunOutput;
 }
 
-export interface AgentsSubmitToolOutputsToRunDefaultHeaders {
+export interface SubmitToolOutputsToRunDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsSubmitToolOutputsToRunDefaultResponse
-  extends HttpResponse {
+export interface SubmitToolOutputsToRunDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsSubmitToolOutputsToRunDefaultHeaders;
+  headers: RawHttpHeaders & SubmitToolOutputsToRunDefaultHeaders;
 }
 
 /** Updated information about the cancelled run. */
-export interface AgentsCancelRun200Response extends HttpResponse {
+export interface CancelRun200Response extends HttpResponse {
   status: "200";
   body: ThreadRunOutput;
 }
 
-export interface AgentsCancelRunDefaultHeaders {
+export interface CancelRunDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsCancelRunDefaultResponse extends HttpResponse {
+export interface CancelRunDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsCancelRunDefaultHeaders;
+  headers: RawHttpHeaders & CancelRunDefaultHeaders;
 }
 
 /** Information about the newly created thread. */
-export interface AgentsCreateThreadAndRun200Response extends HttpResponse {
+export interface CreateThreadAndRun200Response extends HttpResponse {
   status: "200";
   body: ThreadRunOutput;
 }
 
-export interface AgentsCreateThreadAndRunDefaultHeaders {
+export interface CreateThreadAndRunDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsCreateThreadAndRunDefaultResponse extends HttpResponse {
+export interface CreateThreadAndRunDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsCreateThreadAndRunDefaultHeaders;
+  headers: RawHttpHeaders & CreateThreadAndRunDefaultHeaders;
 }
 
 /** Information about the requested run step. */
-export interface AgentsGetRunStep200Response extends HttpResponse {
+export interface GetRunStep200Response extends HttpResponse {
   status: "200";
   body: RunStepOutput;
 }
 
-export interface AgentsGetRunStepDefaultHeaders {
+export interface GetRunStepDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsGetRunStepDefaultResponse extends HttpResponse {
+export interface GetRunStepDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsGetRunStepDefaultHeaders;
+  headers: RawHttpHeaders & GetRunStepDefaultHeaders;
 }
 
 /** The requested list of run steps. */
-export interface AgentsListRunSteps200Response extends HttpResponse {
+export interface ListRunSteps200Response extends HttpResponse {
   status: "200";
   body: OpenAIPageableListOfRunStepOutput;
 }
 
-export interface AgentsListRunStepsDefaultHeaders {
+export interface ListRunStepsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsListRunStepsDefaultResponse extends HttpResponse {
+export interface ListRunStepsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsListRunStepsDefaultHeaders;
+  headers: RawHttpHeaders & ListRunStepsDefaultHeaders;
 }
 
 /** The requested list of files. */
-export interface AgentsListFiles200Response extends HttpResponse {
+export interface ListFiles200Response extends HttpResponse {
   status: "200";
   body: FileListResponseOutput;
 }
 
-export interface AgentsListFilesDefaultHeaders {
+export interface ListFilesDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsListFilesDefaultResponse extends HttpResponse {
+export interface ListFilesDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsListFilesDefaultHeaders;
+  headers: RawHttpHeaders & ListFilesDefaultHeaders;
 }
 
 /** A representation of the uploaded file. */
-export interface AgentsUploadFile200Response extends HttpResponse {
+export interface UploadFile200Response extends HttpResponse {
   status: "200";
   body: OpenAIFileOutput;
 }
 
-export interface AgentsUploadFileDefaultHeaders {
+export interface UploadFileDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsUploadFileDefaultResponse extends HttpResponse {
+export interface UploadFileDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsUploadFileDefaultHeaders;
+  headers: RawHttpHeaders & UploadFileDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsDeleteFile200Response extends HttpResponse {
+export interface DeleteFile200Response extends HttpResponse {
   status: "200";
   body: FileDeletionStatusOutput;
 }
 
-export interface AgentsDeleteFileDefaultHeaders {
+export interface DeleteFileDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsDeleteFileDefaultResponse extends HttpResponse {
+export interface DeleteFileDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsDeleteFileDefaultHeaders;
+  headers: RawHttpHeaders & DeleteFileDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsGetFile200Response extends HttpResponse {
+export interface GetFile200Response extends HttpResponse {
   status: "200";
   body: OpenAIFileOutput;
 }
 
-export interface AgentsGetFileDefaultHeaders {
+export interface GetFileDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsGetFileDefaultResponse extends HttpResponse {
+export interface GetFileDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsGetFileDefaultHeaders;
+  headers: RawHttpHeaders & GetFileDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsGetFileContent200Response extends HttpResponse {
+export interface GetFileContent200Response extends HttpResponse {
   status: "200";
-  body: FileContentResponseOutput;
+  body: string;
 }
 
-export interface AgentsGetFileContentDefaultHeaders {
+export interface GetFileContentDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsGetFileContentDefaultResponse extends HttpResponse {
+export interface GetFileContentDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsGetFileContentDefaultHeaders;
+  headers: RawHttpHeaders & GetFileContentDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsListVectorStores200Response extends HttpResponse {
+export interface ListVectorStores200Response extends HttpResponse {
   status: "200";
   body: OpenAIPageableListOfVectorStoreOutput;
 }
 
-export interface AgentsListVectorStoresDefaultHeaders {
+export interface ListVectorStoresDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsListVectorStoresDefaultResponse extends HttpResponse {
+export interface ListVectorStoresDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsListVectorStoresDefaultHeaders;
+  headers: RawHttpHeaders & ListVectorStoresDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsCreateVectorStore200Response extends HttpResponse {
+export interface CreateVectorStore200Response extends HttpResponse {
   status: "200";
   body: VectorStoreOutput;
 }
 
-export interface AgentsCreateVectorStoreDefaultHeaders {
+export interface CreateVectorStoreDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsCreateVectorStoreDefaultResponse extends HttpResponse {
+export interface CreateVectorStoreDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsCreateVectorStoreDefaultHeaders;
+  headers: RawHttpHeaders & CreateVectorStoreDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsGetVectorStore200Response extends HttpResponse {
+export interface GetVectorStore200Response extends HttpResponse {
   status: "200";
   body: VectorStoreOutput;
 }
 
-export interface AgentsGetVectorStoreDefaultHeaders {
+export interface GetVectorStoreDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsGetVectorStoreDefaultResponse extends HttpResponse {
+export interface GetVectorStoreDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsGetVectorStoreDefaultHeaders;
+  headers: RawHttpHeaders & GetVectorStoreDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsModifyVectorStore200Response extends HttpResponse {
+export interface ModifyVectorStore200Response extends HttpResponse {
   status: "200";
   body: VectorStoreOutput;
 }
 
-export interface AgentsModifyVectorStoreDefaultHeaders {
+export interface ModifyVectorStoreDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsModifyVectorStoreDefaultResponse extends HttpResponse {
+export interface ModifyVectorStoreDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsModifyVectorStoreDefaultHeaders;
+  headers: RawHttpHeaders & ModifyVectorStoreDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsDeleteVectorStore200Response extends HttpResponse {
+export interface DeleteVectorStore200Response extends HttpResponse {
   status: "200";
   body: VectorStoreDeletionStatusOutput;
 }
 
-export interface AgentsDeleteVectorStoreDefaultHeaders {
+export interface DeleteVectorStoreDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsDeleteVectorStoreDefaultResponse extends HttpResponse {
+export interface DeleteVectorStoreDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsDeleteVectorStoreDefaultHeaders;
+  headers: RawHttpHeaders & DeleteVectorStoreDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsListVectorStoreFiles200Response extends HttpResponse {
+export interface ListVectorStoreFiles200Response extends HttpResponse {
   status: "200";
   body: OpenAIPageableListOfVectorStoreFileOutput;
 }
 
-export interface AgentsListVectorStoreFilesDefaultHeaders {
+export interface ListVectorStoreFilesDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsListVectorStoreFilesDefaultResponse
-  extends HttpResponse {
+export interface ListVectorStoreFilesDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsListVectorStoreFilesDefaultHeaders;
+  headers: RawHttpHeaders & ListVectorStoreFilesDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsCreateVectorStoreFile200Response extends HttpResponse {
+export interface CreateVectorStoreFile200Response extends HttpResponse {
   status: "200";
   body: VectorStoreFileOutput;
 }
 
-export interface AgentsCreateVectorStoreFileDefaultHeaders {
+export interface CreateVectorStoreFileDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsCreateVectorStoreFileDefaultResponse
-  extends HttpResponse {
+export interface CreateVectorStoreFileDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsCreateVectorStoreFileDefaultHeaders;
+  headers: RawHttpHeaders & CreateVectorStoreFileDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsGetVectorStoreFile200Response extends HttpResponse {
+export interface GetVectorStoreFile200Response extends HttpResponse {
   status: "200";
   body: VectorStoreFileOutput;
 }
 
-export interface AgentsGetVectorStoreFileDefaultHeaders {
+export interface GetVectorStoreFileDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsGetVectorStoreFileDefaultResponse extends HttpResponse {
+export interface GetVectorStoreFileDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsGetVectorStoreFileDefaultHeaders;
+  headers: RawHttpHeaders & GetVectorStoreFileDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsDeleteVectorStoreFile200Response extends HttpResponse {
+export interface DeleteVectorStoreFile200Response extends HttpResponse {
   status: "200";
   body: VectorStoreFileDeletionStatusOutput;
 }
 
-export interface AgentsDeleteVectorStoreFileDefaultHeaders {
+export interface DeleteVectorStoreFileDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsDeleteVectorStoreFileDefaultResponse
-  extends HttpResponse {
+export interface DeleteVectorStoreFileDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsDeleteVectorStoreFileDefaultHeaders;
+  headers: RawHttpHeaders & DeleteVectorStoreFileDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsCreateVectorStoreFileBatch200Response
-  extends HttpResponse {
+export interface CreateVectorStoreFileBatch200Response extends HttpResponse {
   status: "200";
   body: VectorStoreFileBatchOutput;
 }
 
-export interface AgentsCreateVectorStoreFileBatchDefaultHeaders {
+export interface CreateVectorStoreFileBatchDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsCreateVectorStoreFileBatchDefaultResponse
+export interface CreateVectorStoreFileBatchDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsCreateVectorStoreFileBatchDefaultHeaders;
+  headers: RawHttpHeaders & CreateVectorStoreFileBatchDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsGetVectorStoreFileBatch200Response extends HttpResponse {
+export interface GetVectorStoreFileBatch200Response extends HttpResponse {
   status: "200";
   body: VectorStoreFileBatchOutput;
 }
 
-export interface AgentsGetVectorStoreFileBatchDefaultHeaders {
+export interface GetVectorStoreFileBatchDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsGetVectorStoreFileBatchDefaultResponse
-  extends HttpResponse {
+export interface GetVectorStoreFileBatchDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsGetVectorStoreFileBatchDefaultHeaders;
+  headers: RawHttpHeaders & GetVectorStoreFileBatchDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsCancelVectorStoreFileBatch200Response
-  extends HttpResponse {
+export interface CancelVectorStoreFileBatch200Response extends HttpResponse {
   status: "200";
   body: VectorStoreFileBatchOutput;
 }
 
-export interface AgentsCancelVectorStoreFileBatchDefaultHeaders {
+export interface CancelVectorStoreFileBatchDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsCancelVectorStoreFileBatchDefaultResponse
+export interface CancelVectorStoreFileBatchDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsCancelVectorStoreFileBatchDefaultHeaders;
+  headers: RawHttpHeaders & CancelVectorStoreFileBatchDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface AgentsListVectorStoreFileBatchFiles200Response
-  extends HttpResponse {
+export interface ListVectorStoreFileBatchFiles200Response extends HttpResponse {
   status: "200";
   body: OpenAIPageableListOfVectorStoreFileOutput;
 }
 
-export interface AgentsListVectorStoreFileBatchFilesDefaultHeaders {
+export interface ListVectorStoreFileBatchFilesDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AgentsListVectorStoreFileBatchFilesDefaultResponse
+export interface ListVectorStoreFileBatchFilesDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AgentsListVectorStoreFileBatchFilesDefaultHeaders;
+  headers: RawHttpHeaders & ListVectorStoreFileBatchFilesDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ConnectionsList200Response extends HttpResponse {
+export interface GetWorkspace200Response extends HttpResponse {
   status: "200";
-  body: ConnectionsListResponseOutput;
+  body: GetWorkspaceResponseOutput;
 }
 
-export interface ConnectionsListDefaultHeaders {
+export interface GetWorkspaceDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ConnectionsListDefaultResponse extends HttpResponse {
+export interface GetWorkspaceDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ConnectionsListDefaultHeaders;
+  headers: RawHttpHeaders & GetWorkspaceDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ConnectionsGet200Response extends HttpResponse {
+export interface ListConnections200Response extends HttpResponse {
   status: "200";
-  body: ConnectionsListSecretsResponseOutput;
+  body: ListConnectionsResponseOutput;
 }
 
-export interface ConnectionsGetDefaultHeaders {
+export interface ListConnectionsDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ConnectionsGetDefaultResponse extends HttpResponse {
+export interface ListConnectionsDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ConnectionsGetDefaultHeaders;
+  headers: RawHttpHeaders & ListConnectionsDefaultHeaders;
 }
 
 /** The request has succeeded. */
-export interface ConnectionsListSecrets200Response extends HttpResponse {
+export interface GetConnection200Response extends HttpResponse {
   status: "200";
-  body: ConnectionsListSecretsResponseOutput;
+  body: GetConnectionResponseOutput;
 }
 
-export interface ConnectionsListSecretsDefaultHeaders {
+export interface GetConnectionDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface ConnectionsListSecretsDefaultResponse extends HttpResponse {
+export interface GetConnectionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & ConnectionsListSecretsDefaultHeaders;
+  headers: RawHttpHeaders & GetConnectionDefaultHeaders;
 }
 
-export interface EvaluationsGet200Headers {
+/** The request has succeeded. */
+export interface GetConnectionWithSecrets200Response extends HttpResponse {
+  status: "200";
+  body: GetConnectionResponseOutput;
+}
+
+export interface GetConnectionWithSecretsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetConnectionWithSecretsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & GetConnectionWithSecretsDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface GetAppInsights200Response extends HttpResponse {
+  status: "200";
+  body: GetAppInsightsResponseOutput;
+}
+
+export interface GetAppInsightsDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface GetAppInsightsDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & GetAppInsightsDefaultHeaders;
+}
+
+export interface Get200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
 /** The request has succeeded. */
-export interface EvaluationsGet200Response extends HttpResponse {
+export interface Get200Response extends HttpResponse {
   status: "200";
   body: EvaluationOutput;
-  headers: RawHttpHeaders & EvaluationsGet200Headers;
+  headers: RawHttpHeaders & Get200Headers;
 }
 
-export interface EvaluationsGetDefaultHeaders {
+export interface GetDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface EvaluationsGetDefaultResponse extends HttpResponse {
+export interface GetDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & EvaluationsGetDefaultHeaders;
+  headers: RawHttpHeaders & GetDefaultHeaders;
 }
 
 /** Response model for create evaluation */
-export interface EvaluationsCreate201Response extends HttpResponse {
+export interface Create201Response extends HttpResponse {
   status: "201";
   body: EvaluationOutput;
 }
 
-export interface EvaluationsList200Headers {
+export interface List200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
 /** The request has succeeded. */
-export interface EvaluationsList200Response extends HttpResponse {
+export interface List200Response extends HttpResponse {
   status: "200";
   body: PagedEvaluationOutput;
-  headers: RawHttpHeaders & EvaluationsList200Headers;
+  headers: RawHttpHeaders & List200Headers;
 }
 
-export interface EvaluationsListDefaultHeaders {
+export interface ListDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface EvaluationsListDefaultResponse extends HttpResponse {
+export interface ListDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & EvaluationsListDefaultHeaders;
+  headers: RawHttpHeaders & ListDefaultHeaders;
 }
 
-export interface EvaluationsUpdate200Headers {
+export interface Update200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
 /** The request has succeeded. */
-export interface EvaluationsUpdate200Response extends HttpResponse {
+export interface Update200Response extends HttpResponse {
   status: "200";
   body: EvaluationOutput;
-  headers: RawHttpHeaders & EvaluationsUpdate200Headers;
+  headers: RawHttpHeaders & Update200Headers;
 }
 
-export interface EvaluationsUpdateDefaultHeaders {
+export interface UpdateDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface EvaluationsUpdateDefaultResponse extends HttpResponse {
+export interface UpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & EvaluationsUpdateDefaultHeaders;
+  headers: RawHttpHeaders & UpdateDefaultHeaders;
 }
 
-export interface EvaluationsGetSchedule200Headers {
+export interface GetSchedule200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
 /** The request has succeeded. */
-export interface EvaluationsGetSchedule200Response extends HttpResponse {
+export interface GetSchedule200Response extends HttpResponse {
   status: "200";
   body: EvaluationScheduleOutput;
-  headers: RawHttpHeaders & EvaluationsGetSchedule200Headers;
+  headers: RawHttpHeaders & GetSchedule200Headers;
 }
 
-export interface EvaluationsGetScheduleDefaultHeaders {
+export interface GetScheduleDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface EvaluationsGetScheduleDefaultResponse extends HttpResponse {
+export interface GetScheduleDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & EvaluationsGetScheduleDefaultHeaders;
+  headers: RawHttpHeaders & GetScheduleDefaultHeaders;
 }
 
-export interface EvaluationsCreateOrReplaceSchedule200Headers {
+export interface CreateOrReplaceSchedule200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
 /** The request has succeeded. */
-export interface EvaluationsCreateOrReplaceSchedule200Response
-  extends HttpResponse {
+export interface CreateOrReplaceSchedule200Response extends HttpResponse {
   status: "200";
   body: EvaluationScheduleOutput;
-  headers: RawHttpHeaders & EvaluationsCreateOrReplaceSchedule200Headers;
+  headers: RawHttpHeaders & CreateOrReplaceSchedule200Headers;
 }
 
-export interface EvaluationsCreateOrReplaceSchedule201Headers {
+export interface CreateOrReplaceSchedule201Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
 /** The request has succeeded and a new resource has been created as a result. */
-export interface EvaluationsCreateOrReplaceSchedule201Response
-  extends HttpResponse {
+export interface CreateOrReplaceSchedule201Response extends HttpResponse {
   status: "201";
   body: EvaluationScheduleOutput;
-  headers: RawHttpHeaders & EvaluationsCreateOrReplaceSchedule201Headers;
+  headers: RawHttpHeaders & CreateOrReplaceSchedule201Headers;
 }
 
-export interface EvaluationsCreateOrReplaceScheduleDefaultHeaders {
+export interface CreateOrReplaceScheduleDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface EvaluationsCreateOrReplaceScheduleDefaultResponse
-  extends HttpResponse {
+export interface CreateOrReplaceScheduleDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & EvaluationsCreateOrReplaceScheduleDefaultHeaders;
+  headers: RawHttpHeaders & CreateOrReplaceScheduleDefaultHeaders;
 }
 
-export interface EvaluationsListSchedule200Headers {
+export interface ListSchedule200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
 /** The request has succeeded. */
-export interface EvaluationsListSchedule200Response extends HttpResponse {
+export interface ListSchedule200Response extends HttpResponse {
   status: "200";
   body: PagedEvaluationScheduleOutput;
-  headers: RawHttpHeaders & EvaluationsListSchedule200Headers;
+  headers: RawHttpHeaders & ListSchedule200Headers;
 }
 
-export interface EvaluationsListScheduleDefaultHeaders {
+export interface ListScheduleDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface EvaluationsListScheduleDefaultResponse extends HttpResponse {
+export interface ListScheduleDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & EvaluationsListScheduleDefaultHeaders;
-}
-
-export interface EvaluationsDeleteSchedule204Headers {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
+  headers: RawHttpHeaders & ListScheduleDefaultHeaders;
 }
 
 /** There is no content to send for this request, but the headers may be useful. */
-export interface EvaluationsDeleteSchedule204Response extends HttpResponse {
+export interface DisableSchedule204Response extends HttpResponse {
   status: "204";
-  headers: RawHttpHeaders & EvaluationsDeleteSchedule204Headers;
 }
 
-export interface EvaluationsDeleteScheduleDefaultHeaders {
+export interface DisableScheduleDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface EvaluationsDeleteScheduleDefaultResponse extends HttpResponse {
+export interface DisableScheduleDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & EvaluationsDeleteScheduleDefaultHeaders;
+  headers: RawHttpHeaders & DisableScheduleDefaultHeaders;
 }
