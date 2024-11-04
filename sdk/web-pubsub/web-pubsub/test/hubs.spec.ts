@@ -353,10 +353,13 @@ describe("HubClient", function () {
       assert.ok(url.searchParams.has("access_token"));
       assert.equal(url.host, new URL(socketIOClient.endpoint).host);
       assert.equal(url.pathname, `/clients/socketio/hubs/${client.hubName}`);
-      assert.equal(tokenPayload.aud, socketIOClient.endpoint + `clients/socketio/hubs/${socketIOClient.hubName}`);
+      assert.equal(
+        tokenPayload.aud,
+        socketIOClient.endpoint + `clients/socketio/hubs/${socketIOClient.hubName}`,
+      );
     });
 
-    it("can generate default client tokens with DAC", async function() {
+    it("can generate default client tokens with DAC", async function () {
       // Recording not generated properly, so only run in live mode
       if (!isLiveMode()) this.skip();
       const dacClient = new WebPubSubServiceClient(
@@ -378,7 +381,7 @@ describe("HubClient", function () {
       assert.equal(tokenPayload.aud, client.endpoint + `client/hubs/${client.hubName}`);
     });
 
-    it("can generate client MQTT tokens with DAC", async function() {
+    it("can generate client MQTT tokens with DAC", async function () {
       // Recording not generated properly, so only run in live mode
       if (!isLiveMode()) this.skip();
       const dacClient = new WebPubSubServiceClient(
