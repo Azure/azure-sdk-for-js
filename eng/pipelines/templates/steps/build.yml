@@ -102,7 +102,7 @@ steps:
           Copy-Item $(Build.SourcesDirectory)/docGen/$artifact.zip $(Build.ArtifactStagingDirectory)/$artifact/documentation
         }
 
-        Get-ChildItem $(Build.ArtifactStagingDirectory)/$artifact
+        Get-ChildItem $(Build.ArtifactStagingDirectory)/$artifact -Recurse
       }
     displayName: 'Copy Packages'
 
