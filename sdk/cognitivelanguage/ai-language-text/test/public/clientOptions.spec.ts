@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context, Suite } from "mocha";
+import type { Context, Suite } from "mocha";
 import { createClient, startRecorder } from "./utils/recordedClient";
-import { FullOperationResponse } from "@azure/core-client";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { FullOperationResponse } from "@azure/core-client";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "@azure-tools/test-utils";
 
 describe(`[API Key] TextAnalysisClient`, function (this: Suite) {

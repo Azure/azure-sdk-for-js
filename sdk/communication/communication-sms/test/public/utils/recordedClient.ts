@@ -1,17 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context, Test } from "mocha";
-import {
-  Recorder,
-  RecorderStartOptions,
-  SanitizerOptions,
-  env,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
+import type { Context, Test } from "mocha";
+import type { RecorderStartOptions, SanitizerOptions } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SmsClient } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 export interface RecordedClient<T> {

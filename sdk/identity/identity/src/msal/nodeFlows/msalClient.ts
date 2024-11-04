@@ -3,10 +3,12 @@
 
 import * as msal from "@azure/msal-node";
 
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { AuthenticationRecord, CertificateParts } from "../types";
-import { CredentialLogger, credentialLogger, formatSuccess } from "../../util/logging";
-import { PluginConfiguration, msalPlugins } from "./msalPlugins";
+import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import type { AuthenticationRecord, CertificateParts } from "../types";
+import type { CredentialLogger } from "../../util/logging";
+import { credentialLogger, formatSuccess } from "../../util/logging";
+import type { PluginConfiguration } from "./msalPlugins";
+import { msalPlugins } from "./msalPlugins";
 import {
   defaultLoggerCallback,
   ensureValidMsalToken,
@@ -20,11 +22,11 @@ import {
 } from "../utils";
 
 import { AuthenticationRequiredError } from "../../errors";
-import { BrokerOptions } from "./brokerOptions";
-import { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
+import type { BrokerOptions } from "./brokerOptions";
+import type { DeviceCodePromptCallback } from "../../credentials/deviceCodeCredentialOptions";
 import { IdentityClient } from "../../client/identityClient";
-import { InteractiveBrowserCredentialNodeOptions } from "../../credentials/interactiveBrowserCredentialOptions";
-import { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
+import type { InteractiveBrowserCredentialNodeOptions } from "../../credentials/interactiveBrowserCredentialOptions";
+import type { TokenCachePersistenceOptions } from "./tokenCachePersistenceOptions";
 import { calculateRegionalAuthority } from "../../regionalAuthority";
 import { getLogLevel } from "@azure/logger";
 import open from "open";
@@ -466,6 +468,12 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       }
     }
 
+    if (options.proofOfPossessionOptions) {
+      silentRequest.shrNonce = options.proofOfPossessionOptions.nonce;
+      silentRequest.authenticationScheme = "pop";
+      silentRequest.resourceRequestMethod = options.proofOfPossessionOptions.resourceRequestMethod;
+      silentRequest.resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
+    }
     state.logger.getToken.info("Attempting to acquire token silently");
     return app.acquireTokenSilent(silentRequest);
   }
@@ -532,7 +540,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       token: response.accessToken,
       expiresOnTimestamp: response.expiresOn.getTime(),
       refreshAfterTimestamp: response.refreshOn?.getTime(),
-    };
+      tokenType: response.tokenType,
+    } as AccessToken;
   }
 
   async function getTokenByClientSecret(
@@ -559,7 +568,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
         refreshAfterTimestamp: response.refreshOn?.getTime(),
-      };
+        tokenType: response.tokenType,
+      } as AccessToken;
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
     }
@@ -591,7 +601,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
         refreshAfterTimestamp: response.refreshOn?.getTime(),
-      };
+        tokenType: response.tokenType,
+      } as AccessToken;
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
     }
@@ -621,7 +632,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
         refreshAfterTimestamp: response.refreshOn?.getTime(),
-      };
+        tokenType: response.tokenType,
+      } as AccessToken;
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
     }
@@ -752,7 +764,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         token: response.accessToken,
         expiresOnTimestamp: response.expiresOn.getTime(),
         refreshAfterTimestamp: response.refreshOn?.getTime(),
-      };
+        tokenType: response.tokenType,
+      } as AccessToken;
     } catch (err: any) {
       throw handleMsalError(scopes, err, options);
     }
@@ -799,6 +812,13 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         msalLogger.verbose("Attempting broker authentication without the default broker account");
       }
 
+      if (options.proofOfPossessionOptions) {
+        interactiveRequest.shrNonce = options.proofOfPossessionOptions.nonce;
+        interactiveRequest.authenticationScheme = "pop";
+        interactiveRequest.resourceRequestMethod =
+          options.proofOfPossessionOptions.resourceRequestMethod;
+        interactiveRequest.resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
+      }
       try {
         return await app.acquireTokenInteractive(interactiveRequest);
       } catch (e: any) {
@@ -832,7 +852,13 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       if (state.pluginConfiguration.broker.isEnabled) {
         return getBrokeredToken(state.pluginConfiguration.broker.useDefaultBrokerAccount ?? false);
       }
-
+      if (options.proofOfPossessionOptions) {
+        interactiveRequest.shrNonce = options.proofOfPossessionOptions.nonce;
+        interactiveRequest.authenticationScheme = "pop";
+        interactiveRequest.resourceRequestMethod =
+          options.proofOfPossessionOptions.resourceRequestMethod;
+        interactiveRequest.resourceRequestUri = options.proofOfPossessionOptions.resourceRequestUrl;
+      }
       return app.acquireTokenInteractive(interactiveRequest);
     });
   }

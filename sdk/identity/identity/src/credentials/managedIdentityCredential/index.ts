@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 
-import { LegacyMsiProvider } from "./legacyMsiProvider";
-import { TokenCredentialOptions } from "../../tokenCredentialOptions";
+import type { LegacyMsiProvider } from "./legacyMsiProvider";
+import type { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import { MsalMsiProvider } from "./msalMsiProvider";
 
 /**

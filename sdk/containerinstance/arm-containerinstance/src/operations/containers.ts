@@ -18,7 +18,7 @@ import {
   ContainersExecuteCommandOptionalParams,
   ContainersExecuteCommandResponse,
   ContainersAttachOptionalParams,
-  ContainersAttachResponse
+  ContainersAttachResponse,
 } from "../models";
 
 /** Class containing Containers operations. */
@@ -35,7 +35,7 @@ export class ContainersImpl implements Containers {
 
   /**
    * Get the logs for a specified container instance in a specified resource group and container group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param containerName The name of the container instance.
    * @param options The options parameters.
@@ -44,18 +44,18 @@ export class ContainersImpl implements Containers {
     resourceGroupName: string,
     containerGroupName: string,
     containerName: string,
-    options?: ContainersListLogsOptionalParams
+    options?: ContainersListLogsOptionalParams,
   ): Promise<ContainersListLogsResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerGroupName, containerName, options },
-      listLogsOperationSpec
+      listLogsOperationSpec,
     );
   }
 
   /**
    * Executes a command for a specific container instance in a specified resource group and container
    * group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param containerName The name of the container instance.
    * @param containerExecRequest The request for the exec command.
@@ -66,7 +66,7 @@ export class ContainersImpl implements Containers {
     containerGroupName: string,
     containerName: string,
     containerExecRequest: ContainerExecRequest,
-    options?: ContainersExecuteCommandOptionalParams
+    options?: ContainersExecuteCommandOptionalParams,
   ): Promise<ContainersExecuteCommandResponse> {
     return this.client.sendOperationRequest(
       {
@@ -74,16 +74,16 @@ export class ContainersImpl implements Containers {
         containerGroupName,
         containerName,
         containerExecRequest,
-        options
+        options,
       },
-      executeCommandOperationSpec
+      executeCommandOperationSpec,
     );
   }
 
   /**
    * Attach to the output stream of a specific container instance in a specified resource group and
    * container group.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param containerGroupName The name of the container group.
    * @param containerName The name of the container instance.
    * @param options The options parameters.
@@ -92,11 +92,11 @@ export class ContainersImpl implements Containers {
     resourceGroupName: string,
     containerGroupName: string,
     containerName: string,
-    options?: ContainersAttachOptionalParams
+    options?: ContainersAttachOptionalParams,
   ): Promise<ContainersAttachResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, containerGroupName, containerName, options },
-      attachOperationSpec
+      attachOperationSpec,
     );
   }
 }
@@ -104,43 +104,41 @@ export class ContainersImpl implements Containers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listLogsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/logs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/logs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Logs
+      bodyMapper: Mappers.Logs,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.tail,
-    Parameters.timestamps
+    Parameters.timestamps,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerGroupName,
-    Parameters.containerName
+    Parameters.containerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const executeCommandOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/exec",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/exec",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerExecResponse
+      bodyMapper: Mappers.ContainerExecResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.containerExecRequest,
   queryParameters: [Parameters.apiVersion],
@@ -149,23 +147,22 @@ const executeCommandOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerGroupName,
-    Parameters.containerName
+    Parameters.containerName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const attachOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/attach",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/attach",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ContainerAttachResponse
+      bodyMapper: Mappers.ContainerAttachResponse,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -173,8 +170,8 @@ const attachOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.containerGroupName,
-    Parameters.containerName
+    Parameters.containerName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

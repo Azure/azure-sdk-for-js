@@ -8,6 +8,7 @@
  */
 
 const ModelClient = require("@azure-rest/ai-inference").default;
+const { AzureKeyCredential } = require("@azure/core-auth");
 const { createSseStream } = require("@azure/core-sse");
 const { DefaultAzureCredential } = require("@azure/identity");
 
@@ -15,7 +16,9 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 // You will need to set these environment variables or edit the following values
-const modelEndpoint = process.env["MODEL_ENDPOINT"] || "<endpoint>";
+const endpoint = process.env["ENDPOINT"] || "<endpoint>";
+const key = process.env["KEY"];
+const modelName = process.env["MODEL_NAME"];
 
 const getCurrentWeather = {
   name: "get_current_weather",
@@ -101,12 +104,7 @@ const streamToString = async (stream) => {
 };
 
 async function main() {
-  const credential = new DefaultAzureCredential();
-  // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
-  // (only needed when targetting AOAI, do not use for Serverless API or Managed Computer Endpoints)
-  const scopes = ["https://cognitiveservices.azure.com/.default"];
-  const clientOptions = { credentials: { scopes } };
-  const client = ModelClient(modelEndpoint, credential, clientOptions);
+  const client = createModelClient();
 
   const messages = [{ role: "user", content: "What's the weather like in Boston?" }];
 
@@ -124,6 +122,7 @@ async function main() {
               function: getCurrentWeather,
             },
           ],
+          model: modelName,
           stream: true,
         },
       })
@@ -173,6 +172,29 @@ async function main() {
 
   console.log("Model response after tool call:");
   console.log(toolCallAnswer);
+}
+
+/*
+ * This function creates a model client.
+ */
+function createModelClient() {
+  // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
+  // auth scope for MaaS and MaaP is currently https://ml.azure.com
+  // (Do not use for Serverless API or Managed Computer Endpoints)
+  if (key) {
+    return ModelClient(endpoint, new AzureKeyCredential(key));
+  } else {
+    const scopes = [];
+    if (endpoint.includes(".models.ai.azure.com")) {
+      scopes.push("https://ml.azure.com");
+    }
+    else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
+      scopes.push("https://cognitiveservices.azure.com");
+    }
+
+    const clientOptions = { credentials: { scopes } };
+    return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);
+  }
 }
 
 main().catch((err) => {

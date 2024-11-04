@@ -2,14 +2,11 @@
 // Licensed under the MIT License.
 
 import https from "https";
-import {
-  PipelineRequestOptions,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
-import { GetTokenOptions } from "@azure/core-auth";
+import type { PipelineRequestOptions } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import type { GetTokenOptions } from "@azure/core-auth";
 import { credentialLogger } from "../../util/logging";
-import { MSI, MSIConfiguration, MSIToken } from "./models";
+import type { MSI, MSIConfiguration, MSIToken } from "./models";
 import { mapScopesToResource } from "./utils";
 import { azureFabricVersion } from "./constants";
 

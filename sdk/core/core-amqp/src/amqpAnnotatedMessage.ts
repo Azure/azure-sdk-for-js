@@ -3,7 +3,7 @@
 /* eslint-disable eqeqeq */
 import { AmqpMessageHeader } from "./messageHeader.js";
 import { AmqpMessageProperties } from "./messageProperties.js";
-import { Message as RheaMessage } from "rhea-promise";
+import type { Message as RheaMessage } from "rhea-promise";
 import { Constants } from "./util/constants.js";
 
 /**
