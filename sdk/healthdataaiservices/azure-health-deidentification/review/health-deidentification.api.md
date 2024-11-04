@@ -582,7 +582,7 @@ export interface Routes {
     (path: "/jobs"): ListJobs;
     (path: "/jobs/{name}/documents", name: string): ListJobDocuments;
     (path: "/jobs/{name}:cancel", name: string): CancelJob;
-    (path: "/deid"): Deidentify;
+    (path: "/deid"): Deidentify; // todo delete? not needed bc not a unique route
 }
 
 // @public

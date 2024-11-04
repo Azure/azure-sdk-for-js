@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import type { RequestParameters } from "@azure-rest/core-client";
-import type { DeidentificationJob, DeidentificationContent } from "./models.js";
+import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import { RequestParameters } from "@azure-rest/core-client";
+import { DeidentificationJob, DeidentificationContent } from "./models.js";
 
 export interface GetJobHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -16,21 +16,23 @@ export interface GetJobHeaderParam {
 
 export type GetJobParameters = GetJobHeaderParam & RequestParameters;
 
-export interface CreateJobHeaders {
+export interface DeidentifyDocumentsHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
-export interface CreateJobBodyParam {
+export interface DeidentifyDocumentsBodyParam {
   /** The resource instance. */
   body: DeidentificationJob;
 }
 
-export interface CreateJobHeaderParam {
-  headers?: RawHttpHeadersInput & CreateJobHeaders;
+export interface DeidentifyDocumentsHeaderParam {
+  headers?: RawHttpHeadersInput & DeidentifyDocumentsHeaders;
 }
 
-export type CreateJobParameters = CreateJobHeaderParam & CreateJobBodyParam & RequestParameters;
+export type DeidentifyDocumentsParameters = DeidentifyDocumentsHeaderParam &
+  DeidentifyDocumentsBodyParam &
+  RequestParameters;
 
 export interface ListJobsHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -52,7 +54,9 @@ export interface ListJobsHeaderParam {
   headers?: RawHttpHeadersInput & ListJobsHeaders;
 }
 
-export type ListJobsParameters = ListJobsQueryParam & ListJobsHeaderParam & RequestParameters;
+export type ListJobsParameters = ListJobsQueryParam &
+  ListJobsHeaderParam &
+  RequestParameters;
 
 export interface ListJobDocumentsHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -100,9 +104,10 @@ export interface DeleteJobHeaderParam {
 
 export type DeleteJobParameters = DeleteJobHeaderParam & RequestParameters;
 
-export interface DeidentifyBodyParam {
+export interface DeidentifyTextBodyParam {
   /** Request body for de-identification operation. */
   body: DeidentificationContent;
 }
 
-export type DeidentifyParameters = DeidentifyBodyParam & RequestParameters;
+export type DeidentifyTextParameters = DeidentifyTextBodyParam &
+  RequestParameters;

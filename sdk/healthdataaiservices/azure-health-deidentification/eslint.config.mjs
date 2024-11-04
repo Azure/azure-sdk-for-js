@@ -8,12 +8,10 @@ export default [
       "@azure/azure-sdk/ts-apiextractor-json-types": "warn",
       "@azure/azure-sdk/ts-package-json-types": "warn",
       "@azure/azure-sdk/ts-package-json-engine-is-present": "warn",
-      "tsdoc/syntax": "warn",
       "@azure/azure-sdk/ts-package-json-module": "off",
       "@azure/azure-sdk/ts-package-json-files-required": "off",
       "@azure/azure-sdk/ts-package-json-main-is-cjs": "off",
-      "@azure/azure-sdk/ts-package-json-name": "warn",
-      "@azure/azure-sdk/ts-package-json-homepage": "warn",
-    },
-  },
+      "tsdoc/syntax": "warn"
+    }
+  }
 ];

@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   GetJobParameters,
-  CreateJobParameters,
+  DeidentifyDocumentsParameters,
   DeleteJobParameters,
   ListJobsParameters,
   ListJobDocumentsParameters,
   CancelJobParameters,
-  DeidentifyParameters,
+  DeidentifyTextParameters,
 } from "./parameters.js";
-import type {
+import {
   GetJob200Response,
   GetJobDefaultResponse,
-  CreateJob200Response,
-  CreateJob201Response,
-  CreateJobDefaultResponse,
+  DeidentifyDocuments200Response,
+  DeidentifyDocuments201Response,
+  DeidentifyDocumentsDefaultResponse,
   DeleteJob204Response,
   DeleteJobDefaultResponse,
   ListJobs200Response,
@@ -24,18 +24,24 @@ import type {
   ListJobDocumentsDefaultResponse,
   CancelJob200Response,
   CancelJobDefaultResponse,
-  Deidentify200Response,
-  DeidentifyDefaultResponse,
+  DeidentifyText200Response,
+  DeidentifyTextDefaultResponse,
 } from "./responses.js";
-import type { Client, StreamableMethod } from "@azure-rest/core-client";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetJob {
   /** Resource read operation template. */
-  get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
+  get(
+    options?: GetJobParameters,
+  ): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
   /** Long-running resource create or replace operation template. */
   put(
-    options: CreateJobParameters,
-  ): StreamableMethod<CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse>;
+    options: DeidentifyDocumentsParameters,
+  ): StreamableMethod<
+    | DeidentifyDocuments200Response
+    | DeidentifyDocuments201Response
+    | DeidentifyDocumentsDefaultResponse
+  >;
   /** Removes the record of the job from the service. Does not delete any documents. */
   delete(
     options?: DeleteJobParameters,
@@ -53,7 +59,9 @@ export interface ListJobDocuments {
   /** Resource list operation template. */
   get(
     options?: ListJobDocumentsParameters,
-  ): StreamableMethod<ListJobDocuments200Response | ListJobDocumentsDefaultResponse>;
+  ): StreamableMethod<
+    ListJobDocuments200Response | ListJobDocumentsDefaultResponse
+  >;
 }
 
 export interface CancelJob {
@@ -69,11 +77,13 @@ export interface CancelJob {
   ): StreamableMethod<CancelJob200Response | CancelJobDefaultResponse>;
 }
 
-export interface Deidentify {
+export interface DeidentifyText {
   /** A remote procedure call (RPC) operation. */
   post(
-    options: DeidentifyParameters,
-  ): StreamableMethod<Deidentify200Response | DeidentifyDefaultResponse>;
+    options: DeidentifyTextParameters,
+  ): StreamableMethod<
+    DeidentifyText200Response | DeidentifyTextDefaultResponse
+  >;
 }
 
 export interface Routes {
@@ -86,9 +96,9 @@ export interface Routes {
   /** Resource for '/jobs/\{name\}:cancel' has methods for the following verbs: post */
   (path: "/jobs/{name}:cancel", name: string): CancelJob;
   /** Resource for '/deid' has methods for the following verbs: post */
-  (path: "/deid"): Deidentify;
+  (path: "/deid"): DeidentifyText;
 }
 
-export type DeidentificationClient = Client & {
+export type DeidServicesClient = Client & {
   path: Routes;
 };

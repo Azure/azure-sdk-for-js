@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   GetJob200Response,
   GetJobDefaultResponse,
-  CreateJob200Response,
-  CreateJob201Response,
-  CreateJobLogicalResponse,
-  CreateJobDefaultResponse,
+  DeidentifyDocuments200Response,
+  DeidentifyDocuments201Response,
+  DeidentifyDocumentsLogicalResponse,
+  DeidentifyDocumentsDefaultResponse,
   DeleteJob204Response,
   DeleteJobDefaultResponse,
   ListJobs200Response,
@@ -16,8 +16,8 @@ import type {
   ListJobDocumentsDefaultResponse,
   CancelJob200Response,
   CancelJobDefaultResponse,
-  Deidentify200Response,
-  DeidentifyDefaultResponse,
+  DeidentifyText200Response,
+  DeidentifyTextDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -35,11 +35,11 @@ export function isUnexpected(
 ): response is GetJobDefaultResponse;
 export function isUnexpected(
   response:
-    | CreateJob200Response
-    | CreateJob201Response
-    | CreateJobLogicalResponse
-    | CreateJobDefaultResponse,
-): response is CreateJobDefaultResponse;
+    | DeidentifyDocuments200Response
+    | DeidentifyDocuments201Response
+    | DeidentifyDocumentsLogicalResponse
+    | DeidentifyDocumentsDefaultResponse,
+): response is DeidentifyDocumentsDefaultResponse;
 export function isUnexpected(
   response: DeleteJob204Response | DeleteJobDefaultResponse,
 ): response is DeleteJobDefaultResponse;
@@ -53,16 +53,16 @@ export function isUnexpected(
   response: CancelJob200Response | CancelJobDefaultResponse,
 ): response is CancelJobDefaultResponse;
 export function isUnexpected(
-  response: Deidentify200Response | DeidentifyDefaultResponse,
-): response is DeidentifyDefaultResponse;
+  response: DeidentifyText200Response | DeidentifyTextDefaultResponse,
+): response is DeidentifyTextDefaultResponse;
 export function isUnexpected(
   response:
     | GetJob200Response
     | GetJobDefaultResponse
-    | CreateJob200Response
-    | CreateJob201Response
-    | CreateJobLogicalResponse
-    | CreateJobDefaultResponse
+    | DeidentifyDocuments200Response
+    | DeidentifyDocuments201Response
+    | DeidentifyDocumentsLogicalResponse
+    | DeidentifyDocumentsDefaultResponse
     | DeleteJob204Response
     | DeleteJobDefaultResponse
     | ListJobs200Response
@@ -71,16 +71,16 @@ export function isUnexpected(
     | ListJobDocumentsDefaultResponse
     | CancelJob200Response
     | CancelJobDefaultResponse
-    | Deidentify200Response
-    | DeidentifyDefaultResponse,
+    | DeidentifyText200Response
+    | DeidentifyTextDefaultResponse,
 ): response is
   | GetJobDefaultResponse
-  | CreateJobDefaultResponse
+  | DeidentifyDocumentsDefaultResponse
   | DeleteJobDefaultResponse
   | ListJobsDefaultResponse
   | ListJobDocumentsDefaultResponse
   | CancelJobDefaultResponse
-  | DeidentifyDefaultResponse {
+  | DeidentifyTextDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;
@@ -113,17 +113,24 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;
