@@ -52,7 +52,7 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/rest/healthDataAIServicesClient.ts",
+        "path": "src/api/healthDataAIServicesContext.ts",
         "prefix": "userAgentInfo"
       }
     ]

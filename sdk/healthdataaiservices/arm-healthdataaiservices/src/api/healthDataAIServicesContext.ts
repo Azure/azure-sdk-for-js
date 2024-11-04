@@ -20,7 +20,10 @@ export function createHealthDataAIServices(
   options: HealthDataAIServicesClientOptionalParams = {},
 ): HealthDataAIServicesContext {
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions} azsdk-js-api` : "azsdk-js-api";
+  const userAgentInfo = `azsdk-js-arm-healthdataaiservices/1.0.0-beta.2`;
+  const userAgentPrefix = prefixFromOptions
+    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
+    : `azsdk-js-api ${userAgentInfo}`;
 
   const clientContext = getClient(credential, {
     ...options,
