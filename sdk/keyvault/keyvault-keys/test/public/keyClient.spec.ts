@@ -3,7 +3,7 @@
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 
-import {
+import type {
   CreateEcKeyOptions,
   GetKeyOptions,
   KeyClient,
@@ -11,7 +11,7 @@ import {
 } from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
-import TestClient from "./utils/testClient.js";
+import type TestClient from "./utils/testClient.js";
 import { stringToUint8Array, uint8ArrayToString } from "./utils/crypto.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 

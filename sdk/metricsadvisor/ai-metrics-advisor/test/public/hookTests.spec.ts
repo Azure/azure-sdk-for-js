@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
-import {
+import type {
   EmailNotificationHook,
   EmailNotificationHookPatch,
   MetricsAdvisorAdministrationClient,
@@ -16,7 +16,7 @@ import {
   getRecorderUniqueVariable,
   makeCredential,
 } from "./util/recordedClients";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import {
   fakeTestPassPlaceholder,
   fakeTestSecretPlaceholder,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   checkTenantId,
   processMultiTenantRequest,
@@ -10,7 +10,7 @@ import {
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils";
 
-import { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
+import type { AzurePowerShellCredentialOptions } from "./azurePowerShellCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
 import { processUtils } from "../util/processUtils";
 import { tracingClient } from "../util/tracing";
@@ -218,7 +218,8 @@ export class AzurePowerShellCredential implements TokenCredential {
         return {
           token: response.Token,
           expiresOnTimestamp: new Date(response.ExpiresOn).getTime(),
-        };
+          tokenType: "Bearer",
+        } as AccessToken;
       } catch (err: any) {
         if (isNotInstalledError(err)) {
           const error = new CredentialUnavailableError(powerShellPublicErrorMessages.installed);

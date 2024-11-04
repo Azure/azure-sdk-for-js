@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 import { createHash } from "node:crypto";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
-import { ClientSecretCredential } from "@azure/identity";
+import type { ClientSecretCredential } from "@azure/identity";
 
-import { CryptographyClient, KeyClient, KeyVaultKey } from "../../../src/index.js";
+import type { KeyClient, KeyVaultKey } from "../../../src/index.js";
+import { CryptographyClient } from "../../../src/index.js";
 import { authenticate, envSetupForPlayback } from "../utils/testAuthentication.js";
-import TestClient from "../utils/testClient.js";
+import type TestClient from "../utils/testClient.js";
 import { stringToUint8Array, uint8ArrayToString } from "./../utils/crypto.js";
 import { RsaCryptographyProvider } from "../../../src/cryptography/rsaCryptographyProvider.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";

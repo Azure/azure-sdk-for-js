@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { HttpClient } from "@azure/core-rest-pipeline";
+import type { HttpClient } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import { TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import sinon from "sinon";
-import { SmsClient, SmsClientOptions, SmsSendRequest } from "../../src";
+import type { SmsClientOptions, SmsSendRequest } from "../../src";
+import { SmsClient } from "../../src";
 import { MockHttpClient } from "./utils/mockHttpClient";
 
 const TEST_NUMBER = "+14255550123";

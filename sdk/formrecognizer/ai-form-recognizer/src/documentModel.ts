@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentFieldSchema, DocumentModelDetails } from "./generated";
-import { AnalyzedDocument, AnalyzeResult } from "./lro/analysis";
-import { DocumentField } from "./models/fields";
+import type { DocumentFieldSchema, DocumentModelDetails } from "./generated";
+import type { AnalyzedDocument, AnalyzeResult } from "./lro/analysis";
+import type { DocumentField } from "./models/fields";
 import { isAcronymic, uncapitalize } from "./util";
 
 /**

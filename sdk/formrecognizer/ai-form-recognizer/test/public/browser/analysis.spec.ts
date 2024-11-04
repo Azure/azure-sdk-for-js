@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 import { DocumentAnalysisClient } from "../../../src";
-import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecordedClient, testPollingOptions } from "../../utils/recordedClients";
 
 describe("analysis (browser)", () => {

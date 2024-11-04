@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ChatParticipant } from "./models";
+import type { ChatParticipant } from "./models";
 
 export { SendReadReceiptRequest } from "../generated/src/models";
 

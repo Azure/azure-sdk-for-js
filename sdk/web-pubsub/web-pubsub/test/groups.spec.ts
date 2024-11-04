@@ -2,11 +2,12 @@
 // Licensed under the MIT License.
 /* eslint-disable no-invalid-this */
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { WebPubSubServiceClient, WebPubSubGroup } from "../src";
+import type { WebPubSubGroup } from "../src";
+import { WebPubSubServiceClient } from "../src";
 import { assert } from "chai";
 import recorderOptions from "./testEnv";
-import { FullOperationResponse } from "@azure/core-client";
-import { RestError } from "@azure/core-rest-pipeline";
+import type { FullOperationResponse } from "@azure/core-client";
+import type { RestError } from "@azure/core-rest-pipeline";
 /* eslint-disable @typescript-eslint/no-invalid-this */
 
 describe("Group client working with a group", function () {

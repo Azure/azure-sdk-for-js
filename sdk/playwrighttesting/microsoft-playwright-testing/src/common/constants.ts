@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ApiErrorMessage } from "./types";
+import type { ApiErrorMessage } from "./types";
 
 export const EntraIdAccessTokenConstants = {
   LIFETIME_LEFT_THRESHOLD_IN_MINUTES_FOR_ROTATION: 15,
@@ -238,6 +238,7 @@ export const TestResultErrorConstants = [
 export const InternalEnvironmentVariables = {
   MPT_PLAYWRIGHT_VERSION: "_MPT_PLAYWRIGHT_VERSION",
   MPT_SETUP_FATAL_ERROR: "_MPT_SETUP_FATAL_ERROR",
+  MPT_SERVICE_RUN_NAME: "_MPT_SERVICE_RUN_NAME",
   MPT_SERVICE_RUN_ID: "_MPT_SERVICE_RUN_ID",
   MPT_CLOUD_HOSTED_BROWSER_USED: "_MPT_CLOUD_HOSTED_BROWSER_USED",
 };

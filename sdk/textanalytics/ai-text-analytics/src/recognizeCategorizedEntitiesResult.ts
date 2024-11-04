@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { TextAnalyticsErrorResult, TextAnalyticsSuccessResult } from "./textAnalyticsResult";
 import {
-  TextAnalyticsErrorResult,
-  TextAnalyticsSuccessResult,
   makeTextAnalyticsErrorResult,
   makeTextAnalyticsSuccessResult,
 } from "./textAnalyticsResult";
-import { DocumentEntities, Entity, TextAnalyticsError } from "./generated/models";
+import type { DocumentEntities, Entity, TextAnalyticsError } from "./generated/models";
 
 /**
  * An entity from text analysis with information about its categorical

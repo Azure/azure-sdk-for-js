@@ -6,7 +6,7 @@ import * as https from "node:https";
 import * as zlib from "node:zlib";
 import { Transform } from "node:stream";
 import { AbortError } from "./abort-controller/AbortError.js";
-import {
+import type {
   HttpClient,
   HttpHeaders,
   PipelineRequest,
@@ -17,7 +17,7 @@ import {
 } from "./interfaces.js";
 import { createHttpHeaders } from "./httpHeaders.js";
 import { RestError } from "./restError.js";
-import { IncomingMessage } from "node:http";
+import type { IncomingMessage } from "node:http";
 import { logger } from "./log.js";
 
 const DEFAULT_TLS_SETTINGS = {};
@@ -32,9 +32,16 @@ function isStreamComplete(stream: NodeJS.ReadableStream): Promise<void> {
   }
 
   return new Promise((resolve) => {
-    stream.on("close", resolve);
-    stream.on("end", resolve);
-    stream.on("error", resolve);
+    const handler = (): void => {
+      resolve();
+      stream.removeListener("close", handler);
+      stream.removeListener("end", handler);
+      stream.removeListener("error", handler);
+    };
+
+    stream.on("close", handler);
+    stream.on("end", handler);
+    stream.on("error", handler);
   });
 }
 
@@ -181,7 +188,6 @@ class NodeHttpClient implements HttpClient {
         if (isReadableStream(responseStream)) {
           downloadStreamDone = isStreamComplete(responseStream);
         }
-
         Promise.all([uploadStreamDone, downloadStreamDone])
           .then(() => {
             // eslint-disable-next-line promise/always-return

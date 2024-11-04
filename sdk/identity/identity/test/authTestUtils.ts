@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AuthenticationError, AzureAuthorityHosts } from "../src";
+import type { AuthenticationError } from "../src";
+import { AzureAuthorityHosts } from "../src";
 import { assert } from "chai";
 
 /**

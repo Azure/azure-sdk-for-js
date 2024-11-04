@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { AuthenticationError, CredentialUnavailableError } from "../errors";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 
-import { AzurePipelinesCredentialOptions } from "./azurePipelinesCredentialOptions";
+import type { AzurePipelinesCredentialOptions } from "./azurePipelinesCredentialOptions";
 import { ClientAssertionCredential } from "./clientAssertionCredential";
 import { IdentityClient } from "../client/identityClient";
-import { PipelineResponse } from "@azure/core-rest-pipeline";
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import { checkTenantId } from "../util/tenantIdUtils";
 import { credentialLogger } from "../util/logging";
 

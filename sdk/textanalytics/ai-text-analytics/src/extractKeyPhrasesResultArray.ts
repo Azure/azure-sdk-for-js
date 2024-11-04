@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   KeyPhraseResult,
   TextDocumentBatchStatistics,
   TextDocumentInput,
 } from "./generated/models";
+import type { ExtractKeyPhrasesResult } from "./extractKeyPhrasesResult";
 import {
-  ExtractKeyPhrasesResult,
   makeExtractKeyPhrasesErrorResult,
   makeExtractKeyPhrasesResult,
 } from "./extractKeyPhrasesResult";

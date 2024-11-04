@@ -4,20 +4,17 @@
 /// <reference lib="esnext.asynciterable" />
 
 /* eslint-disable @azure/azure-sdk/ts-naming-options */
-import {
-  InternalPipelineOptions,
-  bearerTokenAuthenticationPolicy,
-} from "@azure/core-rest-pipeline";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { logger } from "./logger";
-import {
-  MetricsAdvisorKeyCredential,
-  createMetricsAdvisorKeyCredentialPolicy,
-} from "./metricsAdvisorKeyCredentialPolicy";
+import type { MetricsAdvisorKeyCredential } from "./metricsAdvisorKeyCredentialPolicy";
+import { createMetricsAdvisorKeyCredentialPolicy } from "./metricsAdvisorKeyCredentialPolicy";
 import { GeneratedClient } from "./generated/generatedClient";
-import {
+import type {
   AlertConfigurationsPageResponse,
   AnomalyAlertConfiguration,
   AnomalyDetectionConfiguration,
@@ -43,7 +40,7 @@ import {
   WebNotificationHook,
   WebNotificationHookPatch,
 } from "./models";
-import { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
+import type { DataSourceType, HookInfoUnion, NeedRollupEnum } from "./generated/models";
 import {
   fromServiceAlertConfiguration,
   fromServiceAnomalyDetectionConfiguration,
@@ -66,7 +63,7 @@ import {
   MetricsAdvisorLoggingAllowedHeaderNames,
   MetricsAdvisorLoggingAllowedQueryParameters,
 } from "./constants";
-import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 import { tracingClient } from "./tracing";
 
 /**

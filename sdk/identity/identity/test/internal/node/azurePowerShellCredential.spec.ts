@@ -10,7 +10,7 @@ import {
   powerShellPublicErrorMessages,
 } from "../../../src/credentials/azurePowerShellCredential";
 import { AzurePowerShellCredential } from "../../../src";
-import { GetTokenOptions } from "@azure/core-auth";
+import type { GetTokenOptions } from "@azure/core-auth";
 import Sinon from "sinon";
 import { assert } from "@azure-tools/test-utils";
 import { commandStack } from "../../../src/credentials/azurePowerShellCredential";

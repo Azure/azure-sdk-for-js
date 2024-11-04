@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
-import {
+import type {
   ChatClientOptions,
   CreateChatThreadOptions,
   DeleteChatThreadOptions,
   ListChatThreadsOptions,
 } from "./models/options";
-import {
+import type {
   ChatEventId,
   ChatMessageDeletedEvent,
   ChatMessageEditedEvent,
@@ -21,12 +21,9 @@ import {
   ReadReceiptReceivedEvent,
   TypingIndicatorReceivedEvent,
 } from "./models/events";
-import { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
-import {
-  ConnectionState,
-  SignalingClient,
-  SignalingClientOptions,
-} from "@azure/communication-signaling";
+import type { ChatThreadItem, CreateChatThreadResult, ListPageSettings } from "./models/models";
+import type { SignalingClient, SignalingClientOptions } from "@azure/communication-signaling";
+import { ConnectionState } from "@azure/communication-signaling";
 import {
   mapToChatParticipantRestModel,
   mapToCreateChatThreadOptionsRestModel,
@@ -35,11 +32,11 @@ import {
 
 import { ChatApiClient } from "./generated/src";
 import { ChatThreadClient } from "./chatThreadClient";
-import { CommunicationTokenCredential } from "@azure/communication-common";
-import { CreateChatThreadRequest } from "./models/requests";
+import type { CommunicationTokenCredential } from "@azure/communication-common";
+import type { CreateChatThreadRequest } from "./models/requests";
 import { EventEmitter } from "events";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { generateUuid } from "./models/uuid";
 import { getSignalingClient } from "./signaling/signalingClient";
