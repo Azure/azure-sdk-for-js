@@ -206,6 +206,7 @@ export default (parser: FlatConfig.Parser): FlatConfig.ConfigArray => [
     files: ["samples-dev/**/*.ts", "*/*/samples-dev/**/*.ts"],
     rules: {
       "tsdoc/syntax": "off",
+      "n/no-process-exit": "off",
     },
   },
   {
