@@ -65,8 +65,7 @@ export interface ReceivedSharesGetReceivedShare {
   get(
     options?: ReceivedSharesGetReceivedShareParameters,
   ): StreamableMethod<
-    | ReceivedSharesGetReceivedShare200Response
-    | ReceivedSharesGetReceivedShareDefaultResponse
+    ReceivedSharesGetReceivedShare200Response | ReceivedSharesGetReceivedShareDefaultResponse
   >;
   /** Update changes to a received share */
   put(
@@ -80,8 +79,7 @@ export interface ReceivedSharesGetReceivedShare {
   delete(
     options?: ReceivedSharesDeleteReceivedShareParameters,
   ): StreamableMethod<
-    | ReceivedSharesDeleteReceivedShare202Response
-    | ReceivedSharesDeleteReceivedShareDefaultResponse
+    ReceivedSharesDeleteReceivedShare202Response | ReceivedSharesDeleteReceivedShareDefaultResponse
   >;
 }
 
@@ -130,8 +128,7 @@ export interface SentSharesGetAllSentShares {
   get(
     options: SentSharesGetAllSentSharesParameters,
   ): StreamableMethod<
-    | SentSharesGetAllSentShares200Response
-    | SentSharesGetAllSentSharesDefaultResponse
+    SentSharesGetAllSentShares200Response | SentSharesGetAllSentSharesDefaultResponse
   >;
 }
 
@@ -139,9 +136,7 @@ export interface SentSharesGetSentShare {
   /** Get a sent share */
   get(
     options?: SentSharesGetSentShareParameters,
-  ): StreamableMethod<
-    SentSharesGetSentShare200Response | SentSharesGetSentShareDefaultResponse
-  >;
+  ): StreamableMethod<SentSharesGetSentShare200Response | SentSharesGetSentShareDefaultResponse>;
   /** Create or replace a sent share */
   put(
     options: SentSharesCreateOrReplaceParameters,
@@ -154,8 +149,7 @@ export interface SentSharesGetSentShare {
   delete(
     options?: SentSharesDeleteSentShareParameters,
   ): StreamableMethod<
-    | SentSharesDeleteSentShare202Response
-    | SentSharesDeleteSentShareDefaultResponse
+    SentSharesDeleteSentShare202Response | SentSharesDeleteSentShareDefaultResponse
   >;
 }
 
@@ -174,8 +168,7 @@ export interface SentSharesGetSentShareInvitation {
   get(
     options?: SentSharesGetSentShareInvitationParameters,
   ): StreamableMethod<
-    | SentSharesGetSentShareInvitation200Response
-    | SentSharesGetSentShareInvitationDefaultResponse
+    SentSharesGetSentShareInvitation200Response | SentSharesGetSentShareInvitationDefaultResponse
   >;
   /** Create a recipient for a given sent share */
   put(
@@ -220,13 +213,9 @@ export interface Routes {
     receivedShareId: string,
   ): ReceivedSharesGetReceivedShare;
   /** Resource for '/receivedShares/attached' has methods for the following verbs: get */
-  (
-    path: "/receivedShares/attached",
-  ): ReceivedSharesGetAllAttachedReceivedShares;
+  (path: "/receivedShares/attached"): ReceivedSharesGetAllAttachedReceivedShares;
   /** Resource for '/receivedShares/detached' has methods for the following verbs: get */
-  (
-    path: "/receivedShares/detached",
-  ): ReceivedSharesGetAllDetachedReceivedShares;
+  (path: "/receivedShares/detached"): ReceivedSharesGetAllDetachedReceivedShares;
   /** Resource for '/emails:activate' has methods for the following verbs: post */
   (path: "/emails:activate"): ReceivedSharesActivateTenantEmailRegistration;
   /** Resource for '/emails:register' has methods for the following verbs: post */
@@ -234,10 +223,7 @@ export interface Routes {
   /** Resource for '/sentShares' has methods for the following verbs: get */
   (path: "/sentShares"): SentSharesGetAllSentShares;
   /** Resource for '/sentShares/\{sentShareId\}' has methods for the following verbs: get, put, delete */
-  (
-    path: "/sentShares/{sentShareId}",
-    sentShareId: string,
-  ): SentSharesGetSentShare;
+  (path: "/sentShares/{sentShareId}", sentShareId: string): SentSharesGetSentShare;
   /** Resource for '/sentShares/\{sentShareId\}/sentShareInvitations' has methods for the following verbs: get */
   (
     path: "/sentShares/{sentShareId}/sentShareInvitations",

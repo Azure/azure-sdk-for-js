@@ -21,10 +21,7 @@ export interface PurviewSharingClientOptions extends ClientOptions {
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential,
-  {
-    apiVersion = "2023-05-30-preview",
-    ...options
-  }: PurviewSharingClientOptions = {},
+  { apiVersion = "2023-05-30-preview", ...options }: PurviewSharingClientOptions = {},
 ): PurviewSharingClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpoint}`;
   const userAgentInfo = `azsdk-js-purview-sharing-rest/1.0.0-beta.2`;
@@ -41,16 +38,10 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://purview.azure.net/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://purview.azure.net/.default"],
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as PurviewSharingClient;
+  const client = getClient(endpointUrl, credentials, options) as PurviewSharingClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

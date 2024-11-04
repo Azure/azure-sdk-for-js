@@ -17,8 +17,7 @@ import {
 } from "./outputModels";
 
 /** Get a received share */
-export interface ReceivedSharesGetReceivedShare200Response
-  extends HttpResponse {
+export interface ReceivedSharesGetReceivedShare200Response extends HttpResponse {
   status: "200";
   body: ReceivedShareOutput;
 }
@@ -29,8 +28,7 @@ export interface ReceivedSharesGetReceivedShareDefaultHeaders {
 }
 
 /** Get a received share */
-export interface ReceivedSharesGetReceivedShareDefaultResponse
-  extends HttpResponse {
+export interface ReceivedSharesGetReceivedShareDefaultResponse extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
   headers: RawHttpHeaders & ReceivedSharesGetReceivedShareDefaultHeaders;
@@ -66,8 +64,7 @@ export interface ReceivedSharesCreateOrReplaceDefaultHeaders {
 }
 
 /** Update changes to a received share */
-export interface ReceivedSharesCreateOrReplaceDefaultResponse
-  extends HttpResponse {
+export interface ReceivedSharesCreateOrReplaceDefaultResponse extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
   headers: RawHttpHeaders & ReceivedSharesCreateOrReplaceDefaultHeaders;
@@ -79,8 +76,7 @@ export interface ReceivedSharesDeleteReceivedShare202Headers {
 }
 
 /** Delete a received share */
-export interface ReceivedSharesDeleteReceivedShare202Response
-  extends HttpResponse {
+export interface ReceivedSharesDeleteReceivedShare202Response extends HttpResponse {
   status: "202";
   body: OperationResponseOutput;
   headers: RawHttpHeaders & ReceivedSharesDeleteReceivedShare202Headers;
@@ -92,16 +88,14 @@ export interface ReceivedSharesDeleteReceivedShareDefaultHeaders {
 }
 
 /** Delete a received share */
-export interface ReceivedSharesDeleteReceivedShareDefaultResponse
-  extends HttpResponse {
+export interface ReceivedSharesDeleteReceivedShareDefaultResponse extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
   headers: RawHttpHeaders & ReceivedSharesDeleteReceivedShareDefaultHeaders;
 }
 
 /** List attached received shares */
-export interface ReceivedSharesGetAllAttachedReceivedShares200Response
-  extends HttpResponse {
+export interface ReceivedSharesGetAllAttachedReceivedShares200Response extends HttpResponse {
   status: "200";
   body: ReceivedShareListOutput;
 }
@@ -112,17 +106,14 @@ export interface ReceivedSharesGetAllAttachedReceivedSharesDefaultHeaders {
 }
 
 /** List attached received shares */
-export interface ReceivedSharesGetAllAttachedReceivedSharesDefaultResponse
-  extends HttpResponse {
+export interface ReceivedSharesGetAllAttachedReceivedSharesDefaultResponse extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
-  headers: RawHttpHeaders &
-    ReceivedSharesGetAllAttachedReceivedSharesDefaultHeaders;
+  headers: RawHttpHeaders & ReceivedSharesGetAllAttachedReceivedSharesDefaultHeaders;
 }
 
 /** List detached received shares */
-export interface ReceivedSharesGetAllDetachedReceivedShares200Response
-  extends HttpResponse {
+export interface ReceivedSharesGetAllDetachedReceivedShares200Response extends HttpResponse {
   status: "200";
   body: ReceivedShareListOutput;
 }
@@ -133,17 +124,14 @@ export interface ReceivedSharesGetAllDetachedReceivedSharesDefaultHeaders {
 }
 
 /** List detached received shares */
-export interface ReceivedSharesGetAllDetachedReceivedSharesDefaultResponse
-  extends HttpResponse {
+export interface ReceivedSharesGetAllDetachedReceivedSharesDefaultResponse extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
-  headers: RawHttpHeaders &
-    ReceivedSharesGetAllDetachedReceivedSharesDefaultHeaders;
+  headers: RawHttpHeaders & ReceivedSharesGetAllDetachedReceivedSharesDefaultHeaders;
 }
 
 /** Activates the email registration for current tenant */
-export interface ReceivedSharesActivateTenantEmailRegistration200Response
-  extends HttpResponse {
+export interface ReceivedSharesActivateTenantEmailRegistration200Response extends HttpResponse {
   status: "200";
   body: TenantEmailRegistrationOutput;
 }
@@ -154,17 +142,14 @@ export interface ReceivedSharesActivateTenantEmailRegistrationDefaultHeaders {
 }
 
 /** Activates the email registration for current tenant */
-export interface ReceivedSharesActivateTenantEmailRegistrationDefaultResponse
-  extends HttpResponse {
+export interface ReceivedSharesActivateTenantEmailRegistrationDefaultResponse extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
-  headers: RawHttpHeaders &
-    ReceivedSharesActivateTenantEmailRegistrationDefaultHeaders;
+  headers: RawHttpHeaders & ReceivedSharesActivateTenantEmailRegistrationDefaultHeaders;
 }
 
 /** Register an email for the current tenant */
-export interface ReceivedSharesRegisterTenantEmailRegistration200Response
-  extends HttpResponse {
+export interface ReceivedSharesRegisterTenantEmailRegistration200Response extends HttpResponse {
   status: "200";
   body: TenantEmailRegistrationOutput;
 }
@@ -175,12 +160,10 @@ export interface ReceivedSharesRegisterTenantEmailRegistrationDefaultHeaders {
 }
 
 /** Register an email for the current tenant */
-export interface ReceivedSharesRegisterTenantEmailRegistrationDefaultResponse
-  extends HttpResponse {
+export interface ReceivedSharesRegisterTenantEmailRegistrationDefaultResponse extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
-  headers: RawHttpHeaders &
-    ReceivedSharesRegisterTenantEmailRegistrationDefaultHeaders;
+  headers: RawHttpHeaders & ReceivedSharesRegisterTenantEmailRegistrationDefaultHeaders;
 }
 
 /** List sent shares */
@@ -195,8 +178,7 @@ export interface SentSharesGetAllSentSharesDefaultHeaders {
 }
 
 /** List sent shares */
-export interface SentSharesGetAllSentSharesDefaultResponse
-  extends HttpResponse {
+export interface SentSharesGetAllSentSharesDefaultResponse extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
   headers: RawHttpHeaders & SentSharesGetAllSentSharesDefaultHeaders;
@@ -281,8 +263,7 @@ export interface SentSharesDeleteSentShareDefaultResponse extends HttpResponse {
 }
 
 /** List sent share recipients */
-export interface SentSharesGetAllSentShareInvitations200Response
-  extends HttpResponse {
+export interface SentSharesGetAllSentShareInvitations200Response extends HttpResponse {
   status: "200";
   body: SentShareInvitationListOutput;
 }
@@ -293,16 +274,14 @@ export interface SentSharesGetAllSentShareInvitationsDefaultHeaders {
 }
 
 /** List sent share recipients */
-export interface SentSharesGetAllSentShareInvitationsDefaultResponse
-  extends HttpResponse {
+export interface SentSharesGetAllSentShareInvitationsDefaultResponse extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
   headers: RawHttpHeaders & SentSharesGetAllSentShareInvitationsDefaultHeaders;
 }
 
 /** Get recipient for a given sent share */
-export interface SentSharesGetSentShareInvitation200Response
-  extends HttpResponse {
+export interface SentSharesGetSentShareInvitation200Response extends HttpResponse {
   status: "200";
   body: SentShareInvitationOutput;
 }
@@ -313,16 +292,14 @@ export interface SentSharesGetSentShareInvitationDefaultHeaders {
 }
 
 /** Get recipient for a given sent share */
-export interface SentSharesGetSentShareInvitationDefaultResponse
-  extends HttpResponse {
+export interface SentSharesGetSentShareInvitationDefaultResponse extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
   headers: RawHttpHeaders & SentSharesGetSentShareInvitationDefaultHeaders;
 }
 
 /** Create a recipient for a given sent share */
-export interface SentSharesCreateSentShareInvitation201Response
-  extends HttpResponse {
+export interface SentSharesCreateSentShareInvitation201Response extends HttpResponse {
   status: "201";
   body: SentShareInvitationOutput;
 }
@@ -333,8 +310,7 @@ export interface SentSharesCreateSentShareInvitationDefaultHeaders {
 }
 
 /** Create a recipient for a given sent share */
-export interface SentSharesCreateSentShareInvitationDefaultResponse
-  extends HttpResponse {
+export interface SentSharesCreateSentShareInvitationDefaultResponse extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
   headers: RawHttpHeaders & SentSharesCreateSentShareInvitationDefaultHeaders;
@@ -346,8 +322,7 @@ export interface SentSharesDeleteSentShareInvitation202Headers {
 }
 
 /** Delete a sent share invitation */
-export interface SentSharesDeleteSentShareInvitation202Response
-  extends HttpResponse {
+export interface SentSharesDeleteSentShareInvitation202Response extends HttpResponse {
   status: "202";
   body: OperationResponseOutput;
   headers: RawHttpHeaders & SentSharesDeleteSentShareInvitation202Headers;
@@ -359,16 +334,14 @@ export interface SentSharesDeleteSentShareInvitationDefaultHeaders {
 }
 
 /** Delete a sent share invitation */
-export interface SentSharesDeleteSentShareInvitationDefaultResponse
-  extends HttpResponse {
+export interface SentSharesDeleteSentShareInvitationDefaultResponse extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
   headers: RawHttpHeaders & SentSharesDeleteSentShareInvitationDefaultHeaders;
 }
 
 /** Notifies the user recipient of the sent share invitation, does not apply to service invitations. */
-export interface SentSharesNotifyUserSentShareInvitation200Response
-  extends HttpResponse {
+export interface SentSharesNotifyUserSentShareInvitation200Response extends HttpResponse {
   status: "200";
   body: SentShareInvitationOutput;
 }
@@ -379,17 +352,14 @@ export interface SentSharesNotifyUserSentShareInvitationDefaultHeaders {
 }
 
 /** Notifies the user recipient of the sent share invitation, does not apply to service invitations. */
-export interface SentSharesNotifyUserSentShareInvitationDefaultResponse
-  extends HttpResponse {
+export interface SentSharesNotifyUserSentShareInvitationDefaultResponse extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
-  headers: RawHttpHeaders &
-    SentSharesNotifyUserSentShareInvitationDefaultHeaders;
+  headers: RawHttpHeaders & SentSharesNotifyUserSentShareInvitationDefaultHeaders;
 }
 
 /** List share resources */
-export interface ShareResourcesGetAllShareResources200Response
-  extends HttpResponse {
+export interface ShareResourcesGetAllShareResources200Response extends HttpResponse {
   status: "200";
   body: ShareResourceListOutput;
 }
@@ -400,8 +370,7 @@ export interface ShareResourcesGetAllShareResourcesDefaultHeaders {
 }
 
 /** List share resources */
-export interface ShareResourcesGetAllShareResourcesDefaultResponse
-  extends HttpResponse {
+export interface ShareResourcesGetAllShareResourcesDefaultResponse extends HttpResponse {
   status: string;
   body: PurviewShareErrorOutput;
   headers: RawHttpHeaders & ShareResourcesGetAllShareResourcesDefaultHeaders;
