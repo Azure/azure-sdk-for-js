@@ -4,14 +4,7 @@
   "author": "Microsoft Corporation",
   "version": "1.0.0-beta.2",
   "description": "A generated SDK for PurviewSharing.",
-  "keywords": [
-    "node",
-    "azure",
-    "cloud",
-    "typescript",
-    "browser",
-    "isomorphic"
-  ],
+  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
   "license": "MIT",
   "main": "dist/index.js",
   "module": "./dist-esm/src/index.js",
@@ -62,9 +55,9 @@
   "autoPublish": false,
   "dependencies": {
     "@azure-rest/core-client": "^1.1.3",
-    "@azure/abort-controller": "^1.0.0",
+    "@azure/abort-controller": "^2.1.2",
     "@azure/core-auth": "^1.4.0",
-    "@azure/core-lro": "^2.5.3",
+    "@azure/core-lro": "^3.0.0",
     "@azure/core-paging": "^1.5.0",
     "@azure/core-rest-pipeline": "^1.10.3",
     "@azure/logger": "^1.0.0",
@@ -118,9 +111,7 @@
   },
   "//sampleConfiguration": {
     "productName": "Purview Sharing",
-    "productSlugs": [
-      "azure"
-    ],
+    "productSlugs": ["azure"],
     "disableDocsMs": true,
     "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure-rest/purview-sharing?view=azure-node-preview"
   }

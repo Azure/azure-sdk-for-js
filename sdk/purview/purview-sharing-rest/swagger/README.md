@@ -5,6 +5,8 @@
 ## Configuration
 
 ```yaml
+flavor: azure
+openapi-type: data-plane
 package-name: "@azure-rest/purview-sharing"
 title: Purview Sharing
 description: Purview Sharing Client

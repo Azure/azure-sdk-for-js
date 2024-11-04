@@ -43,12 +43,21 @@ export interface OperationResponseOutput {
   /** Start time of the long running operation. Represented in the standard date-time format as defined by [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339) */
   startTime?: string;
   /** States for long running operations. */
-  status: "Running" | "TransientFailure" | "Succeeded" | "Failed" | "NotStarted";
+  status:
+    | "Running"
+    | "TransientFailure"
+    | "Succeeded"
+    | "Failed"
+    | "NotStarted";
 }
 
 /** List of received shares. */
 export interface ReceivedShareListOutput {
-  /** The Url of next result page. */
+  /**
+   * The Url of next result page.
+   *
+   * Value may contain a URL
+   */
   nextLink?: string;
   /** Collection of items of type ReceivedShare */
   value: Array<ReceivedShareOutput>;
@@ -56,7 +65,11 @@ export interface ReceivedShareListOutput {
 
 /** List of sent shares. */
 export interface SentShareListOutput {
-  /** The Url of next result page. */
+  /**
+   * The Url of next result page.
+   *
+   * Value may contain a URL
+   */
   nextLink?: string;
   /** Collection of items of type SentShare */
   value: Array<SentShareOutput>;
@@ -69,7 +82,11 @@ export interface SentShareOutputParent extends ProxyResourceOutput {
 
 /** List of the sent share invitations */
 export interface SentShareInvitationListOutput {
-  /** The Url of next result page. */
+  /**
+   * The Url of next result page.
+   *
+   * Value may contain a URL
+   */
   nextLink?: string;
   /** Collection of items of type SentShareInvitation */
   value: Array<SentShareInvitationOutput>;
@@ -82,7 +99,11 @@ export interface SentShareInvitationOutputParent extends ProxyResourceOutput {
 
 /** A page of ShareResource results. */
 export interface ShareResourceListOutput {
-  /** The Url of next result page. */
+  /**
+   * The Url of next result page.
+   *
+   * Value may contain a URL
+   */
   nextLink?: string;
   /** Collection of items of type ShareResource */
   value: Array<ShareResourceOutput>;
@@ -123,9 +144,18 @@ export interface TenantEmailRegistrationPropertiesOutput {
   /** The email to register. */
   readonly email?: string;
   /** Defines the supported types for registration. */
-  readonly registrationStatus?: "ActivationPending" | "Activated" | "ActivationAttemptsExhausted";
+  readonly registrationStatus?:
+    | "ActivationPending"
+    | "Activated"
+    | "ActivationAttemptsExhausted";
   /** State of the resource */
-  readonly state?: "Unknown" | "Succeeded" | "Creating" | "Deleting" | "Moving" | "Failed";
+  readonly state?:
+    | "Unknown"
+    | "Succeeded"
+    | "Creating"
+    | "Deleting"
+    | "Moving"
+    | "Failed";
   /** The tenant id to register. */
   readonly tenantId?: string;
 }
@@ -262,7 +292,13 @@ export interface InPlaceReceivedSharePropertiesOutput {
   /** Holds details on the destination of the mapped artifact */
   sink?: SinkOutput;
   /** State of the resource */
-  readonly state?: "Unknown" | "Succeeded" | "Creating" | "Deleting" | "Moving" | "Failed";
+  readonly state?:
+    | "Unknown"
+    | "Succeeded"
+    | "Creating"
+    | "Deleting"
+    | "Moving"
+    | "Failed";
 }
 
 /** An InPlace share kind. */
@@ -291,11 +327,18 @@ export interface InPlaceSentSharePropertiesOutput {
   /** Tenant name of the sender who created the sent share. */
   readonly senderTenantName?: string;
   /** State of the resource */
-  readonly state?: "Unknown" | "Succeeded" | "Creating" | "Deleting" | "Moving" | "Failed";
+  readonly state?:
+    | "Unknown"
+    | "Succeeded"
+    | "Creating"
+    | "Deleting"
+    | "Moving"
+    | "Failed";
 }
 
 /** An service invitation kind. */
-export interface ServiceInvitationOutput extends SentShareInvitationOutputParent {
+export interface ServiceInvitationOutput
+  extends SentShareInvitationOutputParent {
   /** Properties of the service invitation type. */
   properties: ServiceInvitationPropertiesOutput;
   invitationKind: "Service";
@@ -316,7 +359,13 @@ export interface ServiceInvitationPropertiesOutput {
   /** Share status. */
   shareStatus?: "Detached" | "Attached";
   /** State of the resource */
-  readonly state?: "Unknown" | "Succeeded" | "Creating" | "Deleting" | "Moving" | "Failed";
+  readonly state?:
+    | "Unknown"
+    | "Succeeded"
+    | "Creating"
+    | "Deleting"
+    | "Moving"
+    | "Failed";
   /**
    * The target azure active directory id the invitation is sent to.
    *
@@ -355,7 +404,13 @@ export interface UserInvitationPropertiesOutput {
   /** Share status. */
   shareStatus?: "Detached" | "Attached";
   /** State of the resource */
-  readonly state?: "Unknown" | "Succeeded" | "Creating" | "Deleting" | "Moving" | "Failed";
+  readonly state?:
+    | "Unknown"
+    | "Succeeded"
+    | "Creating"
+    | "Deleting"
+    | "Moving"
+    | "Failed";
   /** The receiver email for the invitation is being sent. */
   targetEmail: string;
 }
@@ -365,7 +420,9 @@ export type ReceivedShareOutput = InPlaceReceivedShareOutput;
 /** A sent share data transfer object. */
 export type SentShareOutput = InPlaceSentShareOutput;
 /** A sent share invitation data transfer object. */
-export type SentShareInvitationOutput = ServiceInvitationOutput | UserInvitationOutput;
+export type SentShareInvitationOutput =
+  | ServiceInvitationOutput
+  | UserInvitationOutput;
 /** Holds details on the destination of the mapped artifact */
 export type SinkOutput = AdlsGen2AccountSinkOutput | BlobAccountSinkOutput;
 /** A class for sent share artifact. */

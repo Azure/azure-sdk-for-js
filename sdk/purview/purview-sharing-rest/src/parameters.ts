@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import type { RequestParameters } from "@azure-rest/core-client";
-import type {
+import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import { RequestParameters } from "@azure-rest/core-client";
+import {
   ReceivedShare,
   TenantEmailRegistration,
   SentShare,
@@ -22,9 +22,10 @@ export interface ReceivedSharesCreateOrReplaceMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ReceivedSharesCreateOrReplaceParameters = ReceivedSharesCreateOrReplaceMediaTypesParam &
-  ReceivedSharesCreateOrReplaceBodyParam &
-  RequestParameters;
+export type ReceivedSharesCreateOrReplaceParameters =
+  ReceivedSharesCreateOrReplaceMediaTypesParam &
+    ReceivedSharesCreateOrReplaceBodyParam &
+    RequestParameters;
 export type ReceivedSharesDeleteReceivedShareParameters = RequestParameters;
 
 export interface ReceivedSharesGetAllAttachedReceivedSharesQueryParamProperties {
@@ -68,7 +69,8 @@ export interface ReceivedSharesActivateTenantEmailRegistrationBodyParam {
 }
 
 export interface ReceivedSharesActivateTenantEmailRegistrationHeaderParam {
-  headers?: RawHttpHeadersInput & ReceivedSharesActivateTenantEmailRegistrationHeaders;
+  headers?: RawHttpHeadersInput &
+    ReceivedSharesActivateTenantEmailRegistrationHeaders;
 }
 
 export interface ReceivedSharesActivateTenantEmailRegistrationMediaTypesParam {
@@ -88,7 +90,8 @@ export interface ReceivedSharesRegisterTenantEmailRegistrationHeaders {
 }
 
 export interface ReceivedSharesRegisterTenantEmailRegistrationHeaderParam {
-  headers?: RawHttpHeadersInput & ReceivedSharesRegisterTenantEmailRegistrationHeaders;
+  headers?: RawHttpHeadersInput &
+    ReceivedSharesRegisterTenantEmailRegistrationHeaders;
 }
 
 export type ReceivedSharesRegisterTenantEmailRegistrationParameters =
@@ -107,8 +110,8 @@ export interface SentSharesGetAllSentSharesQueryParam {
   queryParameters: SentSharesGetAllSentSharesQueryParamProperties;
 }
 
-export type SentSharesGetAllSentSharesParameters = SentSharesGetAllSentSharesQueryParam &
-  RequestParameters;
+export type SentSharesGetAllSentSharesParameters =
+  SentSharesGetAllSentSharesQueryParam & RequestParameters;
 export type SentSharesGetSentShareParameters = RequestParameters;
 
 export interface SentSharesCreateOrReplaceBodyParam {
@@ -121,9 +124,10 @@ export interface SentSharesCreateOrReplaceMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type SentSharesCreateOrReplaceParameters = SentSharesCreateOrReplaceMediaTypesParam &
-  SentSharesCreateOrReplaceBodyParam &
-  RequestParameters;
+export type SentSharesCreateOrReplaceParameters =
+  SentSharesCreateOrReplaceMediaTypesParam &
+    SentSharesCreateOrReplaceBodyParam &
+    RequestParameters;
 export type SentSharesDeleteSentShareParameters = RequestParameters;
 
 export interface SentSharesGetAllSentShareInvitationsQueryParamProperties {
@@ -163,7 +167,8 @@ export interface SentSharesNotifyUserSentShareInvitationHeaders {
 }
 
 export interface SentSharesNotifyUserSentShareInvitationHeaderParam {
-  headers?: RawHttpHeadersInput & SentSharesNotifyUserSentShareInvitationHeaders;
+  headers?: RawHttpHeadersInput &
+    SentSharesNotifyUserSentShareInvitationHeaders;
 }
 
 export type SentSharesNotifyUserSentShareInvitationParameters =

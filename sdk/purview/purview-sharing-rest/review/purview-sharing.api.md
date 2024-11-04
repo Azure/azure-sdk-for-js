@@ -4,19 +4,20 @@
 
 ```ts
 
-import type { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { CreateHttpPollerOptions } from '@azure/core-lro';
-import type { HttpResponse } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import type { RequestParameters } from '@azure-rest/core-client';
-import type { SimplePollerLike } from '@azure/core-lro';
-import type { StreamableMethod } from '@azure-rest/core-client';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { Client } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { CreateHttpPollerOptions } from '@azure/core-lro';
+import { HttpResponse } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AdlsGen2AccountSink extends SinkParent {
@@ -147,7 +148,7 @@ export interface BlobStorageArtifactPropertiesOutput {
 }
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewSharingClient;
+function createClient(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: PurviewSharingClientOptions): PurviewSharingClient;
 export default createClient;
 
 // @public
@@ -340,6 +341,11 @@ export interface PurviewShareErrorOutput {
 export type PurviewSharingClient = Client & {
     path: Routes;
 };
+
+// @public
+export interface PurviewSharingClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
 
 // @public
 export type ReceivedShare = InPlaceReceivedShare;
@@ -1186,6 +1192,28 @@ export interface ShareResourcesGetAllShareResourcesQueryParam {
 export interface ShareResourcesGetAllShareResourcesQueryParamProperties {
     filter?: string;
     orderby?: string;
+}
+
+// @public
+export interface SimplePollerLike<TState extends OperationState<TResult>, TResult> {
+    getOperationState(): TState;
+    getResult(): TResult | undefined;
+    isDone(): boolean;
+    // @deprecated
+    isStopped(): boolean;
+    onProgress(callback: (state: TState) => void): CancelOnProgress;
+    poll(options?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TState>;
+    pollUntilDone(pollOptions?: {
+        abortSignal?: AbortSignalLike;
+    }): Promise<TResult>;
+    serialize(): Promise<string>;
+    // @deprecated
+    stopPolling(): void;
+    submitted(): Promise<void>;
+    // @deprecated
+    toString(): string;
 }
 
 // @public
