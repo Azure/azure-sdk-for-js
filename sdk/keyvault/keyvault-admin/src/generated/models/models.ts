@@ -408,7 +408,7 @@ export interface _RoleDefinitionListResult {
 }
 
 /** The available API versions. */
-export type Versions = "7.6-preview.1";
+export type Versions = "7.5" | "7.6-preview.1";
 
 /** The key vault error exception. */
 export interface KeyVaultError {

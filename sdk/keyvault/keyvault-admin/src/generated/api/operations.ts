@@ -166,52 +166,35 @@ export function _preFullBackupSend(
 
 export async function _preFullBackupDeserialize(
   result: PathUncheckedResponse,
-): Promise<FullBackupOperation> {
-  const expectedStatuses = ["202"];
+): Promise<void> {
+  const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return {
-    status: result.body["status"] as OperationStatus,
-    statusDetails: result.body["statusDetails"],
-    error: !result.body.error
-      ? undefined
-      : {
-          code: result.body.error?.["code"],
-          message: result.body.error?.["message"],
-          innerError: !result.body.error?.innererror
-            ? undefined
-            : result.body.error?.innererror,
-        },
-    startTime:
-      result.body["startTime"] !== undefined
-        ? new Date(result.body["startTime"])
-        : undefined,
-    endTime:
-      result.body["endTime"] !== undefined
-        ? new Date(result.body["endTime"])
-        : undefined,
-    jobId: result.body["jobId"],
-    azureStorageBlobContainerUri: result.body["azureStorageBlobContainerUri"],
-  };
+  return;
 }
 
 /**
  * Pre-backup operation for checking whether the customer can perform a full
  * backup operation.
  */
-export async function preFullBackup(
+export function preFullBackup(
   context: Client,
   preBackupOperationParameters?: PreBackupOperationParameters,
   options: PreFullBackupOptionalParams = { requestOptions: {} },
-): Promise<FullBackupOperation> {
-  const result = await _preFullBackupSend(
+): PollerLike<OperationState<void>, void> {
+  return getLongRunningPoller(
     context,
-    preBackupOperationParameters,
-    options,
-  );
-  return _preFullBackupDeserialize(result);
+    _preFullBackupDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _preFullBackupSend(context, preBackupOperationParameters, options),
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _restoreStatusSend(
@@ -289,7 +272,7 @@ export function _preFullRestoreOperationSend(
 export async function _preFullRestoreOperationDeserialize(
   result: PathUncheckedResponse,
 ): Promise<RestoreOperation> {
-  const expectedStatuses = ["202"];
+  const expectedStatuses = ["202", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
@@ -322,17 +305,26 @@ export async function _preFullRestoreOperationDeserialize(
  * Pre-restore operation for checking whether the customer can perform a full
  * restore operation.
  */
-export async function preFullRestoreOperation(
+export function preFullRestoreOperation(
   context: Client,
   preRestoreOperationParameters: PreRestoreOperationParameters,
   options: PreFullRestoreOperationOptionalParams = { requestOptions: {} },
-): Promise<RestoreOperation> {
-  const result = await _preFullRestoreOperationSend(
+): PollerLike<OperationState<RestoreOperation>, RestoreOperation> {
+  return getLongRunningPoller(
     context,
-    preRestoreOperationParameters,
-    options,
-  );
-  return _preFullRestoreOperationDeserialize(result);
+    _preFullRestoreOperationDeserialize,
+    ["202", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _preFullRestoreOperationSend(
+          context,
+          preRestoreOperationParameters,
+          options,
+        ),
+    },
+  ) as PollerLike<OperationState<RestoreOperation>, RestoreOperation>;
 }
 
 export function _fullRestoreOperationSend(

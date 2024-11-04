@@ -108,7 +108,7 @@ export class KeyVaultClient {
   preFullBackup(
     preBackupOperationParameters?: PreBackupOperationParameters,
     options: PreFullBackupOptionalParams = { requestOptions: {} },
-  ): Promise<FullBackupOperation> {
+  ): PollerLike<OperationState<void>, void> {
     return preFullBackup(this._client, preBackupOperationParameters, options);
   }
 
@@ -127,7 +127,7 @@ export class KeyVaultClient {
   preFullRestoreOperation(
     preRestoreOperationParameters: PreRestoreOperationParameters,
     options: PreFullRestoreOperationOptionalParams = { requestOptions: {} },
-  ): Promise<RestoreOperation> {
+  ): PollerLike<OperationState<RestoreOperation>, RestoreOperation> {
     return preFullRestoreOperation(
       this._client,
       preRestoreOperationParameters,

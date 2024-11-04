@@ -13,14 +13,20 @@ export interface FullBackupOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface PreFullBackupOptionalParams extends OperationOptions {}
+export interface PreFullBackupOptionalParams extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface RestoreStatusOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface PreFullRestoreOperationOptionalParams
-  extends OperationOptions {}
+  extends OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+}
 
 /** Optional parameters. */
 export interface FullRestoreOperationOptionalParams extends OperationOptions {

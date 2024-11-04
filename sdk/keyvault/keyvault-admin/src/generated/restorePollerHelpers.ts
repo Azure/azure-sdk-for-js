@@ -4,6 +4,8 @@
 import { KeyVaultClient } from "./keyVaultClient.js";
 import {
   _fullBackupDeserialize,
+  _preFullBackupDeserialize,
+  _preFullRestoreOperationDeserialize,
   _fullRestoreOperationDeserialize,
   _selectiveKeyRestoreOperationDeserialize,
 } from "./api/operations.js";
@@ -87,6 +89,14 @@ interface DeserializationHelper {
 const deserializeMap: Record<string, DeserializationHelper> = {
   "POST /backup": {
     deserializer: _fullBackupDeserialize,
+    expectedStatuses: ["202", "200"],
+  },
+  "POST /prebackup": {
+    deserializer: _preFullBackupDeserialize,
+    expectedStatuses: ["202", "200"],
+  },
+  "PUT /prerestore": {
+    deserializer: _preFullRestoreOperationDeserialize,
     expectedStatuses: ["202", "200"],
   },
   "PUT /restore": {
