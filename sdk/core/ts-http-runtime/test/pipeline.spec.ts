@@ -4,11 +4,11 @@
 import { describe, it, assert } from "vitest";
 import type { HttpClient, PipelinePolicy } from "../src/index.js";
 import {
-  createEmptyPipeline,
   createHttpHeaders,
-  createPipelineFromOptions,
   createPipelineRequest,
 } from "../src/index.js";
+import { createEmptyPipeline } from "../src/pipeline.js";
+import { createPipelineFromOptions } from "../src/createPipelineFromOptions.js";
 
 describe("HttpsPipeline", function () {
   it("Newly created pipeline has no policies", function () {

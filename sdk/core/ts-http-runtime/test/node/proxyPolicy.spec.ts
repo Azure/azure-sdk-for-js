@@ -7,11 +7,9 @@ import type { Agent, PipelineRequest } from "../../src/index.js";
 import {
   type ProxySettings,
   type SendRequest,
-  createPipelineRequest,
-  getDefaultProxySettings,
-  proxyPolicy,
+  createPipelineRequest
 } from "../../src/index.js";
-import { globalNoProxyList, loadNoProxy } from "../../src/policies/proxyPolicy.js";
+import { getDefaultProxySettings, globalNoProxyList, loadNoProxy, proxyPolicy } from "../../src/policies/proxyPolicy.js";
 
 interface ProxyAgent extends Agent {
   proxy: URL;

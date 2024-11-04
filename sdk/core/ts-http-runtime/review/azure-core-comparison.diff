@@ -300,10 +300,10 @@ index 9db25cf..df8291c 100644
  /**
   * Represents a credential defined by a static API key.
 diff --git a/src/auth/tokenCredential.ts b/src/auth/tokenCredential.ts
-index 395b112..6a42777 100644
+index 395b112..19d080b 100644
 --- a/src/auth/tokenCredential.ts
 +++ b/src/auth/tokenCredential.ts
-@@ -1,9 +1,8 @@
+@@ -1,9 +1,7 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
@@ -311,11 +311,26 @@ index 395b112..6a42777 100644
 -import type { TracingContext } from "./tracing.js";
 -import type { HttpMethods } from "@azure/core-util";
 +import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
-+import type { TracingContext } from "../tracing/interfaces.js";
  
  /**
   * Represents a credential capable of providing an authentication token.
-@@ -60,28 +59,6 @@ export interface GetTokenOptions {
+@@ -39,15 +37,6 @@ export interface GetTokenOptions {
+      */
+     timeout?: number;
+   };
+-  /**
+-   * Options used when tracing is enabled.
+-   */
+-  tracingOptions?: {
+-    /**
+-     * Tracing Context for the current request.
+-     */
+-    tracingContext?: TracingContext;
+-  };
+   /**
+    * Claim details to perform the Continuous Access Evaluation authentication flow
+    */
+@@ -60,28 +49,6 @@ export interface GetTokenOptions {
     * Allows specifying a tenantId. Useful to handle challenges that provide tenant Id hints.
     */
    tenantId?: string;
@@ -344,7 +359,7 @@ index 395b112..6a42777 100644
  }
  
  /**
-@@ -103,26 +80,7 @@ export interface AccessToken {
+@@ -103,26 +70,7 @@ export interface AccessToken {
     */
    refreshAfterTimestamp?: number;
  
@@ -464,10 +479,10 @@ index 30dac33..66ea99c 100644
    if (!cachedHttpClient) {
      cachedHttpClient = createDefaultHttpClient();
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 026f516..edda1c6 100644
+index 026f516..5d588ed 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
-@@ -3,19 +3,18 @@
+@@ -3,19 +3,17 @@
  
  import type {
    HttpClient,
@@ -488,13 +503,24 @@ index 026f516..edda1c6 100644
 +} from "../interfaces.js";
 +import type { Pipeline, PipelinePolicy } from "../pipeline.js";
 +import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
-+import type { OperationTracingOptions } from "../tracing/interfaces.js";
 +import type { PipelineOptions } from "../createPipelineFromOptions.js";
 +import type { LogPolicyOptions } from "../policies/logPolicy.js";
  
  /**
   * Shape of the default request parameters, this may be overridden by the specific
-@@ -91,16 +90,9 @@ export type RequestParameters = {
+@@ -74,11 +72,6 @@ export type RequestParameters = {
+    */
+   abortSignal?: AbortSignalLike;
+ 
+-  /**
+-   * Options used when tracing is enabled.
+-   */
+-  tracingOptions?: OperationTracingOptions;
+-
+   /**
+    * A function to be called each time a response is received from the server
+    * while performing the requested operation.
+@@ -91,16 +84,9 @@ export type RequestParameters = {
   * A function to be called each time a response is received from the server
   * while performing the requested operation.
   * May be called multiple times.
@@ -513,7 +539,19 @@ index 026f516..edda1c6 100644
  
  /**
   * Wrapper object for http request and response. Deserialized object is stored in
-@@ -202,7 +194,7 @@ export interface Client {
+@@ -135,11 +121,6 @@ export interface OperationOptions {
+    * Options used when creating and sending HTTP requests for this operation.
+    */
+   requestOptions?: OperationRequestOptions;
+-  /**
+-   * Options used when tracing is enabled.
+-   */
+-  tracingOptions?: OperationTracingOptions;
+-
+   /**
+    * A function to be called each time a response is received from the server
+    * while performing the requested operation.
+@@ -202,7 +183,7 @@ export interface Client {
     * strong types. When used by the codegen this type gets overridden with the generated
     * types. For example:
     * ```typescript snippet:path_example
@@ -522,7 +560,7 @@ index 026f516..edda1c6 100644
     *
     * type MyClient = Client & {
     *   path: Routes;
-@@ -326,11 +318,9 @@ export type ClientOptions = PipelineOptions & {
+@@ -326,11 +307,9 @@ export type ClientOptions = PipelineOptions & {
       */
      apiKeyHeaderName?: string;
    };
@@ -722,6 +760,18 @@ index e34a065..2bc3df1 100644
  
  /**
   * Describes a single part in a multipart body.
+diff --git a/src/client/operationOptionHelpers.ts b/src/client/operationOptionHelpers.ts
+index c7c1eb6..15bdc45 100644
+--- a/src/client/operationOptionHelpers.ts
++++ b/src/client/operationOptionHelpers.ts
+@@ -16,7 +16,6 @@ export function operationOptionsToRequestParameters(options: OperationOptions):
+     abortSignal: options.abortSignal,
+     onUploadProgress: options.requestOptions?.onUploadProgress,
+     onDownloadProgress: options.requestOptions?.onDownloadProgress,
+-    tracingOptions: options.tracingOptions,
+     headers: { ...options.requestOptions?.headers },
+     onResponse: options.onResponse,
+   };
 diff --git a/src/client/restError.ts b/src/client/restError.ts
 index 1ecc969..9b98b21 100644
 --- a/src/client/restError.ts
@@ -739,7 +789,7 @@ index 1ecc969..9b98b21 100644
  
  /**
 diff --git a/src/client/sendRequest.ts b/src/client/sendRequest.ts
-index 9e947e6..2f30ba0 100644
+index 9e947e6..f2a1cac 100644
 --- a/src/client/sendRequest.ts
 +++ b/src/client/sendRequest.ts
 @@ -5,19 +5,16 @@ import type {
@@ -778,6 +828,14 @@ index 9e947e6..2f30ba0 100644
      }
  
      throw e;
+@@ -136,7 +134,6 @@ function buildPipelineRequest(
+     multipartBody,
+     headers,
+     allowInsecureConnection: options.allowInsecureConnection,
+-    tracingOptions: options.tracingOptions,
+     abortSignal: options.abortSignal,
+     onUploadProgress: options.onUploadProgress,
+     onDownloadProgress: options.onDownloadProgress,
 diff --git a/src/constants.ts b/src/constants.ts
 index 8e49c6b..60da499 100644
 --- a/src/constants.ts
@@ -791,19 +849,18 @@ index 8e49c6b..60da499 100644
  
  export const DEFAULT_RETRY_POLICY_COUNT = 3;
 diff --git a/src/createPipelineFromOptions.ts b/src/createPipelineFromOptions.ts
-index 2a2bd41..ede8855 100644
+index 2a2bd41..6066e07 100644
 --- a/src/createPipelineFromOptions.ts
 +++ b/src/createPipelineFromOptions.ts
-@@ -3,18 +3,18 @@
+@@ -3,18 +3,16 @@
  
  import { type LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
  import { type Pipeline, createEmptyPipeline } from "./pipeline.js";
 -import type { PipelineRetryOptions, TlsSettings, ProxySettings } from "./interfaces.js";
-+import type { PipelineRetryOptions, TlsSettings } from "./interfaces.js";
++import type { PipelineRetryOptions, ProxySettings, TlsSettings } from "./interfaces.js";
  import { type RedirectPolicyOptions, redirectPolicy } from "./policies/redirectPolicy.js";
  import { type UserAgentPolicyOptions, userAgentPolicy } from "./policies/userAgentPolicy.js";
 -import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
-+import type { ProxySettings } from "./index.js";
  import { decompressResponsePolicy } from "./policies/decompressResponsePolicy.js";
  import { defaultRetryPolicy } from "./policies/defaultRetryPolicy.js";
  import { formDataPolicy } from "./policies/formDataPolicy.js";
@@ -812,12 +869,12 @@ index 2a2bd41..ede8855 100644
  import { proxyPolicy } from "./policies/proxyPolicy.js";
 -import { setClientRequestIdPolicy } from "./policies/setClientRequestIdPolicy.js";
  import { tlsPolicy } from "./policies/tlsPolicy.js";
- import { tracingPolicy } from "./policies/tracingPolicy.js";
+-import { tracingPolicy } from "./policies/tracingPolicy.js";
 +import { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
  
  /**
   * Defines options that are used to configure the HTTP pipeline for
-@@ -88,7 +88,6 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
+@@ -88,15 +86,11 @@ export function createPipelineFromOptions(options: InternalPipelineOptions): Pip
  
    pipeline.addPolicy(formDataPolicy(), { beforePolicies: [multipartPolicyName] });
    pipeline.addPolicy(userAgentPolicy(options.userAgentOptions));
@@ -825,6 +882,14 @@ index 2a2bd41..ede8855 100644
    // The multipart policy is added after policies with no phase, so that
    // policies can be added between it and formDataPolicy to modify
    // properties (e.g., making the boundary constant in recorded tests).
+   pipeline.addPolicy(multipartPolicy(), { afterPhase: "Deserialize" });
+   pipeline.addPolicy(defaultRetryPolicy(options.retryOptions), { phase: "Retry" });
+-  pipeline.addPolicy(tracingPolicy({ ...options.userAgentOptions, ...options.loggingOptions }), {
+-    afterPhase: "Retry",
+-  });
+   if (isNodeLike) {
+     // Both XHR and Fetch expect to handle redirects automatically,
+     // so only include this policy when we're in Node.
 diff --git a/src/fetchHttpClient.ts b/src/fetchHttpClient.ts
 index e9751e2..e4f8769 100644
 --- a/src/fetchHttpClient.ts
@@ -839,81 +904,96 @@ index e9751e2..e4f8769 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
 diff --git a/src/index.ts b/src/index.ts
-index 688a7ea..76ca028 100644
+index 688a7ea..9cda6b3 100644
 --- a/src/index.ts
 +++ b/src/index.ts
-@@ -9,16 +9,16 @@ declare global {
+@@ -9,117 +9,70 @@ declare global {
    interface ReadableStream<R = any> {}
    interface TransformStream<I = any, O = any> {}
  }
 -
  /* eslint-enable @typescript-eslint/no-unused-vars */
 -export type { HttpMethods } from "@azure/core-util";
--export type {
 +
++export { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
 +export {
-   Agent,
++  createClientLogger,
++  TypeSpecRuntimeLogger,
++  type TypeSpecRuntimeClientLogger,
++  type Debugger,
++} from "./logger/logger.js";
+ export type {
+-  Agent,
    BodyPart,
-   FormDataMap,
+-  FormDataMap,
    FormDataValue,
-   HttpClient,
-   HttpHeaders,
-+  HttpMethods,
+-  HttpClient,
+-  HttpHeaders,
++  RawHttpHeaders,
    KeyObject,
-   MultipartRequestBody,
+-  MultipartRequestBody,
++  PxfObject,
++  HttpClient,
    PipelineRequest,
-@@ -34,92 +34,125 @@ export type {
+   PipelineResponse,
+-  PipelineRetryOptions,
+-  ProxySettings,
+-  PxfObject,
+-  RawHttpHeaders,
+-  RawHttpHeadersInput,
+-  RequestBodyType,
+   SendRequest,
+   TlsSettings,
++  Agent,
++  RequestBodyType,
++  FormDataMap,
++  HttpHeaders,
++  HttpMethods,
++  MultipartRequestBody,
    TransferProgressEvent,
++  ProxySettings,
++  RawHttpHeadersInput,
++  PipelineRetryOptions,
  } from "./interfaces.js";
- export {
+-export {
 -  type AddPolicyOptions as AddPipelineOptions,
 -  type PipelinePhase,
 -  type PipelinePolicy,
 -  type Pipeline,
-+  AddPolicyOptions as AddPipelineOptions,
-+  PipelinePhase,
-+  PipelinePolicy,
-+  Pipeline,
-   createEmptyPipeline,
- } from "./pipeline.js";
- export {
-   createPipelineFromOptions,
+-  createEmptyPipeline,
+-} from "./pipeline.js";
+-export {
+-  createPipelineFromOptions,
 -  type TelemetryOptions,
 -  type InternalPipelineOptions,
 -  type PipelineOptions,
-+  TelemetryOptions,
-+  InternalPipelineOptions,
-+  PipelineOptions,
- } from "./createPipelineFromOptions.js";
- export { createDefaultHttpClient } from "./defaultHttpClient.js";
+-} from "./createPipelineFromOptions.js";
+-export { createDefaultHttpClient } from "./defaultHttpClient.js";
  export { createHttpHeaders } from "./httpHeaders.js";
 -export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
 -export { RestError, type RestErrorOptions, isRestError } from "./restError.js";
-+export { createPipelineRequest, PipelineRequestOptions } from "./pipelineRequest.js";
-+export { RestError, RestErrorOptions, isRestError } from "./restError.js";
- export {
-   decompressResponsePolicy,
-   decompressResponsePolicyName,
- } from "./policies/decompressResponsePolicy.js";
+-export {
+-  decompressResponsePolicy,
+-  decompressResponsePolicyName,
+-} from "./policies/decompressResponsePolicy.js";
 -export {
 -  exponentialRetryPolicy,
 -  type ExponentialRetryPolicyOptions,
 -  exponentialRetryPolicyName,
 -} from "./policies/exponentialRetryPolicy.js";
--export {
++export { isKeyCredential, type KeyCredential } from "./auth/keyCredential.js";
+ export {
 -  setClientRequestIdPolicy,
 -  setClientRequestIdPolicyName,
 -} from "./policies/setClientRequestIdPolicy.js";
 -export { logPolicy, logPolicyName, type LogPolicyOptions } from "./policies/logPolicy.js";
-+export { logPolicy, logPolicyName, LogPolicyOptions } from "./policies/logPolicy.js";
- export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
- export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy.js";
- export {
-   redirectPolicy,
-   redirectPolicyName,
+-export { multipartPolicy, multipartPolicyName } from "./policies/multipartPolicy.js";
+-export { proxyPolicy, proxyPolicyName, getDefaultProxySettings } from "./policies/proxyPolicy.js";
+-export {
+-  redirectPolicy,
+-  redirectPolicyName,
 -  type RedirectPolicyOptions,
-+  RedirectPolicyOptions,
- } from "./policies/redirectPolicy.js";
+-} from "./policies/redirectPolicy.js";
 -export {
 -  systemErrorRetryPolicy,
 -  type SystemErrorRetryPolicyOptions,
@@ -925,127 +1005,84 @@ index 688a7ea..76ca028 100644
 -  type ThrottlingRetryPolicyOptions,
 -} from "./policies/throttlingRetryPolicy.js";
 -export { retryPolicy, type RetryPolicyOptions } from "./policies/retryPolicy.js";
--export type {
++  isTokenCredential,
++  type TokenCredential,
++  type GetTokenOptions,
++  type AccessToken,
++} from "./auth/tokenCredential.js";
++export { createPipelineRequest, type PipelineRequestOptions } from "./pipelineRequest.js";
++export type { Pipeline, PipelinePolicy, AddPolicyOptions, PipelinePhase } from "./pipeline.js";
++export { RestError, isRestError, type RestErrorOptions } from "./restError.js";
++export { stringToUint8Array, uint8ArrayToString, type EncodingType } from "./util/bytesEncoding.js";
++export { getClient } from "./client/getClient.js";
+ export type {
 -  RetryStrategy,
 -  RetryInformation,
 -  RetryModifiers,
 -} from "./retryStrategies/retryStrategy.js";
- export {
-   tracingPolicy,
-   tracingPolicyName,
+-export {
+-  tracingPolicy,
+-  tracingPolicyName,
 -  type TracingPolicyOptions,
-+  TracingPolicyOptions,
- } from "./policies/tracingPolicy.js";
+-} from "./policies/tracingPolicy.js";
 -export {
 -  defaultRetryPolicy,
 -  type DefaultRetryPolicyOptions,
 -} from "./policies/defaultRetryPolicy.js";
-+export { defaultRetryPolicy, DefaultRetryPolicyOptions } from "./policies/defaultRetryPolicy.js";
- export {
-   userAgentPolicy,
-   userAgentPolicyName,
+-export {
+-  userAgentPolicy,
+-  userAgentPolicyName,
 -  type UserAgentPolicyOptions,
-+  UserAgentPolicyOptions,
- } from "./policies/userAgentPolicy.js";
- export { tlsPolicy, tlsPolicyName } from "./policies/tlsPolicy.js";
- export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy.js";
- export {
-   bearerTokenAuthenticationPolicy,
+-} from "./policies/userAgentPolicy.js";
+-export { tlsPolicy, tlsPolicyName } from "./policies/tlsPolicy.js";
+-export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy.js";
+-export {
+-  bearerTokenAuthenticationPolicy,
 -  type BearerTokenAuthenticationPolicyOptions,
-+  BearerTokenAuthenticationPolicyOptions,
-   bearerTokenAuthenticationPolicyName,
+-  bearerTokenAuthenticationPolicyName,
 -  type ChallengeCallbacks,
 -  type AuthorizeRequestOptions,
 -  type AuthorizeRequestOnChallengeOptions,
-+  ChallengeCallbacks,
-+  AuthorizeRequestOptions,
-+  AuthorizeRequestOnChallengeOptions,
- } from "./policies/bearerTokenAuthenticationPolicy.js";
+-} from "./policies/bearerTokenAuthenticationPolicy.js";
 -export { ndJsonPolicy, ndJsonPolicyName } from "./policies/ndJsonPolicy.js";
-+export { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
-+export { AbortError } from "./abort-controller/AbortError.js";
-+export { AccessToken, GetTokenOptions, TokenCredential } from "./auth/tokenCredential.js";
-+export { KeyCredential, isKeyCredential } from "./auth/keyCredential.js";
-+export {
-+  AddEventOptions,
-+  Instrumenter,
-+  InstrumenterSpanOptions,
-+  OperationTracingOptions,
-+  OptionsWithTracingContext,
-+  Resolved,
-+  SpanStatus,
-+  SpanStatusError,
-+  SpanStatusSuccess,
-+  TracingClient,
-+  TracingClientOptions,
-+  TracingContext,
-+  TracingSpan,
-+  TracingSpanKind,
-+  TracingSpanLink,
-+  TracingSpanOptions,
-+} from "./tracing/interfaces.js";
-+export { useInstrumenter } from "./tracing/instrumenter.js";
-+export { createTracingClient } from "./tracing/tracingClient.js";
-+// from core-util
-+export { delay, DelayOptions, calculateRetryDelay } from "./util/delay.js";
-+export {
-+  AbortOptions,
-+  cancelablePromiseRace,
-+  AbortablePromiseBuilder,
-+} from "./util/aborterUtils.js";
- export {
+-export {
 -  auxiliaryAuthenticationHeaderPolicy,
 -  type AuxiliaryAuthenticationHeaderPolicyOptions,
 -  auxiliaryAuthenticationHeaderPolicyName,
 -} from "./policies/auxiliaryAuthenticationHeaderPolicy.js";
-+  createAbortablePromise,
-+  CreateAbortablePromiseOptions,
-+} from "./util/createAbortablePromise.js";
-+export { getRandomIntegerInclusive } from "./util/random.js";
-+export { isObject, UnknownObject } from "./util/object.js";
-+export { isError, getErrorMessage } from "./util/error.js";
- export {
-   createFile,
-   createFileFromStream,
+-export {
+-  createFile,
+-  createFileFromStream,
 -  type CreateFileOptions,
 -  type CreateFileFromStreamOptions,
-+  CreateFileOptions,
-+  CreateFileFromStreamOptions,
- } from "./util/file.js";
-+export { computeSha256Hash, computeSha256Hmac } from "./util/sha256.js";
-+export { isDefined, isObjectWithProperties, objectHasProperty } from "./util/typeGuards.js";
-+export { randomUUID } from "./util/uuidUtils.js";
-+export {
-+  isBrowser,
-+  isBun,
-+  isNode,
-+  isNodeLike,
-+  isNodeRuntime,
-+  isDeno,
-+  isReactNative,
-+  isWebWorker,
-+} from "./util/checkEnvironment.js";
-+export { uint8ArrayToString, stringToUint8Array, EncodingType } from "./util/bytesEncoding.js";
-+export {
-+  Debugger,
-+  TypeSpecRuntimeLogger,
-+  TypeSpecRuntimeLogLevel,
-+  TypeSpecRuntimeClientLogger,
-+} from "./logger/logger.js";
-+// client
-+export { createRestError } from "./client/restError.js";
-+export {
-+  addCredentialPipelinePolicy,
-+  AddCredentialPipelinePolicyOptions,
-+} from "./client/clientHelpers.js";
-+export { operationOptionsToRequestParameters } from "./client/operationOptionHelpers.js";
-+export * from "./client/getClient.js";
-+export * from "./client/common.js";
+-} from "./util/file.js";
++  Client,
++  ClientOptions,
++  OperationOptions,
++  AdditionalPolicyConfig,
++  PathUnchecked,
++  PathUncheckedResponse,
++  HttpResponse,
++  RawResponseCallback,
++  OperationRequestOptions,
++  PathParameters,
++  ResourceMethods,
++  PathParameterWithOptions,
++  StreamableMethod,
++  RequestParameters,
++  HttpNodeStreamResponse,
++  HttpBrowserStreamResponse,
++  FullOperationResponse,
++} from "./client/common.js";
++export type { PipelineOptions, TelemetryOptions } from "./createPipelineFromOptions.js";
++export type { LogPolicyOptions as LogOptions } from "./policies/logPolicy.js";
++export type { RedirectPolicyOptions as RedirectOptions } from "./policies/redirectPolicy.js";
++export type { UserAgentPolicyOptions as UserAgentOptions } from "./policies/userAgentPolicy.js";
 diff --git a/src/interfaces.ts b/src/interfaces.ts
-index 26b806d..3e3ca58 100644
+index 26b806d..5d790ad 100644
 --- a/src/interfaces.ts
 +++ b/src/interfaces.ts
-@@ -1,9 +1,8 @@
+@@ -1,9 +1,7 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
@@ -1053,11 +1090,22 @@ index 26b806d..3e3ca58 100644
 -import type { OperationTracingOptions } from "@azure/core-tracing";
 -import type { HttpMethods } from "@azure/core-util";
 +import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
-+import type { OperationTracingOptions } from "./tracing/interfaces.js";
  
  /**
   * A HttpHeaders collection represented as a simple JSON object.
-@@ -315,6 +314,21 @@ export type TransferProgressEvent = {
+@@ -204,11 +202,6 @@ export interface PipelineRequest {
+    */
+   abortSignal?: AbortSignalLike;
+ 
+-  /**
+-   * Tracing options to use for any created Spans.
+-   */
+-  tracingOptions?: OperationTracingOptions;
+-
+   /**
+    * Callback which fires upon upload progress.
+    */
+@@ -315,6 +308,21 @@ export type TransferProgressEvent = {
    loadedBytes: number;
  };
  
@@ -1290,7 +1338,7 @@ index 1ac007a..66abe50 100644
    HttpClient,
    HttpHeaders,
 diff --git a/src/pipelineRequest.ts b/src/pipelineRequest.ts
-index 8d1648d..50d7f83 100644
+index 8d1648d..5f67f7d 100644
 --- a/src/pipelineRequest.ts
 +++ b/src/pipelineRequest.ts
 @@ -4,6 +4,7 @@
@@ -1301,7 +1349,7 @@ index 8d1648d..50d7f83 100644
    MultipartRequestBody,
    PipelineRequest,
    ProxySettings,
-@@ -11,10 +12,9 @@ import type {
+@@ -11,10 +12,8 @@ import type {
    TransferProgressEvent,
  } from "./interfaces.js";
  import { createHttpHeaders } from "./httpHeaders.js";
@@ -1311,10 +1359,37 @@ index 8d1648d..50d7f83 100644
 -import type { HttpMethods } from "@azure/core-util";
 +import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
 +import { randomUUID } from "./util/uuidUtils.js";
-+import type { OperationTracingOptions } from "./tracing/interfaces.js";
  
  /**
   * Settings to initialize a request.
+@@ -100,11 +99,6 @@ export interface PipelineRequestOptions {
+    */
+   abortSignal?: AbortSignalLike;
+ 
+-  /**
+-   * Options used to create a span when tracing is enabled.
+-   */
+-  tracingOptions?: OperationTracingOptions;
+-
+   /**
+    * Callback which fires upon upload progress.
+    */
+@@ -133,7 +127,6 @@ class PipelineRequestImpl implements PipelineRequest {
+   public disableKeepAlive: boolean;
+   public abortSignal?: AbortSignalLike;
+   public requestId: string;
+-  public tracingOptions?: OperationTracingOptions;
+   public allowInsecureConnection?: boolean;
+   public onUploadProgress?: (progress: TransferProgressEvent) => void;
+   public onDownloadProgress?: (progress: TransferProgressEvent) => void;
+@@ -151,7 +144,6 @@ class PipelineRequestImpl implements PipelineRequest {
+     this.streamResponseStatusCodes = options.streamResponseStatusCodes;
+     this.withCredentials = options.withCredentials ?? false;
+     this.abortSignal = options.abortSignal;
+-    this.tracingOptions = options.tracingOptions;
+     this.onUploadProgress = options.onUploadProgress;
+     this.onDownloadProgress = options.onDownloadProgress;
+     this.requestId = options.requestId || randomUUID();
 diff --git a/src/policies/auxiliaryAuthenticationHeaderPolicy.ts b/src/policies/auxiliaryAuthenticationHeaderPolicy.ts
 deleted file mode 100644
 index 55110a0..0000000
@@ -1428,7 +1503,7 @@ index 55110a0..0000000
 -  };
 -}
 diff --git a/src/policies/bearerTokenAuthenticationPolicy.ts b/src/policies/bearerTokenAuthenticationPolicy.ts
-index 898e5a6..87e8f5e 100644
+index 898e5a6..1cd3978 100644
 --- a/src/policies/bearerTokenAuthenticationPolicy.ts
 +++ b/src/policies/bearerTokenAuthenticationPolicy.ts
 @@ -1,13 +1,12 @@
@@ -1465,7 +1540,7 @@ index 898e5a6..87e8f5e 100644
  }
  
  /**
-@@ -100,43 +99,18 @@ export interface BearerTokenAuthenticationPolicyOptions {
+@@ -100,43 +99,17 @@ export interface BearerTokenAuthenticationPolicyOptions {
    /**
     * A logger can be sent for debugging purposes.
     */
@@ -1504,14 +1579,14 @@ index 898e5a6..87e8f5e 100644
 -  // Enable CAE true by default
    const getTokenOptions: GetTokenOptions = {
      abortSignal: request.abortSignal,
-     tracingOptions: request.tracingOptions,
+-    tracingOptions: request.tracingOptions,
 -    enableCae: true,
    };
 -
    const accessToken = await getAccessToken(scopes, getTokenOptions);
  
    if (accessToken) {
-@@ -148,34 +122,12 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
+@@ -148,34 +121,12 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
   * We will retrieve the challenge only if the response status code was 401,
   * and if the response contained the header "WWW-Authenticate" with a non-empty value.
   */
@@ -1551,7 +1626,7 @@ index 898e5a6..87e8f5e 100644
  }
  
  /**
-@@ -190,6 +142,8 @@ export function bearerTokenAuthenticationPolicy(
+@@ -190,6 +141,8 @@ export function bearerTokenAuthenticationPolicy(
    const callbacks = {
      authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
      authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
@@ -1560,7 +1635,7 @@ index 898e5a6..87e8f5e 100644
    };
  
    // This function encapsulates the entire process of reliably retrieving the token
-@@ -231,40 +185,20 @@ export function bearerTokenAuthenticationPolicy(
+@@ -231,40 +184,20 @@ export function bearerTokenAuthenticationPolicy(
  
        let response: PipelineResponse;
        let error: Error | undefined;
@@ -1614,7 +1689,7 @@ index 898e5a6..87e8f5e 100644
            scopes: Array.isArray(scopes) ? scopes : [scopes],
            request,
            response,
-@@ -272,41 +206,8 @@ export function bearerTokenAuthenticationPolicy(
+@@ -272,41 +205,8 @@ export function bearerTokenAuthenticationPolicy(
            logger,
          });
  
@@ -1657,7 +1732,7 @@ index 898e5a6..87e8f5e 100644
          }
        }
  
-@@ -318,64 +219,3 @@ export function bearerTokenAuthenticationPolicy(
+@@ -318,64 +218,3 @@ export function bearerTokenAuthenticationPolicy(
      },
    };
  }
@@ -1867,40 +1942,180 @@ index a40d4ab..0000000
 -  };
 -}
 diff --git a/src/policies/tracingPolicy.ts b/src/policies/tracingPolicy.ts
-index 5e69548..34fad89 100644
+deleted file mode 100644
+index 5e69548..0000000
 --- a/src/policies/tracingPolicy.ts
-+++ b/src/policies/tracingPolicy.ts
-@@ -1,18 +1,14 @@
- // Copyright (c) Microsoft Corporation.
- // Licensed under the MIT License.
- 
++++ /dev/null
+@@ -1,169 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
 -import {
 -  type TracingClient,
 -  type TracingContext,
 -  type TracingSpan,
 -  createTracingClient,
 -} from "@azure/core-tracing";
-+import type { TracingClient, TracingContext, TracingSpan } from "../tracing/interfaces.js";
-+import { createTracingClient } from "../tracing/tracingClient.js";
- import { SDK_VERSION } from "../constants.js";
- import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
- import type { PipelinePolicy } from "../pipeline.js";
- import { getUserAgentValue } from "../util/userAgent.js";
- import { logger } from "../log.js";
+-import { SDK_VERSION } from "../constants.js";
+-import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+-import type { PipelinePolicy } from "../pipeline.js";
+-import { getUserAgentValue } from "../util/userAgent.js";
+-import { logger } from "../log.js";
 -import { getErrorMessage, isError } from "@azure/core-util";
-+import { getErrorMessage, isError } from "../util/error.js";
- import { isRestError } from "../restError.js";
- import { Sanitizer } from "../util/sanitizer.js";
- 
-@@ -92,7 +88,7 @@ function tryCreateTracingClient(): TracingClient | undefined {
-   try {
-     return createTracingClient({
-       namespace: "",
+-import { isRestError } from "../restError.js";
+-import { Sanitizer } from "../util/sanitizer.js";
+-
+-/**
+- * The programmatic identifier of the tracingPolicy.
+- */
+-export const tracingPolicyName = "tracingPolicy";
+-
+-/**
+- * Options to configure the tracing policy.
+- */
+-export interface TracingPolicyOptions {
+-  /**
+-   * String prefix to add to the user agent logged as metadata
+-   * on the generated Span.
+-   * Defaults to an empty string.
+-   */
+-  userAgentPrefix?: string;
+-  /**
+-   * Query string names whose values will be logged when logging is enabled. By default no
+-   * query string values are logged.
+-   */
+-  additionalAllowedQueryParameters?: string[];
+-}
+-
+-/**
+- * A simple policy to create OpenTelemetry Spans for each request made by the pipeline
+- * that has SpanOptions with a parent.
+- * Requests made without a parent Span will not be recorded.
+- * @param options - Options to configure the telemetry logged by the tracing policy.
+- */
+-export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolicy {
+-  const userAgentPromise = getUserAgentValue(options.userAgentPrefix);
+-  const sanitizer = new Sanitizer({
+-    additionalAllowedQueryParameters: options.additionalAllowedQueryParameters,
+-  });
+-  const tracingClient = tryCreateTracingClient();
+-
+-  return {
+-    name: tracingPolicyName,
+-    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
+-      if (!tracingClient) {
+-        return next(request);
+-      }
+-
+-      const userAgent = await userAgentPromise;
+-
+-      const spanAttributes = {
+-        "http.url": sanitizer.sanitizeUrl(request.url),
+-        "http.method": request.method,
+-        "http.user_agent": userAgent,
+-        requestId: request.requestId,
+-      };
+-      if (userAgent) {
+-        spanAttributes["http.user_agent"] = userAgent;
+-      }
+-
+-      const { span, tracingContext } = tryCreateSpan(tracingClient, request, spanAttributes) ?? {};
+-
+-      if (!span || !tracingContext) {
+-        return next(request);
+-      }
+-
+-      try {
+-        const response = await tracingClient.withContext(tracingContext, next, request);
+-        tryProcessResponse(span, response);
+-        return response;
+-      } catch (err: any) {
+-        tryProcessError(span, err);
+-        throw err;
+-      }
+-    },
+-  };
+-}
+-
+-function tryCreateTracingClient(): TracingClient | undefined {
+-  try {
+-    return createTracingClient({
+-      namespace: "",
 -      packageName: "@azure/core-rest-pipeline",
-+      packageName: "@typespec/ts-http-runtime",
-       packageVersion: SDK_VERSION,
-     });
-   } catch (e: unknown) {
+-      packageVersion: SDK_VERSION,
+-    });
+-  } catch (e: unknown) {
+-    logger.warning(`Error when creating the TracingClient: ${getErrorMessage(e)}`);
+-    return undefined;
+-  }
+-}
+-
+-function tryCreateSpan(
+-  tracingClient: TracingClient,
+-  request: PipelineRequest,
+-  spanAttributes: Record<string, unknown>,
+-): { span: TracingSpan; tracingContext: TracingContext } | undefined {
+-  try {
+-    // As per spec, we do not need to differentiate between HTTP and HTTPS in span name.
+-    const { span, updatedOptions } = tracingClient.startSpan(
+-      `HTTP ${request.method}`,
+-      { tracingOptions: request.tracingOptions },
+-      {
+-        spanKind: "client",
+-        spanAttributes,
+-      },
+-    );
+-
+-    // If the span is not recording, don't do any more work.
+-    if (!span.isRecording()) {
+-      span.end();
+-      return undefined;
+-    }
+-
+-    // set headers
+-    const headers = tracingClient.createRequestHeaders(
+-      updatedOptions.tracingOptions.tracingContext,
+-    );
+-    for (const [key, value] of Object.entries(headers)) {
+-      request.headers.set(key, value);
+-    }
+-    return { span, tracingContext: updatedOptions.tracingOptions.tracingContext };
+-  } catch (e: any) {
+-    logger.warning(`Skipping creating a tracing span due to an error: ${getErrorMessage(e)}`);
+-    return undefined;
+-  }
+-}
+-
+-function tryProcessError(span: TracingSpan, error: unknown): void {
+-  try {
+-    span.setStatus({
+-      status: "error",
+-      error: isError(error) ? error : undefined,
+-    });
+-    if (isRestError(error) && error.statusCode) {
+-      span.setAttribute("http.status_code", error.statusCode);
+-    }
+-    span.end();
+-  } catch (e: any) {
+-    logger.warning(`Skipping tracing span processing due to an error: ${getErrorMessage(e)}`);
+-  }
+-}
+-
+-function tryProcessResponse(span: TracingSpan, response: PipelineResponse): void {
+-  try {
+-    span.setAttribute("http.status_code", response.status);
+-    const serviceRequestId = response.headers.get("x-ms-request-id");
+-    if (serviceRequestId) {
+-      span.setAttribute("serviceRequestId", serviceRequestId);
+-    }
+-    span.setStatus({
+-      status: "success",
+-    });
+-    span.end();
+-  } catch (e: any) {
+-    logger.warning(`Skipping tracing span processing due to an error: ${getErrorMessage(e)}`);
+-  }
+-}
 diff --git a/src/restError.ts b/src/restError.ts
 index 0b2e69f..bc09e78 100644
 --- a/src/restError.ts
@@ -1950,10 +2165,16 @@ index a8b94fc..bc11b52 100644
     * Function that determines how to proceed with the subsequent requests.
     * @param state - Retry state
 diff --git a/src/retryStrategies/throttlingRetryStrategy.ts b/src/retryStrategies/throttlingRetryStrategy.ts
-index 2d4f87f..5c8d4ed 100644
+index 2d4f87f..d0f7298 100644
 --- a/src/retryStrategies/throttlingRetryStrategy.ts
 +++ b/src/retryStrategies/throttlingRetryStrategy.ts
-@@ -6,12 +6,12 @@ import { parseHeaderValueAsNumber } from "../util/helpers.js";
+@@ -1,17 +1,17 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
+-import type { PipelineResponse } from "../index.js";
++import type { PipelineResponse } from "../interfaces.js";
+ import { parseHeaderValueAsNumber } from "../util/helpers.js";
  import type { RetryStrategy } from "./retryStrategy.js";
  
  /**
@@ -1997,47 +2218,685 @@ index 8992d7a..0000000
 -} from "./interfaces.js";
 -export { useInstrumenter } from "./instrumenter.js";
 -export { createTracingClient } from "./tracingClient.js";
+diff --git a/src/tracing/instrumenter.ts b/src/tracing/instrumenter.ts
+deleted file mode 100644
+index 28f5729..0000000
+--- a/src/tracing/instrumenter.ts
++++ /dev/null
+@@ -1,84 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import type {
+-  Instrumenter,
+-  InstrumenterSpanOptions,
+-  TracingContext,
+-  TracingSpan,
+-} from "./interfaces.js";
+-
+-import { createTracingContext } from "./tracingContext.js";
+-import { state } from "./state.js";
+-
+-export function createDefaultTracingSpan(): TracingSpan {
+-  return {
+-    end: () => {
+-      // noop
+-    },
+-    isRecording: () => false,
+-    recordException: () => {
+-      // noop
+-    },
+-    setAttribute: () => {
+-      // noop
+-    },
+-    setStatus: () => {
+-      // noop
+-    },
+-    addEvent: () => {
+-      // noop
+-    },
+-  };
+-}
+-
+-export function createDefaultInstrumenter(): Instrumenter {
+-  return {
+-    createRequestHeaders: (): Record<string, string> => {
+-      return {};
+-    },
+-    parseTraceparentHeader: (): TracingContext | undefined => {
+-      return undefined;
+-    },
+-    startSpan: (
+-      _name: string,
+-      spanOptions: InstrumenterSpanOptions,
+-    ): { span: TracingSpan; tracingContext: TracingContext } => {
+-      return {
+-        span: createDefaultTracingSpan(),
+-        tracingContext: createTracingContext({ parentContext: spanOptions.tracingContext }),
+-      };
+-    },
+-    withContext<
+-      CallbackArgs extends unknown[],
+-      Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
+-    >(
+-      _context: TracingContext,
+-      callback: Callback,
+-      ...callbackArgs: CallbackArgs
+-    ): ReturnType<Callback> {
+-      return callback(...callbackArgs);
+-    },
+-  };
+-}
+-
+-/**
+- * Extends the Azure SDK with support for a given instrumenter implementation.
+- *
+- * @param instrumenter - The instrumenter implementation to use.
+- */
+-export function useInstrumenter(instrumenter: Instrumenter): void {
+-  state.instrumenterImplementation = instrumenter;
+-}
+-
+-/**
+- * Gets the currently set instrumenter, a No-Op instrumenter by default.
+- *
+- * @returns The currently set instrumenter
+- */
+-export function getInstrumenter(): Instrumenter {
+-  if (!state.instrumenterImplementation) {
+-    state.instrumenterImplementation = createDefaultInstrumenter();
+-  }
+-  return state.instrumenterImplementation;
+-}
 diff --git a/src/tracing/interfaces.ts b/src/tracing/interfaces.ts
-index 04d0785..fe8f87b 100644
+deleted file mode 100644
+index 04d0785..0000000
 --- a/src/tracing/interfaces.ts
-+++ b/src/tracing/interfaces.ts
-@@ -27,7 +27,7 @@ export interface TracingClient {
-    * Example:
-    *
-    * ```ts snippet:with_span_example
++++ /dev/null
+@@ -1,329 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-/**
+- * A narrower version of TypeScript 4.5's Awaited type which Recursively
+- * unwraps the "awaited type", emulating the behavior of `await`.
+- */
+-export type Resolved<T> = T extends { then(onfulfilled: infer F): any } // `await` only unwraps object types with a callable `then`. Non-object types are not unwrapped
+-  ? F extends (value: infer V) => any // if the argument to `then` is callable, extracts the first argument
+-    ? Resolved<V> // recursively unwrap the value
+-    : never // the argument to `then` was not callable
+-  : T; // non-object or non-thenable
+-
+-/**
+- * Represents a client that can integrate with the currently configured {@link Instrumenter}.
+- *
+- * Create an instance using {@link createTracingClient}.
+- */
+-export interface TracingClient {
+-  /**
+-   * Wraps a callback in a tracing span, calls the callback, and closes the span.
+-   *
+-   * This is the primary interface for using Tracing and will handle error recording as well as setting the status on the span.
+-   *
+-   * Both synchronous and asynchronous functions will be awaited in order to reflect the result of the callback on the span.
+-   *
+-   * Example:
+-   *
+-   * ```ts snippet:with_span_example
 -   * import { createTracingClient } from "@azure/core-tracing";
-+   * import { createTracingClient } from "@typespec/ts-http-runtime";
-    *
-    * const tracingClient = createTracingClient({
-    *   namespace: "test.namespace",
+-   *
+-   * const tracingClient = createTracingClient({
+-   *   namespace: "test.namespace",
+-   *   packageName: "test-package",
+-   *   packageVersion: "1.0.0",
+-   * });
+-   * const options = {};
+-   * const myOperationResult = await tracingClient.withSpan(
+-   *   "myClassName.myOperationName",
+-   *   options,
+-   *   (updatedOptions) => {
+-   *     // Do something with the updated options.
+-   *     return "myOperationResult";
+-   *   },
+-   * );
+-   * ```
+-   * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
+-   * @param operationOptions - The original options passed to the method. The callback will receive these options with the newly created {@link TracingContext}.
+-   * @param callback - The callback to be invoked with the updated options and newly created {@link TracingSpan}.
+-   */
+-  withSpan<
+-    Options extends { tracingOptions?: OperationTracingOptions },
+-    Callback extends (
+-      updatedOptions: Options,
+-      span: Omit<TracingSpan, "end">,
+-    ) => ReturnType<Callback>,
+-  >(
+-    name: string,
+-    operationOptions: Options,
+-    callback: Callback,
+-    spanOptions?: TracingSpanOptions,
+-  ): Promise<Resolved<ReturnType<Callback>>>;
+-  /**
+-   * Starts a given span but does not set it as the active span.
+-   *
+-   * You must end the span using {@link TracingSpan.end}.
+-   *
+-   * Most of the time you will want to use {@link withSpan} instead.
+-   *
+-   * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
+-   * @param operationOptions - The original operation options.
+-   * @param spanOptions - The options to use when creating the span.
+-   *
+-   * @returns A {@link TracingSpan} and the updated operation options.
+-   */
+-  startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
+-    name: string,
+-    operationOptions?: Options,
+-    spanOptions?: TracingSpanOptions,
+-  ): {
+-    span: TracingSpan;
+-    updatedOptions: OptionsWithTracingContext<Options>;
+-  };
+-  /**
+-   * Wraps a callback with an active context and calls the callback.
+-   * Depending on the implementation, this may set the globally available active context.
+-   *
+-   * Useful when you want to leave the boundaries of the SDK (make a request or callback to user code) and are unable to use the {@link withSpan} API.
+-   *
+-   * @param context - The {@link TracingContext} to use as the active context in the scope of the callback.
+-   * @param callback - The callback to be invoked with the given context set as the globally active context.
+-   * @param callbackArgs - The callback arguments.
+-   */
+-  withContext<
+-    CallbackArgs extends unknown[],
+-    Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
+-  >(
+-    context: TracingContext,
+-    callback: Callback,
+-    ...callbackArgs: CallbackArgs
+-  ): ReturnType<Callback>;
+-
+-  /**
+-   * Parses a traceparent header value into a {@link TracingSpanContext}.
+-   *
+-   * @param traceparentHeader - The traceparent header to parse.
+-   * @returns An implementation-specific identifier for the span.
+-   */
+-  parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
+-
+-  /**
+-   * Creates a set of request headers to propagate tracing information to a backend.
+-   *
+-   * @param tracingContext - The context containing the span to propagate.
+-   * @returns The set of headers to add to a request.
+-   */
+-  createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
+-}
+-
+-/**
+- * Options that can be passed to {@link createTracingClient}
+- */
+-export interface TracingClientOptions {
+-  /** The value of the az.namespace tracing attribute on newly created spans. */
+-  namespace: string;
+-  /** The name of the package invoking this trace. */
+-  packageName: string;
+-  /** An optional version of the package invoking this trace. */
+-  packageVersion?: string;
+-}
+-
+-/** The kind of span. */
+-export type TracingSpanKind = "client" | "server" | "producer" | "consumer" | "internal";
+-
+-/** Options used to configure the newly created span. */
+-export interface TracingSpanOptions {
+-  /** The kind of span. Implementations should default this to "client". */
+-  spanKind?: TracingSpanKind;
+-  /** A collection of {@link TracingSpanLink} to link to this span. */
+-  spanLinks?: TracingSpanLink[];
+-  /** Initial set of attributes to set on a span. */
+-  spanAttributes?: { [key: string]: unknown };
+-}
+-
+-/** A pointer from the current {@link TracingSpan} to another span in the same or a different trace. */
+-export interface TracingSpanLink {
+-  /** The {@link TracingContext} containing the span context to link to. */
+-  tracingContext: TracingContext;
+-  /** A set of attributes on the link. */
+-  attributes?: { [key: string]: unknown };
+-}
+-
+-/**
+- * Represents an implementation agnostic instrumenter.
+- */
+-export interface Instrumenter {
+-  /**
+-   * Creates a new {@link TracingSpan} with the given name and options and sets it on a new context.
+-   * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
+-   * @param spanOptions - The options to use when creating the span.
+-   *
+-   * @returns A {@link TracingSpan} that can be used to end the span, and the context this span has been set on.
+-   */
+-  startSpan(
+-    name: string,
+-    spanOptions: InstrumenterSpanOptions,
+-  ): { span: TracingSpan; tracingContext: TracingContext };
+-  /**
+-   * Wraps a callback with an active context and calls the callback.
+-   * Depending on the implementation, this may set the globally available active context.
+-   *
+-   * @param context - The {@link TracingContext} to use as the active context in the scope of the callback.
+-   * @param callback - The callback to be invoked with the given context set as the globally active context.
+-   * @param callbackArgs - The callback arguments.
+-   */
+-  withContext<
+-    CallbackArgs extends unknown[],
+-    Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
+-  >(
+-    context: TracingContext,
+-    callback: Callback,
+-    ...callbackArgs: CallbackArgs
+-  ): ReturnType<Callback>;
+-
+-  /**
+-   * Provides an implementation-specific method to parse a {@link https://www.w3.org/TR/trace-context/#traceparent-header}
+-   * into a {@link TracingSpanContext} which can be used to link non-parented spans together.
+-   */
+-  parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined;
+-  /**
+-   * Provides an implementation-specific method to serialize a {@link TracingSpan} to a set of headers.
+-   * @param tracingContext - The context containing the span to serialize.
+-   */
+-  createRequestHeaders(tracingContext?: TracingContext): Record<string, string>;
+-}
+-
+-/**
+- * Options passed to {@link Instrumenter.startSpan} as a superset of {@link TracingSpanOptions}.
+- */
+-export interface InstrumenterSpanOptions extends TracingSpanOptions {
+-  /** The name of the package invoking this trace. */
+-  packageName: string;
+-  /** The version of the package invoking this trace. */
+-  packageVersion?: string;
+-  /** The current tracing context. Defaults to an implementation-specific "active" context. */
+-  tracingContext?: TracingContext;
+-}
+-
+-/**
+- * Status representing a successful operation that can be sent to {@link TracingSpan.setStatus}
+- */
+-export type SpanStatusSuccess = { status: "success" };
+-
+-/**
+- * Status representing an error that can be sent to {@link TracingSpan.setStatus}
+- */
+-export type SpanStatusError = { status: "error"; error?: Error | string };
+-
+-/**
+- * Represents the statuses that can be passed to {@link TracingSpan.setStatus}.
+- *
+- * By default, all spans will be created with status "unset".
+- */
+-export type SpanStatus = SpanStatusSuccess | SpanStatusError;
+-
+-/**
+- * Represents options you can pass to {@link TracingSpan.addEvent}.
+- */
+-export interface AddEventOptions {
+-  /**
+-   * A set of attributes to attach to the event.
+-   */
+-  attributes?: Record<string, unknown>;
+-  /**
+-   * The start time of the event.
+-   */
+-  startTime?: Date;
+-}
+-
+-/**
+- * Represents an implementation agnostic tracing span.
+- */
+-export interface TracingSpan {
+-  /**
+-   * Sets the status of the span. When an error is provided, it will be recorded on the span as well.
+-   *
+-   * @param status - The {@link SpanStatus} to set on the span.
+-   */
+-  setStatus(status: SpanStatus): void;
+-
+-  /**
+-   * Sets a given attribute on a span.
+-   *
+-   * @param name - The attribute's name.
+-   * @param value - The attribute's value to set. May be any non-nullish value.
+-   */
+-  setAttribute(name: string, value: unknown): void;
+-
+-  /**
+-   * Ends the span.
+-   */
+-  end(): void;
+-
+-  /**
+-   * Records an exception on a {@link TracingSpan} without modifying its status.
+-   *
+-   * When recording an unhandled exception that should fail the span, please use {@link TracingSpan.setStatus} instead.
+-   *
+-   * @param exception - The exception to record on the span.
+-   *
+-   */
+-  recordException(exception: Error | string): void;
+-
+-  /**
+-   * Returns true if this {@link TracingSpan} is recording information.
+-   *
+-   * Depending on the span implementation, this may return false if the span is not being sampled.
+-   */
+-  isRecording(): boolean;
+-
+-  /**
+-   * Adds an event to the span.
+-   */
+-  addEvent?(name: string, options?: AddEventOptions): void;
+-}
+-
+-/** An immutable context bag of tracing values for the current operation. */
+-export interface TracingContext {
+-  /**
+-   * Sets a given object on a context.
+-   * @param key - The key of the given context value.
+-   * @param value - The value to set on the context.
+-   *
+-   * @returns - A new context with the given value set.
+-   */
+-  setValue(key: symbol, value: unknown): TracingContext;
+-  /**
+-   * Gets an object from the context if it exists.
+-   * @param key - The key of the given context value.
+-   *
+-   * @returns - The value of the given context value if it exists, otherwise `undefined`.
+-   */
+-  getValue(key: symbol): unknown;
+-  /**
+-   * Deletes an object from the context if it exists.
+-   * @param key - The key of the given context value to delete.
+-   */
+-  deleteValue(key: symbol): TracingContext;
+-}
+-
+-/**
+- * Tracing options to set on an operation.
+- */
+-export interface OperationTracingOptions {
+-  /** The context to use for created Tracing Spans. */
+-  tracingContext?: TracingContext;
+-}
+-
+-/**
+- * A utility type for when we know a TracingContext has been set
+- * as part of an operation's options.
+- */
+-export type OptionsWithTracingContext<
+-  Options extends { tracingOptions?: OperationTracingOptions },
+-> = Options & {
+-  tracingOptions: {
+-    tracingContext: TracingContext;
+-  };
+-};
+diff --git a/src/tracing/state-browser.mts b/src/tracing/state-browser.mts
+deleted file mode 100644
+index 6e56271..0000000
+--- a/src/tracing/state-browser.mts
++++ /dev/null
+@@ -1,11 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import type { Instrumenter } from "./interfaces.js";
+-
+-/**
+- * Browser-only implementation of the module's state. The browser esm variant will not load the commonjs state, so we do not need to share state between the two.
+- */
+-export const state = {
+-  instrumenterImplementation: undefined as Instrumenter | undefined,
+-};
+diff --git a/src/tracing/state-cjs.cts b/src/tracing/state-cjs.cts
+deleted file mode 100644
+index 181bfa0..0000000
+--- a/src/tracing/state-cjs.cts
++++ /dev/null
+@@ -1,11 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-/**
+- * @internal
+- *
+- * Holds the singleton instrumenter, to be shared across CJS and ESM imports.
+- */
+-export const state = {
+-  instrumenterImplementation: undefined,
+-};
 diff --git a/src/tracing/state.ts b/src/tracing/state.ts
-index c7e7a4a..ccb13f4 100644
+deleted file mode 100644
+index c7e7a4a..0000000
 --- a/src/tracing/state.ts
-+++ b/src/tracing/state.ts
-@@ -4,7 +4,7 @@
- import type { Instrumenter } from "./interfaces.js";
- // @ts-expect-error The recommended approach to sharing module state between ESM and CJS.
- // See https://github.com/isaacs/tshy/blob/main/README.md#module-local-state for additional information.
++++ /dev/null
+@@ -1,14 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import type { Instrumenter } from "./interfaces.js";
+-// @ts-expect-error The recommended approach to sharing module state between ESM and CJS.
+-// See https://github.com/isaacs/tshy/blob/main/README.md#module-local-state for additional information.
 -import { state as cjsState } from "../commonjs/state.js";
-+import { state as cjsState } from "../commonjs/tracing/state.js";
- 
- /**
-  * Defines the shared state between CJS and ESM by re-exporting the CJS state.
+-
+-/**
+- * Defines the shared state between CJS and ESM by re-exporting the CJS state.
+- */
+-export const state = cjsState as {
+-  instrumenterImplementation: Instrumenter | undefined;
+-};
+diff --git a/src/tracing/tracingClient.ts b/src/tracing/tracingClient.ts
+deleted file mode 100644
+index 3e9603d..0000000
+--- a/src/tracing/tracingClient.ts
++++ /dev/null
+@@ -1,121 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import type {
+-  OperationTracingOptions,
+-  OptionsWithTracingContext,
+-  Resolved,
+-  TracingClient,
+-  TracingClientOptions,
+-  TracingContext,
+-  TracingSpan,
+-  TracingSpanOptions,
+-} from "./interfaces.js";
+-import { getInstrumenter } from "./instrumenter.js";
+-import { knownContextKeys } from "./tracingContext.js";
+-
+-/**
+- * Creates a new tracing client.
+- *
+- * @param options - Options used to configure the tracing client.
+- * @returns - An instance of {@link TracingClient}.
+- */
+-export function createTracingClient(options: TracingClientOptions): TracingClient {
+-  const { namespace, packageName, packageVersion } = options;
+-
+-  function startSpan<Options extends { tracingOptions?: OperationTracingOptions }>(
+-    name: string,
+-    operationOptions?: Options,
+-    spanOptions?: TracingSpanOptions,
+-  ): {
+-    span: TracingSpan;
+-    updatedOptions: OptionsWithTracingContext<Options>;
+-  } {
+-    const startSpanResult = getInstrumenter().startSpan(name, {
+-      ...spanOptions,
+-      packageName: packageName,
+-      packageVersion: packageVersion,
+-      tracingContext: operationOptions?.tracingOptions?.tracingContext,
+-    });
+-    let tracingContext = startSpanResult.tracingContext;
+-    const span = startSpanResult.span;
+-    if (!tracingContext.getValue(knownContextKeys.namespace)) {
+-      tracingContext = tracingContext.setValue(knownContextKeys.namespace, namespace);
+-    }
+-    span.setAttribute("az.namespace", tracingContext.getValue(knownContextKeys.namespace));
+-    const updatedOptions: OptionsWithTracingContext<Options> = Object.assign({}, operationOptions, {
+-      tracingOptions: { ...operationOptions?.tracingOptions, tracingContext },
+-    });
+-
+-    return {
+-      span,
+-      updatedOptions,
+-    };
+-  }
+-
+-  async function withSpan<
+-    Options extends { tracingOptions?: OperationTracingOptions },
+-    Callback extends (
+-      updatedOptions: Options,
+-      span: Omit<TracingSpan, "end">,
+-    ) => ReturnType<Callback>,
+-  >(
+-    name: string,
+-    operationOptions: Options,
+-    callback: Callback,
+-    spanOptions?: TracingSpanOptions,
+-  ): Promise<Resolved<ReturnType<Callback>>> {
+-    const { span, updatedOptions } = startSpan(name, operationOptions, spanOptions);
+-    try {
+-      const result = await withContext(updatedOptions.tracingOptions.tracingContext, () =>
+-        Promise.resolve(callback(updatedOptions, span)),
+-      );
+-      span.setStatus({ status: "success" });
+-      return result as ReturnType<typeof withSpan>;
+-    } catch (err: any) {
+-      span.setStatus({ status: "error", error: err });
+-      throw err;
+-    } finally {
+-      span.end();
+-    }
+-  }
+-
+-  function withContext<
+-    CallbackArgs extends unknown[],
+-    Callback extends (...args: CallbackArgs) => ReturnType<Callback>,
+-  >(
+-    context: TracingContext,
+-    callback: Callback,
+-    ...callbackArgs: CallbackArgs
+-  ): ReturnType<Callback> {
+-    return getInstrumenter().withContext(context, callback, ...callbackArgs);
+-  }
+-
+-  /**
+-   * Parses a traceparent header value into a span identifier.
+-   *
+-   * @param traceparentHeader - The traceparent header to parse.
+-   * @returns An implementation-specific identifier for the span.
+-   */
+-  function parseTraceparentHeader(traceparentHeader: string): TracingContext | undefined {
+-    return getInstrumenter().parseTraceparentHeader(traceparentHeader);
+-  }
+-
+-  /**
+-   * Creates a set of request headers to propagate tracing information to a backend.
+-   *
+-   * @param tracingContext - The context containing the span to serialize.
+-   * @returns The set of headers to add to a request.
+-   */
+-  function createRequestHeaders(tracingContext?: TracingContext): Record<string, string> {
+-    return getInstrumenter().createRequestHeaders(tracingContext);
+-  }
+-
+-  return {
+-    startSpan,
+-    withSpan,
+-    withContext,
+-    parseTraceparentHeader,
+-    createRequestHeaders,
+-  };
+-}
 diff --git a/src/tracing/tracingContext.ts b/src/tracing/tracingContext.ts
-index 84999ab..5528c7a 100644
+deleted file mode 100644
+index 84999ab..0000000
 --- a/src/tracing/tracingContext.ts
-+++ b/src/tracing/tracingContext.ts
-@@ -5,8 +5,8 @@ import type { TracingContext, TracingSpan } from "./interfaces.js";
- 
- /** @internal */
- export const knownContextKeys = {
++++ /dev/null
+@@ -1,67 +0,0 @@
+-// Copyright (c) Microsoft Corporation.
+-// Licensed under the MIT License.
+-
+-import type { TracingContext, TracingSpan } from "./interfaces.js";
+-
+-/** @internal */
+-export const knownContextKeys = {
 -  span: Symbol.for("@azure/core-tracing span"),
 -  namespace: Symbol.for("@azure/core-tracing namespace"),
-+  span: Symbol.for("@typespec/ts-http-runtime span"),
-+  namespace: Symbol.for("@typespec/ts-http-runtime namespace"),
- };
- 
- /**
+-};
+-
+-/**
+- * Creates a new {@link TracingContext} with the given options.
+- * @param options - A set of known keys that may be set on the context.
+- * @returns A new {@link TracingContext} with the given options.
+- *
+- * @internal
+- */
+-export function createTracingContext(options: CreateTracingContextOptions = {}): TracingContext {
+-  let context: TracingContext = new TracingContextImpl(options.parentContext);
+-  if (options.span) {
+-    context = context.setValue(knownContextKeys.span, options.span);
+-  }
+-  if (options.namespace) {
+-    context = context.setValue(knownContextKeys.namespace, options.namespace);
+-  }
+-  return context;
+-}
+-
+-/** @internal */
+-export class TracingContextImpl implements TracingContext {
+-  private _contextMap: Map<symbol, unknown>;
+-  constructor(initialContext?: TracingContext) {
+-    this._contextMap =
+-      initialContext instanceof TracingContextImpl
+-        ? new Map<symbol, unknown>(initialContext._contextMap)
+-        : new Map();
+-  }
+-
+-  setValue(key: symbol, value: unknown): TracingContext {
+-    const newContext = new TracingContextImpl(this);
+-    newContext._contextMap.set(key, value);
+-    return newContext;
+-  }
+-
+-  getValue(key: symbol): unknown {
+-    return this._contextMap.get(key);
+-  }
+-
+-  deleteValue(key: symbol): TracingContext {
+-    const newContext = new TracingContextImpl(this);
+-    newContext._contextMap.delete(key);
+-    return newContext;
+-  }
+-}
+-
+-/**
+- * Represents a set of items that can be set when creating a new {@link TracingContext}.
+- */
+-export interface CreateTracingContextOptions {
+-  /** The {@link parentContext} - the newly created context will contain all the values of the parent context unless overridden. */
+-  parentContext?: TracingContext;
+-  /** An initial span to set on the context. */
+-  span?: TracingSpan;
+-  /** The namespace to set on any child spans. */
+-  namespace?: string;
+-}
 diff --git a/src/util/aborterUtils.ts b/src/util/aborterUtils.ts
 index ce29be9..cde2d52 100644
 --- a/src/util/aborterUtils.ts

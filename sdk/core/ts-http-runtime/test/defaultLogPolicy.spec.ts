@@ -36,7 +36,6 @@ describe("defaultLogPolicy", function () {
       "userAgentPolicy",
       "multipartPolicy",
       "defaultRetryPolicy",
-      "tracingPolicy",
     );
     if (isNodeLike) {
       expectedOrderedPolicies.push("redirectPolicy");
@@ -66,7 +65,7 @@ describe("defaultLogPolicy", function () {
     );
 
     const expectedOrder: string[] = orderedPolicies.map((policy) => policy.name);
-    const repeatedPolicies = expectedOrder.slice(expectedOrder.indexOf("tracingPolicy"));
+    const repeatedPolicies = ["redirectPolicy", "testSignPolicy", "logPolicy"];
     for (let i = 0; i < DEFAULT_RETRY_POLICY_COUNT; i++) {
       expectedOrder.push(...repeatedPolicies);
     }

@@ -134,7 +134,6 @@ function buildPipelineRequest(
     multipartBody,
     headers,
     allowInsecureConnection: options.allowInsecureConnection,
-    tracingOptions: options.tracingOptions,
     abortSignal: options.abortSignal,
     onUploadProgress: options.onUploadProgress,
     onDownloadProgress: options.onDownloadProgress,

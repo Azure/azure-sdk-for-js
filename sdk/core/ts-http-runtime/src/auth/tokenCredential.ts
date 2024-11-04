@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
-import type { TracingContext } from "../tracing/interfaces.js";
 
 /**
  * Represents a credential capable of providing an authentication token.
@@ -37,15 +36,6 @@ export interface GetTokenOptions {
      * The number of milliseconds a request can take before automatically being terminated.
      */
     timeout?: number;
-  };
-  /**
-   * Options used when tracing is enabled.
-   */
-  tracingOptions?: {
-    /**
-     * Tracing Context for the current request.
-     */
-    tracingContext?: TracingContext;
   };
   /**
    * Claim details to perform the Continuous Access Evaluation authentication flow

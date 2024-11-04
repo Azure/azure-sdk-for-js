@@ -8,17 +8,15 @@ import type {
   TokenCredential,
 } from "../../src/auth/tokenCredential.js";
 import type {
-  AuthorizeRequestOnChallengeOptions,
   HttpClient,
   PipelineResponse,
 } from "../../src/index.js";
-import {
-  bearerTokenAuthenticationPolicy,
-  createEmptyPipeline,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "../../src/index.js";
 import { TextDecoder } from "node:util";
+import { createPipelineRequest } from "../../src/pipelineRequest.js";
+import { createHttpHeaders } from "../../src/httpHeaders.js";
+import { createEmptyPipeline } from "../../src/pipeline.js";
+import type { AuthorizeRequestOnChallengeOptions} from "../../src/policies/bearerTokenAuthenticationPolicy.js";
+import { bearerTokenAuthenticationPolicy } from "../../src/policies/bearerTokenAuthenticationPolicy.js";
 
 export interface TestChallenge {
   scope: string;

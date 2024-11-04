@@ -12,7 +12,6 @@ import type {
 } from "../interfaces.js";
 import type { Pipeline, PipelinePolicy } from "../pipeline.js";
 import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
-import type { OperationTracingOptions } from "../tracing/interfaces.js";
 import type { PipelineOptions } from "../createPipelineFromOptions.js";
 import type { LogPolicyOptions } from "../policies/logPolicy.js";
 
@@ -74,11 +73,6 @@ export type RequestParameters = {
   abortSignal?: AbortSignalLike;
 
   /**
-   * Options used when tracing is enabled.
-   */
-  tracingOptions?: OperationTracingOptions;
-
-  /**
    * A function to be called each time a response is received from the server
    * while performing the requested operation.
    * May be called multiple times.
@@ -127,11 +121,6 @@ export interface OperationOptions {
    * Options used when creating and sending HTTP requests for this operation.
    */
   requestOptions?: OperationRequestOptions;
-  /**
-   * Options used when tracing is enabled.
-   */
-  tracingOptions?: OperationTracingOptions;
-
   /**
    * A function to be called each time a response is received from the server
    * while performing the requested operation.
