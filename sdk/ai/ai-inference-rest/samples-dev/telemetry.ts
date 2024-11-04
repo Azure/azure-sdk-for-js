@@ -10,7 +10,11 @@
 import { trace, context } from "@opentelemetry/api";
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
 import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentation-azure-sdk";
-import { ConsoleSpanExporter, NodeTracerProvider, SimpleSpanProcessor } from "@opentelemetry/sdk-trace-node";
+import {
+  ConsoleSpanExporter,
+  NodeTracerProvider,
+  SimpleSpanProcessor,
+} from "@opentelemetry/sdk-trace-node";
 import { AzureMonitorTraceExporter } from "@azure/monitor-opentelemetry-exporter";
 import * as dotenv from "dotenv";
 import { AzureKeyCredential } from "@azure/core-auth";
@@ -45,20 +49,23 @@ async function main() {
 
   const client = createModelClient();
 
-  const response = await tracer.startActiveSpan('main', async (span) => {
-    return client.path("/chat/completions").post({
-      body: {
-        messages: [{ role: "user", content: "What's the weather like in Boston?" }],
-        temperature: 1.0,
-        max_tokens: 1000,
-        top_p: 1.0,
-        model: modelName
-      },
-      tracingOptions: { tracingContext: context.active() }
-    }).then((response) => {
-      span.end();
-      return response;
-    });
+  const response = await tracer.startActiveSpan("main", async (span) => {
+    return client
+      .path("/chat/completions")
+      .post({
+        body: {
+          messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+          temperature: 1.0,
+          max_tokens: 1000,
+          top_p: 1.0,
+          model: modelName,
+        },
+        tracingOptions: { tracingContext: context.active() },
+      })
+      .then((response) => {
+        span.end();
+        return response;
+      });
   });
 
   if (isUnexpected(response)) {
@@ -71,8 +78,8 @@ async function main() {
 }
 
 /*
-  * This function creates a model client.
-  */
+ * This function creates a model client.
+ */
 function createModelClient() {
   // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
   // auth scope for MaaS and MaaP is currently https://ml.azure.com
@@ -83,8 +90,7 @@ function createModelClient() {
     const scopes: string[] = [];
     if (endpoint.includes(".models.ai.azure.com")) {
       scopes.push("https://ml.azure.com");
-    }
-    else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
+    } else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
       scopes.push("https://cognitiveservices.azure.com");
     }
 
@@ -92,7 +98,6 @@ function createModelClient() {
     return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);
   }
 }
-
 
 main().catch((err) => {
   console.error("The sample encountered an error:", err);

@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { JobRouterAdministrationClient, JobRouterClient } from "../../../src";
-import { Context } from "mocha";
+import type { JobRouterAdministrationClient, JobRouterClient } from "../../../src";
+import type { Context } from "mocha";
 import {
   getClassificationPolicyCombined,
   getClassificationPolicyConditional,
@@ -22,7 +22,7 @@ import {
 } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { pollForJobQueued, retry } from "../utils/polling";
 
 describe("JobRouterClient", function () {

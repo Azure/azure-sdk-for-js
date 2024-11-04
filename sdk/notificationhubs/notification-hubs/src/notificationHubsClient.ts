@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   BroadcastSendNotificationOptions,
   DirectSendNotificationOptions,
   EntityOperationOptions,
@@ -11,18 +11,19 @@ import {
   ScheduleNotificationOptions,
   SendNotificationOptions,
 } from "./models/options.js";
-import { Installation, JsonPatch } from "./models/installation.js";
-import {
+import type { Installation, JsonPatch } from "./models/installation.js";
+import type {
   NotificationDetails,
   NotificationHubsMessageResponse,
   NotificationHubsResponse,
 } from "./models/notificationDetails.js";
-import { NotificationHubJob, NotificationHubJobPoller } from "./models/notificationHubJob.js";
-import { NotificationHubsClientContext, createClientContext } from "./api/clientContext.js";
-import { RegistrationDescription, RegistrationChannel } from "./models/registration.js";
-import { Notification } from "./models/notification.js";
-import { OperationOptions } from "@azure-rest/core-client";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { NotificationHubJob, NotificationHubJobPoller } from "./models/notificationHubJob.js";
+import type { NotificationHubsClientContext } from "./api/clientContext.js";
+import { createClientContext } from "./api/clientContext.js";
+import type { RegistrationDescription, RegistrationChannel } from "./models/registration.js";
+import type { Notification } from "./models/notification.js";
+import type { OperationOptions } from "@azure-rest/core-client";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { beginSubmitNotificationHubJob as beginSubmitNotificationHubJobMethod } from "./api/beginSubmitNotificationHubJob.js";
 import { cancelScheduledNotification as cancelScheduledNotificationMethod } from "./api/cancelScheduledNotification.js";
 import { createOrUpdateInstallation as createOrUpdateInstallationMethod } from "./api/createOrUpdateInstallation.js";

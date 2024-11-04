@@ -120,7 +120,7 @@ node dist/backupInstancesAdhocBackupSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env DATAPROTECTION_SUBSCRIPTION_ID="<dataprotection subscription id>" DATAPROTECTION_RESOURCE_GROUP="<dataprotection resource group>" node dist/backupInstancesAdhocBackupSample.js
+npx dev-tool run vendored cross-env DATAPROTECTION_SUBSCRIPTION_ID="<dataprotection subscription id>" DATAPROTECTION_RESOURCE_GROUP="<dataprotection resource group>" node dist/backupInstancesAdhocBackupSample.js
 ```
 
 ## Next Steps

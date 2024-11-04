@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   checkTenantId,
   processMultiTenantRequest,
@@ -10,7 +10,7 @@ import {
 import { credentialLogger, formatError, formatSuccess } from "../util/logging";
 import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils";
 
-import { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
+import type { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
 import child_process from "child_process";
 import { tracingClient } from "../util/tracing";

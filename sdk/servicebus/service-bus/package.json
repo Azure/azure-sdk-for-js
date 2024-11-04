@@ -30,7 +30,6 @@
     "LICENSE"
   ],
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && dev-tool run vendored rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:browser": "npm run bundle",
     "build:node": "npm run bundle",
@@ -125,7 +124,6 @@
     "chai": "^5.1.1",
     "chai-as-promised": "^8.0.0",
     "chai-exclude": "^3.0.0",
-    "cross-env": "^7.0.2",
     "debug": "^4.1.1",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",

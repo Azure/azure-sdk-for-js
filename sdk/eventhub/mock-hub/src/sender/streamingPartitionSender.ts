@@ -3,8 +3,8 @@
 
 import { AbortError } from "@azure/abort-controller";
 import rhea from "rhea";
-import { MessageRecord, MessageStore } from "../storage/messageStore.js";
-import { EventPosition } from "../utils/eventPosition.js";
+import type { MessageRecord, MessageStore } from "../storage/messageStore.js";
+import type { EventPosition } from "../utils/eventPosition.js";
 
 /**
  * The StreamingPartitionSender is responsible for sending stored events to a client

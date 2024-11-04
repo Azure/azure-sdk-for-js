@@ -112,62 +112,69 @@ export interface AzureGroundingEnhancementCoordinatePointOutput {
   y: number;
 }
 
-/** An abstract representation of structured information about why a chat completions response terminated. */
-export interface ChatFinishDetailsOutputParent {
-  /** The object type. */
-  type: string;
-}
-
-/** A structured representation of a stop reason that signifies natural termination by the model. */
-export interface StopFinishDetailsOutput extends ChatFinishDetailsOutputParent {
-  /** The object type, which is always 'stop' for this object. */
-  type: "stop";
-  /** The token sequence that the model terminated with. */
-  stop: string;
-}
-
 /**
- * A structured representation of a stop reason that signifies a token limit was reached before the model could naturally
- * complete.
- */
-export interface MaxTokensFinishDetailsOutput extends ChatFinishDetailsOutputParent {
-  /** The object type, which is always 'max_tokens' for this object. */
-  type: "max_tokens";
-}
-
-/**
- *   A representation of the additional context information available when Azure OpenAI chat extensions are involved
- *   in the generation of a corresponding chat completions response. This context information is only populated when
- *   using an Azure OpenAI request configured to use a matching extension.
+ * A representation of the additional context information available when Azure OpenAI chat extensions are involved
+ * in the generation of a corresponding chat completions response. This context information is only populated when
+ * using an Azure OpenAI request configured to use a matching extension.
  */
 export interface AzureChatExtensionsMessageContextOutput {
   /**
-   *   The contextual information associated with the Azure chat extensions used for a chat completions request.
-   *   These messages describe the data source retrievals, plugin invocations, and other intermediate steps taken in the
-   *   course of generating a chat completions response that was augmented by capabilities from Azure OpenAI chat
-   *   extensions.
+   * The contextual information associated with the Azure chat extensions used for a chat completions request.
+   * These messages describe the data source retrievals, plugin invocations, and other intermediate steps taken in the
+   * course of generating a chat completions response that was augmented by capabilities from Azure OpenAI chat
+   * extensions.
    */
   citations?: Array<AzureChatExtensionDataSourceResponseCitationOutput>;
   /** The detected intent from the chat history, used to pass to the next turn to carry over the context. */
   intent?: string;
+  /** All the retrieved documents. */
+  all_retrieved_documents?: Array<AzureChatExtensionRetrievedDocument>;
 }
 
-/**
- *   A representation of the additional context information available when Azure OpenAI chat extensions are involved
- *   in the generation of a corresponding chat completions response. This context information is only populated when
- *   using an Azure OpenAI request configured to use a matching extension.
+/** A single instance of additional context information available when Azure OpenAI chat extensions are involved
+ * in the generation of a corresponding chat completions response. This context information is only populated when
+ * using an Azure OpenAI request configured to use a matching extension.
  */
-export interface AzureChatExtensionsMessageContextOutput {
-  /**
-   *   The contextual information associated with the Azure chat extensions used for a chat completions request.
-   *   These messages describe the data source retrievals, plugin invocations, and other intermediate steps taken in the
-   *   course of generating a chat completions response that was augmented by capabilities from Azure OpenAI chat
-   *   extensions.
-   */
-  citations?: Array<AzureChatExtensionDataSourceResponseCitationOutput>;
-  /** The detected intent from the chat history, used to pass to the next turn to carry over the context. */
-  intent?: string;
+export interface AzureChatExtensionDataSourceResponseCitation {
+  /** The content of the citation. */
+  content: string;
+
+  /** The title of the citation. */
+  title?: string;
+
+  /** The URL of the citation. */
+  url?: string;
+
+  /** The file path of the citation. */
+  filepath?: string;
+
+  /** The chunk ID of the citation. */
+  chunk_id?: string;
+
+  /** The rerank score of the retrieved document. */
+  rerank_score?: number;
 }
+
+/** The retrieved document. */
+export interface AzureChatExtensionRetrievedDocument
+  extends AzureChatExtensionDataSourceResponseCitation {
+  /** The search queries used to retrieve the document. */
+  search_queries: string[];
+
+  /** The index of the data source. */
+  data_source_index: number;
+
+  /** The original search score of the retrieved document. */
+  original_search_score?: number;
+
+  /** Represents the rationale for filtering the document. If the document does not undergo filtering,
+   * this field will remain unset.
+   */
+  filter_reason?: AzureChatExtensionRetrieveDocumentFilterReason;
+}
+
+/** The reason for filtering the retrieved document. */
+export type AzureChatExtensionRetrieveDocumentFilterReason = "score" | "rerank";
 
 /** Content filtering results for a single prompt in the request. */
 export interface ContentFilterResultsForPromptOutput {
@@ -215,6 +222,8 @@ export interface ContentFilterResultDetailsForPromptOutput {
   error?: ErrorModel;
   /** Whether a jailbreak attempt was detected in the prompt. */
   jailbreak?: ContentFilterDetectionResultOutput;
+  /** Whether an indirect attack was detected in the prompt. */
+  indirect_attack?: ContentFilterDetectionResultOutput;
 }
 
 /** Information about filtered content severity level and if it has been filtered or not. */
@@ -245,43 +254,6 @@ export interface ContentFilterBlocklistIdResultOutput {
   filtered: boolean;
 }
 
-/** A representation of a single polygon point as used by the Azure grounding enhancement. */
-export interface AzureGroundingEnhancementCoordinatePointOutput {
-  /** The x-coordinate (horizontal axis) of the point. */
-  x: number;
-  /** The y-coordinate (vertical axis) of the point. */
-  y: number;
-}
-
-/** A content line object consisting of an adjacent sequence of content elements, such as words and selection marks. */
-export interface AzureGroundingEnhancementLineOutput {
-  /** The text within the line. */
-  text: string;
-  /** An array of spans that represent detected objects and its bounding box information. */
-  spans: Array<AzureGroundingEnhancementLineSpanOutput>;
-}
-
-/** A span object that represents a detected object and its bounding box information. */
-export interface AzureGroundingEnhancementLineSpanOutput {
-  /** The text content of the span that represents the detected object. */
-  text: string;
-  /**
-   * The character offset within the text where the span begins. This offset is defined as the position of the first
-   * character of the span, counting from the start of the text as Unicode codepoints.
-   */
-  offset: number;
-  /** The length of the span in characters, measured in Unicode codepoints. */
-  length: number;
-  /** An array of objects representing points in the polygon that encloses the detected object. */
-  polygon: Array<AzureGroundingEnhancementCoordinatePointOutput>;
-}
-
-/** The grounding enhancement that returns the bounding box of the objects detected in the image. */
-export interface AzureGroundingEnhancementOutput {
-  /** The lines of text detected by the grounding enhancement. */
-  lines: Array<AzureGroundingEnhancementLineOutput>;
-}
-
 /**
  * A single instance of additional context information available when Azure OpenAI chat extensions are involved
  * in the generation of a corresponding chat completions response. This context information is only populated when
@@ -300,8 +272,68 @@ export interface AzureChatExtensionDataSourceResponseCitationOutput {
   chunk_id?: string;
 }
 
-/** An abstract representation of structured information about why a chat completions response terminated. */
-export type ChatFinishDetailsOutput =
-  | ChatFinishDetailsOutputParent
-  | StopFinishDetailsOutput
-  | MaxTokensFinishDetailsOutput;
+/** Describes the content filtering result for the image generation request. */
+export interface ImageGenerationContentFilterResults {
+  /**
+   * Describes language related to anatomical organs and genitals, romantic relationships,
+   * acts portrayed in erotic or affectionate terms, physical sexual acts, including
+   * those portrayed as an assault or a forced sexual violent act against one’s will,
+   * prostitution, pornography, and abuse.
+   */
+  sexual?: ContentFilterResultOutput;
+  /**
+   * Describes language related to physical actions intended to hurt, injure, damage, or
+   * kill someone or something; describes weapons, etc.
+   */
+  violence?: ContentFilterResultOutput;
+  /**
+   * Describes language attacks or uses that include pejorative or discriminatory language
+   * with reference to a person or identity group on the basis of certain differentiating
+   * attributes of these groups including but not limited to race, ethnicity, nationality,
+   * gender identity and expression, sexual orientation, religion, immigration status, ability
+   * status, personal appearance, and body size.
+   */
+  hate?: ContentFilterResultOutput;
+  /**
+   * Describes language related to physical actions intended to purposely hurt, injure,
+   * or damage one’s body, or kill oneself.
+   */
+  self_harm?: ContentFilterResultOutput;
+}
+
+/**
+ * Describes the content filtering results for the prompt of a image generation request.
+ */
+export interface ImageGenerationPromptFilterResults {
+  /**
+   * Describes language related to anatomical organs and genitals, romantic relationships,
+   * acts portrayed in erotic or affectionate terms, physical sexual acts, including
+   * those portrayed as an assault or a forced sexual violent act against one’s will,
+   * prostitution, pornography, and abuse.
+   */
+  sexual?: ContentFilterResultOutput;
+  /**
+   * Describes language related to physical actions intended to hurt, injure, damage, or
+   * kill someone or something; describes weapons, etc.
+   */
+  violence?: ContentFilterResultOutput;
+  /**
+   * Describes language attacks or uses that include pejorative or discriminatory language
+   * with reference to a person or identity group on the basis of certain differentiating
+   * attributes of these groups including but not limited to race, ethnicity, nationality,
+   * gender identity and expression, sexual orientation, religion, immigration status, ability
+   * status, personal appearance, and body size.
+   */
+  hate?: ContentFilterResultOutput;
+  /**
+   * Describes language related to physical actions intended to purposely hurt, injure,
+   * or damage one’s body, or kill oneself.
+   */
+  self_harm?: ContentFilterResultOutput;
+  /** Describes whether profanity was detected. */
+  profanity?: ContentFilterDetectionResultOutput;
+  /** Whether a jailbreak attempt was detected in the prompt. */
+  jailbreak?: ContentFilterDetectionResultOutput;
+  /** Information about customer block lists and if something was detected the associated list ID. */
+  custom_blocklists?: ContentFilterDetailedResults;
+}

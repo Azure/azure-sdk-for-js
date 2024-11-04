@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HttpClient } from "@azure/core-rest-pipeline";
+import type { HttpClient } from "@azure/core-rest-pipeline";
 
 import { generateSendMessageRequest } from "../../src/utils/smsUtils";
 import { Uuid } from "../../src/utils/uuid";
@@ -9,7 +9,8 @@ import { Uuid } from "../../src/utils/uuid";
 import { assert } from "chai";
 import sinon from "sinon";
 import { apiVersion } from "../../src/generated/src/models/parameters";
-import { SmsClient, SmsSendRequest } from "../../src/smsClient";
+import type { SmsSendRequest } from "../../src/smsClient";
+import { SmsClient } from "../../src/smsClient";
 import { MockHttpClient } from "../public/utils/mockHttpClient";
 
 const API_VERSION = apiVersion.mapper.defaultValue;

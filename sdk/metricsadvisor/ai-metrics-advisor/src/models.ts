@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { IngestionStatusType } from "./generated/models";
 import {
   EntityStatus as DataFeedDetailStatus,
   EmailHookParameter,
-  IngestionStatusType,
   AlertSnoozeCondition as MetricAnomalyAlertSnoozeCondition,
   Severity,
   SeverityCondition,
@@ -13,7 +13,7 @@ import {
   TopNGroupScope,
   WebhookHookParameter,
 } from "./generated/models";
-import { FullOperationResponse } from "@azure/core-client";
+import type { FullOperationResponse } from "@azure/core-client";
 export {
   Severity,
   SeverityCondition,

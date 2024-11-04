@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RestError } from "@azure/core-rest-pipeline";
-import {
-  BusinessInformationMapper,
-  BusinessPointOfContactMapper,
-  CampaignBrief,
-  CampaignBriefSummary,
-  TollFreeVerificationClient,
-} from "../../../src";
+import type { RestError } from "@azure/core-rest-pipeline";
+import type { CampaignBrief, CampaignBriefSummary, TollFreeVerificationClient } from "../../../src";
+import { BusinessInformationMapper, BusinessPointOfContactMapper } from "../../../src";
 import { assert } from "chai";
-import { CompositeMapper } from "@azure/core-client";
+import type { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { randomUUID } from "@azure/core-util";
 

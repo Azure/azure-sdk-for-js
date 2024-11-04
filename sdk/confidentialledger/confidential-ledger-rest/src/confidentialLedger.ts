@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
 
-import { ClientOptions } from "@azure-rest/core-client";
-import { ConfidentialLedgerClient } from "./generated/src/clientDefinitions";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { ConfidentialLedgerClient } from "./generated/src/clientDefinitions";
 import GeneratedConfidentialLedger from "./generated/src/confidentialLedger";
 
 export default function ConfidentialLedger(
