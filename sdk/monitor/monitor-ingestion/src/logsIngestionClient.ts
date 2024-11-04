@@ -91,12 +91,15 @@ export class LogsIngestionClient {
             contentEncoding: "gzip",
             abortSignal: options?.abortSignal,
           });
-        } catch (e: any) {
+        } catch (e: unknown) {
           if (options?.onError) {
-            options.onError({ failedLogs: eachChunk, cause: isError(e) ? e : new Error(e) });
+            options.onError({
+              failedLogs: eachChunk,
+              cause: isError(e) ? e : new Error(e as string),
+            });
           }
           uploadResultErrors.push({
-            cause: isError(e) ? e : new Error(e),
+            cause: isError(e) ? e : new Error(e as string),
             failedLogs: eachChunk,
           });
         }

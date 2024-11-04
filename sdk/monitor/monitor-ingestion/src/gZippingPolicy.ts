@@ -15,13 +15,13 @@ export const GZippingPolicy: PipelinePolicy = {
   name: gZippingPolicyName,
   sendRequest: async (req, next) => {
     if (req.body) {
-      const buffer = await gzipping(req.body);
+      const buffer = await gzipping(req.body as string | ArrayBuffer | NodeJS.ArrayBufferView);
       req.body = buffer;
     }
     return next(req);
   },
 };
 
-function gzipping(body: any): Promise<Buffer> {
+function gzipping(body: string | ArrayBuffer | NodeJS.ArrayBufferView): Promise<Buffer> {
   return gzip(body);
 }

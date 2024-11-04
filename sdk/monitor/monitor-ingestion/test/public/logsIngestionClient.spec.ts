@@ -151,7 +151,7 @@ describe("LogsIngestionClient live tests", function () {
 
     function errorCallback(uploadLogsError: LogsUploadFailure): void {
       if (
-        (uploadLogsError.cause as Error).message ===
+        uploadLogsError.cause.message ===
         "Data collection rule with immutable Id 'immutable-id-123' not found."
       ) {
         ++errorCallbackCount;
