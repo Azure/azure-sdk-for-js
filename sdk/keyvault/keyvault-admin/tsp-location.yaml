@@ -1,3 +1,3 @@
-directory: specification/keyvault/data-plane/Security.KeyVault.Administration/
-commit: 3b8b88ac46c13de87d715033b570b7de935bd43d 
+directory: specification/keyvault/Security.KeyVault.Administration/
+commit: cd01300a599240e19648a07e3778e5fda106d3aa
 repo: maorleger/azure-rest-api-specs
