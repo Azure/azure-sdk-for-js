@@ -9,15 +9,16 @@ import { ManagedIdentityApplication } from "@azure/msal-node";
 import { IdentityClient } from "../../client/identityClient";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
 import { getMSALLogLevel, defaultLoggerCallback } from "../../msal/utils";
-import { logger } from "./cloudShellMsi";
 import { imdsRetryPolicy } from "./imdsRetryPolicy";
 import { MSIConfiguration } from "./models";
-import { formatSuccess, formatError } from "../../util/logging";
+import { formatSuccess, formatError, credentialLogger } from "../../util/logging";
 import { tracingClient } from "../../util/tracing";
 import { imdsMsi } from "./imdsMsi";
 import { tokenExchangeMsi } from "./tokenExchangeMsi";
 import { mapScopesToResource } from "./utils";
 import { MsalToken, ValidMsalToken } from "../../msal/types";
+
+const logger = credentialLogger("ManagedIdentityCredential");
 
 /**
  * Options to send on the {@link ManagedIdentityCredential} constructor.
@@ -116,10 +117,10 @@ export class ManagedIdentityCredential implements TokenCredential {
       | ManagedIdentityCredentialObjectIdOptions,
     options?: TokenCredentialOptions,
   ) {
-    let _options: TokenCredentialOptions | undefined;
+    let _options: TokenCredentialOptions;
     if (typeof clientIdOrOptions === "string") {
       this.clientId = clientIdOrOptions;
-      _options = options;
+      _options = options ?? {};
     } else {
       this.clientId = (clientIdOrOptions as ManagedIdentityCredentialClientIdOptions)?.clientId;
       _options = clientIdOrOptions ?? {};
@@ -138,7 +139,6 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
 
     // ManagedIdentity uses http for local requests
-    _options ??= {};
     _options.allowInsecureConnection = true;
 
     if (_options.retryOptions?.maxRetries !== undefined) {
@@ -157,7 +157,6 @@ export class ManagedIdentityCredential implements TokenCredential {
         userAssignedObjectId: this.objectId,
       },
       system: {
-        // todo: proxyUrl?
         disableInternalRetries: true,
         networkClient: this.identityClient,
         loggerOptions: {
@@ -219,13 +218,7 @@ export class ManagedIdentityCredential implements TokenCredential {
 
     return tracingClient.withSpan("ManagedIdentityCredential.getToken", options, async () => {
       try {
-        const isTokenExchangeMsi = await tokenExchangeMsi.isAvailable({
-          scopes,
-          clientId: this.clientId,
-          getTokenOptions: options,
-          identityClient: this.identityClient,
-          resourceId: this.resourceId,
-        });
+        const isTokenExchangeMsi = await tokenExchangeMsi.isAvailable(this.clientId);
 
         // Most scenarios are handled by MSAL except for two:
         // AKS pod identity - MSAL does not implement the token exchange flow.
