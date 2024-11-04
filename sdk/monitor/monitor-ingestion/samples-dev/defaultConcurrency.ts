@@ -8,7 +8,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { isAggregateLogsUploadError, LogsIngestionClient } from "@azure/monitor-ingestion";
-import "dotnev/config";
+import "dotenv/config";
 
 async function main(): Promise<void> {
   const logsIngestionEndpoint = process.env.LOGS_INGESTION_ENDPOINT || "logs_ingestion_endpoint";
