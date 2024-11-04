@@ -14,9 +14,9 @@ import { IdentityClient } from "../../client/identityClient";
 const msiName = "ManagedIdentityCredential - IMDS";
 const logger = credentialLogger(msiName);
 
-export const imdsHost = "http://169.254.169.254";
-export const imdsEndpointPath = "/metadata/identity/oauth2/token";
-export const imdsApiVersion = "2018-02-01";
+const imdsHost = "http://169.254.169.254";
+const imdsEndpointPath = "/metadata/identity/oauth2/token";
+const imdsApiVersion = "2018-02-01";
 
 /**
  * Generates the options used on the request for an access token.
