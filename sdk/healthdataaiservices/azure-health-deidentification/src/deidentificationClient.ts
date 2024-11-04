@@ -4,16 +4,16 @@
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
 import { TokenCredential } from "@azure/core-auth";
-import { DeidServicesClient } from "./clientDefinitions.js";
+import { DeidentificationClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
-export interface DeidServicesClientOptions extends ClientOptions {
+export interface DeidentificationClientOptions extends ClientOptions {
   /** The api version option of the client */
   apiVersion?: string;
 }
 
 /**
- * Initialize a new instance of `DeidServicesClient`
+ * Initialize a new instance of `DeidentificationClient`
  * @param endpointParam - Url of your De-identification Service.
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
@@ -21,8 +21,8 @@ export interface DeidServicesClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential,
-  { apiVersion = "2024-11-15", ...options }: DeidServicesClientOptions = {},
-): DeidServicesClient {
+  { apiVersion = "2024-11-15", ...options }: DeidentificationClientOptions = {},
+): DeidentificationClient {
   const endpointUrl =
     options.endpoint ?? options.baseUrl ?? `https://${endpointParam}`;
   const userAgentInfo = `azsdk-js-health-deidentification-rest/1.0.0-beta.1`;
@@ -48,7 +48,7 @@ export default function createClient(
     endpointUrl,
     credentials,
     options,
-  ) as DeidServicesClient;
+  ) as DeidentificationClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

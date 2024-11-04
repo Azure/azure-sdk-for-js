@@ -107,7 +107,7 @@ describe("Batch", () => {
       assert.isUndefined(jobOutput.body.startedAt, "Job should not have startedAt");
       assert.equal("NotStarted", jobOutput.body.status, "Job status should be NotStarted");
       assert.isUndefined(jobOutput.body.error, "Job should not have error");
-      assert.isUndefined(jobOutput.body.redactionFormat, "Job should not have redactionFormat");
+      assert.isUndefined(jobOutput.body.customizations?.redactionFormat, "Job should not have redactionFormat");
       assert.isUndefined(jobOutput.body.summary, "Job should not have summary");
       assert.equal(
         inputPrefix,
