@@ -1,8 +1,12 @@
 param (
   [Parameter(mandatory = $true)]
-  $artifactName,
+  $pathToArtifacts,
   [Parameter(mandatory = $true)]
-  $packageName
+  $originalDistTags,
+  [Parameter(mandatory = $true)]
+  $intendedTag,
+  [Parameter(mandatory = $true)]
+  $intendedTagVersion
 )
 
 # TODO: delete testing comments below
@@ -15,48 +19,31 @@ param (
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
-. (Join-Path $PSScriptRoot "../common/scripts/common.ps1")
+$tarFile = (Get-ChildItem -Path "$pathToArtifacts/*.tgz")?.Name
+$tempDir = "temp_decompress"
+New-Item -ItemType Directory -Force -Path $tempDir
+tar -xzf $tarFile -C $tempDir
+$pkg = Get-Content -Raw "$tempDir\package\package.json" | ConvertFrom-Json
+$packageName = $pkg.Name
+Remove-Item -Force -Recurse $tempDir
 
-$packageProperties = Get-PkgProperties -PackageName $packageName
-$packageName =  $packageProperties.Name
 Write-Host "Verify npm tag versions for package $packageName"
-$packageVersions = npm view $packageName versions --json | ConvertFrom-Json
-$validDev = $packageVersions | ? { $_ -match "alpha" } | Select-Object -Last 1
-$validNext = $packageVersions | ? { $_ -match "beta" } | Select-Object -Last 1
-$validLatest = $packageVersions | ? { !($_ -match "alpha") -and !($_ -match "beta") } | Select-Object -Last 1
-if (!$validLatest) {
-  Write-Host "No GA package found"
-  $validLatest = $packageVersions | ? { $_ -match "beta" } | Select-Object -Last 1
-}
-if (!$validLatest) {
-  Write-Host "No beta package found"
-  $validLatest = $packageVersions | ? { $_ -match "alpha" } | Select-Object -Last 1
-}
 
-$currentDev = $packageVersions."dist-tags"."dev"
-$currentNext = $packageVersions."dist-tags"."next"
-$currentLatest = $packageVersions."dist-tags"."latest"
+$parsedOriginalDistTags = $originalDistTags | ConvertFrom-Json
 
-if ($validDev) {
-  Write-Host "Dev version should be: $validDev, current dev version: $currentDev"
-  if ($validDev -ne $currentDev) {
-    Write-Host "Changing dev version from $currentDev to $validDev"
-    npm dist-tag add $packageName@$validDev dev
+$npmPkgProp = npm view $packageName --json | ConvertFrom-Json
+$packageDistTags = $npmPkgProp."dist-tags"
+Write-Host "Current dist-tag: $packageDistTags"
+
+if ($packageDistTags."$intendedTag" -ne $intendedTagVersion) {
+  Write-Host "Tag not correctly set, current $intendedTag tag is version $packageDistTags.'$intendedTag' instead of $intendedTagVersion."
+  $correctDistTags = $parsedOriginalDistTags
+  $correctDistTags."$intendedTag" = $intendedTagVersion
+  foreach($tag in $correctDistTags.PSObject.Properties) {
+    Write-Host "npm dist-tag add $packageName@$tag.value $tag.Name"
+    npm dist-tag add $packageName@$tag.value $tag.Name
   }
-}
-
-if ($validNext) {
-  Write-Host "Next version should be: $validNext, current next version: $currentNext"
-  if ($validNext -ne $currentNext) {
-    Write-Host "Changing next version from $currentNext to $validNext"
-    npm dist-tag add $packageName@$validNext next
-  }
-}
-
-if ($validLatest) {
-  Write-Host "Latest version should be: $validLatest, current latest version: $currentLatest"
-  if ($validLatest -ne $currentLatest) {
-    Write-Host "Changing latest version from $currentLatest to $validLatest"
-    npm dist-tag add $packageName@$validLatest latest
-  }
+  $npmPkgProp = npm view $packageName --json | ConvertFrom-Json
+  $packageDistTags = $npmPkgProp."dist-tags"
+  Write-Host "Corrected dist tags to: $packageDistTags"
 }
