@@ -21352,7 +21352,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-cRuHz8yQdwmhQN1s3AiWPL30Osvv2lQIkF3ojq1QIMkrijM8Ap5Gb7dYY7LTdcpOodiOsI3VZ70LrYWqGOGbnQ==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-pllRWLfOMD+ngWvcILVdzLi1f1XtozTseyFDESOKh67IT3MbSBExuav0w6vQOk2H5E88cpYU8mh0c/kFn2/Iwg==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -21363,6 +21363,8 @@ packages:
       '@types/node': 18.19.64
       '@types/pako': 2.0.3
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -21380,20 +21382,34 @@ packages:
       mocha: 10.8.2
       nyc: 17.1.0
       pako: 2.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
