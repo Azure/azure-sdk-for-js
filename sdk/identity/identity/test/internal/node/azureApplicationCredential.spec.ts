@@ -9,7 +9,7 @@ import { IdentityTestContext } from "../../httpRequests";
 import { RestError } from "@azure/core-rest-pipeline";
 import { assert } from "chai";
 import * as dac from "../../../src/credentials/defaultAzureCredential";
-import { LegacyMsiProvider } from "../../../src/credentials/managedIdentityCredential/legacyMsiProvider";
+import { ManagedIdentityCredential } from "../../../src/credentials/managedIdentityCredential/index";
 
 describe("AzureApplicationCredential testing Managed Identity (internal)", function () {
   let envCopy: string = "";
@@ -25,7 +25,8 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
     testContext.sandbox
       .stub(dac, "createDefaultManagedIdentityCredential")
       .callsFake(
-        (...args) => new LegacyMsiProvider({ ...args, clientId: process.env.AZURE_CLIENT_ID }),
+        (...args) =>
+          new ManagedIdentityCredential({ ...args, clientId: process.env.AZURE_CLIENT_ID }),
       );
   });
 
