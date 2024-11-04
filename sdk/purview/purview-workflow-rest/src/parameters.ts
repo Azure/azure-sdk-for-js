@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RequestParameters } from "@azure-rest/core-client";
-import type {
+import { RequestParameters } from "@azure-rest/core-client";
+import {
   WorkflowCreateOrUpdateCommand,
   UserRequestPayload,
   WorkflowRunCancelRequest,

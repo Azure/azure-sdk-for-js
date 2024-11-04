@@ -4,14 +4,14 @@
 
 ```ts
 
-import type { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { HttpResponse } from '@azure-rest/core-client';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { RequestParameters } from '@azure-rest/core-client';
-import type { StreamableMethod } from '@azure-rest/core-client';
-import type { TokenCredential } from '@azure/core-auth';
+import { Client } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { HttpResponse } from '@azure-rest/core-client';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ApprovalDetailOutput {
@@ -39,8 +39,6 @@ export interface ApproveApprovalTask {
 
 // @public
 export interface ApproveApprovalTask200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "200";
 }
@@ -81,8 +79,6 @@ export interface CancelWorkflowRun {
 // @public
 export interface CancelWorkflowRun200Response extends HttpResponse {
     // (undocumented)
-    body: Record<string, unknown>;
-    // (undocumented)
     status: "200";
 }
 
@@ -108,7 +104,7 @@ export interface CancelWorkflowRunMediaTypesParam {
 export type CancelWorkflowRunParameters = CancelWorkflowRunMediaTypesParam & CancelWorkflowRunBodyParam & RequestParameters;
 
 // @public
-function createClient(endpoint: string, credentials: TokenCredential, options?: ClientOptions): PurviewWorkflowClient;
+function createClient(endpoint: string, credentials: TokenCredential, { apiVersion, ...options }?: PurviewWorkflowClientOptions): PurviewWorkflowClient;
 export default createClient;
 
 // @public
@@ -427,6 +423,11 @@ export type PurviewWorkflowClient = Client & {
 };
 
 // @public
+export interface PurviewWorkflowClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface ReassignCommand {
     reassignments?: Array<ReassignCommandReassignmentsItem>;
 }
@@ -444,8 +445,6 @@ export interface ReassignWorkflowTask {
 
 // @public
 export interface ReassignWorkflowTask200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "200";
 }
@@ -478,8 +477,6 @@ export interface RejectApprovalTask {
 
 // @public
 export interface RejectApprovalTask200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "200";
 }
@@ -615,8 +612,6 @@ export interface UpdateTaskStatus {
 
 // @public
 export interface UpdateTaskStatus200Response extends HttpResponse {
-    // (undocumented)
-    body: Record<string, unknown>;
     // (undocumented)
     status: "200";
 }

@@ -5,6 +5,8 @@
 ## Configuration
 
 ```yaml
+flavor: azure
+openapi-type: data-plane
 package-name: "@azure-rest/purview-workflow"
 title: Purview Workflow
 description: Purview Workflow Client
@@ -20,5 +22,5 @@ rest-level-client: true
 add-credentials: true
 credential-scopes: "https://purview.azure.net/.default"
 use-extension:
-  "@autorest/typescript": "6.0.0-rc.8"
+  "@autorest/typescript": "latest"
 ```
