@@ -212,6 +212,7 @@ import type {
   AcsChatThreadDeletedEventData,
   AcsChatThreadCreatedEventData,
   AcsChatThreadPropertiesUpdatedEventData,
+  ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
 } from "./generated/models";
 
 import type { CloudEvent, EventGridEvent } from "./models";
@@ -646,6 +647,8 @@ export interface SystemEventNameToEventData {
   "Microsoft.Communication.ChatThreadDeleted": AcsChatThreadDeletedEventData;
   /** An interface for the event data of a "Microsoft.Communication.ChatThreadPropertiesUpdated" event. */
   "Microsoft.Communication.ChatThreadPropertiesUpdated": AcsChatThreadPropertiesUpdatedEventData;
+  /** An interface for the event data of a "Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted" event. */
+  "Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted": ResourceNotificationsContainerServiceEventResourcesScheduledEventData;
 }
 
 /**

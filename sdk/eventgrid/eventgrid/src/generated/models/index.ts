@@ -195,6 +195,8 @@ export interface StorageDirectoryRenamedEventData {
 export interface StorageLifecyclePolicyCompletedEventData {
   /** The time the policy task was scheduled. */
   scheduleTime: string;
+  /** Policy run status of an account in a Blob Management cycle. */
+  policyRunSummary: StorageLifecyclePolicyRunSummary;
   /** Execution statistics of a specific policy action in a Blob Management cycle. */
   deleteSummary: StorageLifecyclePolicyActionSummaryDetail;
   /** Execution statistics of a specific policy action in a Blob Management cycle. */
@@ -203,6 +205,12 @@ export interface StorageLifecyclePolicyCompletedEventData {
   tierToColdSummary: StorageLifecyclePolicyActionSummaryDetail;
   /** Execution statistics of a specific policy action in a Blob Management cycle. */
   tierToArchiveSummary: StorageLifecyclePolicyActionSummaryDetail;
+}
+
+/** Policy run status of an account in a Blob Management cycle. */
+export interface StorageLifecyclePolicyRunSummary {
+  /** Policy status can be Completed/CompletedWithError/Incomplete. */
+  completionStatus: string;
 }
 
 /** Execution statistics of a specific policy action in a Blob Management cycle. */
@@ -3152,6 +3160,9 @@ export type ResourceNotificationsHealthResourcesAnnotatedEventData = ResourceNot
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.Resources.CreatedOrUpdated event. */
 export type ResourceNotificationsResourceManagementCreatedOrUpdatedEventData = ResourceNotificationsResourceUpdatedEventData & {};
+
+/** Schema of the Data property of an event grid event for a Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted event. */
+export type ResourceNotificationsContainerServiceEventResourcesScheduledEventData = ResourceNotificationsResourceUpdatedEventData & {};
 
 /** Schema of the Data property of an EventGridEvent for a Microsoft.ResourceNotifications.Resources.Deleted event. */
 export type ResourceNotificationsResourceManagementDeletedEventData = ResourceNotificationsResourceDeletedEventData & {};

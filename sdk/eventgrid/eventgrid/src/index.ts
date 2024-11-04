@@ -364,4 +364,6 @@ export {
   AcsChatThreadPropertiesUpdatedEventData,
   AcsChatThreadEventInThreadBase,
   StorageBlobAccessTier,
+  ResourceNotificationsContainerServiceEventResourcesScheduledEventData,
+  StorageLifecyclePolicyRunSummary,
 } from "./generated/models";
