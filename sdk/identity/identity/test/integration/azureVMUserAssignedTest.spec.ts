@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import type { Context } from "mocha";
 import { isLiveMode } from "@azure-tools/test-recorder";
-import { ManagedIdentityCredential } from "../../src";
+import { ManagedIdentityCredential } from "../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("AzureVM UserAssigned Integration test", function () {
-  it("works with a user assigned clientId", async function (this: Context) {
+  it("works with a user assigned clientId", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     const userAssignedClientId = process.env.IDENTITY_VM_USER_ASSIGNED_MI_CLIENT_ID;
@@ -22,9 +20,9 @@ describe("AzureVM UserAssigned Integration test", function () {
     assert.exists(accessToken.token);
   });
 
-  it("works with a user assigned objectId", async function (this: Context) {
+  it("works with a user assigned objectId", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     const userAssignedObjectId = process.env.IDENTITY_VM_USER_ASSIGNED_MI_OBJECT_ID;

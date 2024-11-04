@@ -2,18 +2,17 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError } from "../util/logging";
+import { credentialLogger, formatError } from "../util/logging.js";
 
 const BrowserNotSupportedError = new Error(
-  "EnvironmentCredential is not supported in the browser.",
+  "ClientAssertionCredential is not supported in the browser.",
 );
-const logger = credentialLogger("EnvironmentCredential");
+const logger = credentialLogger("ClientAssertionCredential");
 
 /**
- * Enables authentication to Microsoft Entra ID using client secret
- * details configured in environment variables
+ * Authenticates a service principal with a JWT assertion.
  */
-export class EnvironmentCredential implements TokenCredential {
+export class ClientAssertionCredential implements TokenCredential {
   /**
    * Only available in Node.js
    */
@@ -22,7 +21,7 @@ export class EnvironmentCredential implements TokenCredential {
     throw BrowserNotSupportedError;
   }
 
-  getToken(): Promise<AccessToken | null> {
+  public getToken(): Promise<AccessToken | null> {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

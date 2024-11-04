@@ -6,13 +6,13 @@ import {
   checkTenantId,
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
+} from "../util/tenantIdUtils.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { credentialLogger, formatSuccess } from "../util/logging";
-import { IdentityClient } from "../client/identityClient";
-import type { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions";
-import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
-import { tracingClient } from "../util/tracing";
+import { credentialLogger, formatSuccess } from "../util/logging.js";
+import { IdentityClient } from "../client/identityClient.js";
+import type { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions.js";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint.js";
+import { tracingClient } from "../util/tracing.js";
 
 const logger = credentialLogger("UsernamePasswordCredential");
 

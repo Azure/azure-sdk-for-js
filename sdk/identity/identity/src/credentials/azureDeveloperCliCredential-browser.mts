@@ -2,17 +2,18 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError } from "../util/logging";
+import { credentialLogger, formatError } from "../util/logging.js";
 
 const BrowserNotSupportedError = new Error(
-  "ClientAssertionCredential is not supported in the browser.",
+  "AzureDeveloperCliCredential is not supported in the browser.",
 );
-const logger = credentialLogger("ClientAssertionCredential");
+const logger = credentialLogger("AzureDeveloperCliCredential");
 
 /**
- * Authenticates a service principal with a JWT assertion.
+ * This credential will use the currently logged-in user login information
+ * via the Azure Developer CLI ('azd') commandline tool.
  */
-export class ClientAssertionCredential implements TokenCredential {
+export class AzureDeveloperCliCredential implements TokenCredential {
   /**
    * Only available in Node.js
    */
@@ -21,7 +22,7 @@ export class ClientAssertionCredential implements TokenCredential {
     throw BrowserNotSupportedError;
   }
 
-  public getToken(): Promise<AccessToken | null> {
+  getToken(): Promise<AccessToken | null> {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

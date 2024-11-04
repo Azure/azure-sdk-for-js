@@ -3,7 +3,7 @@
 
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 
-import { credentialLogger, formatError } from "../../util/logging";
+import { credentialLogger, formatError } from "../../util/logging.js";
 
 const BrowserNotSupportedError = new Error(
   "ManagedIdentityCredential is not supported in the browser.",

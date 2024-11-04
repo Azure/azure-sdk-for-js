@@ -3,14 +3,13 @@
 
 import { ServiceClient } from "@azure/core-client";
 import { createPipelineRequest } from "@azure/core-rest-pipeline";
-import { assert } from "chai";
-import type { Context } from "mocha";
 import { isLiveMode } from "@azure-tools/test-recorder";
+import { describe, it, assert } from "vitest";
 
 describe("AzureWebApps Integration test", function () {
-  it("test the Azure Web Apps endpoint where the MI credential is used.", async function (this: Context) {
+  it("test the Azure Web Apps endpoint where the MI credential is used.", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const baseUri = baseUrl();
     const client = new ServiceClient({ baseUri: baseUri });

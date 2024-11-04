@@ -1,73 +1,59 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { IdentityTestContextInterface } from "../../httpRequestsCommon";
-import { createResponse } from "../../httpRequestsCommon";
-
-import { AzureApplicationCredential } from "../../../src/credentials/azureApplicationCredential";
-import { IdentityTestContext } from "../../httpRequests";
-import { RestError } from "@azure/core-rest-pipeline";
-import { assert } from "chai";
-import * as dac from "../../../src/credentials/defaultAzureCredential";
-import { ManagedIdentityCredential } from "../../../src/credentials/managedIdentityCredential/index";
+import { AzureApplicationCredential } from "../../../src/credentials/azureApplicationCredential.js";
+import {
+  createDefaultHttpClient,
+  createHttpHeaders,
+  HttpClient,
+  RestError,
+} from "@azure/core-rest-pipeline";
 import { ManagedIdentityApplication } from "@azure/msal-node";
+import { describe, it, afterEach, beforeEach, vi, expect } from "vitest";
 
 describe("AzureApplicationCredential testing Managed Identity (internal)", function () {
-  let testContext: IdentityTestContextInterface;
+  let httpClient: HttpClient;
 
   beforeEach(async () => {
-    testContext = new IdentityTestContext({});
-    testContext.sandbox
-      .stub(dac, "createDefaultManagedIdentityCredential")
-      .callsFake(
-        (...args) =>
-          new ManagedIdentityCredential({ ...args, clientId: process.env.AZURE_CLIENT_ID }),
-      );
+    // Let the IMDS ping request succeed, but fail the token acquisition
+    httpClient = createDefaultHttpClient();
+    vi.spyOn(httpClient, "sendRequest").mockImplementation((request) => {
+      return Promise.resolve({
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      });
+    });
   });
 
   afterEach(async () => {
-    await testContext.restore();
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
   });
 
   it("an unexpected error bubbles all the way up", async function () {
-    process.env.AZURE_CLIENT_ID = "errclient";
-
     const errorMessage = "ManagedIdentityCredential authentication failed.";
-    testContext.sandbox
-      .stub(ManagedIdentityApplication.prototype, "acquireToken")
-      .rejects(new Error(errorMessage));
 
-    const { error } = await testContext.sendCredentialRequests({
-      scopes: ["scopes"],
-      credential: new AzureApplicationCredential(),
-      insecureResponses: [
-        createResponse(200), // IMDS Endpoint ping
-      ],
-    });
-    console.log(error);
-    assert.ok(error?.message.includes(errorMessage));
+    // The IMDS ping request will succeed
+    // An unexpected error comes from MSAL
+    vi.spyOn(ManagedIdentityApplication.prototype, "acquireToken").mockRejectedValue(
+      new Error(errorMessage),
+    );
+
+    await expect(new AzureApplicationCredential({ httpClient }).getToken("scopes")).rejects.toThrow(
+      new RegExp(errorMessage),
+    );
   });
 
   it("returns expected error when the network was unreachable", async function () {
-    process.env.AZURE_CLIENT_ID = "errclient";
-
-    const netError: RestError = new RestError("Request Timeout", {
+    const netError: RestError = new RestError("Request timeout: network unreachable", {
       code: "ENETUNREACH",
       statusCode: 408,
     });
+    vi.spyOn(ManagedIdentityApplication.prototype, "acquireToken").mockRejectedValue(netError);
 
-    testContext.sandbox
-      .stub(ManagedIdentityApplication.prototype, "acquireToken")
-      .rejects(netError);
-
-    const { error } = await testContext.sendCredentialRequests({
-      scopes: ["scopes"],
-      credential: new AzureApplicationCredential(),
-      insecureResponses: [
-        createResponse(200), // IMDS Endpoint ping
-        { error: netError },
-      ],
-    });
-    assert.ok(error!.message!.indexOf("Network unreachable.") > -1);
+    await expect(new AzureApplicationCredential({ httpClient }).getToken("scopes")).rejects.toThrow(
+      /Network unreachable/,
+    );
   });
 });

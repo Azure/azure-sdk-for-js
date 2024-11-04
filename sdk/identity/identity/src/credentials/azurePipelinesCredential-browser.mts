@@ -2,17 +2,18 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
+import { credentialLogger, formatError } from "../util/logging.js";
 
-import { credentialLogger, formatError } from "../util/logging";
-
-const BrowserNotSupportedError = new Error("DeviceCodeCredential is not supported in the browser.");
-const logger = credentialLogger("DeviceCodeCredential");
+const BrowserNotSupportedError = new Error(
+  "AzurePipelinesCredential is not supported in the browser.",
+);
+const logger = credentialLogger("AzurePipelinesCredential");
 
 /**
- * Enables authentication to Microsoft Entra ID using a device code
- * that the user can enter into https://microsoft.com/devicelogin.
+ * Enables authentication to Microsoft Entra ID using a PEM-encoded
+ * certificate that is assigned to an App Registration.
  */
-export class DeviceCodeCredential implements TokenCredential {
+export class AzurePipelinesCredential implements TokenCredential {
   /**
    * Only available in Node.js
    */
