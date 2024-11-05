@@ -1428,7 +1428,7 @@ index 55110a0..0000000
 -  };
 -}
 diff --git a/src/policies/bearerTokenAuthenticationPolicy.ts b/src/policies/bearerTokenAuthenticationPolicy.ts
-index b67c438..87e8f5e 100644
+index 799bd34..87e8f5e 100644
 --- a/src/policies/bearerTokenAuthenticationPolicy.ts
 +++ b/src/policies/bearerTokenAuthenticationPolicy.ts
 @@ -1,13 +1,12 @@
@@ -1511,7 +1511,7 @@ index b67c438..87e8f5e 100644
    const accessToken = await getAccessToken(scopes, getTokenOptions);
  
    if (accessToken) {
-@@ -148,35 +122,12 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
+@@ -148,34 +122,12 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
   * We will retrieve the challenge only if the response status code was 401,
   * and if the response contained the header "WWW-Authenticate" with a non-empty value.
   */
@@ -1534,7 +1534,6 @@ index b67c438..87e8f5e 100644
 -    enableCae: true,
 -    claims: caeClaims,
 -  });
--
 -  if (!accessToken) {
 -    return false;
 +function getChallenge(response: PipelineResponse): string | undefined {
@@ -1552,7 +1551,7 @@ index b67c438..87e8f5e 100644
  }
  
  /**
-@@ -191,6 +142,8 @@ export function bearerTokenAuthenticationPolicy(
+@@ -190,6 +142,8 @@ export function bearerTokenAuthenticationPolicy(
    const callbacks = {
      authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
      authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
@@ -1561,7 +1560,7 @@ index b67c438..87e8f5e 100644
    };
  
    // This function encapsulates the entire process of reliably retrieving the token
-@@ -232,40 +185,20 @@ export function bearerTokenAuthenticationPolicy(
+@@ -231,40 +185,20 @@ export function bearerTokenAuthenticationPolicy(
  
        let response: PipelineResponse;
        let error: Error | undefined;
@@ -1615,12 +1614,12 @@ index b67c438..87e8f5e 100644
            scopes: Array.isArray(scopes) ? scopes : [scopes],
            request,
            response,
-@@ -273,41 +206,8 @@ export function bearerTokenAuthenticationPolicy(
+@@ -272,41 +206,8 @@ export function bearerTokenAuthenticationPolicy(
            logger,
          });
  
 -          // Send updated request and handle response for RestError
-         if (shouldSendRequest) {
+-          if (shouldSendRequest) {
 -            [response, error] = await trySendRequest(request, next);
 -          }
 -
@@ -1633,7 +1632,7 @@ index b67c438..87e8f5e 100644
 -                parsedClaim = atob(claims);
 -              } catch (e) {
 -                logger.warning(
--                  `The WWW-Authenticate header contains "claims" that cannot be parsed. Unable to perform the Continuous Access Evaluation authentication flow.`,
+-                  `The WWW-Authenticate header contains "claims" that cannot be parsed. Unable to perform the Continuous Access Evaluation authentication flow. Unparsable claims: ${claims}`,
 -                );
 -                return response;
 -              }
@@ -1649,7 +1648,7 @@ index b67c438..87e8f5e 100644
 -                parsedClaim,
 -              );
 -              // Send updated request and handle response for RestError
--              if (shouldSendRequest) {
+         if (shouldSendRequest) {
 -                [response, error] = await trySendRequest(request, next);
 -              }
 -            }
@@ -1658,7 +1657,7 @@ index b67c438..87e8f5e 100644
          }
        }
  
-@@ -319,65 +219,3 @@ export function bearerTokenAuthenticationPolicy(
+@@ -318,64 +219,3 @@ export function bearerTokenAuthenticationPolicy(
      },
    };
  }
@@ -1719,7 +1718,6 @@ index b67c438..87e8f5e 100644
 -  }
 -  // Find all challenges present in the header
 -  const parsedChallenges = parseChallenges(challenges);
--  console.log(parsedChallenges);
 -  return parsedChallenges.find(
 -    (x) => x.scheme === "Bearer" && x.params.claims && x.params.error === "insufficient_claims",
 -  )?.params.claims;
