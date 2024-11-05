@@ -186,12 +186,7 @@ export interface AtlasEntityHeaders {
 
 export interface BusinessMetadataOptionsFilePartDescriptor {
   name: "file";
-  body:
-    | string
-    | Uint8Array
-    | ReadableStream<Uint8Array>
-    | NodeJS.ReadableStream
-    | File;
+  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
   filename?: string;
   contentType?: string;
 }
@@ -1275,16 +1270,9 @@ export type AtlasTermAssignmentStatus =
   | "OBSOLETE"
   | "OTHER";
 /** Business metadata to send to the service */
-export type BusinessMetadataOptions =
-  | FormData
-  | Array<BusinessMetadataOptionsFilePartDescriptor>;
+export type BusinessMetadataOptions = FormData | Array<BusinessMetadataOptionsFilePartDescriptor>;
 /** Status for atlas term relationship */
-export type AtlasTermRelationshipStatus =
-  | "DRAFT"
-  | "ACTIVE"
-  | "DEPRECATED"
-  | "OBSOLETE"
-  | "OTHER";
+export type AtlasTermRelationshipStatus = "DRAFT" | "ACTIVE" | "DEPRECATED" | "OBSOLETE" | "OTHER";
 /** Status for term */
 export type TermStatus = "Draft" | "Approved" | "Alert" | "Expired";
 /** Status for atlas relationship */
@@ -1318,7 +1306,4 @@ export type RoundingMode =
 /** Cardinality */
 export type CardinalityValue = "SINGLE" | "LIST" | "SET";
 /** Relationship Category */
-export type RelationshipCategory =
-  | "ASSOCIATION"
-  | "AGGREGATION"
-  | "COMPOSITION";
+export type RelationshipCategory = "ASSOCIATION" | "AGGREGATION" | "COMPOSITION";

@@ -1574,7 +1574,4 @@ export type RoundingModeOutput =
 /** Cardinality */
 export type CardinalityValueOutput = "SINGLE" | "LIST" | "SET";
 /** Relationship Category */
-export type RelationshipCategoryOutput =
-  | "ASSOCIATION"
-  | "AGGREGATION"
-  | "COMPOSITION";
+export type RelationshipCategoryOutput = "ASSOCIATION" | "AGGREGATION" | "COMPOSITION";
