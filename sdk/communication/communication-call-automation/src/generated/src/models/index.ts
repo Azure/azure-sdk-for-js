@@ -27,18 +27,20 @@ export interface CreateCallRequest {
   sourceDisplayName?: string;
   /** The identifier of the source of the call */
   source?: CommunicationUserIdentifierModel;
+  /** The identifier of the source in an OPS call */
+  opsSource?: MicrosoftTeamsAppIdentifierModel;
   /** A customer set value used to track the answering of a call. */
   operationContext?: string;
   /** The callback URI. */
   callbackUri: string;
-  /** Media Streaming Configuration. */
-  mediaStreamingConfiguration?: MediaStreamingConfiguration;
-  /** Live Transcription Configuration. */
-  transcriptionConfiguration?: TranscriptionConfiguration;
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptionsInternal;
   /** Used by customer to send custom calling context to targets */
   customCallingContext?: CustomCallingContextInternal;
+  /** Media Streaming Options. */
+  mediaStreamingOptions?: MediaStreamingOptions;
+  /** Transcription Options. */
+  transcriptionOptions?: TranscriptionOptions;
 }
 
 /** Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value. */
@@ -87,8 +89,22 @@ export interface MicrosoftTeamsAppIdentifierModel {
   cloud?: CommunicationCloudEnvironmentModel;
 }
 
+/** AI options for the call. */
+export interface CallIntelligenceOptionsInternal {
+  /** The identifier of the Cognitive Service resource assigned to this call. */
+  cognitiveServicesEndpoint?: string;
+}
+
+/** The custom calling context which will be sent to the target */
+export interface CustomCallingContextInternal {
+  /** Custom calling context VoiP headers */
+  voipHeaders?: { [propertyName: string]: string };
+  /** Custom calling context SIP headers */
+  sipHeaders?: { [propertyName: string]: string };
+}
+
 /** Configuration of Media streaming. */
-export interface MediaStreamingConfiguration {
+export interface MediaStreamingOptions {
   /** Transport URL for media streaming */
   transportUrl: string;
   /** The type of transport to be used for media streaming, eg. Websocket */
@@ -99,31 +115,26 @@ export interface MediaStreamingConfiguration {
   audioChannelType: MediaStreamingAudioChannelType;
   /** Determines if the media streaming should be started immediately after call is answered or not. */
   startMediaStreaming?: boolean;
+  /** A value indicating whether bidirectional streaming is enabled. */
+  enableBidirectional?: boolean;
+  /** Specifies the audio format used for encoding, including sample rate and channel type. */
+  audioFormat?: AudioFormat;
 }
 
 /** Configuration of live transcription. */
-export interface TranscriptionConfiguration {
+export interface TranscriptionOptions {
   /** Transport URL for live transcription */
   transportUrl: string;
   /** The type of transport to be used for live transcription, eg. Websocket */
   transportType: TranscriptionTransportType;
   /** Defines the locale for the data e.g en-CA, en-AU */
   locale: string;
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
   /** Determines if the transcription should be started immediately after call is answered or not. */
   startTranscription: boolean;
-}
-
-/** AI options for the call. */
-export interface CallIntelligenceOptionsInternal {
-  /** The identifier of the Cognitive Service resource assigned to this call. */
-  cognitiveServicesEndpoint?: string;
-}
-
-export interface CustomCallingContextInternal {
-  /** Dictionary of <string> */
-  voipHeaders?: { [propertyName: string]: string };
-  /** Dictionary of <string> */
-  sipHeaders?: { [propertyName: string]: string };
+  /** Enables intermediate results for the transcribed speech. */
+  enableIntermediateResults?: boolean;
 }
 
 /** Properties of a call connection */
@@ -155,8 +166,32 @@ export interface CallConnectionPropertiesInternal {
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
   answeredBy?: CommunicationUserIdentifierModel;
+  /** The state of media streaming subscription for the call */
+  mediaStreamingSubscription?: MediaStreamingSubscription;
+  /** Transcription Subscription. */
+  transcriptionSubscription?: TranscriptionSubscription;
   /** Identity of the original Pstn target of an incoming Call. Only populated when the original target is a Pstn number. */
   answeredFor?: PhoneNumberIdentifierModel;
+}
+
+/** Media streaming Subscription Object. */
+export interface MediaStreamingSubscription {
+  /** Subscription Id. */
+  id?: string;
+  /** Media streaming subscription state. */
+  state?: MediaStreamingSubscriptionState;
+  /** Subscribed media streaming content types. */
+  subscribedContentTypes?: MediaStreamingContentType[];
+}
+
+/** Transcription Subscription Object. */
+export interface TranscriptionSubscription {
+  /** Subscription Id. */
+  id?: string;
+  /** Transcription subscription state. */
+  state?: TranscriptionSubscriptionState;
+  /** Subscribed transcription result types. */
+  subscribedResultTypes?: TranscriptionResultType[];
 }
 
 /** The Communication Services error. */
@@ -194,16 +229,18 @@ export interface AnswerCallRequest {
   incomingCallContext: string;
   /** The callback uri. */
   callbackUri: string;
+  /** Used by customer to send custom calling context to targets when answering On-Behalf-Of call */
+  customCallingContext?: CustomCallingContextInternal;
   /** A customer set value used to track the answering of a call. */
   operationContext?: string;
-  /** Media Streaming Configuration. */
-  mediaStreamingConfiguration?: MediaStreamingConfiguration;
-  /** Live Transcription Configuration. */
-  transcriptionConfiguration?: TranscriptionConfiguration;
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptionsInternal;
   /** The identifier of the call automation entity which answers the call */
   answeredBy?: CommunicationUserIdentifierModel;
+  /** Media Streaming Options. */
+  mediaStreamingOptions?: MediaStreamingOptions;
+  /** Transcription Options. */
+  transcriptionOptions?: TranscriptionOptions;
 }
 
 /** The request payload for redirecting the call. */
@@ -222,6 +259,34 @@ export interface RejectCallRequest {
   incomingCallContext: string;
   /** The rejection reason. */
   callRejectReason?: CallRejectReason;
+}
+
+/** The request payload for creating a connection to a CallLocator. */
+export interface ConnectRequest {
+  /** The call locator. */
+  callLocator: CallLocator;
+  /** The callback URI. */
+  callbackUri: string;
+  /** Used by customers to correlate the request to the response event. */
+  operationContext?: string;
+  /** AI options for the call. */
+  callIntelligenceOptions?: CallIntelligenceOptionsInternal;
+  /** Media Streaming Options. */
+  mediaStreamingOptions?: MediaStreamingOptions;
+  /** Transcription Options. */
+  transcriptionOptions?: TranscriptionOptions;
+}
+
+/** The locator used for joining or taking action on a call */
+export interface CallLocator {
+  /** The group call id */
+  groupCallId?: string;
+  /** The server call id. */
+  serverCallId?: string;
+  /** The Acs room id */
+  roomId?: string;
+  /** The call locator kind. */
+  kind?: CallLocatorKind;
 }
 
 /** The request payload for transferring call to a participant. */
@@ -681,8 +746,10 @@ export interface CancelAddParticipantResponse {
 
 /** The request payload start for call recording operation with call locator. */
 export interface StartCallRecordingRequest {
-  /** The call locator. */
-  callLocator: CallLocator;
+  /** The call locator. (Only one of callLocator or callConnectionId to be used) */
+  callLocator?: CallLocator;
+  /** The call connectionId. (Only one of callLocator or callConnectionId to be used) */
+  callConnectionId?: string;
   /** The uri to send notifications to. */
   recordingStateCallbackUri?: string;
   /** The content type of call recording. */
@@ -709,16 +776,6 @@ export interface StartCallRecordingRequest {
   recordingStorage?: RecordingStorage;
   /** When set to true will start recording in Pause mode, which can be resumed. */
   pauseOnStart?: boolean;
-}
-
-/** The locator used for joining or taking action on a call. */
-export interface CallLocator {
-  /** The group call id */
-  groupCallId?: string;
-  /** The server call id. */
-  serverCallId?: string;
-  /** The call locator kind. */
-  kind?: CallLocatorKind;
 }
 
 /** Channel affinity for a participant */
@@ -772,8 +829,15 @@ export interface ChoiceResult {
 }
 
 export interface DialogCompleted {
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
   /**
-   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * Dialog ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dialogId?: string;
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
@@ -782,13 +846,6 @@ export interface DialogCompleted {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
-  /** Determines the type of the dialog. */
-  dialogInputType?: DialogInputType;
-  /**
-   * Dialog ID
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dialogId?: string;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -816,8 +873,15 @@ export interface RestResultInformation {
 }
 
 export interface DialogFailed {
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
   /**
-   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * Dialog ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dialogId?: string;
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
@@ -826,13 +890,6 @@ export interface DialogFailed {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
-  /** Determines the type of the dialog. */
-  dialogInputType?: DialogInputType;
-  /**
-   * Dialog ID
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dialogId?: string;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -856,8 +913,15 @@ export interface DialogConsent {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly userConsent?: UserConsent;
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
   /**
-   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * Dialog ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dialogId?: string;
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
@@ -866,13 +930,6 @@ export interface DialogConsent {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
-  /** Determines the type of the dialog. */
-  dialogInputType?: DialogInputType;
-  /**
-   * Dialog ID
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dialogId?: string;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -895,8 +952,15 @@ export interface UserConsent {
 }
 
 export interface DialogStarted {
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
   /**
-   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * Dialog ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dialogId?: string;
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
@@ -905,13 +969,6 @@ export interface DialogStarted {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
-  /** Determines the type of the dialog. */
-  dialogInputType?: DialogInputType;
-  /**
-   * Dialog ID
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dialogId?: string;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -930,16 +987,6 @@ export interface DialogStarted {
 }
 
 export interface DialogHangup {
-  /**
-   * Used by customers when calling answerCall action to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code/sub-code and message from NGC services.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
   /** Determines the type of the dialog. */
   dialogInputType?: DialogInputType;
   /**
@@ -952,6 +999,16 @@ export interface DialogHangup {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ivrContext?: Record<string, unknown>;
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -980,16 +1037,6 @@ export interface DialogTransfer {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly transferDestination?: string;
-  /**
-   * Used by customers when calling answerCall action to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code/sub-code and message from NGC services.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
   /** Determines the type of the dialog. */
   dialogInputType?: DialogInputType;
   /**
@@ -1002,6 +1049,16 @@ export interface DialogTransfer {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ivrContext?: Record<string, unknown>;
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1025,16 +1082,6 @@ export interface DialogLanguageChange {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly selectedLanguage?: string;
-  /**
-   * Used by customers when calling answerCall action to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code/sub-code and message from NGC services.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
   /** Determines the type of the dialog. */
   dialogInputType?: DialogInputType;
   /**
@@ -1047,6 +1094,16 @@ export interface DialogLanguageChange {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ivrContext?: Record<string, unknown>;
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1070,8 +1127,15 @@ export interface DialogSensitivityUpdate {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly sensitiveMask?: boolean;
+  /** Determines the type of the dialog. */
+  dialogInputType?: DialogInputType;
   /**
-   * Used by customers when calling answerCall action to correlate the request to the response event.
+   * Dialog ID
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly dialogId?: string;
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
@@ -1080,13 +1144,6 @@ export interface DialogSensitivityUpdate {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
-  /** Determines the type of the dialog. */
-  dialogInputType?: DialogInputType;
-  /**
-   * Dialog ID
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly dialogId?: string;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1105,16 +1162,6 @@ export interface DialogSensitivityUpdate {
 }
 
 export interface DialogUpdated {
-  /**
-   * Used by customers when calling answerCall action to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code/sub-code and message from NGC services.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
   /** Determines the type of the dialog. */
   dialogInputType?: DialogInputType;
   /**
@@ -1127,6 +1174,16 @@ export interface DialogUpdated {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly ivrContext?: Record<string, unknown>;
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1149,128 +1206,28 @@ export interface TranscriptionUpdate {
   transcriptionStatusDetails?: TranscriptionStatusDetails;
 }
 
-export interface MediaStreamingFailed {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Defines the result for audio streaming update with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly mediaStreamingUpdate?: MediaStreamingUpdate;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
 export interface MediaStreamingUpdate {
   contentType?: string;
   mediaStreamingStatus?: MediaStreamingStatus;
   mediaStreamingStatusDetails?: MediaStreamingStatusDetails;
 }
 
-export interface MediaStreamingStarted {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Defines the result for audio streaming update with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly mediaStreamingUpdate?: MediaStreamingUpdate;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
-export interface MediaStreamingStopped {
-  /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
-   * Defines the result for audio streaming update with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly mediaStreamingUpdate?: MediaStreamingUpdate;
-  /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
-/** The participant successfully added event. */
 export interface RestAddParticipantSucceeded {
   /**
+   * Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly participant?: CommunicationIdentifierModel;
+  /**
    * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
   /**
-   * Contains the resulting SIP code, sub-code and message.
+   * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
-  /**
-   * Participant
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly participant?: CommunicationIdentifierModel;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1288,23 +1245,22 @@ export interface RestAddParticipantSucceeded {
   readonly correlationId?: string;
 }
 
-/** The failed to add participant event. */
 export interface RestAddParticipantFailed {
   /**
+   * Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly participant?: CommunicationIdentifierModel;
+  /**
    * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
   /**
-   * Contains the resulting SIP code, sub-code and message.
+   * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
-  /**
-   * Participant
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly participant?: CommunicationIdentifierModel;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1322,23 +1278,22 @@ export interface RestAddParticipantFailed {
   readonly correlationId?: string;
 }
 
-/** The participant removed event. */
 export interface RestRemoveParticipantSucceeded {
   /**
+   * Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly participant?: CommunicationIdentifierModel;
+  /**
    * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
   /**
-   * Contains the resulting SIP code, sub-code and message.
+   * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
-  /**
-   * Participant
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly participant?: CommunicationIdentifierModel;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1356,23 +1311,22 @@ export interface RestRemoveParticipantSucceeded {
   readonly correlationId?: string;
 }
 
-/** The failed to remove participant event. */
 export interface RestRemoveParticipantFailed {
+  /**
+   * Identifies a participant in Azure Communication services. A participant is, for example, a phone number or an Azure communication user. This model is polymorphic: Apart from kind and rawId, at most one further property may be set which must match the kind enum value.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly participant?: CommunicationIdentifierModel;
   /**
    * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
   /**
-   * Contains the resulting SIP code, sub-code and message.
+   * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
-  /**
-   * Participant
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly participant?: CommunicationIdentifierModel;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1398,6 +1352,11 @@ export interface RestCallConnected {
    */
   readonly operationContext?: string;
   /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1422,6 +1381,11 @@ export interface RestCallDisconnected {
    */
   readonly operationContext?: string;
   /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1441,16 +1405,6 @@ export interface RestCallDisconnected {
 /** The call transfer accepted event. */
 export interface RestCallTransferAccepted {
   /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
    * Target who the call is transferred to.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1460,6 +1414,16 @@ export interface RestCallTransferAccepted {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly transferee?: CommunicationIdentifierModel;
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1485,7 +1449,7 @@ export interface RestCallTransferFailed {
    */
   readonly operationContext?: string;
   /**
-   * Contains the resulting SIP code, sub-code and message.
+   * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
@@ -1520,6 +1484,11 @@ export interface RestRecordingStateChanged {
   readonly startDateTime?: Date;
   recordingKind?: RecordingKind;
   /**
+   * Result information defines the code, subcode and message
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1536,15 +1505,21 @@ export interface RestRecordingStateChanged {
   readonly correlationId?: string;
 }
 
-/** The participants updated in a call event. */
 export interface RestParticipantsUpdated {
-  /**
-   * The list of participants in the call.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly participants?: CallParticipantInternal[];
   /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly sequenceNumber?: number;
+  /**
+   * Contains the resulting SIP code, sub-code and message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1564,15 +1539,15 @@ export interface RestParticipantsUpdated {
 
 export interface RestPlayCompleted {
   /**
-   * Result information defines the code, subcode and message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
    * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1592,20 +1567,20 @@ export interface RestPlayCompleted {
 
 export interface RestPlayFailed {
   /**
+   * Indicates the index of the failed play source.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failedPlaySourceIndex?: number;
+  /**
    * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
   /**
-   * Contains the resulting SIP code, sub-code and message.
+   * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
-  /**
-   * Indicates the index of the failed play source.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly failedPlaySourceIndex?: number;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1630,6 +1605,11 @@ export interface RestPlayCanceled {
    */
   readonly operationContext?: string;
   /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1648,18 +1628,8 @@ export interface RestPlayCanceled {
 
 export interface RestRecognizeCompleted {
   /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Result information defines the code, subcode and message
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
    * Determines the sub-type of the recognize operation.
-   * In case of cancel operation the this field is not set and is returned empty
+   * In case of cancel operation this field is not set and is returned empty
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly recognitionType?: RecognitionType;
@@ -1685,6 +1655,16 @@ export interface RestRecognizeCompleted {
    */
   readonly choiceResult?: ChoiceResult;
   /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -1703,20 +1683,20 @@ export interface RestRecognizeCompleted {
 
 export interface RestRecognizeFailed {
   /**
+   * Indicates the index of the failed play source.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly failedPlaySourceIndex?: number;
+  /**
    * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
   /**
-   * Contains the resulting SIP code, sub-code and message.
+   * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
-  /**
-   * Indicates the index of the failed play source.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly failedPlaySourceIndex?: number;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1740,6 +1720,11 @@ export interface RestRecognizeCanceled {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1852,7 +1837,7 @@ export interface RestSendDtmfTonesCompleted {
    */
   readonly operationContext?: string;
   /**
-   * Contains the resulting SIP code, sub-code and message.
+   * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
@@ -1880,7 +1865,7 @@ export interface RestSendDtmfTonesFailed {
    */
   readonly operationContext?: string;
   /**
-   * Contains the resulting SIP code, sub-code and message.
+   * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
@@ -1901,19 +1886,18 @@ export interface RestSendDtmfTonesFailed {
   readonly correlationId?: string;
 }
 
-/** Successful cancel add participant event. */
 export interface RestCancelAddParticipantSucceeded {
-  /**
-   * Invitation ID used to cancel the request.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
+  /** NOTE: This property will not be serialized. It can only be populated by the server. */
   readonly invitationId?: string;
   /**
    * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
-  /** NOTE: This property will not be serialized. It can only be populated by the server. */
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
   readonly resultInformation?: RestResultInformation;
   /**
    * Call connection ID.
@@ -1935,20 +1919,20 @@ export interface RestCancelAddParticipantSucceeded {
 /** Failed cancel add participant event. */
 export interface RestCancelAddParticipantFailed {
   /**
+   * Invitation ID used to cancel the request.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly invitationId?: string;
+  /**
    * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
   /**
-   * Contains the resulting SIP code, sub-code and message.
+   * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
-  /**
-   * Invitation ID used to cancel the request.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly invitationId?: string;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1968,20 +1952,20 @@ export interface RestCancelAddParticipantFailed {
 
 export interface RestTranscriptionStarted {
   /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdate?: TranscriptionUpdate;
+  /**
    * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
   /**
-   * Contains the resulting SIP code, sub-code and message.
+   * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
-  /**
-   * Defines the result for TranscriptionUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transcriptionUpdate?: TranscriptionUpdate;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2001,20 +1985,20 @@ export interface RestTranscriptionStarted {
 
 export interface RestTranscriptionStopped {
   /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdate?: TranscriptionUpdate;
+  /**
    * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
   /**
-   * Contains the resulting SIP code, sub-code and message.
+   * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
-  /**
-   * Defines the result for TranscriptionUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transcriptionUpdate?: TranscriptionUpdate;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2034,20 +2018,20 @@ export interface RestTranscriptionStopped {
 
 export interface RestTranscriptionUpdated {
   /**
+   * Defines the result for TranscriptionUpdate with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly transcriptionUpdate?: TranscriptionUpdate;
+  /**
    * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
   /**
-   * Contains the resulting SIP code, sub-code and message.
+   * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
-  /**
-   * Defines the result for TranscriptionUpdate with the current status and the details about the status
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly transcriptionUpdate?: TranscriptionUpdate;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2067,46 +2051,17 @@ export interface RestTranscriptionUpdated {
 
 export interface RestTranscriptionFailed {
   /**
-   * Used by customers when calling mid-call actions to correlate the request to the response event.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly operationContext?: string;
-  /**
-   * Contains the resulting SIP code, sub-code and message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly resultInformation?: RestResultInformation;
-  /**
    * Defines the result for TranscriptionUpdate with the current status and the details about the status
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly transcriptionUpdate?: TranscriptionUpdate;
   /**
-   * Call connection ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly callConnectionId?: string;
-  /**
-   * Server call ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly serverCallId?: string;
-  /**
-   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly correlationId?: string;
-}
-
-/** The CreateCallFailed event */
-export interface RestCreateCallFailed {
-  /**
    * Used by customers when calling mid-call actions to correlate the request to the response event.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly operationContext?: string;
   /**
-   * Contains the resulting SIP code, sub-code and message.
+   * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
@@ -2127,7 +2082,6 @@ export interface RestCreateCallFailed {
   readonly correlationId?: string;
 }
 
-/** AnswerFailed event */
 export interface RestAnswerFailed {
   /**
    * Used by customers when calling mid-call actions to correlate the request to the response event.
@@ -2135,7 +2089,7 @@ export interface RestAnswerFailed {
    */
   readonly operationContext?: string;
   /**
-   * Contains the resulting SIP code, sub-code and message.
+   * Contains the resulting SIP code/sub-code and message from NGC services.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
@@ -2163,10 +2117,142 @@ export interface RestHoldFailed {
    */
   readonly operationContext?: string;
   /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface RestMediaStreamingStarted {
+  /**
+   * Defines the result for audio streaming update with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mediaStreamingUpdate?: MediaStreamingUpdate;
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface RestMediaStreamingStopped {
+  /**
+   * Defines the result for audio streaming update with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mediaStreamingUpdate?: MediaStreamingUpdate;
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface RestMediaStreamingFailed {
+  /**
+   * Defines the result for audio streaming update with the current status and the details about the status
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly mediaStreamingUpdate?: MediaStreamingUpdate;
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
+  /**
+   * Contains the resulting SIP code/sub-code and message from NGC services.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resultInformation?: RestResultInformation;
+  /**
+   * Call connection ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly callConnectionId?: string;
+  /**
+   * Server call ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly serverCallId?: string;
+  /**
+   * Correlation ID for event to call correlation. Also called ChainId for skype chain ID.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly correlationId?: string;
+}
+
+export interface RestStartRecordingFailed {
+  /**
    * Contains the resulting SIP code, sub-code and message.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly resultInformation?: RestResultInformation;
+  /**
+   * The call recording id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly recordingId?: string;
+  /**
+   * Used by customers when calling mid-call actions to correlate the request to the response event.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly operationContext?: string;
   /**
    * Call connection ID.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -2302,6 +2388,24 @@ export enum KnownMediaStreamingAudioChannelType {
  */
 export type MediaStreamingAudioChannelType = string;
 
+/** Known values of {@link AudioFormat} that the service accepts. */
+export enum KnownAudioFormat {
+  /** Pcm16KMono */
+  Pcm16KMono = "Pcm16KMono",
+  /** Pcm24KMono */
+  Pcm24KMono = "Pcm24KMono",
+}
+
+/**
+ * Defines values for AudioFormat. \
+ * {@link KnownAudioFormat} can be used interchangeably with AudioFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pcm16KMono**: Pcm16KMono \
+ * **Pcm24KMono**: Pcm24KMono
+ */
+export type AudioFormat = string;
+
 /** Known values of {@link TranscriptionTransportType} that the service accepts. */
 export enum KnownTranscriptionTransportType {
   /** Websocket */
@@ -2350,6 +2454,66 @@ export enum KnownCallConnectionStateModel {
  */
 export type CallConnectionStateModel = string;
 
+/** Known values of {@link MediaStreamingSubscriptionState} that the service accepts. */
+export enum KnownMediaStreamingSubscriptionState {
+  /** Disabled */
+  Disabled = "disabled",
+  /** Inactive */
+  Inactive = "inactive",
+  /** Active */
+  Active = "active",
+}
+
+/**
+ * Defines values for MediaStreamingSubscriptionState. \
+ * {@link KnownMediaStreamingSubscriptionState} can be used interchangeably with MediaStreamingSubscriptionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **disabled** \
+ * **inactive** \
+ * **active**
+ */
+export type MediaStreamingSubscriptionState = string;
+
+/** Known values of {@link TranscriptionSubscriptionState} that the service accepts. */
+export enum KnownTranscriptionSubscriptionState {
+  /** Disabled */
+  Disabled = "disabled",
+  /** Inactive */
+  Inactive = "inactive",
+  /** Active */
+  Active = "active",
+}
+
+/**
+ * Defines values for TranscriptionSubscriptionState. \
+ * {@link KnownTranscriptionSubscriptionState} can be used interchangeably with TranscriptionSubscriptionState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **disabled** \
+ * **inactive** \
+ * **active**
+ */
+export type TranscriptionSubscriptionState = string;
+
+/** Known values of {@link TranscriptionResultType} that the service accepts. */
+export enum KnownTranscriptionResultType {
+  /** Final */
+  Final = "final",
+  /** Intermediate */
+  Intermediate = "intermediate",
+}
+
+/**
+ * Defines values for TranscriptionResultType. \
+ * {@link KnownTranscriptionResultType} can be used interchangeably with TranscriptionResultType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **final** \
+ * **intermediate**
+ */
+export type TranscriptionResultType = string;
+
 /** Known values of {@link CallRejectReason} that the service accepts. */
 export enum KnownCallRejectReason {
   /** None */
@@ -2370,6 +2534,30 @@ export enum KnownCallRejectReason {
  * **forbidden**
  */
 export type CallRejectReason = string;
+
+/** Known values of {@link CallLocatorKind} that the service accepts. */
+export enum KnownCallLocatorKind {
+  /** Unknown */
+  Unknown = "unknown",
+  /** GroupCallLocator */
+  GroupCallLocator = "groupCallLocator",
+  /** ServerCallLocator */
+  ServerCallLocator = "serverCallLocator",
+  /** RoomCallLocator */
+  RoomCallLocator = "roomCallLocator",
+}
+
+/**
+ * Defines values for CallLocatorKind. \
+ * {@link KnownCallLocatorKind} can be used interchangeably with CallLocatorKind,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **unknown** \
+ * **groupCallLocator** \
+ * **serverCallLocator** \
+ * **roomCallLocator**
+ */
+export type CallLocatorKind = string;
 
 /** Known values of {@link PlaySourceType} that the service accepts. */
 export enum KnownPlaySourceType {
@@ -2512,24 +2700,6 @@ export enum KnownDialogInputType {
  */
 export type DialogInputType = string;
 
-/** Known values of {@link CallLocatorKind} that the service accepts. */
-export enum KnownCallLocatorKind {
-  /** GroupCallLocator */
-  GroupCallLocator = "groupCallLocator",
-  /** ServerCallLocator */
-  ServerCallLocator = "serverCallLocator",
-}
-
-/**
- * Defines values for CallLocatorKind. \
- * {@link KnownCallLocatorKind} can be used interchangeably with CallLocatorKind,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **groupCallLocator** \
- * **serverCallLocator**
- */
-export type CallLocatorKind = string;
-
 /** Known values of {@link RecordingContentType} that the service accepts. */
 export enum KnownRecordingContentType {
   /** Audio */
@@ -2589,10 +2759,10 @@ export type RecordingFormatType = string;
 
 /** Known values of {@link RecordingStorageKind} that the service accepts. */
 export enum KnownRecordingStorageKind {
-  /** AzureCommunicationServices */
-  AzureCommunicationServices = "azureCommunicationServices",
-  /** AzureBlobStorage */
-  AzureBlobStorage = "azureBlobStorage",
+  /** Storage managed by Azure Communication Services */
+  AzureCommunicationServices = "AzureCommunicationServices",
+  /** Storage managed by provided Azure blob */
+  AzureBlobStorage = "AzureBlobStorage",
 }
 
 /**
@@ -2600,8 +2770,8 @@ export enum KnownRecordingStorageKind {
  * {@link KnownRecordingStorageKind} can be used interchangeably with RecordingStorageKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **azureCommunicationServices** \
- * **azureBlobStorage**
+ * **AzureCommunicationServices**: Storage managed by Azure Communication Services \
+ * **AzureBlobStorage**: Storage managed by provided Azure blob
  */
 export type RecordingStorageKind = string;
 
@@ -2625,12 +2795,12 @@ export type RecordingState = string;
 
 /** Known values of {@link RecordingKind} that the service accepts. */
 export enum KnownRecordingKind {
-  /** AzureCommunicationServices */
-  AzureCommunicationServices = "azureCommunicationServices",
-  /** Teams */
-  Teams = "teams",
-  /** TeamsCompliance */
-  TeamsCompliance = "teamsCompliance",
+  /** Recording initiated by Azure Communication Services */
+  AzureCommunicationServices = "AzureCommunicationServices",
+  /** Recording initiated by Teams user */
+  Teams = "Teams",
+  /** Recording initiated by Teams compliance policy */
+  TeamsCompliance = "TeamsCompliance",
 }
 
 /**
@@ -2638,9 +2808,9 @@ export enum KnownRecordingKind {
  * {@link KnownRecordingKind} can be used interchangeably with RecordingKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **azureCommunicationServices** \
- * **teams** \
- * **teamsCompliance**
+ * **AzureCommunicationServices**: Recording initiated by Azure Communication Services \
+ * **Teams**: Recording initiated by Teams user \
+ * **TeamsCompliance**: Recording initiated by Teams compliance policy
  */
 export type RecordingKind = string;
 
@@ -2873,6 +3043,17 @@ export interface RejectCallOptionalParams extends coreClient.OperationOptions {
 }
 
 /** Optional parameters. */
+export interface ConnectOptionalParams extends coreClient.OperationOptions {
+  /** If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated unique identifier for the request. It is a version 4 (random) UUID. */
+  repeatabilityRequestID?: string;
+  /** If Repeatability-Request-ID header is specified, then Repeatability-First-Sent header must also be specified. The value should be the date and time at which the request was first created, expressed using the IMF-fixdate form of HTTP-date. Example: Sun, 06 Nov 1994 08:49:37 GMT. */
+  repeatabilityFirstSent?: Date;
+}
+
+/** Contains response data for the connect operation. */
+export type ConnectResponse = CallConnectionPropertiesInternal;
+
+/** Optional parameters. */
 export interface CallConnectionGetCallOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -3064,7 +3245,6 @@ export type CallDialogStartDialogResponse = DialogStateResponse;
 /** Optional parameters. */
 export interface CallDialogStopDialogOptionalParams
   extends coreClient.OperationOptions {
-  /** Operation callback URI. */
   operationCallbackUri?: string;
 }
 

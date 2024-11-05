@@ -15,6 +15,7 @@ import type {
   StartRecognizingEventResult,
   TransferCallToParticipantEventResult,
   CancelAddParticipantEventResult,
+  ConnectCallEventResult,
 } from "../eventprocessor/eventResponses";
 import type { AbortSignalLike } from "@azure/abort-controller";
 
@@ -50,6 +51,23 @@ export interface AnswerCallResult {
     abortSignal?: AbortSignalLike,
     timeoutInMs?: number,
   ): Promise<AnswerCallEventResult>;
+}
+
+/**
+ * ConnectCall result
+ */
+export interface ConnectCallResult {
+  /** The callConnectionProperties */
+  callConnectionProperties: CallConnectionProperties;
+
+  /** The callConnection */
+  callConnection: CallConnection;
+
+  /** Waiting for event processor to process the event */
+  waitForEventProcessor(
+    abortSignal?: AbortSignalLike,
+    timeoutInMs?: number,
+  ): Promise<ConnectCallEventResult>;
 }
 
 /** The response payload for getting participants of the call. */

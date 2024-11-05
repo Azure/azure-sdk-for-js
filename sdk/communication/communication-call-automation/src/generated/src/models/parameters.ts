@@ -16,6 +16,7 @@ import {
   AnswerCallRequest as AnswerCallRequestMapper,
   RedirectCallRequest as RedirectCallRequestMapper,
   RejectCallRequest as RejectCallRequestMapper,
+  ConnectRequest as ConnectRequestMapper,
   TransferToParticipantRequest as TransferToParticipantRequestMapper,
   AddParticipantRequest as AddParticipantRequestMapper,
   RemoveParticipantRequest as RemoveParticipantRequestMapper,
@@ -84,7 +85,7 @@ export const endpoint: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-10-03-preview",
+    defaultValue: "2024-09-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -126,6 +127,11 @@ export const redirectCallRequest: OperationParameter = {
 export const rejectCallRequest: OperationParameter = {
   parameterPath: "rejectCallRequest",
   mapper: RejectCallRequestMapper,
+};
+
+export const connectRequest: OperationParameter = {
+  parameterPath: "connectRequest",
+  mapper: ConnectRequestMapper,
 };
 
 export const callConnectionId: OperationURLParameter = {

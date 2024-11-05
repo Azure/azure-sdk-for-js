@@ -11,9 +11,9 @@ description: Call Automation Client
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-tag: package-2023-10-03-preview
+tag: package-2024-09-01-preview
 require:
-  - https://github.com/Azure/azure-rest-api-specs/blob/156ff363e44f764ddd8a0a6adcd371610240ba15/specification/communication/data-plane/CallAutomation/readme.md
+  - https://github.com/Azure/azure-rest-api-specs/blob/6204479165ba24610f678105dce67ed501201b39/specification/communication/data-plane/CallAutomation/readme.md
 package-version: 1.3.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
@@ -164,6 +164,22 @@ directive:
   - rename-model:
       from: HoldFailed
       to: RestHoldFailed
+  - rename-model:
+      from: ConnectFailed
+      to: RestConnectFailed
+  - rename-model:
+      from: MediaStreamingStarted
+      to: RestMediaStreamingStarted
+  - rename-model:
+      from: MediaStreamingStopped
+      to: RestMediaStreamingStopped
+  - rename-model:
+      from: MediaStreamingFailed
+      to: RestMediaStreamingFailed
+  - rename-model:
+      from: StartRecordingFailed
+      to: RestStartRecordingFailed
+
 ```
 
 ```yaml

@@ -8,7 +8,11 @@ import type {
   MicrosoftTeamsAppIdentifier,
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
-import type { CallConnectionStateModel } from "../generated/src";
+import type {
+  CallConnectionStateModel,
+  MediaStreamingSubscription,
+  TranscriptionSubscription,
+} from "../generated/src";
 
 export {
   CallConnectionStateModel,
@@ -18,10 +22,10 @@ export {
   KnownMediaStreamingContentType,
   KnownMediaStreamingTransportType,
   MediaStreamingAudioChannelType,
-  MediaStreamingConfiguration,
+  MediaStreamingOptions,
   MediaStreamingContentType,
   MediaStreamingTransportType,
-  TranscriptionConfiguration,
+  TranscriptionOptions,
   TranscriptionTransportType,
   RecognitionType,
   ChoiceResult,
@@ -58,6 +62,12 @@ export interface CallConnectionProperties {
   correlationId?: string;
   /** Identity of the answering entity. Only populated when identity is provided in the request. */
   answeredby?: CommunicationUserIdentifier;
+  /** Identity of the original Pstn target of an incoming Call. Only populated when the original target is a Pstn number. */
+  answeredFor?: PhoneNumberIdentifier;
+  /** Media streaming subscription */
+  mediaStreamingSubscription?: MediaStreamingSubscription;
+  /** Transcription Subscription. */
+  transcriptionSubscription?: TranscriptionSubscription;
 }
 
 /** Contract model of an ACS call participant */
@@ -184,7 +194,7 @@ export interface CallInvite {
 }
 
 /** The locator type of a call. */
-export type CallLocatorType = "serverCallLocator" | "groupCallLocator";
+export type CallLocatorType = "serverCallLocator" | "groupCallLocator" | "roomCallLocator";
 
 /** The content type of a call recording. */
 export type RecordingContent = "audio" | "audioVideo";

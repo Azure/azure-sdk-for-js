@@ -54,6 +54,8 @@ const envSetupForPlayback: Record<string, string> = {
   SERVICEBUS_STRING:
     "Endpoint=sb://REDACTED.servicebus.windows.net/;SharedAccessKeyName=REDACTED;SharedAccessKey=REDACTED",
   FILE_SOURCE_URL: "https://example.com/audio/test.wav",
+  TRANSPORT_URL: "https://REDACTED",
+  COGNITIVE_SERVICE_ENDPOINT: "https://REDACTED.cognitiveservices.azure.com/",
 };
 
 const fakeToken = generateToken();
@@ -66,6 +68,12 @@ const serviceBusConnectionString: string = !isPlaybackMode()
 export const fileSourceUrl: string = !isPlaybackMode()
   ? (env["FILE_SOURCE_URL"] ?? envSetupForPlayback["DISPATCHER_ENDPOINT"])
   : envSetupForPlayback["FILE_SOURCE_URL"];
+export const transportUrl: string = !isPlaybackMode()
+  ? (env["TRANSPORT_URL"] ?? envSetupForPlayback["TRANSPORT_URL"])
+  : envSetupForPlayback["TRANSPORT_URL"];
+export const cognitiveServiceEndpoint: string = !isPlaybackMode()
+  ? (env["COGNITIVE_SERVICE_ENDPOINT"] ?? envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"])
+  : envSetupForPlayback["COGNITIVE_SERVICE_ENDPOINT"];
 
 export const dispatcherCallback: string = dispatcherEndpoint + "/api/servicebuscallback/events";
 export const serviceBusReceivers: Map<string, ServiceBusReceiver> = new Map<

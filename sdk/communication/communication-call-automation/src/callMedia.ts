@@ -23,6 +23,8 @@ import type {
   UpdateTranscriptionRequest,
   HoldRequest,
   UnholdRequest,
+  StartMediaStreamingRequest,
+  StopMediaStreamingRequest,
 } from "./generated/src";
 import { KnownPlaySourceType, KnownRecognizeInputType } from "./generated/src";
 
@@ -44,6 +46,8 @@ import type {
   StopTranscriptionOptions,
   HoldOptions,
   UnholdOptions,
+  StartMediaStreamingOptions,
+  StopMediaStreamingOptions,
 } from "./models/options";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type {
@@ -287,6 +291,10 @@ export class CallMedia {
         playPrompt: recognizeOptions.playPrompt
           ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
           : undefined,
+        playPrompts:
+          recognizeOptions.playPrompts !== undefined
+            ? recognizeOptions.playPrompts.map((source) => this.createPlaySourceInternal(source))
+            : undefined,
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
@@ -308,6 +316,10 @@ export class CallMedia {
         playPrompt: recognizeOptions.playPrompt
           ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
           : undefined,
+        playPrompts:
+          recognizeOptions.playPrompts !== undefined
+            ? recognizeOptions.playPrompts.map((source) => this.createPlaySourceInternal(source))
+            : undefined,
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
@@ -334,6 +346,10 @@ export class CallMedia {
         playPrompt: recognizeOptions.playPrompt
           ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
           : undefined,
+        playPrompts:
+          recognizeOptions.playPrompts !== undefined
+            ? recognizeOptions.playPrompts.map((source) => this.createPlaySourceInternal(source))
+            : undefined,
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
@@ -367,6 +383,10 @@ export class CallMedia {
         playPrompt: recognizeOptions.playPrompt
           ? this.createPlaySourceInternal(recognizeOptions.playPrompt)
           : undefined,
+        playPrompts:
+          recognizeOptions.playPrompts !== undefined
+            ? recognizeOptions.playPrompts.map((source) => this.createPlaySourceInternal(source))
+            : undefined,
         interruptCallMediaOperation: recognizeOptions.interruptCallMediaOperation,
         recognizeOptions: recognizeOptionsInternal,
         operationContext: recognizeOptions.operationContext,
@@ -729,6 +749,36 @@ export class CallMedia {
       this.callConnectionId,
       updateTranscriptionRequest,
       {},
+    );
+  }
+  /**
+   * Starts media streaming in the call.
+   * @param options - Additional attributes for start media streaming.
+   */
+  public async startMediaStreaming(options: StartMediaStreamingOptions = {}): Promise<void> {
+    const startMediaStreamingRequest: StartMediaStreamingRequest = {
+      operationContext: options.operationContext,
+      operationCallbackUri: options.operationCallbackUrl,
+    };
+    return this.callMedia.startMediaStreaming(
+      this.callConnectionId,
+      startMediaStreamingRequest,
+      options,
+    );
+  }
+
+  /**
+   * Stops media streaming in the call.
+   * @param options - Additional attributes for stop media streaming.
+   */
+  public async stopMediaStreaming(options: StopMediaStreamingOptions = {}): Promise<void> {
+    const stopMediaStreamingRequest: StopMediaStreamingRequest = {
+      operationCallbackUri: options.operationCallbackUrl,
+    };
+    return this.callMedia.stopMediaStreaming(
+      this.callConnectionId,
+      stopMediaStreamingRequest,
+      options,
     );
   }
 }

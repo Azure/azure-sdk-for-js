@@ -53,7 +53,7 @@ export class CallRecording {
    */
   public async start(options: StartRecordingOptions): Promise<RecordingStateResult> {
     const startCallRecordingRequest: StartCallRecordingRequest = {
-      callLocator: options.callLocator,
+      callLocator: options.callLocator ? options.callLocator : undefined,
     };
 
     startCallRecordingRequest.recordingChannelType = options.recordingChannel;
@@ -81,13 +81,27 @@ export class CallRecording {
         );
       });
     }
-
-    if (options.callLocator.kind === "groupCallLocator") {
-      startCallRecordingRequest.callLocator.kind = "groupCallLocator";
-      startCallRecordingRequest.callLocator.groupCallId = options.callLocator.id;
+    if (options.callLocator && !options.callConnectionId) {
+      if (options.callLocator.kind === "groupCallLocator") {
+        startCallRecordingRequest.callLocator = {
+          groupCallId: options.callLocator.id,
+          kind: "groupCallLocator",
+        };
+      } else if (options.callLocator.kind === "serverCallLocator") {
+        startCallRecordingRequest.callLocator = {
+          groupCallId: options.callLocator.id,
+          kind: "serverCallLocator",
+        };
+      } else if (options.callLocator.kind === "roomCallLocator") {
+        startCallRecordingRequest.callLocator = {
+          groupCallId: options.callLocator.id,
+          kind: "roomCallLocator",
+        };
+      }
+    } else if (options.callConnectionId && !options.callLocator) {
+      startCallRecordingRequest.callConnectionId = options.callConnectionId;
     } else {
-      startCallRecordingRequest.callLocator.kind = "serverCallLocator";
-      startCallRecordingRequest.callLocator.serverCallId = options.callLocator.id;
+      throw "Only one of callLocator or callConnectionId to be used.";
     }
 
     const optionsInternal = {
