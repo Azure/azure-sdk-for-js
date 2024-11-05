@@ -13,8 +13,8 @@ import type {
   PipelineResponse,
   SendRequest,
   AddPipelineOptions,
+  Client,
 } from "@typespec/ts-http-runtime";
-import type { Client } from "../src/client/common.js";
 import { AbortError, createTracingClient } from "@typespec/ts-http-runtime";
 
 interface GetOperationResult {}
