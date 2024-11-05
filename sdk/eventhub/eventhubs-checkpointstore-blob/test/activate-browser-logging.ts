@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { afterAll, beforeAll } from "vitest";
-import { AzureLogLevel, setLogLevel } from "@azure/logger";
+import type { AzureLogLevel } from "@azure/logger";
+import { setLogLevel } from "@azure/logger";
 
 const logLevel = (process.env.AZURE_LOG_LEVEL as AzureLogLevel) || "info";
 const localStorage: { debug?: string } = {};

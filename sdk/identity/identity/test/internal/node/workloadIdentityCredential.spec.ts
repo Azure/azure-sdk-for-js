@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
+import type { AccessToken, WorkloadIdentityCredentialOptions } from "../../../src";
 import {
-  AccessToken,
   DefaultAzureCredential,
   ManagedIdentityCredential,
   WorkloadIdentityCredential,
-  WorkloadIdentityCredentialOptions,
 } from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup";
 
-import { AuthenticationResult } from "@azure/msal-node";
-import { Context } from "mocha";
+import type { AuthenticationResult } from "@azure/msal-node";
+import type { Context } from "mocha";
 import { assert } from "@azure-tools/test-utils";
 import { env } from "@azure-tools/test-recorder";
 import path from "path";

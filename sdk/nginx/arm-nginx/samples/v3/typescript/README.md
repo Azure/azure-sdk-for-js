@@ -63,7 +63,7 @@ node dist/certificatesCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env NGINX_SUBSCRIPTION_ID="<nginx subscription id>" NGINX_RESOURCE_GROUP="<nginx resource group>" node dist/certificatesCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env NGINX_SUBSCRIPTION_ID="<nginx subscription id>" NGINX_RESOURCE_GROUP="<nginx resource group>" node dist/certificatesCreateOrUpdateSample.js
 ```
 
 ## Next Steps

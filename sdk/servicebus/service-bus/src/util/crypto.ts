@@ -1,11 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-import crypto from "crypto";
+import crypto from "node:crypto";
 
 /**
  * @internal

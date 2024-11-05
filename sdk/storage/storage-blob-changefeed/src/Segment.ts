@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
-import { Shard } from "./Shard";
-import { SegmentCursor, ShardCursor } from "./models/ChangeFeedCursor";
-import { CommonOptions } from "@azure/storage-blob";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
+import type { Shard } from "./Shard";
+import type { SegmentCursor, ShardCursor } from "./models/ChangeFeedCursor";
+import type { CommonOptions } from "@azure/storage-blob";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { tracingClient } from "./utils/tracing";
 
 /**

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Unique identifier under which is specified which port to use for injecting locally hosted custom widget to a running DevPortal instance.

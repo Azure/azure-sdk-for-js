@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+// Licensed under the MIT License.
+import type { ClientContext } from "../../ClientContext";
 import { createDatabaseUri, getIdFromLink, getPathFromLink, ResourceType } from "../../common";
-import { CosmosClient } from "../../CosmosClient";
-import { RequestOptions } from "../../request";
+import type { CosmosClient } from "../../CosmosClient";
+import type { RequestOptions } from "../../request";
 import { Container, Containers } from "../Container";
 import { User, Users } from "../User";
-import { DatabaseDefinition } from "./DatabaseDefinition";
+import type { DatabaseDefinition } from "./DatabaseDefinition";
 import { DatabaseResponse } from "./DatabaseResponse";
-import { OfferResponse, OfferDefinition, Offer } from "../Offer";
-import { Resource } from "../Resource";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { OfferDefinition } from "../Offer";
+import { OfferResponse, Offer } from "../Offer";
+import type { Resource } from "../Resource";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,

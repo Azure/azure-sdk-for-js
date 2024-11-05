@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { TranscriptionData, TranscriptionMetadata } from "../src/models/transcription";
+import type { TranscriptionData, TranscriptionMetadata } from "../src/models/transcription";
 import { streamingData } from "../src/utli/streamingDataParser";
 import { assert } from "chai";
 

@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   CommonClientOptions,
   OperationArguments,
   OperationRequest,
   OperationSpec,
 } from "./interfaces.js";
-import {
+import type {
   HttpClient,
   Pipeline,
   PipelineRequest,
   PipelineResponse,
-  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 import { createClientPipeline } from "./pipeline.js";
 import { flattenResponse } from "./utils.js";
 import { getCachedDefaultHttpClient } from "./httpClientCache.js";

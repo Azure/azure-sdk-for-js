@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This is a utility module for validating the contents of objects returned by document analysis methods using a simple
@@ -8,8 +8,8 @@
 
 import { assert } from "chai";
 
-import { AnalyzedDocument } from "../../src/lro/analysis";
-import {
+import type { AnalyzedDocument } from "../../src/lro/analysis";
+import type {
   DocumentArrayField,
   DocumentDateField,
   DocumentField,

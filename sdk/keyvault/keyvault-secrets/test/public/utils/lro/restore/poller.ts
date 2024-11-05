@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure/core-client";
 import { delay } from "@azure/core-util";
 import { Poller } from "@azure/core-lro";
-import {
+import type {
   RestoreSecretBackupPollOperationState,
   TestSecretClientInterface,
-  makeRestoreSecretBackupPollOperation,
-} from "./operation";
-import { SecretProperties } from "../../../../../src";
+} from "./operation.js";
+import { makeRestoreSecretBackupPollOperation } from "./operation.js";
+import type { SecretProperties } from "../../../../../src/index.js";
 
 export interface RestoreSecretBackupPollerOptions {
   client: TestSecretClientInterface;

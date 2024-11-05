@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-11-21)
     
-**Features**
+### Features Added
 
   - Added Interface Addon
   - Added Interface Alert
@@ -46,7 +46,7 @@
     
 ## 2.0.1 (2022-04-15)
 
-**features**
+### Features Added
 
   - Bug fix
 

@@ -1,34 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { defineConfig } from "vitest/config";
+import { defineConfig, mergeConfig } from "vitest/config";
+import viteConfig from "../../../vitest.shared.config.ts";
 
-export default defineConfig({
-  test: {
-    reporters: ["verbose", "junit"],
-    fileParallelism: false,
-    testTimeout: 30000,
-    typecheck: {
-      enabled: true,
+export default mergeConfig(
+  viteConfig,
+  defineConfig({
+    test: {
+      fileParallelism: false,
+      testTimeout: 30000,
+      typecheck: {
+        enabled: true,
+      },
+      globalSetup: "test/server/start.mts",
+      include: ["test/**/*.spec.ts"],
+      exclude: ["test/snippets.spec.ts"],
     },
-    globalSetup: "test/server/start.mts",
-    outputFile: {
-      junit: "test-results.xml",
-    },
-    watch: false,
-    include: ["test/**/*.spec.ts"],
-    exclude: ["test/**/browser/*.spec.ts"],
-    coverage: {
-      include: ["src/**/*.ts"],
-      exclude: [
-        "src/**/*-browser.mts",
-        "src/**/*-react-native.mts",
-        "vitest*.config.ts",
-        "samples-dev/**/*.ts",
-      ],
-      provider: "istanbul",
-      reporter: ["text", "json", "html"],
-      reportsDirectory: "coverage",
-    },
-  },
-});
+  }),
+);

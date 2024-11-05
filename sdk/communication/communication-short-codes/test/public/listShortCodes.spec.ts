@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
-import { ShortCodesClient } from "../../src";
+import type { Context } from "mocha";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { ShortCodesClient } from "../../src";
 import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient";
 

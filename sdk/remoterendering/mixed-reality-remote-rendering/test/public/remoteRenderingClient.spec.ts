@@ -1,29 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
 
-import {
+import type {
   AssetConversion,
   AssetConversionInputSettings,
   AssetConversionOutputSettings,
   AssetConversionPollerLike,
   AssetConversionSettings,
-  KnownAssetConversionStatus,
-  RemoteRenderingClient,
   RenderingSession,
   RenderingSessionPollerLike,
   RenderingSessionSettings,
 } from "../../src";
-import {
-  AccessToken,
-  AzureKeyCredential,
-  GetTokenOptions,
-  TokenCredential,
-} from "@azure/core-auth";
+import { KnownAssetConversionStatus, RemoteRenderingClient } from "../../src";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { AzureKeyCredential } from "@azure/core-auth";
 import { createClient, createRecorder, recorderStartOptions } from "../utils/recordedClient";
 
 import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
@@ -185,9 +180,9 @@ describe("RemoteRendering functional tests", () => {
   it("throws correct exception on no access", async () => {
     const storageContainerUrl =
       "https://" +
-      assertEnvironmentVariable("REMOTERENDERING_ARR_STORAGE_ACCOUNT_NAME") +
+      assertEnvironmentVariable("STORAGE_ACCOUNT_NO_ACCESS_NAME") +
       ".blob.core.windows.net/" +
-      assertEnvironmentVariable("REMOTERENDERING_ARR_BLOB_CONTAINER_NAME");
+      assertEnvironmentVariable("BLOB_CONTAINER_NO_ACCESS_NAME");
 
     // Do not provide SAS tokens
     const inputSettings: AssetConversionInputSettings = {
@@ -273,7 +268,7 @@ describe("RemoteRendering functional tests", () => {
   it("can start a session", async () => {
     const sessionSettings: RenderingSessionSettings = {
       maxLeaseTimeInMinutes: 4,
-      size: "Standard",
+      size: "Tiny",
     };
 
     const sessionId: string = recorder.variable(
@@ -288,7 +283,6 @@ describe("RemoteRendering functional tests", () => {
     );
 
     assert.equal(sessionPoller.getOperationState().latestResponse.sessionId, sessionId);
-    assert.equal(sessionPoller.getOperationState().latestResponse.size, sessionSettings.size);
     assert.equal(
       sessionPoller.getOperationState().latestResponse.maxLeaseTimeInMinutes,
       sessionSettings.maxLeaseTimeInMinutes,

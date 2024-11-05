@@ -12,7 +12,7 @@
 
 ## 1.0.0-beta.2 (2024-03-12)
     
-**Features**
+### Features Added
 
   - Added operation Workspace.listKeys
   - Added operation Workspace.regenerateKeys
@@ -28,7 +28,7 @@
   - Interface Resource has a new optional parameter systemData
   - Added Enum KnownKeyType
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface QuantumWorkspace no longer has parameter endpointUri
   - Interface QuantumWorkspace no longer has parameter providers

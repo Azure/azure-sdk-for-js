@@ -1,21 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import path, { join } from "path";
 import { tmpdir } from "os";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
 import { assert } from "@azure-tools/test-utils";
 import { createJWTTokenFromCertificate } from "./utils/utils";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
+import type { WorkloadIdentityCredentialOptions } from "../../../src";
 import {
   DefaultAzureCredential,
   ManagedIdentityCredential,
   WorkloadIdentityCredential,
-  WorkloadIdentityCredentialOptions,
 } from "../../../src";
 
 describe.skip("WorkloadIdentityCredential", function () {

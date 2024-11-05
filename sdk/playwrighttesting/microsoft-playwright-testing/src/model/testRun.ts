@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ShardInfo } from "./shard";
+import type { ShardInfo } from "./shard";
 
 export class TestRun {
+  testRunId!: string;
   displayName!: string;
   creatorId!: string;
   creatorName?: string;

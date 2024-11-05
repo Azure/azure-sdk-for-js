@@ -19,7 +19,7 @@ import {
   ElasticSansUpdateResponse,
   ElasticSansDeleteOptionalParams,
   ElasticSansGetOptionalParams,
-  ElasticSansGetResponse
+  ElasticSansGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface ElasticSans {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ElasticSansListBySubscriptionOptionalParams
+    options?: ElasticSansListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ElasticSan>;
   /**
    * Gets a list of ElasticSan in a resource group.
@@ -39,7 +39,7 @@ export interface ElasticSans {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ElasticSansListByResourceGroupOptionalParams
+    options?: ElasticSansListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ElasticSan>;
   /**
    * Create ElasticSan.
@@ -52,7 +52,7 @@ export interface ElasticSans {
     resourceGroupName: string,
     elasticSanName: string,
     parameters: ElasticSan,
-    options?: ElasticSansCreateOptionalParams
+    options?: ElasticSansCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ElasticSansCreateResponse>,
@@ -70,7 +70,7 @@ export interface ElasticSans {
     resourceGroupName: string,
     elasticSanName: string,
     parameters: ElasticSan,
-    options?: ElasticSansCreateOptionalParams
+    options?: ElasticSansCreateOptionalParams,
   ): Promise<ElasticSansCreateResponse>;
   /**
    * Update a Elastic San.
@@ -83,7 +83,7 @@ export interface ElasticSans {
     resourceGroupName: string,
     elasticSanName: string,
     parameters: ElasticSanUpdate,
-    options?: ElasticSansUpdateOptionalParams
+    options?: ElasticSansUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ElasticSansUpdateResponse>,
@@ -101,7 +101,7 @@ export interface ElasticSans {
     resourceGroupName: string,
     elasticSanName: string,
     parameters: ElasticSanUpdate,
-    options?: ElasticSansUpdateOptionalParams
+    options?: ElasticSansUpdateOptionalParams,
   ): Promise<ElasticSansUpdateResponse>;
   /**
    * Delete a Elastic San.
@@ -112,7 +112,7 @@ export interface ElasticSans {
   beginDelete(
     resourceGroupName: string,
     elasticSanName: string,
-    options?: ElasticSansDeleteOptionalParams
+    options?: ElasticSansDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a Elastic San.
@@ -123,7 +123,7 @@ export interface ElasticSans {
   beginDeleteAndWait(
     resourceGroupName: string,
     elasticSanName: string,
-    options?: ElasticSansDeleteOptionalParams
+    options?: ElasticSansDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Get a ElasticSan.
@@ -134,6 +134,6 @@ export interface ElasticSans {
   get(
     resourceGroupName: string,
     elasticSanName: string,
-    options?: ElasticSansGetOptionalParams
+    options?: ElasticSansGetOptionalParams,
   ): Promise<ElasticSansGetResponse>;
 }

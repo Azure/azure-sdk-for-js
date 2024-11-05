@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   MsixPackage,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a MSIX package.
  *
  * @summary Create or update a MSIX package.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/MsixPackage_Create.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/MsixPackage_Create.json
  */
 async function msixPackageCreate() {
   const subscriptionId =
@@ -45,20 +45,20 @@ async function msixPackageCreate() {
         friendlyName: "friendlyname",
         iconImageName: "Apptile",
         rawIcon: Buffer.from("VGhpcyBpcyBhIHN0cmluZyB0byBoYXNo"),
-        rawPng: Buffer.from("VGhpcyBpcyBhIHN0cmluZyB0byBoYXNo")
-      }
+        rawPng: Buffer.from("VGhpcyBpcyBhIHN0cmluZyB0byBoYXNo"),
+      },
     ],
     packageDependencies: [
       {
         dependencyName: "MsixTest_Dependency_Name",
         minVersion: "version",
-        publisher: "PublishedName"
-      }
+        publisher: "PublishedName",
+      },
     ],
     packageFamilyName: "MsixPackage_FamilyName",
     packageName: "MsixPackage_name",
     packageRelativePath: "packagerelativepath",
-    version: "version"
+    version: "version",
   };
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
@@ -66,7 +66,7 @@ async function msixPackageCreate() {
     resourceGroupName,
     hostPoolName,
     msixPackageFullName,
-    msixPackage
+    msixPackage,
   );
   console.log(result);
 }

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import sinon from "sinon";
 import { assert } from "chai";
-import * as RestModel from "../src/generated/src/models";
+import type * as RestModel from "../src/generated/src/models";
 import { createRecordingClient, generateHttpClient } from "./utils/mockClient";
 import {
   baseUri,
@@ -15,18 +15,21 @@ import {
   RECORDING_STATE,
 } from "./utils/connectionUtils";
 import { CallRecording } from "../src/callRecording";
-import {
+import type {
   AnswerCallOptions,
   CreateCallOptions,
   PlayOptions,
   StartRecordingOptions,
 } from "../src/models/options";
 import { apiVersion } from "../src/generated/src/models/parameters";
-import { ChannelAffinity } from "@azure/communication-call-automation";
-import { CommunicationIdentifier, CommunicationUserIdentifier } from "@azure/communication-common";
-import { CallAutomationClient, CallInvite, CallConnection } from "../src";
-import { Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { ChannelAffinity } from "@azure/communication-call-automation";
+import type {
+  CommunicationIdentifier,
+  CommunicationUserIdentifier,
+} from "@azure/communication-common";
+import type { CallAutomationClient, CallInvite, CallConnection } from "../src";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
 import {
   createRecorder,
   createTestUser,
@@ -42,7 +45,7 @@ import {
   persistEvents,
   fileSourceUrl,
 } from "./utils/recordedClient";
-import { FileSource } from "../src/models/models";
+import type { FileSource } from "../src/models/models";
 
 describe("CallRecording Unit Tests", async function () {
   let callRecording: CallRecording;

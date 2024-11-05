@@ -1,30 +1,26 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { CorrelationRuleFilter } from "..";
+import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import type { CorrelationRuleFilter } from "../index.js";
+import type { AtomXmlSerializer } from "../util/atomXmlHelper.js";
+import { deserializeAtomXmlResponse, serializeToAtomXmlRequest } from "../util/atomXmlHelper.js";
+import * as Constants from "../util/constants.js";
+import type { EntityStatus, EntityAvailabilityStatus } from "../util/utils.js";
 import {
-  AtomXmlSerializer,
-  deserializeAtomXmlResponse,
-  serializeToAtomXmlRequest,
-} from "../util/atomXmlHelper";
-import * as Constants from "../util/constants";
-import {
-  EntityStatus,
-  EntityAvailabilityStatus,
   getBoolean,
   getMessageCountDetails,
   getInteger,
   getString,
   getStringOrUndefined,
   getDate,
-} from "../util/utils";
-import {
-  buildInternalRuleResource,
+} from "../util/utils.js";
+import type {
   InternalRuleOptions,
   SqlRuleAction,
   SqlRuleFilter,
-} from "./ruleResourceSerializer";
+} from "./ruleResourceSerializer.js";
+import { buildInternalRuleResource } from "./ruleResourceSerializer.js";
 
 /**
  * @internal

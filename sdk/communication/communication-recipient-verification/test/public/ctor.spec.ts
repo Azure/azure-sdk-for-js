@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { RecipientVerificationClient } from "../../src";
 import { assert } from "chai";
 import { createMockToken } from "./utils/recordedClient";

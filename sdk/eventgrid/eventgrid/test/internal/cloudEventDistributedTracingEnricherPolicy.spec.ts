@@ -1,14 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import { cloudEventDistributedTracingEnricherPolicy } from "../../src/cloudEventDistrubtedTracingEnricherPolicy";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  createPipelineRequest,
-  SendRequest,
-} from "@azure/core-rest-pipeline";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
+import { createPipelineRequest } from "@azure/core-rest-pipeline";
 
 const CloudEventBatchContentType = "application/cloudevents-batch+json; charset=utf-8";
 

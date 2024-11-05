@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { KeyCredential } from "@azure/core-auth";
@@ -14,7 +14,7 @@ export default function createClient(
   options: ClientOptions = {}
 ): MapsRenderClient {
   const baseUrl = options.baseUrl ?? `https://atlas.microsoft.com`;
-  options.apiVersion = options.apiVersion ?? "2022-08-01";
+  options.apiVersion = options.apiVersion ?? "2024-04-01";
   options = {
     ...options,
     credentials: {
@@ -22,7 +22,7 @@ export default function createClient(
     }
   };
 
-  const userAgentInfo = `azsdk-js-maps-render-rest/1.0.0-beta.2`;
+  const userAgentInfo = `azsdk-js-maps-render-rest/2.0.0-beta.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

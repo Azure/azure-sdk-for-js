@@ -22,17 +22,15 @@ dotenv.config();
  */
 async function groupQuotaSubscriptionsPutSubscriptions() {
   const subscriptionId =
-    process.env["QUOTA_SUBSCRIPTION_ID"] ||
-    "00000000-0000-0000-0000-000000000000";
+    process.env["QUOTA_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const managementGroupId = "E7EC67B3-7657-4966-BFFC-41EFD36BAA09";
   const groupQuotaName = "groupquota1";
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential, subscriptionId);
-  const result =
-    await client.groupQuotaSubscriptions.beginCreateOrUpdateAndWait(
-      managementGroupId,
-      groupQuotaName,
-    );
+  const result = await client.groupQuotaSubscriptions.beginCreateOrUpdateAndWait(
+    managementGroupId,
+    groupQuotaName,
+  );
   console.log(result);
 }
 

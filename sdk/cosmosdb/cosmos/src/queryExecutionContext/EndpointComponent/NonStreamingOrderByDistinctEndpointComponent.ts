@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { QueryInfo, Response } from "../../request";
-import { ExecutionContext } from "../ExecutionContext";
+// Licensed under the MIT License.
+import type { QueryInfo, Response } from "../../request";
+import type { ExecutionContext } from "../ExecutionContext";
 import { getInitialHeader } from "../headerUtils";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { hashObject } from "../../utils/hashObject";
-import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
-import { NonStreamingOrderByResponse } from "../nonStreamingOrderByResponse";
+import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
+import type { NonStreamingOrderByResponse } from "../nonStreamingOrderByResponse";
 import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue";
 import { NonStreamingOrderByMap } from "../../utils/nonStreamingOrderByMap";
 import { OrderByComparator } from "../orderByComparator";

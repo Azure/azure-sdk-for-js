@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AzureCommunicationRoutingServiceClient, RouterJobOutput } from "../../../src";
-import { RouterJob } from "../../../src";
+import type { AzureCommunicationRoutingServiceClient, RouterJobOutput } from "../../../src";
+import type { RouterJob } from "../../../src";
 
 // export async function pollForJobOffer(
 //   workerId: string,

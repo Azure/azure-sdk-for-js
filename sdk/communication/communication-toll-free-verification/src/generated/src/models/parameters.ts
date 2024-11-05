@@ -9,11 +9,11 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   CampaignBrief as CampaignBriefMapper,
-  CampaignBriefAttachment as CampaignBriefAttachmentMapper
+  CampaignBriefAttachment as CampaignBriefAttachmentMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -23,14 +23,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const body: OperationParameter = {
   parameterPath: ["options", "body"],
-  mapper: CampaignBriefMapper
+  mapper: CampaignBriefMapper,
 };
 
 export const accept: OperationParameter = {
@@ -40,9 +40,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const endpoint: OperationURLParameter = {
@@ -51,10 +51,10 @@ export const endpoint: OperationURLParameter = {
     serializedName: "endpoint",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const countryCode: OperationURLParameter = {
@@ -63,9 +63,9 @@ export const countryCode: OperationURLParameter = {
     serializedName: "countryCode",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const campaignBriefId: OperationURLParameter = {
@@ -74,9 +74,9 @@ export const campaignBriefId: OperationURLParameter = {
     serializedName: "campaignBriefId",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
@@ -86,9 +86,9 @@ export const apiVersion: OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const skip: OperationQueryParameter = {
@@ -97,9 +97,9 @@ export const skip: OperationQueryParameter = {
     defaultValue: 0,
     serializedName: "skip",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -108,9 +108,9 @@ export const top: OperationQueryParameter = {
     defaultValue: 100,
     serializedName: "top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const contentType1: OperationParameter = {
@@ -120,39 +120,39 @@ export const contentType1: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const id: OperationParameter = {
   parameterPath: "id",
-  mapper: CampaignBriefAttachmentMapper
+  mapper: CampaignBriefAttachmentMapper,
 };
 
 export const typeParam: OperationParameter = {
   parameterPath: "typeParam",
-  mapper: CampaignBriefAttachmentMapper
+  mapper: CampaignBriefAttachmentMapper,
 };
 
 export const fileName: OperationParameter = {
   parameterPath: "fileName",
-  mapper: CampaignBriefAttachmentMapper
+  mapper: CampaignBriefAttachmentMapper,
 };
 
 export const fileSizeInBytes: OperationParameter = {
   parameterPath: ["options", "fileSizeInBytes"],
-  mapper: CampaignBriefAttachmentMapper
+  mapper: CampaignBriefAttachmentMapper,
 };
 
 export const fileType: OperationParameter = {
   parameterPath: "fileType",
-  mapper: CampaignBriefAttachmentMapper
+  mapper: CampaignBriefAttachmentMapper,
 };
 
 export const fileContentBase64: OperationParameter = {
   parameterPath: "fileContentBase64",
-  mapper: CampaignBriefAttachmentMapper
+  mapper: CampaignBriefAttachmentMapper,
 };
 
 export const attachmentId: OperationURLParameter = {
@@ -161,9 +161,9 @@ export const attachmentId: OperationURLParameter = {
     serializedName: "attachmentId",
     required: true,
     type: {
-      name: "Uuid"
-    }
-  }
+      name: "Uuid",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -172,8 +172,8 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };

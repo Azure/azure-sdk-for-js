@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
-import {
+import type {
   AttachmentType,
   CampaignBrief,
   CampaignBriefAttachment,
@@ -17,14 +17,13 @@ import {
   TollFreeVerificationSubmitCampaignBriefResponse,
   TollFreeVerificationUpsertCampaignBriefOptionalParams,
 } from "./models";
-import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+import type { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  CampaignBriefSummary,
-  TollFreeVerificationClient as TollFreeVerificationGeneratedClient,
-} from "./generated/src";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { CampaignBriefSummary } from "./generated/src";
+import { TollFreeVerificationClient as TollFreeVerificationGeneratedClient } from "./generated/src";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
 import { logger } from "./utils";
 import { tracingClient } from "./generated/src/tracing";

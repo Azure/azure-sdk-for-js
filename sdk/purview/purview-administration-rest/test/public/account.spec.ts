@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { PurviewAccount } from "../../src";
+// Licensed under the MIT License.
+import type { PurviewAccount } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
 import { createAccountClient } from "./utils/recordedClient";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("Get account info", () => {
   let recorder: Recorder;

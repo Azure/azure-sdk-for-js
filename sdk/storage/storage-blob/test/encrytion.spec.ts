@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import {
@@ -9,10 +9,10 @@ import {
   getEncryptionScope_2,
   getUniqueName,
 } from "./utils";
-import { Recorder } from "@azure-tools/test-recorder";
-import { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { BlobServiceClient, BlobClient, BlockBlobClient, ContainerClient } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("Encryption Scope", function () {
   let blobServiceClient: BlobServiceClient;

@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "@azure-tools/test-utils";
-import { Context } from "mocha";
-import { Recorder, env } from "@azure-tools/test-recorder";
+// Licensed under the MIT License.
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { PollerStoppedError } from "@azure/core-lro";
 
-import { DeletedSecret, SecretClient } from "../../src";
-import { getServiceVersion } from "./utils/common";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
+import type { DeletedSecret, SecretClient } from "../../src/index.js";
+import { testPollerProperties } from "./utils/recorderUtils.js";
+import { authenticate } from "./utils/testAuthentication.js";
+import type TestClient from "./utils/testClient.js";
 
 describe("Secrets client - Long Running Operations - delete", () => {
   const secretPrefix = `lroDelete${env.CERTIFICATE_NAME || "SecretName"}`;
@@ -19,8 +17,8 @@ describe("Secrets client - Long Running Operations - delete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this, getServiceVersion());
+  beforeEach(async function (ctx) {
+    const authentication = await authenticate(ctx);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -33,10 +31,8 @@ describe("Secrets client - Long Running Operations - delete", () => {
 
   // The tests follow
 
-  it("can wait until a secret is deleted", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
-    );
+  it("can wait until a secret is deleted", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     await client.setSecret(secretName, "value");
     const poller = await client.beginDeleteSecret(secretName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
@@ -52,10 +48,8 @@ describe("Secrets client - Long Running Operations - delete", () => {
     assert.equal(poller.getOperationState().result!.name, secretName);
   });
 
-  it("can resume from a stopped poller", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
-    );
+  it("can resume from a stopped poller", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     await client.setSecret(secretName, "value");
     const poller = await client.beginDeleteSecret(secretName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);

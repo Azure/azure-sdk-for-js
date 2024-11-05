@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
@@ -12,6 +12,8 @@ import {
 export interface GetMedia200Headers {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
+  /** The stream content type. */
+  "content-type": "application/octet-stream";
 }
 
 /** The request has succeeded. */

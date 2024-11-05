@@ -1,25 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ServiceBusSender, ServiceBusMessage } from "../../src";
-import { TestClientType } from "../public/utils/testUtils";
-import {
-  ServiceBusClientForTests,
-  EntityName,
-  createServiceBusClientForTests,
-} from "../public/utils/testutils2";
-import { assert } from "@azure-tools/test-utils";
+import type { ServiceBusSender, ServiceBusMessage } from "../../src/index.js";
+import { TestClientType } from "../public/utils/testUtils.js";
+import type { ServiceBusClientForTests, EntityName } from "../public/utils/testutils2.js";
+import { createServiceBusClientForTests } from "../public/utils/testutils2.js";
+import { afterAll, beforeAll, beforeEach, describe, it } from "vitest";
+import { assert } from "../public/utils/chai.js";
 
 describe(`Tracing for send`, function (): void {
   let sbClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
   let entityName: EntityName;
 
-  before(() => {
+  beforeAll(() => {
     sbClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return sbClient.test.after();
   });
 

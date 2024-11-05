@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isDefined, isObjectWithProperties, objectHasProperty } from "../../src/index.js";
 import { describe, it, assert } from "vitest";

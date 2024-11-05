@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { HeaderConstants, TRANSACTION_HTTP_LINE_ENDING } from "./constants";
 

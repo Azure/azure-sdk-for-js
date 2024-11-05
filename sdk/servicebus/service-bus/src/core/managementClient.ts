@@ -1,43 +1,48 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import Long from "long";
-import {
+import type {
   EventContext,
   ReceiverOptions,
-  message as RheaMessageUtil,
   SenderOptions,
-  generate_uuid,
-  string_to_uuid,
-  types,
   Typed,
-  ReceiverEvents,
   Message as RheaMessage,
 } from "rhea-promise";
 import {
-  ConditionErrorNameMapper,
-  Constants,
-  defaultCancellableLock,
+  message as RheaMessageUtil,
+  generate_uuid,
+  string_to_uuid,
+  types,
+  ReceiverEvents,
+} from "rhea-promise";
+import type {
   MessagingError,
-  RequestResponseLink,
   SendRequestOptions,
   RetryOptions,
   AmqpAnnotatedMessage,
 } from "@azure/core-amqp";
-import { ConnectionContext } from "../connectionContext";
+import {
+  ConditionErrorNameMapper,
+  Constants,
+  defaultCancellableLock,
+  RequestResponseLink,
+} from "@azure/core-amqp";
+import type { ConnectionContext } from "../connectionContext.js";
+import type { ServiceBusReceivedMessage, ServiceBusMessage } from "../serviceBusMessage.js";
 import {
   DispositionType,
-  ServiceBusReceivedMessage,
-  ServiceBusMessage,
   ServiceBusMessageImpl,
   toRheaMessage,
   fromRheaMessage,
   updateScheduledTime,
   updateMessageId,
-} from "../serviceBusMessage";
-import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
-import { managementClientLogger, receiverLogger, senderLogger, ServiceBusLogger } from "../log";
-import { toBuffer, waitForSendable } from "../util/utils";
+} from "../serviceBusMessage.js";
+import type { RequestResponseLinkOptions } from "./linkEntity.js";
+import { LinkEntity } from "./linkEntity.js";
+import type { ServiceBusLogger } from "../log.js";
+import { managementClientLogger, receiverLogger, senderLogger } from "../log.js";
+import { toBuffer, waitForSendable } from "../util/utils.js";
 import {
   InvalidMaxMessageCountError,
   throwErrorIfConnectionClosed,
@@ -45,22 +50,22 @@ import {
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterTypeMismatch,
-} from "../util/errors";
-import { max32BitNumber } from "../util/constants";
+} from "../util/errors.js";
+import { max32BitNumber } from "../util/constants.js";
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
-import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { ReceiveMode } from "../models";
-import { translateServiceBusError } from "../serviceBusError";
-import { defaultDataTransformer, tryToJsonDecode } from "../dataTransformer";
+import type { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { ReceiveMode } from "../models.js";
+import { translateServiceBusError } from "../serviceBusError.js";
+import { defaultDataTransformer, tryToJsonDecode } from "../dataTransformer.js";
 import { delay, isDefined, isObjectWithProperties } from "@azure/core-util";
-import {
+import type {
   RuleProperties,
   SqlRuleAction,
   SqlRuleFilter,
-} from "../serializers/ruleResourceSerializer";
-import { ListRequestOptions } from "../serviceBusAtomManagementClient";
+} from "../serializers/ruleResourceSerializer.js";
+import type { ListRequestOptions } from "../serviceBusAtomManagementClient.js";
 
 /**
  * @internal
@@ -269,7 +274,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const { abortSignal } = options;
         const aborter = new AbortController();
 
-        const abortListener = () => {
+        const abortListener = (): void => {
           aborter.abort();
         };
         abortSignal?.addEventListener("abort", abortListener);

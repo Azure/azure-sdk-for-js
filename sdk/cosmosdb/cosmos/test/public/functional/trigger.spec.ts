@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import assert from "assert";
-import { Suite } from "mocha";
+import type { Suite } from "mocha";
 import { TriggerOperation, TriggerType } from "../../../src";
-import { TriggerDefinition, Container } from "../../../src";
+import type { TriggerDefinition, Container } from "../../../src";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 const notFoundErrorCode = 404;

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Paged } from "@azure/core-paging";
-import { ErrorModel } from "@azure-rest/core-client";
+import type { Paged } from "@azure/core-paging";
+import type { ErrorModel } from "@azure-rest/core-client";
 
 /** A job containing a batch of documents to de-identify. */
 export interface DeidentificationJobOutput {

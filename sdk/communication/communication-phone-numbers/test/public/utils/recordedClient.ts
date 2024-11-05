@@ -1,19 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Context, Test } from "mocha";
+import type { Context, Test } from "mocha";
 import * as dotenv from "dotenv";
 
-import {
-  Recorder,
-  RecorderStartOptions,
-  env,
-  isPlaybackMode,
-  SanitizerOptions,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, SanitizerOptions } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { PhoneNumbersClient } from "../../../src";
 import { parseConnectionString } from "@azure/communication-common";
-import { TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure-tools/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy";

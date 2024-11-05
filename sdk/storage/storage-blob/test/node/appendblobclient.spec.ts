@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 
+import type { StorageSharedKeyCredential, ContainerClient, BlobServiceClient } from "../../src";
 import {
   AppendBlobClient,
   newPipeline,
-  StorageSharedKeyCredential,
-  ContainerClient,
   generateBlobSASQueryParameters,
   BlobSASPermissions,
-  BlobServiceClient,
 } from "../../src";
 import {
   getBSU,
@@ -23,11 +21,11 @@ import {
   configureBlobStorageClient,
   SimpleTokenCredential,
 } from "../utils";
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { getBlobServiceAccountAudience } from "../../src/models";
 import { createTestCredential } from "@azure-tools/test-credential";
 

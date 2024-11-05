@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Buffer } from "buffer";
-import { EventData, EventDataBatch } from "../../src/index.js";
-import { PartitionPublishingProperties } from "../../src/models/private.js";
+import type { EventData, EventDataBatch } from "../../src/index.js";
+import type { PartitionPublishingProperties } from "../../src/models/private.js";
 
 import { transformEventsForSend } from "../../src/eventHubSender.js";
-import { EventDataInternal } from "../../src/eventData.js";
+import type { EventDataInternal } from "../../src/eventData.js";
 import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL,
 } from "../../src/util/constants.js";
-import { message, Message } from "rhea-promise";
+import type { Message } from "rhea-promise";
+import { message } from "rhea-promise";
 import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData.js";
 import { describe, it, beforeEach } from "vitest";
 import { should } from "../utils/chai.js";

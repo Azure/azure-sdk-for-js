@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "../../../src/credentials/clientSecretCredential";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { IdentityClient } from "../../../src/client/identityClient";
 import { assert } from "@azure-tools/test-utils";
 

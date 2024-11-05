@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Testing the ts-naming-options rule.
@@ -21,6 +21,10 @@ ruleTester.run("ts-naming-options", rule, {
     {
       code: "class ExampleClient { createExample(options: CreateExampleOptions) {}; };",
     },
+    // single method with default value
+    {
+      code: "class ExampleClient { createExample(options: CreateExampleOptions = {}) {}; };",
+    },
     // multiple methods
     {
       code: "class ExampleClient { createExample(options: CreateExampleOptions) {}; upsertExample(options: UpsertExampleOptions) {}; };",
@@ -37,6 +41,14 @@ ruleTester.run("ts-naming-options", rule, {
   invalid: [
     {
       code: "class ExampleClient { createExample(options: Options) {}; };",
+      errors: [
+        {
+          message: "options parameter type is not prefixed with the method name",
+        },
+      ],
+    },
+    {
+      code: "class ExampleClient { createExample(options: Options = {}) {}; };",
       errors: [
         {
           message: "options parameter type is not prefixed with the method name",

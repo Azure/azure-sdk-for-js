@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import * as fs from "fs";
@@ -10,7 +10,7 @@ import { SegmentFactory } from "../src/SegmentFactory";
 import { Segment } from "../src/Segment";
 import { ChangeFeedFactory } from "../src/ChangeFeedFactory";
 import { getHost } from "../src/utils/utils.common";
-import { BlobChangeFeedEvent } from "../src";
+import type { BlobChangeFeedEvent } from "../src";
 
 describe("Change Feed", async () => {
   const manifestFilePath = path.join("test", "resources", "ChangeFeedManifest.json");

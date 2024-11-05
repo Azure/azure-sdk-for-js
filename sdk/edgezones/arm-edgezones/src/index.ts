@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export { EdgeZonesClient, EdgeZonesClientOptionalParams } from "./edgeZonesClient.js";
 export {
