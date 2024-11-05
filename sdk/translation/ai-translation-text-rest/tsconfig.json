@@ -7,5 +7,18 @@
       "@azure-rest/ai-translation-text": ["./src/index"]
     }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "samples-dev/**/*.ts",
+    "generated/index.ts",
+    "generated/isUnexpected.ts",
+    "generated/logger.ts",
+    "generated/models.ts",
+    "generated/outputModels.ts",
+    "generated/parameters.ts",
+    "generated/responses.ts",
+    "generated/serializeHelper.ts",
+    "generated/textTranslationClient.ts"
+  ]
 }

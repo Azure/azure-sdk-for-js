@@ -3,8 +3,8 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import type { TextTranslationClient } from "../../src";
-import { isUnexpected } from "../../src";
+import type { TextTranslationClient } from "../../generated";
+import { isUnexpected } from "../../generated";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient";
 import type { Context } from "mocha";
 import { editDistance } from "./utils/testHelper";

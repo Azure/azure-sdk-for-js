@@ -3,9 +3,9 @@
 
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
-import { logger } from "./generated/logger";
+import { logger } from "../generated/logger";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import type { TextTranslationClient } from "./generated/clientDefinitions";
+import type { TextTranslationClient } from "../generated/clientDefinitions";
 import type { TranslatorCredential, TranslatorTokenCredential } from "./authentication";
 import {
   DEFAULT_SCOPE,

@@ -448,7 +448,7 @@ export type TextTranslationClient = Client & {
 };
 
 // @public
-export type TextType = string | "Plain" | "Html";
+export type TextType = string;
 
 // @public (undocumented)
 export interface Translate {
