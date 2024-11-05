@@ -74,7 +74,8 @@ jobs:
           MatrixConfigs: ${{ parameters.MatrixConfigs }}
           MatrixFilters: ${{ parameters.MatrixFilters }}
           MatrixReplace: ${{ parameters.MatrixReplace }}
-          SparseCheckoutPaths: [ "sdk/", ".vscode"]
+          ${{ if eq(parameters.ServiceDirectory, 'auto') }}:
+            SparseCheckoutPaths: [ "**/package.json", "**/ci*.yml"]
           CloudConfig:
             Cloud: Public
           AdditionalParameters:

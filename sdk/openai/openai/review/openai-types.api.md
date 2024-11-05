@@ -15,17 +15,6 @@ import type { CompletionCreateParamsStreaming } from 'openai/resources/index';
 import type { ErrorModel } from '@azure-rest/core-client';
 
 // @public
-export interface AzureChatEnhancementConfiguration {
-    grounding?: AzureChatGroundingEnhancementConfiguration;
-    ocr?: AzureChatOCREnhancementConfiguration;
-}
-
-// @public
-export interface AzureChatEnhancementsOutput {
-    grounding?: AzureGroundingEnhancementOutput;
-}
-
-// @public
 export type AzureChatExtensionConfiguration = AzureChatExtensionConfigurationParent | AzureSearchChatExtensionConfiguration | AzureCosmosDBChatExtensionConfiguration | ElasticsearchChatExtensionConfiguration | PineconeChatExtensionConfiguration | MongoDBChatExtensionConfiguration;
 
 // @public
@@ -71,16 +60,6 @@ export interface AzureChatExtensionsMessageContextOutput {
 }
 
 // @public
-export interface AzureChatGroundingEnhancementConfiguration {
-    enabled: boolean;
-}
-
-// @public
-export interface AzureChatOCREnhancementConfiguration {
-    enabled: boolean;
-}
-
-// @public
 export interface AzureCosmosDBChatExtensionConfiguration extends AzureChatExtensionConfigurationParent {
     parameters: AzureCosmosDBChatExtensionParameters;
     type: "azure_cosmos_db";
@@ -111,31 +90,6 @@ export interface AzureCosmosDBFieldMappingOptions {
     title_field?: string;
     url_field?: string;
     vector_fields: string[];
-}
-
-// @public
-export interface AzureGroundingEnhancementCoordinatePointOutput {
-    x: number;
-    y: number;
-}
-
-// @public
-export interface AzureGroundingEnhancementLineOutput {
-    spans: Array<AzureGroundingEnhancementLineSpanOutput>;
-    text: string;
-}
-
-// @public
-export interface AzureGroundingEnhancementLineSpanOutput {
-    length: number;
-    offset: number;
-    polygon: Array<AzureGroundingEnhancementCoordinatePointOutput>;
-    text: string;
-}
-
-// @public
-export interface AzureGroundingEnhancementOutput {
-    lines: Array<AzureGroundingEnhancementLineOutput>;
 }
 
 // @public

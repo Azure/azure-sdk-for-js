@@ -109,7 +109,11 @@ const restrictedToPackages = [
   "@azure-rest/core-client",
   "@typespec/ts-http-runtime",
   "@azure/identity",
-  "@azure/arm-resources"
+  "@azure/arm-resources",
+  "@azure-tools/test-perf",
+  "@azure-tools/test-recorder",
+  "@azure-tools/test-credential",
+  "@azure-tools/test-utils"
 ];
 
 /**
