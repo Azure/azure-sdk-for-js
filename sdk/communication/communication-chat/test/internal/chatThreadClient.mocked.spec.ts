@@ -32,7 +32,7 @@ describe("[Mocked] ChatThreadClient", async function () {
   let chatThreadClient: ChatThreadClient;
 
   afterEach(function () {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("can instantiate", async function () {

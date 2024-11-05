@@ -26,7 +26,7 @@ describe("[Mocked] ChatClient", async function () {
   };
 
   afterEach(function () {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("can instantiate", async function () {
