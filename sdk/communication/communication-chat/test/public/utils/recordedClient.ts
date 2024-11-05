@@ -10,7 +10,7 @@ import {
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { ChatClient } from "../../../src";
+import { ChatClient } from "../../../src/index.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import {
   AzureCommunicationTokenCredential,
@@ -18,7 +18,7 @@ import {
 } from "@azure/communication-common";
 import type { CommunicationUserToken } from "@azure/communication-identity";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
-import { generateToken } from "./connectionUtils";
+import { generateToken } from "./connectionUtils.js";
 import { NoOpCredential } from "@azure-tools/test-credential";
 
 export interface RecordedClient {

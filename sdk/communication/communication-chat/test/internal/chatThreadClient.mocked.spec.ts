@@ -10,11 +10,11 @@ import type {
   SendMessageOptions,
   SendMessageRequest,
   UpdateMessageOptions,
-} from "../../src";
-import { ChatThreadClient } from "../../src";
-import type * as RestModel from "../../src/generated/src/models";
-import { apiVersion } from "../../src/generated/src/models/parameters";
-import { baseUri, generateToken } from "../public/utils/connectionUtils";
+} from "../../src/index.js";
+import { ChatThreadClient } from "../../src/index.js";
+import type * as RestModel from "../../src/generated/src/models/index.js";
+import { apiVersion } from "../../src/generated/src/models/parameters.js";
+import { baseUri, generateToken } from "../public/utils/connectionUtils.js";
 import {
   createChatThreadClient,
   generateHttpClient,
@@ -25,7 +25,7 @@ import {
   mockParticipant,
   mockSdkModelParticipant,
   mockThread,
-} from "./utils/mockClient";
+} from "./utils/mockClient.js";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
 

@@ -4,8 +4,8 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import type { ChatClient, ChatThreadClient } from "../../src";
-import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient";
+import type { ChatClient, ChatThreadClient } from "../../src/index.js";
+import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient.js";
 import { isNode } from "@azure/core-util";
 import sinon from "sinon";
 import type { CommunicationIdentifier } from "@azure/communication-common";
@@ -28,8 +28,8 @@ describe("ChatClient", function () {
   });
 
   describe("Chat Operations", function () {
-    beforeEach(async function (this: Context) {
-      recorder = await createRecorder(this.currentTest);
+    beforeEach(async function (ctx) {
+      recorder = await createRecorder(ctx);
       await recorder.setMatcher("HeaderlessMatcher");
       if (!communicationUserToken) {
         communicationUserToken = await createTestUser(recorder);
@@ -73,10 +73,10 @@ describe("ChatClient", function () {
   });
 
   describe("Realtime Notifications", function () {
-    before(async function (this: Context) {
+    before(async function (ctx) {
       // Realtime notifications are browser only
       if (isNode || !isLiveMode()) {
-        this.skip();
+        ctx.skip();
       }
 
       // Create a thread
@@ -256,7 +256,7 @@ describe("ChatClient", function () {
 
     it("successfully listens to readReceiptReceivedEvents", function (this: Context, done) {
       // TODO: Read receipt notification is timing out even with increased timeout
-      this.skip();
+      ctx.skip();
       function listener(): void {
         done();
       }

@@ -4,8 +4,8 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import type { ChatClient, ChatMessage, ChatThreadClient } from "../../src";
-import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient";
+import type { ChatClient, ChatMessage, ChatThreadClient } from "../../src/index.js";
+import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient.js";
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import { getIdentifierKind } from "@azure/communication-common";
 import type { Context } from "mocha";
@@ -22,8 +22,8 @@ describe("ChatThreadClient", function () {
   let testUser2: CommunicationIdentifier;
   let testUser3: CommunicationIdentifier;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = await createRecorder(ctx);
     if (!communicationUserToken) {
       communicationUserToken = await createTestUser(recorder);
       await recorder.setMatcher("HeaderlessMatcher");

@@ -5,7 +5,7 @@ import type { SignalingClient } from "@azure/communication-signaling";
 import { CommunicationSignalingClient } from "@azure/communication-signaling";
 import type { CommunicationTokenCredential } from "@azure/communication-common";
 import type { AzureLogger } from "@azure/logger";
-import type { SignalingClientOptions } from "./signalingClient";
+import type { SignalingClientOptions } from "./signalingClient.js";
 
 export const getSignalingClient = (
   credential: CommunicationTokenCredential,

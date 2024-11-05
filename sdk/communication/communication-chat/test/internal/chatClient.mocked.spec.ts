@@ -3,11 +3,11 @@
 
 import sinon from "sinon";
 import { assert, expect } from "chai";
-import type { ChatClientOptions, CreateChatThreadRequest } from "../../src";
-import { ChatClient } from "../../src";
-import type * as RestModel from "../../src/generated/src/models";
-import { apiVersion } from "../../src/generated/src/models/parameters";
-import { baseUri, generateToken } from "../public/utils/connectionUtils";
+import type { ChatClientOptions, CreateChatThreadRequest } from "../../src/index.js";
+import { ChatClient } from "../../src/index.js";
+import type * as RestModel from "../../src/generated/src/models/index.js";
+import { apiVersion } from "../../src/generated/src/models/parameters.js";
+import { baseUri, generateToken } from "../public/utils/connectionUtils.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import {
@@ -16,7 +16,7 @@ import {
   mockCreateThreadResult,
   mockThread,
   mockThreadItem,
-} from "./utils/mockClient";
+} from "./utils/mockClient.js";
 import { isNode } from "@azure/core-util";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
@@ -153,7 +153,7 @@ describe("[Mocked] ChatClient", async function () {
 
   it("should throw an error to start real time notifications in node", async function () {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
 
     try {
@@ -169,7 +169,7 @@ describe("[Mocked] ChatClient", async function () {
 
   it("should throw an error to stop real time notifications in node", async function () {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
 
     try {
@@ -185,7 +185,7 @@ describe("[Mocked] ChatClient", async function () {
 
   it("should throw an error to unsubscribe an event in node", function () {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
 
     try {
@@ -201,7 +201,7 @@ describe("[Mocked] ChatClient", async function () {
 
   it("should throw an error to subscribe chatMessageReceived event in node", function () {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
 
     try {
@@ -217,7 +217,7 @@ describe("[Mocked] ChatClient", async function () {
 
   it("should throw an error to subscribe chatMessageEdited event in node", function () {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
 
     try {
@@ -233,7 +233,7 @@ describe("[Mocked] ChatClient", async function () {
 
   it("should throw an error to subscribe chatMessageDeleted event in node", function () {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
 
     try {
@@ -249,7 +249,7 @@ describe("[Mocked] ChatClient", async function () {
 
   it("should throw an error to subscribe typingIndicatorReceived event in node", function () {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
 
     try {
@@ -265,7 +265,7 @@ describe("[Mocked] ChatClient", async function () {
 
   it("should throw an error to subscribe readReceiptReceived event in node", function () {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
 
     try {
@@ -281,7 +281,7 @@ describe("[Mocked] ChatClient", async function () {
 
   it("should throw an error to subscribe chatThreadCreated event in node", function () {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
 
     try {
@@ -297,7 +297,7 @@ describe("[Mocked] ChatClient", async function () {
 
   it("should throw an error to subscribe chatThreadDeleted event in node", function () {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
 
     try {
@@ -313,7 +313,7 @@ describe("[Mocked] ChatClient", async function () {
 
   it("should throw an error to subscribe chatThreadPropertiesUpdated event in node", function () {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
 
     try {
@@ -329,7 +329,7 @@ describe("[Mocked] ChatClient", async function () {
 
   it("should throw an error to subscribe participantsAdded event in node", function () {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
 
     try {
@@ -345,7 +345,7 @@ describe("[Mocked] ChatClient", async function () {
 
   it("should throw an error to subscribe participantsRemoved event in node", function () {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
 
     try {
