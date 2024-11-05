@@ -443,25 +443,6 @@ export interface PineconeFieldMappingOptions {
   content_fields_separator?: string;
 }
 
-/** A representation of the available Azure OpenAI enhancement configurations. */
-export interface AzureChatEnhancementConfiguration {
-  /** A representation of the available options for the Azure OpenAI grounding enhancement. */
-  grounding?: AzureChatGroundingEnhancementConfiguration;
-  /** A representation of the available options for the Azure OpenAI optical character recognition (OCR) enhancement. */
-  ocr?: AzureChatOCREnhancementConfiguration;
-}
-/** A representation of the available options for the Azure OpenAI grounding enhancement. */
-export interface AzureChatGroundingEnhancementConfiguration {
-  /** Specifies whether the enhancement is enabled. */
-  enabled: boolean;
-}
-
-/** A representation of the available options for the Azure OpenAI optical character recognition (OCR) enhancement. */
-export interface AzureChatOCREnhancementConfiguration {
-  /** Specifies whether the enhancement is enabled. */
-  enabled: boolean;
-}
-
 /**
  * A specific representation of configurable options for Mongo DB when using it as an Azure OpenAI chat
  * extension.
