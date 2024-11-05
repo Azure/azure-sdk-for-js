@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import * as buffer from "buffer";
@@ -14,14 +14,14 @@ import {
   createRandomLocalFileWithTotalSize,
   getUniqueName,
 } from "../utils";
-import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
+import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
+import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 import { streamToBuffer2 } from "../../src/utils/utils.node";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { isNodeLike } from "@azure/core-util";
 
 describe("Highlevel", () => {
@@ -240,7 +240,6 @@ describe("Highlevel", () => {
     let eventTriggered = false;
     const aborter = new AbortController();
 
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       await blockBlobClient.uploadFile(tempFileLarge, {
         abortSignal: aborter.signal,
@@ -263,7 +262,6 @@ describe("Highlevel", () => {
     let eventTriggered = false;
     const aborter = new AbortController();
 
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       await blockBlobClient.uploadFile(tempFileSmall, {
         abortSignal: aborter.signal,
@@ -308,6 +306,40 @@ describe("Highlevel", () => {
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
 
     const downloadResponse = await blockBlobClient.download(0);
+
+    const downloadFilePath = path.join(
+      tempFolderPath,
+      recorder.variable("downloadFile", getUniqueName("downloadFile")),
+    );
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
+
+    const downloadedBuffer = fs.readFileSync(downloadFilePath);
+    const uploadedBuffer = fs.readFileSync(tempFileLarge);
+    assert.ok(uploadedBuffer.equals(downloadedBuffer));
+
+    fs.unlinkSync(downloadFilePath);
+  }).timeout(timeoutForLargeFileUploadingTest);
+
+  it("uploadStream with CPK should success", async function () {
+    if (isNodeLike && !isLiveMode()) {
+      this.skip();
+    }
+    const rs = fs.createReadStream(tempFileLarge);
+    await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
+
+    try {
+      await blockBlobClient.download(0);
+      assert.fail("Downloading without CPK should fail.");
+    } catch (err) {
+      assert.deepEqual((err as any).statusCode, 409);
+      assert.deepEqual((err as any).details.errorCode, "BlobUsesCustomerSpecifiedEncryption");
+    }
+
+    const downloadResponse = await blockBlobClient.download(0, undefined, {
+      customerProvidedKey: Test_CPK_INFO,
+    });
 
     const downloadFilePath = path.join(
       tempFolderPath,

@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import {
-  PipelinePolicy,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
   bearerTokenAuthenticationPolicyName,
 } from "@azure/core-rest-pipeline";
 import { ShortCodesClient as ShortCodesGeneratedClient } from "../../src/generated/src";
-import { TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import { createMockToken } from "../public/utils/recordedClient";
 import { isNodeLike } from "@azure/core-util";
 import { parseClientArguments } from "@azure/communication-common";
 import sinon from "sinon";
-import { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   MessageAdapter as EHMessageAdapter,
   EventData,
   EventDataAdapterParameters,
-  createEventDataAdapter,
 } from "@azure/event-hubs";
-import { AssertEqualKeys } from "../utils/utils";
-import { MessageAdapter } from "../../src/models";
-import { assert } from "chai";
-import { matrix } from "@azure-tools/test-utils";
+import { createEventDataAdapter } from "@azure/event-hubs";
+import type { AssertEqualKeys } from "../utils/utils.js";
+import type { MessageAdapter } from "../../src/models.js";
+import { matrix } from "@azure-tools/test-utils-vitest";
+import { describe, it, assert } from "vitest";
 
 function isMessageAdapter<MessageT>(obj: any): obj is MessageAdapter<MessageT> {
   return typeof obj.produce === "function" && typeof obj.consume === "function";

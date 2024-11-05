@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, vi, expect } from "vitest";
 import { createHttpHeaders } from "../src/httpHeaders.js";
-import { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces.js";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../src/interfaces.js";
 import { createPipelineRequest } from "../src/pipelineRequest.js";
 import { multipartPolicy } from "../src/policies/multipartPolicy.js";
-import { PipelineRequestOptions } from "../src/pipelineRequest.js";
+import type { PipelineRequestOptions } from "../src/pipelineRequest.js";
 import { stringToUint8Array } from "../src/util/bytesEncoding.js";
 import { assertBodyMatches } from "./util.js";
 

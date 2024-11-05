@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { EmailClient, EmailMessage, KnownEmailSendStatus } from "../../src";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { EmailClient, EmailMessage } from "../../src";
+import { KnownEmailSendStatus } from "../../src";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
 import { assert } from "chai";
 import { createRecordedEmailClientWithConnectionString } from "./utils/recordedClient";
 
@@ -106,6 +108,38 @@ describe(`EmailClient [Playback/Live]`, function () {
           name: "readme.txt",
           contentType: "text/plain",
           contentInBase64: "ZW1haWwgdGVzdCBhdHRhY2htZW50",
+        },
+      ],
+    };
+
+    const poller = await client.beginSend(emailMessage);
+    const response = await poller.pollUntilDone();
+
+    assert.isTrue(response.status === KnownEmailSendStatus.Succeeded);
+  }).timeout(120000);
+
+  it("successfully sends an email with an inline attachment", async function () {
+    const emailMessage: EmailMessage = {
+      senderAddress: env.SENDER_ADDRESS ?? "",
+      recipients: {
+        to: [
+          {
+            address: env.RECIPIENT_ADDRESS ?? "",
+            displayName: "someRecipient",
+          },
+        ],
+      },
+      content: {
+        subject: "someSubject",
+        plainText: "somePlainTextBody",
+        html: '<html>This is the body<br /><img src="cid:inline_image" /></html>',
+      },
+      attachments: [
+        {
+          name: "myinlineimage.jpg",
+          contentType: "image/jpeg",
+          contentInBase64: "ZW1haWwgdGVzdCBhdHRhY2htZW50",
+          contentId: "inline_image",
         },
       ],
     };

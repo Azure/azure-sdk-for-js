@@ -1,36 +1,27 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { isNode } from "@azure/core-util";
-import { PageSettings } from "@azure/core-paging";
+import { isNodeLike } from "@azure/core-util";
+import type { PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import chaiExclude from "chai-exclude";
-import { parseServiceBusConnectionString } from "../../src";
-import { CreateQueueOptions } from "../../src";
-import { RuleProperties } from "../../src";
-import { CreateSubscriptionOptions, SubscriptionProperties } from "../../src";
-import { CreateTopicOptions } from "../../src";
-import { ServiceBusAdministrationClient, WithResponse } from "../../src";
-import { EntityStatus, EntityAvailabilityStatus } from "../../src";
-import { EnvVarNames, getEnvVars, getEnvVarValue } from "./utils/envVarUtils";
-import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
-import { EntityNames, TestClientType } from "./utils/testUtils";
-import { TestConstants } from "./fakeTestSecrets";
+import { parseServiceBusConnectionString } from "../../src/index.js";
+import type { CreateQueueOptions } from "../../src/index.js";
+import type { RuleProperties } from "../../src/index.js";
+import type { CreateSubscriptionOptions, SubscriptionProperties } from "../../src/index.js";
+import type { CreateTopicOptions } from "../../src/index.js";
+import type { WithResponse } from "../../src/index.js";
+import { ServiceBusAdministrationClient } from "../../src/index.js";
+import type { EntityStatus, EntityAvailabilityStatus } from "../../src/index.js";
+import { EnvVarNames, getEnvVars, getEnvVarValue } from "./utils/envVarUtils.js";
+import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils.js";
+import { EntityNames, TestClientType } from "./utils/testUtils.js";
+import { TestConstants } from "./fakeTestSecrets.js";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
-import {
-  createServiceBusClientForTests,
-  getFullyQualifiedNamespace,
-  ServiceBusClientForTests,
-} from "./utils/testutils2";
-import { versionsToTest } from "@azure-tools/test-utils";
+import type { ServiceBusClientForTests } from "./utils/testutils2.js";
+import { createServiceBusClientForTests, getFullyQualifiedNamespace } from "./utils/testutils2.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-
-chai.use(chaiAsPromised);
-chai.use(chaiExclude);
-const should = chai.should();
-const assert: typeof chai.assert = chai.assert;
+import { afterAll, afterEach, assert, beforeAll, beforeEach, describe, it } from "vitest";
+import { should } from "./utils/chai.js";
 
 const env = getEnvVars();
 
@@ -64,15 +55,99 @@ const serviceApiVersions = ["2021-05", "2017-04"];
 let serviceBusAtomManagementClient: ServiceBusAdministrationClient;
 
 // TEST_MODE must be set to "live" to run both the versions
-versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
+serviceApiVersions.forEach((serviceVersion) => {
   describe(`ATOM APIs - version ${serviceVersion}`, () => {
-    before(() => {
+    beforeAll(() => {
       serviceBusAtomManagementClient = new ServiceBusAdministrationClient(
         getFullyQualifiedNamespace(),
         createTestCredential(),
         { serviceVersion: serviceVersion as "2021-05" | "2017-04" },
       );
     });
+
+    describe("Atom management - Authentication", function (): void {
+      if (isNodeLike) {
+        it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
+          const host = getFullyQualifiedNamespace();
+          const endpoint = `sb://${host}/`;
+          const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
+            host,
+            new DefaultAzureCredential({
+              // Work around Msi credential issue in live test pipeline by failing
+              // its token retrieval
+              managedIdentityClientId: "fakeMsiClientId",
+            }),
+          );
+
+          should.equal(
+            (await serviceBusAdministrationClient.createQueue(managementQueue1)).name,
+            managementQueue1,
+            "Unexpected queue name in the createQueue response",
+          );
+          const createQueue2Response = await serviceBusAdministrationClient.createQueue(
+            managementQueue2,
+            {
+              forwardTo: managementQueue1,
+            },
+          );
+          should.equal(
+            createQueue2Response.name,
+            managementQueue2,
+            "Unexpected queue name in the createQueue response",
+          );
+          should.equal(
+            createQueue2Response.forwardTo,
+            endpoint + managementQueue1,
+            "Unexpected name in the `forwardTo` field of createQueue response",
+          );
+          const getQueueResponse = await serviceBusAdministrationClient.getQueue(managementQueue1);
+          should.equal(
+            getQueueResponse.name,
+            managementQueue1,
+            "Unexpected queue name in the getQueue response",
+          );
+          should.equal(
+            (await serviceBusAdministrationClient.updateQueue(getQueueResponse)).name,
+            managementQueue1,
+            "Unexpected queue name in the updateQueue response",
+          );
+          should.equal(
+            (await serviceBusAdministrationClient.getQueueRuntimeProperties(managementQueue1)).name,
+            managementQueue1,
+            "Unexpected queue name in the getQueueRuntimeProperties response",
+          );
+          should.equal(
+            (await serviceBusAdministrationClient.getNamespaceProperties()).name,
+            (host.match("(.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn)") ||
+              [])[1],
+            "Unexpected namespace name in the getNamespaceProperties response",
+          );
+          await serviceBusAdministrationClient.deleteQueue(managementQueue1);
+          await serviceBusAdministrationClient.deleteQueue(managementQueue2);
+        });
+      }
+
+      it("AzureNamedKeyCredential from `@azure/core-auth`", async () => {
+        const connectionStringProperties = parseServiceBusConnectionString(
+          env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
+        );
+        const host = connectionStringProperties.fullyQualifiedNamespace;
+        const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
+          host,
+          new AzureNamedKeyCredential(
+            connectionStringProperties.sharedAccessKeyName!,
+            connectionStringProperties.sharedAccessKey!,
+          ),
+        );
+
+        should.equal(
+          (await serviceBusAdministrationClient.getNamespaceProperties()).name,
+          (host.match("(.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn)") || [])[1],
+          "Unexpected namespace name in the getNamespaceProperties response",
+        );
+      });
+    });
+
     /**
      * These tests are just a sanity check that our updates are actually
      * _doing_ something. We've run into some bugs where we've done things like
@@ -82,11 +157,11 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
     describe("Atom management - forwarding", () => {
       let serviceBusClient: ServiceBusClientForTests;
 
-      before(() => {
+      beforeAll(() => {
         serviceBusClient = createServiceBusClientForTests();
       });
 
-      after(() => serviceBusClient.test.after());
+      afterAll(() => serviceBusClient.test.after());
 
       afterEach(async () => {
         serviceBusClient.test.afterEach();
@@ -171,7 +246,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
       const ruleNames: string[] = [];
       const numberOfEntities = 5;
 
-      before(async () => {
+      beforeAll(async () => {
         await recreateTopic(managementTopic1);
         await recreateSubscription(managementTopic1, managementSubscription1);
         for (let i = 0; i < numberOfEntities; i++) {
@@ -202,7 +277,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         }
       });
 
-      after(async () => {
+      afterAll(async () => {
         for (let i = 0; i < numberOfEntities; i++) {
           await serviceBusAtomManagementClient.deleteQueue(baseName + "_queue_" + i);
           await serviceBusAtomManagementClient.deleteTopic(baseName + "_topic_" + i);
@@ -242,7 +317,7 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
         "listRules",
       ].forEach((methodName) => {
         describe(`${methodName}`, (): void => {
-          function getIter() {
+          function getIter(): any {
             let iterator;
             if (methodName.includes("Subscription")) {
               iterator = (serviceBusAtomManagementClient as any)[methodName](managementTopic1);
@@ -349,89 +424,6 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
             });
           });
         });
-      });
-    });
-
-    describe("Atom management - Authentication", function (): void {
-      if (isNode) {
-        it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
-          const host = getFullyQualifiedNamespace();
-          const endpoint = `sb://${host}/`;
-          const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
-            host,
-            new DefaultAzureCredential({
-              // Work around Msi credential issue in live test pipeline by failing
-              // its token retrieval
-              managedIdentityClientId: "fakeMsiClientId",
-            }),
-          );
-
-          should.equal(
-            (await serviceBusAdministrationClient.createQueue(managementQueue1)).name,
-            managementQueue1,
-            "Unexpected queue name in the createQueue response",
-          );
-          const createQueue2Response = await serviceBusAdministrationClient.createQueue(
-            managementQueue2,
-            {
-              forwardTo: managementQueue1,
-            },
-          );
-          should.equal(
-            createQueue2Response.name,
-            managementQueue2,
-            "Unexpected queue name in the createQueue response",
-          );
-          should.equal(
-            createQueue2Response.forwardTo,
-            endpoint + managementQueue1,
-            "Unexpected name in the `forwardTo` field of createQueue response",
-          );
-          const getQueueResponse = await serviceBusAdministrationClient.getQueue(managementQueue1);
-          should.equal(
-            getQueueResponse.name,
-            managementQueue1,
-            "Unexpected queue name in the getQueue response",
-          );
-          should.equal(
-            (await serviceBusAdministrationClient.updateQueue(getQueueResponse)).name,
-            managementQueue1,
-            "Unexpected queue name in the updateQueue response",
-          );
-          should.equal(
-            (await serviceBusAdministrationClient.getQueueRuntimeProperties(managementQueue1)).name,
-            managementQueue1,
-            "Unexpected queue name in the getQueueRuntimeProperties response",
-          );
-          should.equal(
-            (await serviceBusAdministrationClient.getNamespaceProperties()).name,
-            (host.match("(.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn)") ||
-              [])[1],
-            "Unexpected namespace name in the getNamespaceProperties response",
-          );
-          await serviceBusAdministrationClient.deleteQueue(managementQueue1);
-          await serviceBusAdministrationClient.deleteQueue(managementQueue2);
-        });
-      }
-
-      it("AzureNamedKeyCredential from `@azure/core-auth`", async () => {
-        const connectionStringProperties = parseServiceBusConnectionString(
-          env[EnvVarNames.SERVICEBUS_CONNECTION_STRING],
-        );
-        const host = connectionStringProperties.fullyQualifiedNamespace;
-        const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
-          host,
-          new AzureNamedKeyCredential(
-            connectionStringProperties.sharedAccessKeyName!,
-            connectionStringProperties.sharedAccessKey!,
-          ),
-        );
-
-        should.equal(
-          (await serviceBusAdministrationClient.getNamespaceProperties()).name,
-          (host.match("(.*).servicebus.(windows.net|usgovcloudapi.net|chinacloudapi.cn)") || [])[1],
-          "Unexpected namespace name in the getNamespaceProperties response",
-        );
       });
     });
 
@@ -2467,13 +2459,13 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           testCaseTitle: "Correlation Filter rule options",
           input: {
             filter: {
-              correlationId: "defg",
+              correlationId: "correlationId",
             },
             action: { sqlExpression: "SET sys.label='RED'" },
           },
           output: {
             filter: {
-              correlationId: "defg",
+              correlationId: "correlationId",
               contentType: undefined,
               subject: undefined,
               messageId: undefined,
@@ -2645,7 +2637,6 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           }
         }
       }
-      throw new Error("TestError: Unrecognized EntityType");
     }
 
     async function getEntity(
@@ -2972,18 +2963,14 @@ versionsToTest(serviceApiVersions, {}, (serviceVersion) => {
           return ruleResponse;
         }
       }
-      throw new Error("TestError: Unrecognized EntityType");
     }
 
-    describe("Premium Namespaces", () => {
-      const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");
+    const premiumNamespace = getEnvVarValue("SERVICEBUS_FQDN_PREMIUM");
+    describe.runIf(premiumNamespace)("Premium Namespaces", () => {
       let atomClient: ServiceBusAdministrationClient;
       let entityNameWithmaxSize: { entityName: string; maxSize: number };
-      before(function (this: Mocha.Context) {
-        if (!premiumNamespace) {
-          this.skip();
-        }
-        atomClient = new ServiceBusAdministrationClient(premiumNamespace, createTestCredential());
+      beforeAll(function () {
+        atomClient = new ServiceBusAdministrationClient(premiumNamespace!, createTestCredential());
       });
 
       function setEntityNameWithMaxSize(

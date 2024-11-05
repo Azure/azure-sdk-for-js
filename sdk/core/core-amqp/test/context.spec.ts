@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
 import { CbsClient, ConnectionConfig, ConnectionContextBase, Constants } from "../src/index.js";

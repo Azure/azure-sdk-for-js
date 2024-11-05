@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   getClassificationPolicyRequest,
@@ -10,16 +10,16 @@ import {
   getWorkerRequest,
 } from "../utils/testData";
 import { assert } from "chai";
-import {
+import type {
   RouterJobAssignment,
   RouterJobOffer,
   JobRouterAdministrationClient,
   JobRouterClient,
 } from "../../../src";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { pollForJobAssignment, pollForJobOffer } from "../utils/polling";
 
 describe("JobRouterClient", function () {

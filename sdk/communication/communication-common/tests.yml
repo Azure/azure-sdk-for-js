@@ -5,16 +5,12 @@ extends:
     parameters:
       PackageName: "@azure/communication-common"
       ServiceDirectory: communication
+      MatrixFilters:
+        - DependencyVersion=^.+$
       CloudConfig:
-        Public:
-          ServiceConnection: azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzurePublicMsft.json
+        Public::
           SubscriptionConfigurations:
             - $(sub-config-communication-services-cloud-test-resources-common)
             - $(sub-config-communication-services-cloud-test-resources-js)
-          MatrixFilters:
-            - DependencyVersion=^.+$
-      Clouds: Public
       TestResourceDirectories:
         - communication/test-resources/

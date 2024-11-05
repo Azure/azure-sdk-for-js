@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export { delay, type DelayOptions, calculateRetryDelay } from "./delay.js";
 export {
@@ -17,6 +17,7 @@ export { isError, getErrorMessage } from "./error.js";
 export { computeSha256Hash, computeSha256Hmac } from "./sha256.js";
 export { isDefined, isObjectWithProperties, objectHasProperty } from "./typeGuards.js";
 export { randomUUID } from "./uuidUtils.js";
+export { HttpMethods } from "./httpMethods.js";
 export {
   isBrowser,
   isBun,

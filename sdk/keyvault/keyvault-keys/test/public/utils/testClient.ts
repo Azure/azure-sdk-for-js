@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { testPollerProperties } from "./recorderUtils";
-import { KeyClient } from "../../../src";
+import { testPollerProperties } from "./recorderUtils.js";
+import type { KeyClient } from "../../../src/index.js";
 
 export interface TestClientInterface {
   client: KeyClient;
@@ -22,8 +22,7 @@ export default class TestClient implements TestClientInterface {
     await this.client.purgeDeletedKey(keyName);
   }
   public async flushKey(keyName: string): Promise<void> {
-    const that = this;
-    const poller = await that.client.beginDeleteKey(keyName, testPollerProperties);
+    const poller = await this.client.beginDeleteKey(keyName, testPollerProperties);
     await poller.pollUntilDone();
     await this.purgeKey(keyName);
   }

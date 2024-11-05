@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
-import {
+import type {
   AttachmentType,
   DeleteUSProgramBriefOptions,
   FileType,
@@ -16,9 +16,10 @@ import {
   ShortCodesGetUSProgramBriefAttachmentsOptionalParams,
   SubmitUSProgramBriefOptions,
 } from "./models";
-import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import {
+import type { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type {
   ProgramBriefAttachment,
   ShortCode,
   ShortCodeCost,
@@ -26,7 +27,7 @@ import {
   USProgramBrief,
 } from "./generated/src/models/";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ShortCodesClient as ShortCodesGeneratedClient } from "./generated/src";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
 import { logger } from "./utils";

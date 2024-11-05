@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Constants } from "../common/constants";
 import { sleep } from "../common/helper";
 import { StatusCodes, SubStatusCodes } from "../common/statusCodes";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
-import { Response } from "../request";
-import { RequestContext } from "../request/RequestContext";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
+import type { Response } from "../request";
+import type { RequestContext } from "../request/RequestContext";
 import { TimeoutErrorCode } from "../request/TimeoutError";
 import { addDignosticChild } from "../utils/diagnostics";
 import { getCurrentTimestampInMs } from "../utils/time";
 import { DefaultRetryPolicy } from "./defaultRetryPolicy";
 import { EndpointDiscoveryRetryPolicy } from "./endpointDiscoveryRetryPolicy";
 import { ResourceThrottleRetryPolicy } from "./resourceThrottleRetryPolicy";
-import { RetryContext } from "./RetryContext";
-import { RetryPolicy } from "./RetryPolicy";
+import type { RetryContext } from "./RetryContext";
+import type { RetryPolicy } from "./RetryPolicy";
 import { SessionRetryPolicy } from "./sessionRetryPolicy";
 import { TimeoutFailoverRetryPolicy } from "./timeoutFailoverRetryPolicy";
 

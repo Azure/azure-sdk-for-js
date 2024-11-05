@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ChangeFeedMode } from "./ChangeFeedMode";
+import type { ChangeFeedMode } from "./ChangeFeedMode";
 
 /**
  * @hidden

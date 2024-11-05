@@ -31,8 +31,7 @@ The service configuration serves to:
 - Add Microsoft Playwright Testing reporting to your config.
 - Override timeouts for service operations, if needed.
 
-> [!NOTE]
-> Make sure your project uses @playwright/test version 1.37 or above.
+> Make sure your project uses @playwright/test version 1.47 or above.
 
 ### Configure authentication settings
 
@@ -43,7 +42,7 @@ The service configuration serves to:
     ```typescript
     import {
         getServiceConfig,
-        Auth,
+        ServiceAuth,
     } from "@azure/microsoft-playwright-testing";
     import { defineConfig } from "@playwright/test";
     import config from "./playwright.config";
@@ -51,7 +50,7 @@ The service configuration serves to:
     export default defineConfig(
         config,
         getServiceConfig(config, {
-            defaultAuth: ServiceAuth.TOKEN,
+            serviceAuthType: ServiceAuth.ACCESS_TOKEN,
         }),
         {
             reporter: [["list"], ["@azure/microsoft-playwright-testing/reporter"]],
@@ -81,7 +80,6 @@ Ensure that the `PLAYWRIGHT_SERVICE_ACCESS_TOKEN` and `PLAYWRIGHT_SERVICE_URL` t
 
 We recommend using `dotenv` module to manage your environment. With `dotenv` you'll be using the `.env` file to define your environment variables.
 
-> [!IMPORTANT]
 > Don't forget to add `.env` file to your `.gitignore` file in order to not leak your secrets.
 
 ```sh
@@ -91,7 +89,7 @@ npm i --save-dev dotenv
 `.env` file
 ```
 PLAYWRIGHT_SERVICE_ACCESS_TOKEN=eyJh...
-PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/accounts/<workspace-id>/browsers
+PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/accounts/workspace-id/browsers
 ```
 
 ### Run the tests

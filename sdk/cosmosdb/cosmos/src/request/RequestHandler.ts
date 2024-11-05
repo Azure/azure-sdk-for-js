@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  createPipelineRequest,
-  createHttpHeaders,
-  PipelineResponse,
-} from "@azure/core-rest-pipeline";
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
+import { createPipelineRequest, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { prepareURL } from "../common";
 import { Constants } from "../common/constants";
 import { executePlugins, PluginOn } from "../plugins/Plugin";
@@ -13,12 +10,14 @@ import * as RetryUtility from "../retry/retryUtility";
 import { defaultHttpAgent, defaultHttpsAgent } from "./defaultAgent";
 import { ErrorResponse } from "./ErrorResponse";
 import { bodyFromData } from "./request";
-import { RequestContext } from "./RequestContext";
-import { Response as CosmosResponse } from "./Response";
+import type { RequestContext } from "./RequestContext";
+import type { Response as CosmosResponse } from "./Response";
 import { TimeoutError } from "./TimeoutError";
 import { getCachedDefaultHttpClient } from "../utils/cachedClient";
-import { AzureLogger, createClientLogger } from "@azure/logger";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
+import type { AzureLogger } from "@azure/logger";
+import { createClientLogger } from "@azure/logger";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import { DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { addDignosticChild } from "../utils/diagnostics";
 import { getCurrentTimestampInMs } from "../utils/time";
 
@@ -82,7 +81,8 @@ async function httpRequest(
     pipelineRequest.agent = requestContext.requestAgent;
   } else {
     const parsedUrl = new URL(url);
-    pipelineRequest.agent = parsedUrl.protocol === "http" ? defaultHttpAgent : defaultHttpsAgent;
+    pipelineRequest.agent = parsedUrl.protocol === "http:" ? defaultHttpAgent : defaultHttpsAgent;
+    pipelineRequest.allowInsecureConnection = parsedUrl.protocol === "http:";
   }
 
   const startTimeUTCInMs = getCurrentTimestampInMs();

@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
 
-import { TokenCredentialOptions } from "../../tokenCredentialOptions";
 import { credentialLogger, formatError } from "../../util/logging";
 
 const BrowserNotSupportedError = new Error(
@@ -12,8 +11,6 @@ const BrowserNotSupportedError = new Error(
 const logger = credentialLogger("ManagedIdentityCredential");
 
 export class ManagedIdentityCredential implements TokenCredential {
-  constructor(clientId: string, options?: TokenCredentialOptions);
-  constructor(options?: TokenCredentialOptions);
   constructor() {
     logger.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;

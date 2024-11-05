@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to require client methods to use standardized verb prefixes and suffixes where possible.
@@ -32,7 +32,6 @@ export default createRule({
     docs: {
       description:
         "require client methods to use standardized verb prefixes and suffixes where possible",
-      recommended: "recommended",
     },
     messages: {
       bannedPrefix:

@@ -1,22 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Test } from "mocha";
+import type { Test } from "mocha";
 
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import {
   Recorder,
-  RecorderStartOptions,
   assertEnvironmentVariable,
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { ChatClient } from "../../../src";
+import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import {
   AzureCommunicationTokenCredential,
-  CommunicationUserIdentifier,
   parseClientArguments,
 } from "@azure/communication-common";
-import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";
+import type { CommunicationUserToken } from "@azure/communication-identity";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
 import { generateToken } from "./connectionUtils";
 import { NoOpCredential } from "@azure-tools/test-credential";
 

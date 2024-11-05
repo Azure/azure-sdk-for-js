@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   TollFreeVerificationClient,
   TollFreeVerificationUpsertCampaignBriefOptionalParams,
 } from "../../src";
@@ -11,8 +11,8 @@ import {
   doesCampaignBriefExist,
   getTestUSCampaignBrief,
 } from "./utils/testUSCampaignBrief";
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient";
 

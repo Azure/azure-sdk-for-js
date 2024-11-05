@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
 import * as dotenv from "dotenv";
-import { Recorder, env, RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import JobRouter from "../../../src";
-import { AzureCommunicationRoutingServiceClient } from "../../../src";
-import { Context, Test } from "mocha";
+import type { AzureCommunicationRoutingServiceClient } from "../../../src";
+import type { Context, Test } from "mocha";
 import { isNode } from "@azure/core-util";
 import { generateToken } from "../../public/utils/connection";
 

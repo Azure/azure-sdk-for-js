@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { CosmosClientOptions } from "../CosmosClientOptions";
-import { OperationType, ResourceType } from "./constants";
+// Licensed under the MIT License.
+import type { CosmosClientOptions } from "../CosmosClientOptions";
+import type { ResourceType } from "./constants";
+import { OperationType } from "./constants";
 
 const trimLeftSlashes = new RegExp("^[/]+");
 const trimRightSlashes = new RegExp("[/]+$");

@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createSasTokenProvider } from "@azure/core-amqp";
-import {
-  EventHubConnectionStringProperties,
-  parseEventHubConnectionString,
-} from "../../src/index.js";
+import type { EventHubConnectionStringProperties } from "../../src/index.js";
+import { parseEventHubConnectionString } from "../../src/index.js";
 import { getConnectionStringWithKey, getEventhubName, isMock } from "./vars.js";
 import * as MOCKS from "./constants.js";
 

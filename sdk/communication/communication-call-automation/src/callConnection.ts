@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CommunicationIdentifier } from "@azure/communication-common";
+import type { CommunicationIdentifier } from "@azure/communication-common";
 import { CallMedia } from "./callMedia";
-import {
+import type {
   AddParticipantRequest,
   CallAutomationApiClient,
   CallAutomationApiClientOptionalParams,
@@ -13,13 +13,13 @@ import {
   TransferToParticipantRequest,
 } from "./generated/src";
 import { CallConnectionImpl } from "./generated/src/operations";
-import {
+import type {
   CallConnectionProperties,
   CallInvite,
   CallParticipant,
   CustomCallingContext,
 } from "./models/models";
-import {
+import type {
   AddParticipantOptions,
   CancelAddParticipantOperationOptions,
   GetCallConnectionPropertiesOptions,
@@ -29,7 +29,7 @@ import {
   RemoveParticipantsOption,
   TransferCallToParticipantOptions,
 } from "./models/options";
-import {
+import type {
   ListParticipantsResult,
   TransferCallResult,
   AddParticipantResult,
@@ -46,9 +46,9 @@ import {
   PhoneNumberIdentifierModelConverter,
 } from "./utli/converters";
 import { randomUUID } from "@azure/core-util";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
-import {
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
+import type {
   AddParticipantEventResult,
   CancelAddParticipantEventResult,
   RemoveParticipantEventResult,

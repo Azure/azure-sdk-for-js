@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import assert from "assert";
 import { Constants, OperationType, ResourceType } from "../../../src/common";
-import { CosmosHeaders } from "../../../src/queryExecutionContext/CosmosHeaders";
+import type { CosmosHeaders } from "../../../src/queryExecutionContext/CosmosHeaders";
 import { SessionContainer } from "../../../src/session/sessionContainer";
-import { SessionContext } from "../../../src/session/SessionContext";
+import type { SessionContext } from "../../../src/session/SessionContext";
 
 describe("SessionContainer", function () {
   const collectionLink = "dbs/testDatabase/colls/testCollection";

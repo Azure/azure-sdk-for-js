@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as dotenv from "dotenv";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { JobRouterAdministrationClient, JobRouterClient } from "../../../src";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { isNode } from "@azure/core-util";
-import { JobRouterAdministrationClientOptions, JobRouterClientOptions } from "../../../src";
+import type { JobRouterAdministrationClientOptions, JobRouterClientOptions } from "../../../src";
 import { createRecorder } from "./recordedClient";
 
 if (isNode) {

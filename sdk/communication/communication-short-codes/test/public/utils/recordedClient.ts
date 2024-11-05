@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import * as dotenv from "dotenv";
 
-import { ClientSecretCredential, DefaultAzureCredential, TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
+import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import {
   Recorder,
-  RecorderStartOptions,
   assertEnvironmentVariable,
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { ShortCodesClient } from "../../../src";
 import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";

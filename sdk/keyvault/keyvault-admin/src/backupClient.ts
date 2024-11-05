@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   KeyVaultBackupClientOptions,
   KeyVaultBackupResult,
   KeyVaultBeginBackupOptions,
@@ -19,10 +19,9 @@ import { KeyVaultRestorePoller } from "./lro/restore/poller.js";
 import { KeyVaultSelectiveKeyRestoreOperationState } from "./lro/selectiveKeyRestore/operation.js";
 import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/poller.js";
 import { LATEST_API_VERSION } from "./constants.js";
-import { PollerLike } from "@azure/core-lro";
-import { TokenCredential } from "@azure/core-auth";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
+import type { PollerLike } from "@azure/core-lro";
+import type { TokenCredential } from "@azure/core-auth";
+import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { logger } from "./log.js";
 import { mappings } from "./mappings.js";
 
@@ -89,15 +88,11 @@ export class KeyVaultBackupClient {
     };
 
     this.client = new KeyVaultClient(apiVersion, clientOptions);
-    this.client.pipeline.addPolicy(
-      bearerTokenAuthenticationPolicy({
-        credential,
-        // The scopes will be populated in the challenge callbacks based on the WWW-authenticate header
-        // returned by the challenge, so pass an empty array as a placeholder.
-        scopes: [],
-        challengeCallbacks: createKeyVaultChallengeCallbacks(options),
-      }),
-    );
+    // The authentication policy must come after the deserialization policy since the deserialization policy
+    // converts 401 responses to an Error, and we don't want to deal with that.
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions), {
+      afterPolicies: ["deserializationPolicy"],
+    });
   }
 
   /**

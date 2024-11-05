@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the createOrUpdateInstallation() method can be used to create or overwrite an
@@ -13,13 +13,10 @@
  * @azsdk-weight 100
  */
 
-import * as dotenv from "dotenv";
+import "dotenv/config";
 import { createClientContext, createOrUpdateInstallation } from "@azure/notification-hubs/api";
 import { createFcmLegacyInstallation } from "@azure/notification-hubs/models";
 import { randomUUID } from "@azure/core-util";
-
-// Load the .env file if it exists
-dotenv.config();
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";

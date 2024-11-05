@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { IncomingMessage } from "node:http";
-import { EventMessage, EventMessageStream, PartialSome } from "./models.js";
+import type { EventMessage, EventMessageStream, PartialSome } from "./models.js";
 import { createStream, ensureAsyncIterable } from "./utils.js";
 
 enum ControlChars {

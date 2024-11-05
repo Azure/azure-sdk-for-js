@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, beforeEach, afterEach, type Mock } from "vitest";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../src/index.js";
 import {
-  PipelineRequest,
-  PipelineResponse,
   RestError,
-  SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   tracingPolicy,
 } from "../src/index.js";
-import {
+import type {
   Instrumenter,
   InstrumenterSpanOptions,
   SpanStatus,
@@ -225,13 +223,13 @@ describe("tracingPolicy", function () {
     assert.equal(mockSpan.getAttribute("http.status_code"), 400);
   });
 
-  it("will not create a span if tracingContext is missing", async () => {
+  it("will create a span even if tracingContext is missing", async () => {
     const policy = tracingPolicy();
     const { request, next } = createTestRequest({ noContext: true });
     await policy.sendRequest(request, next);
 
     const createdSpan = activeInstrumenter.lastSpanCreated;
-    assert.notExists(createdSpan, "span was created without tracingContext being passed!");
+    assert.exists(createdSpan);
   });
 
   describe("span errors", () => {

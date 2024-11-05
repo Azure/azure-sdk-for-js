@@ -19,7 +19,8 @@ import {
   TrafficControllerUpdate,
   TrafficControllerInterfaceUpdateOptionalParams,
   TrafficControllerInterfaceUpdateResponse,
-  TrafficControllerInterfaceDeleteOptionalParams
+  TrafficControllerInterfaceDeleteOptionalParams,
+  TrafficControllerInterfaceDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +31,7 @@ export interface TrafficControllerInterface {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: TrafficControllerInterfaceListBySubscriptionOptionalParams
+    options?: TrafficControllerInterfaceListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<TrafficController>;
   /**
    * List TrafficController resources by resource group
@@ -39,7 +40,7 @@ export interface TrafficControllerInterface {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: TrafficControllerInterfaceListByResourceGroupOptionalParams
+    options?: TrafficControllerInterfaceListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<TrafficController>;
   /**
    * Get a TrafficController
@@ -50,7 +51,7 @@ export interface TrafficControllerInterface {
   get(
     resourceGroupName: string,
     trafficControllerName: string,
-    options?: TrafficControllerInterfaceGetOptionalParams
+    options?: TrafficControllerInterfaceGetOptionalParams,
   ): Promise<TrafficControllerInterfaceGetResponse>;
   /**
    * Create a TrafficController
@@ -63,7 +64,7 @@ export interface TrafficControllerInterface {
     resourceGroupName: string,
     trafficControllerName: string,
     resource: TrafficController,
-    options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams
+    options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TrafficControllerInterfaceCreateOrUpdateResponse>,
@@ -81,7 +82,7 @@ export interface TrafficControllerInterface {
     resourceGroupName: string,
     trafficControllerName: string,
     resource: TrafficController,
-    options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams
+    options?: TrafficControllerInterfaceCreateOrUpdateOptionalParams,
   ): Promise<TrafficControllerInterfaceCreateOrUpdateResponse>;
   /**
    * Update a TrafficController
@@ -94,7 +95,7 @@ export interface TrafficControllerInterface {
     resourceGroupName: string,
     trafficControllerName: string,
     properties: TrafficControllerUpdate,
-    options?: TrafficControllerInterfaceUpdateOptionalParams
+    options?: TrafficControllerInterfaceUpdateOptionalParams,
   ): Promise<TrafficControllerInterfaceUpdateResponse>;
   /**
    * Delete a TrafficController
@@ -105,8 +106,13 @@ export interface TrafficControllerInterface {
   beginDelete(
     resourceGroupName: string,
     trafficControllerName: string,
-    options?: TrafficControllerInterfaceDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: TrafficControllerInterfaceDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TrafficControllerInterfaceDeleteResponse>,
+      TrafficControllerInterfaceDeleteResponse
+    >
+  >;
   /**
    * Delete a TrafficController
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -116,6 +122,6 @@ export interface TrafficControllerInterface {
   beginDeleteAndWait(
     resourceGroupName: string,
     trafficControllerName: string,
-    options?: TrafficControllerInterfaceDeleteOptionalParams
-  ): Promise<void>;
+    options?: TrafficControllerInterfaceDeleteOptionalParams,
+  ): Promise<TrafficControllerInterfaceDeleteResponse>;
 }

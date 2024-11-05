@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   createDefaultManagedIdentityCredential,
   createEnvironmentCredential,
 } from "./defaultAzureCredential";
 
-import { AzureApplicationCredentialOptions } from "./azureApplicationCredentialOptions";
+import type { AzureApplicationCredentialOptions } from "./azureApplicationCredentialOptions";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
 
 /**

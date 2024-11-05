@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as assert from "assert";
 import * as path from "path";
@@ -13,7 +13,7 @@ import {
   CloudPlatformValues,
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
-import { AzureMonitorOpenTelemetryOptions } from "../../../../src/types";
+import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/types";
 
 const vmTestResponse = {
   additionalCapabilities: {
@@ -190,7 +190,7 @@ const testAttributes: any = {
   "service.name": "unknown_service:node",
   "telemetry.sdk.language": "nodejs",
   "telemetry.sdk.name": "opentelemetry",
-  "telemetry.sdk.version": "1.25.1",
+  "telemetry.sdk.version": "1.27.0",
 };
 
 describe("Library/Config", () => {

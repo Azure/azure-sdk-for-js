@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { EdgeZonesContext } from "../../api/edgeZonesContext.js";
 import { Operation } from "../../models/models.js";

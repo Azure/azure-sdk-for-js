@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
-import {
-  PipelineResponse,
-  SendRequest,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "../src/index.js";
+import type { PipelineResponse, SendRequest } from "../src/index.js";
+import { createHttpHeaders, createPipelineRequest } from "../src/index.js";
 import { throttlingRetryPolicy } from "../src/policies/throttlingRetryPolicy.js";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 

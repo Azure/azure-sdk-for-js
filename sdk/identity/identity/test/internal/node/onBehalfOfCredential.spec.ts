@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as path from "path";
 import { IdentityTestContext, prepareMSALResponses } from "../../httpRequests";
-import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
+import type { IdentityTestContextInterface } from "../../httpRequestsCommon";
+import { createResponse } from "../../httpRequestsCommon";
 import { OnBehalfOfCredential } from "../../../src";
 import { assert } from "chai";
 import { isNode } from "@azure/core-util";

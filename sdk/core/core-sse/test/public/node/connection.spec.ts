@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createSseStream } from "../../../src/index.js";
 import { Client, getClient } from "@azure-rest/core-client";

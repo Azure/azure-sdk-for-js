@@ -31,7 +31,7 @@ A `PipelineResponse` describes the HTTP response (body, headers, and status code
 
 A `SendRequest` method is a method that given a `PipelineRequest` can asynchronously return a `PipelineResponse`.
 
-```ts
+```ts snippet:send_request
 export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse>;
 ```
 
@@ -39,7 +39,7 @@ export type SendRequest = (request: PipelineRequest) => Promise<PipelineResponse
 
 An `HttpClient` is any object that satisfies the following interface to implement a `SendRequest` method:
 
-```ts
+```ts snippet:http_request
 export interface HttpClient {
   /**
    * The method that makes the request and returns a response.
@@ -54,7 +54,7 @@ export interface HttpClient {
 
 A `PipelinePolicy` is a simple object that implements the following interface:
 
-```ts
+```ts snippet:pipeline_policy
 export interface PipelinePolicy {
   /**
    * The policy name. Must be a unique string in the pipeline.
@@ -62,8 +62,8 @@ export interface PipelinePolicy {
   name: string;
   /**
    * The main method to implement that manipulates a request/response.
-   * @param request The request being performed.
-   * @param next The next policy in the pipeline. Must be called to continue the pipeline.
+   * @param request - The request being performed.
+   * @param next - The next policy in the pipeline. Must be called to continue the pipeline.
    */
   sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse>;
 }
@@ -75,7 +75,7 @@ One can view the role of policies as that of `middleware`, a concept that is fam
 
 The `sendRequest` implementation can both transform the outgoing request as well as the incoming response:
 
-```ts
+```ts snippet:custom_policy
 const customPolicy = {
   name: "My wonderful policy",
   async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
@@ -86,7 +86,7 @@ const customPolicy = {
       // Do something special if this policy sees Forbidden
     }
     return result;
-  }
+  },
 };
 ```
 
@@ -100,7 +100,7 @@ You can think of policies being applied like a stack (first-in/last-out.) The fi
 
 A `Pipeline` satisfies the following interface:
 
-```ts
+```ts snippet:pipeline
 export interface Pipeline {
   addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
   removePolicy(options: { name?: string; phase?: PipelinePhase }): PipelinePolicy[];
@@ -123,7 +123,7 @@ Phases occur in the above order, with serialization policies being applied first
 
 When adding a policy to the pipeline you can specify not only what phase a policy is in, but also if it has any dependencies:
 
-```ts
+```ts snippet:add_policy_options
 export interface AddPolicyOptions {
   beforePolicies?: string[];
   afterPolicies?: string[];

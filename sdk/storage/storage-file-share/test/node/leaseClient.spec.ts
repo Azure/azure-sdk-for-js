@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import {
@@ -10,8 +10,8 @@ import {
   bodyToString,
 } from "../utils";
 import { Recorder } from "@azure-tools/test-recorder";
-import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
-import { Context } from "mocha";
+import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
+import type { Context } from "mocha";
 
 // for file
 describe("LeaseClient Node.js only - OAuth", () => {
