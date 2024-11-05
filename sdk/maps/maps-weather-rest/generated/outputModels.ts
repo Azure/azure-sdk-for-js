@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export interface HourlyForecastResultOutput {
   /** Forecast data for each returned hour. */
-  forecasts?: Array<HourlyForecastOutput>;
+  readonly forecasts?: Array<HourlyForecastOutput>;
 }
 
 export interface HourlyForecastOutput {
@@ -165,32 +165,32 @@ export interface ErrorResponseOutput {
 /** The error detail. */
 export interface ErrorDetailOutput {
   /** The error code. */
-  code?: string;
+  readonly code?: string;
   /** The error message. */
-  message?: string;
+  readonly message?: string;
   /** The error target. */
-  target?: string;
+  readonly target?: string;
   /** The error details. */
-  details?: Array<ErrorDetailOutput>;
+  readonly details?: Array<ErrorDetailOutput>;
   /** The error additional info. */
-  additionalInfo?: Array<ErrorAdditionalInfoOutput>;
+  readonly additionalInfo?: Array<ErrorAdditionalInfoOutput>;
 }
 
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfoOutput {
   /** The additional info type. */
-  type?: string;
+  readonly type?: string;
   /** The additional info. */
-  info?: Record<string, unknown>;
+  readonly info?: Record<string, unknown>;
 }
 
 export interface MinuteForecastResultOutput {
   /** Phrase summaries for the entire forecast period. */
-  summary?: MinuteForecastSummaryOutput;
+  readonly summary?: MinuteForecastSummaryOutput;
   /** Summary information for each interval in the forecast. The Summaries breaks down each potential interval where precipitation starts and stops. */
-  intervalSummaries?: Array<IntervalSummaryOutput>;
+  readonly intervalSummaries?: Array<IntervalSummaryOutput>;
   /** Forecast data for each interval in the forecast. */
-  intervals?: Array<ForecastIntervalOutput>;
+  readonly intervals?: Array<ForecastIntervalOutput>;
 }
 
 /** Phrase summaries for the entire forecast period. */
@@ -380,7 +380,7 @@ export interface ColorValueOutput {
 
 export interface QuarterDayForecastResultOutput {
   /** Forecast data for each quarter in the response. */
-  forecasts?: Array<QuarterDayForecastOutput>;
+  readonly forecasts?: Array<QuarterDayForecastOutput>;
 }
 
 export interface QuarterDayForecastOutput {
@@ -482,7 +482,7 @@ export interface WeatherValueRangeOutput {
 
 export interface CurrentConditionsResultOutput {
   /** Detailed current weather conditions. */
-  results?: Array<CurrentConditionsOutput>;
+  readonly results?: Array<CurrentConditionsOutput>;
 }
 
 export interface CurrentConditionsOutput {
@@ -663,9 +663,9 @@ export interface PastHoursTemperatureOutput {
 
 export interface DailyForecastResultOutput {
   /** Summary for the main conditions for the requested time period. Notice that summary can cover only part of the time period. */
-  summary?: DailyForecastSummaryOutput;
+  readonly summary?: DailyForecastSummaryOutput;
   /** Forecast data for each requested day. */
-  forecasts?: Array<DailyForecastOutput>;
+  readonly forecasts?: Array<DailyForecastOutput>;
 }
 
 /** Summary for the main conditions for the requested time period. Notice that summary can cover only part of the time period. */
@@ -829,9 +829,9 @@ export interface LocalSourceOutput {
 /** This object is returned from a successful Weather Along Route. */
 export interface WeatherAlongRouteResultOutput {
   /** Short summary of the weather along the route. */
-  summary?: WeatherAlongRouteSummaryOutput;
+  readonly summary?: WeatherAlongRouteSummaryOutput;
   /** Data for each waypoint returned in the same order as specified in the request. */
-  waypoints?: Array<WaypointForecastOutput>;
+  readonly waypoints?: Array<WaypointForecastOutput>;
 }
 
 /** Short summary of the weather along the route. */
@@ -1017,7 +1017,7 @@ export interface WeatherNotificationOutput {
 /** This object is returned from a successful Get Severe Weather Alerts call. */
 export interface SevereWeatherAlertsResultOutput {
   /** A list of all severe weather alerts for the queried location. */
-  results?: Array<SevereWeatherAlertOutput>;
+  readonly results?: Array<SevereWeatherAlertOutput>;
 }
 
 /** Information about a severe weather alert. */
@@ -1091,7 +1091,7 @@ export interface LatestStatusOutput {
 /** This object is returned from a successful Get Daily Indices call. */
 export interface DailyIndicesResultOutput {
   /** A list of all daily indices for the queried location. */
-  results?: Array<DailyIndexOutput>;
+  readonly results?: Array<DailyIndexOutput>;
 }
 
 /** Information about a daily index. */

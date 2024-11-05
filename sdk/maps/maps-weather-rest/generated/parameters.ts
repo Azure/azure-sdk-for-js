@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RequestParameters } from "@azure-rest/core-client";
 
@@ -34,8 +34,8 @@ export interface WeatherGetHourlyForecastQueryParam {
   queryParameters: WeatherGetHourlyForecastQueryParamProperties;
 }
 
-export type WeatherGetHourlyForecastParameters = WeatherGetHourlyForecastQueryParam &
-  RequestParameters;
+export type WeatherGetHourlyForecastParameters =
+  WeatherGetHourlyForecastQueryParam & RequestParameters;
 
 export interface WeatherGetMinuteForecastQueryParamProperties {
   /**
@@ -63,8 +63,8 @@ export interface WeatherGetMinuteForecastQueryParam {
   queryParameters: WeatherGetMinuteForecastQueryParamProperties;
 }
 
-export type WeatherGetMinuteForecastParameters = WeatherGetMinuteForecastQueryParam &
-  RequestParameters;
+export type WeatherGetMinuteForecastParameters =
+  WeatherGetMinuteForecastQueryParam & RequestParameters;
 
 export interface WeatherGetQuarterDayForecastQueryParamProperties {
   /**
@@ -95,8 +95,8 @@ export interface WeatherGetQuarterDayForecastQueryParam {
   queryParameters: WeatherGetQuarterDayForecastQueryParamProperties;
 }
 
-export type WeatherGetQuarterDayForecastParameters = WeatherGetQuarterDayForecastQueryParam &
-  RequestParameters;
+export type WeatherGetQuarterDayForecastParameters =
+  WeatherGetQuarterDayForecastQueryParam & RequestParameters;
 
 export interface WeatherGetCurrentConditionsQueryParamProperties {
   /**
@@ -132,8 +132,8 @@ export interface WeatherGetCurrentConditionsQueryParam {
   queryParameters: WeatherGetCurrentConditionsQueryParamProperties;
 }
 
-export type WeatherGetCurrentConditionsParameters = WeatherGetCurrentConditionsQueryParam &
-  RequestParameters;
+export type WeatherGetCurrentConditionsParameters =
+  WeatherGetCurrentConditionsQueryParam & RequestParameters;
 
 export interface WeatherGetDailyForecastQueryParamProperties {
   /**
@@ -165,8 +165,8 @@ export interface WeatherGetDailyForecastQueryParam {
   queryParameters: WeatherGetDailyForecastQueryParamProperties;
 }
 
-export type WeatherGetDailyForecastParameters = WeatherGetDailyForecastQueryParam &
-  RequestParameters;
+export type WeatherGetDailyForecastParameters =
+  WeatherGetDailyForecastQueryParam & RequestParameters;
 
 export interface WeatherGetWeatherAlongRouteQueryParamProperties {
   /**
@@ -192,8 +192,8 @@ export interface WeatherGetWeatherAlongRouteQueryParam {
   queryParameters: WeatherGetWeatherAlongRouteQueryParamProperties;
 }
 
-export type WeatherGetWeatherAlongRouteParameters = WeatherGetWeatherAlongRouteQueryParam &
-  RequestParameters;
+export type WeatherGetWeatherAlongRouteParameters =
+  WeatherGetWeatherAlongRouteQueryParam & RequestParameters;
 
 export interface WeatherGetSevereWeatherAlertsQueryParamProperties {
   /**
@@ -220,8 +220,8 @@ export interface WeatherGetSevereWeatherAlertsQueryParam {
   queryParameters: WeatherGetSevereWeatherAlertsQueryParamProperties;
 }
 
-export type WeatherGetSevereWeatherAlertsParameters = WeatherGetSevereWeatherAlertsQueryParam &
-  RequestParameters;
+export type WeatherGetSevereWeatherAlertsParameters =
+  WeatherGetSevereWeatherAlertsQueryParam & RequestParameters;
 
 export interface WeatherGetDailyIndicesQueryParamProperties {
   /**
@@ -254,8 +254,8 @@ export interface WeatherGetDailyIndicesQueryParam {
   queryParameters: WeatherGetDailyIndicesQueryParamProperties;
 }
 
-export type WeatherGetDailyIndicesParameters = WeatherGetDailyIndicesQueryParam &
-  RequestParameters;
+export type WeatherGetDailyIndicesParameters =
+  WeatherGetDailyIndicesQueryParam & RequestParameters;
 export type WeatherGetTropicalStormActiveParameters = RequestParameters;
 
 export interface WeatherSearchTropicalStormQueryParamProperties {
@@ -271,8 +271,8 @@ export interface WeatherSearchTropicalStormQueryParam {
   queryParameters: WeatherSearchTropicalStormQueryParamProperties;
 }
 
-export type WeatherSearchTropicalStormParameters = WeatherSearchTropicalStormQueryParam &
-  RequestParameters;
+export type WeatherSearchTropicalStormParameters =
+  WeatherSearchTropicalStormQueryParam & RequestParameters;
 
 export interface WeatherGetTropicalStormForecastQueryParamProperties {
   /** Year of the cyclone(s) */
@@ -295,8 +295,8 @@ export interface WeatherGetTropicalStormForecastQueryParam {
   queryParameters: WeatherGetTropicalStormForecastQueryParamProperties;
 }
 
-export type WeatherGetTropicalStormForecastParameters = WeatherGetTropicalStormForecastQueryParam &
-  RequestParameters;
+export type WeatherGetTropicalStormForecastParameters =
+  WeatherGetTropicalStormForecastQueryParam & RequestParameters;
 
 export interface WeatherGetTropicalStormLocationsQueryParamProperties {
   /** Year of the cyclone(s) */
@@ -319,8 +319,8 @@ export interface WeatherGetTropicalStormLocationsQueryParam {
   queryParameters: WeatherGetTropicalStormLocationsQueryParamProperties;
 }
 
-export type WeatherGetTropicalStormLocationsParameters = WeatherGetTropicalStormLocationsQueryParam &
-  RequestParameters;
+export type WeatherGetTropicalStormLocationsParameters =
+  WeatherGetTropicalStormLocationsQueryParam & RequestParameters;
 
 export interface WeatherGetCurrentAirQualityQueryParamProperties {
   /**
@@ -343,8 +343,8 @@ export interface WeatherGetCurrentAirQualityQueryParam {
   queryParameters: WeatherGetCurrentAirQualityQueryParamProperties;
 }
 
-export type WeatherGetCurrentAirQualityParameters = WeatherGetCurrentAirQualityQueryParam &
-  RequestParameters;
+export type WeatherGetCurrentAirQualityParameters =
+  WeatherGetCurrentAirQualityQueryParam & RequestParameters;
 
 export interface WeatherGetAirQualityDailyForecastsQueryParamProperties {
   /**
@@ -367,8 +367,8 @@ export interface WeatherGetAirQualityDailyForecastsQueryParam {
   queryParameters: WeatherGetAirQualityDailyForecastsQueryParamProperties;
 }
 
-export type WeatherGetAirQualityDailyForecastsParameters = WeatherGetAirQualityDailyForecastsQueryParam &
-  RequestParameters;
+export type WeatherGetAirQualityDailyForecastsParameters =
+  WeatherGetAirQualityDailyForecastsQueryParam & RequestParameters;
 
 export interface WeatherGetAirQualityHourlyForecastsQueryParamProperties {
   /**
@@ -393,8 +393,8 @@ export interface WeatherGetAirQualityHourlyForecastsQueryParam {
   queryParameters: WeatherGetAirQualityHourlyForecastsQueryParamProperties;
 }
 
-export type WeatherGetAirQualityHourlyForecastsParameters = WeatherGetAirQualityHourlyForecastsQueryParam &
-  RequestParameters;
+export type WeatherGetAirQualityHourlyForecastsParameters =
+  WeatherGetAirQualityHourlyForecastsQueryParam & RequestParameters;
 
 export interface WeatherGetDailyHistoricalActualsQueryParamProperties {
   /**
@@ -415,8 +415,8 @@ export interface WeatherGetDailyHistoricalActualsQueryParam {
   queryParameters: WeatherGetDailyHistoricalActualsQueryParamProperties;
 }
 
-export type WeatherGetDailyHistoricalActualsParameters = WeatherGetDailyHistoricalActualsQueryParam &
-  RequestParameters;
+export type WeatherGetDailyHistoricalActualsParameters =
+  WeatherGetDailyHistoricalActualsQueryParam & RequestParameters;
 
 export interface WeatherGetDailyHistoricalRecordsQueryParamProperties {
   /**
@@ -437,8 +437,8 @@ export interface WeatherGetDailyHistoricalRecordsQueryParam {
   queryParameters: WeatherGetDailyHistoricalRecordsQueryParamProperties;
 }
 
-export type WeatherGetDailyHistoricalRecordsParameters = WeatherGetDailyHistoricalRecordsQueryParam &
-  RequestParameters;
+export type WeatherGetDailyHistoricalRecordsParameters =
+  WeatherGetDailyHistoricalRecordsQueryParam & RequestParameters;
 
 export interface WeatherGetDailyHistoricalNormalsQueryParamProperties {
   /**
@@ -459,5 +459,5 @@ export interface WeatherGetDailyHistoricalNormalsQueryParam {
   queryParameters: WeatherGetDailyHistoricalNormalsQueryParamProperties;
 }
 
-export type WeatherGetDailyHistoricalNormalsParameters = WeatherGetDailyHistoricalNormalsQueryParam &
-  RequestParameters;
+export type WeatherGetDailyHistoricalNormalsParameters =
+  WeatherGetDailyHistoricalNormalsQueryParam & RequestParameters;

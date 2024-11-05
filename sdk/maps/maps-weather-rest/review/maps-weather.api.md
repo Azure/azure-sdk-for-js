@@ -107,7 +107,7 @@ export interface CurrentConditionsOutput {
 
 // @public (undocumented)
 export interface CurrentConditionsResultOutput {
-    results?: Array<CurrentConditionsOutput>;
+    readonly results?: Array<CurrentConditionsOutput>;
 }
 
 // @public
@@ -171,8 +171,8 @@ export interface DailyForecastOutput {
 
 // @public (undocumented)
 export interface DailyForecastResultOutput {
-    forecasts?: Array<DailyForecastOutput>;
-    summary?: DailyForecastSummaryOutput;
+    readonly forecasts?: Array<DailyForecastOutput>;
+    readonly summary?: DailyForecastSummaryOutput;
 }
 
 // @public
@@ -242,7 +242,7 @@ export interface DailyIndexOutput {
 
 // @public
 export interface DailyIndicesResultOutput {
-    results?: Array<DailyIndexOutput>;
+    readonly results?: Array<DailyIndexOutput>;
 }
 
 // @public (undocumented)
@@ -253,17 +253,17 @@ export interface DegreeDaySummaryOutput {
 
 // @public
 export interface ErrorAdditionalInfoOutput {
-    info?: Record<string, unknown>;
-    type?: string;
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
 }
 
 // @public
 export interface ErrorDetailOutput {
-    additionalInfo?: Array<ErrorAdditionalInfoOutput>;
-    code?: string;
-    details?: Array<ErrorDetailOutput>;
-    message?: string;
-    target?: string;
+    readonly additionalInfo?: Array<ErrorAdditionalInfoOutput>;
+    readonly code?: string;
+    readonly details?: Array<ErrorDetailOutput>;
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
@@ -528,7 +528,7 @@ export interface HourlyForecastOutput {
 
 // @public (undocumented)
 export interface HourlyForecastResultOutput {
-    forecasts?: Array<HourlyForecastOutput>;
+    readonly forecasts?: Array<HourlyForecastOutput>;
 }
 
 // @public (undocumented)
@@ -630,11 +630,16 @@ export type MapsWeatherClient = Client & {
     path: Routes;
 };
 
+// @public
+export interface MapsWeatherClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
 // @public (undocumented)
 export interface MinuteForecastResultOutput {
-    intervals?: Array<ForecastIntervalOutput>;
-    intervalSummaries?: Array<IntervalSummaryOutput>;
-    summary?: MinuteForecastSummaryOutput;
+    readonly intervals?: Array<ForecastIntervalOutput>;
+    readonly intervalSummaries?: Array<IntervalSummaryOutput>;
+    readonly summary?: MinuteForecastSummaryOutput;
 }
 
 // @public
@@ -707,7 +712,7 @@ export interface QuarterDayForecastOutput {
 
 // @public (undocumented)
 export interface QuarterDayForecastResultOutput {
-    forecasts?: Array<QuarterDayForecastOutput>;
+    readonly forecasts?: Array<QuarterDayForecastOutput>;
 }
 
 // @public
@@ -767,7 +772,7 @@ export interface SevereWeatherAlertOutput {
 
 // @public
 export interface SevereWeatherAlertsResultOutput {
-    results?: Array<SevereWeatherAlertOutput>;
+    readonly results?: Array<SevereWeatherAlertOutput>;
 }
 
 // @public
@@ -871,8 +876,8 @@ export interface WeatherAlongRoutePrecipitationOutput {
 
 // @public
 export interface WeatherAlongRouteResultOutput {
-    summary?: WeatherAlongRouteSummaryOutput;
-    waypoints?: Array<WaypointForecastOutput>;
+    readonly summary?: WeatherAlongRouteSummaryOutput;
+    readonly waypoints?: Array<WaypointForecastOutput>;
 }
 
 // @public

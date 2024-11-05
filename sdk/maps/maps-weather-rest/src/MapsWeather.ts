@@ -11,8 +11,8 @@ import {
 } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createMapsClientIdPolicy } from "@azure/maps-common";
-import { MapsWeatherClient } from "./generated";
-import createClient from "./generated/mapsWeatherClient";
+import { MapsWeatherClient } from "../generated";
+import createClient from "../generated/mapsWeatherClient";
 
 /**
  * Creates an instance of MapsWeatherClient from a subscription key.

@@ -11054,6 +11054,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript@5.6.3:
+    resolution: {integrity: sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
   /ua-parser-js@0.7.39:
     resolution: {integrity: sha512-IZ6acm6RhQHNibSt7+c09hhvsKy9WUr4DVbeq9U8o71qxyYtJpQeDxQnMrVqnIFMLcQjHO0I9wgfO2vIahht4w==}
     hasBin: true
@@ -21401,7 +21407,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.6.2
+      '@_ts/max': /typescript@5.6.3
       '@_ts/min': /typescript@4.2.4
       '@azure/identity': 4.4.1
       '@eslint/js': 9.10.0
@@ -22914,7 +22920,7 @@ packages:
     dev: false
 
   file:projects/maps-weather.tgz:
-    resolution: {integrity: sha512-97105RQsyKQeDTqTTbF57aeMKupilV78OgzWOFcsyEegwpg6PbcY6CSUKBkgmgjaPgaYpAmoajmbrzdG/sPhYA==, tarball: file:projects/maps-weather.tgz}
+    resolution: {integrity: sha512-7Jza13wu9qIPE2dD+/qj4lVNSAXPxQdcOOKQAlpRua+MN5/OCJb8YlyMN/RInJETAsHPtzQrDrOIl/UY7gorqA==, tarball: file:projects/maps-weather.tgz}
     name: '@rush-temp/maps-weather'
     version: 0.0.0
     dependencies:
@@ -22922,6 +22928,7 @@ packages:
       '@azure-tools/test-credential': 1.2.0
       '@azure-tools/test-recorder': 3.5.2
       '@azure/identity': 4.4.1
+      '@azure/logger': 1.1.4
       '@azure/maps-common': 1.0.0-beta.2
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.50)
       '@types/chai': 4.3.19

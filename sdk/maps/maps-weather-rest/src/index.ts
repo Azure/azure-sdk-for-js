@@ -3,5 +3,5 @@
 
 import MapsWeather from "./MapsWeather";
 
-export * from "./generated";
+export * from "../generated";
 export default MapsWeather;
