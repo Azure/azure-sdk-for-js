@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import sinon from "sinon";
-import { assert, expect } from "chai";
 import type { ChatClientOptions, CreateChatThreadRequest } from "../../src/index.js";
 import { ChatClient } from "../../src/index.js";
 import type * as RestModel from "../../src/generated/src/models/index.js";
@@ -18,6 +15,7 @@ import {
   mockThreadItem,
 } from "./utils/mockClient.js";
 import { isNode } from "@azure/core-util";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
 

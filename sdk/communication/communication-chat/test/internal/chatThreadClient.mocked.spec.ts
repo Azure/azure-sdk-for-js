@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import sinon from "sinon";
-import { assert } from "chai";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import type {
@@ -26,6 +23,7 @@ import {
   mockSdkModelParticipant,
   mockThread,
 } from "./utils/mockClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
 

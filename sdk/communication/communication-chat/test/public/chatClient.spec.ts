@@ -3,14 +3,12 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import type { ChatClient, ChatThreadClient } from "../../src/index.js";
 import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient.js";
 import { isNode } from "@azure/core-util";
-import sinon from "sinon";
 import type { CommunicationIdentifier } from "@azure/communication-common";
-import type { Context } from "mocha";
 import type { CommunicationUserToken } from "@azure/communication-identity";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("ChatClient", function () {
   let threadId: string | undefined;

@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Test } from "mocha";
-
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import {
   Recorder,

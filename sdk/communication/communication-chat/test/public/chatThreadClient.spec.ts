@@ -3,13 +3,12 @@
 /* eslint-disable @typescript-eslint/no-invalid-this */
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import type { ChatClient, ChatMessage, ChatThreadClient } from "../../src/index.js";
 import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient.js";
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import { getIdentifierKind } from "@azure/communication-common";
-import type { Context } from "mocha";
 import type { CommunicationUserToken } from "@azure/communication-identity";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("ChatThreadClient", function () {
   let messageId: string;
