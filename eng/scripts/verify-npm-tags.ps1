@@ -35,7 +35,7 @@ if ($packageDistTags."$intendedTag" -ne $intendedTagVersion) {
   $correctDistTags = $parsedOriginalDistTags
   $correctDistTags."$intendedTag" = $intendedTagVersion
   foreach($tag in $correctDistTags.PSObject.Properties) {
-    Write-Host "npm dist-tag add $packageName@$tag.value $tag.Name"
+    Write-Host "npm dist-tag add $packageName@$($tag.value) $tag.Name"
     npm dist-tag add $packageName@$tag.value $tag.Name
   }
   $npmPkgProp = npm view $packageName --json | ConvertFrom-Json
