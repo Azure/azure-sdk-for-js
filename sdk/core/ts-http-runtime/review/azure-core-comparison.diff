@@ -464,7 +464,7 @@ index 30dac33..66ea99c 100644
    if (!cachedHttpClient) {
      cachedHttpClient = createDefaultHttpClient();
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 026f516..7a52c57 100644
+index 026f516..edda1c6 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
 @@ -3,19 +3,18 @@
@@ -518,7 +518,7 @@ index 026f516..7a52c57 100644
     * types. For example:
     * ```typescript snippet:path_example
 -   * import { Client } from "@azure-rest/core-client";
-+   * import { Client } from "../src/client/common.js";
++   * import { Client } from "@typespec/ts-http-runtime";
     *
     * type MyClient = Client & {
     *   path: Routes;
