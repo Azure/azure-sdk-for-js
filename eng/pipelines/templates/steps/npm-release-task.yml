@@ -22,6 +22,11 @@ steps:
         $originalTags = $packageProps.'dist-tags' | ConvertTo-Json -Compress
         echo "##vso[task.setvariable variable=OriginalTags]$originalTags
         echo "##vso[task.setvariable variable=IntendedTagVersion]$packageVersion
+
+        Write-Host "PackageProps: $packageProps"
+        Write-Host "packageName: $packageName"
+        Write-Host "originalTags: $originalTags"
+        Write-Host "packageVersion: $packageVersion"
       displayName: Get original tags
 
     - task: EsrpRelease@7

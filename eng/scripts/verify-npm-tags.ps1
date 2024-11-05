@@ -30,8 +30,13 @@ $npmPkgProp = npm view $packageName --json | ConvertFrom-Json
 $packageDistTags = $npmPkgProp."dist-tags"
 Write-Host "Current dist-tag: $packageDistTags"
 
+Write-Host "parsedOriginalDistTags: $parsedOriginalDistTags"
+Write-Host "packageDistTags: $packageDistTags"
+Write-Host "intendedTag: $($packageDistTags."$intendedTag")"
+Write-Host "intendedTagVersion: $intendedTagVersion"
+
 if ($packageDistTags."$intendedTag" -ne $intendedTagVersion) {
-  Write-Warning "Tag not correctly set, current $intendedTag tag is version $packageDistTags.'$intendedTag' instead of $intendedTagVersion."
+  Write-Warning "Tag not correctly set, current $intendedTag tag is version $($packageDistTags."$intendedTag") instead of $intendedTagVersion."
   $correctDistTags = $parsedOriginalDistTags
   $correctDistTags."$intendedTag" = $intendedTagVersion
   foreach($tag in $correctDistTags.PSObject.Properties) {
