@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import { Client, createRestError } from "@azure-rest/core-client";
-import { FileContentResponseOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput } from "../generated/src/outputModels.js";
-import { AgentsDeleteFileParameters, AgentsGetFileContentParameters, AgentsGetFileParameters, AgentsListFilesParameters, AgentsUploadFileParameters } from "../generated/src/parameters.js";
+import { FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput } from "../generated/src/outputModels.js";
+import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListFilesParameters, UploadFileParameters } from "../generated/src/parameters.js";
 
 const expectedStatuses = ["200"];
 
 /** Gets a list of previously uploaded files. */
 export async function listFiles(
   context: Client,
-  options?: AgentsListFilesParameters,
+  options?: ListFilesParameters,
 ): Promise<FileListResponseOutput> {
   const result = await context.path("/files").get(options);
   if (!expectedStatuses.includes(result.status)) {
@@ -22,7 +22,7 @@ export async function listFiles(
 /** Uploads a file for use by other operations. */
 export async function uploadFile(
   context: Client,
-  options: AgentsUploadFileParameters,
+  options: UploadFileParameters,
 ): Promise<OpenAIFileOutput> {
   const result = await context.path("/files").post(options);
   if (!expectedStatuses.includes(result.status)) {
@@ -35,7 +35,7 @@ export async function uploadFile(
 export async function deleteFile(
   context: Client,
   fileId: string,
-  options?: AgentsDeleteFileParameters,
+  options?: DeleteFileParameters,
 ): Promise<FileDeletionStatusOutput> {
   const result = await context
     .path("/files/{fileId}", fileId)
@@ -50,7 +50,7 @@ export async function deleteFile(
 export async function getFile(
   context: Client,
   fileId: string,
-  options?: AgentsGetFileParameters,
+  options?: GetFileParameters,
 ): Promise<OpenAIFileOutput> {
   const result = await context
     .path("/files/{fileId}", fileId)
@@ -65,8 +65,8 @@ export async function getFile(
 export async function getFileContent(
   context: Client,
   fileId: string,
-  options?: AgentsGetFileContentParameters,
-): Promise<FileContentResponseOutput> {
+  options?: GetFileContentParameters,
+): Promise<string> {
   const result = await context
     .path("/files/{fileId}", fileId)
     .get(options);

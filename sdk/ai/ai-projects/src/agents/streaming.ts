@@ -3,7 +3,7 @@
 
 import { Client, createRestError } from "@azure-rest/core-client";
 import { ProjectsClient } from "../generated/src/clientDefinitions.js";
-import { AgentsCreateRunParameters, AgentsCreateThreadAndRunBodyParam } from "../generated/src/index.js";
+import { CreateRunParameters, CreateThreadAndRunBodyParam } from "../generated/src/index.js";
 
 const expectedStatuses = ["200"];
 
@@ -33,7 +33,7 @@ export interface AgentStreamEventMessage {
 export async function* createRunStreaming(
   context: Client,
   threadId: string,
-  options: AgentsCreateRunParameters,
+  options: CreateRunParameters,
 ): AsyncIterable<AgentStreamEventMessage> {
   options.body.stream = true;
   const result = await (context as ProjectsClient)
@@ -67,7 +67,7 @@ export async function* createRunStreaming(
 
 export async function* createThreadAndRunStreaming(
   context: Client,
-  options: AgentsCreateThreadAndRunBodyParam,
+  options: CreateThreadAndRunBodyParam,
 ): AsyncIterable<AgentStreamEventMessage> {
     options.body.stream = true;
     const result = await (context as ProjectsClient)

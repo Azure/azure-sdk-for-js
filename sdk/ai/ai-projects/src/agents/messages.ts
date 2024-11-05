@@ -3,7 +3,7 @@
 
 import { Client, createRestError } from "@azure-rest/core-client";
 import { ThreadMessageOutput } from "../generated/src/outputModels.js";
-import { AgentsCreateMessageParameters, AgentsListMessagesParameters, AgentsUpdateMessageParameters } from "../generated/src/parameters.js";
+import { CreateMessageParameters, ListMessagesParameters, UpdateMessageParameters } from "../generated/src/parameters.js";
 
 const expectedStatuses = ["200"];
 
@@ -11,7 +11,7 @@ const expectedStatuses = ["200"];
 export async function createMessage(
   context: Client,
   threadId: string,
-  options: AgentsCreateMessageParameters,
+  options: CreateMessageParameters,
 ): Promise<ThreadMessageOutput> {
   const result = await context
     .path("/threads/{threadId}/messages", threadId)
@@ -26,7 +26,7 @@ export async function createMessage(
 export async function listMessages(
   context: Client,
   threadId: string,
-  options?: AgentsListMessagesParameters,
+  options?: ListMessagesParameters,
 ): Promise<ThreadMessageOutput> {
   const result = await context
     .path("/threads/{threadId}/messages", threadId)
@@ -42,7 +42,7 @@ export async function updateMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: AgentsUpdateMessageParameters,
+  options: UpdateMessageParameters,
 ): Promise<ThreadMessageOutput> {
   const result = await context
     .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
