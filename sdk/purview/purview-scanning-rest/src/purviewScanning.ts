@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger";
-import { TokenCredential } from "@azure/core-auth";
-import { PurviewScanningClient } from "./clientDefinitions";
+import type { TokenCredential } from "@azure/core-auth";
+import type { PurviewScanningClient } from "./clientDefinitions";
 
 /** The optional parameters for the client */
 export interface PurviewScanningClientOptions extends ClientOptions {
@@ -14,7 +15,7 @@ export interface PurviewScanningClientOptions extends ClientOptions {
 
 /**
  * Initialize a new instance of `PurviewScanningClient`
- * @param endpoint - The scanning endpoint of your purview account. Example: https://{accountName}.scan.purview.azure.com
+ * @param endpoint - The scanning endpoint of your purview account. Example: https://\{accountName\}.scan.purview.azure.com
  * @param credentials - uniquely identify client credential
  * @param options - the parameter for all optional parameters
  */
