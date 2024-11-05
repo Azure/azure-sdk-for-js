@@ -10,7 +10,7 @@ steps:
 
   - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
     - pwsh: |
-        set -o xtrace
+        Set-PSDebug -Trace 1
         $tarFile = (Get-ChildItem -Path "${{parameters.Artifact.name}}*.tgz")?.Name
         $tempDir = "temp_decompress"
         New-Item -ItemType Directory -Force -Path $tempDir
