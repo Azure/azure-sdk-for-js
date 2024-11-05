@@ -7,11 +7,12 @@ This is the default implementation of long running operations in Azure SDK JavaS
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro)
-- [Package (npm)](https://www.npmjs.com/package/@azure/core-lro) 
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/core-lro) 
+- [Package (npm)](https://www.npmjs.com/package/@azure/core-lro)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/core-lro)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/samples)
 
 ## Getting started
+
 
 ### Currently supported environments
 
