@@ -2,11 +2,19 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import type { HttpClient, PipelinePhase, PipelinePolicy, PipelineRequest, PipelineResponse, SendRequest, AddPipelineOptions, } from "@typespec/ts-http-runtime";
+import type {
+  HttpClient,
+  PipelinePhase,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+  AddPipelineOptions,
+} from "@typespec/ts-http-runtime";
 import type { Client } from "../src/client/common.js";
 import { AbortError, createTracingClient } from "@typespec/ts-http-runtime";
 
-interface GetOperationResult { }
+interface GetOperationResult {}
 interface DetectFromUrl {}
 interface Routes {
   /** Resource for '/operations/\{operationId\}' has methods for the following verbs: get */

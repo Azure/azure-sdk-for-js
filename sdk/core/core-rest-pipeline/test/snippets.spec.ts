@@ -2,7 +2,15 @@
 // Licensed under the MIT License.
 
 import { describe, it } from "vitest";
-import { AddPipelineOptions,  HttpClient, PipelinePhase, PipelinePolicy, PipelineRequest, PipelineResponse, SendRequest, } from "@azure/core-rest-pipeline";
+import {
+  AddPipelineOptions,
+  HttpClient,
+  PipelinePhase,
+  PipelinePolicy,
+  PipelineRequest,
+  PipelineResponse,
+  SendRequest,
+} from "@azure/core-rest-pipeline";
 
 describe("snippets", () => {
   it("send_request", () => {

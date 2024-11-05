@@ -6,8 +6,15 @@ import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 
 interface ListSecretsOptions {}
 interface SecretAttributes {}
-function listSecretsAll(options: ListSecretsOptions): AsyncIterableIterator<SecretAttributes> { throw "stub"; }
-function listSecretsPage(pageSettings: PageSettings, options: ListSecretsOptions): AsyncIterableIterator<SecretAttributes[]> { throw "stub" }
+function listSecretsAll(options: ListSecretsOptions): AsyncIterableIterator<SecretAttributes> {
+  throw "stub";
+}
+function listSecretsPage(
+  pageSettings: PageSettings,
+  options: ListSecretsOptions,
+): AsyncIterableIterator<SecretAttributes[]> {
+  throw "stub";
+}
 
 describe("snippets", () => {
   it("paging_example", async () => {

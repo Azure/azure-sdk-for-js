@@ -31,7 +31,7 @@ export default leafCommand(commandInfo, async (options) => {
     compilerOptions: {
       noUnusedLocals: false,
       noUnusedParameters: false,
-    }
+    },
   });
 
   if (options.paths) {
