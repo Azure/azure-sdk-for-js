@@ -287,7 +287,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     const hasLimit = queryInfo.limit || queryInfo.limit === 0;
     if (!hasTop && !hasLimit) {
       throw new ErrorResponse(
-        "Executing a vector search query without TOP or LIMIT can consume a large number of RUs " +
+        "Executing a non-streaming search query without TOP or LIMIT can consume a large number of RUs " +
           "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
           "with your vector search query.",
       );
