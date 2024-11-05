@@ -1,4 +1,4 @@
-# Azure DeidServices REST client library for JavaScript
+# Azure Deidentification REST client library for JavaScript
 
 Health Deidentification Service
 
@@ -21,13 +21,13 @@ Key links:
 
 ### Install the `@azure-rest/health-deidentification` package
 
-Install the Azure DeidServices REST client REST client library for JavaScript with `npm`:
+Install the Azure Deidentification REST client REST client library for JavaScript with `npm`:
 
 ```bash
 npm install @azure-rest/health-deidentification
 ```
 
-### Create and authenticate a `DeidServicesClient`
+### Create and authenticate a `DeidentificationClient`
 
 To use an [Azure Active Directory (AAD) token credential](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md#authenticating-with-a-pre-fetched-access-token),
 provide an instance of the desired credential type obtained from the
