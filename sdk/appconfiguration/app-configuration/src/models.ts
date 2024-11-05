@@ -16,7 +16,12 @@ import type {
 /**
  * Provides configuration options for AppConfigurationClient.
  */
-export interface AppConfigurationClientOptions extends CommonClientOptions {}
+export interface AppConfigurationClientOptions extends CommonClientOptions {
+  /**
+   * The API version to use when interacting with the service.
+   */
+  apiVersion?: string;
+}
 
 /**
  * Fields that uniquely identify a configuration setting
