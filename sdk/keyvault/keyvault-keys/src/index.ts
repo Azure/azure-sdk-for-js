@@ -2,25 +2,25 @@
 // Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 
-import { logger } from "./log";
+import { logger } from "./log.js";
 
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 
+import type { GetKeysOptionalParams } from "./generated/models/index.js";
 import {
   DeletionRecoveryLevel,
-  GetKeysOptionalParams,
   KnownDeletionRecoveryLevel,
   KnownJsonWebKeyType,
-} from "./generated/models";
-import { KeyVaultClient } from "./generated/keyVaultClient";
-import { SDK_VERSION } from "./constants";
+} from "./generated/models/index.js";
+import { KeyVaultClient } from "./generated/keyVaultClient.js";
+import { SDK_VERSION } from "./constants.js";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 
-import { DeleteKeyPoller } from "./lro/delete/poller";
-import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
+import { DeleteKeyPoller } from "./lro/delete/poller.js";
+import { RecoverDeletedKeyPoller } from "./lro/recover/poller.js";
 
 import {
   BackupKeyOptions,
@@ -66,9 +66,9 @@ import {
   RotateKeyOptions,
   UpdateKeyPropertiesOptions,
   UpdateKeyRotationPolicyOptions,
-} from "./keysModels";
+} from "./keysModels.js";
 
-import { CryptographyClient } from "./cryptographyClient";
+import { CryptographyClient } from "./cryptographyClient.js";
 
 import {
   AesCbcDecryptParameters,
@@ -102,16 +102,16 @@ import {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-} from "./cryptographyClientModels";
+} from "./cryptographyClientModels.js";
 
-import { KeyVaultKeyIdentifier, parseKeyVaultKeyIdentifier } from "./identifier";
+import { KeyVaultKeyIdentifier, parseKeyVaultKeyIdentifier } from "./identifier.js";
 import {
   getDeletedKeyFromDeletedKeyItem,
   getKeyFromKeyBundle,
   getKeyPropertiesFromKeyItem,
   keyRotationTransformations,
-} from "./transformations";
-import { tracingClient } from "./tracing";
+} from "./transformations.js";
+import { tracingClient } from "./tracing.js";
 
 export {
   CryptographyClientOptions,

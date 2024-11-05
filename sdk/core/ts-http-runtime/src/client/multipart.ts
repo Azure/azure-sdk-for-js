@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { BodyPart, MultipartRequestBody, RawHttpHeadersInput } from "../interfaces.js";
+import type { BodyPart, MultipartRequestBody, RawHttpHeadersInput } from "../interfaces.js";
 import { RestError } from "../restError.js";
 import { createHttpHeaders } from "../httpHeaders.js";
 import { stringToUint8Array } from "../util/bytesEncoding.js";

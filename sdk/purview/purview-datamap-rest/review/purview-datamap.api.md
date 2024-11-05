@@ -4,17 +4,24 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
 import { createFile } from '@azure/core-rest-pipeline';
 import { createFileFromStream } from '@azure/core-rest-pipeline';
 import { CreateFileFromStreamOptions } from '@azure/core-rest-pipeline';
 import { CreateFileOptions } from '@azure/core-rest-pipeline';
+<<<<<<< HEAD
 import { HttpResponse } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
+=======
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
+>>>>>>> main
 
 // @public
 export interface AtlasAttributeDef {

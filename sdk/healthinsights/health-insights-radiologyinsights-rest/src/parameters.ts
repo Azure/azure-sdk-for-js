@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import { RadiologyInsightsJob } from "./models";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type { RadiologyInsightsJob } from "./models";
 
 /** Get the job query parameter properties */
 export interface GetJobQueryParamProperties {

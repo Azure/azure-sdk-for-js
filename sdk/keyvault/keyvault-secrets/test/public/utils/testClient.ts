@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { testPollerProperties } from "./recorderUtils.js";
-import { SecretClient, SecretProperties } from "../../../src/index.js";
-import { PollOperationState, PollerLike } from "@azure/core-lro";
+import type { SecretClient, SecretProperties } from "../../../src/index.js";
+import type { PollOperationState, PollerLike } from "@azure/core-lro";
 import { RestoreSecretBackupPoller } from "./lro/restore/poller.js";
-import { BeginRestoreSecretBackupOptions } from "./lro/restore/operation.js";
+import type { BeginRestoreSecretBackupOptions } from "./lro/restore/operation.js";
 
 export default class TestClient {
   public readonly client: SecretClient;

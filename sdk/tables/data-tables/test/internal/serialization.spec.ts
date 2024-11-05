@@ -8,7 +8,7 @@ import {
   serializeSignedIdentifiers,
 } from "../../src/serialization";
 
-import { Edm } from "../../src";
+import type { Edm } from "../../src";
 import { assert } from "chai";
 
 interface Entity {

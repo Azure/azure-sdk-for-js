@@ -16,7 +16,7 @@ import {
   getSpanName,
   getRequestBody,
 } from "./tracingHelper.js";
-import {
+import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,

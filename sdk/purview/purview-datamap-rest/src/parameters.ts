@@ -94,8 +94,8 @@ export interface EntityBulkCreateOrUpdateQueryParam {
 
 export type EntityBulkCreateOrUpdateParameters =
   EntityBulkCreateOrUpdateQueryParam &
-    EntityBulkCreateOrUpdateBodyParam &
-    RequestParameters;
+  EntityBulkCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface EntityBulkDeleteQueryParamProperties {
   /** An array of GUIDs of entities to delete. This parameter needs to be formatted as multi collection, we provide buildMultiCollection from serializeHelper.ts to help, you will probably need to set skipUrlEncoding as true when sending the request */
@@ -145,8 +145,8 @@ export interface EntityPartialUpdateAttributeByGuidQueryParam {
 
 export type EntityPartialUpdateAttributeByGuidParameters =
   EntityPartialUpdateAttributeByGuidQueryParam &
-    EntityPartialUpdateAttributeByGuidBodyParam &
-    RequestParameters;
+  EntityPartialUpdateAttributeByGuidBodyParam &
+  RequestParameters;
 export type EntityDeleteParameters = RequestParameters;
 export type EntityGetClassificationParameters = RequestParameters;
 export type EntityRemoveClassificationParameters = RequestParameters;
@@ -205,8 +205,8 @@ export interface EntityPartialUpdateByUniqueAttributesQueryParam {
 
 export type EntityPartialUpdateByUniqueAttributesParameters =
   EntityPartialUpdateByUniqueAttributesQueryParam &
-    EntityPartialUpdateByUniqueAttributesBodyParam &
-    RequestParameters;
+  EntityPartialUpdateByUniqueAttributesBodyParam &
+  RequestParameters;
 
 export interface EntityDeleteByUniqueAttributeQueryParamProperties {
   /**
@@ -257,8 +257,8 @@ export interface EntityAddClassificationsByUniqueAttributeQueryParam {
 
 export type EntityAddClassificationsByUniqueAttributeParameters =
   EntityAddClassificationsByUniqueAttributeQueryParam &
-    EntityAddClassificationsByUniqueAttributeBodyParam &
-    RequestParameters;
+  EntityAddClassificationsByUniqueAttributeBodyParam &
+  RequestParameters;
 
 export interface EntityUpdateClassificationsByUniqueAttributeBodyParam {
   /** An array of classification to be updated. */
@@ -279,8 +279,8 @@ export interface EntityUpdateClassificationsByUniqueAttributeQueryParam {
 
 export type EntityUpdateClassificationsByUniqueAttributeParameters =
   EntityUpdateClassificationsByUniqueAttributeQueryParam &
-    EntityUpdateClassificationsByUniqueAttributeBodyParam &
-    RequestParameters;
+  EntityUpdateClassificationsByUniqueAttributeBodyParam &
+  RequestParameters;
 
 export interface EntityBulkSetClassificationsBodyParam {
   body: AtlasEntityHeaders;
@@ -337,8 +337,8 @@ export interface EntityAddOrUpdateBusinessMetadataQueryParam {
 
 export type EntityAddOrUpdateBusinessMetadataParameters =
   EntityAddOrUpdateBusinessMetadataQueryParam &
-    EntityAddOrUpdateBusinessMetadataBodyParam &
-    RequestParameters;
+  EntityAddOrUpdateBusinessMetadataBodyParam &
+  RequestParameters;
 
 export interface EntityRemoveBusinessMetadataAttributesBodyParam {
   /** Business metadata attribute payload */
@@ -369,8 +369,8 @@ export interface EntityImportBusinessMetadataMediaTypesParam {
 
 export type EntityImportBusinessMetadataParameters =
   EntityImportBusinessMetadataMediaTypesParam &
-    EntityImportBusinessMetadataBodyParam &
-    RequestParameters;
+  EntityImportBusinessMetadataBodyParam &
+  RequestParameters;
 
 export interface EntityRemoveLabelsBodyParam {
   /** set of labels to be deleted */
@@ -415,8 +415,8 @@ export interface EntityRemoveLabelsByUniqueAttributeQueryParam {
 
 export type EntityRemoveLabelsByUniqueAttributeParameters =
   EntityRemoveLabelsByUniqueAttributeQueryParam &
-    EntityRemoveLabelsByUniqueAttributeBodyParam &
-    RequestParameters;
+  EntityRemoveLabelsByUniqueAttributeBodyParam &
+  RequestParameters;
 
 export interface EntitySetLabelsByUniqueAttributeBodyParam {
   /** set of labels to be set */
@@ -437,8 +437,8 @@ export interface EntitySetLabelsByUniqueAttributeQueryParam {
 
 export type EntitySetLabelsByUniqueAttributeParameters =
   EntitySetLabelsByUniqueAttributeQueryParam &
-    EntitySetLabelsByUniqueAttributeBodyParam &
-    RequestParameters;
+  EntitySetLabelsByUniqueAttributeBodyParam &
+  RequestParameters;
 
 export interface EntityAddLabelsByUniqueAttributeBodyParam {
   /** set of labels to be added */
@@ -459,8 +459,8 @@ export interface EntityAddLabelsByUniqueAttributeQueryParam {
 
 export type EntityAddLabelsByUniqueAttributeParameters =
   EntityAddLabelsByUniqueAttributeQueryParam &
-    EntityAddLabelsByUniqueAttributeBodyParam &
-    RequestParameters;
+  EntityAddLabelsByUniqueAttributeBodyParam &
+  RequestParameters;
 
 export interface EntityMoveEntitiesToCollectionBodyParam {
   body: MoveEntitiesOptions;
@@ -479,8 +479,8 @@ export interface EntityMoveEntitiesToCollectionQueryParam {
 
 export type EntityMoveEntitiesToCollectionParameters =
   EntityMoveEntitiesToCollectionQueryParam &
-    EntityMoveEntitiesToCollectionBodyParam &
-    RequestParameters;
+  EntityMoveEntitiesToCollectionBodyParam &
+  RequestParameters;
 
 export interface GlossaryListQueryParamProperties {
   /** The API version to use for this operation. */
@@ -645,8 +645,8 @@ export interface GlossaryPartialUpdateTermQueryParam {
 
 export type GlossaryPartialUpdateTermParameters =
   GlossaryPartialUpdateTermQueryParam &
-    GlossaryPartialUpdateTermBodyParam &
-    RequestParameters;
+  GlossaryPartialUpdateTermBodyParam &
+  RequestParameters;
 
 export interface GlossaryCreateTermsBodyParam {
   /** An array of glossary term definitions to be created in bulk. */

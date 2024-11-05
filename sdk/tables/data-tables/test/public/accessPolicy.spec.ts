@@ -3,8 +3,8 @@
 
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 
-import { Context } from "mocha";
-import { TableClient } from "../../src";
+import type { Context } from "mocha";
+import type { TableClient } from "../../src";
 import { assert } from "chai";
 import { createTableClient } from "./utils/recordedClient";
 import { isNodeLike } from "@azure/core-util";

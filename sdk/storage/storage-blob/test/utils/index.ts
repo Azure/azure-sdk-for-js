@@ -8,7 +8,8 @@ import { config } from "dotenv";
 
 import { SimpleTokenCredential } from "./testutils.common";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { StoragePipelineOptions, StorageSharedKeyCredential } from "../../src";
+import type { StoragePipelineOptions } from "../../src";
+import { StorageSharedKeyCredential } from "../../src";
 import { BlobServiceClient } from "../../src";
 import { getUniqueName, configureBlobStorageClient } from "./testutils.common";
 import { newPipeline } from "../../src";
@@ -20,8 +21,9 @@ import {
   AccountSASServices,
 } from "../../src";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
-import { AccessToken, TokenCredential } from "@azure/core-auth";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import type { AccessToken, TokenCredential } from "@azure/core-auth";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
 export * from "./testutils.common";
 config();
@@ -319,4 +321,10 @@ export function getSASConnectionStringFromEnvironment(recorder: Recorder): strin
     ".queue.",
     ".file.",
   )}/;TableEndpoint=${blobEndpoint.replace(".queue.", ".table.")}/;SharedAccessSignature=${sas}`;
+}
+
+export function getSignatureFromSasUrl(sasUrl: string): string {
+  const url = new URL(sasUrl);
+  const signature = url.searchParams.get("sig");
+  return signature!;
 }

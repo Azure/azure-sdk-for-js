@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CosmosDiagnostics } from "../../CosmosDiagnostics";
+import type { CosmosDiagnostics } from "../../CosmosDiagnostics";
 import { Constants } from "../../common";
-import { CosmosHeaders } from "../../queryExecutionContext";
+import type { CosmosHeaders } from "../../queryExecutionContext";
 
 /**
  * A single response page from the Azure Cosmos DB Change Feed

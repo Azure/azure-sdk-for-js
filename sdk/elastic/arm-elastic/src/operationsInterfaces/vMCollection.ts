@@ -12,13 +12,13 @@ import { VMCollectionUpdateOptionalParams } from "../models";
 export interface VMCollection {
   /**
    * Update the vm details that will be monitored by the Elastic monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   update(
     resourceGroupName: string,
     monitorName: string,
-    options?: VMCollectionUpdateOptionalParams
+    options?: VMCollectionUpdateOptionalParams,
   ): Promise<void>;
 }

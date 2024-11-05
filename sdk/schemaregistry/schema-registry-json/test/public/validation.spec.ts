@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { assert } from "@azure-tools/test-utils";
-import { DeserializeOptions, JsonSchemaSerializer } from "../../src";
-import { SchemaRegistry } from "@azure/schema-registry";
+import type { DeserializeOptions, JsonSchemaSerializer } from "../../src";
+import type { SchemaRegistry } from "@azure/schema-registry";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { createTestSerializer } from "./utils/mockedSerializer";
 import { createContentType, encoder, testGroup } from "./utils/dummies";
