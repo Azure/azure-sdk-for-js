@@ -31,7 +31,7 @@ $packageDistTags = $npmPkgProp."dist-tags"
 Write-Host "Current dist-tag: $packageDistTags"
 
 if ($packageDistTags."$intendedTag" -ne $intendedTagVersion) {
-  Write-Host "Tag not correctly set, current $intendedTag tag is version $packageDistTags.'$intendedTag' instead of $intendedTagVersion."
+  Write-Warning "Tag not correctly set, current $intendedTag tag is version $packageDistTags.'$intendedTag' instead of $intendedTagVersion."
   $correctDistTags = $parsedOriginalDistTags
   $correctDistTags."$intendedTag" = $intendedTagVersion
   foreach($tag in $correctDistTags.PSObject.Properties) {
