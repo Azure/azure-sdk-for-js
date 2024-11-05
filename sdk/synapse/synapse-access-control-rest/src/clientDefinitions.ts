@@ -9,101 +9,101 @@ import {
   RoleAssignmentsDeleteRoleAssignmentByIdParameters,
   RoleDefinitionsListRoleDefinitionsParameters,
   RoleDefinitionsGetRoleDefinitionByIdParameters,
-  RoleDefinitionsListScopesParameters
+  RoleDefinitionsListScopesParameters,
 } from "./parameters";
 import {
   RoleAssignmentsCheckPrincipalAccess200Response,
-  RoleAssignmentsCheckPrincipalAccessdefaultResponse,
+  RoleAssignmentsCheckPrincipalAccessDefaultResponse,
   RoleAssignmentsListRoleAssignments200Response,
-  RoleAssignmentsListRoleAssignmentsdefaultResponse,
+  RoleAssignmentsListRoleAssignmentsDefaultResponse,
   RoleAssignmentsCreateRoleAssignment200Response,
-  RoleAssignmentsCreateRoleAssignmentdefaultResponse,
+  RoleAssignmentsCreateRoleAssignmentDefaultResponse,
   RoleAssignmentsGetRoleAssignmentById200Response,
-  RoleAssignmentsGetRoleAssignmentByIddefaultResponse,
+  RoleAssignmentsGetRoleAssignmentByIdDefaultResponse,
   RoleAssignmentsDeleteRoleAssignmentById200Response,
   RoleAssignmentsDeleteRoleAssignmentById204Response,
-  RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse,
+  RoleAssignmentsDeleteRoleAssignmentByIdDefaultResponse,
   RoleDefinitionsListRoleDefinitions200Response,
-  RoleDefinitionsListRoleDefinitionsdefaultResponse,
+  RoleDefinitionsListRoleDefinitionsDefaultResponse,
   RoleDefinitionsGetRoleDefinitionById200Response,
-  RoleDefinitionsGetRoleDefinitionByIddefaultResponse,
+  RoleDefinitionsGetRoleDefinitionByIdDefaultResponse,
   RoleDefinitionsListScopes200Response,
-  RoleDefinitionsListScopesdefaultResponse
+  RoleDefinitionsListScopesDefaultResponse,
 } from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface RoleAssignmentsCheckPrincipalAccess {
   /** Check if the given principalId has access to perform list of actions at a given scope. */
   post(
-    options: RoleAssignmentsCheckPrincipalAccessParameters
+    options: RoleAssignmentsCheckPrincipalAccessParameters,
   ): StreamableMethod<
     | RoleAssignmentsCheckPrincipalAccess200Response
-    | RoleAssignmentsCheckPrincipalAccessdefaultResponse
+    | RoleAssignmentsCheckPrincipalAccessDefaultResponse
   >;
 }
 
 export interface RoleAssignmentsListRoleAssignments {
   /** List role assignments. */
   get(
-    options?: RoleAssignmentsListRoleAssignmentsParameters
+    options?: RoleAssignmentsListRoleAssignmentsParameters,
   ): StreamableMethod<
     | RoleAssignmentsListRoleAssignments200Response
-    | RoleAssignmentsListRoleAssignmentsdefaultResponse
+    | RoleAssignmentsListRoleAssignmentsDefaultResponse
   >;
 }
 
 export interface RoleAssignmentsCreateRoleAssignment {
   /** Create role assignment. */
   put(
-    options: RoleAssignmentsCreateRoleAssignmentParameters
+    options: RoleAssignmentsCreateRoleAssignmentParameters,
   ): StreamableMethod<
     | RoleAssignmentsCreateRoleAssignment200Response
-    | RoleAssignmentsCreateRoleAssignmentdefaultResponse
+    | RoleAssignmentsCreateRoleAssignmentDefaultResponse
   >;
   /** Get role assignment by role assignment Id. */
   get(
-    options?: RoleAssignmentsGetRoleAssignmentByIdParameters
+    options?: RoleAssignmentsGetRoleAssignmentByIdParameters,
   ): StreamableMethod<
     | RoleAssignmentsGetRoleAssignmentById200Response
-    | RoleAssignmentsGetRoleAssignmentByIddefaultResponse
+    | RoleAssignmentsGetRoleAssignmentByIdDefaultResponse
   >;
   /** Delete role assignment by role assignment Id. */
   delete(
-    options?: RoleAssignmentsDeleteRoleAssignmentByIdParameters
+    options?: RoleAssignmentsDeleteRoleAssignmentByIdParameters,
   ): StreamableMethod<
     | RoleAssignmentsDeleteRoleAssignmentById200Response
     | RoleAssignmentsDeleteRoleAssignmentById204Response
-    | RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse
+    | RoleAssignmentsDeleteRoleAssignmentByIdDefaultResponse
   >;
 }
 
 export interface RoleDefinitionsListRoleDefinitions {
   /** List role definitions. */
   get(
-    options?: RoleDefinitionsListRoleDefinitionsParameters
+    options?: RoleDefinitionsListRoleDefinitionsParameters,
   ): StreamableMethod<
     | RoleDefinitionsListRoleDefinitions200Response
-    | RoleDefinitionsListRoleDefinitionsdefaultResponse
+    | RoleDefinitionsListRoleDefinitionsDefaultResponse
   >;
 }
 
 export interface RoleDefinitionsGetRoleDefinitionById {
   /** Get role definition by role definition Id. */
   get(
-    options?: RoleDefinitionsGetRoleDefinitionByIdParameters
+    options?: RoleDefinitionsGetRoleDefinitionByIdParameters,
   ): StreamableMethod<
     | RoleDefinitionsGetRoleDefinitionById200Response
-    | RoleDefinitionsGetRoleDefinitionByIddefaultResponse
+    | RoleDefinitionsGetRoleDefinitionByIdDefaultResponse
   >;
 }
 
 export interface RoleDefinitionsListScopes {
   /** List rbac scopes. */
   get(
-    options?: RoleDefinitionsListScopesParameters
+    options?: RoleDefinitionsListScopesParameters,
   ): StreamableMethod<
     | RoleDefinitionsListScopes200Response
-    | RoleDefinitionsListScopesdefaultResponse
+    | RoleDefinitionsListScopesDefaultResponse
   >;
 }
 
@@ -115,14 +115,14 @@ export interface Routes {
   /** Resource for '/roleAssignments/\{roleAssignmentId\}' has methods for the following verbs: put, get, delete */
   (
     path: "/roleAssignments/{roleAssignmentId}",
-    roleAssignmentId: string
+    roleAssignmentId: string,
   ): RoleAssignmentsCreateRoleAssignment;
   /** Resource for '/roleDefinitions' has methods for the following verbs: get */
   (path: "/roleDefinitions"): RoleDefinitionsListRoleDefinitions;
   /** Resource for '/roleDefinitions/\{roleDefinitionId\}' has methods for the following verbs: get */
   (
     path: "/roleDefinitions/{roleDefinitionId}",
-    roleDefinitionId: string
+    roleDefinitionId: string,
   ): RoleDefinitionsGetRoleDefinitionById;
   /** Resource for '/rbacScopes' has methods for the following verbs: get */
   (path: "/rbacScopes"): RoleDefinitionsListScopes;

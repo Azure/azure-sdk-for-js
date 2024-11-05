@@ -8,7 +8,7 @@ import {
   ErrorContractOutput,
   RoleAssignmentDetailsListOutput,
   RoleAssignmentDetailsOutput,
-  SynapseRoleDefinitionOutput
+  SynapseRoleDefinitionOutput,
 } from "./outputModels";
 
 /** Check if the given principalId has access to perform list of actions at a given scope. */
@@ -19,7 +19,7 @@ export interface RoleAssignmentsCheckPrincipalAccess200Response
 }
 
 /** Check if the given principalId has access to perform list of actions at a given scope. */
-export interface RoleAssignmentsCheckPrincipalAccessdefaultResponse
+export interface RoleAssignmentsCheckPrincipalAccessDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
@@ -39,7 +39,7 @@ export interface RoleAssignmentsListRoleAssignments200Response
 }
 
 /** List role assignments. */
-export interface RoleAssignmentsListRoleAssignmentsdefaultResponse
+export interface RoleAssignmentsListRoleAssignmentsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
@@ -53,7 +53,7 @@ export interface RoleAssignmentsCreateRoleAssignment200Response
 }
 
 /** Create role assignment. */
-export interface RoleAssignmentsCreateRoleAssignmentdefaultResponse
+export interface RoleAssignmentsCreateRoleAssignmentDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
@@ -67,7 +67,7 @@ export interface RoleAssignmentsGetRoleAssignmentById200Response
 }
 
 /** Get role assignment by role assignment Id. */
-export interface RoleAssignmentsGetRoleAssignmentByIddefaultResponse
+export interface RoleAssignmentsGetRoleAssignmentByIdDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
@@ -77,18 +77,16 @@ export interface RoleAssignmentsGetRoleAssignmentByIddefaultResponse
 export interface RoleAssignmentsDeleteRoleAssignmentById200Response
   extends HttpResponse {
   status: "200";
-  body: Record<string, unknown>;
 }
 
 /** Delete role assignment by role assignment Id. */
 export interface RoleAssignmentsDeleteRoleAssignmentById204Response
   extends HttpResponse {
   status: "204";
-  body: Record<string, unknown>;
 }
 
 /** Delete role assignment by role assignment Id. */
-export interface RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse
+export interface RoleAssignmentsDeleteRoleAssignmentByIdDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
@@ -102,7 +100,7 @@ export interface RoleDefinitionsListRoleDefinitions200Response
 }
 
 /** List role definitions. */
-export interface RoleDefinitionsListRoleDefinitionsdefaultResponse
+export interface RoleDefinitionsListRoleDefinitionsDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
@@ -116,7 +114,7 @@ export interface RoleDefinitionsGetRoleDefinitionById200Response
 }
 
 /** Get role definition by role definition Id. */
-export interface RoleDefinitionsGetRoleDefinitionByIddefaultResponse
+export interface RoleDefinitionsGetRoleDefinitionByIdDefaultResponse
   extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
@@ -129,7 +127,7 @@ export interface RoleDefinitionsListScopes200Response extends HttpResponse {
 }
 
 /** List rbac scopes. */
-export interface RoleDefinitionsListScopesdefaultResponse extends HttpResponse {
+export interface RoleDefinitionsListScopesDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorContractOutput;
 }

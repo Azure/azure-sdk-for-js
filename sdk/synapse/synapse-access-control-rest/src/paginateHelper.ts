@@ -4,12 +4,12 @@
 import {
   getPagedAsyncIterator,
   PagedAsyncIterableIterator,
-  PagedResult
+  PagedResult,
 } from "@azure/core-paging";
 import {
   Client,
   createRestError,
-  PathUncheckedResponse
+  PathUncheckedResponse,
 } from "@azure-rest/core-client";
 
 /**
@@ -22,7 +22,7 @@ export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
  */
 export type GetPage<TPage> = (
   pageLink: string,
-  maxPageSize?: number
+  maxPageSize?: number,
 ) => Promise<{
   page: TPage;
   nextPageLink?: string;
@@ -61,7 +61,7 @@ export type PaginateReturn<TResult> = TResult extends {
 export function paginate<TResponse extends PathUncheckedResponse>(
   client: Client,
   initialResponse: TResponse,
-  options: PagingOptions<TResponse> = {}
+  options: PagingOptions<TResponse> = {},
 ): PagedAsyncIterableIterator<PaginateReturn<TResponse>> {
   // Extract element type from initial response
   type TElement = PaginateReturn<TResponse>;
@@ -84,9 +84,9 @@ export function paginate<TResponse extends PathUncheckedResponse>(
             const values = getElements<TElement>(result.body, itemName);
             return {
               page: values,
-              nextPageLink: nextLink
+              nextPageLink: nextLink,
             };
-          }
+          },
   };
 
   return getPagedAsyncIterator(pagedResult);
@@ -104,7 +104,7 @@ function getNextLink(body: unknown, nextLinkName?: string): string | undefined {
 
   if (typeof nextLink !== "string" && typeof nextLink !== "undefined") {
     throw new Error(
-      `Body Property ${nextLinkName} should be a string or undefined`
+      `Body Property ${nextLinkName} should be a string or undefined`,
     );
   }
 
@@ -122,7 +122,7 @@ function getElements<T = unknown>(body: unknown, itemName: string): T[] {
   // type of elements in the page in PaginateReturn
   if (!Array.isArray(value)) {
     throw new Error(
-      `Couldn't paginate response\n Body doesn't contain an array property with name: ${itemName}`
+      `Couldn't paginate response\n Body doesn't contain an array property with name: ${itemName}`,
     );
   }
 
@@ -143,12 +143,12 @@ function checkPagingRequest(response: PathUncheckedResponse): void {
     "206",
     "207",
     "208",
-    "226"
+    "226",
   ];
   if (!Http2xxStatusCodes.includes(response.status)) {
     throw createRestError(
       `Pagination failed with unexpected statusCode ${response.status}`,
-      response
+      response,
     );
   }
 }
