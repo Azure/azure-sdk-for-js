@@ -71,7 +71,6 @@
   "devDependencies": {
     "@azure-tools/test-credential": "^1.0.0",
     "@azure-tools/test-recorder": "^4.0.0",
-    "@azure-tools/test-utils": "~1.0.0",
     "@azure-tools/vite-plugin-browser-test-map": "~1.0.0",
     "@azure/core-util": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",
