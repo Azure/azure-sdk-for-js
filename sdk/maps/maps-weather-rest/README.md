@@ -130,7 +130,7 @@ const client = MapsWeather(sasCredential);
 
 ## Key concepts
 
-### MapsWeatherClient
+### MapsWeather
 
 `MapsWeather` is the primary interface for developers using the Azure Maps Weather client library. Explore the methods on this client object to understand the different features of the Azure Maps Weather service that you can access.
 
