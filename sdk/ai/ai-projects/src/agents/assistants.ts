@@ -3,7 +3,7 @@
 
 import { Client, createRestError } from "@azure-rest/core-client";
 import { AgentDeletionStatusOutput, AgentOutput, OpenAIPageableListOfAgentOutput } from "../generated/src/outputModels.js";
-import { AgentsCreateAgentParameters, AgentsDeleteAgentParameters, AgentsGetAgentParameters, AgentsListAgentsParameters, AgentsUpdateAgentParameters } from "../generated/src/parameters.js";
+import { CreateAgentParameters, DeleteAgentParameters, GetAgentParameters, UpdateAgentParameters, ListAgentsParameters } from "../generated/src/parameters.js";
 
 
 const expectedStatuses = ["200"];
@@ -11,7 +11,7 @@ const expectedStatuses = ["200"];
 /** Creates a new agent. */
 export async function createAgent(
     context: Client,
-    options: AgentsCreateAgentParameters,
+    options: CreateAgentParameters,
   ): Promise<AgentOutput> {
     const result = await  context.path("/assistants").post(options);
    
@@ -24,7 +24,7 @@ export async function createAgent(
   /** Gets a list of agents that were previously created. */
   export async function listAgents(
     context: Client,
-    options?: AgentsListAgentsParameters,
+    options?: ListAgentsParameters,
   ): Promise<OpenAIPageableListOfAgentOutput> {
     const result = await  context
     .path("/assistants")
@@ -39,7 +39,7 @@ export async function createAgent(
 export async function getAgent(
     context: Client,
     assistantId: string,
-    options?: AgentsGetAgentParameters,
+    options?: GetAgentParameters,
   ): Promise<AgentOutput> {
     const result = await context
     .path("/assistants/{assistantId}", assistantId)
@@ -54,7 +54,7 @@ export async function getAgent(
 export async function updateAgent(
     context: Client,
     assistantId: string,
-    options?: AgentsUpdateAgentParameters,
+    options?: UpdateAgentParameters,
   ): Promise<AgentOutput> {
     const result = await context
     .path("/assistants/{assistantId}", assistantId)
@@ -70,7 +70,7 @@ export async function updateAgent(
 export async function deleteAgent(
     context: Client,
     assistantId: string,
-    options?: AgentsDeleteAgentParameters,
+    options?: DeleteAgentParameters,
   ): Promise<AgentDeletionStatusOutput> {
     const result = await context
     .path("/assistants/{assistantId}", assistantId)

@@ -2,107 +2,111 @@
 // Licensed under the MIT License.
 
 import {
-  AgentsCreateAgent200Response,
-  AgentsCreateAgentDefaultResponse,
-  AgentsListAgents200Response,
-  AgentsListAgentsDefaultResponse,
-  AgentsGetAgent200Response,
-  AgentsGetAgentDefaultResponse,
-  AgentsUpdateAgent200Response,
-  AgentsUpdateAgentDefaultResponse,
-  AgentsDeleteAgent200Response,
-  AgentsDeleteAgentDefaultResponse,
-  AgentsCreateThread200Response,
-  AgentsCreateThreadDefaultResponse,
-  AgentsGetThread200Response,
-  AgentsGetThreadDefaultResponse,
-  AgentsUpdateThread200Response,
-  AgentsUpdateThreadDefaultResponse,
-  AgentsDeleteThread200Response,
-  AgentsDeleteThreadDefaultResponse,
-  AgentsCreateMessage200Response,
-  AgentsCreateMessageDefaultResponse,
-  AgentsListMessages200Response,
-  AgentsListMessagesDefaultResponse,
-  AgentsGetMessage200Response,
-  AgentsGetMessageDefaultResponse,
-  AgentsUpdateMessage200Response,
-  AgentsUpdateMessageDefaultResponse,
-  AgentsCreateRun200Response,
-  AgentsCreateRunDefaultResponse,
-  AgentsListRuns200Response,
-  AgentsListRunsDefaultResponse,
-  AgentsGetRun200Response,
-  AgentsGetRunDefaultResponse,
-  AgentsUpdateRun200Response,
-  AgentsUpdateRunDefaultResponse,
-  AgentsSubmitToolOutputsToRun200Response,
-  AgentsSubmitToolOutputsToRunDefaultResponse,
-  AgentsCancelRun200Response,
-  AgentsCancelRunDefaultResponse,
-  AgentsCreateThreadAndRun200Response,
-  AgentsCreateThreadAndRunDefaultResponse,
-  AgentsGetRunStep200Response,
-  AgentsGetRunStepDefaultResponse,
-  AgentsListRunSteps200Response,
-  AgentsListRunStepsDefaultResponse,
-  AgentsListFiles200Response,
-  AgentsListFilesDefaultResponse,
-  AgentsUploadFile200Response,
-  AgentsUploadFileDefaultResponse,
-  AgentsDeleteFile200Response,
-  AgentsDeleteFileDefaultResponse,
-  AgentsGetFile200Response,
-  AgentsGetFileDefaultResponse,
-  AgentsGetFileContent200Response,
-  AgentsGetFileContentDefaultResponse,
-  AgentsListVectorStores200Response,
-  AgentsListVectorStoresDefaultResponse,
-  AgentsCreateVectorStore200Response,
-  AgentsCreateVectorStoreDefaultResponse,
-  AgentsGetVectorStore200Response,
-  AgentsGetVectorStoreDefaultResponse,
-  AgentsModifyVectorStore200Response,
-  AgentsModifyVectorStoreDefaultResponse,
-  AgentsDeleteVectorStore200Response,
-  AgentsDeleteVectorStoreDefaultResponse,
-  AgentsListVectorStoreFiles200Response,
-  AgentsListVectorStoreFilesDefaultResponse,
-  AgentsCreateVectorStoreFile200Response,
-  AgentsCreateVectorStoreFileDefaultResponse,
-  AgentsGetVectorStoreFile200Response,
-  AgentsGetVectorStoreFileDefaultResponse,
-  AgentsDeleteVectorStoreFile200Response,
-  AgentsDeleteVectorStoreFileDefaultResponse,
-  AgentsCreateVectorStoreFileBatch200Response,
-  AgentsCreateVectorStoreFileBatchDefaultResponse,
-  AgentsGetVectorStoreFileBatch200Response,
-  AgentsGetVectorStoreFileBatchDefaultResponse,
-  AgentsCancelVectorStoreFileBatch200Response,
-  AgentsCancelVectorStoreFileBatchDefaultResponse,
-  AgentsListVectorStoreFileBatchFiles200Response,
-  AgentsListVectorStoreFileBatchFilesDefaultResponse,
-  ConnectionsList200Response,
-  ConnectionsListDefaultResponse,
-  ConnectionsGet200Response,
-  ConnectionsGetDefaultResponse,
-  ConnectionsListSecrets200Response,
-  ConnectionsListSecretsDefaultResponse,
-  EvaluationsGet200Response,
-  EvaluationsGetDefaultResponse,
-  EvaluationsUpdate200Response,
-  EvaluationsUpdateDefaultResponse,
-  EvaluationsList200Response,
-  EvaluationsListDefaultResponse,
-  EvaluationsGetSchedule200Response,
-  EvaluationsGetScheduleDefaultResponse,
-  EvaluationsCreateOrReplaceSchedule200Response,
-  EvaluationsCreateOrReplaceSchedule201Response,
-  EvaluationsCreateOrReplaceScheduleDefaultResponse,
-  EvaluationsDeleteSchedule204Response,
-  EvaluationsDeleteScheduleDefaultResponse,
-  EvaluationsListSchedule200Response,
-  EvaluationsListScheduleDefaultResponse,
+  CreateAgent200Response,
+  CreateAgentDefaultResponse,
+  ListAgents200Response,
+  ListAgentsDefaultResponse,
+  GetAgent200Response,
+  GetAgentDefaultResponse,
+  UpdateAgent200Response,
+  UpdateAgentDefaultResponse,
+  DeleteAgent200Response,
+  DeleteAgentDefaultResponse,
+  CreateThread200Response,
+  CreateThreadDefaultResponse,
+  GetThread200Response,
+  GetThreadDefaultResponse,
+  UpdateThread200Response,
+  UpdateThreadDefaultResponse,
+  DeleteThread200Response,
+  DeleteThreadDefaultResponse,
+  CreateMessage200Response,
+  CreateMessageDefaultResponse,
+  ListMessages200Response,
+  ListMessagesDefaultResponse,
+  GetMessage200Response,
+  GetMessageDefaultResponse,
+  UpdateMessage200Response,
+  UpdateMessageDefaultResponse,
+  CreateRun200Response,
+  CreateRunDefaultResponse,
+  ListRuns200Response,
+  ListRunsDefaultResponse,
+  GetRun200Response,
+  GetRunDefaultResponse,
+  UpdateRun200Response,
+  UpdateRunDefaultResponse,
+  SubmitToolOutputsToRun200Response,
+  SubmitToolOutputsToRunDefaultResponse,
+  CancelRun200Response,
+  CancelRunDefaultResponse,
+  CreateThreadAndRun200Response,
+  CreateThreadAndRunDefaultResponse,
+  GetRunStep200Response,
+  GetRunStepDefaultResponse,
+  ListRunSteps200Response,
+  ListRunStepsDefaultResponse,
+  ListFiles200Response,
+  ListFilesDefaultResponse,
+  UploadFile200Response,
+  UploadFileDefaultResponse,
+  DeleteFile200Response,
+  DeleteFileDefaultResponse,
+  GetFile200Response,
+  GetFileDefaultResponse,
+  GetFileContent200Response,
+  GetFileContentDefaultResponse,
+  ListVectorStores200Response,
+  ListVectorStoresDefaultResponse,
+  CreateVectorStore200Response,
+  CreateVectorStoreDefaultResponse,
+  GetVectorStore200Response,
+  GetVectorStoreDefaultResponse,
+  ModifyVectorStore200Response,
+  ModifyVectorStoreDefaultResponse,
+  DeleteVectorStore200Response,
+  DeleteVectorStoreDefaultResponse,
+  ListVectorStoreFiles200Response,
+  ListVectorStoreFilesDefaultResponse,
+  CreateVectorStoreFile200Response,
+  CreateVectorStoreFileDefaultResponse,
+  GetVectorStoreFile200Response,
+  GetVectorStoreFileDefaultResponse,
+  DeleteVectorStoreFile200Response,
+  DeleteVectorStoreFileDefaultResponse,
+  CreateVectorStoreFileBatch200Response,
+  CreateVectorStoreFileBatchDefaultResponse,
+  GetVectorStoreFileBatch200Response,
+  GetVectorStoreFileBatchDefaultResponse,
+  CancelVectorStoreFileBatch200Response,
+  CancelVectorStoreFileBatchDefaultResponse,
+  ListVectorStoreFileBatchFiles200Response,
+  ListVectorStoreFileBatchFilesDefaultResponse,
+  GetWorkspace200Response,
+  GetWorkspaceDefaultResponse,
+  ListConnections200Response,
+  ListConnectionsDefaultResponse,
+  GetConnection200Response,
+  GetConnectionDefaultResponse,
+  GetConnectionWithSecrets200Response,
+  GetConnectionWithSecretsDefaultResponse,
+  GetAppInsights200Response,
+  GetAppInsightsDefaultResponse,
+  Get200Response,
+  GetDefaultResponse,
+  Update200Response,
+  UpdateDefaultResponse,
+  List200Response,
+  ListDefaultResponse,
+  GetSchedule200Response,
+  GetScheduleDefaultResponse,
+  CreateOrReplaceSchedule200Response,
+  CreateOrReplaceSchedule201Response,
+  CreateOrReplaceScheduleDefaultResponse,
+  ListSchedule200Response,
+  ListScheduleDefaultResponse,
+  DisableSchedule204Response,
+  DisableScheduleDefaultResponse,
 } from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
@@ -146,366 +150,358 @@ const responseMap: Record<string, string[]> = {
   "GET /vector_stores/{vectorStoreId}/file_batches/{batchId}": ["200"],
   "POST /vector_stores/{vectorStoreId}/file_batches/{batchId}/cancel": ["200"],
   "GET /vector_stores/{vectorStoreId}/file_batches/{batchId}/files": ["200"],
+  "GET /": ["200"],
   "GET /connections": ["200"],
   "GET /connections/{connectionName}": ["200"],
   "POST /connections/{connectionName}/listsecrets": ["200"],
+  "GET /{appInsightsResourceUrl}": ["200"],
   "GET /evaluations/runs/{id}": ["200"],
   "PATCH /evaluations/runs/{id}": ["200"],
   "POST /evaluations/runs:run": ["201"],
   "GET /evaluations/runs": ["200"],
   "GET /evaluations/schedules/{name}": ["200"],
   "PUT /evaluations/schedules/{name}": ["200", "201"],
-  "DELETE /evaluations/schedules/{name}": ["204"],
   "GET /evaluations/schedules": ["200"],
+  "PATCH /evaluations/schedules/{name}/disable": ["204"],
 };
 
 export function isUnexpected(
-  response: AgentsCreateAgent200Response | AgentsCreateAgentDefaultResponse,
-): response is AgentsCreateAgentDefaultResponse;
+  response: CreateAgent200Response | CreateAgentDefaultResponse,
+): response is CreateAgentDefaultResponse;
 export function isUnexpected(
-  response: AgentsListAgents200Response | AgentsListAgentsDefaultResponse,
-): response is AgentsListAgentsDefaultResponse;
+  response: ListAgents200Response | ListAgentsDefaultResponse,
+): response is ListAgentsDefaultResponse;
 export function isUnexpected(
-  response: AgentsGetAgent200Response | AgentsGetAgentDefaultResponse,
-): response is AgentsGetAgentDefaultResponse;
+  response: GetAgent200Response | GetAgentDefaultResponse,
+): response is GetAgentDefaultResponse;
 export function isUnexpected(
-  response: AgentsUpdateAgent200Response | AgentsUpdateAgentDefaultResponse,
-): response is AgentsUpdateAgentDefaultResponse;
+  response: UpdateAgent200Response | UpdateAgentDefaultResponse,
+): response is UpdateAgentDefaultResponse;
 export function isUnexpected(
-  response: AgentsDeleteAgent200Response | AgentsDeleteAgentDefaultResponse,
-): response is AgentsDeleteAgentDefaultResponse;
+  response: DeleteAgent200Response | DeleteAgentDefaultResponse,
+): response is DeleteAgentDefaultResponse;
 export function isUnexpected(
-  response: AgentsCreateThread200Response | AgentsCreateThreadDefaultResponse,
-): response is AgentsCreateThreadDefaultResponse;
+  response: CreateThread200Response | CreateThreadDefaultResponse,
+): response is CreateThreadDefaultResponse;
 export function isUnexpected(
-  response: AgentsGetThread200Response | AgentsGetThreadDefaultResponse,
-): response is AgentsGetThreadDefaultResponse;
+  response: GetThread200Response | GetThreadDefaultResponse,
+): response is GetThreadDefaultResponse;
 export function isUnexpected(
-  response: AgentsUpdateThread200Response | AgentsUpdateThreadDefaultResponse,
-): response is AgentsUpdateThreadDefaultResponse;
+  response: UpdateThread200Response | UpdateThreadDefaultResponse,
+): response is UpdateThreadDefaultResponse;
 export function isUnexpected(
-  response: AgentsDeleteThread200Response | AgentsDeleteThreadDefaultResponse,
-): response is AgentsDeleteThreadDefaultResponse;
+  response: DeleteThread200Response | DeleteThreadDefaultResponse,
+): response is DeleteThreadDefaultResponse;
 export function isUnexpected(
-  response: AgentsCreateMessage200Response | AgentsCreateMessageDefaultResponse,
-): response is AgentsCreateMessageDefaultResponse;
+  response: CreateMessage200Response | CreateMessageDefaultResponse,
+): response is CreateMessageDefaultResponse;
 export function isUnexpected(
-  response: AgentsListMessages200Response | AgentsListMessagesDefaultResponse,
-): response is AgentsListMessagesDefaultResponse;
+  response: ListMessages200Response | ListMessagesDefaultResponse,
+): response is ListMessagesDefaultResponse;
 export function isUnexpected(
-  response: AgentsGetMessage200Response | AgentsGetMessageDefaultResponse,
-): response is AgentsGetMessageDefaultResponse;
+  response: GetMessage200Response | GetMessageDefaultResponse,
+): response is GetMessageDefaultResponse;
 export function isUnexpected(
-  response: AgentsUpdateMessage200Response | AgentsUpdateMessageDefaultResponse,
-): response is AgentsUpdateMessageDefaultResponse;
+  response: UpdateMessage200Response | UpdateMessageDefaultResponse,
+): response is UpdateMessageDefaultResponse;
 export function isUnexpected(
-  response: AgentsCreateRun200Response | AgentsCreateRunDefaultResponse,
-): response is AgentsCreateRunDefaultResponse;
+  response: CreateRun200Response | CreateRunDefaultResponse,
+): response is CreateRunDefaultResponse;
 export function isUnexpected(
-  response: AgentsListRuns200Response | AgentsListRunsDefaultResponse,
-): response is AgentsListRunsDefaultResponse;
+  response: ListRuns200Response | ListRunsDefaultResponse,
+): response is ListRunsDefaultResponse;
 export function isUnexpected(
-  response: AgentsGetRun200Response | AgentsGetRunDefaultResponse,
-): response is AgentsGetRunDefaultResponse;
+  response: GetRun200Response | GetRunDefaultResponse,
+): response is GetRunDefaultResponse;
 export function isUnexpected(
-  response: AgentsUpdateRun200Response | AgentsUpdateRunDefaultResponse,
-): response is AgentsUpdateRunDefaultResponse;
-export function isUnexpected(
-  response:
-    | AgentsSubmitToolOutputsToRun200Response
-    | AgentsSubmitToolOutputsToRunDefaultResponse,
-): response is AgentsSubmitToolOutputsToRunDefaultResponse;
-export function isUnexpected(
-  response: AgentsCancelRun200Response | AgentsCancelRunDefaultResponse,
-): response is AgentsCancelRunDefaultResponse;
+  response: UpdateRun200Response | UpdateRunDefaultResponse,
+): response is UpdateRunDefaultResponse;
 export function isUnexpected(
   response:
-    | AgentsCreateThreadAndRun200Response
-    | AgentsCreateThreadAndRunDefaultResponse,
-): response is AgentsCreateThreadAndRunDefaultResponse;
+    | SubmitToolOutputsToRun200Response
+    | SubmitToolOutputsToRunDefaultResponse,
+): response is SubmitToolOutputsToRunDefaultResponse;
 export function isUnexpected(
-  response: AgentsGetRunStep200Response | AgentsGetRunStepDefaultResponse,
-): response is AgentsGetRunStepDefaultResponse;
+  response: CancelRun200Response | CancelRunDefaultResponse,
+): response is CancelRunDefaultResponse;
 export function isUnexpected(
-  response: AgentsListRunSteps200Response | AgentsListRunStepsDefaultResponse,
-): response is AgentsListRunStepsDefaultResponse;
+  response: CreateThreadAndRun200Response | CreateThreadAndRunDefaultResponse,
+): response is CreateThreadAndRunDefaultResponse;
 export function isUnexpected(
-  response: AgentsListFiles200Response | AgentsListFilesDefaultResponse,
-): response is AgentsListFilesDefaultResponse;
+  response: GetRunStep200Response | GetRunStepDefaultResponse,
+): response is GetRunStepDefaultResponse;
 export function isUnexpected(
-  response: AgentsUploadFile200Response | AgentsUploadFileDefaultResponse,
-): response is AgentsUploadFileDefaultResponse;
+  response: ListRunSteps200Response | ListRunStepsDefaultResponse,
+): response is ListRunStepsDefaultResponse;
 export function isUnexpected(
-  response: AgentsDeleteFile200Response | AgentsDeleteFileDefaultResponse,
-): response is AgentsDeleteFileDefaultResponse;
+  response: ListFiles200Response | ListFilesDefaultResponse,
+): response is ListFilesDefaultResponse;
 export function isUnexpected(
-  response: AgentsGetFile200Response | AgentsGetFileDefaultResponse,
-): response is AgentsGetFileDefaultResponse;
+  response: UploadFile200Response | UploadFileDefaultResponse,
+): response is UploadFileDefaultResponse;
 export function isUnexpected(
-  response:
-    | AgentsGetFileContent200Response
-    | AgentsGetFileContentDefaultResponse,
-): response is AgentsGetFileContentDefaultResponse;
+  response: DeleteFile200Response | DeleteFileDefaultResponse,
+): response is DeleteFileDefaultResponse;
 export function isUnexpected(
-  response:
-    | AgentsListVectorStores200Response
-    | AgentsListVectorStoresDefaultResponse,
-): response is AgentsListVectorStoresDefaultResponse;
+  response: GetFile200Response | GetFileDefaultResponse,
+): response is GetFileDefaultResponse;
 export function isUnexpected(
-  response:
-    | AgentsCreateVectorStore200Response
-    | AgentsCreateVectorStoreDefaultResponse,
-): response is AgentsCreateVectorStoreDefaultResponse;
+  response: GetFileContent200Response | GetFileContentDefaultResponse,
+): response is GetFileContentDefaultResponse;
 export function isUnexpected(
-  response:
-    | AgentsGetVectorStore200Response
-    | AgentsGetVectorStoreDefaultResponse,
-): response is AgentsGetVectorStoreDefaultResponse;
+  response: ListVectorStores200Response | ListVectorStoresDefaultResponse,
+): response is ListVectorStoresDefaultResponse;
 export function isUnexpected(
-  response:
-    | AgentsModifyVectorStore200Response
-    | AgentsModifyVectorStoreDefaultResponse,
-): response is AgentsModifyVectorStoreDefaultResponse;
+  response: CreateVectorStore200Response | CreateVectorStoreDefaultResponse,
+): response is CreateVectorStoreDefaultResponse;
 export function isUnexpected(
-  response:
-    | AgentsDeleteVectorStore200Response
-    | AgentsDeleteVectorStoreDefaultResponse,
-): response is AgentsDeleteVectorStoreDefaultResponse;
+  response: GetVectorStore200Response | GetVectorStoreDefaultResponse,
+): response is GetVectorStoreDefaultResponse;
+export function isUnexpected(
+  response: ModifyVectorStore200Response | ModifyVectorStoreDefaultResponse,
+): response is ModifyVectorStoreDefaultResponse;
+export function isUnexpected(
+  response: DeleteVectorStore200Response | DeleteVectorStoreDefaultResponse,
+): response is DeleteVectorStoreDefaultResponse;
 export function isUnexpected(
   response:
-    | AgentsListVectorStoreFiles200Response
-    | AgentsListVectorStoreFilesDefaultResponse,
-): response is AgentsListVectorStoreFilesDefaultResponse;
+    | ListVectorStoreFiles200Response
+    | ListVectorStoreFilesDefaultResponse,
+): response is ListVectorStoreFilesDefaultResponse;
 export function isUnexpected(
   response:
-    | AgentsCreateVectorStoreFile200Response
-    | AgentsCreateVectorStoreFileDefaultResponse,
-): response is AgentsCreateVectorStoreFileDefaultResponse;
+    | CreateVectorStoreFile200Response
+    | CreateVectorStoreFileDefaultResponse,
+): response is CreateVectorStoreFileDefaultResponse;
+export function isUnexpected(
+  response: GetVectorStoreFile200Response | GetVectorStoreFileDefaultResponse,
+): response is GetVectorStoreFileDefaultResponse;
 export function isUnexpected(
   response:
-    | AgentsGetVectorStoreFile200Response
-    | AgentsGetVectorStoreFileDefaultResponse,
-): response is AgentsGetVectorStoreFileDefaultResponse;
+    | DeleteVectorStoreFile200Response
+    | DeleteVectorStoreFileDefaultResponse,
+): response is DeleteVectorStoreFileDefaultResponse;
 export function isUnexpected(
   response:
-    | AgentsDeleteVectorStoreFile200Response
-    | AgentsDeleteVectorStoreFileDefaultResponse,
-): response is AgentsDeleteVectorStoreFileDefaultResponse;
+    | CreateVectorStoreFileBatch200Response
+    | CreateVectorStoreFileBatchDefaultResponse,
+): response is CreateVectorStoreFileBatchDefaultResponse;
 export function isUnexpected(
   response:
-    | AgentsCreateVectorStoreFileBatch200Response
-    | AgentsCreateVectorStoreFileBatchDefaultResponse,
-): response is AgentsCreateVectorStoreFileBatchDefaultResponse;
+    | GetVectorStoreFileBatch200Response
+    | GetVectorStoreFileBatchDefaultResponse,
+): response is GetVectorStoreFileBatchDefaultResponse;
 export function isUnexpected(
   response:
-    | AgentsGetVectorStoreFileBatch200Response
-    | AgentsGetVectorStoreFileBatchDefaultResponse,
-): response is AgentsGetVectorStoreFileBatchDefaultResponse;
+    | CancelVectorStoreFileBatch200Response
+    | CancelVectorStoreFileBatchDefaultResponse,
+): response is CancelVectorStoreFileBatchDefaultResponse;
 export function isUnexpected(
   response:
-    | AgentsCancelVectorStoreFileBatch200Response
-    | AgentsCancelVectorStoreFileBatchDefaultResponse,
-): response is AgentsCancelVectorStoreFileBatchDefaultResponse;
+    | ListVectorStoreFileBatchFiles200Response
+    | ListVectorStoreFileBatchFilesDefaultResponse,
+): response is ListVectorStoreFileBatchFilesDefaultResponse;
+export function isUnexpected(
+  response: GetWorkspace200Response | GetWorkspaceDefaultResponse,
+): response is GetWorkspaceDefaultResponse;
+export function isUnexpected(
+  response: ListConnections200Response | ListConnectionsDefaultResponse,
+): response is ListConnectionsDefaultResponse;
+export function isUnexpected(
+  response: GetConnection200Response | GetConnectionDefaultResponse,
+): response is GetConnectionDefaultResponse;
 export function isUnexpected(
   response:
-    | AgentsListVectorStoreFileBatchFiles200Response
-    | AgentsListVectorStoreFileBatchFilesDefaultResponse,
-): response is AgentsListVectorStoreFileBatchFilesDefaultResponse;
+    | GetConnectionWithSecrets200Response
+    | GetConnectionWithSecretsDefaultResponse,
+): response is GetConnectionWithSecretsDefaultResponse;
 export function isUnexpected(
-  response: ConnectionsList200Response | ConnectionsListDefaultResponse,
-): response is ConnectionsListDefaultResponse;
+  response: GetAppInsights200Response | GetAppInsightsDefaultResponse,
+): response is GetAppInsightsDefaultResponse;
 export function isUnexpected(
-  response: ConnectionsGet200Response | ConnectionsGetDefaultResponse,
-): response is ConnectionsGetDefaultResponse;
+  response: Get200Response | GetDefaultResponse,
+): response is GetDefaultResponse;
 export function isUnexpected(
-  response:
-    | ConnectionsListSecrets200Response
-    | ConnectionsListSecretsDefaultResponse,
-): response is ConnectionsListSecretsDefaultResponse;
+  response: Update200Response | UpdateDefaultResponse,
+): response is UpdateDefaultResponse;
 export function isUnexpected(
-  response: EvaluationsGet200Response | EvaluationsGetDefaultResponse,
-): response is EvaluationsGetDefaultResponse;
+  response: List200Response | ListDefaultResponse,
+): response is ListDefaultResponse;
 export function isUnexpected(
-  response: EvaluationsUpdate200Response | EvaluationsUpdateDefaultResponse,
-): response is EvaluationsUpdateDefaultResponse;
-export function isUnexpected(
-  response: EvaluationsList200Response | EvaluationsListDefaultResponse,
-): response is EvaluationsListDefaultResponse;
+  response: GetSchedule200Response | GetScheduleDefaultResponse,
+): response is GetScheduleDefaultResponse;
 export function isUnexpected(
   response:
-    | EvaluationsGetSchedule200Response
-    | EvaluationsGetScheduleDefaultResponse,
-): response is EvaluationsGetScheduleDefaultResponse;
+    | CreateOrReplaceSchedule200Response
+    | CreateOrReplaceSchedule201Response
+    | CreateOrReplaceScheduleDefaultResponse,
+): response is CreateOrReplaceScheduleDefaultResponse;
+export function isUnexpected(
+  response: ListSchedule200Response | ListScheduleDefaultResponse,
+): response is ListScheduleDefaultResponse;
+export function isUnexpected(
+  response: DisableSchedule204Response | DisableScheduleDefaultResponse,
+): response is DisableScheduleDefaultResponse;
 export function isUnexpected(
   response:
-    | EvaluationsCreateOrReplaceSchedule200Response
-    | EvaluationsCreateOrReplaceSchedule201Response
-    | EvaluationsCreateOrReplaceScheduleDefaultResponse,
-): response is EvaluationsCreateOrReplaceScheduleDefaultResponse;
-export function isUnexpected(
-  response:
-    | EvaluationsDeleteSchedule204Response
-    | EvaluationsDeleteScheduleDefaultResponse,
-): response is EvaluationsDeleteScheduleDefaultResponse;
-export function isUnexpected(
-  response:
-    | EvaluationsListSchedule200Response
-    | EvaluationsListScheduleDefaultResponse,
-): response is EvaluationsListScheduleDefaultResponse;
-export function isUnexpected(
-  response:
-    | AgentsCreateAgent200Response
-    | AgentsCreateAgentDefaultResponse
-    | AgentsListAgents200Response
-    | AgentsListAgentsDefaultResponse
-    | AgentsGetAgent200Response
-    | AgentsGetAgentDefaultResponse
-    | AgentsUpdateAgent200Response
-    | AgentsUpdateAgentDefaultResponse
-    | AgentsDeleteAgent200Response
-    | AgentsDeleteAgentDefaultResponse
-    | AgentsCreateThread200Response
-    | AgentsCreateThreadDefaultResponse
-    | AgentsGetThread200Response
-    | AgentsGetThreadDefaultResponse
-    | AgentsUpdateThread200Response
-    | AgentsUpdateThreadDefaultResponse
-    | AgentsDeleteThread200Response
-    | AgentsDeleteThreadDefaultResponse
-    | AgentsCreateMessage200Response
-    | AgentsCreateMessageDefaultResponse
-    | AgentsListMessages200Response
-    | AgentsListMessagesDefaultResponse
-    | AgentsGetMessage200Response
-    | AgentsGetMessageDefaultResponse
-    | AgentsUpdateMessage200Response
-    | AgentsUpdateMessageDefaultResponse
-    | AgentsCreateRun200Response
-    | AgentsCreateRunDefaultResponse
-    | AgentsListRuns200Response
-    | AgentsListRunsDefaultResponse
-    | AgentsGetRun200Response
-    | AgentsGetRunDefaultResponse
-    | AgentsUpdateRun200Response
-    | AgentsUpdateRunDefaultResponse
-    | AgentsSubmitToolOutputsToRun200Response
-    | AgentsSubmitToolOutputsToRunDefaultResponse
-    | AgentsCancelRun200Response
-    | AgentsCancelRunDefaultResponse
-    | AgentsCreateThreadAndRun200Response
-    | AgentsCreateThreadAndRunDefaultResponse
-    | AgentsGetRunStep200Response
-    | AgentsGetRunStepDefaultResponse
-    | AgentsListRunSteps200Response
-    | AgentsListRunStepsDefaultResponse
-    | AgentsListFiles200Response
-    | AgentsListFilesDefaultResponse
-    | AgentsUploadFile200Response
-    | AgentsUploadFileDefaultResponse
-    | AgentsDeleteFile200Response
-    | AgentsDeleteFileDefaultResponse
-    | AgentsGetFile200Response
-    | AgentsGetFileDefaultResponse
-    | AgentsGetFileContent200Response
-    | AgentsGetFileContentDefaultResponse
-    | AgentsListVectorStores200Response
-    | AgentsListVectorStoresDefaultResponse
-    | AgentsCreateVectorStore200Response
-    | AgentsCreateVectorStoreDefaultResponse
-    | AgentsGetVectorStore200Response
-    | AgentsGetVectorStoreDefaultResponse
-    | AgentsModifyVectorStore200Response
-    | AgentsModifyVectorStoreDefaultResponse
-    | AgentsDeleteVectorStore200Response
-    | AgentsDeleteVectorStoreDefaultResponse
-    | AgentsListVectorStoreFiles200Response
-    | AgentsListVectorStoreFilesDefaultResponse
-    | AgentsCreateVectorStoreFile200Response
-    | AgentsCreateVectorStoreFileDefaultResponse
-    | AgentsGetVectorStoreFile200Response
-    | AgentsGetVectorStoreFileDefaultResponse
-    | AgentsDeleteVectorStoreFile200Response
-    | AgentsDeleteVectorStoreFileDefaultResponse
-    | AgentsCreateVectorStoreFileBatch200Response
-    | AgentsCreateVectorStoreFileBatchDefaultResponse
-    | AgentsGetVectorStoreFileBatch200Response
-    | AgentsGetVectorStoreFileBatchDefaultResponse
-    | AgentsCancelVectorStoreFileBatch200Response
-    | AgentsCancelVectorStoreFileBatchDefaultResponse
-    | AgentsListVectorStoreFileBatchFiles200Response
-    | AgentsListVectorStoreFileBatchFilesDefaultResponse
-    | ConnectionsList200Response
-    | ConnectionsListDefaultResponse
-    | ConnectionsGet200Response
-    | ConnectionsGetDefaultResponse
-    | ConnectionsListSecrets200Response
-    | ConnectionsListSecretsDefaultResponse
-    | EvaluationsGet200Response
-    | EvaluationsGetDefaultResponse
-    | EvaluationsUpdate200Response
-    | EvaluationsUpdateDefaultResponse
-    | EvaluationsList200Response
-    | EvaluationsListDefaultResponse
-    | EvaluationsGetSchedule200Response
-    | EvaluationsGetScheduleDefaultResponse
-    | EvaluationsCreateOrReplaceSchedule200Response
-    | EvaluationsCreateOrReplaceSchedule201Response
-    | EvaluationsCreateOrReplaceScheduleDefaultResponse
-    | EvaluationsDeleteSchedule204Response
-    | EvaluationsDeleteScheduleDefaultResponse
-    | EvaluationsListSchedule200Response
-    | EvaluationsListScheduleDefaultResponse,
+    | CreateAgent200Response
+    | CreateAgentDefaultResponse
+    | ListAgents200Response
+    | ListAgentsDefaultResponse
+    | GetAgent200Response
+    | GetAgentDefaultResponse
+    | UpdateAgent200Response
+    | UpdateAgentDefaultResponse
+    | DeleteAgent200Response
+    | DeleteAgentDefaultResponse
+    | CreateThread200Response
+    | CreateThreadDefaultResponse
+    | GetThread200Response
+    | GetThreadDefaultResponse
+    | UpdateThread200Response
+    | UpdateThreadDefaultResponse
+    | DeleteThread200Response
+    | DeleteThreadDefaultResponse
+    | CreateMessage200Response
+    | CreateMessageDefaultResponse
+    | ListMessages200Response
+    | ListMessagesDefaultResponse
+    | GetMessage200Response
+    | GetMessageDefaultResponse
+    | UpdateMessage200Response
+    | UpdateMessageDefaultResponse
+    | CreateRun200Response
+    | CreateRunDefaultResponse
+    | ListRuns200Response
+    | ListRunsDefaultResponse
+    | GetRun200Response
+    | GetRunDefaultResponse
+    | UpdateRun200Response
+    | UpdateRunDefaultResponse
+    | SubmitToolOutputsToRun200Response
+    | SubmitToolOutputsToRunDefaultResponse
+    | CancelRun200Response
+    | CancelRunDefaultResponse
+    | CreateThreadAndRun200Response
+    | CreateThreadAndRunDefaultResponse
+    | GetRunStep200Response
+    | GetRunStepDefaultResponse
+    | ListRunSteps200Response
+    | ListRunStepsDefaultResponse
+    | ListFiles200Response
+    | ListFilesDefaultResponse
+    | UploadFile200Response
+    | UploadFileDefaultResponse
+    | DeleteFile200Response
+    | DeleteFileDefaultResponse
+    | GetFile200Response
+    | GetFileDefaultResponse
+    | GetFileContent200Response
+    | GetFileContentDefaultResponse
+    | ListVectorStores200Response
+    | ListVectorStoresDefaultResponse
+    | CreateVectorStore200Response
+    | CreateVectorStoreDefaultResponse
+    | GetVectorStore200Response
+    | GetVectorStoreDefaultResponse
+    | ModifyVectorStore200Response
+    | ModifyVectorStoreDefaultResponse
+    | DeleteVectorStore200Response
+    | DeleteVectorStoreDefaultResponse
+    | ListVectorStoreFiles200Response
+    | ListVectorStoreFilesDefaultResponse
+    | CreateVectorStoreFile200Response
+    | CreateVectorStoreFileDefaultResponse
+    | GetVectorStoreFile200Response
+    | GetVectorStoreFileDefaultResponse
+    | DeleteVectorStoreFile200Response
+    | DeleteVectorStoreFileDefaultResponse
+    | CreateVectorStoreFileBatch200Response
+    | CreateVectorStoreFileBatchDefaultResponse
+    | GetVectorStoreFileBatch200Response
+    | GetVectorStoreFileBatchDefaultResponse
+    | CancelVectorStoreFileBatch200Response
+    | CancelVectorStoreFileBatchDefaultResponse
+    | ListVectorStoreFileBatchFiles200Response
+    | ListVectorStoreFileBatchFilesDefaultResponse
+    | GetWorkspace200Response
+    | GetWorkspaceDefaultResponse
+    | ListConnections200Response
+    | ListConnectionsDefaultResponse
+    | GetConnection200Response
+    | GetConnectionDefaultResponse
+    | GetConnectionWithSecrets200Response
+    | GetConnectionWithSecretsDefaultResponse
+    | GetAppInsights200Response
+    | GetAppInsightsDefaultResponse
+    | Get200Response
+    | GetDefaultResponse
+    | Update200Response
+    | UpdateDefaultResponse
+    | List200Response
+    | ListDefaultResponse
+    | GetSchedule200Response
+    | GetScheduleDefaultResponse
+    | CreateOrReplaceSchedule200Response
+    | CreateOrReplaceSchedule201Response
+    | CreateOrReplaceScheduleDefaultResponse
+    | ListSchedule200Response
+    | ListScheduleDefaultResponse
+    | DisableSchedule204Response
+    | DisableScheduleDefaultResponse,
 ): response is
-  | AgentsCreateAgentDefaultResponse
-  | AgentsListAgentsDefaultResponse
-  | AgentsGetAgentDefaultResponse
-  | AgentsUpdateAgentDefaultResponse
-  | AgentsDeleteAgentDefaultResponse
-  | AgentsCreateThreadDefaultResponse
-  | AgentsGetThreadDefaultResponse
-  | AgentsUpdateThreadDefaultResponse
-  | AgentsDeleteThreadDefaultResponse
-  | AgentsCreateMessageDefaultResponse
-  | AgentsListMessagesDefaultResponse
-  | AgentsGetMessageDefaultResponse
-  | AgentsUpdateMessageDefaultResponse
-  | AgentsCreateRunDefaultResponse
-  | AgentsListRunsDefaultResponse
-  | AgentsGetRunDefaultResponse
-  | AgentsUpdateRunDefaultResponse
-  | AgentsSubmitToolOutputsToRunDefaultResponse
-  | AgentsCancelRunDefaultResponse
-  | AgentsCreateThreadAndRunDefaultResponse
-  | AgentsGetRunStepDefaultResponse
-  | AgentsListRunStepsDefaultResponse
-  | AgentsListFilesDefaultResponse
-  | AgentsUploadFileDefaultResponse
-  | AgentsDeleteFileDefaultResponse
-  | AgentsGetFileDefaultResponse
-  | AgentsGetFileContentDefaultResponse
-  | AgentsListVectorStoresDefaultResponse
-  | AgentsCreateVectorStoreDefaultResponse
-  | AgentsGetVectorStoreDefaultResponse
-  | AgentsModifyVectorStoreDefaultResponse
-  | AgentsDeleteVectorStoreDefaultResponse
-  | AgentsListVectorStoreFilesDefaultResponse
-  | AgentsCreateVectorStoreFileDefaultResponse
-  | AgentsGetVectorStoreFileDefaultResponse
-  | AgentsDeleteVectorStoreFileDefaultResponse
-  | AgentsCreateVectorStoreFileBatchDefaultResponse
-  | AgentsGetVectorStoreFileBatchDefaultResponse
-  | AgentsCancelVectorStoreFileBatchDefaultResponse
-  | AgentsListVectorStoreFileBatchFilesDefaultResponse
-  | ConnectionsListDefaultResponse
-  | ConnectionsGetDefaultResponse
-  | ConnectionsListSecretsDefaultResponse
-  | EvaluationsGetDefaultResponse
-  | EvaluationsUpdateDefaultResponse
-  | EvaluationsListDefaultResponse
-  | EvaluationsGetScheduleDefaultResponse
-  | EvaluationsCreateOrReplaceScheduleDefaultResponse
-  | EvaluationsDeleteScheduleDefaultResponse
-  | EvaluationsListScheduleDefaultResponse {
+  | CreateAgentDefaultResponse
+  | ListAgentsDefaultResponse
+  | GetAgentDefaultResponse
+  | UpdateAgentDefaultResponse
+  | DeleteAgentDefaultResponse
+  | CreateThreadDefaultResponse
+  | GetThreadDefaultResponse
+  | UpdateThreadDefaultResponse
+  | DeleteThreadDefaultResponse
+  | CreateMessageDefaultResponse
+  | ListMessagesDefaultResponse
+  | GetMessageDefaultResponse
+  | UpdateMessageDefaultResponse
+  | CreateRunDefaultResponse
+  | ListRunsDefaultResponse
+  | GetRunDefaultResponse
+  | UpdateRunDefaultResponse
+  | SubmitToolOutputsToRunDefaultResponse
+  | CancelRunDefaultResponse
+  | CreateThreadAndRunDefaultResponse
+  | GetRunStepDefaultResponse
+  | ListRunStepsDefaultResponse
+  | ListFilesDefaultResponse
+  | UploadFileDefaultResponse
+  | DeleteFileDefaultResponse
+  | GetFileDefaultResponse
+  | GetFileContentDefaultResponse
+  | ListVectorStoresDefaultResponse
+  | CreateVectorStoreDefaultResponse
+  | GetVectorStoreDefaultResponse
+  | ModifyVectorStoreDefaultResponse
+  | DeleteVectorStoreDefaultResponse
+  | ListVectorStoreFilesDefaultResponse
+  | CreateVectorStoreFileDefaultResponse
+  | GetVectorStoreFileDefaultResponse
+  | DeleteVectorStoreFileDefaultResponse
+  | CreateVectorStoreFileBatchDefaultResponse
+  | GetVectorStoreFileBatchDefaultResponse
+  | CancelVectorStoreFileBatchDefaultResponse
+  | ListVectorStoreFileBatchFilesDefaultResponse
+  | GetWorkspaceDefaultResponse
+  | ListConnectionsDefaultResponse
+  | GetConnectionDefaultResponse
+  | GetConnectionWithSecretsDefaultResponse
+  | GetAppInsightsDefaultResponse
+  | GetDefaultResponse
+  | UpdateDefaultResponse
+  | ListDefaultResponse
+  | GetScheduleDefaultResponse
+  | CreateOrReplaceScheduleDefaultResponse
+  | ListScheduleDefaultResponse
+  | DisableScheduleDefaultResponse {
   const lroOriginal = response.headers["x-ms-original-url"];
   const url = new URL(lroOriginal ?? response.request.url);
   const method = response.request.method;

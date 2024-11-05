@@ -23,14 +23,13 @@ import {
   EvaluationSchedule,
 } from "./models.js";
 
-export interface AgentsCreateAgentBodyParam {
+export interface CreateAgentBodyParam {
   body: CreateAgentOptions;
 }
 
-export type AgentsCreateAgentParameters = AgentsCreateAgentBodyParam &
-  RequestParameters;
+export type CreateAgentParameters = CreateAgentBodyParam & RequestParameters;
 
-export interface AgentsListAgentsQueryParamProperties {
+export interface ListAgentsQueryParamProperties {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /**
@@ -45,46 +44,42 @@ export interface AgentsListAgentsQueryParamProperties {
   before?: string;
 }
 
-export interface AgentsListAgentsQueryParam {
-  queryParameters?: AgentsListAgentsQueryParamProperties;
+export interface ListAgentsQueryParam {
+  queryParameters?: ListAgentsQueryParamProperties;
 }
 
-export type AgentsListAgentsParameters = AgentsListAgentsQueryParam &
-  RequestParameters;
-export type AgentsGetAgentParameters = RequestParameters;
+export type ListAgentsParameters = ListAgentsQueryParam & RequestParameters;
+export type GetAgentParameters = RequestParameters;
 
-export interface AgentsUpdateAgentBodyParam {
+export interface UpdateAgentBodyParam {
   body: UpdateAgentOptions;
 }
 
-export type AgentsUpdateAgentParameters = AgentsUpdateAgentBodyParam &
-  RequestParameters;
-export type AgentsDeleteAgentParameters = RequestParameters;
+export type UpdateAgentParameters = UpdateAgentBodyParam & RequestParameters;
+export type DeleteAgentParameters = RequestParameters;
 
-export interface AgentsCreateThreadBodyParam {
+export interface CreateThreadBodyParam {
   body: AgentThreadCreationOptions;
 }
 
-export type AgentsCreateThreadParameters = AgentsCreateThreadBodyParam &
-  RequestParameters;
-export type AgentsGetThreadParameters = RequestParameters;
+export type CreateThreadParameters = CreateThreadBodyParam & RequestParameters;
+export type GetThreadParameters = RequestParameters;
 
-export interface AgentsUpdateThreadBodyParam {
+export interface UpdateThreadBodyParam {
   body: UpdateAgentThreadOptions;
 }
 
-export type AgentsUpdateThreadParameters = AgentsUpdateThreadBodyParam &
-  RequestParameters;
-export type AgentsDeleteThreadParameters = RequestParameters;
+export type UpdateThreadParameters = UpdateThreadBodyParam & RequestParameters;
+export type DeleteThreadParameters = RequestParameters;
 
-export interface AgentsCreateMessageBodyParam {
+export interface CreateMessageBodyParam {
   body: ThreadMessageOptions;
 }
 
-export type AgentsCreateMessageParameters = AgentsCreateMessageBodyParam &
+export type CreateMessageParameters = CreateMessageBodyParam &
   RequestParameters;
 
-export interface AgentsListMessagesQueryParamProperties {
+export interface ListMessagesQueryParamProperties {
   /** Filter messages by the run ID that generated them. */
   runId?: string;
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
@@ -101,29 +96,27 @@ export interface AgentsListMessagesQueryParamProperties {
   before?: string;
 }
 
-export interface AgentsListMessagesQueryParam {
-  queryParameters?: AgentsListMessagesQueryParamProperties;
+export interface ListMessagesQueryParam {
+  queryParameters?: ListMessagesQueryParamProperties;
 }
 
-export type AgentsListMessagesParameters = AgentsListMessagesQueryParam &
-  RequestParameters;
-export type AgentsGetMessageParameters = RequestParameters;
+export type ListMessagesParameters = ListMessagesQueryParam & RequestParameters;
+export type GetMessageParameters = RequestParameters;
 
-export interface AgentsUpdateMessageBodyParam {
+export interface UpdateMessageBodyParam {
   body: { metadata?: Record<string, string> | null };
 }
 
-export type AgentsUpdateMessageParameters = AgentsUpdateMessageBodyParam &
+export type UpdateMessageParameters = UpdateMessageBodyParam &
   RequestParameters;
 
-export interface AgentsCreateRunBodyParam {
+export interface CreateRunBodyParam {
   body: CreateRunOptions;
 }
 
-export type AgentsCreateRunParameters = AgentsCreateRunBodyParam &
-  RequestParameters;
+export type CreateRunParameters = CreateRunBodyParam & RequestParameters;
 
-export interface AgentsListRunsQueryParamProperties {
+export interface ListRunsQueryParamProperties {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /**
@@ -138,38 +131,36 @@ export interface AgentsListRunsQueryParamProperties {
   before?: string;
 }
 
-export interface AgentsListRunsQueryParam {
-  queryParameters?: AgentsListRunsQueryParamProperties;
+export interface ListRunsQueryParam {
+  queryParameters?: ListRunsQueryParamProperties;
 }
 
-export type AgentsListRunsParameters = AgentsListRunsQueryParam &
-  RequestParameters;
-export type AgentsGetRunParameters = RequestParameters;
+export type ListRunsParameters = ListRunsQueryParam & RequestParameters;
+export type GetRunParameters = RequestParameters;
 
-export interface AgentsUpdateRunBodyParam {
+export interface UpdateRunBodyParam {
   body: { metadata?: Record<string, string> | null };
 }
 
-export type AgentsUpdateRunParameters = AgentsUpdateRunBodyParam &
-  RequestParameters;
+export type UpdateRunParameters = UpdateRunBodyParam & RequestParameters;
 
-export interface AgentsSubmitToolOutputsToRunBodyParam {
+export interface SubmitToolOutputsToRunBodyParam {
   body: { tool_outputs: Array<ToolOutput>; stream?: boolean | null };
 }
 
-export type AgentsSubmitToolOutputsToRunParameters =
-  AgentsSubmitToolOutputsToRunBodyParam & RequestParameters;
-export type AgentsCancelRunParameters = RequestParameters;
+export type SubmitToolOutputsToRunParameters = SubmitToolOutputsToRunBodyParam &
+  RequestParameters;
+export type CancelRunParameters = RequestParameters;
 
-export interface AgentsCreateThreadAndRunBodyParam {
+export interface CreateThreadAndRunBodyParam {
   body: CreateAndRunThreadOptions;
 }
 
-export type AgentsCreateThreadAndRunParameters =
-  AgentsCreateThreadAndRunBodyParam & RequestParameters;
-export type AgentsGetRunStepParameters = RequestParameters;
+export type CreateThreadAndRunParameters = CreateThreadAndRunBodyParam &
+  RequestParameters;
+export type GetRunStepParameters = RequestParameters;
 
-export interface AgentsListRunStepsQueryParamProperties {
+export interface ListRunStepsQueryParamProperties {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /**
@@ -184,14 +175,13 @@ export interface AgentsListRunStepsQueryParamProperties {
   before?: string;
 }
 
-export interface AgentsListRunStepsQueryParam {
-  queryParameters?: AgentsListRunStepsQueryParamProperties;
+export interface ListRunStepsQueryParam {
+  queryParameters?: ListRunStepsQueryParamProperties;
 }
 
-export type AgentsListRunStepsParameters = AgentsListRunStepsQueryParam &
-  RequestParameters;
+export type ListRunStepsParameters = ListRunStepsQueryParam & RequestParameters;
 
-export interface AgentsListFilesQueryParamProperties {
+export interface ListFilesQueryParamProperties {
   /**
    * The purpose of the file.
    *
@@ -200,14 +190,13 @@ export interface AgentsListFilesQueryParamProperties {
   purpose?: FilePurpose;
 }
 
-export interface AgentsListFilesQueryParam {
-  queryParameters?: AgentsListFilesQueryParamProperties;
+export interface ListFilesQueryParam {
+  queryParameters?: ListFilesQueryParamProperties;
 }
 
-export type AgentsListFilesParameters = AgentsListFilesQueryParam &
-  RequestParameters;
+export type ListFilesParameters = ListFilesQueryParam & RequestParameters;
 
-export interface AgentsUploadFileBodyParam {
+export interface UploadFileBodyParam {
   body:
     | FormData
     | Array<
@@ -232,19 +221,19 @@ export interface AgentsUploadFileBodyParam {
       >;
 }
 
-export interface AgentsUploadFileMediaTypesParam {
+export interface UploadFileMediaTypesParam {
   /** The name of the file to upload. */
   contentType: "multipart/form-data";
 }
 
-export type AgentsUploadFileParameters = AgentsUploadFileMediaTypesParam &
-  AgentsUploadFileBodyParam &
+export type UploadFileParameters = UploadFileMediaTypesParam &
+  UploadFileBodyParam &
   RequestParameters;
-export type AgentsDeleteFileParameters = RequestParameters;
-export type AgentsGetFileParameters = RequestParameters;
-export type AgentsGetFileContentParameters = RequestParameters;
+export type DeleteFileParameters = RequestParameters;
+export type GetFileParameters = RequestParameters;
+export type GetFileContentParameters = RequestParameters;
 
-export interface AgentsListVectorStoresQueryParamProperties {
+export interface ListVectorStoresQueryParamProperties {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
   /**
@@ -259,30 +248,30 @@ export interface AgentsListVectorStoresQueryParamProperties {
   before?: string;
 }
 
-export interface AgentsListVectorStoresQueryParam {
-  queryParameters?: AgentsListVectorStoresQueryParamProperties;
+export interface ListVectorStoresQueryParam {
+  queryParameters?: ListVectorStoresQueryParamProperties;
 }
 
-export type AgentsListVectorStoresParameters =
-  AgentsListVectorStoresQueryParam & RequestParameters;
+export type ListVectorStoresParameters = ListVectorStoresQueryParam &
+  RequestParameters;
 
-export interface AgentsCreateVectorStoreBodyParam {
+export interface CreateVectorStoreBodyParam {
   body: VectorStoreOptions;
 }
 
-export type AgentsCreateVectorStoreParameters =
-  AgentsCreateVectorStoreBodyParam & RequestParameters;
-export type AgentsGetVectorStoreParameters = RequestParameters;
+export type CreateVectorStoreParameters = CreateVectorStoreBodyParam &
+  RequestParameters;
+export type GetVectorStoreParameters = RequestParameters;
 
-export interface AgentsModifyVectorStoreBodyParam {
+export interface ModifyVectorStoreBodyParam {
   body: VectorStoreUpdateOptions;
 }
 
-export type AgentsModifyVectorStoreParameters =
-  AgentsModifyVectorStoreBodyParam & RequestParameters;
-export type AgentsDeleteVectorStoreParameters = RequestParameters;
+export type ModifyVectorStoreParameters = ModifyVectorStoreBodyParam &
+  RequestParameters;
+export type DeleteVectorStoreParameters = RequestParameters;
 
-export interface AgentsListVectorStoreFilesQueryParamProperties {
+export interface ListVectorStoreFilesQueryParamProperties {
   /**
    * Filter by file status.
    *
@@ -303,38 +292,38 @@ export interface AgentsListVectorStoreFilesQueryParamProperties {
   before?: string;
 }
 
-export interface AgentsListVectorStoreFilesQueryParam {
-  queryParameters?: AgentsListVectorStoreFilesQueryParamProperties;
+export interface ListVectorStoreFilesQueryParam {
+  queryParameters?: ListVectorStoreFilesQueryParamProperties;
 }
 
-export type AgentsListVectorStoreFilesParameters =
-  AgentsListVectorStoreFilesQueryParam & RequestParameters;
+export type ListVectorStoreFilesParameters = ListVectorStoreFilesQueryParam &
+  RequestParameters;
 
-export interface AgentsCreateVectorStoreFileBodyParam {
+export interface CreateVectorStoreFileBodyParam {
   body: {
     file_id: string;
     chunking_strategy?: VectorStoreChunkingStrategyRequest;
   };
 }
 
-export type AgentsCreateVectorStoreFileParameters =
-  AgentsCreateVectorStoreFileBodyParam & RequestParameters;
-export type AgentsGetVectorStoreFileParameters = RequestParameters;
-export type AgentsDeleteVectorStoreFileParameters = RequestParameters;
+export type CreateVectorStoreFileParameters = CreateVectorStoreFileBodyParam &
+  RequestParameters;
+export type GetVectorStoreFileParameters = RequestParameters;
+export type DeleteVectorStoreFileParameters = RequestParameters;
 
-export interface AgentsCreateVectorStoreFileBatchBodyParam {
+export interface CreateVectorStoreFileBatchBodyParam {
   body: {
     file_ids: string[];
     chunking_strategy?: VectorStoreChunkingStrategyRequest;
   };
 }
 
-export type AgentsCreateVectorStoreFileBatchParameters =
-  AgentsCreateVectorStoreFileBatchBodyParam & RequestParameters;
-export type AgentsGetVectorStoreFileBatchParameters = RequestParameters;
-export type AgentsCancelVectorStoreFileBatchParameters = RequestParameters;
+export type CreateVectorStoreFileBatchParameters =
+  CreateVectorStoreFileBatchBodyParam & RequestParameters;
+export type GetVectorStoreFileBatchParameters = RequestParameters;
+export type CancelVectorStoreFileBatchParameters = RequestParameters;
 
-export interface AgentsListVectorStoreFileBatchFilesQueryParamProperties {
+export interface ListVectorStoreFileBatchFilesQueryParamProperties {
   /**
    * Filter by file status.
    *
@@ -355,14 +344,15 @@ export interface AgentsListVectorStoreFileBatchFilesQueryParamProperties {
   before?: string;
 }
 
-export interface AgentsListVectorStoreFileBatchFilesQueryParam {
-  queryParameters?: AgentsListVectorStoreFileBatchFilesQueryParamProperties;
+export interface ListVectorStoreFileBatchFilesQueryParam {
+  queryParameters?: ListVectorStoreFileBatchFilesQueryParamProperties;
 }
 
-export type AgentsListVectorStoreFileBatchFilesParameters =
-  AgentsListVectorStoreFileBatchFilesQueryParam & RequestParameters;
+export type ListVectorStoreFileBatchFilesParameters =
+  ListVectorStoreFileBatchFilesQueryParam & RequestParameters;
+export type GetWorkspaceParameters = RequestParameters;
 
-export interface ConnectionsListQueryParamProperties {
+export interface ListConnectionsQueryParamProperties {
   /** Category of the workspace connection. */
   category?: ConnectionType;
   /** Indicates whether to list datastores. Service default: do not list datastores. */
@@ -371,47 +361,46 @@ export interface ConnectionsListQueryParamProperties {
   target?: string;
 }
 
-export interface ConnectionsListQueryParam {
-  queryParameters?: ConnectionsListQueryParamProperties;
+export interface ListConnectionsQueryParam {
+  queryParameters?: ListConnectionsQueryParamProperties;
 }
 
-export type ConnectionsListParameters = ConnectionsListQueryParam &
+export type ListConnectionsParameters = ListConnectionsQueryParam &
   RequestParameters;
-export type ConnectionsGetParameters = RequestParameters;
+export type GetConnectionParameters = RequestParameters;
 
-export interface ConnectionsListSecretsBodyParam {
+export interface GetConnectionWithSecretsBodyParam {
   body: { ignored: string };
 }
 
-export type ConnectionsListSecretsParameters = ConnectionsListSecretsBodyParam &
-  RequestParameters;
+export type GetConnectionWithSecretsParameters =
+  GetConnectionWithSecretsBodyParam & RequestParameters;
+export type GetAppInsightsParameters = RequestParameters;
 
-export interface EvaluationsGetHeaders {
+export interface GetHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
-export interface EvaluationsGetHeaderParam {
-  headers?: RawHttpHeadersInput & EvaluationsGetHeaders;
+export interface GetHeaderParam {
+  headers?: RawHttpHeadersInput & GetHeaders;
 }
 
-export type EvaluationsGetParameters = EvaluationsGetHeaderParam &
-  RequestParameters;
+export type GetParameters = GetHeaderParam & RequestParameters;
 
-export interface EvaluationsCreateBodyParam {
+export interface CreateBodyParam {
   /** Evaluation to run. */
   body: Evaluation;
 }
 
-export type EvaluationsCreateParameters = EvaluationsCreateBodyParam &
-  RequestParameters;
+export type CreateParameters = CreateBodyParam & RequestParameters;
 
-export interface EvaluationsListHeaders {
+export interface ListHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
-export interface EvaluationsListQueryParamProperties {
+export interface ListQueryParamProperties {
   /** The number of result items to return. */
   top?: number;
   /** The number of result items to skip. */
@@ -420,19 +409,19 @@ export interface EvaluationsListQueryParamProperties {
   maxpagesize?: number;
 }
 
-export interface EvaluationsListQueryParam {
-  queryParameters?: EvaluationsListQueryParamProperties;
+export interface ListQueryParam {
+  queryParameters?: ListQueryParamProperties;
 }
 
-export interface EvaluationsListHeaderParam {
-  headers?: RawHttpHeadersInput & EvaluationsListHeaders;
+export interface ListHeaderParam {
+  headers?: RawHttpHeadersInput & ListHeaders;
 }
 
-export type EvaluationsListParameters = EvaluationsListQueryParam &
-  EvaluationsListHeaderParam &
+export type ListParameters = ListQueryParam &
+  ListHeaderParam &
   RequestParameters;
 
-export interface EvaluationsUpdateHeaders {
+export interface UpdateHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
@@ -440,62 +429,61 @@ export interface EvaluationsUpdateHeaders {
 /** The resource instance. */
 export type EvaluationResourceMergeAndPatch = Partial<Evaluation>;
 
-export interface EvaluationsUpdateBodyParam {
+export interface UpdateBodyParam {
   /** The resource instance. */
   body: EvaluationResourceMergeAndPatch;
 }
 
-export interface EvaluationsUpdateHeaderParam {
-  headers?: RawHttpHeadersInput & EvaluationsUpdateHeaders;
+export interface UpdateHeaderParam {
+  headers?: RawHttpHeadersInput & UpdateHeaders;
 }
 
-export interface EvaluationsUpdateMediaTypesParam {
+export interface UpdateMediaTypesParam {
   /** This request has a JSON Merge Patch body. */
   contentType: "application/merge-patch+json";
 }
 
-export type EvaluationsUpdateParameters = EvaluationsUpdateHeaderParam &
-  EvaluationsUpdateMediaTypesParam &
-  EvaluationsUpdateBodyParam &
+export type UpdateParameters = UpdateHeaderParam &
+  UpdateMediaTypesParam &
+  UpdateBodyParam &
   RequestParameters;
 
-export interface EvaluationsGetScheduleHeaders {
+export interface GetScheduleHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
-export interface EvaluationsGetScheduleHeaderParam {
-  headers?: RawHttpHeadersInput & EvaluationsGetScheduleHeaders;
+export interface GetScheduleHeaderParam {
+  headers?: RawHttpHeadersInput & GetScheduleHeaders;
 }
 
-export type EvaluationsGetScheduleParameters =
-  EvaluationsGetScheduleHeaderParam & RequestParameters;
+export type GetScheduleParameters = GetScheduleHeaderParam & RequestParameters;
 
-export interface EvaluationsCreateOrReplaceScheduleHeaders {
+export interface CreateOrReplaceScheduleHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
-export interface EvaluationsCreateOrReplaceScheduleBodyParam {
+export interface CreateOrReplaceScheduleBodyParam {
   /** The resource instance. */
   body: EvaluationSchedule;
 }
 
-export interface EvaluationsCreateOrReplaceScheduleHeaderParam {
-  headers?: RawHttpHeadersInput & EvaluationsCreateOrReplaceScheduleHeaders;
+export interface CreateOrReplaceScheduleHeaderParam {
+  headers?: RawHttpHeadersInput & CreateOrReplaceScheduleHeaders;
 }
 
-export type EvaluationsCreateOrReplaceScheduleParameters =
-  EvaluationsCreateOrReplaceScheduleHeaderParam &
-    EvaluationsCreateOrReplaceScheduleBodyParam &
+export type CreateOrReplaceScheduleParameters =
+  CreateOrReplaceScheduleHeaderParam &
+    CreateOrReplaceScheduleBodyParam &
     RequestParameters;
 
-export interface EvaluationsListScheduleHeaders {
+export interface ListScheduleHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
   "x-ms-client-request-id"?: string;
 }
 
-export interface EvaluationsListScheduleQueryParamProperties {
+export interface ListScheduleQueryParamProperties {
   /** The number of result items to return. */
   top?: number;
   /** The number of result items to skip. */
@@ -504,27 +492,15 @@ export interface EvaluationsListScheduleQueryParamProperties {
   maxpagesize?: number;
 }
 
-export interface EvaluationsListScheduleQueryParam {
-  queryParameters?: EvaluationsListScheduleQueryParamProperties;
+export interface ListScheduleQueryParam {
+  queryParameters?: ListScheduleQueryParamProperties;
 }
 
-export interface EvaluationsListScheduleHeaderParam {
-  headers?: RawHttpHeadersInput & EvaluationsListScheduleHeaders;
+export interface ListScheduleHeaderParam {
+  headers?: RawHttpHeadersInput & ListScheduleHeaders;
 }
 
-export type EvaluationsListScheduleParameters =
-  EvaluationsListScheduleQueryParam &
-    EvaluationsListScheduleHeaderParam &
-    RequestParameters;
-
-export interface EvaluationsDeleteScheduleHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
-export interface EvaluationsDeleteScheduleHeaderParam {
-  headers?: RawHttpHeadersInput & EvaluationsDeleteScheduleHeaders;
-}
-
-export type EvaluationsDeleteScheduleParameters =
-  EvaluationsDeleteScheduleHeaderParam & RequestParameters;
+export type ListScheduleParameters = ListScheduleQueryParam &
+  ListScheduleHeaderParam &
+  RequestParameters;
+export type DisableScheduleParameters = RequestParameters;

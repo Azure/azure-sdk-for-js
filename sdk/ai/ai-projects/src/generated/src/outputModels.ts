@@ -58,6 +58,23 @@ export interface BingGroundingToolDefinitionOutput
   extends ToolDefinitionOutputParent {
   /** The object type, which is always 'bing_grounding'. */
   type: "bing_grounding";
+  /** The list of connections used by the bing grounding tool. */
+  bing_grounding: ToolConnectionListOutput;
+}
+
+/** A set of connection resources currently used by either the `bing_grounding`, `microsoft_fabric`, or `sharepoint_grounding` tools. */
+export interface ToolConnectionListOutput {
+  /**
+   * The connections attached to this tool. There can be a maximum of 1 connection
+   * resource attached to the tool.
+   */
+  connections?: Array<ToolConnectionOutput>;
+}
+
+/** A connection resource. */
+export interface ToolConnectionOutput {
+  /** A connection in a ToolConnectionList attached to this tool. */
+  connection_id: string;
 }
 
 /** The input definition information for a Microsoft Fabric tool as used to configure an agent. */
@@ -65,13 +82,17 @@ export interface MicrosoftFabricToolDefinitionOutput
   extends ToolDefinitionOutputParent {
   /** The object type, which is always 'microsoft_fabric'. */
   type: "microsoft_fabric";
+  /** The list of connections used by the Microsoft Fabric tool. */
+  microsoft_fabric: ToolConnectionListOutput;
 }
 
 /** The input definition information for a sharepoint tool as used to configure an agent. */
 export interface SharepointToolDefinitionOutput
   extends ToolDefinitionOutputParent {
-  /** The object type, which is always 'sharepoint'. */
-  type: "sharepoint";
+  /** The object type, which is always 'sharepoint_grounding'. */
+  type: "sharepoint_grounding";
+  /** The list of connections used by the SharePoint tool. */
+  sharepoint_grounding: ToolConnectionListOutput;
 }
 
 /** The input definition information for an Azure AI search tool as used to configure an agent. */
@@ -91,12 +112,6 @@ export interface ToolResourcesOutput {
   code_interpreter?: CodeInterpreterToolResourceOutput;
   /** Resources to be used by the `file_search` tool consisting of vector store IDs. */
   file_search?: FileSearchToolResourceOutput;
-  /** Resources to be used by the `bing_grounding` tool consisting of connection IDs. */
-  bing_grounding?: ConnectionListResourceOutput;
-  /** Resources to be used by the `microsoft_fabric` tool consisting of connection IDs. */
-  microsoft_fabric?: ConnectionListResourceOutput;
-  /** Resources to be used by the `sharepoint` tool consisting of connection IDs. */
-  sharepoint?: ConnectionListResourceOutput;
   /** Resources to be used by the `azure_ai_search` tool consisting of index IDs and names. */
   azure_ai_search?: AzureAISearchResourceOutput;
 }
@@ -117,21 +132,6 @@ export interface FileSearchToolResourceOutput {
    * store attached to the agent.
    */
   vector_store_ids?: string[];
-}
-
-/** A set of connection resources currently used by either the `bing_grounding`, `microsoft_fabric`, or `sharepoint` tools. */
-export interface ConnectionListResourceOutput {
-  /**
-   * The connections attached to this agent. There can be a maximum of 1 connection
-   * resource attached to the agent.
-   */
-  connections?: Array<ConnectionResourceOutput>;
-}
-
-/** A connection resource. */
-export interface ConnectionResourceOutput {
-  /** A connection in a ConnectionListResource attached to this agent. */
-  connection_id: string;
 }
 
 /** A set of index resources used by the `azure_ai_search` tool. */
@@ -437,7 +437,7 @@ export interface AgentsNamedToolChoiceOutput {
   /**
    * the type of tool. If type is `function`, the function name must be set.
    *
-   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "microsoft_fabric", "sharepoint", "azure_ai_search"
+   * Possible values: "function", "code_interpreter", "file_search", "bing_grounding", "microsoft_fabric", "sharepoint_grounding", "azure_ai_search"
    */
   type: AgentsNamedToolChoiceTypeOutput;
   /** The name of the function to call */
@@ -589,12 +589,6 @@ export interface UpdateToolResourcesOptionsOutput {
   code_interpreter?: UpdateCodeInterpreterToolResourceOptionsOutput;
   /** Overrides the vector store attached to this agent. There can be a maximum of 1 vector store attached to the agent. */
   file_search?: UpdateFileSearchToolResourceOptionsOutput;
-  /** Overrides the list of connections to be used by the `bing_grounding` tool consisting of connection IDs. */
-  bing_grounding?: ConnectionListResourceOutput;
-  /** Overrides the list of connections to be used by the `microsoft_fabric` tool consisting of connection IDs. */
-  microsoft_fabric?: ConnectionListResourceOutput;
-  /** Overrides the list of connections to be used by the `sharepoint` tool consisting of connection IDs. */
-  sharepoint?: ConnectionListResourceOutput;
   /** Overrides the resources to be used by the `azure_ai_search` tool consisting of index IDs and names. */
   azure_ai_search?: AzureAISearchResourceOutput;
 }
@@ -796,10 +790,10 @@ export interface RunStepAzureAISearchToolCallOutput
  */
 export interface RunStepSharepointToolCallOutput
   extends RunStepToolCallOutputParent {
-  /** The object type, which is always 'sharepoint'. */
-  type: "sharepoint";
+  /** The object type, which is always 'sharepoint_grounding'. */
+  type: "sharepoint_grounding";
   /** Reserved for future use. */
-  sharepoint: Record<string, string>;
+  sharepoint_grounding: Record<string, string>;
 }
 
 /**
@@ -918,12 +912,6 @@ export interface FileDeletionStatusOutput {
   object: "file";
 }
 
-/** A response from a file get content operation. */
-export interface FileContentResponseOutput {
-  /** The content of the file, in bytes. */
-  content: string;
-}
-
 /** The response data for a requested list of items. */
 export interface OpenAIPageableListOfVectorStoreOutput {
   /** The object type, which is always list. */
@@ -1000,7 +988,7 @@ export interface VectorStoreStaticChunkingStrategyOptionsOutput {
   max_chunk_size_tokens: number;
   /**
    * The number of tokens that overlap between chunks. The default value is 400.
-   * Note that the overlap must not exceed half of max_chunk_size_tokens.     *
+   * Note that the overlap must not exceed half of max_chunk_size_tokens.
    */
   chunk_overlap_tokens: number;
 }
@@ -1119,30 +1107,46 @@ export interface VectorStoreFileBatchOutput {
   file_counts: VectorStoreFileCountOutput;
 }
 
+/** Response from the Workspace - Get operation */
+export interface GetWorkspaceResponseOutput {
+  /** A unique identifier for the resource */
+  id: string;
+  /** The name of the resource */
+  name: string;
+  /** The properties of the resource */
+  properties: WorkspacePropertiesOutput;
+}
+
+/** workspace properties */
+export interface WorkspacePropertiesOutput {
+  /** Authentication type of the connection target */
+  applicationInsights: string;
+}
+
 /** Response from the list operation */
-export interface ConnectionsListResponseOutput {
+export interface ListConnectionsResponseOutput {
   /** A list of connection list secrets */
-  value: Array<ConnectionsListSecretsResponseOutput>;
+  value: Array<GetConnectionResponseOutput>;
 }
 
 /** Response from the listSecrets operation */
-export interface ConnectionsListSecretsResponseOutput {
+export interface GetConnectionResponseOutput {
   /** A unique identifier for the connection */
   id: string;
   /** The name of the resource */
   name: string;
   /** The properties of the resource */
-  properties: ConnectionPropertiesOutput;
+  properties: InternalConnectionPropertiesOutput;
 }
 
 /** Connection properties */
-export interface ConnectionPropertiesOutputParent {
+export interface InternalConnectionPropertiesOutputParent {
   authType: AuthenticationTypeOutput;
 }
 
 /** Connection properties for connections with API key authentication */
-export interface ConnectionPropertiesApiKeyAuthOutput
-  extends ConnectionPropertiesOutputParent {
+export interface InternalConnectionPropertiesApiKeyAuthOutput
+  extends InternalConnectionPropertiesOutputParent {
   /** Authentication type of the connection target */
   authType: "ApiKey";
   /** Category of the connection */
@@ -1160,8 +1164,8 @@ export interface CredentialsApiKeyAuthOutput {
 }
 
 /** Connection properties for connections with AAD authentication (aka `Entra ID passthrough`) */
-export interface ConnectionPropertiesAADAuthOutput
-  extends ConnectionPropertiesOutputParent {
+export interface InternalConnectionPropertiesAADAuthOutput
+  extends InternalConnectionPropertiesOutputParent {
   /** Authentication type of the connection target */
   authType: "AAD";
   /** Category of the connection */
@@ -1171,8 +1175,8 @@ export interface ConnectionPropertiesAADAuthOutput
 }
 
 /** Connection properties for connections with SAS authentication */
-export interface ConnectionPropertiesSASAuthOutput
-  extends ConnectionPropertiesOutputParent {
+export interface InternalConnectionPropertiesSASAuthOutput
+  extends InternalConnectionPropertiesOutputParent {
   /** Authentication type of the connection target */
   authType: "SAS";
   /** Category of the connection */
@@ -1187,6 +1191,22 @@ export interface ConnectionPropertiesSASAuthOutput
 export interface CredentialsSASAuthOutput {
   /** The Shared Access Signatures (SAS) token */
   SAS: string;
+}
+
+/** Response from getting properties of the Application Insights resource */
+export interface GetAppInsightsResponseOutput {
+  /** A unique identifier for the resource */
+  id: string;
+  /** The name of the resource */
+  name: string;
+  /** The properties of the resource */
+  properties: AppInsightsPropertiesOutput;
+}
+
+/** The properties of the Application Insights resource */
+export interface AppInsightsPropertiesOutput {
+  /** Authentication type of the connection target */
+  ConnectionString: string;
 }
 
 /** Evaluation Definition */
@@ -1279,8 +1299,6 @@ export interface EvaluationScheduleOutput {
   evaluators: Record<string, EvaluatorConfigurationOutput>;
   /** Trigger for the evaluation. */
   trigger: TriggerOutput;
-  /** Sampling strategy for the evaluation. */
-  samplingStrategy: SamplingStrategyOutput;
 }
 
 /** Abstract data class for input data configuration. */
@@ -1320,12 +1338,6 @@ export interface CronTriggerOutput extends TriggerOutputParent {
   readonly type: "Cron";
   /** Cron expression for the trigger. */
   expression: string;
-}
-
-/** SamplingStrategy Definition */
-export interface SamplingStrategyOutput {
-  /** Sampling rate */
-  rate: number;
 }
 
 /** An abstract representation of an input tool definition that an agent can use. */
@@ -1382,11 +1394,11 @@ export type VectorStoreChunkingStrategyResponseOutput =
   | VectorStoreAutoChunkingStrategyResponseOutput
   | VectorStoreStaticChunkingStrategyResponseOutput;
 /** Connection properties */
-export type ConnectionPropertiesOutput =
-  | ConnectionPropertiesOutputParent
-  | ConnectionPropertiesApiKeyAuthOutput
-  | ConnectionPropertiesAADAuthOutput
-  | ConnectionPropertiesSASAuthOutput;
+export type InternalConnectionPropertiesOutput =
+  | InternalConnectionPropertiesOutputParent
+  | InternalConnectionPropertiesApiKeyAuthOutput
+  | InternalConnectionPropertiesAADAuthOutput
+  | InternalConnectionPropertiesSASAuthOutput;
 /** Abstract data class for input data configuration. */
 export type InputDataOutput =
   | InputDataOutputParent
@@ -1458,7 +1470,8 @@ export type ConnectionTypeOutput =
   | "AzureOpenAI"
   | "Serverless"
   | "AzureBlob"
-  | "AIServices";
+  | "AIServices"
+  | "CognitiveSearch";
 /** Authentication type used by Azure AI service to connect to another service */
 export type AuthenticationTypeOutput = "ApiKey" | "AAD" | "SAS";
 /** Paged collection of Evaluation items */
