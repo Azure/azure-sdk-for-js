@@ -3,7 +3,12 @@
 
 import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import type { RequestParameters } from "@azure-rest/core-client";
-import type { ReceivedShare, TenantEmailRegistration, SentShare, SentShareInvitation } from "./models";
+import type {
+  ReceivedShare,
+  TenantEmailRegistration,
+  SentShare,
+  SentShareInvitation,
+} from "./models";
 
 export type ReceivedSharesGetReceivedShareParameters = RequestParameters;
 
