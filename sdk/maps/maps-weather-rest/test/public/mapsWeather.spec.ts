@@ -2,11 +2,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { env, Recorder } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 import { Context } from "mocha";
-import MapsWeather, { MapsWeatherClient } from "../../src";
-import { AzureKeyCredential } from "@azure/core-auth";
+import { MapsWeatherClient } from "../../src";
 import { assert } from "chai";
+import { createClient } from "./utils/recordedClient";
 
 describe("MapsWeatherClient Tests", function () {
   let recorder: Recorder;
@@ -19,7 +19,7 @@ describe("MapsWeatherClient Tests", function () {
         MAPS_RESOURCE_CLIENT_ID: "azure_maps_client_id",
       },
     });
-    client = MapsWeather(new AzureKeyCredential(env["AZURE_SUBSCRIPTION_KEY"] as string));
+    client = createClient(recorder.configureClientOptions({}));
   });
 
   afterEach(async function () {
