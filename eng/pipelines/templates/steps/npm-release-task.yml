@@ -48,7 +48,7 @@ steps:
       inputs:
         targetType: filePath
         filePath: eng/scripts/verify-npm-tags.ps1
-        arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -originalDistTags $(OriginalTags) -intendedTag ${{parameters.Tag}} -intendedTagVersion $(IntendedTagVersion)
+        arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -originalDistTags '$(OriginalTags)' -intendedTag ${{parameters.Tag}} -intendedTagVersion $(IntendedTagVersion)
         pwsh: true
 
     - ${{ if ne(parameters.AdditionalTag, '') }}:
