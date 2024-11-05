@@ -29,17 +29,12 @@ export class HybridSearchQueryResult {
       throw new Error(`${FieldNames.Payload} must exist nested within the outer payload field.`);
     }
 
-    const data = innerPayload[FieldNames.Data];
-    if (!data || typeof data !== "object") {
-      throw new Error(`${FieldNames.Data} must exist.`);
-    }
-
     const componentScores = outerPayload[FieldNames.ComponentScores];
     if (!Array.isArray(componentScores)) {
       throw new Error(`${FieldNames.ComponentScores} must exist.`);
     }
 
-    return new HybridSearchQueryResult(rid, componentScores, data);
+    return new HybridSearchQueryResult(rid, componentScores, innerPayload);
   }
 }
 
@@ -47,5 +42,4 @@ class FieldNames {
   public static readonly Rid = "_rid";
   public static readonly Payload = "payload";
   public static readonly ComponentScores = "componentScores";
-  public static readonly Data = "c";
 }
