@@ -220,6 +220,9 @@ describe("Job Operations Test", () => {
       .path("/jobs/{jobId}/terminate", recorder.variable("JOB_NAME", JOB_NAME))
       .post({
         contentType: "application/json; odata=minimalmetadata",
+        queryParameters: {
+          force: true,
+        },
       });
 
     assert.equal(terminateJobResult.status, "202");
@@ -238,7 +241,9 @@ describe("Job Operations Test", () => {
 
   it("should delete a job successfully", async function () {
     const jobId = recorder.variable("JOB_NAME", JOB_NAME);
-    const deleteJobResult = await batchClient.path("/jobs/{jobId}", jobId).delete();
+    const deleteJobResult = await batchClient.path("/jobs/{jobId}", jobId).delete({
+      queryParameters: { force: true },
+    });
     assert.equal(deleteJobResult.status, "202");
   });
 });
