@@ -7,7 +7,7 @@
 import type { AzureKeyCredential } from '@azure/core-auth';
 import type { AzureSASCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import type { LatLon } from '@azure/maps-common';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
