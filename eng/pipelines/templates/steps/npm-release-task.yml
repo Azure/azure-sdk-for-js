@@ -12,7 +12,7 @@ steps:
     - pwsh: |
         Set-PSDebug -Trace 1
         $tarFile = (Get-ChildItem -Path "${{parameters.Artifact.name}}*.tgz")?.Name
-        $tempDir = "temp_decompress"
+        $tempDir = "$(System.DefaultWorkingDirectory)/temp_decompress"
         New-Item -ItemType Directory -Force -Path $tempDir
         tar -xzf $tarFile -C $tempDir
         $pkg = Get-Content -Raw "$tempDir\package\package.json" | ConvertFrom-Json
