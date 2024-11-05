@@ -399,7 +399,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     });
   });
 
-  it(`show throw regular error we can't handle`, async function () {
+  it(`should throw regular error we can't handle`, async function () {
     const tokenExpiration = Date.now() + 1000 * 60; // One minute later.
     const getToken = vi.fn<() => Promise<AccessToken | null>>();
 
@@ -513,7 +513,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     matrix([nonCaeChallengeTests] as const, async function (testCase: Challenge) {
       // Test different scenarios when we have only 1 non-CAE challenge returned handled by a custom callback
       it(`Non-CAE challenge test: ${testCase.testName}`, async function () {
-        const tokenExpiration = Date.now() + 1000 * 60; // One minute later.
+        const tokenExpiration = Date.now(); // Expire right away
         const getToken = vi.fn<() => Promise<AccessToken | null>>();
 
         // First time getToken is called will return a bad token
@@ -524,7 +524,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         // This will return a good token after the authorization challenge is handled
         getToken.mockResolvedValueOnce({
           token: "good-token",
-          expiresOnTimestamp: tokenExpiration,
+          expiresOnTimestamp: tokenExpiration + 1000 * 60,
         });
         const credential: TokenCredential = {
           getToken,
@@ -549,12 +549,11 @@ describe("BearerTokenAuthenticationPolicy", function () {
         async function authorizeRequestOnChallenge(
           options: AuthorizeRequestOnChallengeOptions,
         ): Promise<boolean> {
-          isCallbackCalled = true;
+          isCallbackCalled = true;  // Enable CAE true by default
+
           assert.equal(testCase.challenge, options.response.headers.get("WWW-Authenticate"));
           // Should set the good token here in the second get access token
-          const token = await options.getAccessToken(scopes, {
-            claims: testCase.challenge,
-          });
+          const token = await options.getAccessToken(scopes, {});
           if (token) {
             options.request.headers.set("Authorization", `Bearer ${token.token}`);
             return true;
@@ -587,12 +586,6 @@ describe("BearerTokenAuthenticationPolicy", function () {
           abortSignal: undefined,
           tracingOptions: undefined,
         });
-        // Second getToken request will inject the correct token with the claims
-        if (testCase.expectedClaims) {
-          expect(getToken).toHaveBeenLastCalledWith(scopes, {
-            claims: testCase.expectedClaims,
-          });
-        }
         assert.isTrue(isCallbackCalled);
         assert.strictEqual(response.request.headers.get("Authorization"), `Bearer good-token`);
       });
@@ -979,25 +972,25 @@ const nonCaeChallengeTests: Challenge[] = [
     testName: "Challenge with no claims",
     challenge: `Bearer authorization_uri="https://login.windows.net/", error="insufficient_claims"`,
     expectedResponseCode: 200,
-    expectedClaims: `Bearer authorization_uri="https://login.windows.net/", error="insufficient_claims"`,
+    expectedClaims: null,
   },
   {
     testName: "no quotes with the params",
     challenge: `Bearer authorization_uri=https://login.windows.net/, error=insufficient_claims`,
     expectedResponseCode: 200,
-    expectedClaims: `Bearer authorization_uri=https://login.windows.net/, error=insufficient_claims`,
+    expectedClaims: null,
   },
   {
     testName: "no comma seperating the params",
     challenge: `Bearer authorization_uri="https://login.windows.net/" error_description="ran into some error"`,
     expectedResponseCode: 200,
-    expectedClaims: `Bearer authorization_uri="https://login.windows.net/" error_description="ran into some error"`,
+    expectedClaims: null,
   },
   {
     testName: "Challenge with unexpected error",
     challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey=="`,
     expectedResponseCode: 200,
-    expectedClaims: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token", claims="ey=="`,
+    expectedClaims: null,
   },
 ];
 

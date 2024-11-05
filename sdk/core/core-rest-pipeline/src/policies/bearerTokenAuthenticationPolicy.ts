@@ -167,7 +167,6 @@ async function authorizeRequestOnCaeChallenge(
     enableCae: true,
     claims: caeClaims,
   });
-
   if (!accessToken) {
     return false;
   }
@@ -287,7 +286,7 @@ export function bearerTokenAuthenticationPolicy(
                 parsedClaim = atob(claims);
               } catch (e) {
                 logger.warning(
-                  `The WWW-Authenticate header contains "claims" that cannot be parsed. Unable to perform the Continuous Access Evaluation authentication flow.`,
+                  `The WWW-Authenticate header contains "claims" that cannot be parsed. Unable to perform the Continuous Access Evaluation authentication flow. Unparsable claims: ${claims}`,
                 );
                 return response;
               }
@@ -376,7 +375,6 @@ function getCaeChallengeClaims(challenges: string | undefined): string | undefin
   }
   // Find all challenges present in the header
   const parsedChallenges = parseChallenges(challenges);
-  console.log(parsedChallenges);
   return parsedChallenges.find(
     (x) => x.scheme === "Bearer" && x.params.claims && x.params.error === "insufficient_claims",
   )?.params.claims;
