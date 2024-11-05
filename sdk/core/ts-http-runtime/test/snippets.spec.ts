@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+
+/* eslint "@typescript-eslint/no-shadow": "off" */
+
 import { describe, it, assert } from "vitest";
 import type {
   HttpClient,
