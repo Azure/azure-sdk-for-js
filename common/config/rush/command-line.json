@@ -160,6 +160,13 @@
     },
     {
       "commandKind": "bulk",
+      "name": "update-snippets",
+      "summary": "Replace snippets placeholders with code extracted from TypeScript files",
+      "enableParallelism": true,
+      "ignoreMissingScript": true
+    },
+    {
+      "commandKind": "bulk",
       "name": "lint:fix",
       "summary": "Fix linting errors for projects",
       "enableParallelism": true,
