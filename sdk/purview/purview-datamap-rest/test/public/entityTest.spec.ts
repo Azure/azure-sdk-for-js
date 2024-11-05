@@ -6,7 +6,6 @@ import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient";
 import type { Context } from "mocha";
 import { createClient } from "./utils/recordedClient";
-import { createFile } from "../../src/index";
 import { isUnexpected } from "../../src/isUnexpected";
 
 describe("purview datamap entity test", () => {
