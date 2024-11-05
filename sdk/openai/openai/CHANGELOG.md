@@ -1,5 +1,15 @@
 # Release History
 
+## 2.0.0-beta.4 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 2.0.0-beta.3 (2024-11-05)
 
 This release adds types for Azure features supported in Azure OpenAI Service API version 2024-08-01-preview.
