@@ -16,7 +16,6 @@ import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggreg
 import { ExecutionContext } from "./ExecutionContext";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 import { getInitialHeader } from "./headerUtils";
-// import { OrderByComparator } from "./orderByComparator";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext";
 
@@ -86,10 +85,23 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       this.state = HybridQueryExecutionContextBaseStates.initialized;
     }
   }
-  nextItem: (diagnosticNode: DiagnosticNodeInternal) => Promise<Response<any>>;
+  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+    while (
+      (this.state === HybridQueryExecutionContextBaseStates.uninitialized ||
+        this.state === HybridQueryExecutionContextBaseStates.initialized) &&
+      this.buffer.length === 0
+    ) {
+      await this.fetchMore(diagnosticNode);
+    }
+
+    if (this.buffer.length > 0) {
+      return this.drainOne();
+    } else {
+      return this.done();
+    }
+  }
 
   public hasMoreResults(): boolean {
-    console.log("state", this.state);
     switch (this.state) {
       case HybridQueryExecutionContextBaseStates.uninitialized:
         return true;
@@ -207,10 +219,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     try {
       const result = this.buffer.slice(0, this.pageSize);
       this.buffer = this.buffer.slice(this.pageSize);
-      console.log("page size", this.pageSize);
-      console.log("drain result", result.length);
-      console.log("buffer length", this.buffer.length);
-      console.log("drain result", result);
       if (this.buffer.length === 0) {
         this.state = HybridQueryExecutionContextBaseStates.done;
         console.log("state:", this.state);
@@ -225,8 +233,30 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
   }
 
+  private async drainOne(): Promise<Response<any>> {
+    try {
+      if (this.buffer.length === 0) {
+        this.state = HybridQueryExecutionContextBaseStates.done;
+        return {
+          result: undefined,
+          headers: getInitialHeader(),
+        };
+      }
+      const result = this.buffer.shift();
+      if (this.buffer.length === 0) {
+        this.state = HybridQueryExecutionContextBaseStates.done;
+      }
+      return {
+        result: result,
+        headers: getInitialHeader(),
+      };
+    } catch (error) {
+      this.state = HybridQueryExecutionContextBaseStates.done;
+      throw error;
+    }
+  }
+
   private done(): Response<any> {
-    console.log("done");
     return {
       result: undefined,
       headers: getInitialHeader(),
@@ -368,67 +398,3 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     return query;
   }
 }
-
-// function rankComponents(responseSet: Map<string, any>): Map<string, any> {
-//   // Convert the map values (ComponentObjects) into an array
-//   const valuesArray = Array.from(responseSet.values()) as ComponentObject[];
-
-//   // Determine how many elements are in componentScores (assuming all have the same length)
-//   const numComponents = valuesArray[0].componentScores.length;
-
-//   // Iterate through each index in componentScores (e.g., 0, 1, 2,...)
-//   for (let i = 0; i < numComponents; i++) {
-//         const comparator = new OrderByComparator(this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.componentQueryInfos[i].orderBy);
-//     // Sort the array based on componentScores[i]
-//     valuesArray.sort((a, b) => comparator.compareItems(a.componentScores[i], b.componentScores[i]));
-
-//     // Assign ranks based on the sorted order
-//     valuesArray.forEach((obj, rank) => {
-//       // Initialize componentRanks if not already
-//       if (!obj.componentRanks) {
-//         obj.componentRanks = new Array(numComponents).fill(0); // Initialize with zeros
-//       }
-//       // Assign the rank (1-based rank)
-//       obj.componentRanks[i] = rank + 1;
-//     });
-//   }
-
-//   // Convert the array back into a Map, preserving the original keys
-//   const rankedResponseSet = new Map<string, any>();
-//   let index = 0;
-
-//   // Iterate through the original keys and map back the updated values
-//   responseSet.forEach((_, key) => {
-//     rankedResponseSet.set(key, valuesArray[index++]);
-//   });
-
-//   return rankedResponseSet; // Return the new Map with ranked data
-// }
-
-// function computeRRFScore(ranks: number[], k: number): number {
-//   return ranks.reduce((acc, rank) => acc + (1 / (k + rank)), 0);
-// }
-
-// Function to compute the RRF score based on componentRanks for each object in the set
-// function computeRRFScoreForSet(responseSet: Map<string, any>, k: number): Map<string, any> {
-//   // Convert the map values (ComponentObjects) into an array
-//   const valuesArray = Array.from(responseSet.values()) as ComponentObject[];
-
-//   // Iterate through each object and compute its RRF score
-//   valuesArray.forEach((obj) => {
-//     if (obj.componentRanks) {
-//       obj.RRFscore = computeRRFScore(obj.componentRanks, k);
-//     }
-//   });
-
-//   // Convert the array back into a Map, preserving the original keys
-//   const scoredResponseSet = new Map<string, any>();
-//   let index = 0;
-
-//   // Iterate through the original keys and map back the updated values
-//   responseSet.forEach((_, key) => {
-//     scoredResponseSet.set(key, valuesArray[index++]);
-//   });
-
-//   return scoredResponseSet; // Return the Map with updated RRF scores
-// }

@@ -533,7 +533,7 @@ describe("Full text search feature", async () => {
 
     const { container } = await database.containers.createIfNotExists({
       id: containerName,
-      throughput: 15000,
+      throughput: 22000,
     });
     await container.items.create({ id: "1", text: "I like to swim" });
     await container.items.create({ id: "2", text: "I like to run" });
@@ -593,4 +593,24 @@ describe("Full text search feature", async () => {
       console.log("final query result", result);
     }
   });
+
+  it("should execute a full text query with fetchAll", async function () {
+    database = await getTestDatabaseName("FTS-DB-test");
+    const containerName = "full text search container";
+
+    const query = `SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.title, ['swim', 'run'])`
+
+    const { container } = await database.containers.createIfNotExists({
+      id: containerName,
+      throughput: 22000,
+    });
+    await container.items.create({ id: "1", text: "I like to swim" });
+    await container.items.create({ id: "2", text: "I like to run" });
+    const queryOptions = { forceQueryPlan: true };
+    const queryIterator = container.items.query(query, queryOptions);
+    const result = await queryIterator.fetchAll();
+    console.log("fetchAll result",result);
+  });
+
+
 });
