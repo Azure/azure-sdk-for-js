@@ -19,13 +19,8 @@ param (
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
-$tarFile = (Get-ChildItem -Path "$pathToArtifacts/*.tgz")?.Name
-$tempDir = "temp_decompress"
-New-Item -ItemType Directory -Force -Path $tempDir
-tar -xzf $tarFile -C $tempDir
-$pkg = Get-Content -Raw "$tempDir\package\package.json" | ConvertFrom-Json
+$pkg = Get-Content -Raw "temp_decompress\package\package.json" | ConvertFrom-Json
 $packageName = $pkg.Name
-Remove-Item -Force -Recurse $tempDir
 
 Write-Host "Verify npm tag versions for package $packageName"
 
