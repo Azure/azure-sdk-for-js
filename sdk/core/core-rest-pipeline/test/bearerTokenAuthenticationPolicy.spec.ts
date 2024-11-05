@@ -549,7 +549,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
         async function authorizeRequestOnChallenge(
           options: AuthorizeRequestOnChallengeOptions,
         ): Promise<boolean> {
-          isCallbackCalled = true;  // Enable CAE true by default
+          isCallbackCalled = true; // Enable CAE true by default
 
           assert.equal(testCase.challenge, options.response.headers.get("WWW-Authenticate"));
           // Should set the good token here in the second get access token
