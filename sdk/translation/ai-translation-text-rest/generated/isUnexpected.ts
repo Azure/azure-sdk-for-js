@@ -14,7 +14,7 @@ import {
   LookupDictionaryEntriesDefaultResponse,
   LookupDictionaryExamples200Response,
   LookupDictionaryExamplesDefaultResponse,
-} from "./responses.js";
+} from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "GET /languages": ["200"],

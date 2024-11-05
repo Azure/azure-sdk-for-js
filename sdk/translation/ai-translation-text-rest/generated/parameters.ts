@@ -9,7 +9,7 @@ import {
   ProfanityMarker,
   InputTextItem,
   DictionaryExampleTextItem,
-} from "./models.js";
+} from "./models";
 
 export interface GetSupportedLanguagesHeaders {
   /** A client-generated GUID to uniquely identify the request. */
@@ -224,9 +224,9 @@ export interface FindSentenceBoundariesHeaderParam {
 
 export type FindSentenceBoundariesParameters =
   FindSentenceBoundariesQueryParam &
-    FindSentenceBoundariesHeaderParam &
-    FindSentenceBoundariesBodyParam &
-    RequestParameters;
+  FindSentenceBoundariesHeaderParam &
+  FindSentenceBoundariesBodyParam &
+  RequestParameters;
 
 export interface LookupDictionaryEntriesHeaders {
   /** A client-generated GUID to uniquely identify the request. */
@@ -261,9 +261,9 @@ export interface LookupDictionaryEntriesHeaderParam {
 
 export type LookupDictionaryEntriesParameters =
   LookupDictionaryEntriesQueryParam &
-    LookupDictionaryEntriesHeaderParam &
-    LookupDictionaryEntriesBodyParam &
-    RequestParameters;
+  LookupDictionaryEntriesHeaderParam &
+  LookupDictionaryEntriesBodyParam &
+  RequestParameters;
 
 export interface LookupDictionaryExamplesHeaders {
   /** A client-generated GUID to uniquely identify the request. */
@@ -298,6 +298,6 @@ export interface LookupDictionaryExamplesHeaderParam {
 
 export type LookupDictionaryExamplesParameters =
   LookupDictionaryExamplesQueryParam &
-    LookupDictionaryExamplesHeaderParam &
-    LookupDictionaryExamplesBodyParam &
-    RequestParameters;
+  LookupDictionaryExamplesHeaderParam &
+  LookupDictionaryExamplesBodyParam &
+  RequestParameters;

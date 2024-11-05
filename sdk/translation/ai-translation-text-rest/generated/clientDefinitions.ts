@@ -8,7 +8,7 @@ import {
   FindSentenceBoundariesParameters,
   LookupDictionaryEntriesParameters,
   LookupDictionaryExamplesParameters,
-} from "./parameters.js";
+} from "./parameters";
 import {
   GetSupportedLanguages200Response,
   GetSupportedLanguagesDefaultResponse,
@@ -22,7 +22,7 @@ import {
   LookupDictionaryEntriesDefaultResponse,
   LookupDictionaryExamples200Response,
   LookupDictionaryExamplesDefaultResponse,
-} from "./responses.js";
+} from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetSupportedLanguages {
