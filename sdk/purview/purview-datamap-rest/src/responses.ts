@@ -1,14 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-<<<<<<< HEAD
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse } from "@azure-rest/core-client";
 import {
-=======
-import type { HttpResponse } from "@azure-rest/core-client";
-import type {
->>>>>>> main
   EntityMutationResultOutput,
   AtlasErrorResponseOutput,
   AtlasEntitiesWithExtInfoOutput,
