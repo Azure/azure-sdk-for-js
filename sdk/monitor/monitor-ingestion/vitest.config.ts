@@ -9,7 +9,7 @@ export default mergeConfig(
   defineConfig({
     test: {
       include: ["test/**/*.spec.ts"],
-      exclude: ["test/snippets.spec.skip.ts"],
+      exclude: ["test/snippets.spec.ts"],
     },
   }),
 );
