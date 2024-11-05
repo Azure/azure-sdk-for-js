@@ -18,7 +18,8 @@ import type {
  */
 export interface AppConfigurationClientOptions extends CommonClientOptions {
   /**
-   * The API version to use when interacting with the service.
+   * The API version to use when interacting with the service. The default value is `2023-11-01`. 
+   * Note that overriding this default value may result in unsupported behavior.
    */
   apiVersion?: string;
 }
