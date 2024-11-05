@@ -15,7 +15,7 @@ import {
   WebPubSubSharedPrivateLinkResourcesGetResponse,
   WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse,
-  WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams
+  WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,11 +30,11 @@ export interface WebPubSubSharedPrivateLinkResources {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubSharedPrivateLinkResourcesListOptionalParams
+    options?: WebPubSubSharedPrivateLinkResourcesListOptionalParams,
   ): PagedAsyncIterableIterator<SharedPrivateLinkResource>;
   /**
    * Get the specified shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
@@ -43,11 +43,11 @@ export interface WebPubSubSharedPrivateLinkResources {
     sharedPrivateLinkResourceName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubSharedPrivateLinkResourcesGetOptionalParams
+    options?: WebPubSubSharedPrivateLinkResourcesGetOptionalParams,
   ): Promise<WebPubSubSharedPrivateLinkResourcesGetResponse>;
   /**
    * Create or update a shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters The shared private link resource
@@ -58,7 +58,7 @@ export interface WebPubSubSharedPrivateLinkResources {
     resourceGroupName: string,
     resourceName: string,
     parameters: SharedPrivateLinkResource,
-    options?: WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
+    options?: WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse>,
@@ -67,7 +67,7 @@ export interface WebPubSubSharedPrivateLinkResources {
   >;
   /**
    * Create or update a shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param parameters The shared private link resource
@@ -78,11 +78,11 @@ export interface WebPubSubSharedPrivateLinkResources {
     resourceGroupName: string,
     resourceName: string,
     parameters: SharedPrivateLinkResource,
-    options?: WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
+    options?: WebPubSubSharedPrivateLinkResourcesCreateOrUpdateOptionalParams,
   ): Promise<WebPubSubSharedPrivateLinkResourcesCreateOrUpdateResponse>;
   /**
    * Delete the specified shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
@@ -91,11 +91,11 @@ export interface WebPubSubSharedPrivateLinkResources {
     sharedPrivateLinkResourceName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams
+    options?: WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified shared private link resource
-   * @param sharedPrivateLinkResourceName The name of the shared private link resource
+   * @param sharedPrivateLinkResourceName The name of the shared private link resource.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the resource.
    * @param options The options parameters.
@@ -104,6 +104,6 @@ export interface WebPubSubSharedPrivateLinkResources {
     sharedPrivateLinkResourceName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams
+    options?: WebPubSubSharedPrivateLinkResourcesDeleteOptionalParams,
   ): Promise<void>;
 }

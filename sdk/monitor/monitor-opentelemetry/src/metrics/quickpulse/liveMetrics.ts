@@ -1,26 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import * as os from "os";
-import {
-  MeterProvider,
+import type {
   MeterProviderOptions,
-  PeriodicExportingMetricReader,
   PeriodicExportingMetricReaderOptions,
 } from "@opentelemetry/sdk-metrics";
-import { InternalConfig } from "../../shared/config";
-import {
-  Meter,
-  ObservableGauge,
-  ObservableResult,
-  SpanKind,
-  SpanStatusCode,
-  ValueType,
-  context,
-} from "@opentelemetry/api";
-import { RandomIdGenerator, ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
-import { LogRecord } from "@opentelemetry/sdk-logs";
-import { isExceptionTelemetry } from "../utils";
-import {
+import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import type { InternalConfig } from "../../shared/config";
+import type { Meter, ObservableGauge, ObservableResult } from "@opentelemetry/api";
+import { SpanKind, SpanStatusCode, ValueType, context } from "@opentelemetry/api";
+import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
+import { RandomIdGenerator } from "@opentelemetry/sdk-trace-base";
+import type { LogRecord } from "@opentelemetry/sdk-logs";
+import type {
   DocumentIngress,
   Exception,
   MonitoringDataPoint,
@@ -31,22 +23,53 @@ import {
   /* eslint-disable-next-line @typescript-eslint/no-redeclare */
   Request,
   Trace,
+  KeyValuePairString,
+  DerivedMetricInfo,
+  FilterConjunctionGroupInfo,
 } from "../../generated";
+import { KnownCollectionConfigurationErrorType, KnownTelemetryType } from "../../generated";
 import {
   getCloudRole,
   getCloudRoleInstance,
   getLogDocument,
   getSdkVersion,
+  getSpanData,
+  getLogData,
   getSpanDocument,
   getTransmissionTime,
+  isRequestData,
+  getSpanExceptionColumns,
+  isExceptionData,
+  isDependencyData,
 } from "./utils";
 import { QuickpulseMetricExporter } from "./export/exporter";
 import { QuickpulseSender } from "./export/sender";
 import { ConnectionStringParser } from "../../utils/connectionStringParser";
 import { DEFAULT_LIVEMETRICS_ENDPOINT } from "../../types";
-import { QuickPulseOpenTelemetryMetricNames, QuickpulseExporterOptions } from "./types";
+import type {
+  QuickpulseExporterOptions,
+  RequestData,
+  DependencyData,
+  TraceData,
+  ExceptionData,
+  TelemetryData,
+} from "./types";
+import { QuickPulseOpenTelemetryMetricNames } from "./types";
 import { hrTimeToMilliseconds, suppressTracing } from "@opentelemetry/core";
 import { getInstance } from "../../utils/statsbeat";
+import type { CollectionConfigurationError } from "../../generated";
+import { Filter } from "./filtering/filter";
+import { Validator } from "./filtering/validator";
+import { CollectionConfigurationErrorTracker } from "./filtering/collectionConfigurationErrorTracker";
+import { Projection } from "./filtering/projection";
+import {
+  TelemetryTypeError,
+  UnexpectedFilterCreateError,
+  DuplicateMetricIdError,
+  MetricFailureToCreateError,
+} from "./filtering/quickpulseErrors";
+import { SEMATTRS_EXCEPTION_TYPE } from "@opentelemetry/semantic-conventions";
+import { getPhysicalMemory, getProcessorTimeNormalized } from "../utils";
 
 const POST_INTERVAL = 1000;
 const MAX_POST_WAIT_TIME = 20000;
@@ -69,8 +92,8 @@ export class LiveMetrics {
   private requestFailedRateGauge: ObservableGauge | undefined;
   private dependencyRateGauge: ObservableGauge | undefined;
   private dependencyFailedRateGauge: ObservableGauge | undefined;
-  private memoryCommitedGauge: ObservableGauge | undefined;
-  private processorTimeGauge: ObservableGauge | undefined;
+  private processPhysicalBytesGauge: ObservableGauge | undefined;
+  private percentProcessorTimeNormalizedGauge: ObservableGauge | undefined;
   private exceptionsRateGauge: ObservableGauge | undefined;
 
   private documents: DocumentIngress[] = [];
@@ -105,15 +128,23 @@ export class LiveMetrics {
   private lastDependencyRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastFailedDependencyRate: { count: number; time: number } = { count: 0, time: 0 };
   private lastExceptionRate: { count: number; time: number } = { count: 0, time: 0 };
-  private lastCpus:
-    | {
-        model: string;
-        speed: number;
-        times: { user: number; nice: number; sys: number; idle: number; irq: number };
-      }[]
-    | undefined;
+  private lastCpuUsage: NodeJS.CpuUsage;
+  private lastHrTime: bigint;
   private statsbeatOptionsUpdated = false;
-
+  private etag: string = "";
+  private errorTracker: CollectionConfigurationErrorTracker =
+    new CollectionConfigurationErrorTracker();
+  // For tracking of duplicate metric ids in the same configuration.
+  private seenMetricIds: Set<string> = new Set();
+  private validDerivedMetrics: Map<string, DerivedMetricInfo[]> = new Map();
+  private derivedMetricProjection: Projection = new Projection();
+  private validator: Validator = new Validator();
+  private filter: Filter = new Filter();
+  // type: Map<telemetryType, Map<id, FilterConjunctionGroupInfo[]>>
+  private validDocumentFilterConjuctionGroupInfos: Map<
+    string,
+    Map<string, FilterConjunctionGroupInfo[]>
+  > = new Map();
   /**
    * Initializes a new instance of the StandardMetrics class.
    * @param config - Distro configuration.
@@ -129,7 +160,7 @@ export class LiveMetrics {
     const version = getSdkVersion();
     this.baseMonitoringDataPoint = {
       version: version,
-      invariantVersion: 1,
+      invariantVersion: 5, // 5 means we support live metrics filtering of metrics and documents
       instance: instance,
       roleName: roleName,
       machineName: machineName,
@@ -145,16 +176,22 @@ export class LiveMetrics {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
       credential: this.config.azureMonitorExporterOptions.credential,
-      credentialScopes: this.config.azureMonitorExporterOptions.credentialScopes,
+      credentialScopes:
+        parsedConnectionString.aadaudience ||
+        this.config.azureMonitorExporterOptions.credentialScopes,
     });
     const exporterOptions: QuickpulseExporterOptions = {
       endpointUrl: parsedConnectionString.liveendpoint || DEFAULT_LIVEMETRICS_ENDPOINT,
       instrumentationKey: parsedConnectionString.instrumentationkey || "",
       credential: this.config.azureMonitorExporterOptions.credential,
-      credentialScopes: this.config.azureMonitorExporterOptions.credentialScopes,
+      credentialScopes:
+        parsedConnectionString.aadaudience ||
+        this.config.azureMonitorExporterOptions.credentialScopes,
       // eslint-disable-next-line @typescript-eslint/no-misused-promises
       postCallback: this.quickPulseDone.bind(this),
       getDocumentsFn: this.getDocuments.bind(this),
+      getErrorsFn: this.getErrors.bind(this),
+      getDerivedMetricValuesFn: this.getDerivedMetricValues.bind(this),
       baseMonitoringDataPoint: this.baseMonitoringDataPoint,
     };
     this.quickpulseExporter = new QuickpulseMetricExporter(exporterOptions);
@@ -164,6 +201,8 @@ export class LiveMetrics {
     // eslint-disable-next-line @typescript-eslint/no-misused-promises
     this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
     this.handle.unref(); // Don't block apps from terminating
+    this.lastCpuUsage = process.cpuUsage();
+    this.lastHrTime = process.hrtime.bigint();
   }
 
   public shutdown(): void {
@@ -177,6 +216,7 @@ export class LiveMetrics {
         const params: IsSubscribedOptionalParams = {
           transmissionTime: getTransmissionTime(),
           monitoringDataPoint: this.baseMonitoringDataPoint,
+          configurationEtag: this.etag,
         };
         await context.with(suppressTracing(context.active()), async () => {
           const response = await this.pingSender.isSubscribed(params);
@@ -216,9 +256,13 @@ export class LiveMetrics {
       this.lastSuccessTime = Date.now();
       this.isCollectingData =
         response.xMsQpsSubscribed && response.xMsQpsSubscribed === "true" ? true : false;
+      if (response.xMsQpsConfigurationEtag && this.etag !== response.xMsQpsConfigurationEtag) {
+        this.updateConfiguration(response);
+      }
 
       // If collecting was stoped
       if (!this.isCollectingData && this.meterProvider) {
+        this.etag = "";
         this.deactivateMetrics();
         // eslint-disable-next-line @typescript-eslint/no-misused-promises
         this.handle = <any>setTimeout(this.goQuickpulse.bind(this), this.pingInterval);
@@ -249,7 +293,6 @@ export class LiveMetrics {
       getInstance().setStatsbeatFeatures({}, { liveMetrics: true });
       this.statsbeatOptionsUpdated = true;
     }
-    this.lastCpus = os.cpus();
     this.totalDependencyCount = 0;
     this.totalExceptionCount = 0;
     this.totalFailedDependencyCount = 0;
@@ -313,15 +356,15 @@ export class LiveMetrics {
       },
     );
 
-    this.memoryCommitedGauge = this.meter.createObservableGauge(
-      QuickPulseOpenTelemetryMetricNames.COMMITTED_BYTES,
+    this.processPhysicalBytesGauge = this.meter.createObservableGauge(
+      QuickPulseOpenTelemetryMetricNames.PHYSICAL_BYTES,
       {
         valueType: ValueType.INT,
       },
     );
 
-    this.processorTimeGauge = this.meter.createObservableGauge(
-      QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME,
+    this.percentProcessorTimeNormalizedGauge = this.meter.createObservableGauge(
+      QuickPulseOpenTelemetryMetricNames.PROCESSOR_TIME_NORMALIZED,
       {
         valueType: ValueType.DOUBLE,
       },
@@ -340,8 +383,10 @@ export class LiveMetrics {
     this.dependencyRateGauge.addCallback(this.getDependencyRate.bind(this));
     this.dependencyFailedRateGauge.addCallback(this.getDependencyFailedRate.bind(this));
     this.exceptionsRateGauge.addCallback(this.getExceptionRate.bind(this));
-    this.memoryCommitedGauge.addCallback(this.getCommitedMemory.bind(this));
-    this.processorTimeGauge.addCallback(this.getProcessorTime.bind(this));
+    this.processPhysicalBytesGauge.addCallback(this.getPhysicalMemory.bind(this));
+    this.percentProcessorTimeNormalizedGauge.addCallback(
+      this.getProcessorTimeNormalized.bind(this),
+    );
   }
 
   /**
@@ -349,6 +394,12 @@ export class LiveMetrics {
    */
   public deactivateMetrics(): void {
     this.documents = [];
+    this.validDocumentFilterConjuctionGroupInfos.clear();
+    this.errorTracker.clearRunTimeErrors();
+    this.errorTracker.clearValidationTimeErrors();
+    this.validDerivedMetrics.clear();
+    this.derivedMetricProjection.clearProjectionMaps();
+    this.seenMetricIds.clear();
     this.meterProvider?.shutdown();
     this.meterProvider = undefined;
   }
@@ -373,6 +424,16 @@ export class LiveMetrics {
     return result;
   }
 
+  public getErrors(): CollectionConfigurationError[] {
+    const result = this.errorTracker.getErrors();
+    this.errorTracker.clearRunTimeErrors();
+    return result;
+  }
+
+  public getDerivedMetricValues(): Map<string, number> {
+    return this.derivedMetricProjection.getMetricValues();
+  }
+
   private addDocument(document: DocumentIngress): void {
     if (document) {
       // Limit risk of memory leak by limiting doc length to something manageable
@@ -389,9 +450,23 @@ export class LiveMetrics {
    */
   public recordSpan(span: ReadableSpan): void {
     if (this.isCollectingData) {
-      // Add document and calculate metrics
-      const document: Request | RemoteDependency = getSpanDocument(span);
-      this.addDocument(document);
+      const columns: RequestData | DependencyData = getSpanData(span);
+      let documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>;
+      let derivedMetricInfos: DerivedMetricInfo[];
+      if (isRequestData(columns)) {
+        documentConfiguration =
+          this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Request) ||
+          new Map<string, FilterConjunctionGroupInfo[]>();
+        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Request) || [];
+      } else {
+        documentConfiguration =
+          this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Dependency) ||
+          new Map<string, FilterConjunctionGroupInfo[]>();
+        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Dependency) || [];
+      }
+      this.applyDocumentFilters(documentConfiguration, columns);
+      this.checkMetricFilterAndCreateProjection(derivedMetricInfos, columns);
+
       const durationMs = hrTimeToMilliseconds(span.duration);
       const success = span.status.code !== SpanStatusCode.ERROR;
 
@@ -412,6 +487,20 @@ export class LiveMetrics {
         span.events.forEach((event: TimedEvent) => {
           event.attributes = event.attributes || {};
           if (event.name === "exception") {
+            const exceptionColumns: ExceptionData = getSpanExceptionColumns(
+              event.attributes,
+              span.attributes,
+            );
+            documentConfiguration =
+              this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Exception) ||
+              new Map<string, FilterConjunctionGroupInfo[]>();
+            this.applyDocumentFilters(
+              documentConfiguration,
+              exceptionColumns,
+              event.attributes[SEMATTRS_EXCEPTION_TYPE] as string,
+            );
+            derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
+            this.checkMetricFilterAndCreateProjection(derivedMetricInfos, exceptionColumns);
             this.totalExceptionCount++;
           }
         });
@@ -425,11 +514,29 @@ export class LiveMetrics {
    */
   public recordLog(logRecord: LogRecord): void {
     if (this.isCollectingData) {
-      const document: Trace | Exception = getLogDocument(logRecord);
-      this.addDocument(document);
-      if (isExceptionTelemetry(logRecord)) {
+      const columns: TraceData | ExceptionData = getLogData(logRecord);
+      let derivedMetricInfos: DerivedMetricInfo[];
+      let documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>;
+      if (isExceptionData(columns)) {
+        documentConfiguration =
+          this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Exception) ||
+          new Map<string, FilterConjunctionGroupInfo[]>();
+        this.applyDocumentFilters(
+          documentConfiguration,
+          columns,
+          logRecord.attributes[SEMATTRS_EXCEPTION_TYPE] as string,
+        );
+        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Exception) || [];
         this.totalExceptionCount++;
+      } else {
+        // trace
+        documentConfiguration =
+          this.validDocumentFilterConjuctionGroupInfos.get(KnownTelemetryType.Trace) ||
+          new Map<string, FilterConjunctionGroupInfo[]>();
+        this.applyDocumentFilters(documentConfiguration, columns);
+        derivedMetricInfos = this.validDerivedMetrics.get(KnownTelemetryType.Trace) || [];
       }
+      this.checkMetricFilterAndCreateProjection(derivedMetricInfos, columns);
     }
   }
 
@@ -540,68 +647,200 @@ export class LiveMetrics {
     };
   }
 
-  private getCommitedMemory(observableResult: ObservableResult): void {
-    const freeMem = os.freemem();
-    const committedMemory = os.totalmem() - freeMem;
-    observableResult.observe(committedMemory);
+  private getPhysicalMemory(observableResult: ObservableResult): void {
+    const rss = getPhysicalMemory();
+    observableResult.observe(rss);
   }
 
-  private getTotalCombinedCpu(
-    cpus: os.CpuInfo[],
-    lastCpus: os.CpuInfo[],
-  ): { combinedTotal: number; totalUser: number; totalIdle: number } {
-    let totalUser = 0;
-    let totalSys = 0;
-    let totalNice = 0;
-    let totalIdle = 0;
-    let totalIrq = 0;
-    for (let i = 0; !!cpus && i < cpus.length; i++) {
-      const cpu = cpus[i];
-      const lastCpu = lastCpus[i];
-      const times = cpu.times;
-      const lastTimes = lastCpu.times;
-      // user cpu time (or) % CPU time spent in user space
-      let user = times.user - lastTimes.user;
-      user = user > 0 ? user : 0; // Avoid negative values
-      totalUser += user;
-      // system cpu time (or) % CPU time spent in kernel space
-      let sys = times.sys - lastTimes.sys;
-      sys = sys > 0 ? sys : 0; // Avoid negative values
-      totalSys += sys;
-      // user nice cpu time (or) % CPU time spent on low priority processes
-      let nice = times.nice - lastTimes.nice;
-      nice = nice > 0 ? nice : 0; // Avoid negative values
-      totalNice += nice;
-      // idle cpu time (or) % CPU time spent idle
-      let idle = times.idle - lastTimes.idle;
-      idle = idle > 0 ? idle : 0; // Avoid negative values
-      totalIdle += idle;
-      // irq (or) % CPU time spent servicing/handling hardware interrupts
-      let irq = times.irq - lastTimes.irq;
-      irq = irq > 0 ? irq : 0; // Avoid negative values
-      totalIrq += irq;
-    }
-    const combinedTotal = totalUser + totalSys + totalNice + totalIdle + totalIrq;
-    return {
-      combinedTotal: combinedTotal,
-      totalUser: totalUser,
-      totalIdle: totalIdle,
-    };
+  private getProcessorTimeNormalized(observableResult: ObservableResult): void {
+    const cpuUsagePercent = getProcessorTimeNormalized(this.lastHrTime, this.lastCpuUsage);
+    observableResult.observe(cpuUsagePercent);
+    this.lastHrTime = process.hrtime.bigint();
+    this.lastCpuUsage = process.cpuUsage();
   }
 
-  private getProcessorTime(observableResult: ObservableResult): void {
-    // this reports total ms spent in each category since the OS was booted, to calculate percent it is necessary
-    // to find the delta since the last measurement
-    const cpus = os.cpus();
-    if (cpus && cpus.length && this.lastCpus && cpus.length === this.lastCpus.length) {
-      const cpuTotals = this.getTotalCombinedCpu(cpus, this.lastCpus);
+  private updateConfiguration(response: PublishResponse | IsSubscribedResponse): void {
+    this.etag = response.xMsQpsConfigurationEtag || "";
+    this.quickpulseExporter.setEtag(this.etag);
+    this.errorTracker.clearValidationTimeErrors();
+    this.validDocumentFilterConjuctionGroupInfos.clear();
+    this.validDerivedMetrics.clear();
+    this.derivedMetricProjection.clearProjectionMaps();
+    this.seenMetricIds.clear();
 
-      const value =
-        cpuTotals.combinedTotal > 0
-          ? ((cpuTotals.combinedTotal - cpuTotals.totalIdle) / cpuTotals.combinedTotal) * 100
-          : 0;
-      observableResult.observe(value);
+    this.parseDocumentFilterConfiguration(response);
+    this.parseMetricFilterConfiguration(response);
+  }
+
+  private parseDocumentFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {
+    response.documentStreams.forEach((documentStreamInfo) => {
+      documentStreamInfo.documentFilterGroups.forEach((documentFilterGroupInfo) => {
+        try {
+          this.validator.validateTelemetryType(documentFilterGroupInfo.telemetryType);
+          this.validator.validateDocumentFilters(documentFilterGroupInfo);
+          this.filter.renameExceptionFieldNamesForFiltering(documentFilterGroupInfo.filters);
+
+          if (
+            !this.validDocumentFilterConjuctionGroupInfos.has(documentFilterGroupInfo.telemetryType)
+          ) {
+            this.validDocumentFilterConjuctionGroupInfos.set(
+              documentFilterGroupInfo.telemetryType,
+              new Map<string, FilterConjunctionGroupInfo[]>(),
+            );
+          }
+
+          const innerMap = this.validDocumentFilterConjuctionGroupInfos.get(
+            documentFilterGroupInfo.telemetryType,
+          );
+          if (!innerMap?.has(documentStreamInfo.id)) {
+            innerMap?.set(documentStreamInfo.id, [documentFilterGroupInfo.filters]);
+          } else {
+            innerMap.get(documentStreamInfo.id)?.push(documentFilterGroupInfo.filters);
+          }
+        } catch (error) {
+          const configError: CollectionConfigurationError = {
+            collectionConfigurationErrorType: "",
+            message: "",
+            fullException: "",
+            data: [],
+          };
+          if (error instanceof TelemetryTypeError) {
+            configError.collectionConfigurationErrorType = "DocumentTelemetryTypeUnsupported";
+          } else if (error instanceof UnexpectedFilterCreateError) {
+            configError.collectionConfigurationErrorType =
+              KnownCollectionConfigurationErrorType.DocumentStreamFailureToCreateFilterUnexpected;
+          }
+
+          if (error instanceof Error) {
+            configError.message = error.message;
+            configError.fullException = error.stack || "";
+          }
+          const data: KeyValuePairString[] = [];
+          data.push({ key: "DocumentStreamInfoId", value: documentStreamInfo.id });
+          data.push({ key: "ETag", value: this.etag });
+          configError.data = data;
+          this.errorTracker.addValidationError(configError);
+        }
+      });
+    });
+  }
+
+  private applyDocumentFilters(
+    documentConfiguration: Map<string, FilterConjunctionGroupInfo[]>,
+    data: TelemetryData,
+    exceptionType?: string,
+  ): void {
+    const streamIds: Set<string> = new Set<string>();
+    documentConfiguration.forEach((filterConjunctionGroupInfoList, streamId) => {
+      filterConjunctionGroupInfoList.forEach((filterConjunctionGroupInfo) => {
+        // by going though each filterConjuctionGroupInfo, we are implicitly -OR-ing
+        // different filterConjunctionGroupInfo within documentStreamInfo. If there are multiple
+        // documentStreamInfos, this logic will -OR- the filtering results of each documentStreamInfo.
+        if (this.filter.checkFilterConjunctionGroup(filterConjunctionGroupInfo, data)) {
+          streamIds.add(streamId);
+        }
+      });
+    });
+
+    // Emit a document when a telemetry data matches a particular filtering configuration,
+    // or when filtering configuration is empty.
+    if (streamIds.size > 0 || documentConfiguration.size === 0) {
+      let document: Request | RemoteDependency | Trace | Exception;
+      if (isRequestData(data) || isDependencyData(data)) {
+        document = getSpanDocument(data);
+      } else if (isExceptionData(data) && exceptionType) {
+        document = getLogDocument(data, exceptionType);
+      } else {
+        document = getLogDocument(data);
+      }
+      document.documentStreamIds = [...streamIds];
+      this.addDocument(document);
     }
-    this.lastCpus = cpus;
+  }
+
+  private parseMetricFilterConfiguration(response: PublishResponse | IsSubscribedResponse): void {
+    response.metrics.forEach((derivedMetricInfo) => {
+      try {
+        if (!this.seenMetricIds.has(derivedMetricInfo.id)) {
+          this.seenMetricIds.add(derivedMetricInfo.id);
+          this.validator.validateTelemetryType(derivedMetricInfo.telemetryType);
+          this.validator.checkCustomMetricProjection(derivedMetricInfo);
+          this.validator.validateMetricFilters(derivedMetricInfo);
+          derivedMetricInfo.filterGroups.forEach((filterConjunctionGroupInfo) => {
+            this.filter.renameExceptionFieldNamesForFiltering(filterConjunctionGroupInfo);
+          });
+
+          if (this.validDerivedMetrics.has(derivedMetricInfo.telemetryType)) {
+            this.validDerivedMetrics.get(derivedMetricInfo.telemetryType)?.push(derivedMetricInfo);
+          } else {
+            this.validDerivedMetrics.set(derivedMetricInfo.telemetryType, [derivedMetricInfo]);
+          }
+        } else {
+          throw new DuplicateMetricIdError(`Duplicate Metric Id: ${derivedMetricInfo.id}`);
+        }
+        this.derivedMetricProjection.initDerivedMetricProjection(derivedMetricInfo);
+      } catch (error) {
+        const configError: CollectionConfigurationError = {
+          collectionConfigurationErrorType: "",
+          message: "",
+          fullException: "",
+          data: [],
+        };
+        if (error instanceof TelemetryTypeError) {
+          configError.collectionConfigurationErrorType =
+            KnownCollectionConfigurationErrorType.MetricTelemetryTypeUnsupported;
+        } else if (error instanceof UnexpectedFilterCreateError) {
+          configError.collectionConfigurationErrorType =
+            KnownCollectionConfigurationErrorType.MetricFailureToCreateFilterUnexpected;
+        } else if (error instanceof DuplicateMetricIdError) {
+          configError.collectionConfigurationErrorType =
+            KnownCollectionConfigurationErrorType.MetricDuplicateIds;
+        }
+
+        if (error instanceof Error) {
+          configError.message = error.message;
+          configError.fullException = error.stack || "";
+        }
+        const data: KeyValuePairString[] = [];
+        data.push({ key: "MetricId", value: derivedMetricInfo.id });
+        data.push({ key: "ETag", value: this.etag });
+        configError.data = data;
+        this.errorTracker.addValidationError(configError);
+      }
+    });
+  }
+
+  private checkMetricFilterAndCreateProjection(
+    derivedMetricInfoList: DerivedMetricInfo[],
+    data: TelemetryData,
+  ): void {
+    derivedMetricInfoList.forEach((derivedMetricInfo: DerivedMetricInfo) => {
+      if (this.filter.checkMetricFilters(derivedMetricInfo, data)) {
+        try {
+          this.derivedMetricProjection.calculateProjection(derivedMetricInfo, data);
+        } catch (error) {
+          const configError: CollectionConfigurationError = {
+            collectionConfigurationErrorType: "",
+            message: "",
+            fullException: "",
+            data: [],
+          };
+          if (error instanceof MetricFailureToCreateError) {
+            configError.collectionConfigurationErrorType =
+              KnownCollectionConfigurationErrorType.MetricFailureToCreate;
+
+            if (error instanceof Error) {
+              configError.message = error.message;
+              configError.fullException = error.stack || "";
+            }
+            const errorData: KeyValuePairString[] = [];
+            errorData.push({ key: "MetricId", value: derivedMetricInfo.id });
+            errorData.push({ key: "ETag", value: this.etag });
+            configError.data = errorData;
+            this.errorTracker.addRunTimeError(configError);
+          }
+        }
+      }
+    });
   }
 }

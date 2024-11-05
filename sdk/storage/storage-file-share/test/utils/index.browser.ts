@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { AnonymousCredential } from "../../../storage-blob/src/credentials/AnonymousCredential";
 import { newPipeline } from "../../src/Pipeline";
-import { ShareClientConfig, ShareClientOptions } from "../../src/models";
+import type { ShareClientConfig, ShareClientOptions } from "../../src/models";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { configureStorageClient, SimpleTokenCredential } from "./testutils.common";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
 export * from "./testutils.common";
 

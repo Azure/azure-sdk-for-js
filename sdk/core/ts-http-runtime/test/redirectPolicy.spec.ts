@@ -3,12 +3,8 @@
 
 import { describe, it, assert, expect, vi } from "vitest";
 import { redirectPolicy } from "../src/policies/redirectPolicy.js";
-import {
-  PipelineResponse,
-  SendRequest,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "../src/index.js";
+import type { PipelineResponse, SendRequest } from "../src/index.js";
+import { createHttpHeaders, createPipelineRequest } from "../src/index.js";
 
 describe("RedirectPolicy", () => {
   it("should not follow redirect if no location header", async () => {

@@ -8,13 +8,11 @@ import viteConfig from "../../../vitest.browser.shared.config.ts";
 export default mergeConfig(
   viteConfig,
   defineConfig({
-    optimizeDeps: {
-      include: ["@azure/openai", "@azure/openai/types"],
-    },
     test: {
-      testTimeout: 170000,
+      testTimeout: 250000,
       hookTimeout: 25000,
       fileParallelism: false,
+      setupFiles: ["./test/public/utils/logging.ts"],
       include: [
         "dist-test/browser/test/**/*.spec.js",
       ],

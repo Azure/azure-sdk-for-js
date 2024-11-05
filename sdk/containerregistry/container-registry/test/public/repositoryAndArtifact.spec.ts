@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { Context } from "mocha";
-import { ContainerRegistryClient, ContainerRepository } from "../../src";
+import type { Context } from "mocha";
+import type { ContainerRegistryClient, ContainerRepository } from "../../src";
 import { versionsToTest } from "@azure-tools/test-utils";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { RestError } from "@azure/core-rest-pipeline";
+import type { RestError } from "@azure/core-rest-pipeline";
 import { createRegistryClient, recorderStartOptions, serviceVersions } from "../utils/utils";
 
 versionsToTest(serviceVersions, {}, (serviceVersion, onVersions) => {

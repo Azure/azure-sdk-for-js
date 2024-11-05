@@ -4,7 +4,7 @@
 import { stringToUint8Array } from "../util/bytesEncoding.js";
 import { isNodeLike } from "../util/checkEnvironment.js";
 import { createHttpHeaders } from "../httpHeaders.js";
-import {
+import type {
   BodyPart,
   FormDataMap,
   FormDataValue,
@@ -12,7 +12,7 @@ import {
   PipelineResponse,
   SendRequest,
 } from "../interfaces.js";
-import { PipelinePolicy } from "../pipeline.js";
+import type { PipelinePolicy } from "../pipeline.js";
 
 /**
  * The programmatic identifier of the formDataPolicy.
@@ -103,6 +103,7 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
           "Content-Disposition",
           `form-data; name="${fieldName}"; filename="${fileName}"`,
         );
+
         // again, || is used since an empty value.type means the content type is unset
         headers.set("Content-Type", value.type || "application/octet-stream");
 
@@ -113,6 +114,5 @@ async function prepareFormData(formData: FormDataMap, request: PipelineRequest):
       }
     }
   }
-
   request.multipartBody = { parts };
 }

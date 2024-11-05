@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
-import { DocumentAnalysisPollOperationState } from "../lro/analysis";
-import { PollerOptions } from "./PollerOptions";
+import type { OperationOptions } from "@azure/core-client";
+import type { DocumentAnalysisPollOperationState } from "../lro/analysis";
+import type { PollerOptions } from "./PollerOptions";
 
 /**
  * Options for the document classification operation.

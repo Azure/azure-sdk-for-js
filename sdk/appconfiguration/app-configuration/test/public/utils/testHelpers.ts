@@ -1,37 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  AppConfigurationClient,
+import type {
   AppConfigurationClientOptions,
   ListSnapshotsPage,
   ConfigurationSnapshot,
   SettingLabel,
   ListLabelsPage,
-} from "../../../src";
-import {
+} from "../../../src/index.js";
+import { AppConfigurationClient } from "../../../src/index.js";
+import type {
   ConfigurationSetting,
   ListConfigurationSettingPage,
   ListRevisionsPage,
-} from "../../../src";
-import {
-  Recorder,
-  RecorderStartOptions,
-  assertEnvironmentVariable,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { RestError } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/identity";
-import { assert } from "chai";
+} from "../../../src/index.js";
+import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { RestError } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { assert } from "vitest";
 
 export interface CredsAndEndpoint {
   credential: TokenCredential;
   endpoint: string;
 }
 
-export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
+export async function startRecorder(context: VitestTestContext): Promise<Recorder> {
   const recorderStartOptions: RecorderStartOptions = {
     envSetupForPlayback: {
       AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
@@ -45,7 +41,7 @@ export async function startRecorder(that: Mocha.Context): Promise<Recorder> {
     ],
   };
 
-  const recorder = new Recorder(that.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderStartOptions);
   return recorder;
 }

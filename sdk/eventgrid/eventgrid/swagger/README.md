@@ -5,7 +5,7 @@
 ## Configuration
 
 ```yaml
-require: "https://github.com/Azure/azure-rest-api-specs/blob/6c709e5a3325eaa862649acee2252ce1c8166042/specification/eventgrid/data-plane/readme.md"
+require: "https://github.com/Azure/azure-rest-api-specs/blob/012021c786c360e0c34faf7af888c7fd7dbe2df5/specification/eventgrid/data-plane/readme.md"
 package-name: "@azure/eventgrid"
 package-version: "5.7.0"
 title: GeneratedClient
@@ -35,18 +35,6 @@ directive:
     where: $["x-ms-parameterized-host"]
     transform: >
       $.useSchemePrefix = false;
-```
-
-### Mark a discriminator property as "required"
-
-Newer versions of AutoRest complain during validation about the discriminator property being required
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions.MediaJobOutput
-    transform: >
-      $.required.push("@odata.type");
 ```
 
 ### Use the "EventData" suffix on the Azure Resource Manager Event types, instead of just "Data"

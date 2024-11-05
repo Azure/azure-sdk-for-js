@@ -2,28 +2,28 @@
 // Licensed under the MIT License.
 
 import assert from "assert";
-import {
-  Constants,
+import type {
   BulkOptions,
   Container,
   ContainerRequest,
-  CosmosClient,
   OperationResponse,
+  PluginConfig,
+} from "../../../../src";
+import {
+  Constants,
+  CosmosClient,
   PatchOperationType,
   CosmosDbDiagnosticLevel,
-  PluginConfig,
   PluginOn,
   StatusCodes,
   ErrorResponse,
 } from "../../../../src";
 import { addEntropy, getTestContainer, testForDiagnostics } from "../../common/TestHelpers";
-import { BulkOperationType, OperationInput } from "../../../../src";
+import type { OperationInput } from "../../../../src";
+import { BulkOperationType } from "../../../../src";
 import { generateOperationOfSize } from "../../../internal/unit/utils/batch.spec";
-import {
-  PartitionKey,
-  PartitionKeyDefinitionVersion,
-  PartitionKeyKind,
-} from "../../../../src/documents";
+import type { PartitionKey } from "../../../../src/documents";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents";
 import { endpoint } from "../../common/_testConfig";
 import { masterKey } from "../../common/_fakeTestSecrets";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time";

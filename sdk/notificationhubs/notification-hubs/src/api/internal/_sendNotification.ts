@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   BroadcastSendNotificationOptions,
   DirectSendNotificationOptions,
   SendNotificationOptions,
@@ -12,11 +12,11 @@ import {
   isDirectSendNotificationOptions,
   isSendNotificationOptions,
 } from "../../utils/optionUtils.js";
-import { BrowserPushChannel } from "../../models/installation.js";
-import { NonNullableRecord } from "../../utils/utils.js";
-import { Notification } from "../../models/notification.js";
-import { NotificationHubsClientContext } from "../index.js";
-import { NotificationHubsMessageResponse } from "../../models/notificationDetails.js";
+import type { BrowserPushChannel } from "../../models/installation.js";
+import type { NonNullableRecord } from "../../utils/utils.js";
+import type { Notification } from "../../models/notification.js";
+import type { NotificationHubsClientContext } from "../index.js";
+import type { NotificationHubsMessageResponse } from "../../models/notificationDetails.js";
 import { createMultipartDirectNotification } from "../../utils/notificationUtils.js";
 import { randomUUID } from "@azure/core-util";
 import { tracingClient } from "../../utils/tracing.js";

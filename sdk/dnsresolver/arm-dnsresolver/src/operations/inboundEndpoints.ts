@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DnsResolverManagementClient } from "../dnsResolverManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   InboundEndpoint,
   InboundEndpointsListNextOptionalParams,
@@ -28,7 +32,7 @@ import {
   InboundEndpointsDeleteOptionalParams,
   InboundEndpointsGetOptionalParams,
   InboundEndpointsGetResponse,
-  InboundEndpointsListNextResponse
+  InboundEndpointsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -53,12 +57,12 @@ export class InboundEndpointsImpl implements InboundEndpoints {
   public list(
     resourceGroupName: string,
     dnsResolverName: string,
-    options?: InboundEndpointsListOptionalParams
+    options?: InboundEndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<InboundEndpoint> {
     const iter = this.listPagingAll(
       resourceGroupName,
       dnsResolverName,
-      options
+      options,
     );
     return {
       next() {
@@ -75,9 +79,9 @@ export class InboundEndpointsImpl implements InboundEndpoints {
           resourceGroupName,
           dnsResolverName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -85,7 +89,7 @@ export class InboundEndpointsImpl implements InboundEndpoints {
     resourceGroupName: string,
     dnsResolverName: string,
     options?: InboundEndpointsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<InboundEndpoint[]> {
     let result: InboundEndpointsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +105,7 @@ export class InboundEndpointsImpl implements InboundEndpoints {
         resourceGroupName,
         dnsResolverName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -113,12 +117,12 @@ export class InboundEndpointsImpl implements InboundEndpoints {
   private async *listPagingAll(
     resourceGroupName: string,
     dnsResolverName: string,
-    options?: InboundEndpointsListOptionalParams
+    options?: InboundEndpointsListOptionalParams,
   ): AsyncIterableIterator<InboundEndpoint> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       dnsResolverName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,30 +141,29 @@ export class InboundEndpointsImpl implements InboundEndpoints {
     dnsResolverName: string,
     inboundEndpointName: string,
     parameters: InboundEndpoint,
-    options?: InboundEndpointsCreateOrUpdateOptionalParams
+    options?: InboundEndpointsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<InboundEndpointsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<InboundEndpointsCreateOrUpdateResponse>,
       InboundEndpointsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<InboundEndpointsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -169,8 +172,8 @@ export class InboundEndpointsImpl implements InboundEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -178,25 +181,28 @@ export class InboundEndpointsImpl implements InboundEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         dnsResolverName,
         inboundEndpointName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      InboundEndpointsCreateOrUpdateResponse,
+      OperationState<InboundEndpointsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -215,14 +221,14 @@ export class InboundEndpointsImpl implements InboundEndpoints {
     dnsResolverName: string,
     inboundEndpointName: string,
     parameters: InboundEndpoint,
-    options?: InboundEndpointsCreateOrUpdateOptionalParams
+    options?: InboundEndpointsCreateOrUpdateOptionalParams,
   ): Promise<InboundEndpointsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       dnsResolverName,
       inboundEndpointName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -240,30 +246,29 @@ export class InboundEndpointsImpl implements InboundEndpoints {
     dnsResolverName: string,
     inboundEndpointName: string,
     parameters: InboundEndpointPatch,
-    options?: InboundEndpointsUpdateOptionalParams
+    options?: InboundEndpointsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<InboundEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<InboundEndpointsUpdateResponse>,
       InboundEndpointsUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<InboundEndpointsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -272,8 +277,8 @@ export class InboundEndpointsImpl implements InboundEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -281,25 +286,28 @@ export class InboundEndpointsImpl implements InboundEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         resourceGroupName,
         dnsResolverName,
         inboundEndpointName,
         parameters,
-        options
+        options,
       },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      InboundEndpointsUpdateResponse,
+      OperationState<InboundEndpointsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -318,14 +326,14 @@ export class InboundEndpointsImpl implements InboundEndpoints {
     dnsResolverName: string,
     inboundEndpointName: string,
     parameters: InboundEndpointPatch,
-    options?: InboundEndpointsUpdateOptionalParams
+    options?: InboundEndpointsUpdateOptionalParams,
   ): Promise<InboundEndpointsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       dnsResolverName,
       inboundEndpointName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -341,25 +349,24 @@ export class InboundEndpointsImpl implements InboundEndpoints {
     resourceGroupName: string,
     dnsResolverName: string,
     inboundEndpointName: string,
-    options?: InboundEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: InboundEndpointsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -368,8 +375,8 @@ export class InboundEndpointsImpl implements InboundEndpoints {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -377,19 +384,24 @@ export class InboundEndpointsImpl implements InboundEndpoints {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dnsResolverName, inboundEndpointName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        dnsResolverName,
+        inboundEndpointName,
+        options,
+      },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -406,13 +418,13 @@ export class InboundEndpointsImpl implements InboundEndpoints {
     resourceGroupName: string,
     dnsResolverName: string,
     inboundEndpointName: string,
-    options?: InboundEndpointsDeleteOptionalParams
+    options?: InboundEndpointsDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       dnsResolverName,
       inboundEndpointName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -428,11 +440,11 @@ export class InboundEndpointsImpl implements InboundEndpoints {
     resourceGroupName: string,
     dnsResolverName: string,
     inboundEndpointName: string,
-    options?: InboundEndpointsGetOptionalParams
+    options?: InboundEndpointsGetOptionalParams,
   ): Promise<InboundEndpointsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dnsResolverName, inboundEndpointName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -445,11 +457,11 @@ export class InboundEndpointsImpl implements InboundEndpoints {
   private _list(
     resourceGroupName: string,
     dnsResolverName: string,
-    options?: InboundEndpointsListOptionalParams
+    options?: InboundEndpointsListOptionalParams,
   ): Promise<InboundEndpointsListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dnsResolverName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -464,11 +476,11 @@ export class InboundEndpointsImpl implements InboundEndpoints {
     resourceGroupName: string,
     dnsResolverName: string,
     nextLink: string,
-    options?: InboundEndpointsListNextOptionalParams
+    options?: InboundEndpointsListNextOptionalParams,
   ): Promise<InboundEndpointsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dnsResolverName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -476,25 +488,24 @@ export class InboundEndpointsImpl implements InboundEndpoints {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}/inboundEndpoints/{inboundEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}/inboundEndpoints/{inboundEndpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.InboundEndpoint
+      bodyMapper: Mappers.InboundEndpoint,
     },
     201: {
-      bodyMapper: Mappers.InboundEndpoint
+      bodyMapper: Mappers.InboundEndpoint,
     },
     202: {
-      bodyMapper: Mappers.InboundEndpoint
+      bodyMapper: Mappers.InboundEndpoint,
     },
     204: {
-      bodyMapper: Mappers.InboundEndpoint
+      bodyMapper: Mappers.InboundEndpoint,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters2,
   queryParameters: [Parameters.apiVersion],
@@ -503,37 +514,36 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dnsResolverName,
-    Parameters.inboundEndpointName
+    Parameters.inboundEndpointName,
   ],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}/inboundEndpoints/{inboundEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}/inboundEndpoints/{inboundEndpointName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.InboundEndpoint
+      bodyMapper: Mappers.InboundEndpoint,
     },
     201: {
-      bodyMapper: Mappers.InboundEndpoint
+      bodyMapper: Mappers.InboundEndpoint,
     },
     202: {
-      bodyMapper: Mappers.InboundEndpoint
+      bodyMapper: Mappers.InboundEndpoint,
     },
     204: {
-      bodyMapper: Mappers.InboundEndpoint
+      bodyMapper: Mappers.InboundEndpoint,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -542,19 +552,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dnsResolverName,
-    Parameters.inboundEndpointName
+    Parameters.inboundEndpointName,
   ],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}/inboundEndpoints/{inboundEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}/inboundEndpoints/{inboundEndpointName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -562,8 +571,8 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -571,22 +580,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dnsResolverName,
-    Parameters.inboundEndpointName
+    Parameters.inboundEndpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}/inboundEndpoints/{inboundEndpointName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}/inboundEndpoints/{inboundEndpointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InboundEndpoint
+      bodyMapper: Mappers.InboundEndpoint,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -594,51 +602,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dnsResolverName,
-    Parameters.inboundEndpointName
+    Parameters.inboundEndpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}/inboundEndpoints",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}/inboundEndpoints",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InboundEndpointListResult
+      bodyMapper: Mappers.InboundEndpointListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dnsResolverName
+    Parameters.dnsResolverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InboundEndpointListResult
+      bodyMapper: Mappers.InboundEndpointListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.dnsResolverName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

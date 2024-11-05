@@ -5,13 +5,13 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { InternalClientPipelineOptions } from "@azure/core-client";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import type { InternalClientPipelineOptions } from "@azure/core-client";
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log.js";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { PollOperationState } from "@azure/core-lro";
+import { PollerLike } from "@azure/core-lro";
 
 import {
   KeyVaultCertificate,
@@ -79,13 +79,15 @@ import {
   PollerLikeWithCancellation,
 } from "./certificatesModels.js";
 
-import {
+import type {
   GetCertificatesOptionalParams,
   GetCertificateIssuersOptionalParams,
   GetCertificateVersionsOptionalParams,
   SetCertificateIssuerOptionalParams,
-  BackupCertificateResult,
   GetDeletedCertificatesOptionalParams,
+} from "./generated/models/index.js";
+import {
+  BackupCertificateResult,
   IssuerParameters,
   IssuerCredentials,
   IssuerAttributes,
@@ -99,8 +101,8 @@ import {
   KeyUsageType,
 } from "./generated/models/index.js";
 import { KeyVaultClient } from "./generated/keyVaultClient.js";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { CreateCertificatePoller } from "./lro/create/poller.js";
 import { CertificateOperationPoller } from "./lro/operation/poller.js";
 import { DeleteCertificatePoller } from "./lro/delete/poller.js";
@@ -247,12 +249,6 @@ export class CertificateClient {
   ) {
     this.vaultUrl = vaultUrl;
 
-    const authPolicy = bearerTokenAuthenticationPolicy({
-      credential,
-      scopes: [],
-      challengeCallbacks: createKeyVaultChallengeCallbacks(clientOptions),
-    });
-
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...clientOptions,
       loggingOptions: {
@@ -269,7 +265,12 @@ export class CertificateClient {
       clientOptions.serviceVersion || LATEST_API_VERSION,
       internalClientPipelineOptions,
     );
-    this.client.pipeline.addPolicy(authPolicy);
+
+    // The authentication policy must come after the deserialization policy since the deserialization policy
+    // converts 401 responses to an Error, and we don't want to deal with that.
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions), {
+      afterPolicies: ["deserializationPolicy"],
+    });
   }
 
   private async *listPropertiesOfCertificatesPage(

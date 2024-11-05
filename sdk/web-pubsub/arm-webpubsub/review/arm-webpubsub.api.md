@@ -752,6 +752,7 @@ export interface WebPubSubHubProperties {
     anonymousConnectPolicy?: string;
     eventHandlers?: EventHandler[];
     eventListeners?: EventListener_2[];
+    webSocketKeepAliveIntervalInSeconds?: number;
 }
 
 // @public
@@ -885,6 +886,8 @@ export class WebPubSubManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     webPubSubReplicas: WebPubSubReplicas;
     // (undocumented)
+    webPubSubReplicaSharedPrivateLinkResources: WebPubSubReplicaSharedPrivateLinkResources;
+    // (undocumented)
     webPubSubSharedPrivateLinkResources: WebPubSubSharedPrivateLinkResources;
 }
 
@@ -1014,6 +1017,44 @@ export interface WebPubSubReplicasGetOptionalParams extends coreClient.Operation
 export type WebPubSubReplicasGetResponse = Replica;
 
 // @public
+export interface WebPubSubReplicaSharedPrivateLinkResources {
+    beginCreateOrUpdate(resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, parameters: SharedPrivateLinkResource, options?: WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<SimplePollerLike<OperationState<WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>, WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>>;
+    beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, parameters: SharedPrivateLinkResource, options?: WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams): Promise<WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse>;
+    get(resourceGroupName: string, resourceName: string, replicaName: string, sharedPrivateLinkResourceName: string, options?: WebPubSubReplicaSharedPrivateLinkResourcesGetOptionalParams): Promise<WebPubSubReplicaSharedPrivateLinkResourcesGetResponse>;
+    list(resourceGroupName: string, resourceName: string, replicaName: string, options?: WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams): PagedAsyncIterableIterator<SharedPrivateLinkResource>;
+}
+
+// @public
+export interface WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse = SharedPrivateLinkResource;
+
+// @public
+export interface WebPubSubReplicaSharedPrivateLinkResourcesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebPubSubReplicaSharedPrivateLinkResourcesGetResponse = SharedPrivateLinkResource;
+
+// @public
+export interface WebPubSubReplicaSharedPrivateLinkResourcesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebPubSubReplicaSharedPrivateLinkResourcesListNextResponse = SharedPrivateLinkResourceList;
+
+// @public
+export interface WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type WebPubSubReplicaSharedPrivateLinkResourcesListResponse = SharedPrivateLinkResourceList;
+
+// @public
 export interface WebPubSubReplicasListNextOptionalParams extends coreClient.OperationOptions {
 }
 
@@ -1081,6 +1122,7 @@ export interface WebPubSubResource extends TrackedResource {
     readonly serverPort?: number;
     readonly sharedPrivateLinkResources?: SharedPrivateLinkResource[];
     sku?: ResourceSku;
+    socketIO?: WebPubSubSocketIOSettings;
     tls?: WebPubSubTlsSettings;
     readonly version?: string;
 }
@@ -1154,6 +1196,11 @@ export type WebPubSubSharedPrivateLinkResourcesListResponse = SharedPrivateLinkR
 
 // @public
 export type WebPubSubSkuTier = string;
+
+// @public
+export interface WebPubSubSocketIOSettings {
+    serviceMode?: string;
+}
 
 // @public
 export interface WebPubSubTlsSettings {

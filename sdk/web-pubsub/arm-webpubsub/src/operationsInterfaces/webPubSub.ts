@@ -32,7 +32,7 @@ import {
   WebPubSubRestartOptionalParams,
   WebPubSubRestartResponse,
   WebPubSubListSkusOptionalParams,
-  WebPubSubListSkusResponse
+  WebPubSubListSkusResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -43,7 +43,7 @@ export interface WebPubSub {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: WebPubSubListBySubscriptionOptionalParams
+    options?: WebPubSubListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<WebPubSubResource>;
   /**
    * Handles requests to list all resources in a resource group.
@@ -52,7 +52,7 @@ export interface WebPubSub {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: WebPubSubListByResourceGroupOptionalParams
+    options?: WebPubSubListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<WebPubSubResource>;
   /**
    * Checks that the resource name is valid and is not already in use.
@@ -63,7 +63,7 @@ export interface WebPubSub {
   checkNameAvailability(
     location: string,
     parameters: NameAvailabilityParameters,
-    options?: WebPubSubCheckNameAvailabilityOptionalParams
+    options?: WebPubSubCheckNameAvailabilityOptionalParams,
   ): Promise<WebPubSubCheckNameAvailabilityResponse>;
   /**
    * Get the resource and its properties.
@@ -74,7 +74,7 @@ export interface WebPubSub {
   get(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubGetOptionalParams
+    options?: WebPubSubGetOptionalParams,
   ): Promise<WebPubSubGetResponse>;
   /**
    * Create or update a resource.
@@ -87,7 +87,7 @@ export interface WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     parameters: WebPubSubResource,
-    options?: WebPubSubCreateOrUpdateOptionalParams
+    options?: WebPubSubCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubCreateOrUpdateResponse>,
@@ -105,7 +105,7 @@ export interface WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     parameters: WebPubSubResource,
-    options?: WebPubSubCreateOrUpdateOptionalParams
+    options?: WebPubSubCreateOrUpdateOptionalParams,
   ): Promise<WebPubSubCreateOrUpdateResponse>;
   /**
    * Operation to delete a resource.
@@ -116,7 +116,7 @@ export interface WebPubSub {
   beginDelete(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubDeleteOptionalParams
+    options?: WebPubSubDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Operation to delete a resource.
@@ -127,7 +127,7 @@ export interface WebPubSub {
   beginDeleteAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubDeleteOptionalParams
+    options?: WebPubSubDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Operation to update an exiting resource.
@@ -140,7 +140,7 @@ export interface WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     parameters: WebPubSubResource,
-    options?: WebPubSubUpdateOptionalParams
+    options?: WebPubSubUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubUpdateResponse>,
@@ -158,7 +158,7 @@ export interface WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     parameters: WebPubSubResource,
-    options?: WebPubSubUpdateOptionalParams
+    options?: WebPubSubUpdateOptionalParams,
   ): Promise<WebPubSubUpdateResponse>;
   /**
    * Get the access keys of the resource.
@@ -169,7 +169,7 @@ export interface WebPubSub {
   listKeys(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubListKeysOptionalParams
+    options?: WebPubSubListKeysOptionalParams,
   ): Promise<WebPubSubListKeysResponse>;
   /**
    * Regenerate the access key for the resource. PrimaryKey and SecondaryKey cannot be regenerated at the
@@ -183,7 +183,7 @@ export interface WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     parameters: RegenerateKeyParameters,
-    options?: WebPubSubRegenerateKeyOptionalParams
+    options?: WebPubSubRegenerateKeyOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubRegenerateKeyResponse>,
@@ -202,7 +202,7 @@ export interface WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     parameters: RegenerateKeyParameters,
-    options?: WebPubSubRegenerateKeyOptionalParams
+    options?: WebPubSubRegenerateKeyOptionalParams,
   ): Promise<WebPubSubRegenerateKeyResponse>;
   /**
    * List all available skus of the replica resource.
@@ -215,7 +215,7 @@ export interface WebPubSub {
     resourceGroupName: string,
     resourceName: string,
     replicaName: string,
-    options?: WebPubSubListReplicaSkusOptionalParams
+    options?: WebPubSubListReplicaSkusOptionalParams,
   ): Promise<WebPubSubListReplicaSkusResponse>;
   /**
    * Operation to restart a resource.
@@ -226,7 +226,7 @@ export interface WebPubSub {
   beginRestart(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubRestartOptionalParams
+    options?: WebPubSubRestartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubRestartResponse>,
@@ -242,7 +242,7 @@ export interface WebPubSub {
   beginRestartAndWait(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubRestartOptionalParams
+    options?: WebPubSubRestartOptionalParams,
   ): Promise<WebPubSubRestartResponse>;
   /**
    * List all available skus of the resource.
@@ -253,6 +253,6 @@ export interface WebPubSub {
   listSkus(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubListSkusOptionalParams
+    options?: WebPubSubListSkusOptionalParams,
   ): Promise<WebPubSubListSkusResponse>;
 }

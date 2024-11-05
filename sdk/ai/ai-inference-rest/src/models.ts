@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** An abstract representation of a chat message as provided in a request. */
 export interface ChatRequestMessageParent {
@@ -31,8 +31,7 @@ export interface ChatMessageContentItemParent {
 }
 
 /** A structured chat content item containing plain text. */
-export interface ChatMessageTextContentItem
-  extends ChatMessageContentItemParent {
+export interface ChatMessageTextContentItem extends ChatMessageContentItemParent {
   /** The discriminated object type: always 'text' for this type. */
   type: "text";
   /** The content of the message. */
@@ -40,8 +39,7 @@ export interface ChatMessageTextContentItem
 }
 
 /** A structured chat content item containing an image reference. */
-export interface ChatMessageImageContentItem
-  extends ChatMessageContentItemParent {
+export interface ChatMessageImageContentItem extends ChatMessageContentItemParent {
   /** The discriminated object type: always 'image_url' for this type. */
   type: "image_url";
   /** An internet location, which must be accessible to the model,from which the image may be retrieved. */
@@ -117,8 +115,7 @@ export interface ChatCompletionsResponseFormatParent {
 }
 
 /** A response format for Chat Completions that emits text responses. This is the default response format. */
-export interface ChatCompletionsResponseFormatText
-  extends ChatCompletionsResponseFormatParent {
+export interface ChatCompletionsResponseFormatText extends ChatCompletionsResponseFormatParent {
   /** Response format type: always 'text' for this object. */
   type: "text";
 }
@@ -128,8 +125,7 @@ export interface ChatCompletionsResponseFormatText
  * Note that to enable JSON mode, some AI models may also require you to instruct the model to produce JSON
  * via a system or user message.
  */
-export interface ChatCompletionsResponseFormatJSON
-  extends ChatCompletionsResponseFormatParent {
+export interface ChatCompletionsResponseFormatJSON extends ChatCompletionsResponseFormatParent {
   /** Response format type: always 'json_object' for this object. */
   type: "json_object";
 }

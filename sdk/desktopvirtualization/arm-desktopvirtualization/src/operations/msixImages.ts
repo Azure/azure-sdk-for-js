@@ -19,7 +19,7 @@ import {
   MsixImagesExpandNextOptionalParams,
   MsixImagesExpandOptionalParams,
   MsixImagesExpandResponse,
-  MsixImagesExpandNextResponse
+  MsixImagesExpandNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -46,13 +46,13 @@ export class MsixImagesImpl implements MsixImages {
     resourceGroupName: string,
     hostPoolName: string,
     msixImageURI: MsixImageURI,
-    options?: MsixImagesExpandOptionalParams
+    options?: MsixImagesExpandOptionalParams,
   ): PagedAsyncIterableIterator<ExpandMsixImage> {
     const iter = this.expandPagingAll(
       resourceGroupName,
       hostPoolName,
       msixImageURI,
-      options
+      options,
     );
     return {
       next() {
@@ -70,9 +70,9 @@ export class MsixImagesImpl implements MsixImages {
           hostPoolName,
           msixImageURI,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -81,7 +81,7 @@ export class MsixImagesImpl implements MsixImages {
     hostPoolName: string,
     msixImageURI: MsixImageURI,
     options?: MsixImagesExpandOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ExpandMsixImage[]> {
     let result: MsixImagesExpandResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +90,7 @@ export class MsixImagesImpl implements MsixImages {
         resourceGroupName,
         hostPoolName,
         msixImageURI,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -103,7 +103,7 @@ export class MsixImagesImpl implements MsixImages {
         hostPoolName,
         msixImageURI,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,13 +116,13 @@ export class MsixImagesImpl implements MsixImages {
     resourceGroupName: string,
     hostPoolName: string,
     msixImageURI: MsixImageURI,
-    options?: MsixImagesExpandOptionalParams
+    options?: MsixImagesExpandOptionalParams,
   ): AsyncIterableIterator<ExpandMsixImage> {
     for await (const page of this.expandPagingPage(
       resourceGroupName,
       hostPoolName,
       msixImageURI,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -139,11 +139,11 @@ export class MsixImagesImpl implements MsixImages {
     resourceGroupName: string,
     hostPoolName: string,
     msixImageURI: MsixImageURI,
-    options?: MsixImagesExpandOptionalParams
+    options?: MsixImagesExpandOptionalParams,
   ): Promise<MsixImagesExpandResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, msixImageURI, options },
-      expandOperationSpec
+      expandOperationSpec,
     );
   }
 
@@ -160,11 +160,11 @@ export class MsixImagesImpl implements MsixImages {
     hostPoolName: string,
     msixImageURI: MsixImageURI,
     nextLink: string,
-    options?: MsixImagesExpandNextOptionalParams
+    options?: MsixImagesExpandNextOptionalParams,
   ): Promise<MsixImagesExpandNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, msixImageURI, nextLink, options },
-      expandNextOperationSpec
+      expandNextOperationSpec,
     );
   }
 }
@@ -172,16 +172,15 @@ export class MsixImagesImpl implements MsixImages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const expandOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/expandMsixImage",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/expandMsixImage",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpandMsixImageList
+      bodyMapper: Mappers.ExpandMsixImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.msixImageURI,
   queryParameters: [Parameters.apiVersion],
@@ -189,31 +188,31 @@ const expandOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName
+    Parameters.hostPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const expandNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ExpandMsixImageList
+      bodyMapper: Mappers.ExpandMsixImageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName
+    Parameters.hostPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update an application.
  *
  * @summary Create or update an application.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/Application_Create.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/Application_Create.json
  */
 async function applicationCreate() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function applicationCreate() {
     resourceGroupName,
     applicationGroupName,
     applicationName,
-    application
+    application,
   );
   console.log(result);
 }

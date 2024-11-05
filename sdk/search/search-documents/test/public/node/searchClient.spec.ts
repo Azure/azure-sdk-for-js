@@ -3,24 +3,26 @@
 
 import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context, Suite } from "mocha";
+import type { Context, Suite } from "mocha";
 
 import { delay } from "@azure/core-util";
-import { OpenAIClient } from "@azure/openai";
-import {
+import type { OpenAIClient } from "@azure/openai";
+import type {
   AutocompleteResult,
+  SearchIndex,
+  SearchIndexClient,
+  SelectFields,
+} from "../../../src";
+import {
   AzureKeyCredential,
   IndexDocumentsBatch,
   KnownQueryLanguage,
   KnownSpeller,
   SearchClient,
-  SearchIndex,
-  SearchIndexClient,
-  SelectFields,
 } from "../../../src";
-import { SearchFieldArray, SelectArray } from "../../../src/indexModels";
+import type { SearchFieldArray, SelectArray } from "../../../src/indexModels";
 import { defaultServiceVersion } from "../../../src/serviceUtils";
-import { Hotel } from "../utils/interfaces";
+import type { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup";
 
@@ -65,12 +67,14 @@ describe("SearchClient", function (this: Suite) {
     });
   });
 
+  // TODO: the preview-only tests are mixed in here when they should be in another describe (and removed in the stable release branch)
   describe("stable", function () {
     let recorder: Recorder;
     let searchClient: SearchClient<Hotel>;
     let indexClient: SearchIndexClient;
     let openAIClient: OpenAIClient;
     let TEST_INDEX_NAME: string;
+    let indexDefinition: SearchIndex;
 
     beforeEach(async function (this: Context) {
       recorder = new Recorder(this.currentTest);
@@ -81,7 +85,7 @@ describe("SearchClient", function (this: Suite) {
         indexName: TEST_INDEX_NAME,
         openAIClient,
       } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
-      await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
+      indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
       await delay(WAIT_TIME);
       await populateIndex(searchClient, openAIClient);
     });
@@ -90,6 +94,107 @@ describe("SearchClient", function (this: Suite) {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
       await delay(WAIT_TIME);
       await recorder?.stop();
+    });
+
+    const baseSemanticOptions = () =>
+      ({
+        queryLanguage: KnownQueryLanguage.EnUs,
+        queryType: "semantic",
+        semanticSearchOptions: {
+          configurationName:
+            indexDefinition.semanticSearch?.configurations?.[0].name ??
+            assert.fail("No semantic configuration in index."),
+        },
+      }) as const;
+
+    it("search with speller", async function () {
+      const searchResults = await searchClient.search("budjet", {
+        skip: 0,
+        top: 5,
+        includeTotalCount: true,
+        queryLanguage: KnownQueryLanguage.EnUs,
+        speller: KnownSpeller.Lexicon,
+      });
+      assert.equal(searchResults.count, 6);
+    });
+
+    it("search with semantic ranking", async function () {
+      const searchResults = await searchClient.search("luxury", {
+        ...baseSemanticOptions(),
+        skip: 0,
+        top: 5,
+        includeTotalCount: true,
+      });
+      assert.equal(searchResults.count, 1);
+    });
+
+    it("search with document debug info", async function () {
+      const baseOptions = baseSemanticOptions();
+      const options = {
+        ...baseOptions,
+        semanticSearchOptions: {
+          ...baseOptions.semanticSearchOptions,
+          errorMode: "fail",
+          debugMode: "semantic",
+        },
+      } as const;
+      const searchResults = await searchClient.search("luxury", options);
+      for await (const result of searchResults.results) {
+        assert.deepEqual(
+          [
+            {
+              semantic: {
+                contentFields: [
+                  {
+                    name: "description",
+                    state: "used",
+                  },
+                ],
+                keywordFields: [
+                  {
+                    name: "tags",
+                    state: "used",
+                  },
+                ],
+                rerankerInput: {
+                  content:
+                    "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
+                  keywords: "pool\r\nview\r\nwifi\r\nconcierge",
+                  title: "Fancy Stay",
+                },
+                titleField: {
+                  name: "hotelName",
+                  state: "used",
+                },
+              },
+            },
+          ],
+          result.documentDebugInfo,
+        );
+      }
+    });
+
+    it("search with answers", async function () {
+      const baseOptions = baseSemanticOptions();
+      const options = {
+        ...baseOptions,
+        semanticSearchOptions: {
+          ...baseOptions.semanticSearchOptions,
+          answers: { answerType: "extractive", count: 3, threshold: 0.7 },
+        },
+        top: 3,
+        select: ["hotelId"],
+      } as const;
+      const searchResults = await searchClient.search(
+        "What are the most luxurious hotels?",
+        options,
+      );
+
+      const resultIds = [];
+      for await (const result of searchResults.results) {
+        resultIds.push(result.document.hotelId);
+      }
+      assert.deepEqual(["1", "9", "3"], resultIds);
     });
 
     it("count returns the correct document count", async function () {
@@ -122,8 +227,9 @@ describe("SearchClient", function (this: Suite) {
     });
 
     it("search narrows the result type", async function () {
-      // eslint-disable-next-line no-constant-condition
-      if (false) {
+      // This part of the test is only for types. This doesn't need to be called.
+      // eslint-disable-next-line no-unused-expressions
+      async () => {
         const response = await searchClient.search("asdf", {
           select: ["address/city"],
         });
@@ -132,7 +238,7 @@ describe("SearchClient", function (this: Suite) {
           // @ts-expect-error
           result.document.category = "";
         }
-      }
+      };
 
       const hotelKeys: (keyof Hotel)[] = [
         "address",
@@ -414,141 +520,10 @@ describe("SearchClient", function (this: Suite) {
       const documentCount = await searchClient.getDocumentsCount();
       assert.equal(documentCount, 11);
     });
-  });
-
-  describe("preview", function () {
-    let recorder: Recorder;
-    let searchClient: SearchClient<Hotel>;
-    let indexClient: SearchIndexClient;
-    let openAIClient: OpenAIClient;
-    let TEST_INDEX_NAME: string;
-    let indexDefinition: SearchIndex;
-
-    beforeEach(async function (this: Context) {
-      recorder = new Recorder(this.currentTest);
-      TEST_INDEX_NAME = createRandomIndexName();
-      ({
-        searchClient,
-        indexClient,
-        indexName: TEST_INDEX_NAME,
-        openAIClient,
-      } = await createClients<Hotel>(defaultServiceVersion, recorder, TEST_INDEX_NAME));
-      indexDefinition = await createIndex(indexClient, TEST_INDEX_NAME, defaultServiceVersion);
-      await delay(WAIT_TIME);
-      await populateIndex(searchClient, openAIClient);
-    });
-
-    afterEach(async function () {
-      await indexClient.deleteIndex(TEST_INDEX_NAME);
-      await delay(WAIT_TIME);
-      await recorder?.stop();
-    });
-
-    it("search with speller", async function () {
-      const searchResults = await searchClient.search("budjet", {
-        skip: 0,
-        top: 5,
-        includeTotalCount: true,
-        queryLanguage: KnownQueryLanguage.EnUs,
-        speller: KnownSpeller.Lexicon,
-      });
-      assert.equal(searchResults.count, 6);
-    });
-
-    it("search with semantic ranking", async function () {
-      const searchResults = await searchClient.search("luxury", {
-        skip: 0,
-        top: 5,
-        includeTotalCount: true,
-        queryLanguage: KnownQueryLanguage.EnUs,
-        queryType: "semantic",
-        semanticSearchOptions: {
-          configurationName:
-            indexDefinition.semanticSearch?.configurations?.[0].name ??
-            assert.fail("No semantic configuration in index."),
-        },
-      });
-      assert.equal(searchResults.count, 1);
-    });
-
-    it("search with document debug info", async function () {
-      const searchResults = await searchClient.search("luxury", {
-        queryLanguage: KnownQueryLanguage.EnUs,
-        queryType: "semantic",
-        semanticSearchOptions: {
-          configurationName:
-            indexDefinition.semanticSearch?.configurations?.[0].name ??
-            assert.fail("No semantic configuration in index."),
-          errorMode: "fail",
-          debugMode: "semantic",
-        },
-      });
-      for await (const result of searchResults.results) {
-        assert.deepEqual(
-          [
-            {
-              semantic: {
-                contentFields: [
-                  {
-                    name: "description",
-                    state: "used",
-                  },
-                ],
-                keywordFields: [
-                  {
-                    name: "tags",
-                    state: "used",
-                  },
-                ],
-                rerankerInput: {
-                  content:
-                    "Best hotel in town if you like luxury hotels. They have an amazing infinity pool, a spa, and a really helpful concierge. The location is perfect -- right downtown, close to all the tourist attractions. We highly recommend this hotel.",
-                  keywords: "pool\r\nview\r\nwifi\r\nconcierge",
-                  title: "Fancy Stay",
-                },
-                titleField: {
-                  name: "hotelName",
-                  state: "used",
-                },
-              },
-            },
-          ],
-          result.documentDebugInfo,
-        );
-      }
-    });
-
-    it("search with answers", async function () {
-      const searchResults = await searchClient.search("What are the most luxurious hotels?", {
-        queryLanguage: KnownQueryLanguage.EnUs,
-        queryType: "semantic",
-        semanticSearchOptions: {
-          configurationName:
-            indexDefinition.semanticSearch?.configurations?.[0].name ??
-            assert.fail("No semantic configuration in index."),
-          answers: { answerType: "extractive", count: 3, threshold: 0.7 },
-        },
-        top: 3,
-        select: ["hotelId"],
-      });
-
-      const resultIds = [];
-      for await (const result of searchResults.results) {
-        resultIds.push(result.document.hotelId);
-      }
-      assert.deepEqual(["1", "9", "3"], resultIds);
-    });
 
     it("search with semantic error handling", async function () {
       const searchResults = await searchClient.search("luxury", {
-        queryLanguage: KnownQueryLanguage.EnUs,
-        queryType: "semantic",
-        semanticSearchOptions: {
-          configurationName:
-            indexDefinition.semanticSearch?.configurations?.[0].name ??
-            assert.fail("No semantic configuration in index."),
-          errorMode: "partial",
-        },
+        ...baseSemanticOptions(),
         select: ["hotelId"],
       });
 

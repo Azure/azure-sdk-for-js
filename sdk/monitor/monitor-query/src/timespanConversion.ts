@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { QueryTimeInterval } from "./models/timeInterval";
+import type { QueryTimeInterval } from "./models/timeInterval.js";
 import { isObjectWithProperties } from "@azure/core-util";
 
 export function convertTimespanToInterval(timespan: QueryTimeInterval): string {
