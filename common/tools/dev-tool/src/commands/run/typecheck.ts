@@ -44,7 +44,6 @@ export default leafCommand(commandInfo, async (options) => {
   }
 
   const diagnostics = project.getPreEmitDiagnostics().filter((d) =>
-    // d.getMessageText() !== `Definitions of the following identifiers conflict with those in another file: Message, ObjectProperty, ChaiPlugin, AssertionArgs, Operator, OperatorComparable, AssertionError, chai`
     {
       const filepath = d.getSourceFile()?.getFilePath();
       return !(
