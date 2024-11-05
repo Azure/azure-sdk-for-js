@@ -152,18 +152,16 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   }
 
   private async executeComponentQueries(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+
     if (this.componentsExecutionContext.length === 1) {
-      const result = await this.drainSingleComponent(diagnosticNode);
-      console.log("result from single drain", JSON.stringify(result));
+      await this.drainSingleComponent(diagnosticNode);
       return;
     }
-    console.log("componentsExecutionContext", this.componentsExecutionContext.length);
     try {
-      const hybridSearchResult: HybridSearchQueryResult[] = [];
+        const hybridSearchResult: HybridSearchQueryResult[] = [];
       const uniqueItems = new Map<string, HybridSearchQueryResult>();
 
       for (const componentExecutionContext of this.componentsExecutionContext) {
-        console.log("componentExecutionContext", componentExecutionContext);
         while (componentExecutionContext.hasMoreResults()) {
           const result = await componentExecutionContext.fetchMore(diagnosticNode);
           const response = result.result;
@@ -179,11 +177,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           }
         }
       }
-      console.log("uniqueItems", uniqueItems);
       uniqueItems.forEach((item) => hybridSearchResult.push(item));
       console.log("hybridSearchResult", hybridSearchResult);
       if (hybridSearchResult.length === 0 || hybridSearchResult.length === 1) {
         // return the result as no or one element is present
+
+
         this.state = HybridQueryExecutionContextBaseStates.draining;
         return;
       }
@@ -214,7 +213,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       console.log("drain result", result);
       if (this.buffer.length === 0) {
         this.state = HybridQueryExecutionContextBaseStates.done;
-        console.log("done:", this.state);
+        console.log("state:", this.state);
       }
       return {
         result: result,
@@ -266,6 +265,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
 
     // Sort based on RRF scores
     rrfScores.sort((a, b) => b.rrfScore - a.rrfScore);
+    console.log("rrfScores array", rrfScores);
 
     // Map sorted RRF scores back to hybridSearchResult
     const sortedHybridSearchResult = rrfScores.map((scoreItem) =>
@@ -274,7 +274,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     return sortedHybridSearchResult;
   }
 
-  private async drainSingleComponent(diagNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  private async drainSingleComponent(diagNode: DiagnosticNodeInternal): Promise<void> {
     if (this.componentsExecutionContext && this.componentsExecutionContext.length !== 1) {
       throw new Error("drainSingleComponent called on multiple components");
     }
@@ -288,12 +288,11 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           hybridSearchResult.push(HybridSearchQueryResult.create(item));
         });
       }
+      console.log("result from single drain", JSON.stringify(hybridSearchResult));
 
+      
+      hybridSearchResult.forEach((item) => this.buffer.push(item.data));
       this.state = HybridQueryExecutionContextBaseStates.draining;
-      return {
-        result: hybridSearchResult,
-        headers: getInitialHeader(),
-      };
     } catch (error) {
       this.state = HybridQueryExecutionContextBaseStates.done;
       throw error;
