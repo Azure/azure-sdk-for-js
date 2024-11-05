@@ -128,15 +128,12 @@ export interface KeyVaultConnectionsGet {
   /** Gets key vault information */
   get(
     options?: KeyVaultConnectionsGetParameters,
-  ): StreamableMethod<
-    KeyVaultConnectionsGet200Response | KeyVaultConnectionsGetDefaultResponse
-  >;
+  ): StreamableMethod<KeyVaultConnectionsGet200Response | KeyVaultConnectionsGetDefaultResponse>;
   /** Creates an instance of a key vault connection */
   put(
     options: KeyVaultConnectionsCreateParameters,
   ): StreamableMethod<
-    | KeyVaultConnectionsCreate200Response
-    | KeyVaultConnectionsCreateDefaultResponse
+    KeyVaultConnectionsCreate200Response | KeyVaultConnectionsCreateDefaultResponse
   >;
   /** Deletes the key vault connection associated with the account */
   delete(
@@ -153,8 +150,7 @@ export interface KeyVaultConnectionsListAll {
   get(
     options?: KeyVaultConnectionsListAllParameters,
   ): StreamableMethod<
-    | KeyVaultConnectionsListAll200Response
-    | KeyVaultConnectionsListAllDefaultResponse
+    KeyVaultConnectionsListAll200Response | KeyVaultConnectionsListAllDefaultResponse
   >;
 }
 
@@ -162,9 +158,7 @@ export interface ClassificationRulesGet {
   /** Get a classification rule */
   get(
     options?: ClassificationRulesGetParameters,
-  ): StreamableMethod<
-    ClassificationRulesGet200Response | ClassificationRulesGetDefaultResponse
-  >;
+  ): StreamableMethod<ClassificationRulesGet200Response | ClassificationRulesGetDefaultResponse>;
   /** Creates or Updates a classification rule */
   put(
     options?: ClassificationRulesCreateOrUpdateParameters,
@@ -188,8 +182,7 @@ export interface ClassificationRulesListAll {
   get(
     options?: ClassificationRulesListAllParameters,
   ): StreamableMethod<
-    | ClassificationRulesListAll200Response
-    | ClassificationRulesListAllDefaultResponse
+    ClassificationRulesListAll200Response | ClassificationRulesListAllDefaultResponse
   >;
 }
 
@@ -225,16 +218,12 @@ export interface DataSourcesCreateOrUpdate {
   /** Get a data source */
   get(
     options?: DataSourcesGetParameters,
-  ): StreamableMethod<
-    DataSourcesGet200Response | DataSourcesGetDefaultResponse
-  >;
+  ): StreamableMethod<DataSourcesGet200Response | DataSourcesGetDefaultResponse>;
   /** Deletes a data source */
   delete(
     options?: DataSourcesDeleteParameters,
   ): StreamableMethod<
-    | DataSourcesDelete200Response
-    | DataSourcesDelete204Response
-    | DataSourcesDeleteDefaultResponse
+    DataSourcesDelete200Response | DataSourcesDelete204Response | DataSourcesDeleteDefaultResponse
   >;
 }
 
@@ -242,9 +231,7 @@ export interface DataSourcesListAll {
   /** List data sources in Data catalog */
   get(
     options?: DataSourcesListAllParameters,
-  ): StreamableMethod<
-    DataSourcesListAll200Response | DataSourcesListAllDefaultResponse
-  >;
+  ): StreamableMethod<DataSourcesListAll200Response | DataSourcesListAllDefaultResponse>;
 }
 
 export interface FiltersGet {
@@ -278,36 +265,28 @@ export interface ScansCreateOrUpdate {
   /** Deletes the scan associated with the data source */
   delete(
     options?: ScansDeleteParameters,
-  ): StreamableMethod<
-    ScansDelete200Response | ScansDelete204Response | ScansDeleteDefaultResponse
-  >;
+  ): StreamableMethod<ScansDelete200Response | ScansDelete204Response | ScansDeleteDefaultResponse>;
 }
 
 export interface ScansListByDataSource {
   /** List scans in data source */
   get(
     options?: ScansListByDataSourceParameters,
-  ): StreamableMethod<
-    ScansListByDataSource200Response | ScansListByDataSourceDefaultResponse
-  >;
+  ): StreamableMethod<ScansListByDataSource200Response | ScansListByDataSourceDefaultResponse>;
 }
 
 export interface ScanResultRunScan {
   /** Runs the scan */
   put(
     options?: ScanResultRunScanParameters,
-  ): StreamableMethod<
-    ScanResultRunScan202Response | ScanResultRunScanDefaultResponse
-  >;
+  ): StreamableMethod<ScanResultRunScan202Response | ScanResultRunScanDefaultResponse>;
 }
 
 export interface ScanResultCancelScan {
   /** Cancels a scan */
   post(
     options?: ScanResultCancelScanParameters,
-  ): StreamableMethod<
-    ScanResultCancelScan202Response | ScanResultCancelScanDefaultResponse
-  >;
+  ): StreamableMethod<ScanResultCancelScan202Response | ScanResultCancelScanDefaultResponse>;
 }
 
 export interface ScanResultListScanHistory {
@@ -315,8 +294,7 @@ export interface ScanResultListScanHistory {
   get(
     options?: ScanResultListScanHistoryParameters,
   ): StreamableMethod<
-    | ScanResultListScanHistory200Response
-    | ScanResultListScanHistoryDefaultResponse
+    ScanResultListScanHistory200Response | ScanResultListScanHistoryDefaultResponse
   >;
 }
 
@@ -324,9 +302,7 @@ export interface ScanRulesetsGet {
   /** Get a scan ruleset */
   get(
     options?: ScanRulesetsGetParameters,
-  ): StreamableMethod<
-    ScanRulesetsGet200Response | ScanRulesetsGetDefaultResponse
-  >;
+  ): StreamableMethod<ScanRulesetsGet200Response | ScanRulesetsGetDefaultResponse>;
   /** Creates or Updates a scan ruleset */
   put(
     options?: ScanRulesetsCreateOrUpdateParameters,
@@ -349,9 +325,7 @@ export interface ScanRulesetsListAll {
   /** List scan rulesets in Data catalog */
   get(
     options?: ScanRulesetsListAllParameters,
-  ): StreamableMethod<
-    ScanRulesetsListAll200Response | ScanRulesetsListAllDefaultResponse
-  >;
+  ): StreamableMethod<ScanRulesetsListAll200Response | ScanRulesetsListAllDefaultResponse>;
 }
 
 export interface SystemScanRulesetsListAll {
@@ -359,8 +333,7 @@ export interface SystemScanRulesetsListAll {
   get(
     options?: SystemScanRulesetsListAllParameters,
   ): StreamableMethod<
-    | SystemScanRulesetsListAll200Response
-    | SystemScanRulesetsListAllDefaultResponse
+    SystemScanRulesetsListAll200Response | SystemScanRulesetsListAllDefaultResponse
   >;
 }
 
@@ -368,9 +341,7 @@ export interface SystemScanRulesetsGet {
   /** Get a system scan ruleset for a data source */
   get(
     options?: SystemScanRulesetsGetParameters,
-  ): StreamableMethod<
-    SystemScanRulesetsGet200Response | SystemScanRulesetsGetDefaultResponse
-  >;
+  ): StreamableMethod<SystemScanRulesetsGet200Response | SystemScanRulesetsGetDefaultResponse>;
 }
 
 export interface SystemScanRulesetsGetByVersion {
@@ -378,8 +349,7 @@ export interface SystemScanRulesetsGetByVersion {
   get(
     options?: SystemScanRulesetsGetByVersionParameters,
   ): StreamableMethod<
-    | SystemScanRulesetsGetByVersion200Response
-    | SystemScanRulesetsGetByVersionDefaultResponse
+    SystemScanRulesetsGetByVersion200Response | SystemScanRulesetsGetByVersionDefaultResponse
   >;
 }
 
@@ -388,8 +358,7 @@ export interface SystemScanRulesetsGetLatest {
   get(
     options?: SystemScanRulesetsGetLatestParameters,
   ): StreamableMethod<
-    | SystemScanRulesetsGetLatest200Response
-    | SystemScanRulesetsGetLatestDefaultResponse
+    SystemScanRulesetsGetLatest200Response | SystemScanRulesetsGetLatestDefaultResponse
   >;
 }
 
@@ -407,9 +376,7 @@ export interface TriggersGetTrigger {
   /** Gets trigger information */
   get(
     options?: TriggersGetTriggerParameters,
-  ): StreamableMethod<
-    TriggersGetTrigger200Response | TriggersGetTriggerDefaultResponse
-  >;
+  ): StreamableMethod<TriggersGetTrigger200Response | TriggersGetTriggerDefaultResponse>;
   /** Creates an instance of a trigger */
   put(
     options: TriggersCreateTriggerParameters,
@@ -430,10 +397,7 @@ export interface TriggersGetTrigger {
 
 export interface Routes {
   /** Resource for '/azureKeyVaults/\{keyVaultName\}' has methods for the following verbs: get, put, delete */
-  (
-    path: "/azureKeyVaults/{keyVaultName}",
-    keyVaultName: string,
-  ): KeyVaultConnectionsGet;
+  (path: "/azureKeyVaults/{keyVaultName}", keyVaultName: string): KeyVaultConnectionsGet;
   /** Resource for '/azureKeyVaults' has methods for the following verbs: get */
   (path: "/azureKeyVaults"): KeyVaultConnectionsListAll;
   /** Resource for '/classificationrules/\{classificationRuleName\}' has methods for the following verbs: get, put, delete */
@@ -455,10 +419,7 @@ export interface Routes {
     classificationRuleVersion: number,
   ): ClassificationRulesTagClassificationVersion;
   /** Resource for '/datasources/\{dataSourceName\}' has methods for the following verbs: put, get, delete */
-  (
-    path: "/datasources/{dataSourceName}",
-    dataSourceName: string,
-  ): DataSourcesCreateOrUpdate;
+  (path: "/datasources/{dataSourceName}", dataSourceName: string): DataSourcesCreateOrUpdate;
   /** Resource for '/datasources' has methods for the following verbs: get */
   (path: "/datasources"): DataSourcesListAll;
   /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/filters/custom' has methods for the following verbs: get, put */
@@ -474,10 +435,7 @@ export interface Routes {
     scanName: string,
   ): ScansCreateOrUpdate;
   /** Resource for '/datasources/\{dataSourceName\}/scans' has methods for the following verbs: get */
-  (
-    path: "/datasources/{dataSourceName}/scans",
-    dataSourceName: string,
-  ): ScansListByDataSource;
+  (path: "/datasources/{dataSourceName}/scans", dataSourceName: string): ScansListByDataSource;
   /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/runs/\{runId\}' has methods for the following verbs: put */
   (
     path: "/datasources/{dataSourceName}/scans/{scanName}/runs/{runId}",
@@ -499,10 +457,7 @@ export interface Routes {
     scanName: string,
   ): ScanResultListScanHistory;
   /** Resource for '/scanrulesets/\{scanRulesetName\}' has methods for the following verbs: get, put, delete */
-  (
-    path: "/scanrulesets/{scanRulesetName}",
-    scanRulesetName: string,
-  ): ScanRulesetsGet;
+  (path: "/scanrulesets/{scanRulesetName}", scanRulesetName: string): ScanRulesetsGet;
   /** Resource for '/scanrulesets' has methods for the following verbs: get */
   (path: "/scanrulesets"): ScanRulesetsListAll;
   /** Resource for '/systemScanRulesets' has methods for the following verbs: get */
@@ -539,16 +494,11 @@ export interface Routes {
       | "PowerBI",
   ): SystemScanRulesetsGet;
   /** Resource for '/systemScanRulesets/versions/\{version\}' has methods for the following verbs: get */
-  (
-    path: "/systemScanRulesets/versions/{version}",
-    version: number,
-  ): SystemScanRulesetsGetByVersion;
+  (path: "/systemScanRulesets/versions/{version}", version: number): SystemScanRulesetsGetByVersion;
   /** Resource for '/systemScanRulesets/versions/latest' has methods for the following verbs: get */
   (path: "/systemScanRulesets/versions/latest"): SystemScanRulesetsGetLatest;
   /** Resource for '/systemScanRulesets/versions' has methods for the following verbs: get */
-  (
-    path: "/systemScanRulesets/versions",
-  ): SystemScanRulesetsListVersionsByDataSource;
+  (path: "/systemScanRulesets/versions"): SystemScanRulesetsListVersionsByDataSource;
   /** Resource for '/datasources/\{dataSourceName\}/scans/\{scanName\}/triggers/default' has methods for the following verbs: get, put, delete */
   (
     path: "/datasources/{dataSourceName}/scans/{scanName}/triggers/default",

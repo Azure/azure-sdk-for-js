@@ -70,8 +70,7 @@ export interface KeyVaultConnectionsListAll200Response extends HttpResponse {
 }
 
 /** List key vault connections in account */
-export interface KeyVaultConnectionsListAllDefaultResponse
-  extends HttpResponse {
+export interface KeyVaultConnectionsListAllDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
 }
@@ -89,22 +88,19 @@ export interface ClassificationRulesGetDefaultResponse extends HttpResponse {
 }
 
 /** Creates or Updates a classification rule */
-export interface ClassificationRulesCreateOrUpdate200Response
-  extends HttpResponse {
+export interface ClassificationRulesCreateOrUpdate200Response extends HttpResponse {
   status: "200";
   body: ClassificationRuleOutput;
 }
 
 /** Creates or Updates a classification rule */
-export interface ClassificationRulesCreateOrUpdate201Response
-  extends HttpResponse {
+export interface ClassificationRulesCreateOrUpdate201Response extends HttpResponse {
   status: "201";
   body: ClassificationRuleOutput;
 }
 
 /** Creates or Updates a classification rule */
-export interface ClassificationRulesCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface ClassificationRulesCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
 }
@@ -133,8 +129,7 @@ export interface ClassificationRulesListAll200Response extends HttpResponse {
 }
 
 /** List classification rules in Account */
-export interface ClassificationRulesListAllDefaultResponse
-  extends HttpResponse {
+export interface ClassificationRulesListAllDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
 }
@@ -154,15 +149,13 @@ export interface ClassificationRulesListVersionsByClassificationRuleNameDefaultR
 }
 
 /** Sets Classification Action on a specific classification rule version. */
-export interface ClassificationRulesTagClassificationVersion202Response
-  extends HttpResponse {
+export interface ClassificationRulesTagClassificationVersion202Response extends HttpResponse {
   status: "202";
   body: OperationResponseOutput;
 }
 
 /** Sets Classification Action on a specific classification rule version. */
-export interface ClassificationRulesTagClassificationVersionDefaultResponse
-  extends HttpResponse {
+export interface ClassificationRulesTagClassificationVersionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
 }
@@ -376,8 +369,7 @@ export interface ScanRulesetsCreateOrUpdate201Response extends HttpResponse {
 }
 
 /** Creates or Updates a scan ruleset */
-export interface ScanRulesetsCreateOrUpdateDefaultResponse
-  extends HttpResponse {
+export interface ScanRulesetsCreateOrUpdateDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
 }
@@ -436,15 +428,13 @@ export interface SystemScanRulesetsGetDefaultResponse extends HttpResponse {
 }
 
 /** Get a scan ruleset by version */
-export interface SystemScanRulesetsGetByVersion200Response
-  extends HttpResponse {
+export interface SystemScanRulesetsGetByVersion200Response extends HttpResponse {
   status: "200";
   body: SystemScanRulesetOutput;
 }
 
 /** Get a scan ruleset by version */
-export interface SystemScanRulesetsGetByVersionDefaultResponse
-  extends HttpResponse {
+export interface SystemScanRulesetsGetByVersionDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
 }
@@ -456,22 +446,19 @@ export interface SystemScanRulesetsGetLatest200Response extends HttpResponse {
 }
 
 /** Get the latest version of a system scan ruleset */
-export interface SystemScanRulesetsGetLatestDefaultResponse
-  extends HttpResponse {
+export interface SystemScanRulesetsGetLatestDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
 }
 
 /** List system scan ruleset versions in Data catalog */
-export interface SystemScanRulesetsListVersionsByDataSource200Response
-  extends HttpResponse {
+export interface SystemScanRulesetsListVersionsByDataSource200Response extends HttpResponse {
   status: "200";
   body: SystemScanRulesetListOutput;
 }
 
 /** List system scan ruleset versions in Data catalog */
-export interface SystemScanRulesetsListVersionsByDataSourceDefaultResponse
-  extends HttpResponse {
+export interface SystemScanRulesetsListVersionsByDataSourceDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponseModelOutput;
 }

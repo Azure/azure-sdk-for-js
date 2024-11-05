@@ -21,10 +21,7 @@ export interface PurviewScanningClientOptions extends ClientOptions {
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential,
-  {
-    apiVersion = "2018-12-01-preview",
-    ...options
-  }: PurviewScanningClientOptions = {},
+  { apiVersion = "2018-12-01-preview", ...options }: PurviewScanningClientOptions = {},
 ): PurviewScanningClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpoint}`;
   const userAgentInfo = `azsdk-js-purview-scanning-rest/1.0.0-beta.3`;
@@ -41,16 +38,10 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://management.azure.com/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://management.azure.com/.default"],
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as PurviewScanningClient;
+  const client = getClient(endpointUrl, credentials, options) as PurviewScanningClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

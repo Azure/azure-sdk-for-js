@@ -23,10 +23,9 @@ export interface KeyVaultConnectionsCreateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type KeyVaultConnectionsCreateParameters =
-  KeyVaultConnectionsCreateMediaTypesParam &
-    KeyVaultConnectionsCreateBodyParam &
-    RequestParameters;
+export type KeyVaultConnectionsCreateParameters = KeyVaultConnectionsCreateMediaTypesParam &
+  KeyVaultConnectionsCreateBodyParam &
+  RequestParameters;
 export type KeyVaultConnectionsDeleteParameters = RequestParameters;
 export type KeyVaultConnectionsListAllParameters = RequestParameters;
 export type ClassificationRulesGetParameters = RequestParameters;
@@ -46,8 +45,7 @@ export type ClassificationRulesCreateOrUpdateParameters =
     RequestParameters;
 export type ClassificationRulesDeleteParameters = RequestParameters;
 export type ClassificationRulesListAllParameters = RequestParameters;
-export type ClassificationRulesListVersionsByClassificationRuleNameParameters =
-  RequestParameters;
+export type ClassificationRulesListVersionsByClassificationRuleNameParameters = RequestParameters;
 
 export interface ClassificationRulesTagClassificationVersionQueryParamProperties {
   action: "Keep" | "Delete";
@@ -69,10 +67,9 @@ export interface DataSourcesCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type DataSourcesCreateOrUpdateParameters =
-  DataSourcesCreateOrUpdateMediaTypesParam &
-    DataSourcesCreateOrUpdateBodyParam &
-    RequestParameters;
+export type DataSourcesCreateOrUpdateParameters = DataSourcesCreateOrUpdateMediaTypesParam &
+  DataSourcesCreateOrUpdateBodyParam &
+  RequestParameters;
 export type DataSourcesGetParameters = RequestParameters;
 export type DataSourcesDeleteParameters = RequestParameters;
 export type DataSourcesListAllParameters = RequestParameters;
@@ -87,10 +84,9 @@ export interface FiltersCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type FiltersCreateOrUpdateParameters =
-  FiltersCreateOrUpdateMediaTypesParam &
-    FiltersCreateOrUpdateBodyParam &
-    RequestParameters;
+export type FiltersCreateOrUpdateParameters = FiltersCreateOrUpdateMediaTypesParam &
+  FiltersCreateOrUpdateBodyParam &
+  RequestParameters;
 
 export interface ScansCreateOrUpdateBodyParam {
   body: Scan;
@@ -116,8 +112,7 @@ export interface ScanResultRunScanQueryParam {
   queryParameters?: ScanResultRunScanQueryParamProperties;
 }
 
-export type ScanResultRunScanParameters = ScanResultRunScanQueryParam &
-  RequestParameters;
+export type ScanResultRunScanParameters = ScanResultRunScanQueryParam & RequestParameters;
 export type ScanResultCancelScanParameters = RequestParameters;
 export type ScanResultListScanHistoryParameters = RequestParameters;
 export type ScanRulesetsGetParameters = RequestParameters;
@@ -131,10 +126,9 @@ export interface ScanRulesetsCreateOrUpdateMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type ScanRulesetsCreateOrUpdateParameters =
-  ScanRulesetsCreateOrUpdateMediaTypesParam &
-    ScanRulesetsCreateOrUpdateBodyParam &
-    RequestParameters;
+export type ScanRulesetsCreateOrUpdateParameters = ScanRulesetsCreateOrUpdateMediaTypesParam &
+  ScanRulesetsCreateOrUpdateBodyParam &
+  RequestParameters;
 export type ScanRulesetsDeleteParameters = RequestParameters;
 export type ScanRulesetsListAllParameters = RequestParameters;
 export type SystemScanRulesetsListAllParameters = RequestParameters;
@@ -174,8 +168,8 @@ export interface SystemScanRulesetsGetByVersionQueryParam {
   queryParameters?: SystemScanRulesetsGetByVersionQueryParamProperties;
 }
 
-export type SystemScanRulesetsGetByVersionParameters =
-  SystemScanRulesetsGetByVersionQueryParam & RequestParameters;
+export type SystemScanRulesetsGetByVersionParameters = SystemScanRulesetsGetByVersionQueryParam &
+  RequestParameters;
 
 export interface SystemScanRulesetsGetLatestQueryParamProperties {
   dataSourceType?:
@@ -211,8 +205,8 @@ export interface SystemScanRulesetsGetLatestQueryParam {
   queryParameters?: SystemScanRulesetsGetLatestQueryParamProperties;
 }
 
-export type SystemScanRulesetsGetLatestParameters =
-  SystemScanRulesetsGetLatestQueryParam & RequestParameters;
+export type SystemScanRulesetsGetLatestParameters = SystemScanRulesetsGetLatestQueryParam &
+  RequestParameters;
 
 export interface SystemScanRulesetsListVersionsByDataSourceQueryParamProperties {
   dataSourceType?:
@@ -261,8 +255,7 @@ export interface TriggersCreateTriggerMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type TriggersCreateTriggerParameters =
-  TriggersCreateTriggerMediaTypesParam &
-    TriggersCreateTriggerBodyParam &
-    RequestParameters;
+export type TriggersCreateTriggerParameters = TriggersCreateTriggerMediaTypesParam &
+  TriggersCreateTriggerBodyParam &
+  RequestParameters;
 export type TriggersDeleteTriggerParameters = RequestParameters;

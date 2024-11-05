@@ -96,25 +96,21 @@ const responseMap: Record<string, string[]> = {
   "DELETE /classificationrules/{classificationRuleName}": ["200", "204"],
   "GET /classificationrules": ["200"],
   "GET /classificationrules/{classificationRuleName}/versions": ["200"],
-  "POST /classificationrules/{classificationRuleName}/versions/{classificationRuleVersion}/:tag":
-    ["202"],
+  "POST /classificationrules/{classificationRuleName}/versions/{classificationRuleVersion}/:tag": [
+    "202",
+  ],
   "PUT /datasources/{dataSourceName}": ["200", "201"],
   "GET /datasources/{dataSourceName}": ["200"],
   "DELETE /datasources/{dataSourceName}": ["200", "204"],
   "GET /datasources": ["200"],
   "GET /datasources/{dataSourceName}/scans/{scanName}/filters/custom": ["200"],
-  "PUT /datasources/{dataSourceName}/scans/{scanName}/filters/custom": [
-    "200",
-    "201",
-  ],
+  "PUT /datasources/{dataSourceName}/scans/{scanName}/filters/custom": ["200", "201"],
   "PUT /datasources/{dataSourceName}/scans/{scanName}": ["200", "201"],
   "GET /datasources/{dataSourceName}/scans/{scanName}": ["200"],
   "DELETE /datasources/{dataSourceName}/scans/{scanName}": ["200", "204"],
   "GET /datasources/{dataSourceName}/scans": ["200"],
   "PUT /datasources/{dataSourceName}/scans/{scanName}/runs/{runId}": ["202"],
-  "POST /datasources/{dataSourceName}/scans/{scanName}/runs/{runId}/:cancel": [
-    "202",
-  ],
+  "POST /datasources/{dataSourceName}/scans/{scanName}/runs/{runId}/:cancel": ["202"],
   "GET /datasources/{dataSourceName}/scans/{scanName}/runs": ["200"],
   "GET /scanrulesets/{scanRulesetName}": ["200"],
   "PUT /scanrulesets/{scanRulesetName}": ["200", "201"],
@@ -125,28 +121,16 @@ const responseMap: Record<string, string[]> = {
   "GET /systemScanRulesets/versions/{version}": ["200"],
   "GET /systemScanRulesets/versions/latest": ["200"],
   "GET /systemScanRulesets/versions": ["200"],
-  "GET /datasources/{dataSourceName}/scans/{scanName}/triggers/default": [
-    "200",
-  ],
-  "PUT /datasources/{dataSourceName}/scans/{scanName}/triggers/default": [
-    "200",
-    "201",
-  ],
-  "DELETE /datasources/{dataSourceName}/scans/{scanName}/triggers/default": [
-    "200",
-    "204",
-  ],
+  "GET /datasources/{dataSourceName}/scans/{scanName}/triggers/default": ["200"],
+  "PUT /datasources/{dataSourceName}/scans/{scanName}/triggers/default": ["200", "201"],
+  "DELETE /datasources/{dataSourceName}/scans/{scanName}/triggers/default": ["200", "204"],
 };
 
 export function isUnexpected(
-  response:
-    | KeyVaultConnectionsGet200Response
-    | KeyVaultConnectionsGetDefaultResponse,
+  response: KeyVaultConnectionsGet200Response | KeyVaultConnectionsGetDefaultResponse,
 ): response is KeyVaultConnectionsGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | KeyVaultConnectionsCreate200Response
-    | KeyVaultConnectionsCreateDefaultResponse,
+  response: KeyVaultConnectionsCreate200Response | KeyVaultConnectionsCreateDefaultResponse,
 ): response is KeyVaultConnectionsCreateDefaultResponse;
 export function isUnexpected(
   response:
@@ -155,14 +139,10 @@ export function isUnexpected(
     | KeyVaultConnectionsDeleteDefaultResponse,
 ): response is KeyVaultConnectionsDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | KeyVaultConnectionsListAll200Response
-    | KeyVaultConnectionsListAllDefaultResponse,
+  response: KeyVaultConnectionsListAll200Response | KeyVaultConnectionsListAllDefaultResponse,
 ): response is KeyVaultConnectionsListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | ClassificationRulesGet200Response
-    | ClassificationRulesGetDefaultResponse,
+  response: ClassificationRulesGet200Response | ClassificationRulesGetDefaultResponse,
 ): response is ClassificationRulesGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -177,9 +157,7 @@ export function isUnexpected(
     | ClassificationRulesDeleteDefaultResponse,
 ): response is ClassificationRulesDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ClassificationRulesListAll200Response
-    | ClassificationRulesListAllDefaultResponse,
+  response: ClassificationRulesListAll200Response | ClassificationRulesListAllDefaultResponse,
 ): response is ClassificationRulesListAllDefaultResponse;
 export function isUnexpected(
   response:
@@ -228,28 +206,19 @@ export function isUnexpected(
   response: ScansGet200Response | ScansGetDefaultResponse,
 ): response is ScansGetDefaultResponse;
 export function isUnexpected(
-  response:
-    | ScansDelete200Response
-    | ScansDelete204Response
-    | ScansDeleteDefaultResponse,
+  response: ScansDelete200Response | ScansDelete204Response | ScansDeleteDefaultResponse,
 ): response is ScansDeleteDefaultResponse;
 export function isUnexpected(
-  response:
-    | ScansListByDataSource200Response
-    | ScansListByDataSourceDefaultResponse,
+  response: ScansListByDataSource200Response | ScansListByDataSourceDefaultResponse,
 ): response is ScansListByDataSourceDefaultResponse;
 export function isUnexpected(
   response: ScanResultRunScan202Response | ScanResultRunScanDefaultResponse,
 ): response is ScanResultRunScanDefaultResponse;
 export function isUnexpected(
-  response:
-    | ScanResultCancelScan202Response
-    | ScanResultCancelScanDefaultResponse,
+  response: ScanResultCancelScan202Response | ScanResultCancelScanDefaultResponse,
 ): response is ScanResultCancelScanDefaultResponse;
 export function isUnexpected(
-  response:
-    | ScanResultListScanHistory200Response
-    | ScanResultListScanHistoryDefaultResponse,
+  response: ScanResultListScanHistory200Response | ScanResultListScanHistoryDefaultResponse,
 ): response is ScanResultListScanHistoryDefaultResponse;
 export function isUnexpected(
   response: ScanRulesetsGet200Response | ScanRulesetsGetDefaultResponse,
@@ -270,14 +239,10 @@ export function isUnexpected(
   response: ScanRulesetsListAll200Response | ScanRulesetsListAllDefaultResponse,
 ): response is ScanRulesetsListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | SystemScanRulesetsListAll200Response
-    | SystemScanRulesetsListAllDefaultResponse,
+  response: SystemScanRulesetsListAll200Response | SystemScanRulesetsListAllDefaultResponse,
 ): response is SystemScanRulesetsListAllDefaultResponse;
 export function isUnexpected(
-  response:
-    | SystemScanRulesetsGet200Response
-    | SystemScanRulesetsGetDefaultResponse,
+  response: SystemScanRulesetsGet200Response | SystemScanRulesetsGetDefaultResponse,
 ): response is SystemScanRulesetsGetDefaultResponse;
 export function isUnexpected(
   response:
@@ -285,9 +250,7 @@ export function isUnexpected(
     | SystemScanRulesetsGetByVersionDefaultResponse,
 ): response is SystemScanRulesetsGetByVersionDefaultResponse;
 export function isUnexpected(
-  response:
-    | SystemScanRulesetsGetLatest200Response
-    | SystemScanRulesetsGetLatestDefaultResponse,
+  response: SystemScanRulesetsGetLatest200Response | SystemScanRulesetsGetLatestDefaultResponse,
 ): response is SystemScanRulesetsGetLatestDefaultResponse;
 export function isUnexpected(
   response:
@@ -461,24 +424,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;
