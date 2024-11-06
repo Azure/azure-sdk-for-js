@@ -8,7 +8,7 @@ import { createChatClient, createRecorder, createTestUser } from "./utils/record
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import { getIdentifierKind } from "@azure/communication-common";
 import type { CommunicationUserToken } from "@azure/communication-identity";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("ChatThreadClient", function () {
   let messageId: string;
@@ -39,7 +39,7 @@ describe("ChatThreadClient", function () {
   /**
    * This test intialized chatThreadClient for other tests with recorder enabled
    */
-  it("successfully initializes chatThreadClient", async function () {
+  it("successfully initializes chatThreadClient", { timeout: 8000 }, async function () {
     // Create ChatClient
     testUser = communicationUserToken.user;
     testUser2 = (await createTestUser(recorder)).user;
@@ -52,7 +52,7 @@ describe("ChatThreadClient", function () {
 
     const chatThreadResult = await chatClient.createChatThread(request, options);
     threadId = chatThreadResult.chatThread?.id as string;
-  }).timeout(8000);
+  });
 
   it("successfully gets the thread properties", async function () {
     const thread = await chatThreadClient.getProperties();

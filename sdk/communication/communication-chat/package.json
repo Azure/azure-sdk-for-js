@@ -3,9 +3,9 @@
   "version": "1.5.4",
   "description": "Azure client library for Azure Communication Chat services",
   "sdk-type": "client",
-  "main": "dist/index.js",
-  "module": "dist-esm/src/index.js",
-  "types": "types/communication-chat.d.ts",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:browser": "dev-tool run build-package && dev-tool run bundle",
@@ -19,8 +19,8 @@
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",
     "generate:client": "autorest --typescript ./swagger/README.md && rushx format",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "dev-tool run test:browser",
-    "integration-test:node": "dev-tool run test:node-js-input -- --timeout 5000000 'dist-esm/test/**/*.spec.js'",
+    "integration-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
+    "integration-test:node": "dev-tool run test:vitest",
     "lint": "eslint package.json api-extractor.json README.md src test",
     "lint:fix": "eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -68,8 +68,7 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/logger": "^1.0.0",
     "events": "^3.0.0",
-    "tslib": "^2.2.0",
-    "uuid": "^8.3.0"
+    "tslib": "^2.7.0"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "^2.0.0",
@@ -80,15 +79,12 @@
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/node": "^18.0.0",
-    "@types/uuid": "^8.0.0",
     "@vitest/browser": "^2.1.4",
     "@vitest/coverage-istanbul": "^2.1.4",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "inherits": "^2.0.3",
     "playwright": "^1.48.2",
     "typescript": "~5.6.2",
-    "util": "^0.12.1",
     "vitest": "^2.1.4"
   },
   "//metadata": {
@@ -132,5 +128,26 @@
       "react-native"
     ],
     "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   }
 }

@@ -3,12 +3,12 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
+import { isNodeLike } from "@azure/core-util";
 import type { ChatClient, ChatThreadClient } from "../../src/index.js";
 import { createChatClient, createRecorder, createTestUser } from "./utils/recordedClient.js";
-import { isNode } from "@azure/core-util";
 import type { CommunicationIdentifier } from "@azure/communication-common";
 import type { CommunicationUserToken } from "@azure/communication-identity";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach, beforeAll } from "vitest";
 
 describe("ChatClient", function () {
   let threadId: string | undefined;
@@ -18,12 +18,6 @@ describe("ChatClient", function () {
   let communicationUserToken: CommunicationUserToken;
   let testUser: CommunicationIdentifier;
   let testUser2: CommunicationIdentifier;
-
-  after(async function () {
-    // await deleteTestUser(testUser);
-    // await deleteTestUser(testUser2);
-    // await deleteTestUser(testUser3);
-  });
 
   describe("Chat Operations", function () {
     beforeEach(async function (ctx) {
@@ -39,7 +33,7 @@ describe("ChatClient", function () {
       await recorder.stop();
     });
 
-    it("successfully creates a thread", async function () {
+    it("successfully creates a thread", { timeout: 8000 }, async function () {
       testUser = communicationUserToken.user;
       testUser2 = (await createTestUser(recorder)).user;
 
@@ -57,7 +51,7 @@ describe("ChatClient", function () {
 
       assert.isDefined(chatThread);
       assert.isDefined(chatThread?.id);
-    }).timeout(8000);
+    });
 
     it("successfully retrieves a thread client", async function () {
       chatThreadClient = chatClient.getChatThreadClient(threadId!);
@@ -70,16 +64,11 @@ describe("ChatClient", function () {
     });
   });
 
-  describe("Realtime Notifications", function () {
-    before(async function (ctx) {
-      // Realtime notifications are browser only
-      if (isNode || !isLiveMode()) {
-        ctx.skip();
-      }
-
+  describe.skipIf(isNodeLike)("Realtime Notifications", function () {
+    beforeAll(async function () {
       // Create a thread
       const request = {
-        topic: "notifcation tests",
+        topic: "notification tests",
         participants: [{ id: testUser }],
       };
       const chatThreadResult = await chatClient.createChatThread(request);
@@ -94,8 +83,12 @@ describe("ChatClient", function () {
       await chatClient.startRealtimeNotifications();
     });
 
-    it("successfully stops realtime notifications", async function () {
-      const listener = sinon.spy();
+    it("successfully stops realtime notifications", async function (ctx) {
+      if (!isLiveMode()) {
+        ctx.skip();
+      }
+
+      const listener = vi.fn();
 
       chatClient.on("typingIndicatorReceived", listener);
       await chatClient.stopRealtimeNotifications();
@@ -104,173 +97,268 @@ describe("ChatClient", function () {
       // Allow time to see if notification comes in
       await new Promise((resolve) => setTimeout(resolve, 5000));
 
-      sinon.assert.notCalled(listener);
+      expect(listener).not.toHaveBeenCalled();
     });
 
-    it("successfully unsubscribes a listener", function (done) {
-      function listener(): void {
-        assert.fail();
-      }
+    it(
+      "successfully unsubscribes a listener",
+      { timeout: 8000 },
+      (ctx) =>
+        new Promise<void>((resolve) => {
+          if (!isLiveMode()) {
+            ctx.skip();
+          }
 
-      chatClient.on("typingIndicatorReceived", listener);
-      chatClient.off("typingIndicatorReceived", listener);
+          function listener(): void {
+            assert.fail();
+          }
 
-      // Send typing notification
-      chatThreadClient.sendTypingNotification();
+          chatClient.on("typingIndicatorReceived", listener);
+          chatClient.off("typingIndicatorReceived", listener);
 
-      // Wait a bit and fail if the notification comes in
-      setTimeout(done, 5000);
-    }).timeout(8000);
+          // Send typing notification
+          chatThreadClient.sendTypingNotification();
 
-    it("successfully listens to typingIndicatorReceivedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+          // Wait a bit and fail if the notification comes in
+          setTimeout(resolve, 5000);
+        }),
+    );
 
-      chatClient.on("typingIndicatorReceived", listener);
+    it(
+      "successfully listens to typingIndicatorReceivedEvents",
+      { timeout: 8000 },
+      (ctx) =>
+        new Promise<void>((resolve) => {
+          if (!isLiveMode()) {
+            ctx.skip();
+          }
 
-      // Send typing notification
-      chatThreadClient.sendTypingNotification();
-    }).timeout(8000);
+          function listener(): void {
+            resolve();
+          }
 
-    it("successfully listens to chatMessageEditedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+          chatClient.on("typingIndicatorReceived", listener);
 
-      chatClient.on("chatMessageEdited", listener);
+          // Send typing notification
+          chatThreadClient.sendTypingNotification();
+        }),
+    );
 
-      // Edit message
-      const message = { content: "content" };
-      chatThreadClient
-        .sendMessage(message)
-        .then((result) => {
-          return chatThreadClient.updateMessage(result.id, {
-            content: "new content",
-          });
-        })
-        .catch((error) => console.error(error));
-    }).timeout(8000);
+    it(
+      "successfully listens to chatMessageEditedEvents",
+      { timeout: 8000 },
+      (ctx) =>
+        new Promise<void>((resolve) => {
+          if (!isLiveMode()) {
+            ctx.skip();
+          }
 
-    it("successfully listens to chatMessageReceivedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+          function listener(): void {
+            resolve();
+          }
 
-      chatClient.on("chatMessageReceived", listener);
+          chatClient.on("chatMessageEdited", listener);
 
-      // Send message
-      const message = { content: `content` };
-      chatThreadClient.sendMessage(message);
-    }).timeout(8000);
+          // Edit message
+          const message = { content: "content" };
+          chatThreadClient
+            .sendMessage(message)
+            .then((result) => {
+              return chatThreadClient.updateMessage(result.id, {
+                content: "new content",
+              });
+            })
+            .catch((error) => console.error(error));
+        }),
+    );
 
-    it("successfully listens to chatMessageDeletedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+    it(
+      "successfully listens to chatMessageReceivedEvents",
+      { timeout: 8000 },
+      (ctx) =>
+        new Promise<void>((resolve) => {
+          if (!isLiveMode()) {
+            ctx.skip();
+          }
 
-      chatClient.on("chatMessageDeleted", listener);
+          function listener(): void {
+            resolve();
+          }
 
-      // Delete message
-      const message = { content: `content` };
-      chatThreadClient
-        .sendMessage(message)
-        .then((result) => {
-          return chatThreadClient.deleteMessage(result.id);
-        })
-        .catch((error) => console.error(error));
-    }).timeout(8000);
+          chatClient.on("chatMessageReceived", listener);
 
-    it("successfully listens to chatThreadCreatedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+          // Send message
+          const message = { content: `content` };
+          chatThreadClient.sendMessage(message);
+        }),
+    );
 
-      chatClient.on("chatThreadCreated", listener);
+    it(
+      "successfully listens to chatMessageDeletedEvents",
+      { timeout: 8000 },
+      (ctx) =>
+        new Promise<void>((resolve) => {
+          if (!isLiveMode()) {
+            ctx.skip();
+          }
 
-      // Create thread
-      const request = {
-        topic: "test create thread event",
-        participants: [{ id: testUser }],
-      };
-      chatClient.createChatThread(request);
-    }).timeout(8000);
+          function listener(): void {
+            resolve();
+          }
 
-    it("successfully listens to chatThreadDeletedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+          chatClient.on("chatMessageDeleted", listener);
 
-      chatClient.on("chatThreadDeleted", listener);
+          // Delete message
+          const message = { content: `content` };
+          chatThreadClient
+            .sendMessage(message)
+            .then((result) => {
+              return chatThreadClient.deleteMessage(result.id);
+            })
+            .catch((error) => console.error(error));
+        }),
+    );
 
-      // Delete thread
-      const request = {
-        topic: "test delete thread event",
-        participants: [{ id: testUser }],
-      };
-      chatClient
-        .createChatThread(request)
-        .then((result) => {
-          return chatClient.deleteChatThread(result.chatThread?.id as string);
-        })
-        .catch((error) => console.error(error));
-    }).timeout(8000);
+    it(
+      "successfully listens to chatThreadCreatedEvents",
+      { timeout: 8000 },
+      (ctx) =>
+        new Promise<void>((resolve) => {
+          if (!isLiveMode()) {
+            ctx.skip();
+          }
 
-    it("successfully listens to chatThreadPropertiesUpdatedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+          function listener(): void {
+            resolve();
+          }
 
-      chatClient.on("chatThreadPropertiesUpdated", listener);
+          chatClient.on("chatThreadCreated", listener);
 
-      // Update thread
-      chatThreadClient.updateTopic("updated topic");
-    }).timeout(8000);
+          // Create thread
+          const request = {
+            topic: "test create thread event",
+            participants: [{ id: testUser }],
+          };
+          chatClient.createChatThread(request);
+        }),
+    );
 
-    it("successfully listens to participantsAddedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+    it(
+      "successfully listens to chatThreadDeletedEvents",
+      { timeout: 8000 },
+      (ctx) =>
+        new Promise<void>((resolve) => {
+          if (!isLiveMode()) {
+            ctx.skip();
+          }
 
-      chatClient.on("participantsAdded", listener);
+          function listener(): void {
+            resolve();
+          }
 
-      // Add participant
-      const request = {
-        participants: [{ id: testUser2 }],
-      };
-      chatThreadClient.addParticipants(request);
-    }).timeout(8000);
+          chatClient.on("chatThreadDeleted", listener);
 
-    it("successfully listens to participantsRemovedEvents", function (done) {
-      function listener(): void {
-        done();
-      }
+          // Delete thread
+          const request = {
+            topic: "test delete thread event",
+            participants: [{ id: testUser }],
+          };
+          chatClient
+            .createChatThread(request)
+            .then((result) => {
+              return chatClient.deleteChatThread(result.chatThread?.id as string);
+            })
+            .catch((error) => console.error(error));
+        }),
+    );
 
-      chatClient.on("participantsRemoved", listener);
+    it(
+      "successfully listens to chatThreadPropertiesUpdatedEvents",
+      { timeout: 8000 },
+      (ctx) =>
+        new Promise<void>((resolve) => {
+          if (!isLiveMode()) {
+            ctx.skip();
+          }
 
-      // Remove participant
-      chatThreadClient.removeParticipant(testUser2);
-    }).timeout(8000);
+          function listener(): void {
+            resolve();
+          }
 
-    it("successfully listens to readReceiptReceivedEvents", function (this: Context, done) {
-      // TODO: Read receipt notification is timing out even with increased timeout
-      ctx.skip();
-      function listener(): void {
-        done();
-      }
+          chatClient.on("chatThreadPropertiesUpdated", listener);
 
-      chatClient.on("readReceiptReceived", listener);
+          // Update thread
+          chatThreadClient.updateTopic("updated topic");
+        }),
+    );
 
-      // Send read receipt
-      const message = { content: "content" };
-      chatThreadClient
-        .sendMessage(message)
-        .then((result) => {
-          return chatThreadClient.sendReadReceipt({
-            chatMessageId: result.id,
-          });
-        })
-        .catch((error) => console.error(error));
-    }).timeout(8000);
+    it(
+      "successfully listens to participantsAddedEvents",
+      { timeout: 8000 },
+      (ctx) =>
+        new Promise<void>((resolve) => {
+          if (!isLiveMode()) {
+            ctx.skip();
+          }
+
+          function listener(): void {
+            resolve();
+          }
+
+          chatClient.on("participantsAdded", listener);
+
+          // Add participant
+          const request = {
+            participants: [{ id: testUser2 }],
+          };
+          chatThreadClient.addParticipants(request);
+        }),
+    );
+
+    it(
+      "successfully listens to participantsRemovedEvents",
+      { timeout: 8000 },
+      (ctx) =>
+        new Promise<void>((resolve) => {
+          if (!isLiveMode()) {
+            ctx.skip();
+          }
+
+          function listener(): void {
+            resolve();
+          }
+
+          chatClient.on("participantsRemoved", listener);
+
+          // Remove participant
+          chatThreadClient.removeParticipant(testUser2);
+        }),
+    );
+
+    it(
+      "successfully listens to readReceiptReceivedEvents",
+      { timeout: 8000 },
+      (ctx) =>
+        new Promise<void>((resolve) => {
+          // TODO: Read receipt notification is timing out even with increased timeout
+          ctx.skip();
+          function listener(): void {
+            resolve();
+          }
+
+          chatClient.on("readReceiptReceived", listener);
+
+          // Send read receipt
+          const message = { content: "content" };
+          chatThreadClient
+            .sendMessage(message)
+            .then((result) => {
+              return chatThreadClient.sendReadReceipt({
+                chatMessageId: result.id,
+              });
+            })
+            .catch((error) => console.error(error));
+        }),
+    );
   });
 });

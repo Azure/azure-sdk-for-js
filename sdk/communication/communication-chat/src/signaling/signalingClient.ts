@@ -5,7 +5,7 @@ import type { SignalingClient } from "@azure/communication-signaling";
 import { CommunicationSignalingClient } from "@azure/communication-signaling";
 import type { CommunicationTokenCredential } from "@azure/communication-common";
 import type { AzureLogger } from "@azure/logger";
-import type { ChatClientOptions } from "@azure/communication-chat";
+import type { ChatClientOptions } from "../models/options.js";
 
 export interface SignalingClientOptions extends ChatClientOptions {
   resourceEndpoint?: string;

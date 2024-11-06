@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/// <reference lib="esnext.asynciterable" />
 
 import type {
   ChatClientOptions,
@@ -29,12 +28,11 @@ import {
   mapToCreateChatThreadOptionsRestModel,
   mapToCreateChatThreadResultSdkModel,
 } from "./models/mappers.js";
-
 import { ChatApiClient } from "./generated/src/index.js";
 import { ChatThreadClient } from "./chatThreadClient.js";
 import type { CommunicationTokenCredential } from "@azure/communication-common";
 import type { CreateChatThreadRequest } from "./models/requests.js";
-import { EventEmitter } from "node:events";
+import { EventEmitter } from "events";
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy.js";
