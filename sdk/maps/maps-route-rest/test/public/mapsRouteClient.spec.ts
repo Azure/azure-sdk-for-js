@@ -14,12 +14,8 @@ import type {
   RouteGetRouteDirectionsQueryParamProperties,
   RouteGetRouteMatrix200Response,
 } from "../../generated";
-import  {
-  getLongRunningPoller,
-  isUnexpected,
-} from "../../generated";
+import { getLongRunningPoller, isUnexpected } from "../../generated";
 import type { LatLon } from "@azure/maps-common";
-
 
 describe("Endpoint can be overwritten", function (this: Suite) {
   let recorder: Recorder;
