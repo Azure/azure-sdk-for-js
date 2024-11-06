@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-standbypool",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A generated SDK for StandbyPoolClient.",
   "engines": {
     "node": ">=18.0.0"
