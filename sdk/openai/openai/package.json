@@ -1,6 +1,6 @@
 {
   "name": "@azure/openai",
-  "version": "2.0.0-beta.3",
+  "version": "2.0.0-beta.4",
   "description": "A companion library to openai for Azure OpenAI.",
   "keywords": [
     "node",
