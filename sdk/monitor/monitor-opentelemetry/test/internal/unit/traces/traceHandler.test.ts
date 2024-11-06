@@ -4,7 +4,6 @@
 /* eslint-disable promise/always-return */
 
 import * as assert from "node:assert";
-import * as sinon from "sinon";
 import { ExportResultCode } from "@opentelemetry/core";
 
 import { TraceHandler } from "../../../../src/traces/index.js";

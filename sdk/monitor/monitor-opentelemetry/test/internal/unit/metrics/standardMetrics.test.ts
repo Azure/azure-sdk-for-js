@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import * as assert from "node:assert";
-import * as sinon from "sinon";
 import type { Attributes } from "@opentelemetry/api";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import type { Histogram } from "@opentelemetry/sdk-metrics";

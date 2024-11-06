@@ -4,7 +4,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 
 import * as assert from "node:assert";
-import * as sinon from "sinon";
 import type { Context as AzureFnV3Context } from "@azure/functions-old";
 import type { InvocationContext as AzureFnV4Context } from "@azure/functions";
 import type { PreInvocationContext } from "../../../../src/traces/azureFnHook.js";

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import * as assert from "node:assert";
-import * as sinon from "sinon";
 import type { Context, TracerProvider } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";

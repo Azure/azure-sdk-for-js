@@ -4,7 +4,6 @@
 /* eslint-disable no-underscore-dangle*/
 
 import * as assert from "node:assert";
-import sinon from "sinon";
 import { trace, context, isValidTraceId, isValidSpanId } from "@opentelemetry/api";
 import type { LogRecord as APILogRecord } from "@opentelemetry/api-logs";
 import { SeverityNumber, logs } from "@opentelemetry/api-logs";
