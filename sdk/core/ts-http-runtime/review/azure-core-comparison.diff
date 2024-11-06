@@ -1428,7 +1428,7 @@ index 55110a0..0000000
 -  };
 -}
 diff --git a/src/policies/bearerTokenAuthenticationPolicy.ts b/src/policies/bearerTokenAuthenticationPolicy.ts
-index 799bd34..87e8f5e 100644
+index 898e5a6..87e8f5e 100644
 --- a/src/policies/bearerTokenAuthenticationPolicy.ts
 +++ b/src/policies/bearerTokenAuthenticationPolicy.ts
 @@ -1,13 +1,12 @@
@@ -1684,7 +1684,7 @@ index 799bd34..87e8f5e 100644
 -  // The challenge regex captures parameteres with either quotes values or unquoted values
 -  const challengeRegex = /(\w+)\s+((?:\w+=(?:"[^"]*"|[^,]*),?\s*)+)/g;
 -  // Parameter regex captures the claims group removed from the scheme in the format `a="b"` and `c="d"`
--  // For CAE purposes, we only look for params in quotes
+-  // CAE challenge always have quoted parameters. For more reference, https://learn.microsoft.com/entra/identity-platform/claims-challenge
 -  const paramRegex = /(\w+)="([^"]*)"/g;
 -
 -  const parsedChallenges: AuthChallenge[] = [];

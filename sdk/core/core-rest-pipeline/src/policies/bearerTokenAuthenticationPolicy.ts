@@ -341,7 +341,7 @@ export function parseChallenges(challenges: string): AuthChallenge[] {
   // The challenge regex captures parameteres with either quotes values or unquoted values
   const challengeRegex = /(\w+)\s+((?:\w+=(?:"[^"]*"|[^,]*),?\s*)+)/g;
   // Parameter regex captures the claims group removed from the scheme in the format `a="b"` and `c="d"`
-  // For CAE purposes, we only look for params in quotes
+  // CAE challenge always have quoted parameters. For more reference, https://learn.microsoft.com/entra/identity-platform/claims-challenge
   const paramRegex = /(\w+)="([^"]*)"/g;
 
   const parsedChallenges: AuthChallenge[] = [];
