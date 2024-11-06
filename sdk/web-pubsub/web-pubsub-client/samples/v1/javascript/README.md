@@ -46,7 +46,7 @@ node helloworld.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env WPS_CONNECTION_STRING="<wps connection string>" node helloworld.js
+npx dev-tool run vendored cross-env WPS_CONNECTION_STRING="<wps connection string>" node helloworld.js
 ```
 
 ## Next Steps

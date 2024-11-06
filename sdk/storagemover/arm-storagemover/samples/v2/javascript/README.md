@@ -67,7 +67,7 @@ node agentsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env STORAGEMOVER_SUBSCRIPTION_ID="<storagemover subscription id>" STORAGEMOVER_RESOURCE_GROUP="<storagemover resource group>" node agentsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env STORAGEMOVER_SUBSCRIPTION_ID="<storagemover subscription id>" STORAGEMOVER_RESOURCE_GROUP="<storagemover resource group>" node agentsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

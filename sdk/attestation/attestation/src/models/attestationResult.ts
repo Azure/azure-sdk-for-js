@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AttestationSigner } from "./index.js";
-import { GeneratedAttestationResult } from "../generated/index.js";
+import type { AttestationSigner } from "./index.js";
+import type { GeneratedAttestationResult } from "../generated/index.js";
 import { _attestationSignerFromGenerated } from "./attestationSigner.js";
 
 /**

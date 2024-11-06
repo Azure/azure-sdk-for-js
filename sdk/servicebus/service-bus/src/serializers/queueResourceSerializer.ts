@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import {
-  AtomXmlSerializer,
-  deserializeAtomXmlResponse,
-  serializeToAtomXmlRequest,
-} from "../util/atomXmlHelper.js";
+import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import type { AtomXmlSerializer } from "../util/atomXmlHelper.js";
+import { deserializeAtomXmlResponse, serializeToAtomXmlRequest } from "../util/atomXmlHelper.js";
 import * as Constants from "../util/constants.js";
+import type { AuthorizationRule, EntityStatus, EntityAvailabilityStatus } from "../util/utils.js";
 import {
-  AuthorizationRule,
   getAuthorizationRulesOrUndefined,
   getBoolean,
   getMessageCountDetails,
@@ -19,8 +16,6 @@ import {
   getString,
   getStringOrUndefined,
   getDate,
-  EntityStatus,
-  EntityAvailabilityStatus,
 } from "../util/utils.js";
 
 /**

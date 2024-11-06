@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { TieringClient } from "../../src";
+import type { Context } from "mocha";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
+import type { TieringClient } from "../../src";
 import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient";
 

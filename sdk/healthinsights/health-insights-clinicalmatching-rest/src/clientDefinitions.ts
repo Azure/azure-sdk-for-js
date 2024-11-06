@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { GetJobParameters, CreateJobParameters } from "./parameters";
-import {
+import type { GetJobParameters, CreateJobParameters } from "./parameters";
+import type {
   GetJob200Response,
   GetJobDefaultResponse,
   CreateJob200Response,
   CreateJob202Response,
   CreateJobDefaultResponse,
 } from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetJob {
   /** Gets the status and details of the Trial Matcher job. */

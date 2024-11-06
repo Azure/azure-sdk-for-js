@@ -2,16 +2,14 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, beforeEach, afterEach, type Mock } from "vitest";
+import type { PipelineRequest, PipelineResponse, SendRequest } from "../src/index.js";
 import {
-  PipelineRequest,
-  PipelineResponse,
   RestError,
-  SendRequest,
   createHttpHeaders,
   createPipelineRequest,
   tracingPolicy,
 } from "../src/index.js";
-import {
+import type {
   Instrumenter,
   InstrumenterSpanOptions,
   SpanStatus,

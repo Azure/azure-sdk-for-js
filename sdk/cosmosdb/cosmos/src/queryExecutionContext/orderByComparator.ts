@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { NonStreamingOrderByResult } from "./nonStreamingOrderByResult";
+import type { NonStreamingOrderByResult } from "./nonStreamingOrderByResult";
 
 /**
  *  @hidden

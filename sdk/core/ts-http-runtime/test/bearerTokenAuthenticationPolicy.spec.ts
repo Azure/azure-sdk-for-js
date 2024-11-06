@@ -2,12 +2,14 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
-import { AccessToken, TokenCredential } from "../src/auth/tokenCredential.js";
-import {
+import type { AccessToken, TokenCredential } from "../src/auth/tokenCredential.js";
+import type {
   AuthorizeRequestOnChallengeOptions,
   PipelinePolicy,
   PipelineResponse,
   SendRequest,
+} from "../src/index.js";
+import {
   bearerTokenAuthenticationPolicy,
   createHttpHeaders,
   createPipelineRequest,

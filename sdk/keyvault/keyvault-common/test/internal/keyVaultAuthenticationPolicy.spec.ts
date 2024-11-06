@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { Pipeline, PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
 import {
-  Pipeline,
-  PipelineRequest,
-  SendRequest,
   createEmptyPipeline,
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
 import { parseWWWAuthenticateHeader } from "../../src/parseWWWAuthenticate.js";
 import { describe, it, beforeEach, expect, vi } from "vitest";
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { keyVaultAuthenticationPolicy } from "../../src/keyVaultAuthenticationPolicy.js";
 
 const caeChallenge = `Bearer realm="", authorization_uri="https://login.microsoftonline.com/common/oauth2/authorize", error="insufficient_claims", claims="eyJhY2Nlc3NfdG9rZW4iOnsibmJmIjp7ImVzc2VudGlhbCI6dHJ1ZSwidmFsdWUiOiIxNzI2MDc3NTk1In0sInhtc19jYWVlcnJvciI6eyJ2YWx1ZSI6IjEwMDEyIn19fQ=="`;

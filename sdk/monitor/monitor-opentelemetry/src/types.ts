@@ -3,11 +3,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
-import { InstrumentationConfig } from "@opentelemetry/instrumentation";
-import { Resource } from "@opentelemetry/resources";
-import { LogRecordProcessor } from "@opentelemetry/sdk-logs";
-import { SpanProcessor } from "@opentelemetry/sdk-trace-base";
+import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
+import type { InstrumentationConfig } from "@opentelemetry/instrumentation";
+import type { Resource } from "@opentelemetry/resources";
+import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
+import type { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 
 /**
  * Azure Monitor OpenTelemetry Options

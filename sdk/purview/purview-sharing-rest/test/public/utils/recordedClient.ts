@@ -1,11 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import PurviewSharing, { PurviewSharingClient } from "../../../src";
-import { ClientOptions } from "@azure-rest/core-client";
+import type { PurviewSharingClient } from "../../../src";
+import PurviewSharing from "../../../src";
+import type { ClientOptions } from "@azure-rest/core-client";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://accountname.purview.azure.com/share",

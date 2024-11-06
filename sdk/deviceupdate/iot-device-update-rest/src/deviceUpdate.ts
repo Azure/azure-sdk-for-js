@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
-import { DeviceUpdateClient } from "./clientDefinitions";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import type { DeviceUpdateClient } from "./clientDefinitions";
 
 export default function createClient(
   endpoint: string,

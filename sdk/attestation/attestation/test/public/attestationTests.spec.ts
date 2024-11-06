@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 import { Recorder } from "@azure-tools/test-recorder";
 
+import type { EndpointType } from "../utils/recordedClient.js";
 import {
-  EndpointType,
   createRecordedAdminClient,
   createRecordedClient,
   recorderOptions,

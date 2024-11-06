@@ -1,22 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { TokenCredential } from "@azure/core-auth";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import {
-  BlobServiceClient,
+import type {
   ServiceGetPropertiesOptions,
   ServiceSetPropertiesOptions,
   ServiceSetPropertiesResponse,
 } from "@azure/storage-blob";
-import { Pipeline, StoragePipelineOptions, isPipelineLike, newPipeline } from "./Pipeline";
+import { BlobServiceClient } from "@azure/storage-blob";
+import type { Pipeline, StoragePipelineOptions } from "./Pipeline";
+import { isPipelineLike, newPipeline } from "./Pipeline";
 import { AnonymousCredential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 
 import { DataLakeFileSystemClient } from "./DataLakeFileSystemClient";
-import {
+import type {
   FileSystemItem,
   FileSystemRenameResponse,
   ServiceGenerateAccountSasUrlOptions,
@@ -33,7 +34,10 @@ import {
   extractConnectionStringParts,
 } from "./utils/utils.common";
 import { toDfsEndpointUrl, toFileSystemPagedAsyncIterableIterator } from "./transforms";
-import { ServiceGetUserDelegationKeyOptions, ServiceGetUserDelegationKeyResponse } from "./models";
+import type {
+  ServiceGetUserDelegationKeyOptions,
+  ServiceGetUserDelegationKeyResponse,
+} from "./models";
 import { tracingClient } from "./utils/tracing";
 import { AccountSASPermissions } from "./sas/AccountSASPermissions";
 import {
@@ -41,7 +45,7 @@ import {
   generateAccountSASQueryParametersInternal,
 } from "./sas/AccountSASSignatureValues";
 import { AccountSASServices } from "./sas/AccountSASServices";
-import { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index";
+import type { DataLakeServiceGetPropertiesResponse, DataLakeServiceProperties } from "./index";
 
 /**
  * DataLakeServiceClient allows you to manipulate Azure
@@ -69,7 +73,7 @@ export class DataLakeServiceClient extends StorageClient {
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
-  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
+
   public static fromConnectionString(
     connectionString: string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.

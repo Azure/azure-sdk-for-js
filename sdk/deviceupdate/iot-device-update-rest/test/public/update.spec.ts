@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DeviceUpdateClient, isUnexpected } from "../../src";
-import { Context } from "mocha";
+import type { DeviceUpdateClient } from "../../src";
+import { isUnexpected } from "../../src";
+import type { Context } from "mocha";
 import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient, startRecorder } from "./utils/recordedClient";

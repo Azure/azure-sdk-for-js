@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createRecordedRoomsClient, createTestUser } from "./utils/recordedClient";
 import { assert, expect } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import sinon from "sinon";
-import { RoomsClient } from "../../src/roomsClient";
-import { CommunicationUserIdentifier } from "@azure/communication-common";
-import { CreateRoomOptions, UpdateRoomOptions } from "../../src/models/options";
-import { CommunicationRoom, RoomParticipantPatch } from "../../src/models/models";
+import type { RoomsClient } from "../../src/roomsClient";
+import type { CommunicationUserIdentifier } from "@azure/communication-common";
+import type { CreateRoomOptions, UpdateRoomOptions } from "../../src/models/options";
+import type { CommunicationRoom, RoomParticipantPatch } from "../../src/models/models";
 
 describe("RoomsClient", function () {
   let recorder: Recorder;

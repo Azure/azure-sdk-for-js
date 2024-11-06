@@ -5,7 +5,7 @@ import { assertCount, assertLogExpectation } from "../../utils/assert";
 import { LogBasicScenario } from "../../utils/basic";
 import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
-import { TelemetryItem as Envelope } from "../../utils/models/index";
+import type { TelemetryItem as Envelope } from "../../utils/models/index";
 
 /** TODO: Add winston-transport check functional test */
 describe("Log Exporter Scenarios", () => {

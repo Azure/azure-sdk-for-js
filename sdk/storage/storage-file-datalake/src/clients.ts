@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { isTokenCredential, TokenCredential } from "@azure/core-auth";
-import { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { RequestBodyType as HttpRequestBody } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import { isPipelineLike, newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
+import type { Pipeline, StoragePipelineOptions } from "./Pipeline";
+import { isPipelineLike, newPipeline } from "./Pipeline";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { AnonymousCredential } from "@azure/storage-blob";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { Readable } from "stream";
+import type { Readable } from "stream";
 
 import { BufferScheduler } from "../../storage-common/src";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
 import { PathOperationsImpl as Path } from "./generated/src/operations";
-import {
+import type {
   AccessControlChanges,
   DirectoryCreateIfNotExistsOptions,
   DirectoryCreateIfNotExistsResponse,
@@ -69,7 +71,7 @@ import {
   RemovePathAccessControlItem,
   UserDelegationKey,
 } from "./models";
-import { PathSetAccessControlRecursiveMode } from "./models.internal";
+import type { PathSetAccessControlRecursiveMode } from "./models.internal";
 import {
   generateDataLakeSASQueryParameters,
   generateDataLakeSASQueryParametersInternal,
@@ -107,7 +109,7 @@ import {
   setURLQueries,
 } from "./utils/utils.common";
 import { fsCreateReadStream, fsStat } from "./utils/utils.node";
-import {
+import type {
   PathAppendDataHeaders,
   PathCreateHeaders,
   PathDeleteHeaders,
@@ -1074,7 +1076,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
-  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+
   public generateUserDelegationSasStringToSign(
     options: DirectoryGenerateSasUrlOptions,
     userDelegationKey: UserDelegationKey,
@@ -2041,7 +2043,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @param userDelegationKey - Return value of `blobServiceClient.getUserDelegationKey()`
    * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
    */
-  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options*/
+
   public generateUserDelegationSasStringToSign(
     options: FileGenerateSasUrlOptions,
     userDelegationKey: UserDelegationKey,

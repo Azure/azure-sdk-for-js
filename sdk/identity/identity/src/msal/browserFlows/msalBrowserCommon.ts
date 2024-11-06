@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as msalBrowser from "@azure/msal-browser";
+import type * as msalBrowser from "@azure/msal-browser";
 
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
-import { AuthenticationRecord, MsalResult } from "../types";
+import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import type { AuthenticationRecord, MsalResult } from "../types";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors";
-import { CredentialLogger, formatSuccess } from "../../util/logging";
-import { MsalFlow, MsalFlowOptions } from "./flows";
+import type { CredentialLogger } from "../../util/logging";
+import { formatSuccess } from "../../util/logging";
+import type { MsalFlow, MsalFlowOptions } from "./flows";
 import { ensureValidMsalToken, getAuthority, getKnownAuthorities, msalToPublic } from "../utils";
 import {
   processMultiTenantRequest,
@@ -15,11 +16,11 @@ import {
   resolveTenantId,
 } from "../../util/tenantIdUtils";
 
-import { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";
-import { CredentialFlowGetTokenOptions } from "../credentials";
+import type { BrowserLoginStyle } from "../../credentials/interactiveBrowserCredentialOptions";
+import type { CredentialFlowGetTokenOptions } from "../credentials";
 import { DefaultTenantId } from "../../constants";
-import { LogPolicyOptions } from "@azure/core-rest-pipeline";
-import { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
+import type { LogPolicyOptions } from "@azure/core-rest-pipeline";
+import type { MultiTenantTokenCredentialOptions } from "../../credentials/multiTenantTokenCredentialOptions";
 
 /**
  * Union of the constructor parameters that all MSAL flow types take.

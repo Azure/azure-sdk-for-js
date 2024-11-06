@@ -29,7 +29,7 @@
     "test:node": "npm run build:test && npm run unit-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "dev-tool run test:browser",
-    "unit-test:node": "cross-env TS_NODE_FILES=true dev-tool run test:node-ts-input -- --timeout 1200000 'test/**/*.spec.ts'",
+    "unit-test:node": "dev-tool run vendored cross-env TS_NODE_FILES=true dev-tool run test:node-ts-input -- --timeout 1200000 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
   },
   "files": [
@@ -88,7 +88,6 @@
     "@types/sinon": "^17.0.0",
     "@types/uuid": "^8.0.0",
     "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "inherits": "^2.0.3",

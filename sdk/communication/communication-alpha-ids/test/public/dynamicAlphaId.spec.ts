@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AlphaIdsClient } from "../../src";
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { AlphaIdsClient } from "../../src";
+import type { Context } from "mocha";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient } from "./utils/recordedClient";
 import { assert } from "chai";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { DynamicAlphaIdConfiguration } from "../../src";
+import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import type { DynamicAlphaIdConfiguration } from "../../src";
 
 describe(`AlphaIdsClient - manage configuration`, function () {
   let recorder: Recorder;
