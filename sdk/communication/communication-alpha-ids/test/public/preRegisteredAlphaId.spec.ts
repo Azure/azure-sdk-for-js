@@ -4,14 +4,14 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import type { AlphaIdsClient } from "../../src/index.js";
 import { createRecordedClient } from "./utils/recordedClient.js";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, function () {
   let recorder: Recorder;
   let client: AlphaIdsClient;
 
   beforeEach(async function (ctx) {
-    ({ client, recorder } = await createRecordedClient(this));
+    ({ client, recorder } = await createRecordedClient(ctx));
   });
 
   afterEach(async function (ctx) {
@@ -20,7 +20,7 @@ describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, function () {
     }
   });
 
-  it("can list all pre-registered alpha ids", async function () {
+  it("can list all pre-registered alpha ids", { timeout: 40000 }, async function () {
     let configurationResponse: FullOperationResponse | undefined;
     const getConfigurationRequest: OperationOptions = {
       onResponse: (response) => {
@@ -65,9 +65,9 @@ describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, function () {
         )}, ${JSON.stringify(error)}`,
       );
     }
-  }).timeout(40000);
+  });
 
-  it("can list all pre-registered alpha ids countries", async function () {
+  it("can list all pre-registered alpha ids countries", { timeout: 20000 }, async function () {
     let configurationResponse: FullOperationResponse | undefined;
     const getConfigurationRequest: OperationOptions = {
       onResponse: (response) => {
@@ -87,5 +87,5 @@ describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, function () {
         )}, ${JSON.stringify(error)}`,
       );
     }
-  }).timeout(20000);
+  });
 });

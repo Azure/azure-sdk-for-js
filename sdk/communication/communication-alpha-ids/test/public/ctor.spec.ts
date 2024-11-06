@@ -26,7 +26,7 @@ describe("AlphaIdsClient - constructor", function () {
     assert.instanceOf(client, AlphaIdsClient);
   });
 
-  it("successfully instantiates with with endpoint and managed identity", function (ctx) {
+  it("successfully instantiates with with endpoint and managed identity", function () {
     const client = new AlphaIdsClient(endpoint, createMockToken());
     assert.instanceOf(client, AlphaIdsClient);
   });
