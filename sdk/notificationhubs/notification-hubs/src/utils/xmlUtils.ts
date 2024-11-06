@@ -117,7 +117,7 @@ export async function parseXMLError(bodyText: string): Promise<string | undefine
     ) {
       return xmlError["Error"]["Detail"];
     }
-  } catch (err) {
+  } catch {
     // nothing to do
   }
 

@@ -9,24 +9,28 @@ import type {
   TestStep,
   FullConfig,
   Suite,
-  TestStatus,
 } from "@playwright/test/reporter";
 import { exec } from "child_process";
 import { reporterLogger } from "../common/logger";
 import { createHash, randomUUID } from "crypto";
-import { IBackOffOptions } from "../common/types";
+import type { IBackOffOptions } from "../common/types";
 import fs from "fs";
 import os from "os";
 import path from "path";
 import { Constants } from "../common/constants";
-import { EnvironmentVariables } from "../common/environmentVariables";
-import { DedupedStep, RawTestStep } from "../common/types";
+import type { EnvironmentVariables } from "../common/environmentVariables";
+import type { DedupedStep, RawTestStep } from "../common/types";
 import { TokenType } from "../model/mptTokenDetails";
-import { Shard, TestResultStatus, TestRunStatus, UploadMetadata } from "../model/shard";
-import { TestResult as MPTTestResult, RawTestResult } from "../model/testResult";
-import { TestRun, TestRunConfig } from "../model/testRun";
-import { CIInfo, CI_PROVIDERS } from "./cIInfoProvider";
+import type { UploadMetadata } from "../model/shard";
+import { Shard, TestRunStatus } from "../model/shard";
+import type { RawTestResult } from "../model/testResult";
+import { TestResult as MPTTestResult } from "../model/testResult";
+import type { TestRunConfig } from "../model/testRun";
+import { TestRun } from "../model/testRun";
+import type { CIInfo } from "./cIInfoProvider";
+import { CI_PROVIDERS } from "./cIInfoProvider";
 import { CIInfoProvider } from "./cIInfoProvider";
+import type { StorageUri } from "../model/storageUri";
 
 class ReporterUtils {
   private envVariables: EnvironmentVariables;
@@ -54,15 +58,9 @@ class ReporterUtils {
 
   public async getTestRunObject(ciInfo: CIInfo): Promise<TestRun> {
     const testRun = new TestRun();
-    const runName = await this.getRunName(ciInfo);
-    if (ReporterUtils.isNullOrEmpty(this.envVariables.runId)) {
-      if (!ReporterUtils.isNullOrEmpty(runName)) {
-        this.envVariables.runId = runName;
-      } else {
-        this.envVariables.runId = randomUUID();
-      }
-    }
-    testRun.displayName = ReporterUtils.isNullOrEmpty(runName) ? randomUUID() : runName;
+    const runName = this.envVariables.runName || (await this.getRunName(ciInfo));
+    testRun.testRunId = this.envVariables.runId;
+    testRun.displayName = ReporterUtils.isNullOrEmpty(runName) ? this.envVariables.runId : runName;
     testRun.creatorName = this.envVariables.userName;
     testRun.creatorId = this.envVariables.userId!;
     testRun.startTime = ReporterUtils.timestampToRFC3339(this.startTime);
@@ -85,11 +83,10 @@ class ReporterUtils {
     } else {
       this.envVariables.shardId = "1";
     }
+    shard.shardId = this.envVariables.shardId;
     shard.summary = {
-      status: TestRunStatus.RUNNING,
       startTime: ReporterUtils.timestampToRFC3339(this.startTime),
     };
-    shard.testRunConfig = this.getTestRunConfig();
     shard.uploadCompleted = false;
     return shard;
   }
@@ -100,21 +97,16 @@ class ReporterUtils {
     shard: Shard,
     errorMessages: string[],
     attachmentMetadata: UploadMetadata,
+    workers: number,
   ): Shard {
-    shard.resultsSummary = {
-      numTotalTests: this.totalTests,
-      numFailedTests: this.failedTests,
-      numSkippedTests: this.skippedTests,
-      numPassedTests: this.passedTests,
-      numFlakyTests: this.flakyTests,
-      status: result.status as TestResultStatus,
-    };
+    shard.shardId = this.envVariables.shardId ?? "1";
     shard.summary.totalTime = result.duration;
     shard.summary.endTime = ReporterUtils.timestampToRFC3339(Date.now());
     shard.summary.status = TestRunStatus.CLIENT_COMPLETE;
     shard.summary.errorMessages = errorMessages;
     shard.summary.uploadMetadata = attachmentMetadata;
     shard.uploadCompleted = true;
+    shard.workers = workers;
     return shard;
   }
 
@@ -163,15 +155,15 @@ class ReporterUtils {
     testResult.webTestConfig = {
       jobName: jobName,
       projectName: test.parent.project()!.name,
-      browserName: browserName!,
-      os: os.type(),
+      browserType: browserName ? browserName.toUpperCase() : "",
+      os: this.getOsName(),
     };
     testResult.annotations = this.extractTestAnnotations(test.annotations);
     testResult.tags = this.extractTestTags(test);
     testResult.resultsSummary = {
-      status: result.status,
+      status: result.status.toUpperCase(),
       duration: result.duration,
-      startTime: result.startTime.toISOString(),
+      startTime: result.startTime.toISOString().replace(/\.\d+Z$/, "Z"),
       attachmentsMetadata: this.getAttachmentStatus(result),
     };
     testResult.artifactsPath = result.attachments
@@ -185,7 +177,7 @@ class ReporterUtils {
 
   public generateMarkdownSummary(testRunUrl: string): void {
     try {
-      if (CIInfoProvider.getCIProvider() === CI_PROVIDERS.GITHUB_ACTIONS) {
+      if (CIInfoProvider.getCIProvider() === CI_PROVIDERS.GITHUB) {
         const markdownContent = `
 #### Microsoft Playwright Testing run summary
 
@@ -280,6 +272,7 @@ class ReporterUtils {
 
       // Check if the payload has an 'aud' claim
       return "aud" in payloadObject;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return false;
     }
@@ -323,24 +316,41 @@ class ReporterUtils {
     },
   };
 
-  public static isTimeGreaterThanCurrentPlus10Minutes(isoString: string): boolean {
-    // Parse ISO 8601 string into a timestamp
-    const timestampFromIsoString: number = Date.parse(isoString);
-    // Calculate the current timestamp plus 10 minutes
-    const currentTimestampPlus10Minutes: number = Date.now() + 10 * 60 * 1000;
-    // Compare the timestamps
-    return timestampFromIsoString > currentTimestampPlus10Minutes;
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  public static isTimeGreaterThanCurrentPlus10Minutes(sasUri: StorageUri): boolean {
+    try {
+      const url = new URL(sasUri.uri);
+      const params = new URLSearchParams(url.search);
+      const expiryTime = params.get("se"); // 'se' is the query parameter for the expiry time
+      if (expiryTime) {
+        const timestampFromIsoString = new Date(expiryTime).getTime();
+        const currentTimestampPlus10Minutes = Date.now() + 10 * 60 * 1000;
+        const isSasValidityGreaterThanCurrentTimePlus10Minutes =
+          timestampFromIsoString > currentTimestampPlus10Minutes;
+        if (!isSasValidityGreaterThanCurrentTimePlus10Minutes) {
+          reporterLogger.info(
+            `Sas rotation required because close to expiry, SasUriValidTillTime: ${timestampFromIsoString}, CurrentTime: ${currentTimestampPlus10Minutes}`,
+          );
+        }
+        return isSasValidityGreaterThanCurrentTimePlus10Minutes;
+      }
+      reporterLogger.error(`Sas rotation required because expiry param not found.`);
+      return false;
+    } catch (error) {
+      reporterLogger.error(`Sas rotation required because of ${error}.`);
+      return false;
+    }
   }
 
   public static getFileSize(attachmentPath: string): number {
     try {
       const stats = fs.statSync(attachmentPath);
       return stats.size;
-    } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
       return 0;
     }
   }
-
   public redactAccessToken(info: string | undefined): string {
     if (!info || ReporterUtils.isNullOrEmpty(this.envVariables.accessToken)) {
       return "";
@@ -348,27 +358,6 @@ class ReporterUtils {
     const accessTokenRegex = new RegExp(this.envVariables.accessToken, "g");
     return info.replace(accessTokenRegex, Constants.DEFAULT_REDACTED_MESSAGE);
   }
-
-  public static populateValuesFromServiceUrl(): {
-    region: string;
-    accountId: string;
-  } | null {
-    // Service URL format: wss://<region>.api.playwright.microsoft.com/accounts/<workspace-id>/browsers
-    const url = process.env["PLAYWRIGHT_SERVICE_URL"]!;
-    if (!ReporterUtils.isNullOrEmpty(url)) {
-      const parts = url.split("/");
-
-      if (parts.length > 2) {
-        const subdomainParts = parts[2]!.split(".");
-        const region = subdomainParts.length > 0 ? subdomainParts[0] : null;
-        const accountId = parts[4];
-
-        return { region: region!, accountId: accountId! };
-      }
-    }
-    return null;
-  }
-
   public static getRegionFromAccountID(accountId: string): string | undefined {
     if (accountId.includes("_")) {
       return accountId.split("_")[0]!;
@@ -394,6 +383,8 @@ class ReporterUtils {
       workers: this.config.workers,
       pwVersion: this.config.version,
       timeout: this.config.globalTimeout,
+      repeatEach: this.config.projects[0].repeatEach,
+      retries: this.config.projects[0].retries,
       shards: this.config.shard ? this.config.shard : { total: 1 },
       testFramework: {
         name: Constants.TEST_FRAMEWORK_NAME,
@@ -439,6 +430,7 @@ class ReporterUtils {
       if (obj.tag && Array.isArray(obj.tag)) {
         tags = tags.concat(obj.tag);
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       // Ignore parsing errors
     }
@@ -527,15 +519,17 @@ class ReporterUtils {
     return result;
   }
 
-  private getTestStatus(test: TestCase, result: TestResult): TestStatus {
+  private getTestStatus(test: TestCase, result: TestResult): string {
     if (test.expectedStatus === result.status) {
       if (result.status === "skipped") {
-        return "skipped";
+        return "SKIPPED";
       } else {
-        return "passed";
+        return "PASSED";
       }
+    } else if (result.status === "interrupted") {
+      return "SKIPPED";
     } else {
-      return "failed";
+      return "FAILED";
     }
   }
 
@@ -558,7 +552,7 @@ class ReporterUtils {
 
   private async getRunName(ciInfo: CIInfo): Promise<string> {
     if (
-      ciInfo.provider === CI_PROVIDERS.GITHUB_ACTIONS &&
+      ciInfo.provider === CI_PROVIDERS.GITHUB &&
       process.env["GITHUB_EVENT_NAME"] === "pull_request"
     ) {
       const prNumber: string = `${process.env["GITHUB_REF_NAME"]?.split("/")[0]}`;
@@ -602,6 +596,20 @@ class ReporterUtils {
 
   public static isNullOrEmpty(str: string | null | undefined): boolean {
     return !str || str.trim() === "";
+  }
+
+  private getOsName(): string {
+    const osType = os.type();
+    switch (osType) {
+      case "Darwin":
+        return "MAC";
+      case "Linux":
+        return "LINUX";
+      case "Windows_NT":
+        return "WINDOWS";
+      default:
+        return "UNKNOWN";
+    }
   }
 }
 

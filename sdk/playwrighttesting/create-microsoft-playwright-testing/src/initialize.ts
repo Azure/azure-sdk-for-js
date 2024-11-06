@@ -1,12 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import prompts, { PromptObject } from "prompts";
-import fs from "fs";
-import { Extensions, Languages, Messages } from "./constants";
-import { OverridePromptResponse, PackageManager, PlaywrightServiceInitConfig } from "./types";
-import { executeCommand, getFileReferenceForImport } from "./utils";
-import { getPackageManager } from "./packageManager";
+import type { PromptObject } from "prompts";
+import prompts from "prompts";
+import fs from "node:fs";
+import { Extensions, Languages, Messages } from "./constants.js";
+import type {
+  OverridePromptResponse,
+  PackageManager,
+  PlaywrightServiceInitConfig,
+} from "./types.js";
+import { executeCommand, getFileReferenceForImport } from "./utils.js";
+import { getPackageManager } from "./packageManager.js";
 
 const questions: PromptObject[] = [
   {
@@ -61,23 +66,23 @@ export class PlaywrightServiceInitialize {
   };
 
   private displayAdditionalInformation = (): void => {
-    const runCommand = this._packageManager.runCommand(
-      "playwright",
-      `test -c ${this.getServiceConfigFileName()}`,
-    );
     const runCommandParallelWorkers = this._packageManager.runCommand(
       "playwright",
       `test -c ${this.getServiceConfigFileName()} --workers=20`,
     );
 
     console.log(`\n\nTo run playwrights tests using Playwright Service\n`);
-    console.log(`\t${runCommand}\n`);
-
-    console.log(`\nTo run playwrights tests using Playwright Service with high parallelism\n`);
     console.log(`\t${runCommandParallelWorkers}\n`);
 
     console.log("\nPlaywright Service Portal - https://playwright.microsoft.com/");
     console.log("Getting Started - https://aka.ms/mpt/quickstart\n");
+
+    console.log(
+      "If you're already using the Microsoft Playwright Testing service, please review the quickstart guide [https://aka.ms/mpt/quickstart] to ensure your tests continue running smoothly.",
+    );
+    console.log(
+      "We've introduced changes related to authentication. You'll need to update the new config file to align with these changes.",
+    );
   };
 
   private installServicePackage = async (): Promise<void> => {
@@ -101,12 +106,12 @@ export class PlaywrightServiceInitialize {
     );
 
     const importCommandTypeScript = `import { defineConfig } from '@playwright/test';
-import { getServiceConfig } from '@azure/microsoft-playwright-testing';
+import { getServiceConfig, ServiceOS } from '@azure/microsoft-playwright-testing';
 import config from '${customerConfigFileName}';
 `;
 
     const importCommandJavaScript = `const { defineConfig } = require('@playwright/test');
-const { getServiceConfig } = require('@azure/microsoft-playwright-testing');
+const { getServiceConfig, ServiceOS } = require('@azure/microsoft-playwright-testing');
 const config = require('${customerConfigFileName}');
 `;
 
@@ -119,12 +124,23 @@ const config = require('${customerConfigFileName}');
       importCommand +
       `
 /* Learn more about service configuration at https://aka.ms/mpt/config */
-export default defineConfig(config, getServiceConfig(config), {
-	/* Service reporter is added by default. This will override any reporter options specified in the base playwright config */
-	reporter: [['@azure/microsoft-playwright-testing/reporter']]
-});
+export default defineConfig(
+  config,
+  getServiceConfig(config, {
+    exposeNetwork: '<loopback>',
+    timeout: 30000,
+    os: ServiceOS.LINUX,
+  }),
+  {
+    /* 
+    Playwright Testing service reporter is added by default.
+    This will override any reporter options specified in the base playwright config.
+    If you are using more reporters, please update your configuration accordingly.
+    */
+    reporter: [['list'], ['@azure/microsoft-playwright-testing/reporter']],
+  }
+);
 `;
-
     return content;
   };
 

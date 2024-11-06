@@ -1,21 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  InteractiveBrowserCredential,
-  InteractiveBrowserCredentialNodeOptions,
-  useIdentityPlugin,
-} from "@azure/identity";
-import {
-  MsalTestCleanup,
-  msalNodeTestSetup,
-} from "../../../../identity/test/node/msalNodeTestSetup";
+import type { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
+import { InteractiveBrowserCredential, useIdentityPlugin } from "@azure/identity";
+import type { MsalTestCleanup } from "../../../../identity/test/node/msalNodeTestSetup";
+import { msalNodeTestSetup } from "../../../../identity/test/node/msalNodeTestSetup";
 import { PublicClientApplication } from "@azure/msal-node";
-import Sinon from "sinon";
-import { Recorder, isLiveMode, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import type Sinon from "sinon";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { nativeBrokerPlugin } from "../../../src";
 import { isNodeLike } from "@azure/core-util";
 import { assert } from "@azure-tools/test-utils";
-import http from "http";
+import type http from "http";
 
 describe("InteractiveBrowserCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;

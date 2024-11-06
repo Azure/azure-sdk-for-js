@@ -99,16 +99,15 @@ If you prefer to setup your own environment instead, make sure you have these pr
 2. Clone your fork locally (`git clone https://github.com/<youruser>/azure-sdk-for-js.git`)
 3. Open a terminal and move into your local copy (`cd azure-sdk-for-js`)
 
-To build packages managed by Rush:
+To build all packages:
 
 4. Install and link all dependencies (`rush update`)
 5. Build the code base (`rush rebuild`)
 
-To build packages not managed by Rush:
+To build specific package(s), use `-t` rush command-line option:
 
-4. Navigate to the package directory as described in our [repository structure](https://github.com/Azure/azure-sdk/blob/main/docs/policies/repostructure.md)
-5. Install the package dependencies (`npm install`)
-6. Build the package (`npm run build`)
+6. Install and link all dependencies (`rush update`)
+7. Build the package, for example, `rush build -t @azure/service-bus`. Alternatively when under the package folder, `rush build -t .`
 
 ## Development Workflows
 

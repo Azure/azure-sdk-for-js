@@ -4,19 +4,19 @@
 
 ```ts
 
-import { AzureKeyCredential } from '@azure/core-auth';
-import { AzureSASCredential } from '@azure/core-auth';
+import type { AzureKeyCredential } from '@azure/core-auth';
+import type { AzureSASCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import { LatLon } from '@azure/maps-common';
+import type { LatLon } from '@azure/maps-common';
 import { LroEngineOptions } from '@azure/core-lro';
 import { PollerLike } from '@azure/core-lro';
 import { PollOperationState } from '@azure/core-lro';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface BatchRequest {

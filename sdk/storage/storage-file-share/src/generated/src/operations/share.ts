@@ -316,7 +316,9 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.enableSnapshotVirtualDirectoryAccess,
     Parameters.paidBurstingEnabled,
     Parameters.paidBurstingMaxBandwidthMibps,
-    Parameters.paidBurstingMaxIops
+    Parameters.paidBurstingMaxIops,
+    Parameters.shareProvisionedIops,
+    Parameters.shareProvisionedBandwidthMibps
   ],
   isXML: true,
   serializer: xmlSerializer
@@ -641,6 +643,8 @@ const setPropertiesOperationSpec: coreClient.OperationSpec = {
     Parameters.paidBurstingEnabled,
     Parameters.paidBurstingMaxBandwidthMibps,
     Parameters.paidBurstingMaxIops,
+    Parameters.shareProvisionedIops,
+    Parameters.shareProvisionedBandwidthMibps,
     Parameters.leaseId
   ],
   isXML: true,

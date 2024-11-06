@@ -4,15 +4,15 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable sort-imports */
 
-import { ClientSecretCredential, TokenCachePersistenceOptions } from "../../../../identity/src";
-import {
-  MsalTestCleanup,
-  msalNodeTestSetup,
-} from "../../../../identity/test/node/msalNodeTestSetup";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { TokenCachePersistenceOptions } from "../../../../identity/src";
+import { ClientSecretCredential } from "../../../../identity/src";
+import type { MsalTestCleanup } from "../../../../identity/test/node/msalNodeTestSetup";
+import { msalNodeTestSetup } from "../../../../identity/test/node/msalNodeTestSetup";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
 import { ConfidentialClientApplication } from "@azure/msal-node";
-import Sinon from "sinon";
+import type Sinon from "sinon";
 import assert from "assert";
 import { createPersistence } from "./setup.spec";
 

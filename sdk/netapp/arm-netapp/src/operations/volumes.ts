@@ -55,6 +55,15 @@ import {
   AuthorizeRequest,
   VolumesAuthorizeReplicationOptionalParams,
   VolumesReInitializeReplicationOptionalParams,
+  PeerClusterForVolumeMigrationRequest,
+  VolumesPeerExternalClusterOptionalParams,
+  VolumesPeerExternalClusterResponse,
+  VolumesAuthorizeExternalReplicationOptionalParams,
+  VolumesAuthorizeExternalReplicationResponse,
+  VolumesFinalizeExternalReplicationOptionalParams,
+  VolumesFinalizeExternalReplicationResponse,
+  VolumesPerformReplicationTransferOptionalParams,
+  VolumesPerformReplicationTransferResponse,
   PoolChangeRequest,
   VolumesPoolChangeOptionalParams,
   VolumesRelocateOptionalParams,
@@ -1739,6 +1748,422 @@ export class VolumesImpl implements Volumes {
   }
 
   /**
+   * Starts peering the external cluster for this migration volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body Cluster peer request object supplied in the body of the operation.
+   * @param options The options parameters.
+   */
+  async beginPeerExternalCluster(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: PeerClusterForVolumeMigrationRequest,
+    options?: VolumesPeerExternalClusterOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesPeerExternalClusterResponse>,
+      VolumesPeerExternalClusterResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VolumesPeerExternalClusterResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        body,
+        options,
+      },
+      spec: peerExternalClusterOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VolumesPeerExternalClusterResponse,
+      OperationState<VolumesPeerExternalClusterResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Starts peering the external cluster for this migration volume
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param body Cluster peer request object supplied in the body of the operation.
+   * @param options The options parameters.
+   */
+  async beginPeerExternalClusterAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    body: PeerClusterForVolumeMigrationRequest,
+    options?: VolumesPeerExternalClusterOptionalParams,
+  ): Promise<VolumesPeerExternalClusterResponse> {
+    const poller = await this.beginPeerExternalCluster(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      body,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Starts SVM peering and returns a command to be run on the external ONTAP to accept it.  Once the SVM
+   * have been peered a SnapMirror will be created
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  async beginAuthorizeExternalReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesAuthorizeExternalReplicationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesAuthorizeExternalReplicationResponse>,
+      VolumesAuthorizeExternalReplicationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VolumesAuthorizeExternalReplicationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, poolName, volumeName, options },
+      spec: authorizeExternalReplicationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VolumesAuthorizeExternalReplicationResponse,
+      OperationState<VolumesAuthorizeExternalReplicationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Starts SVM peering and returns a command to be run on the external ONTAP to accept it.  Once the SVM
+   * have been peered a SnapMirror will be created
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  async beginAuthorizeExternalReplicationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesAuthorizeExternalReplicationOptionalParams,
+  ): Promise<VolumesAuthorizeExternalReplicationResponse> {
+    const poller = await this.beginAuthorizeExternalReplication(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Finalizes the migration of an external volume by releasing the replication and breaking the external
+   * cluster peering if no other migration is active.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  async beginFinalizeExternalReplication(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesFinalizeExternalReplicationOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesFinalizeExternalReplicationResponse>,
+      VolumesFinalizeExternalReplicationResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VolumesFinalizeExternalReplicationResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, poolName, volumeName, options },
+      spec: finalizeExternalReplicationOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VolumesFinalizeExternalReplicationResponse,
+      OperationState<VolumesFinalizeExternalReplicationResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Finalizes the migration of an external volume by releasing the replication and breaking the external
+   * cluster peering if no other migration is active.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  async beginFinalizeExternalReplicationAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesFinalizeExternalReplicationOptionalParams,
+  ): Promise<VolumesFinalizeExternalReplicationResponse> {
+    const poller = await this.beginFinalizeExternalReplication(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Performs an adhoc replication transfer on a volume with volumeType Migration
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  async beginPerformReplicationTransfer(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesPerformReplicationTransferOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesPerformReplicationTransferResponse>,
+      VolumesPerformReplicationTransferResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<VolumesPerformReplicationTransferResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, accountName, poolName, volumeName, options },
+      spec: performReplicationTransferOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      VolumesPerformReplicationTransferResponse,
+      OperationState<VolumesPerformReplicationTransferResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Performs an adhoc replication transfer on a volume with volumeType Migration
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param options The options parameters.
+   */
+  async beginPerformReplicationTransferAndWait(
+    resourceGroupName: string,
+    accountName: string,
+    poolName: string,
+    volumeName: string,
+    options?: VolumesPerformReplicationTransferOptionalParams,
+  ): Promise<VolumesPerformReplicationTransferResponse> {
+    const poller = await this.beginPerformReplicationTransfer(
+      resourceGroupName,
+      accountName,
+      poolName,
+      volumeName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
    * Moves volume to another pool
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of the NetApp account
@@ -2624,6 +3049,136 @@ const reInitializeReplicationOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
+const peerExternalClusterOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/peerExternalCluster",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ClusterPeerCommandResponse,
+    },
+    201: {
+      bodyMapper: Mappers.ClusterPeerCommandResponse,
+    },
+    202: {
+      bodyMapper: Mappers.ClusterPeerCommandResponse,
+    },
+    204: {
+      bodyMapper: Mappers.ClusterPeerCommandResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.body17,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const authorizeExternalReplicationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/authorizeExternalReplication",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.SvmPeerCommandResponse,
+    },
+    201: {
+      bodyMapper: Mappers.SvmPeerCommandResponse,
+    },
+    202: {
+      bodyMapper: Mappers.SvmPeerCommandResponse,
+    },
+    204: {
+      bodyMapper: Mappers.SvmPeerCommandResponse,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const finalizeExternalReplicationOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/finalizeExternalReplication",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.VolumesFinalizeExternalReplicationHeaders,
+    },
+    201: {
+      headersMapper: Mappers.VolumesFinalizeExternalReplicationHeaders,
+    },
+    202: {
+      headersMapper: Mappers.VolumesFinalizeExternalReplicationHeaders,
+    },
+    204: {
+      headersMapper: Mappers.VolumesFinalizeExternalReplicationHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const performReplicationTransferOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/performReplicationTransfer",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.VolumesPerformReplicationTransferHeaders,
+    },
+    201: {
+      headersMapper: Mappers.VolumesPerformReplicationTransferHeaders,
+    },
+    202: {
+      headersMapper: Mappers.VolumesPerformReplicationTransferHeaders,
+    },
+    204: {
+      headersMapper: Mappers.VolumesPerformReplicationTransferHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
 const poolChangeOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/poolChange",
   httpMethod: "POST",
@@ -2636,7 +3191,7 @@ const poolChangeOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body17,
+  requestBody: Parameters.body18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -2662,7 +3217,7 @@ const relocateOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body18,
+  requestBody: Parameters.body19,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

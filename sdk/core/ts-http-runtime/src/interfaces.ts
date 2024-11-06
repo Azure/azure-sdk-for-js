@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
-import { OperationTracingOptions } from "./tracing/interfaces.js";
+import type { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
+import type { OperationTracingOptions } from "./tracing/interfaces.js";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.
@@ -314,6 +314,8 @@ export type TransferProgressEvent = {
   loadedBytes: number;
 };
 
+// UNBRANDED DIFFERENCE: HttpMethods are defined at the top level in unbranded instead of core-util since we don't
+//                       need to worry about creating a cyclic dependency
 /**
  * Supported HTTP methods to use when making requests.
  */

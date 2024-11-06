@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-11-23)
     
-**Features**
+### Features Added
 
   - Added Interface TemplateSpec
   - Added Interface TemplateSpecUpdateModel
@@ -21,7 +21,7 @@
     
 ## 2.0.1 (2022-04-18)
 
-**features**
+### Features Added
 
   - Bug fix
 

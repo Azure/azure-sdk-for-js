@@ -8,7 +8,7 @@ import { makeDetectLanguageResultArray } from "../../src/detectLanguageResultArr
 import { makeExtractKeyPhrasesResultArray } from "../../src/extractKeyPhrasesResultArray";
 import { makeRecognizeLinkedEntitiesResultArray } from "../../src/recognizeLinkedEntitiesResultArray";
 import { makeRecognizeCategorizedEntitiesResultArray } from "../../src/recognizeCategorizedEntitiesResultArray";
-import { DetectLanguageInput, TextDocumentInput } from "../../src";
+import type { DetectLanguageInput, TextDocumentInput } from "../../src";
 import { makeRecognizePiiEntitiesResultArray } from "../../src/recognizePiiEntitiesResultArray";
 
 describe("SentimentResultArray", () => {

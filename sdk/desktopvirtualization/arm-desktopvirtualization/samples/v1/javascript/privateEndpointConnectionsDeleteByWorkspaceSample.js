@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Remove a connection.
  *
  * @summary Remove a connection.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/PrivateEndpointConnection_DeleteByWorkspace.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/PrivateEndpointConnection_DeleteByWorkspace.json
  */
 async function privateEndpointConnectionDeleteByWorkspace() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function privateEndpointConnectionDeleteByWorkspace() {
   const result = await client.privateEndpointConnections.deleteByWorkspace(
     resourceGroupName,
     workspaceName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

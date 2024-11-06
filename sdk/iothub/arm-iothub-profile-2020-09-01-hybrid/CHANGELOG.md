@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-12-20)
     
-**Features**
+### Features Added
 
   - Added Interface IotHubDescription
   - Added function getContinuationToken

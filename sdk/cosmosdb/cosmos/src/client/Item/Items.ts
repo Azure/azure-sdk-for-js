@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { ChangeFeedIterator } from "../../ChangeFeedIterator";
-import { ChangeFeedOptions } from "../../ChangeFeedOptions";
-import { ClientContext } from "../../ClientContext";
+import type { ChangeFeedOptions } from "../../ChangeFeedOptions";
+import type { ClientContext } from "../../ClientContext";
 import {
   getIdFromLink,
   getPathFromLink,
@@ -13,38 +13,38 @@ import {
   SubStatusCodes,
 } from "../../common";
 import { extractPartitionKeys, setPartitionKeyIfUndefined } from "../../extractPartitionKey";
-import { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
+import type { FetchFunctionCallback, SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions, Response } from "../../request";
-import { Container, PartitionKeyRange } from "../Container";
+import type { FeedOptions, RequestOptions, Response } from "../../request";
+import type { Container, PartitionKeyRange } from "../Container";
 import { Item } from "./Item";
-import { ItemDefinition } from "./ItemDefinition";
+import type { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
-import {
+import type {
   Batch,
-  isKeyInRange,
-  prepareOperations,
   OperationResponse,
   OperationInput,
   BulkOptions,
+  BulkOperationResponse,
+} from "../../utils/batch";
+import {
+  isKeyInRange,
+  prepareOperations,
   decorateBatchOperation,
   splitBatchBasedOnBodySize,
-  BulkOperationResponse,
 } from "../../utils/batch";
 import { assertNotUndefined, isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
 import { hashPartitionKey } from "../../utils/hashing/hash";
-import { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import type { PartitionKey, PartitionKeyDefinition } from "../../documents";
 import { PartitionKeyRangeCache, QueryRange } from "../../routing";
-import {
+import type {
   ChangeFeedPullModelIterator,
   ChangeFeedIteratorOptions,
-  changeFeedIteratorBuilder,
 } from "../../client/ChangeFeed";
+import { changeFeedIteratorBuilder } from "../../client/ChangeFeed";
 import { validateChangeFeedIteratorOptions } from "../../client/ChangeFeed/changeFeedUtils";
-import {
-  DiagnosticNodeInternal,
-  DiagnosticNodeType,
-} from "../../diagnostics/DiagnosticNodeInternal";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import { DiagnosticNodeType } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,
@@ -460,7 +460,7 @@ export class Items {
    * ```
    *
    * @param operations - List of operations. Limit 100
-   * @param bulkOptions - Optional options object to modify bulk behavior. Pass \{ continueOnError: true \} to continue executing operations when one fails. (Defaults to false) ** NOTE: THIS WILL DEFAULT TO TRUE IN THE 4.0 RELEASE
+   * @param bulkOptions - Optional options object to modify bulk behavior. Pass \{ continueOnError: false \} to stop executing operations when one fails. (Defaults to true)
    * @param options - Used for modifying the request.
    */
   public async bulk(

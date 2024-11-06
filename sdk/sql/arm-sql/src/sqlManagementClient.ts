@@ -122,7 +122,6 @@ import {
   ManagedServerDnsAliasesImpl,
   ManagedDatabaseAdvancedThreatProtectionSettingsImpl,
   ManagedInstanceAdvancedThreatProtectionSettingsImpl,
-  ReplicationLinksImpl,
   ManagedDatabaseMoveOperationsImpl,
   ManagedInstanceDtcsImpl,
   SynapseLinkWorkspacesImpl,
@@ -160,6 +159,7 @@ import {
   LongTermRetentionPoliciesImpl,
   ManagedInstancesImpl,
   ServersImpl,
+  ReplicationLinksImpl,
 } from "./operations";
 import {
   DataMaskingPolicies,
@@ -274,7 +274,6 @@ import {
   ManagedServerDnsAliases,
   ManagedDatabaseAdvancedThreatProtectionSettings,
   ManagedInstanceAdvancedThreatProtectionSettings,
-  ReplicationLinks,
   ManagedDatabaseMoveOperations,
   ManagedInstanceDtcs,
   SynapseLinkWorkspaces,
@@ -312,6 +311,7 @@ import {
   LongTermRetentionPolicies,
   ManagedInstances,
   Servers,
+  ReplicationLinks,
 } from "./operationsInterfaces";
 import { SqlManagementClientOptionalParams } from "./models";
 
@@ -575,7 +575,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
       new ManagedDatabaseAdvancedThreatProtectionSettingsImpl(this);
     this.managedInstanceAdvancedThreatProtectionSettings =
       new ManagedInstanceAdvancedThreatProtectionSettingsImpl(this);
-    this.replicationLinks = new ReplicationLinksImpl(this);
     this.managedDatabaseMoveOperations = new ManagedDatabaseMoveOperationsImpl(
       this,
     );
@@ -637,6 +636,7 @@ export class SqlManagementClient extends coreClient.ServiceClient {
     this.longTermRetentionPolicies = new LongTermRetentionPoliciesImpl(this);
     this.managedInstances = new ManagedInstancesImpl(this);
     this.servers = new ServersImpl(this);
+    this.replicationLinks = new ReplicationLinksImpl(this);
   }
 
   dataMaskingPolicies: DataMaskingPolicies;
@@ -751,7 +751,6 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   managedServerDnsAliases: ManagedServerDnsAliases;
   managedDatabaseAdvancedThreatProtectionSettings: ManagedDatabaseAdvancedThreatProtectionSettings;
   managedInstanceAdvancedThreatProtectionSettings: ManagedInstanceAdvancedThreatProtectionSettings;
-  replicationLinks: ReplicationLinks;
   managedDatabaseMoveOperations: ManagedDatabaseMoveOperations;
   managedInstanceDtcs: ManagedInstanceDtcs;
   synapseLinkWorkspaces: SynapseLinkWorkspaces;
@@ -789,4 +788,5 @@ export class SqlManagementClient extends coreClient.ServiceClient {
   longTermRetentionPolicies: LongTermRetentionPolicies;
   managedInstances: ManagedInstances;
   servers: Servers;
+  replicationLinks: ReplicationLinks;
 }

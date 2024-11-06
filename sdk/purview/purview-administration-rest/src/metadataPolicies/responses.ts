@@ -1,9 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HttpResponse } from "@azure-rest/core-client";
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { ErrorResponseModel, MetadataPolicy, MetadataPolicyList, MetadataRoleList } from "./models";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type {
+  ErrorResponseModel,
+  MetadataPolicy,
+  MetadataPolicyList,
+  MetadataRoleList,
+} from "./models";
 
 /** Lists roles for Purview Account */
 export interface MetadataRolesList200Response extends HttpResponse {

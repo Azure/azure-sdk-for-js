@@ -7,14 +7,14 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   ApplicationInsightsClientOptionalParams,
   TelemetryItem,
   TrackOptionalParams,
   TrackOperationResponse,
-} from "./models";
+} from "./models/index.js";
 
 export class ApplicationInsightsClient extends coreClient.ServiceClient {
   host: string;
@@ -32,7 +32,7 @@ export class ApplicationInsightsClient extends coreClient.ServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-monitor-opentelemetry-exporter/1.0.0-beta.25`;
+    const packageDetails = `azsdk-js-monitor-opentelemetry-exporter/1.0.0-beta.27`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

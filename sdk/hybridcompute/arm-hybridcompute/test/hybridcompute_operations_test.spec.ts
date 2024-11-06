@@ -67,40 +67,46 @@ describe("HybridCompute test", () => {
     assert.notEqual(resArray.length, 0);
   });
 
-  it("gateways create test", async function () {
-    const res = await client.gateways.beginCreateOrUpdateAndWait(
+  it("licenses create test", async function () {
+    const res = await client.licenses.beginCreateOrUpdateAndWait(
       resourceGroup,
       resourcename,
       {
-        allowedFeatures: ["*"],
-        gatewayType: "Public",
-        location
+        licenseDetails: {
+          type: "pCore",
+          edition: "Datacenter",
+          processors: 16,
+          state: "Activated",
+          target: "Windows Server 2012",
+        },
+        licenseType: "ESU",
+        location,
       },
       testPollingOptions);
     assert.equal(res.name, resourcename);
   });
 
-  it("gateways get test", async function () {
-    const res = await client.gateways.get(
+  it("licenses get test", async function () {
+    const res = await client.licenses.get(
       resourceGroup,
       resourcename
     );
     assert.equal(res.name, resourcename);
   });
 
-  it("gateways list test", async function () {
+  it("licenses list test", async function () {
     const resArray = new Array();
-    for await (let item of client.gateways.listByResourceGroup(resourceGroup)) {
+    for await (let item of client.licenses.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 1);
   });
 
-  it("gateways delete test", async function () {
+  it("licenses delete test", async function () {
     const resArray = new Array();
-    const res = await client.gateways.beginDeleteAndWait(resourceGroup, resourcename
+    const res = await client.licenses.beginDeleteAndWait(resourceGroup, resourcename
     )
-    for await (let item of client.gateways.listByResourceGroup(resourceGroup)) {
+    for await (let item of client.licenses.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
     }
     assert.equal(resArray.length, 0);

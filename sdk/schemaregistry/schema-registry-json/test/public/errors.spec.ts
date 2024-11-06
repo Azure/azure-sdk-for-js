@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { assert } from "@azure-tools/test-utils";
-import { JsonSchemaSerializer } from "../../src";
-import { Context } from "mocha";
-import { SchemaRegistry } from "@azure/schema-registry";
+import type { JsonSchemaSerializer } from "../../src";
+import type { Context } from "mocha";
+import type { SchemaRegistry } from "@azure/schema-registry";
 import { assertError } from "./utils/assertError";
 import { createTestRegistry } from "./utils/mockedRegistryClient";
 import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer";

@@ -2,11 +2,8 @@
 // Licensed under the MIT License.
 
 import type { Instrumentation } from "@opentelemetry/instrumentation/build/src/types";
-import {
-  AZURE_MONITOR_STATSBEAT_FEATURES,
-  StatsbeatEnvironmentConfig,
-  StatsbeatInstrumentationMap,
-} from "../types";
+import type { StatsbeatEnvironmentConfig } from "../types";
+import { AZURE_MONITOR_STATSBEAT_FEATURES, StatsbeatInstrumentationMap } from "../types";
 import { Logger } from "../shared/logging";
 
 /**
@@ -16,9 +13,9 @@ import { Logger } from "../shared/logging";
 export function patchOpenTelemetryInstrumentationEnable(): void {
   const emptyStatsbeatConfig: string = JSON.stringify({ instrumentation: 0, feature: 0 });
   try {
-    require.resolve("../../../@opentelemetry/instrumentation");
+    require.resolve("@opentelemetry/instrumentation");
     // eslint-disable-next-line @typescript-eslint/no-require-imports
-    const autoLoaderUtils = require("../../../@opentelemetry/instrumentation/build/src/autoLoaderUtils");
+    const autoLoaderUtils = require("@opentelemetry/instrumentation/build/src/autoLoaderUtils");
 
     const originalModuleDefinition = autoLoaderUtils.enableInstrumentations;
 

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Remove a workspace.
  *
  * @summary Remove a workspace.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/Workspace_Delete.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/Workspace_Delete.json
  */
 async function workspaceDelete() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function workspaceDelete() {
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const result = await client.workspaces.delete(
     resourceGroupName,
-    workspaceName
+    workspaceName,
   );
   console.log(result);
 }

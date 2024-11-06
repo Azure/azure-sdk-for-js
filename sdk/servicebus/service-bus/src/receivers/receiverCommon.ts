@@ -1,33 +1,33 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MessageHandlers, ProcessErrorArgs } from "../models";
-import { ServiceBusReceiver } from "./receiver";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { createServiceBusLogger, logger, receiverLogger, ServiceBusLogger } from "../log";
-import { translateServiceBusError } from "../serviceBusError";
-import {
+import type { MessageHandlers, ProcessErrorArgs } from "../models.js";
+import type { ServiceBusReceiver } from "./receiver.js";
+import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import type { createServiceBusLogger, ServiceBusLogger } from "../log.js";
+import { logger, receiverLogger } from "../log.js";
+import { translateServiceBusError } from "../serviceBusError.js";
+import type {
   DeadLetterOptions,
-  DispositionType,
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
-} from "../serviceBusMessage";
-import { DispositionStatusOptions } from "../core/managementClient";
-import { ConnectionContext } from "../connectionContext";
+} from "../serviceBusMessage.js";
+import { DispositionType } from "../serviceBusMessage.js";
+import type { DispositionStatusOptions } from "../core/managementClient.js";
+import type { ConnectionContext } from "../connectionContext.js";
+import type { RetryConfig, RetryOptions } from "@azure/core-amqp";
 import {
   Constants,
   ErrorNameConditionMapper,
   retry,
-  RetryConfig,
   RetryMode,
   RetryOperationType,
-  RetryOptions,
 } from "@azure/core-amqp";
-import { MessageAlreadySettled } from "../util/errors";
+import { MessageAlreadySettled } from "../util/errors.js";
 import { delay, isDefined } from "@azure/core-util";
-import { TracingSpanLink } from "@azure/core-tracing";
-import { toSpanOptions, tracingClient } from "../diagnostics/tracing";
-import { extractSpanContextFromServiceBusMessage } from "../diagnostics/instrumentServiceBusMessage";
+import type { TracingSpanLink } from "@azure/core-tracing";
+import { toSpanOptions, tracingClient } from "../diagnostics/tracing.js";
+import { extractSpanContextFromServiceBusMessage } from "../diagnostics/instrumentServiceBusMessage.js";
 
 /**
  * @internal

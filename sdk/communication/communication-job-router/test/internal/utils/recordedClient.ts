@@ -3,8 +3,9 @@
 
 import * as dotenv from "dotenv";
 import { isNode } from "@azure/core-util";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { Test } from "mocha";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
+import type { Test } from "mocha";
 import { generateToken } from "../../public/utils/connection";
 
 if (isNode) {

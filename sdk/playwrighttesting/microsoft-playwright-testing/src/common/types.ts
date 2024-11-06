@@ -2,10 +2,11 @@
 // Licensed under the MIT License.
 
 import type { Location, TestStep } from "@playwright/test/reporter";
-import { ServiceAuth, ServiceOS } from "./constants";
+import type { ServiceAuth, ServiceOS } from "./constants";
 import type { TokenCredential } from "@azure/identity";
 
 export type JwtPayload = {
+  aid?: string;
   iss?: string;
   sub?: string;
   aud?: string[] | string;
@@ -61,7 +62,7 @@ export type ConnectOptions = {
    *
    * Maximum time in milliseconds to wait for the connection to be established.
    *
-   * @defaultValue `0`
+   * @defaultValue `30000`
    */
   timeout?: number;
 
@@ -82,8 +83,22 @@ export type ConnectOptions = {
  *
  * @example
  * ```
- * const { wsEndpoint, options }: BrowserConnectOptions = await getConnectOptions();
- * const browser = await (playwright[browserName] as BrowserType).connect(wsEndpoint, options);
+ * import playwright, { test, expect, BrowserType } from "@playwright/test";
+ * import { getConnectOptions, BrowserConnectOptions } from "@azure/microsoft-playwright-testing";
+ *
+ * test("has title", async ({ browserName }) => {
+ *  const { wsEndpoint, options } : BrowserConnectOptions = await getConnectOptions();
+ *  const browser = await (playwright[browserName] as BrowserType).connect(wsEndpoint, options);
+ *  const context = await browser.newContext();
+ *  const page = await context.newPage();
+ *
+ *  await page.goto("https://playwright.dev/");
+ *  await expect(page).toHaveTitle(/Playwright/);
+ *
+ *  await page.close();
+ *  await context.close();
+ *  await browser.close();
+ * });
  * ```
  */
 export type BrowserConnectOptions = EndpointOptions & {
@@ -111,7 +126,7 @@ export type PlaywrightConfigInput = {
    *
    * Path to the global teardown file. This file will be required and run after all the tests. It must export a single
    * function. See also
-   * {@link https://playwright.dev/docs/api/class-testconfig#test-config-global-setup | testConfig.globalSetup}.
+   * {@link https://playwright.dev/docs/api/class-testconfig#test-config-global-teardown | testConfig.globalTeardown}.
    *
    * Learn more about {@link https://playwright.dev/docs/test-global-setup-teardown | global setup and teardown}.
    */
@@ -147,9 +162,9 @@ export type PlaywrightServiceAdditionalOptions = {
    *
    * Authentication types supported by Microsoft Playwright Testing.
    *
-   * @defaultValue  `ENTRA`
+   * @defaultValue  `ENTRA_ID`
    */
-  defaultAuth?: AuthenticationType;
+  serviceAuthType?: AuthenticationType;
 
   /**
    * @public
@@ -174,7 +189,7 @@ export type PlaywrightServiceAdditionalOptions = {
    *
    * Maximum time in milliseconds to wait for the connection to be established.
    *
-   * @defaultValue `0`
+   * @defaultValue `30000`
    */
   timeout?: number;
 
@@ -213,6 +228,14 @@ export type PlaywrightServiceAdditionalOptions = {
    * @defaultValue `DefaultAzureCredential`
    */
   credential?: TokenCredential;
+  /**
+   * @public
+   *
+   * Run name for the test run.
+   *
+   * @defaultValue `guid`
+   */
+  runName?: string;
 };
 
 /**
@@ -233,7 +256,11 @@ export type ErrorDetails = {
   message: string;
   location?: Location;
 };
-
+export type ApiErrorMessage = {
+  [key: string]: {
+    [key: number]: string;
+  };
+};
 /**
  * @public
  *
@@ -245,7 +272,7 @@ export type ErrorDetails = {
  * import { defineConfig } from "@playwright/test";
  *
  * export default defineConfig({
- *  reporter: [["@azure/microsoft-playwright-testing", {
+ *  reporter: [["@azure/microsoft-playwright-testing/reporter", {
  *   enableGitHubSummary: true
  *  }]],
  * });
@@ -260,6 +287,15 @@ export interface MPTReporterConfig {
    * @defaultValue `true`
    */
   enableGitHubSummary?: boolean;
+
+  /**
+   * @public
+   *
+   * Enable result publishing for the test run. This will upload the test result and artifacts to the MPT Portal.
+   *
+   * @defaultValue `true`
+   */
+  enableResultPublish?: boolean;
 }
 export type DedupedStep = { step: TestStep; count: number; duration: number };
 
@@ -282,6 +318,17 @@ export type IBackOffOptions = {
 };
 
 export type JitterType = "full" | "none";
+
+export type VersionInfo = {
+  major: number;
+  minor: number;
+  patch: number;
+};
+
+export type PackageManager = {
+  runCommand: (command: string, args: string) => string;
+  getVersionFromStdout: (stdout: string) => string;
+};
 
 // Playwright OSS Types
 

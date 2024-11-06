@@ -81,10 +81,7 @@ export interface Quota {
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<QuotaCreateOrUpdateResponse>,
-      QuotaCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<QuotaCreateOrUpdateResponse>, QuotaCreateOrUpdateResponse>
   >;
   /**
    * Create or update the quota limit for the specified resource with the requested value. To update the
@@ -136,9 +133,7 @@ export interface Quota {
     scope: string,
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
-  >;
+  ): Promise<SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>>;
   /**
    * Update the quota limit for a specific resource to the specified value:
    * 1. Use the Usages-GET and Quota-GET operations to determine the remaining quota for the specific
