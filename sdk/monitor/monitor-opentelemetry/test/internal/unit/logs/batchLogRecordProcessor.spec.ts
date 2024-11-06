@@ -7,6 +7,7 @@ import { InMemoryLogRecordExporter, LoggerProvider } from "@opentelemetry/sdk-lo
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import { ApplicationInsightsSampler } from "../../../../src/traces/sampler.js";
 import { AzureBatchLogRecordProcessor } from "../../../../src/logs/batchLogRecordProcessor.js";
+import { describe, it, assert } from "vitest";
 
 describe("AzureBatchLogRecordProcessor", () => {
   describe("#trace based sampling", () => {

@@ -6,6 +6,7 @@ import { MetricBasicScenario } from "../../utils/basic.js";
 import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
 import type { TelemetryItem as Envelope } from "../../utils/models/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("Metric Exporter Scenarios", () => {
   describe(MetricBasicScenario.prototype.constructor.name, () => {

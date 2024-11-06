@@ -48,6 +48,7 @@ import {
   getLogDocument,
   getMsFromFilterTimestampString,
 } from "../../../../src/metrics/quickpulse/utils.js";
+import { describe, it, assert } from "vitest";
 
 describe("Live Metrics filtering - Validator", () => {
   const validator: Validator = new Validator();

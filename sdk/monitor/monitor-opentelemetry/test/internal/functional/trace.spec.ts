@@ -6,6 +6,7 @@ import { TraceBasicScenario } from "../../utils/basic.js";
 import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
 import type { TelemetryItem as Envelope } from "../../utils/models/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("Trace Exporter Scenarios", () => {
   describe(TraceBasicScenario.prototype.constructor.name, () => {

@@ -4,6 +4,8 @@
 import * as assert from "node:assert";
 import { DiagLogLevel } from "@opentelemetry/api";
 import { Logger } from "../../../../../src/shared/logging/logger.js";
+import { describe, it, assert } from "vitest";
+
 describe("#Logger", () => {
   describe("#SetLogLevel", () => {
     let sinonSandbox: sinon.SinonSandbox;

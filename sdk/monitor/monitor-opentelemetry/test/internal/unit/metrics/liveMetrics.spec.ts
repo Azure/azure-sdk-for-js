@@ -14,6 +14,7 @@ import {
 import type { Exception, RemoteDependency, Request } from "../../../../src/generated/index.js";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import { resourceMetricsToQuickpulseDataPoint } from "../../../../src/metrics/quickpulse/utils.js";
+import { describe, it, assert } from "vitest";
 
 describe("#LiveMetrics", () => {
   let exportStub: sinon.SinonStub;

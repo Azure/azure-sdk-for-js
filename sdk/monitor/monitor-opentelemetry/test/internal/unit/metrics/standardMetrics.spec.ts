@@ -21,6 +21,7 @@ import { Resource } from "@opentelemetry/resources";
 import { StandardMetrics } from "../../../../src/metrics/standardMetrics.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
 import { getDependencyTarget } from "../../../../src/metrics/utils.js";
+import { describe, it, assert } from "vitest";
 
 describe("#StandardMetricsHandler", () => {
   let exportStub: sinon.SinonStub;
