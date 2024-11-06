@@ -55,7 +55,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
   /**
    * The identifier of the OPS of the call for call creating operation.
    */
-  oPSSourceIdentity?: MicrosoftTeamsAppIdentifier;
+  opsSourceIdentity?: MicrosoftTeamsAppIdentifier;
 }
 
 /**
@@ -135,7 +135,7 @@ export class CallAutomationClient {
     );
 
     this.sourceIdentity = communicationUserIdentifierModelConverter(options.sourceIdentity);
-    this.oPSSourceIdentity = microsoftTeamsAppIdentifierModelConverter(options.oPSSourceIdentity);
+    this.oPSSourceIdentity = microsoftTeamsAppIdentifierModelConverter(options.opsSourceIdentity);
   }
 
   /**

@@ -113,7 +113,7 @@ export class CallAutomationClient {
 
 // @public
 export interface CallAutomationClientOptions extends CommonClientOptions {
-    oPSSourceIdentity?: MicrosoftTeamsAppIdentifier;
+    opsSourceIdentity?: MicrosoftTeamsAppIdentifier;
     sourceIdentity?: CommunicationUserIdentifier;
 }
 

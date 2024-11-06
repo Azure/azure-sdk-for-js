@@ -49,7 +49,7 @@ function createOPSCallAutomationClient(
   const connectionString = "endpoint=https://redacted.communication.azure.com/;accesskey=redacted";
 
   return new CallAutomationClient(connectionString, {
-    oPSSourceIdentity,
+    opsSourceIdentity: oPSSourceIdentity,
   });
 }
 
