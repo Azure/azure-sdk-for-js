@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
+import type { IdentityTestContextInterface } from "../../httpRequestsCommon";
+import { createResponse } from "../../httpRequestsCommon";
 import { ClientSecretCredential } from "../../../src";
 import { IdentityTestContext } from "../../httpRequests";
 import { assertClientCredentials } from "../../authTestUtils";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationRequest, OperationRequestInfo } from "./interfaces.js";
+import type { OperationRequest, OperationRequestInfo } from "./interfaces.js";
 
 // @ts-expect-error The recommended approach to sharing module state between ESM and CJS.
 // See https://github.com/isaacs/tshy/blob/main/README.md#module-local-state for additional information.

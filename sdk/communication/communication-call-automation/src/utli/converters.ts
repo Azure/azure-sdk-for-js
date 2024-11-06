@@ -1,32 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PhoneNumberIdentifier,
   CommunicationUserIdentifier,
   UnknownIdentifier,
-  serializeCommunicationIdentifier,
   SerializedPhoneNumberIdentifier,
   CommunicationIdentifier,
-  isCommunicationUserIdentifier,
-  isPhoneNumberIdentifier,
-  isUnknownIdentifier,
   SerializedCommunicationIdentifier,
-  isMicrosoftTeamsUserIdentifier,
   MicrosoftTeamsUserIdentifier,
-  isMicrosoftTeamsAppIdentifier,
   MicrosoftTeamsAppIdentifier,
 } from "@azure/communication-common";
 import {
+  serializeCommunicationIdentifier,
+  isCommunicationUserIdentifier,
+  isPhoneNumberIdentifier,
+  isUnknownIdentifier,
+  isMicrosoftTeamsUserIdentifier,
+  isMicrosoftTeamsAppIdentifier,
+} from "@azure/communication-common";
+import type {
   CallParticipantInternal,
   CommunicationIdentifierModel,
   CommunicationIdentifierModelKind,
   KnownCommunicationCloudEnvironmentModel,
-  KnownCommunicationIdentifierModelKind,
   PhoneNumberIdentifierModel,
   CommunicationUserIdentifierModel,
 } from "../generated/src";
-import { CallParticipant } from "../models/models";
+import { KnownCommunicationIdentifierModelKind } from "../generated/src";
+import type { CallParticipant } from "../models/models";
 
 function extractKind(
   identifierModel: CommunicationIdentifierModel,

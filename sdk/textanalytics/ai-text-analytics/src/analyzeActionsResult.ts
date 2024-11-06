@@ -1,29 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
-  AnalyzeSentimentResultArray,
-  makeAnalyzeSentimentResultArray,
-} from "./analyzeSentimentResultArray";
-import {
-  ExtractKeyPhrasesResultArray,
-  makeExtractKeyPhrasesResultArray,
-} from "./extractKeyPhrasesResultArray";
-import { AnalyzeJobState as GeneratedResponse, TextDocumentInput } from "./generated/models";
-import {
-  RecognizeCategorizedEntitiesResultArray,
-  makeRecognizeCategorizedEntitiesResultArray,
-} from "./recognizeCategorizedEntitiesResultArray";
-import {
-  RecognizeLinkedEntitiesResultArray,
-  makeRecognizeLinkedEntitiesResultArray,
-} from "./recognizeLinkedEntitiesResultArray";
-import {
-  RecognizePiiEntitiesResultArray,
-  makeRecognizePiiEntitiesResultArray,
-} from "./recognizePiiEntitiesResultArray";
-import { ErrorCode, TextAnalyticsError, intoTextAnalyticsError } from "./textAnalyticsResult";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
+import { makeAnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
+import type { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
+import { makeExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
+import type { AnalyzeJobState as GeneratedResponse, TextDocumentInput } from "./generated/models";
+import type { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
+import { makeRecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
+import type { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
+import { makeRecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
+import type { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
+import { makeRecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
+import type { ErrorCode, TextAnalyticsError } from "./textAnalyticsResult";
+import { intoTextAnalyticsError } from "./textAnalyticsResult";
 
 /**
  * The results of an analyze Actions operation.

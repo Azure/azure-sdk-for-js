@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a session host.
  *
  * @summary Update a session host.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/SessionHost_Update.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/SessionHost_Update.json
  */
 async function sessionHostUpdate() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function sessionHostUpdate() {
     resourceGroupName,
     hostPoolName,
     sessionHostName,
-    options
+    options,
   );
   console.log(result);
 }

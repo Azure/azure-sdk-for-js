@@ -2,24 +2,25 @@
 // Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
+/* eslint-disable @azure/azure-sdk/ts-naming-options */
+import type { CommunicationTokenCredential } from "@azure/communication-common";
 import {
-  CommunicationTokenCredential,
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { OperationOptions } from "@azure/core-client";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { OperationOptions } from "@azure/core-client";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   JobRouterAdministrationListClassificationPoliciesOptionalParams,
   JobRouterAdministrationListDistributionPoliciesOptionalParams,
   JobRouterAdministrationListExceptionPoliciesOptionalParams,
   JobRouterAdministrationListQueuesOptionalParams,
-  JobRouterApiClient,
 } from "./generated/src";
-import {
+import { JobRouterApiClient } from "./generated/src";
+import type {
   ClassificationPolicyItem,
   DistributionPolicyItem,
   ExceptionPolicyItem,
@@ -29,7 +30,7 @@ import {
   RouterQueue,
   ClassificationPolicy,
 } from "./models";
-import {
+import type {
   CreateClassificationPolicyOptions,
   CreateDistributionPolicyOptions,
   CreateExceptionPolicyOptions,
@@ -44,7 +45,7 @@ import {
   UpdateExceptionPolicyOptions,
   UpdateQueueOptions,
 } from "./options";
-import {
+import type {
   ClassificationPolicyResponse,
   DistributionPolicyResponse,
   ExceptionPolicyResponse,

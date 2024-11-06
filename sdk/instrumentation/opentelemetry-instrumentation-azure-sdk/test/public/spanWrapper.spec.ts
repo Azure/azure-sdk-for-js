@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { describe, it, assert, beforeEach } from "vitest";
 import { SpanStatusCode, trace } from "@opentelemetry/api";
-
-import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper";
-import { assert } from "chai";
-import { getExportedSpan } from "./util/testHelpers";
-import { inMemoryExporter } from "./util/setup";
+import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper.js";
+import { getExportedSpan } from "./util/testHelpers.js";
+import { inMemoryExporter } from "./util/setup.js";
 
 describe("OpenTelemetrySpanWrapper", () => {
   let span: OpenTelemetrySpanWrapper;

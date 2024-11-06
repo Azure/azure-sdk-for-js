@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a ScalingPlanPersonalSchedule.
  *
  * @summary Get a ScalingPlanPersonalSchedule.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ScalingPlanPersonalSchedule_Get.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/ScalingPlanPersonalSchedule_Get.json
  */
 async function scalingPlanPersonalSchedulesGet() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function scalingPlanPersonalSchedulesGet() {
   const result = await client.scalingPlanPersonalSchedules.get(
     resourceGroupName,
     scalingPlanName,
-    scalingPlanScheduleName
+    scalingPlanScheduleName,
   );
   console.log(result);
 }

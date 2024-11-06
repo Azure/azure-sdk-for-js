@@ -14,10 +14,11 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils";
-import { ContainerClient, BlobClient, BlockBlobClient } from "../src";
+import type { ContainerClient, BlobClient } from "../src";
+import { BlockBlobClient } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { BlockBlobTier } from "../src";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { isNode } from "@azure/core-util";
 
 describe("BlockBlobClient", () => {

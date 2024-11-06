@@ -15,14 +15,15 @@ import * as dotenv from "dotenv";
 dotenv.config();
 
 /**
- * This sample demonstrates how to Gets the private link resources that need to be created for a RedisEnterprise cluster.
+ * This sample demonstrates how to Gets the private link resources that need to be created for a Redis Enterprise cluster.
  *
- * @summary Gets the private link resources that need to be created for a RedisEnterprise cluster.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-03-01-preview/examples/RedisEnterpriseListPrivateLinkResources.json
+ * @summary Gets the private link resources that need to be created for a Redis Enterprise cluster.
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseListPrivateLinkResources.json
  */
 async function redisEnterpriseListPrivateLinkResources() {
   const subscriptionId =
-    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "subid";
+    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] ||
+    "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
   const resourceGroupName =
     process.env["REDISENTERPRISE_RESOURCE_GROUP"] || "rg1";
   const clusterName = "cache1";

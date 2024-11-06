@@ -4,7 +4,7 @@
 import { AzureLoadTestingClient } from "../generated/clientDefinitions";
 import { getFileValidationPoller } from "./getFileValidationPoller";
 import { getTestRunCompletionPoller } from "./getTestRunCompletionPoller";
-import {
+import type {
   FileUploadAndValidatePoller,
   TestUploadFileSuccessResponse,
   TestRunCompletionPoller,
