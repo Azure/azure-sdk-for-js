@@ -7,7 +7,7 @@
 import type { AzureKeyCredential } from '@azure/core-auth';
 import type { AzureSASCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
