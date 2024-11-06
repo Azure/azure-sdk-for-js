@@ -25,7 +25,7 @@ const responseMap: Record<string, string[]> = {
   "PUT /jobs/{name}": ["200", "201"],
   "DELETE /jobs/{name}": ["204"],
   "GET /jobs": ["200"],
-  "GET /jobs/{name}/documents": ["200"],
+  "GET /jobs/{jobName}/documents": ["200"],
   "POST /jobs/{name}:cancel": ["200"],
   "POST /deid": ["200"],
 };

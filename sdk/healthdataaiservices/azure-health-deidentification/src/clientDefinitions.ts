@@ -56,7 +56,7 @@ export interface ListJobs {
 }
 
 export interface ListJobDocuments {
-  /** Resource list operation template. */
+  /** The most basic operation. */
   get(
     options?: ListJobDocumentsParameters,
   ): StreamableMethod<
@@ -91,8 +91,8 @@ export interface Routes {
   (path: "/jobs/{name}", name: string): GetJob;
   /** Resource for '/jobs' has methods for the following verbs: get */
   (path: "/jobs"): ListJobs;
-  /** Resource for '/jobs/\{name\}/documents' has methods for the following verbs: get */
-  (path: "/jobs/{name}/documents", name: string): ListJobDocuments;
+  /** Resource for '/jobs/\{jobName\}/documents' has methods for the following verbs: get */
+  (path: "/jobs/{jobName}/documents", jobName: string): ListJobDocuments;
   /** Resource for '/jobs/\{name\}:cancel' has methods for the following verbs: post */
   (path: "/jobs/{name}:cancel", name: string): CancelJob;
   /** Resource for '/deid' has methods for the following verbs: post */

@@ -101,16 +101,10 @@ export interface ListJobsDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & ListJobsDefaultHeaders;
 }
 
-export interface ListJobDocuments200Headers {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
 /** The request has succeeded. */
 export interface ListJobDocuments200Response extends HttpResponse {
   status: "200";
   body: PagedDocumentDetailsOutput;
-  headers: RawHttpHeaders & ListJobDocuments200Headers;
 }
 
 export interface ListJobDocumentsDefaultHeaders {
@@ -169,10 +163,16 @@ export interface DeleteJobDefaultResponse extends HttpResponse {
   headers: RawHttpHeaders & DeleteJobDefaultHeaders;
 }
 
+export interface DeidentifyText200Headers {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
 /** The request has succeeded. */
 export interface DeidentifyText200Response extends HttpResponse {
   status: "200";
   body: DeidentificationResultOutput;
+  headers: RawHttpHeaders & DeidentifyText200Headers;
 }
 
 export interface DeidentifyTextDefaultHeaders {

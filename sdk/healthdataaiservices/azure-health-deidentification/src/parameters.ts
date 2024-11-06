@@ -58,11 +58,6 @@ export type ListJobsParameters = ListJobsQueryParam &
   ListJobsHeaderParam &
   RequestParameters;
 
-export interface ListJobDocumentsHeaders {
-  /** An opaque, globally-unique, client-generated string identifier for the request. */
-  "x-ms-client-request-id"?: string;
-}
-
 export interface ListJobDocumentsQueryParamProperties {
   /** The maximum number of result items per page. */
   maxpagesize?: number;
@@ -74,12 +69,7 @@ export interface ListJobDocumentsQueryParam {
   queryParameters?: ListJobDocumentsQueryParamProperties;
 }
 
-export interface ListJobDocumentsHeaderParam {
-  headers?: RawHttpHeadersInput & ListJobDocumentsHeaders;
-}
-
 export type ListJobDocumentsParameters = ListJobDocumentsQueryParam &
-  ListJobDocumentsHeaderParam &
   RequestParameters;
 
 export interface CancelJobHeaders {
@@ -104,10 +94,20 @@ export interface DeleteJobHeaderParam {
 
 export type DeleteJobParameters = DeleteJobHeaderParam & RequestParameters;
 
+export interface DeidentifyTextHeaders {
+  /** An opaque, globally-unique, client-generated string identifier for the request. */
+  "x-ms-client-request-id"?: string;
+}
+
 export interface DeidentifyTextBodyParam {
   /** Request body for de-identification operation. */
   body: DeidentificationContent;
 }
 
-export type DeidentifyTextParameters = DeidentifyTextBodyParam &
+export interface DeidentifyTextHeaderParam {
+  headers?: RawHttpHeadersInput & DeidentifyTextHeaders;
+}
+
+export type DeidentifyTextParameters = DeidentifyTextHeaderParam &
+  DeidentifyTextBodyParam &
   RequestParameters;

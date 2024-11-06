@@ -233,7 +233,7 @@ describe("Batch", () => {
         "Job should have succeeded 2 documents",
       );
 
-      const reports = await client.path("/jobs/{name}/documents", jobName).get();
+      const reports = await client.path("/jobs/{jobName}/documents", jobName).get();
 
       if (isUnexpected(reports)) {
         throw new Error("Unexpected error occurred");
