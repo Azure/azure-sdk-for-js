@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder, createClient } from "./utils/recordedClient";
 import type { Context } from "mocha";
 import * as fs from "fs";
-import { AzureLoadTestingClient, isUnexpected } from "../../generated";
+import type { AzureLoadTestingClient } from "../../generated";
+import { isUnexpected } from "../../generated";
 import { isNodeLike } from "@azure/core-util";
 import { getLongRunningPoller } from "../../src/pollingHelper";
 
@@ -145,10 +147,10 @@ describe("Test Run Creation", () => {
       body: {
         components: {
           "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
-          {
-            resourceName: "App-Service-Sample-Demo",
-            resourceType: "Microsoft.Web/sites",
-          },
+            {
+              resourceName: "App-Service-Sample-Demo",
+              resourceType: "Microsoft.Web/sites",
+            },
         },
       },
     });

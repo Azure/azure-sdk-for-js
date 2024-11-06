@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationState, SimplePollerLike } from "@azure/core-lro";
-import {
+import type { OperationState, SimplePollerLike } from "@azure/core-lro";
+import type {
   LoadTestAdministrationGetTestFile200Response,
   LoadTestRunCreateOrUpdateTestRun200Response,
   LoadTestRunCreateOrUpdateTestRun201Response,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureLoadTestingClient } from "../generated/clientDefinitions";
+import type { AzureLoadTestingClient } from "../generated/clientDefinitions";
 import { getFileValidationPoller } from "./getFileValidationPoller";
 import { getTestRunCompletionPoller } from "./getTestRunCompletionPoller";
 import type {
