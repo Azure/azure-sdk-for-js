@@ -3,7 +3,7 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { PhoneNumbersClient } from "../../src";
 import { createMockToken } from "./utils/recordedClient";
 

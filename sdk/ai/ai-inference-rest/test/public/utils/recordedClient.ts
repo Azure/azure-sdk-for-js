@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  Recorder,
-  RecorderStartOptions,
-  VitestTestContext,
-  assertEnvironmentVariable,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ClientOptions } from "@azure-rest/core-client";
-import createClient, { ModelClient } from "../../../src/index.js";
-import { DeploymentType } from "../types.js";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { ModelClient } from "../../../src/index.js";
+import createClient from "../../../src/index.js";
+import type { DeploymentType } from "../types.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const envSetupForPlayback: Record<string, string> = {

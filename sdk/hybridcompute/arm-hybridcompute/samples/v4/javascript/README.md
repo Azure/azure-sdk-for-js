@@ -81,7 +81,7 @@ node extensionMetadataGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env HYBRIDCOMPUTE_SUBSCRIPTION_ID="<hybridcompute subscription id>" node extensionMetadataGetSample.js
+npx dev-tool run vendored cross-env HYBRIDCOMPUTE_SUBSCRIPTION_ID="<hybridcompute subscription id>" node extensionMetadataGetSample.js
 ```
 
 ## Next Steps

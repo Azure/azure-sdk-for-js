@@ -12,7 +12,7 @@ import {
 } from "../utils";
 import { Recorder } from "@azure-tools/test-recorder";
 import { QueueClient } from "../../src/QueueClient";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("QueueClient messageId methods, Node.js only", () => {
   let queueName: string;

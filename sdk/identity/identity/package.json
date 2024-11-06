@@ -46,7 +46,6 @@
     }
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && dev-tool run vendored rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && npm run extract-api && tsc -p . && dev-tool run bundle",
     "build:samples": "echo Obsolete.",
     "build:test": "echo skipped. actual commands inlined in browser test scripts",
@@ -140,7 +139,6 @@
     "@types/stoppable": "^1.1.0",
     "@types/uuid": "^8.0.0",
     "chai": "^4.2.0",
-    "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "inherits": "^2.0.3",

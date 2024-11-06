@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CommonClientOptions, ServiceClient } from "@azure/core-client";
+import type { CommonClientOptions } from "@azure/core-client";
+import { ServiceClient } from "@azure/core-client";
 
 export class PopTokenClient extends ServiceClient {}
 
 export interface PopTokenClientOptions extends CommonClientOptions {}
 
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import {
   createEmptyPipeline,
   createPipelineRequest,
   createDefaultHttpClient,
-  PipelineResponse,
 } from "@azure/core-rest-pipeline";
 import { popTokenAuthenticationPolicy } from "./popTokenAuthenticationPolicy";
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { authorizeRequestOnPopTokenChallenge } from "./authRequestPopTokenChallenge";
 
 export async function sendGraphRequest(credential: TokenCredential): Promise<PipelineResponse> {

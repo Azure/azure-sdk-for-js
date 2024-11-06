@@ -3,9 +3,11 @@
 
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
-import { AzureLoadTestingClient, isUnexpected } from "../../src";
-import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
+import type { AzureLoadTestingClient } from "../../src";
+import { isUnexpected } from "../../src";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import * as fs from "fs";
 import { isNodeLike } from "@azure/core-util";
 import { getLongRunningPoller } from "../../src/pollingHelper";

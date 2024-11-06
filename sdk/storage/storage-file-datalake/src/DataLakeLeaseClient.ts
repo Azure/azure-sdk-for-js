@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { BlobLeaseClient } from "@azure/storage-blob";
+import type { BlobLeaseClient } from "@azure/storage-blob";
 
-import { Lease, LeaseOperationOptions, LeaseOperationResponse } from "./models";
+import type { Lease, LeaseOperationOptions, LeaseOperationResponse } from "./models";
 import { tracingClient } from "./utils/tracing";
 
 export class DataLakeLeaseClient {

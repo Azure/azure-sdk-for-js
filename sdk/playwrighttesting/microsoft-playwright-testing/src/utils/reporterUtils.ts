@@ -13,20 +13,24 @@ import type {
 import { exec } from "child_process";
 import { reporterLogger } from "../common/logger";
 import { createHash, randomUUID } from "crypto";
-import { IBackOffOptions } from "../common/types";
+import type { IBackOffOptions } from "../common/types";
 import fs from "fs";
 import os from "os";
 import path from "path";
 import { Constants } from "../common/constants";
-import { EnvironmentVariables } from "../common/environmentVariables";
-import { DedupedStep, RawTestStep } from "../common/types";
+import type { EnvironmentVariables } from "../common/environmentVariables";
+import type { DedupedStep, RawTestStep } from "../common/types";
 import { TokenType } from "../model/mptTokenDetails";
-import { Shard, TestRunStatus, UploadMetadata } from "../model/shard";
-import { TestResult as MPTTestResult, RawTestResult } from "../model/testResult";
-import { TestRun, TestRunConfig } from "../model/testRun";
-import { CIInfo, CI_PROVIDERS } from "./cIInfoProvider";
+import type { UploadMetadata } from "../model/shard";
+import { Shard, TestRunStatus } from "../model/shard";
+import type { RawTestResult } from "../model/testResult";
+import { TestResult as MPTTestResult } from "../model/testResult";
+import type { TestRunConfig } from "../model/testRun";
+import { TestRun } from "../model/testRun";
+import type { CIInfo } from "./cIInfoProvider";
+import { CI_PROVIDERS } from "./cIInfoProvider";
 import { CIInfoProvider } from "./cIInfoProvider";
-import { StorageUri } from "../model/storageUri";
+import type { StorageUri } from "../model/storageUri";
 
 class ReporterUtils {
   private envVariables: EnvironmentVariables;

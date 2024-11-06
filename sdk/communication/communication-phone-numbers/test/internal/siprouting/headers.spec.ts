@@ -3,15 +3,15 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-util";
-import { TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import sinon from "sinon";
 import { SipRoutingClient } from "../../../src/sipRoutingClient";
 import { getTrunksHttpClient } from "../../public/siprouting/utils/mockHttpClients";
 import { SDK_VERSION } from "../../../src/utils/constants";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { createMockToken } from "../../public/utils/recordedClient";
-import { PipelineRequest } from "@azure/core-rest-pipeline";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
 
 describe("SipRoutingClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";

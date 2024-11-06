@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   TextAnalysisAuthoringListProjectsParameters,
   TextAnalysisAuthoringCreateProjectParameters,
   TextAnalysisAuthoringGetProjectParameters,
@@ -40,7 +40,7 @@ import {
   TextAnalysisAuthoringGetSupportedLanguagesParameters,
   TextAnalysisAuthoringListTrainingConfigVersionsParameters,
 } from "./parameters";
-import {
+import type {
   TextAnalysisAuthoringListProjects200Response,
   TextAnalysisAuthoringListProjectsDefaultResponse,
   TextAnalysisAuthoringCreateProject200Response,
@@ -117,7 +117,7 @@ import {
   TextAnalysisAuthoringListTrainingConfigVersions200Response,
   TextAnalysisAuthoringListTrainingConfigVersionsDefaultResponse,
 } from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListProjects {
   /** Lists the existing projects. */

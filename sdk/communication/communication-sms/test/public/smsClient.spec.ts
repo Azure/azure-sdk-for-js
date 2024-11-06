@@ -6,11 +6,12 @@
  *  They are duplicated in an internal test which contains workaround logic to record/playback the tests
  */
 
-import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { matrix } from "@azure-tools/test-utils";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import sinon from "sinon";
-import { SmsClient } from "../../src";
+import type { SmsClient } from "../../src";
 import { Uuid } from "../../src/utils/uuid";
 import sendSmsSuites from "./suites/smsClient.send";
 import { createRecordedSmsClient, createRecordedSmsClientWithToken } from "./utils/recordedClient";

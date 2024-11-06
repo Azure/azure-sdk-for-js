@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ContainerDefinition } from "./ContainerDefinition";
-import { PartitionKeyDefinition } from "../../documents";
-import { VerboseOmit } from "../../utils/types";
+import type { ContainerDefinition } from "./ContainerDefinition";
+import type { PartitionKeyDefinition } from "../../documents";
+import type { VerboseOmit } from "../../utils/types";
 
 export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "partitionKey"> {
   /* Throughput for this container. Cannot use with maxThroughput */
