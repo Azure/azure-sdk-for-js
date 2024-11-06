@@ -37,7 +37,6 @@
   "devDependencies": {
     "@azure/dev-tool": "workspace:*",
     "@types/node": "catalog:",
-    "cross-env": "catalog:legacy",
     "eslint": "catalog:",
     "tslib": "catalog:",
     "typescript": "catalog:"

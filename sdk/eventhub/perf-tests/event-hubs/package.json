@@ -41,7 +41,6 @@
     "@azure/dev-tool": "workspace:*",
     "@types/node": "catalog:",
     "@types/uuid": "^10.0.0",
-    "cross-env": "catalog:legacy",
     "eslint": "catalog:",
     "tslib": "catalog:",
     "typescript": "catalog:"

@@ -79,7 +79,6 @@
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
     "chai": "catalog:legacy",
-    "cross-env": "catalog:legacy",
     "mocha": "catalog:legacy",
     "typescript": "catalog:"
   },

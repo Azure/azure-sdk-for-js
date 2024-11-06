@@ -30,8 +30,8 @@
   ],
   "scripts": {
     "build": "npm run clean && tsc -p . && npm run build:nodebrowser",
-    "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
-    "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
+    "build:browser": "tsc -p . && dev-tool run vendored cross-env ONLY_BROWSER=true rollup -c 2>&1",
+    "build:node": "tsc -p . && dev-tool run vendored cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:nodebrowser": "rollup -c 2>&1",
     "build:samples": "echo Obsolete.",
     "build:test": "tsc -p . && rollup -c 2>&1",
@@ -53,7 +53,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\"  mocha"
+    "unit-test:node": "dev-tool run vendored cross-env TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\"  mocha"
   },
   "dependencies": {
     "@azure/ms-rest-azure-js": "^2.1.0",
@@ -74,7 +74,6 @@
     "buffer": "^6.0.0",
     "chai": "catalog:",
     "chai-as-promised": "catalog:",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "karma": "catalog:legacy",

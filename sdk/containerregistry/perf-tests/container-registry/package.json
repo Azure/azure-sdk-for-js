@@ -31,14 +31,13 @@
     "update-snippets": "echo skipped"
   },
   "dependencies": {
-    "@azure-tools/test-perf": "^1.0.0",
-    "@azure/container-registry": "^1.1.0-beta.1",
+    "@azure-tools/test-perf": "workspace:*",
+    "@azure/container-registry": "workspace:*",
     "dotenv": "catalog:"
   },
   "devDependencies": {
     "@azure/dev-tool": "workspace:*",
     "@types/node": "catalog:",
-    "cross-env": "catalog:legacy",
     "eslint": "catalog:",
     "tslib": "catalog:",
     "typescript": "catalog:"
