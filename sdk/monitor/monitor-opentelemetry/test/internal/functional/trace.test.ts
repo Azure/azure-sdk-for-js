@@ -5,7 +5,7 @@ import { assertCount, assertTraceExpectation } from "../../utils/assert";
 import { TraceBasicScenario } from "../../utils/basic";
 import nock from "nock";
 import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
-import { TelemetryItem as Envelope } from "../../utils/models/index";
+import type { TelemetryItem as Envelope } from "../../utils/models/index";
 
 describe("Trace Exporter Scenarios", () => {
   describe(TraceBasicScenario.prototype.constructor.name, () => {

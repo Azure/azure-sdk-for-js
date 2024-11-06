@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { IndexingPolicy, PartitionKeyDefinition } from "../../documents";
-import { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy";
-import { UniqueKeyPolicy } from "./UniqueKeyPolicy";
-import { GeospatialType } from "../../documents/GeospatialType";
-import { ChangeFeedPolicy } from "../ChangeFeed/ChangeFeedPolicy";
-import { ComputedProperty } from "../../documents/ComputedProperty";
-import { VectorEmbeddingPolicy } from "../../documents/VectorEmbeddingPolicy";
+import type { IndexingPolicy, PartitionKeyDefinition } from "../../documents";
+import type { ConflictResolutionPolicy } from "../Conflict/ConflictResolutionPolicy";
+import type { UniqueKeyPolicy } from "./UniqueKeyPolicy";
+import type { GeospatialType } from "../../documents/GeospatialType";
+import type { ChangeFeedPolicy } from "../ChangeFeed/ChangeFeedPolicy";
+import type { ComputedProperty } from "../../documents/ComputedProperty";
+import type { VectorEmbeddingPolicy } from "../../documents/VectorEmbeddingPolicy";
 
 export interface ContainerDefinition {
   /** The id of the container. */

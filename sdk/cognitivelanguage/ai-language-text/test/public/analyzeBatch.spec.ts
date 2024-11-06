@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { TextAnalysisClient } from "../../src";
 import {
   AnalyzeBatchActionNames,
   KnownExtractiveSummarizationOrderingCriteria,
@@ -8,11 +9,12 @@ import {
   KnownPiiEntityDomain,
   KnownStringIndexType,
   KnownTextAnalysisErrorCode,
-  TextAnalysisClient,
 } from "../../src";
-import { AuthMethod, createClient, startRecorder } from "./utils/recordedClient";
-import { Context, Suite } from "mocha";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { AuthMethod } from "./utils/recordedClient";
+import { createClient, startRecorder } from "./utils/recordedClient";
+import type { Context, Suite } from "mocha";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert, matrix } from "@azure-tools/test-utils";
 import { assertActionsResults, assertRestError } from "./utils/resultHelper";
 import {

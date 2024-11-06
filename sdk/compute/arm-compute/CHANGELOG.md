@@ -579,7 +579,7 @@
     
 ## 17.3.1 (2022-04-06)
 
-**features**
+### Features Added
 
   -  Bug fix
 

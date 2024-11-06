@@ -18,7 +18,7 @@ import {
   PrivateZonesUpdateResponse,
   PrivateZonesDeleteOptionalParams,
   PrivateZonesGetOptionalParams,
-  PrivateZonesGetResponse
+  PrivateZonesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface PrivateZones {
    * @param options The options parameters.
    */
   list(
-    options?: PrivateZonesListOptionalParams
+    options?: PrivateZonesListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateZone>;
   /**
    * Lists the Private DNS zones within a resource group.
@@ -38,7 +38,7 @@ export interface PrivateZones {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: PrivateZonesListByResourceGroupOptionalParams
+    options?: PrivateZonesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<PrivateZone>;
   /**
    * Creates or updates a Private DNS zone. Does not modify Links to virtual networks or DNS records
@@ -52,7 +52,7 @@ export interface PrivateZones {
     resourceGroupName: string,
     privateZoneName: string,
     parameters: PrivateZone,
-    options?: PrivateZonesCreateOrUpdateOptionalParams
+    options?: PrivateZonesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateZonesCreateOrUpdateResponse>,
@@ -71,7 +71,7 @@ export interface PrivateZones {
     resourceGroupName: string,
     privateZoneName: string,
     parameters: PrivateZone,
-    options?: PrivateZonesCreateOrUpdateOptionalParams
+    options?: PrivateZonesCreateOrUpdateOptionalParams,
   ): Promise<PrivateZonesCreateOrUpdateResponse>;
   /**
    * Updates a Private DNS zone. Does not modify virtual network links or DNS records within the zone.
@@ -84,7 +84,7 @@ export interface PrivateZones {
     resourceGroupName: string,
     privateZoneName: string,
     parameters: PrivateZone,
-    options?: PrivateZonesUpdateOptionalParams
+    options?: PrivateZonesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<PrivateZonesUpdateResponse>,
@@ -102,7 +102,7 @@ export interface PrivateZones {
     resourceGroupName: string,
     privateZoneName: string,
     parameters: PrivateZone,
-    options?: PrivateZonesUpdateOptionalParams
+    options?: PrivateZonesUpdateOptionalParams,
   ): Promise<PrivateZonesUpdateResponse>;
   /**
    * Deletes a Private DNS zone. WARNING: All DNS records in the zone will also be deleted. This
@@ -115,7 +115,7 @@ export interface PrivateZones {
   beginDelete(
     resourceGroupName: string,
     privateZoneName: string,
-    options?: PrivateZonesDeleteOptionalParams
+    options?: PrivateZonesDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a Private DNS zone. WARNING: All DNS records in the zone will also be deleted. This
@@ -128,7 +128,7 @@ export interface PrivateZones {
   beginDeleteAndWait(
     resourceGroupName: string,
     privateZoneName: string,
-    options?: PrivateZonesDeleteOptionalParams
+    options?: PrivateZonesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the
@@ -140,6 +140,6 @@ export interface PrivateZones {
   get(
     resourceGroupName: string,
     privateZoneName: string,
-    options?: PrivateZonesGetOptionalParams
+    options?: PrivateZonesGetOptionalParams,
   ): Promise<PrivateZonesGetResponse>;
 }

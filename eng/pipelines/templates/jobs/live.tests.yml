@@ -90,27 +90,12 @@ jobs:
             ${{ if parameters.UseFederatedAuth }}:
               SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
 
-        - ${{ if parameters.TestResourceDirectories }}:
-          - ${{ each directory in parameters.TestResourceDirectories }}:
-            - template: /eng/common/TestResources/deploy-test-resources.yml
-              parameters:
-                ${{ if or(parameters.Location, parameters.CloudConfig.Location) }}:
-                  Location: ${{ coalesce(parameters.Location, parameters.CloudConfig.Location) }}
-                ServiceDirectory: '${{ directory }}'
-                SubscriptionConfiguration: $(SubscriptionConfiguration)
-                ArmTemplateParameters: $(ArmTemplateParameters)
-                UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
-                ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
-                SubscriptionConfigurationFilePaths: ${{ parameters.CloudConfig.SubscriptionConfigurationFilePaths }}
-                EnvVars:
-                  Pool: $(Pool)
-                  ${{ insert }}: ${{ parameters.EnvVars }}
-        - ${{ if not(parameters.TestResourceDirectories) }}:
+        - ${{ each directory in coalesce(parameters.TestResourceDirectories, split(parameters.ServiceDirectory, '|')) }}:
           - template: /eng/common/TestResources/deploy-test-resources.yml
             parameters:
               ${{ if or(parameters.Location, parameters.CloudConfig.Location) }}:
                 Location: ${{ coalesce(parameters.Location, parameters.CloudConfig.Location) }}
-              ServiceDirectory: '${{ parameters.ServiceDirectory }}'
+              ServiceDirectory: '${{ directory }}'
               SubscriptionConfiguration: $(SubscriptionConfiguration)
               ArmTemplateParameters: $(ArmTemplateParameters)
               UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
@@ -320,28 +305,19 @@ jobs:
       # ===== END LIVE TEST RUNS =====
 
       - ${{ if ne(parameters.ServiceDirectory, '') }}:
-        - ${{ if parameters.TestResourceDirectories }}:
-          - ${{ each directory in parameters.TestResourceDirectories }}:
-            - template: /eng/common/TestResources/remove-test-resources.yml
-              parameters:
-                ServiceDirectory: "${{ directory }}"
-                SubscriptionConfiguration: $(SubscriptionConfiguration)
-                UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
-                ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
-        - ${{ if not(parameters.TestResourceDirectories) }}:
+        - ${{ each directory in coalesce(parameters.TestResourceDirectories, split(parameters.ServiceDirectory, '|')) }}:
           - template: /eng/common/TestResources/remove-test-resources.yml
             parameters:
-              ServiceDirectory: "${{ parameters.ServiceDirectory }}"
+              ServiceDirectory: "${{ directory }}"
               SubscriptionConfiguration: $(SubscriptionConfiguration)
               UseFederatedAuth: ${{ parameters.UseFederatedAuth }}
               ServiceConnection: ${{ parameters.CloudConfig.ServiceConnection }}
 
-      - task: PublishCodeCoverageResults@1
+      - task: PublishCodeCoverageResults@2
         displayName: "Publish NodeJs Code Coverage to DevOps"
         continueOnError: true
         condition: and(succeededOrFailed(),eq(variables['TestType'], 'node'),eq(variables['PublishCodeCoverage'], true))
         inputs:
-          codeCoverageTool: Cobertura
           summaryFileLocation: "$(PackagePath)/coverage/cobertura-coverage.xml"
 
       - template: /eng/common/pipelines/templates/steps/publish-1es-artifact.yml

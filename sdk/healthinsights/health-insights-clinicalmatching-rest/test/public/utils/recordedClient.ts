@@ -1,14 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  assertEnvironmentVariable,
-  Recorder,
-  RecorderStartOptions,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
-import { Context } from "mocha";
-import ClinicalMatching, { ClinicalMatchingRestClient } from "../../../src";
+import type { Context } from "mocha";
+import type { ClinicalMatchingRestClient } from "../../../src";
+import ClinicalMatching from "../../../src";
 import "./env";
 
 const envSetupForPlayback: Record<string, string> = {

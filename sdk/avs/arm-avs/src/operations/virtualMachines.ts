@@ -262,6 +262,7 @@ export class VirtualMachinesImpl implements VirtualMachines {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -324,7 +325,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineListResult,
+      bodyMapper: Mappers.VirtualMachinesList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -403,7 +404,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VirtualMachineListResult,
+      bodyMapper: Mappers.VirtualMachinesList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

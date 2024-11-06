@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   Instrumentation,
-  InstrumentationBase,
   InstrumentationConfig,
   InstrumentationModuleDefinition,
+} from "@opentelemetry/instrumentation";
+import {
+  InstrumentationBase,
   InstrumentationNodeModuleDefinition,
 } from "@opentelemetry/instrumentation";
 
-import { OpenTelemetryInstrumenter } from "./instrumenter";
-import { SDK_VERSION } from "./configuration";
+import { OpenTelemetryInstrumenter } from "./instrumenter.js";
+import { SDK_VERSION } from "./configuration.js";
 
 /**
  * Configuration options that can be passed to {@link createAzureSdkInstrumentation} function.

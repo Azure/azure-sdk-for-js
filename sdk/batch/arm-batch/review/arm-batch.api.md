@@ -11,6 +11,31 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { SimplePollerLike } from '@azure/core-lro';
 
 // @public
+export interface AccessRule {
+    name?: string;
+    properties?: AccessRuleProperties;
+}
+
+// @public
+export type AccessRuleDirection = string;
+
+// @public
+export interface AccessRuleProperties {
+    addressPrefixes?: string[];
+    direction?: AccessRuleDirection;
+    emailAddresses?: string[];
+    fullyQualifiedDomainNames?: string[];
+    networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+    phoneNumbers?: string[];
+    subscriptions?: AccessRulePropertiesSubscriptionsItem[];
+}
+
+// @public
+export interface AccessRulePropertiesSubscriptionsItem {
+    id?: string;
+}
+
+// @public
 export type AccountKeyType = "Primary" | "Secondary";
 
 // @public
@@ -22,7 +47,7 @@ export interface ActivateApplicationPackageParameters {
 export type AllocationState = "Steady" | "Resizing" | "Stopping";
 
 // @public
-export interface Application extends ProxyResource {
+export interface Application extends AzureProxyResource {
     allowUpdates?: boolean;
     defaultVersion?: string;
     displayName?: string;
@@ -72,7 +97,7 @@ export interface ApplicationOperations {
 }
 
 // @public
-export interface ApplicationPackage extends ProxyResource {
+export interface ApplicationPackage extends AzureProxyResource {
     readonly format?: string;
     readonly lastActivationTime?: Date;
     readonly state?: PackageState;
@@ -219,7 +244,29 @@ export interface AzureFileShareConfiguration {
 }
 
 // @public
-export interface BatchAccount extends Resource {
+export interface AzureProxyResource {
+    readonly etag?: string;
+    readonly id?: string;
+    readonly name?: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+    readonly type?: string;
+}
+
+// @public
+export interface AzureResource {
+    readonly id?: string;
+    readonly location?: string;
+    readonly name?: string;
+    readonly tags?: {
+        [propertyName: string]: string;
+    };
+    readonly type?: string;
+}
+
+// @public
+export interface BatchAccount extends AzureResource {
     readonly accountEndpoint?: string;
     readonly activeJobAndJobScheduleQuota?: number;
     readonly allowedAuthenticationModes?: AuthenticationMode[];
@@ -460,6 +507,8 @@ export class BatchManagementClient extends coreClient.ServiceClient {
     // (undocumented)
     location: Location_2;
     // (undocumented)
+    networkSecurityPerimeterOperations: NetworkSecurityPerimeterOperations;
+    // (undocumented)
     operations: Operations;
     // (undocumented)
     poolOperations: PoolOperations;
@@ -490,7 +539,7 @@ export interface BatchPoolIdentity {
 export type CachingType = "None" | "ReadOnly" | "ReadWrite";
 
 // @public
-export interface Certificate extends ProxyResource {
+export interface Certificate extends AzureProxyResource {
     readonly deleteCertificateError?: DeleteCertificateError;
     format?: CertificateFormat;
     readonly previousProvisioningState?: CertificateProvisioningState;
@@ -533,7 +582,7 @@ export interface CertificateCreateOptionalParams extends coreClient.OperationOpt
 }
 
 // @public
-export interface CertificateCreateOrUpdateParameters extends ProxyResource {
+export interface CertificateCreateOrUpdateParameters extends AzureProxyResource {
     data?: string;
     format?: CertificateFormat;
     password?: string;
@@ -681,12 +730,6 @@ export interface CloudErrorBody {
 }
 
 // @public
-export interface CloudServiceConfiguration {
-    osFamily: string;
-    osVersion?: string;
-}
-
-// @public
 export type ComputeNodeDeallocationOption = "Requeue" | "Terminate" | "TaskCompletion" | "RetainedData";
 
 // @public
@@ -705,6 +748,15 @@ export interface ContainerConfiguration {
 }
 
 // @public
+export interface ContainerHostBatchBindMountEntry {
+    isReadOnly?: boolean;
+    source?: ContainerHostDataPath;
+}
+
+// @public
+export type ContainerHostDataPath = string;
+
+// @public
 export interface ContainerRegistry {
     identityReference?: ComputeNodeIdentityReference;
     password?: string;
@@ -717,6 +769,9 @@ export type ContainerType = string;
 
 // @public
 export type ContainerWorkingDirectory = "TaskWorkingDirectory" | "ContainerImageDefault";
+
+// @public
+export type CreatedByType = string;
 
 // @public
 export interface DataDisk {
@@ -736,7 +791,6 @@ export interface DeleteCertificateError {
 
 // @public
 export interface DeploymentConfiguration {
-    cloudServiceConfiguration?: CloudServiceConfiguration;
     virtualMachineConfiguration?: VirtualMachineConfiguration;
 }
 
@@ -747,7 +801,7 @@ export interface DetectorListResult {
 }
 
 // @public
-export interface DetectorResponse extends ProxyResource {
+export interface DetectorResponse extends AzureProxyResource {
     value?: string;
 }
 
@@ -804,6 +858,26 @@ export interface EnvironmentSetting {
 }
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface FixedScaleSettings {
     nodeDeallocationOption?: ComputeNodeDeallocationOption;
     resizeTimeout?: string;
@@ -816,9 +890,11 @@ export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
 export interface ImageReference {
+    communityGalleryImageId?: string;
     id?: string;
     offer?: string;
     publisher?: string;
+    sharedGalleryImageId?: string;
     sku?: string;
     version?: string;
 }
@@ -849,6 +925,9 @@ export interface IPRule {
 }
 
 // @public
+export type IssueType = string;
+
+// @public
 export type KeySource = "Microsoft.Batch" | "Microsoft.KeyVault";
 
 // @public
@@ -863,9 +942,71 @@ export interface KeyVaultReference {
 }
 
 // @public
+export enum KnownAccessRuleDirection {
+    Inbound = "Inbound",
+    Outbound = "Outbound"
+}
+
+// @public
+export enum KnownContainerHostDataPath {
+    Applications = "Applications",
+    JobPrep = "JobPrep",
+    Shared = "Shared",
+    Startup = "Startup",
+    Task = "Task",
+    VfsMounts = "VfsMounts"
+}
+
+// @public
 export enum KnownContainerType {
     CriCompatible = "CriCompatible",
     DockerCompatible = "DockerCompatible"
+}
+
+// @public
+export enum KnownCreatedByType {
+    Application = "Application",
+    Key = "Key",
+    ManagedIdentity = "ManagedIdentity",
+    User = "User"
+}
+
+// @public
+export enum KnownIssueType {
+    ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+    MissingIdentityConfiguration = "MissingIdentityConfiguration",
+    MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
+    Unknown = "Unknown"
+}
+
+// @public
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+    Accepted = "Accepted",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Succeeded = "Succeeded",
+    Updating = "Updating"
+}
+
+// @public
+export enum KnownResourceAssociationAccessMode {
+    Audit = "Audit",
+    Enforced = "Enforced",
+    Learning = "Learning"
+}
+
+// @public
+export enum KnownSecurityEncryptionTypes {
+    NonPersistedTPM = "NonPersistedTPM",
+    VMGuestStateOnly = "VMGuestStateOnly"
+}
+
+// @public
+export enum KnownSeverity {
+    Error = "Error",
+    Warning = "Warning"
 }
 
 // @public
@@ -915,7 +1056,6 @@ export interface ListPrivateLinkResourcesResult {
 interface Location_2 {
     checkNameAvailability(locationName: string, parameters: CheckNameAvailabilityParameters, options?: LocationCheckNameAvailabilityOptionalParams): Promise<LocationCheckNameAvailabilityResponse>;
     getQuotas(locationName: string, options?: LocationGetQuotasOptionalParams): Promise<LocationGetQuotasResponse>;
-    listSupportedCloudServiceSkus(locationName: string, options?: LocationListSupportedCloudServiceSkusOptionalParams): PagedAsyncIterableIterator<SupportedSku>;
     listSupportedVirtualMachineSkus(locationName: string, options?: LocationListSupportedVirtualMachineSkusOptionalParams): PagedAsyncIterableIterator<SupportedSku>;
 }
 export { Location_2 as Location }
@@ -933,22 +1073,6 @@ export interface LocationGetQuotasOptionalParams extends coreClient.OperationOpt
 
 // @public
 export type LocationGetQuotasResponse = BatchLocationQuota;
-
-// @public
-export interface LocationListSupportedCloudServiceSkusNextOptionalParams extends coreClient.OperationOptions {
-}
-
-// @public
-export type LocationListSupportedCloudServiceSkusNextResponse = SupportedSkusResult;
-
-// @public
-export interface LocationListSupportedCloudServiceSkusOptionalParams extends coreClient.OperationOptions {
-    filter?: string;
-    maxresults?: number;
-}
-
-// @public
-export type LocationListSupportedCloudServiceSkusResponse = SupportedSkusResult;
 
 // @public
 export interface LocationListSupportedVirtualMachineSkusNextOptionalParams extends coreClient.OperationOptions {
@@ -971,6 +1095,7 @@ export type LoginMode = "Batch" | "Interactive";
 
 // @public (undocumented)
 export interface ManagedDisk {
+    securityProfile?: VMDiskSecurityProfile;
     storageAccountType?: StorageAccountType;
 }
 
@@ -1016,6 +1141,89 @@ export interface NetworkSecurityGroupRule {
 
 // @public
 export type NetworkSecurityGroupRuleAccess = "Allow" | "Deny";
+
+// @public
+export interface NetworkSecurityPerimeter {
+    id?: string;
+    location?: string;
+    perimeterGuid?: string;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+    properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationListResult {
+    nextLink?: string;
+    value?: NetworkSecurityPerimeterConfiguration[];
+}
+
+// @public
+export interface NetworkSecurityPerimeterConfigurationProperties {
+    networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    profile?: NetworkSecurityProfile;
+    readonly provisioningIssues?: ProvisioningIssue[];
+    readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+    resourceAssociation?: ResourceAssociation;
+}
+
+// @public
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+// @public
+export interface NetworkSecurityPerimeterGetConfigurationOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterGetConfigurationResponse = NetworkSecurityPerimeterConfiguration;
+
+// @public
+export interface NetworkSecurityPerimeterListConfigurationsNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterListConfigurationsNextResponse = NetworkSecurityPerimeterConfigurationListResult;
+
+// @public
+export interface NetworkSecurityPerimeterListConfigurationsOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type NetworkSecurityPerimeterListConfigurationsResponse = NetworkSecurityPerimeterConfigurationListResult;
+
+// @public
+export interface NetworkSecurityPerimeterOperations {
+    beginReconcileConfiguration(resourceGroupName: string, accountName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterReconcileConfigurationOptionalParams): Promise<SimplePollerLike<OperationState<NetworkSecurityPerimeterReconcileConfigurationResponse>, NetworkSecurityPerimeterReconcileConfigurationResponse>>;
+    beginReconcileConfigurationAndWait(resourceGroupName: string, accountName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterReconcileConfigurationOptionalParams): Promise<NetworkSecurityPerimeterReconcileConfigurationResponse>;
+    getConfiguration(resourceGroupName: string, accountName: string, networkSecurityPerimeterConfigurationName: string, options?: NetworkSecurityPerimeterGetConfigurationOptionalParams): Promise<NetworkSecurityPerimeterGetConfigurationResponse>;
+    listConfigurations(resourceGroupName: string, accountName: string, options?: NetworkSecurityPerimeterListConfigurationsOptionalParams): PagedAsyncIterableIterator<NetworkSecurityPerimeterConfiguration>;
+}
+
+// @public
+export interface NetworkSecurityPerimeterReconcileConfigurationHeaders {
+    location?: string;
+    retryAfter?: number;
+}
+
+// @public
+export interface NetworkSecurityPerimeterReconcileConfigurationOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type NetworkSecurityPerimeterReconcileConfigurationResponse = NetworkSecurityPerimeterReconcileConfigurationHeaders;
+
+// @public
+export interface NetworkSecurityProfile {
+    accessRules?: AccessRule[];
+    accessRulesVersion?: number;
+    diagnosticSettingsVersion?: number;
+    enabledLogCategories?: string[];
+    name?: string;
+}
 
 // @public
 export interface NFSMountConfiguration {
@@ -1103,7 +1311,7 @@ export interface OutboundEnvironmentEndpointCollection {
 export type PackageState = "Pending" | "Active";
 
 // @public
-export interface Pool extends ProxyResource {
+export interface Pool extends AzureProxyResource {
     readonly allocationState?: AllocationState;
     readonly allocationStateTransitionTime?: Date;
     applicationLicenses?: string[];
@@ -1262,7 +1470,7 @@ export interface PrivateEndpoint {
 }
 
 // @public
-export interface PrivateEndpointConnection extends ProxyResource {
+export interface PrivateEndpointConnection extends AzureProxyResource {
     readonly groupIds?: string[];
     readonly privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
@@ -1336,7 +1544,7 @@ export interface PrivateEndpointConnectionUpdateOptionalParams extends coreClien
 export type PrivateEndpointConnectionUpdateResponse = PrivateEndpointConnection;
 
 // @public
-export interface PrivateLinkResource extends ProxyResource {
+export interface PrivateLinkResource extends AzureProxyResource {
     readonly groupId?: string;
     readonly requiredMembers?: string[];
     readonly requiredZoneNames?: string[];
@@ -1381,14 +1589,25 @@ export interface PrivateLinkServiceConnectionState {
 export type PrivateLinkServiceConnectionStatus = "Approved" | "Pending" | "Rejected" | "Disconnected";
 
 // @public
+export interface ProvisioningIssue {
+    readonly name?: string;
+    readonly properties?: ProvisioningIssueProperties;
+}
+
+// @public
+export interface ProvisioningIssueProperties {
+    readonly description?: string;
+    readonly issueType?: IssueType;
+    readonly severity?: Severity;
+    readonly suggestedAccessRules?: AccessRule[];
+    readonly suggestedResourceIds?: string[];
+}
+
+// @public
 export type ProvisioningState = "Invalid" | "Creating" | "Deleting" | "Succeeded" | "Failed" | "Cancelled";
 
 // @public
-export interface ProxyResource {
-    readonly etag?: string;
-    readonly id?: string;
-    readonly name?: string;
-    readonly type?: string;
+export interface ProxyResource extends Resource {
 }
 
 // @public
@@ -1398,7 +1617,7 @@ export interface PublicIPAddressConfiguration {
 }
 
 // @public
-export type PublicNetworkAccessType = "Enabled" | "Disabled";
+export type PublicNetworkAccessType = "Enabled" | "Disabled" | "SecuredByPerimeter";
 
 // @public
 export interface ResizeError {
@@ -1420,13 +1639,19 @@ export interface ResizeOperationStatus {
 // @public
 export interface Resource {
     readonly id?: string;
-    readonly location?: string;
     readonly name?: string;
-    readonly tags?: {
-        [propertyName: string]: string;
-    };
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
+
+// @public
+export interface ResourceAssociation {
+    accessMode?: ResourceAssociationAccessMode;
+    name?: string;
+}
+
+// @public
+export type ResourceAssociationAccessMode = string;
 
 // @public
 export interface ResourceFile {
@@ -1460,16 +1685,25 @@ export interface ScaleSettings {
 }
 
 // @public
+export type SecurityEncryptionTypes = string;
+
+// @public
 export interface SecurityProfile {
     encryptionAtHost?: boolean;
-    securityType?: "trustedLaunch";
+    securityType?: SecurityTypes;
     uefiSettings?: UefiSettings;
 }
+
+// @public
+export type SecurityTypes = "trustedLaunch" | "confidentialVM";
 
 // @public
 export interface ServiceArtifactReference {
     id: string;
 }
+
+// @public
+export type Severity = string;
 
 // @public
 export interface SkuCapability {
@@ -1506,7 +1740,18 @@ export interface SupportedSkusResult {
 }
 
 // @public
+export interface SystemData {
+    createdAt?: Date;
+    createdBy?: string;
+    createdByType?: CreatedByType;
+    lastModifiedAt?: Date;
+    lastModifiedBy?: string;
+    lastModifiedByType?: CreatedByType;
+}
+
+// @public
 export interface TaskContainerSettings {
+    containerHostBatchBindMounts?: ContainerHostBatchBindMountEntry[];
     containerRunOptions?: string;
     imageName: string;
     registry?: ContainerRegistry;
@@ -1575,6 +1820,11 @@ export interface VirtualMachineConfiguration {
 export interface VirtualMachineFamilyCoreQuota {
     readonly coreQuota?: number;
     readonly name?: string;
+}
+
+// @public
+export interface VMDiskSecurityProfile {
+    securityEncryptionType?: SecurityEncryptionTypes;
 }
 
 // @public

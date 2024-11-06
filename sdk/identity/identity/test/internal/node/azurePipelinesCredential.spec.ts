@@ -1,11 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  PipelineResponse,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { handleOidcResponse } from "../../../src/credentials/azurePipelinesCredential";
 import { assert } from "@azure-tools/test-utils";
 

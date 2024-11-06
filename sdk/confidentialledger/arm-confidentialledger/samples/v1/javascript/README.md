@@ -44,7 +44,7 @@ node checkNameAvailabilitySample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env CONFIDENTIALLEDGER_SUBSCRIPTION_ID="<confidentialledger subscription id>" node checkNameAvailabilitySample.js
+npx dev-tool run vendored cross-env CONFIDENTIALLEDGER_SUBSCRIPTION_ID="<confidentialledger subscription id>" node checkNameAvailabilitySample.js
 ```
 
 ## Next Steps

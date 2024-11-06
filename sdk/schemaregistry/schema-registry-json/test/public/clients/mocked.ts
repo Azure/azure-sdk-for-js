@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { decoder } from "../utils/dummies";
-import { MessagingTestClient } from "./models";
+import type { MessagingTestClient } from "./models";
 import { isLiveMode } from "@azure-tools/test-recorder";
 
 /**

@@ -1,6 +1,48 @@
 # Release History
 
-## 1.0.0-beta.1 (2024-09-11)
+## 1.0.0-beta.5 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.4 (2024-10-21)
+
+This release fixes some bugs, adds a feature to customize run name and improves error messaging.
+
+### Features Added
+
+- Added a runName field which allows customers to customize the display name when using the reporting feature.
+
+### Bugs Fixed
+
+- Fixed a bug where users were getting multiple entries for a test run in the dashboard for some cases.
+- Fixed a bug where some optional fields in Playwright config were being treated as mandatory in service package.
+- Fixed a bug where an error message was printing twice.
+
+## 1.0.0-beta.3 (2024-09-16)
+
+This release provides better error messaging and error handling by improving logging.
+
+### Bugs Fixed
+
+- Optimized test result publishing by reusing the Sas uri till it's expiry.
+- Fixed unexpected process termination by improving error handling of API used to publish test results.
+
+## 1.0.0-beta.2 (2024-09-12)
+
+This release updates the Microsoft Playwright Testing library documentation and improves error messages.
+
+### Bugs Fixed
+
+- Improved handling of Entra ID token expiry so that test runs don't fail intermittently.
+- Optimized retries if reporting API fails with 5xx error
+
+## 1.0.0-beta.1 (2024-09-09)
 
 ### Features Added
 

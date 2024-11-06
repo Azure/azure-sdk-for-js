@@ -6,8 +6,14 @@ $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/main/_data/releases/latest/js-packages.csv"
 $GithubUri = "https://github.com/Azure/azure-sdk-for-js"
 $PackageRepositoryUri = "https://www.npmjs.com/package"
+$ReducedDependencyLookup = @{
+  'core' = @('@azure-rest/synapse-access-control', '@azure/arm-resources', '@azure/identity', '@azure/service-bus', '@azure/template')
+  'test-utils' = @('@azure-tests/perf-storage-blob', '@azure/arm-eventgrid', '@azure/ai-text-analytics', '@azure/identity', '@azure/template')
+  'identity' = @('@azure-tests/perf-storage-blob', '@azure/ai-text-analytics', '@azure/arm-resources', '@azure/identity-cache-persistence', '@azure/identity-vscode', '@azure/storage-blob', '@azure/template')
+}
 
 . "$PSScriptRoot/docs/Docs-ToC.ps1"
+. "$PSScriptRoot/docs/Docs-Onboarding.ps1"
 
 function Confirm-NodeInstallation {
   if (!(Get-Command npm -ErrorAction SilentlyContinue)) {
@@ -24,6 +30,79 @@ function Get-javascript-EmitterAdditionalOptions([string]$projectDirectory) {
   return "--option @azure-tools/typespec-ts.emitter-output-dir=$projectDirectory/"
 }
 
+function Get-javascript-AdditionalValidationPackagesFromPackageSet {
+  param(
+    [Parameter(Mandatory=$true)]
+    $LocatedPackages,
+    [Parameter(Mandatory=$true)]
+    $diffObj,
+    [Parameter(Mandatory=$true)]
+    $AllPkgProps
+  )
+  $additionalValidationPackages = @()
+
+  function isOther($fileName) {
+    $startsWithPrefixes = @(".config", ".devcontainer", ".github", ".scripts", ".vscode", "common", "design", "documentation", "eng", "samples")
+
+    foreach ($prefix in $startsWithPrefixes) {
+      if ($fileName.StartsWith($prefix)) {
+        return $true
+      }
+    }
+
+    return $false
+  }
+
+  $changedServices = @()
+  foreach($file in $diffObj.ChangedFiles) {
+    $pathComponents = $file -split "/"
+    # handle changes only in sdk/<service>/<file>/<extension>
+    if ($pathComponents.Length -eq 3 -and $pathComponents[0] -eq "sdk") {
+      $changedServices += $pathComponents[1]
+    }
+
+    # handle any changes under sdk/<file>.<extension>
+    if ($pathComponents.Length -eq 2 -and $pathComponents[0] -eq "sdk") {
+      $changedServices += "template"
+    }
+  }
+
+  $othersChanged = $diffObj.ChangedFiles | Where-Object { isOther $_ }
+  $changedServices = $changedServices | Get-Unique
+
+  if ($othersChanged) {
+    $additionalPackages = $ReducedDependencyLookup["core"] | ForEach-Object { $me=$_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
+    $additionalValidationPackages += $additionalPackages
+  }
+
+  foreach ($changedService in $changedServices) {
+    if ($ReducedDependencyLookup.ContainsKey($changedService)) {
+      $additionalPackages = $ReducedDependencyLookup[$changedService] | ForEach-Object { $me=$_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
+      $additionalValidationPackages += $additionalPackages
+    }
+    else {
+      $additionalPackages = $AllPkgProps | Where-Object { $_.ServiceDirectory -eq $changedService }
+      $additionalValidationPackages += $additionalPackages
+    }
+  }
+
+  $uniqueResultSet = @()
+  foreach ($pkg in $additionalValidationPackages) {
+    if ($uniqueResultSet -notcontains $pkg -and $LocatedPackages -notcontains $pkg) {
+      $pkg.IncludedForValidation = $true
+      $uniqueResultSet += $pkg
+    }
+  }
+
+  Write-Host "Returning additional packages for validation: $($uniqueResultSet.Count)"
+  foreach ($pkg in $uniqueResultSet) {
+    Write-Host "  - $($pkg.Name)"
+  }
+
+  return $uniqueResultSet
+}
+
+
 function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
   $projectPath = Join-Path $pkgPath "package.json"
   if (Test-Path $projectPath) {
@@ -39,6 +118,17 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory) {
     }
     $pkgProp.IsNewSdk = ($pkgProp.SdkType -eq "client") -or ($pkgProp.SdkType -eq "mgmt")
     $pkgProp.ArtifactName = $jsStylePkgName
+
+
+    if ($ReducedDependencyLookup.ContainsKey($pkgProp.ServiceDirectory)) {
+      $pkgProp.AdditionalValidationPackages = $ReducedDependencyLookup[$pkgProp.ServiceDirectory]
+    }
+
+    # the constructor for the package properties object attempts to initialize CI artifacts on instantiation
+    # of the class. however, due to the fact that we set the ArtifactName _after_ the constructor is called,
+    # we need to call it again here to ensure the CI artifacts are properly initialized
+    $pkgProp.InitializeCIArtifacts()
+
     return $pkgProp
   }
   return $null
@@ -248,7 +338,7 @@ function SetPackageVersion ($PackageName, $Version, $ReleaseDate, $ReplaceLatest
 }
 
 # PackageName: Pass full package name e.g. @azure/abort-controller
-# You can obtain full pacakge name using the 'Get-PkgProperties' function in 'eng\common\scripts\Package-Properties.Ps1'
+# You can obtain full package name using the 'Get-PkgProperties' function in 'eng\common\scripts\Package-Properties.Ps1'
 function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
   try {
     $existingVersion = Invoke-RestMethod -Method GET -Uri "http://registry.npmjs.com/${PackageName}"
@@ -260,42 +350,6 @@ function GetExistingPackageVersions ($PackageName, $GroupId = $null) {
     }
     return $null
   }
-}
-
-# Defined in common.ps1 as:
-# $ValidateDocsMsPackagesFn = "Validate-${Language}-DocMsPackages"
-function Validate-javascript-DocMsPackages ($PackageInfo, $PackageInfos, $DocRepoLocation, $DocValidationImageId) {
-  if (!$PackageInfos) {
-    $PackageInfos = @($PackageInfo)
-  }
-
-  $allSucceeded = $true
-  $failedPackages = @()
-
-  foreach ($packageInfo in $PackageInfos) {
-    $outputLocation = New-Item `
-      -ItemType Directory `
-      -Path (Join-Path ([System.IO.Path]::GetTempPath()) ([System.IO.Path]::GetRandomFileName()))
-
-    Write-Host "type2docfx `"$($packageInfo.Name)@$($packageInfo.Version)`" $outputLocation"
-    $output = & type2docfx "$($packageInfo.Name)@$($packageInfo.Version)" $outputLocation 2>&1
-    if ($LASTEXITCODE) {
-      $allSucceeded = $false
-      $failedPackages += $packageInfo.Name
-      Write-Host "Package $($packageInfo.Name)@$($packageInfo.Version) failed validation"
-      $output | Write-Host
-    }
-  }
-
-  # Show failed packages at the end of the run
-  if ($failedPackages.Count -gt 0) {
-    Write-Host "Failed package: $($failedPackages.Count)"
-    foreach ($failedPackage in $failedPackages) {
-      Write-Host "Failed package: $failedPackage"
-    }
-  }
-
-  return $allSucceeded
 }
 
 function Update-javascript-GeneratedSdks([string]$PackageDirectoriesFile) {

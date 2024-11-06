@@ -7,9 +7,10 @@ import {
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { SmsApiClient } from "./generated/src/smsApiClient";
 import { extractOperationOptions } from "./extractOperationOptions";
 import { generateSendMessageRequest } from "./utils/smsUtils";

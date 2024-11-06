@@ -4,7 +4,7 @@
 /**
  * Container file for all interfaces that pertain to the OnTokenIssuanceStart event API schema version 10-01-2021-preview.
  */
-import {
+import type {
   ActionableCloudEventResponse,
   AuthenticationEventAction,
   AuthenticationEventData,

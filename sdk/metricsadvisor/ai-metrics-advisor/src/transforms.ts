@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AuthenticationTypeEnum,
   AzureApplicationInsightsParameter,
   AzureBlobParameter,
@@ -49,7 +49,7 @@ import {
   SqlSourceParameter,
   WebhookHookInfo,
 } from "./generated/models";
-import {
+import type {
   AnomalyAlertConfiguration,
   AnomalyDetectionConfiguration,
   AnomalyDetectionConfigurationPatch,

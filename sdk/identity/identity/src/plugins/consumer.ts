@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzurePluginContext, IdentityPlugin } from "./provider";
+import type { AzurePluginContext, IdentityPlugin } from "./provider";
 import {
   msalNodeFlowCacheControl,
   msalNodeFlowNativeBrokerControl,
@@ -30,18 +30,16 @@ const pluginContext: AzurePluginContext = {
  *
  * Example:
  *
- * ```javascript
- * import { cachePersistencePlugin } from "@azure/identity-cache-persistence";
+ * ```ts snippet:consumer_example
+ * import { useIdentityPlugin, DeviceCodeCredential } from "@azure/identity";
  *
- * import { useIdentityPlugin, DefaultAzureCredential } from "@azure/identity";
  * useIdentityPlugin(cachePersistencePlugin);
- *
- * // The plugin has the capability to extend `DefaultAzureCredential` and to
+ * // The plugin has the capability to extend `DeviceCodeCredential` and to
  * // add middleware to the underlying credentials, such as persistence.
- * const credential = new DefaultAzureCredential({
+ * const credential = new DeviceCodeCredential({
  *   tokenCachePersistenceOptions: {
- *     enabled: true
- *   }
+ *     enabled: true,
+ *   },
  * });
  * ```
  *

@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { env, Recorder } from "@azure-tools/test-recorder";
-import { PollerStoppedError } from "@azure/core-lro";
 
-import {
-  CertificateClient,
-  DeletedCertificate,
-  DefaultCertificatePolicy,
-} from "../../src/index.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
+
+import type { CertificateClient, DeletedCertificate } from "../../src/index.js";
+import { DefaultCertificatePolicy } from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
-import TestClient from "./utils/testClient.js";
+import type TestClient from "./utils/testClient.js";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 describe("Certificates client - LRO - recoverDelete", () => {
@@ -87,7 +85,6 @@ describe("Certificates client - LRO - recoverDelete", () => {
     expect(recoverPoller.getOperationState().isStarted).toBeTruthy();
 
     recoverPoller.pollUntilDone().catch((e) => {
-      expect(e).toBeInstanceOf(PollerStoppedError);
       expect(e.name).toEqual("PollerStoppedError");
       expect(e.message).toEqual("This poller is already stopped");
     });

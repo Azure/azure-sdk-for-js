@@ -18,6 +18,7 @@ export async function toFileInfo(fullPath: string): Promise<FileInfo> {
     dir: path.dirname(fullPath),
     name: path.basename(fullPath),
     stat: {} as Stats,
+    depth: Number.MAX_SAFE_INTEGER,
   };
 }
 
