@@ -598,7 +598,7 @@ describe("Full text search feature", async () => {
     database = await getTestDatabaseName("FTS-DB-test");
     const containerName = "full text search container";
 
-    const query = `SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.title, ['swim', 'run'])`
+    const query = `SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.title, ['swim', 'run'])`;
 
     const { container } = await database.containers.createIfNotExists({
       id: containerName,
@@ -609,8 +609,6 @@ describe("Full text search feature", async () => {
     const queryOptions = { forceQueryPlan: true };
     const queryIterator = container.items.query(query, queryOptions);
     const result = await queryIterator.fetchAll();
-    console.log("fetchAll result",result);
+    console.log("fetchAll result", result);
   });
-
-
 });

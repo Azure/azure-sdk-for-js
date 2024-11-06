@@ -113,7 +113,7 @@ describe("Validate full text search queries", function (this: Suite) {
 
   it("should return correct expected values for all the queries", async function () {
     for (let i = 0; i < queries.length; i++) {
-      const queryOptions = { forceQueryPlan: true, allowUnboundedNonStreamingQueries: true };
+      const queryOptions = { allowUnboundedNonStreamingQueries: true };
       const queryIterator = container.items.query(queries[i], queryOptions);
       const results: any[] = [];
       while (queryIterator.hasMoreResults()) {
@@ -135,7 +135,6 @@ describe("Validate full text search queries", function (this: Suite) {
 
       assert.ok(isMatch, `The indexes array did not match expected values for query ${i + 1}`);
       // TODO: remove it after fixing the issue
-      break;
     }
   });
 });

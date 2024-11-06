@@ -47,7 +47,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   ) {
     this.state = HybridQueryExecutionContextBaseStates.uninitialized;
     this.pageSize = this.options.maxItemCount;
-     if (this.pageSize === undefined) {
+    if (this.pageSize === undefined) {
       this.pageSize = this.DEFAULT_PAGE_SIZE;
     }
     console.log("query", this.query);
@@ -164,13 +164,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   }
 
   private async executeComponentQueries(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
-
     if (this.componentsExecutionContext.length === 1) {
       await this.drainSingleComponent(diagnosticNode);
       return;
     }
     try {
-        const hybridSearchResult: HybridSearchQueryResult[] = [];
+      const hybridSearchResult: HybridSearchQueryResult[] = [];
       const uniqueItems = new Map<string, HybridSearchQueryResult>();
 
       for (const componentExecutionContext of this.componentsExecutionContext) {
@@ -194,7 +193,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       if (hybridSearchResult.length === 0 || hybridSearchResult.length === 1) {
         // return the result as no or one element is present
 
-
         this.state = HybridQueryExecutionContextBaseStates.draining;
         return;
       }
@@ -206,6 +204,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       // store the result to buffer
       // add only data from the sortedHybridSearchResult in the buffer
       sortedHybridSearchResult.forEach((item) => this.buffer.push(item.data));
+      this.applySkipAndTakeToBuffer();
       this.state = HybridQueryExecutionContextBaseStates.draining;
       console.log("draining");
       // remove this
@@ -215,8 +214,25 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
   }
 
+  private applySkipAndTakeToBuffer() {
+    const { skip, take } = this.partitionedQueryExecutionInfo.hybridSearchQueryInfo;
+    if (skip) {
+      this.buffer = this.buffer.slice(skip);
+      console.log("buffer after skip", skip, this.buffer);
+    }
+
+    if (take) {
+      this.buffer = this.buffer.slice(0, take);
+      console.log("buffer after take", take, this.buffer);
+    }
+  }
+
   private async drain(): Promise<Response<any>> {
     try {
+      if (this.buffer.length === 0) {
+        this.state = HybridQueryExecutionContextBaseStates.done;
+        return this.done();
+      }
       const result = this.buffer.slice(0, this.pageSize);
       this.buffer = this.buffer.slice(this.pageSize);
       if (this.buffer.length === 0) {
@@ -237,10 +253,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     try {
       if (this.buffer.length === 0) {
         this.state = HybridQueryExecutionContextBaseStates.done;
-        return {
-          result: undefined,
-          headers: getInitialHeader(),
-        };
+        return this.done();
       }
       const result = this.buffer.shift();
       if (this.buffer.length === 0) {
@@ -320,8 +333,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       }
       console.log("result from single drain", JSON.stringify(hybridSearchResult));
 
-      
       hybridSearchResult.forEach((item) => this.buffer.push(item.data));
+      this.applySkipAndTakeToBuffer();
       this.state = HybridQueryExecutionContextBaseStates.draining;
     } catch (error) {
       this.state = HybridQueryExecutionContextBaseStates.done;
