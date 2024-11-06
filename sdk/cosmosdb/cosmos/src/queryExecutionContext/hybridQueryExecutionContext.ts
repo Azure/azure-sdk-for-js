@@ -47,7 +47,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   ) {
     this.state = HybridQueryExecutionContextBaseStates.uninitialized;
     this.pageSize = this.options.maxItemCount;
-     if (this.pageSize === undefined) {
+    if (this.pageSize === undefined) {
       this.pageSize = this.DEFAULT_PAGE_SIZE;
     }
     console.log("query", this.query);
@@ -164,13 +164,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   }
 
   private async executeComponentQueries(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
-
     if (this.componentsExecutionContext.length === 1) {
       await this.drainSingleComponent(diagnosticNode);
       return;
     }
     try {
-        const hybridSearchResult: HybridSearchQueryResult[] = [];
+      const hybridSearchResult: HybridSearchQueryResult[] = [];
       const uniqueItems = new Map<string, HybridSearchQueryResult>();
 
       for (const componentExecutionContext of this.componentsExecutionContext) {
@@ -193,8 +192,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       console.log("hybridSearchResult", hybridSearchResult);
       if (hybridSearchResult.length === 0 || hybridSearchResult.length === 1) {
         // return the result as no or one element is present
-
-
+        hybridSearchResult.forEach((item) => this.buffer.push(item.data));
         this.state = HybridQueryExecutionContextBaseStates.draining;
         return;
       }
@@ -202,10 +200,18 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       // Initialize an array to hold ranks for each document
       const sortedHybridSearchResult = this.sortHybridSearchResultByRRFScore(hybridSearchResult);
 
-      console.log("sortedHybridSearchResult", sortedHybridSearchResult);
+      // console.log("sortedHybridSearchResult", sortedHybridSearchResult);
+      console.log("sortedHybridSearchResult length", sortedHybridSearchResult.length);
+      // print Index, rid and componentScores for each item
+      sortedHybridSearchResult.forEach((item) => {
+        console.log(
+          `Index: ${item.data.Index}, rid: ${item.rid}, componentScores: ${item.componentScores}`,
+        );
+      });
       // store the result to buffer
       // add only data from the sortedHybridSearchResult in the buffer
       sortedHybridSearchResult.forEach((item) => this.buffer.push(item.data));
+      this.applySkipAndTakeToBuffer();
       this.state = HybridQueryExecutionContextBaseStates.draining;
       console.log("draining");
       // remove this
@@ -215,8 +221,25 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
   }
 
+  private applySkipAndTakeToBuffer() {
+    const { skip, take } = this.partitionedQueryExecutionInfo.hybridSearchQueryInfo;
+    if (skip) {
+      this.buffer = this.buffer.slice(skip);
+      console.log("buffer after skip", skip, this.buffer);
+    }
+
+    if (take) {
+      this.buffer = this.buffer.slice(0, take);
+      console.log("buffer after take", take, this.buffer);
+    }
+  }
+
   private async drain(): Promise<Response<any>> {
     try {
+      if (this.buffer.length === 0) {
+        this.state = HybridQueryExecutionContextBaseStates.done;
+        return this.done();
+      }
       const result = this.buffer.slice(0, this.pageSize);
       this.buffer = this.buffer.slice(this.pageSize);
       if (this.buffer.length === 0) {
@@ -237,10 +260,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     try {
       if (this.buffer.length === 0) {
         this.state = HybridQueryExecutionContextBaseStates.done;
-        return {
-          result: undefined,
-          headers: getInitialHeader(),
-        };
+        return this.done();
       }
       const result = this.buffer.shift();
       if (this.buffer.length === 0) {
@@ -268,17 +288,25 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       rid: item.rid,
       ranks: new Array(item.componentScores.length).fill(0),
     }));
-
     // Compute ranks for each component score
     for (let i = 0; i < hybridSearchResult[0].componentScores.length; i++) {
       // Sort based on the i-th component score
       hybridSearchResult.sort((a, b) => b.componentScores[i] - a.componentScores[i]);
 
       // Assign ranks
-      hybridSearchResult.forEach((item, index) => {
-        const rankIndex = ranksArray.findIndex((rankItem) => rankItem.rid === item.rid);
-        ranksArray[rankIndex].ranks[i] = index + 1; // 1-based rank
-      });
+      let rank = 1;
+      for (let j = 0; j < hybridSearchResult.length; j++) {
+        if (
+          j > 0 &&
+          hybridSearchResult[j].componentScores[i] !== hybridSearchResult[j - 1].componentScores[i]
+        ) {
+          rank = j + 1;
+        }
+        const rankIndex = ranksArray.findIndex(
+          (rankItem) => rankItem.rid === hybridSearchResult[j].rid,
+        );
+        ranksArray[rankIndex].ranks[i] = rank; // 1-based rank
+      }
     }
 
     // Function to compute RRF score
@@ -320,8 +348,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       }
       console.log("result from single drain", JSON.stringify(hybridSearchResult));
 
-      
       hybridSearchResult.forEach((item) => this.buffer.push(item.data));
+      this.applySkipAndTakeToBuffer();
       this.state = HybridQueryExecutionContextBaseStates.draining;
     } catch (error) {
       this.state = HybridQueryExecutionContextBaseStates.done;
