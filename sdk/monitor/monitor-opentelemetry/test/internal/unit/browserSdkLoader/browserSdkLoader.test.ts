@@ -12,6 +12,7 @@ import { shutdownAzureMonitor, useAzureMonitor } from "../../../../src/index.js"
 import { getOsPrefix } from "../../../../src/utils/common.js";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
+import { vi } from "vitest";
 
 describe("#BrowserSdkLoader", () => {
   let sandbox: sinon.SinonSandbox;

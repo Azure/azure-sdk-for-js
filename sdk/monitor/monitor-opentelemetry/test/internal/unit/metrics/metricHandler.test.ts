@@ -9,6 +9,7 @@ import { InternalConfig } from "../../../../src/shared/index.js";
 import { ExportResultCode } from "@opentelemetry/core";
 import { metrics as MetricsApi } from "@opentelemetry/api";
 import { MeterProvider } from "@opentelemetry/sdk-metrics";
+import { vi } from "vitest";
 
 describe("MetricHandler", () => {
   let originalEnv: NodeJS.ProcessEnv;
