@@ -68,7 +68,6 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@types/node": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "playwright": "catalog:",

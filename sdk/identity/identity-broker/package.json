@@ -71,7 +71,6 @@
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
     "@types/sinon": "catalog:legacy",
-    "cross-env": "catalog:legacy",
     "eslint": "catalog:",
     "mocha": "catalog:legacy",
     "puppeteer": "catalog:legacy",

@@ -73,7 +73,7 @@
     "@azure/core-paging": "workspace:*",
     "@azure/event-hubs": "workspace:*",
     "@azure/logger": "workspace:*",
-    "@azure/storage-blob": "^12.24.0",
+    "@azure/storage-blob": "workspace:*",
     "tslib": "catalog:"
   },
   "devDependencies": {
@@ -93,7 +93,6 @@
     "@vitest/coverage-istanbul": "catalog:",
     "buffer": "^6.0.3",
     "chai-as-promised": "catalog:",
-    "cross-env": "catalog:legacy",
     "debug": "^4.3.6",
     "dotenv": "catalog:",
     "eslint": "catalog:",

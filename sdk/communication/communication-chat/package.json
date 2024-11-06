@@ -53,7 +53,7 @@
     "test:node": "npm run build:test && npm run unit-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "dev-tool run test:browser",
-    "unit-test:node": "cross-env TS_NODE_FILES=true dev-tool run test:node-ts-input -- --timeout 1200000 'test/**/*.spec.ts'",
+    "unit-test:node": "dev-tool run vendored cross-env TS_NODE_FILES=true dev-tool run test:node-ts-input -- --timeout 1200000 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
@@ -84,7 +84,6 @@
     "@types/sinon": "catalog:legacy",
     "@types/uuid": "^10.0.0",
     "chai": "catalog:legacy",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "karma": "catalog:legacy",

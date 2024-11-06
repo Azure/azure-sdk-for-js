@@ -83,7 +83,6 @@
     "@types/sinon": "catalog:legacy",
     "chai": "catalog:legacy",
     "chai-as-promised": "catalog:legacy",
-    "cross-env": "catalog:legacy",
     "decompress": "^4.0.0",
     "dotenv": "catalog:",
     "eslint": "catalog:",

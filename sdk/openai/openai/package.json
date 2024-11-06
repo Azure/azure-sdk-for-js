@@ -103,7 +103,6 @@
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "openai": "^4.47.2",

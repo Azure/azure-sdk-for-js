@@ -74,7 +74,6 @@
     "@types/sinon": "catalog:legacy",
     "@types/ws": "^8.2.0",
     "chai": "catalog:legacy",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "karma": "catalog:legacy",

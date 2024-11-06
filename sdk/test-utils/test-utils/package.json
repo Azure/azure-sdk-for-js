@@ -46,7 +46,7 @@
     "test:browser": "npm run clean && npm run build:test npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test:browser": "tsc -p . && dev-tool run bundle && cross-env karma start --single-run",
+    "unit-test:browser": "tsc -p . && dev-tool run bundle && dev-tool run vendored cross-env karma start --single-run",
     "unit-test:node": "dev-tool run test:node-ts-input --no-test-proxy",
     "update-snippets": "echo skipped"
   },
@@ -71,7 +71,6 @@
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
     "@types/sinon": "catalog:legacy",
-    "cross-env": "catalog:legacy",
     "eslint": "catalog:",
     "karma": "catalog:legacy",
     "karma-chrome-launcher": "catalog:legacy",

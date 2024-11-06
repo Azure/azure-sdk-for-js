@@ -91,7 +91,6 @@
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "loupe": "^3.1.0",

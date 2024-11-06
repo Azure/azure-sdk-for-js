@@ -82,7 +82,6 @@
     "@types/node": "catalog:",
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
-    "cross-env": "catalog:legacy",
     "eslint": "catalog:",
     "playwright": "catalog:",
     "tsx": "catalog:legacy",

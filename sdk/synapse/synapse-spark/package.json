@@ -78,7 +78,6 @@
     "@types/node": "catalog:",
     "chai": "catalog:legacy",
     "chai-as-promised": "catalog:legacy",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "karma": "catalog:legacy",

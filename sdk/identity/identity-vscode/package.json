@@ -71,7 +71,6 @@
     "@types/qs": "^6.5.3",
     "@types/sinon": "catalog:legacy",
     "@types/uuid": "^8.0.0",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "mocha": "catalog:legacy",

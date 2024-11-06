@@ -84,7 +84,6 @@
     "@types/sinon": "catalog:legacy",
     "@types/ws": "^7.4.5",
     "chai": "catalog:legacy",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "express": "^4.21.1",

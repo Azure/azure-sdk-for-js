@@ -276,7 +276,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %Notification Hub
 # AzureSdkOwners: @mpodwysocki
-# ServiceOwners: @lomagdal2
+# Service owner will be pranav-gupta-msft
 
 # PRLabel: %Operator Nexus - Network Cloud
 # ServiceLabel: %Operator Nexus - Network Cloud
@@ -1419,7 +1419,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @shahbj79 @mit2nil @aygoya @ganganarayanan
 
 # ServiceLabel: %Service Attention %Synapse
-#/<NotInRepo>/          @wonner @zesluo
+#/<NotInRepo>/          @zesluo
 
 # ServiceLabel: %Service Attention %Tables
 #/<NotInRepo>/          @klaaslanghout

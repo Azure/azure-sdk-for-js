@@ -30,8 +30,8 @@
   "scripts": {
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api --verbose",
     "build:autorest": "autorest ./swagger/README.md && npm run format",
-    "build:browser": "tsc -p . && dev-tool run bundle && cross-env ONLY_BROWSER=true ",
-    "build:node": "tsc -p . && dev-tool run bundle && cross-env ONLY_NODE=true ",
+    "build:browser": "tsc -p . && dev-tool run bundle && dev-tool run vendored cross-env ONLY_BROWSER=true ",
+    "build:node": "tsc -p . && dev-tool run bundle && cdev-tool run vendored ross-env ONLY_NODE=true ",
     "build:samples": "dev-tool samples publish -f",
     "build:test": "tsc -p . && dev-tool run bundle",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -86,7 +86,6 @@
     "@types/sinon": "catalog:legacy",
     "@types/uuid": "^8.0.0",
     "chai": "catalog:legacy",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "karma": "catalog:legacy",

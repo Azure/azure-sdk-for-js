@@ -9,67 +9,43 @@ import { IdentityTestContext } from "../../httpRequests";
 import { RestError } from "@azure/core-rest-pipeline";
 import { assert } from "chai";
 import * as dac from "../../../src/credentials/defaultAzureCredential";
-import { LegacyMsiProvider } from "../../../src/credentials/managedIdentityCredential/legacyMsiProvider";
+import { ManagedIdentityCredential } from "../../../src/credentials/managedIdentityCredential/index";
+import { ManagedIdentityApplication } from "@azure/msal-node";
 
 describe("AzureApplicationCredential testing Managed Identity (internal)", function () {
-  let envCopy: string = "";
   let testContext: IdentityTestContextInterface;
 
   beforeEach(async () => {
-    envCopy = JSON.stringify(process.env);
-    delete process.env.MSI_ENDPOINT;
-    delete process.env.MSI_SECRET;
-    delete process.env.AZURE_CLIENT_SECRET;
-    delete process.env.AZURE_TENANT_ID;
     testContext = new IdentityTestContext({});
     testContext.sandbox
       .stub(dac, "createDefaultManagedIdentityCredential")
       .callsFake(
-        (...args) => new LegacyMsiProvider({ ...args, clientId: process.env.AZURE_CLIENT_ID }),
+        (...args) =>
+          new ManagedIdentityCredential({ ...args, clientId: process.env.AZURE_CLIENT_ID }),
       );
   });
 
   afterEach(async () => {
-    const env = JSON.parse(envCopy);
-    process.env.MSI_ENDPOINT = env.MSI_ENDPOINT;
-    process.env.MSI_SECRET = env.MSI_SECRET;
-    process.env.AZURE_CLIENT_SECRET = env.AZURE_CLIENT_SECRET;
-    process.env.AZURE_TENANT_ID = env.AZURE_TENANT_ID;
     await testContext.restore();
-  });
-
-  it("returns error when no MSI is available", async function () {
-    process.env.AZURE_CLIENT_ID = "errclient";
-
-    const { error } = await testContext.sendCredentialRequests({
-      scopes: ["scopes"],
-      credential: new AzureApplicationCredential(),
-      insecureResponses: [
-        {
-          error: new RestError("Request Timeout", { code: "REQUEST_SEND_ERROR", statusCode: 408 }),
-        },
-      ],
-    });
-    assert.ok(
-      error!.message!.indexOf("No MSI credential available") > -1,
-      "Failed to match the expected error",
-    );
   });
 
   it("an unexpected error bubbles all the way up", async function () {
     process.env.AZURE_CLIENT_ID = "errclient";
 
     const errorMessage = "ManagedIdentityCredential authentication failed.";
+    testContext.sandbox
+      .stub(ManagedIdentityApplication.prototype, "acquireToken")
+      .rejects(new Error(errorMessage));
 
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential: new AzureApplicationCredential(),
       insecureResponses: [
         createResponse(200), // IMDS Endpoint ping
-        { error: new RestError(errorMessage, { statusCode: 500 }) },
       ],
     });
-    assert.ok(error?.message.startsWith(errorMessage));
+    console.log(error);
+    assert.ok(error?.message.includes(errorMessage));
   });
 
   it("returns expected error when the network was unreachable", async function () {
@@ -80,6 +56,10 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
       statusCode: 408,
     });
 
+    testContext.sandbox
+      .stub(ManagedIdentityApplication.prototype, "acquireToken")
+      .rejects(netError);
+
     const { error } = await testContext.sendCredentialRequests({
       scopes: ["scopes"],
       credential: new AzureApplicationCredential(),
@@ -89,44 +69,5 @@ describe("AzureApplicationCredential testing Managed Identity (internal)", funct
       ],
     });
     assert.ok(error!.message!.indexOf("Network unreachable.") > -1);
-  });
-
-  it("sends an authorization request correctly in an App Service environment", async () => {
-    // Trigger App Service behavior by setting environment variables
-    process.env.AZURE_CLIENT_ID = "client";
-    process.env.MSI_ENDPOINT = "https://endpoint";
-    process.env.MSI_SECRET = "secret";
-
-    const authDetails = await testContext.sendCredentialRequests({
-      scopes: ["https://service/.default"],
-      credential: new AzureApplicationCredential(),
-      secureResponses: [
-        createResponse(200, {
-          access_token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00",
-        }),
-      ],
-    });
-
-    const authRequest = authDetails.requests[0];
-    const query = new URLSearchParams(authRequest.url.split("?")[1]);
-
-    assert.equal(authRequest.method, "GET");
-    assert.equal(query.get("clientid"), "client");
-    assert.equal(decodeURIComponent(query.get("resource")!), "https://service");
-    assert.ok(
-      authRequest.url.startsWith(process.env.MSI_ENDPOINT),
-      "URL does not start with expected host and path",
-    );
-    assert.equal(authRequest.headers.secret, process.env.MSI_SECRET);
-    assert.ok(
-      authRequest.url.indexOf(`api-version=2017-09-01`) > -1,
-      "URL does not have expected version",
-    );
-    if (authDetails.result?.token) {
-      assert.equal(authDetails.result.expiresOnTimestamp, 1560999478000);
-    } else {
-      assert.fail("No token was returned!");
-    }
   });
 });

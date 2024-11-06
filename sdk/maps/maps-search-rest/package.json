@@ -82,7 +82,6 @@
     "@types/node": "catalog:",
     "autorest": "latest",
     "chai": "catalog:legacy",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "karma": "catalog:legacy",

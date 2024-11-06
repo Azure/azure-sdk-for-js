@@ -82,7 +82,6 @@
     "@types/sinon": "catalog:legacy",
     "@types/uuid": "^10.0.0",
     "chai": "catalog:legacy",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "karma": "catalog:legacy",

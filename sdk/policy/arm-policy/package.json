@@ -60,7 +60,7 @@
     "test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "cross-env TEST_MODE=playback npm run integration-test:node",
+    "unit-test:node": "dev-tool run vendored cross-env TEST_MODE=playback npm run integration-test:node",
     "update-snippets": "echo skipped"
   },
   "dependencies": {
@@ -73,14 +73,13 @@
   "devDependencies": {
     "@azure-tools/test-credential": "catalog:test-credentialV1",
     "@azure-tools/test-recorder": "catalog:test-recorderV3",
-    "@azure/arm-managementgroups": "^2.0.1",
+    "@azure/arm-managementgroups": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/identity": "catalog:internal",
     "@types/chai": "catalog:legacy",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
     "chai": "catalog:legacy",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "mocha": "catalog:legacy",
     "typescript": "catalog:"

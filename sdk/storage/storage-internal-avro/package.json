@@ -69,7 +69,6 @@
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
     "chai": "catalog:legacy",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "es6-promise": "^4.2.5",
     "eslint": "catalog:",

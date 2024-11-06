@@ -68,7 +68,6 @@
     "@azure/identity": "catalog:internal",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "karma": "catalog:legacy",

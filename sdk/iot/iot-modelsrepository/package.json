@@ -75,7 +75,6 @@
     "@types/node": "catalog:",
     "@types/sinon": "catalog:legacy",
     "chai": "catalog:legacy",
-    "cross-env": "catalog:legacy",
     "eslint": "catalog:",
     "karma": "catalog:legacy",
     "karma-chrome-launcher": "catalog:legacy",

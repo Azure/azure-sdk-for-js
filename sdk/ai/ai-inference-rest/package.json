@@ -101,7 +101,6 @@
     "@vitest/browser": "catalog:",
     "@vitest/coverage-istanbul": "catalog:",
     "autorest": "latest",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "playwright": "catalog:",
     "typescript": "catalog:",

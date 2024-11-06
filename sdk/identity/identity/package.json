@@ -116,7 +116,6 @@
     "@types/stoppable": "^1.1.0",
     "@types/uuid": "^8.0.0",
     "chai": "catalog:legacy",
-    "cross-env": "catalog:legacy",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "jsonwebtoken": "^9.0.0",

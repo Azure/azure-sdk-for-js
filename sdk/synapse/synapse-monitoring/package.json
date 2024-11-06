@@ -65,7 +65,6 @@
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
-    "cross-env": "catalog:legacy",
     "eslint": "catalog:",
     "karma": "catalog:legacy",
     "karma-chrome-launcher": "catalog:legacy",

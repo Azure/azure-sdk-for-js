@@ -278,7 +278,7 @@ node cassandraClustersCreateUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COSMOSDB_SUBSCRIPTION_ID="<cosmosdb subscription id>" COSMOSDB_RESOURCE_GROUP="<cosmosdb resource group>" node cassandraClustersCreateUpdateSample.js
+npx dev-tool run vendored cross-env COSMOSDB_SUBSCRIPTION_ID="<cosmosdb subscription id>" COSMOSDB_RESOURCE_GROUP="<cosmosdb resource group>" node cassandraClustersCreateUpdateSample.js
 ```
 
 ## Next Steps
