@@ -16,7 +16,7 @@ import {
   // AzureCliCredential,
   InteractiveBrowserCredential,
 } from "@azure/identity";
-import { isNode } from "@azure-tools/test-utils";
+import { isNodeLike } from "@azure/core-util";
 import { NoOpCredential } from "@azure-tools/test-credential";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
 
@@ -69,7 +69,7 @@ export async function createRecorder(ctx: VitestTestContext): Promise<Recorder> 
 export function createBatchClient(recorder?: Recorder, options: ClientOptions = {}): BatchClient {
   const credential = isPlaybackMode()
     ? new NoOpCredential()
-    : isNode
+    : isNodeLike
       ? new AzureNamedKeyCredential(env.AZURE_BATCH_ACCOUNT!, env.AZURE_BATCH_ACCESS_KEY!)
       : // : new AzureCliCredential();
         new InteractiveBrowserCredential({

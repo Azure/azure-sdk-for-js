@@ -16,6 +16,7 @@
     "preinstall": "npx only-allow pnpm",
     "purge": "rimraf --glob \"sdk/**/node_modules/\"",
     "test": "turbo run test",
+    "typecheck": "turbo run typecheck",
     "unit-test": "turbo run unit-test",
     "unit-test:browser": "turbo run unit-test:browser",
     "unit-test:node": "turbo run unit-test:node",

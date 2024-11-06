@@ -1,5 +1,5 @@
 diff --git a/src/abort-controller/AbortError.ts b/src/abort-controller/AbortError.ts
-index 053733c..31dd275 100644
+index 60662ec..1c6cf1a 100644
 --- a/src/abort-controller/AbortError.ts
 +++ b/src/abort-controller/AbortError.ts
 @@ -8,7 +8,7 @@
@@ -464,7 +464,7 @@ index 30dac33..66ea99c 100644
    if (!cachedHttpClient) {
      cachedHttpClient = createDefaultHttpClient();
 diff --git a/src/client/common.ts b/src/client/common.ts
-index 4e49dde..f43f7c1 100644
+index 026f516..edda1c6 100644
 --- a/src/client/common.ts
 +++ b/src/client/common.ts
 @@ -3,19 +3,18 @@
@@ -517,10 +517,10 @@ index 4e49dde..f43f7c1 100644
     * strong types. When used by the codegen this type gets overridden with the generated
     * types. For example:
     * ```typescript snippet:path_example
--   * import { Client, Routes } from "@azure-rest/core-client";
-+   * import { Client, Routes } from "@typespec/ts-http-runtime";
+-   * import { Client } from "@azure-rest/core-client";
++   * import { Client } from "@typespec/ts-http-runtime";
     *
-    * export type MyClient = Client & {
+    * type MyClient = Client & {
     *   path: Routes;
 @@ -326,11 +318,9 @@ export type ClientOptions = PipelineOptions & {
       */

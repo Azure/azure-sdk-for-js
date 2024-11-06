@@ -1,6 +1,6 @@
 {
   "name": "@azure/eventgrid",
-  "version": "5.8.0",
+  "version": "5.8.1",
   "description": "An isomorphic client library for the Azure Event Grid service.",
   "keywords": [
     "node",

@@ -1,6 +1,6 @@
 {
   "name": "@azure/app-configuration",
-  "version": "1.7.1",
+  "version": "1.8.1",
   "description": "An isomorphic client library for the Azure App Configuration service.",
   "keywords": [
     "node",

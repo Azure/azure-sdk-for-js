@@ -38,6 +38,9 @@
     "test": {
       "dependsOn": ["^test"]
     },
+    "typecheck": {
+      "dependsOn": ["^typecheck"]
+    },
     "unit-test": {
       "dependsOn": ["^unit-test"]
     },

@@ -4417,8 +4417,8 @@ importers:
   sdk/communication/communication-messages-rest:
     dependencies:
       '@azure-rest/core-client':
-        specifier: catalog:core-rest-clientV1
-        version: 1.4.0
+        specifier: workspace:*
+        version: link:../../core/core-client-rest
       '@azure/communication-common':
         specifier: workspace:*
         version: link:../communication-common

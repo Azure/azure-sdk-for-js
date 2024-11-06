@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/communication-messages",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "Azure client library for Azure Communication Messages services",
   "keywords": [
     "node",
@@ -60,7 +60,7 @@
     "update-snippets": "echo skipped"
   },
   "dependencies": {
-    "@azure-rest/core-client": "catalog:core-rest-clientV1",
+    "@azure-rest/core-client": "workspace:*",
     "@azure/communication-common": "workspace:*",
     "@azure/core-auth": "workspace:*",
     "@azure/core-paging": "workspace:*",
