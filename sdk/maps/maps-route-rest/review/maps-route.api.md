@@ -9,7 +9,7 @@ import type { AzureKeyCredential } from '@azure/core-auth';
 import type { AzureSASCredential } from '@azure/core-auth';
 import { CancelOnProgress } from '@azure/core-lro';
 import { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
 import { CreateHttpPollerOptions } from '@azure/core-lro';
 import { HttpResponse } from '@azure-rest/core-client';
 import type { LatLon } from '@azure/maps-common';
