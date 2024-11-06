@@ -19,10 +19,7 @@ export function createEdgeZones(
   options: EdgeZonesClientOptionalParams = {},
 ): EdgeZonesContext {
   const prefixFromOptions = options?.userAgentOptions?.userAgentPrefix;
-  const userAgentInfo = `azsdk-js-arm-edgezones/1.0.0-beta.3`;
-  const userAgentPrefix = prefixFromOptions
-    ? `${prefixFromOptions} azsdk-js-api ${userAgentInfo}`
-    : `azsdk-js-api ${userAgentInfo}`;
+  const userAgentPrefix = prefixFromOptions ? `${prefixFromOptions} azsdk-js-api` : "azsdk-js-api";
 
   const clientContext = getClient(credential, {
     ...options,

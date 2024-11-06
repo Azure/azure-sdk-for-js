@@ -33,6 +33,5 @@ export default defineConfig({
       reportsDirectory: "coverage-browser",
     },
     testTimeout: 1200000,
-    hookTimeout: 1200000
   },
 });
