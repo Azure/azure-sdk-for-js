@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
+import * as assert from "node:assert";
 import type { LogRecord as APILogRecord } from "@opentelemetry/api-logs";
 import { InMemoryLogRecordExporter, LoggerProvider } from "@opentelemetry/sdk-logs";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
-import { ApplicationInsightsSampler } from "../../../../src/traces/sampler";
-import { AzureBatchLogRecordProcessor } from "../../../../src/logs/batchLogRecordProcessor";
+import { ApplicationInsightsSampler } from "../../../../src/traces/sampler.js";
+import { AzureBatchLogRecordProcessor } from "../../../../src/logs/batchLogRecordProcessor.js";
 
 describe("AzureBatchLogRecordProcessor", () => {
   describe("#trace based sampling", () => {

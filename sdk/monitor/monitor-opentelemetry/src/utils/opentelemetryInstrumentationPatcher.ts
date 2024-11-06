@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import type { Instrumentation } from "@opentelemetry/instrumentation/build/src/types";
-import type { StatsbeatEnvironmentConfig } from "../types";
-import { AZURE_MONITOR_STATSBEAT_FEATURES, StatsbeatInstrumentationMap } from "../types";
-import { Logger } from "../shared/logging";
+import type { StatsbeatEnvironmentConfig } from "../types.js";
+import { AZURE_MONITOR_STATSBEAT_FEATURES, StatsbeatInstrumentationMap } from "../types.js";
+import { Logger } from "../shared/logging/index.js";
 
 /**
  * Patch OpenTelemetry Instrumentation enablement to update the statsbeat environment variable with the enabled instrumentations

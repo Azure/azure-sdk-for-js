@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
+import * as assert from "node:assert";
 import * as sinon from "sinon";
-import * as path from "path";
-import { JsonConfig } from "../../../../src/shared/jsonConfig";
+import * as path from "node:path";
+import { JsonConfig } from "../../../../src/shared/jsonConfig.js";
 
 describe("Json Config", () => {
   let sandbox: sinon.SinonSandbox;

@@ -3,10 +3,10 @@
 
 /* eslint-disable no-underscore-dangle*/
 
-import * as assert from "assert";
+import * as assert from "node:assert";
 import * as sinon from "sinon";
-import { MetricHandler } from "../../../../src/metrics";
-import { InternalConfig } from "../../../../src/shared";
+import { MetricHandler } from "../../../../src/metrics/index.js";
+import { InternalConfig } from "../../../../src/shared/index.js";
 import { ExportResultCode } from "@opentelemetry/core";
 import { metrics as MetricsApi } from "@opentelemetry/api";
 import { MeterProvider } from "@opentelemetry/sdk-metrics";

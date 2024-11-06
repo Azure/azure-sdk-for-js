@@ -3,17 +3,17 @@
 
 /* eslint-disable no-underscore-dangle*/
 
-import http from "http";
-import https from "https";
+import http from "node:http";
+import https from "node:https";
 import { webSnippet as sdkLoader } from "@microsoft/applicationinsights-web-snippet";
-import * as browserSdkLoaderHelper from "./browserSdkLoaderHelper";
-import * as prefixHelper from "../utils/common";
+import * as browserSdkLoaderHelper from "./browserSdkLoaderHelper.js";
+import * as prefixHelper from "../utils/common.js";
 import * as zlib from "zlib";
-import type { InternalConfig } from "../shared";
-import { ConnectionStringParser } from "../utils/connectionStringParser";
-import type { IncomingMessage, ServerResponse } from "http";
-import { Logger } from "../shared/logging/logger";
-import { BROWSER_SDK_LOADER_DEFAULT_SOURCE } from "../types";
+import type { InternalConfig } from "../shared/index.js";
+import { ConnectionStringParser } from "../utils/connectionStringParser.js";
+import type { IncomingMessage, ServerResponse } from "node:http";
+import { Logger } from "../shared/logging/logger.js";
+import { BROWSER_SDK_LOADER_DEFAULT_SOURCE } from "../types.js";
 import { diag } from "@opentelemetry/api";
 
 export class BrowserSdkLoader {

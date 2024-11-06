@@ -16,8 +16,8 @@ import type { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
 import type { MeterProvider } from "@opentelemetry/sdk-metrics";
 import type { LoggerProvider } from "@opentelemetry/sdk-logs";
 
-import { useAzureMonitor } from "../../src";
-import type { Expectation, Scenario } from "./types";
+import { useAzureMonitor } from "../../src/index.js";
+import type { Expectation, Scenario } from "./types.js";
 
 function delay<T>(t: number, value?: T): Promise<T | void> {
   return new Promise((resolve) => setTimeout(() => resolve(value), t));

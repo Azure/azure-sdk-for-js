@@ -15,5 +15,5 @@ export {
   mkdirAsync,
   writeFileAsync,
   unlinkAsync,
-} from "./fileSystem";
-export { ignoreOutgoingRequestHook } from "./common";
+} from "./fileSystem.js";
+export { ignoreOutgoingRequestHook } from "./common.js";

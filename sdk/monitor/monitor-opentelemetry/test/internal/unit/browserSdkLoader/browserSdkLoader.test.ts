@@ -3,14 +3,14 @@
 
 /* eslint-disable no-underscore-dangle*/
 
-import * as assert from "assert";
-import type * as http from "http";
+import * as assert from "node:assert";
+import type * as http from "node:http";
 import * as sinon from "sinon";
-import { BrowserSdkLoader } from "../../../../src/browserSdkLoader/browserSdkLoader";
-import * as BrowserSdkLoaderHelper from "../../../../src/browserSdkLoader/browserSdkLoaderHelper";
-import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/index";
-import { shutdownAzureMonitor, useAzureMonitor } from "../../../../src/index";
-import { getOsPrefix } from "../../../../src/utils/common";
+import { BrowserSdkLoader } from "../../../../src/browserSdkLoader/browserSdkLoader.js";
+import * as BrowserSdkLoaderHelper from "../../../../src/browserSdkLoader/browserSdkLoaderHelper.js";
+import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/index.js";
+import { shutdownAzureMonitor, useAzureMonitor } from "../../../../src/index.js";
+import { getOsPrefix } from "../../../../src/utils/common.js";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
 

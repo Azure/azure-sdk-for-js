@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assertCount, assertTraceExpectation } from "../../utils/assert";
-import { TraceBasicScenario } from "../../utils/basic";
+import { assertCount, assertTraceExpectation } from "../../utils/assert.js";
+import { TraceBasicScenario } from "../../utils/basic.js";
 import nock from "nock";
-import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
-import type { TelemetryItem as Envelope } from "../../utils/models/index";
+import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
+import type { TelemetryItem as Envelope } from "../../utils/models/index.js";
 
 describe("Trace Exporter Scenarios", () => {
   describe(TraceBasicScenario.prototype.constructor.name, () => {

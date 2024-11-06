@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DerivedMetricInfo, FilterInfo, FilterConjunctionGroupInfo } from "../../../generated";
-import { KnownPredicateType } from "../../../generated";
+import type { DerivedMetricInfo, FilterInfo, FilterConjunctionGroupInfo } from "../../../generated/index.js";
+import { KnownPredicateType } from "../../../generated/index.js";
 import type {
   RequestData,
   TelemetryData,
   DependencyData,
   ExceptionData,
   TraceData,
-} from "../types";
-import { KnownDependencyColumns, KnownRequestColumns } from "../types";
+} from "../types.js";
+import { KnownDependencyColumns, KnownRequestColumns } from "../types.js";
 import {
   isRequestData,
   isDependencyData,
   isExceptionData,
   isTraceData,
   getMsFromFilterTimestampString,
-} from "../utils";
+} from "../utils.js";
 
 export class Filter {
   public renameExceptionFieldNamesForFiltering(
