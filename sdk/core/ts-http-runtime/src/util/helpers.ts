@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { AbortError } from "../abort-controller/AbortError.js";
-import { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
-import { PipelineResponse } from "../interfaces.js";
+import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
+import type { PipelineResponse } from "../interfaces.js";
 
 const StandardAbortMessage = "The operation was aborted.";
 

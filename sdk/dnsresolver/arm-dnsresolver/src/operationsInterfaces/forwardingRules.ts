@@ -17,7 +17,7 @@ import {
   ForwardingRulesUpdateResponse,
   ForwardingRulesDeleteOptionalParams,
   ForwardingRulesGetOptionalParams,
-  ForwardingRulesGetResponse
+  ForwardingRulesGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ForwardingRules {
   list(
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
-    options?: ForwardingRulesListOptionalParams
+    options?: ForwardingRulesListOptionalParams,
   ): PagedAsyncIterableIterator<ForwardingRule>;
   /**
    * Creates or updates a forwarding rule in a DNS forwarding ruleset.
@@ -47,7 +47,7 @@ export interface ForwardingRules {
     dnsForwardingRulesetName: string,
     forwardingRuleName: string,
     parameters: ForwardingRule,
-    options?: ForwardingRulesCreateOrUpdateOptionalParams
+    options?: ForwardingRulesCreateOrUpdateOptionalParams,
   ): Promise<ForwardingRulesCreateOrUpdateResponse>;
   /**
    * Updates a forwarding rule in a DNS forwarding ruleset.
@@ -62,7 +62,7 @@ export interface ForwardingRules {
     dnsForwardingRulesetName: string,
     forwardingRuleName: string,
     parameters: ForwardingRulePatch,
-    options?: ForwardingRulesUpdateOptionalParams
+    options?: ForwardingRulesUpdateOptionalParams,
   ): Promise<ForwardingRulesUpdateResponse>;
   /**
    * Deletes a forwarding rule in a DNS forwarding ruleset. WARNING: This operation cannot be undone.
@@ -75,7 +75,7 @@ export interface ForwardingRules {
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
     forwardingRuleName: string,
-    options?: ForwardingRulesDeleteOptionalParams
+    options?: ForwardingRulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets properties of a forwarding rule in a DNS forwarding ruleset.
@@ -88,6 +88,6 @@ export interface ForwardingRules {
     resourceGroupName: string,
     dnsForwardingRulesetName: string,
     forwardingRuleName: string,
-    options?: ForwardingRulesGetOptionalParams
+    options?: ForwardingRulesGetOptionalParams,
   ): Promise<ForwardingRulesGetResponse>;
 }

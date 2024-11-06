@@ -33,13 +33,14 @@ import {
   PrivateEndpointConnectionsUpdateByHostPoolOptionalParams,
   PrivateEndpointConnectionsUpdateByHostPoolResponse,
   PrivateEndpointConnectionsListByWorkspaceNextResponse,
-  PrivateEndpointConnectionsListByHostPoolNextResponse
+  PrivateEndpointConnectionsListByHostPoolNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing PrivateEndpointConnections operations. */
 export class PrivateEndpointConnectionsImpl
-  implements PrivateEndpointConnections {
+  implements PrivateEndpointConnections
+{
   private readonly client: DesktopVirtualizationAPIClient;
 
   /**
@@ -59,12 +60,12 @@ export class PrivateEndpointConnectionsImpl
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams
+    options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -81,9 +82,9 @@ export class PrivateEndpointConnectionsImpl
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -91,7 +92,7 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     workspaceName: string,
     options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateEndpointConnectionWithSystemData[]> {
     let result: PrivateEndpointConnectionsListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +100,7 @@ export class PrivateEndpointConnectionsImpl
       result = await this._listByWorkspace(
         resourceGroupName,
         workspaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -111,7 +112,7 @@ export class PrivateEndpointConnectionsImpl
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -123,12 +124,12 @@ export class PrivateEndpointConnectionsImpl
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams
+    options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<PrivateEndpointConnectionWithSystemData> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -143,12 +144,12 @@ export class PrivateEndpointConnectionsImpl
   public listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: PrivateEndpointConnectionsListByHostPoolOptionalParams
+    options?: PrivateEndpointConnectionsListByHostPoolOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnectionWithSystemData> {
     const iter = this.listByHostPoolPagingAll(
       resourceGroupName,
       hostPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -165,9 +166,9 @@ export class PrivateEndpointConnectionsImpl
           resourceGroupName,
           hostPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -175,7 +176,7 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     hostPoolName: string,
     options?: PrivateEndpointConnectionsListByHostPoolOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateEndpointConnectionWithSystemData[]> {
     let result: PrivateEndpointConnectionsListByHostPoolResponse;
     let continuationToken = settings?.continuationToken;
@@ -183,7 +184,7 @@ export class PrivateEndpointConnectionsImpl
       result = await this._listByHostPool(
         resourceGroupName,
         hostPoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -195,7 +196,7 @@ export class PrivateEndpointConnectionsImpl
         resourceGroupName,
         hostPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -207,12 +208,12 @@ export class PrivateEndpointConnectionsImpl
   private async *listByHostPoolPagingAll(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: PrivateEndpointConnectionsListByHostPoolOptionalParams
+    options?: PrivateEndpointConnectionsListByHostPoolOptionalParams,
   ): AsyncIterableIterator<PrivateEndpointConnectionWithSystemData> {
     for await (const page of this.listByHostPoolPagingPage(
       resourceGroupName,
       hostPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -227,11 +228,11 @@ export class PrivateEndpointConnectionsImpl
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams
+    options?: PrivateEndpointConnectionsListByWorkspaceOptionalParams,
   ): Promise<PrivateEndpointConnectionsListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -240,23 +241,23 @@ export class PrivateEndpointConnectionsImpl
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
+   *                                      Azure resource.
    * @param options The options parameters.
    */
   getByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetByWorkspaceOptionalParams
+    options?: PrivateEndpointConnectionsGetByWorkspaceOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
         privateEndpointConnectionName,
-        options
+        options,
       },
-      getByWorkspaceOperationSpec
+      getByWorkspaceOperationSpec,
     );
   }
 
@@ -265,23 +266,23 @@ export class PrivateEndpointConnectionsImpl
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
+   *                                      Azure resource.
    * @param options The options parameters.
    */
   deleteByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams
+    options?: PrivateEndpointConnectionsDeleteByWorkspaceOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         workspaceName,
         privateEndpointConnectionName,
-        options
+        options,
       },
-      deleteByWorkspaceOperationSpec
+      deleteByWorkspaceOperationSpec,
     );
   }
 
@@ -290,7 +291,7 @@ export class PrivateEndpointConnectionsImpl
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
+   *                                      Azure resource.
    * @param connection Object containing the updated connection.
    * @param options The options parameters.
    */
@@ -299,7 +300,7 @@ export class PrivateEndpointConnectionsImpl
     workspaceName: string,
     privateEndpointConnectionName: string,
     connection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams
+    options?: PrivateEndpointConnectionsUpdateByWorkspaceOptionalParams,
   ): Promise<PrivateEndpointConnectionsUpdateByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       {
@@ -307,9 +308,9 @@ export class PrivateEndpointConnectionsImpl
         workspaceName,
         privateEndpointConnectionName,
         connection,
-        options
+        options,
       },
-      updateByWorkspaceOperationSpec
+      updateByWorkspaceOperationSpec,
     );
   }
 
@@ -322,11 +323,11 @@ export class PrivateEndpointConnectionsImpl
   private _listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: PrivateEndpointConnectionsListByHostPoolOptionalParams
+    options?: PrivateEndpointConnectionsListByHostPoolOptionalParams,
   ): Promise<PrivateEndpointConnectionsListByHostPoolResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, options },
-      listByHostPoolOperationSpec
+      listByHostPoolOperationSpec,
     );
   }
 
@@ -335,23 +336,23 @@ export class PrivateEndpointConnectionsImpl
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
+   *                                      Azure resource.
    * @param options The options parameters.
    */
   getByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsGetByHostPoolOptionalParams
+    options?: PrivateEndpointConnectionsGetByHostPoolOptionalParams,
   ): Promise<PrivateEndpointConnectionsGetByHostPoolResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         hostPoolName,
         privateEndpointConnectionName,
-        options
+        options,
       },
-      getByHostPoolOperationSpec
+      getByHostPoolOperationSpec,
     );
   }
 
@@ -360,23 +361,23 @@ export class PrivateEndpointConnectionsImpl
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
+   *                                      Azure resource.
    * @param options The options parameters.
    */
   deleteByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
     privateEndpointConnectionName: string,
-    options?: PrivateEndpointConnectionsDeleteByHostPoolOptionalParams
+    options?: PrivateEndpointConnectionsDeleteByHostPoolOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         hostPoolName,
         privateEndpointConnectionName,
-        options
+        options,
       },
-      deleteByHostPoolOperationSpec
+      deleteByHostPoolOperationSpec,
     );
   }
 
@@ -385,7 +386,7 @@ export class PrivateEndpointConnectionsImpl
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param hostPoolName The name of the host pool within the specified resource group
    * @param privateEndpointConnectionName The name of the private endpoint connection associated with the
-   *                                      Azure resource
+   *                                      Azure resource.
    * @param connection Object containing the updated connection.
    * @param options The options parameters.
    */
@@ -394,7 +395,7 @@ export class PrivateEndpointConnectionsImpl
     hostPoolName: string,
     privateEndpointConnectionName: string,
     connection: PrivateEndpointConnection,
-    options?: PrivateEndpointConnectionsUpdateByHostPoolOptionalParams
+    options?: PrivateEndpointConnectionsUpdateByHostPoolOptionalParams,
   ): Promise<PrivateEndpointConnectionsUpdateByHostPoolResponse> {
     return this.client.sendOperationRequest(
       {
@@ -402,9 +403,9 @@ export class PrivateEndpointConnectionsImpl
         hostPoolName,
         privateEndpointConnectionName,
         connection,
-        options
+        options,
       },
-      updateByHostPoolOperationSpec
+      updateByHostPoolOperationSpec,
     );
   }
 
@@ -419,11 +420,11 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: PrivateEndpointConnectionsListByWorkspaceNextOptionalParams
+    options?: PrivateEndpointConnectionsListByWorkspaceNextOptionalParams,
   ): Promise<PrivateEndpointConnectionsListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec
+      listByWorkspaceNextOperationSpec,
     );
   }
 
@@ -438,11 +439,11 @@ export class PrivateEndpointConnectionsImpl
     resourceGroupName: string,
     hostPoolName: string,
     nextLink: string,
-    options?: PrivateEndpointConnectionsListByHostPoolNextOptionalParams
+    options?: PrivateEndpointConnectionsListByHostPoolNextOptionalParams,
   ): Promise<PrivateEndpointConnectionsListByHostPoolNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, nextLink, options },
-      listByHostPoolNextOperationSpec
+      listByHostPoolNextOperationSpec,
     );
   }
 }
@@ -450,38 +451,15 @@ export class PrivateEndpointConnectionsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateEndpointConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResultWithSystemData
+      bodyMapper: Mappers.PrivateEndpointConnectionListResultWithSystemData,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.workspaceName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionWithSystemData
+      bodyMapper: Mappers.CloudError,
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -489,21 +467,41 @@ const getByWorkspaceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.privateEndpointConnectionName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getByWorkspaceOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionWithSystemData,
+    },
+    default: {
+      bodyMapper: Mappers.CloudError,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
+    Parameters.privateEndpointConnectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const deleteByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -511,22 +509,21 @@ const deleteByWorkspaceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionWithSystemData
+      bodyMapper: Mappers.PrivateEndpointConnectionWithSystemData,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.connection,
   queryParameters: [Parameters.apiVersion],
@@ -535,50 +532,48 @@ const updateByWorkspaceOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.workspaceName,
-    Parameters.privateEndpointConnectionName
+    Parameters.privateEndpointConnectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByHostPoolOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResultWithSystemData
+      bodyMapper: Mappers.PrivateEndpointConnectionListResultWithSystemData,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.pageSize,
     Parameters.isDescending,
-    Parameters.initialSkip
+    Parameters.initialSkip,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName
+    Parameters.hostPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getByHostPoolOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionWithSystemData
+      bodyMapper: Mappers.PrivateEndpointConnectionWithSystemData,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -586,21 +581,20 @@ const getByHostPoolOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateEndpointConnectionName,
-    Parameters.hostPoolName
+    Parameters.hostPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteByHostPoolOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -608,22 +602,21 @@ const deleteByHostPoolOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateEndpointConnectionName,
-    Parameters.hostPoolName
+    Parameters.hostPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateByHostPoolOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections/{privateEndpointConnectionName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateEndpointConnections/{privateEndpointConnectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionWithSystemData
+      bodyMapper: Mappers.PrivateEndpointConnectionWithSystemData,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.connection,
   queryParameters: [Parameters.apiVersion],
@@ -632,51 +625,51 @@ const updateByHostPoolOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.privateEndpointConnectionName,
-    Parameters.hostPoolName
+    Parameters.hostPoolName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResultWithSystemData
+      bodyMapper: Mappers.PrivateEndpointConnectionListResultWithSystemData,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByHostPoolNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateEndpointConnectionListResultWithSystemData
+      bodyMapper: Mappers.PrivateEndpointConnectionListResultWithSystemData,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName
+    Parameters.hostPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AbortSignalLike } from "@azure/abort-controller";
-import { TransferProgressEvent } from "@azure/core-rest-pipeline";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { TransferProgressEvent } from "@azure/core-rest-pipeline";
 
-import {
+import type {
   LeaseAccessConditions,
   ModifiedAccessConditions as ModifiedAccessConditionsModel,
   UserDelegationKeyModel,
@@ -13,7 +13,7 @@ import {
   ContainerUndeleteResponse,
   WithResponse,
 } from "@azure/storage-blob";
-import { DataLakePathClient } from "./clients";
+import type { DataLakePathClient } from "./clients";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
 
 /**
@@ -36,7 +36,7 @@ export type FileSystemRenameResponse = ContainerRenameResponse;
  */
 export type FileSystemUndeleteResponse = ContainerUndeleteResponse;
 
-import {
+import type {
   CpkInfo,
   FileSystemListBlobHierarchySegmentHeaders,
   FileSystemListPathsHeaders,
@@ -52,12 +52,12 @@ import {
   PathSetExpiryHeaders,
   PathUndeleteHeaders,
 } from "./generated/src/models";
-import { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions";
-import { DirectorySASPermissions } from "./sas/DirectorySASPermissions";
-import { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions";
-import { SasIPRange } from "./sas/SasIPRange";
-import { SASProtocol } from "./sas/SASQueryParameters";
-import { CommonOptions } from "./StorageClient";
+import type { DataLakeSASPermissions } from "./sas/DataLakeSASPermissions";
+import type { DirectorySASPermissions } from "./sas/DirectorySASPermissions";
+import type { FileSystemSASPermissions } from "./sas/FileSystemSASPermissions";
+import type { SasIPRange } from "./sas/SasIPRange";
+import type { SASProtocol } from "./sas/SASQueryParameters";
+import type { CommonOptions } from "./StorageClient";
 
 export {
   LeaseAccessConditions,

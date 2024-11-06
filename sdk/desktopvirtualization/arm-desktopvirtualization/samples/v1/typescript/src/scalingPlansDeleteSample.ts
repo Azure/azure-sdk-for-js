@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Remove a scaling plan.
  *
  * @summary Remove a scaling plan.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ScalingPlan_Delete.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/ScalingPlan_Delete.json
  */
 async function scalingPlansDelete() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function scalingPlansDelete() {
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const result = await client.scalingPlans.delete(
     resourceGroupName,
-    scalingPlanName
+    scalingPlanName,
   );
   console.log(result);
 }

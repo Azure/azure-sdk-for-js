@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Attributes, SpanStatusCode } from "@opentelemetry/api";
-import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import type { Attributes } from "@opentelemetry/api";
+import { SpanStatusCode } from "@opentelemetry/api";
+import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import {
   SEMRESATTRS_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
@@ -14,17 +15,26 @@ import {
   SEMATTRS_EXCEPTION_TYPE,
   SEMATTRS_HTTP_USER_AGENT,
   SEMATTRS_HTTP_STATUS_CODE,
+  DBSYSTEMVALUES_DB2,
+  DBSYSTEMVALUES_DERBY,
+  DBSYSTEMVALUES_MARIADB,
+  DBSYSTEMVALUES_MSSQL,
+  DBSYSTEMVALUES_ORACLE,
+  DBSYSTEMVALUES_SQLITE,
+  DBSYSTEMVALUES_OTHER_SQL,
+  DBSYSTEMVALUES_HSQLDB,
+  DBSYSTEMVALUES_H2,
 } from "@opentelemetry/semantic-conventions";
-import {
+import type {
   MetricDependencyDimensions,
   MetricDimensionTypeKeys,
   MetricRequestDimensions,
   StandardMetricBaseDimensions,
-  StandardMetricIds,
-  StandardMetricPropertyNames,
 } from "./types";
-import { LogRecord } from "@opentelemetry/sdk-logs";
-import { Resource } from "@opentelemetry/resources";
+import { StandardMetricIds, StandardMetricPropertyNames } from "./types";
+import type { LogRecord } from "@opentelemetry/sdk-logs";
+import type { Resource } from "@opentelemetry/resources";
+import * as os from "os";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {
   const dimensions: MetricRequestDimensions = getBaseDimensions(span.resource);
@@ -104,6 +114,20 @@ export function getDependencyTarget(attributes: Attributes): string {
   return "";
 }
 
+export function isSqlDB(dbSystem: string): boolean {
+  return (
+    dbSystem === DBSYSTEMVALUES_DB2 ||
+    dbSystem === DBSYSTEMVALUES_DERBY ||
+    dbSystem === DBSYSTEMVALUES_MARIADB ||
+    dbSystem === DBSYSTEMVALUES_MSSQL ||
+    dbSystem === DBSYSTEMVALUES_ORACLE ||
+    dbSystem === DBSYSTEMVALUES_SQLITE ||
+    dbSystem === DBSYSTEMVALUES_OTHER_SQL ||
+    dbSystem === DBSYSTEMVALUES_HSQLDB ||
+    dbSystem === DBSYSTEMVALUES_H2
+  );
+}
+
 export function isExceptionTelemetry(logRecord: LogRecord): boolean {
   const baseType = logRecord.attributes["_MS.baseType"];
   // If Application Insights Legacy logs
@@ -147,4 +171,28 @@ export function convertDimensions(
     )[dim];
   }
   return convertedDimensions as Attributes;
+}
+
+// to get physical memory bytes
+export function getPhysicalMemory(): number {
+  return process.memoryUsage.rss();
+}
+
+// This function can get the normalized cpu, but it assumes that after this function is called,
+// that the process.hrtime.bigint() & process.cpuUsage() are called/stored to be used as the
+// parameters for the next call.
+export function getProcessorTimeNormalized(
+  lastHrTime: bigint,
+  lastCpuUsage: NodeJS.CpuUsage,
+): number {
+  let numCpus = os.cpus().length;
+  const usageDif = process.cpuUsage(lastCpuUsage);
+  const elapsedTimeNs = process.hrtime.bigint() - lastHrTime;
+
+  const usageDifMs = (usageDif.user + usageDif.system) / 1000.0;
+  const elapsedTimeMs = elapsedTimeNs === BigInt(0) ? 1 : Number(elapsedTimeNs) / 1000000.0;
+  // just for division safety, don't know a case in which this would actually happen
+  numCpus = numCpus === 0 ? 1 : numCpus;
+
+  return (usageDifMs / elapsedTimeMs / numCpus) * 100;
 }

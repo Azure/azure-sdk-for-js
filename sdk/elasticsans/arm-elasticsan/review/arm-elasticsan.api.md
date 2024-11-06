@@ -17,6 +17,14 @@ export type Action = string;
 export type ActionType = string;
 
 // @public
+export type AutoScalePolicyEnforcement = string;
+
+// @public
+export interface AutoScaleProperties {
+    scaleUpProperties?: ScaleUpProperties;
+}
+
+// @public
 export type CreatedByType = string;
 
 // @public
@@ -66,6 +74,7 @@ export interface ElasticSanManagementOptionalParams extends coreClient.ServiceCl
 
 // @public
 export interface ElasticSanProperties {
+    autoScaleProperties?: AutoScaleProperties;
     availabilityZones?: string[];
     baseSizeTiB: number;
     extendedCapacitySizeTiB: number;
@@ -174,6 +183,7 @@ export interface ElasticSanUpdate {
 
 // @public
 export interface ElasticSanUpdateProperties {
+    autoScaleProperties?: AutoScaleProperties;
     baseSizeTiB?: number;
     extendedCapacitySizeTiB?: number;
     publicNetworkAccess?: PublicNetworkAccess;
@@ -256,6 +266,13 @@ export enum KnownAction {
 // @public
 export enum KnownActionType {
     Internal = "Internal"
+}
+
+// @public
+export enum KnownAutoScalePolicyEnforcement {
+    Disabled = "Disabled",
+    Enabled = "Enabled",
+    None = "None"
 }
 
 // @public
@@ -541,6 +558,14 @@ export interface Resource {
 }
 
 // @public
+export interface ScaleUpProperties {
+    autoScalePolicyEnforcement?: AutoScalePolicyEnforcement;
+    capacityUnitScaleUpLimitTiB?: number;
+    increaseCapacityUnitByTiB?: number;
+    unusedSizeTiB?: number;
+}
+
+// @public
 export interface Sku {
     name: SkuName;
     tier?: SkuTier;
@@ -680,6 +705,7 @@ export interface VolumeGroupList {
 export interface VolumeGroupProperties {
     encryption?: EncryptionType;
     encryptionProperties?: EncryptionProperties;
+    enforceDataIntegrityCheckForIscsi?: boolean;
     networkAcls?: NetworkRuleSet;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     protocolType?: StorageTargetType;
@@ -765,6 +791,7 @@ export interface VolumeGroupUpdate {
 export interface VolumeGroupUpdateProperties {
     encryption?: EncryptionType;
     encryptionProperties?: EncryptionProperties;
+    enforceDataIntegrityCheckForIscsi?: boolean;
     networkAcls?: NetworkRuleSet;
     protocolType?: StorageTargetType;
 }

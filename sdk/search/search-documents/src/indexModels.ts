@@ -1,13 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { OperationOptions } from "@azure/core-client";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   AutocompleteMode,
   FacetResult,
   HybridSearch,
   IndexActionType,
+  KnownSemanticErrorMode,
+  KnownSemanticErrorReason,
+  KnownSemanticSearchResultsType,
+  KnownVectorFilterMode,
+  KnownVectorQueryKind,
   QueryAnswerResult,
   QueryCaptionResult,
   QueryDebugMode,
@@ -18,15 +23,9 @@ import {
   SearchMode,
   SemanticFieldState,
   Speller,
+  VectorsDebugInfo,
 } from "./generated/data/models";
-import {
-  SemanticErrorMode,
-  SemanticErrorReason,
-  SemanticSearchResultsType,
-  VectorFilterMode,
-  VectorQueryKind,
-} from "./generatedStringLiteralUnions";
-import GeographyPoint from "./geographyPoint";
+import type GeographyPoint from "./geographyPoint";
 
 /**
  * Options for performing the count operation on the index.
@@ -224,6 +223,9 @@ export interface BaseVectorQuery<TModel extends object> {
   weight?: number;
   /** The threshold used for vector queries. Note this can only be set if all 'fields' use the same similarity metric. */
   threshold?: VectorThreshold;
+  /** The OData filter expression to apply to this specific vector query. If no filter expression is defined at the vector level, the expression defined in
+   * the top level filter parameter is used instead. */
+  filterOverride?: string;
 }
 
 /** The query parameters to use for vector search when a raw vector value is provided. */
@@ -903,6 +905,11 @@ export interface DocumentDebugInfo {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly semantic?: SemanticDebugInfo;
+  /**
+   * Contains debugging information specific to vector and hybrid search.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly vectors?: VectorsDebugInfo;
 }
 
 /**
@@ -1051,3 +1058,8 @@ export interface SearchScoreThreshold extends BaseVectorThreshold {
 
 /** The threshold used for vector queries. */
 export type VectorThreshold = VectorSimilarityThreshold | SearchScoreThreshold;
+export type SemanticErrorMode = `${KnownSemanticErrorMode}`;
+export type SemanticErrorReason = `${KnownSemanticErrorReason}`;
+export type SemanticSearchResultsType = `${KnownSemanticSearchResultsType}`;
+export type VectorFilterMode = `${KnownVectorFilterMode}`;
+export type VectorQueryKind = `${KnownVectorQueryKind}`;

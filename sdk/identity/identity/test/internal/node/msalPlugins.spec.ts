@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ICachePlugin, INativeBrokerPlugin } from "@azure/msal-node";
+import type { ICachePlugin, INativeBrokerPlugin } from "@azure/msal-node";
+import type { PluginConfiguration } from "../../../src/msal/nodeFlows/msalPlugins";
 import {
-  PluginConfiguration,
   msalNodeFlowCacheControl,
   msalNodeFlowNativeBrokerControl,
   msalPlugins,
 } from "../../../src/msal/nodeFlows/msalPlugins";
 
-import { MsalClientOptions } from "../../../src/msal/nodeFlows/msalClient";
+import type { MsalClientOptions } from "../../../src/msal/nodeFlows/msalClient";
 import Sinon from "sinon";
 import { assert } from "@azure-tools/test-utils";
 

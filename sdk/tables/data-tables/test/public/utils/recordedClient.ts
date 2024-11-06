@@ -2,8 +2,10 @@
 // Licensed under the MIT License.
 
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-import { Recorder, RecorderStartOptions, SanitizerOptions, env } from "@azure-tools/test-recorder";
-import { TableClient, TableServiceClient, TableServiceClientOptions } from "../../../src";
+import type { Recorder, RecorderStartOptions, SanitizerOptions } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
+import type { TableServiceClientOptions } from "../../../src";
+import { TableClient, TableServiceClient } from "../../../src";
 
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -35,6 +37,9 @@ const sanitizerOptions: SanitizerOptions = {
 const recorderOptions: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
   sanitizerOptions,
+  removeCentralSanitizers: [
+    "AZSDK3493", // .name in the body is not a secret
+  ],
 };
 
 export type CreateClientMode =

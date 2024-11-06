@@ -16,7 +16,7 @@ import {
   ApplicationsCreateOrUpdateResponse,
   ApplicationsDeleteOptionalParams,
   ApplicationsUpdateOptionalParams,
-  ApplicationsUpdateResponse
+  ApplicationsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface Applications {
   list(
     resourceGroupName: string,
     applicationGroupName: string,
-    options?: ApplicationsListOptionalParams
+    options?: ApplicationsListOptionalParams,
   ): PagedAsyncIterableIterator<Application>;
   /**
    * Get an application.
@@ -44,7 +44,7 @@ export interface Applications {
     resourceGroupName: string,
     applicationGroupName: string,
     applicationName: string,
-    options?: ApplicationsGetOptionalParams
+    options?: ApplicationsGetOptionalParams,
   ): Promise<ApplicationsGetResponse>;
   /**
    * Create or update an application.
@@ -59,7 +59,7 @@ export interface Applications {
     applicationGroupName: string,
     applicationName: string,
     application: Application,
-    options?: ApplicationsCreateOrUpdateOptionalParams
+    options?: ApplicationsCreateOrUpdateOptionalParams,
   ): Promise<ApplicationsCreateOrUpdateResponse>;
   /**
    * Remove an application.
@@ -72,7 +72,7 @@ export interface Applications {
     resourceGroupName: string,
     applicationGroupName: string,
     applicationName: string,
-    options?: ApplicationsDeleteOptionalParams
+    options?: ApplicationsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update an application.
@@ -85,6 +85,6 @@ export interface Applications {
     resourceGroupName: string,
     applicationGroupName: string,
     applicationName: string,
-    options?: ApplicationsUpdateOptionalParams
+    options?: ApplicationsUpdateOptionalParams,
   ): Promise<ApplicationsUpdateResponse>;
 }

@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { Context } from "mocha";
-import { PipelineRequest } from "@azure/core-rest-pipeline";
+import type { Context } from "mocha";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { SDK_VERSION } from "../../src/utils/constants";
-import { TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
 import { TollFreeVerificationClient } from "../../src";
 import { assert } from "chai";
 import { configurationHttpClient } from "../public/utils/mockHttpClients";

@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  AuthenticationResult,
-  ConfidentialClientApplication,
-  PublicClientApplication,
-} from "@azure/msal-node";
-import Sinon, { createSandbox } from "sinon";
+import type { AuthenticationResult } from "@azure/msal-node";
+import { ConfidentialClientApplication, PublicClientApplication } from "@azure/msal-node";
+import type Sinon from "sinon";
+import { createSandbox } from "sinon";
 
 import { PlaybackTenantId } from "../msalTestUtils";
 import { Recorder } from "@azure-tools/test-recorder";

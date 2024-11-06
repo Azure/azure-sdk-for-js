@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   BasicPartitionProperties,
   PartitionContext,
   SubscriptionEventHandlers,
 } from "./eventHubConsumerClientModels.js";
-import { CheckpointStore } from "./eventProcessor.js";
-import { CloseReason } from "./models/public.js";
-import { LastEnqueuedEventProperties } from "./partitionReceiver.js";
-import { ReceivedEventData } from "./eventData.js";
+import type { CheckpointStore } from "./eventProcessor.js";
+import type { CloseReason } from "./models/public.js";
+import type { LastEnqueuedEventProperties } from "./partitionReceiver.js";
+import type { ReceivedEventData } from "./eventData.js";
 import { logger } from "./logger.js";
 
 /**
