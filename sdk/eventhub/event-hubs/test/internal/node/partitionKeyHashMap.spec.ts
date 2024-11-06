@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { hashPartitionKey } from "../../../src/impl/partitionKeyToIdMapper.js";
 import expectations from "./partitionKeyHashMap.json";

@@ -5,8 +5,17 @@
 ### Features Added
 
 - Adds `deleteMessages` which deletes messages from the queue.
+- Add the experimental diagnostic feature `omitMessageBody` via `PeekMessagesOptions` under `./experimental` subpath export.
 
 ### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+- upgrade dependency `@azure/abort-controller` version to `^2.1.2`.
+
+## 7.9.5 (2024-06-11)
 
 ### Bugs Fixed
 
@@ -14,7 +23,7 @@
 
 ### Other Changes
 
-- upgrade dependency `@azure/abort-controller` version to `^2.1.2`.
+- Wait up to max wait time for draining credit when receiving messages [PR #28604](https://github.com/Azure/azure-sdk-for-js/pull/28604)
 
 ## 7.9.4 (2024-02-06)
 
@@ -416,8 +425,8 @@ If migrating from version 1.1.10 or lower, look at our [migration guide to move 
 
   ```typescript
   // this same method will work with subscriptions as well.
-  serviceBusClient.createReceiver(<queue>, {
-    subQueue: "deadLetter"
+  serviceBusClient.createReceiver("<queue name>", {
+    subQueue: "deadLetter",
   });
   ```
 

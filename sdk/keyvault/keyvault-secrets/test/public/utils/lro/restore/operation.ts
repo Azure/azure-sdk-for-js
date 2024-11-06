@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { PollOperation, PollOperationState } from "@azure/core-lro";
-import { OperationOptions } from "@azure/core-client";
-import { SecretPollerOptions, SecretProperties } from "../../../../../src";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollOperation, PollOperationState } from "@azure/core-lro";
+import type { OperationOptions } from "@azure/core-client";
+import type { SecretPollerOptions, SecretProperties } from "../../../../../src/index.js";
 
 /**
  * Options sent to the beginRestoreSecretBackup method.
@@ -93,7 +93,6 @@ async function cancel(this: RestoreSecretBackupPollOperation): Promise<never> {
 /**
  * Serializes the create secret's poll operation
  */
-// eslint-disable-next-line @typescript-eslint/no-redeclare
 function toString(this: RestoreSecretBackupPollOperation): string {
   return JSON.stringify({
     state: this.state,

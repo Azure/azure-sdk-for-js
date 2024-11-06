@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import chai from "chai";
 import Long from "long";
-const should = chai.should();
-const expect = chai.expect;
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
-import { ServiceBusSender } from "../../src";
-import { ServiceBusClient, ServiceBusSessionReceiver } from "../../src";
+import { TestClientType, TestMessage } from "./utils/testUtils.js";
+import type { ServiceBusClientForTests } from "./utils/testutils2.js";
+import { createServiceBusClientForTests } from "./utils/testutils2.js";
+import type { ServiceBusSender } from "../../src/index.js";
+import type { ServiceBusSessionReceiver } from "../../src/index.js";
+import { ServiceBusClient } from "../../src/index.js";
+import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { assert, should } from "./utils/chai.js";
 
 describe("invalid parameters", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -31,7 +30,7 @@ describe("invalid parameters", () => {
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
     // new sender/receiver clients before each test. Doing it once for each describe block.
-    before(async () => {
+    beforeAll(async () => {
       const entityNames = await serviceBusClient.test.createTestEntities(
         TestClientType.PartitionedQueueWithSessions,
       );
@@ -48,7 +47,7 @@ describe("invalid parameters", () => {
       await sender.sendMessages(TestMessage.getSessionSample());
     });
 
-    after(() => {
+    afterAll(() => {
       return serviceBusClient.test.afterEach();
     });
 
@@ -78,7 +77,7 @@ describe("invalid parameters", () => {
         try {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.receiveMessages(inputValue);
-          chai.assert.fail("This should not have passed.");
+          assert.fail("This should not have passed.");
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
@@ -93,7 +92,7 @@ describe("invalid parameters", () => {
         try {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.peekMessages(inputValue);
-          chai.assert.fail("This should not have passed.");
+          assert.fail("This should not have passed.");
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
@@ -110,7 +109,7 @@ describe("invalid parameters", () => {
           await receiver.peekMessages(inputValue, {
             fromSequenceNumber: Long.ZERO,
           });
-          chai.assert.fail("This should not have passed.");
+          assert.fail("This should not have passed.");
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
@@ -151,7 +150,7 @@ describe("invalid parameters", () => {
     it("RegisterMessageHandler: Missing onMessage in SessionReceiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.subscribe(undefined as any, undefined as any);
+        receiver.subscribe(undefined as any, undefined as any);
       } catch (error: any) {
         caughtError = error;
       }
@@ -162,7 +161,7 @@ describe("invalid parameters", () => {
     it("RegisterMessageHandler: Wrong type for onMessage in SessionReceiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.subscribe("somestring" as any, "somethingelse" as any);
+        receiver.subscribe("somestring" as any, "somethingelse" as any);
       } catch (error: any) {
         caughtError = error;
       }
@@ -252,7 +251,7 @@ describe("invalid parameters", () => {
         try {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.receiveMessages(inputValue);
-          chai.assert.fail("This should not have passed.");
+          assert.fail("This should not have passed.");
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
@@ -267,7 +266,7 @@ describe("invalid parameters", () => {
         try {
           // @ts-expect-error We are trying invalid types on purpose to test the error thrown
           await receiver.peekMessages(inputValue);
-          chai.assert.fail("This should not have passed.");
+          assert.fail("This should not have passed.");
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
@@ -284,7 +283,7 @@ describe("invalid parameters", () => {
           await receiver.peekMessages(inputValue, {
             fromSequenceNumber: Long.ZERO,
           });
-          chai.assert.fail("This should not have passed.");
+          assert.fail("This should not have passed.");
         } catch (error: any) {
           should.equal(error && error.name, "TypeError");
           expect(error.message, "Validation error for maxMessageCount not thrown").includes(
@@ -325,7 +324,7 @@ describe("invalid parameters", () => {
     it("RegisterMessageHandler: Missing onMessage in Receiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.subscribe(undefined as any, undefined as any);
+        receiver.subscribe(undefined as any, undefined as any);
       } catch (error: any) {
         caughtError = error;
       }
@@ -336,7 +335,7 @@ describe("invalid parameters", () => {
     it("RegisterMessageHandler: Wrong type for onMessage in Receiver", async function (): Promise<void> {
       let caughtError: Error | undefined;
       try {
-        await receiver.subscribe("somestring" as any, "somethingelse" as any);
+        receiver.subscribe("somestring" as any, "somethingelse" as any);
       } catch (error: any) {
         caughtError = error;
       }

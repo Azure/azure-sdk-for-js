@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TracerOptions, TracerProvider, trace } from "@opentelemetry/api";
 import { TestTracer } from "./testTracer.js";

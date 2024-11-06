@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as fs from "fs";
 import { AvroReadableFromStream } from "../../src";
@@ -28,7 +28,6 @@ describe("AvroReadableFromStream", () => {
   });
 
   it("abort read should work", async () => {
-    // eslint-disable-next-line @typescript-eslint/no-empty-function
     const delayedReadable = new Readable({ read() {} });
     const rfs = new AvroReadableFromStream(delayedReadable);
 

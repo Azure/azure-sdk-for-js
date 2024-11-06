@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { base64Decode, base64Encode } from "../../src/utils/bufferSerializer";
 
-import { ConnectionString } from "../../src/utils/internalModels";
-import { Context } from "mocha";
+import type { ConnectionString } from "../../src/utils/internalModels";
+import type { Context } from "mocha";
 import { assert } from "chai";
 import { extractConnectionStringParts } from "../../src/utils/connectionString";
 import { isNodeLike } from "@azure/core-util";

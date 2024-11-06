@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   deserialize,
@@ -8,7 +8,7 @@ import {
   serializeSignedIdentifiers,
 } from "../../src/serialization";
 
-import { Edm } from "../../src";
+import type { Edm } from "../../src";
 import { assert } from "chai";
 
 interface Entity {

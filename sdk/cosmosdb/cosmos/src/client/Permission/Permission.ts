@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+// Licensed under the MIT License.
+import type { ClientContext } from "../../ClientContext";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   createPermissionUri,
   getIdFromLink,
@@ -9,10 +9,10 @@ import {
   isResourceValid,
   ResourceType,
 } from "../../common";
-import { RequestOptions } from "../../request/RequestOptions";
-import { User } from "../User";
-import { PermissionBody } from "./PermissionBody";
-import { PermissionDefinition } from "./PermissionDefinition";
+import type { RequestOptions } from "../../request/RequestOptions";
+import type { User } from "../User";
+import type { PermissionBody } from "./PermissionBody";
+import type { PermissionDefinition } from "./PermissionDefinition";
 import { PermissionResponse } from "./PermissionResponse";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 

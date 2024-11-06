@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createTableClient, createTableServiceClient } from "./utils/recordedClient";
 
-import { Context } from "mocha";
-import { CreateClientMode } from "./utils/recordedClient";
-import { TableClient } from "../../src/TableClient";
-import { TableServiceClient } from "../../src/TableServiceClient";
+import type { Context } from "mocha";
+import type { CreateClientMode } from "./utils/recordedClient";
+import type { TableClient } from "../../src/TableClient";
+import type { TableServiceClient } from "../../src/TableServiceClient";
 import { assert } from "chai";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";

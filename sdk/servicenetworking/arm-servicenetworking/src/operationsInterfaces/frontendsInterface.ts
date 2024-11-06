@@ -18,7 +18,8 @@ import {
   FrontendUpdate,
   FrontendsInterfaceUpdateOptionalParams,
   FrontendsInterfaceUpdateResponse,
-  FrontendsInterfaceDeleteOptionalParams
+  FrontendsInterfaceDeleteOptionalParams,
+  FrontendsInterfaceDeleteResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +34,7 @@ export interface FrontendsInterface {
   listByTrafficController(
     resourceGroupName: string,
     trafficControllerName: string,
-    options?: FrontendsInterfaceListByTrafficControllerOptionalParams
+    options?: FrontendsInterfaceListByTrafficControllerOptionalParams,
   ): PagedAsyncIterableIterator<Frontend>;
   /**
    * Get a Frontend
@@ -46,7 +47,7 @@ export interface FrontendsInterface {
     resourceGroupName: string,
     trafficControllerName: string,
     frontendName: string,
-    options?: FrontendsInterfaceGetOptionalParams
+    options?: FrontendsInterfaceGetOptionalParams,
   ): Promise<FrontendsInterfaceGetResponse>;
   /**
    * Create a Frontend
@@ -61,7 +62,7 @@ export interface FrontendsInterface {
     trafficControllerName: string,
     frontendName: string,
     resource: Frontend,
-    options?: FrontendsInterfaceCreateOrUpdateOptionalParams
+    options?: FrontendsInterfaceCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<FrontendsInterfaceCreateOrUpdateResponse>,
@@ -81,7 +82,7 @@ export interface FrontendsInterface {
     trafficControllerName: string,
     frontendName: string,
     resource: Frontend,
-    options?: FrontendsInterfaceCreateOrUpdateOptionalParams
+    options?: FrontendsInterfaceCreateOrUpdateOptionalParams,
   ): Promise<FrontendsInterfaceCreateOrUpdateResponse>;
   /**
    * Update a Frontend
@@ -96,7 +97,7 @@ export interface FrontendsInterface {
     trafficControllerName: string,
     frontendName: string,
     properties: FrontendUpdate,
-    options?: FrontendsInterfaceUpdateOptionalParams
+    options?: FrontendsInterfaceUpdateOptionalParams,
   ): Promise<FrontendsInterfaceUpdateResponse>;
   /**
    * Delete a Frontend
@@ -109,8 +110,13 @@ export interface FrontendsInterface {
     resourceGroupName: string,
     trafficControllerName: string,
     frontendName: string,
-    options?: FrontendsInterfaceDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: FrontendsInterfaceDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<FrontendsInterfaceDeleteResponse>,
+      FrontendsInterfaceDeleteResponse
+    >
+  >;
   /**
    * Delete a Frontend
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -122,6 +128,6 @@ export interface FrontendsInterface {
     resourceGroupName: string,
     trafficControllerName: string,
     frontendName: string,
-    options?: FrontendsInterfaceDeleteOptionalParams
-  ): Promise<void>;
+    options?: FrontendsInterfaceDeleteOptionalParams,
+  ): Promise<FrontendsInterfaceDeleteResponse>;
 }

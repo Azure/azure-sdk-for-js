@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationRequest, OperationRequestInfo } from "./interfaces.js";
+import type { OperationRequest, OperationRequestInfo } from "./interfaces.js";
 
 /**
  * Browser-only implementation of the module's state. The browser esm variant will not load the commonjs state, so we do not need to share state between the two.

@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { PartitionContext, ReceivedEventData, SubscriptionEventHandlers } from "../../src/index.js";
+import type {
+  PartitionContext,
+  ReceivedEventData,
+  SubscriptionEventHandlers,
+} from "../../src/index.js";
 
 export class FakeSubscriptionEventHandlers implements SubscriptionEventHandlers {
   public events: Map<string, ReceivedEventData[]> = new Map();

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 
@@ -10,14 +10,10 @@ import {
   recorderEnvSetup,
   SimpleTokenCredential,
 } from "../utils";
-import {
-  BlobServiceClient,
-  getBlobServiceAccountAudience,
-  newPipeline,
-  StorageSharedKeyCredential,
-} from "../../src";
+import type { StorageSharedKeyCredential } from "../../src";
+import { BlobServiceClient, getBlobServiceAccountAudience, newPipeline } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("BlobServiceClient Node.js only", () => {

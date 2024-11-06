@@ -67,7 +67,7 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Gets all databases in the specified RedisEnterprise cluster.
+   * Gets all databases in the specified Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param options The options parameters.
@@ -151,7 +151,7 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Gets all databases in the specified RedisEnterprise cluster.
+   * Gets all databases in the specified Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param options The options parameters.
@@ -380,7 +380,7 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Gets information about a database in a RedisEnterprise cluster.
+   * Gets information about a database in a Redis Enterprise cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param databaseName The name of the Redis Enterprise database.
@@ -486,7 +486,7 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Retrieves the access keys for the RedisEnterprise database.
+   * Retrieves the access keys for the Redis Enterprise database.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param databaseName The name of the Redis Enterprise database.
@@ -505,7 +505,7 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Regenerates the RedisEnterprise database's access keys.
+   * Regenerates the Redis Enterprise database's access keys.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param databaseName The name of the Redis Enterprise database.
@@ -586,7 +586,7 @@ export class DatabasesImpl implements Databases {
   }
 
   /**
-   * Regenerates the RedisEnterprise database's access keys.
+   * Regenerates the Redis Enterprise database's access keys.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param clusterName The name of the Redis Enterprise cluster.
    * @param databaseName The name of the Redis Enterprise database.

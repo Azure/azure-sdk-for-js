@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   AppConfigurationClient,
   ConfigurationSetting,
   ConfigurationSettingParam,
   ListConfigurationSettingPage,
-} from "../../src";
-import { Recorder, delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+} from "../../src/index.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   assertEqualSettings,
   assertTags,
@@ -19,24 +20,23 @@ import {
   startRecorder,
   toSortedArray,
   toSortedLabelsArray,
-} from "./utils/testHelpers";
-import { Context } from "mocha";
-import { assert } from "chai";
+} from "./utils/testHelpers.js";
+import { describe, it, assert, beforeEach, afterEach, afterAll, beforeAll } from "vitest";
 
 describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async function (ctx) {
+    recorder = await startRecorder(ctx);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function () {
     await recorder.stop();
   });
 
-  after(async function (this: Context) {
+  afterAll(async function () {
     if (!isPlaybackMode()) {
       await deleteEverySetting();
     }
@@ -173,8 +173,8 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async function () {
-      if (isPlaybackMode()) this.skip();
+    it.skip("accepts  operation options", async function (ctx) {
+      if (isPlaybackMode()) ctx.skip();
       const key = recorder.variable(
         "addConfigTestTwice",
         `addConfigTestTwice${Math.floor(Math.random() * 1000)}`,
@@ -327,10 +327,10 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async function () {
+    it.skip("accepts  operation options", async function (ctx) {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
-      // eslint-disable-next-line @typescript-eslint/no-invalid-this
-      if (isPlaybackMode()) this.skip();
+
+      if (isPlaybackMode()) ctx.skip();
       const key = recorder.variable(
         "deleteConfigTest",
         `deleteConfigTest${Math.floor(Math.random() * 1000)}`,
@@ -457,10 +457,8 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async function () {
-      // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
-      // eslint-disable-next-line @typescript-eslint/no-invalid-this
-      if (isPlaybackMode()) this.skip();
+    it.skip("accepts  operation options", async function (ctx) {
+      if (isPlaybackMode()) ctx.skip();
       const key = recorder.variable(
         "getConfigTest",
         `getConfigTest${Math.floor(Math.random() * 1000)}`,
@@ -581,7 +579,7 @@ describe("AppConfigurationClient", () => {
       listConfigSettingB: "",
     };
 
-    before(async () => {
+    beforeAll(async () => {
       if (!isPlaybackMode()) {
         await deleteEverySetting();
       }
@@ -605,7 +603,7 @@ describe("AppConfigurationClient", () => {
       listConfigSettingA = await client.addConfigurationSetting(productionASettingId);
     });
 
-    after(async () => {
+    afterAll(async () => {
       try {
         await deleteKeyCompletely([keys.listConfigSettingA], client);
       } catch (e: any) {
@@ -989,14 +987,14 @@ describe("AppConfigurationClient", () => {
       assert.ok(foundMyExactSettingToo);
     });
 
-    it("list with multiple pages", async function () {
+    it("list with multiple pages", async function (ctx) {
       // This occasionally hits 429 error (throttling) since we are making 100s of requests in the test to create, get and delete keys.
       // To avoid hitting the service with too many requests, skipping the test in live.
       // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
       //
       // Remove the following line if you want to hit the live service.
-      // eslint-disable-next-line @typescript-eslint/no-invalid-this
-      if (isLiveMode()) this.skip();
+
+      if (isLiveMode()) ctx.skip();
 
       const key = recorder.variable(
         "listMultiplePagesOfResults",
@@ -1045,14 +1043,13 @@ describe("AppConfigurationClient", () => {
       }
     });
 
-    it("list with multiple pages - bypage and etags", async function () {
+    it("list with multiple pages - bypage and etags", async function (ctx) {
       // This occasionally hits 429 error (throttling) since we are making 100s of requests in the test to create, get and delete keys.
       // To avoid hitting the service with too many requests, skipping the test in live.
       // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
       //
       // Remove the following line if you want to hit the live service.
-      // eslint-disable-next-line @typescript-eslint/no-invalid-this
-      if (isLiveMode()) this.skip();
+      if (isLiveMode()) ctx.skip();
 
       const key = recorder.variable(
         "listMultiplePagesOfResults",
@@ -1064,7 +1061,7 @@ describe("AppConfigurationClient", () => {
       // this number is chosen to create 2 full page an an empty 3 page
       const expectedNumberOfLabels = pageSize * 2;
 
-      async function addConfigSettings(numToAdd: number, begin: number = 0) {
+      async function addConfigSettings(numToAdd: number, begin: number = 0): Promise<void> {
         let addSettingPromises = [];
 
         for (let i = begin; i < begin + numToAdd; i++) {
@@ -1133,7 +1130,7 @@ describe("AppConfigurationClient", () => {
         page: ListConfigurationSettingPage,
         expectedLength: number,
         status: number,
-      ) {
+      ): void {
         assert.equal(page._response.status, status);
         assert.equal(page.items.length, expectedLength);
         assert.isDefined(page.etag);
@@ -1145,10 +1142,8 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async function () {
-      // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
-      // eslint-disable-next-line @typescript-eslint/no-invalid-this
-      if (isPlaybackMode()) this.skip();
+    it.skip("accepts  operation options", async function (ctx) {
+      if (isPlaybackMode()) ctx.skip();
       await assertThrowsAbortError(async () => {
         const settingsIterator = client.listConfigurationSettings({
           requestOptions: { timeout: 1 },
@@ -1324,10 +1319,8 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async function () {
-      // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
-      // eslint-disable-next-line @typescript-eslint/no-invalid-this
-      if (isPlaybackMode()) this.skip();
+    it.skip("accepts  operation options", async function (ctx) {
+      if (isPlaybackMode()) ctx.skip();
       await assertThrowsAbortError(async () => {
         const iter = client.listRevisions({ labelFilter: labelA, requestOptions: { timeout: 1 } });
         await iter.next();
@@ -1599,8 +1592,8 @@ describe("AppConfigurationClient", () => {
     });
 
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
-    it.skip("accepts  operation options", async function () {
-      if (isPlaybackMode()) this.skip();
+    it.skip("accepts  operation options", async function (ctx) {
+      if (isPlaybackMode()) ctx.skip();
       const key = recorder.variable(
         `setConfigTestNA`,
         `setConfigTestNA${Math.floor(Math.random() * 1000)}`,

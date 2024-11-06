@@ -30,7 +30,7 @@ export type EndpointOptions = {
 };
 
 // @public
-export const getConnectOptions: (options?: Omit<PlaywrightServiceAdditionalOptions, "defaultAuthenticationMechanism">) => Promise<BrowserConnectOptions>;
+export const getConnectOptions: (options?: Omit<PlaywrightServiceAdditionalOptions, "serviceAuthType">) => Promise<BrowserConnectOptions>;
 
 // @public
 export const getServiceConfig: (config: PlaywrightConfigInput, options?: PlaywrightServiceAdditionalOptions) => PlaywrightConfig;
@@ -38,6 +38,7 @@ export const getServiceConfig: (config: PlaywrightConfigInput, options?: Playwri
 // @public
 export interface MPTReporterConfig {
     enableGitHubSummary?: boolean;
+    enableResultPublish?: boolean;
 }
 
 // @public
@@ -60,7 +61,7 @@ export type PlaywrightConfigInput = {
 
 // @public
 export type PlaywrightServiceAdditionalOptions = {
-    defaultAuth?: AuthenticationType;
+    serviceAuthType?: AuthenticationType;
     os?: OsType;
     runId?: string;
     timeout?: number;
@@ -68,18 +69,18 @@ export type PlaywrightServiceAdditionalOptions = {
     exposeNetwork?: string;
     useCloudHostedBrowsers?: boolean;
     credential?: TokenCredential;
+    runName?: string;
 };
 
 // @public
 export const ServiceAuth: {
-    readonly ENTRA: "ENTRA";
-    readonly TOKEN: "TOKEN";
+    readonly ENTRA_ID: "ENTRA_ID";
+    readonly ACCESS_TOKEN: "ACCESS_TOKEN";
 };
 
 // @public
 export const ServiceEnvironmentVariable: {
     PLAYWRIGHT_SERVICE_OS: string;
-    PLAYWRIGHT_SERVICE_RUN_ID: string;
     PLAYWRIGHT_SERVICE_EXPOSE_NETWORK_ENVIRONMENT_VARIABLE: string;
     PLAYWRIGHT_SERVICE_ACCESS_TOKEN: string;
     PLAYWRIGHT_SERVICE_URL: string;

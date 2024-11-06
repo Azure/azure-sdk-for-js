@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
+/* eslint-disable @azure/azure-sdk/ts-naming-options */
+import type { CommunicationTokenCredential } from "@azure/communication-common";
 import {
-  CommunicationTokenCredential,
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { OperationOptions } from "@azure/core-client";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { OperationOptions } from "@azure/core-client";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { SDK_VERSION } from "./constants";
-import {
-  JobRouterApiClient,
+import type {
   JobRouterListJobsOptionalParams,
   JobRouterListWorkersOptionalParams,
   RouterJobPositionDetails,
@@ -21,11 +21,11 @@ import {
   RouterJob as RouterJobGenerated,
   RouterJobItem as RouterJobItemGenerated,
   RouterWorkerItem as RouterWorkerItemGenerated,
-  KnownJobMatchModeType,
   JobMatchingMode,
 } from "./generated/src";
+import { JobRouterApiClient, KnownJobMatchModeType } from "./generated/src";
 import { logger } from "./logger";
-import {
+import type {
   RouterJobItem,
   RouterWorkerItem,
   RouterJobNote,
@@ -34,7 +34,7 @@ import {
   RouterJobMatchingMode,
   RouterWorkerState,
 } from "./models";
-import {
+import type {
   JobRouterClientOptions,
   CreateJobOptions,
   UpdateJobOptions,
@@ -49,7 +49,7 @@ import {
   UpdateWorkerOptions,
   ListWorkersOptions,
 } from "./options";
-import {
+import type {
   RouterJobResponse,
   CancelJobResponse,
   CompleteJobResponse,

@@ -1,18 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable no-underscore-dangle*/
 
 import * as assert from "assert";
-import * as http from "http";
+import type * as http from "http";
 import * as sinon from "sinon";
 import { BrowserSdkLoader } from "../../../../src/browserSdkLoader/browserSdkLoader";
 import * as BrowserSdkLoaderHelper from "../../../../src/browserSdkLoader/browserSdkLoaderHelper";
-import {
-  AzureMonitorOpenTelemetryOptions,
-  shutdownAzureMonitor,
-  useAzureMonitor,
-} from "../../../../src/index";
+import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/index";
+import { shutdownAzureMonitor, useAzureMonitor } from "../../../../src/index";
 import { getOsPrefix } from "../../../../src/utils/common";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";

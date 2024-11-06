@@ -1,31 +1,27 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   AccessTier,
   ServiceSubmitBatchHeaders,
   ServiceSubmitBatchOptionalParamsModel,
   ServiceSubmitBatchResponseModel,
 } from "./generatedModels";
-import { ParsedBatchResponse } from "./BatchResponse";
+import type { ParsedBatchResponse } from "./BatchResponse";
 import { BatchResponseParser } from "./BatchResponseParser";
 import { utf8ByteLength } from "./BatchUtils";
 import { BlobBatch } from "./BlobBatch";
 import { tracingClient } from "./utils/tracing";
-import { TokenCredential } from "@azure/core-auth";
-import { Service, Container } from "./generated/src/operationsInterfaces";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import type { TokenCredential } from "@azure/core-auth";
+import type { Service, Container } from "./generated/src/operationsInterfaces";
+import type { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./Clients";
+import type { BlobDeleteOptions, BlobClient, BlobSetTierOptions } from "./Clients";
 import { StorageContextClient } from "./StorageContextClient";
-import {
-  PipelineLike,
-  StoragePipelineOptions,
-  newPipeline,
-  isPipelineLike,
-  getCoreClientOptions,
-} from "./Pipeline";
-import { assertResponse, getURLPath, WithResponse } from "./utils/utils.common";
+import type { PipelineLike, StoragePipelineOptions } from "./Pipeline";
+import { newPipeline, isPipelineLike, getCoreClientOptions } from "./Pipeline";
+import type { WithResponse } from "./utils/utils.common";
+import { assertResponse, getURLPath } from "./utils/utils.common";
 
 /**
  * Options to configure the Service - Submit Batch Optional Params.

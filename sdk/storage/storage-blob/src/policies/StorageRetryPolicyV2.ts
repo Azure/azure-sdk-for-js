@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortError } from "@azure/abort-controller";
-import {
+import type {
   PipelinePolicy,
   PipelineRequest,
   SendRequest,
   PipelineResponse,
-  isRestError,
-  RestError,
 } from "@azure/core-rest-pipeline";
+import { isRestError, RestError } from "@azure/core-rest-pipeline";
 import { getErrorMessage } from "@azure/core-util";
-import { StorageRetryOptions } from "../StorageRetryPolicyFactory";
+import type { StorageRetryOptions } from "../StorageRetryPolicyFactory";
 import { URLConstants } from "../utils/constants";
 import { delay, setURLHost, setURLParameter } from "../utils/utils.common";
 import { logger } from "../log";

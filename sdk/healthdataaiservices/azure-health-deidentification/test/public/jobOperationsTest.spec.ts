@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   createRecordedDeidentificationClient,
@@ -8,12 +8,13 @@ import {
   getTestEnvironment,
 } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { DeidentificationClient } from "../../src/clientDefinitions.js";
+import type { DeidentificationClient } from "../../src/clientDefinitions.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { DeidentificationJob } from "../../src/models.js";
-import { DeidentificationJobOutput, DocumentDetailsOutput } from "../../src/outputModels.js";
-import { Recorder, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
-import { ErrorResponse } from "@azure-rest/core-client";
+import type { DeidentificationJob } from "../../src/models.js";
+import type { DeidentificationJobOutput, DocumentDetailsOutput } from "../../src/outputModels.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
+import type { ErrorResponse } from "@azure-rest/core-client";
 import { getLongRunningPoller } from "../../src/pollingHelper.js";
 import { paginate } from "../../src/paginateHelper.js";
 import { isUnexpected } from "../../src/isUnexpected.js";

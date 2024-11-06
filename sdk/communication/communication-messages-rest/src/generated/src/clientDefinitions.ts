@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   GetMediaParameters,
@@ -26,7 +26,7 @@ export interface GetMedia {
 export interface Send {
   /** Sends a notification message from Business to User. */
   post(
-    options?: SendParameters,
+    options: SendParameters,
   ): StreamableMethod<Send202Response | SendDefaultResponse>;
 }
 

@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-util";
-import { TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import sinon from "sinon";
 import { PhoneNumbersClient } from "../../src/phoneNumbersClient";
 import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients";
 import { SDK_VERSION } from "../../src/utils/constants";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { createMockToken } from "../public/utils/recordedClient";
-import { PipelineRequest } from "@azure/core-rest-pipeline";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
 
 describe("PhoneNumbersClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";

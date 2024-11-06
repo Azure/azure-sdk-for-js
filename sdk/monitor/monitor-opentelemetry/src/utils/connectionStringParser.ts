@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { diag } from "@opentelemetry/api";
-import { ConnectionString, ConnectionStringKey } from "./types";
+import type { ConnectionString, ConnectionStringKey } from "./types";
 import { DEFAULT_BREEZE_ENDPOINT, DEFAULT_LIVEMETRICS_ENDPOINT } from "../types";
 
 /**

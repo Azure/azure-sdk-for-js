@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as msalBrowser from "@azure/msal-browser";
 
-import { MsalBrowser, MsalBrowserFlowOptions } from "./msalBrowserCommon";
+import type { MsalBrowserFlowOptions } from "./msalBrowserCommon";
+import { MsalBrowser } from "./msalBrowserCommon";
 import {
   defaultLoggerCallback,
   getMSALLogLevel,
@@ -12,10 +13,10 @@ import {
   publicToMsal,
 } from "../utils";
 
-import { AccessToken } from "@azure/core-auth";
-import { AuthenticationRecord } from "../types";
+import type { AccessToken } from "@azure/core-auth";
+import type { AuthenticationRecord } from "../types";
 import { AuthenticationRequiredError } from "../../errors";
-import { CredentialFlowGetTokenOptions } from "../credentials";
+import type { CredentialFlowGetTokenOptions } from "../credentials";
 import { getLogLevel } from "@azure/logger";
 
 // We keep a copy of the redirect hash.
@@ -243,7 +244,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         // we'll load the MSAL account in the constructor.
 
         await app.acquireTokenRedirect(parameters);
-        return { token: "", expiresOnTimestamp: 0 };
+        return { token: "", expiresOnTimestamp: 0, tokenType: "Bearer" };
       case "popup":
         return this.handleResult(scopes, await app.acquireTokenPopup(parameters));
     }

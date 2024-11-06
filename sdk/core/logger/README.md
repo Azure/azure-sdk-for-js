@@ -86,27 +86,18 @@ Request and response bodies are never logged. Headers are redacted by default, u
 
 ### Example 1 - basic usage
 
-```js
-const { EventHubClient } = require('@azure/event-hubs');
+```ts snippet:basic_usage
+import { setLogLevel } from "@azure/logger";
 
-const logger = require('@azure/logger');
-logger.setLogLevel('info');
-
-// operations will now emit info, warning, and error logs
-const client = new EventHubClient(/* params */);
-client.getPartitionIds()
-  .then(ids => { /* do work */ })
-  .catch(e => { /* do work */ });
-});
+setLogLevel("info");
 ```
 
 ### Example 2 - redirect log output
 
-```js
-const { AzureLogger, setLogLevel } = require("@azure/logger");
+```ts snippet:redirect_log_output
+import { setLogLevel, AzureLogger } from "@azure/logger";
 
 setLogLevel("verbose");
-
 // override logging to output to console.log (default location is stderr)
 AzureLogger.log = (...args) => {
   console.log(...args);

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { parseXML, stringifyXML } from "../src/index.js";
 import { describe, it, assert } from "vitest";
@@ -508,6 +508,20 @@ describe("XML serializer", function () {
       assert.deepStrictEqual(
         xml,
         `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples tasty="true">yum</apples></fruits>`,
+      );
+    });
+
+    it("should handle xmlns properly", function () {
+      const xml = stringifyXML({
+        $: {
+          xmlns: "https://microsoft.com/",
+          "xmlns:h": "http://www.w3.org/TR/html4/",
+        },
+        _: "yum",
+      });
+      assert.deepEqual(
+        xml,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><root xmlns="https://microsoft.com/" xmlns:h="http://www.w3.org/TR/html4/">yum</root>`,
       );
     });
 

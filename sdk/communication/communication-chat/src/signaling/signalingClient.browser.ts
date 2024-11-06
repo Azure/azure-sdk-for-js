@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CommunicationSignalingClient, SignalingClient } from "@azure/communication-signaling";
-import { CommunicationTokenCredential } from "@azure/communication-common";
-import { AzureLogger } from "@azure/logger";
-import { SignalingClientOptions } from "./signalingClient";
+import type { SignalingClient } from "@azure/communication-signaling";
+import { CommunicationSignalingClient } from "@azure/communication-signaling";
+import type { CommunicationTokenCredential } from "@azure/communication-common";
+import type { AzureLogger } from "@azure/logger";
+import type { SignalingClientOptions } from "./signalingClient";
 
 export const getSignalingClient = (
   credential: CommunicationTokenCredential,
@@ -12,8 +13,9 @@ export const getSignalingClient = (
   options?: SignalingClientOptions,
 ): SignalingClient | undefined => {
   return new CommunicationSignalingClient(credential, logger, {
-    environment: options?.environment ?? undefined,
     resourceEndpoint: options?.resourceEndpoint ?? undefined,
     gatewayApiVersion: options?.gatewayApiVersion ?? undefined,
+    additionalPolicies: options?.additionalPolicies ?? undefined,
+    userAgentOptions: options?.userAgentOptions ?? undefined,
   });
 };

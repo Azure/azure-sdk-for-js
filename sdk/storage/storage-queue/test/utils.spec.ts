@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import {
@@ -11,7 +11,7 @@ import {
 import { Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "./utils/testutils.common";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("Utility Helpers", () => {
   let recorder: Recorder;

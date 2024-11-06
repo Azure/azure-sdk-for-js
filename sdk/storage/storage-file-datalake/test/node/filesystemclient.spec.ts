@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 import {
   SimpleTokenCredential,
@@ -14,13 +14,10 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils";
-import {
-  DataLakeFileSystemClient,
-  DataLakeServiceClient,
-  FileSystemSASPermissions,
-  newPipeline,
-} from "../../src";
-import { getDataLakeServiceAccountAudience, PublicAccessType } from "../../src/models";
+import type { DataLakeServiceClient } from "../../src";
+import { DataLakeFileSystemClient, FileSystemSASPermissions, newPipeline } from "../../src";
+import type { PublicAccessType } from "../../src/models";
+import { getDataLakeServiceAccountAudience } from "../../src/models";
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { createTestCredential } from "@azure-tools/test-credential";
 

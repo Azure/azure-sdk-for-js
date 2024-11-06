@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { SDK_VERSION } from "../../src/constants";
-import { SecretClient } from "../../src";
-import { TokenCredential } from "@azure/core-auth";
-import { assert } from "@azure-tools/test-utils";
+import { SDK_VERSION } from "../../src/constants.js";
+import { SecretClient } from "../../src/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import { describe, it, assert } from "vitest";
 
 describe("Secrets client's user agent (only in Node, because of fs)", () => {
   it("SDK_VERSION and user-agent should match", async function () {

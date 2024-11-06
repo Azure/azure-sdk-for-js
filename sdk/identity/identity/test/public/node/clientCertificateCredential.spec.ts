@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import * as path from "path";
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, delay, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { delay, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 
 import { ClientCertificateCredential } from "../../../src";
-import { Context } from "mocha";
-import { PipelineResponse } from "@azure/core-rest-pipeline";
+import type { Context } from "mocha";
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import { assert } from "@azure-tools/test-utils";
 import fs from "fs";
 

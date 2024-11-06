@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it, beforeAll } from "vitest";
@@ -21,8 +21,8 @@ import {
   withDeployments,
 } from "./utils/utils.js";
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
-import "@azure/openai/types";
-import { functionCallModelsToSkip } from "./utils/models.js";
+import { completionsModelsToSkip, functionCallModelsToSkip } from "./utils/models.js";
+import "../../src/types/index.js";
 
 describe("Completions", function () {
   let deployments: DeploymentInfo[] = [];
@@ -46,6 +46,7 @@ describe("Completions", function () {
             deployments,
             (deploymentName) => client.completions.create({ model: deploymentName, prompt }),
             assertCompletions,
+            completionsModelsToSkip,
           );
         });
       });
@@ -335,6 +336,7 @@ describe("Completions", function () {
                   const argument = toolCalls[0].function.arguments;
                   assert.isTrue(argument?.includes("assetName"));
                 },
+                functionCallModelsToSkip,
               ),
               chatCompletionDeployments,
             );

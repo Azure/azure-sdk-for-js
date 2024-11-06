@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { SasTokenCredential, NamedKeyCredential } from "../../../src/auth/sasTokenCredential.js";
+import type { NamedKeyCredential } from "../../../src/auth/sasTokenCredential.js";
+import { SasTokenCredential } from "../../../src/auth/sasTokenCredential.js";
 import { describe, it, assert, beforeEach } from "vitest";
 
 describe("SasTokenCredential", () => {

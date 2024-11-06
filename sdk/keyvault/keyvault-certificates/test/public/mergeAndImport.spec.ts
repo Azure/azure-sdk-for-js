@@ -1,19 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import fs from "node:fs";
 import childProcess from "child_process";
 import { isNodeLike } from "@azure/core-util";
-import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { SecretClient } from "@azure/keyvault-secrets";
-import { ClientSecretCredential } from "@azure/identity";
+import type { ClientSecretCredential } from "@azure/identity";
 
-import { CertificateClient } from "../../src/index.js";
+import type { CertificateClient } from "../../src/index.js";
 import { base64ToUint8Array, stringToUint8Array } from "../../src/utils.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
-import TestClient from "./utils/testClient.js";
+import type TestClient from "./utils/testClient.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
+import path from "node:path";
 
 describe("Certificates client - merge and import certificates", () => {
   const prefix = `merge${env.CERTIFICATE_NAME || "CertificateName"}`;
@@ -95,6 +97,11 @@ describe("Certificates client - merge and import certificates", () => {
   it.skipIf(!isNodeLike || isPlaybackMode())(
     "can merge a self signed certificate",
     async function (ctx): Promise<void> {
+      // Use a path relative to this test for these static files, since sometimes (e.g. with minmax) the tests
+      // are run from a different working directory to the package root.
+      const caKey = path.join(path.dirname(ctx.task.file.filepath), "..", "..", "ca.key");
+      const caCrt = path.join(path.dirname(ctx.task.file.filepath), "..", "..", "ca.crt");
+
       const certificateName = testClient.formatName(`${prefix}-${ctx.task.name}-${suffix}`);
 
       await client.beginCreateCertificate(
@@ -108,7 +115,7 @@ describe("Certificates client - merge and import certificates", () => {
       );
 
       const certificateOperationPoller = await client.getCertificateOperation(certificateName);
-      const { csr } = await certificateOperationPoller.getOperationState().certificateOperation!;
+      const { csr } = certificateOperationPoller.getOperationState().certificateOperation!;
       const base64Csr = Buffer.from(csr!).toString("base64");
       const wrappedCsr = `-----BEGIN CERTIFICATE REQUEST-----
 ${base64Csr}
@@ -119,7 +126,7 @@ ${base64Csr}
       //   openssl genrsa -out ca.key 2048
       //   openssl req -new -x509 -key ca.key -out ca.crt
       childProcess.execSync(
-        "openssl x509 -req -in test.csr -CA ca.crt -CAkey ca.key -CAcreateserial -out test.crt",
+        `openssl x509 -req -in test.csr -CA ${caCrt} -CAkey ${caKey} -CAcreateserial -out test.crt`,
       );
       const base64Crt = fs.readFileSync("test.crt").toString().split("\n").slice(1, -1).join("");
 

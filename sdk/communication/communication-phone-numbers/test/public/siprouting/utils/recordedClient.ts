@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Context, Test } from "mocha";
+import type { Context, Test } from "mocha";
 import * as dotenv from "dotenv";
 
+import type { RecorderStartOptions, SanitizerOptions } from "@azure-tools/test-recorder";
 import {
   Recorder,
-  RecorderStartOptions,
-  SanitizerOptions,
   assertEnvironmentVariable,
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { SipRoutingClient, SipTrunk, SipTrunkRoute } from "../../../../src";
+import type { SipTrunk, SipTrunkRoute } from "../../../../src";
+import { SipRoutingClient } from "../../../../src";
 import { parseConnectionString } from "@azure/communication-common";
-import { TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { randomUUID } from "@azure/core-util";

@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { isPlaybackMode, Recorder, RecorderStartOptions, delay } from "@azure-tools/test-recorder";
-import { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import { StorageClient } from "../../src/StorageClient";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { isPlaybackMode, delay } from "@azure-tools/test-recorder";
+import type { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type { StorageClient } from "../../src/StorageClient";
 
 export const testPollerProperties = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -34,7 +35,7 @@ const mockAccountKey = "aaaaa";
 const mockSas =
   "?sv=2015-04-05&ss=bfqt&srt=sco&sp=rwdlacup&se=2023-01-31T18%3A51%3A40.0000000Z&sig=foobar";
 
-const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv"];
+const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv", "sktid"];
 if (isBrowser()) {
   sasParams.push("_");
 }

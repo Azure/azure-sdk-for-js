@@ -1,17 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { PollerStoppedError } from "@azure/core-lro";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
-import {
-  CertificateClient,
-  KeyVaultCertificate,
-  DefaultCertificatePolicy,
-} from "../../src/index.js";
+import type { CertificateClient, KeyVaultCertificate } from "../../src/index.js";
+import { DefaultCertificatePolicy } from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
-import TestClient from "./utils/testClient.js";
+import type TestClient from "./utils/testClient.js";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 describe("Certificates client - LRO - create", () => {
@@ -69,7 +66,6 @@ describe("Certificates client - LRO - create", () => {
     expect(poller.getOperationState().isStarted).toBeTruthy();
 
     poller.pollUntilDone().catch((e) => {
-      expect(e).toBeInstanceOf(PollerStoppedError);
       expect(e.name).toEqual("PollerStoppedError");
       expect(e.message).toEqual("This poller is already stopped");
     });

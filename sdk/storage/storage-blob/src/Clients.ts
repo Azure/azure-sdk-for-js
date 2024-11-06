@@ -1,29 +1,30 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
-  getDefaultProxySettings,
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
   RequestBodyType as HttpRequestBody,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
-import { isTokenCredential, TokenCredential } from "@azure/core-auth";
+import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-util";
-import { PollOperationState } from "@azure/core-lro";
+import type { PollOperationState } from "@azure/core-lro";
 import { randomUUID } from "@azure/core-util";
-import { Readable } from "stream";
+import type { Readable } from "stream";
 
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { BlobQueryResponse } from "./BlobQueryResponse";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import {
+import type {
   AppendBlob,
   Blob as StorageBlob,
   BlockBlob,
   PageBlob,
 } from "./generated/src/operationsInterfaces";
-import {
+import type {
   AppendBlobAppendBlockFromUrlHeaders,
   AppendBlobAppendBlockHeaders,
   AppendBlobCreateHeaders,
@@ -56,7 +57,7 @@ import {
   PageBlobUploadPagesFromURLHeaders,
   PageBlobUploadPagesHeaders,
 } from "./generated/src";
-import {
+import type {
   AppendBlobAppendBlockFromUrlResponse,
   AppendBlobAppendBlockResponse,
   AppendBlobCreateResponse,
@@ -117,18 +118,16 @@ import {
   BlobSetLegalHoldResponse,
   BlobSetMetadataResponse,
 } from "./generatedModels";
-import {
+import type {
   AppendBlobRequestConditions,
   BlobDownloadResponseParsed,
   BlobRequestConditions,
   BlockBlobTier,
-  ensureCpkIfSpecified,
   Metadata,
   ObjectReplicationPolicy,
   PageBlobRequestConditions,
   PremiumPageBlobTier,
   Tags,
-  toAccessTier,
   TagConditions,
   MatchConditions,
   ModificationConditions,
@@ -138,19 +137,23 @@ import {
   HttpAuthorization,
   PollerLikeWithCancellation,
 } from "./models";
-import {
+import { ensureCpkIfSpecified, toAccessTier } from "./models";
+import type {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
-  rangeResponseFromModel,
 } from "./PageBlobRangeResponse";
-import { newPipeline, PipelineLike, isPipelineLike, StoragePipelineOptions } from "./Pipeline";
-import {
-  BlobBeginCopyFromUrlPoller,
+import { rangeResponseFromModel } from "./PageBlobRangeResponse";
+import type { PipelineLike, StoragePipelineOptions } from "./Pipeline";
+import { newPipeline, isPipelineLike } from "./Pipeline";
+import type {
   BlobBeginCopyFromUrlPollState,
   CopyPollerBlobClient,
 } from "./pollers/BlobStartCopyFromUrlPoller";
-import { Range, rangeToString } from "./Range";
-import { CommonOptions, StorageClient } from "./StorageClient";
+import { BlobBeginCopyFromUrlPoller } from "./pollers/BlobStartCopyFromUrlPoller";
+import type { Range } from "./Range";
+import { rangeToString } from "./Range";
+import type { CommonOptions } from "./StorageClient";
+import { StorageClient } from "./StorageClient";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "../../storage-common/src";
 import {
@@ -166,6 +169,7 @@ import {
   URLConstants,
 } from "./utils/constants";
 import { tracingClient } from "./utils/tracing";
+import type { WithResponse } from "./utils/utils.common";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -182,7 +186,6 @@ import {
   toBlobTagsString,
   toQuerySerialization,
   toTags,
-  WithResponse,
 } from "./utils/utils.common";
 import {
   fsCreateReadStream,
@@ -190,15 +193,16 @@ import {
   readStreamToLocalFile,
   streamToBuffer,
 } from "./utils/utils.node";
-import { SASProtocol } from "./sas/SASQueryParameters";
-import { SasIPRange } from "./sas/SasIPRange";
+import type { SASProtocol } from "./sas/SASQueryParameters";
+import type { SasIPRange } from "./sas/SasIPRange";
 import {
   generateBlobSASQueryParameters,
   generateBlobSASQueryParametersInternal,
 } from "./sas/BlobSASSignatureValues";
-import { BlobSASPermissions } from "./sas/BlobSASPermissions";
+import type { BlobSASPermissions } from "./sas/BlobSASPermissions";
 import { BlobLeaseClient } from "./BlobLeaseClient";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { UserDelegationKey } from "./BlobServiceClient";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -2200,6 +2204,68 @@ export class BlobClient extends StorageClient {
   }
 
   /**
+   *
+   * Generates a Blob Service Shared Access Signature (SAS) URI based on
+   * the client properties and parameters passed in. The SAS is signed by the input user delegation key.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateUserDelegationSasUrl(
+    options: BlobGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): Promise<string> {
+    return new Promise((resolve) => {
+      const sas = generateBlobSASQueryParameters(
+        {
+          containerName: this._containerName,
+          blobName: this._name,
+          snapshotTime: this._snapshot,
+          versionId: this._versionId,
+          ...options,
+        },
+        userDelegationKey,
+        this.accountName,
+      ).toString();
+
+      resolve(appendToURLQuery(this.url, sas));
+    });
+  }
+
+  /**
+   * Only available for BlobClient constructed with a shared key credential.
+   *
+   * Generates string to sign for a Blob Service Shared Access Signature (SAS) URI based on
+   * the client properties and parameters passed in. The SAS is signed by the input user delegation key.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
+   *
+   * @param options - Optional parameters.
+   * @param userDelegationKey -  Return value of `blobServiceClient.getUserDelegationKey()`
+   * @returns The SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+
+  public generateUserDelegationSasStringToSign(
+    options: BlobGenerateSasUrlOptions,
+    userDelegationKey: UserDelegationKey,
+  ): string {
+    return generateBlobSASQueryParametersInternal(
+      {
+        containerName: this._containerName,
+        blobName: this._name,
+        snapshotTime: this._snapshot,
+        versionId: this._versionId,
+        ...options,
+      },
+      userDelegationKey,
+      this.accountName,
+    ).stringToSign;
+  }
+
+  /**
    * Delete the immutablility policy on the blob.
    *
    * @param options - Optional options to delete immutability policy on the blob.
@@ -3373,6 +3439,11 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
   blobHTTPHeaders?: BlobHTTPHeaders;
 
   /**
+   * Customer Provided Key Info.
+   */
+  customerProvidedKey?: CpkInfo;
+
+  /**
    * Metadata of block blob.
    */
   metadata?: { [propertyName: string]: string };
@@ -4317,6 +4388,7 @@ export class BlockBlobClient extends BlobClient {
             blockNum++;
 
             await this.stageBlock(blockID, body, length, {
+              customerProvidedKey: options.customerProvidedKey,
               conditions: options.conditions,
               encryptionScope: options.encryptionScope,
               tracingOptions: updatedOptions.tracingOptions,

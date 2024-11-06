@@ -30,6 +30,7 @@ export interface AbortSignalLike {
 // @public
 export interface AccessToken {
     expiresOnTimestamp: number;
+    refreshAfterTimestamp?: number;
     token: string;
 }
 
@@ -40,6 +41,12 @@ export function addCredentialPipelinePolicy(pipeline: Pipeline, endpoint: string
 export interface AddCredentialPipelinePolicyOptions {
     clientOptions?: ClientOptions;
     credential?: TokenCredential | KeyCredential;
+}
+
+// @public
+export interface AddEventOptions {
+    attributes?: Record<string, unknown>;
+    startTime?: Date;
 }
 
 // @public
@@ -134,7 +141,6 @@ export type ClientOptions = PipelineOptions & {
         scopes?: string[];
         apiKeyHeaderName?: string;
     };
-    baseUrl?: string;
     endpoint?: string;
     apiVersion?: string;
     allowInsecureConnection?: boolean;
@@ -481,10 +487,16 @@ export type OptionsWithTracingContext<Options extends {
 
 // @public
 export type PathParameters<TRoute extends string> = TRoute extends `${infer _Head}/{${infer _Param}}${infer Tail}` ? [
-pathParameter: string,
+pathParameter: string | number | PathParameterWithOptions,
 ...pathParameters: PathParameters<Tail>
 ] : [
 ];
+
+// @public
+export interface PathParameterWithOptions {
+    allowReserved?: boolean;
+    value: string | number;
+}
 
 // @public
 export type PathUnchecked = <TPath extends string>(path: TPath, ...args: PathParameters<TPath>) => ResourceMethods<StreamableMethod>;
@@ -789,6 +801,7 @@ export interface TracingPolicyOptions {
 
 // @public
 export interface TracingSpan {
+    addEvent?(name: string, options?: AddEventOptions): void;
     end(): void;
     isRecording(): boolean;
     recordException(exception: Error | string): void;

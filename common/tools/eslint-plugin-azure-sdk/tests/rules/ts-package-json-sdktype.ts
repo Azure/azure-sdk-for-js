@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Testing the ts-package-json-sdktype rule.
@@ -162,7 +162,7 @@ const examplePackageGood = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.5.3",
+    "typescript": "~5.6.2",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }
@@ -316,7 +316,7 @@ const examplePackageBad = `{
     "rollup-plugin-terser": "^5.1.1",
     "sinon": "^9.0.2",
     "ts-node": "^10.0.0",
-    "typescript": "~5.5.3",
+    "typescript": "~5.6.2",
     "ws": "^7.1.1",
     "typedoc": "0.15.2"
   }

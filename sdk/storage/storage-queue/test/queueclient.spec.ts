@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   getQSU,
@@ -9,11 +9,12 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils";
-import { QueueClient, QueueServiceClient } from "../src";
+import type { QueueServiceClient } from "../src";
+import { QueueClient } from "../src";
 import { assert } from "@azure-tools/test-utils";
-import { RestError } from "@azure/core-rest-pipeline";
+import type { RestError } from "@azure/core-rest-pipeline";
 import { Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("QueueClient", () => {
   let queueServiceClient: QueueServiceClient;

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { FlatConfig } from "@typescript-eslint/utils/ts-eslint";
 import typescriptEslint from "typescript-eslint";
@@ -7,6 +7,7 @@ import typescriptEslint from "typescript-eslint";
 const markdownConfigs: FlatConfig.ConfigArray = [
   {
     files: ["**/*.md"],
+    ignores: ["**/*.api.md"],
     processor: "markdown/markdown",
   },
   {

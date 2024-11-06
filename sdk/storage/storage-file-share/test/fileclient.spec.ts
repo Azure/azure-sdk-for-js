@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isNode, isBrowser } from "@azure/core-util";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { assert } from "@azure-tools/test-utils";
 
-import {
+import type {
   FileStartCopyOptions,
   ShareClient,
   ShareDirectoryClient,
-  ShareFileClient,
   ShareServiceClient,
 } from "../src";
+import { ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
-import { DirectoryCreateResponse } from "../src/generated/src/models";
+import type { DirectoryCreateResponse } from "../src/generated/src/models";
 import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import {
@@ -484,6 +484,44 @@ describe("FileClient", () => {
     assert.ok(result.lastModified);
     assert.deepStrictEqual(result.metadata, {});
     assert.ok(result.filePermissionKey);
+  });
+
+  it("startCopy - with sddl file permission", async function () {
+    await fileClient.create(1024);
+    const newFileClient = dirClient.getFileClient(
+      recorder.variable("copiedfile", getUniqueName("copiedfile")),
+    );
+    const result = await newFileClient.startCopyFromURL(fileClient.url, {
+      filePermissionFormat: "Sddl",
+      filePermission: filePermissionInSDDL,
+      copyFileSmbInfo: {
+        filePermissionCopyMode: "override",
+      },
+    });
+    assert.ok(result.copyId);
+
+    const properties = await newFileClient.getProperties();
+    assert.ok(properties.lastModified);
+    assert.ok(properties.filePermissionKey);
+  });
+
+  it("startCopy - with binary file permission", async function () {
+    await fileClient.create(1024);
+    const newFileClient = dirClient.getFileClient(
+      recorder.variable("copiedfile", getUniqueName("copiedfile")),
+    );
+    const result = await newFileClient.startCopyFromURL(fileClient.url, {
+      filePermissionFormat: "Binary",
+      filePermission: filePermissionInBinaryFormat,
+      copyFileSmbInfo: {
+        filePermissionCopyMode: "override",
+      },
+    });
+    assert.ok(result.copyId);
+
+    const properties = await newFileClient.getProperties();
+    assert.ok(properties.lastModified);
+    assert.ok(properties.filePermissionKey);
   });
 
   it("delete", async function () {

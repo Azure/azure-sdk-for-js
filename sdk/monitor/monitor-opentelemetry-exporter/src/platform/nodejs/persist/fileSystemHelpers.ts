@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { diag } from "@opentelemetry/api";
-import * as fs from "fs";
-import * as path from "path";
-import { promisify } from "util";
+import * as fs from "node:fs";
+import * as path from "node:path";
+import { promisify } from "node:util";
 
 const readdirAsync = promisify(fs.readdir);
 const statAsync = promisify(fs.stat);

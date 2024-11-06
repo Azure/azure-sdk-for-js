@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RestError } from "@azure/core-rest-pipeline";
 import { logger } from "./logger";
-import {
+import type {
   ErrorResponse,
   StringIndexType as GeneratedStringIndexType,
   InnerError,
   TextAnalyticsError,
 } from "./generated";
-import { TextAnalyticsAction } from "./textAnalyticsAction";
+import type { TextAnalyticsAction } from "./textAnalyticsAction";
 
 /**
  * @internal

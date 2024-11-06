@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import {
@@ -11,7 +11,7 @@ import {
 } from "../../src";
 import { getConnectionStringFromEnvironment, bodyToString, getUniqueName } from "../utils";
 import { env } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 // Expected environment variable to run this test-suite
 // STORAGE_CONNECTION_STRING=UseDevelopmentStorage=true

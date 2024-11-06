@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "@azure-tools/test-utils";
-import { Context } from "mocha";
+// Licensed under the MIT License.
 import { Recorder, env } from "@azure-tools/test-recorder";
 
-import { DeletedKey, KeyClient } from "../../src";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate, envSetupForPlayback } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
-import { getServiceVersion } from "./utils/common";
+import type { DeletedKey, KeyClient } from "../../src/index.js";
+import { testPollerProperties } from "./utils/recorderUtils.js";
+import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
+import type TestClient from "./utils/testClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Keys client - Long Running Operations - delete", () => {
   const keyPrefix = `lroDelete${env.CERTIFICATE_NAME || "KeyName"}`;
@@ -18,11 +15,11 @@ describe("Keys client - Long Running Operations - delete", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(envSetupForPlayback);
 
-    const authentication = await authenticate(getServiceVersion(), recorder);
+    const authentication = await authenticate(recorder);
     keySuffix = authentication.keySuffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -34,8 +31,8 @@ describe("Keys client - Long Running Operations - delete", () => {
 
   // The tests follow
 
-  it("can wait until a key is deleted", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+  it("can wait until a key is deleted", async function (ctx) {
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);
@@ -53,8 +50,8 @@ describe("Keys client - Long Running Operations - delete", () => {
     await testClient.purgeKey(keyName);
   });
 
-  it("can resume from a stopped poller", async function (this: Context) {
-    const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
+  it("can resume from a stopped poller", async function (ctx) {
+    const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
     await client.createKey(keyName, "RSA");
     const poller = await client.beginDeleteKey(keyName, testPollerProperties);
     assert.ok(poller.getOperationState().isStarted);

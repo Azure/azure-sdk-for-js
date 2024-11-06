@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
-import {
+import type {
   AcsVerificationGetVerificationsOptionalParams,
   AcsVerificationRequestVerificationOptionalParams,
   AcsVerificationRequestVerificationResponse,
@@ -11,9 +11,10 @@ import {
   AcsVerificationDeleteVerificationOptionalParams,
   AcsVerificationGetVerificationConstantsOptionalParams,
 } from "./models";
-import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { AcsVerification, VerificationConstantsResponse } from "./generated/src/models";
+import type { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { AcsVerification, VerificationConstantsResponse } from "./generated/src/models";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
 import { RecipientVerificationClient as RecipientVerificationGeneratedClient } from "./generated/src";

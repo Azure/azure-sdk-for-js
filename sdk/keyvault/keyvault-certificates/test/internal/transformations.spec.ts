@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import {
+// Licensed under the MIT License.
+import type {
   CertificateBundle,
   CertificateOperation as CoreCertificateOperation,
   DeletedCertificateItem,

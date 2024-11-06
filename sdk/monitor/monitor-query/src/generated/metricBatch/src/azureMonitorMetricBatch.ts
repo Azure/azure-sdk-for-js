@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MetricsBatchImpl } from "./operations";
-import { MetricsBatch } from "./operationsInterfaces";
-import { AzureMonitorMetricBatchContext } from "./azureMonitorMetricBatchContext";
+import { MetricsBatchImpl } from "./operations/index.js";
+import { MetricsBatch } from "./operationsInterfaces/index.js";
+import { AzureMonitorMetricBatchContext } from "./azureMonitorMetricBatchContext.js";
 import {
   AzureMonitorMetricBatchOptionalParams,
   ApiVersion20240201
-} from "./models";
+} from "./models/index.js";
 
 /** @internal */
 export class AzureMonitorMetricBatch extends AzureMonitorMetricBatchContext {

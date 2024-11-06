@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { assert, expect } from "chai";
-import { CallAutomationEventProcessor } from "../src/eventprocessor/callAutomationEventProcessor";
-import { CallConnected, CallDisconnected } from "../src/models/events";
+import type { CallAutomationEventProcessor } from "../src/eventprocessor/callAutomationEventProcessor";
+import type { CallConnected, CallDisconnected } from "../src/models/events";
 import {
   CALL_CALLBACK_URL,
   MOCK_CONNECTION_STRING,
   CALL_CALLER_ID,
   CALL_TARGET_ID,
 } from "./utils/connectionUtils";
-import { CallAutomationClient, CallInvite } from "../src";
+import type { CallInvite } from "../src";
+import { CallAutomationClient } from "../src";
 import { generateHttpClient } from "./utils/mockClient";
 
 describe("Call Automation Event Processor Unit Tests", () => {

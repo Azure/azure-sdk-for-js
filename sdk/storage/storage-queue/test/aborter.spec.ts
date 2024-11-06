@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 
-import { QueueClient } from "../src/QueueClient";
+import type { QueueClient } from "../src/QueueClient";
 import { getQSU } from "./utils";
 import { getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils/testutils.common";
 import { Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("Aborter", () => {
   let queueName: string;

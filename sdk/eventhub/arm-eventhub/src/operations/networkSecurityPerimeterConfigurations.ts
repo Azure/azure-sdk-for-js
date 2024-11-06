@@ -14,14 +14,15 @@ import { EventHubManagementClient } from "../eventHubManagementClient";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import { NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams } from "../models";
 
 /** Class containing NetworkSecurityPerimeterConfigurations operations. */
 export class NetworkSecurityPerimeterConfigurationsImpl
-  implements NetworkSecurityPerimeterConfigurations {
+  implements NetworkSecurityPerimeterConfigurations
+{
   private readonly client: EventHubManagementClient;
 
   /**
@@ -43,25 +44,24 @@ export class NetworkSecurityPerimeterConfigurationsImpl
     resourceGroupName: string,
     namespaceName: string,
     resourceAssociationName: string,
-    options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -70,8 +70,8 @@ export class NetworkSecurityPerimeterConfigurationsImpl
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -79,8 +79,8 @@ export class NetworkSecurityPerimeterConfigurationsImpl
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -90,13 +90,13 @@ export class NetworkSecurityPerimeterConfigurationsImpl
         resourceGroupName,
         namespaceName,
         resourceAssociationName,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<void, OperationState<void>>(lro, {
       restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -113,13 +113,13 @@ export class NetworkSecurityPerimeterConfigurationsImpl
     resourceGroupName: string,
     namespaceName: string,
     resourceAssociationName: string,
-    options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<void> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       namespaceName,
       resourceAssociationName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -128,8 +128,7 @@ export class NetworkSecurityPerimeterConfigurationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkSecurityPerimeterConfigurations/{resourceAssociationName}/reconcile",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/networkSecurityPerimeterConfigurations/{resourceAssociationName}/reconcile",
   httpMethod: "POST",
   responses: {
     200: {},
@@ -137,8 +136,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -146,8 +145,8 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.resourceAssociationName
+    Parameters.resourceAssociationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
