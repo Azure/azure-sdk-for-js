@@ -77,7 +77,7 @@ export interface EmailMessage {
   content: EmailContent;
   /** Recipients for the email. */
   recipients: EmailRecipients;
-  /** List of attachments. Please note that we limit the total size of an email request (which includes attachments) to 10MB. */
+  /** List of attachments. Please note that we limit the total size of an email request (which includes both regular and inline attachments) to 10MB. */
   attachments?: EmailAttachment[];
   /** Email addresses where recipients' replies will be sent to. */
   replyTo?: EmailAddress[];
@@ -121,6 +121,8 @@ export interface EmailAttachment {
   contentType: string;
   /** Base64 encoded contents of the attachment */
   contentInBase64: string;
+  /** Unique identifier (CID) to reference an inline attachment. */
+  contentId?: string;
 }
 
 /** Defines headers for Email_getSendResult operation. */

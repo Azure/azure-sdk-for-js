@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VolumesDeleteOptionalParams,
-  ElasticSanManagement
+  ElasticSanManagement,
 } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Delete an Volume.
  *
  * @summary Delete an Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/Volumes_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/Volumes_Delete_MaximumSet_Gen.json
  */
 async function volumesDeleteMaximumSetGen() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function volumesDeleteMaximumSetGen() {
   const xMsForceDelete = "true";
   const options: VolumesDeleteOptionalParams = {
     xMsDeleteSnapshots,
-    xMsForceDelete
+    xMsForceDelete,
   };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
@@ -44,7 +44,7 @@ async function volumesDeleteMaximumSetGen() {
     elasticSanName,
     volumeGroupName,
     volumeName,
-    options
+    options,
   );
   console.log(result);
 }
@@ -53,7 +53,7 @@ async function volumesDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete an Volume.
  *
  * @summary Delete an Volume.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/Volumes_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/Volumes_Delete_MinimumSet_Gen.json
  */
 async function volumesDeleteMinimumSetGen() {
   const subscriptionId =
@@ -69,7 +69,7 @@ async function volumesDeleteMinimumSetGen() {
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    volumeName
+    volumeName,
   );
   console.log(result);
 }

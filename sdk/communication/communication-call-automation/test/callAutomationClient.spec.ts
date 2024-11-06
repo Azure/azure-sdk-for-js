@@ -1,26 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import Sinon, { SinonStubbedInstance } from "sinon";
-import { CallConnectionProperties } from "../src/models/models";
-import { AnswerCallResult, CreateCallResult } from "../src/models/responses";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { SinonStubbedInstance } from "sinon";
+import Sinon from "sinon";
+import type { CallConnectionProperties } from "../src/models/models";
+import type { AnswerCallResult, CreateCallResult } from "../src/models/responses";
 import {
   CALL_CALLBACK_URL,
   CALL_INCOMING_CALL_CONTEXT,
   CALL_TARGET_ID,
   CALL_TARGET_ID_2,
 } from "./utils/connectionUtils";
-import { CommunicationIdentifier, CommunicationUserIdentifier } from "@azure/communication-common";
+import type {
+  CommunicationIdentifier,
+  CommunicationUserIdentifier,
+} from "@azure/communication-common";
 import { assert } from "chai";
-import { Context } from "mocha";
-import {
-  CallAutomationClient,
-  CallInvite,
-  CallConnection,
-  CreateCallOptions,
-  AnswerCallOptions,
-} from "../src";
+import type { Context } from "mocha";
+import type { CallInvite, CallConnection, CreateCallOptions, AnswerCallOptions } from "../src";
+import { CallAutomationClient } from "../src";
 import {
   createRecorder,
   createTestUser,
@@ -35,7 +34,10 @@ import {
   loadPersistedEvents,
   persistEvents,
 } from "./utils/recordedClient";
-import { AnswerCallEventResult, CreateCallEventResult } from "../src/eventprocessor/eventResponses";
+import type {
+  AnswerCallEventResult,
+  CreateCallEventResult,
+} from "../src/eventprocessor/eventResponses";
 import { randomUUID } from "@azure/core-util";
 
 describe("Call Automation Client Unit Tests", () => {

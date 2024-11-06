@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import { ImportUpdateInputItem, PatchBody, Deployment, LogCollection } from "./models";
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type { ImportUpdateInputItem, PatchBody, Deployment, LogCollection } from "./models";
 
 export interface DeviceUpdateListUpdatesQueryParamProperties {
   /** Request updates matching a free-text search expression. */

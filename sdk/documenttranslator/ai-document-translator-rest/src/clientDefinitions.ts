@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   DocumentTranslationStartTranslationParameters,
   DocumentTranslationGetTranslationsStatusParameters,
   DocumentTranslationGetDocumentStatusParameters,
@@ -12,7 +12,7 @@ import {
   DocumentTranslationGetSupportedGlossaryFormatsParameters,
   DocumentTranslationGetSupportedStorageSourcesParameters,
 } from "./parameters";
-import {
+import type {
   DocumentTranslationStartTranslation202Response,
   DocumentTranslationStartTranslation400Response,
   DocumentTranslationStartTranslation401Response,
@@ -63,7 +63,7 @@ import {
   DocumentTranslationGetSupportedStorageSources500Response,
   DocumentTranslationGetSupportedStorageSources503Response,
 } from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface StartTranslation {
   /**

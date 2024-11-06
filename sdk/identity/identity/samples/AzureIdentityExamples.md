@@ -603,16 +603,40 @@ function withSystemAssignedManagedIdentityCredential() {
 
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
+```
 
+To authenticate with a user-assigned managed identity, specify one of the following IDs for the managed identity:
+
+```ts
 /**
- * Authenticate with a user-assigned managed identity.
+ * Authenticate with a user-assigned managed identity using a client ID
  */
 function withUserManagedIdentityCredential() {
-  const credential = new ManagedIdentityCredential("<USER_ASSIGNED_MANAGED_IDENTITY_CLIENT_ID>");
+  const credential = new ManagedIdentityCredential({ clientId: "<USER_ASSIGNED_MANAGED_IDENTITY_CLIENT_ID>" });
+
+  const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
+}
+
+/**
+ * Authenticate with a user-assigned managed identity using a resource ID
+ */
+function withUserManagedIdentityCredential() {
+  const credential = new ManagedIdentityCredential({ resourceId: "<USER_ASSIGNED_MANAGED_IDENTITY_RESOURCE_ID>" });
+
+  const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
+}
+
+/**
+ * Authenticate with a user-assigned managed identity using an object ID
+ */
+function withUserManagedIdentityCredential() {
+  const credential = new ManagedIdentityCredential({ objectId: "<USER_ASSIGNED_MANAGED_IDENTITY_OBJECT_ID>" });
 
   const client = new SecretClient("https://key-vault-name.vault.azure.net", credential);
 }
 ```
+
+For more information about user-assigned managed identities, see [Connecting from your application to resources without handling credentials](https://learn.microsoft.com/entra/identity/managed-identities-azure-resources/overview-for-developers).
 
 #### Authenticating in Azure Pipelines with service-connections
 

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, HttpResponse } from "@azure-rest/core-client";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
+import type { Client, HttpResponse } from "@azure-rest/core-client";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
   CancelOnProgress,
   CreateHttpPollerOptions,
   RunningOperation,
   OperationResponse,
   OperationState,
-  createHttpPoller,
 } from "@azure/core-lro";
+import { createHttpPoller } from "@azure/core-lro";
 
 /**
  * A simple poller that can be used to poll a long running operation.

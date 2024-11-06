@@ -1,22 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
   resolveTenantId,
 } from "../util/tenantIdUtils";
-import {
+import type {
   DeviceCodeCredentialOptions,
   DeviceCodeInfo,
   DeviceCodePromptCallback,
 } from "./deviceCodeCredentialOptions";
-import { AuthenticationRecord } from "../msal/types";
+import type { AuthenticationRecord } from "../msal/types";
 import { credentialLogger } from "../util/logging";
 import { ensureScopes } from "../util/scopeUtils";
 import { tracingClient } from "../util/tracing";
-import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
+import type { MsalClient } from "../msal/nodeFlows/msalClient";
+import { createMsalClient } from "../msal/nodeFlows/msalClient";
 import { DeveloperSignOnClientId } from "../constants";
 
 const logger = credentialLogger("DeviceCodeCredential");
@@ -48,13 +49,15 @@ export class DeviceCodeCredential implements TokenCredential {
    *
    * Developers can configure how this message is shown by passing a custom `userPromptCallback`:
    *
-   * ```js
+   * ```ts snippet:device_code_credential_example
+   * import { DeviceCodeCredential } from "@azure/identity";
+   *
    * const credential = new DeviceCodeCredential({
-   *   tenantId: env.AZURE_TENANT_ID,
-   *   clientId: env.AZURE_CLIENT_ID,
+   *   tenantId: process.env.AZURE_TENANT_ID,
+   *   clientId: process.env.AZURE_CLIENT_ID,
    *   userPromptCallback: (info) => {
    *     console.log("CUSTOMIZED PROMPT CALLBACK", info.message);
-   *   }
+   *   },
    * });
    * ```
    *

@@ -1,6 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export interface DocumentTranslateContentDocumentPartDescriptor {
   name: "document";
   body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream | File;
@@ -27,7 +30,11 @@ export interface BatchRequest {
   source: SourceInput;
   /** Location of the destination for the output */
   targets: Array<TargetInput>;
-  /** Storage type of the input documents source string */
+  /**
+   * Storage type of the input documents source string
+   *
+   * Possible values: "Folder", "File"
+   */
   storageType?: StorageInputType;
 }
 
@@ -42,7 +49,11 @@ export interface SourceInput {
    * If none is specified, we will perform auto detect on the document
    */
   language?: string;
-  /** Storage Source */
+  /**
+   * Storage Source
+   *
+   * Possible values: "AzureBlob"
+   */
   storageSource?: StorageSource;
 }
 
@@ -73,7 +84,11 @@ export interface TargetInput {
   language: string;
   /** List of Glossary */
   glossaries?: Array<Glossary>;
-  /** Storage Source */
+  /**
+   * Storage Source
+   *
+   * Possible values: "AzureBlob"
+   */
   storageSource?: StorageSource;
 }
 
@@ -92,7 +107,11 @@ export interface Glossary {
   format: string;
   /** Optional Version.  If not specified, default is used. */
   version?: string;
-  /** Storage Source */
+  /**
+   * Storage Source
+   *
+   * Possible values: "AzureBlob"
+   */
   storageSource?: StorageSource;
 }
 
@@ -104,8 +123,8 @@ export type DocumentTranslateContent =
       | DocumentTranslateContentGlossaryPartDescriptor
     >;
 /** Alias for StorageSource */
-export type StorageSource = "AzureBlob" | string;
+export type StorageSource = string;
 /** Alias for StorageInputType */
-export type StorageInputType = "Folder" | "File" | string;
+export type StorageInputType = string;
 /** Alias for FileFormatType */
-export type FileFormatType = "document" | "glossary" | string;
+export type FileFormatType = string;

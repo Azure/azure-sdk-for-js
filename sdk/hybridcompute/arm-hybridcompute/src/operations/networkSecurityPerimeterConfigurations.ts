@@ -333,20 +333,16 @@ const reconcileForPrivateLinkScopeOperationSpec: coreClient.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      headersMapper:
-        Mappers.NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeHeaders,
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationReconcileResult,
     },
     201: {
-      headersMapper:
-        Mappers.NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeHeaders,
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationReconcileResult,
     },
     202: {
-      headersMapper:
-        Mappers.NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeHeaders,
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationReconcileResult,
     },
     204: {
-      headersMapper:
-        Mappers.NetworkSecurityPerimeterConfigurationsReconcileForPrivateLinkScopeHeaders,
+      bodyMapper: Mappers.NetworkSecurityPerimeterConfigurationReconcileResult,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

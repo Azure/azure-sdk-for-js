@@ -5,6 +5,7 @@ import fs from "fs-extra";
 import path from "node:path";
 import { createPrinter } from "./printer";
 import { SampleConfiguration } from "./samples/configuration";
+import { pathToFileURL } from "node:url";
 
 const { debug } = createPrinter("resolve-project");
 
@@ -136,7 +137,7 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, Package
 
   for (const file of files) {
     if (file === "package.json") {
-      const fullPath = path.join(directory, file);
+      const fullPath = pathToFileURL(path.join(directory, file)).href;
       const packageObject = (await import(fullPath)).default;
       if (await isAzureSDKPackage(fullPath)) {
         return [directory, packageObject];
@@ -211,4 +212,20 @@ export async function resolveRoot(start: string = process.cwd()): Promise<string
 export async function isModuleProject() {
   const projectInfo = await resolveProject(process.cwd());
   return projectInfo.packageJson.type === "module";
+}
+
+/**
+ * @param info - the project to bind to
+ * @returns - a "require"-like function that always resolves relative to the input project
+ */
+export function bindRequireFunction(info: ProjectInfo): (id: string) => unknown {
+  return (moduleSpecifier) => {
+    try {
+      return require(
+        path.join(info.path, "node_modules", moduleSpecifier.split("/").join(path.sep)),
+      );
+    } catch {
+      return require(moduleSpecifier);
+    }
+  };
 }

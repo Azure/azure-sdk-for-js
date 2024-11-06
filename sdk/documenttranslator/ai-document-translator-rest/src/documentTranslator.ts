@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger";
-import { KeyCredential } from "@azure/core-auth";
-import { DocumentTranslatorClient } from "./clientDefinitions";
+import type { KeyCredential } from "@azure/core-auth";
+import type { DocumentTranslatorClient } from "./clientDefinitions";
 
 /** The optional parameters for the client */
 export interface DocumentTranslatorClientOptions extends ClientOptions {}

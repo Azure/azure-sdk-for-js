@@ -3,18 +3,20 @@
 
 import * as msalClient from "../../../src/msal/nodeFlows/msalClient";
 
+import type { AuthenticationResult } from "@azure/msal-node";
 import {
-  AuthenticationResult,
   ClientApplication,
   ConfidentialClientApplication,
   PublicClientApplication,
 } from "@azure/msal-node";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isLiveMode } from "@azure-tools/test-recorder";
 
 import { AbortError } from "@azure/abort-controller";
 import { AuthenticationRequiredError } from "../../../src/errors";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { DeveloperSignOnClientId } from "../../../src/constants";
 import { IdentityClient } from "../../../src/client/identityClient";
 import { assert } from "@azure-tools/test-utils";
@@ -473,30 +475,58 @@ describe("MsalClient", function () {
       await assert.isRejected(request, AbortError);
     });
 
-    it("supports cross-tenant federation", async function (this: Context) {
-      const tenantIdOne = "tenantOne";
-      const tenantIdTwo = "tenantTwo";
-      const authorityHost = "https://custom.authority.com";
+    describe("cross-tenant federation", function () {
+      it("allows passing an authority host", async function (this: Context) {
+        const tenantIdOne = "tenantOne";
+        const tenantIdTwo = "tenantTwo";
+        const authorityHost = "https://custom.authority.com";
 
-      const expectedAuthority = `${authorityHost}/${tenantIdTwo}`;
+        const expectedAuthority = `${authorityHost}/${tenantIdTwo}`;
 
-      const clientCredentialAuthStub = sinon
-        .stub(PublicClientApplication.prototype, "acquireTokenByDeviceCode")
-        .resolves({
-          accessToken: "token",
-          expiresOn: new Date(Date.now() + 3600 * 1000),
-        } as AuthenticationResult);
+        const clientCredentialAuthStub = sinon
+          .stub(PublicClientApplication.prototype, "acquireTokenByDeviceCode")
+          .resolves({
+            accessToken: "token",
+            expiresOn: new Date(Date.now() + 3600 * 1000),
+          } as AuthenticationResult);
 
-      const client = msalClient.createMsalClient(clientId, tenantIdOne, {
-        authorityHost,
+        const client = msalClient.createMsalClient(clientId, tenantIdOne, {
+          authorityHost,
+        });
+
+        const scopes = ["https://vault.azure.net/.default"];
+
+        await client.getTokenByDeviceCode(scopes, deviceCodeCallback, { tenantId: tenantIdTwo });
+
+        const { authority: requestAuthority } = clientCredentialAuthStub.firstCall.firstArg;
+        assert.equal(requestAuthority, expectedAuthority);
       });
 
-      const scopes = ["https://vault.azure.net/.default"];
+      it("allows using the AZURE_AUTHORITY_HOST environment variable", async function (this: Context) {
+        const tenantIdOne = "tenantOne";
+        const tenantIdTwo = "tenantTwo";
+        const authorityHost = "https://custom.authority.com";
 
-      await client.getTokenByDeviceCode(scopes, deviceCodeCallback, { tenantId: tenantIdTwo });
+        const expectedAuthority = `${authorityHost}/${tenantIdTwo}`;
 
-      const { authority: requestAuthority } = clientCredentialAuthStub.firstCall.firstArg;
-      assert.equal(requestAuthority, expectedAuthority);
+        sinon.stub(process, "env").value({ AZURE_AUTHORITY_HOST: authorityHost });
+
+        const clientCredentialAuthStub = sinon
+          .stub(PublicClientApplication.prototype, "acquireTokenByDeviceCode")
+          .resolves({
+            accessToken: "token",
+            expiresOn: new Date(Date.now() + 3600 * 1000),
+          } as AuthenticationResult);
+
+        const client = msalClient.createMsalClient(clientId, tenantIdOne);
+
+        const scopes = ["https://vault.azure.net/.default"];
+
+        await client.getTokenByDeviceCode(scopes, deviceCodeCallback, { tenantId: tenantIdTwo });
+
+        const { authority: requestAuthority } = clientCredentialAuthStub.firstCall.firstArg;
+        assert.equal(requestAuthority, expectedAuthority);
+      });
     });
   });
 });
