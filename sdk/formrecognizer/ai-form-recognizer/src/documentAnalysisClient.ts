@@ -1,28 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createTracingClient } from "@azure/core-tracing";
-import { TracingClient } from "@azure/core-tracing";
+import type { TracingClient } from "@azure/core-tracing";
 import { FORM_RECOGNIZER_API_VERSION, SDK_VERSION } from "./constants";
-import { AnalyzeDocumentRequest, AnalyzeResultOperation, GeneratedClient } from "./generated";
+import type { AnalyzeDocumentRequest, AnalyzeResultOperation, GeneratedClient } from "./generated";
 import { accept1 } from "./generated/models/parameters";
-import {
+import type {
   AnalysisOperationDefinition,
   AnalysisPoller,
   AnalyzeResult,
   DocumentAnalysisPollOperationState,
   FormRecognizerRequestBody,
-  toAnalyzeResultFromGenerated,
-  toDocumentAnalysisPollOperationState,
 } from "./lro/analysis";
-import { OperationContext, lro } from "./lro/util/poller";
-import { AnalyzeDocumentOptions } from "./options/AnalyzeDocumentOptions";
-import { DocumentAnalysisClientOptions } from "./options/FormRecognizerClientOptions";
-import { DocumentModel } from "./documentModel";
+import { toAnalyzeResultFromGenerated, toDocumentAnalysisPollOperationState } from "./lro/analysis";
+import type { OperationContext } from "./lro/util/poller";
+import { lro } from "./lro/util/poller";
+import type { AnalyzeDocumentOptions } from "./options/AnalyzeDocumentOptions";
+import type { DocumentAnalysisClientOptions } from "./options/FormRecognizerClientOptions";
+import type { DocumentModel } from "./documentModel";
 import { makeServiceClient, Mappers, SERIALIZER } from "./util";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { ClassifyDocumentOptions } from "./options/ClassifyDocumentOptions";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { ClassifyDocumentOptions } from "./options/ClassifyDocumentOptions";
 
 /**
  * A client for interacting with the Form Recognizer service's analysis features.

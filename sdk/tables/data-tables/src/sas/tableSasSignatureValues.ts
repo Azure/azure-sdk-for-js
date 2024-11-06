@@ -7,10 +7,13 @@
  * TableSASSignatureValues is used to help generating SAS tokens for tables.
  */
 
-import { SasIPRange, ipRangeToString } from "./sasIPRange";
-import { SasProtocol, SasQueryParameters } from "./sasQueryParameters";
-import { TableSasPermissions, tableSasPermissionsToString } from "./tableSasPermisions";
-import { NamedKeyCredential } from "@azure/core-auth";
+import type { SasIPRange } from "./sasIPRange";
+import { ipRangeToString } from "./sasIPRange";
+import type { SasProtocol } from "./sasQueryParameters";
+import { SasQueryParameters } from "./sasQueryParameters";
+import type { TableSasPermissions } from "./tableSasPermisions";
+import { tableSasPermissionsToString } from "./tableSasPermisions";
+import type { NamedKeyCredential } from "@azure/core-auth";
 import { SERVICE_VERSION } from "../utils/constants";
 import { computeHMACSHA256 } from "../utils/computeHMACSHA256";
 import { truncatedISO8061Date } from "../utils/truncateISO8061Date";

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { CallRecordingImpl } from "./generated/src/operations";
-import {
+import type {
   CallAutomationApiClientOptionalParams,
   StartCallRecordingRequest,
 } from "./generated/src/models/index";
-import { RecordingStateResult } from "./models/responses";
-import {
+import type { RecordingStateResult } from "./models/responses";
+import type {
   StartRecordingOptions,
   StopRecordingOptions,
   PauseRecordingOptions,
@@ -19,8 +19,8 @@ import { communicationIdentifierModelConverter } from "./utli/converters";
 import { ContentDownloaderImpl } from "./contentDownloader";
 import * as fs from "fs";
 import { randomUUID } from "@azure/core-util";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { CallAutomationApiClient } from "./generated/src";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { CallAutomationApiClient } from "./generated/src";
 import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
 
 /**

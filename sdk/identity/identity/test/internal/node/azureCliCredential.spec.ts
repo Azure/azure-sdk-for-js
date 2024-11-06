@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import Sinon, { createSandbox } from "sinon";
+import type Sinon from "sinon";
+import { createSandbox } from "sinon";
 
 import { AzureCliCredential } from "../../../src/credentials/azureCliCredential";
-import { GetTokenOptions } from "@azure/core-auth";
+import type { GetTokenOptions } from "@azure/core-auth";
 import { assert } from "@azure-tools/test-utils";
 import child_process from "child_process";
 

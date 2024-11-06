@@ -1,26 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver.js";
-import { ConnectionContext } from "../connectionContext.js";
+import type { OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver.js";
+import { MessageReceiver } from "./messageReceiver.js";
+import type { ConnectionContext } from "../connectionContext.js";
 
 import { ReceiverHelper } from "./receiverHelper.js";
 
 import { throwErrorIfConnectionClosed } from "../util/errors.js";
-import {
-  RetryOperationType,
-  MessagingError,
-  RetryOptions,
-  ConditionErrorNameMapper,
-} from "@azure/core-amqp";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import type { MessagingError, RetryOptions } from "@azure/core-amqp";
+import { RetryOperationType, ConditionErrorNameMapper } from "@azure/core-amqp";
+import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
 import { receiverLogger as logger } from "../log.js";
-import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
+import type { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
 import { ServiceBusMessageImpl } from "../serviceBusMessage.js";
 import { translateServiceBusError } from "../serviceBusError.js";
 import { abandonMessage, completeMessage, retryForever } from "../receivers/receiverCommon.js";
-import { ReceiverHandlers } from "./shared.js";
-import {
+import type { ReceiverHandlers } from "./shared.js";
+import type {
   InternalMessageHandlers,
   InternalProcessErrorArgs,
   MessageHandlers,

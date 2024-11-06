@@ -1,17 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context, Suite } from "mocha";
-import {
-  RouteDirectionParameters,
-  RouteMatrixQuery,
-  createRouteDirectionsBatchRequest,
-  toColonDelimitedLatLonString,
-} from "../../src";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Context, Suite } from "mocha";
+import type { RouteDirectionParameters, RouteMatrixQuery } from "../../src";
+import { createRouteDirectionsBatchRequest, toColonDelimitedLatLonString } from "../../src";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createClient, createRecorder, testLogger } from "./utils/recordedClient";
-import {
+import type {
   MapsRouteClient,
   RouteGetRouteDirectionsBatch200Response,
   RouteGetRouteDirectionsQueryParamProperties,
@@ -19,7 +16,8 @@ import {
   getLongRunningPoller,
   isUnexpected,
 } from "../../generated";
-import { LatLon } from "@azure/maps-common";
+import type { LatLon } from "@azure/maps-common";
+
 
 describe("Endpoint can be overwritten", function (this: Suite) {
   let recorder: Recorder;

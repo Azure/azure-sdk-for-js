@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   CloudEvent,
   PublishResult,
   ReceiveResult,
@@ -10,8 +10,7 @@ import {
   RejectResult,
   RenewLocksResult,
 } from "../models/models";
-import {
-  isUnexpected,
+import type {
   EventGridContext as Client,
   AcknowledgeCloudEvents200Response,
   AcknowledgeCloudEventsDefaultResponse,
@@ -28,13 +27,11 @@ import {
   RenewCloudEventLocks200Response,
   RenewCloudEventLocksDefaultResponse,
 } from "../rest/index";
-import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  createRestError,
-} from "@azure-rest/core-client";
+import { isUnexpected } from "../rest/index";
+import type { StreamableMethod } from "@azure-rest/core-client";
+import { operationOptionsToRequestParameters, createRestError } from "@azure-rest/core-client";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
-import {
+import type {
   PublishCloudEventOptionalParams,
   PublishCloudEventsOptionalParams,
   ReceiveCloudEventsOptionalParams,

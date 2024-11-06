@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { createHttpHeaders, HttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import { ContainerEncryptionScope, WithResponse } from "@azure/storage-blob";
-import {
+import type { ContainerEncryptionScope, WithResponse } from "@azure/storage-blob";
+import type {
   CpkInfo,
   FileSystemEncryptionScope,
   PathAccessControlItem,
@@ -17,8 +18,8 @@ import {
   PathStylePorts,
   UrlConstants,
 } from "./constants";
-import { HttpResponse } from "@azure/storage-blob";
-import { HttpHeadersLike } from "@azure/core-http-compat";
+import type { HttpResponse } from "@azure/storage-blob";
+import type { HttpHeadersLike } from "@azure/core-http-compat";
 import { toAcl, toPermissions } from "../transforms";
 
 /**

@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { CommonClientOptions } from "@azure/core-client";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import {
-  parseClientArguments,
-  isKeyCredential,
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { CommonClientOptions } from "@azure/core-client";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import type {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
+import { parseClientArguments, isKeyCredential } from "@azure/communication-common";
 import { logger } from "./models/logger";
-import {
+import type {
   AnswerCallRequest,
   CallAutomationApiClient,
   CommunicationUserIdentifierModel,
@@ -21,14 +21,14 @@ import {
 } from "./generated/src";
 import { CallConnection } from "./callConnection";
 import { CallRecording } from "./callRecording";
-import {
+import type {
   AnswerCallOptions,
   CreateCallOptions,
   RedirectCallOptions,
   RejectCallOptions,
 } from "./models/options";
-import { AnswerCallResult, CreateCallResult } from "./models/responses";
-import { CallConnectionProperties, CallInvite, CustomCallingContext } from "./models/models";
+import type { AnswerCallResult, CreateCallResult } from "./models/responses";
+import type { CallConnectionProperties, CallInvite, CustomCallingContext } from "./models/models";
 import {
   communicationIdentifierConverter,
   communicationIdentifierModelConverter,
@@ -40,7 +40,7 @@ import {
 import { randomUUID } from "@azure/core-util";
 import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
 import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
-import { AnswerCallEventResult, CreateCallEventResult } from "./eventprocessor/eventResponses";
+import type { AnswerCallEventResult, CreateCallEventResult } from "./eventprocessor/eventResponses";
 /**
  * Client options used to configure CallAutomation Client API requests.
  */

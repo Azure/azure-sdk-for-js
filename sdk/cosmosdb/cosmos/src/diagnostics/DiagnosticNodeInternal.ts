@@ -2,19 +2,19 @@
 // Licensed under the MIT License.
 
 import { CosmosDiagnosticContext } from "./CosmosDiagnosticsContext";
-import { RequestContext } from "../request";
-import {
+import type { RequestContext } from "../request";
+import type {
   DiagnosticNode,
   MetadataLookUpType,
-  CosmosDiagnostics,
-  getRootNode,
   ClientConfigDiagnostic,
 } from "../CosmosDiagnostics";
+import { CosmosDiagnostics, getRootNode } from "../CosmosDiagnostics";
 import { getCurrentTimestampInMs } from "../utils/time";
 import { CosmosDbDiagnosticLevel } from "./CosmosDbDiagnosticLevel";
-import { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
-import { HttpHeaders, PipelineResponse } from "@azure/core-rest-pipeline";
-import { Constants, OperationType, ResourceType, prepareURL } from "../common";
+import type { CosmosHeaders } from "../queryExecutionContext/CosmosHeaders";
+import type { HttpHeaders, PipelineResponse } from "@azure/core-rest-pipeline";
+import type { OperationType, ResourceType } from "../common";
+import { Constants, prepareURL } from "../common";
 import { allowTracing } from "./diagnosticLevelComparator";
 import { randomUUID } from "@azure/core-util";
 

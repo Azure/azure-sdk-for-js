@@ -3,7 +3,7 @@
 
 import sinon from "sinon";
 import { assert } from "chai";
-import { RoomsClient } from "../../src";
+import type { RoomsClient } from "../../src";
 import {
   createRoomsClient,
   generateHttpClient,

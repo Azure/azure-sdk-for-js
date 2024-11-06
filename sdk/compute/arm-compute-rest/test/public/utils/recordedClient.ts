@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
-import { TokenCredential } from "@azure/core-auth";
-import { ClientOptions } from "@azure-rest/core-client";
-import { ComputeManagementClient } from "../../../src/clientDefinitions";
+import type { TokenCredential } from "@azure/core-auth";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { ComputeManagementClient } from "../../../src/clientDefinitions";
 import createComputeManagementClient from "../../../src";
 
 const envSetupForPlayback: Record<string, string> = {

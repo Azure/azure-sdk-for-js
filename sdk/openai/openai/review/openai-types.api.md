@@ -15,22 +15,21 @@ import type { CompletionCreateParamsStreaming } from 'openai/resources/index';
 import type { ErrorModel } from '@azure-rest/core-client';
 
 // @public
-export interface AzureChatEnhancementConfiguration {
-    grounding?: AzureChatGroundingEnhancementConfiguration;
-    ocr?: AzureChatOCREnhancementConfiguration;
-}
-
-// @public
-export interface AzureChatEnhancementsOutput {
-    grounding?: AzureGroundingEnhancementOutput;
-}
-
-// @public
-export type AzureChatExtensionConfiguration = AzureChatExtensionConfigurationParent | AzureSearchChatExtensionConfiguration | AzureMachineLearningIndexChatExtensionConfiguration | AzureCosmosDBChatExtensionConfiguration | ElasticsearchChatExtensionConfiguration | PineconeChatExtensionConfiguration;
+export type AzureChatExtensionConfiguration = AzureChatExtensionConfigurationParent | AzureSearchChatExtensionConfiguration | AzureCosmosDBChatExtensionConfiguration | ElasticsearchChatExtensionConfiguration | PineconeChatExtensionConfiguration | MongoDBChatExtensionConfiguration;
 
 // @public
 export interface AzureChatExtensionConfigurationParent {
     type: string;
+}
+
+// @public
+export interface AzureChatExtensionDataSourceResponseCitation {
+    chunk_id?: string;
+    content: string;
+    filepath?: string;
+    rerank_score?: number;
+    title?: string;
+    url?: string;
 }
 
 // @public
@@ -43,25 +42,21 @@ export interface AzureChatExtensionDataSourceResponseCitationOutput {
 }
 
 // @public
-export interface AzureChatExtensionsMessageContextOutput {
-    citations?: Array<AzureChatExtensionDataSourceResponseCitationOutput>;
-    intent?: string;
+export interface AzureChatExtensionRetrievedDocument extends AzureChatExtensionDataSourceResponseCitation {
+    data_source_index: number;
+    filter_reason?: AzureChatExtensionRetrieveDocumentFilterReason;
+    original_search_score?: number;
+    search_queries: string[];
 }
+
+// @public
+export type AzureChatExtensionRetrieveDocumentFilterReason = "score" | "rerank";
 
 // @public
 export interface AzureChatExtensionsMessageContextOutput {
+    all_retrieved_documents?: Array<AzureChatExtensionRetrievedDocument>;
     citations?: Array<AzureChatExtensionDataSourceResponseCitationOutput>;
     intent?: string;
-}
-
-// @public
-export interface AzureChatGroundingEnhancementConfiguration {
-    enabled: boolean;
-}
-
-// @public
-export interface AzureChatOCREnhancementConfiguration {
-    enabled: boolean;
 }
 
 // @public
@@ -72,13 +67,16 @@ export interface AzureCosmosDBChatExtensionConfiguration extends AzureChatExtens
 
 // @public
 export interface AzureCosmosDBChatExtensionParameters {
+    allow_partial_result?: boolean;
     authentication?: OnYourDataAuthenticationOptions;
     container_name: string;
     database_name: string;
     embedding_dependency: OnYourDataVectorizationSource;
     fields_mapping: AzureCosmosDBFieldMappingOptions;
     in_scope?: boolean;
+    include_contexts?: OnYourDataContextProperty[];
     index_name: string;
+    max_search_queries?: number;
     role_information?: string;
     strictness?: number;
     top_n_documents?: number;
@@ -95,75 +93,6 @@ export interface AzureCosmosDBFieldMappingOptions {
 }
 
 // @public
-export interface AzureGroundingEnhancementCoordinatePointOutput {
-    x: number;
-    y: number;
-}
-
-// @public
-export interface AzureGroundingEnhancementCoordinatePointOutput {
-    x: number;
-    y: number;
-}
-
-// @public
-export interface AzureGroundingEnhancementLineOutput {
-    spans: Array<AzureGroundingEnhancementLineSpanOutput>;
-    text: string;
-}
-
-// @public
-export interface AzureGroundingEnhancementLineOutput {
-    spans: Array<AzureGroundingEnhancementLineSpanOutput>;
-    text: string;
-}
-
-// @public
-export interface AzureGroundingEnhancementLineSpanOutput {
-    length: number;
-    offset: number;
-    polygon: Array<AzureGroundingEnhancementCoordinatePointOutput>;
-    text: string;
-}
-
-// @public
-export interface AzureGroundingEnhancementLineSpanOutput {
-    length: number;
-    offset: number;
-    polygon: Array<AzureGroundingEnhancementCoordinatePointOutput>;
-    text: string;
-}
-
-// @public
-export interface AzureGroundingEnhancementOutput {
-    lines: Array<AzureGroundingEnhancementLineOutput>;
-}
-
-// @public
-export interface AzureGroundingEnhancementOutput {
-    lines: Array<AzureGroundingEnhancementLineOutput>;
-}
-
-// @public
-export interface AzureMachineLearningIndexChatExtensionConfiguration extends AzureChatExtensionConfigurationParent {
-    parameters: AzureMachineLearningIndexChatExtensionParameters;
-    type: "azure_ml_index";
-}
-
-// @public
-export interface AzureMachineLearningIndexChatExtensionParameters {
-    authentication?: OnYourDataAuthenticationOptions;
-    filter?: string;
-    in_scope?: boolean;
-    name: string;
-    project_resource_id: string;
-    role_information?: string;
-    strictness?: number;
-    top_n_documents?: number;
-    version: string;
-}
-
-// @public
 export interface AzureSearchChatExtensionConfiguration extends AzureChatExtensionConfigurationParent {
     parameters: AzureSearchChatExtensionParameters;
     type: "azure_search";
@@ -171,13 +100,16 @@ export interface AzureSearchChatExtensionConfiguration extends AzureChatExtensio
 
 // @public
 export interface AzureSearchChatExtensionParameters {
+    allow_partial_result?: boolean;
     authentication?: OnYourDataAuthenticationOptions;
     embedding_dependency?: OnYourDataVectorizationSource;
     endpoint: string;
     fields_mapping?: AzureSearchIndexFieldMappingOptions;
     filter?: string;
     in_scope?: boolean;
+    include_contexts?: OnYourDataContextProperty[];
     index_name: string;
+    max_search_queries?: number;
     query_type?: string;
     role_information?: string;
     semantic_configuration?: string;
@@ -205,14 +137,6 @@ export { ChatCompletionCreateParamsNonStreaming }
 export { ChatCompletionCreateParamsStreaming }
 
 export { ChatCompletionMessage }
-
-// @public
-export type ChatFinishDetailsOutput = ChatFinishDetailsOutputParent | StopFinishDetailsOutput | MaxTokensFinishDetailsOutput;
-
-// @public
-export interface ChatFinishDetailsOutputParent {
-    type: string;
-}
 
 export { Completion }
 
@@ -251,6 +175,7 @@ export interface ContentFilterResultDetailsForPromptOutput {
     custom_blocklists?: ContentFilterDetailedResults;
     error?: ErrorModel;
     hate?: ContentFilterResultOutput;
+    indirect_attack?: ContentFilterDetectionResultOutput;
     jailbreak?: ContentFilterDetectionResultOutput;
     profanity?: ContentFilterDetectionResultOutput;
     self_harm?: ContentFilterResultOutput;
@@ -291,12 +216,15 @@ export interface ElasticsearchChatExtensionConfiguration extends AzureChatExtens
 
 // @public
 export interface ElasticsearchChatExtensionParameters {
+    allow_partial_result?: boolean;
     authentication?: OnYourDataAuthenticationOptions;
     embedding_dependency?: OnYourDataVectorizationSource;
     endpoint: string;
     fields_mapping?: ElasticsearchIndexFieldMappingOptions;
     in_scope?: boolean;
+    include_contexts?: OnYourDataContextProperty[];
     index_name: string;
+    max_search_queries?: number;
     query_type?: string;
     role_information?: string;
     strictness?: number;
@@ -314,8 +242,57 @@ export interface ElasticsearchIndexFieldMappingOptions {
 }
 
 // @public
-export interface MaxTokensFinishDetailsOutput extends ChatFinishDetailsOutputParent {
-    type: "max_tokens";
+export interface ImageGenerationContentFilterResults {
+    hate?: ContentFilterResultOutput;
+    self_harm?: ContentFilterResultOutput;
+    sexual?: ContentFilterResultOutput;
+    violence?: ContentFilterResultOutput;
+}
+
+// @public
+export interface ImageGenerationPromptFilterResults {
+    custom_blocklists?: ContentFilterDetailedResults;
+    hate?: ContentFilterResultOutput;
+    jailbreak?: ContentFilterDetectionResultOutput;
+    profanity?: ContentFilterDetectionResultOutput;
+    self_harm?: ContentFilterResultOutput;
+    sexual?: ContentFilterResultOutput;
+    violence?: ContentFilterResultOutput;
+}
+
+// @public
+export interface MongoDBChatExtensionConfiguration extends AzureChatExtensionConfigurationParent {
+    parameters: MongoDBChatExtensionParameters;
+    type: "mongo_db";
+}
+
+// @public
+export interface MongoDBChatExtensionParameters {
+    allow_partial_result?: boolean;
+    app_name: string;
+    authentication?: OnYourDataUsernameAndPasswordAuthenticationOptions;
+    collection_name: string;
+    database_name: string;
+    embedding_dependency: OnYourDataEndpointVectorizationSource | OnYourDataDeploymentNameVectorizationSource;
+    endpoint: string;
+    fields_mapping: MongoDBFieldMappingOptions;
+    in_scope?: boolean;
+    include_contexts?: OnYourDataContextProperty[];
+    index_name: string;
+    max_search_queries?: number;
+    role_information?: string;
+    strictness?: number;
+    top_n_documents?: number;
+}
+
+// @public
+export interface MongoDBFieldMappingOptions {
+    content_fields: string[];
+    content_fields_separator?: string;
+    filepath_field?: string;
+    title_field?: string;
+    url_field?: string;
+    vector_fields: string[];
 }
 
 // @public
@@ -347,6 +324,7 @@ export interface OnYourDataConnectionStringAuthenticationOptions extends OnYourD
 // @public
 export interface OnYourDataDeploymentNameVectorizationSource extends OnYourDataVectorizationSourceParent {
     deployment_name: string;
+    dimensions?: number;
     type: "deployment_name";
 }
 
@@ -358,9 +336,14 @@ export interface OnYourDataEncodedApiKeyAuthenticationOptions extends OnYourData
 
 // @public
 export interface OnYourDataEndpointVectorizationSource extends OnYourDataVectorizationSourceParent {
-    authentication: OnYourDataAuthenticationOptions;
+    authentication: OnYourDataVectorSearchAuthenticationOptions;
     endpoint: string;
     type: "endpoint";
+}
+
+// @public
+export interface OnYourDataIntegratedVectorizationSource extends OnYourDataVectorizationSourceParent {
+    type: "integrated";
 }
 
 // @public
@@ -388,7 +371,14 @@ export interface OnYourDataUserAssignedManagedIdentityAuthenticationOptions exte
 }
 
 // @public
-export type OnYourDataVectorizationSource = OnYourDataVectorizationSourceParent | OnYourDataEndpointVectorizationSource | OnYourDataDeploymentNameVectorizationSource | OnYourDataModelIdVectorizationSource;
+export interface OnYourDataUsernameAndPasswordAuthenticationOptions extends OnYourDataAuthenticationOptionsParent {
+    password: string;
+    type: "username_and_password";
+    username: string;
+}
+
+// @public
+export type OnYourDataVectorizationSource = OnYourDataVectorizationSourceParent | OnYourDataEndpointVectorizationSource | OnYourDataDeploymentNameVectorizationSource | OnYourDataModelIdVectorizationSource | OnYourDataIntegratedVectorizationSource;
 
 // @public
 export interface OnYourDataVectorizationSourceParent {
@@ -396,19 +386,39 @@ export interface OnYourDataVectorizationSourceParent {
 }
 
 // @public
+export interface OnYourDataVectorSearchAccessTokenAuthenticationOptions extends OnYourDataVectorSearchAuthenticationOptions {
+    access_token: string;
+    type: "access_token";
+}
+
+// @public
+export interface OnYourDataVectorSearchApiKeyAuthenticationOptions extends OnYourDataVectorSearchAuthenticationOptions {
+    key: string;
+    type: "api_key";
+}
+
+// @public
+export interface OnYourDataVectorSearchAuthenticationOptions {
+    type: string;
+}
+
+// @public
 export interface PineconeChatExtensionConfiguration extends AzureChatExtensionConfigurationParent {
     parameters: PineconeChatExtensionParameters;
-    type: "Pinecone";
+    type: "pinecone";
 }
 
 // @public
 export interface PineconeChatExtensionParameters {
+    allow_partial_result?: boolean;
     authentication?: OnYourDataAuthenticationOptions;
     embedding_dependency: OnYourDataVectorizationSource;
     environment: string;
     fields_mapping: PineconeFieldMappingOptions;
     in_scope?: boolean;
+    include_contexts?: OnYourDataContextProperty[];
     index_name: string;
+    max_search_queries?: number;
     role_information?: string;
     strictness?: number;
     top_n_documents?: number;
@@ -421,12 +431,6 @@ export interface PineconeFieldMappingOptions {
     filepath_field?: string;
     title_field?: string;
     url_field?: string;
-}
-
-// @public
-export interface StopFinishDetailsOutput extends ChatFinishDetailsOutputParent {
-    stop: string;
-    type: "stop";
 }
 
 // (No @packageDocumentation comment for this package)

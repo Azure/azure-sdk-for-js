@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  InteractiveBrowserCredential,
-  InteractiveBrowserCredentialNodeOptions,
-  useIdentityPlugin,
-} from "@azure/identity";
+import type { InteractiveBrowserCredentialNodeOptions } from "@azure/identity";
+import { InteractiveBrowserCredential, useIdentityPlugin } from "@azure/identity";
 
 import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { nativeBrokerPlugin } from "../../../src";

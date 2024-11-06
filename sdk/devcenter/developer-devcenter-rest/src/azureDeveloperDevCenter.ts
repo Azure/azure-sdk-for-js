@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
-import { TokenCredential } from "@azure/core-auth";
-import { AzureDeveloperDevCenterClient } from "./clientDefinitions.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { AzureDeveloperDevCenterClient } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of `AzureDeveloperDevCenterClient`

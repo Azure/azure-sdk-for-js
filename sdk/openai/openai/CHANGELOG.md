@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.3 (Unreleased)
+## 2.0.0-beta.4 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,23 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 2.0.0-beta.3 (2024-11-05)
+
+This release adds types for Azure features supported in Azure OpenAI Service API version 2024-08-01-preview.
+
+### Features Added
+
+- Add support for connecting to MongoDB in Azure On Your Data.
+- Add support for citation information in Azure On Your Data responses.
+- Add support for content filtering in image generation.
+
+### Breaking Changes
+
+- Remove the Azure ML connection in Azure On Your Data.
+- Remove the enhancements feature from chat completions.
+- Remove the now deprecated `finish_details` field in chat completion responses. Use `finish_reason` instead.
+- Remove the `role_information` field from the On Your Data request models.
 
 ## 2.0.0-beta.2 (2024-09-09)
 

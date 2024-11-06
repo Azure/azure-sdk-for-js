@@ -67,7 +67,6 @@
     "@types/node": "^18.0.0",
     "autorest": "latest",
     "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "karma": "^6.2.0",
@@ -84,7 +83,6 @@
     "nyc": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "tshy": "^2.0.0",
     "typescript": "~5.6.2"
   },
   "scripts": {

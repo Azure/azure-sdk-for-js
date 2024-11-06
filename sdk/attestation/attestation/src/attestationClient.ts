@@ -3,28 +3,30 @@
 
 import { GeneratedClient } from "./generated/generatedClient.js";
 
-import {
+import type {
   AttestationResult,
   AttestationSigner,
   AttestationTokenValidationOptions,
 } from "./models/index.js";
 
-import {
+import type {
   GeneratedAttestationResult,
   InitTimeData,
-  KnownDataType,
   RuntimeData,
 } from "./generated/models/index.js";
+import { KnownDataType } from "./generated/models/index.js";
 
 import { logger } from "./logger.js";
-import { GeneratedClientOptionalParams } from "./generated/models/index.js";
+import type { GeneratedClientOptionalParams } from "./generated/models/index.js";
 import * as Mappers from "./generated/models/mappers.js";
 
-import { AttestationResponse, createAttestationResponse } from "./models/attestationResponse.js";
+import type { AttestationResponse } from "./models/attestationResponse.js";
+import { createAttestationResponse } from "./models/attestationResponse.js";
 
 import { TypeDeserializer } from "./utils/typeDeserializer.js";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { bytesToString, stringToBytes } from "./utils/utf8.js";
 import { _attestationResultFromGenerated } from "./models/attestationResult.js";
 import { _attestationSignerFromGenerated } from "./models/attestationSigner.js";
