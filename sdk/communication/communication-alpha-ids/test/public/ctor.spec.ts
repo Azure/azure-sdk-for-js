@@ -3,9 +3,9 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import type { Context } from "mocha";
-import { AlphaIdsClient } from "../../src";
+import { AlphaIdsClient } from "../../src/index.js";
 import { assert } from "chai";
-import { createMockToken } from "./utils/recordedClient";
+import { createMockToken } from "./utils/recordedClient.js";
 
 describe("AlphaIdsClient - constructor", function () {
   const endpoint = "https://contoso.spool.azure.local";
@@ -27,7 +27,7 @@ describe("AlphaIdsClient - constructor", function () {
     assert.instanceOf(client, AlphaIdsClient);
   });
 
-  it("successfully instantiates with with endpoint and managed identity", function (this: Context) {
+  it("successfully instantiates with with endpoint and managed identity", function (ctx) {
     const client = new AlphaIdsClient(endpoint, createMockToken());
     assert.instanceOf(client, AlphaIdsClient);
   });

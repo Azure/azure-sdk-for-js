@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AlphaIdsClient } from "../../src";
+import type { AlphaIdsClient } from "../../src/index.js";
 import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { createRecordedClient } from "./utils/recordedClient";
+import { createRecordedClient } from "./utils/recordedClient.js";
 import { assert } from "chai";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import type { DynamicAlphaIdConfiguration } from "../../src";
+import type { DynamicAlphaIdConfiguration } from "../../src/index.js";
 
 describe(`AlphaIdsClient - manage configuration`, function () {
   let recorder: Recorder;
   let client: AlphaIdsClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     ({ client, recorder } = await createRecordedClient(this));
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+  afterEach(async function (ctx) {
+    if (!ctx.task.pending) {
       await recorder.stop();
     }
   });

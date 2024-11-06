@@ -4,12 +4,12 @@
 import { AzureKeyCredential } from "@azure/core-auth";
 import type { Context } from "mocha";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
-import { SDK_VERSION } from "../../src/utils/constants";
-import { AlphaIdsClient } from "../../src";
+import { SDK_VERSION } from "../../src/utils/constants.js";
+import { AlphaIdsClient } from "../../src/index.js";
 import type { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
-import { createMockToken } from "../public/utils/recordedClient";
-import { configurationHttpClient } from "../public/utils/mockHttpClients";
+import { createMockToken } from "../public/utils/recordedClient.js";
+import { configurationHttpClient } from "../public/utils/mockHttpClients.js";
 import { isNodeLike } from "@azure/core-util";
 import sinon from "sinon";
 
@@ -33,9 +33,9 @@ describe("AlphaIdsClient - headers", function () {
     request = spy.getCall(0).args[0];
   });
 
-  it("[node] sets correct host", function (this: Context) {
+  it("[node] sets correct host", function (ctx) {
     if (!isNodeLike) {
-      this.skip();
+      ctx.skip();
     }
     assert.equal(request.headers.get("host"), "contoso.spool.azure.local");
   });
@@ -78,7 +78,7 @@ describe("AlphaIdsClient - headers", function () {
     );
   });
 
-  it("sets bearer authorization header with TokenCredential", async function (this: Context) {
+  it("sets bearer authorization header with TokenCredential", async function (ctx) {
     const credential: TokenCredential = createMockToken();
 
     client = new AlphaIdsClient(endpoint, credential, {
