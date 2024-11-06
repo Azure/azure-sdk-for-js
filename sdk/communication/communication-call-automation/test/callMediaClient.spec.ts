@@ -43,6 +43,7 @@ import type {
   StartMediaStreamingOptions,
   StopMediaStreamingOptions,
   CallMediaRecognizeSpeechOrDtmfOptions,
+  PlayToAllOptions,
 } from "../src";
 import { CallAutomationEventProcessor } from "../src";
 
@@ -686,6 +687,63 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(data.playPrompts[1].kind, "text");
     assert.equal(data.playPrompts[2].kind, "ssml");
     assert.equal(request.method, "POST");
+  });
+
+  it("makes successful PlayToAll barge in request", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const playSource: FileSource[] = [
+      {
+        url: MEDIA_URL_WAV,
+        kind: "fileSource",
+      },
+    ];
+
+    const options: PlayToAllOptions = {
+      interruptCallMediaOperation: true,
+      operationContext: "interruptMediaContext",
+    };
+
+    await callMedia.playToAll(playSource, options);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.playSources[0].kind, "file");
+    assert.equal(data.playSources[0].file.uri, playSource[0].url);
+    assert.equal(request.method, "POST");
+    assert.equal(data.operationContext, options.operationContext);
+    assert.equal(data.interruptCallMediaOperation, options.interruptCallMediaOperation);
+  });
+
+  it("makes successful PlayToAll barge in request with PlayOptions instead of PlayToAllOptions", async function () {
+    const mockHttpClient = generateHttpClient(202);
+
+    callMedia = createMediaClient(mockHttpClient);
+    const spy = sinon.spy(mockHttpClient, "sendRequest");
+
+    const playSource: FileSource[] = [
+      {
+        url: MEDIA_URL_WAV,
+        kind: "fileSource",
+      },
+    ];
+
+    const options: PlayOptions = {
+      operationContext: "interruptMediaContext",
+    };
+
+    await callMedia.playToAll(playSource, options);
+    const request = spy.getCall(0).args[0];
+    const data = JSON.parse(request.body?.toString() || "");
+
+    assert.equal(data.playSources[0].kind, "file");
+    assert.equal(data.playSources[0].file.uri, playSource[0].url);
+    assert.equal(request.method, "POST");
+    assert.equal(data.operationContext, options.operationContext);
+    assert.equal(data.interruptCallMediaOperation, false);
   });
 });
 

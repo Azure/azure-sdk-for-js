@@ -48,6 +48,7 @@ import type {
   UnholdOptions,
   StartMediaStreamingOptions,
   StopMediaStreamingOptions,
+  PlayToAllOptions,
 } from "./models/options";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type {
@@ -208,7 +209,7 @@ export class CallMedia {
    */
   public async playToAll(
     playSources: (FileSource | TextSource | SsmlSource)[],
-    options: PlayOptions = { loop: false },
+    options: PlayToAllOptions = { loop: false },
   ): Promise<PlayResult> {
     const playRequest: PlayRequest = {
       playSources: playSources.map((source) => this.createPlaySourceInternal(source)),
@@ -224,6 +225,15 @@ export class CallMedia {
       playRequest.playOptions = playRequest.playOptions || { loop: false }; // Ensure playOptions is defined
       playRequest.playOptions.loop = options.loop;
     }
+
+    if (options.interruptCallMediaOperation !== undefined) {
+      playRequest.playOptions = playRequest.playOptions || {
+        loop: false,
+        interruptCallMediaOperation: false,
+      }; // Ensure playOptions is defined
+      playRequest.playOptions.interruptCallMediaOperation = options.interruptCallMediaOperation;
+    }
+
     await this.callMedia.play(this.callConnectionId, playRequest, options);
 
     const playResult: PlayResult = {
