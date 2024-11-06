@@ -203,6 +203,7 @@ rrfScores array [
     for (const [query, { expected1, expected2 }] of queriesMap) {
       const queryOptions = { allowUnboundedNonStreamingQueries: true };
       const queryIterator = container.items.query(query, queryOptions);
+
       const results: any[] = [];
       while (queryIterator.hasMoreResults()) {
         const { resources: result } = await queryIterator.fetchNext();
@@ -214,7 +215,6 @@ rrfScores array [
 
       const indexes = results.map((result) => result.Index);
       console.log("indexes", indexes);
-
       const isMatch =
         JSON.stringify(indexes) === JSON.stringify(expected1) ||
         JSON.stringify(indexes) === JSON.stringify(expected2);
