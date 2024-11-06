@@ -83,7 +83,7 @@ describe("Library/TraceHandler", () => {
     metrics.disable();
     trace.disable();
     mockHttpServer.close();
-    sandbox.restore();
+    vi.restoreAllMocks();
     exportStub.resetHistory();
   });
 

@@ -58,7 +58,7 @@ describe("Main functions", () => {
 
   afterEach(() => {
     process.env = originalEnv;
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   after(() => {

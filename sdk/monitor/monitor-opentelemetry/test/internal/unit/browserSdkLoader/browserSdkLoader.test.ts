@@ -20,7 +20,7 @@ describe("#BrowserSdkLoader", () => {
   afterEach(async () => {
     process.env = originalEnv;
     await shutdownAzureMonitor();
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   beforeEach(() => {
@@ -343,7 +343,7 @@ describe("#BrowserSdkLoader", () => {
   });
 
   it("injection should throw errors when ikey from config is not valid", () => {
-    const infoStub = sandbox.stub(console, "info");
+    const infoStub = vi.spyOn(console, "info");
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
