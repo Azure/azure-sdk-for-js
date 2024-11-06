@@ -2286,6 +2286,26 @@
       "packageName": "@azure/arm-fabric",
       "projectFolder": "sdk/fabric/arm-fabric",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-iotoperations",
+      "projectFolder": "sdk/iotoperations/arm-iotoperations",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-trustedsigning",
+      "projectFolder": "sdk/trustedsigning/arm-trustedsigning",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databoundaries",
+      "projectFolder": "sdk/databoundaries/arm-databoundaries",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerorchestratorruntime",
+      "projectFolder": "sdk/kubernetesruntime/arm-containerorchestratorruntime",
+      "versionPolicyName": "management"
     }
   ]
 }

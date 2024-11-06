@@ -3,11 +3,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
-import { InstrumentationConfig } from "@opentelemetry/instrumentation";
-import { Resource } from "@opentelemetry/resources";
-import { LogRecordProcessor } from "@opentelemetry/sdk-logs";
-import { SpanProcessor } from "@opentelemetry/sdk-trace-base";
+import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
+import type { InstrumentationConfig } from "@opentelemetry/instrumentation";
+import type { Resource } from "@opentelemetry/resources";
+import type { LogRecordProcessor } from "@opentelemetry/sdk-logs";
+import type { SpanProcessor } from "@opentelemetry/sdk-trace-base";
 
 /**
  * Azure Monitor OpenTelemetry Options
@@ -148,7 +148,7 @@ export interface BrowserSdkLoaderOptions {
   connectionString?: string;
 }
 
-export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.7.1";
+export const AZURE_MONITOR_OPENTELEMETRY_VERSION = "1.8.0";
 export const AZURE_MONITOR_STATSBEAT_FEATURES = "AZURE_MONITOR_STATSBEAT_FEATURES";
 export const AZURE_MONITOR_PREFIX = "AZURE_MONITOR_PREFIX";
 export const AZURE_MONITOR_AUTO_ATTACH = "AZURE_MONITOR_AUTO_ATTACH";

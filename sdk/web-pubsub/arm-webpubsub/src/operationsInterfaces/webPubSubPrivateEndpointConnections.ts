@@ -15,7 +15,7 @@ import {
   WebPubSubPrivateEndpointConnectionsGetResponse,
   WebPubSubPrivateEndpointConnectionsUpdateOptionalParams,
   WebPubSubPrivateEndpointConnectionsUpdateResponse,
-  WebPubSubPrivateEndpointConnectionsDeleteOptionalParams
+  WebPubSubPrivateEndpointConnectionsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface WebPubSubPrivateEndpointConnections {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsListOptionalParams
+    options?: WebPubSubPrivateEndpointConnectionsListOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
   /**
    * Get the specified private endpoint connection
@@ -44,7 +44,7 @@ export interface WebPubSubPrivateEndpointConnections {
     privateEndpointConnectionName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsGetOptionalParams
+    options?: WebPubSubPrivateEndpointConnectionsGetOptionalParams,
   ): Promise<WebPubSubPrivateEndpointConnectionsGetResponse>;
   /**
    * Update the state of specified private endpoint connection
@@ -60,7 +60,7 @@ export interface WebPubSubPrivateEndpointConnections {
     resourceGroupName: string,
     resourceName: string,
     parameters: PrivateEndpointConnection,
-    options?: WebPubSubPrivateEndpointConnectionsUpdateOptionalParams
+    options?: WebPubSubPrivateEndpointConnectionsUpdateOptionalParams,
   ): Promise<WebPubSubPrivateEndpointConnectionsUpdateResponse>;
   /**
    * Delete the specified private endpoint connection
@@ -74,7 +74,7 @@ export interface WebPubSubPrivateEndpointConnections {
     privateEndpointConnectionName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams
+    options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete the specified private endpoint connection
@@ -88,6 +88,6 @@ export interface WebPubSubPrivateEndpointConnections {
     privateEndpointConnectionName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams
+    options?: WebPubSubPrivateEndpointConnectionsDeleteOptionalParams,
   ): Promise<void>;
 }

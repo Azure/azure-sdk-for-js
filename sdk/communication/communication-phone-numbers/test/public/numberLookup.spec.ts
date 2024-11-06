@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { PhoneNumbersClient } from "../../src";
+import type { Context } from "mocha";
+import type { PhoneNumbersClient } from "../../src";
 import { createRecordedClient } from "./utils/recordedClient";
 import { getPhoneNumber } from "./utils/testPhoneNumber";
 

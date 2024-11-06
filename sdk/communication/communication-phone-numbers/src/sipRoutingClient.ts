@@ -1,21 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+/* eslint-disable @azure/azure-sdk/ts-naming-options */
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { logger } from "./utils";
 import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient";
-import { SipConfigurationUpdate, SipRoutingError } from "./generated/src/siprouting/models";
-import { ListSipRoutesOptions, ListSipTrunksOptions, SipTrunk, SipTrunkRoute } from "./models";
+import type { SipConfigurationUpdate, SipRoutingError } from "./generated/src/siprouting/models";
+import type { ListSipRoutesOptions, ListSipTrunksOptions, SipTrunk, SipTrunkRoute } from "./models";
 import { transformFromRestModel, transformIntoRestModel } from "./mappers";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { tracingClient } from "./generated/src/tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 export * from "./models";
 

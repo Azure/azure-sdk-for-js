@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { KeyCredential, SASCredential } from "@azure/core-auth";
-import {
+import type { KeyCredential, SASCredential } from "@azure/core-auth";
+import type {
   PipelineResponse,
   PipelineRequest,
   SendRequest,

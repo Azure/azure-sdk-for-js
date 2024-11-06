@@ -3,11 +3,12 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { PurviewAccount, PurviewMetadataPolicies } from "../../../src";
 import { createTestCredential } from "@azure-tools/test-credential";
 
-import { ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
 
 const replaceableVariables: { [k: string]: string } = {
   ENDPOINT: "https://endpoint",

@@ -55,7 +55,7 @@ node cloudHsmClusterPrivateEndpointConnectionsCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env HARDWARESECURITYMODULES_SUBSCRIPTION_ID="<hardwaresecuritymodules subscription id>" HARDWARESECURITYMODULES_RESOURCE_GROUP="<hardwaresecuritymodules resource group>" node cloudHsmClusterPrivateEndpointConnectionsCreateSample.js
+npx dev-tool run vendored cross-env HARDWARESECURITYMODULES_SUBSCRIPTION_ID="<hardwaresecuritymodules subscription id>" HARDWARESECURITYMODULES_RESOURCE_GROUP="<hardwaresecuritymodules resource group>" node cloudHsmClusterPrivateEndpointConnectionsCreateSample.js
 ```
 
 ## Next Steps

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import { MetadataPolicy } from "./models";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type { MetadataPolicy } from "./models";
 
 export type MetadataRolesListParameters = RequestParameters;
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AccountsGetAccountPropertiesParameters,
   AccountsUpdateAccountPropertiesParameters,
   AccountsGetAccessKeysParameters,
@@ -17,7 +17,7 @@ import {
   ResourceSetRulesDeleteResourceSetRuleParameters,
   ResourceSetRulesListResourceSetRulesParameters,
 } from "./parameters";
-import {
+import type {
   AccountsGetAccountProperties200Response,
   AccountsGetAccountPropertiesDefaultResponse,
   AccountsUpdateAccountProperties200Response,
@@ -48,7 +48,7 @@ import {
   ResourceSetRulesListResourceSetRules200Response,
   ResourceSetRulesListResourceSetRulesDefaultResponse,
 } from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface AccountsGetAccountProperties {
   /** Get an account */

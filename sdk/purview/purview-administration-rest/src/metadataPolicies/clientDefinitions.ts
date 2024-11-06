@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   MetadataRolesListParameters,
   MetadataPolicyListAllParameters,
   MetadataPolicyUpdateParameters,
   MetadataPolicyGetParameters,
 } from "./parameters";
-import {
+import type {
   MetadataRolesList200Response,
   MetadataRolesListDefaultResponse,
   MetadataPolicyListAll200Response,
@@ -17,7 +17,7 @@ import {
   MetadataPolicyGet200Response,
   MetadataPolicyGetDefaultResponse,
 } from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface MetadataRolesList {
   /** Lists roles for Purview Account */

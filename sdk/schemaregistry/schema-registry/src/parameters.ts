@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import { SchemaContentTypeValues } from "./models.js";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type { SchemaContentTypeValues } from "./models.js";
 
 export type ListSchemaGroupsParameters = RequestParameters;
 export type ListSchemaVersionsParameters = RequestParameters;
