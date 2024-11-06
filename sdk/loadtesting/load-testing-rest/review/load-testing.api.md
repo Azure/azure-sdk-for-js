@@ -4,17 +4,17 @@
 
 ```ts
 
-import type { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
+import { Client } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import type { RequestParameters } from '@azure-rest/core-client';
+import { RequestParameters } from '@azure-rest/core-client';
 import type { SimplePollerLike } from '@azure/core-lro';
-import type { StreamableMethod } from '@azure-rest/core-client';
-import type { TokenCredential } from '@azure/core-auth';
+import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AppComponent {
