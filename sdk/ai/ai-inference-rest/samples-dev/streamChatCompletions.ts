@@ -14,15 +14,18 @@ import { createSseStream } from "@azure/core-sse";
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 import { IncomingMessage } from "http";
+import { AzureKeyCredential } from "@azure/core-auth";
 dotenv.config();
 
 // You will need to set these environment variables or edit the following values
 const endpoint = process.env["ENDPOINT"] || "<endpoint>";
+const key = process.env["KEY"];
+const modelName = process.env["MODEL_NAME"];
 
 export async function main() {
   console.log("== Streaming Chat Completions Sample ==");
 
-  const client = ModelClient(endpoint, new DefaultAzureCredential());
+  const client = createModelClient();
   const response = await client
     .path("/chat/completions")
     .post({
@@ -35,6 +38,7 @@ export async function main() {
         ],
         stream: true,
         max_tokens: 128,
+        model: modelName,
       },
     })
     .asNodeStream();
@@ -68,6 +72,28 @@ export async function main() {
     }
 
     return Buffer.concat(chunks).toString("utf-8");
+  }
+}
+
+/*
+ * This function creates a model client.
+ */
+function createModelClient() {
+  // auth scope for AOAI resources is currently https://cognitiveservices.azure.com/.default
+  // auth scope for MaaS and MaaP is currently https://ml.azure.com
+  // (Do not use for Serverless API or Managed Computer Endpoints)
+  if (key) {
+    return ModelClient(endpoint, new AzureKeyCredential(key));
+  } else {
+    const scopes: string[] = [];
+    if (endpoint.includes(".models.ai.azure.com")) {
+      scopes.push("https://ml.azure.com");
+    } else if (endpoint.includes(".openai.azure.com/openai/deployments/")) {
+      scopes.push("https://cognitiveservices.azure.com");
+    }
+
+    const clientOptions = { credentials: { scopes } };
+    return ModelClient(endpoint, new DefaultAzureCredential(), clientOptions);
   }
 }
 

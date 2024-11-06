@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentSpan } from "../../src";
+import type { DocumentSpan } from "../../src";
 import {
   contains,
   fastGetChildren,

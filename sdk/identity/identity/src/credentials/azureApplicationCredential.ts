@@ -6,7 +6,7 @@ import {
   createEnvironmentCredential,
 } from "./defaultAzureCredential";
 
-import { AzureApplicationCredentialOptions } from "./azureApplicationCredentialOptions";
+import type { AzureApplicationCredentialOptions } from "./azureApplicationCredentialOptions";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
 
 /**

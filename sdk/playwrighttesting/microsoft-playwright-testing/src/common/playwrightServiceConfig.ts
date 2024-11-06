@@ -1,9 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DefaultConnectOptionsConstants, ServiceEnvironmentVariable } from "./constants";
-import { PlaywrightServiceAdditionalOptions, OsType } from "./types";
-import { getDefaultRunId } from "../utils/utils";
+import {
+  DefaultConnectOptionsConstants,
+  InternalEnvironmentVariables,
+  ServiceEnvironmentVariable,
+} from "./constants";
+import type { PlaywrightServiceAdditionalOptions, OsType } from "./types";
+import { getAndSetRunId } from "../utils/utils";
 
 class PlaywrightServiceConfig {
   public serviceOs: OsType;
@@ -11,12 +15,12 @@ class PlaywrightServiceConfig {
   public timeout: number;
   public slowMo: number;
   public exposeNetwork: string;
-
+  public runName: string;
   constructor() {
     this.serviceOs = (process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_OS] ||
       DefaultConnectOptionsConstants.DEFAULT_SERVICE_OS) as OsType;
-    this.runId =
-      process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID] || getDefaultRunId();
+    this.runName = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] || "";
+    this.runId = process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] || "";
     this.timeout = DefaultConnectOptionsConstants.DEFAULT_TIMEOUT;
     this.slowMo = DefaultConnectOptionsConstants.DEFAULT_SLOW_MO;
     this.exposeNetwork = DefaultConnectOptionsConstants.DEFAULT_EXPOSE_NETWORK;
@@ -26,9 +30,17 @@ class PlaywrightServiceConfig {
     if (options?.exposeNetwork) {
       this.exposeNetwork = options.exposeNetwork;
     }
-    if (options?.runId) {
-      this.runId = options.runId;
-      process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID] = this.runId;
+    if (!process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]) {
+      if (options?.runId) {
+        this.runId = options.runId;
+        process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID] = this.runId;
+      } else {
+        this.runId = getAndSetRunId();
+      }
+    }
+    if (!process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] && options?.runName) {
+      this.runName = options.runName;
+      process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_NAME] = this.runName;
     }
     if (options?.os) {
       this.serviceOs = options.os;

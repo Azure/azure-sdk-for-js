@@ -9,9 +9,9 @@ import {
   getQueueRequest,
 } from "../utils/testData";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
-import { JobRouterAdministrationClient, JobRouterClient } from "../../../src";
+import type { Context } from "mocha";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { JobRouterAdministrationClient, JobRouterClient } from "../../../src";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { pollForJobCancelled, pollForJobQueued } from "../utils/polling";
 import { timeoutMs } from "../utils/constants";

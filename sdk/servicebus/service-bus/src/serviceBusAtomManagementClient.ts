@@ -2,89 +2,96 @@
 // Licensed under the MIT License.
 
 import { Constants as AMQPConstants, parseConnectionString } from "@azure/core-amqp";
-import {
-  TokenCredential,
-  isTokenCredential,
-  NamedKeyCredential,
-  isNamedKeyCredential,
-} from "@azure/core-auth";
-import {
-  ServiceClient,
+import type { TokenCredential, NamedKeyCredential } from "@azure/core-auth";
+import { isTokenCredential, isNamedKeyCredential } from "@azure/core-auth";
+import type {
   OperationOptions,
   CommonClientOptions,
   FullOperationResponse,
 } from "@azure/core-client";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import {
-  bearerTokenAuthenticationPolicy,
-  RestError,
+import { ServiceClient } from "@azure/core-client";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type {
   PipelineResponse,
-  createPipelineFromOptions,
   PipelineRequest,
-  createPipelineRequest,
   PipelinePolicy,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { CorrelationRuleFilter } from "./core/managementClient";
-import { administrationLogger as logger } from "./log";
+import {
+  bearerTokenAuthenticationPolicy,
+  RestError,
+  createPipelineFromOptions,
+  createPipelineRequest,
+} from "@azure/core-rest-pipeline";
+import type { CorrelationRuleFilter } from "./core/managementClient.js";
+import { administrationLogger as logger } from "./log.js";
+import type { NamespaceProperties } from "./serializers/namespaceResourceSerializer.js";
 import {
   buildNamespace,
-  NamespaceProperties,
   NamespaceResourceSerializer,
-} from "./serializers/namespaceResourceSerializer";
+} from "./serializers/namespaceResourceSerializer.js";
+import type {
+  CreateQueueOptions,
+  InternalQueueOptions,
+  QueueProperties,
+  QueueRuntimeProperties,
+} from "./serializers/queueResourceSerializer.js";
 import {
   buildQueue,
   buildQueueOptions,
   buildQueueRuntimeProperties,
-  CreateQueueOptions,
-  InternalQueueOptions,
-  QueueProperties,
   QueueResourceSerializer,
-  QueueRuntimeProperties,
-} from "./serializers/queueResourceSerializer";
-import {
-  buildRule,
+} from "./serializers/queueResourceSerializer.js";
+import type {
   CreateRuleOptions,
-  isSqlRuleAction,
   RuleProperties,
-  RuleResourceSerializer,
   SqlRuleAction,
   SqlRuleFilter,
-} from "./serializers/ruleResourceSerializer";
+} from "./serializers/ruleResourceSerializer.js";
+import {
+  buildRule,
+  isSqlRuleAction,
+  RuleResourceSerializer,
+} from "./serializers/ruleResourceSerializer.js";
+import type {
+  CreateSubscriptionOptions,
+  InternalSubscriptionOptions,
+  SubscriptionProperties,
+  SubscriptionRuntimeProperties,
+} from "./serializers/subscriptionResourceSerializer.js";
 import {
   buildSubscription,
   buildSubscriptionOptions,
   buildSubscriptionRuntimeProperties,
-  CreateSubscriptionOptions,
-  InternalSubscriptionOptions,
-  SubscriptionProperties,
   SubscriptionResourceSerializer,
-  SubscriptionRuntimeProperties,
-} from "./serializers/subscriptionResourceSerializer";
+} from "./serializers/subscriptionResourceSerializer.js";
+import type {
+  CreateTopicOptions,
+  InternalTopicOptions,
+  TopicProperties,
+  TopicRuntimeProperties,
+} from "./serializers/topicResourceSerializer.js";
 import {
   buildTopic,
   buildTopicOptions,
   buildTopicRuntimeProperties,
-  CreateTopicOptions,
-  InternalTopicOptions,
-  TopicProperties,
   TopicResourceSerializer,
-  TopicRuntimeProperties,
-} from "./serializers/topicResourceSerializer";
-import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
-import * as Constants from "./util/constants";
-import { parseURL } from "./util/parseUrl";
-import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { tracingClient } from "./diagnostics/tracing";
+} from "./serializers/topicResourceSerializer.js";
+import type { AtomXmlSerializer } from "./util/atomXmlHelper.js";
+import { executeAtomXmlOperation } from "./util/atomXmlHelper.js";
+import * as Constants from "./util/constants.js";
+import { parseURL } from "./util/parseUrl.js";
+import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials.js";
+import { tracingClient } from "./diagnostics/tracing.js";
 import { isDefined } from "@azure/core-util";
+import type { ServiceBusAtomAPIVersion } from "./util/utils.js";
 import {
   formatUserAgentPrefix,
   getHttpResponseOnly,
   isAbsoluteUrl,
   isJSONLikeObject,
-  ServiceBusAtomAPIVersion,
-} from "./util/utils";
-import { HttpResponse } from "./util/compat";
+} from "./util/utils.js";
+import type { HttpResponse } from "./util/compat/index.js";
 
 /**
  * Request options for list<entity-type>() operations
@@ -180,7 +187,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    * @param connectionString - The connection string needed for the client to connect to Azure.
    * @param options - PipelineOptions
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(connectionString: string, options?: ServiceBusAdministrationClientOptions);
   /**
    *
@@ -198,7 +204,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   constructor(
     fullyQualifiedNamespace: string,
     credential: TokenCredential | NamedKeyCredential,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ServiceBusAdministrationClientOptions,
   );
   constructor(
@@ -207,7 +212,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       | TokenCredential
       | NamedKeyCredential
       | ServiceBusAdministrationClientOptions,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options3?: ServiceBusAdministrationClientOptions,
   ) {
     let options: ServiceBusAdministrationClientOptions;
@@ -236,7 +240,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       }
       try {
         fullyQualifiedNamespace = connectionStringObj.Endpoint.match(".*://([^/]*)")[1];
-      } catch (error: any) {
+      } catch {
         throw new Error("Endpoint in the connection string is not valid.");
       }
       credentials = new SasServiceClientCredentials({
@@ -310,7 +314,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async createQueue(
     queueName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateQueueOptions = {},
   ): Promise<WithResponse<QueueProperties>> {
     return tracingClient.withSpan(
@@ -728,7 +731,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
    */
   async createTopic(
     topicName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateTopicOptions = {},
   ): Promise<WithResponse<TopicProperties>> {
     return tracingClient.withSpan(
@@ -1153,7 +1155,6 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async createSubscription(
     topicName: string,
     subscriptionName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateSubscriptionOptions = {},
   ): Promise<WithResponse<SubscriptionProperties>> {
     return tracingClient.withSpan(

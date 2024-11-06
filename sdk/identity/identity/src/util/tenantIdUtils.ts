@@ -2,7 +2,8 @@
 // Licensed under the MIT License.
 
 import { ALL_TENANTS, DeveloperSignOnClientId } from "../constants";
-import { CredentialLogger, formatError } from "./logging";
+import type { CredentialLogger } from "./logging";
+import { formatError } from "./logging";
 export { processMultiTenantRequest } from "./processMultiTenantRequest";
 
 /**

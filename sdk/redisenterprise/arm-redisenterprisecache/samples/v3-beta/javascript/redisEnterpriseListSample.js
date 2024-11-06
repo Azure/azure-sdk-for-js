@@ -13,13 +13,14 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Gets all RedisEnterprise clusters in the specified subscription.
+ * This sample demonstrates how to Lists all Redis Enterprise clusters in the specified subscription.
  *
- * @summary Gets all RedisEnterprise clusters in the specified subscription.
- * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-03-01-preview/examples/RedisEnterpriseList.json
+ * @summary Lists all Redis Enterprise clusters in the specified subscription.
+ * x-ms-original-file: specification/redisenterprise/resource-manager/Microsoft.Cache/preview/2024-09-01-preview/examples/RedisEnterpriseList.json
  */
 async function redisEnterpriseList() {
-  const subscriptionId = process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "subid";
+  const subscriptionId =
+    process.env["REDISENTERPRISE_SUBSCRIPTION_ID"] || "e7b5a9d2-6b6a-4d2f-9143-20d9a10f5b8f";
   const credential = new DefaultAzureCredential();
   const client = new RedisEnterpriseManagementClient(credential, subscriptionId);
   const resArray = new Array();

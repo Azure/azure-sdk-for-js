@@ -18,7 +18,7 @@ import {
   VMHostListNextOptionalParams,
   VMHostListOptionalParams,
   VMHostListOperationResponse,
-  VMHostListNextResponse
+  VMHostListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -36,14 +36,14 @@ export class VMHostImpl implements VMHost {
 
   /**
    * List the vm resources currently being monitored by the Elastic monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   public list(
     resourceGroupName: string,
     monitorName: string,
-    options?: VMHostListOptionalParams
+    options?: VMHostListOptionalParams,
   ): PagedAsyncIterableIterator<VMResources> {
     const iter = this.listPagingAll(resourceGroupName, monitorName, options);
     return {
@@ -61,9 +61,9 @@ export class VMHostImpl implements VMHost {
           resourceGroupName,
           monitorName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -71,7 +71,7 @@ export class VMHostImpl implements VMHost {
     resourceGroupName: string,
     monitorName: string,
     options?: VMHostListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<VMResources[]> {
     let result: VMHostListOperationResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class VMHostImpl implements VMHost {
         resourceGroupName,
         monitorName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -99,12 +99,12 @@ export class VMHostImpl implements VMHost {
   private async *listPagingAll(
     resourceGroupName: string,
     monitorName: string,
-    options?: VMHostListOptionalParams
+    options?: VMHostListOptionalParams,
   ): AsyncIterableIterator<VMResources> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       monitorName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -112,24 +112,24 @@ export class VMHostImpl implements VMHost {
 
   /**
    * List the vm resources currently being monitored by the Elastic monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   private _list(
     resourceGroupName: string,
     monitorName: string,
-    options?: VMHostListOptionalParams
+    options?: VMHostListOptionalParams,
   ): Promise<VMHostListOperationResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
   /**
    * ListNext
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param nextLink The nextLink from the previous successful call to the List method.
    * @param options The options parameters.
@@ -138,11 +138,11 @@ export class VMHostImpl implements VMHost {
     resourceGroupName: string,
     monitorName: string,
     nextLink: string,
-    options?: VMHostListNextOptionalParams
+    options?: VMHostListNextOptionalParams,
   ): Promise<VMHostListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -150,45 +150,44 @@ export class VMHostImpl implements VMHost {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listVMHost",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listVMHost",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.VMHostListResponse
+      bodyMapper: Mappers.VMHostListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.VMHostListResponse
+      bodyMapper: Mappers.VMHostListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

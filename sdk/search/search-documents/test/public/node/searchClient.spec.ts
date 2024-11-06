@@ -3,24 +3,26 @@
 
 import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context, Suite } from "mocha";
+import type { Context, Suite } from "mocha";
 
 import { delay } from "@azure/core-util";
-import { OpenAIClient } from "@azure/openai";
-import {
+import type { OpenAIClient } from "@azure/openai";
+import type {
   AutocompleteResult,
+  SearchIndex,
+  SearchIndexClient,
+  SelectFields,
+} from "../../../src";
+import {
   AzureKeyCredential,
   IndexDocumentsBatch,
   KnownQueryLanguage,
   KnownSpeller,
   SearchClient,
-  SearchIndex,
-  SearchIndexClient,
-  SelectFields,
 } from "../../../src";
-import { SearchFieldArray, SelectArray } from "../../../src/indexModels";
+import type { SearchFieldArray, SelectArray } from "../../../src/indexModels";
 import { defaultServiceVersion } from "../../../src/serviceUtils";
-import { Hotel } from "../utils/interfaces";
+import type { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
 import { createIndex, createRandomIndexName, populateIndex, WAIT_TIME } from "../utils/setup";
 

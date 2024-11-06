@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 
-import { ShareClient, RestError, ShareServiceClient } from "../src";
+import type { ShareClient, ShareServiceClient } from "../src";
+import { RestError } from "../src";
 import { getBSU, getUniqueName, recorderEnvSetup, uriSanitizers } from "./utils";
 import { injectorPolicy, injectorPolicyName } from "./utils/InjectorPolicy";
 import { Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("RetryPolicy", () => {
   let shareServiceClient: ShareServiceClient;
