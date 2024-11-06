@@ -24,7 +24,7 @@
   "devDependencies": {
     "@vitest/browser": "^2.1.4",
     "@vitest/coverage-istanbul": "^2.1.4",
-    "cspell": "^8.15.5",
+    "cspell": "^8.15.7",
     "prettier": "^3.3.3",
     "prettier-plugin-packagejson": "^2.5.3",
     "rimraf": "^5.0.10",
