@@ -192,7 +192,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       console.log("hybridSearchResult", hybridSearchResult);
       if (hybridSearchResult.length === 0 || hybridSearchResult.length === 1) {
         // return the result as no or one element is present
-
+        hybridSearchResult.forEach((item) => this.buffer.push(item.data));
         this.state = HybridQueryExecutionContextBaseStates.draining;
         return;
       }
@@ -200,7 +200,14 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       // Initialize an array to hold ranks for each document
       const sortedHybridSearchResult = this.sortHybridSearchResultByRRFScore(hybridSearchResult);
 
-      console.log("sortedHybridSearchResult", sortedHybridSearchResult);
+      // console.log("sortedHybridSearchResult", sortedHybridSearchResult);
+      console.log("sortedHybridSearchResult length", sortedHybridSearchResult.length);
+      // print Index, rid and componentScores for each item
+      sortedHybridSearchResult.forEach((item) => {
+        console.log(
+          `Index: ${item.data.Index}, rid: ${item.rid}, componentScores: ${item.componentScores}`,
+        );
+      });
       // store the result to buffer
       // add only data from the sortedHybridSearchResult in the buffer
       sortedHybridSearchResult.forEach((item) => this.buffer.push(item.data));
@@ -281,17 +288,25 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       rid: item.rid,
       ranks: new Array(item.componentScores.length).fill(0),
     }));
-
     // Compute ranks for each component score
     for (let i = 0; i < hybridSearchResult[0].componentScores.length; i++) {
       // Sort based on the i-th component score
       hybridSearchResult.sort((a, b) => b.componentScores[i] - a.componentScores[i]);
 
       // Assign ranks
-      hybridSearchResult.forEach((item, index) => {
-        const rankIndex = ranksArray.findIndex((rankItem) => rankItem.rid === item.rid);
-        ranksArray[rankIndex].ranks[i] = index + 1; // 1-based rank
-      });
+      let rank = 1;
+      for (let j = 0; j < hybridSearchResult.length; j++) {
+        if (
+          j > 0 &&
+          hybridSearchResult[j].componentScores[i] !== hybridSearchResult[j - 1].componentScores[i]
+        ) {
+          rank = j + 1;
+        }
+        const rankIndex = ranksArray.findIndex(
+          (rankItem) => rankItem.rid === hybridSearchResult[j].rid,
+        );
+        ranksArray[rankIndex].ranks[i] = rank; // 1-based rank
+      }
     }
 
     // Function to compute RRF score
