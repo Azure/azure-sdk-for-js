@@ -13,6 +13,8 @@ import type {
   RouteGetRouteDirectionsBatch200Response,
   RouteGetRouteDirectionsQueryParamProperties,
   RouteGetRouteMatrix200Response,
+} from "../../generated";
+import  {
   getLongRunningPoller,
   isUnexpected,
 } from "../../generated";
