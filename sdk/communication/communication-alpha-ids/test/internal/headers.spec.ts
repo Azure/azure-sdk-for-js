@@ -2,16 +2,14 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import type { Context } from "mocha";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { SDK_VERSION } from "../../src/utils/constants.js";
 import { AlphaIdsClient } from "../../src/index.js";
 import type { TokenCredential } from "@azure/identity";
-import { assert } from "chai";
 import { createMockToken } from "../public/utils/recordedClient.js";
 import { configurationHttpClient } from "../public/utils/mockHttpClients.js";
 import { isNodeLike } from "@azure/core-util";
-import sinon from "sinon";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("AlphaIdsClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";

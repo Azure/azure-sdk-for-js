@@ -12,7 +12,6 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { AlphaIdsClient } from "../../../src/index.js";
-import type { Context } from "mocha";
 import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";

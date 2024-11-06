@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 import type { AlphaIdsClient } from "../../src/index.js";
-import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient } from "./utils/recordedClient.js";
-import { assert } from "chai";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import type { DynamicAlphaIdConfiguration } from "../../src/index.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe(`AlphaIdsClient - manage configuration`, function () {
   let recorder: Recorder;

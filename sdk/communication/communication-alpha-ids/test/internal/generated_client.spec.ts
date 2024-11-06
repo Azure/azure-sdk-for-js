@@ -9,12 +9,11 @@ import {
 } from "@azure/core-rest-pipeline";
 import { AlphaIDsClient as AlphaIDsGeneratedClient } from "../../src/generated/src/index.js";
 import type { TokenCredential } from "@azure/identity";
-import { assert } from "chai";
 import { createMockToken } from "../public/utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
 import { parseClientArguments } from "@azure/communication-common";
-import sinon from "sinon";
 import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,

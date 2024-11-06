@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { AlphaIdsClient } from "../../src/index.js";
-import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient.js";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe(`AlphaIdsClient - Preregistered Alpha Ids Operations`, function () {
   let recorder: Recorder;
