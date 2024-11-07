@@ -14,7 +14,9 @@ import createClient, {
   SessionResourceFilesListParameters,
   SessionResourceFilesGetContentParameters,
   SessionResourceFileOutput,
+  PagedSessionResourceFileOutput,
 } from "@azure-rest/microsoft-app-dynamicsessions-rest";
+import { Paged } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 import { readFileSync } from "fs";
 
@@ -34,7 +36,7 @@ async function main() {
     body: [
       {
         name: "file",
-        body: createReadStream("path/to/your/file.yaml"),
+        body: "01010101",
         filename: "file.yaml",
         contentType: "application/octet-stream",
       },
@@ -61,7 +63,8 @@ async function main() {
   const listResponse = await client.path("/files").get(listOptions);
 
   if (listResponse.status === "200") {
-    const filesList = listResponse.body.value as SessionResourceFileOutput[];
+    const pagedSessionResourceFileOutput = listResponse.body as PagedSessionResourceFileOutput;
+    const filesList = pagedSessionResourceFileOutput.value as SessionResourceFileOutput[];
     console.log("Files in the session:");
     filesList.forEach((file) => {
       console.log(`- ${file.name}`);
