@@ -6,7 +6,9 @@ param (
   [Parameter(mandatory = $true)]
   $intendedTag,
   [Parameter(mandatory = $true)]
-  $intendedTagVersion
+  $intendedTagVersion,
+  [Parameter(mandatory = $true)]
+  $packageJson
 )
 
 # TODO: delete testing comments below
@@ -19,7 +21,7 @@ param (
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
-$pkg = Get-Content -Raw "temp_decompress\package\package.json" | ConvertFrom-Json
+$pkg = Get-Content -Raw $packageJson | ConvertFrom-Json
 $packageName = $pkg.Name
 
 Write-Host "Verify npm tag versions for package $packageName"
