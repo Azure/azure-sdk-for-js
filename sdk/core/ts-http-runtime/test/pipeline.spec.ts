@@ -3,10 +3,7 @@
 
 import { describe, it, assert } from "vitest";
 import type { HttpClient, PipelinePolicy } from "../src/index.js";
-import {
-  createHttpHeaders,
-  createPipelineRequest,
-} from "../src/index.js";
+import { createHttpHeaders, createPipelineRequest } from "../src/index.js";
 import { createEmptyPipeline } from "../src/pipeline.js";
 import { createPipelineFromOptions } from "../src/createPipelineFromOptions.js";
 

@@ -7,15 +7,12 @@ import type {
   GetTokenOptions,
   TokenCredential,
 } from "../../src/auth/tokenCredential.js";
-import type {
-  HttpClient,
-  PipelineResponse,
-} from "../../src/index.js";
+import type { HttpClient, PipelineResponse } from "../../src/index.js";
 import { TextDecoder } from "node:util";
 import { createPipelineRequest } from "../../src/pipelineRequest.js";
 import { createHttpHeaders } from "../../src/httpHeaders.js";
 import { createEmptyPipeline } from "../../src/pipeline.js";
-import type { AuthorizeRequestOnChallengeOptions} from "../../src/policies/bearerTokenAuthenticationPolicy.js";
+import type { AuthorizeRequestOnChallengeOptions } from "../../src/policies/bearerTokenAuthenticationPolicy.js";
 import { bearerTokenAuthenticationPolicy } from "../../src/policies/bearerTokenAuthenticationPolicy.js";
 
 export interface TestChallenge {

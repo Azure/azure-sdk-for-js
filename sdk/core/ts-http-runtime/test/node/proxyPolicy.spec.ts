@@ -4,12 +4,13 @@
 import * as process from "node:process";
 import { describe, it, assert, vi, afterEach } from "vitest";
 import type { Agent, PipelineRequest } from "../../src/index.js";
+import { type ProxySettings, type SendRequest, createPipelineRequest } from "../../src/index.js";
 import {
-  type ProxySettings,
-  type SendRequest,
-  createPipelineRequest
-} from "../../src/index.js";
-import { getDefaultProxySettings, globalNoProxyList, loadNoProxy, proxyPolicy } from "../../src/policies/proxyPolicy.js";
+  getDefaultProxySettings,
+  globalNoProxyList,
+  loadNoProxy,
+  proxyPolicy,
+} from "../../src/policies/proxyPolicy.js";
 
 interface ProxyAgent extends Agent {
   proxy: URL;

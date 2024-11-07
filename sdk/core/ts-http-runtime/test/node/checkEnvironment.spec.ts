@@ -2,7 +2,16 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { isBrowser, isBun, isDeno, isNode, isNodeLike, isNodeRuntime, isReactNative, isWebWorker } from "../../src/util/checkEnvironment.js";
+import {
+  isBrowser,
+  isBun,
+  isDeno,
+  isNode,
+  isNodeLike,
+  isNodeRuntime,
+  isReactNative,
+  isWebWorker,
+} from "../../src/util/checkEnvironment.js";
 
 describe("checkEnvironment (node)", function () {
   describe("isBun (node)", function () {
