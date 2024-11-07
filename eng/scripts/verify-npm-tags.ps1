@@ -9,13 +9,6 @@ param (
   $packageJson
 )
 
-# TODO: delete testing comments below
-#'@azure/eventhubs-checkpointstore-table' alpha, no beta, no GA
-#'@azure/openai' alpha, beta, no GA
-#'@azure/video-indexer-widgets' no alpha, no beta, GA
-#'@azure/template' alpha, beta, GA
-#$pkgProps.PackageId
-
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
 
