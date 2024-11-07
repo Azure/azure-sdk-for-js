@@ -4,7 +4,6 @@
 import {
   roleAssignmentPropertiesSerializer,
   RoleAssignment,
-  RoleScope,
   RoleAssignmentCreateParameters,
   _RoleAssignmentListResult,
 } from "../../models/models.js";
@@ -56,7 +55,7 @@ export async function _$deleteDeserialize(
     properties: !result.body.properties
       ? undefined
       : {
-          scope: result.body.properties?.["scope"] as RoleScope,
+          scope: result.body.properties?.["scope"],
           roleDefinitionId: result.body.properties?.["roleDefinitionId"],
           principalId: result.body.properties?.["principalId"],
         },
@@ -120,7 +119,7 @@ export async function _createDeserialize(
     properties: !result.body.properties
       ? undefined
       : {
-          scope: result.body.properties?.["scope"] as RoleScope,
+          scope: result.body.properties?.["scope"],
           roleDefinitionId: result.body.properties?.["roleDefinitionId"],
           principalId: result.body.properties?.["principalId"],
         },
@@ -175,7 +174,7 @@ export async function _getDeserialize(
     properties: !result.body.properties
       ? undefined
       : {
-          scope: result.body.properties?.["scope"] as RoleScope,
+          scope: result.body.properties?.["scope"],
           roleDefinitionId: result.body.properties?.["roleDefinitionId"],
           principalId: result.body.properties?.["principalId"],
         },
@@ -223,7 +222,7 @@ export async function _listForScopeDeserialize(
         properties: !p.properties
           ? undefined
           : {
-              scope: p.properties?.["scope"] as RoleScope,
+              scope: p.properties?.["scope"],
               roleDefinitionId: p.properties?.["roleDefinitionId"],
               principalId: p.properties?.["principalId"],
             },

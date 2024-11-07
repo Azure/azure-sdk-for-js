@@ -4,8 +4,6 @@
 import {
   roleDefinitionPropertiesSerializer,
   RoleDefinition,
-  RoleDefinitionType,
-  RoleType,
   RoleDefinitionCreateParameters,
   _RoleDefinitionListResult,
 } from "../../models/models.js";
@@ -53,13 +51,13 @@ export async function _$deleteDeserialize(
   return {
     id: result.body["id"],
     name: result.body["name"],
-    type: result.body["type"] as RoleDefinitionType,
+    type: result.body["type"],
     properties: !result.body.properties
       ? undefined
       : {
           roleName: result.body.properties?.["roleName"],
           description: result.body.properties?.["description"],
-          roleType: result.body.properties?.["type"] as RoleType,
+          roleType: result.body.properties?.["type"],
           permissions:
             result.body.properties?.["permissions"] === undefined
               ? result.body.properties?.["permissions"]
@@ -129,13 +127,13 @@ export async function _createOrUpdateDeserialize(
   return {
     id: result.body["id"],
     name: result.body["name"],
-    type: result.body["type"] as RoleDefinitionType,
+    type: result.body["type"],
     properties: !result.body.properties
       ? undefined
       : {
           roleName: result.body.properties?.["roleName"],
           description: result.body.properties?.["description"],
-          roleType: result.body.properties?.["type"] as RoleType,
+          roleType: result.body.properties?.["type"],
           permissions:
             result.body.properties?.["permissions"] === undefined
               ? result.body.properties?.["permissions"]
@@ -196,13 +194,13 @@ export async function _getDeserialize(
   return {
     id: result.body["id"],
     name: result.body["name"],
-    type: result.body["type"] as RoleDefinitionType,
+    type: result.body["type"],
     properties: !result.body.properties
       ? undefined
       : {
           roleName: result.body.properties?.["roleName"],
           description: result.body.properties?.["description"],
-          roleType: result.body.properties?.["type"] as RoleType,
+          roleType: result.body.properties?.["type"],
           permissions:
             result.body.properties?.["permissions"] === undefined
               ? result.body.properties?.["permissions"]
@@ -256,13 +254,13 @@ export async function _listDeserialize(
       return {
         id: p["id"],
         name: p["name"],
-        type: p["type"] as RoleDefinitionType,
+        type: p["type"],
         properties: !p.properties
           ? undefined
           : {
               roleName: p.properties?.["roleName"],
               description: p.properties?.["description"],
-              roleType: p.properties?.["type"] as RoleType,
+              roleType: p.properties?.["type"],
               permissions:
                 p.properties?.["permissions"] === undefined
                   ? p.properties?.["permissions"]

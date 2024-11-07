@@ -3,15 +3,14 @@
 
 import { ClientOptions, OperationOptions } from "@azure-rest/core-client";
 import {
-  DataAction as KnownKeyVaultDataAction, // TODO: this isn't quite right as I need an enum, not a union
-  RoleScope as KnownKeyVaultRoleScope,
+  KnownDataAction as KnownKeyVaultDataAction,
+  KnownRoleScope as KnownKeyVaultRoleScope,
+  RoleScope as KeyVaultRoleScope,
+  DataAction as KeyVaultDataAction,
 } from "./generated/index.js";
 import { SUPPORTED_API_VERSIONS } from "./constants.js";
 
-export type KeyVaultDataAction = string;
-export type KeyVaultRoleScope = string;
-
-export { KnownKeyVaultDataAction, KnownKeyVaultRoleScope };
+export { KnownKeyVaultDataAction, KnownKeyVaultRoleScope, KeyVaultDataAction, KeyVaultRoleScope };
 
 /**
  * The optional parameters accepted by the Key Vault's AccessControlClient

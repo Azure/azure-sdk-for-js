@@ -19,12 +19,29 @@ export interface FullBackupOperation {
   azureStorageBlobContainerUri?: string;
 }
 
-/** The status of a long-running operation. */
-export type OperationStatus =
-  | "InProgress"
-  | "Succeeded"
-  | "Canceled"
-  | "Failed";
+/** Known values of {@link OperationStatus} that the service accepts. */
+export enum KnownOperationStatus {
+  /** InProgress */
+  InProgress = "InProgress",
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Canceled */
+  Canceled = "Canceled",
+  /** Failed */
+  Failed = "Failed",
+}
+
+/**
+ * The status of a long-running operation. \
+ * {@link KnownOperationStatus} can be used interchangeably with OperationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **InProgress** \
+ * **Succeeded** \
+ * **Canceled** \
+ * **Failed**
+ */
+export type OperationStatus = string;
 
 /** The key vault server error. */
 export interface ErrorModel {
@@ -193,8 +210,20 @@ export interface Setting {
   type?: SettingTypeEnum;
 }
 
-/** The type specifier of the value. */
-export type SettingTypeEnum = "boolean";
+/** Known values of {@link SettingTypeEnum} that the service accepts. */
+export enum KnownSettingTypeEnum {
+  /** boolean */
+  boolean = "boolean",
+}
+
+/**
+ * The type specifier of the value. \
+ * {@link KnownSettingTypeEnum} can be used interchangeably with SettingTypeEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **boolean**
+ */
+export type SettingTypeEnum = string;
 
 /** The settings list result. */
 export interface SettingsListResult {
@@ -227,8 +256,23 @@ export interface RoleAssignmentPropertiesWithScope {
   principalId?: string;
 }
 
-/** The role scope. */
-export type RoleScope = "/" | "/keys";
+/** Known values of {@link RoleScope} that the service accepts. */
+export enum KnownRoleScope {
+  /** Global */
+  Global = "/",
+  /** Keys */
+  Keys = "/keys",
+}
+
+/**
+ * The role scope. \
+ * {@link KnownRoleScope} can be used interchangeably with RoleScope,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **\/** \
+ * **\/keys**
+ */
+export type RoleScope = string;
 
 /** Role assignment create parameters. */
 export interface RoleAssignmentCreateParameters {
@@ -284,8 +328,20 @@ export interface RoleDefinition {
   properties?: RoleDefinitionProperties;
 }
 
-/** The role definition type. */
-export type RoleDefinitionType = "Microsoft.Authorization/roleDefinitions";
+/** Known values of {@link RoleDefinitionType} that the service accepts. */
+export enum KnownRoleDefinitionType {
+  /** Microsoft.Authorization/roleDefinitions */
+  "Microsoft.Authorization/roleDefinitions" = "Microsoft.Authorization/roleDefinitions",
+}
+
+/**
+ * The role definition type. \
+ * {@link KnownRoleDefinitionType} can be used interchangeably with RoleDefinitionType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft.Authorization\/roleDefinitions**
+ */
+export type RoleDefinitionType = string;
 
 /** Role definition properties. */
 export interface RoleDefinitionProperties {
@@ -316,8 +372,23 @@ export function roleDefinitionPropertiesSerializer(
   };
 }
 
-/** The role type. */
-export type RoleType = "AKVBuiltInRole" | "CustomRole";
+/** Known values of {@link RoleType} that the service accepts. */
+export enum KnownRoleType {
+  /** BuiltInRole */
+  BuiltInRole = "AKVBuiltInRole",
+  /** CustomRole */
+  CustomRole = "CustomRole",
+}
+
+/**
+ * The role type. \
+ * {@link KnownRoleType} can be used interchangeably with RoleType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AKVBuiltInRole** \
+ * **CustomRole**
+ */
+export type RoleType = string;
 
 /** Role definition permissions. */
 export interface Permission {
@@ -348,42 +419,119 @@ export function permissionSerializer(
   };
 }
 
-/** Supported permissions for data actions. */
-export type DataAction =
-  | "Microsoft.KeyVault/managedHsm/keys/read/action"
-  | "Microsoft.KeyVault/managedHsm/keys/write/action"
-  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/read/action"
-  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/recover/action"
-  | "Microsoft.KeyVault/managedHsm/keys/backup/action"
-  | "Microsoft.KeyVault/managedHsm/keys/restore/action"
-  | "Microsoft.KeyVault/managedHsm/roleAssignments/delete/action"
-  | "Microsoft.KeyVault/managedHsm/roleAssignments/read/action"
-  | "Microsoft.KeyVault/managedHsm/roleAssignments/write/action"
-  | "Microsoft.KeyVault/managedHsm/roleDefinitions/read/action"
-  | "Microsoft.KeyVault/managedHsm/roleDefinitions/write/action"
-  | "Microsoft.KeyVault/managedHsm/roleDefinitions/delete/action"
-  | "Microsoft.KeyVault/managedHsm/keys/encrypt/action"
-  | "Microsoft.KeyVault/managedHsm/keys/decrypt/action"
-  | "Microsoft.KeyVault/managedHsm/keys/wrap/action"
-  | "Microsoft.KeyVault/managedHsm/keys/unwrap/action"
-  | "Microsoft.KeyVault/managedHsm/keys/sign/action"
-  | "Microsoft.KeyVault/managedHsm/keys/verify/action"
-  | "Microsoft.KeyVault/managedHsm/keys/create"
-  | "Microsoft.KeyVault/managedHsm/keys/delete"
-  | "Microsoft.KeyVault/managedHsm/keys/export/action"
-  | "Microsoft.KeyVault/managedHsm/keys/release/action"
-  | "Microsoft.KeyVault/managedHsm/keys/import/action"
-  | "Microsoft.KeyVault/managedHsm/keys/deletedKeys/delete"
-  | "Microsoft.KeyVault/managedHsm/securitydomain/download/action"
-  | "Microsoft.KeyVault/managedHsm/securitydomain/download/read"
-  | "Microsoft.KeyVault/managedHsm/securitydomain/upload/action"
-  | "Microsoft.KeyVault/managedHsm/securitydomain/upload/read"
-  | "Microsoft.KeyVault/managedHsm/securitydomain/transferkey/read"
-  | "Microsoft.KeyVault/managedHsm/backup/start/action"
-  | "Microsoft.KeyVault/managedHsm/restore/start/action"
-  | "Microsoft.KeyVault/managedHsm/backup/status/action"
-  | "Microsoft.KeyVault/managedHsm/restore/status/action"
-  | "Microsoft.KeyVault/managedHsm/rng/action";
+/** Known values of {@link DataAction} that the service accepts. */
+export enum KnownDataAction {
+  /** ReadHsmKey */
+  ReadHsmKey = "Microsoft.KeyVault/managedHsm/keys/read/action",
+  /** WriteHsmKey */
+  WriteHsmKey = "Microsoft.KeyVault/managedHsm/keys/write/action",
+  /** ReadDeletedHsmKey */
+  ReadDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/read/action",
+  /** RecoverDeletedHsmKey */
+  RecoverDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/recover/action",
+  /** BackupHsmKeys */
+  BackupHsmKeys = "Microsoft.KeyVault/managedHsm/keys/backup/action",
+  /** RestoreHsmKeys */
+  RestoreHsmKeys = "Microsoft.KeyVault/managedHsm/keys/restore/action",
+  /** DeleteRoleAssignment */
+  DeleteRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/delete/action",
+  /** GetRoleAssignment */
+  GetRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/read/action",
+  /** WriteRoleAssignment */
+  WriteRoleAssignment = "Microsoft.KeyVault/managedHsm/roleAssignments/write/action",
+  /** ReadRoleDefinition */
+  ReadRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/read/action",
+  /** WriteRoleDefinition */
+  WriteRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/write/action",
+  /** DeleteRoleDefinition */
+  DeleteRoleDefinition = "Microsoft.KeyVault/managedHsm/roleDefinitions/delete/action",
+  /** EncryptHsmKey */
+  EncryptHsmKey = "Microsoft.KeyVault/managedHsm/keys/encrypt/action",
+  /** DecryptHsmKey */
+  DecryptHsmKey = "Microsoft.KeyVault/managedHsm/keys/decrypt/action",
+  /** WrapHsmKey */
+  WrapHsmKey = "Microsoft.KeyVault/managedHsm/keys/wrap/action",
+  /** UnwrapHsmKey */
+  UnwrapHsmKey = "Microsoft.KeyVault/managedHsm/keys/unwrap/action",
+  /** SignHsmKey */
+  SignHsmKey = "Microsoft.KeyVault/managedHsm/keys/sign/action",
+  /** VerifyHsmKey */
+  VerifyHsmKey = "Microsoft.KeyVault/managedHsm/keys/verify/action",
+  /** CreateHsmKey */
+  CreateHsmKey = "Microsoft.KeyVault/managedHsm/keys/create",
+  /** DeleteHsmKey */
+  DeleteHsmKey = "Microsoft.KeyVault/managedHsm/keys/delete",
+  /** ExportHsmKey */
+  ExportHsmKey = "Microsoft.KeyVault/managedHsm/keys/export/action",
+  /** ReleaseKey */
+  ReleaseKey = "Microsoft.KeyVault/managedHsm/keys/release/action",
+  /** ImportHsmKey */
+  ImportHsmKey = "Microsoft.KeyVault/managedHsm/keys/import/action",
+  /** PurgeDeletedHsmKey */
+  PurgeDeletedHsmKey = "Microsoft.KeyVault/managedHsm/keys/deletedKeys/delete",
+  /** DownloadHsmSecurityDomain */
+  DownloadHsmSecurityDomain = "Microsoft.KeyVault/managedHsm/securitydomain/download/action",
+  /** DownloadHsmSecurityDomainStatus */
+  DownloadHsmSecurityDomainStatus = "Microsoft.KeyVault/managedHsm/securitydomain/download/read",
+  /** UploadHsmSecurityDomain */
+  UploadHsmSecurityDomain = "Microsoft.KeyVault/managedHsm/securitydomain/upload/action",
+  /** ReadHsmSecurityDomainStatus */
+  ReadHsmSecurityDomainStatus = "Microsoft.KeyVault/managedHsm/securitydomain/upload/read",
+  /** ReadHsmSecurityDomainTransferKey */
+  ReadHsmSecurityDomainTransferKey = "Microsoft.KeyVault/managedHsm/securitydomain/transferkey/read",
+  /** StartHsmBackup */
+  StartHsmBackup = "Microsoft.KeyVault/managedHsm/backup/start/action",
+  /** StartHsmRestore */
+  StartHsmRestore = "Microsoft.KeyVault/managedHsm/restore/start/action",
+  /** ReadHsmBackupStatus */
+  ReadHsmBackupStatus = "Microsoft.KeyVault/managedHsm/backup/status/action",
+  /** ReadHsmRestoreStatus */
+  ReadHsmRestoreStatus = "Microsoft.KeyVault/managedHsm/restore/status/action",
+  /** RandomNumbersGenerate */
+  RandomNumbersGenerate = "Microsoft.KeyVault/managedHsm/rng/action",
+}
+
+/**
+ * Supported permissions for data actions. \
+ * {@link KnownDataAction} can be used interchangeably with DataAction,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft.KeyVault\/managedHsm\/keys\/read\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/write\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/deletedKeys\/read\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/deletedKeys\/recover\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/backup\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/restore\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/roleAssignments\/delete\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/roleAssignments\/read\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/roleAssignments\/write\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/roleDefinitions\/read\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/roleDefinitions\/write\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/roleDefinitions\/delete\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/encrypt\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/decrypt\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/wrap\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/unwrap\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/sign\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/verify\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/create** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/delete** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/export\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/release\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/import\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/keys\/deletedKeys\/delete** \
+ * **Microsoft.KeyVault\/managedHsm\/securitydomain\/download\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/securitydomain\/download\/read** \
+ * **Microsoft.KeyVault\/managedHsm\/securitydomain\/upload\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/securitydomain\/upload\/read** \
+ * **Microsoft.KeyVault\/managedHsm\/securitydomain\/transferkey\/read** \
+ * **Microsoft.KeyVault\/managedHsm\/backup\/start\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/restore\/start\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/backup\/status\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/restore\/status\/action** \
+ * **Microsoft.KeyVault\/managedHsm\/rng\/action**
+ */
+export type DataAction = string;
 
 /** Role definition create parameters. */
 export interface RoleDefinitionCreateParameters {

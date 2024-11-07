@@ -4,7 +4,6 @@
 import {
   sASTokenParameterSerializer,
   FullBackupOperation,
-  OperationStatus,
   SASTokenParameter,
   PreBackupOperationParameters,
   RestoreOperation,
@@ -14,7 +13,6 @@ import {
   SelectiveKeyRestoreOperation,
   UpdateSettingRequest,
   Setting,
-  SettingTypeEnum,
   SettingsListResult,
 } from "../models/models.js";
 import { KeyVaultContext as Client } from "./index.js";
@@ -58,7 +56,7 @@ export async function _fullBackupStatusDeserialize(
   }
 
   return {
-    status: result.body["status"] as OperationStatus,
+    status: result.body["status"],
     statusDetails: result.body["statusDetails"],
     error: !result.body.error
       ? undefined
@@ -216,7 +214,7 @@ export async function _restoreStatusDeserialize(
   }
 
   return {
-    status: result.body["status"] as OperationStatus,
+    status: result.body["status"],
     statusDetails: result.body["statusDetails"],
     error: !result.body.error
       ? undefined
@@ -278,7 +276,7 @@ export async function _preFullRestoreOperationDeserialize(
   }
 
   return {
-    status: result.body["status"] as OperationStatus,
+    status: result.body["status"],
     statusDetails: result.body["statusDetails"],
     error: !result.body.error
       ? undefined
@@ -354,7 +352,7 @@ export async function _fullRestoreOperationDeserialize(
   }
 
   return {
-    status: result.body["status"] as OperationStatus,
+    status: result.body["status"],
     statusDetails: result.body["statusDetails"],
     error: !result.body.error
       ? undefined
@@ -430,7 +428,7 @@ export async function _selectiveKeyRestoreOperationDeserialize(
   }
 
   return {
-    status: result.body["status"] as OperationStatus,
+    status: result.body["status"],
     statusDetails: result.body["statusDetails"],
     error: !result.body.error
       ? undefined
@@ -512,7 +510,7 @@ export async function _updateSettingDeserialize(
   return {
     name: result.body["name"],
     value: result.body["value"],
-    type: result.body["type"] as SettingTypeEnum,
+    type: result.body["type"],
   };
 }
 
@@ -553,7 +551,7 @@ export async function _getSettingDeserialize(
   return {
     name: result.body["name"],
     value: result.body["value"],
-    type: result.body["type"] as SettingTypeEnum,
+    type: result.body["type"],
   };
 }
 
@@ -589,11 +587,7 @@ export async function _getSettingsDeserialize(
       result.body["settings"] === undefined
         ? result.body["settings"]
         : result.body["settings"].map((p: any) => {
-            return {
-              name: p["name"],
-              value: p["value"],
-              type: p["type"] as SettingTypeEnum,
-            };
+            return { name: p["name"], value: p["value"], type: p["type"] };
           }),
   };
 }
