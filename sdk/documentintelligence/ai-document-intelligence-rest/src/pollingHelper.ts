@@ -160,8 +160,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-    | AnalyzeDocumentFromStreamLogicalResponse
-    | AnalyzeDocumentFromStreamDefaultResponse,
+  | AnalyzeDocumentFromStreamLogicalResponse
+  | AnalyzeDocumentFromStreamDefaultResponse,
 >(
   client: Client,
   initialResponse: AnalyzeDocumentFromStream202Response | AnalyzeDocumentFromStreamDefaultResponse,
@@ -169,8 +169,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-    | ClassifyDocumentFromStreamLogicalResponse
-    | ClassifyDocumentFromStreamDefaultResponse,
+  | ClassifyDocumentFromStreamLogicalResponse
+  | ClassifyDocumentFromStreamDefaultResponse,
 >(
   client: Client,
   initialResponse:
@@ -288,6 +288,14 @@ function parseOperationId(operationLocationHeader: string): string {
     );
   }
   return match[1];
+}
+
+/**
+ * Returns the operation-id from the initialResponse header
+ */
+export function parseOperationIdFromResponse(initialResponse: { headers: { "operation-location": string } }): string {
+  const operationLocationHeader = initialResponse.headers["operation-location"];
+  return parseOperationId(operationLocationHeader);
 }
 
 /**

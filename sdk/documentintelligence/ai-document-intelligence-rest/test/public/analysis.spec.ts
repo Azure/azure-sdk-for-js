@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { Recorder, assertEnvironmentVariable, delay } from "@azure-tools/test-recorder";
 import { createRecorder, testPollingOptions } from "./utils/recorderUtils.js";
 import DocumentIntelligence from "../../src/documentIntelligence.js";
 import { assert, describe, beforeEach, afterEach, it } from "vitest";
@@ -23,6 +23,7 @@ import {
   DocumentTableOutput,
   getLongRunningPoller,
   isUnexpected,
+  parseOperationIdFromResponse,
 } from "../../src/index.js";
 
 describe("DocumentIntelligenceClient", () => {
@@ -945,7 +946,7 @@ describe("DocumentIntelligenceClient", () => {
       return _model!;
     }
 
-    it("batch training", async function () {
+    it("batch analysis", async function () {
       const model = await requireModel();
       const initialResponse = await client
         .path("/documentModels/{modelId}:analyzeBatch", model.modelId)
@@ -959,14 +960,31 @@ describe("DocumentIntelligenceClient", () => {
             resultPrefix: "result",
           },
         });
+      console.log("initialResponse: ", initialResponse);
 
       if (isUnexpected(initialResponse)) {
         throw initialResponse.body.error;
       }
-      // get the poller
-      const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
-      // poll until the operation is done
-      await (await poller).pollUntilDone();
+      const operationId = parseOperationIdFromResponse(initialResponse);
+      console.log("operationId: ", operationId);
+      console.log("model id: ", model.modelId);
+      // // get the poller
+      // const poller = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+      // // poll until the operation is done
+      // const pollOutput = await (poller).pollUntilDone();
+    });
+
+    it.only("batch analysis - follow up", async function () {
+      const batchModelId = "modelName10119";
+      const operationId = "6fabe817-e8ec-4dac-af85-2d150e707faa";
+      const output = await client
+        .path(
+          "/documentModels/{modelId}/analyzeResults/{resultId}",
+          batchModelId,
+          operationId
+        )
+        .get();
+      console.log(output);
     });
   });
 
