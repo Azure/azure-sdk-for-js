@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import * as dotenv from "dotenv";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import fs from "node:fs";
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import {
   Recorder,
   env,
@@ -41,9 +41,9 @@ import type {
 import { ServiceBusClient } from "@azure/service-bus";
 import type { PhoneNumbersClientOptions } from "@azure/communication-phone-numbers";
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
-import { assert } from "vitest";
+import { assert, vi } from "vitest";
 
-if (isNode) {
+if (isNodeLike) {
   dotenv.config();
 }
 
@@ -125,7 +125,7 @@ export const recorderOptions: RecorderStartOptions = {
   ],
 };
 
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   await recorder.setMatcher("HeaderlessMatcher");
@@ -271,7 +271,7 @@ export async function waitForEvent(
 export function persistEvents(testName: string): void {
   if (isRecordMode()) {
     // sanitize the events values accordingly
-    const sanatizedEvents: any[] = [];
+    const sanitizedEvents: any[] = [];
     for (const event of eventsToPersist) {
       const jsonData = JSON.parse(event);
       sanitizeObject(jsonData, [
@@ -282,10 +282,10 @@ export function persistEvents(testName: string): void {
         "correlationId",
         "serverCallId",
       ]);
-      sanatizedEvents.push(jsonData);
+      sanitizedEvents.push(jsonData);
     }
 
-    const jsonArrayString = JSON.stringify(sanatizedEvents, null, 2);
+    const jsonArrayString = JSON.stringify(sanitizedEvents, null, 2);
     fs.writeFile(`recordings\\${testName}.json`, jsonArrayString, (err) => {
       if (err) throw err;
     });
@@ -299,10 +299,10 @@ export function persistEvents(testName: string): void {
 export async function loadPersistedEvents(testName: string): Promise<void> {
   if (isPlaybackMode()) {
     let data: string = "";
-    // Different OS has differnt file system path format.
+    // Different OS has different file system path format.
     try {
       data = fs.readFileSync(`recordings\\${testName}.json`, "utf-8");
-    } catch (e) {
+    } catch {
       console.log("original path doesn't work");
       data = fs.readFileSync(`recordings/${testName}.json`, "utf-8");
     }
@@ -327,7 +327,7 @@ export async function getPhoneNumbers(recorder: Recorder): Promise<string[]> {
   return phoneNumbers;
 }
 
-function sanitizeObject(obj: any, keysToSanitize: string[]) {
+function sanitizeObject(obj: any, keysToSanitize: string[]): void {
   for (const key in obj) {
     if (typeof obj[key] === "object") {
       sanitizeObject(obj[key], keysToSanitize);

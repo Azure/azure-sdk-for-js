@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 // External module imports
 // Internal module imports
+
 import type { Recorder } from "@azure-tools/test-recorder";
 import type {
   CommunicationIdentifier,
@@ -12,7 +13,12 @@ import { serializeCommunicationIdentifier } from "@azure/communication-common";
 
 // Parent directory imports
 import { CallMedia } from "../src/callMedia.js";
-import type { FileSource, TextSource, SsmlSource, RecognitionChoice } from "../src/models/models.js";
+import type {
+  FileSource,
+  TextSource,
+  SsmlSource,
+  RecognitionChoice,
+} from "../src/models/models.js";
 import { DtmfTone } from "../src/models/models.js";
 import type {
   CallMediaRecognizeDtmfOptions,
@@ -59,7 +65,7 @@ import {
   baseUri,
   generateToken,
 } from "./utils/connectionUtils.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
 describe("CallMedia Unit Tests", async function () {
   let callMedia: CallMedia;
@@ -81,7 +87,7 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const playSource: FileSource[] = [
       {
@@ -93,7 +99,7 @@ describe("CallMedia Unit Tests", async function () {
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
 
     await callMedia.play(playSource, playTo);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.playTo[0].rawId, CALL_TARGET_ID);
@@ -106,7 +112,7 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const playSource: TextSource[] = [
       {
@@ -119,7 +125,7 @@ describe("CallMedia Unit Tests", async function () {
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
 
     await callMedia.play(playSource, playTo);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.playTo[0].rawId, CALL_TARGET_ID);
@@ -132,7 +138,7 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const playSource: SsmlSource[] = [
       {
@@ -146,7 +152,7 @@ describe("CallMedia Unit Tests", async function () {
     const playTo: CommunicationIdentifier[] = [{ communicationUserId: CALL_TARGET_ID }];
 
     await callMedia.play(playSource, playTo);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.playTo[0].rawId, CALL_TARGET_ID);
@@ -159,7 +165,7 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const playSource: FileSource[] = [
       {
@@ -171,7 +177,7 @@ describe("CallMedia Unit Tests", async function () {
     const playTo: CommunicationIdentifier[] = [];
 
     await callMedia.play(playSource, playTo);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.playSources[0].kind, "file");
@@ -183,7 +189,7 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const recognizeOptions: CallMediaRecognizeDtmfOptions = {
       kind: "callMediaRecognizeDtmfOptions",
@@ -191,7 +197,7 @@ describe("CallMedia Unit Tests", async function () {
     };
 
     await callMedia.startRecognizing(targetParticipant, recognizeOptions);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.recognizeInputType, "dtmf");
@@ -203,7 +209,7 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const choice: RecognitionChoice = {
       label: "choice",
@@ -215,7 +221,7 @@ describe("CallMedia Unit Tests", async function () {
     };
 
     await callMedia.startRecognizing(targetParticipant, recognizeOptions);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.recognizeInputType, "choices");
@@ -227,7 +233,7 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const recognizeOptions: CallMediaRecognizeSpeechOptions = {
       kind: "callMediaRecognizeSpeechOptions",
@@ -235,7 +241,7 @@ describe("CallMedia Unit Tests", async function () {
     };
 
     await callMedia.startRecognizing(targetParticipant, recognizeOptions);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.recognizeInputType, "speech");
@@ -247,10 +253,10 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     await callMedia.cancelAllOperations();
 
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
 
     assert.equal(request.method, "POST");
   });
@@ -259,7 +265,7 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(200);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const continuousDtmfRecognitionOptions: ContinuousDtmfRecognitionOptions = {
       operationContext: "test_operation_context",
@@ -269,7 +275,7 @@ describe("CallMedia Unit Tests", async function () {
       targetParticipant,
       continuousDtmfRecognitionOptions,
     );
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
@@ -281,7 +287,7 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(200);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const continuousDtmfRecognitionOptions: ContinuousDtmfRecognitionOptions = {
       operationContext: "test_operation_context",
@@ -291,7 +297,7 @@ describe("CallMedia Unit Tests", async function () {
       targetParticipant,
       continuousDtmfRecognitionOptions,
     );
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
@@ -303,7 +309,7 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     const targetParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const sendDtmfOptions: SendDtmfTonesOptions = {
       operationContext: "test_operation_context",
@@ -311,7 +317,7 @@ describe("CallMedia Unit Tests", async function () {
     const tones = ["one", "two", "three", "pound"];
 
     await callMedia.sendDtmfTones(tones, targetParticipant, sendDtmfOptions);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.deepEqual(data.targetParticipant, serializeCommunicationIdentifier(targetParticipant));
@@ -324,7 +330,7 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(200);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const playSource: TextSource = {
       text: "test test test",
@@ -339,7 +345,7 @@ describe("CallMedia Unit Tests", async function () {
       operationCallbackUri: "https://localhost",
     };
     await callMedia.hold(participantToHold, options);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
     assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
     assert.equal(data.playSourceInfo.kind, "text");
@@ -353,11 +359,11 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(200);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const participantToHold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     await callMedia.hold(participantToHold);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
     assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
     assert.equal(request.method, "POST");
@@ -368,14 +374,14 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(200);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const participantToUnhold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const options: UnholdOptions = {
       operationContext: "unholdContext",
     };
     await callMedia.unhold(participantToUnhold, options);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
     assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
     assert.equal(request.method, "POST");
@@ -386,7 +392,7 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(200);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const playSource: TextSource = {
       text: "test test test",
@@ -397,7 +403,7 @@ describe("CallMedia Unit Tests", async function () {
     const participantToHold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
 
     await callMedia.startHoldMusic(participantToHold, playSource);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
     assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
     assert.equal(data.playSourceInfo.kind, "text");
@@ -409,11 +415,11 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(200);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     const participantToHold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
 
     await callMedia.startHoldMusic(participantToHold);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
     assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
     assert.equal(request.method, "POST");
@@ -424,12 +430,12 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(200);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const participantToUnhold: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
 
     await callMedia.stopHoldMusic(participantToUnhold);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
     assert.equal(data.targetParticipant.rawId, CALL_TARGET_ID);
     assert.equal(request.method, "POST");
@@ -439,14 +445,14 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     const startTranscriptionOptions: StartTranscriptionOptions = {
       locale: "en-US",
       operationContext: "test_operation_context",
     };
 
     await callMedia.startTranscription(startTranscriptionOptions);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.locale, startTranscriptionOptions.locale);
@@ -458,13 +464,13 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     const stopTranscriptionOptions: StopTranscriptionOptions = {
       operationContext: "test_operation_context",
     };
 
     await callMedia.stopTranscription(stopTranscriptionOptions);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.operationContext, stopTranscriptionOptions.operationContext);
@@ -475,11 +481,11 @@ describe("CallMedia Unit Tests", async function () {
     const mockHttpClient = generateHttpClient(202);
 
     callMedia = createMediaClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     const locale = "en-US";
 
     await callMedia.updateTranscription(locale);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.locale, locale);
@@ -506,7 +512,7 @@ describe("Call Media Client Live Tests", function () {
     receiverCallAutomationClient = createCallAutomationClient(recorder, testUser2);
   });
 
-  afterEach(async function (ctx) {
+  afterEach(async function () {
     persistEvents(testName);
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
@@ -527,9 +533,13 @@ describe("Call Media Client Live Tests", function () {
     }
   });
 
-  it("Play audio to target participant", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
+  it("Play audio to target participant", { timeout: 60000 }, async function (ctx) {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+    testName = fullTitle
+      ? fullTitle.replace(/ /g, "_").toLocaleLowerCase()
       : "create_call_and_hang_up";
     await loadPersistedEvents(testName);
 
@@ -575,11 +585,15 @@ describe("Call Media Client Live Tests", function () {
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
-  }).timeout(60000);
+  });
 
-  it("Play audio to all participants", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
+  it("Play audio to all participants", { timeout: 60000 }, async function (ctx) {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+    testName = fullTitle
+      ? fullTitle.replace(/ /g, "_").toLocaleLowerCase()
       : "create_call_and_hang_up";
     await loadPersistedEvents(testName);
 
@@ -627,11 +641,15 @@ describe("Call Media Client Live Tests", function () {
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
-  }).timeout(60000);
+  });
 
-  it("Cancel all media operations", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
+  it("Cancel all media operations", { timeout: 60000 }, async function (ctx) {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+    testName = fullTitle
+      ? fullTitle.replace(/ /g, "_").toLocaleLowerCase()
       : "create_call_and_hang_up";
     await loadPersistedEvents(testName);
 
@@ -680,11 +698,15 @@ describe("Call Media Client Live Tests", function () {
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
-  }).timeout(60000);
+  });
 
-  it("Trigger DTMF actions", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
+  it("Trigger DTMF actions", { timeout: 60000 }, async function (ctx) {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+    testName = fullTitle
+      ? fullTitle.replace(/ /g, "_").toLocaleLowerCase()
       : "create_call_and_trigger_dtmf_actions_then_hang_up";
     await loadPersistedEvents(testName);
 
@@ -750,5 +772,5 @@ describe("Call Media Client Live Tests", function () {
     await callConnection.hangUp(true);
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
-  }).timeout(60000);
+  });
 });

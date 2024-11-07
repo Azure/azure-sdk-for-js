@@ -14,8 +14,12 @@ import type {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
-import type { CallInvite, CallConnection, CreateCallOptions, AnswerCallOptions } from "../src/index.js";
-import { CallAutomationClient } from "../src/index.js";
+import type {
+  CallInvite,
+  CallConnection,
+  CreateCallOptions,
+  AnswerCallOptions,
+} from "../src/index.js";
 import {
   createRecorder,
   createTestUser,
@@ -35,12 +39,31 @@ import type {
   CreateCallEventResult,
 } from "../src/eventprocessor/eventResponses.js";
 import { randomUUID } from "@azure/core-util";
+import type { MockedObject } from "vitest";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+
+vi.mock(import("../src/index.js"), async (importOriginal) => {
+  const mod = await importOriginal();
+
+  const CallAutomationClient = vi.fn();
+  CallAutomationClient.prototype.createCall = vi.fn();
+  CallAutomationClient.prototype.createGroupCall = vi.fn();
+  CallAutomationClient.prototype.answerCall = vi.fn();
+  CallAutomationClient.prototype.redirectCall = vi.fn();
+  CallAutomationClient.prototype.rejectCall = vi.fn();
+
+  return {
+    ...mod,
+    CallAutomationClient,
+  };
+});
+
+import { CallAutomationClient } from "../src/index.js";
 
 describe("Call Automation Client Unit Tests", () => {
   let targets: CommunicationIdentifier[];
   let target: CallInvite;
-  let client: SinonStubbedInstance<CallAutomationClient> & CallAutomationClient;
+  let client: MockedObject<CallAutomationClient>;
 
   beforeEach(() => {
     // set up
@@ -56,9 +79,7 @@ describe("Call Automation Client Unit Tests", () => {
       targetParticipant: { communicationUserId: CALL_TARGET_ID },
     };
     // stub CallAutomationClient
-    client = Sinon.createStubInstance(
-      CallAutomationClient,
-    ) as SinonStubbedInstance<CallAutomationClient> & CallAutomationClient;
+    client = vi.mocked(new CallAutomationClient(expect.anything()));
   });
 
   it("RepeatabilityHeadersGeneration", async () => {
@@ -82,7 +103,7 @@ describe("Call Automation Client Unit Tests", () => {
         return {} as CreateCallEventResult;
       },
     };
-    client.createCall.returns(
+    client.createCall.mockReturnValue(
       new Promise((resolve) => {
         resolve(createCallResultMock);
       }),
@@ -91,14 +112,10 @@ describe("Call Automation Client Unit Tests", () => {
     const promiseResult = client.createCall(target, CALL_CALLBACK_URL);
 
     // asserts
-    promiseResult
-      .then((result: CreateCallResult) => {
-        assert.isNotNull(result);
-        assert.isTrue(client.createCall.calledWith(target, CALL_CALLBACK_URL));
-        assert.equal(result, createCallResultMock);
-        return;
-      })
-      .catch((error) => console.error(error));
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(client.createCall).toHaveBeenCalledWith(target, CALL_CALLBACK_URL);
+    assert.equal(result, createCallResultMock);
   });
 
   it("CreateGroupCall", async () => {
@@ -110,7 +127,7 @@ describe("Call Automation Client Unit Tests", () => {
         return {} as CreateCallEventResult;
       },
     };
-    client.createGroupCall.returns(
+    client.createGroupCall.mockReturnValue(
       new Promise((resolve) => {
         resolve(createGroupCallResultMock);
       }),
@@ -119,14 +136,10 @@ describe("Call Automation Client Unit Tests", () => {
     const promiseResult = client.createGroupCall(targets, CALL_CALLBACK_URL);
 
     // asserts
-    promiseResult
-      .then((result: CreateCallResult) => {
-        assert.isNotNull(result);
-        assert.isTrue(client.createGroupCall.calledWith(targets, CALL_CALLBACK_URL));
-        assert.equal(result, createGroupCallResultMock);
-        return;
-      })
-      .catch((error) => console.error(error));
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(client.createGroupCall).toHaveBeenCalledWith(targets, CALL_CALLBACK_URL);
+    assert.equal(result, createGroupCallResultMock);
   });
 
   it("AnswerCall", async () => {
@@ -138,7 +151,7 @@ describe("Call Automation Client Unit Tests", () => {
         return {} as AnswerCallEventResult;
       },
     };
-    client.answerCall.returns(
+    client.answerCall.mockReturnValue(
       new Promise((resolve) => {
         resolve(answerCallResultMock);
       }),
@@ -147,19 +160,16 @@ describe("Call Automation Client Unit Tests", () => {
     const promiseResult = client.answerCall(CALL_INCOMING_CALL_CONTEXT, CALL_CALLBACK_URL);
 
     // asserts
-    promiseResult
-      .then((result: AnswerCallResult) => {
-        assert.isNotNull(result);
-        assert.isTrue(client.answerCall.calledWith(CALL_INCOMING_CALL_CONTEXT, CALL_CALLBACK_URL));
-        assert.equal(result, answerCallResultMock);
-        return;
-      })
-      .catch((error) => console.error(error));
+    const result = await promiseResult;
+
+    assert.isNotNull(result);
+    expect(client.answerCall).toHaveBeenCalledWith(CALL_INCOMING_CALL_CONTEXT, CALL_CALLBACK_URL);
+    assert.equal(result, answerCallResultMock);
   });
 
   it("RedirectCall", async () => {
     // mocks
-    client.redirectCall.returns(
+    client.redirectCall.mockReturnValue(
       new Promise((resolve) => {
         resolve(undefined);
       }),
@@ -168,17 +178,13 @@ describe("Call Automation Client Unit Tests", () => {
     const promiseResult = client.redirectCall(CALL_INCOMING_CALL_CONTEXT, target);
 
     // asserts
-    promiseResult
-      .then(() => {
-        assert.isTrue(client.redirectCall.calledWith(CALL_INCOMING_CALL_CONTEXT, target));
-        return;
-      })
-      .catch((error) => console.error(error));
+    await promiseResult;
+    expect(client.redirectCall).toHaveBeenCalledWith(CALL_INCOMING_CALL_CONTEXT, target);
   });
 
   it("RejectCall", async () => {
     // mocks
-    client.rejectCall.returns(
+    client.rejectCall.mockReturnValue(
       new Promise((resolve) => {
         resolve(undefined);
       }),
@@ -187,12 +193,8 @@ describe("Call Automation Client Unit Tests", () => {
     const promiseResult = client.rejectCall(CALL_INCOMING_CALL_CONTEXT);
 
     // asserts
-    promiseResult
-      .then(() => {
-        assert.isTrue(client.rejectCall.calledWith(CALL_INCOMING_CALL_CONTEXT));
-        return;
-      })
-      .catch((error) => console.error(error));
+    await promiseResult;
+    expect(client.rejectCall).toHaveBeenCalledWith(CALL_INCOMING_CALL_CONTEXT);
   });
 });
 
@@ -213,7 +215,7 @@ describe("Call Automation Main Client Live Tests", function () {
     receiverCallAutomationClient = createCallAutomationClient(recorder, testUser2);
   });
 
-  afterEach(async function (ctx) {
+  afterEach(async function () {
     persistEvents(testName);
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
@@ -234,9 +236,14 @@ describe("Call Automation Main Client Live Tests", function () {
     }
   });
 
-  it("Create a call and hangup", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
+  it("Create a call and hangup", { timeout: 60000 }, async function (ctx) {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+
+    testName = fullTitle
+      ? fullTitle.replace(/ /g, "_").toLocaleLowerCase()
       : "create_call_and_hang_up";
     await loadPersistedEvents(testName);
 
@@ -268,6 +275,7 @@ describe("Call Automation Main Client Live Tests", function () {
     }
 
     const callConnectedEvent = await waitForEvent("CallConnected", callConnectionId, 8000);
+
     assert.isDefined(callConnectedEvent);
     callConnection = result.callConnection;
 
@@ -275,10 +283,14 @@ describe("Call Automation Main Client Live Tests", function () {
 
     const callDisconnectedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callDisconnectedEvent);
-  }).timeout(60000);
+  });
 
-  it("Reject call", async function () {
-    testName = this.test?.fullTitle() ? this.test?.fullTitle().replace(/ /g, "_") : "reject_call";
+  it("Reject call", { timeout: 60000 }, async function (ctx) {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+    testName = fullTitle ? fullTitle.replace(/ /g, "_").toLocaleLowerCase() : "reject_call";
     await loadPersistedEvents(testName);
 
     const callInvite: CallInvite = { targetParticipant: testUser2 };
@@ -303,5 +315,5 @@ describe("Call Automation Main Client Live Tests", function () {
 
     const createCallFailedEvent = await waitForEvent("CreateCallFailed", callConnectionId, 8000);
     assert.isDefined(createCallFailedEvent);
-  }).timeout(60000);
+  });
 });

@@ -11,7 +11,7 @@ import {
 import type { CallInvite } from "../src/index.js";
 import { CallAutomationClient } from "../src/index.js";
 import { generateHttpClient } from "./utils/mockClient.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, expect, beforeEach } from "vitest";
 
 describe("Call Automation Event Processor Unit Tests", () => {
   const CALL_CONNECTION_CALL_ID = "callConnectionId";

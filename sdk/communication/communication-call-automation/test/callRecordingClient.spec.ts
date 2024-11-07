@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type * as RestModel from "../src/generated/src/models/index.js";
 import { createRecordingClient, generateHttpClient } from "./utils/mockClient.js";
 import {
@@ -42,7 +43,7 @@ import {
   fileSourceUrl,
 } from "./utils/recordedClient.js";
 import type { FileSource } from "../src/models/models.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
 describe("CallRecording Unit Tests", async function () {
   let callRecording: CallRecording;
@@ -63,7 +64,7 @@ describe("CallRecording Unit Tests", async function () {
 
     const mockHttpClient = generateHttpClient(200, mockResponse);
     callRecording = createRecordingClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const channelZeroParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const channelAffinity: ChannelAffinity = {
@@ -81,7 +82,7 @@ describe("CallRecording Unit Tests", async function () {
     };
 
     await callRecording.start(recOptions);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.callLocator.kind, "serverCallLocator");
@@ -105,7 +106,7 @@ describe("CallRecording Unit Tests", async function () {
 
     const mockHttpClient = generateHttpClient(200, mockResponse);
     callRecording = createRecordingClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const recOptions: StartRecordingOptions = {
       recordingStateCallbackEndpointUrl: CALL_CALLBACK_URL,
@@ -116,7 +117,7 @@ describe("CallRecording Unit Tests", async function () {
     };
 
     await callRecording.start(recOptions);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.callLocator.kind, "serverCallLocator");
@@ -136,10 +137,10 @@ describe("CallRecording Unit Tests", async function () {
 
     const mockHttpClient = generateHttpClient(200, mockResponse);
     callRecording = createRecordingClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     await callRecording.getState(RECORDING_ID);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
 
     assert.equal(request.method, "GET");
     assert.equal(
@@ -151,9 +152,9 @@ describe("CallRecording Unit Tests", async function () {
   it("Sends correct args to stop a recording", async () => {
     const mockHttpClient = generateHttpClient(204);
     callRecording = createRecordingClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     await callRecording.stop(RECORDING_ID);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
 
     assert.equal(
       request.url,
@@ -165,9 +166,9 @@ describe("CallRecording Unit Tests", async function () {
   it("Sends correct args to pause a recording", async () => {
     const mockHttpClient = generateHttpClient(202);
     callRecording = createRecordingClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     await callRecording.pause(RECORDING_ID);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
 
     assert.equal(
       request.url,
@@ -179,9 +180,9 @@ describe("CallRecording Unit Tests", async function () {
   it("Sends correct args to resume a recording", async () => {
     const mockHttpClient = generateHttpClient(202);
     callRecording = createRecordingClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     await callRecording.resume(RECORDING_ID);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
 
     assert.equal(
       request.url,
@@ -208,7 +209,7 @@ describe("CallRecording Live Tests", function () {
     receiverCallAutomationClient = createCallAutomationClient(recorder, testUser2);
   });
 
-  afterEach(async function (ctx) {
+  afterEach(async function () {
     persistEvents(testName);
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
@@ -229,9 +230,13 @@ describe("CallRecording Live Tests", function () {
     }
   });
 
-  it("Creates a call, start recording, and hangs up", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
+  it("Creates a call, start recording, and hangs up", { timeout: 60000 }, async function (ctx) {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+    testName = fullTitle
+      ? fullTitle.replace(/ /g, "_").toLocaleLowerCase()
       : "create_call_start_recording_and_hang_up";
     await loadPersistedEvents(testName);
 
@@ -297,5 +302,5 @@ describe("CallRecording Live Tests", function () {
       .getState(recordingStateResult.recordingId);
     assert.equal(recStatus.recordingState, "active");
     await callerCallAutomationClient.getCallRecording().stop(recordingStateResult.recordingId);
-  }).timeout(60000);
+  });
 });

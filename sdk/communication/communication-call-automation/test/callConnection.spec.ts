@@ -25,7 +25,6 @@ import type {
   RemoveParticipantsOption,
   CancelAddParticipantOperationOptions,
 } from "../src/index.js";
-import { CallConnection } from "../src/index.js";
 import { CALL_TARGET_ID, CALL_TARGET_ID_2 } from "./utils/connectionUtils.js";
 import {
   createRecorder,
@@ -41,11 +40,34 @@ import {
   persistEvents,
   loadPersistedEvents,
 } from "./utils/recordedClient.js";
+import type { MockedObject } from "vitest";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+
+vi.mock(import("../src/index.js"), async (importOriginal) => {
+  const mod = await importOriginal();
+
+  const CallConnection = vi.fn();
+  CallConnection.prototype.getCallConnectionProperties = vi.fn();
+  CallConnection.prototype.hangUp = vi.fn();
+  CallConnection.prototype.getParticipant = vi.fn();
+  CallConnection.prototype.listParticipants = vi.fn();
+  CallConnection.prototype.addParticipant = vi.fn();
+  CallConnection.prototype.transferCallToParticipant = vi.fn();
+  CallConnection.prototype.removeParticipant = vi.fn();
+  CallConnection.prototype.muteParticipant = vi.fn();
+  CallConnection.prototype.cancelAddParticipantOperation = vi.fn();
+
+  return {
+    ...mod,
+    CallConnection,
+  };
+});
+
+import { CallConnection } from "../src/index.js";
 
 describe("CallConnection Unit Tests", () => {
   let target: CallInvite;
-  let callConnection: SinonStubbedInstance<CallConnection> & CallConnection;
+  let callConnection: MockedObject<CallConnection>;
 
   beforeEach(() => {
     // set up
@@ -54,15 +76,21 @@ describe("CallConnection Unit Tests", () => {
     };
 
     // stub CallConnection
-    callConnection = Sinon.createStubInstance(
-      CallConnection,
-    ) as SinonStubbedInstance<CallConnection> & CallConnection;
+    callConnection = vi.mocked(
+      new CallConnection(
+        expect.anything(),
+        expect.anything(),
+        expect.anything(),
+        expect.anything(),
+        expect.anything(),
+      ),
+    );
   });
 
   it("GetCallConnectionProperties", async () => {
     // mocks
     const callConnectionPropertiesMock: CallConnectionProperties = {};
-    callConnection.getCallConnectionProperties.returns(
+    callConnection.getCallConnectionProperties.mockReturnValue(
       new Promise((resolve) => {
         resolve(callConnectionPropertiesMock);
       }),
@@ -71,19 +99,15 @@ describe("CallConnection Unit Tests", () => {
     const promiseResult = callConnection.getCallConnectionProperties();
 
     // asserts
-    promiseResult
-      .then((result: CallConnectionProperties) => {
-        assert.isNotNull(result);
-        assert.isTrue(callConnection.getCallConnectionProperties.calledWith());
-        assert.equal(result, callConnectionPropertiesMock);
-        return;
-      })
-      .catch((error) => console.error(error));
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.getCallConnectionProperties).toHaveBeenCalled();
+    assert.equal(result, callConnectionPropertiesMock);
   });
 
   it("HangUp", async () => {
     // mocks
-    callConnection.hangUp.returns(
+    callConnection.hangUp.mockReturnValue(
       new Promise((resolve) => {
         resolve(undefined);
       }),
@@ -92,17 +116,13 @@ describe("CallConnection Unit Tests", () => {
     const promiseResult = callConnection.hangUp(false);
 
     // asserts
-    promiseResult
-      .then(() => {
-        assert.isTrue(callConnection.hangUp.calledWith(false));
-        return;
-      })
-      .catch((error) => console.error(error));
+    await promiseResult;
+    expect(callConnection.hangUp).toHaveBeenCalledWith(false);
   });
 
   it("Terminate", async () => {
     // mocks
-    callConnection.hangUp.returns(
+    callConnection.hangUp.mockReturnValue(
       new Promise((resolve) => {
         resolve(undefined);
       }),
@@ -111,18 +131,14 @@ describe("CallConnection Unit Tests", () => {
     const promiseResult = callConnection.hangUp(true);
 
     // asserts
-    promiseResult
-      .then(() => {
-        assert.isTrue(callConnection.hangUp.calledWith(true));
-        return;
-      })
-      .catch((error) => console.error(error));
+    await promiseResult;
+    expect(callConnection.hangUp).toHaveBeenCalledWith(true);
   });
 
   it("GetParticipant", async () => {
     // mocks
     const callParticipantMock: CallParticipant = {};
-    callConnection.getParticipant.returns(
+    callConnection.getParticipant.mockReturnValue(
       new Promise((resolve) => {
         resolve(callParticipantMock);
       }),
@@ -131,20 +147,16 @@ describe("CallConnection Unit Tests", () => {
     const promiseResult = callConnection.getParticipant(target.targetParticipant);
 
     // asserts
-    promiseResult
-      .then((result: CallParticipant) => {
-        assert.isNotNull(result);
-        assert.isTrue(callConnection.getParticipant.calledWith(target.targetParticipant));
-        assert.equal(result, callParticipantMock);
-        return;
-      })
-      .catch((error) => console.error(error));
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.getParticipant).toHaveBeenCalledWith(target.targetParticipant);
+    assert.equal(result, callParticipantMock);
   });
 
   it("ListParticipants", async () => {
     // mocks
     const listParticipantsResultMock: ListParticipantsResult = {};
-    callConnection.listParticipants.returns(
+    callConnection.listParticipants.mockReturnValue(
       new Promise((resolve) => {
         resolve(listParticipantsResultMock);
       }),
@@ -153,14 +165,10 @@ describe("CallConnection Unit Tests", () => {
     const promiseResult = callConnection.listParticipants();
 
     // asserts
-    promiseResult
-      .then((result: ListParticipantsResult) => {
-        assert.isNotNull(result);
-        assert.isTrue(callConnection.listParticipants.calledWith());
-        assert.equal(result, listParticipantsResultMock);
-        return;
-      })
-      .catch((error) => console.error(error));
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.listParticipants).toHaveBeenCalled();
+    assert.equal(result, listParticipantsResultMock);
   });
 
   it("AddParticipant", async () => {
@@ -170,7 +178,7 @@ describe("CallConnection Unit Tests", () => {
         return {} as AddParticipantEventResult;
       },
     };
-    callConnection.addParticipant.returns(
+    callConnection.addParticipant.mockReturnValue(
       new Promise((resolve) => {
         resolve(addParticipantResultMock);
       }),
@@ -179,14 +187,10 @@ describe("CallConnection Unit Tests", () => {
     const promiseResult = callConnection.addParticipant(target);
 
     // asserts
-    promiseResult
-      .then((result: AddParticipantResult) => {
-        assert.isNotNull(result);
-        assert.isTrue(callConnection.addParticipant.calledWith(target));
-        assert.equal(result, addParticipantResultMock);
-        return;
-      })
-      .catch((error) => console.error(error));
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.addParticipant).toHaveBeenCalledWith(target);
+    assert.equal(result, addParticipantResultMock);
   });
 
   it("TransferCallToParticipant", async () => {
@@ -196,7 +200,7 @@ describe("CallConnection Unit Tests", () => {
         return {} as TransferCallToParticipantEventResult;
       },
     };
-    callConnection.transferCallToParticipant.returns(
+    callConnection.transferCallToParticipant.mockReturnValue(
       new Promise((resolve) => {
         resolve(transferCallResultMock);
       }),
@@ -205,16 +209,10 @@ describe("CallConnection Unit Tests", () => {
     const promiseResult = callConnection.transferCallToParticipant(target.targetParticipant);
 
     // asserts
-    promiseResult
-      .then((result: TransferCallResult) => {
-        assert.isNotNull(result);
-        assert.isTrue(
-          callConnection.transferCallToParticipant.calledWith(target.targetParticipant),
-        );
-        assert.equal(result, transferCallResultMock);
-        return;
-      })
-      .catch((error) => console.error(error));
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(target.targetParticipant);
+    assert.equal(result, transferCallResultMock);
   });
 
   it("TransferCallToParticipantWithTransferee", async () => {
@@ -224,7 +222,7 @@ describe("CallConnection Unit Tests", () => {
         return {} as TransferCallToParticipantEventResult;
       },
     };
-    callConnection.transferCallToParticipant.returns(
+    callConnection.transferCallToParticipant.mockReturnValue(
       new Promise((resolve) => {
         resolve(transferCallResultMock);
       }),
@@ -237,16 +235,13 @@ describe("CallConnection Unit Tests", () => {
     });
 
     // asserts
-    promiseResult
-      .then((result: TransferCallResult) => {
-        assert.isNotNull(result);
-        assert.isTrue(
-          callConnection.transferCallToParticipant.calledWith(target.targetParticipant),
-        );
-        assert.equal(result, transferCallResultMock);
-        return;
-      })
-      .catch((error) => console.error(error));
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.transferCallToParticipant).toHaveBeenCalledWith(
+      target.targetParticipant,
+      { transferee: transferee },
+    );
+    assert.equal(result, transferCallResultMock);
   });
 
   it("RemoveParticipant", async () => {
@@ -256,7 +251,7 @@ describe("CallConnection Unit Tests", () => {
         return {} as RemoveParticipantEventResult;
       },
     };
-    callConnection.removeParticipant.returns(
+    callConnection.removeParticipant.mockReturnValue(
       new Promise((resolve) => {
         resolve(removeParticipantResultMock);
       }),
@@ -265,20 +260,16 @@ describe("CallConnection Unit Tests", () => {
     const promiseResult = callConnection.removeParticipant(target.targetParticipant);
 
     // asserts
-    promiseResult
-      .then((result: RemoveParticipantResult) => {
-        assert.isNotNull(result);
-        assert.isTrue(callConnection.removeParticipant.calledWith(target.targetParticipant));
-        assert.equal(result, removeParticipantResultMock);
-        return;
-      })
-      .catch((error) => console.error(error));
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.removeParticipant).toHaveBeenCalledWith(target.targetParticipant);
+    assert.equal(result, removeParticipantResultMock);
   });
 
   it("MuteParticipant", async () => {
     // mocks
     const muteParticipantResultMock: MuteParticipantResult = {};
-    callConnection.muteParticipant.returns(
+    callConnection.muteParticipant.mockReturnValue(
       new Promise((resolve) => {
         resolve(muteParticipantResultMock);
       }),
@@ -287,14 +278,10 @@ describe("CallConnection Unit Tests", () => {
     const promiseResult = callConnection.muteParticipant(target.targetParticipant);
 
     // asserts
-    promiseResult
-      .then((result: MuteParticipantResult) => {
-        assert.isNotNull(result);
-        assert.isTrue(callConnection.muteParticipant.calledWith(target.targetParticipant));
-        assert.equal(result, muteParticipantResultMock);
-        return;
-      })
-      .catch((error) => console.error(error));
+    const result = await promiseResult;
+    assert.isNotNull(result);
+    expect(callConnection.muteParticipant).toHaveBeenCalledWith(target.targetParticipant);
+    assert.equal(result, muteParticipantResultMock);
   });
 
   it("CancelAddParticipant", async () => {
@@ -305,21 +292,16 @@ describe("CallConnection Unit Tests", () => {
         return {} as CancelAddParticipantEventResult;
       },
     };
-    callConnection.cancelAddParticipantOperation.returns(
+    callConnection.cancelAddParticipantOperation.mockReturnValue(
       new Promise((resolve) => {
         resolve(cancelAddParticipantResultMock);
       }),
     );
 
-    callConnection
-      .cancelAddParticipantOperation(invitationId)
-      .then((result: CancelAddParticipantOperationResult) => {
-        assert.isNotNull(result);
-        assert.isTrue(callConnection.cancelAddParticipantOperation.calledWith(invitationId));
-        assert.equal(result, cancelAddParticipantResultMock);
-        return;
-      })
-      .catch((error) => console.error(error));
+    const result = await callConnection.cancelAddParticipantOperation(invitationId);
+    assert.isNotNull(result);
+    expect(callConnection.cancelAddParticipantOperation).toHaveBeenCalledWith(invitationId);
+    assert.equal(result, cancelAddParticipantResultMock);
   });
 });
 
@@ -341,7 +323,7 @@ describe("CallConnection Live Tests", function () {
     receiverCallAutomationClient = createCallAutomationClient(recorder, testUser2);
   });
 
-  afterEach(async function (ctx) {
+  afterEach(async function () {
     persistEvents(testName);
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
@@ -362,9 +344,13 @@ describe("CallConnection Live Tests", function () {
     }
   });
 
-  it("List all participants", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
+  it("List all participants", { timeout: 60000 }, async function (ctx) {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+    testName = fullTitle
+      ? fullTitle.replace(/ /g, "_").toLocaleLowerCase()
       : "list_all_participants";
     await loadPersistedEvents(testName);
 
@@ -397,11 +383,15 @@ describe("CallConnection Live Tests", function () {
     const allParticipants = await callConnection.listParticipants();
     assert.isDefined(allParticipants);
     assert.isDefined(allParticipants.values);
-  }).timeout(60000);
+  });
 
-  it("Add a participant and get call properties", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
+  it("Add a participant and get call properties", { timeout: 90000 }, async function (ctx) {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+    testName = fullTitle
+      ? fullTitle.replace(/ /g, "_").toLocaleLowerCase()
       : "add_participant_and_get_call_props";
     await loadPersistedEvents(testName);
 
@@ -464,11 +454,15 @@ describe("CallConnection Live Tests", function () {
 
     const callProperties = await callConnection.getCallConnectionProperties();
     assert.isDefined(callProperties);
-  }).timeout(90000);
+  });
 
-  it("Remove a participant", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
+  it("Remove a participant", { timeout: 60000 }, async function (ctx) {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+    testName = fullTitle
+      ? fullTitle.replace(/ /g, "_").toLocaleLowerCase()
       : "remove_a_participant";
     await loadPersistedEvents(testName);
 
@@ -509,12 +503,14 @@ describe("CallConnection Live Tests", function () {
     // A call needs at least 2 participants, removing one of the only 2 participants would end the call.
     const callEndedEvent = await waitForEvent("CallDisconnected", callConnectionId, 8000);
     assert.isDefined(callEndedEvent);
-  }).timeout(60000);
+  });
 
-  it("Mute a participant", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
-      : "mute_participant";
+  it("Mute a participant", { timeout: 90000 }, async function (ctx) {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+    testName = fullTitle ? fullTitle.replace(/ /g, "_").toLocaleLowerCase() : "mute_participant";
     await loadPersistedEvents(testName);
 
     const callInvite: CallInvite = { targetParticipant: testUser2 };
@@ -574,11 +570,15 @@ describe("CallConnection Live Tests", function () {
       }
     }
     assert.isTrue(isMuted);
-  }).timeout(90000);
+  });
 
-  it("Add a participant cancels add participant request", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
+  it("Add a participant cancels add participant request", { timeout: 90000 }, async function (ctx) {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+    testName = fullTitle
+      ? fullTitle.replace(/ /g, "_").toLocaleLowerCase()
       : "cancel_add_participant";
     await loadPersistedEvents(testName);
 
@@ -634,5 +634,5 @@ describe("CallConnection Live Tests", function () {
 
     assert.isDefined(addParticipantCancelledEvent);
     assert.equal(addResult.invitationId, addParticipantCancelledEvent?.invitationId);
-  }).timeout(90000);
+  });
 });
