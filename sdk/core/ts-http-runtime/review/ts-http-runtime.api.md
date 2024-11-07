@@ -5,6 +5,11 @@
 ```ts
 
 // @public
+export class AbortError extends Error {
+    constructor(message?: string);
+}
+
+// @public
 export interface AbortSignalLike {
     readonly aborted: boolean;
     addEventListener(type: "abort", listener: (this: AbortSignalLike, ev: any) => any, options?: any): void;
