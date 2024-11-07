@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to upload a file to a session, get file and get content of a file.
+ * Demonstrates how to upload, get, list and download files to a dynamic session.
  *
  *
  * @summary session file upload and download.
@@ -15,14 +15,15 @@ import createClient, {
   SessionResourceFilesGetContentParameters,
   SessionResourceFileOutput,
   PagedSessionResourceFileOutput,
+  isUnexpected,
 } from "@azure-rest/microsoft-app-dynamicsessions-rest";
 import { Paged } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 import { readFileSync } from "fs";
 
 async function main() {
-  const endpoint = "https://<REGION>.dynamicsessions.io/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/<RESOURCE_GROUP>/sessionPools/<SESSION_POOL_NAME>";
-  const client = createClient(endpoint, new DefaultAzureCredential());
+  const poolManagementEndpoint = "https://<your-pool-management-endpoint>";
+  const client = createClient(poolManagementEndpoint, new DefaultAzureCredential());
 
   const sessionIdentifier = "testSessionIdentifier";
 
@@ -45,11 +46,12 @@ async function main() {
 
   const uploadResponse = await client.path("/files").post(uploadOptions);
 
-  if (uploadResponse.status === "200") {
+  if (!isUnexpected(uploadResponse)) {
     const uploadedFile = uploadResponse.body as SessionResourceFileOutput;
     console.log("File uploaded successfully:", uploadedFile.name);
   } else {
     console.error("Failed to upload file:", uploadResponse);
+    throw uploadResponse.body.error;
   }
 
   // 2) List files
@@ -62,7 +64,7 @@ async function main() {
 
   const listResponse = await client.path("/files").get(listOptions);
 
-  if (listResponse.status === "200") {
+  if (!isUnexpected(listResponse)) {
     const pagedSessionResourceFileOutput = listResponse.body as PagedSessionResourceFileOutput;
     const filesList = pagedSessionResourceFileOutput.value as SessionResourceFileOutput[];
     console.log("Files in the session:");
@@ -71,6 +73,7 @@ async function main() {
     });
   } else {
     console.error("Failed to list files:", listResponse);
+    throw listResponse.body.error;
   }
 
   // 3) Get content of the uploaded file
@@ -84,11 +87,12 @@ async function main() {
 
   const getContentResponse = await client.path("/files/{name}/content", fileName).get(getContentOptions);
 
-  if (getContentResponse.status === "200") {
+  if (!isUnexpected(getContentResponse)) {
     const fileContent = getContentResponse.body as string;
     console.log("File content:", fileContent);
   } else {
     console.error("Failed to get file content:", getContentResponse);
+    throw getContentResponse.body.error;
   }
 }
 
