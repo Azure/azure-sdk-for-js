@@ -32,6 +32,9 @@ if ($packageDistTags."$intendedTag" -ne $intendedTagVersion) {
   $correctDistTags."$intendedTag" = $intendedTagVersion
   Write-Host "Setting AuthToken Deployment"
   $regAuth = "//registry.npmjs.org/"
+  write-host "azure sdk npm token"
+  Write-Host $env:azure-sdk-npm-token
+  write-host $(azure-sdk-npm-token)
   npm config set $regAuth`:_authToken=`$`{azure-sdk-npm-token`}
   foreach($tag in $correctDistTags.PSObject.Properties) {
     Write-Host "npm dist-tag add $packageName@$($tag.value) $($tag.Name)"
