@@ -2,10 +2,10 @@
 
 These sample programs show how to use the JavaScript client libraries for Azure Container Apps Dynamic Sessions in some common scenarios.
 
-| **File Name**                                                             | **Description**                   |
-| ------------------------------------------------------------------------- | --------------------------------- |
-| [codeExecutionAsyncSample.js][codeexecutionasyncsample]                   | asynchronous code execution.      |
-| [sessionResourceFileUploadDownload.js][sessionresourcefileuploaddownload] | session file upload and download. |
+| **File Name**                                                     | **Description**                   |
+| ----------------------------------------------------------------- | --------------------------------- |
+| [codeExecutionAsyncSample.js][codeexecutionasyncsample]           | asynchronous code execution.      |
+| [sessionResourceFileOperations.js][sessionresourcefileoperations] | session file upload and download. |
 
 ## Prerequisites
 
@@ -46,7 +46,7 @@ npx cross-env  node codeExecutionAsyncSample.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [codeexecutionasyncsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/microsoft.app/microsoft-app-dynamicsessions-rest/samples/v1-beta/javascript/codeExecutionAsyncSample.js
-[sessionresourcefileuploaddownload]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/microsoft.app/microsoft-app-dynamicsessions-rest/samples/v1-beta/javascript/sessionResourceFileUploadDownload.js
+[sessionresourcefileoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/microsoft.app/microsoft-app-dynamicsessions-rest/samples/v1-beta/javascript/sessionResourceFileOperations.js
 [apiref]: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/app/data-plane/Microsoft.App.DynamicSessions/preview/2024-10-02-preview/DynamicSessions.json
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/microsoft.app/microsoft-app-dynamicsessions-rest/README.md
