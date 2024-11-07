@@ -1,6 +1,9 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
+    "paths": {
+      "@azure/microsoft-app-dynamicsessions-rest": ["./src/index"]
+    },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": ".",
@@ -11,6 +14,7 @@
     "./src/**/*.mts",
     "./src/**/*.cts",
     "test/**/*.ts",
-    "./test/**/*.ts"
+    "./test/**/*.ts",
+    "samples-dev/**/*.ts"
   ]
 }

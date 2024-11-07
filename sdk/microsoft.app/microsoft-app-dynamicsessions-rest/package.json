@@ -135,5 +135,14 @@
     }
   },
   "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts"
+  "types": "./dist/commonjs/index.d.ts",
+  "//sampleConfiguration": {
+    "productName": "Azure Container Apps Dynamic Sessions",
+    "productSlugs": [
+      "azure",
+      "container-apps"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://github.com/Azure/azure-rest-api-specs/blob/main/specification/app/data-plane/Microsoft.App.DynamicSessions/preview/2024-10-02-preview/DynamicSessions.json"
+  }
 }
