@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "node:assert";
 import * as path from "node:path";
 import nock from "nock";
-
 import { InternalConfig } from "../../../../src/shared/index.js";
 import { JsonConfig } from "../../../../src/shared/jsonConfig.js";
 import { Resource } from "@opentelemetry/resources";
@@ -13,7 +11,7 @@ import {
   SemanticResourceAttributes,
 } from "@opentelemetry/semantic-conventions";
 import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/types.js";
-import { vi } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const vmTestResponse = {
   additionalCapabilities: {
@@ -195,11 +193,9 @@ const testAttributes: any = {
 
 describe("Library/Config", () => {
   let originalEnv: NodeJS.ProcessEnv;
-  let sandbox: sinon.SinonSandbox;
 
   beforeEach(() => {
     originalEnv = process.env;
-    sandbox = sinon.createSandbox();
   });
 
   afterEach(() => {
@@ -445,7 +441,7 @@ describe("Library/Config", () => {
       const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
-      assert.ok(warnStub.notCalled, "warning was not raised");
+      expect(warnStub).not.toHaveBeenCalled();
     });
 
     it("instrumentation key validation-invalid key passed", () => {
@@ -453,14 +449,14 @@ describe("Library/Config", () => {
       const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111bbbb1ccc8dddeeeeffff3333";
-      assert.ok(warnStub.calledOn, "warning was raised");
+      expect(warnStub).toHaveBeenCalled();
     });
 
     it("instrumentation key validation-invalid key passed", () => {
       const warnStub = vi.spyOn(console, "warn");
       const config = new InternalConfig();
       config.azureMonitorExporterOptions.connectionString = "abc";
-      assert.ok(warnStub.calledOn, "warning was raised");
+      expect(warnStub).toHaveBeenCalled();
     });
   });
 });

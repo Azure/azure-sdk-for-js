@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import * as assert from "node:assert";
+
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { ExportResultCode, millisToHrTime } from "@opentelemetry/core";
 import { LoggerProvider, LogRecord } from "@opentelemetry/sdk-logs";
@@ -10,22 +10,22 @@ import {
   QuickPulseMetricNames,
   QuickPulseOpenTelemetryMetricNames,
 } from "../../../../src/metrics/quickpulse/types.js";
-/* eslint-disable-next-line @typescript-eslint/no-redeclare */
 import type { Exception, RemoteDependency, Request } from "../../../../src/generated/index.js";
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import { resourceMetricsToQuickpulseDataPoint } from "../../../../src/metrics/quickpulse/utils.js";
-import { describe, it, assert } from "vitest";
+import type { MockInstance } from "vitest";
+import { describe, it, assert, expect, vi, afterEach, beforeAll, afterAll } from "vitest";
 
 describe("#LiveMetrics", () => {
-  let exportStub: sinon.SinonStub;
+  let exportStub: MockInstance;
   let autoCollect: LiveMetrics;
 
-  before(() => {
+  beforeAll(() => {
     const config = new InternalConfig();
     config.azureMonitorExporterOptions.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
     autoCollect = new LiveMetrics(config);
-    exportStub = sinon.stub(autoCollect["quickpulseExporter"], "export").callsFake(
+    exportStub = vi.spyOn(autoCollect["quickpulseExporter"], "export").mockImplementation(
       (spans: any, resultCallback: any) =>
         new Promise((resolve) => {
           resultCallback({
@@ -37,11 +37,10 @@ describe("#LiveMetrics", () => {
   });
 
   afterEach(() => {
-    exportStub.resetHistory();
+    vi.restoreAllMocks();
   });
 
-  after(() => {
-    exportStub.restore();
+  afterAll(() => {
     autoCollect.shutdown();
   });
 
@@ -115,8 +114,8 @@ describe("#LiveMetrics", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    assert.ok(exportStub.called);
-    const resourceMetrics = exportStub.args[0][0];
+    expect(exportStub).toHaveBeenCalled();
+    const resourceMetrics = exportStub.mock.calls[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
@@ -242,25 +241,25 @@ describe("#LiveMetrics", () => {
     );
     assert.ok(monitoringDataPoints[0].metrics?.length === 11);
     assert.ok(
-      monitoringDataPoints[0].metrics[6].name === QuickPulseMetricNames.PHYSICAL_BYTES.toString(),
+      monitoringDataPoints[0].metrics![6].name === QuickPulseMetricNames.PHYSICAL_BYTES.toString(),
     );
-    assert.ok(monitoringDataPoints[0].metrics[6].value > 0);
+    assert.ok(monitoringDataPoints[0].metrics![6].value > 0);
     assert.ok(
-      monitoringDataPoints[0].metrics[7].name === QuickPulseMetricNames.COMMITTED_BYTES.toString(),
-    );
-    assert.ok(
-      monitoringDataPoints[0].metrics[7].value === monitoringDataPoints[0].metrics[6].value,
+      monitoringDataPoints[0].metrics![7].name === QuickPulseMetricNames.COMMITTED_BYTES.toString(),
     );
     assert.ok(
-      monitoringDataPoints[0].metrics[8].name ===
+      monitoringDataPoints[0].metrics![7].value === monitoringDataPoints[0].metrics![6].value,
+    );
+    assert.ok(
+      monitoringDataPoints[0].metrics![8].name ===
         QuickPulseMetricNames.PROCESSOR_TIME_NORMALIZED.toString(),
     );
-    assert.ok(monitoringDataPoints[0].metrics[8].value >= 0);
+    assert.ok(monitoringDataPoints[0].metrics![8].value >= 0);
     assert.ok(
-      monitoringDataPoints[0].metrics[9].name === QuickPulseMetricNames.PROCESSOR_TIME.toString(),
+      monitoringDataPoints[0].metrics![9].name === QuickPulseMetricNames.PROCESSOR_TIME.toString(),
     );
     assert.ok(
-      monitoringDataPoints[0].metrics[9].value === monitoringDataPoints[0].metrics[8].value,
+      monitoringDataPoints[0].metrics![9].value === monitoringDataPoints[0].metrics![8].value,
     );
   });
 
@@ -271,7 +270,7 @@ describe("#LiveMetrics", () => {
   it("should not collect when disabled", async () => {
     autoCollect.deactivateMetrics();
     await new Promise((resolve) => setTimeout(resolve, 120));
-    assert.ok(exportStub.notCalled);
+    expect(exportStub).not.toHaveBeenCalled();
   });
 
   it("entra authentication", () => {

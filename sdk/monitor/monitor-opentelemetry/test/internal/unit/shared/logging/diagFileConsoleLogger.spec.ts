@@ -1,21 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "node:assert";
 import * as path from "node:path";
-
 import * as fileHelper from "../../../../../src/utils/fileSystem.js";
 import { DiagFileConsoleLogger } from "../../../../../src/shared/logging/diagFileConsoleLogger.js";
-import { vi } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Library/DiagFileConsoleLogger", () => {
-  let sandbox: sinon.SinonSandbox;
   let originalEnv: NodeJS.ProcessEnv;
   let logger: DiagFileConsoleLogger;
-
-  before(() => {
-    sandbox = sinon.createSandbox();
-  });
 
   beforeEach(() => {
     originalEnv = process.env;
@@ -27,7 +20,7 @@ describe("Library/DiagFileConsoleLogger", () => {
     (logger as any) = null;
   });
 
-  describe("Set logDesitination", () => {
+  describe("Set logDestination", () => {
     it("should set file+console logDestination", () => {
       process.env["APPLICATIONINSIGHTS_LOG_DESTINATION"] = "file+console";
       logger = new DiagFileConsoleLogger();
@@ -59,33 +52,29 @@ describe("Library/DiagFileConsoleLogger", () => {
       logger = new DiagFileConsoleLogger();
     });
 
-    it("should log message to new file", (done) => {
-      const confirmDirStub = sandbox.stub(fileHelper, "confirmDirExists").callsFake(async () => {
-        // Fake directory creation
-      });
+    it("should log message to new file", async () => {
+      const confirmDirStub = vi
+        .spyOn(fileHelper, "confirmDirExists")
+        .mockImplementation(async () => {
+          // Fake directory creation
+        });
       const appendFileAsyncStub = vi.spyOn(fileHelper, "appendFileAsync");
       logger["_logToFile"] = true;
 
-      logger["logMessage"]("testMessage")
-        .then(() => {
-          assert.ok(confirmDirStub.called, "confirmDirStub called");
-          assert.ok(appendFileAsyncStub.called, "writeStub called"); // File creation was called
-          assert.ok(
-            appendFileAsyncStub.lastCall.args[0].toString().indexOf("applicationinsights.log") > 0,
-          );
-          assert.equal(appendFileAsyncStub.lastCall.args[1], "testMessage\r\n");
-          done();
-          return;
-        })
-        .catch((error: Error) => {
-          done(error);
-        });
+      await logger["logMessage"]("testMessage");
+
+      expect(confirmDirStub).toHaveBeenCalled();
+      expect(appendFileAsyncStub).toHaveBeenCalled(); // File creation was called
+      assert.ok(
+        appendFileAsyncStub.mock.lastCall![0].toString().indexOf("applicationinsights.log") > 0,
+      );
+      assert.equal(appendFileAsyncStub.mock.lastCall![1], "testMessage\r\n");
     });
 
-    it("should create backup file", (done) => {
-      sandbox.stub(fileHelper, "confirmDirExists").callsFake(async () => {});
-      sandbox.stub(fileHelper, "accessAsync").callsFake(async () => {});
-      sandbox.stub(fileHelper, "getShallowFileSize").callsFake(
+    it("should create backup file", async () => {
+      vi.spyOn(fileHelper, "confirmDirExists").mockImplementation(async () => {});
+      vi.spyOn(fileHelper, "accessAsync").mockImplementation(async () => {});
+      vi.spyOn(fileHelper, "getShallowFileSize").mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
         async () =>
           // Fake file size check
@@ -98,30 +87,21 @@ describe("Library/DiagFileConsoleLogger", () => {
       const readStub = vi.spyOn(fileHelper, "readFileAsync");
       logger["_logToFile"] = true;
 
-      logger["logMessage"]("backupTestMessage")
-        .then(() => {
-          assert.ok(readStub.calledOnce, "readStub calledOnce"); // Read content to create backup
-          assert.ok(appendStub.notCalled, "appendStub notCalled");
-          assert.ok(writeStub.calledTwice, "writeStub calledTwice");
-          // assert.equal(writeSpy.args[0][0], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\1636481017787.applicationinsights.log"); // Backup file format
-          assert.ok(
-            writeStub.args[0][0].toString().indexOf(".applicationinsights.log") > 0,
-            ".applicationinsights.log present in backup file name",
-          ); // First call is for backup file
-          // assert.equal(writeSpy.args[1][1], "C:\Users\hectorh\AppData\Local\Temp\appInsights-node\applicationinsights.log"); // Main file format
-          assert.equal(writeStub.args[1][1], "backupTestMessage\r\n");
-          done();
-          return;
-        })
-        .catch((error: Error) => {
-          done(error);
-        });
+      await logger["logMessage"]("backupTestMessage");
+      expect(readStub).toHaveBeenCalled(); // Read content to create backup
+      expect(appendStub).not.toHaveBeenCalled();
+      expect(writeStub).toHaveBeenCalledTimes(2);
+      assert.ok(
+        writeStub.mock.calls[0][0].toString().indexOf(".applicationinsights.log") > 0,
+        ".applicationinsights.log present in backup file name",
+      ); // First call is for backup file
+      assert.equal(writeStub.mock.calls[1][1], "backupTestMessage\r\n");
     });
 
-    it("should create multiple backup files", (done) => {
-      sandbox.stub(fileHelper, "confirmDirExists").callsFake(async () => {});
-      sandbox.stub(fileHelper, "accessAsync").callsFake(async () => {});
-      sandbox.stub(fileHelper, "getShallowFileSize").callsFake(
+    it("should create multiple backup files", async () => {
+      vi.spyOn(fileHelper, "confirmDirExists").mockImplementation(async () => {});
+      vi.spyOn(fileHelper, "accessAsync").mockImplementation(async () => {});
+      vi.spyOn(fileHelper, "getShallowFileSize").mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
         async () =>
           // Fake file size check
@@ -131,24 +111,11 @@ describe("Library/DiagFileConsoleLogger", () => {
       const readStub = vi.spyOn(fileHelper, "readFileAsync");
       logger["_maxSizeBytes"] = 122;
       logger["_logToFile"] = true;
-      logger["logMessage"]("backupTestMessage")
-        .then(() => {
-          logger["logMessage"]("backupTestMessage")
-            .then(() => {
-              assert.equal(writeStub.callCount, 4);
-              assert.ok(readStub.calledTwice);
-              done();
-              return;
-            })
-            .catch((error: Error) => {
-              done(error);
-            });
-          return;
-        })
+      await logger["logMessage"]("backupTestMessage");
+      await logger["logMessage"]("backupTestMessage");
 
-        .catch((error: Error) => {
-          done(error);
-        });
+      expect(writeStub).toHaveBeenCalledTimes(4);
+      expect(readStub).toHaveBeenCalledTimes(2);
     });
 
     it("should start file cleanup task", () => {
@@ -156,14 +123,14 @@ describe("Library/DiagFileConsoleLogger", () => {
       const env = <{ [id: string]: string }>{};
       env["APPLICATIONINSIGHTS_LOG_DESTINATION"] = "file";
       process.env = env;
-      const setIntervalSpy = sandbox.spy(global, "setInterval");
+      const setIntervalSpy = vi.spyOn(global, "setInterval");
       logger = new DiagFileConsoleLogger();
-      assert.ok(setIntervalSpy.called);
+      expect(setIntervalSpy).toHaveBeenCalled();
       assert.ok(logger["_fileCleanupTimer"]);
     });
 
-    it("should remove backup files", (done) => {
-      sandbox.stub(fileHelper, "readdirAsync").callsFake(
+    it("should remove backup files", async () => {
+      vi.spyOn(fileHelper, "readdirAsync").mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
         async () =>
           // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -175,19 +142,13 @@ describe("Library/DiagFileConsoleLogger", () => {
       );
       logger["_maxHistory"] = 0;
       const unlinkStub = vi.spyOn(fileHelper, "unlinkAsync");
-      logger["_fileCleanupTask"]()
-        .then(() => {
-          assert.ok(unlinkStub.calledTwice, "unlinkStub calledTwice");
-          done();
-          return;
-        })
-        .catch((error: Error) => {
-          done(error);
-        });
+      await logger["_fileCleanupTask"]();
+
+      expect(unlinkStub).toHaveBeenCalledTimes(2);
     });
 
-    it("cleanup should keep configured number of backups", (done) => {
-      sandbox.stub(fileHelper, "readdirAsync").callsFake(
+    it("cleanup should keep configured number of backups", async () => {
+      vi.spyOn(fileHelper, "readdirAsync").mockImplementation(
         // eslint-disable-next-line @typescript-eslint/require-await
         async () =>
           // eslint-disable-next-line @typescript-eslint/no-unsafe-return
@@ -199,19 +160,12 @@ describe("Library/DiagFileConsoleLogger", () => {
       );
       logger["_maxHistory"] = 1;
       const unlinkStub = vi.spyOn(fileHelper, "unlinkAsync");
-      logger["_fileCleanupTask"]()
-        .then(() => {
-          assert.ok(unlinkStub.calledOnce, "unlinkStub calledOnce");
-          assert.ok(
-            unlinkStub.args[0][0].toString().indexOf("123.applicationinsights.log") > 0,
-            "Oldest file is deleted",
-          );
-          done();
-          return;
-        })
-        .catch((error: Error) => {
-          done(error);
-        });
+      await logger["_fileCleanupTask"]();
+      expect(unlinkStub).toHaveBeenCalledOnce();
+      assert.ok(
+        unlinkStub.mock.calls[0][0].toString().indexOf("123.applicationinsights.log") > 0,
+        "Oldest file is deleted",
+      );
     });
   });
 });

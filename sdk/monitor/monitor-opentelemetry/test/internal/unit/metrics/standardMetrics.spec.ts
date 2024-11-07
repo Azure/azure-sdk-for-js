@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "node:assert";
 import type { Attributes } from "@opentelemetry/api";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import type { Histogram } from "@opentelemetry/sdk-metrics";
@@ -21,18 +20,19 @@ import { Resource } from "@opentelemetry/resources";
 import { StandardMetrics } from "../../../../src/metrics/standardMetrics.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
 import { getDependencyTarget } from "../../../../src/metrics/utils.js";
-import { describe, it, assert } from "vitest";
+import type { MockInstance } from "vitest";
+import { describe, it, assert, expect, vi, beforeAll, afterAll, afterEach } from "vitest";
 
 describe("#StandardMetricsHandler", () => {
-  let exportStub: sinon.SinonStub;
+  let exportStub: MockInstance;
   let autoCollect: StandardMetrics;
 
-  before(() => {
+  beforeAll(() => {
     const config = new InternalConfig();
     config.azureMonitorExporterOptions.connectionString =
       "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333;";
     autoCollect = new StandardMetrics(config, { collectionInterval: 100 });
-    exportStub = sinon.stub(autoCollect["_azureExporter"], "export").callsFake(
+    exportStub = vi.spyOn(autoCollect["_azureExporter"], "export").mockImplementation(
       (spans: any, resultCallback: any) =>
         new Promise((resolve) => {
           resultCallback({
@@ -44,11 +44,10 @@ describe("#StandardMetricsHandler", () => {
   });
 
   afterEach(() => {
-    exportStub.resetHistory();
+    vi.restoreAllMocks();
   });
 
-  after(() => {
-    exportStub.restore();
+  afterAll(() => {
     autoCollect.shutdown();
   });
 
@@ -109,8 +108,8 @@ describe("#StandardMetricsHandler", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    assert.ok(exportStub.called);
-    const resourceMetrics = exportStub.args[0][0];
+    expect(exportStub).toHaveBeenCalled();
+    const resourceMetrics = exportStub.mock.calls[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
@@ -217,8 +216,8 @@ describe("#StandardMetricsHandler", () => {
     }
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
-    assert.ok(exportStub.called);
-    const resourceMetrics = exportStub.args[0][0];
+    expect(exportStub).toHaveBeenCalled();
+    const resourceMetrics = exportStub.mock.calls[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
@@ -262,8 +261,8 @@ describe("#StandardMetricsHandler", () => {
 
     await new Promise((resolve) => setTimeout(resolve, 1000));
 
-    assert.ok(exportStub.called);
-    const resourceMetrics = exportStub.args[0][0];
+    expect(exportStub).toHaveBeenCalled();
+    const resourceMetrics = exportStub.mock.calls[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;
@@ -296,12 +295,12 @@ describe("#StandardMetricsHandler", () => {
   it("should not collect when disabled", async () => {
     autoCollect.shutdown();
     await new Promise((resolve) => setTimeout(resolve, 120));
-    assert.ok(exportStub.notCalled);
+    expect(exportStub).not.toHaveBeenCalled();
   });
 
   it("should calculate even if telemetry is sampled out", async () => {
     autoCollect.shutdown();
     await new Promise((resolve) => setTimeout(resolve, 120));
-    assert.ok(exportStub.notCalled);
+    expect(exportStub).not.toHaveBeenCalled();
   });
 });

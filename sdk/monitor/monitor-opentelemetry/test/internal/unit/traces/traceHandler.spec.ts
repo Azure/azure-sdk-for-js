@@ -3,9 +3,7 @@
 
 /* eslint-disable promise/always-return */
 
-import * as assert from "node:assert";
 import { ExportResultCode } from "@opentelemetry/core";
-
 import { TraceHandler } from "../../../../src/traces/index.js";
 import { MetricHandler } from "../../../../src/metrics/index.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
@@ -18,14 +16,14 @@ import type {
 import type { ProxyTracerProvider, Span } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
-import { vi } from "vitest";
+import type { MockInstance } from "vitest";
+import { describe, it, assert, expect, vi, afterEach, beforeAll } from "vitest";
 
 describe("Library/TraceHandler", () => {
   let http: any = null;
-  let sandbox: sinon.SinonSandbox;
   /* eslint-disable-next-line no-underscore-dangle */
   let _config: InternalConfig;
-  let exportStub: sinon.SinonStub;
+  let exportStub: MockInstance;
   let handler: TraceHandler;
   let metricHandler: MetricHandler;
 
@@ -69,34 +67,28 @@ describe("Library/TraceHandler", () => {
     });
   }
 
-  before(() => {
+  beforeAll(() => {
     _config = new InternalConfig();
     if (_config.azureMonitorExporterOptions) {
       _config.azureMonitorExporterOptions.connectionString =
         "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333";
     }
-    sandbox = sinon.createSandbox();
   });
 
-  afterEach(() => {
-    metricHandler.shutdown();
-    handler.shutdown();
+  afterEach(async () => {
+    await metricHandler.shutdown();
+    await handler.shutdown();
     metrics.disable();
     trace.disable();
     mockHttpServer.close();
     vi.restoreAllMocks();
-    exportStub.resetHistory();
-  });
-
-  after(() => {
-    exportStub.restore();
   });
 
   function createHandler(httpConfig: HttpInstrumentationConfig): void {
     _config.instrumentationOptions.http = httpConfig;
     metricHandler = new MetricHandler(_config);
     handler = new TraceHandler(_config, metricHandler);
-    exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
+    exportStub = vi.spyOn(handler["_azureExporter"], "export").mockImplementation(
       (spans: any, resultCallback: any) =>
         new Promise((resolve) => {
           resultCallback({
@@ -117,85 +109,68 @@ describe("Library/TraceHandler", () => {
   }
 
   describe("#autoCollection of HTTP/HTTPS requests", () => {
-    it("http outgoing/incoming requests", (done) => {
+    it("http outgoing/incoming requests", async () => {
       createHandler({ enabled: true });
-      makeHttpRequest()
-        .then(() => {
-          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
-            .forceFlush()
-            .then(() => {
-              assert.ok(exportStub.calledOnce, "Export called");
-              const spans = exportStub.args[0][0];
-              assert.deepStrictEqual(spans.length, 2);
-              // Incoming request
-              assert.deepStrictEqual(spans[0].name, "GET");
-              assert.deepStrictEqual(
-                spans[0].instrumentationLibrary.name,
-                "@opentelemetry/instrumentation-http",
-              );
-              assert.deepStrictEqual(spans[0].kind, 1, "Span Kind");
-              assert.deepStrictEqual(spans[0].status.code, 0, "Span Success"); // Success
-              assert.ok(spans[0].startTime);
-              assert.ok(spans[0].endTime);
-              assert.deepStrictEqual(
-                spans[0].attributes["http.host"],
-                `localhost:${mockHttpServerPort}`,
-              );
-              assert.deepStrictEqual(spans[0].attributes["http.method"], "GET");
-              assert.deepStrictEqual(spans[0].attributes["http.status_code"], 200);
-              assert.deepStrictEqual(spans[0].attributes["http.status_text"], "OK");
-              assert.deepStrictEqual(spans[0].attributes["http.target"], "/test");
-              assert.deepStrictEqual(
-                spans[0].attributes["http.url"],
-                `http://localhost:${mockHttpServerPort}/test`,
-              );
-              assert.deepStrictEqual(spans[0].attributes["net.host.name"], "localhost");
-              assert.deepStrictEqual(spans[0].attributes["net.host.port"], mockHttpServerPort);
-              // Outgoing request
-              assert.deepStrictEqual(spans[1].name, "GET");
-              assert.deepStrictEqual(
-                spans[1].instrumentationLibrary.name,
-                "@opentelemetry/instrumentation-http",
-              );
-              assert.deepStrictEqual(spans[1].kind, 2, "Span Kind");
-              assert.deepStrictEqual(spans[1].status.code, 0, "Span Success"); // Success
-              assert.ok(spans[1].startTime);
-              assert.ok(spans[1].endTime);
-              assert.deepStrictEqual(
-                spans[1].attributes["http.host"],
-                `localhost:${mockHttpServerPort}`,
-              );
-              assert.deepStrictEqual(spans[1].attributes["http.method"], "GET");
-              assert.deepStrictEqual(spans[1].attributes["http.status_code"], 200);
-              assert.deepStrictEqual(spans[1].attributes["http.status_text"], "OK");
-              assert.deepStrictEqual(spans[1].attributes["http.target"], "/test");
-              assert.deepStrictEqual(
-                spans[1].attributes["http.url"],
-                `http://localhost:${mockHttpServerPort}/test`,
-              );
-              assert.deepStrictEqual(spans[1].attributes["net.peer.name"], "localhost");
-              assert.deepStrictEqual(spans[1].attributes["net.peer.port"], mockHttpServerPort);
+      await makeHttpRequest();
 
-              assert.deepStrictEqual(
-                spans[0]["_spanContext"]["traceId"],
-                spans[1]["_spanContext"]["traceId"],
-              );
-              assert.notDeepStrictEqual(
-                spans[0]["_spanContext"]["spanId"],
-                spans[1]["_spanContext"]["spanId"],
-              );
-              done();
-            })
-            .catch((error: Error) => {
-              done(error);
-            });
-        })
-        .catch((error: Error) => {
-          done(error);
-        });
+      await (
+        (trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider
+      ).forceFlush();
+
+      expect(exportStub).toHaveBeenCalled();
+      const spans = exportStub.mock.calls[0][0];
+      assert.deepStrictEqual(spans.length, 2);
+      // Incoming request
+      assert.deepStrictEqual(spans[0].name, "GET");
+      assert.deepStrictEqual(
+        spans[0].instrumentationLibrary.name,
+        "@opentelemetry/instrumentation-http",
+      );
+      assert.deepStrictEqual(spans[0].kind, 1, "Span Kind");
+      assert.deepStrictEqual(spans[0].status.code, 0, "Span Success"); // Success
+      assert.ok(spans[0].startTime);
+      assert.ok(spans[0].endTime);
+      assert.deepStrictEqual(spans[0].attributes["http.host"], `localhost:${mockHttpServerPort}`);
+      assert.deepStrictEqual(spans[0].attributes["http.method"], "GET");
+      assert.deepStrictEqual(spans[0].attributes["http.status_code"], 200);
+      assert.deepStrictEqual(spans[0].attributes["http.status_text"], "OK");
+      assert.deepStrictEqual(spans[0].attributes["http.target"], "/test");
+      assert.deepStrictEqual(
+        spans[0].attributes["http.url"],
+        `http://localhost:${mockHttpServerPort}/test`,
+      );
+      assert.deepStrictEqual(spans[0].attributes["net.host.name"], "localhost");
+      assert.deepStrictEqual(spans[0].attributes["net.host.port"], mockHttpServerPort);
+      // Outgoing request
+      assert.deepStrictEqual(spans[1].name, "GET");
+      assert.deepStrictEqual(
+        spans[1].instrumentationLibrary.name,
+        "@opentelemetry/instrumentation-http",
+      );
+      assert.deepStrictEqual(spans[1].kind, 2, "Span Kind");
+      assert.deepStrictEqual(spans[1].status.code, 0, "Span Success"); // Success
+      assert.ok(spans[1].startTime);
+      assert.ok(spans[1].endTime);
+      assert.deepStrictEqual(spans[1].attributes["http.host"], `localhost:${mockHttpServerPort}`);
+      assert.deepStrictEqual(spans[1].attributes["http.method"], "GET");
+      assert.deepStrictEqual(spans[1].attributes["http.status_code"], 200);
+      assert.deepStrictEqual(spans[1].attributes["http.status_text"], "OK");
+      assert.deepStrictEqual(spans[1].attributes["http.target"], "/test");
+      assert.deepStrictEqual(
+        spans[1].attributes["http.url"],
+        `http://localhost:${mockHttpServerPort}/test`,
+      );
+      assert.deepStrictEqual(spans[1].attributes["net.peer.name"], "localhost");
+      assert.deepStrictEqual(spans[1].attributes["net.peer.port"], mockHttpServerPort);
+
+      assert.deepStrictEqual(
+        spans[0]["_spanContext"]["traceId"],
+        spans[1]["_spanContext"]["traceId"],
+      );
+      assert.notDeepEqual(spans[0]["_spanContext"]["spanId"], spans[1]["_spanContext"]["spanId"]);
     });
 
-    it("Custom Span processors", (done) => {
+    it("Custom Span processors", async () => {
       createHandler({ enabled: true });
       const customSpanProcessor: SpanProcessor = {
         forceFlush: () => {
@@ -214,141 +189,87 @@ describe("Library/TraceHandler", () => {
       (
         (trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as BasicTracerProvider
       ).addSpanProcessor(customSpanProcessor);
-      makeHttpRequest()
-        .then(() => {
-          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
-            .forceFlush()
-            .then(() => {
-              assert.ok(exportStub.calledOnce, "Export called");
-              const spans = exportStub.args[0][0];
-              assert.deepStrictEqual(spans.length, 2);
-              // Incoming request
-              assert.deepStrictEqual(spans[0].attributes["startAttribute"], "SomeValue");
-              assert.deepStrictEqual(spans[0].attributes["endAttribute"], "SomeValue2");
-              // Outgoing request
-              assert.deepStrictEqual(spans[1].attributes["startAttribute"], "SomeValue");
-              assert.deepStrictEqual(spans[1].attributes["endAttribute"], "SomeValue2");
-              done();
-            })
-            .catch((error: Error) => {
-              done(error);
-            });
-        })
-        .catch((error) => {
-          done(error);
-        });
+      await makeHttpRequest();
+
+      await (
+        (trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider
+      ).forceFlush();
+      expect(exportStub).toHaveBeenCalled();
+      const spans = exportStub.mock.calls[0][0];
+      assert.deepStrictEqual(spans.length, 2);
+      // Incoming request
+      assert.deepStrictEqual(spans[0].attributes["startAttribute"], "SomeValue");
+      assert.deepStrictEqual(spans[0].attributes["endAttribute"], "SomeValue2");
+      // Outgoing request
+      assert.deepStrictEqual(spans[1].attributes["startAttribute"], "SomeValue");
+      assert.deepStrictEqual(spans[1].attributes["endAttribute"], "SomeValue2");
     });
 
-    it("Span processing for pre aggregated metrics", (done) => {
+    it("Span processing for pre aggregated metrics", async () => {
       createHandler({ enabled: true });
-      makeHttpRequest()
-        .then(() => {
-          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
-            .forceFlush()
-            .then(() => {
-              assert.ok(exportStub.calledOnce, "Export called");
-              const spans = exportStub.args[0][0];
-              assert.deepStrictEqual(spans.length, 2);
-              // Incoming request
-              assert.deepStrictEqual(
-                spans[0].attributes["_MS.ProcessedByMetricExtractors"],
-                "(Name:'Requests', Ver:'1.1')",
-              );
-              // Outgoing request
-              assert.deepStrictEqual(
-                spans[1].attributes["_MS.ProcessedByMetricExtractors"],
-                "(Name:'Dependencies', Ver:'1.1')",
-              );
-              done();
-            })
-            .catch((error) => {
-              done(error);
-            });
-        })
-        .catch((error) => {
-          done(error);
-        });
+      await makeHttpRequest();
+
+      await (
+        (trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider
+      ).forceFlush();
+
+      expect(exportStub).toHaveBeenCalled();
+      const spans = exportStub.mock.calls[0][0];
+      assert.deepStrictEqual(spans.length, 2);
+      // Incoming request
+      assert.deepStrictEqual(
+        spans[0].attributes["_MS.ProcessedByMetricExtractors"],
+        "(Name:'Requests', Ver:'1.1')",
+      );
+      // Outgoing request
+      assert.deepStrictEqual(
+        spans[1].attributes["_MS.ProcessedByMetricExtractors"],
+        "(Name:'Dependencies', Ver:'1.1')",
+      );
     });
 
-    it("should not track dependencies if configured off", (done) => {
+    it("should not track dependencies if configured off", async () => {
       const httpConfig: HttpInstrumentationConfig = {
         enabled: true,
         ignoreOutgoingRequestHook: () => true,
       };
       createHandler(httpConfig);
-      makeHttpRequest()
-        .then(() => {
-          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
-            .forceFlush()
-            .then(() => {
-              assert.ok(exportStub.calledOnce, "Export called");
-              const spans = exportStub.args[0][0];
-              assert.deepStrictEqual(spans.length, 1);
-              assert.deepStrictEqual(spans[0].kind, 1, "Span Kind"); // Incoming only
-              done();
-            })
-            .catch((error) => {
-              done(error);
-            });
-        })
-        .catch((error) => {
-          done(error);
-        });
+      await makeHttpRequest();
+      await (
+        (trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider
+      ).forceFlush();
+      expect(exportStub).toHaveBeenCalled();
+      const spans = exportStub.mock.calls[0][0];
+      assert.deepStrictEqual(spans.length, 1);
+      assert.deepStrictEqual(spans[0].kind, 1, "Span Kind"); // Incoming only
     });
 
-    it("should not track requests if configured off", (done) => {
+    it("should not track requests if configured off", async () => {
       const httpConfig: HttpInstrumentationConfig = {
         enabled: true,
         ignoreIncomingRequestHook: () => true,
       };
       createHandler(httpConfig);
-      makeHttpRequest()
-        .then(() => {
-          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
-            .forceFlush()
-            .then(() => {
-              assert.ok(exportStub.calledOnce, "Export called");
-              const spans = exportStub.args[0][0];
-              assert.deepStrictEqual(spans.length, 1);
-              assert.deepStrictEqual(spans[0].kind, 2, "Span Kind"); // Outgoing only
-              done();
-            })
-            .catch((error) => {
-              done(error);
-            });
-        })
-        .catch((error) => {
-          done(error);
-        });
+      await makeHttpRequest();
+
+      await (
+        (trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider
+      ).forceFlush();
+      expect(exportStub).toHaveBeenCalled();
+      const spans = exportStub.mock.calls[0][0];
+      assert.deepStrictEqual(spans.length, 1);
+      assert.deepStrictEqual(spans[0].kind, 2, "Span Kind"); // Outgoing only
     });
 
-    it("http should not track if instrumentations are disabled", (done) => {
+    it("http should not track if instrumentations are disabled", async () => {
       createHandler({ enabled: false });
-      makeHttpRequest()
-        .then(() => {
-          makeHttpRequest()
-            .then(() => {
-              (
-                (
-                  trace.getTracerProvider() as ProxyTracerProvider
-                ).getDelegate() as NodeTracerProvider
-              )
-                .forceFlush()
-                .then(() => {
-                  assert.ok(exportStub.notCalled, "Export not called");
-                  done();
-                })
-                .catch((error) => {
-                  done(error);
-                });
-            })
-            .catch((error) => {
-              done(error);
-            });
-        })
-        .catch((error) => {
-          done(error);
-        });
+      await makeHttpRequest();
+
+      await makeHttpRequest();
+      await (
+        (trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider
+      ).forceFlush();
+      expect(exportStub).not.toHaveBeenCalled();
     });
   });
 });

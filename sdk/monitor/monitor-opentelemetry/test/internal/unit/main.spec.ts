@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "node:assert";
 import type { Context, TracerProvider } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
@@ -20,7 +19,7 @@ import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace
 import type { LogRecordProcessor, LogRecord } from "@opentelemetry/sdk-logs";
 import { getInstance } from "../../../src/utils/statsbeat.js";
 import type { Instrumentation, InstrumentationConfig } from "@opentelemetry/instrumentation";
-import { vi } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach, afterAll } from "vitest";
 
 const testInstrumentation: Instrumentation = {
   instrumentationName: "@opentelemetry/instrumentation-fs",
@@ -47,11 +46,6 @@ const testInstrumentation: Instrumentation = {
 
 describe("Main functions", () => {
   let originalEnv: NodeJS.ProcessEnv;
-  let sandbox: sinon.SinonSandbox;
-
-  before(() => {
-    sandbox = sinon.createSandbox();
-  });
 
   beforeEach(() => {
     originalEnv = process.env;
@@ -62,7 +56,7 @@ describe("Main functions", () => {
     vi.restoreAllMocks();
   });
 
-  after(() => {
+  afterAll(() => {
     trace.disable();
     metrics.disable();
     logs.disable();
@@ -119,8 +113,8 @@ describe("Main functions", () => {
         return Promise.resolve();
       },
     };
-    const spyOnStart = sandbox.spy(processor, "onStart");
-    const spyOnEnd = sandbox.spy(processor, "onEnd");
+    const spyOnStart = vi.spyOn(processor, "onStart");
+    const spyOnEnd = vi.spyOn(processor, "onEnd");
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -130,8 +124,8 @@ describe("Main functions", () => {
     useAzureMonitor(config);
     const span = trace.getTracer("testTracer").startSpan("testSpan");
     span.end();
-    assert.ok(spyOnStart.called);
-    assert.ok(spyOnEnd.called);
+    expect(spyOnStart).toHaveBeenCalled();
+    expect(spyOnEnd).toHaveBeenCalled();
   });
 
   it("should add custom logProcessors", () => {
@@ -146,7 +140,7 @@ describe("Main functions", () => {
         return Promise.resolve();
       },
     };
-    const spyonEmit = sandbox.spy(processor, "onEmit");
+    const spyonEmit = vi.spyOn(processor, "onEmit");
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=00000000-0000-0000-0000-000000000000",
@@ -155,7 +149,7 @@ describe("Main functions", () => {
     };
     useAzureMonitor(config);
     logs.getLogger("testLogger").emit({ body: "testLog" });
-    assert.ok(spyonEmit.called);
+    expect(spyonEmit).toHaveBeenCalled();
   });
 
   it("should set statsbeat features", () => {

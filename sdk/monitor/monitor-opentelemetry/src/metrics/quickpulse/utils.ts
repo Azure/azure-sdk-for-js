@@ -66,7 +66,13 @@ import {
   AttachTypePrefix,
 } from "../../types.js";
 import type { Resource } from "@opentelemetry/resources";
-import type { RequestData, DependencyData, ExceptionData, TraceData, TelemetryData } from "./types.js";
+import type {
+  RequestData,
+  DependencyData,
+  ExceptionData,
+  TraceData,
+  TelemetryData,
+} from "./types.js";
 import {
   QuickPulseMetricNames,
   QuickPulseOpenTelemetryMetricNames,

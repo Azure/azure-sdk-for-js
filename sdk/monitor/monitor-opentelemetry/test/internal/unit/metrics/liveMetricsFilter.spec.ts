@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "node:assert";
 import type {
   DerivedMetricInfo,
   FilterConjunctionGroupInfo,
   FilterInfo,
   RemoteDependency,
-  /* eslint-disable-next-line @typescript-eslint/no-redeclare */
   Request,
   Exception,
   Trace,

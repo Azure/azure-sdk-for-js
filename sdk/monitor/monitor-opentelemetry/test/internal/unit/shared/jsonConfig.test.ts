@@ -1,18 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "node:assert";
 import * as path from "node:path";
 import { JsonConfig } from "../../../../src/shared/jsonConfig.js";
-import { vi } from "vitest";
+import { describe, it, assert, vi, beforeEach, afterEach, afterAll } from "vitest";
 
 describe("Json Config", () => {
-  let sandbox: sinon.SinonSandbox;
   let originalEnv: NodeJS.ProcessEnv;
 
   beforeEach(() => {
     originalEnv = process.env;
-    sandbox = sinon.createSandbox();
     (JsonConfig["_instance"] as any) = undefined;
   });
 
@@ -21,7 +18,7 @@ describe("Json Config", () => {
     vi.restoreAllMocks();
   });
 
-  after(() => {
+  afterAll(() => {
     (JsonConfig["_instance"] as any) = undefined;
   });
 

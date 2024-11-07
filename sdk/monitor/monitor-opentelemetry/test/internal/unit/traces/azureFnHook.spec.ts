@@ -3,7 +3,6 @@
 
 /* eslint-disable @typescript-eslint/no-require-imports */
 
-import * as assert from "node:assert";
 import type { Context as AzureFnV3Context } from "@azure/functions-old";
 import type { InvocationContext as AzureFnV4Context } from "@azure/functions";
 import type { PreInvocationContext } from "../../../../src/traces/azureFnHook.js";
@@ -13,23 +12,18 @@ import { Logger } from "../../../../src/shared/logging/index.js";
 import { InternalConfig } from "../../../../src/shared/index.js";
 import { MetricHandler } from "../../../../src/metrics/index.js";
 import { metrics, trace } from "@opentelemetry/api";
-import { vi } from "vitest";
+import { describe, it, assert, expect, vi, afterEach, beforeAll } from "vitest";
 
 describe("Library/AzureFunctionsHook", () => {
-  let sandbox: sinon.SinonSandbox;
   let metricHandler: MetricHandler;
   let handler: TraceHandler;
 
-  before(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
+  afterEach(async () => {
     if (metricHandler) {
-      metricHandler.shutdown();
+      await metricHandler.shutdown();
     }
     if (handler) {
-      handler.shutdown();
+      await handler.shutdown();
     }
     metrics.disable();
     trace.disable();
@@ -37,12 +31,12 @@ describe("Library/AzureFunctionsHook", () => {
   });
 
   it("Hook not added if not running in Azure Functions", () => {
-    const spy = sandbox.spy(Logger.getInstance(), "debug");
+    const spy = vi.spyOn(Logger.getInstance(), "debug");
     const hook = new AzureFunctionsHook();
     assert.equal(hook["_functionsCoreModule"], undefined);
-    assert.ok(spy.called);
+    expect(spy).toHaveBeenCalled();
     assert.equal(
-      spy.args[0][0],
+      spy.mock.calls[0][0],
       "@azure/functions-core failed to load, not running in Azure Functions",
     );
   });
@@ -68,7 +62,7 @@ describe("Library/AzureFunctionsHook", () => {
       },
     };
 
-    before(() => {
+    beforeAll(() => {
       const Module = require("module");
       originalRequire = Module.prototype.require;
     });
