@@ -1,7 +1,5 @@
 param (
   [Parameter(mandatory = $true)]
-  $pathToArtifacts,
-  [Parameter(mandatory = $true)]
   $originalDistTags,
   [Parameter(mandatory = $true)]
   $intendedTag,

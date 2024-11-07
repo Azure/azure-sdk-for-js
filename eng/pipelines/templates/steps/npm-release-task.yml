@@ -17,7 +17,7 @@ steps:
         tar -xzf $tarFile -C $tempDir
         $packageJsonDir = "$tempDir\package\package.json"
         echo "##vso[task.setvariable variable=PackageJsonDir]$packageJsonDir"
-        $pkg = Get-Content -Raw "$packageJsonDir"" | ConvertFrom-Json
+        $pkg = Get-Content -Raw "$packageJsonDir" | ConvertFrom-Json
         $packageName = $pkg.Name
         $packageVersion = $pkg.Version
         $packageProps = npm view $packageName -json | ConvertFrom-Json
@@ -53,7 +53,7 @@ steps:
       inputs:
         targetType: filePath
         filePath: eng/scripts/verify-npm-tags.ps1
-        arguments: -pathToArtifacts ${{parameters.PathToArtifacts}} -originalDistTags '$(OriginalTags)' -intendedTag ${{parameters.Tag}} -intendedTagVersion '$(IntendedTagVersion)' -packageJson $(PackageJsonDir)
+        arguments: -originalDistTags '$(OriginalTags)' -intendedTag ${{parameters.Tag}} -intendedTagVersion '$(IntendedTagVersion)' -packageJson $(PackageJsonDir)
         pwsh: true
 
     - ${{ if ne(parameters.AdditionalTag, '') }}:
