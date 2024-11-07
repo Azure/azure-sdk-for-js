@@ -40,31 +40,16 @@ export interface ExtendedZonesOperations {
   ) => Promise<ExtendedZone>;
 }
 
-export function getExtendedZones(
-  context: EdgeZonesContext,
-  subscriptionId: string,
-) {
+export function getExtendedZones(context: EdgeZonesContext, subscriptionId: string) {
   return {
     get: (extendedZoneName: string, options?: ExtendedZonesGetOptionalParams) =>
       extendedZonesGet(context, subscriptionId, extendedZoneName, options),
-    listBySubscription: (
-      options?: ExtendedZonesListBySubscriptionOptionalParams,
-    ) => extendedZonesListBySubscription(context, subscriptionId, options),
-    register: (
-      extendedZoneName: string,
-      options?: ExtendedZonesRegisterOptionalParams,
-    ) =>
+    listBySubscription: (options?: ExtendedZonesListBySubscriptionOptionalParams) =>
+      extendedZonesListBySubscription(context, subscriptionId, options),
+    register: (extendedZoneName: string, options?: ExtendedZonesRegisterOptionalParams) =>
       extendedZonesRegister(context, subscriptionId, extendedZoneName, options),
-    unregister: (
-      extendedZoneName: string,
-      options?: ExtendedZonesUnregisterOptionalParams,
-    ) =>
-      extendedZonesUnregister(
-        context,
-        subscriptionId,
-        extendedZoneName,
-        options,
-      ),
+    unregister: (extendedZoneName: string, options?: ExtendedZonesUnregisterOptionalParams) =>
+      extendedZonesUnregister(context, subscriptionId, extendedZoneName, options),
   };
 }
 
