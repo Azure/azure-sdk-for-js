@@ -5,6 +5,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | **File Name**                                                     | **Description**                   |
 | ----------------------------------------------------------------- | --------------------------------- |
 | [codeExecutionAsyncSample.ts][codeexecutionasyncsample]           | asynchronous code execution.      |
+| [codeExecutionSyncSample.ts][codeexecutionsyncsample]             | synchronous code execution.       |
 | [sessionResourceFileOperations.ts][sessionresourcefileoperations] | session file upload and download. |
 
 ## Prerequisites
@@ -58,6 +59,7 @@ npx cross-env  node dist/codeExecutionAsyncSample.js
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [codeexecutionasyncsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/microsoft.app/microsoft-app-dynamicsessions-rest/samples/v1-beta/typescript/src/codeExecutionAsyncSample.ts
+[codeexecutionsyncsample]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/microsoft.app/microsoft-app-dynamicsessions-rest/samples/v1-beta/typescript/src/codeExecutionSyncSample.ts
 [sessionresourcefileoperations]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/microsoft.app/microsoft-app-dynamicsessions-rest/samples/v1-beta/typescript/src/sessionResourceFileOperations.ts
 [apiref]: https://github.com/Azure/azure-rest-api-specs/blob/main/specification/app/data-plane/Microsoft.App.DynamicSessions/preview/2024-10-02-preview/DynamicSessions.json
 [freesub]: https://azure.microsoft.com/free/

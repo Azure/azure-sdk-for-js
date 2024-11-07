@@ -10,13 +10,15 @@
  */
 
 const DynamicSessionsClient = require("@azure-rest/microsoft-app-dynamicsessions-rest").default,
-  { getLongRunningPoller } = require("@azure-rest/microsoft-app-dynamicsessions-rest");
+  {
+    getLongRunningPoller,
+    isUnexpected,
+  } = require("@azure-rest/microsoft-app-dynamicsessions-rest");
 const { DefaultAzureCredential } = require("@azure/identity");
 
 async function main() {
-  const endpoint =
-    "https://<REGION>.dynamicsessions.io/subscriptions/<SUBSCRIPTION_ID>/resourceGroups/<RESOURCE_GROUP>/sessionPools/<SESSION_POOL_NAME>";
-  const client = DynamicSessionsClient(endpoint, new DefaultAzureCredential());
+  const poolManagementEndpoint = "https://<your-pool-management-endpoint>";
+  const client = DynamicSessionsClient(poolManagementEndpoint, new DefaultAzureCredential());
 
   const options = {
     headers: {
@@ -36,19 +38,26 @@ async function main() {
   // Start code execution
   const initialResponse = await client.path("/executions").post(options);
 
+  if (!isUnexpected(initialResponse)) {
+    console.log("Code execution started successfully!");
+  } else {
+    console.error("Failed to start code execution:", initialResponse);
+    throw initialResponse.body.error;
+  }
+
   // Create a poller to monitor the long-running operation
   const poller = await getLongRunningPoller(client, initialResponse);
 
   // Wait for the operation to complete
   const result = await poller.pollUntilDone();
 
-  if (result.status == "200") {
+  if (!isUnexpected(result)) {
     const sessionCodeExecutionResourceOutput = result.body;
 
     // Possible values: "NotStarted", "Running", "Succeeded", "Failed", "Canceled"
     const operationStatus = sessionCodeExecutionResourceOutput.status;
 
-    if (operationStatus == "Succeeded") {
+    if (operationStatus === "Succeeded") {
       console.log("Code execution succeeded!");
       console.log("Standard output: ", sessionCodeExecutionResourceOutput.result?.stdout);
     }

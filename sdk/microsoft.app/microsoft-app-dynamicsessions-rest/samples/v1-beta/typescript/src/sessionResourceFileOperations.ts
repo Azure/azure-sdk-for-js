@@ -16,9 +16,7 @@ import createClient, {
   PagedSessionResourceFileOutput,
   isUnexpected,
 } from "@azure-rest/microsoft-app-dynamicsessions-rest";
-import { Paged } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
-import { readFileSync } from "fs";
 
 async function main() {
   const poolManagementEndpoint = "https://<your-pool-management-endpoint>";

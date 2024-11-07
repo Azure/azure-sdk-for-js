@@ -1,0 +1,45 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/**
+ * Demonstrates how to use the DynamicSessionsClient to execute code synchronously.
+ *
+ *
+ * @summary synchronous code execution.
+ */
+
+import DynamicSessionsClient, { CodeExecutionExecuteParameters, isUnexpected } from "@azure-rest/microsoft-app-dynamicsessions-rest";
+import { DefaultAzureCredential } from "@azure/identity";
+
+async function main() {
+  
+    const poolManagementEndpoint = "https://<your-pool-management-endpoint>";
+    const client = DynamicSessionsClient(poolManagementEndpoint, new DefaultAzureCredential());
+  
+    const options: CodeExecutionExecuteParameters = {
+      queryParameters: {
+        identifier: "testSessionIdentifier",
+      },
+      body: {
+        codeInputType: "Inline",
+        executionType: "Synchronous",
+        code: "print('Hello, world!')",
+        timeoutInSeconds: 60
+      },
+    }
+  
+    // Start code execution
+    const response = await client.path("/executions").post(options);
+  
+    if (!isUnexpected(response)) {
+      console.log("Code execution completed successfully!");
+    }
+    else {
+      console.error("Failed to execute code:", response);
+      throw response.body.error;
+    }
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
