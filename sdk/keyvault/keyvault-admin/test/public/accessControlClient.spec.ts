@@ -8,6 +8,8 @@ import {
   KeyVaultAccessControlClient,
   KeyVaultPermission,
   KeyVaultRoleDefinition,
+  KnownKeyVaultDataAction,
+  KnownKeyVaultRoleScope,
 } from "../../src/index.js";
 import { authenticate } from "./utils/authentication.js";
 import { describe, it, beforeEach, afterEach, expect } from "vitest";
@@ -35,8 +37,8 @@ describe("KeyVaultAccessControlClient", () => {
       {
         actions: [],
         dataActions: [
-          "Microsoft.KeyVault/managedHsm/backup/start/action",
-          "Microsoft.KeyVault/managedHsm/backup/status/action",
+          KnownKeyVaultDataAction.StartHsmBackup,
+          KnownKeyVaultDataAction.ReadHsmBackupStatus,
         ],
         notActions: [],
         notDataActions: [],
@@ -106,7 +108,7 @@ describe("KeyVaultAccessControlClient", () => {
         actions: [],
         notActions: [],
         dataActions: [],
-        notDataActions: ["Microsoft.KeyVault/managedHsm/keys/encrypt/action"],
+        notDataActions: [KnownKeyVaultDataAction.EncryptHsmKey],
       });
 
       roleDefinition = await client.setRoleDefinition(globalScope, {
@@ -267,19 +269,16 @@ describe("KeyVaultAccessControlClient", () => {
   });
 
   describe("tracing", () => {
-    const KnownRoleScope = {
-      Global: "/",
-    };
     it("traces through the various operations", { todo: true }, async () => {
       const roleDefinitionName = generateFakeUUID();
       const roleAssignmentName = generateFakeUUID();
       await expect(async (options: any) => {
-        const roleDefinition = await client.setRoleDefinition(KnownRoleScope.Global, {
+        const roleDefinition = await client.setRoleDefinition(KnownKeyVaultRoleScope.Global, {
           roleDefinitionName,
           roleName: roleDefinitionName,
           ...options,
         });
-        await client.getRoleDefinition(KnownRoleScope.Global, roleDefinitionName, options);
+        await client.getRoleDefinition(KnownKeyVaultRoleScope.Global, roleDefinitionName, options);
         await client.createRoleAssignment(
           globalScope,
           roleAssignmentName,
@@ -287,11 +286,19 @@ describe("KeyVaultAccessControlClient", () => {
           assertEnvironmentVariable("CLIENT_OBJECT_ID"),
           options,
         );
-        await client.getRoleAssignment(KnownRoleScope.Global, roleAssignmentName, options);
-        await client.listRoleAssignments(KnownRoleScope.Global, options).next();
-        await client.listRoleDefinitions(KnownRoleScope.Global, options).next();
-        await client.deleteRoleAssignment(KnownRoleScope.Global, roleDefinitionName, options);
-        await client.deleteRoleDefinition(KnownRoleScope.Global, roleDefinitionName, options);
+        await client.getRoleAssignment(KnownKeyVaultRoleScope.Global, roleAssignmentName, options);
+        await client.listRoleAssignments(KnownKeyVaultRoleScope.Global, options).next();
+        await client.listRoleDefinitions(KnownKeyVaultRoleScope.Global, options).next();
+        await client.deleteRoleAssignment(
+          KnownKeyVaultRoleScope.Global,
+          roleDefinitionName,
+          options,
+        );
+        await client.deleteRoleDefinition(
+          KnownKeyVaultRoleScope.Global,
+          roleDefinitionName,
+          options,
+        );
       }).toSupportTracing([
         "KeyVaultAccessControlClient.setRoleDefinition",
         "KeyVaultAccessControlClient.getRoleDefinition",
