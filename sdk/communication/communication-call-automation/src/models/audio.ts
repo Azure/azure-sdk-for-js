@@ -31,3 +31,24 @@ export interface AudioMetadata {
   /** Audio streaming length.*/
   length: number;
 }
+
+export enum MediaKind {
+  /** Male */
+  AudioData = "audioData",
+  /** Female */
+  StopAudio = "stopAudio",
+}
+
+export interface StopAudio{
+
+}
+
+export interface OutStreamingData {
+  /** MediaKind for the outstreaming data AudioData or StopAudio */
+Kind: MediaKind;
+/** MediaKind for the outstreaming data AudioData or StopAudio */
+AudioData: AudioData;
+/** MediaKind for the outstreaming data AudioData or StopAudio */
+StopAudio: StopAudio;
+
+}

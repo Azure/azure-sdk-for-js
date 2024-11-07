@@ -386,6 +386,8 @@ export class CallAutomationClient {
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
+      mediaStreamingOptions: options.mediaStreamingOptions,
+      transcriptionOptions: options.transcriptionOptions
     };
 
     if (callLocator.kind === "groupCallLocator") {

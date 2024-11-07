@@ -97,6 +97,10 @@ export interface MediaStreamingOptions {
   audioChannelType: MediaStreamingAudioChannelType;
   /** Determines if the media streaming should be started immediately after call is answered or not. */
   startMediaStreaming?: boolean;
+  /** A value indicating whether bidirectional streaming is enabled. */
+  enableBidirectional?: boolean;
+  /** Specifies the audio format used for encoding, including sample rate and channel type. */
+  audioFormat?: AudioFormat;
 }
 
 /** Configuration of live transcription. */
@@ -241,6 +245,10 @@ export interface ConnectRequest {
   operationContext?: string;
   /** AI options for the call. */
   callIntelligenceOptions?: CallIntelligenceOptionsInternal;
+  /** Media Streaming Configuration. */
+  mediaStreamingOptions?: MediaStreamingOptions;
+  /** Live Transcription Configuration. */
+  transcriptionOptions?: TranscriptionOptions;
 }
 
 /** The locator used for joining or taking action on a call */
@@ -386,6 +394,7 @@ export interface RecognizeRequest {
   recognizeInputType: RecognizeInputType;
   /** The source of the audio to be played for recognition. */
   playPrompt?: PlaySourceInternal;
+  /** The source of the audio to be played for recognition. */
   playPrompts?: PlaySourceInternal[];
   /** If set recognize can barge into other existing queued-up/currently-processing requests. */
   interruptCallMediaOperation?: boolean;
@@ -663,6 +672,7 @@ export interface StartCallRecordingRequest {
   channelAffinity?: ChannelAffinity[];
   /** When set to true will start recording in Pause mode, which can be resumed. */
   pauseOnStart?: boolean;
+  /** Optional property to specify location where recording will be stored */
   recordingStorage?: RecordingStorage;
 }
 
@@ -872,6 +882,20 @@ export interface CreateCallFailed {
   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
   correlationId?: string;
   /** Used by customers when calling mid-call actions to correlate the request to the response event. */
+  operationContext?: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+}
+
+/** The ConnectFailed event. */
+export interface ConnectFailed {
+  /** Call connection ID. */
+  callConnectionId?: string;
+  /** Server call ID. */
+  serverCallId?: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId?: string;
+  /** Used by customers to correlate the request to the response event. */
   operationContext?: string;
   /** Contains the resulting SIP code, sub-code and message. */
   resultInformation?: ResultInformation;
@@ -1333,20 +1357,6 @@ export interface TranscriptionUpdated {
   readonly correlationId?: string;
 }
 
-/** The ConnectFailed event. */
-export interface ConnectFailed {
-  /** Call connection ID. */
-  callConnectionId?: string;
-  /** Server call ID. */
-  serverCallId?: string;
-  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-  correlationId?: string;
-  /** Used by customers to set the context for connecting to a call. */
-  operationContext?: string;
-  /** Contains the resulting SIP code, sub-code and message. */
-  resultInformation?: ResultInformation;
-}
-
 /** Known values of {@link CommunicationIdentifierModelKind} that the service accepts. */
 export enum KnownCommunicationIdentifierModelKind {
   /** Unknown */
@@ -1442,6 +1452,24 @@ export enum KnownMediaStreamingAudioChannelType {
  * **unmixed**
  */
 export type MediaStreamingAudioChannelType = string;
+
+/** Known values of {@link AudioFormat} that the service accepts. */
+export enum KnownAudioFormat {
+  /** Pcm16KMono */
+  Pcm16KMono = "Pcm16KMono",
+  /** Pcm24KMono */
+  Pcm24KMono = "Pcm24KMono",
+}
+
+/**
+ * Defines values for AudioFormat. \
+ * {@link KnownAudioFormat} can be used interchangeably with AudioFormat,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Pcm16KMono**: Pcm16KMono \
+ * **Pcm24KMono**: Pcm24KMono
+ */
+export type AudioFormat = string;
 
 /** Known values of {@link TranscriptionTransportType} that the service accepts. */
 export enum KnownTranscriptionTransportType {
@@ -1574,6 +1602,8 @@ export type CallRejectReason = string;
 
 /** Known values of {@link CallLocatorKind} that the service accepts. */
 export enum KnownCallLocatorKind {
+  /** Unknown */
+  Unknown = "unknown",
   /** GroupCallLocator */
   GroupCallLocator = "groupCallLocator",
   /** ServerCallLocator */
@@ -1587,6 +1617,7 @@ export enum KnownCallLocatorKind {
  * {@link KnownCallLocatorKind} can be used interchangeably with CallLocatorKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
+ * **unknown** \
  * **groupCallLocator** \
  * **serverCallLocator** \
  * **roomCallLocator**

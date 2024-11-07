@@ -348,7 +348,11 @@ export interface ConnectCallOptions extends OperationOptions {
   /** Used by customers to correlate the request to the response event. */
   operationContext?: string;
   /** AI options for the call. */
-  callIntelligenceOptions?: CallIntelligenceOptions;
+  callIntelligenceOptions?: CallIntelligenceOptions;  
+  /** Configuration of Media streaming. */
+  mediaStreamingOptions?: MediaStreamingOptions;
+  /** Configuration of live transcription. */
+  transcriptionOptions?: TranscriptionOptions;
 }
 
 /**
