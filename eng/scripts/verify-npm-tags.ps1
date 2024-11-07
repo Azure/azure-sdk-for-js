@@ -28,22 +28,22 @@ $parsedOriginalDistTags = $originalDistTags | ConvertFrom-Json
 
 $npmPkgProp = npm view $packageName --json | ConvertFrom-Json
 $packageDistTags = $npmPkgProp."dist-tags"
-Write-Host "Current dist-tag: $packageDistTags"
 
-Write-Host "parsedOriginalDistTags: $parsedOriginalDistTags"
-Write-Host "packageDistTags: $packageDistTags"
-Write-Host "intendedTag: $($packageDistTags."$intendedTag")"
-Write-Host "intendedTagVersion: $intendedTagVersion"
+Write-Host "Original dist-tag: $parsedOriginalDistTags"
+Write-Host "Current dist-tag: $packageDistTags"
+Write-Host "Intend to add tag $intendedTag to version $intendedTagVersion"
 
 if ($packageDistTags."$intendedTag" -ne $intendedTagVersion) {
   Write-Warning "Tag not correctly set, current $intendedTag tag is version $($packageDistTags."$intendedTag") instead of $intendedTagVersion."
   $correctDistTags = $parsedOriginalDistTags
   $correctDistTags."$intendedTag" = $intendedTagVersion
   foreach($tag in $correctDistTags.PSObject.Properties) {
-    Write-Host "npm dist-tag add $packageName@$($tag.value) $tag.Name"
-    npm dist-tag add $packageName@$tag.value $tag.Name
+    Write-Host "npm dist-tag add $packageName@$($tag.value) $($tag.Name)"
+    npm dist-tag add $packageName@$($tag.value) $($tag.Name)
   }
   $npmPkgProp = npm view $packageName --json | ConvertFrom-Json
   $packageDistTags = $npmPkgProp."dist-tags"
   Write-Host "Corrected dist tags to: $packageDistTags"
+} else {
+  Write-Host "Tag verified."
 }
