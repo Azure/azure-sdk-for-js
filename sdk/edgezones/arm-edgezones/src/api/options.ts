@@ -10,10 +10,12 @@ export interface OperationsListOptionalParams extends OperationOptions {}
 export interface ExtendedZonesGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ExtendedZonesListBySubscriptionOptionalParams extends OperationOptions {}
+export interface ExtendedZonesListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
 export interface ExtendedZonesRegisterOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface ExtendedZonesUnregisterOptionalParams extends OperationOptions {}
+export interface ExtendedZonesUnregisterOptionalParams
+  extends OperationOptions {}
