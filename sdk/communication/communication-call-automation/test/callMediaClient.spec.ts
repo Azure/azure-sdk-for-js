@@ -65,7 +65,7 @@ describe("CallMedia Unit Tests", async function () {
   let callMedia: CallMedia;
 
   afterEach(function () {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("can instantiate", async function () {

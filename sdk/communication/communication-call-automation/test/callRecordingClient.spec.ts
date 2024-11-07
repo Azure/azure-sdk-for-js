@@ -48,7 +48,7 @@ describe("CallRecording Unit Tests", async function () {
   let callRecording: CallRecording;
 
   afterEach(function () {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("can instantiate", async function () {
