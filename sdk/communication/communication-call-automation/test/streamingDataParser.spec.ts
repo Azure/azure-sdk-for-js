@@ -3,7 +3,7 @@
 
 import type { TranscriptionData, TranscriptionMetadata } from "../src/models/transcription.js";
 import { streamingData } from "../src/utli/streamingDataParser.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("Stream data parser unit tests", function () {
   const encoder = new TextEncoder();

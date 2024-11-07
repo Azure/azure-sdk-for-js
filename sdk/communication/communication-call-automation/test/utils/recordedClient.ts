@@ -12,7 +12,6 @@ import {
   isRecordMode,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import type { Test } from "mocha";
 import { generateToken } from "./connectionUtils.js";
 import type { CommunicationIdentityClientOptions } from "@azure/communication-identity";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
@@ -29,7 +28,6 @@ import {
 import type { CallAutomationClientOptions, CallAutomationEvent } from "../../src/index.js";
 import { CallAutomationClient, parseCallAutomationEvent } from "../../src/index.js";
 import type { CommunicationIdentifierModel } from "../../src/generated/src/index.js";
-import { assert } from "chai";
 import {
   createDefaultHttpClient,
   createHttpHeaders,
@@ -43,6 +41,7 @@ import type {
 import { ServiceBusClient } from "@azure/service-bus";
 import type { PhoneNumbersClientOptions } from "@azure/communication-phone-numbers";
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
+import { assert } from "vitest";
 
 if (isNode) {
   dotenv.config();

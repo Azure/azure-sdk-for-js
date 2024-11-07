@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { assert, expect } from "chai";
 import type { CallAutomationEventProcessor } from "../src/eventprocessor/callAutomationEventProcessor.js";
 import type { CallConnected, CallDisconnected } from "../src/models/events.js";
 import {
@@ -12,6 +11,7 @@ import {
 import type { CallInvite } from "../src/index.js";
 import { CallAutomationClient } from "../src/index.js";
 import { generateHttpClient } from "./utils/mockClient.js";
+import { describe, it, assert } from "vitest";
 
 describe("Call Automation Event Processor Unit Tests", () => {
   const CALL_CONNECTION_CALL_ID = "callConnectionId";

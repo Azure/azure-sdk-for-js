@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 // External module imports
-import type { Context } from "mocha";
-
 // Internal module imports
 import type { Recorder } from "@azure-tools/test-recorder";
 import type {
@@ -52,8 +50,6 @@ import {
   fileSourceUrl,
   getPhoneNumbers,
 } from "./utils/recordedClient.js";
-import sinon from "sinon";
-import { assert } from "chai";
 import { createMediaClient, generateHttpClient } from "./utils/mockClient.js";
 import {
   CALL_CONNECTION_ID,
@@ -63,6 +59,7 @@ import {
   baseUri,
   generateToken,
 } from "./utils/connectionUtils.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("CallMedia Unit Tests", async function () {
   let callMedia: CallMedia;

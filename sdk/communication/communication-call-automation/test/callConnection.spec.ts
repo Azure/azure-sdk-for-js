@@ -3,8 +3,6 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type {
   CallAutomationClient,
   CallInvite,
@@ -28,8 +26,6 @@ import type {
   CancelAddParticipantOperationOptions,
 } from "../src/index.js";
 import { CallConnection } from "../src/index.js";
-import type { SinonStubbedInstance } from "sinon";
-import Sinon from "sinon";
 import { CALL_TARGET_ID, CALL_TARGET_ID_2 } from "./utils/connectionUtils.js";
 import {
   createRecorder,
@@ -45,6 +41,7 @@ import {
   persistEvents,
   loadPersistedEvents,
 } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("CallConnection Unit Tests", () => {
   let target: CallInvite;

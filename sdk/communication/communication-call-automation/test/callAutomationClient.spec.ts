@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { SinonStubbedInstance } from "sinon";
-import Sinon from "sinon";
 import type { CallConnectionProperties } from "../src/models/models.js";
 import type { AnswerCallResult, CreateCallResult } from "../src/models/responses.js";
 import {
@@ -16,8 +14,6 @@ import type {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type { CallInvite, CallConnection, CreateCallOptions, AnswerCallOptions } from "../src/index.js";
 import { CallAutomationClient } from "../src/index.js";
 import {
@@ -39,6 +35,7 @@ import type {
   CreateCallEventResult,
 } from "../src/eventprocessor/eventResponses.js";
 import { randomUUID } from "@azure/core-util";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Call Automation Client Unit Tests", () => {
   let targets: CommunicationIdentifier[];

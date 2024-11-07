@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import sinon from "sinon";
-import { assert } from "chai";
 import type * as RestModel from "../src/generated/src/models/index.js";
 import { createRecordingClient, generateHttpClient } from "./utils/mockClient.js";
 import {
@@ -29,7 +26,6 @@ import type {
 } from "@azure/communication-common";
 import type { CallAutomationClient, CallInvite, CallConnection } from "../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 import {
   createRecorder,
   createTestUser,
@@ -46,6 +42,7 @@ import {
   fileSourceUrl,
 } from "./utils/recordedClient.js";
 import type { FileSource } from "../src/models/models.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("CallRecording Unit Tests", async function () {
   let callRecording: CallRecording;
