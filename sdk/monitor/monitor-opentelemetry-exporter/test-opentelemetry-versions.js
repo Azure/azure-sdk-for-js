@@ -1,6 +1,4 @@
-
-
-import packageJson from "./package.json" assert { type: "json"};
+import packageJson from "./package.json" assert { type: "json" };
 import { exec } from "child_process";
 
 const versions = ["latest"];
