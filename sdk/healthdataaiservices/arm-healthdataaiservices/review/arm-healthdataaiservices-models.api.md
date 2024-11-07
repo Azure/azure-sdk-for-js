@@ -4,15 +4,8 @@
 
 ```ts
 
-import { OperationOptions } from '@azure-rest/core-client';
-
 // @public
 export type ActionType = string;
-
-// @public
-export type ContinuablePage<TElement, TPage = TElement[]> = TPage & {
-    continuationToken?: string;
-};
 
 // @public
 export type CreatedByType = string;
@@ -34,33 +27,6 @@ export interface DeidServiceProperties {
     readonly provisioningState?: ProvisioningState;
     publicNetworkAccess?: PublicNetworkAccess;
     readonly serviceUrl?: string;
-}
-
-// @public
-export interface DeidServicesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DeidServicesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface DeidServicesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DeidServicesListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DeidServicesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface DeidServicesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
 }
 
 // @public
@@ -175,23 +141,7 @@ export interface OperationDisplay {
 }
 
 // @public
-export interface OperationsListOptionalParams extends OperationOptions {
-}
-
-// @public
 export type Origin = string;
-
-// @public
-export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings extends PageSettings = PageSettings> {
-    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
-    byPage: (settings?: TPageSettings) => AsyncIterableIterator<ContinuablePage<TElement, TPage>>;
-    next(): Promise<IteratorResult<TElement>>;
-}
-
-// @public
-export interface PageSettings {
-    continuationToken?: string;
-}
 
 // @public
 export interface PrivateEndpoint {
@@ -220,24 +170,6 @@ export interface PrivateEndpointConnectionResource extends ProxyResource {
 }
 
 // @public
-export interface PrivateEndpointConnectionsCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionsDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface PrivateEndpointConnectionsGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface PrivateEndpointConnectionsListByDeidServiceOptionalParams extends OperationOptions {
-}
-
-// @public
 export type PrivateEndpointServiceConnectionStatus = string;
 
 // @public
@@ -257,10 +189,6 @@ export interface PrivateLinkServiceConnectionState {
     actionsRequired?: string;
     description?: string;
     status?: PrivateEndpointServiceConnectionStatus;
-}
-
-// @public
-export interface PrivateLinksListByDeidServiceOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -305,9 +233,6 @@ export interface UserAssignedIdentity {
     readonly clientId?: string;
     readonly principalId?: string;
 }
-
-// @public
-export type Versions = "2024-02-28-preview";
 
 // (No @packageDocumentation comment for this package)
 

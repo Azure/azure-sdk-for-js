@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 export {
+  PrivateLinkResource,
+  PrivateLinkResourceProperties,
+  ProxyResource,
   Resource,
   SystemData,
   KnownCreatedByType,
   CreatedByType,
-  ProxyResource,
-  PrivateLinkResource,
-  PrivateLinkResourceProperties,
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
@@ -20,9 +20,9 @@ export {
   PrivateEndpointServiceConnectionStatus,
   KnownPrivateEndpointConnectionProvisioningState,
   PrivateEndpointConnectionProvisioningState,
-  TrackedResource,
   DeidService,
   DeidServiceProperties,
+  ProvisioningState,
   KnownResourceProvisioningState,
   ResourceProvisioningState,
   PrivateEndpointConnection,
@@ -31,6 +31,7 @@ export {
   KnownManagedServiceIdentityType,
   ManagedServiceIdentityType,
   UserAssignedIdentity,
+  TrackedResource,
   DeidUpdate,
   ManagedServiceIdentityUpdate,
   DeidPropertiesUpdate,
@@ -40,21 +41,4 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  Versions,
-  ProvisioningState,
 } from "./models.js";
-export {
-  OperationsListOptionalParams,
-  DeidServicesGetOptionalParams,
-  DeidServicesListByResourceGroupOptionalParams,
-  DeidServicesListBySubscriptionOptionalParams,
-  DeidServicesCreateOptionalParams,
-  DeidServicesUpdateOptionalParams,
-  DeidServicesDeleteOptionalParams,
-  PrivateEndpointConnectionsGetOptionalParams,
-  PrivateEndpointConnectionsCreateOptionalParams,
-  PrivateEndpointConnectionsDeleteOptionalParams,
-  PrivateEndpointConnectionsListByDeidServiceOptionalParams,
-  PrivateLinksListByDeidServiceOptionalParams,
-} from "./options.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator } from "./pagingTypes.js";

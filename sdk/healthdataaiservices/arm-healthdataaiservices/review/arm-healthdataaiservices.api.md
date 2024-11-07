@@ -366,9 +366,6 @@ export interface UserAssignedIdentity {
     readonly principalId?: string;
 }
 
-// @public
-export type Versions = "2024-02-28-preview";
-
 // (No @packageDocumentation comment for this package)
 
 ```

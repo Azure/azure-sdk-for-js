@@ -15006,17 +15006,19 @@ packages:
     dev: false
 
   file:projects/arm-healthdataaiservices.tgz:
-    resolution: {integrity: sha512-Fx9bTzlUJwLWjfbKxpAlDJezkzYhmcPwAGPSzRpgi2L0spP9j5d/bVG3x578z2RqRQ5ztW4nReWoTVV17uLkdQ==, tarball: file:projects/arm-healthdataaiservices.tgz}
+    resolution: {integrity: sha512-dJpfHl/LBPMZLu5rkXUEgX979cUA42TJ6FTsucJK5453bRpMnVioKezlFOUIxPkcVoS7WTd+aYg1kwLDhzprfg==, tarball: file:projects/arm-healthdataaiservices.tgz}
     name: '@rush-temp/arm-healthdataaiservices'
     version: 0.0.0
     dependencies:
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
       '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       dotenv: 16.4.5
-      eslint: 9.14.0
+      eslint: 8.57.1
       playwright: 1.48.2
       prettier: 3.3.3
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
@@ -15025,7 +15027,6 @@ packages:
       - '@vitest/ui'
       - bufferutil
       - happy-dom
-      - jiti
       - jsdom
       - less
       - lightningcss
@@ -18464,7 +18465,7 @@ packages:
     dev: false
 
   file:projects/batch.tgz:
-    resolution: {integrity: sha512-6RrcBorSumWEO4KlTeLQ0b5SZRPDSjfWrEndxfqI4fGeDn4hKIdU2SvGMftjsVbnkli6xpQlgRNwI7U0GlHMRw==, tarball: file:projects/batch.tgz}
+    resolution: {integrity: sha512-5aWGICBLDXaS8dyz90IUuG+KysKDtOr7RkVjdYzfxCimiWRMgPYdRmvP+k7Dkm5xkp16VRTIG8kTnJFVUBSMHw==, tarball: file:projects/batch.tgz}
     name: '@rush-temp/batch'
     version: 0.0.0
     dependencies:
@@ -19526,7 +19527,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-EAxNqaujEkbx3igQiVu3RXXdE4owEiwiwS5+eeuI98VjbnysDkT9ckaOdJbUgel/CwOTEr8oz0JdDS1V36ngMw==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-rxq/J1ftJ2e0MkPDv49RFsVQcu/68yCe6/h0R6+SdIkKBnhbYY12SkHzwOEOLFtemwLv+mh2SAqE6KHTYwJ8Lg==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
