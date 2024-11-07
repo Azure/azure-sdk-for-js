@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
-    "module": "es6",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "strict": true,
     "target": "es6",
     "sourceMap": true,
@@ -14,18 +14,20 @@
       "dom"
     ],
     "declaration": true,
-    "outDir": "./dist-esm",
     "importHelpers": true,
     "paths": {
       "@azure/arm-apicenter": [
         "./src/index"
       ]
-    }
+    },
+    "rootDir": "."
   },
   "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "samples-dev/**/*.ts"
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts"
   ],
   "exclude": [
     "node_modules"
