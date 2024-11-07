@@ -3,8 +3,8 @@
 
 import sinon from "sinon";
 import { assert } from "chai";
-import type * as RestModel from "../src/generated/src/models";
-import { createRecordingClient, generateHttpClient } from "./utils/mockClient";
+import type * as RestModel from "../src/generated/src/models/index.js";
+import { createRecordingClient, generateHttpClient } from "./utils/mockClient.js";
 import {
   baseUri,
   CALL_CALLBACK_URL,
@@ -13,21 +13,21 @@ import {
   generateToken,
   RECORDING_ID,
   RECORDING_STATE,
-} from "./utils/connectionUtils";
-import { CallRecording } from "../src/callRecording";
+} from "./utils/connectionUtils.js";
+import { CallRecording } from "../src/callRecording.js";
 import type {
   AnswerCallOptions,
   CreateCallOptions,
   PlayOptions,
   StartRecordingOptions,
-} from "../src/models/options";
-import { apiVersion } from "../src/generated/src/models/parameters";
+} from "../src/models/options.js";
+import { apiVersion } from "../src/generated/src/models/parameters.js";
 import type { ChannelAffinity } from "@azure/communication-call-automation";
 import type {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
-import type { CallAutomationClient, CallInvite, CallConnection } from "../src";
+import type { CallAutomationClient, CallInvite, CallConnection } from "../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { Context } from "mocha";
 import {
@@ -44,8 +44,8 @@ import {
   loadPersistedEvents,
   persistEvents,
   fileSourceUrl,
-} from "./utils/recordedClient";
-import type { FileSource } from "../src/models/models";
+} from "./utils/recordedClient.js";
+import type { FileSource } from "../src/models/models.js";
 
 describe("CallRecording Unit Tests", async function () {
   let callRecording: CallRecording;
@@ -203,15 +203,15 @@ describe("CallRecording Live Tests", function () {
   let testUser2: CommunicationUserIdentifier;
   let testName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = await createRecorder(ctx);
     testUser = await createTestUser(recorder);
     testUser2 = await createTestUser(recorder);
     callerCallAutomationClient = createCallAutomationClient(recorder, testUser);
     receiverCallAutomationClient = createCallAutomationClient(recorder, testUser2);
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function (ctx) {
     persistEvents(testName);
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();

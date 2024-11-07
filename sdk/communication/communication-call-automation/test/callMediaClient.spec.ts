@@ -13,9 +13,9 @@ import type {
 import { serializeCommunicationIdentifier } from "@azure/communication-common";
 
 // Parent directory imports
-import { CallMedia } from "../src/callMedia";
-import type { FileSource, TextSource, SsmlSource, RecognitionChoice } from "../src/models/models";
-import { DtmfTone } from "../src/models/models";
+import { CallMedia } from "../src/callMedia.js";
+import type { FileSource, TextSource, SsmlSource, RecognitionChoice } from "../src/models/models.js";
+import { DtmfTone } from "../src/models/models.js";
 import type {
   CallMediaRecognizeDtmfOptions,
   CallMediaRecognizeChoiceOptions,
@@ -32,8 +32,8 @@ import type {
   StopTranscriptionOptions,
   HoldOptions,
   UnholdOptions,
-} from "../src";
-import { CallAutomationEventProcessor } from "../src";
+} from "../src/index.js";
+import { CallAutomationEventProcessor } from "../src/index.js";
 
 // Current directory imports
 import {
@@ -51,10 +51,10 @@ import {
   persistEvents,
   fileSourceUrl,
   getPhoneNumbers,
-} from "./utils/recordedClient";
+} from "./utils/recordedClient.js";
 import sinon from "sinon";
 import { assert } from "chai";
-import { createMediaClient, generateHttpClient } from "./utils/mockClient";
+import { createMediaClient, generateHttpClient } from "./utils/mockClient.js";
 import {
   CALL_CONNECTION_ID,
   CALL_TARGET_ID,
@@ -62,7 +62,7 @@ import {
   MEDIA_URL_WAV,
   baseUri,
   generateToken,
-} from "./utils/connectionUtils";
+} from "./utils/connectionUtils.js";
 
 describe("CallMedia Unit Tests", async function () {
   let callMedia: CallMedia;
@@ -501,15 +501,15 @@ describe("Call Media Client Live Tests", function () {
   let receiverPhoneUser: PhoneNumberIdentifier;
   let testName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = await createRecorder(ctx);
     testUser = await createTestUser(recorder);
     testUser2 = await createTestUser(recorder);
     callerCallAutomationClient = createCallAutomationClient(recorder, testUser);
     receiverCallAutomationClient = createCallAutomationClient(recorder, testUser2);
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function (ctx) {
     persistEvents(testName);
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();

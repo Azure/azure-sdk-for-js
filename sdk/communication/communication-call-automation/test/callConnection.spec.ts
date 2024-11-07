@@ -26,11 +26,11 @@ import type {
   AddParticipantOptions,
   RemoveParticipantsOption,
   CancelAddParticipantOperationOptions,
-} from "../src";
-import { CallConnection } from "../src";
+} from "../src/index.js";
+import { CallConnection } from "../src/index.js";
 import type { SinonStubbedInstance } from "sinon";
 import Sinon from "sinon";
-import { CALL_TARGET_ID, CALL_TARGET_ID_2 } from "./utils/connectionUtils";
+import { CALL_TARGET_ID, CALL_TARGET_ID_2 } from "./utils/connectionUtils.js";
 import {
   createRecorder,
   createTestUser,
@@ -44,7 +44,7 @@ import {
   incomingCallContexts,
   persistEvents,
   loadPersistedEvents,
-} from "./utils/recordedClient";
+} from "./utils/recordedClient.js";
 
 describe("CallConnection Unit Tests", () => {
   let target: CallInvite;
@@ -336,15 +336,15 @@ describe("CallConnection Live Tests", function () {
   let callConnectionId: string;
   let testName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = await createRecorder(ctx);
     testUser = await createTestUser(recorder);
     testUser2 = await createTestUser(recorder);
     callerCallAutomationClient = createCallAutomationClient(recorder, testUser);
     receiverCallAutomationClient = createCallAutomationClient(recorder, testUser2);
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function (ctx) {
     persistEvents(testName);
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();

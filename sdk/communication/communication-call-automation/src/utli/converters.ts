@@ -26,9 +26,9 @@ import type {
   KnownCommunicationCloudEnvironmentModel,
   PhoneNumberIdentifierModel,
   CommunicationUserIdentifierModel,
-} from "../generated/src";
-import { KnownCommunicationIdentifierModelKind } from "../generated/src";
-import type { CallParticipant } from "../models/models";
+} from "../generated/src/index.js";
+import { KnownCommunicationIdentifierModelKind } from "../generated/src/index.js";
+import type { CallParticipant } from "../models/models.js";
 
 function extractKind(
   identifierModel: CommunicationIdentifierModel,

@@ -3,7 +3,7 @@
 
 import * as dotenv from "dotenv";
 import { isNode } from "@azure/core-util";
-import fs from "fs";
+import fs from "node:fs";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import {
   Recorder,
@@ -13,7 +13,7 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import type { Test } from "mocha";
-import { generateToken } from "./connectionUtils";
+import { generateToken } from "./connectionUtils.js";
 import type { CommunicationIdentityClientOptions } from "@azure/communication-identity";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
 import type {
@@ -26,9 +26,9 @@ import {
   isPhoneNumberIdentifier,
   createIdentifierFromRawId,
 } from "@azure/communication-common";
-import type { CallAutomationClientOptions, CallAutomationEvent } from "../../src";
-import { CallAutomationClient, parseCallAutomationEvent } from "../../src";
-import type { CommunicationIdentifierModel } from "../../src/generated/src";
+import type { CallAutomationClientOptions, CallAutomationEvent } from "../../src/index.js";
+import { CallAutomationClient, parseCallAutomationEvent } from "../../src/index.js";
+import type { CommunicationIdentifierModel } from "../../src/generated/src/index.js";
 import { assert } from "chai";
 import {
   createDefaultHttpClient,

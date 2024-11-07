@@ -9,7 +9,7 @@ import type {
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
 import { parseClientArguments, isKeyCredential } from "@azure/communication-common";
-import { logger } from "./models/logger";
+import { logger } from "./models/logger.js";
 import type {
   AnswerCallRequest,
   CallAutomationApiClient,
@@ -18,17 +18,17 @@ import type {
   RedirectCallRequest,
   RejectCallRequest,
   CustomCallingContextInternal,
-} from "./generated/src";
-import { CallConnection } from "./callConnection";
-import { CallRecording } from "./callRecording";
+} from "./generated/src/index.js";
+import { CallConnection } from "./callConnection.js";
+import { CallRecording } from "./callRecording.js";
 import type {
   AnswerCallOptions,
   CreateCallOptions,
   RedirectCallOptions,
   RejectCallOptions,
-} from "./models/options";
-import type { AnswerCallResult, CreateCallResult } from "./models/responses";
-import type { CallConnectionProperties, CallInvite, CustomCallingContext } from "./models/models";
+} from "./models/options.js";
+import type { AnswerCallResult, CreateCallResult } from "./models/responses.js";
+import type { CallConnectionProperties, CallInvite, CustomCallingContext } from "./models/models.js";
 import {
   communicationIdentifierConverter,
   communicationIdentifierModelConverter,
@@ -36,11 +36,11 @@ import {
   communicationUserIdentifierModelConverter,
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
-} from "./utli/converters";
+} from "./utli/converters.js";
 import { randomUUID } from "@azure/core-util";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
-import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
-import type { AnswerCallEventResult, CreateCallEventResult } from "./eventprocessor/eventResponses";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
+import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor.js";
+import type { AnswerCallEventResult, CreateCallEventResult } from "./eventprocessor/eventResponses.js";
 /**
  * Client options used to configure CallAutomation Client API requests.
  */
