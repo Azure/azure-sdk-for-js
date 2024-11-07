@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { decompressResponsePolicy } from "../../src/index.js";
+import { decompressResponsePolicy } from "../../src/policies/decompressResponsePolicy.js";
 
 describe("decompressResponsePolicy (browser)", function () {
   it("Throws on creation", function () {

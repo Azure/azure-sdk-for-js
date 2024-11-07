@@ -12,6 +12,7 @@ declare global {
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
 export { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
+export { AbortError } from "./abort-controller/AbortError.js";
 export {
   createClientLogger,
   TypeSpecRuntimeLogger,

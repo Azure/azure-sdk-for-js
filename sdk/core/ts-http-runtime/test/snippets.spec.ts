@@ -3,7 +3,7 @@
 
 /* eslint "@typescript-eslint/no-shadow": "off" */
 
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 import type {
   HttpClient,
   PipelinePhase,
@@ -11,10 +11,10 @@ import type {
   PipelineRequest,
   PipelineResponse,
   SendRequest,
-  AddPipelineOptions,
+  AddPolicyOptions,
   Client,
 } from "@typespec/ts-http-runtime";
-import { AbortError, createTracingClient } from "@typespec/ts-http-runtime";
+import { AbortError } from "@typespec/ts-http-runtime";
 
 interface GetOperationResult {}
 interface DetectFromUrl {}
@@ -72,7 +72,7 @@ describe("snippets", () => {
 
   it("pipeline", () => {
     interface Pipeline {
-      addPolicy(policy: PipelinePolicy, options?: AddPipelineOptions): void;
+      addPolicy(policy: PipelinePolicy, options?: AddPolicyOptions): void;
       removePolicy(options: { name?: string; phase?: PipelinePhase }): PipelinePolicy[];
       sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse>;
       getOrderedPolicies(): PipelinePolicy[];
@@ -113,24 +113,5 @@ describe("snippets", () => {
     type MyClient = Client & {
       path: Routes;
     };
-  });
-
-  it("with_span_example", async () => {
-    const tracingClient = createTracingClient({
-      namespace: "test.namespace",
-      packageName: "test-package",
-      packageVersion: "1.0.0",
-    });
-
-    const options = {};
-
-    const myOperationResult = await tracingClient.withSpan(
-      "myClassName.myOperationName",
-      options,
-      (updatedOptions) => {
-        // Do something with the updated options.
-        return "myOperationResult";
-      },
-    );
   });
 });

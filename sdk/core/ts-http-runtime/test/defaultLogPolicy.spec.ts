@@ -7,7 +7,7 @@ import type { PipelinePolicy } from "../src/pipeline.js";
 import { createHttpHeaders } from "../src/httpHeaders.js";
 import { createPipelineFromOptions } from "../src/createPipelineFromOptions.js";
 import { createPipelineRequest } from "../src/pipelineRequest.js";
-import { isNodeLike } from "../src/util/checkEnvironment.js";
+import { isBrowser, isNodeLike } from "../src/util/checkEnvironment.js";
 
 describe("defaultLogPolicy", function () {
   it("should be invoked on every retry", async function () {
@@ -65,7 +65,11 @@ describe("defaultLogPolicy", function () {
     );
 
     const expectedOrder: string[] = orderedPolicies.map((policy) => policy.name);
-    const repeatedPolicies = ["redirectPolicy", "testSignPolicy", "logPolicy"];
+
+    // redirectPolicy is not added in browser
+    const repeatedPolicies = isBrowser
+      ? ["testSignPolicy", "logPolicy"]
+      : ["redirectPolicy", "testSignPolicy", "logPolicy"];
     for (let i = 0; i < DEFAULT_RETRY_POLICY_COUNT; i++) {
       expectedOrder.push(...repeatedPolicies);
     }

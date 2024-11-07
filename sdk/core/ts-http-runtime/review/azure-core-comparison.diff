@@ -904,10 +904,10 @@ index e9751e2..e4f8769 100644
    HttpClient,
    HttpHeaders as PipelineHeaders,
 diff --git a/src/index.ts b/src/index.ts
-index 688a7ea..9cda6b3 100644
+index 688a7ea..3a13f13 100644
 --- a/src/index.ts
 +++ b/src/index.ts
-@@ -9,117 +9,70 @@ declare global {
+@@ -9,117 +9,71 @@ declare global {
    interface ReadableStream<R = any> {}
    interface TransformStream<I = any, O = any> {}
  }
@@ -916,6 +916,7 @@ index 688a7ea..9cda6b3 100644
 -export type { HttpMethods } from "@azure/core-util";
 +
 +export { AbortSignalLike } from "./abort-controller/AbortSignalLike.js";
++export { AbortError } from "./abort-controller/AbortError.js";
 +export {
 +  createClientLogger,
 +  TypeSpecRuntimeLogger,
