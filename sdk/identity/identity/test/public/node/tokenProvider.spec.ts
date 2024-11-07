@@ -9,6 +9,7 @@ import { delay, isPlaybackMode } from "@azure-tools/test-recorder";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("getBearerTokenProvider", function () {
+  let recorder: Recorder;
   let cleanup: MsalTestCleanup;
 
   beforeEach(async function (ctx) {
