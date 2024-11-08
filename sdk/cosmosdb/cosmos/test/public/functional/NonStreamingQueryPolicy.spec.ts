@@ -539,7 +539,7 @@ describe("Full text search feature", async () => {
     while (queryIterator.hasMoreResults()) {
       result.push(...(await queryIterator.fetchNext()).resources);
     }
-      assert(result.length === 2);
+    assert(result.length === 2);
   });
 
   it("should execute a full text query with RRF score", async function () {
@@ -606,6 +606,5 @@ describe("Full text search feature", async () => {
     const queryIterator = container.items.query(query, queryOptions);
     const result = await queryIterator.fetchAll();
     assert(result.resources.length === 2);
-
   });
 });
