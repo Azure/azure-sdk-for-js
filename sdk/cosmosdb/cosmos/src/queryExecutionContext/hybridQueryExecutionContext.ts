@@ -13,9 +13,9 @@ import {
 } from "../request";
 import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult";
 import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator";
+import { CosmosHeaders } from "./CosmosHeaders";
 import { ExecutionContext } from "./ExecutionContext";
-import { SqlQuerySpec } from "./SqlQuerySpec";
-import { getInitialHeader } from "./headerUtils";
+import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext";
 
@@ -39,7 +39,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   constructor(
     private clientContext: ClientContext,
     private collectionLink: string,
-    private query: string | SqlQuerySpec,
     private options: FeedOptions,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
     private correlatedActivityId: string,
@@ -50,15 +49,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     if (this.pageSize === undefined) {
       this.pageSize = this.DEFAULT_PAGE_SIZE;
     }
-    console.log("query", this.query);
     if (partitionedQueryExecutionInfo.hybridSearchQueryInfo.requiresGlobalStatistics) {
       const globalStaticsQueryOptions: FeedOptions = { maxItemCount: this.pageSize };
       this.globalStatisticsAggregator = new GlobalStatisticsAggregator();
 
       let globalStatisticsQuery =
         this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.globalStatisticsQuery;
-      console.log("globalStatisticsQuery", globalStatisticsQuery);
-      // globalStatisticsQuery = globalStatisticsQuery.replace("_FullTextWordCount", "_FullText_WordCount");
       const globalStatisticsQueryExecutionInfo: PartitionedQueryExecutionInfo = {
         partitionedQueryExecutionInfoVersion: 1,
         queryInfo: {
@@ -71,7 +67,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         queryRanges: this.allPartitionsRanges,
       };
 
-      console.log("setting global execution context");
       this.globalStatisticsExecutionContext = new ParallelQueryExecutionContext(
         this.clientContext,
         this.collectionLink,
@@ -81,23 +76,24 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         this.correlatedActivityId,
       );
     } else {
-      // initialise context without global statistics
+      this.createComponentExecutionContexts();
       this.state = HybridQueryExecutionContextBaseStates.initialized;
     }
   }
   public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+    let nextItemRespHeaders = getInitialHeader();
     while (
       (this.state === HybridQueryExecutionContextBaseStates.uninitialized ||
         this.state === HybridQueryExecutionContextBaseStates.initialized) &&
       this.buffer.length === 0
     ) {
-      await this.fetchMore(diagnosticNode);
+      await this.fetchMore(diagnosticNode, nextItemRespHeaders);
     }
 
     if (this.buffer.length > 0) {
-      return this.drainOne();
+      return this.drainOne(nextItemRespHeaders);
     } else {
-      return this.done();
+      return this.done(nextItemRespHeaders);
     }
   }
 
@@ -116,42 +112,48 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
   }
 
-  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(
+    diagnosticNode: DiagnosticNodeInternal,
+    nextItemRespHeaders?: CosmosHeaders,
+  ): Promise<Response<any>> {
+    let fetchMoreRespHeaders = nextItemRespHeaders ? nextItemRespHeaders : getInitialHeader();
     switch (this.state) {
       case HybridQueryExecutionContextBaseStates.uninitialized:
-        await this.initialize(diagnosticNode);
+        await this.initialize(diagnosticNode, fetchMoreRespHeaders);
         return {
           result: [],
-          headers: getInitialHeader(),
+          headers: fetchMoreRespHeaders,
         };
 
       case HybridQueryExecutionContextBaseStates.initialized:
-        await this.executeComponentQueries(diagnosticNode);
+        await this.executeComponentQueries(diagnosticNode, fetchMoreRespHeaders);
         return {
           result: [],
-          headers: getInitialHeader(),
+          headers: fetchMoreRespHeaders,
         };
       case HybridQueryExecutionContextBaseStates.draining:
-        const result = await this.drain();
+        const result = await this.drain(fetchMoreRespHeaders);
         return result;
       case HybridQueryExecutionContextBaseStates.done:
-        return this.done();
+        return this.done(fetchMoreRespHeaders);
       default:
         throw new Error(`Invalid state: ${this.state}`);
     }
   }
 
-  private async initialize(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
-    // const requestCharge = 0;
-    // TODO: Add request charge to the response and other headers
-    // TODO: either add a check for require global statistics or create pipeline inside
+  private async initialize(
+    diagnosticNode: DiagnosticNodeInternal,
+    fetchMoreRespHeaders: CosmosHeaders,
+  ): Promise<void> {
     try {
       while (this.globalStatisticsExecutionContext.hasMoreResults()) {
         const result = await this.globalStatisticsExecutionContext.nextItem(diagnosticNode);
-        console.log("result gloabal statistics", result);
         const globalStatistics: GlobalStatistics = result.result;
-        //iterate over the components update placeholders from globalStatistics
-        this.globalStatisticsAggregator.aggregate(globalStatistics);
+        mergeHeaders(fetchMoreRespHeaders, result.headers);
+        if (globalStatistics) {
+          //iterate over the components update placeholders from globalStatistics
+          this.globalStatisticsAggregator.aggregate(globalStatistics);
+        }
       }
     } catch (error) {
       this.state = HybridQueryExecutionContextBaseStates.done;
@@ -163,9 +165,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     this.state = HybridQueryExecutionContextBaseStates.initialized;
   }
 
-  private async executeComponentQueries(diagnosticNode: DiagnosticNodeInternal): Promise<void> {
+  private async executeComponentQueries(
+    diagnosticNode: DiagnosticNodeInternal,
+    fetchMoreRespHeaders: CosmosHeaders,
+  ): Promise<void> {
     if (this.componentsExecutionContext.length === 1) {
-      await this.drainSingleComponent(diagnosticNode);
+      await this.drainSingleComponent(diagnosticNode, fetchMoreRespHeaders);
       return;
     }
     try {
@@ -176,11 +181,10 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         while (componentExecutionContext.hasMoreResults()) {
           const result = await componentExecutionContext.fetchMore(diagnosticNode);
           const response = result.result;
-          console.log("individual component response", JSON.stringify(response));
+          mergeHeaders(fetchMoreRespHeaders, result.headers);
           if (response) {
             response.forEach((item: any) => {
               const hybridItem = HybridSearchQueryResult.create(item);
-              console.log("hybridItem", hybridItem);
               if (!uniqueItems.has(hybridItem.rid)) {
                 uniqueItems.set(hybridItem.rid, hybridItem);
               }
@@ -189,7 +193,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         }
       }
       uniqueItems.forEach((item) => hybridSearchResult.push(item));
-      console.log("hybridSearchResult", hybridSearchResult);
       if (hybridSearchResult.length === 0 || hybridSearchResult.length === 1) {
         // return the result as no or one element is present
         hybridSearchResult.forEach((item) => this.buffer.push(item.data));
@@ -199,22 +202,11 @@ export class HybridQueryExecutionContext implements ExecutionContext {
 
       // Initialize an array to hold ranks for each document
       const sortedHybridSearchResult = this.sortHybridSearchResultByRRFScore(hybridSearchResult);
-
-      // console.log("sortedHybridSearchResult", sortedHybridSearchResult);
-      console.log("sortedHybridSearchResult length", sortedHybridSearchResult.length);
-      // print Index, rid and componentScores for each item
-      sortedHybridSearchResult.forEach((item) => {
-        console.log(
-          `Index: ${item.data.Index}, rid: ${item.rid}, componentScores: ${item.componentScores}`,
-        );
-      });
       // store the result to buffer
       // add only data from the sortedHybridSearchResult in the buffer
       sortedHybridSearchResult.forEach((item) => this.buffer.push(item.data));
       this.applySkipAndTakeToBuffer();
       this.state = HybridQueryExecutionContextBaseStates.draining;
-      console.log("draining");
-      // remove this
     } catch (error) {
       this.state = HybridQueryExecutionContextBaseStates.done;
       throw error;
@@ -225,30 +217,27 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     const { skip, take } = this.partitionedQueryExecutionInfo.hybridSearchQueryInfo;
     if (skip) {
       this.buffer = this.buffer.slice(skip);
-      console.log("buffer after skip", skip, this.buffer);
     }
 
     if (take) {
       this.buffer = this.buffer.slice(0, take);
-      console.log("buffer after take", take, this.buffer);
     }
   }
 
-  private async drain(): Promise<Response<any>> {
+  private async drain(fetchMoreRespHeaders: CosmosHeaders): Promise<Response<any>> {
     try {
       if (this.buffer.length === 0) {
         this.state = HybridQueryExecutionContextBaseStates.done;
-        return this.done();
+        return this.done(fetchMoreRespHeaders);
       }
       const result = this.buffer.slice(0, this.pageSize);
       this.buffer = this.buffer.slice(this.pageSize);
       if (this.buffer.length === 0) {
         this.state = HybridQueryExecutionContextBaseStates.done;
-        console.log("state:", this.state);
       }
       return {
         result: result,
-        headers: getInitialHeader(),
+        headers: fetchMoreRespHeaders,
       };
     } catch (error) {
       this.state = HybridQueryExecutionContextBaseStates.done;
@@ -256,11 +245,11 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
   }
 
-  private async drainOne(): Promise<Response<any>> {
+  private async drainOne(nextItemRespHeaders: CosmosHeaders): Promise<Response<any>> {
     try {
       if (this.buffer.length === 0) {
         this.state = HybridQueryExecutionContextBaseStates.done;
-        return this.done();
+        return this.done(nextItemRespHeaders);
       }
       const result = this.buffer.shift();
       if (this.buffer.length === 0) {
@@ -268,7 +257,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       }
       return {
         result: result,
-        headers: getInitialHeader(),
+        headers: nextItemRespHeaders,
       };
     } catch (error) {
       this.state = HybridQueryExecutionContextBaseStates.done;
@@ -276,10 +265,10 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
   }
 
-  private done(): Response<any> {
+  private done(fetchMoreRespHeaders: CosmosHeaders): Response<any> {
     return {
       result: undefined,
-      headers: getInitialHeader(),
+      headers: fetchMoreRespHeaders,
     };
   }
 
@@ -323,7 +312,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
 
     // Sort based on RRF scores
     rrfScores.sort((a, b) => b.rrfScore - a.rrfScore);
-    console.log("rrfScores array", rrfScores);
 
     // Map sorted RRF scores back to hybridSearchResult
     const sortedHybridSearchResult = rrfScores.map((scoreItem) =>
@@ -332,7 +320,10 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     return sortedHybridSearchResult;
   }
 
-  private async drainSingleComponent(diagNode: DiagnosticNodeInternal): Promise<void> {
+  private async drainSingleComponent(
+    diagNode: DiagnosticNodeInternal,
+    fetchMoreRespHeaders: CosmosHeaders,
+  ): Promise<void> {
     if (this.componentsExecutionContext && this.componentsExecutionContext.length !== 1) {
       throw new Error("drainSingleComponent called on multiple components");
     }
@@ -342,12 +333,13 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       while (componentExecutionContext.hasMoreResults()) {
         const result = await componentExecutionContext.fetchMore(diagNode);
         const response = result.result;
-        response.forEach((item: any) => {
-          hybridSearchResult.push(HybridSearchQueryResult.create(item));
-        });
+        mergeHeaders(fetchMoreRespHeaders, result.headers);
+        if (response) {
+          response.forEach((item: any) => {
+            hybridSearchResult.push(HybridSearchQueryResult.create(item));
+          });
+        }
       }
-      console.log("result from single drain", JSON.stringify(hybridSearchResult));
-
       hybridSearchResult.forEach((item) => this.buffer.push(item.data));
       this.applySkipAndTakeToBuffer();
       this.state = HybridQueryExecutionContextBaseStates.draining;
@@ -359,13 +351,16 @@ export class HybridQueryExecutionContext implements ExecutionContext {
 
   private createComponentExecutionContexts(): void {
     // rewrite queries based on global statistics
-    const rewrittenQueryInfos = this.processComponentQueries(
-      this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.componentQueryInfos,
-      this.globalStatisticsAggregator.getResult(),
-    );
-    console.log("rewrittenQueryInfo", rewrittenQueryInfos);
+    let queryInfos: QueryInfo[] =
+      this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.componentQueryInfos;
+    if (this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.requiresGlobalStatistics) {
+      queryInfos = this.processComponentQueries(
+        this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.componentQueryInfos,
+        this.globalStatisticsAggregator.getResult(),
+      );
+    }
     // create component execution contexts
-    for (const componentQueryInfo of rewrittenQueryInfos) {
+    for (const componentQueryInfo of queryInfos) {
       const componentPartitionExecutionInfo: PartitionedQueryExecutionInfo = {
         partitionedQueryExecutionInfoVersion: 1,
         queryInfo: componentQueryInfo,
