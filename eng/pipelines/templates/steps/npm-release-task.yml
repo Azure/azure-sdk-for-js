@@ -48,7 +48,7 @@ steps:
       inputs:
         targetType: filePath
         filePath: eng/scripts/verify-npm-tags.ps1
-        arguments: -originalDistTags '$(OriginalTags)' -intendedTag ${{parameters.Tag}} -intendedTagVersion '$(IntendedTagVersion)' -packageJson $(PackageJsonDir)
+        arguments: -originalDistTags '$(OriginalTags)' -intendedTag ${{parameters.Tag}} -intendedTagVersion '$(IntendedTagVersion)' -packageJson $(PackageJsonDir) -npmToken $(azure-sdk-npm-token)
         pwsh: true
 
     - ${{ if ne(parameters.AdditionalTag, '') }}:
