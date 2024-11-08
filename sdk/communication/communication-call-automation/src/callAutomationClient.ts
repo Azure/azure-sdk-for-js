@@ -53,7 +53,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
    */
   sourceIdentity?: CommunicationUserIdentifier;
   /**
-   * The identifier of the OPS of the call for call creating operation.
+   * The identifier of the One Phone System bot for call creating operation.
    */
   opsSourceIdentity?: MicrosoftTeamsAppIdentifier;
 }
@@ -72,7 +72,7 @@ const isCallAutomationClientOptions = (options: any): options is CallAutomationC
 export class CallAutomationClient {
   private readonly callAutomationApiClient: CallAutomationApiClient;
   private readonly sourceIdentity?: CommunicationUserIdentifierModel;
-  private readonly oPSSourceIdentity?: MicrosoftTeamsAppIdentifierModel;
+  private readonly opsSourceIdentity?: MicrosoftTeamsAppIdentifierModel;
   private readonly credential: TokenCredential | KeyCredential;
   private readonly internalPipelineOptions: InternalPipelineOptions;
   private readonly callAutomationEventProcessor: CallAutomationEventProcessor;
@@ -135,7 +135,7 @@ export class CallAutomationClient {
     );
 
     this.sourceIdentity = communicationUserIdentifierModelConverter(options.sourceIdentity);
-    this.oPSSourceIdentity = microsoftTeamsAppIdentifierModelConverter(options.opsSourceIdentity);
+    this.opsSourceIdentity = microsoftTeamsAppIdentifierModelConverter(options.opsSourceIdentity);
   }
 
   /**
@@ -254,7 +254,7 @@ export class CallAutomationClient {
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
       source: this.sourceIdentity,
-      opsSource: this.oPSSourceIdentity,
+      opsSource: this.opsSourceIdentity,
       targets: [communicationIdentifierModelConverter(targetParticipant.targetParticipant)],
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
@@ -287,7 +287,7 @@ export class CallAutomationClient {
   ): Promise<CreateCallResult> {
     const request: CreateCallRequest = {
       source: this.sourceIdentity,
-      opsSource: this.oPSSourceIdentity,
+      opsSource: this.opsSourceIdentity,
       targets: targetParticipants.map((target) => communicationIdentifierModelConverter(target)),
       callbackUri: callbackUrl,
       operationContext: options.operationContext,
