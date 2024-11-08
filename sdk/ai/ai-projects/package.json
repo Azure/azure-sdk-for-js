@@ -59,9 +59,10 @@
     "@azure/core-auth": "^1.6.0",
     "@azure/core-rest-pipeline": "^1.5.0",
     "@azure/core-util": "^1.9.0",
-    "@azure/logger": "^1.0.0",
+    "@azure/logger": "^1.1.4",
     "tslib": "^2.6.2",
-    "@azure/core-paging": "^1.5.0"
+    "@azure/core-paging": "^1.5.0",
+    "@azure/core-sse": "^2.1.3"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
@@ -92,7 +93,7 @@
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:samples": "echo skipped",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
-    "execute:samples": "echo skipped",
+    "execute:samples": "dev-tool samples run samples-dev",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" ",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",

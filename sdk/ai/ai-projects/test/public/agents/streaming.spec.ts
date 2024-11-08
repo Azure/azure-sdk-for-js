@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
-import { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
+import { AgentsOperations, AIProjectsClient, MessageStreamEvent, RunStreamEvent, ThreadRunOutput } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 
@@ -29,13 +29,25 @@ describe("Agents - streaming", () => {
     });
     const thread = await agents.createThread();
     await agents.createMessage(thread.id, { role: "user", content: "Hello, tell me a joke" });
-    const stream = agents.createRunStreaming(thread.id, { assistant_id: agent.id });
-    let buffer = "";
-    for await (const data of stream) {
-      buffer += data;
+    const streamEventMessages = agents.createRunStreaming(thread.id, agent.id );
+    let hasEventMessages = false;
+
+    for await (const eventMessage of streamEventMessages) {
+      hasEventMessages = true;
+      switch (eventMessage.event) {
+        case RunStreamEvent.ThreadRunCreated:
+         console.log(( eventMessage.data as ThreadRunOutput).assistant_id)
+          break;
+        case MessageStreamEvent.ThreadMessageDelta:
+          console.log("Thread Message Delta");
+          break;
+        case RunStreamEvent.ThreadRunCompleted:
+          console.log("Thread Run Completed");
+          break
+      }
     }
-    assert.isNotNull(buffer);
-    assert.isNotNull(stream);
+    assert.isTrue(hasEventMessages);
+    assert.isNotNull(streamEventMessages);
   });
 
   // eslint-disable-next-line no-only-tests/no-only-tests
@@ -45,15 +57,26 @@ describe("Agents - streaming", () => {
       name: "My Friendly Test Assistant",
       instructions: "You are helpful agent",
     });
-    const stream = agents.createThreadAndRunStreaming({
-      assistant_id: agent.id,
+    const streamEventMessages = agents.createThreadAndRunStreaming(agent.id,{
       thread: { messages: [{ role: "user", content: "Hello, tell me a joke" }] },
     });
-    let buffer = "";
-    for await (const data of stream) {
-      buffer += data;
+
+    let hasEventMessages = false
+    for await (const eventMessage of streamEventMessages) {
+      hasEventMessages = true;
+      switch (eventMessage.event) {
+        case RunStreamEvent.ThreadRunCreated:
+          console.log("Thread Run Created");
+          break;
+        case MessageStreamEvent.ThreadMessageDelta:
+          console.log("Thread Message Delta");
+          break;
+        case RunStreamEvent.ThreadRunCompleted:
+          console.log("Thread Run Completed");
+          break
+      }
     }
-    assert.isNotNull(buffer);
-    assert.isNotNull(stream);
+    assert.isTrue(hasEventMessages);
+    assert.isNotNull(streamEventMessages);
   });
 });

@@ -5,6 +5,7 @@
 ```ts
 
 import { ClientOptions } from '@azure-rest/core-client';
+import { Paged } from '@azure/core-paging';
 import { Pipeline } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
@@ -26,39 +27,83 @@ export interface AgentOutput {
     model: string;
     name: string | null;
     object: "assistant";
-    // Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatOptionOutput" needs to be exported by the entry point index.d.ts
     response_format?: AgentsApiResponseFormatOptionOutput | null;
     temperature: number | null;
-    // Warning: (ae-forgotten-export) The symbol "ToolResourcesOutput" needs to be exported by the entry point index.d.ts
     tool_resources: ToolResourcesOutput | null;
-    // Warning: (ae-forgotten-export) The symbol "ToolDefinitionOutput" needs to be exported by the entry point index.d.ts
     tools: Array<ToolDefinitionOutput>;
     top_p: number | null;
 }
+
+// @public
+export interface AgentsApiResponseFormat {
+    type?: ApiResponseFormat;
+}
+
+// @public
+export type AgentsApiResponseFormatMode = string;
+
+// @public
+export type AgentsApiResponseFormatModeOutput = string;
+
+// @public
+export type AgentsApiResponseFormatOption = string | AgentsApiResponseFormatMode | AgentsApiResponseFormat;
+
+// @public
+export type AgentsApiResponseFormatOptionOutput = string | AgentsApiResponseFormatModeOutput | AgentsApiResponseFormatOutput;
+
+// @public
+export interface AgentsApiResponseFormatOutput {
+    type?: ApiResponseFormatOutput;
+}
+
+// @public
+export type AgentsApiToolChoiceOption = string | AgentsApiToolChoiceOptionMode | AgentsNamedToolChoice;
+
+// @public
+export type AgentsApiToolChoiceOptionMode = string;
+
+// @public
+export type AgentsApiToolChoiceOptionModeOutput = string;
+
+// @public
+export type AgentsApiToolChoiceOptionOutput = string | AgentsApiToolChoiceOptionModeOutput | AgentsNamedToolChoiceOutput;
+
+// @public
+export interface AgentsNamedToolChoice {
+    function?: FunctionName;
+    type: AgentsNamedToolChoiceType;
+}
+
+// @public
+export interface AgentsNamedToolChoiceOutput {
+    function?: FunctionNameOutput;
+    type: AgentsNamedToolChoiceTypeOutput;
+}
+
+// @public
+export type AgentsNamedToolChoiceType = string;
+
+// @public
+export type AgentsNamedToolChoiceTypeOutput = string;
 
 // @public (undocumented)
 export interface AgentsOperations {
     // Warning: (ae-forgotten-export) The symbol "CancelRunParameters" needs to be exported by the entry point index.d.ts
     cancelRun: (threadId: string, runId: string, options?: CancelRunParameters) => Promise<ThreadRunOutput>;
     createAgent: (options: CreateAgentOptions) => Promise<AgentOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ThreadMessageOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "ThreadMessageOutput" needs to be exported by the entry point index.d.ts
+    createAgentAlternative: (model: string, options?: Omit<CreateAgentOptions, "model">) => Promise<AgentOutput>;
     createMessage: (threadId: string, options: ThreadMessageOptions) => Promise<ThreadMessageOutput>;
     // Warning: (ae-forgotten-export) The symbol "CreateRunParameters" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "ThreadRunOutput" needs to be exported by the entry point index.d.ts
     createRun: (threadId: string, options: CreateRunParameters) => Promise<ThreadRunOutput>;
-    createRunStreaming: (threadId: string, options: CreateRunOptions) => AsyncIterable<AgentStreamEventMessage>;
-    // Warning: (ae-forgotten-export) The symbol "AgentThreadCreationOptions" needs to be exported by the entry point index.d.ts
+    createRunStreaming: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: RequestParameters) => AsyncIterable<AgentStreamEventMessage>;
     createThread: (options?: AgentThreadCreationOptions) => Promise<AgentThreadOutput>;
     // Warning: (ae-forgotten-export) The symbol "CreateThreadAndRunParameters" needs to be exported by the entry point index.d.ts
     createThreadAndRun: (options: CreateThreadAndRunParameters) => Promise<ThreadRunOutput>;
-    createThreadAndRunStreaming: (options: CreateAndRunThreadOptions) => AsyncIterable<AgentStreamEventMessage>;
+    createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: RequestParameters) => AsyncIterable<AgentStreamEventMessage>;
     deleteAgent: (assistantId: string) => Promise<AgentDeletionStatusOutput>;
     // Warning: (ae-forgotten-export) The symbol "DeleteFileParameters" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "FileDeletionStatusOutput" needs to be exported by the entry point index.d.ts
     deleteFile: (fileId: string, options?: DeleteFileParameters) => Promise<FileDeletionStatusOutput>;
     // Warning: (ae-forgotten-export) The symbol "DeleteThreadParameters" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "ThreadDeletionStatusOutput" needs to be exported by the entry point index.d.ts
     deleteThread: (threadId: string, options?: DeleteThreadParameters) => Promise<ThreadDeletionStatusOutput>;
     getAgent: (assistantId: string) => Promise<AgentOutput>;
     // Warning: (ae-forgotten-export) The symbol "GetFileParameters" needs to be exported by the entry point index.d.ts
@@ -70,15 +115,12 @@ export interface AgentsOperations {
     // Warning: (ae-forgotten-export) The symbol "GetThreadParameters" needs to be exported by the entry point index.d.ts
     getThread: (threadId: string, options?: GetThreadParameters) => Promise<AgentThreadOutput>;
     // Warning: (ae-forgotten-export) The symbol "ListAgentsQueryParamProperties" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "OpenAIPageableListOfAgentOutput" needs to be exported by the entry point index.d.ts
     listAgents: (options?: ListAgentsQueryParamProperties) => Promise<OpenAIPageableListOfAgentOutput>;
     // Warning: (ae-forgotten-export) The symbol "ListFilesParameters" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "FileListResponseOutput" needs to be exported by the entry point index.d.ts
     listFiles: (options?: ListFilesParameters) => Promise<FileListResponseOutput>;
     // Warning: (ae-forgotten-export) The symbol "ListMessagesParameters" needs to be exported by the entry point index.d.ts
     listMessages: (threadId: string, options?: ListMessagesParameters) => Promise<ThreadMessageOutput>;
     // Warning: (ae-forgotten-export) The symbol "ListRunsParameters" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "OpenAIPageableListOfThreadRunOutput" needs to be exported by the entry point index.d.ts
     listRuns: (threadId: string, options?: ListRunsParameters) => Promise<OpenAIPageableListOfThreadRunOutput>;
     // Warning: (ae-forgotten-export) The symbol "SubmitToolOutputsToRunParameters" needs to be exported by the entry point index.d.ts
     submitToolOutputsToRun: (threadId: string, runId: string, options: SubmitToolOutputsToRunParameters) => Promise<ThreadRunOutput>;
@@ -90,16 +132,25 @@ export interface AgentsOperations {
     // Warning: (ae-forgotten-export) The symbol "UpdateThreadParameters" needs to be exported by the entry point index.d.ts
     updateThread: (threadId: string, options: UpdateThreadParameters) => Promise<AgentThreadOutput>;
     // Warning: (ae-forgotten-export) The symbol "UploadFileParameters" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "OpenAIFileOutput" needs to be exported by the entry point index.d.ts
     uploadFile: (options: UploadFileParameters) => Promise<OpenAIFileOutput>;
 }
 
 // @public (undocumented)
 export interface AgentStreamEventMessage {
     // (undocumented)
-    data: any;
+    data: AgentThreadOutput | ThreadRunOutput | RunStepOutput | ThreadMessageOutput | MessageDeltaChunk | RunStepDeltaChunk | string;
     // (undocumented)
-    eventType: string;
+    event: AgentStreamEventType | string;
+}
+
+// @public (undocumented)
+export type AgentStreamEventType = ThreadStreamEvent | RunStreamEvent | RunStepStreamEvent | MessageStreamEvent | ErrorEvent | DoneEvent;
+
+// @public
+export interface AgentThreadCreationOptions {
+    messages?: Array<ThreadMessageOptions>;
+    metadata?: Record<string, string> | null;
+    tool_resources?: ToolResources | null;
 }
 
 // @public
@@ -113,13 +164,105 @@ export interface AgentThreadOutput {
 
 // @public (undocumented)
 export class AIProjectsClient {
-    // Warning: (ae-forgotten-export) The symbol "AIProjectsClientOptions" needs to be exported by the entry point index.d.ts
     constructor(endpointParam: string, subscriptionId: string, resourceGroupName: string, projectName: string, credential: TokenCredential, options?: AIProjectsClientOptions);
     readonly agents: AgentsOperations;
-    // Warning: (ae-forgotten-export) The symbol "CreateProjectsClient" needs to be exported by the entry point index.d.ts
-    static fromConnectionString(connectionString: string, credential: TokenCredential, options?: CreateProjectsClient): AIProjectsClient;
+    static fromConnectionString(connectionString: string, credential: TokenCredential, options?: AIProjectsClientOptions): AIProjectsClient;
     readonly pipeline: Pipeline;
 }
+
+// @public (undocumented)
+export interface AIProjectsClientOptions extends ProjectsClientOptions {
+}
+
+// @public
+export type ApiResponseFormat = string;
+
+// @public
+export type ApiResponseFormatOutput = string;
+
+// @public
+export interface AppInsightsPropertiesOutput {
+    ConnectionString: string;
+}
+
+// @public
+export interface ApplicationInsightsConfiguration extends InputDataParent {
+    connectionString?: string;
+    query: string;
+    resourceId: string;
+    serviceName: string;
+}
+
+// @public
+export interface ApplicationInsightsConfigurationOutput extends InputDataOutputParent {
+    connectionString?: string;
+    query: string;
+    resourceId: string;
+    serviceName: string;
+    // (undocumented)
+    readonly type: "app_insights";
+}
+
+// @public
+export type AuthenticationTypeOutput = "ApiKey" | "AAD" | "SAS";
+
+// @public
+export interface AzureAISearchResource {
+    indexes?: Array<IndexResource>;
+}
+
+// @public
+export interface AzureAISearchResourceOutput {
+    indexes?: Array<IndexResourceOutput>;
+}
+
+// @public
+export interface AzureAISearchToolDefinition extends ToolDefinitionParent {
+    type: "azure_ai_search";
+}
+
+// @public
+export interface AzureAISearchToolDefinitionOutput extends ToolDefinitionOutputParent {
+    type: "azure_ai_search";
+}
+
+// @public
+export interface BingGroundingToolDefinition extends ToolDefinitionParent {
+    bing_grounding: ToolConnectionList;
+    type: "bing_grounding";
+}
+
+// @public
+export interface BingGroundingToolDefinitionOutput extends ToolDefinitionOutputParent {
+    bing_grounding: ToolConnectionListOutput;
+    type: "bing_grounding";
+}
+
+// @public
+export interface CodeInterpreterToolDefinition extends ToolDefinitionParent {
+    type: "code_interpreter";
+}
+
+// @public
+export interface CodeInterpreterToolDefinitionOutput extends ToolDefinitionOutputParent {
+    type: "code_interpreter";
+}
+
+// @public
+export interface CodeInterpreterToolResource {
+    file_ids?: string[];
+}
+
+// @public
+export interface CodeInterpreterToolResourceOutput {
+    file_ids?: string[];
+}
+
+// @public
+export type ConnectionType = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AIServices" | "CognitiveSearch";
+
+// @public
+export type ConnectionTypeOutput = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AIServices" | "CognitiveSearch";
 
 // @public
 export interface CreateAgentOptions {
@@ -128,12 +271,9 @@ export interface CreateAgentOptions {
     metadata?: Record<string, string> | null;
     model: string;
     name?: string | null;
-    // Warning: (ae-forgotten-export) The symbol "AgentsApiResponseFormatOption" needs to be exported by the entry point index.d.ts
     response_format?: AgentsApiResponseFormatOption | null;
     temperature?: number | null;
-    // Warning: (ae-forgotten-export) The symbol "ToolResources" needs to be exported by the entry point index.d.ts
     tool_resources?: ToolResources | null;
-    // Warning: (ae-forgotten-export) The symbol "ToolDefinition" needs to be exported by the entry point index.d.ts
     tools?: Array<ToolDefinition>;
     top_p?: number | null;
 }
@@ -150,20 +290,16 @@ export interface CreateAndRunThreadOptions {
     stream?: boolean;
     temperature?: number | null;
     thread?: AgentThreadCreationOptions;
-    // Warning: (ae-forgotten-export) The symbol "AgentsApiToolChoiceOption" needs to be exported by the entry point index.d.ts
     tool_choice?: AgentsApiToolChoiceOption | null;
-    // Warning: (ae-forgotten-export) The symbol "UpdateToolResourcesOptions" needs to be exported by the entry point index.d.ts
     tool_resources?: UpdateToolResourcesOptions | null;
     tools?: Array<ToolDefinition> | null;
     top_p?: number | null;
-    // Warning: (ae-forgotten-export) The symbol "TruncationObject" needs to be exported by the entry point index.d.ts
     truncation_strategy?: TruncationObject | null;
 }
 
 // @public
 export interface CreateRunOptions {
     additional_instructions?: string | null;
-    // Warning: (ae-forgotten-export) The symbol "ThreadMessage" needs to be exported by the entry point index.d.ts
     additional_messages?: Array<ThreadMessage> | null;
     assistant_id: string;
     instructions?: string | null;
@@ -181,6 +317,1239 @@ export interface CreateRunOptions {
 }
 
 // @public
+export interface CredentialsApiKeyAuthOutput {
+    key: string;
+}
+
+// @public
+export interface CredentialsSASAuthOutput {
+    SAS: string;
+}
+
+// @public
+export interface CronTrigger extends TriggerParent {
+    expression: string;
+}
+
+// @public
+export interface CronTriggerOutput extends TriggerOutputParent {
+    expression: string;
+    // (undocumented)
+    readonly type: "Cron";
+}
+
+// @public
+export interface Dataset extends InputDataParent {
+    id: string;
+}
+
+// @public
+export interface DatasetOutput extends InputDataOutputParent {
+    id: string;
+    // (undocumented)
+    readonly type: "dataset";
+}
+
+// @public
+export enum DoneEvent {
+    Done = "done"
+}
+
+// @public
+export enum ErrorEvent {
+    Error = "error"
+}
+
+// @public
+export interface Evaluation {
+    data: InputData;
+    description?: string;
+    displayName?: string;
+    evaluators: Record<string, EvaluatorConfiguration>;
+    properties?: Record<string, string>;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface EvaluationOutput {
+    data: InputDataOutput;
+    description?: string;
+    displayName?: string;
+    evaluators: Record<string, EvaluatorConfigurationOutput>;
+    readonly id: string;
+    properties?: Record<string, string>;
+    readonly status?: string;
+    readonly systemData?: SystemDataOutput;
+    tags?: Record<string, string>;
+}
+
+// @public
+export interface EvaluationSchedule {
+    data: ApplicationInsightsConfiguration;
+    description?: string;
+    evaluators: Record<string, EvaluatorConfiguration>;
+    properties?: Record<string, string>;
+    tags?: Record<string, string>;
+    trigger: Trigger;
+}
+
+// @public
+export interface EvaluationScheduleOutput {
+    data: ApplicationInsightsConfigurationOutput;
+    description?: string;
+    evaluators: Record<string, EvaluatorConfigurationOutput>;
+    readonly name: string;
+    properties?: Record<string, string>;
+    readonly provisioningStatus?: string;
+    readonly systemData?: SystemDataOutput;
+    tags?: Record<string, string>;
+    trigger: TriggerOutput;
+}
+
+// @public
+export interface EvaluatorConfiguration {
+    dataMapping?: Record<string, string>;
+    id: string;
+    initParams?: Record<string, unknown>;
+}
+
+// @public
+export interface EvaluatorConfigurationOutput {
+    dataMapping?: Record<string, string>;
+    id: string;
+    initParams?: Record<string, any>;
+}
+
+// @public
+export interface FileDeletionStatusOutput {
+    deleted: boolean;
+    id: string;
+    object: "file";
+}
+
+// @public
+export interface FileListResponseOutput {
+    data: Array<OpenAIFileOutput>;
+    object: "list";
+}
+
+// @public
+export type FilePurpose = string;
+
+// @public
+export type FilePurposeOutput = string;
+
+// @public
+export interface FileSearchToolDefinition extends ToolDefinitionParent {
+    file_search?: FileSearchToolDefinitionDetails;
+    type: "file_search";
+}
+
+// @public
+export interface FileSearchToolDefinitionDetails {
+    max_num_results?: number;
+}
+
+// @public
+export interface FileSearchToolDefinitionDetailsOutput {
+    max_num_results?: number;
+}
+
+// @public
+export interface FileSearchToolDefinitionOutput extends ToolDefinitionOutputParent {
+    file_search?: FileSearchToolDefinitionDetailsOutput;
+    type: "file_search";
+}
+
+// @public
+export interface FileSearchToolResource {
+    vector_store_ids?: string[];
+}
+
+// @public
+export interface FileSearchToolResourceOutput {
+    vector_store_ids?: string[];
+}
+
+// @public
+export type FileStateOutput = string;
+
+// @public
+export type Frequency = string;
+
+// @public
+export type FrequencyOutput = string;
+
+// @public
+export interface FunctionDefinition {
+    description?: string;
+    name: string;
+    parameters: unknown;
+}
+
+// @public
+export interface FunctionDefinitionOutput {
+    description?: string;
+    name: string;
+    parameters: any;
+}
+
+// @public
+export interface FunctionName {
+    name: string;
+}
+
+// @public
+export interface FunctionNameOutput {
+    name: string;
+}
+
+// @public
+export interface FunctionToolDefinition extends ToolDefinitionParent {
+    function: FunctionDefinition;
+    type: "function";
+}
+
+// @public
+export interface FunctionToolDefinitionOutput extends ToolDefinitionOutputParent {
+    function: FunctionDefinitionOutput;
+    type: "function";
+}
+
+// @public
+export interface GetAppInsightsResponseOutput {
+    id: string;
+    name: string;
+    properties: AppInsightsPropertiesOutput;
+}
+
+// @public
+export interface GetConnectionResponseOutput {
+    id: string;
+    name: string;
+    properties: InternalConnectionPropertiesOutput;
+}
+
+// @public
+export interface GetWorkspaceResponseOutput {
+    id: string;
+    name: string;
+    properties: WorkspacePropertiesOutput;
+}
+
+// @public
+export type IncompleteRunDetailsOutput = string;
+
+// @public
+export interface IndexResource {
+    index_connection_id: string;
+    index_name: string;
+}
+
+// @public
+export interface IndexResourceOutput {
+    index_connection_id: string;
+    index_name: string;
+}
+
+// @public
+export type InputData = InputDataParent | ApplicationInsightsConfiguration | Dataset;
+
+// @public
+export type InputDataOutput = InputDataOutputParent | ApplicationInsightsConfigurationOutput | DatasetOutput;
+
+// @public
+export interface InputDataOutputParent {
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface InputDataParent {
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface InternalConnectionPropertiesAADAuthOutput extends InternalConnectionPropertiesOutputParent {
+    authType: "AAD";
+    category: ConnectionTypeOutput;
+    target: string;
+}
+
+// @public
+export interface InternalConnectionPropertiesApiKeyAuthOutput extends InternalConnectionPropertiesOutputParent {
+    authType: "ApiKey";
+    category: ConnectionTypeOutput;
+    credentials: CredentialsApiKeyAuthOutput;
+    target: string;
+}
+
+// @public
+export type InternalConnectionPropertiesOutput = InternalConnectionPropertiesOutputParent | InternalConnectionPropertiesApiKeyAuthOutput | InternalConnectionPropertiesAADAuthOutput | InternalConnectionPropertiesSASAuthOutput;
+
+// @public
+export interface InternalConnectionPropertiesOutputParent {
+    // (undocumented)
+    authType: AuthenticationTypeOutput;
+}
+
+// @public
+export interface InternalConnectionPropertiesSASAuthOutput extends InternalConnectionPropertiesOutputParent {
+    authType: "SAS";
+    category: ConnectionTypeOutput;
+    credentials: CredentialsSASAuthOutput;
+    target: string;
+}
+
+// @public
+export interface ListConnectionsResponseOutput {
+    value: Array<GetConnectionResponseOutput>;
+}
+
+// @public
+export type ListSortOrder = string;
+
+// @public
+export interface MessageAttachment {
+    file_id: string;
+    tools: MessageAttachmentToolDefinition[];
+}
+
+// @public
+export interface MessageAttachmentOutput {
+    file_id: string;
+    tools: MessageAttachmentToolDefinitionOutput[];
+}
+
+// @public
+export type MessageAttachmentToolDefinition = CodeInterpreterToolDefinition | FileSearchToolDefinition;
+
+// @public
+export type MessageAttachmentToolDefinitionOutput = CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput;
+
+// @public
+export type MessageContent = MessageContentParent | MessageTextContent | MessageImageFileContent;
+
+// @public
+export type MessageContentOutput = MessageContentOutputParent | MessageTextContentOutput | MessageImageFileContentOutput;
+
+// @public
+export interface MessageContentOutputParent {
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface MessageContentParent {
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface MessageDelta {
+    content: MessageDeltaContent[];
+    role: MessageRole;
+}
+
+// @public
+export interface MessageDeltaChunk {
+    delta: MessageDelta;
+    id: string;
+    object: "thread.message.delta";
+}
+
+// @public
+export interface MessageDeltaContent {
+    index: number;
+    type: string;
+}
+
+// @public
+export interface MessageDeltaImageFileContent extends MessageDeltaContent {
+    imageFile?: MessageDeltaImageFileContentObject;
+    type: "image_file";
+}
+
+// @public
+export interface MessageDeltaImageFileContentObject {
+    fileId?: string;
+}
+
+// @public
+export interface MessageDeltaTextAnnotation {
+    index: number;
+    type: string;
+}
+
+// @public
+export interface MessageDeltaTextContent extends MessageDeltaContent {
+    text?: MessageDeltaTextContentObject;
+    type: "text";
+}
+
+// @public
+export interface MessageDeltaTextContentObject {
+    annotations?: MessageDeltaTextAnnotation[];
+    value?: string;
+}
+
+// @public
+export interface MessageDeltaTextFileCitationAnnotation extends MessageDeltaTextAnnotation {
+    endIndex?: number;
+    fileCitation?: MessageDeltaTextFileCitationAnnotationObject;
+    startIndex?: number;
+    text?: string;
+    type: "file_citation";
+}
+
+// @public
+export interface MessageDeltaTextFileCitationAnnotationObject {
+    fileId?: string;
+    quote?: string;
+}
+
+// @public
+export interface MessageDeltaTextFilePathAnnotation extends MessageDeltaTextAnnotation {
+    endIndex?: number;
+    filePath?: MessageDeltaTextFilePathAnnotationObject;
+    startIndex?: number;
+    text?: string;
+    type: "file_path";
+}
+
+// @public
+export interface MessageDeltaTextFilePathAnnotationObject {
+    fileId?: string;
+}
+
+// @public
+export interface MessageDeltaTextUrlCitationDetails {
+    title?: string;
+    url?: string;
+}
+
+// @public
+export interface MessageImageFileContent extends MessageContentParent {
+    image_file: MessageImageFileDetails;
+    type: "image_file";
+}
+
+// @public
+export interface MessageImageFileContentOutput extends MessageContentOutputParent {
+    image_file: MessageImageFileDetailsOutput;
+    type: "image_file";
+}
+
+// @public
+export interface MessageImageFileDetails {
+    file_id: string;
+}
+
+// @public
+export interface MessageImageFileDetailsOutput {
+    file_id: string;
+}
+
+// @public
+export interface MessageIncompleteDetails {
+    reason: MessageIncompleteDetailsReason;
+}
+
+// @public
+export interface MessageIncompleteDetailsOutput {
+    reason: MessageIncompleteDetailsReasonOutput;
+}
+
+// @public
+export type MessageIncompleteDetailsReason = string;
+
+// @public
+export type MessageIncompleteDetailsReasonOutput = string;
+
+// @public
+export type MessageRole = string;
+
+// @public
+export type MessageRoleOutput = string;
+
+// @public
+export type MessageStatus = string;
+
+// @public
+export type MessageStatusOutput = string;
+
+// @public
+export enum MessageStreamEvent {
+    ThreadMessageCompleted = "thread.message.completed",
+    ThreadMessageCreated = "thread.message.created",
+    ThreadMessageDelta = "thread.message.delta",
+    ThreadMessageIncomplete = "thread.message.incomplete",
+    ThreadMessageInProgress = "thread.message.in_progress"
+}
+
+// @public
+export type MessageTextAnnotation = MessageTextAnnotationParent | MessageTextFileCitationAnnotation | MessageTextFilePathAnnotation;
+
+// @public
+export type MessageTextAnnotationOutput = MessageTextAnnotationOutputParent | MessageTextFileCitationAnnotationOutput | MessageTextFilePathAnnotationOutput;
+
+// @public
+export interface MessageTextAnnotationOutputParent {
+    text: string;
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface MessageTextAnnotationParent {
+    text: string;
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface MessageTextContent extends MessageContentParent {
+    text: MessageTextDetails;
+    type: "text";
+}
+
+// @public
+export interface MessageTextContentOutput extends MessageContentOutputParent {
+    text: MessageTextDetailsOutput;
+    type: "text";
+}
+
+// @public
+export interface MessageTextDetails {
+    annotations: Array<MessageTextAnnotation>;
+    value: string;
+}
+
+// @public
+export interface MessageTextDetailsOutput {
+    annotations: Array<MessageTextAnnotationOutput>;
+    value: string;
+}
+
+// @public
+export interface MessageTextFileCitationAnnotation extends MessageTextAnnotationParent {
+    end_index?: number;
+    file_citation: MessageTextFileCitationDetails;
+    start_index?: number;
+    type: "file_citation";
+}
+
+// @public
+export interface MessageTextFileCitationAnnotationOutput extends MessageTextAnnotationOutputParent {
+    end_index?: number;
+    file_citation: MessageTextFileCitationDetailsOutput;
+    start_index?: number;
+    type: "file_citation";
+}
+
+// @public
+export interface MessageTextFileCitationDetails {
+    file_id: string;
+    quote: string;
+}
+
+// @public
+export interface MessageTextFileCitationDetailsOutput {
+    file_id: string;
+    quote: string;
+}
+
+// @public
+export interface MessageTextFilePathAnnotation extends MessageTextAnnotationParent {
+    end_index?: number;
+    file_path: MessageTextFilePathDetails;
+    start_index?: number;
+    type: "file_path";
+}
+
+// @public
+export interface MessageTextFilePathAnnotationOutput extends MessageTextAnnotationOutputParent {
+    end_index?: number;
+    file_path: MessageTextFilePathDetailsOutput;
+    start_index?: number;
+    type: "file_path";
+}
+
+// @public
+export interface MessageTextFilePathDetails {
+    file_id: string;
+}
+
+// @public
+export interface MessageTextFilePathDetailsOutput {
+    file_id: string;
+}
+
+// @public
+export interface MicrosoftFabricToolDefinition extends ToolDefinitionParent {
+    microsoft_fabric: ToolConnectionList;
+    type: "microsoft_fabric";
+}
+
+// @public
+export interface MicrosoftFabricToolDefinitionOutput extends ToolDefinitionOutputParent {
+    microsoft_fabric: ToolConnectionListOutput;
+    type: "microsoft_fabric";
+}
+
+// @public
+export interface OpenAIFileOutput {
+    bytes: number;
+    created_at: number;
+    filename: string;
+    id: string;
+    object: "file";
+    purpose: FilePurposeOutput;
+    status?: FileStateOutput;
+    status_details?: string;
+}
+
+// @public
+export interface OpenAIPageableListOfAgentOutput {
+    data: Array<AgentOutput>;
+    first_id: string;
+    has_more: boolean;
+    last_id: string;
+    object: "list";
+}
+
+// @public
+export interface OpenAIPageableListOfRunStepOutput {
+    data: Array<RunStepOutput>;
+    first_id: string;
+    has_more: boolean;
+    last_id: string;
+    object: "list";
+}
+
+// @public
+export interface OpenAIPageableListOfThreadMessageOutput {
+    data: Array<ThreadMessageOutput>;
+    first_id: string;
+    has_more: boolean;
+    last_id: string;
+    object: "list";
+}
+
+// @public
+export interface OpenAIPageableListOfThreadRunOutput {
+    data: Array<ThreadRunOutput>;
+    first_id: string;
+    has_more: boolean;
+    last_id: string;
+    object: "list";
+}
+
+// @public
+export interface OpenAIPageableListOfVectorStoreFileOutput {
+    data: Array<VectorStoreFileOutput>;
+    first_id: string;
+    has_more: boolean;
+    last_id: string;
+    object: "list";
+}
+
+// @public
+export interface OpenAIPageableListOfVectorStoreOutput {
+    data: Array<VectorStoreOutput>;
+    first_id: string;
+    has_more: boolean;
+    last_id: string;
+    object: "list";
+}
+
+// @public
+export type PagedEvaluationOutput = Paged<EvaluationOutput>;
+
+// @public
+export type PagedEvaluationScheduleOutput = Paged<EvaluationScheduleOutput>;
+
+// @public
+export interface ProjectsClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
+export interface RecurrenceSchedule {
+    hours: number[];
+    minutes: number[];
+    monthDays?: number[];
+    weekDays?: WeekDays[];
+}
+
+// @public
+export interface RecurrenceScheduleOutput {
+    hours: number[];
+    minutes: number[];
+    monthDays?: number[];
+    weekDays?: WeekDaysOutput[];
+}
+
+// @public
+export interface RecurrenceTrigger extends TriggerParent {
+    frequency: Frequency;
+    interval: number;
+    schedule?: RecurrenceSchedule;
+}
+
+// @public
+export interface RecurrenceTriggerOutput extends TriggerOutputParent {
+    frequency: FrequencyOutput;
+    interval: number;
+    schedule?: RecurrenceScheduleOutput;
+    // (undocumented)
+    readonly type: "Recurrence";
+}
+
+// @public
+export type RequiredActionOutput = RequiredActionOutputParent | SubmitToolOutputsActionOutput;
+
+// @public
+export interface RequiredActionOutputParent {
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface RequiredFunctionToolCallDetailsOutput {
+    arguments: string;
+    name: string;
+}
+
+// @public
+export interface RequiredFunctionToolCallOutput extends RequiredToolCallOutputParent {
+    function: RequiredFunctionToolCallDetailsOutput;
+    type: "function";
+}
+
+// @public
+export type RequiredToolCallOutput = RequiredToolCallOutputParent | RequiredFunctionToolCallOutput;
+
+// @public
+export interface RequiredToolCallOutputParent {
+    id: string;
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface RunCompletionUsageOutput {
+    completion_tokens: number;
+    prompt_tokens: number;
+    total_tokens: number;
+}
+
+// @public
+export interface RunErrorOutput {
+    code: string;
+    message: string;
+}
+
+// @public
+export type RunStatusOutput = string;
+
+// @public
+export interface RunStepAzureAISearchToolCallOutput extends RunStepToolCallOutputParent {
+    azure_ai_search: Record<string, string>;
+    type: "azure_ai_search";
+}
+
+// @public
+export interface RunStepBingGroundingToolCallOutput extends RunStepToolCallOutputParent {
+    bing_grounding: Record<string, string>;
+    type: "bing_grounding";
+}
+
+// @public
+export interface RunStepCodeInterpreterImageOutputOutput extends RunStepCodeInterpreterToolCallOutputOutputParent {
+    image: RunStepCodeInterpreterImageReferenceOutput;
+    type: "image";
+}
+
+// @public
+export interface RunStepCodeInterpreterImageReferenceOutput {
+    file_id: string;
+}
+
+// @public
+export interface RunStepCodeInterpreterLogOutputOutput extends RunStepCodeInterpreterToolCallOutputOutputParent {
+    logs: string;
+    type: "logs";
+}
+
+// @public
+export interface RunStepCodeInterpreterToolCallDetailsOutput {
+    input: string;
+    outputs: Array<RunStepCodeInterpreterToolCallOutputOutput>;
+}
+
+// @public
+export interface RunStepCodeInterpreterToolCallOutput extends RunStepToolCallOutputParent {
+    code_interpreter: RunStepCodeInterpreterToolCallDetailsOutput;
+    type: "code_interpreter";
+}
+
+// @public
+export type RunStepCodeInterpreterToolCallOutputOutput = RunStepCodeInterpreterToolCallOutputOutputParent | RunStepCodeInterpreterLogOutputOutput | RunStepCodeInterpreterImageOutputOutput;
+
+// @public
+export interface RunStepCodeInterpreterToolCallOutputOutputParent {
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface RunStepCompletionUsageOutput {
+    completion_tokens: number;
+    prompt_tokens: number;
+    total_tokens: number;
+}
+
+// @public
+export interface RunStepDelta {
+    stepDetails?: RunStepDeltaDetail;
+}
+
+// @public
+export interface RunStepDeltaChunk {
+    delta: RunStepDelta;
+    id: string;
+    object: "thread.run.step.delta";
+}
+
+// @public
+export interface RunStepDeltaCodeInterpreterDetailItemObject {
+    input?: string;
+    outputs?: RunStepDeltaCodeInterpreterOutput[];
+}
+
+// @public
+export interface RunStepDeltaCodeInterpreterImageOutput extends RunStepDeltaCodeInterpreterOutput {
+    image?: RunStepDeltaCodeInterpreterImageOutputObject;
+    type: "image";
+}
+
+// @public
+export interface RunStepDeltaCodeInterpreterImageOutputObject {
+    fileId?: string;
+}
+
+// @public
+export interface RunStepDeltaCodeInterpreterLogOutput extends RunStepDeltaCodeInterpreterOutput {
+    logs?: string;
+    type: "logs";
+}
+
+// @public
+export interface RunStepDeltaCodeInterpreterOutput {
+    index: number;
+    type: string;
+}
+
+// @public
+export interface RunStepDeltaCodeInterpreterToolCall extends RunStepDeltaToolCall {
+    codeInterpreter?: RunStepDeltaCodeInterpreterDetailItemObject;
+    type: "code_interpreter";
+}
+
+// @public
+export interface RunStepDeltaDetail {
+    type: string;
+}
+
+// @public
+export interface RunStepDeltaFileSearchToolCall extends RunStepDeltaToolCall {
+    fileSearch?: Array<string>;
+    type: "file_search";
+}
+
+// @public
+export interface RunStepDeltaFunction {
+    arguments?: string;
+    name?: string;
+    output?: string | null;
+}
+
+// @public
+export interface RunStepDeltaFunctionToolCall extends RunStepDeltaToolCall {
+    function?: RunStepDeltaFunction;
+    type: "function";
+}
+
+// @public
+export interface RunStepDeltaMessageCreation extends RunStepDeltaDetail {
+    messageCreation?: RunStepDeltaMessageCreationObject;
+    type: "message_creation";
+}
+
+// @public
+export interface RunStepDeltaMessageCreationObject {
+    messageId?: string;
+}
+
+// @public
+export interface RunStepDeltaToolCall {
+    id: string;
+    index: number;
+    type: string;
+}
+
+// @public
+export interface RunStepDeltaToolCallObject extends RunStepDeltaDetail {
+    toolCalls?: RunStepDeltaToolCall[];
+    type: "tool_calls";
+}
+
+// @public
+export type RunStepDetailsOutput = RunStepDetailsOutputParent | RunStepMessageCreationDetailsOutput | RunStepToolCallDetailsOutput;
+
+// @public
+export interface RunStepDetailsOutputParent {
+    // (undocumented)
+    type: RunStepTypeOutput;
+}
+
+// @public
+export type RunStepErrorCodeOutput = string;
+
+// @public
+export interface RunStepErrorOutput {
+    code: RunStepErrorCodeOutput;
+    message: string;
+}
+
+// @public
+export interface RunStepFileSearchToolCallOutput extends RunStepToolCallOutputParent {
+    file_search: Record<string, string>;
+    type: "file_search";
+}
+
+// @public
+export interface RunStepFunctionToolCallDetailsOutput {
+    arguments: string;
+    name: string;
+    output: string | null;
+}
+
+// @public
+export interface RunStepFunctionToolCallOutput extends RunStepToolCallOutputParent {
+    function: RunStepFunctionToolCallDetailsOutput;
+    type: "function";
+}
+
+// @public
+export interface RunStepMessageCreationDetailsOutput extends RunStepDetailsOutputParent {
+    message_creation: RunStepMessageCreationReferenceOutput;
+    type: "message_creation";
+}
+
+// @public
+export interface RunStepMessageCreationReferenceOutput {
+    message_id: string;
+}
+
+// @public
+export interface RunStepMicrosoftFabricToolCallOutput extends RunStepToolCallOutputParent {
+    microsoft_fabric: Record<string, string>;
+    type: "microsoft_fabric";
+}
+
+// @public
+export interface RunStepOutput {
+    assistant_id: string;
+    cancelled_at: number | null;
+    completed_at: number | null;
+    created_at: number;
+    expired_at: number | null;
+    failed_at: number | null;
+    id: string;
+    last_error: RunStepErrorOutput | null;
+    metadata: Record<string, string> | null;
+    object: "thread.run.step";
+    run_id: string;
+    status: RunStepStatusOutput;
+    step_details: RunStepDetailsOutput;
+    thread_id: string;
+    type: RunStepTypeOutput;
+    usage?: RunStepCompletionUsageOutput | null;
+}
+
+// @public
+export interface RunStepSharepointToolCallOutput extends RunStepToolCallOutputParent {
+    sharepoint_grounding: Record<string, string>;
+    type: "sharepoint_grounding";
+}
+
+// @public
+export type RunStepStatusOutput = string;
+
+// @public
+export enum RunStepStreamEvent {
+    ThreadRunStepCancelled = "thread.run.step.cancelled",
+    ThreadRunStepCompleted = "thread.run.step.completed",
+    ThreadRunStepCreated = "thread.run.step.created",
+    ThreadRunStepDelta = "thread.run.step.delta",
+    ThreadRunStepExpired = "thread.run.step.expired",
+    ThreadRunStepFailed = "thread.run.step.failed",
+    ThreadRunStepInProgress = "thread.run.step.in_progress"
+}
+
+// @public
+export interface RunStepToolCallDetailsOutput extends RunStepDetailsOutputParent {
+    tool_calls: Array<RunStepToolCallOutput>;
+    type: "tool_calls";
+}
+
+// @public
+export type RunStepToolCallOutput = RunStepToolCallOutputParent | RunStepCodeInterpreterToolCallOutput | RunStepFileSearchToolCallOutput | RunStepBingGroundingToolCallOutput | RunStepAzureAISearchToolCallOutput | RunStepSharepointToolCallOutput | RunStepMicrosoftFabricToolCallOutput | RunStepFunctionToolCallOutput;
+
+// @public
+export interface RunStepToolCallOutputParent {
+    id: string;
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export type RunStepTypeOutput = string;
+
+// @public
+export enum RunStreamEvent {
+    ThreadRunCancelled = "thread.run.cancelled",
+    ThreadRunCancelling = "thread.run.cancelling",
+    ThreadRunCompleted = "thread.run.completed",
+    ThreadRunCreated = "thread.run.created",
+    ThreadRunExpired = "thread.run.expired",
+    ThreadRunFailed = "thread.run.failed",
+    ThreadRunInProgress = "thread.run.in_progress",
+    ThreadRunQueued = "thread.run.queued",
+    ThreadRunRequiresAction = "thread.run.requires_action"
+}
+
+// @public
+export interface SharepointToolDefinition extends ToolDefinitionParent {
+    sharepoint_grounding: ToolConnectionList;
+    type: "sharepoint_grounding";
+}
+
+// @public
+export interface SharepointToolDefinitionOutput extends ToolDefinitionOutputParent {
+    sharepoint_grounding: ToolConnectionListOutput;
+    type: "sharepoint_grounding";
+}
+
+// @public
+export interface SubmitToolOutputsActionOutput extends RequiredActionOutputParent {
+    submit_tool_outputs: SubmitToolOutputsDetailsOutput;
+    type: "submit_tool_outputs";
+}
+
+// @public
+export interface SubmitToolOutputsDetailsOutput {
+    tool_calls: Array<RequiredToolCallOutput>;
+}
+
+// @public
+export interface SystemData {
+}
+
+// @public
+export interface SystemDataOutput {
+    readonly createdAt?: string;
+    readonly createdBy?: string;
+    readonly createdByType?: string;
+    readonly lastModifiedAt?: string;
+}
+
+// @public
+export interface ThreadDeletionStatusOutput {
+    deleted: boolean;
+    id: string;
+    object: "thread.deleted";
+}
+
+// @public
+export interface ThreadMessage {
+    assistant_id: string | null;
+    attachments: Array<MessageAttachment> | null;
+    completed_at: number | null;
+    content: Array<MessageContent>;
+    created_at: number;
+    id: string;
+    incomplete_at: number | null;
+    incomplete_details: MessageIncompleteDetails | null;
+    metadata: Record<string, string> | null;
+    object: "thread.message";
+    role: MessageRole;
+    run_id: string | null;
+    status: MessageStatus;
+    thread_id: string;
+}
+
+// @public
+export interface ThreadMessageOptions {
+    attachments?: Array<MessageAttachment> | null;
+    content: string;
+    metadata?: Record<string, string> | null;
+    role: MessageRole;
+}
+
+// @public
+export interface ThreadMessageOutput {
+    assistant_id: string | null;
+    attachments: Array<MessageAttachmentOutput> | null;
+    completed_at: number | null;
+    content: Array<MessageContentOutput>;
+    created_at: number;
+    id: string;
+    incomplete_at: number | null;
+    incomplete_details: MessageIncompleteDetailsOutput | null;
+    metadata: Record<string, string> | null;
+    object: "thread.message";
+    role: MessageRoleOutput;
+    run_id: string | null;
+    status: MessageStatusOutput;
+    thread_id: string;
+}
+
+// @public
+export interface ThreadRunOutput {
+    assistant_id: string;
+    cancelled_at: number | null;
+    completed_at: number | null;
+    created_at: number;
+    expires_at: number | null;
+    failed_at: number | null;
+    id: string;
+    incomplete_details: IncompleteRunDetailsOutput | null;
+    instructions: string;
+    last_error: RunErrorOutput | null;
+    max_completion_tokens: number | null;
+    max_prompt_tokens: number | null;
+    metadata: Record<string, string> | null;
+    model: string;
+    object: "thread.run";
+    parallelToolCalls?: boolean;
+    required_action?: RequiredActionOutput | null;
+    response_format: AgentsApiResponseFormatOptionOutput | null;
+    started_at: number | null;
+    status: RunStatusOutput;
+    temperature?: number | null;
+    thread_id: string;
+    tool_choice: AgentsApiToolChoiceOptionOutput | null;
+    tool_resources?: UpdateToolResourcesOptionsOutput | null;
+    tools: Array<ToolDefinitionOutput>;
+    top_p?: number | null;
+    truncation_strategy: TruncationObjectOutput | null;
+    usage: RunCompletionUsageOutput | null;
+}
+
+// @public
+export enum ThreadStreamEvent {
+    ThreadCreated = "thread.created"
+}
+
+// @public
+export interface ToolConnection {
+    connection_id: string;
+}
+
+// @public
+export interface ToolConnectionList {
+    connections?: Array<ToolConnection>;
+}
+
+// @public
+export interface ToolConnectionListOutput {
+    connections?: Array<ToolConnectionOutput>;
+}
+
+// @public
+export interface ToolConnectionOutput {
+    connection_id: string;
+}
+
+// @public
+export type ToolDefinition = ToolDefinitionParent | CodeInterpreterToolDefinition | FileSearchToolDefinition | FunctionToolDefinition | BingGroundingToolDefinition | MicrosoftFabricToolDefinition | SharepointToolDefinition | AzureAISearchToolDefinition;
+
+// @public
+export type ToolDefinitionOutput = ToolDefinitionOutputParent | CodeInterpreterToolDefinitionOutput | FileSearchToolDefinitionOutput | FunctionToolDefinitionOutput | BingGroundingToolDefinitionOutput | MicrosoftFabricToolDefinitionOutput | SharepointToolDefinitionOutput | AzureAISearchToolDefinitionOutput;
+
+// @public
+export interface ToolDefinitionOutputParent {
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface ToolDefinitionParent {
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface ToolOutput {
+    output?: string;
+    tool_call_id?: string;
+}
+
+// @public
+export interface ToolResources {
+    azure_ai_search?: AzureAISearchResource;
+    code_interpreter?: CodeInterpreterToolResource;
+    file_search?: FileSearchToolResource;
+}
+
+// @public
+export interface ToolResourcesOutput {
+    azure_ai_search?: AzureAISearchResourceOutput;
+    code_interpreter?: CodeInterpreterToolResourceOutput;
+    file_search?: FileSearchToolResourceOutput;
+}
+
+// @public
+export type Trigger = TriggerParent | RecurrenceTrigger | CronTrigger;
+
+// @public
+export type TriggerOutput = TriggerOutputParent | RecurrenceTriggerOutput | CronTriggerOutput;
+
+// @public
+export interface TriggerOutputParent {
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface TriggerParent {
+    // (undocumented)
+    type: string;
+}
+
+// @public
+export interface TruncationObject {
+    last_messages?: number | null;
+    type: TruncationStrategy;
+}
+
+// @public
+export interface TruncationObjectOutput {
+    last_messages?: number | null;
+    type: TruncationStrategyOutput;
+}
+
+// @public
+export type TruncationStrategy = string;
+
+// @public
+export type TruncationStrategyOutput = string;
+
+// @public
 export interface UpdateAgentOptions {
     description?: string | null;
     instructions?: string | null;
@@ -192,6 +1561,230 @@ export interface UpdateAgentOptions {
     tool_resources?: ToolResources;
     tools?: Array<ToolDefinition>;
     top_p?: number | null;
+}
+
+// @public
+export interface UpdateAgentThreadOptions {
+    metadata?: Record<string, string> | null;
+    tool_resources?: ToolResources | null;
+}
+
+// @public
+export interface UpdateCodeInterpreterToolResourceOptions {
+    file_ids?: string[];
+}
+
+// @public
+export interface UpdateCodeInterpreterToolResourceOptionsOutput {
+    file_ids?: string[];
+}
+
+// @public
+export interface UpdateFileSearchToolResourceOptions {
+    vector_store_ids?: string[];
+}
+
+// @public
+export interface UpdateFileSearchToolResourceOptionsOutput {
+    vector_store_ids?: string[];
+}
+
+// @public
+export interface UpdateToolResourcesOptions {
+    azure_ai_search?: AzureAISearchResource;
+    code_interpreter?: UpdateCodeInterpreterToolResourceOptions;
+    file_search?: UpdateFileSearchToolResourceOptions;
+}
+
+// @public
+export interface UpdateToolResourcesOptionsOutput {
+    azure_ai_search?: AzureAISearchResourceOutput;
+    code_interpreter?: UpdateCodeInterpreterToolResourceOptionsOutput;
+    file_search?: UpdateFileSearchToolResourceOptionsOutput;
+}
+
+// @public
+export interface VectorStoreAutoChunkingStrategyRequest extends VectorStoreChunkingStrategyRequestParent {
+    type: "auto";
+}
+
+// @public
+export interface VectorStoreAutoChunkingStrategyResponseOutput extends VectorStoreChunkingStrategyResponseOutputParent {
+    type: "other";
+}
+
+// @public
+export type VectorStoreChunkingStrategyRequest = VectorStoreChunkingStrategyRequestParent | VectorStoreAutoChunkingStrategyRequest | VectorStoreStaticChunkingStrategyRequest;
+
+// @public
+export interface VectorStoreChunkingStrategyRequestParent {
+    // (undocumented)
+    type: VectorStoreChunkingStrategyRequestType;
+}
+
+// @public
+export type VectorStoreChunkingStrategyRequestType = string;
+
+// @public
+export type VectorStoreChunkingStrategyResponseOutput = VectorStoreChunkingStrategyResponseOutputParent | VectorStoreAutoChunkingStrategyResponseOutput | VectorStoreStaticChunkingStrategyResponseOutput;
+
+// @public
+export interface VectorStoreChunkingStrategyResponseOutputParent {
+    // (undocumented)
+    type: VectorStoreChunkingStrategyResponseTypeOutput;
+}
+
+// @public
+export type VectorStoreChunkingStrategyResponseTypeOutput = string;
+
+// @public
+export interface VectorStoreDeletionStatusOutput {
+    deleted: boolean;
+    id: string;
+    object: "vector_store.deleted";
+}
+
+// @public
+export interface VectorStoreExpirationPolicy {
+    anchor: VectorStoreExpirationPolicyAnchor;
+    days: number;
+}
+
+// @public
+export type VectorStoreExpirationPolicyAnchor = string;
+
+// @public
+export type VectorStoreExpirationPolicyAnchorOutput = string;
+
+// @public
+export interface VectorStoreExpirationPolicyOutput {
+    anchor: VectorStoreExpirationPolicyAnchorOutput;
+    days: number;
+}
+
+// @public
+export interface VectorStoreFileBatchOutput {
+    created_at: number;
+    file_counts: VectorStoreFileCountOutput;
+    id: string;
+    object: "vector_store.files_batch";
+    status: VectorStoreFileBatchStatusOutput;
+    vector_store_id: string;
+}
+
+// @public
+export type VectorStoreFileBatchStatusOutput = string;
+
+// @public
+export interface VectorStoreFileCountOutput {
+    cancelled: number;
+    completed: number;
+    failed: number;
+    in_progress: number;
+    total: number;
+}
+
+// @public
+export interface VectorStoreFileDeletionStatusOutput {
+    deleted: boolean;
+    id: string;
+    object: "vector_store.file.deleted";
+}
+
+// @public
+export type VectorStoreFileErrorCodeOutput = string;
+
+// @public
+export interface VectorStoreFileErrorOutput {
+    code: VectorStoreFileErrorCodeOutput;
+    message: string;
+}
+
+// @public
+export interface VectorStoreFileOutput {
+    chunking_strategy: VectorStoreChunkingStrategyResponseOutput;
+    created_at: number;
+    id: string;
+    last_error: VectorStoreFileErrorOutput | null;
+    object: "vector_store.file";
+    status: VectorStoreFileStatusOutput;
+    usage_bytes: number;
+    vector_store_id: string;
+}
+
+// @public
+export type VectorStoreFileStatusFilter = string;
+
+// @public
+export type VectorStoreFileStatusOutput = string;
+
+// @public
+export interface VectorStoreOptions {
+    chunking_strategy?: VectorStoreChunkingStrategyRequest;
+    expires_after?: VectorStoreExpirationPolicy;
+    file_ids?: string[];
+    metadata?: Record<string, string> | null;
+    name?: string;
+}
+
+// @public
+export interface VectorStoreOutput {
+    created_at: number;
+    expires_after?: VectorStoreExpirationPolicyOutput;
+    expires_at?: number | null;
+    file_counts: VectorStoreFileCountOutput;
+    id: string;
+    last_active_at: number | null;
+    metadata: Record<string, string> | null;
+    name: string;
+    object: "vector_store";
+    status: VectorStoreStatusOutput;
+    usage_bytes: number;
+}
+
+// @public
+export interface VectorStoreStaticChunkingStrategyOptions {
+    chunk_overlap_tokens: number;
+    max_chunk_size_tokens: number;
+}
+
+// @public
+export interface VectorStoreStaticChunkingStrategyOptionsOutput {
+    chunk_overlap_tokens: number;
+    max_chunk_size_tokens: number;
+}
+
+// @public
+export interface VectorStoreStaticChunkingStrategyRequest extends VectorStoreChunkingStrategyRequestParent {
+    static: VectorStoreStaticChunkingStrategyOptions;
+    type: "static";
+}
+
+// @public
+export interface VectorStoreStaticChunkingStrategyResponseOutput extends VectorStoreChunkingStrategyResponseOutputParent {
+    static: VectorStoreStaticChunkingStrategyOptionsOutput;
+    type: "static";
+}
+
+// @public
+export type VectorStoreStatusOutput = string;
+
+// @public
+export interface VectorStoreUpdateOptions {
+    expires_after?: VectorStoreExpirationPolicy | null;
+    metadata?: Record<string, string> | null;
+    name?: string | null;
+}
+
+// @public
+export type WeekDays = string;
+
+// @public
+export type WeekDaysOutput = string;
+
+// @public
+export interface WorkspacePropertiesOutput {
+    applicationInsights: string;
 }
 
 // (No @packageDocumentation comment for this package)
