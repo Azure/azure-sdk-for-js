@@ -23,5 +23,5 @@ add-credentials: true
 credential-scopes: "https://cognitiveservices.azure.com/.default"
 credential-key-header-name: "Ocp-Apim-Subscription-Key"
 use-extension:
-  "@autorest/typescript": "https://aka.ms/azsdk/typescript/rlc"
+  "@autorest/typescript": "latest"
 ```
