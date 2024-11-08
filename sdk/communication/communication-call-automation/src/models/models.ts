@@ -18,9 +18,6 @@ export {
   CallConnectionStateModel,
   CallRejectReason,
   KnownCallRejectReason,
-  KnownMediaStreamingAudioChannelType,
-  KnownMediaStreamingContentType,
-  KnownMediaStreamingTransportType,
   MediaStreamingAudioChannelType,
   MediaStreamingOptions,
   MediaStreamingContentType,
@@ -35,6 +32,7 @@ export {
   SpeechResult,
   RecordingState,
   Tone,
+  AudioFormat,
 } from "../generated/src/models/index";
 
 /** Properties of a call connection */

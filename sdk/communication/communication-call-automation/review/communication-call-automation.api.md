@@ -65,10 +65,13 @@ export type AnswerCallResult = CallResult;
 // @public
 export interface AudioData {
     data: string;
-    isSilent: boolean;
-    participant: CommunicationIdentifier | undefined;
-    timestamp: Date;
+    isSilent?: boolean;
+    participant?: CommunicationIdentifier | undefined;
+    timestamp?: Date;
 }
+
+// @public
+export type AudioFormat = string;
 
 // @public
 export interface AudioMetadata {
@@ -342,7 +345,9 @@ export interface ChoiceResult {
 // @public
 export interface ConnectCallOptions extends OperationOptions {
     callIntelligenceOptions?: CallIntelligenceOptions;
+    mediaStreamingOptions?: MediaStreamingOptions;
     operationContext?: string;
+    transcriptionOptions?: TranscriptionOptions;
 }
 
 // @public
@@ -498,25 +503,15 @@ export enum KnownCallRejectReason {
 }
 
 // @public
-export enum KnownMediaStreamingAudioChannelType {
-    Mixed = "mixed",
-    Unmixed = "unmixed"
-}
-
-// @public
-export enum KnownMediaStreamingContentType {
-    Audio = "audio"
-}
-
-// @public
-export enum KnownMediaStreamingTransportType {
-    Websocket = "websocket"
-}
-
-// @public
 export interface ListParticipantsResult {
     nextLink?: string;
     values?: CallParticipant[];
+}
+
+// @public (undocumented)
+export enum MediaKind {
+    AudioData = "audioData",
+    StopAudio = "stopAudio"
 }
 
 // @public
@@ -537,7 +532,9 @@ export interface MediaStreamingFailed extends Omit<RestMediaStreamingFailed, "ca
 // @public
 export interface MediaStreamingOptions {
     audioChannelType: MediaStreamingAudioChannelType;
+    audioFormat?: AudioFormat;
     contentType: MediaStreamingContentType;
+    enableBidirectional?: boolean;
     startMediaStreaming?: boolean;
     transportType: MediaStreamingTransportType;
     transportUrl: string;
@@ -580,6 +577,13 @@ export interface MuteParticipantOption extends OperationOptions {
 // @public
 export interface MuteParticipantResult {
     operationContext?: string;
+}
+
+// @public (undocumented)
+export interface OutStreamingData {
+    AudioData?: AudioData;
+    Kind: MediaKind;
+    StopAudio?: StopAudio;
 }
 
 // @public
@@ -1207,6 +1211,10 @@ export interface StartTranscriptionOptions extends OperationOptions {
     locale?: string;
     operationContext?: string;
     speechRecognitionModelEndpointId?: string;
+}
+
+// @public (undocumented)
+export interface StopAudio {
 }
 
 // @public

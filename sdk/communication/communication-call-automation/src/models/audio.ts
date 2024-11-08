@@ -9,11 +9,11 @@ export interface AudioData {
   /** Audio streaming data.*/
   data: string;
   /** Audio streaming timestamp.*/
-  timestamp: Date;
+  timestamp?: Date;
   /** Audio streaming is silent.*/
-  isSilent: boolean;
+  isSilent?: boolean;
   /** The identified speaker based on participant raw ID. */
-  participant: CommunicationIdentifier | undefined;
+  participant?: CommunicationIdentifier | undefined;
 }
 
 /**
@@ -26,16 +26,16 @@ export interface AudioMetadata {
   encoding: string;
   /** Audio streaming sample rate.*/
   sampleRate: number;
-  /** Audio streaming chnnels*/
+  /** Audio streaming channels*/
   channels: number;
   /** Audio streaming length.*/
   length: number;
 }
 
 export enum MediaKind {
-  /** Male */
+  /** Audio data.*/
   AudioData = "audioData",
-  /** Female */
+  /** stop audio data*/
   StopAudio = "stopAudio",
 }
 
@@ -44,11 +44,10 @@ export interface StopAudio{
 }
 
 export interface OutStreamingData {
-  /** MediaKind for the outstreaming data AudioData or StopAudio */
+  /** Out streaming data kind ex. StopAudio, AudioData*/
 Kind: MediaKind;
-/** MediaKind for the outstreaming data AudioData or StopAudio */
-AudioData: AudioData;
-/** MediaKind for the outstreaming data AudioData or StopAudio */
-StopAudio: StopAudio;
-
+/** Out streaming Audio Data */
+AudioData?: AudioData;
+/** Out streaming Stop Audio Data */
+StopAudio?: StopAudio;
 }
