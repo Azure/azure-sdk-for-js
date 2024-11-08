@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
 import { HeaderConstants } from "./utils/constants";
-import { NamedKeyCredential } from "@azure/core-auth";
+import type { NamedKeyCredential } from "@azure/core-auth";
 import { computeHMACSHA256 } from "./utils/computeHMACSHA256";
 
 /**

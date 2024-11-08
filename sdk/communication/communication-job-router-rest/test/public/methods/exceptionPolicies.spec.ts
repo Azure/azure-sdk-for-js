@@ -1,14 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
-import {
-  AzureCommunicationRoutingServiceClient,
-  ExceptionPolicyOutput,
-  paginate,
-} from "../../../src";
+import type { Context } from "mocha";
+import type { AzureCommunicationRoutingServiceClient, ExceptionPolicyOutput } from "../../../src";
+import { paginate } from "../../../src";
 import { getExceptionPolicyRequest } from "../utils/testData";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
 import { timeoutMs } from "../utils/constants";

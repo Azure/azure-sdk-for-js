@@ -7,7 +7,6 @@
   "module": "dist-esm/identity-vscode/src/index.js",
   "types": "./types/identity-vscode.d.ts",
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && dev-tool run vendored rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && npm run extract-api && tsc -p . && dev-tool run bundle",
     "build:samples": "echo skipped",
     "build:test": "tsc -p . && dev-tool run bundle",
@@ -76,7 +75,6 @@
     "@types/qs": "^6.5.3",
     "@types/sinon": "^17.0.0",
     "@types/uuid": "^8.0.0",
-    "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "inherits": "^2.0.3",

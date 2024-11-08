@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ClientContext } from "../../ClientContext";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { ClientContext } from "../../ClientContext";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getIdFromLink, getPathFromLink, ResourceType } from "../../common";
-import { SqlQuerySpec } from "../../queryExecutionContext";
+import type { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions } from "../../request";
-import { Container } from "../Container";
-import { Resource } from "../Resource";
-import { ConflictDefinition } from "./ConflictDefinition";
+import type { FeedOptions } from "../../request";
+import type { Container } from "../Container";
+import type { Resource } from "../Resource";
+import type { ConflictDefinition } from "./ConflictDefinition";
 
 /**
  * Use to query or read all conflicts.

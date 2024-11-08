@@ -3,18 +3,20 @@
 
 import http from "http";
 import https from "https";
-import { AccessToken, GetTokenOptions, TokenCredential } from "../src";
-import { AzureLogLevel, AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
-import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import {
+import type { AccessToken, GetTokenOptions, TokenCredential } from "../src";
+import type { AzureLogLevel } from "@azure/logger";
+import { AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
+import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
+import type {
   IdentityTestContextInterface,
   RawTestResponse,
   TestResponse,
-  createResponse,
 } from "./httpRequestsCommon";
-import Sinon, * as sinon from "sinon";
+import { createResponse } from "./httpRequestsCommon";
+import type Sinon from "sinon";
+import * as sinon from "sinon";
 import { PassThrough } from "stream";
-import { RestError } from "@azure/core-rest-pipeline";
+import type { RestError } from "@azure/core-rest-pipeline";
 import { getError } from "./authTestUtils";
 import { openIdConfigurationResponse } from "./msalTestUtils";
 

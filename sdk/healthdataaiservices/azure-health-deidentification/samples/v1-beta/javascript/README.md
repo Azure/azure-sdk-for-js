@@ -42,7 +42,7 @@ node createJob.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env DEID_SERVICE_ENDPOINT="<deid service endpoint>" STORAGE_ACCOUNT_NAME="<storage account name>" STORAGE_CONTAINER_NAME="<storage container name>" node createJob.js
+npx dev-tool run vendored cross-env DEID_SERVICE_ENDPOINT="<deid service endpoint>" STORAGE_ACCOUNT_NAME="<storage account name>" STORAGE_CONTAINER_NAME="<storage container name>" node createJob.js
 ```
 
 ## Next Steps

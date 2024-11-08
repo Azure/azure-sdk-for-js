@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import "./env";
-import FarmBeats, { FarmBeatsClient } from "../../../src";
+import type { FarmBeatsClient } from "../../../src";
+import FarmBeats from "../../../src";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
 
 const envSetupForPlayback: Record<string, string> = {
   FARMBEATS_ENDPOINT: "https://fakeaccount.farmbeats.azure.net",

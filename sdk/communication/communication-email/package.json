@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-email",
-  "version": "1.0.1-beta.1",
+  "version": "1.0.1-beta.2",
   "description": "The is the JS Client SDK for email. This SDK enables users to send emails and get the status of sent email message.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -9,7 +9,6 @@
   "module": "dist-esm/src/index.js",
   "types": "types/communication-email.d.ts",
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && dev-tool run vendored rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && tsc -p . && dev-tool run bundle --browser-test=false && dev-tool run extract-api",
     "build:samples": "dev-tool samples publish -f",
     "build:test": "tsc -p . && dev-tool run bundle",
@@ -66,7 +65,6 @@
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
     "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "karma": "^6.2.0",

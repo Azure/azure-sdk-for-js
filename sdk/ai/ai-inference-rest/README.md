@@ -477,7 +477,7 @@ if (connectionString) {
 provider.register();
 ```
 
-In addition, you need to register to use instrumentation for Azure SDK. You must do this before you import any dependency of `@azure-core-tracing`
+To use instrumentation for Azure SDK, you need to register it before importing any dependencies from `@azure/core-tracing`, such as `@azure-rest/ai-inference`.
 
 ```js
 import { registerInstrumentations } from "@opentelemetry/instrumentation";
@@ -486,6 +486,8 @@ import { createAzureSdkInstrumentation } from "@azure/opentelemetry-instrumentat
 registerInstrumentations({
   instrumentations: [createAzureSdkInstrumentation()],
 });
+
+import ModelClient from "@azure-rest/ai-inference";
 ```
 
 Finally when you are making a call for chat completion, you need to include

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationArguments, OperationSpec } from "@azure/core-client";
+import type { OperationArguments, OperationSpec } from "@azure/core-client";
 import { isNode } from "@azure/core-util";
 import { StorageClient } from "./generated/src";
 

@@ -9,10 +9,12 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { ClientOptions, addCredentialPipelinePolicy, getClient } from "@azure-rest/core-client";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { addCredentialPipelinePolicy, getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
 import { logger } from "../logger.js";
-import { WidgetServiceContext } from "./clientDefinitions.js";
+import type { WidgetServiceContext } from "./clientDefinitions.js";
 
 /**
  * This customization adds credential support to the client. And overloads for when it is optional

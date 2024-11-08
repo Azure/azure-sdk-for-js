@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AuthenticationRecord, MsalAccountInfo, MsalToken, ValidMsalToken } from "./types";
+import type { AuthenticationRecord, MsalAccountInfo, MsalToken, ValidMsalToken } from "./types";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors";
-import { CredentialLogger, credentialLogger, formatError } from "../util/logging";
+import type { CredentialLogger } from "../util/logging";
+import { credentialLogger, formatError } from "../util/logging";
 import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
 import { randomUUID as coreRandomUUID, isNode, isNodeLike } from "@azure/core-util";
 
 import { AbortError } from "@azure/abort-controller";
-import { AzureLogLevel } from "@azure/logger";
-import { GetTokenOptions } from "@azure/core-auth";
+import type { AzureLogLevel } from "@azure/logger";
+import type { GetTokenOptions } from "@azure/core-auth";
 import { msalCommon } from "./msal";
 
 export interface ILoggerCallback {

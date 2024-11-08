@@ -2,8 +2,9 @@
 // Licensed under the MIT License.
 
 import { createSerializer } from "@azure/core-client";
-import { CloudEvent as WireCloudEvent } from "./generated/models";
-import { CloudEvent, EventGridEvent, cloudEventReservedPropertyNames } from "./models";
+import type { CloudEvent as WireCloudEvent } from "./generated/models";
+import type { CloudEvent, EventGridEvent } from "./models";
+import { cloudEventReservedPropertyNames } from "./models";
 import {
   EventGridEvent as EventGridEventMapper,
   CloudEvent as CloudEventMapper,
