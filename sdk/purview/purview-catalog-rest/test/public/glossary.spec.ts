@@ -5,7 +5,7 @@ import type {
   ImportCSVOperationOutput,
   PurviewCatalogClient,
 } from "../../src";
-import { getLongRunningPoller } from "../../src";
+import { getLongRunningPoller, isUnexpected } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
@@ -41,6 +41,9 @@ describe("purview catalog glossary test", () => {
 
     console.log("created glossary: ", glossary);
 
+    if (isUnexpected(glossary)) {
+      throw glossary
+    }
     assert.strictEqual(glossary.status, "200");
     const atlasGlossaryOutput = glossary.body as AtlasGlossaryOutput;
     glossaryGuid = glossary.status === "200" ? atlasGlossaryOutput?.guid || "" : "";
@@ -75,14 +78,13 @@ describe("purview catalog glossary test", () => {
 
     const result = await poller.pollUntilDone();
     console.log("LRO polling result:", result);
-    if (result.status === "500") {
+    if (isUnexpected(result)) {
       const error = `Unexpected status code ${result.status}`;
       assert.fail(error);
     }
 
     // console.log(result);
-    const importCSVOperationOutput = result.body as ImportCSVOperationOutput;
-    assert.equal(importCSVOperationOutput.status, "Succeeded");
+    assert.equal(result.body.status, "Succeeded");
   });
 
   it("Should delete a glossary", async () => {

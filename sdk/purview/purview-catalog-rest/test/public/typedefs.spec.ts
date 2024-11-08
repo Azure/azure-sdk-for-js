@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { AtlasTypesDefOutput, PurviewCatalogClient } from "../../src";
+import { isUnexpected, type PurviewCatalogClient } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
@@ -24,11 +24,10 @@ describe("purview catalog tepedefs test", () => {
     const result = await client.path("/atlas/v2/types/typedefs").get();
 
     // console.dir(result);
-    if (result.status !== "200") {
+    if (isUnexpected(result)) {
       assert.fail(`GET "/atlas/v2/types/typedefs" failed with ${result.status}`);
     }
 
-    const atlasTypesDefOutput = result.body as AtlasTypesDefOutput;
-    assert.isDefined(atlasTypesDefOutput.entityDefs?.length);
+    assert.isDefined(result.body.entityDefs?.length);
   });
 }).timeout(60000000000);
