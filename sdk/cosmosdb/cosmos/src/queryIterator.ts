@@ -279,7 +279,7 @@ export class QueryIterator<T> {
     }
 
     const queryPlan: PartitionedQueryExecutionInfo = queryPlanResponse.result;
-    if (queryPlan.hybridSearchQueryInfo !== undefined) {
+    if (queryPlan.hybridSearchQueryInfo && queryPlan.hybridSearchQueryInfo !== null) {
       await this.createHybridQueryExecutionContext(queryPlan, diagnosticNode);
     } else {
       await this.createPipelinedExecutionContext(queryPlan);
