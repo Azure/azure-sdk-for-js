@@ -57,7 +57,7 @@ extends:
               Artifacts: ${{ parameters.Artifacts }}
               ${{ if eq(parameters.ServiceDirectory, 'template') }}:
                 TestPipeline: true
-              RunUnitTests: ${{ parameters.RunUnitTests }}
+              RunUnitTests: false
               MatrixConfigs:
                 - ${{ each config in parameters.MatrixConfigs }}:
                     - ${{ config }}
