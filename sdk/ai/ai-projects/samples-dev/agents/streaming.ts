@@ -37,8 +37,8 @@ export async function main(): Promise<void> {
                     messageDelta.delta.content.forEach((contentPart) => {
                         if (contentPart.type === "text") {
                             const textContent = contentPart as MessageDeltaTextContent
-                            const textValue = textContent.text || "No text"
-                            console.log(`ext delta received:: ${textValue}`)
+                            const textValue = textContent.text?.value || "No text"
+                            console.log(`Text delta received:: ${textValue}`)
                         }
                     });
                 }
