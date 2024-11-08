@@ -9,6 +9,7 @@ export {
   AggregateType,
   GroupByExpressions,
   GroupByAliasToAggregateType,
+  HybridSearchQueryInfo,
 } from "./ErrorResponse";
 export { FeedOptions } from "./FeedOptions";
 export { RequestOptions } from "./RequestOptions";

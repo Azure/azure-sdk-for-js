@@ -634,6 +634,7 @@ export interface ContainerDefinition {
     computedProperties?: ComputedProperty[];
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
+    fullTextPolicy?: FullTextPolicy;
     geospatialConfig?: {
         type: GeospatialType;
     };
@@ -1095,6 +1096,31 @@ export class FeedResponse<TResource> {
     readonly resources: TResource[];
 }
 
+// @public
+export interface FullTextIndex {
+    path: string;
+}
+
+// @public (undocumented)
+export interface FullTextPath {
+    language: string;
+    path: string;
+}
+
+// @public (undocumented)
+export interface FullTextPolicy {
+    defaultLanguage: string;
+    fullTextPaths: FullTextPath[];
+}
+
+// @public (undocumented)
+export interface FullTextStatistics {
+    // (undocumented)
+    hitCounts: number[];
+    // (undocumented)
+    totalWordCount: number;
+}
+
 // @public (undocumented)
 export type GatewayStatistics = {
     activityId?: string;
@@ -1139,6 +1165,14 @@ export class GlobalEndpointManager {
 }
 
 // @public (undocumented)
+export interface GlobalStatistics {
+    // (undocumented)
+    documentCount: number;
+    // (undocumented)
+    fullTextStatistics: FullTextStatistics[];
+}
+
+// @public (undocumented)
 export interface GroupByAliasToAggregateType {
     // (undocumented)
     [key: string]: AggregateType;
@@ -1159,6 +1193,20 @@ export enum HTTPMethod {
     post = "POST",
     // (undocumented)
     put = "PUT"
+}
+
+// @public (undocumented)
+export interface HybridSearchQueryInfo {
+    // (undocumented)
+    componentQueryInfos: QueryInfo[];
+    // (undocumented)
+    globalStatisticsQuery: string;
+    // (undocumented)
+    requiresGlobalStatistics: boolean;
+    // (undocumented)
+    skip: number;
+    // (undocumented)
+    take: number;
 }
 
 // @public (undocumented)
@@ -1192,6 +1240,7 @@ export interface IndexingPolicy {
     automatic?: boolean;
     compositeIndexes?: CompositePath[][];
     excludedPaths?: IndexedPath[];
+    fullTextIndexes?: FullTextIndex[];
     includedPaths?: IndexedPath[];
     indexingMode?: keyof typeof IndexingMode;
     // (undocumented)
@@ -1453,9 +1502,11 @@ export type OperationWithItem = OperationBase & {
 // @public (undocumented)
 export interface PartitionedQueryExecutionInfo {
     // (undocumented)
+    hybridSearchQueryInfo?: HybridSearchQueryInfo;
+    // (undocumented)
     partitionedQueryExecutionInfoVersion: number;
     // (undocumented)
-    queryInfo: QueryInfo;
+    queryInfo?: QueryInfo;
     // (undocumented)
     queryRanges: QueryRange[];
 }
