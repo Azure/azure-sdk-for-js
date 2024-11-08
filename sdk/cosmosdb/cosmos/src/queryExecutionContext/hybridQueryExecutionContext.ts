@@ -87,7 +87,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         this.state === HybridQueryExecutionContextBaseStates.initialized) &&
       this.buffer.length === 0
     ) {
-      await this.fetchMore(diagnosticNode, nextItemRespHeaders);
+      await this.fetchMoreInternal(diagnosticNode, nextItemRespHeaders);
     }
 
     if (this.buffer.length > 0) {
@@ -112,30 +112,34 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
   }
 
-  public async fetchMore(
+  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+    let fetchMoreRespHeaders = getInitialHeader();
+    return await this.fetchMoreInternal(diagnosticNode, fetchMoreRespHeaders);
+  }
+
+  private async fetchMoreInternal(
     diagnosticNode: DiagnosticNodeInternal,
-    nextItemRespHeaders?: CosmosHeaders,
+    headers: CosmosHeaders,
   ): Promise<Response<any>> {
-    let fetchMoreRespHeaders = nextItemRespHeaders ? nextItemRespHeaders : getInitialHeader();
     switch (this.state) {
       case HybridQueryExecutionContextBaseStates.uninitialized:
-        await this.initialize(diagnosticNode, fetchMoreRespHeaders);
+        await this.initialize(diagnosticNode, headers);
         return {
           result: [],
-          headers: fetchMoreRespHeaders,
+          headers: headers,
         };
 
       case HybridQueryExecutionContextBaseStates.initialized:
-        await this.executeComponentQueries(diagnosticNode, fetchMoreRespHeaders);
+        await this.executeComponentQueries(diagnosticNode, headers);
         return {
           result: [],
-          headers: fetchMoreRespHeaders,
+          headers: headers,
         };
       case HybridQueryExecutionContextBaseStates.draining:
-        const result = await this.drain(fetchMoreRespHeaders);
+        const result = await this.drain(headers);
         return result;
       case HybridQueryExecutionContextBaseStates.done:
-        return this.done(fetchMoreRespHeaders);
+        return this.done(headers);
       default:
         throw new Error(`Invalid state: ${this.state}`);
     }
