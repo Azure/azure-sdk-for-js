@@ -181,11 +181,9 @@ export class QueryIterator<T> {
       if (!this.isInitialized) {
         await this.init(diagnosticNode);
       }
-      console.log("fetchNext called");
       let response: Response<any>;
       try {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
-        console.log("Response fetchNext: ", response);
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
           await this.createExecutionContext(diagnosticNode);
@@ -198,7 +196,6 @@ export class QueryIterator<T> {
           throw error;
         }
       }
-      console.log("Response fetchNext: ", response);
       return new FeedResponse<T>(
         response.result,
         response.headers,
@@ -283,10 +280,8 @@ export class QueryIterator<T> {
 
     const queryPlan: PartitionedQueryExecutionInfo = queryPlanResponse.result;
     if (queryPlan.hybridSearchQueryInfo !== undefined) {
-      console.log("Hybrid Query Execution Context");
       await this.createHybridQueryExecutionContext(queryPlan, diagnosticNode);
     } else {
-      console.log("Pipelined Query Execution Context");
       await this.createPipelinedExecutionContext(queryPlan);
     }
   }
@@ -312,7 +307,6 @@ export class QueryIterator<T> {
     this.queryExecutionContext = new HybridQueryExecutionContext(
       this.clientContext,
       this.resourceLink,
-      this.query,
       this.options,
       queryPlan,
       this.correlatedActivityId,
