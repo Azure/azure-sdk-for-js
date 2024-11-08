@@ -202,7 +202,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
 
       // Initialize an array to hold ranks for each document
       const sortedHybridSearchResult = this.sortHybridSearchResultByRRFScore(hybridSearchResult);
-
       // store the result to buffer
       // add only data from the sortedHybridSearchResult in the buffer
       sortedHybridSearchResult.forEach((item) => this.buffer.push(item.data));

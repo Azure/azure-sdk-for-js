@@ -605,7 +605,7 @@ describe("Full text search feature", async () => {
     const queryOptions = { forceQueryPlan: true };
     const queryIterator = container.items.query(query, queryOptions);
     const result = await queryIterator.fetchAll();
-
     assert(result.resources.length === 2);
+
   });
 });
