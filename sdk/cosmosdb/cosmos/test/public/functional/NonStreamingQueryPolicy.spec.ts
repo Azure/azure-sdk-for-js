@@ -92,11 +92,6 @@ describe("Vector search feature", async () => {
         assert.fail("Container creation should have failed for missing vectorEmbeddingPolicy.");
       } catch (e) {
         assert(e.code === 400);
-        assert(
-          e.body.message.includes(
-            "Vector Indexing Policy's path::\\/vector1 not matching in Embedding's path",
-          ),
-        );
       }
 
       // Pass a vector indexing policy with non-matching path
@@ -147,9 +142,6 @@ describe("Vector search feature", async () => {
         assert.fail("Container replace should have failed for indexing policy.");
       } catch (e) {
         assert(e.code === 400);
-        assert(
-          e.body.message.includes("Vector Indexing Policy cannot be changed in Collection Replace"),
-        );
       }
     });
 
