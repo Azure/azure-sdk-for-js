@@ -10,14 +10,14 @@ import {
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import createClient from "../generated/azureCommunicationRoutingServiceClient";
+import createGeneratedClient from "../generated/azureCommunicationRoutingServiceClient";
 
 /**
  * Initialize a new instance of `AzureCommunicationRoutingServiceClient`
  * @param connectionString - The connectionString or url of your Communication Services resource.
  * @param options - the parameter for all optional parameters
  */
-export default function createCustomizedClient(
+export default function createClient(
   connectionString: string,
   options: ClientOptions,
 ): AzureCommunicationRoutingServiceClient;
@@ -28,14 +28,14 @@ export default function createCustomizedClient(
  * @param credentialOrOptions The key or token credential.
  * @param options - the parameter for all optional parameters
  */
-export default function createCustomizedClient(
+export default function createClient(
   endpoint: string,
   credentialOrOptions?: KeyCredential | TokenCredential,
   options?: ClientOptions,
 ): AzureCommunicationRoutingServiceClient;
 
 // Implementation
-export default function createCustomizedClient(
+export default function createClient(
   arg1: string,
   arg2?: ClientOptions | (KeyCredential | TokenCredential),
   arg3?: ClientOptions,
@@ -57,7 +57,7 @@ export default function createCustomizedClient(
 
   // Rest of the function remains the same, using connectionStringOrUrl or endpoint as needed
   const { url, credential } = parseClientArguments(connectionStringOrUrl, credentialOrOptions);
-  const client = createClient(url, options);
+  const client = createGeneratedClient(url, options);
   const authPolicy = createCommunicationAuthPolicy(credential);
   client.pipeline.addPolicy(authPolicy);
 

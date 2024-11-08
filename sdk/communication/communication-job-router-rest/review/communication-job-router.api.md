@@ -284,11 +284,11 @@ export interface ConditionalWorkerSelectorAttachmentOutput extends WorkerSelecto
 }
 
 // @public
-function createCustomizedClient(connectionString: string, options: ClientOptions): AzureCommunicationRoutingServiceClient;
+function createClient(connectionString: string, options: ClientOptions): AzureCommunicationRoutingServiceClient;
 
 // @public
-function createCustomizedClient(endpoint: string, credentialOrOptions?: KeyCredential | TokenCredential, options?: ClientOptions): AzureCommunicationRoutingServiceClient;
-export default createCustomizedClient;
+function createClient(endpoint: string, credentialOrOptions?: KeyCredential | TokenCredential, options?: ClientOptions): AzureCommunicationRoutingServiceClient;
+export default createClient;
 
 // @public (undocumented)
 export interface Decline {
