@@ -6,16 +6,13 @@ param (
   [Parameter(mandatory = $true)]
   $intendedTagVersion,
   [Parameter(mandatory = $true)]
-  $packageJson,
+  $packageName,
   [Parameter(mandatory = $true)]
   $npmToken
 )
 
 $ErrorActionPreference = 'Stop'
 $PSNativeCommandUseErrorActionPreference = $true
-
-$pkg = Get-Content -Raw $packageJson | ConvertFrom-Json
-$packageName = $pkg.Name
 
 Write-Host "Verify npm tag versions for package $packageName"
 
@@ -35,8 +32,7 @@ if ($packageDistTags."$intendedTag" -ne $intendedTagVersion) {
 
   Write-Host "Setting AuthToken Deployment"
   $regAuth = "//registry.npmjs.org/"
-  $env:NPM_TOKEN=$npmToken
-  npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
+  npm config set $regAuth`:_authToken=$npmToken
 
   foreach($tag in $correctDistTags.PSObject.Properties) {
     Write-Host "npm dist-tag add $packageName@$($tag.value) $($tag.Name)"
