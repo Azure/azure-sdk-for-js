@@ -8,12 +8,9 @@ https://docs.microsoft.com/javascript/api/@azure/arm-computefleet?view=azure-nod
 https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/async-api-reference.md
 https://docs.microsoft.com/javascript/api/@azure/arm-computeschedule?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-healthdataaiservices?view=azure-node-preview
-<<<<<<< HEAD
 https://docs.microsoft.com/javascript/api/@azure/load-testing
-=======
 https://docs.microsoft.com/javascript/api/@azure/arm-fabric?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-trustedsigning?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-containerorchestratorruntime?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-iotoperations?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-databoundaries?view=azure-node-preview
->>>>>>> main
