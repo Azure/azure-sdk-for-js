@@ -54,6 +54,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
   sourceIdentity?: CommunicationUserIdentifier;
   /**
    * The identifier of the One Phone System bot for call creating operation.
+   * Should be mutually exclusive with sourceIdentity.
    */
   opsSourceIdentity?: MicrosoftTeamsAppIdentifier;
 }
