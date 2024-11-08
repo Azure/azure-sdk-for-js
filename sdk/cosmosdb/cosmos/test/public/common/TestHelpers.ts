@@ -427,11 +427,6 @@ export async function getTestDatabase(
   return client.database(id);
 }
 
-export async function getTestDatabaseName(db: string) {
-  await defaultClient.databases.createIfNotExists({ id: db });
-  return defaultClient.database(db);
-}
-
 export async function getTestContainer(
   testName: string,
   client: CosmosClient = defaultClient,

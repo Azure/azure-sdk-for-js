@@ -182,6 +182,7 @@ rrfScores array [
         expected2: [61, 51, 49, 54, 75, 24, 77, 76, 80, 25, 22, 2, 66],
       },
     ],
+    // TODO: Add test case of just RRF with vector search no FullTextScore
   ]);
 
   const containerOptions = { offerThroughput: 25000 };
