@@ -4,13 +4,13 @@
 
 import { Client } from "@azure-rest/core-client";
 import { AgentDeletionStatusOutput, AgentOutput,  AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadRunOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
-import { CancelRunParameters, CreateMessageParameters, CreateRunParameters, CreateThreadAndRunParameters, CreateThreadParameters, DeleteFileParameters, DeleteThreadParameters, GetFileContentParameters, GetFileParameters, GetRunParameters, GetThreadParameters, ListAgentsQueryParamProperties, ListFilesParameters, ListMessagesParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateMessageParameters, UpdateRunParameters, UpdateThreadParameters, UploadFileParameters } from "../generated/src/parameters.js";
+import { CancelRunParameters, CreateMessageParameters, CreateRunParameters, CreateThreadAndRunParameters, DeleteFileParameters, DeleteThreadParameters, GetFileContentParameters, GetFileParameters, GetRunParameters, GetThreadParameters, ListAgentsQueryParamProperties, ListFilesParameters, ListMessagesParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateMessageParameters, UpdateRunParameters, UploadFileParameters } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
 import { cancelRun, createRun, createThreadAndRun, getRun, listRuns, submitToolOutputsToRun, updateRun } from "./runs.js";
 import { createMessage, listMessages, updateMessage } from "./messages.js";
-import { CreateAgentOptions, UpdateAgentOptions } from "../generated/src/models.js";
+import { AgentThreadCreationOptions, CreateAgentOptions, UpdateAgentOptions, UpdateAgentThreadOptions } from "../generated/src/models.js";
 
 export interface AgentsOperations {
     /** Creates a new agent. */
@@ -37,7 +37,7 @@ export interface AgentsOperations {
 
     /** Creates a new thread. Threads contain messages and can be run by agents. */
     createThread: (
-      options: CreateThreadParameters,
+      options?: AgentThreadCreationOptions,
     ) => Promise<AgentThreadOutput>;
     /** Gets information about an existing thread. */
     getThread: (
@@ -47,7 +47,7 @@ export interface AgentsOperations {
     /** Modifies an existing thread. */
     updateThread: (
       threadId: string,
-      options: UpdateThreadParameters,
+      options?: UpdateAgentThreadOptions,
     ) => Promise<AgentThreadOutput>;
     /** Deletes an existing thread. */
     deleteThread: (
@@ -152,14 +152,14 @@ function getAgents(context: Client) : AgentsOperations {
         assistantId: string
       ) => deleteAgent(context, assistantId),
 
-      createThread: (options: CreateThreadParameters) =>
-        createThread(context, options),
-      getThread: (threadId: string, options?: GetThreadParameters) =>
-        getThread(context, threadId, options),
-      updateThread: (threadId: string, options: UpdateThreadParameters) =>
-        updateThread(context, threadId, options),
-      deleteThread: (threadId: string, options?: DeleteThreadParameters) =>
-        deleteThread(context, threadId, options),
+      createThread: (options?: AgentThreadCreationOptions) =>
+        createThread(context, {body: options as Record<string, unknown>}),
+      getThread: (threadId: string) =>
+        getThread(context, threadId),
+      updateThread: (threadId: string, options?: UpdateAgentThreadOptions) =>
+        updateThread(context, threadId, {body: options as Record<string, unknown>}),
+      deleteThread: (threadId: string) =>
+        deleteThread(context, threadId),
 
       createRun: (threadId: string, options: CreateRunParameters) =>
         createRun(context, threadId, options),
