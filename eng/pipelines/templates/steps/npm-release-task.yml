@@ -23,6 +23,8 @@ steps:
         $originalTags = $packageProps.'dist-tags' | ConvertTo-Json -Compress
         echo "##vso[task.setvariable variable=OriginalTags]$originalTags"
         echo "##vso[task.setvariable variable=IntendedTagVersion]$packageVersion"
+        write-host "nhznunzusnzusnzuwnzuw"
+        write-host '$(azure-sdk-npm-token)'
       displayName: Get original tags
 
     - task: EsrpRelease@7
@@ -48,7 +50,7 @@ steps:
       inputs:
         targetType: filePath
         filePath: eng/scripts/verify-npm-tags.ps1
-        arguments: -originalDistTags '$(OriginalTags)' -intendedTag ${{parameters.Tag}} -intendedTagVersion '$(IntendedTagVersion)' -packageJson $(PackageJsonDir) -npmToken $(azure-sdk-npm-token)
+        arguments: -originalDistTags '$(OriginalTags)' -intendedTag ${{parameters.Tag}} -intendedTagVersion '$(IntendedTagVersion)' -packageJson $(PackageJsonDir) -npmToken '$(azure-sdk-npm-token)'
         pwsh: true
 
     - ${{ if ne(parameters.AdditionalTag, '') }}:
