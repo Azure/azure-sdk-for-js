@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { ClientContext } from "../ClientContext";
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import {
   FeedOptions,
   GlobalStatistics,
@@ -14,7 +13,7 @@ import {
 import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult";
 import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator";
 import { CosmosHeaders } from "./CosmosHeaders";
-import { ExecutionContext } from "./ExecutionContext";
+import { ExecutionContext, ExecutionContextFetchMoreOptions, ExecutionContextNextItemOptions } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext";
@@ -80,14 +79,15 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       this.state = HybridQueryExecutionContextBaseStates.initialized;
     }
   }
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async nextItem(options: ExecutionContextNextItemOptions,
+  ): Promise<Response<any>> {
     let nextItemRespHeaders = getInitialHeader();
     while (
       (this.state === HybridQueryExecutionContextBaseStates.uninitialized ||
         this.state === HybridQueryExecutionContextBaseStates.initialized) &&
       this.buffer.length === 0
     ) {
-      await this.fetchMoreInternal(diagnosticNode, nextItemRespHeaders);
+      await this.fetchMoreInternal({ diagnosticNode: options.diagnosticNode, nextItemRespHeaders: nextItemRespHeaders, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
     }
 
     if (this.buffer.length > 0) {
@@ -112,48 +112,47 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
   }
 
-  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(
+    options: ExecutionContextNextItemOptions): Promise<Response<any>> {
     let fetchMoreRespHeaders = getInitialHeader();
-    return await this.fetchMoreInternal(diagnosticNode, fetchMoreRespHeaders);
+    return await this.fetchMoreInternal({ diagnosticNode: options.diagnosticNode, nextItemRespHeaders: fetchMoreRespHeaders, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
   }
 
   private async fetchMoreInternal(
-    diagnosticNode: DiagnosticNodeInternal,
-    headers: CosmosHeaders,
+    options: ExecutionContextFetchMoreOptions,
   ): Promise<Response<any>> {
     switch (this.state) {
       case HybridQueryExecutionContextBaseStates.uninitialized:
-        await this.initialize(diagnosticNode, headers);
+        await this.initialize({ diagnosticNode: options.diagnosticNode, nextItemRespHeaders: options.nextItemRespHeaders, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
         return {
           result: [],
-          headers: headers,
+          headers: options.nextItemRespHeaders,
         };
 
       case HybridQueryExecutionContextBaseStates.initialized:
-        await this.executeComponentQueries(diagnosticNode, headers);
+        await this.executeComponentQueries({ diagnosticNode: options.diagnosticNode, nextItemRespHeaders: options.nextItemRespHeaders, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
         return {
           result: [],
-          headers: headers,
+          headers: options.nextItemRespHeaders,
         };
       case HybridQueryExecutionContextBaseStates.draining:
-        const result = await this.drain(headers);
+        const result = await this.drain(options.nextItemRespHeaders);
         return result;
       case HybridQueryExecutionContextBaseStates.done:
-        return this.done(headers);
+        return this.done(options.nextItemRespHeaders);
       default:
         throw new Error(`Invalid state: ${this.state}`);
     }
   }
 
   private async initialize(
-    diagnosticNode: DiagnosticNodeInternal,
-    fetchMoreRespHeaders: CosmosHeaders,
+    options: ExecutionContextFetchMoreOptions,
   ): Promise<void> {
     try {
       while (this.globalStatisticsExecutionContext.hasMoreResults()) {
-        const result = await this.globalStatisticsExecutionContext.nextItem(diagnosticNode);
+        const result = await this.globalStatisticsExecutionContext.nextItem({ diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
         const globalStatistics: GlobalStatistics = result.result;
-        mergeHeaders(fetchMoreRespHeaders, result.headers);
+        mergeHeaders(options.nextItemRespHeaders, result.headers);
         if (globalStatistics) {
           //iterate over the components update placeholders from globalStatistics
           this.globalStatisticsAggregator.aggregate(globalStatistics);
@@ -169,12 +168,10 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     this.state = HybridQueryExecutionContextBaseStates.initialized;
   }
 
-  private async executeComponentQueries(
-    diagnosticNode: DiagnosticNodeInternal,
-    fetchMoreRespHeaders: CosmosHeaders,
+  private async executeComponentQueries(options: ExecutionContextFetchMoreOptions
   ): Promise<void> {
     if (this.componentsExecutionContext.length === 1) {
-      await this.drainSingleComponent(diagnosticNode, fetchMoreRespHeaders);
+      await this.drainSingleComponent({ diagnosticNode: options.diagnosticNode, nextItemRespHeaders: options.nextItemRespHeaders, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
       return;
     }
     try {
@@ -183,9 +180,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
 
       for (const componentExecutionContext of this.componentsExecutionContext) {
         while (componentExecutionContext.hasMoreResults()) {
-          const result = await componentExecutionContext.fetchMore(diagnosticNode);
+          const result = await componentExecutionContext.fetchMore({ diagnosticNode: options.diagnosticNode, nextItemRespHeaders: options.nextItemRespHeaders, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
           const response = result.result;
-          mergeHeaders(fetchMoreRespHeaders, result.headers);
+          mergeHeaders(options.nextItemRespHeaders, result.headers);
           if (response) {
             response.forEach((item: any) => {
               const hybridItem = HybridSearchQueryResult.create(item);
@@ -325,8 +322,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   }
 
   private async drainSingleComponent(
-    diagNode: DiagnosticNodeInternal,
-    fetchMoreRespHeaders: CosmosHeaders,
+    options: ExecutionContextFetchMoreOptions,
   ): Promise<void> {
     if (this.componentsExecutionContext && this.componentsExecutionContext.length !== 1) {
       throw new Error("drainSingleComponent called on multiple components");
@@ -335,9 +331,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       const componentExecutionContext = this.componentsExecutionContext[0];
       const hybridSearchResult: HybridSearchQueryResult[] = [];
       while (componentExecutionContext.hasMoreResults()) {
-        const result = await componentExecutionContext.fetchMore(diagNode);
+        const result = await componentExecutionContext.fetchMore({ diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
         const response = result.result;
-        mergeHeaders(fetchMoreRespHeaders, result.headers);
+        mergeHeaders(options.nextItemRespHeaders, result.headers);
         if (response) {
           response.forEach((item: any) => {
             hybridSearchResult.push(HybridSearchQueryResult.create(item));

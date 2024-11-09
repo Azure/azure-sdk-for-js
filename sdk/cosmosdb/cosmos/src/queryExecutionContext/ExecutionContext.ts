@@ -3,18 +3,20 @@
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { QueryOperationOptions, Response } from "../request";
 import { RUConsumedManager } from "../common";
-
+import { CosmosHeaders } from "./headerUtils";
+export interface ExecutionContextNextItemOptions {
+  diagnosticNode: DiagnosticNodeInternal;
+  operationOptions?: QueryOperationOptions;
+  ruConsumed?: RUConsumedManager;
+}
+export interface ExecutionContextFetchMoreOptions extends ExecutionContextNextItemOptions {
+  nextItemRespHeaders?: CosmosHeaders;
+}
 /** @hidden */
 export interface ExecutionContext {
   nextItem: (
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumedManager,
+    options: ExecutionContextNextItemOptions,
   ) => Promise<Response<any>>;
   hasMoreResults: () => boolean;
-  fetchMore?: (
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumed?: RUConsumedManager,
-  ) => Promise<Response<any>>; // TODO: code smell
+  fetchMore?: (options: ExecutionContextFetchMoreOptions) => Promise<Response<any>>; // TODO: code smell
 }

@@ -39,13 +39,13 @@ describe("defaultQueryExecutionContext", function () {
 
     assert.strictEqual(calledCount, 0, "Nothing should be fetched at this point");
 
-    await context.fetchMore(createDummyDiagnosticNode());
+    await context.fetchMore({ diagnosticNode: createDummyDiagnosticNode() });
 
     await sleep(10); // small sleep to make sure we give up event loop so any other fetch functions can get called
 
     assert.strictEqual(calledCount, 1, "Should have only fetched 1 page");
 
-    await context.fetchMore(createDummyDiagnosticNode());
+    await context.fetchMore({ diagnosticNode: createDummyDiagnosticNode() });
 
     await sleep(10); // small sleep to make sure we give up event loop so any other fetch functions can get called
 
@@ -79,13 +79,13 @@ describe("defaultQueryExecutionContext", function () {
 
     assert.strictEqual(calledCount, 0, "Nothing should be fetched at this point");
 
-    await context.fetchMore(createDummyDiagnosticNode());
+    await context.fetchMore({ diagnosticNode: createDummyDiagnosticNode() });
 
     await sleep(10); // small sleep to make sure we give up event loop so any other fetch functions can get called
 
     assert.strictEqual(calledCount, 2, "Should have fetched 2 pages (one buffered)");
 
-    await context.fetchMore(createDummyDiagnosticNode());
+    await context.fetchMore({ diagnosticNode: createDummyDiagnosticNode() });
 
     await sleep(10); // small sleep to make sure we give up event loop so any other fetch functions can get called
 

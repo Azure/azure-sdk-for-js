@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { QueryOperationOptions, Response } from "../../request";
+// Licensed under the MIT license.
+import { Response } from "../../request";
 import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
-import { ExecutionContext } from "../ExecutionContext";
+import { ExecutionContext, ExecutionContextNextItemOptions } from "../ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
-import { RUConsumedManager } from "../../common";
 
 /** @hidden */
 export class OffsetLimitEndpointComponent implements ExecutionContext {
@@ -13,31 +11,29 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     private executionContext: ExecutionContext,
     private offset: number,
     private limit: number,
-  ) {}
+  ) { }
 
   public async nextItem(
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager,
+    options: ExecutionContextNextItemOptions,
   ): Promise<Response<any>> {
     const aggregateHeaders = getInitialHeader();
     try {
       while (this.offset > 0) {
         // Grab next item but ignore the result. We only need the headers
-        const { headers } = await this.executionContext.nextItem(
-          diagnosticNode,
-          operationOptions,
-          ruConsumedManager,
-        );
+        const { headers } = await this.executionContext.nextItem({
+          diagnosticNode: options.diagnosticNode,
+          operationOptions: options.operationOptions,
+          ruConsumed: options.ruConsumed,
+        });
         this.offset--;
         mergeHeaders(aggregateHeaders, headers);
       }
       if (this.limit > 0) {
-        const { result, headers } = await this.executionContext.nextItem(
-          diagnosticNode,
-          operationOptions,
-          ruConsumedManager,
-        );
+        const { result, headers } = await this.executionContext.nextItem({
+          diagnosticNode: options.diagnosticNode,
+          operationOptions: options.operationOptions,
+          ruConsumed: options.ruConsumed,
+        });
         this.limit--;
         mergeHeaders(aggregateHeaders, headers);
         return { result, headers: aggregateHeaders };

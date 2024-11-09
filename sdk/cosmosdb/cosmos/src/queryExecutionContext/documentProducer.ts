@@ -9,10 +9,9 @@ import {
   ResourceType,
   StatusCodes,
   SubStatusCodes,
-  RUConsumedManager,
 } from "../common";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { FeedOptions, QueryOperationOptions } from "../request";
+import { FeedOptions } from "../request";
 import { Response } from "../request";
 import {
   DefaultQueryExecutionContext,
@@ -20,7 +19,7 @@ import {
 } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
 import { CosmosHeaders, getInitialHeader, mergeHeaders } from "./headerUtils";
-import { SqlQuerySpec } from "./index";
+import { ExecutionContextNextItemOptions, SqlQuerySpec } from "./index";
 
 /** @hidden */
 export class DocumentProducer {
@@ -168,9 +167,7 @@ export class DocumentProducer {
    * Fetches and bufferes the next page of results and executes the given callback
    */
   public async bufferMore(
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager,
+    options: ExecutionContextNextItemOptions
   ): Promise<Response<any>> {
     if (this.err) {
       throw this.err;
@@ -178,11 +175,11 @@ export class DocumentProducer {
 
     try {
       const { result: resources, headers: headerResponse } =
-        await this.internalExecutionContext.fetchMore(
-          diagnosticNode,
-          operationOptions,
-          ruConsumedManager,
-        );
+        await this.internalExecutionContext.fetchMore({
+          diagnosticNode: options.diagnosticNode,
+          operationOptions: options.operationOptions,
+          ruConsumed: options.ruConsumed
+        });
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
       if (resources !== undefined) {
@@ -237,9 +234,7 @@ export class DocumentProducer {
    * Fetches the next element in the DocumentProducer.
    */
   public async nextItem(
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager,
+    options: ExecutionContextNextItemOptions
   ): Promise<Response<any>> {
     if (this.err) {
       this._updateStates(this.err, undefined);
@@ -247,11 +242,11 @@ export class DocumentProducer {
     }
 
     try {
-      const { result, headers } = await this.current(
-        diagnosticNode,
-        operationOptions,
-        ruConsumedManager,
-      );
+      const { result, headers } = await this.current({
+        diagnosticNode: options.diagnosticNode,
+        operationOptions: options.operationOptions,
+        ruConsumed: options.ruConsumed
+      });
 
       const fetchResult = this.fetchResults.shift();
       this._updateStates(undefined, result === undefined);
@@ -277,9 +272,7 @@ export class DocumentProducer {
    * Retrieve the current element on the DocumentProducer.
    */
   public async current(
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager,
+    options: ExecutionContextNextItemOptions
   ): Promise<Response<any>> {
     // If something is buffered just give that
     if (this.fetchResults.length > 0) {
@@ -311,15 +304,19 @@ export class DocumentProducer {
     }
 
     // If there are no more bufferd items and there are still items to be fetched then buffer more
-    const { result, headers } = await this.bufferMore(
-      diagnosticNode,
-      operationOptions,
-      ruConsumedManager,
-    );
+    const { result, headers } = await this.bufferMore({
+      diagnosticNode: options.diagnosticNode,
+      operationOptions: options.operationOptions,
+      ruConsumed: options.ruConsumed
+    });
     mergeHeaders(this.respHeaders, headers);
     if (result === undefined) {
       return { result: undefined, headers: this.respHeaders };
     }
-    return this.current(diagnosticNode, operationOptions, ruConsumedManager);
+    return this.current({
+      diagnosticNode: options.diagnosticNode,
+      operationOptions: options.operationOptions,
+      ruConsumed: options.ruConsumed
+    });
   }
 }

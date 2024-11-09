@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { QueryOperationOptions, Response } from "../../request";
+// Licensed under the MIT license.
+import { Response } from "../../request";
 import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
-import { ExecutionContext } from "../ExecutionContext";
-import { RUConsumedManager } from "../../common";
+import { ExecutionContext, ExecutionContextNextItemOptions } from "../ExecutionContext";
 
 /** @hidden */
 export class OrderByEndpointComponent implements ExecutionContext {
@@ -23,16 +21,14 @@ export class OrderByEndpointComponent implements ExecutionContext {
    * Execute a provided function on the next element in the OrderByEndpointComponent.
    */
   public async nextItem(
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager,
+    options: ExecutionContextNextItemOptions,
   ): Promise<Response<any>> {
     try {
-      const { result: item, headers } = await this.executionContext.nextItem(
-        diagnosticNode,
-        operationOptions,
-        ruConsumedManager,
-      );
+      const { result: item, headers } = await this.executionContext.nextItem({
+        diagnosticNode: options.diagnosticNode,
+        operationOptions: options.operationOptions,
+        ruConsumed: options.ruConsumed,
+      });
       if (this.emitRawOrderByPayload) {
         return {
           result: item !== undefined ? item : undefined,

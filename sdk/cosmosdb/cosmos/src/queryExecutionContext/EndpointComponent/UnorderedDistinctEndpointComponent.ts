@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { QueryOperationOptions, Response } from "../../request";
-import { ExecutionContext } from "../ExecutionContext";
+import { Response } from "../../request";
+import { ExecutionContext, ExecutionContextNextItemOptions } from "../ExecutionContext";
 import { hashObject } from "../../utils/hashObject";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+// import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
-import { RUConsumedManager } from "../../common";
+// import { RUConsumedManager } from "../../common";
 
 /** @hidden */
 export class UnorderedDistinctEndpointComponent implements ExecutionContext {
@@ -15,16 +15,14 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
   }
 
   public async nextItem(
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager,
+    options: ExecutionContextNextItemOptions,
   ): Promise<Response<any>> {
     try {
-      const { headers, result } = await this.executionContext.nextItem(
-        diagnosticNode,
-        operationOptions,
-        ruConsumedManager,
-      );
+      const { headers, result } = await this.executionContext.nextItem({
+        diagnosticNode: options.diagnosticNode,
+        operationOptions: options.operationOptions,
+        ruConsumed: options.ruConsumed,
+      });
       if (result) {
         const hashedResult = await hashObject(result);
         if (this.hashedResults.has(hashedResult)) {

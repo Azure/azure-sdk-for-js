@@ -104,20 +104,20 @@ export class QueryIterator<T> {
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
       try {
-        response = await this.queryExecutionContext.fetchMore(
-          diagnosticNode,
-          options,
-          ruConsumedManager,
-        );
+        response = await this.queryExecutionContext.fetchMore({
+          diagnosticNode: diagnosticNode,
+          operationOptions: options,
+          ruConsumed: ruConsumedManager,
+        });
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
           await this.createExecutionContext();
           try {
-            response = await this.queryExecutionContext.fetchMore(
-              diagnosticNode,
-              options,
-              ruConsumedManager,
-            );
+            response = await this.queryExecutionContext.fetchMore({
+              diagnosticNode: diagnosticNode,
+              operationOptions: options,
+              ruConsumed: ruConsumedManager,
+            });
           } catch (queryError: any) {
             this.handleSplitError(queryError);
           }
@@ -188,10 +188,8 @@ export class QueryIterator<T> {
    */
   public async fetchNext(options?: QueryOperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      let ruConsumedManager: RUConsumedManager | undefined;
-      if (options && options.ruCapPerOperation) {
-        ruConsumedManager = new RUConsumedManager();
-      }
+      let ruConsumedManager = new RUConsumedManager();
+
       this.queryPlanPromise = withMetadataDiagnostics(
         async (metadataNode: DiagnosticNodeInternal) => {
           return this.fetchQueryPlan(metadataNode);
@@ -204,20 +202,21 @@ export class QueryIterator<T> {
       }
       let response: Response<any>;
       try {
-        response = await this.queryExecutionContext.fetchMore(
-          diagnosticNode,
-          options,
-          ruConsumedManager,
-        );
+        response = await this.queryExecutionContext.fetchMore({
+          diagnosticNode: diagnosticNode,
+          operationOptions: options,
+          ruConsumed: ruConsumedManager
+        });
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
+
           await this.createExecutionContext(diagnosticNode);
           try {
-            response = await this.queryExecutionContext.fetchMore(
-              diagnosticNode,
-              options,
-              ruConsumedManager,
-            );
+            response = await this.queryExecutionContext.fetchMore({
+              diagnosticNode: diagnosticNode,
+              operationOptions: options,
+              ruConsumed: ruConsumedManager,
+            });
           } catch (queryError: any) {
             this.handleSplitError(queryError);
           }
@@ -253,10 +252,7 @@ export class QueryIterator<T> {
     diagnosticNode: DiagnosticNodeInternal,
     options?: QueryOperationOptions,
   ): Promise<FeedResponse<T>> {
-    let ruConsumedManager: RUConsumedManager | undefined;
-    if (options && options.ruCapPerOperation) {
-      ruConsumedManager = new RUConsumedManager();
-    }
+    let ruConsumedManager = new RUConsumedManager();
     this.queryPlanPromise = withMetadataDiagnostics(
       async (metadataNode: DiagnosticNodeInternal) => {
         return this.fetchQueryPlan(metadataNode);
@@ -272,19 +268,19 @@ export class QueryIterator<T> {
     while (this.queryExecutionContext.hasMoreResults()) {
       let response: Response<any>;
       try {
-        response = await this.queryExecutionContext.nextItem(
-          diagnosticNode,
-          options,
-          ruConsumedManager,
-        );
+        response = await this.queryExecutionContext.nextItem({
+          diagnosticNode: diagnosticNode,
+          operationOptions: options,
+          ruConsumed: ruConsumedManager,
+        });
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
-          await this.createExecutionContext(diagnosticNode);
-          response = await this.queryExecutionContext.nextItem(
-            diagnosticNode,
-            options,
-            ruConsumedManager,
-          );
+          await this.createExecutionContext();
+          response = await this.queryExecutionContext.nextItem({
+            diagnosticNode: diagnosticNode,
+            operationOptions: options,
+            ruConsumed: ruConsumedManager,
+          });
         } else if (error.code === RUCapPerOperationExceededErrorCode && error.fetchedResults) {
           error.fetchedResults.forEach((item: any) => {
             this.fetchAllTempResources.push(item);

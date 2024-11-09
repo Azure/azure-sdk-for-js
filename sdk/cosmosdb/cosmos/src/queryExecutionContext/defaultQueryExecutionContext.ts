@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { AzureLogger, createClientLogger } from "@azure/logger";
-import { Constants, RUConsumedManager } from "../common";
+import { Constants } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
-import { FeedOptions, QueryOperationOptions, Response } from "../request";
+import { FeedOptions, Response } from "../request";
 import { getInitialHeader, getRequestChargeIfAny } from "./headerUtils";
-import { ExecutionContext } from "./index";
+import { ExecutionContext, ExecutionContextFetchMoreOptions, ExecutionContextNextItemOptions } from "./index";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { addDignosticChild } from "../utils/diagnostics";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
@@ -71,12 +71,10 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    * Execute a provided callback on the next element in the execution context.
    */
   public async nextItem(
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager,
+    options: ExecutionContextNextItemOptions
   ): Promise<Response<any>> {
     ++this.currentIndex;
-    const response = await this.current(diagnosticNode, operationOptions, ruConsumedManager);
+    const response = await this.current({ diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
     return response;
   }
 
@@ -84,9 +82,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    * Retrieve the current element on the execution context.
    */
   public async current(
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager,
+    options: ExecutionContextNextItemOptions
   ): Promise<Response<any>> {
     if (this.currentIndex < this.resources.length) {
       return {
@@ -96,9 +92,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
     }
     if (this._canFetchMore()) {
       const { result: resources, headers } = await this.fetchMore(
-        diagnosticNode,
-        operationOptions,
-        ruConsumedManager,
+        { diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed }
       );
       this.resources = resources;
       if (this.resources.length === 0) {
@@ -106,7 +100,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           this.state = DefaultQueryExecutionContext.STATES.ended;
           return { result: undefined, headers };
         } else {
-          return this.current(diagnosticNode, operationOptions, ruConsumedManager);
+          return this.current({ diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
         }
       }
       return { result: this.resources[this.currentIndex], headers };
@@ -138,9 +132,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    * Fetches the next batch of the feed and pass them as an array to a callback
    */
   public async fetchMore(
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager,
+    options: ExecutionContextFetchMoreOptions
   ): Promise<Response<any>> {
     return addDignosticChild(
       async (childDiagnosticNode: DiagnosticNodeInternal) => {
@@ -192,13 +184,13 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
             const fetchFunction = this.fetchFunctions[this.currentPartitionIndex];
             this.nextFetchFunction = fetchFunction
               ? fetchFunction(
-                  childDiagnosticNode,
-                  {
-                    ...this.options,
-                    continuationToken: this.continuationToken,
-                  },
-                  this.correlatedActivityId,
-                )
+                childDiagnosticNode,
+                {
+                  ...this.options,
+                  continuationToken: this.continuationToken,
+                },
+                this.correlatedActivityId,
+              )
               : undefined;
           }
         } catch (err: any) {
@@ -244,10 +236,10 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           responseHeaders[Constants.HttpHeaders.QueryMetrics]["0"] = queryMetrics;
         }
 
-        if (operationOptions && operationOptions.ruCapPerOperation && ruConsumedManager) {
-          await ruConsumedManager.addToRUConsumed(getRequestChargeIfAny(responseHeaders));
-          const ruConsumedValue = await ruConsumedManager.getRUConsumed();
-          if (ruConsumedValue > operationOptions.ruCapPerOperation) {
+        if (options.operationOptions && options.operationOptions.ruCapPerOperation && options.ruConsumed) {
+          await options.ruConsumed.addToRUConsumed(getRequestChargeIfAny(responseHeaders));
+          const ruConsumedValue = await options.ruConsumed.getRUConsumed();
+          if (ruConsumedValue > options.operationOptions.ruCapPerOperation) {
             // For RUCapPerOperationExceededError error, we won't be updating the state from
             // inProgress as we want to support continue
             throw new RUCapPerOperationExceededError(
@@ -258,7 +250,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
         }
         return { result: resources, headers: responseHeaders };
       },
-      diagnosticNode,
+      options.diagnosticNode,
       DiagnosticNodeType.DEFAULT_QUERY_NODE,
       {
         queryMethodIdentifier: "fetchMore",

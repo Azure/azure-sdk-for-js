@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { ClientContext } from "../ClientContext";
-import { Response, FeedOptions, QueryOperationOptions } from "../request";
+import { Response, FeedOptions } from "../request";
 import { ErrorResponse, PartitionedQueryExecutionInfo, QueryInfo } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
@@ -9,17 +9,16 @@ import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointCom
 import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent";
 import { UnorderedDistinctEndpointComponent } from "./EndpointComponent/UnorderedDistinctEndpointComponent";
 import { GroupByEndpointComponent } from "./EndpointComponent/GroupByEndpointComponent";
-import { ExecutionContext } from "./ExecutionContext";
+import { ExecutionContext, ExecutionContextFetchMoreOptions, ExecutionContextNextItemOptions } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { GroupByValueEndpointComponent } from "./EndpointComponent/GroupByValueEndpointComponent";
 import { SqlQuerySpec } from "./SqlQuerySpec";
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { NonStreamingOrderByDistinctEndpointComponent } from "./EndpointComponent/NonStreamingOrderByDistinctEndpointComponent";
 import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent";
 import { RUCapPerOperationExceededErrorCode } from "../request/RUCapPerOperationExceededError";
-import { Constants, RUConsumedManager } from "../common";
+import { Constants } from "../common";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -166,11 +165,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   public async nextItem(
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager,
+    options: ExecutionContextNextItemOptions
   ): Promise<Response<any>> {
-    return this.endpoint.nextItem(diagnosticNode, operationOptions, ruConsumedManager);
+    return this.endpoint.nextItem({ diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
   }
 
   // Removed callback here beacuse it wouldn't have ever worked...
@@ -179,33 +176,29 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   public async fetchMore(
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager,
+    options: ExecutionContextFetchMoreOptions
   ): Promise<Response<any>> {
     // if the wrapped endpoint has different implementation for fetchMore use that
     // otherwise use the default implementation
     if (typeof this.endpoint.fetchMore === "function") {
-      return this.endpoint.fetchMore(diagnosticNode, operationOptions, ruConsumedManager);
+      return this.endpoint.fetchMore({ diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
     } else {
       this.fetchBuffer = [];
       this.fetchMoreRespHeaders = getInitialHeader();
       return this.nonStreamingOrderBy
-        ? this._nonStreamingFetchMoreImplementation(diagnosticNode)
-        : this._fetchMoreImplementation(diagnosticNode, operationOptions, ruConsumedManager);
+        ? this._nonStreamingFetchMoreImplementation(
+          { diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed }
+        )
+        : this._fetchMoreImplementation({ diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
     }
   }
 
   private async _fetchMoreImplementation(
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager,
+    options: ExecutionContextNextItemOptions
   ): Promise<Response<any>> {
     try {
       const { result: item, headers } = await this.endpoint.nextItem(
-        diagnosticNode,
-        operationOptions,
-        ruConsumedManager,
+        { diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed }
       );
       mergeHeaders(this.fetchMoreRespHeaders, headers);
       if (item === undefined) {
@@ -231,7 +224,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         } else {
           // recursively fetch more
           // TODO: is recursion a good idea?
-          return this._fetchMoreImplementation(diagnosticNode);
+          return this._fetchMoreImplementation({ diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
         }
       }
     } catch (err: any) {
@@ -247,15 +240,11 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   private async _nonStreamingFetchMoreImplementation(
-    diagnosticNode: DiagnosticNodeInternal,
-    operationOptions?: QueryOperationOptions,
-    ruConsumedManager?: RUConsumedManager,
+    options: ExecutionContextNextItemOptions
   ): Promise<Response<any>> {
     try {
       const { result: item, headers } = await this.endpoint.nextItem(
-        diagnosticNode,
-        operationOptions,
-        ruConsumedManager,
+        { diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed }
       );
       mergeHeaders(this.fetchMoreRespHeaders, headers);
       if (item === undefined) {
@@ -272,10 +261,10 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           return { result: temp, headers: this.fetchMoreRespHeaders };
         }
       } else {
-        const ruConsumed = await ruConsumedManager.getRUConsumed();
+        const ruConsumed = await options.ruConsumed.getRUConsumed();
         const maxRUAllowed =
-          operationOptions && operationOptions.ruCapPerOperation
-            ? operationOptions.ruCapPerOperation
+          options.operationOptions && options.operationOptions.ruCapPerOperation
+            ? options.operationOptions.ruCapPerOperation
             : Constants.NonStreamingQueryDefaultRUThreshold;
         // append the result
         if (typeof item !== "object") {
@@ -291,9 +280,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
         } else if (ruConsumed * 2 < maxRUAllowed) {
           // recursively fetch more only if we have more than 50% RUs left.
           return this._nonStreamingFetchMoreImplementation(
-            diagnosticNode,
-            operationOptions,
-            ruConsumedManager,
+            { diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed }
           );
         } else {
           return { result: [], headers: this.fetchMoreRespHeaders };
