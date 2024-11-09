@@ -6,7 +6,11 @@
     // THIS HAS TO ALWAYS BE ENABLED
     "strict": true
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.(ts|json)"],
+  "include": [
+    "src/**/*.ts",
+    "test/**/*.ts",
+    "samples-dev/**/*.(ts|json)"
+  ],
   // ADDITION TO THIS LIST IS NOT ALLOWED
   "exclude": [
     "src/documents/DatabaseAccount.ts",
@@ -157,6 +161,8 @@
     "src/queryExecutionContext/hybridQueryExecutionContext.ts",
     "src/request/globalStatistics.ts",
     "src/request/hybridSearchQueryResult.ts",
+    "src/request/RUCapPerOperationExceededError.ts",
+    "src/request/OperationOptions.ts",
     "test/public/common/TestHelpers.ts",
     "test/internal/session.spec.ts",
     "test/internal/unit/auth.spec.ts",

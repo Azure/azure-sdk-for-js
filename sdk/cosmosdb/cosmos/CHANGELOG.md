@@ -3,6 +3,8 @@
 ## 4.1.2 (Unreleased)
 
 ### Features Added
+- We have implemented support for Request Unit (RU) caps in Query operations. Clients can now seamlessly integrate RU caps into their fetch functions by specifying the desired cap within the operation options. If the specified RU cap is surpassed during the operation, clients will promptly receive an error notification, providing enhanced control and transparency over resource consumption.
+  
 
 ### Breaking Changes
 

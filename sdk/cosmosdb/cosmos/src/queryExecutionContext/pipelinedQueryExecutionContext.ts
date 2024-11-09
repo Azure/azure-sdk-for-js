@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { ClientContext } from "../ClientContext";
-import { Response, FeedOptions } from "../request";
+import { Response, FeedOptions, QueryOperationOptions } from "../request";
 import { ErrorResponse, PartitionedQueryExecutionInfo, QueryInfo } from "../request/ErrorResponse";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { OffsetLimitEndpointComponent } from "./EndpointComponent/OffsetLimitEndpointComponent";
@@ -18,6 +18,8 @@ import { SqlQuerySpec } from "./SqlQuerySpec";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { NonStreamingOrderByDistinctEndpointComponent } from "./EndpointComponent/NonStreamingOrderByDistinctEndpointComponent";
 import { NonStreamingOrderByEndpointComponent } from "./EndpointComponent/NonStreamingOrderByEndpointComponent";
+import { RUCapPerOperationExceededErrorCode } from "../request/RUCapPerOperationExceededError";
+import { Constants, RUConsumedManager } from "../common";
 
 /** @hidden */
 export class PipelinedQueryExecutionContext implements ExecutionContext {
@@ -66,7 +68,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (this.vectorSearchBufferSize > maxBufferSize) {
         throw new ErrorResponse(
           `Executing a vector search query with TOP or OFFSET + LIMIT value ${this.vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
-            `is not allowed`,
+          `is not allowed`,
         );
       }
 
@@ -123,7 +125,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       }
       if (
         Object.keys(partitionedQueryExecutionInfo.queryInfo.groupByAliasToAggregateType).length >
-          0 ||
+        0 ||
         partitionedQueryExecutionInfo.queryInfo.aggregates.length > 0 ||
         partitionedQueryExecutionInfo.queryInfo.groupByExpressions.length > 0
       ) {
@@ -163,8 +165,12 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     }
   }
 
-  public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    return this.endpoint.nextItem(diagnosticNode);
+  public async nextItem(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: QueryOperationOptions,
+    ruConsumedManager?: RUConsumedManager,
+  ): Promise<Response<any>> {
+    return this.endpoint.nextItem(diagnosticNode, operationOptions, ruConsumedManager);
   }
 
   // Removed callback here beacuse it wouldn't have ever worked...
@@ -172,25 +178,35 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     return this.endpoint.hasMoreResults();
   }
 
-  public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
+  public async fetchMore(
+    diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: QueryOperationOptions,
+    ruConsumedManager?: RUConsumedManager,
+  ): Promise<Response<any>> {
     // if the wrapped endpoint has different implementation for fetchMore use that
     // otherwise use the default implementation
     if (typeof this.endpoint.fetchMore === "function") {
-      return this.endpoint.fetchMore(diagnosticNode);
+      return this.endpoint.fetchMore(diagnosticNode, operationOptions, ruConsumedManager);
     } else {
       this.fetchBuffer = [];
       this.fetchMoreRespHeaders = getInitialHeader();
       return this.nonStreamingOrderBy
         ? this._nonStreamingFetchMoreImplementation(diagnosticNode)
-        : this._fetchMoreImplementation(diagnosticNode);
+        : this._fetchMoreImplementation(diagnosticNode, operationOptions, ruConsumedManager);
     }
   }
 
   private async _fetchMoreImplementation(
     diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: QueryOperationOptions,
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     try {
-      const { result: item, headers } = await this.endpoint.nextItem(diagnosticNode);
+      const { result: item, headers } = await this.endpoint.nextItem(
+        diagnosticNode,
+        operationOptions,
+        ruConsumedManager,
+      );
       mergeHeaders(this.fetchMoreRespHeaders, headers);
       if (item === undefined) {
         // no more results
@@ -221,6 +237,9 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     } catch (err: any) {
       mergeHeaders(this.fetchMoreRespHeaders, err.headers);
       err.headers = this.fetchMoreRespHeaders;
+      if (err.code === RUCapPerOperationExceededErrorCode && err.fetchedResults) {
+        err.fetchedResults.push(...this.fetchBuffer);
+      }
       if (err) {
         throw err;
       }
@@ -229,9 +248,15 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
 
   private async _nonStreamingFetchMoreImplementation(
     diagnosticNode: DiagnosticNodeInternal,
+    operationOptions?: QueryOperationOptions,
+    ruConsumedManager?: RUConsumedManager,
   ): Promise<Response<any>> {
     try {
-      const { result: item, headers } = await this.endpoint.nextItem(diagnosticNode);
+      const { result: item, headers } = await this.endpoint.nextItem(
+        diagnosticNode,
+        operationOptions,
+        ruConsumedManager,
+      );
       mergeHeaders(this.fetchMoreRespHeaders, headers);
       if (item === undefined) {
         // no more results
@@ -247,6 +272,11 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           return { result: temp, headers: this.fetchMoreRespHeaders };
         }
       } else {
+        const ruConsumed = await ruConsumedManager.getRUConsumed();
+        const maxRUAllowed =
+          operationOptions && operationOptions.ruCapPerOperation
+            ? operationOptions.ruCapPerOperation
+            : Constants.NonStreamingQueryDefaultRUThreshold;
         // append the result
         if (typeof item !== "object") {
           this.fetchBuffer.push(item);
@@ -258,13 +288,23 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           const temp = this.fetchBuffer.slice(0, this.pageSize);
           this.fetchBuffer = this.fetchBuffer.splice(this.pageSize);
           return { result: temp, headers: this.fetchMoreRespHeaders };
+        } else if (ruConsumed * 2 < maxRUAllowed) {
+          // recursively fetch more only if we have more than 50% RUs left.
+          return this._nonStreamingFetchMoreImplementation(
+            diagnosticNode,
+            operationOptions,
+            ruConsumedManager,
+          );
         } else {
-          return this._nonStreamingFetchMoreImplementation(diagnosticNode);
+          return { result: [], headers: this.fetchMoreRespHeaders };
         }
       }
     } catch (err: any) {
       mergeHeaders(this.fetchMoreRespHeaders, err.headers);
       err.headers = this.fetchMoreRespHeaders;
+      if (err.code === RUCapPerOperationExceededErrorCode && err.fetchedResults) {
+        err.fetchedResults.push(...this.fetchBuffer);
+      }
       if (err) {
         throw err;
       }
@@ -288,8 +328,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (!hasTop && !hasLimit) {
       throw new ErrorResponse(
         "Executing a non-streaming search query without TOP or LIMIT can consume a large number of RUs " +
-          "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
-          "with your vector search query.",
+        "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
+        "with your vector search query.",
       );
     }
     return;

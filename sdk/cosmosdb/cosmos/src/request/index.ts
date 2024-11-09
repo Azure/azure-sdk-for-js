@@ -21,3 +21,5 @@ export { FeedResponse } from "./FeedResponse";
 export { RequestContext } from "./RequestContext";
 export { TimeoutError } from "./TimeoutError";
 export * from "./globalStatistics";
+export { QueryOperationOptions } from "./OperationOptions";
+export { RUCapPerOperationExceededError } from "./RUCapPerOperationExceededError";

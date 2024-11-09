@@ -593,6 +593,7 @@ export const Constants: {
         MinimumInclusiveEffectivePartitionKey: string;
         MaximumExclusiveEffectivePartitionKey: string;
     };
+    NonStreamingQueryDefaultRUThreshold: number;
     AllVersionsAndDeletesChangeFeedWireFormatVersion: string;
     ChangeFeedIfNoneMatchStartFromNowHeader: string;
 };
@@ -1722,11 +1723,11 @@ export interface QueryInfo {
 export class QueryIterator<T> {
     // Warning: (ae-forgotten-export) The symbol "FetchFunctionCallback" needs to be exported by the entry point index.d.ts
     constructor(clientContext: ClientContext, query: SqlQuerySpec | string, options: FeedOptions, fetchFunctions: FetchFunctionCallback | FetchFunctionCallback[], resourceLink?: string, resourceType?: ResourceType);
-    fetchAll(): Promise<FeedResponse<T>>;
+    fetchAll(options?: QueryOperationOptions): Promise<FeedResponse<T>>;
     // (undocumented)
-    fetchAllInternal(diagnosticNode: DiagnosticNodeInternal): Promise<FeedResponse<T>>;
-    fetchNext(): Promise<FeedResponse<T>>;
-    getAsyncIterator(): AsyncIterable<FeedResponse<T>>;
+    fetchAllInternal(diagnosticNode: DiagnosticNodeInternal, options?: QueryOperationOptions): Promise<FeedResponse<T>>;
+    fetchNext(options?: QueryOperationOptions): Promise<FeedResponse<T>>;
+    getAsyncIterator(options?: QueryOperationOptions): AsyncIterable<FeedResponse<T>>;
     hasMoreResults(): boolean;
     reset(): void;
 }
@@ -1814,6 +1815,11 @@ export const QueryMetricsConstants: {
     FetchExecutionRangesText: string;
     SchedulingMetricsText: string;
 };
+
+// @public (undocumented)
+export interface QueryOperationOptions {
+    ruCapPerOperation?: number;
+}
 
 // @public (undocumented)
 export class QueryPreparationTimes {
@@ -2053,6 +2059,15 @@ export interface RetryOptions {
     fixedRetryIntervalInMilliseconds: number;
     maxRetryAttemptCount: number;
     maxWaitTimeInSeconds: number;
+}
+
+// @public (undocumented)
+export class RUCapPerOperationExceededError extends ErrorResponse {
+    constructor(message?: string, fetchedResults?: any[]);
+    // (undocumented)
+    readonly code: string;
+    // (undocumented)
+    fetchedResults: any[];
 }
 
 // @public (undocumented)
