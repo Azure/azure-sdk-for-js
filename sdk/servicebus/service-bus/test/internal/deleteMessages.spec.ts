@@ -148,10 +148,6 @@ describe("Batch Receiver - batch delete messages", function (): void {
       const sender2 = serviceBusClient.test.addToCleanup(
         serviceBusClient.createSender(names.queue ?? names.topic!),
       );
-      const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver({
-        ...names,
-        sessionId: randomSessionId,
-      });
 
       const numMessages = 3;
       const toSend = [];
@@ -165,6 +161,10 @@ describe("Batch Receiver - batch delete messages", function (): void {
       }
       await sender2.sendMessages(toSend);
 
+      const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver({
+        ...names,
+        sessionId: randomSessionId,
+      });
       const peeked = await receiver2.peekMessages(numMessages + 10);
       assert.equal(peeked.length, numMessages);
 
@@ -181,10 +181,6 @@ describe("Batch Receiver - batch delete messages", function (): void {
       const sender2 = serviceBusClient.test.addToCleanup(
         serviceBusClient.createSender(names.queue ?? names.topic!),
       );
-      const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver({
-        ...names,
-        sessionId: randomSessionId,
-      });
 
       const numMessages = 5000;
       let i = 0;
@@ -210,6 +206,10 @@ describe("Batch Receiver - batch delete messages", function (): void {
 
       // wait for things to be ready
       await delay(10 * 1000);
+      const receiver2 = await serviceBusClient.test.createReceiveAndDeleteReceiver({
+        ...names,
+        sessionId: randomSessionId,
+      });
       await receiver2.purgeMessages();
 
       await testPeekMsgsLength(receiver2, 0);
