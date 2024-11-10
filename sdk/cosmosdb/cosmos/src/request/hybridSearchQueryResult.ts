@@ -1,5 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
+import { ItemDefinition } from "../client";
+
+const FieldNames = {
+  Rid: "_rid",
+  Payload: "payload",
+  ComponentScores: "componentScores",
+};
+
 export class HybridSearchQueryResult {
   rid: string;
   componentScores: number[];
@@ -7,13 +16,13 @@ export class HybridSearchQueryResult {
   score: number;
   ranks: number[];
 
-  constructor(rid: string, componentScores: number[], data: any) {
+  constructor(rid: string, componentScores: number[], data: Record<string, unknown>) {
     this.rid = rid;
     this.componentScores = componentScores;
     this.data = data;
   }
 
-  public static create(document: any): HybridSearchQueryResult {
+  public static create<T extends ItemDefinition>(document: T): HybridSearchQueryResult {
     const rid = document[FieldNames.Rid];
     if (!rid) {
       throw new Error(`${FieldNames.Rid} must exist.`);
@@ -36,10 +45,4 @@ export class HybridSearchQueryResult {
 
     return new HybridSearchQueryResult(rid, componentScores, innerPayload);
   }
-}
-
-class FieldNames {
-  public static readonly Rid = "_rid";
-  public static readonly Payload = "payload";
-  public static readonly ComponentScores = "componentScores";
 }

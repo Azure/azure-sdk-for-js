@@ -53,7 +53,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       const globalStaticsQueryOptions: FeedOptions = { maxItemCount: this.pageSize };
       this.globalStatisticsAggregator = new GlobalStatisticsAggregator();
 
-      let globalStatisticsQuery =
+      const globalStatisticsQuery =
         this.partitionedQueryExecutionInfo.hybridSearchQueryInfo.globalStatisticsQuery;
       const globalStatisticsQueryExecutionInfo: PartitionedQueryExecutionInfo = {
         partitionedQueryExecutionInfoVersion: 1,
@@ -81,7 +81,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
   }
   public async nextItem(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    let nextItemRespHeaders = getInitialHeader();
+    const nextItemRespHeaders = getInitialHeader();
     while (
       (this.state === HybridQueryExecutionContextBaseStates.uninitialized ||
         this.state === HybridQueryExecutionContextBaseStates.initialized) &&
@@ -113,8 +113,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   }
 
   public async fetchMore(diagnosticNode: DiagnosticNodeInternal): Promise<Response<any>> {
-    let fetchMoreRespHeaders = getInitialHeader();
-    return await this.fetchMoreInternal(diagnosticNode, fetchMoreRespHeaders);
+    const fetchMoreRespHeaders = getInitialHeader();
+    return this.fetchMoreInternal(diagnosticNode, fetchMoreRespHeaders);
   }
 
   private async fetchMoreInternal(
@@ -136,8 +136,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           headers: headers,
         };
       case HybridQueryExecutionContextBaseStates.draining:
-        const result = await this.drain(headers);
-        return result;
+        return this.drain(headers);
       case HybridQueryExecutionContextBaseStates.done:
         return this.done(headers);
       default:
@@ -155,7 +154,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         const globalStatistics: GlobalStatistics = result.result;
         mergeHeaders(fetchMoreRespHeaders, result.headers);
         if (globalStatistics) {
-          //iterate over the components update placeholders from globalStatistics
+          // iterate over the components update placeholders from globalStatistics
           this.globalStatisticsAggregator.aggregate(globalStatistics);
         }
       }
@@ -217,7 +216,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     }
   }
 
-  private applySkipAndTakeToBuffer() {
+  private applySkipAndTakeToBuffer(): void {
     const { skip, take } = this.partitionedQueryExecutionInfo.hybridSearchQueryInfo;
     if (skip) {
       this.buffer = this.buffer.slice(skip);
@@ -276,7 +275,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     };
   }
 
-  private sortHybridSearchResultByRRFScore(hybridSearchResult: HybridSearchQueryResult[]) {
+  private sortHybridSearchResultByRRFScore(
+    hybridSearchResult: HybridSearchQueryResult[],
+  ): HybridSearchQueryResult[] {
     const ranksArray: { rid: string; ranks: number[] }[] = hybridSearchResult.map((item) => ({
       rid: item.rid,
       ranks: new Array(item.componentScores.length).fill(0),
