@@ -1,10 +1,10 @@
 # Release History
 
-## 1.17.1 (Unreleased)
+## 1.17.1 (2024-11-07)
 
 ### Features Added
 
-### Breaking Changes
+- `BearerTokenAuthenticationPolicy` will handle CAE claims challenge by default. [PR #31501](https://github.com/Azure/azure-sdk-for-js/pull/31501/)
 
 ### Bugs Fixed
 
