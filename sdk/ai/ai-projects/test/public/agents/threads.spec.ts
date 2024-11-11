@@ -10,29 +10,29 @@ describe("Agents - threads", () => {
   let recorder: Recorder;
   let projectsClient : AIProjectsClient;
   let agents: AgentsOperations
- 
+
   beforeEach(async function (context: VitestTestContext) {
     recorder = await createRecorder(context);
     projectsClient = createProjectsClient(recorder);
     agents = projectsClient.agents
   });
- 
+
   afterEach(async function () {
      await recorder.stop();
   });
- 
+
   it("client and agents operations are accessible", async function () {
     assert.isNotNull(projectsClient);
     assert.isNotNull(agents);
   });
-   
+
   it("should create thread", async function () {  
     const thread = await agents.createThread()
     assert.isNotNull(thread);
     assert.isNotNull(thread.id);
     agents.deleteThread(thread.id);
   });
- 
+
   it("should retrieve thread", async function () {
     const thread = await agents.createThread()
     const _thread = await agents.getThread(thread.id);
@@ -49,7 +49,7 @@ describe("Agents - threads", () => {
     assert.isNotEmpty(_thread.metadata);
     assert.equal(_thread.metadata?.key, "value");
   });
- 
+
   it("should delete thread", async function () {
     const thread = await agents.createThread()
     const deleted = await agents.deleteThread(thread.id);
