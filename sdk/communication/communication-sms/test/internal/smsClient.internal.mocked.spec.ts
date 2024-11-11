@@ -31,7 +31,7 @@ describe("[mocked] SmsClient Internal", async function () {
   describe("when sending an SMS", function () {
     let smsClient: SmsClient;
     beforeEach(function () {
-      uuidStub = sinon.stub(Uuid, "generateUuid");
+      uuidStub = vi.spyOn(Uuid, "generateUuid");
       uuidStub.returns(mockedGuid);
       sendRequestSpy = sinon.spy(mockHttpClient, "sendRequest");
       sinon.useFakeTimers();
@@ -56,7 +56,7 @@ describe("[mocked] SmsClient Internal", async function () {
     });
 
     afterEach(function () {
-      sinon.restore();
+      vi.restoreAllMocks();
     });
   });
 });

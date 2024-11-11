@@ -29,8 +29,14 @@ matrix([[true, false]], async function (useAad: boolean) {
       if (isLiveMode()) {
         ctx.skip();
       } else if (isPlaybackMode()) {
-        sinon.stub(Uuid, "generateUuid").returns("sanitized");
-        sinon.stub(Date, "now").returns(0);
+        
+                      vi.spyOn(Uuid, "generateUuid")
+                      .mockReturnValue("sanitized")
+                    ;
+        
+                      vi.spyOn(Date, "now")
+                      .mockReturnValue(0)
+                    ;
       }
 
       if (useAad) {
@@ -46,7 +52,7 @@ matrix([[true, false]], async function (useAad: boolean) {
         await recorder.stop();
       }
       if (isPlaybackMode()) {
-        sinon.restore();
+        vi.restoreAllMocks();
       }
     });
 

@@ -29,8 +29,14 @@ matrix([[true, false]], async function (useAad: boolean) {
 
     beforeEach(async function (ctx) {
       if (isPlaybackMode()) {
-        sinon.stub(Uuid, "generateUuid").returns("sanitized");
-        sinon.stub(Date, "now").returns(0);
+        
+                      vi.spyOn(Uuid, "generateUuid")
+                      .mockReturnValue("sanitized")
+                    ;
+        
+                      vi.spyOn(Date, "now")
+                      .mockReturnValue(0)
+                    ;
       }
       if (useAad) {
         ({ client, recorder } = await createRecordedSmsClientWithToken(this));
@@ -45,7 +51,7 @@ matrix([[true, false]], async function (useAad: boolean) {
         await recorder.stop();
       }
       if (isPlaybackMode()) {
-        sinon.restore();
+        vi.restoreAllMocks();
       }
     });
 

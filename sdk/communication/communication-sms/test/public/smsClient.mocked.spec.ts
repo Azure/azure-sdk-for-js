@@ -80,7 +80,7 @@ describe("[mocked] SmsClient", async function () {
     });
 
     afterEach(function () {
-      sinon.restore();
+      vi.restoreAllMocks();
     });
   });
 });
