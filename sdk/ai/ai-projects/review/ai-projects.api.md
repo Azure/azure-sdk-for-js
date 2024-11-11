@@ -124,7 +124,7 @@ export interface AgentsOperations {
     submitToolOutputsToRun: (threadId: string, runId: string, options: SubmitToolOutputsToRunParameters) => Promise<ThreadRunOutput>;
     updateAgent: (assistantId: string, options: UpdateAgentOptions) => Promise<AgentOutput>;
     // Warning: (ae-forgotten-export) The symbol "UpdateMessageOptions" needs to be exported by the entry point index.d.ts
-    updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions) => Promise<ThreadMessageOutput>;
+    updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: RequestParameters) => Promise<ThreadMessageOutput>;
     // Warning: (ae-forgotten-export) The symbol "UpdateRunParameters" needs to be exported by the entry point index.d.ts
     updateRun: (threadId: string, runId: string, options: UpdateRunParameters) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: RequestParameters) => Promise<AgentThreadOutput>;
