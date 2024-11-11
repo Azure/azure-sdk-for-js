@@ -13,7 +13,7 @@ import {
 import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult";
 import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator";
 import { CosmosHeaders } from "./CosmosHeaders";
-import { ExecutionContext, ExecutionContextFetchMoreOptions, ExecutionContextNextItemOptions } from "./ExecutionContext";
+import { ExecutionContext, ExecutionContextHybridOptions, ExecutionContextOptions } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext";
@@ -34,6 +34,11 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private emitRawOrderByPayload: boolean = true;
   private buffer: HybridSearchQueryResult[] = [];
   private DEFAULT_PAGE_SIZE = 10;
+  private TOTAL_WORD_COUNT_PLACEHOLDER = "documentdb-formattablehybridsearchquery-totalwordcount";
+  private HIT_COUNTS_ARRAY_PLACEHOLDER = "documentdb-formattablehybridsearchquery-hitcountsarray";
+  private TOTAL_DOCUMENT_COUNT_PLACEHOLDER =
+    "documentdb-formattablehybridsearchquery-totaldocumentcount";
+  private RRF_CONSTANT = 60; // Constant for RRF score calculation
 
   constructor(
     private clientContext: ClientContext,
@@ -79,7 +84,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       this.state = HybridQueryExecutionContextBaseStates.initialized;
     }
   }
-  public async nextItem(options: ExecutionContextNextItemOptions,
+  public async nextItem(options: ExecutionContextOptions,
   ): Promise<Response<any>> {
     let nextItemRespHeaders = getInitialHeader();
     while (
@@ -113,13 +118,13 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   }
 
   public async fetchMore(
-    options: ExecutionContextNextItemOptions): Promise<Response<any>> {
+    options: ExecutionContextOptions): Promise<Response<any>> {
     let fetchMoreRespHeaders = getInitialHeader();
     return await this.fetchMoreInternal({ diagnosticNode: options.diagnosticNode, nextItemRespHeaders: fetchMoreRespHeaders, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
   }
 
   private async fetchMoreInternal(
-    options: ExecutionContextFetchMoreOptions,
+    options: ExecutionContextHybridOptions,
   ): Promise<Response<any>> {
     switch (this.state) {
       case HybridQueryExecutionContextBaseStates.uninitialized:
@@ -146,7 +151,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   }
 
   private async initialize(
-    options: ExecutionContextFetchMoreOptions,
+    options: ExecutionContextHybridOptions,
   ): Promise<void> {
     try {
       while (this.globalStatisticsExecutionContext.hasMoreResults()) {
@@ -168,7 +173,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     this.state = HybridQueryExecutionContextBaseStates.initialized;
   }
 
-  private async executeComponentQueries(options: ExecutionContextFetchMoreOptions
+  private async executeComponentQueries(options: ExecutionContextHybridOptions
   ): Promise<void> {
     if (this.componentsExecutionContext.length === 1) {
       await this.drainSingleComponent({ diagnosticNode: options.diagnosticNode, nextItemRespHeaders: options.nextItemRespHeaders, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
@@ -180,7 +185,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
 
       for (const componentExecutionContext of this.componentsExecutionContext) {
         while (componentExecutionContext.hasMoreResults()) {
-          const result = await componentExecutionContext.fetchMore({ diagnosticNode: options.diagnosticNode, nextItemRespHeaders: options.nextItemRespHeaders, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
+          const result = await componentExecutionContext.fetchMore({ diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
           const response = result.result;
           mergeHeaders(options.nextItemRespHeaders, result.headers);
           if (response) {
@@ -305,10 +310,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     };
 
     // Compute RRF scores and sort based on them
-    const k = 60; // Constant for RRF score calculation
     const rrfScores = ranksArray.map((item) => ({
       rid: item.rid,
-      rrfScore: computeRRFScore(item.ranks, k),
+      rrfScore: computeRRFScore(item.ranks, this.RRF_CONSTANT),
     }));
 
     // Sort based on RRF scores
@@ -322,7 +326,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   }
 
   private async drainSingleComponent(
-    options: ExecutionContextFetchMoreOptions,
+    options: ExecutionContextHybridOptions,
   ): Promise<void> {
     if (this.componentsExecutionContext && this.componentsExecutionContext.length !== 1) {
       throw new Error("drainSingleComponent called on multiple components");
@@ -400,7 +404,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private replacePlaceholders(query: string, globalStats: GlobalStatistics): string {
     // Replace total document count
     query = query.replace(
-      /{documentdb-formattablehybridsearchquery-totaldocumentcount}/g,
+      new RegExp(`{${this.TOTAL_DOCUMENT_COUNT_PLACEHOLDER}}`, "g"),
       globalStats.documentCount.toString(),
     );
 
@@ -408,12 +412,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     globalStats.fullTextStatistics.forEach((stats, index) => {
       // Replace total word counts
       query = query.replace(
-        new RegExp(`{documentdb-formattablehybridsearchquery-totalwordcount-${index}}`, "g"),
+        new RegExp(`{${this.TOTAL_WORD_COUNT_PLACEHOLDER}-${index}}`, "g"),
         stats.totalWordCount.toString(),
       );
       // Replace hit counts
       query = query.replace(
-        new RegExp(`{documentdb-formattablehybridsearchquery-hitcountsarray-${index}}`, "g"),
+        new RegExp(`{${this.HIT_COUNTS_ARRAY_PLACEHOLDER}-${index}}`, "g"),
         `[${stats.hitCounts.join(",")}]`,
       );
     });

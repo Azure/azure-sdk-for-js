@@ -19,7 +19,7 @@ import {
 } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
 import { CosmosHeaders, getInitialHeader, mergeHeaders } from "./headerUtils";
-import { ExecutionContextNextItemOptions, SqlQuerySpec } from "./index";
+import { ExecutionContextOptions, SqlQuerySpec } from "./index";
 
 /** @hidden */
 export class DocumentProducer {
@@ -167,7 +167,7 @@ export class DocumentProducer {
    * Fetches and bufferes the next page of results and executes the given callback
    */
   public async bufferMore(
-    options: ExecutionContextNextItemOptions
+    options: ExecutionContextOptions
   ): Promise<Response<any>> {
     if (this.err) {
       throw this.err;
@@ -234,7 +234,7 @@ export class DocumentProducer {
    * Fetches the next element in the DocumentProducer.
    */
   public async nextItem(
-    options: ExecutionContextNextItemOptions
+    options: ExecutionContextOptions
   ): Promise<Response<any>> {
     if (this.err) {
       this._updateStates(this.err, undefined);
@@ -272,7 +272,7 @@ export class DocumentProducer {
    * Retrieve the current element on the DocumentProducer.
    */
   public async current(
-    options: ExecutionContextNextItemOptions
+    options: ExecutionContextOptions
   ): Promise<Response<any>> {
     // If something is buffered just give that
     if (this.fetchResults.length > 0) {

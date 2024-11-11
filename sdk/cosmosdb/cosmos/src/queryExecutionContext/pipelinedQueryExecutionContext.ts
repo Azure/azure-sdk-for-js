@@ -9,7 +9,7 @@ import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointCom
 import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent";
 import { UnorderedDistinctEndpointComponent } from "./EndpointComponent/UnorderedDistinctEndpointComponent";
 import { GroupByEndpointComponent } from "./EndpointComponent/GroupByEndpointComponent";
-import { ExecutionContext, ExecutionContextFetchMoreOptions, ExecutionContextNextItemOptions } from "./ExecutionContext";
+import { ExecutionContext, ExecutionContextHybridOptions, ExecutionContextOptions } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
@@ -165,7 +165,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   public async nextItem(
-    options: ExecutionContextNextItemOptions
+    options: ExecutionContextOptions
   ): Promise<Response<any>> {
     return this.endpoint.nextItem({ diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
   }
@@ -176,7 +176,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   public async fetchMore(
-    options: ExecutionContextFetchMoreOptions
+    options: ExecutionContextHybridOptions
   ): Promise<Response<any>> {
     // if the wrapped endpoint has different implementation for fetchMore use that
     // otherwise use the default implementation
@@ -194,7 +194,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   private async _fetchMoreImplementation(
-    options: ExecutionContextNextItemOptions
+    options: ExecutionContextOptions
   ): Promise<Response<any>> {
     try {
       const { result: item, headers } = await this.endpoint.nextItem(
@@ -240,7 +240,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
   }
 
   private async _nonStreamingFetchMoreImplementation(
-    options: ExecutionContextNextItemOptions
+    options: ExecutionContextOptions
   ): Promise<Response<any>> {
     try {
       const { result: item, headers } = await this.endpoint.nextItem(

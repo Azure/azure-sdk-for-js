@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { Response } from "../../request";
 import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
-import { ExecutionContext, ExecutionContextNextItemOptions } from "../ExecutionContext";
+import { ExecutionContext, ExecutionContextOptions } from "../ExecutionContext";
 
 /** @hidden */
 export class OrderByEndpointComponent implements ExecutionContext {
@@ -21,7 +21,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
    * Execute a provided function on the next element in the OrderByEndpointComponent.
    */
   public async nextItem(
-    options: ExecutionContextNextItemOptions,
+    options: ExecutionContextOptions,
   ): Promise<Response<any>> {
     try {
       const { result: item, headers } = await this.executionContext.nextItem({

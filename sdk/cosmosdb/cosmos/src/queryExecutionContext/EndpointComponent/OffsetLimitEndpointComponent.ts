@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import { Response } from "../../request";
 import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
-import { ExecutionContext, ExecutionContextNextItemOptions } from "../ExecutionContext";
+import { ExecutionContext, ExecutionContextOptions } from "../ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
 
 /** @hidden */
@@ -14,7 +14,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
   ) { }
 
   public async nextItem(
-    options: ExecutionContextNextItemOptions,
+    options: ExecutionContextOptions,
   ): Promise<Response<any>> {
     const aggregateHeaders = getInitialHeader();
     try {

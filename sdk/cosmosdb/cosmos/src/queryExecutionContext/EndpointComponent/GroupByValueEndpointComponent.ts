@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { Response } from "../../request";
-import { ExecutionContext, ExecutionContextNextItemOptions } from "../ExecutionContext";
+import { ExecutionContext, ExecutionContextOptions } from "../ExecutionContext";
 import { CosmosHeaders } from "../CosmosHeaders";
 import { AggregateType, QueryInfo } from "../../request/ErrorResponse";
 import { hashObject } from "../../utils/hashObject";
@@ -36,7 +36,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
   }
 
   public async nextItem(
-    options: ExecutionContextNextItemOptions,
+    options: ExecutionContextOptions,
   ): Promise<Response<any>> {
     // Start returning results if we have processed a full results set
     if (this.aggregateResultArray.length > 0) {

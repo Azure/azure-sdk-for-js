@@ -10,7 +10,7 @@ import { QueryRange } from "../routing/QueryRange";
 import { SmartRoutingMapProvider } from "../routing/smartRoutingMapProvider";
 import { CosmosHeaders } from "./CosmosHeaders";
 import { DocumentProducer } from "./documentProducer";
-import { ExecutionContext, ExecutionContextNextItemOptions } from "./ExecutionContext";
+import { ExecutionContext, ExecutionContextOptions } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { SqlQuerySpec } from "./SqlQuerySpec";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
@@ -272,7 +272,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
    * Fetches the next element in the ParallelQueryExecutionContextBase.
    */
   public async nextItem(
-    options: ExecutionContextNextItemOptions,
+    options: ExecutionContextOptions,
   ): Promise<Response<any>> {
     if (this.err) {
       // if there is a prior error return error

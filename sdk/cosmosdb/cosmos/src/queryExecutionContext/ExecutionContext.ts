@@ -4,19 +4,19 @@ import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import { QueryOperationOptions, Response } from "../request";
 import { RUConsumedManager } from "../common";
 import { CosmosHeaders } from "./headerUtils";
-export interface ExecutionContextNextItemOptions {
+export interface ExecutionContextOptions {
   diagnosticNode: DiagnosticNodeInternal;
   operationOptions?: QueryOperationOptions;
   ruConsumed?: RUConsumedManager;
 }
-export interface ExecutionContextFetchMoreOptions extends ExecutionContextNextItemOptions {
+export interface ExecutionContextHybridOptions extends ExecutionContextOptions {
   nextItemRespHeaders?: CosmosHeaders;
 }
 /** @hidden */
 export interface ExecutionContext {
   nextItem: (
-    options: ExecutionContextNextItemOptions,
+    options: ExecutionContextOptions,
   ) => Promise<Response<any>>;
   hasMoreResults: () => boolean;
-  fetchMore?: (options: ExecutionContextFetchMoreOptions) => Promise<Response<any>>; // TODO: code smell
+  fetchMore?: (options: ExecutionContextOptions) => Promise<Response<any>>; // TODO: code smell
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { Response } from "../../request";
-import { ExecutionContext, ExecutionContextNextItemOptions } from "../ExecutionContext";
+import { ExecutionContext, ExecutionContextOptions } from "../ExecutionContext";
 import { hashObject } from "../../utils/hashObject";
 // import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
@@ -15,7 +15,7 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
   }
 
   public async nextItem(
-    options: ExecutionContextNextItemOptions,
+    options: ExecutionContextOptions,
   ): Promise<Response<any>> {
     try {
       const { headers, result } = await this.executionContext.nextItem({

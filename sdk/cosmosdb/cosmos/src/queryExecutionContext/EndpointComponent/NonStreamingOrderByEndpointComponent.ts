@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { Response } from "../../request";
-import { ExecutionContext, ExecutionContextNextItemOptions } from "../ExecutionContext";
+import { ExecutionContext, ExecutionContextOptions } from "../ExecutionContext";
 import { OrderByComparator } from "../orderByComparator";
 import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
 import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue";
@@ -45,7 +45,7 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
   }
 
   public async nextItem(
-    options: ExecutionContextNextItemOptions,
+    options: ExecutionContextOptions,
   ): Promise<Response<any>> {
     if (
       this.priorityQueueBufferSize <= 0

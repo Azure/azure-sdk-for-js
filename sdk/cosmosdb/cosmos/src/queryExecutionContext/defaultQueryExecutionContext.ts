@@ -5,7 +5,7 @@ import { Constants } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { FeedOptions, Response } from "../request";
 import { getInitialHeader, getRequestChargeIfAny } from "./headerUtils";
-import { ExecutionContext, ExecutionContextFetchMoreOptions, ExecutionContextNextItemOptions } from "./index";
+import { ExecutionContext, ExecutionContextHybridOptions, ExecutionContextOptions } from "./index";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { addDignosticChild } from "../utils/diagnostics";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
@@ -71,7 +71,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    * Execute a provided callback on the next element in the execution context.
    */
   public async nextItem(
-    options: ExecutionContextNextItemOptions
+    options: ExecutionContextOptions
   ): Promise<Response<any>> {
     ++this.currentIndex;
     const response = await this.current({ diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
@@ -82,7 +82,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    * Retrieve the current element on the execution context.
    */
   public async current(
-    options: ExecutionContextNextItemOptions
+    options: ExecutionContextOptions
   ): Promise<Response<any>> {
     if (this.currentIndex < this.resources.length) {
       return {
@@ -132,7 +132,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
    * Fetches the next batch of the feed and pass them as an array to a callback
    */
   public async fetchMore(
-    options: ExecutionContextFetchMoreOptions
+    options: ExecutionContextHybridOptions
   ): Promise<Response<any>> {
     return addDignosticChild(
       async (childDiagnosticNode: DiagnosticNodeInternal) => {

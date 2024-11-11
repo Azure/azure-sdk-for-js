@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { QueryInfo, Response } from "../../request";
-import { ExecutionContext, ExecutionContextNextItemOptions } from "../ExecutionContext";
+import { ExecutionContext, ExecutionContextOptions } from "../ExecutionContext";
 import { getInitialHeader } from "../headerUtils";
 import { hashObject } from "../../utils/hashObject";
 import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
@@ -57,7 +57,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
   }
 
   public async nextItem(
-    options: ExecutionContextNextItemOptions,
+    options: ExecutionContextOptions,
   ): Promise<Response<any>> {
     // if size is 0, just return undefined. Valid if query is TOP 0 or LIMIT 0
 
