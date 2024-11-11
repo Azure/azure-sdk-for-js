@@ -139,7 +139,7 @@ describe.skip("Validate full text search queries", function (this: Suite) {
 
       const results: any[] = [];
       while (queryIterator.hasMoreResults()) {
-        const { resources: result } = await queryIterator.fetchNext();
+        const { resources: result } = await queryIterator.fetchNext({ ruCapPerOperation: 200 });
         if (result !== undefined) {
           results.push(...result);
         }

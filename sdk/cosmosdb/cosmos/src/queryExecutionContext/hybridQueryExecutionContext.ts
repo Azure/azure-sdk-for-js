@@ -225,6 +225,14 @@ export class HybridQueryExecutionContext implements ExecutionContext {
               }
             });
           }
+          if (
+            options.operationOptions &&
+            options.operationOptions.ruCapPerOperation &&
+            (await options.ruConsumed.getRUConsumed()) * 2 >
+              options.operationOptions.ruCapPerOperation
+          ) {
+            return;
+          }
         }
       }
       uniqueItems.forEach((item) => hybridSearchResult.push(item));

@@ -529,7 +529,7 @@ describe.skip("Full text search feature", async () => {
     const queryIterator = container.items.query(query, queryOptions);
     const result = [];
     while (queryIterator.hasMoreResults()) {
-      result.push(...(await queryIterator.fetchNext()).resources);
+      result.push(...(await queryIterator.fetchNext({ ruCapPerOperation: 200 })).resources);
     }
     assert(result.length === 2);
   });
@@ -576,7 +576,8 @@ describe.skip("Full text search feature", async () => {
     const result = [];
 
     while (queryIterator.hasMoreResults()) {
-      result.push(...(await queryIterator.fetchNext()).resources);
+      const res = await queryIterator.fetchNext({ ruCapPerOperation: 200 });
+      result.push(...res.resources);
     }
 
     assert(result.length === 2);
@@ -596,7 +597,7 @@ describe.skip("Full text search feature", async () => {
 
     const queryOptions = { forceQueryPlan: true };
     const queryIterator = container.items.query(query, queryOptions);
-    const result = await queryIterator.fetchAll();
+    const result = await queryIterator.fetchAll({ ruCapPerOperation: 200 });
     assert(result.resources.length === 2);
   });
 });
