@@ -10,13 +10,13 @@ const expectedStatuses = ["200"];
 /** Creates a new thread. Threads contain messages and can be run by agents. */
 export async function createThread(
   context: Client,
-  options: CreateThreadParameters,
+  options?: CreateThreadParameters,
 ): Promise<AgentThreadOutput> {
   const result = await context.path("/threads").post(options);
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }
 
 /** Gets information about an existing thread. */
@@ -31,14 +31,14 @@ export async function getThread(
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }
 
 /** Modifies an existing thread. */
 export async function updateThread(
   context: Client,
   threadId: string,
-  options: UpdateThreadParameters,
+  options?: UpdateThreadParameters,
 ): Promise<AgentThreadOutput> {
   const result = await context
     .path("/threads/{threadId}", threadId)
@@ -46,7 +46,7 @@ export async function updateThread(
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }
 
 /** Deletes an existing thread. */
