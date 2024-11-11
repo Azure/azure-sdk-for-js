@@ -4,7 +4,6 @@
 import { GlobalStatistics } from "../../request/globalStatistics";
 import { Aggregator } from "./Aggregator";
 
-// Licensed under the MIT License.
 export class GlobalStatisticsAggregator implements Aggregator {
   private globalStatistics: GlobalStatistics;
 
