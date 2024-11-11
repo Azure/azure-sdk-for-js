@@ -39,15 +39,13 @@ export enum MediaKind {
   StopAudio = "stopAudio",
 }
 
-export interface StopAudio{
-
-}
+export interface StopAudio {}
 
 export interface OutStreamingData {
   /** Out streaming data kind ex. StopAudio, AudioData*/
-Kind: MediaKind;
-/** Out streaming Audio Data */
-AudioData?: AudioData;
-/** Out streaming Stop Audio Data */
-StopAudio?: StopAudio;
+  Kind: MediaKind;
+  /** Out streaming Audio Data */
+  AudioData?: AudioData;
+  /** Out streaming Stop Audio Data */
+  StopAudio?: StopAudio;
 }

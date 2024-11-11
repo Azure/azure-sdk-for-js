@@ -62,6 +62,15 @@ export interface AnswerCallOptions extends OperationOptions {
 // @public
 export type AnswerCallResult = CallResult;
 
+// @public (undocumented)
+export interface AnswerFailed extends Omit<RestAnswerFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "AnswerFailed";
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
 // @public
 export interface AudioData {
     data: string;
@@ -103,7 +112,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayStarted | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | ConnectFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | HoldFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | CreateCallFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayStarted | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | ConnectFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | HoldFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | CreateCallFailed | AnswerFailed;
 
 // @public
 export interface CallConnected extends Omit<RestCallConnected, "callConnectionId" | "serverCallId" | "correlationId"> {
@@ -801,10 +810,20 @@ export interface RestAddParticipantSucceeded {
 }
 
 // @public
+export interface RestAnswerFailed {
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
+}
+
+// @public
 export interface RestCallConnected {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
 
@@ -813,6 +832,7 @@ export interface RestCallDisconnected {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
 
@@ -852,6 +872,7 @@ export interface RestCancelAddParticipantSucceeded {
     correlationId?: string;
     invitationId?: string;
     operationContext?: string;
+    resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
 
@@ -914,32 +935,32 @@ export interface RestHoldFailed {
 
 // @public (undocumented)
 export interface RestMediaStreamingFailed {
-    readonly callConnectionId?: string;
+    callConnectionId?: string;
     correlationId?: string;
     // Warning: (ae-forgotten-export) The symbol "MediaStreamingUpdate" needs to be exported by the entry point index.d.ts
     readonly mediaStreamingUpdate?: MediaStreamingUpdate;
-    readonly operationContext?: string;
-    readonly resultInformation?: RestResultInformation;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
 
 // @public (undocumented)
 export interface RestMediaStreamingStarted {
-    readonly callConnectionId?: string;
+    callConnectionId?: string;
     correlationId?: string;
     readonly mediaStreamingUpdate?: MediaStreamingUpdate;
-    readonly operationContext?: string;
-    readonly resultInformation?: RestResultInformation;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
 
 // @public (undocumented)
 export interface RestMediaStreamingStopped {
-    readonly callConnectionId?: string;
+    callConnectionId?: string;
     correlationId?: string;
     readonly mediaStreamingUpdate?: MediaStreamingUpdate;
-    readonly operationContext?: string;
-    readonly resultInformation?: RestResultInformation;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
 
@@ -949,6 +970,7 @@ export interface RestParticipantsUpdated {
     correlationId?: string;
     // Warning: (ae-forgotten-export) The symbol "CallParticipantInternal" needs to be exported by the entry point index.d.ts
     participants?: CallParticipantInternal[];
+    resultInformation?: RestResultInformation;
     sequenceNumber?: number;
     serverCallId?: string;
 }
@@ -958,6 +980,7 @@ export interface RestPlayCanceled {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
 
@@ -994,6 +1017,7 @@ export interface RestRecognizeCanceled {
     callConnectionId?: string;
     correlationId?: string;
     operationContext?: string;
+    resultInformation?: RestResultInformation;
     serverCallId?: string;
 }
 
@@ -1027,6 +1051,7 @@ export interface RestRecordingStateChanged {
     readonly recordingId?: string;
     // (undocumented)
     recordingKind?: RecordingKind_2;
+    resultInformation?: RestResultInformation;
     serverCallId?: string;
     readonly startDateTime?: Date;
     // (undocumented)
@@ -1080,42 +1105,42 @@ export interface RestSendDtmfTonesFailed {
 
 // @public (undocumented)
 export interface RestTranscriptionFailed {
-    readonly callConnectionId?: string;
-    readonly correlationId?: string;
-    readonly operationContext?: string;
-    readonly resultInformation?: RestResultInformation;
-    readonly serverCallId?: string;
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
     // Warning: (ae-forgotten-export) The symbol "TranscriptionUpdate" needs to be exported by the entry point index.d.ts
     readonly transcriptionUpdate?: TranscriptionUpdate;
 }
 
 // @public (undocumented)
 export interface RestTranscriptionStarted {
-    readonly callConnectionId?: string;
-    readonly correlationId?: string;
-    readonly operationContext?: string;
-    readonly resultInformation?: RestResultInformation;
-    readonly serverCallId?: string;
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
     readonly transcriptionUpdate?: TranscriptionUpdate;
 }
 
 // @public (undocumented)
 export interface RestTranscriptionStopped {
-    readonly callConnectionId?: string;
-    readonly correlationId?: string;
-    readonly operationContext?: string;
-    readonly resultInformation?: RestResultInformation;
-    readonly serverCallId?: string;
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
     readonly transcriptionUpdate?: TranscriptionUpdate;
 }
 
 // @public (undocumented)
 export interface RestTranscriptionUpdated {
-    readonly callConnectionId?: string;
-    readonly correlationId?: string;
-    readonly operationContext?: string;
-    readonly resultInformation?: RestResultInformation;
-    readonly serverCallId?: string;
+    callConnectionId?: string;
+    correlationId?: string;
+    operationContext?: string;
+    resultInformation?: RestResultInformation;
+    serverCallId?: string;
     readonly transcriptionUpdate?: TranscriptionUpdate;
 }
 

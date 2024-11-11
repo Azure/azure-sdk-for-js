@@ -387,7 +387,7 @@ export class CallAutomationClient {
       operationContext: options.operationContext,
       callIntelligenceOptions: options.callIntelligenceOptions,
       mediaStreamingOptions: options.mediaStreamingOptions,
-      transcriptionOptions: options.transcriptionOptions
+      transcriptionOptions: options.transcriptionOptions,
     };
 
     if (callLocator.kind === "groupCallLocator") {
