@@ -12554,7 +12554,7 @@ packages:
     dev: false
 
   file:projects/arm-appconfiguration.tgz:
-    resolution: {integrity: sha512-EOuGlK//o9Q6ZTfGkNQX+S9NfNafcPyPbkIYHh+oX87R0Y9SX9QEhomS3R5QmMdJkSat/H6MdHbjuUxgmwFzUA==, tarball: file:projects/arm-appconfiguration.tgz}
+    resolution: {integrity: sha512-5sEU/bwa68Xuicl7B/9ZrSURgbVEcWd2lQWO7Hq6rhxyn8z1VvORi3MOPmPVE+94JTYG6Du0fLQPdt3DuwQkuQ==, tarball: file:projects/arm-appconfiguration.tgz}
     name: '@rush-temp/arm-appconfiguration'
     version: 0.0.0
     dependencies:
@@ -12562,15 +12562,21 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
+      mkdirp: 3.0.1
       mocha: 10.8.2
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      rimraf: 5.0.10
+      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.5.4)
       tslib: 2.8.1
-      typescript: 5.6.3
+      tsx: 4.19.2
+      typescript: 5.5.4
+      uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -18464,7 +18470,7 @@ packages:
     dev: false
 
   file:projects/batch.tgz:
-    resolution: {integrity: sha512-6RrcBorSumWEO4KlTeLQ0b5SZRPDSjfWrEndxfqI4fGeDn4hKIdU2SvGMftjsVbnkli6xpQlgRNwI7U0GlHMRw==, tarball: file:projects/batch.tgz}
+    resolution: {integrity: sha512-5aWGICBLDXaS8dyz90IUuG+KysKDtOr7RkVjdYzfxCimiWRMgPYdRmvP+k7Dkm5xkp16VRTIG8kTnJFVUBSMHw==, tarball: file:projects/batch.tgz}
     name: '@rush-temp/batch'
     version: 0.0.0
     dependencies:
@@ -18501,7 +18507,7 @@ packages:
     dev: false
 
   file:projects/communication-alpha-ids.tgz:
-    resolution: {integrity: sha512-bUA4Ndtn6P8msf1fAiWimRDZrHvv9BM5sdJf242sV2qbDvNlmDJp6nqyrZtlU1nMzgkhAy9SQ2cHVfKBJUp1OA==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-JoRTIDlwHZDPs7keNqgIU0MrximNBp+fJgAIZoRfwav8szwZz08PtN2HvqjTP1BZ8bFcnOkdlWJhZwvcHiPBsA==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
@@ -19542,7 +19548,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-EAxNqaujEkbx3igQiVu3RXXdE4owEiwiwS5+eeuI98VjbnysDkT9ckaOdJbUgel/CwOTEr8oz0JdDS1V36ngMw==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-rxq/J1ftJ2e0MkPDv49RFsVQcu/68yCe6/h0R6+SdIkKBnhbYY12SkHzwOEOLFtemwLv+mh2SAqE6KHTYwJ8Lg==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:

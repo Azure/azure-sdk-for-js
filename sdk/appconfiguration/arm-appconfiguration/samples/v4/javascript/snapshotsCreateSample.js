@@ -13,35 +13,34 @@ const { DefaultAzureCredential } = require("@azure/identity");
 require("dotenv").config();
 
 /**
- * This sample demonstrates how to Creates a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
+ * This sample demonstrates how to Creates a snapshot. NOTE: This operation is intended for use in Azure Resource Manager (ARM) Template deployments. For all other scenarios involving App Configuration snapshots the data plane API should be used instead.
  *
- * @summary Creates a key-value. NOTE: This operation is intended for use in ARM Template deployments. For all other scenarios involving App Configuration key-values the data plane API should be used instead.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresCreateKeyValue.json
+ * @summary Creates a snapshot. NOTE: This operation is intended for use in Azure Resource Manager (ARM) Template deployments. For all other scenarios involving App Configuration snapshots the data plane API should be used instead.
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresCreateSnapshot.json
  */
-async function keyValuesCreateOrUpdate() {
+async function snapshotsCreate() {
   const subscriptionId =
     process.env["APPCONFIGURATION_SUBSCRIPTION_ID"] || "c80fb759-c965-4c6a-9110-9b2b2d038882";
   const resourceGroupName = process.env["APPCONFIGURATION_RESOURCE_GROUP"] || "myResourceGroup";
   const configStoreName = "contoso";
-  const keyValueName = "myKey$myLabel";
-  const keyValueParameters = {
-    tags: { tag1: "tagValue1", tag2: "tagValue2" },
-    value: "myValue",
+  const snapshotName = "mySnapshot";
+  const body = {
+    filters: [{ key: "app1/*", label: "Production" }],
+    retentionPeriod: 3600,
   };
-  const options = { keyValueParameters };
   const credential = new DefaultAzureCredential();
   const client = new AppConfigurationManagementClient(credential, subscriptionId);
-  const result = await client.keyValues.createOrUpdate(
+  const result = await client.snapshots.beginCreateAndWait(
     resourceGroupName,
     configStoreName,
-    keyValueName,
-    options,
+    snapshotName,
+    body,
   );
   console.log(result);
 }
 
 async function main() {
-  keyValuesCreateOrUpdate();
+  snapshotsCreate();
 }
 
 main().catch(console.error);
