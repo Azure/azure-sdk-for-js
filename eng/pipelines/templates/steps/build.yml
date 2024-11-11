@@ -22,7 +22,7 @@ steps:
 
   - script: |
       npm install ./eng/tools/versioning
-      node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)"
+      node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
       node common/scripts/install-run-rush.js update
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
