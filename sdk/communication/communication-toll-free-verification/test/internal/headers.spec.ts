@@ -2,16 +2,14 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import type { Context } from "mocha";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 import { SDK_VERSION } from "../../src/utils/constants.js";
 import type { TokenCredential } from "@azure/identity";
 import { TollFreeVerificationClient } from "../../src/index.js";
-import { assert } from "chai";
 import { configurationHttpClient } from "../public/utils/mockHttpClients.js";
 import { createMockToken } from "../public/utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
-import sinon from "sinon";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("TollFreeVerificationClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";

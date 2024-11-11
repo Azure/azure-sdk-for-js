@@ -11,10 +11,9 @@ import {
   doesCampaignBriefExist,
   getTestUSCampaignBrief,
 } from "./utils/testUSCampaignBrief.js";
-import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe(`TollFreeVerificationClient - Campaign Brief`, function () {
   let recorder: Recorder;

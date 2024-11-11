@@ -4,10 +4,10 @@
 import type { RestError } from "@azure/core-rest-pipeline";
 import type { CampaignBrief, CampaignBriefSummary, TollFreeVerificationClient } from "../../../src/index.js";
 import { BusinessInformationMapper, BusinessPointOfContactMapper } from "../../../src/index.js";
-import { assert } from "chai";
 import type { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { randomUUID } from "@azure/core-util";
+import { assert } from "vitest";
 
 export function getTestUSCampaignBrief(): {
   campaignBrief: CampaignBrief;

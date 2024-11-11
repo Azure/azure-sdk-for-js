@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import type { Context } from "mocha";
 import { TollFreeVerificationClient } from "../../src/index.js";
-import { assert } from "chai";
 import { createMockToken } from "./utils/recordedClient.js";
+import { describe, it, assert } from "vitest";
 
 describe("TollFreeVerificationClient - constructor", function () {
   const endpoint = "https://contoso.spool.azure.local";
