@@ -4,23 +4,23 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { CreateHttpPollerOptions } from '@azure/core-lro';
-import type { ErrorModel } from '@azure-rest/core-client';
-import type { ErrorResponse } from '@azure-rest/core-client';
-import type { HttpResponse } from '@azure-rest/core-client';
-import type { OperationState } from '@azure/core-lro';
-import type { Paged } from '@azure/core-paging';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import type { RequestParameters } from '@azure-rest/core-client';
-import type { StreamableMethod } from '@azure-rest/core-client';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { Client } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { CreateHttpPollerOptions } from '@azure/core-lro';
+import { ErrorModel } from '@azure-rest/core-client';
+import { ErrorResponse } from '@azure-rest/core-client';
+import { HttpResponse } from '@azure-rest/core-client';
+import { OperationState } from '@azure/core-lro';
+import { Paged } from '@azure/core-paging';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface CancelJob {
@@ -75,79 +75,11 @@ export type CancelJobParameters = CancelJobHeaderParam & RequestParameters;
 function createClient(endpointParam: string, credentials: TokenCredential, { apiVersion, ...options }?: DeidentificationClientOptions): DeidentificationClient;
 export default createClient;
 
-// @public (undocumented)
-export interface CreateJob200Headers {
-    "operation-location": string;
-    "x-ms-client-request-id"?: string;
-}
-
 // @public
-export interface CreateJob200Response extends HttpResponse {
-    // (undocumented)
-    body: DeidentificationJobOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & CreateJob200Headers;
-    // (undocumented)
-    status: "200";
+export interface CustomizationOptions {
+    redactionFormat?: string;
+    surrogateLocale?: string;
 }
-
-// @public (undocumented)
-export interface CreateJob201Headers {
-    "operation-location": string;
-    "x-ms-client-request-id"?: string;
-}
-
-// @public
-export interface CreateJob201Response extends HttpResponse {
-    // (undocumented)
-    body: DeidentificationJobOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & CreateJob201Headers;
-    // (undocumented)
-    status: "201";
-}
-
-// @public (undocumented)
-export interface CreateJobBodyParam {
-    body: DeidentificationJob;
-}
-
-// @public (undocumented)
-export interface CreateJobDefaultHeaders {
-    "x-ms-error-code"?: string;
-}
-
-// @public (undocumented)
-export interface CreateJobDefaultResponse extends HttpResponse {
-    // (undocumented)
-    body: ErrorResponse;
-    // (undocumented)
-    headers: RawHttpHeaders & CreateJobDefaultHeaders;
-    // (undocumented)
-    status: string;
-}
-
-// @public (undocumented)
-export interface CreateJobHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & CreateJobHeaders;
-}
-
-// @public (undocumented)
-export interface CreateJobHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public
-export interface CreateJobLogicalResponse extends HttpResponse {
-    // (undocumented)
-    body: DeidentificationJobOutput;
-    // (undocumented)
-    status: "200";
-}
-
-// @public (undocumented)
-export type CreateJobParameters = CreateJobHeaderParam & CreateJobBodyParam & RequestParameters;
 
 // @public (undocumented)
 export type DeidentificationClient = Client & {
@@ -161,17 +93,15 @@ export interface DeidentificationClientOptions extends ClientOptions {
 
 // @public
 export interface DeidentificationContent {
-    dataType?: DocumentDataType;
+    customizations?: CustomizationOptions;
     inputText: string;
     operation?: OperationType;
-    redactionFormat?: string;
 }
 
 // @public
 export interface DeidentificationJob {
-    dataType?: DocumentDataType;
+    customizations?: JobCustomizationOptions;
     operation?: OperationType;
-    redactionFormat?: string;
     sourceLocation: SourceStorageLocation;
     targetLocation: TargetStorageLocation;
 }
@@ -179,12 +109,11 @@ export interface DeidentificationJob {
 // @public
 export interface DeidentificationJobOutput {
     readonly createdAt: string;
-    dataType?: DocumentDataTypeOutput;
+    customizations?: JobCustomizationOptionsOutput;
     readonly error?: ErrorModel;
     readonly lastUpdatedAt: string;
     readonly name: string;
     operation?: OperationTypeOutput;
-    redactionFormat?: string;
     sourceLocation: SourceStorageLocationOutput;
     readonly startedAt?: string;
     readonly status: JobStatusOutput;
@@ -199,40 +128,132 @@ export interface DeidentificationResultOutput {
 }
 
 // @public (undocumented)
-export interface Deidentify {
-    post(options: DeidentifyParameters): StreamableMethod<Deidentify200Response | DeidentifyDefaultResponse>;
+export interface DeidentifyDocuments200Headers {
+    "operation-location": string;
+    "x-ms-client-request-id"?: string;
 }
 
 // @public
-export interface Deidentify200Response extends HttpResponse {
+export interface DeidentifyDocuments200Response extends HttpResponse {
     // (undocumented)
-    body: DeidentificationResultOutput;
+    body: DeidentificationJobOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeidentifyDocuments200Headers;
     // (undocumented)
     status: "200";
 }
 
 // @public (undocumented)
-export interface DeidentifyBodyParam {
-    body: DeidentificationContent;
+export interface DeidentifyDocuments201Headers {
+    "operation-location": string;
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface DeidentifyDocuments201Response extends HttpResponse {
+    // (undocumented)
+    body: DeidentificationJobOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeidentifyDocuments201Headers;
+    // (undocumented)
+    status: "201";
 }
 
 // @public (undocumented)
-export interface DeidentifyDefaultHeaders {
+export interface DeidentifyDocumentsBodyParam {
+    body: DeidentificationJob;
+}
+
+// @public (undocumented)
+export interface DeidentifyDocumentsDefaultHeaders {
     "x-ms-error-code"?: string;
 }
 
 // @public (undocumented)
-export interface DeidentifyDefaultResponse extends HttpResponse {
+export interface DeidentifyDocumentsDefaultResponse extends HttpResponse {
     // (undocumented)
     body: ErrorResponse;
     // (undocumented)
-    headers: RawHttpHeaders & DeidentifyDefaultHeaders;
+    headers: RawHttpHeaders & DeidentifyDocumentsDefaultHeaders;
     // (undocumented)
     status: string;
 }
 
 // @public (undocumented)
-export type DeidentifyParameters = DeidentifyBodyParam & RequestParameters;
+export interface DeidentifyDocumentsHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & DeidentifyDocumentsHeaders;
+}
+
+// @public (undocumented)
+export interface DeidentifyDocumentsHeaders {
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface DeidentifyDocumentsLogicalResponse extends HttpResponse {
+    // (undocumented)
+    body: DeidentificationJobOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export type DeidentifyDocumentsParameters = DeidentifyDocumentsHeaderParam & DeidentifyDocumentsBodyParam & RequestParameters;
+
+// @public (undocumented)
+export interface DeidentifyText {
+    post(options: DeidentifyTextParameters): StreamableMethod<DeidentifyText200Response | DeidentifyTextDefaultResponse>;
+}
+
+// @public (undocumented)
+export interface DeidentifyText200Headers {
+    "x-ms-client-request-id"?: string;
+}
+
+// @public
+export interface DeidentifyText200Response extends HttpResponse {
+    // (undocumented)
+    body: DeidentificationResultOutput;
+    // (undocumented)
+    headers: RawHttpHeaders & DeidentifyText200Headers;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface DeidentifyTextBodyParam {
+    body: DeidentificationContent;
+}
+
+// @public (undocumented)
+export interface DeidentifyTextDefaultHeaders {
+    "x-ms-error-code"?: string;
+}
+
+// @public (undocumented)
+export interface DeidentifyTextDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponse;
+    // (undocumented)
+    headers: RawHttpHeaders & DeidentifyTextDefaultHeaders;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export interface DeidentifyTextHeaderParam {
+    // (undocumented)
+    headers?: RawHttpHeadersInput & DeidentifyTextHeaders;
+}
+
+// @public (undocumented)
+export interface DeidentifyTextHeaders {
+    "x-ms-client-request-id"?: string;
+}
+
+// @public (undocumented)
+export type DeidentifyTextParameters = DeidentifyTextHeaderParam & DeidentifyTextBodyParam & RequestParameters;
 
 // @public (undocumented)
 export interface DeleteJob204Headers {
@@ -277,12 +298,6 @@ export interface DeleteJobHeaders {
 export type DeleteJobParameters = DeleteJobHeaderParam & RequestParameters;
 
 // @public
-export type DocumentDataType = string;
-
-// @public
-export type DocumentDataTypeOutput = string;
-
-// @public
 export interface DocumentDetailsOutput {
     error?: ErrorModel;
     readonly id: string;
@@ -294,7 +309,7 @@ export interface DocumentDetailsOutput {
 // @public
 export interface DocumentLocationOutput {
     readonly etag: string;
-    path: string;
+    location: string;
 }
 
 // @public
@@ -304,7 +319,7 @@ export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 export interface GetJob {
     delete(options?: DeleteJobParameters): StreamableMethod<DeleteJob204Response | DeleteJobDefaultResponse>;
     get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
-    put(options: CreateJobParameters): StreamableMethod<CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse>;
+    put(options: DeidentifyDocumentsParameters): StreamableMethod<DeidentifyDocuments200Response | DeidentifyDocuments201Response | DeidentifyDocumentsDefaultResponse>;
 }
 
 // @public (undocumented)
@@ -352,7 +367,7 @@ export interface GetJobHeaders {
 export type GetJobParameters = GetJobHeaderParam & RequestParameters;
 
 // @public
-export function getLongRunningPoller<TResult extends CreateJobLogicalResponse | CreateJobDefaultResponse>(client: Client, initialResponse: CreateJob200Response | CreateJob201Response | CreateJobDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
+export function getLongRunningPoller<TResult extends DeidentifyDocumentsLogicalResponse | DeidentifyDocumentsDefaultResponse>(client: Client, initialResponse: DeidentifyDocuments200Response | DeidentifyDocuments201Response | DeidentifyDocumentsDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
 export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
@@ -364,7 +379,7 @@ export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise
 export function isUnexpected(response: GetJob200Response | GetJobDefaultResponse): response is GetJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: CreateJob200Response | CreateJob201Response | CreateJobLogicalResponse | CreateJobDefaultResponse): response is CreateJobDefaultResponse;
+export function isUnexpected(response: DeidentifyDocuments200Response | DeidentifyDocuments201Response | DeidentifyDocumentsLogicalResponse | DeidentifyDocumentsDefaultResponse): response is DeidentifyDocumentsDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: DeleteJob204Response | DeleteJobDefaultResponse): response is DeleteJobDefaultResponse;
@@ -379,7 +394,19 @@ export function isUnexpected(response: ListJobDocuments200Response | ListJobDocu
 export function isUnexpected(response: CancelJob200Response | CancelJobDefaultResponse): response is CancelJobDefaultResponse;
 
 // @public (undocumented)
-export function isUnexpected(response: Deidentify200Response | DeidentifyDefaultResponse): response is DeidentifyDefaultResponse;
+export function isUnexpected(response: DeidentifyText200Response | DeidentifyTextDefaultResponse): response is DeidentifyTextDefaultResponse;
+
+// @public
+export interface JobCustomizationOptions {
+    redactionFormat?: string;
+    surrogateLocale?: string;
+}
+
+// @public
+export interface JobCustomizationOptionsOutput {
+    redactionFormat?: string;
+    surrogateLocale?: string;
+}
 
 // @public
 export type JobStatus = string;
@@ -410,17 +437,10 @@ export interface ListJobDocuments {
     get(options?: ListJobDocumentsParameters): StreamableMethod<ListJobDocuments200Response | ListJobDocumentsDefaultResponse>;
 }
 
-// @public (undocumented)
-export interface ListJobDocuments200Headers {
-    "x-ms-client-request-id"?: string;
-}
-
 // @public
 export interface ListJobDocuments200Response extends HttpResponse {
     // (undocumented)
     body: PagedDocumentDetailsOutput;
-    // (undocumented)
-    headers: RawHttpHeaders & ListJobDocuments200Headers;
     // (undocumented)
     status: "200";
 }
@@ -441,18 +461,7 @@ export interface ListJobDocumentsDefaultResponse extends HttpResponse {
 }
 
 // @public (undocumented)
-export interface ListJobDocumentsHeaderParam {
-    // (undocumented)
-    headers?: RawHttpHeadersInput & ListJobDocumentsHeaders;
-}
-
-// @public (undocumented)
-export interface ListJobDocumentsHeaders {
-    "x-ms-client-request-id"?: string;
-}
-
-// @public (undocumented)
-export type ListJobDocumentsParameters = ListJobDocumentsQueryParam & ListJobDocumentsHeaderParam & RequestParameters;
+export type ListJobDocumentsParameters = ListJobDocumentsQueryParam & RequestParameters;
 
 // @public (undocumented)
 export interface ListJobDocumentsQueryParam {
@@ -572,17 +581,15 @@ export interface PhiEntityOutput {
 // @public
 export interface PhiTaggerResultOutput {
     entities: Array<PhiEntityOutput>;
-    etag?: string;
-    path?: string;
 }
 
 // @public (undocumented)
 export interface Routes {
     (path: "/jobs/{name}", name: string): GetJob;
     (path: "/jobs"): ListJobs;
-    (path: "/jobs/{name}/documents", name: string): ListJobDocuments;
+    (path: "/jobs/{jobName}/documents", jobName: string): ListJobDocuments;
     (path: "/jobs/{name}:cancel", name: string): CancelJob;
-    (path: "/deid"): Deidentify; // todo delete? not needed bc not a unique route
+    (path: "/deid"): DeidentifyText;
 }
 
 // @public
@@ -631,12 +638,14 @@ export interface StringIndexOutput {
 // @public
 export interface TargetStorageLocation {
     location: string;
+    overwrite?: boolean;
     prefix: string;
 }
 
 // @public
 export interface TargetStorageLocationOutput {
     location: string;
+    overwrite?: boolean;
     prefix: string;
 }
 
