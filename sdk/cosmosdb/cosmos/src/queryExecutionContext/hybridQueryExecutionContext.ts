@@ -13,10 +13,7 @@ import {
 import { HybridSearchQueryResult } from "../request/hybridSearchQueryResult";
 import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggregator";
 import { CosmosHeaders } from "./CosmosHeaders";
-import {
-  ExecutionContext,
-  ExecutionContextOptions,
-} from "./ExecutionContext";
+import { ExecutionContext, ExecutionContextOptions } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext";
@@ -232,7 +229,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
             options.operationOptions &&
             options.operationOptions.ruCapPerOperation &&
             (await options.ruConsumed.getRUConsumed()) * 2 >
-            options.operationOptions.ruCapPerOperation
+              options.operationOptions.ruCapPerOperation
           ) {
             return;
           }

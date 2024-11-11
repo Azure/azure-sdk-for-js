@@ -9,10 +9,7 @@ import { OrderByEndpointComponent } from "./EndpointComponent/OrderByEndpointCom
 import { OrderedDistinctEndpointComponent } from "./EndpointComponent/OrderedDistinctEndpointComponent";
 import { UnorderedDistinctEndpointComponent } from "./EndpointComponent/UnorderedDistinctEndpointComponent";
 import { GroupByEndpointComponent } from "./EndpointComponent/GroupByEndpointComponent";
-import {
-  ExecutionContext,
-  ExecutionContextOptions,
-} from "./ExecutionContext";
+import { ExecutionContext, ExecutionContextOptions } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { OrderByQueryExecutionContext } from "./orderByQueryExecutionContext";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
@@ -70,7 +67,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       if (this.vectorSearchBufferSize > maxBufferSize) {
         throw new ErrorResponse(
           `Executing a vector search query with TOP or OFFSET + LIMIT value ${this.vectorSearchBufferSize} larger than the vectorSearchBufferSize ${maxBufferSize} ` +
-          `is not allowed`,
+            `is not allowed`,
         );
       }
 
@@ -127,7 +124,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       }
       if (
         Object.keys(partitionedQueryExecutionInfo.queryInfo.groupByAliasToAggregateType).length >
-        0 ||
+          0 ||
         partitionedQueryExecutionInfo.queryInfo.aggregates.length > 0 ||
         partitionedQueryExecutionInfo.queryInfo.groupByExpressions.length > 0
       ) {
@@ -194,15 +191,15 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
       this.fetchMoreRespHeaders = getInitialHeader();
       return this.nonStreamingOrderBy
         ? this._nonStreamingFetchMoreImplementation({
-          diagnosticNode: options.diagnosticNode,
-          operationOptions: options.operationOptions,
-          ruConsumed: options.ruConsumed,
-        })
+            diagnosticNode: options.diagnosticNode,
+            operationOptions: options.operationOptions,
+            ruConsumed: options.ruConsumed,
+          })
         : this._fetchMoreImplementation({
-          diagnosticNode: options.diagnosticNode,
-          operationOptions: options.operationOptions,
-          ruConsumed: options.ruConsumed,
-        });
+            diagnosticNode: options.diagnosticNode,
+            operationOptions: options.operationOptions,
+            ruConsumed: options.ruConsumed,
+          });
     }
   }
 
@@ -336,8 +333,8 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     if (!hasTop && !hasLimit) {
       throw new ErrorResponse(
         "Executing a non-streaming search query without TOP or LIMIT can consume a large number of RUs " +
-        "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
-        "with your vector search query.",
+          "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
+          "with your vector search query.",
       );
     }
     return;

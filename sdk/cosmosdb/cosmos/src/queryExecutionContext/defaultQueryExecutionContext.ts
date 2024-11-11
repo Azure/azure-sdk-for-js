@@ -188,13 +188,13 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
             const fetchFunction = this.fetchFunctions[this.currentPartitionIndex];
             this.nextFetchFunction = fetchFunction
               ? fetchFunction(
-                childDiagnosticNode,
-                {
-                  ...this.options,
-                  continuationToken: this.continuationToken,
-                },
-                this.correlatedActivityId,
-              )
+                  childDiagnosticNode,
+                  {
+                    ...this.options,
+                    continuationToken: this.continuationToken,
+                  },
+                  this.correlatedActivityId,
+                )
               : undefined;
           }
         } catch (err: any) {
