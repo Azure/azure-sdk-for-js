@@ -12,13 +12,18 @@ import {
   GlobalEndpointManager,
   QueryInfo,
   RequestOptions,
+  DiagnosticNodeType,
 } from "../../../src";
 import { expect } from "chai";
-import { HybridQueryExecutionContext } from "../../../src/queryExecutionContext/hybridQueryExecutionContext";
+import {
+  HybridQueryExecutionContext,
+  HybridQueryExecutionContextBaseStates,
+} from "../../../src/queryExecutionContext/hybridQueryExecutionContext";
 import { HybridSearchQueryInfo } from "../../../src/request/ErrorResponse";
 import { GlobalStatistics } from "../../../src/request/globalStatistics";
 import assert from "assert";
 import { HybridSearchQueryResult } from "../../../src/request/hybridSearchQueryResult";
+import sinon from "sinon";
 
 function createTestClientContext(
   options: Partial<CosmosClientOptions>,
@@ -64,7 +69,7 @@ function createTestClientContext(
 }
 
 const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
-const query = `SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.title, ['swim', 'run'])`;
+// const query = `SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.title, ['swim', 'run'])`;
 const options: FeedOptions = { maxItemCount: 2, maxDegreeOfParallelism: 1 };
 const queryInfo: QueryInfo = {
   orderBy: ["Ascending"],
@@ -72,28 +77,38 @@ const queryInfo: QueryInfo = {
 } as QueryInfo;
 
 const hybridSearchQueryInfo: HybridSearchQueryInfo = {
-  globalStatisticsQuery: "SELECT VALUE COUNT(1) FROM c",
-  componentQueryInfos: [queryInfo],
-  take: 10,
-  skip: 0,
+  globalStatisticsQuery:
+    'SELECT COUNT(1) AS documentCount, [{"totalWordCount": SUM(_FullTextWordCount(c.title)), "hitCounts": [COUNTIF(FullTextContains(c.title, "John"))]}] AS fullTextStatistics\n' +
+    "FROM c",
+  componentQueryInfos: [
+    {
+      distinctType: "None",
+      top: null,
+      offset: null,
+      limit: 10,
+      orderBy: ["Descending"],
+      orderByExpressions: [
+        '_FullTextScore(c.title, ["John"], {documentdb-formattablehybridsearchquery-totaldocumentcount}, {documentdb-formattablehybridsearchquery-totalwordcount-0}, {documentdb-formattablehybridsearchquery-hitcountsarray-0})',
+      ],
+      groupByExpressions: [],
+      aggregates: [],
+      groupByAliasToAggregateType: {},
+      rewrittenQuery:
+        'SELECT c._rid, [{"item": _FullTextScore(c.title, ["John"], {documentdb-formattablehybridsearchquery-totaldocumentcount}, {documentdb-formattablehybridsearchquery-totalwordcount-0}, {documentdb-formattablehybridsearchquery-hitcountsarray-0})}] AS orderByItems, {"payload": {"Index": c.index, "Title": c.title, "Text": c.text}, "componentScores": [_FullTextScore(c.title, ["John"], {documentdb-formattablehybridsearchquery-totaldocumentcount}, {documentdb-formattablehybridsearchquery-totalwordcount-0}, {documentdb-formattablehybridsearchquery-hitcountsarray-0})]} AS payload\n' +
+        "FROM c\n" +
+        'WHERE ((FullTextContains(c.title, "John") OR FullTextContains(c.text, "John")) AND ({documentdb-formattableorderbyquery-filter}))\n' +
+        'ORDER BY _FullTextScore(c.title, ["John"], {documentdb-formattablehybridsearchquery-totaldocumentcount}, {documentdb-formattablehybridsearchquery-totalwordcount-0}, {documentdb-formattablehybridsearchquery-hitcountsarray-0}) DESC',
+      hasSelectValue: false,
+      hasNonStreamingOrderBy: true,
+    },
+  ],
+  skip: null,
+  take: null,
   requiresGlobalStatistics: true,
 };
 
 const partitionedQueryExecutionInfo = {
-  queryRanges: [
-    {
-      min: "",
-      max: "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
-      isMinInclusive: true, // Whether the minimum value is inclusive
-      isMaxInclusive: false,
-    },
-    {
-      min: "1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
-      max: "FF",
-      isMinInclusive: true, // Whether the minimum value is inclusive
-      isMaxInclusive: false,
-    },
-  ],
+  queryRanges: [{ min: "", max: "FF", isMinInclusive: true, isMaxInclusive: false }],
   queryInfo: queryInfo,
   partitionedQueryExecutionInfoVersion: 1,
   hybridSearchQueryInfo: hybridSearchQueryInfo,
@@ -113,13 +128,58 @@ describe("hybridQueryExecutionContext", function () {
   const context = new HybridQueryExecutionContext(
     clientContext,
     collectionLink,
-    query,
     options,
     partitionedQueryExecutionInfo,
     correlatedActivityId,
     partitionedQueryExecutionInfo.queryRanges,
   );
   context["options"] = options;
+
+  describe("initialize Method", async function () {
+    it("initialize Method should get executed correctly", async function () {
+      sinon
+        .stub(context["globalStatisticsExecutionContext"], "hasMoreResults")
+        .onCall(0)
+        .returns(true) // First call returns true
+        .onCall(1)
+        .returns(false); // Second call returns false
+
+      sinon.stub(context["globalStatisticsExecutionContext"], "nextItem").resolves({
+        result: {
+          documentCount: 2,
+          fullTextStatistics: [{ totalWordCount: 100, hitCounts: [1, 2, 3] }],
+        },
+        headers: {},
+        code: 200,
+        substatus: 0,
+        diagnostics: undefined,
+      });
+
+      const diagnosticNode = new DiagnosticNodeInternal(
+        diagnosticLevel,
+        DiagnosticNodeType.CLIENT_REQUEST_NODE,
+        null,
+      );
+      const sampleHeader = {
+        "x-ms-documentdb-query-enable-scan": "true",
+      };
+
+      // Stub the processComponentQueries and replacePlaceholders methods to assert that they are called
+      const processComponentQueriesSpy = sinon.spy(context as any, "processComponentQueries");
+      const replacePlaceholdersSpy = sinon.spy(context as any, "replacePlaceholders");
+
+      // Call the initialize method
+      await context["initialize"](diagnosticNode, sampleHeader);
+
+      assert.strictEqual(context["componentsExecutionContext"].length, 1);
+      assert.strictEqual(context["state"], HybridQueryExecutionContextBaseStates.initialized);
+      assert(processComponentQueriesSpy.calledOnce);
+      assert(replacePlaceholdersSpy.calledTwice);
+
+      processComponentQueriesSpy.restore();
+      replacePlaceholdersSpy.restore();
+    });
+  });
 
   describe("ReplacePlaceholders Method", function () {
     it("replacePlaceholders method should replace placeholders in all queries correctly", async function () {
@@ -136,9 +196,9 @@ describe("hybridQueryExecutionContext", function () {
         {documentdb-formattablehybridsearchquery-hitcountsarray-0})]}
         AS payload  FROM c
         WHERE ({documentdb-formattableorderbyquery-filter})
-        ORDER BY _FullTextScore(c.title, ["swim", "run"], 
+        ORDER BY _FullTextScore(c.title, ["swim", "run"],
         {documentdb-formattablehybridsearchquery-totaldocumentcount},
-        {documentdb-formattablehybridsearchquery-totalwordcount-0}, 
+        {documentdb-formattablehybridsearchquery-totalwordcount-0},
         {documentdb-formattablehybridsearchquery-hitcountsarray-0}) DESC`,
 
           expectedQuery: `SELECT TOP 120 c._rid, [{"item": _FullTextScore(c.title, ["swim", "run"], 2, 100, [1,2,3])}] AS orderByItems,
@@ -147,7 +207,7 @@ describe("hybridQueryExecutionContext", function () {
         ORDER BY _FullTextScore(c.title, ["swim", "run"], 2, 100, [1,2,3]) DESC`,
         },
         {
-          queryToTest: `SELECT TOP 200 c._rid, [{item: _FullTextScore(c.text, ["swim", "run"], 
+          queryToTest: `SELECT TOP 200 c._rid, [{item: _FullTextScore(c.text, ["swim", "run"],
         {documentdb-formattablehybridsearchquery-totaldocumentcount},
         {documentdb-formattablehybridsearchquery-totalwordcount-0},
         {documentdb-formattablehybridsearchquery-hitcountsarray-0})}] AS orderByItems,
@@ -159,18 +219,18 @@ describe("hybridQueryExecutionContext", function () {
         {documentdb-formattablehybridsearchquery-totalwordcount-1},
         {documentdb-formattablehybridsearchquery-hitcountsarray-1})]} AS payload
         FROM c WHERE {documentdb-formattableorderbyquery-filter} ORDER BY _FullTextScore(c.text, ["swim", "run"],
-        {documentdb-formattablehybridsearchquery-totaldocumentcount}, 
-        {documentdb-formattablehybridsearchquery-totalwordcount-0}, 
+        {documentdb-formattablehybridsearchquery-totaldocumentcount},
+        {documentdb-formattablehybridsearchquery-totalwordcount-0},
         {documentdb-formattablehybridsearchquery-hitcountsarray-0}) DESC`,
 
           expectedQuery: `SELECT TOP 200 c._rid, [{item: _FullTextScore(c.text, ["swim", "run"], 2, 100, [1,2,3])}] AS
         orderByItems, {payload: {text: c.text,abstract: c.abstract },componentScores: [_FullTextScore(c.text, ["swim", "run"],
-        2, 100, [1,2,3]), _FullTextScore(c.abstract, ["energy"], 2, 200, [4,5,6])]} AS payload FROM c WHERE 
+        2, 100, [1,2,3]), _FullTextScore(c.abstract, ["energy"], 2, 200, [4,5,6])]} AS payload FROM c WHERE
         {documentdb-formattableorderbyquery-filter} ORDER BY _FullTextScore(c.text, ["swim", "run"], 2, 100, [1,2,3]) DESC`,
         },
         {
           queryToTest: `_FullTextScore(c.title, ["swim", "run"], {documentdb-formattablehybridsearchquery-totaldocumentcount},
-        {documentdb-formattablehybridsearchquery-totalwordcount-0}, 
+        {documentdb-formattablehybridsearchquery-totalwordcount-0},
         {documentdb-formattablehybridsearchquery-hitcountsarray-0})`,
 
           expectedQuery: `_FullTextScore(c.title, ["swim", "run"], 2, 100, [1,2,3])`,
