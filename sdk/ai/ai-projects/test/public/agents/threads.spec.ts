@@ -30,15 +30,15 @@ describe("Agents - threads", () => {
     const thread = await agents.createThread()
     assert.isNotNull(thread);
     assert.isNotNull(thread.id);
-    agents.deleteThread(thread.id);
+    await agents.deleteThread(thread.id);
   });
 
   it("should retrieve thread", async function () {
     const thread = await agents.createThread()
     const _thread = await agents.getThread(thread.id);
-    agents.deleteThread(thread.id);
     assert.isNotEmpty(_thread);
     assert.equal(_thread.id, thread.id)
+    await agents.deleteThread(thread.id);
   });
 
   it("should update thread", async function () {  
@@ -48,6 +48,7 @@ describe("Agents - threads", () => {
     assert.equal(_thread.id, thread.id);
     assert.isNotEmpty(_thread.metadata);
     assert.equal(_thread.metadata?.key, "value");
+    await agents.deleteThread(thread.id);
   });
 
   it("should delete thread", async function () {
