@@ -334,7 +334,7 @@ class MPTReporter implements Reporter {
             `\nFetched SAS URI with validity: ${this.sasUri.expiresAt} and access: ${this.sasUri.accessLevel}.`,
           );
         }
-        this.storageClient.uploadFile(this.sasUri.uri, attachmentPath, fileRelativePath);
+        await this.storageClient.uploadFile(this.sasUri.uri, attachmentPath, fileRelativePath);
       }
       const rawTestResult = this.testRawResults.get(testExecutionId);
       if (
@@ -344,7 +344,7 @@ class MPTReporter implements Reporter {
         // Renew the sas uri
         this.sasUri = await this.serviceClient.createStorageUri();
       }
-      this.storageClient.uploadBuffer(
+      await this.storageClient.uploadBuffer(
         this.sasUri.uri,
         rawTestResult[0]!,
         `${testExecutionId}/rawTestResult.json`,
