@@ -70,20 +70,20 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   /**
    * Execute a provided callback on the next element in the execution context.
    */
-  public async nextItem(
-    options: ExecutionContextOptions
-  ): Promise<Response<any>> {
+  public async nextItem(options: ExecutionContextOptions): Promise<Response<any>> {
     ++this.currentIndex;
-    const response = await this.current({ diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
+    const response = await this.current({
+      diagnosticNode: options.diagnosticNode,
+      operationOptions: options.operationOptions,
+      ruConsumed: options.ruConsumed,
+    });
     return response;
   }
 
   /**
    * Retrieve the current element on the execution context.
    */
-  public async current(
-    options: ExecutionContextOptions
-  ): Promise<Response<any>> {
+  public async current(options: ExecutionContextOptions): Promise<Response<any>> {
     if (this.currentIndex < this.resources.length) {
       return {
         result: this.resources[this.currentIndex],
@@ -91,16 +91,22 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
       };
     }
     if (this._canFetchMore()) {
-      const { result: resources, headers } = await this.fetchMore(
-        { diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed }
-      );
+      const { result: resources, headers } = await this.fetchMore({
+        diagnosticNode: options.diagnosticNode,
+        operationOptions: options.operationOptions,
+        ruConsumed: options.ruConsumed,
+      });
       this.resources = resources;
       if (this.resources.length === 0) {
         if (!this.continuationToken && this.currentPartitionIndex >= this.fetchFunctions.length) {
           this.state = DefaultQueryExecutionContext.STATES.ended;
           return { result: undefined, headers };
         } else {
-          return this.current({ diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed });
+          return this.current({
+            diagnosticNode: options.diagnosticNode,
+            operationOptions: options.operationOptions,
+            ruConsumed: options.ruConsumed,
+          });
         }
       }
       return { result: this.resources[this.currentIndex], headers };
@@ -131,9 +137,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   /**
    * Fetches the next batch of the feed and pass them as an array to a callback
    */
-  public async fetchMore(
-    options: ExecutionContextHybridOptions
-  ): Promise<Response<any>> {
+  public async fetchMore(options: ExecutionContextHybridOptions): Promise<Response<any>> {
     return addDignosticChild(
       async (childDiagnosticNode: DiagnosticNodeInternal) => {
         if (this.currentPartitionIndex >= this.fetchFunctions.length) {
@@ -184,13 +188,13 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
             const fetchFunction = this.fetchFunctions[this.currentPartitionIndex];
             this.nextFetchFunction = fetchFunction
               ? fetchFunction(
-                childDiagnosticNode,
-                {
-                  ...this.options,
-                  continuationToken: this.continuationToken,
-                },
-                this.correlatedActivityId,
-              )
+                  childDiagnosticNode,
+                  {
+                    ...this.options,
+                    continuationToken: this.continuationToken,
+                  },
+                  this.correlatedActivityId,
+                )
               : undefined;
           }
         } catch (err: any) {
@@ -236,7 +240,11 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
           responseHeaders[Constants.HttpHeaders.QueryMetrics]["0"] = queryMetrics;
         }
 
-        if (options.operationOptions && options.operationOptions.ruCapPerOperation && options.ruConsumed) {
+        if (
+          options.operationOptions &&
+          options.operationOptions.ruCapPerOperation &&
+          options.ruConsumed
+        ) {
           await options.ruConsumed.addToRUConsumed(getRequestChargeIfAny(responseHeaders));
           const ruConsumedValue = await options.ruConsumed.getRUConsumed();
           if (ruConsumedValue > options.operationOptions.ruCapPerOperation) {

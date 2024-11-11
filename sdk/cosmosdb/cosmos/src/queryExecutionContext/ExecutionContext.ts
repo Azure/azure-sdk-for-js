@@ -14,9 +14,7 @@ export interface ExecutionContextHybridOptions extends ExecutionContextOptions {
 }
 /** @hidden */
 export interface ExecutionContext {
-  nextItem: (
-    options: ExecutionContextOptions,
-  ) => Promise<Response<any>>;
+  nextItem: (options: ExecutionContextOptions) => Promise<Response<any>>;
   hasMoreResults: () => boolean;
   fetchMore?: (options: ExecutionContextOptions) => Promise<Response<any>>; // TODO: code smell
 }

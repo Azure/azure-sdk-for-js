@@ -35,9 +35,7 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     this.aggregateType = this.queryInfo.aggregates[0];
   }
 
-  public async nextItem(
-    options: ExecutionContextOptions,
-  ): Promise<Response<any>> {
+  public async nextItem(options: ExecutionContextOptions): Promise<Response<any>> {
     // Start returning results if we have processed a full results set
     if (this.aggregateResultArray.length > 0) {
       return {
@@ -57,13 +55,11 @@ export class GroupByValueEndpointComponent implements ExecutionContext {
     try {
       while (this.executionContext.hasMoreResults()) {
         // Grab the next result
-        const { result, headers } = (await this.executionContext.nextItem(
-          {
-            diagnosticNode: options.diagnosticNode,
-            operationOptions: options.operationOptions,
-            ruConsumed: options.ruConsumed,
-          }
-        )) as GroupByResponse;
+        const { result, headers } = (await this.executionContext.nextItem({
+          diagnosticNode: options.diagnosticNode,
+          operationOptions: options.operationOptions,
+          ruConsumed: options.ruConsumed,
+        })) as GroupByResponse;
         mergeHeaders(aggregateHeaders, headers);
 
         // If it exists, process it via aggregators

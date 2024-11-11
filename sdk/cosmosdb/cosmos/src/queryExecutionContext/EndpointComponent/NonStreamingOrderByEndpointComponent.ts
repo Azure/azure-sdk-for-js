@@ -44,12 +44,8 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     );
   }
 
-  public async nextItem(
-    options: ExecutionContextOptions,
-  ): Promise<Response<any>> {
-    if (
-      this.priorityQueueBufferSize <= 0
-    ) {
+  public async nextItem(options: ExecutionContextOptions): Promise<Response<any>> {
+    if (this.priorityQueueBufferSize <= 0) {
       return {
         result: undefined,
         headers: getInitialHeader(),
@@ -57,13 +53,11 @@ export class NonStreamingOrderByEndpointComponent implements ExecutionContext {
     }
     try {
       if (this.executionContext.hasMoreResults()) {
-        const { result: item, headers } = await this.executionContext.nextItem(
-          {
-            diagnosticNode: options.diagnosticNode,
-            operationOptions: options.operationOptions,
-            ruConsumed: options.ruConsumed,
-          }
-        );
+        const { result: item, headers } = await this.executionContext.nextItem({
+          diagnosticNode: options.diagnosticNode,
+          operationOptions: options.operationOptions,
+          ruConsumed: options.ruConsumed,
+        });
         if (item !== undefined) {
           this.nonStreamingOrderByPQ.enqueue(item);
         }

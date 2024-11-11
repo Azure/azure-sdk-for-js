@@ -166,9 +166,7 @@ export class DocumentProducer {
   /**
    * Fetches and bufferes the next page of results and executes the given callback
    */
-  public async bufferMore(
-    options: ExecutionContextOptions
-  ): Promise<Response<any>> {
+  public async bufferMore(options: ExecutionContextOptions): Promise<Response<any>> {
     if (this.err) {
       throw this.err;
     }
@@ -178,7 +176,7 @@ export class DocumentProducer {
         await this.internalExecutionContext.fetchMore({
           diagnosticNode: options.diagnosticNode,
           operationOptions: options.operationOptions,
-          ruConsumed: options.ruConsumed
+          ruConsumed: options.ruConsumed,
         });
       ++this.generation;
       this._updateStates(undefined, resources === undefined);
@@ -233,9 +231,7 @@ export class DocumentProducer {
   /**
    * Fetches the next element in the DocumentProducer.
    */
-  public async nextItem(
-    options: ExecutionContextOptions
-  ): Promise<Response<any>> {
+  public async nextItem(options: ExecutionContextOptions): Promise<Response<any>> {
     if (this.err) {
       this._updateStates(this.err, undefined);
       throw this.err;
@@ -245,7 +241,7 @@ export class DocumentProducer {
       const { result, headers } = await this.current({
         diagnosticNode: options.diagnosticNode,
         operationOptions: options.operationOptions,
-        ruConsumed: options.ruConsumed
+        ruConsumed: options.ruConsumed,
       });
 
       const fetchResult = this.fetchResults.shift();
@@ -271,9 +267,7 @@ export class DocumentProducer {
   /**
    * Retrieve the current element on the DocumentProducer.
    */
-  public async current(
-    options: ExecutionContextOptions
-  ): Promise<Response<any>> {
+  public async current(options: ExecutionContextOptions): Promise<Response<any>> {
     // If something is buffered just give that
     if (this.fetchResults.length > 0) {
       const fetchResult = this.fetchResults[0];
@@ -307,7 +301,7 @@ export class DocumentProducer {
     const { result, headers } = await this.bufferMore({
       diagnosticNode: options.diagnosticNode,
       operationOptions: options.operationOptions,
-      ruConsumed: options.ruConsumed
+      ruConsumed: options.ruConsumed,
     });
     mergeHeaders(this.respHeaders, headers);
     if (result === undefined) {
@@ -316,7 +310,7 @@ export class DocumentProducer {
     return this.current({
       diagnosticNode: options.diagnosticNode,
       operationOptions: options.operationOptions,
-      ruConsumed: options.ruConsumed
+      ruConsumed: options.ruConsumed,
     });
   }
 }

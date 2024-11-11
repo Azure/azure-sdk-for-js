@@ -205,11 +205,10 @@ export class QueryIterator<T> {
         response = await this.queryExecutionContext.fetchMore({
           diagnosticNode: diagnosticNode,
           operationOptions: options,
-          ruConsumed: ruConsumedManager
+          ruConsumed: ruConsumedManager,
         });
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
-
           await this.createExecutionContext(diagnosticNode);
           try {
             response = await this.queryExecutionContext.fetchMore({

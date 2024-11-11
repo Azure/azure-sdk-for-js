@@ -6,11 +6,7 @@
     // THIS HAS TO ALWAYS BE ENABLED
     "strict": true
   },
-  "include": [
-    "src/**/*.ts",
-    "test/**/*.ts",
-    "samples-dev/**/*.(ts|json)"
-  ],
+  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.(ts|json)"],
   // ADDITION TO THIS LIST IS NOT ALLOWED
   "exclude": [
     "src/documents/DatabaseAccount.ts",

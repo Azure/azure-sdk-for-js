@@ -14,9 +14,7 @@ export class UnorderedDistinctEndpointComponent implements ExecutionContext {
     this.hashedResults = new Set();
   }
 
-  public async nextItem(
-    options: ExecutionContextOptions,
-  ): Promise<Response<any>> {
+  public async nextItem(options: ExecutionContextOptions): Promise<Response<any>> {
     try {
       const { headers, result } = await this.executionContext.nextItem({
         diagnosticNode: options.diagnosticNode,

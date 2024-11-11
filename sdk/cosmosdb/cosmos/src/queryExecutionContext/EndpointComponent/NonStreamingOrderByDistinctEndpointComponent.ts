@@ -56,9 +56,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     );
   }
 
-  public async nextItem(
-    options: ExecutionContextOptions,
-  ): Promise<Response<any>> {
+  public async nextItem(options: ExecutionContextOptions): Promise<Response<any>> {
     // if size is 0, just return undefined. Valid if query is TOP 0 or LIMIT 0
 
     let resHeaders = getInitialHeader();
@@ -72,13 +70,11 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       // If there are more results in backend, keep filling map.
       if (this.executionContext.hasMoreResults()) {
         // Grab the next result
-        const { result, headers } = (await this.executionContext.nextItem(
-          {
-            diagnosticNode: options.diagnosticNode,
-            operationOptions: options.operationOptions,
-            ruConsumed: options.ruConsumed,
-          }
-        )) as NonStreamingOrderByResponse;
+        const { result, headers } = (await this.executionContext.nextItem({
+          diagnosticNode: options.diagnosticNode,
+          operationOptions: options.operationOptions,
+          ruConsumed: options.ruConsumed,
+        })) as NonStreamingOrderByResponse;
         resHeaders = headers;
         if (result) {
           // make hash of result object and update the map if required.
@@ -113,14 +109,12 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
         result: undefined,
         headers: resHeaders,
       };
-    }
-    catch (err: any) {
+    } catch (err: any) {
       if (err.code === RUCapPerOperationExceededErrorCode) {
         err.fetchedResults = undefined;
       }
       throw err;
     }
-
   }
 
   /**

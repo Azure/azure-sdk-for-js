@@ -192,7 +192,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
         checkNextDocumentProducerCallback: any,
       ): Promise<void> => {
         try {
-          const { result: afterItem } = await documentProducerToCheck.current({ diagnosticNode: diagnosticNode });
+          const { result: afterItem } = await documentProducerToCheck.current({
+            diagnosticNode: diagnosticNode,
+          });
           if (afterItem === undefined) {
             // no more results left in this document producer, so we don't enqueue it
           } else {
@@ -250,7 +252,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
     const documentProducer = this.orderByPQ.peek();
     // Check if split happened
     try {
-      await documentProducer.current({ diagnosticNode: diagnosticNode, operationOptions: operationOptions, ruConsumed: ruConsumedManager });
+      await documentProducer.current({
+        diagnosticNode: diagnosticNode,
+        operationOptions: operationOptions,
+        ruConsumed: ruConsumedManager,
+      });
       elseCallback();
     } catch (err: any) {
       if (ParallelQueryExecutionContextBase._needPartitionKeyRangeCacheRefresh(err)) {
@@ -271,9 +277,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
   /**
    * Fetches the next element in the ParallelQueryExecutionContextBase.
    */
-  public async nextItem(
-    options: ExecutionContextOptions,
-  ): Promise<Response<any>> {
+  public async nextItem(options: ExecutionContextOptions): Promise<Response<any>> {
     if (this.err) {
       // if there is a prior error return error
       throw this.err;
@@ -332,7 +336,13 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
           // Release the semaphore to avoid deadlock
           this.nextItemfetchSemaphore.leave();
           // Reexcute the function
-          return resolve(this.nextItem({ diagnosticNode: options.diagnosticNode, operationOptions: options.operationOptions, ruConsumed: options.ruConsumed }));
+          return resolve(
+            this.nextItem({
+              diagnosticNode: options.diagnosticNode,
+              operationOptions: options.operationOptions,
+              ruConsumed: options.ruConsumed,
+            }),
+          );
         };
         const elseCallback = async (): Promise<void> => {
           let documentProducer: DocumentProducer;
@@ -355,7 +365,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             const response = await documentProducer.nextItem({
               diagnosticNode: options.diagnosticNode,
               operationOptions: options.operationOptions,
-              ruConsumed: options.ruConsumed
+              ruConsumed: options.ruConsumed,
             });
             item = response.result;
             headers = response.headers;
@@ -398,7 +408,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             const { result: afterItem, headers: otherHeaders } = await documentProducer.current({
               diagnosticNode: options.diagnosticNode,
               operationOptions: options.operationOptions,
-              ruConsumed: options.ruConsumed
+              ruConsumed: options.ruConsumed,
             });
             this._mergeWithActiveResponseHeaders(otherHeaders);
             if (afterItem === undefined) {
@@ -442,9 +452,11 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
             headers: this._getAndResetActiveResponseHeaders(),
           });
         };
-        this._repairExecutionContextIfNeeded(options.diagnosticNode, ifCallback, elseCallback).catch(
-          reject,
-        );
+        this._repairExecutionContextIfNeeded(
+          options.diagnosticNode,
+          ifCallback,
+          elseCallback,
+        ).catch(reject);
       });
     });
   }
@@ -519,9 +531,9 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
 
       logger.info(
         "Query starting against " +
-        targetPartitionRanges.length +
-        " ranges with parallelism of " +
-        maxDegreeOfParallelism,
+          targetPartitionRanges.length +
+          " ranges with parallelism of " +
+          maxDegreeOfParallelism,
       );
 
       let filteredPartitionKeyRanges = [];
@@ -591,7 +603,7 @@ export abstract class ParallelQueryExecutionContextBase implements ExecutionCont
       const { result: document, headers } = await documentProducer.current({
         diagnosticNode: this.getDiagnosticNode(),
         operationOptions: operationOptions,
-        ruConsumed: ruConsumedManager
+        ruConsumed: ruConsumedManager,
       });
       this._mergeWithActiveResponseHeaders(headers);
 

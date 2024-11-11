@@ -3,16 +3,14 @@
 import { Response } from "../../request";
 import { ExecutionContext, ExecutionContextOptions } from "../ExecutionContext";
 import { hashObject } from "../../utils/hashObject";
-import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";;
+import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
 
 /** @hidden */
 export class OrderedDistinctEndpointComponent implements ExecutionContext {
   private hashedLastResult: string;
-  constructor(private executionContext: ExecutionContext) { }
+  constructor(private executionContext: ExecutionContext) {}
 
-  public async nextItem(
-    options: ExecutionContextOptions,
-  ): Promise<Response<any>> {
+  public async nextItem(options: ExecutionContextOptions): Promise<Response<any>> {
     try {
       const { headers, result } = await this.executionContext.nextItem({
         diagnosticNode: options.diagnosticNode,

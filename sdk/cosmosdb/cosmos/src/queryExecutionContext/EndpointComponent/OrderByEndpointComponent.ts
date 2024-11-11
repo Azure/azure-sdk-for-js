@@ -16,13 +16,11 @@ export class OrderByEndpointComponent implements ExecutionContext {
   constructor(
     private executionContext: ExecutionContext,
     private emitRawOrderByPayload: boolean = false,
-  ) { }
+  ) {}
   /**
    * Execute a provided function on the next element in the OrderByEndpointComponent.
    */
-  public async nextItem(
-    options: ExecutionContextOptions,
-  ): Promise<Response<any>> {
+  public async nextItem(options: ExecutionContextOptions): Promise<Response<any>> {
     try {
       const { result: item, headers } = await this.executionContext.nextItem({
         diagnosticNode: options.diagnosticNode,
@@ -47,7 +45,6 @@ export class OrderByEndpointComponent implements ExecutionContext {
       throw err;
     }
   }
-
 
   /**
    * Determine if there are still remaining resources to processs.

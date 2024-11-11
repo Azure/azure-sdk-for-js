@@ -25,15 +25,13 @@ export class GroupByEndpointComponent implements ExecutionContext {
   constructor(
     private executionContext: ExecutionContext,
     private queryInfo: QueryInfo,
-  ) { }
+  ) {}
 
   private readonly groupings: Map<string, Map<string, Aggregator>> = new Map();
   private readonly aggregateResultArray: any[] = [];
   private completed: boolean = false;
 
-  public async nextItem(
-    options: ExecutionContextOptions,
-  ): Promise<Response<any>> {
+  public async nextItem(options: ExecutionContextOptions): Promise<Response<any>> {
     // If we have a full result set, begin returning results
     if (this.aggregateResultArray.length > 0) {
       return {
@@ -53,13 +51,11 @@ export class GroupByEndpointComponent implements ExecutionContext {
     try {
       while (this.executionContext.hasMoreResults()) {
         // Grab the next result
-        const { result, headers } = (await this.executionContext.nextItem(
-          {
-            diagnosticNode: options.diagnosticNode,
-            operationOptions: options.operationOptions,
-            ruConsumed: options.ruConsumed,
-          }
-        )) as GroupByResponse;
+        const { result, headers } = (await this.executionContext.nextItem({
+          diagnosticNode: options.diagnosticNode,
+          operationOptions: options.operationOptions,
+          ruConsumed: options.ruConsumed,
+        })) as GroupByResponse;
         mergeHeaders(aggregateHeaders, headers);
 
         // If it exists, process it via aggregators
