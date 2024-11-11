@@ -3,8 +3,8 @@
 // Licensed under the MIT License.
 
 import { Client, RequestParameters } from "@azure-rest/core-client";
-import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadRunOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
-import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, DeleteFileParameters, DeleteThreadParameters, GetFileContentParameters, GetFileParameters, GetRunParameters, GetThreadParameters, ListAgentsQueryParamProperties, ListFilesParameters, ListMessagesParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateMessageParameters, UpdateRunParameters, UpdateThreadParameters, UploadFileParameters } from "../generated/src/parameters.js";
+import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
+import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, DeleteFileParameters, DeleteThreadParameters, GetFileContentParameters, GetFileParameters, GetRunParameters, GetThreadParameters, ListAgentsQueryParamProperties, ListFilesParameters, ListMessagesQueryParamProperties, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateMessageOptions, UpdateRunParameters, UpdateThreadParameters, UploadFileParameters } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
@@ -113,17 +113,20 @@ export interface AgentsOperations {
   createMessage: (
     threadId: string,
     options: ThreadMessageOptions,
+    requestParams?: RequestParameters,
   ) => Promise<ThreadMessageOutput>;
   /** Gets a list of messages that exist on a thread. */
   listMessages: (
     threadId: string,
-    options?: ListMessagesParameters,
-  ) => Promise<ThreadMessageOutput>;
+    options?: ListMessagesQueryParamProperties,
+    requestParams?: RequestParameters,
+  ) => Promise<OpenAIPageableListOfThreadMessageOutput>;
   /** Modifies an existing message on an existing thread. */
   updateMessage: (
     threadId: string,
     messageId: string,
-    options: UpdateMessageParameters,
+    options?: UpdateMessageOptions,
+    requestParams?: RequestParameters,
   ) => Promise<ThreadMessageOutput>;
 
   /** Gets a list of previously uploaded files. */
@@ -192,16 +195,18 @@ function getAgents(context: Client): AgentsOperations {
       cancelRun(context, threadId, runId, options),
     createThreadAndRun: (options: CreateThreadAndRunParameters) =>
       createThreadAndRun(context, options),
+
     createRunStreaming: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: RequestParameters) =>
       createRunStreaming(context, threadId, {...requestParams, body: { ...options, assistant_id: assistantId } }),
     createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: RequestParameters) =>
       createThreadAndRunStreaming(context, { ...requestParams, body: { ...options, assistant_id: assistantId } }),
-    createMessage: (threadId: string, options: ThreadMessageOptions) =>
-      createMessage(context, threadId, { body: options }),
-    listMessages: (threadId: string, options?: ListMessagesParameters) =>
-      listMessages(context, threadId, options),
-    updateMessage: (threadId: string, messageId: string, options: UpdateMessageParameters) =>
-      updateMessage(context, threadId, messageId, options),
+  
+    createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: RequestParameters) =>
+      createMessage(context, threadId, {...requestParams, body: options}),
+    listMessages: (threadId: string, options?: ListMessagesQueryParamProperties, requestParams?: RequestParameters) =>
+      listMessages(context, threadId, {...requestParams, queryParameters: {...options}}),
+    updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: RequestParameters) =>
+      updateMessage(context, threadId, messageId, {...requestParams, body: {...options}}),
 
     listFiles: (options?: ListFilesParameters) =>
       listFiles(context, options),

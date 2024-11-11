@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { Client, createRestError } from "@azure-rest/core-client";
-import { ThreadMessageOutput } from "../generated/src/outputModels.js";
+import { OpenAIPageableListOfThreadMessageOutput, ThreadMessageOutput } from "../generated/src/outputModels.js";
 import { CreateMessageParameters, ListMessagesParameters, UpdateMessageParameters } from "../generated/src/parameters.js";
 
 const expectedStatuses = ["200"];
@@ -19,7 +19,7 @@ export async function createMessage(
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }
 
 /** Gets a list of messages that exist on a thread. */
@@ -27,14 +27,14 @@ export async function listMessages(
   context: Client,
   threadId: string,
   options?: ListMessagesParameters,
-): Promise<ThreadMessageOutput> {
+): Promise<OpenAIPageableListOfThreadMessageOutput> {
   const result = await context
     .path("/threads/{threadId}/messages", threadId)
     .get(options);
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }
 
 /** Modifies an existing message on an existing thread. */
@@ -42,7 +42,7 @@ export async function updateMessage(
   context: Client,
   threadId: string,
   messageId: string,
-  options: UpdateMessageParameters,
+  options?: UpdateMessageParameters,
 ): Promise<ThreadMessageOutput> {
   const result = await context
     .path("/threads/{threadId}/messages/{messageId}", threadId, messageId)
@@ -50,5 +50,5 @@ export async function updateMessage(
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }
