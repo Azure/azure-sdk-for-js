@@ -13,14 +13,14 @@ import {
 } from "./utils/testUSCampaignBrief.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe(`TollFreeVerificationClient - Campaign Brief`, function () {
   let recorder: Recorder;
   let client: TollFreeVerificationClient;
 
   beforeEach(async function (ctx) {
-    ({ client, recorder } = await createRecordedClient(this));
+    ({ client, recorder } = await createRecordedClient(ctx));
   });
 
   afterEach(async function (ctx) {
@@ -29,7 +29,7 @@ describe(`TollFreeVerificationClient - Campaign Brief`, function () {
     }
   });
 
-  it("can manage a Brief", async function () {
+  it("can manage a Brief", { timeout: 35000 }, async function () {
     const testBrief = getTestUSCampaignBrief();
     const uscb = testBrief.campaignBrief;
     const uscbsumm = testBrief.campaignBriefSummary;
@@ -92,5 +92,5 @@ describe(`TollFreeVerificationClient - Campaign Brief`, function () {
       await doesCampaignBriefExist(client, uscb.id),
       "Delete campaign brief was unsuccessful, campaign brief is still returned",
     );
-  }).timeout(35000);
+  });
 });

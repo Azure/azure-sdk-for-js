@@ -6,27 +6,27 @@ import { TollFreeVerificationClient } from "../../src/index.js";
 import { createMockToken } from "./utils/recordedClient.js";
 import { describe, it, assert } from "vitest";
 
-describe("TollFreeVerificationClient - constructor", function () {
+describe("TollFreeVerificationClient - constructor", () => {
   const endpoint = "https://contoso.spool.azure.local";
   const accessKey = "banana";
 
-  it("successfully instantiates with valid connection string", function () {
+  it("successfully instantiates with valid connection string", () => {
     const client = new TollFreeVerificationClient(`endpoint=${endpoint};accesskey=${accessKey}`);
     assert.instanceOf(client, TollFreeVerificationClient);
   });
 
-  it("throws with invalid connection string", function () {
+  it("throws with invalid connection string", () => {
     assert.throws(() => {
       new TollFreeVerificationClient(`endpoints=${endpoint};accesskey=${accessKey}`);
     });
   });
 
-  it("successfully instantiates with with endpoint and access key", function () {
+  it("successfully instantiates with with endpoint and access key", () => {
     const client = new TollFreeVerificationClient(endpoint, new AzureKeyCredential(accessKey));
     assert.instanceOf(client, TollFreeVerificationClient);
   });
 
-  it("successfully instantiates with with endpoint and managed identity", function (ctx) {
+  it("successfully instantiates with with endpoint and managed identity", () => {
     const client = new TollFreeVerificationClient(endpoint, createMockToken());
     assert.instanceOf(client, TollFreeVerificationClient);
   });
