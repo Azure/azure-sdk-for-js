@@ -10,7 +10,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils-vitest";
 import type { SmsClient } from "../../src/index.js";
 import { Uuid } from "../../src/utils/uuid.js";
 import sendSmsSuites from "../public/suites/smsClient.send.js";
