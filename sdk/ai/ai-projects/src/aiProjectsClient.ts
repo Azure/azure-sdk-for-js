@@ -9,9 +9,6 @@ import { AgentsOperations, getAgentsOperations } from "./agents/index.js";
 export interface AIProjectsClientOptions extends ProjectsClientOptions{
 }
 
-export interface CreateProjectsClient extends ProjectsClientOptions{
-}
-
 export class AIProjectsClient {
   private _client: Client;
   /** The pipeline used by this client to make requests */
@@ -53,7 +50,8 @@ export class AIProjectsClient {
   static fromConnectionString(
     connectionString: string,
     credential: TokenCredential,
-    options: CreateProjectsClient = {},
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options: AIProjectsClientOptions = {},
   ): AIProjectsClient {
     const { endpointParam, subscriptionId, resourceGroupName, projectName } =
       AIProjectsClient.praseConnectionString(connectionString);
