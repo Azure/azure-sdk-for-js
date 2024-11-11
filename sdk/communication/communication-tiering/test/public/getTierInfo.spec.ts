@@ -1,12 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import type { TieringClient } from "../../src/index.js";
-import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe(`TieringClient - Get Tier Info`, function () {
   let recorder: Recorder;

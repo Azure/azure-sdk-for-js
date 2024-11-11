@@ -11,7 +11,6 @@ import {
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 import { TieringClient } from "../../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
