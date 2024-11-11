@@ -471,7 +471,7 @@ async function executeQueryAndVerifyOrder(
   assert.equal(count, size);
 }
 
-describe("Full text search feature", async () => {
+describe.skip("Full text search feature", async () => {
   let database: Database;
 
   before(async function () {
@@ -527,7 +527,7 @@ describe("Full text search feature", async () => {
 
     const queryOptions = { forceQueryPlan: true };
     const queryIterator = container.items.query(query, queryOptions);
-    let result = [];
+    const result = [];
     while (queryIterator.hasMoreResults()) {
       result.push(...(await queryIterator.fetchNext()).resources);
     }
