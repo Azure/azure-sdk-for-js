@@ -349,9 +349,7 @@ describe("CallConnection Live Tests", function () {
       ctx.task.suite && ctx.task.suite.name && ctx.task.name
         ? `${ctx.task.suite.name} ${ctx.task.name}`
         : undefined;
-    testName = fullTitle
-      ? fullTitle.replace(/ /g, "_").toLocaleLowerCase()
-      : "list_all_participants";
+    testName = fullTitle ? fullTitle.replace(/ /g, "_") : "list_all_participants";
     await loadPersistedEvents(testName);
 
     const callInvite: CallInvite = { targetParticipant: testUser2 };
@@ -390,9 +388,7 @@ describe("CallConnection Live Tests", function () {
       ctx.task.suite && ctx.task.suite.name && ctx.task.name
         ? `${ctx.task.suite.name} ${ctx.task.name}`
         : undefined;
-    testName = fullTitle
-      ? fullTitle.replace(/ /g, "_").toLocaleLowerCase()
-      : "add_participant_and_get_call_props";
+    testName = fullTitle ? fullTitle.replace(/ /g, "_") : "add_participant_and_get_call_props";
     await loadPersistedEvents(testName);
 
     const callInvite: CallInvite = { targetParticipant: testUser2 };
@@ -461,9 +457,7 @@ describe("CallConnection Live Tests", function () {
       ctx.task.suite && ctx.task.suite.name && ctx.task.name
         ? `${ctx.task.suite.name} ${ctx.task.name}`
         : undefined;
-    testName = fullTitle
-      ? fullTitle.replace(/ /g, "_").toLocaleLowerCase()
-      : "remove_a_participant";
+    testName = fullTitle ? fullTitle.replace(/ /g, "_") : "remove_a_participant";
     await loadPersistedEvents(testName);
 
     const callInvite: CallInvite = { targetParticipant: testUser2 };
@@ -510,7 +504,7 @@ describe("CallConnection Live Tests", function () {
       ctx.task.suite && ctx.task.suite.name && ctx.task.name
         ? `${ctx.task.suite.name} ${ctx.task.name}`
         : undefined;
-    testName = fullTitle ? fullTitle.replace(/ /g, "_").toLocaleLowerCase() : "mute_participant";
+    testName = fullTitle ? fullTitle.replace(/ /g, "_") : "mute_participant";
     await loadPersistedEvents(testName);
 
     const callInvite: CallInvite = { targetParticipant: testUser2 };
@@ -577,9 +571,7 @@ describe("CallConnection Live Tests", function () {
       ctx.task.suite && ctx.task.suite.name && ctx.task.name
         ? `${ctx.task.suite.name} ${ctx.task.name}`
         : undefined;
-    testName = fullTitle
-      ? fullTitle.replace(/ /g, "_").toLocaleLowerCase()
-      : "cancel_add_participant";
+    testName = fullTitle ? fullTitle.replace(/ /g, "_") : "cancel_add_participant";
     await loadPersistedEvents(testName);
 
     const callInvite: CallInvite = { targetParticipant: testUser2 };

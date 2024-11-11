@@ -41,7 +41,7 @@ import type {
 import { ServiceBusClient } from "@azure/service-bus";
 import type { PhoneNumbersClientOptions } from "@azure/communication-phone-numbers";
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
-import { assert, vi } from "vitest";
+import { assert } from "vitest";
 
 if (isNodeLike) {
   dotenv.config();

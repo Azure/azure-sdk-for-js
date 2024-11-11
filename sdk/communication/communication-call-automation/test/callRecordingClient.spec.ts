@@ -235,9 +235,7 @@ describe("CallRecording Live Tests", function () {
       ctx.task.suite && ctx.task.suite.name && ctx.task.name
         ? `${ctx.task.suite.name} ${ctx.task.name}`
         : undefined;
-    testName = fullTitle
-      ? fullTitle.replace(/ /g, "_").toLocaleLowerCase()
-      : "create_call_start_recording_and_hang_up";
+    testName = fullTitle ? fullTitle.replace(/ /g, "_") : "create_call_start_recording_and_hang_up";
     await loadPersistedEvents(testName);
 
     const callInvite: CallInvite = { targetParticipant: testUser2 };

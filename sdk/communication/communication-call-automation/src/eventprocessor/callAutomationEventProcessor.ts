@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EventEmitter } from "node:events";
+import { EventEmitter } from "events";
 import type { CallAutomationEvent } from "../models/events.js";
 import { parseCallAutomationEvent } from "../callAutomationEventParser.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
