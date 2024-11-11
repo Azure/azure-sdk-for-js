@@ -35,4 +35,4 @@ export {
   TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse,
   TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
   TollFreeVerificationGetCampaignBriefAttachmentOptionalParams,
-} from "./generated/src/models/";
+} from "./generated/src/models/index.js";

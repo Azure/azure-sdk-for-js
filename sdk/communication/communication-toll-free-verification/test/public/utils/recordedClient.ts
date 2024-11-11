@@ -12,7 +12,7 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import type { Context } from "mocha";
-import { TollFreeVerificationClient } from "../../../src";
+import { TollFreeVerificationClient } from "../../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
 

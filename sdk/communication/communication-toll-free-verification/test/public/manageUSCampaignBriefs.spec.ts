@@ -4,28 +4,28 @@
 import type {
   TollFreeVerificationClient,
   TollFreeVerificationUpsertCampaignBriefOptionalParams,
-} from "../../src";
+} from "../../src/index.js";
 import {
   assertEditableFieldsAreEqual,
   assertCampaignBriefSummaryEditableFieldsAreEqual,
   doesCampaignBriefExist,
   getTestUSCampaignBrief,
-} from "./utils/testUSCampaignBrief";
+} from "./utils/testUSCampaignBrief.js";
 import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createRecordedClient } from "./utils/recordedClient";
+import { createRecordedClient } from "./utils/recordedClient.js";
 
 describe(`TollFreeVerificationClient - Campaign Brief`, function () {
   let recorder: Recorder;
   let client: TollFreeVerificationClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     ({ client, recorder } = await createRecordedClient(this));
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+  afterEach(async function (ctx) {
+    if (!ctx.task.pending) {
       await recorder.stop();
     }
   });

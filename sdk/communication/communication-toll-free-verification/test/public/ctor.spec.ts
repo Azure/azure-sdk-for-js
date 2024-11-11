@@ -3,9 +3,9 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import type { Context } from "mocha";
-import { TollFreeVerificationClient } from "../../src";
+import { TollFreeVerificationClient } from "../../src/index.js";
 import { assert } from "chai";
-import { createMockToken } from "./utils/recordedClient";
+import { createMockToken } from "./utils/recordedClient.js";
 
 describe("TollFreeVerificationClient - constructor", function () {
   const endpoint = "https://contoso.spool.azure.local";
@@ -27,7 +27,7 @@ describe("TollFreeVerificationClient - constructor", function () {
     assert.instanceOf(client, TollFreeVerificationClient);
   });
 
-  it("successfully instantiates with with endpoint and managed identity", function (this: Context) {
+  it("successfully instantiates with with endpoint and managed identity", function (ctx) {
     const client = new TollFreeVerificationClient(endpoint, createMockToken());
     assert.instanceOf(client, TollFreeVerificationClient);
   });
