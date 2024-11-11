@@ -35,6 +35,11 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private emitRawOrderByPayload: boolean = true;
   private buffer: HybridSearchQueryResult[] = [];
   private DEFAULT_PAGE_SIZE = 10;
+  private TOTAL_WORD_COUNT_PLACEHOLDER = "documentdb-formattablehybridsearchquery-totalwordcount";
+  private HIT_COUNTS_ARRAY_PLACEHOLDER = "documentdb-formattablehybridsearchquery-hitcountsarray";
+  private TOTAL_DOCUMENT_COUNT_PLACEHOLDER =
+    "documentdb-formattablehybridsearchquery-totaldocumentcount";
+  private RRF_CONSTANT = 60; // Constant for RRF score calculation
 
   constructor(
     private clientContext: ClientContext,
@@ -309,10 +314,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     };
 
     // Compute RRF scores and sort based on them
-    const k = 60; // Constant for RRF score calculation
     const rrfScores = ranksArray.map((item) => ({
       rid: item.rid,
-      rrfScore: computeRRFScore(item.ranks, k),
+      rrfScore: computeRRFScore(item.ranks, this.RRF_CONSTANT),
     }));
 
     // Sort based on RRF scores
@@ -405,7 +409,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private replacePlaceholders(query: string, globalStats: GlobalStatistics): string {
     // Replace total document count
     query = query.replace(
-      /{documentdb-formattablehybridsearchquery-totaldocumentcount}/g,
+      new RegExp(`{${this.TOTAL_DOCUMENT_COUNT_PLACEHOLDER}}`, "g"),
       globalStats.documentCount.toString(),
     );
 
@@ -413,12 +417,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     globalStats.fullTextStatistics.forEach((stats, index) => {
       // Replace total word counts
       query = query.replace(
-        new RegExp(`{documentdb-formattablehybridsearchquery-totalwordcount-${index}}`, "g"),
+        new RegExp(`{${this.TOTAL_WORD_COUNT_PLACEHOLDER}-${index}}`, "g"),
         stats.totalWordCount.toString(),
       );
       // Replace hit counts
       query = query.replace(
-        new RegExp(`{documentdb-formattablehybridsearchquery-hitcountsarray-${index}}`, "g"),
+        new RegExp(`{${this.HIT_COUNTS_ARRAY_PLACEHOLDER}-${index}}`, "g"),
         `[${stats.hitCounts.join(",")}]`,
       );
     });
