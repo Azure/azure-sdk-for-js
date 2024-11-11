@@ -1,6 +1,6 @@
 # Release History
 
-## 4.1.2-beta (Unreleased)
+## 4.2.0-beta.1 (Unreleased)
 
 ### Features Added
 - Add support for full text search
