@@ -337,28 +337,6 @@ describe("HubClient", function () {
       assert.equal(tokenPayload.aud, client.endpoint + `clients/mqtt/hubs/${client.hubName}`);
     });
 
-    it("can generate socketIO client tokens", async () => {
-      const socketIOClient = new WebPubSubServiceClient(
-        assertEnvironmentVariable("WPS_SOCKETIO_CONNECTION_STRING"),
-        "simplechat",
-        recorder.configureClientOptions({}),
-      );
-      const res = await socketIOClient.getClientAccessToken({
-        userId: "brian",
-        groups: ["group1"],
-        clientProtocol: "socketio",
-      });
-      const url = new URL(res.url);
-      const tokenPayload = parseJwt(res.token!);
-      assert.ok(url.searchParams.has("access_token"));
-      assert.equal(url.host, new URL(socketIOClient.endpoint).host);
-      assert.equal(url.pathname, `/clients/socketio/hubs/${client.hubName}`);
-      assert.equal(
-        tokenPayload.aud,
-        socketIOClient.endpoint + `clients/socketio/hubs/${socketIOClient.hubName}`,
-      );
-    });
-
     it("can generate default client tokens with DAC", async function () {
       // Recording not generated properly, so only run in live mode
       if (!isLiveMode()) this.skip();
@@ -401,6 +379,28 @@ describe("HubClient", function () {
       assert.equal(url.host, new URL(client.endpoint).host);
       assert.equal(url.pathname, `/clients/mqtt/hubs/${client.hubName}`);
       assert.equal(tokenPayload.aud, client.endpoint + `clients/mqtt/hubs/${client.hubName}`);
+    });
+
+    it("can generate client socketIO tokens with DAC", async function () {
+      // Recording not generated properly, so only run in live mode
+      if (!isLiveMode()) this.skip();
+      const dacClient = new WebPubSubServiceClient(
+        assertEnvironmentVariable("WPS_ENDPOINT"),
+        credential,
+        "simplechat",
+        recorder.configureClientOptions({}),
+      );
+      const res = await dacClient.getClientAccessToken({
+        userId: "brian",
+        groups: ["group1"],
+        clientProtocol: "socketio",
+      });
+      const url = new URL(res.url);
+      const tokenPayload = parseJwt(res.token!);
+      assert.ok(url.searchParams.has("access_token"));
+      assert.equal(url.host, new URL(client.endpoint).host);
+      assert.equal(url.pathname, `/clients/socketio/hubs/${client.hubName}`);
+      assert.equal(tokenPayload.aud, client.endpoint + `clients/socketio/hubs/${client.hubName}`);
     });
   });
 });
