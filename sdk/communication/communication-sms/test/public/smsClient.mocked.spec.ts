@@ -7,9 +7,9 @@ import { isNode } from "@azure/core-util";
 import type { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import sinon from "sinon";
-import type { SmsClientOptions, SmsSendRequest } from "../../src";
-import { SmsClient } from "../../src";
-import { MockHttpClient } from "./utils/mockHttpClient";
+import type { SmsClientOptions, SmsSendRequest } from "../../src/index.js";
+import { SmsClient } from "../../src/index.js";
+import { MockHttpClient } from "./utils/mockHttpClient.js";
 
 const TEST_NUMBER = "+14255550123";
 

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import type { SmsSendResult } from "../../../src";
+import type { SmsSendResult } from "../../../src/index.js";
 
 export const assertIsSuccessResult = (
   actualSmsResult: SmsSendResult,

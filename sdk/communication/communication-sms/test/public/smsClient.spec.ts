@@ -11,24 +11,24 @@ import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { matrix } from "@azure-tools/test-utils";
 import type { Context } from "mocha";
 import sinon from "sinon";
-import type { SmsClient } from "../../src";
-import { Uuid } from "../../src/utils/uuid";
-import sendSmsSuites from "./suites/smsClient.send";
-import { createRecordedSmsClient, createRecordedSmsClientWithToken } from "./utils/recordedClient";
+import type { SmsClient } from "../../src/index.js";
+import { Uuid } from "../../src/utils/uuid.js";
+import sendSmsSuites from "./suites/smsClient.send.js";
+import { createRecordedSmsClient, createRecordedSmsClientWithToken } from "./utils/recordedClient.js";
 
 matrix([[true, false]], async function (useAad: boolean) {
   describe(`SmsClient [Live]${useAad ? " [AAD]" : ""}`, async function () {
     let recorder: Recorder;
     let client: SmsClient;
 
-    before(function (this: Context) {
+    before(function (ctx) {
       const skipIntSMSTests = env.COMMUNICATION_SKIP_INT_SMS_TEST === "true";
       if (skipIntSMSTests) {
-        this.skip();
+        ctx.skip();
       }
     });
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       if (isPlaybackMode()) {
         sinon.stub(Uuid, "generateUuid").returns("sanitized");
         sinon.stub(Date, "now").returns(0);
@@ -41,8 +41,8 @@ matrix([[true, false]], async function (useAad: boolean) {
       this.smsClient = client;
     });
 
-    afterEach(async function (this: Context) {
-      if (!this.currentTest?.isPending()) {
+    afterEach(async function (ctx) {
+      if (!ctx.task.pending) {
         await recorder.stop();
       }
       if (isPlaybackMode()) {
