@@ -4,20 +4,20 @@
 import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-import type { TieringClient } from "../../src";
+import type { TieringClient } from "../../src/index.js";
 import { assert } from "chai";
-import { createRecordedClient } from "./utils/recordedClient";
+import { createRecordedClient } from "./utils/recordedClient.js";
 
 describe(`TieringClient - Get Tier Info`, function () {
   let recorder: Recorder;
   let client: TieringClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     ({ client, recorder } = await createRecordedClient(this));
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+  afterEach(async function (ctx) {
+    if (!ctx.task.pending) {
       await recorder.stop();
     }
   });

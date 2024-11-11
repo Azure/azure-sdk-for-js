@@ -3,9 +3,9 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import type { Context } from "mocha";
-import { TieringClient } from "../../src";
+import { TieringClient } from "../../src/index.js";
 import { assert } from "chai";
-import { createMockToken } from "./utils/recordedClient";
+import { createMockToken } from "./utils/recordedClient.js";
 
 describe("RecipientVerificationClient - constructor", function () {
   const endpoint = "https://contoso.spool.azure.local";
@@ -27,7 +27,7 @@ describe("RecipientVerificationClient - constructor", function () {
     assert.instanceOf(client, TieringClient);
   });
 
-  it("successfully instantiates with with endpoint and managed identity", function (this: Context) {
+  it("successfully instantiates with with endpoint and managed identity", function (ctx) {
     const client = new TieringClient(endpoint, createMockToken());
     assert.instanceOf(client, TieringClient);
   });
