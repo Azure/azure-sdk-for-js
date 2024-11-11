@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import type { SmsSendOptions, SmsSendRequest } from "../../../src/index.js";
 import { env } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 import { assertIsFailureResult, assertIsSuccessResult } from "../utils/assertHelpers.js";
+import { assert } from "vitest";
 
 export default function testCases(): void {
   it("can send an SMS message", async function (ctx) {

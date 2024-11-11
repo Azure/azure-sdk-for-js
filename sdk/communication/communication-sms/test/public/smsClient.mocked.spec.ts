@@ -5,11 +5,10 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import type { HttpClient } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
 import type { TokenCredential } from "@azure/identity";
-import { assert } from "chai";
-import sinon from "sinon";
 import type { SmsClientOptions, SmsSendRequest } from "../../src/index.js";
 import { SmsClient } from "../../src/index.js";
 import { MockHttpClient } from "./utils/mockHttpClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const TEST_NUMBER = "+14255550123";
 

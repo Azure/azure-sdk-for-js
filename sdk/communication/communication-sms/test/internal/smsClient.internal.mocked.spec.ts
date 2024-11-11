@@ -5,13 +5,11 @@ import type { HttpClient } from "@azure/core-rest-pipeline";
 
 import { generateSendMessageRequest } from "../../src/utils/smsUtils.js";
 import { Uuid } from "../../src/utils/uuid.js";
-
-import { assert } from "chai";
-import sinon from "sinon";
 import { apiVersion } from "../../src/generated/src/models/parameters.js";
 import type { SmsSendRequest } from "../../src/smsClient.js";
 import { SmsClient } from "../../src/smsClient.js";
 import { MockHttpClient } from "../public/utils/mockHttpClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
 const TEST_NUMBER = "+14255550123";

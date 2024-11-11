@@ -9,12 +9,11 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { matrix } from "@azure-tools/test-utils";
-import type { Context } from "mocha";
-import sinon from "sinon";
 import type { SmsClient } from "../../src/index.js";
 import { Uuid } from "../../src/utils/uuid.js";
 import sendSmsSuites from "./suites/smsClient.send.js";
 import { createRecordedSmsClient, createRecordedSmsClientWithToken } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 matrix([[true, false]], async function (useAad: boolean) {
   describe(`SmsClient [Live]${useAad ? " [AAD]" : ""}`, async function () {
