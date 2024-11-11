@@ -129,8 +129,7 @@ export interface AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options: UpdateMessageParameters) => Promise<ThreadMessageOutput>;
     // Warning: (ae-forgotten-export) The symbol "UpdateRunParameters" needs to be exported by the entry point index.d.ts
     updateRun: (threadId: string, runId: string, options: UpdateRunParameters) => Promise<ThreadRunOutput>;
-    // Warning: (ae-forgotten-export) The symbol "UpdateThreadParameters" needs to be exported by the entry point index.d.ts
-    updateThread: (threadId: string, options: UpdateThreadParameters) => Promise<AgentThreadOutput>;
+    updateThread: (threadId: string, options?: UpdateAgentThreadOptions) => Promise<AgentThreadOutput>;
     // Warning: (ae-forgotten-export) The symbol "UploadFileParameters" needs to be exported by the entry point index.d.ts
     uploadFile: (options: UploadFileParameters) => Promise<OpenAIFileOutput>;
 }

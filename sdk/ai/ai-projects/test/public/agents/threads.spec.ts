@@ -42,7 +42,12 @@ describe("Agents - threads", () => {
   });
 
   it("should update thread", async function () {  
-    // TODO
+    const thread = await agents.createThread()
+    await agents.updateThread(thread.id, { metadata: {"key": "value"} });
+    const _thread = await agents.getThread(thread.id);
+    assert.equal(_thread.id, thread.id);
+    assert.isNotEmpty(_thread.metadata);
+    assert.equal(_thread.metadata?.key, "value");
   });
  
   it("should delete thread", async function () {
