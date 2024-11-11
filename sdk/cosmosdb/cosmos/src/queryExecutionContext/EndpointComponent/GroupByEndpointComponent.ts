@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Response } from "../../request";
 import { ExecutionContext, ExecutionContextOptions } from "../ExecutionContext";
 import { CosmosHeaders } from "../CosmosHeaders";
@@ -25,7 +25,7 @@ export class GroupByEndpointComponent implements ExecutionContext {
   constructor(
     private executionContext: ExecutionContext,
     private queryInfo: QueryInfo,
-  ) {}
+  ) { }
 
   private readonly groupings: Map<string, Map<string, Aggregator>> = new Map();
   private readonly aggregateResultArray: any[] = [];

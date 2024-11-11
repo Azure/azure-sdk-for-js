@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Response } from "../../request";
 import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperationExceededError";
 import { ExecutionContext, ExecutionContextOptions } from "../ExecutionContext";
@@ -16,7 +16,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
   constructor(
     private executionContext: ExecutionContext,
     private emitRawOrderByPayload: boolean = false,
-  ) {}
+  ) { }
   /**
    * Execute a provided function on the next element in the OrderByEndpointComponent.
    */

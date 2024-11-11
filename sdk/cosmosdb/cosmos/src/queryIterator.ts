@@ -188,7 +188,7 @@ export class QueryIterator<T> {
    */
   public async fetchNext(options?: QueryOperationOptions): Promise<FeedResponse<T>> {
     return withDiagnostics(async (diagnosticNode: DiagnosticNodeInternal) => {
-      let ruConsumedManager = new RUConsumedManager();
+      const ruConsumedManager = new RUConsumedManager();
 
       this.queryPlanPromise = withMetadataDiagnostics(
         async (metadataNode: DiagnosticNodeInternal) => {
@@ -251,7 +251,7 @@ export class QueryIterator<T> {
     diagnosticNode: DiagnosticNodeInternal,
     options?: QueryOperationOptions,
   ): Promise<FeedResponse<T>> {
-    let ruConsumedManager = new RUConsumedManager();
+    const ruConsumedManager = new RUConsumedManager();
     this.queryPlanPromise = withMetadataDiagnostics(
       async (metadataNode: DiagnosticNodeInternal) => {
         return this.fetchQueryPlan(metadataNode);

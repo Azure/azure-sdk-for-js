@@ -15,7 +15,7 @@ export class GlobalStatisticsAggregator implements Aggregator {
     };
   }
 
-  public aggregate(other: GlobalStatistics) {
+  public aggregate(other: GlobalStatistics): void {
     if (!other) {
       return;
     }
@@ -60,7 +60,7 @@ export class GlobalStatisticsAggregator implements Aggregator {
     }
   }
 
-  public getResult() {
+  public getResult(): GlobalStatistics {
     return this.globalStatistics;
   }
 }

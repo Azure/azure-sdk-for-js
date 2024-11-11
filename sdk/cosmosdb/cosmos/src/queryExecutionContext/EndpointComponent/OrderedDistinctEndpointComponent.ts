@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Response } from "../../request";
 import { ExecutionContext, ExecutionContextOptions } from "../ExecutionContext";
 import { hashObject } from "../../utils/hashObject";
@@ -8,7 +8,7 @@ import { RUCapPerOperationExceededErrorCode } from "../../request/RUCapPerOperat
 /** @hidden */
 export class OrderedDistinctEndpointComponent implements ExecutionContext {
   private hashedLastResult: string;
-  constructor(private executionContext: ExecutionContext) {}
+  constructor(private executionContext: ExecutionContext) { }
 
   public async nextItem(options: ExecutionContextOptions): Promise<Response<any>> {
     try {

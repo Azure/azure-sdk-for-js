@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
+/* eslint-disable no-loss-of-precision */
 const items = [
   {
     title: "Parabolic reflector",
