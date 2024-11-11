@@ -16,7 +16,7 @@ export class OrderByEndpointComponent implements ExecutionContext {
   constructor(
     private executionContext: ExecutionContext,
     private emitRawOrderByPayload: boolean = false,
-  ) { }
+  ) {}
   /**
    * Execute a provided function on the next element in the OrderByEndpointComponent.
    */

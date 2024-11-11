@@ -11,7 +11,7 @@ export class OffsetLimitEndpointComponent implements ExecutionContext {
     private executionContext: ExecutionContext,
     private offset: number,
     private limit: number,
-  ) { }
+  ) {}
 
   public async nextItem(options: ExecutionContextOptions): Promise<Response<any>> {
     const aggregateHeaders = getInitialHeader();
