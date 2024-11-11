@@ -323,7 +323,7 @@ describe("Queries", function (this: Suite) {
       });
     });
 
-    describe.skip("MakeList query iterator", function (this: Suite) {
+    describe("MakeList query iterator", function (this: Suite) {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
 
       it("returns all documents for query iterator with makeList", async function () {
@@ -380,7 +380,7 @@ describe("Queries", function (this: Suite) {
       });
     });
 
-    describe.skip("MakeSet query iterator", function (this: Suite) {
+    describe("MakeSet query iterator", function (this: Suite) {
       this.timeout(process.env.MOCHA_TIMEOUT || 30000);
 
       it("returns all documents for query iterator with makeSet", async function () {

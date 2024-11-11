@@ -325,7 +325,7 @@ describe("Vector search feature", async () => {
     });
   });
 
-  describe.skip("Vector Search Query large dataset", async () => {
+  describe("Vector Search Query large dataset", async () => {
     let database: Database;
     let container: Container;
 

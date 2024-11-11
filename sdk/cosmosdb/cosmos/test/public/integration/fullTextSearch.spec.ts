@@ -208,14 +208,12 @@ rrfScores array [
       const results: any[] = [];
       while (queryIterator.hasMoreResults()) {
         const { resources: result } = await queryIterator.fetchNext();
-        console.log("fetchNext result - final", result);
         if (result !== undefined) {
           results.push(...result);
         }
       }
 
       const indexes = results.map((result) => result.Index);
-      console.log("indexes", indexes);
       const isMatch =
         JSON.stringify(indexes) === JSON.stringify(expected1) ||
         JSON.stringify(indexes) === JSON.stringify(expected2);
