@@ -21,7 +21,7 @@ describe("TollFreeVerificationClient - headers", function () {
   let request: PipelineRequest;
 
   afterEach(function () {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("calls the spy", async function () {
