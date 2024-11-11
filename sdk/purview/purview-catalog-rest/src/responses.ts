@@ -870,6 +870,7 @@ export interface GlossaryExportGlossaryTermsAsCsv200Response extends HttpRespons
 /** Export Glossary Terms as csv file */
 export interface GlossaryExportGlossaryTermsAsCsvDefaultResponse extends HttpResponse {
   status: string;
+  body: ErrorResponseOutput;
 }
 
 /** Get terms by glossary name. */
