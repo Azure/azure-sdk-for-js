@@ -5,7 +5,7 @@ import { Constants } from "../common";
 import { ClientSideMetrics, QueryMetrics } from "../queryMetrics";
 import { FeedOptions, Response } from "../request";
 import { getInitialHeader, getRequestChargeIfAny } from "./headerUtils";
-import { ExecutionContext, ExecutionContextHybridOptions, ExecutionContextOptions } from "./index";
+import { ExecutionContext, ExecutionContextOptions } from "./index";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "../diagnostics/DiagnosticNodeInternal";
 import { addDignosticChild } from "../utils/diagnostics";
 import { CosmosDbDiagnosticLevel } from "../diagnostics/CosmosDbDiagnosticLevel";
@@ -137,7 +137,7 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
   /**
    * Fetches the next batch of the feed and pass them as an array to a callback
    */
-  public async fetchMore(options: ExecutionContextHybridOptions): Promise<Response<any>> {
+  public async fetchMore(options: ExecutionContextOptions): Promise<Response<any>> {
     return addDignosticChild(
       async (childDiagnosticNode: DiagnosticNodeInternal) => {
         if (this.currentPartitionIndex >= this.fetchFunctions.length) {
@@ -188,13 +188,13 @@ export class DefaultQueryExecutionContext implements ExecutionContext {
             const fetchFunction = this.fetchFunctions[this.currentPartitionIndex];
             this.nextFetchFunction = fetchFunction
               ? fetchFunction(
-                  childDiagnosticNode,
-                  {
-                    ...this.options,
-                    continuationToken: this.continuationToken,
-                  },
-                  this.correlatedActivityId,
-                )
+                childDiagnosticNode,
+                {
+                  ...this.options,
+                  continuationToken: this.continuationToken,
+                },
+                this.correlatedActivityId,
+              )
               : undefined;
           }
         } catch (err: any) {

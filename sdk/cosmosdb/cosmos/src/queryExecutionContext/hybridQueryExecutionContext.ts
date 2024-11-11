@@ -15,12 +15,15 @@ import { GlobalStatisticsAggregator } from "./Aggregators/GlobalStatisticsAggreg
 import { CosmosHeaders } from "./CosmosHeaders";
 import {
   ExecutionContext,
-  ExecutionContextHybridOptions,
   ExecutionContextOptions,
 } from "./ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "./headerUtils";
 import { ParallelQueryExecutionContext } from "./parallelQueryExecutionContext";
 import { PipelinedQueryExecutionContext } from "./pipelinedQueryExecutionContext";
+
+interface ExecutionContextHybridOptions extends ExecutionContextOptions {
+  nextItemRespHeaders?: CosmosHeaders;
+}
 
 /** @hidden */
 export enum HybridQueryExecutionContextBaseStates {
@@ -229,7 +232,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
             options.operationOptions &&
             options.operationOptions.ruCapPerOperation &&
             (await options.ruConsumed.getRUConsumed()) * 2 >
-              options.operationOptions.ruCapPerOperation
+            options.operationOptions.ruCapPerOperation
           ) {
             return;
           }
