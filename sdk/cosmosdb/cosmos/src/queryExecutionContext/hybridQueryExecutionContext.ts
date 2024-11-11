@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureLogger, createClientLogger } from "@azure/logger";
 import { ClientContext } from "../ClientContext";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import {
@@ -40,6 +41,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private TOTAL_DOCUMENT_COUNT_PLACEHOLDER =
     "documentdb-formattablehybridsearchquery-totaldocumentcount";
   private RRF_CONSTANT = 60; // Constant for RRF score calculation
+  private logger: AzureLogger = createClientLogger("HybridQueryExecutionContext");
 
   constructor(
     private clientContext: ClientContext,
@@ -334,7 +336,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     fetchMoreRespHeaders: CosmosHeaders,
   ): Promise<void> {
     if (this.componentsExecutionContext && this.componentsExecutionContext.length !== 1) {
-      throw new Error("drainSingleComponent called on multiple components");
+      this.logger.error("drainSingleComponent called on multiple components");
+      return;
     }
     try {
       const componentExecutionContext = this.componentsExecutionContext[0];
