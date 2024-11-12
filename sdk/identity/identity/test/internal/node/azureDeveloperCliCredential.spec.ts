@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { AzureDeveloperCliCredential } from "../../../src/credentials/azureDeveloperCliCredential.js";
 import type { GetTokenOptions } from "@azure/core-auth";
-import child_process from "child_process";
+import child_process, { type ChildProcess } from "node:child_process";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("AzureDeveloperCliCredential (internal)", function () {
@@ -15,14 +15,14 @@ describe("AzureDeveloperCliCredential (internal)", function () {
     azdArgs = [];
     azdOptions = [];
     vi.spyOn(child_process, "execFile").mockImplementation(
-      (_file, args, options, callback): child_process.ChildProcess => {
+      (_file, args, options, callback): ChildProcess => {
         azdArgs.push(args as string[]);
         azdOptions.push(options as { cwd: string });
         if (callback) {
           callback(null, stdout, stderr);
         }
         // Bypassing the type check. We don't use this return value in our code.
-        return {} as child_process.ChildProcess;
+        return {} as ChildProcess;
       },
     );
   });

@@ -10,7 +10,7 @@ import type {
 } from "./httpRequestsCommon.js";
 import type { RestError } from "@azure/core-rest-pipeline";
 import { getError } from "./authTestUtils.js";
-import { MockInstance, vi } from "vitest";
+import { type MockInstance, vi } from "vitest";
 
 /**
  * Helps specify a different number of responses for Node and for the browser.

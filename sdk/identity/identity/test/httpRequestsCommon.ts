@@ -71,8 +71,6 @@ export type SendCredentialRequests = (options: {
  * @internal
  */
 export interface IdentityTestContextInterface {
-  // sandbox: sinon.SinonSandbox;
-  // clock: sinon.SinonFakeTimers;
   logMessages: string[];
   oldLogger: typeof AzureLogger.log;
   oldLogLevel: AzureLogLevel | undefined;

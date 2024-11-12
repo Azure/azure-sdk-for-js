@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { AzureCliCredential } from "../../../src/credentials/azureCliCredential.js";
 import type { GetTokenOptions } from "@azure/core-auth";
-import child_process from "child_process";
+import child_process from "node:child_process";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("AzureCliCredential (internal)", function () {
