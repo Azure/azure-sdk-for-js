@@ -12,10 +12,9 @@ import {
   getTestUSProgramBrief,
   runTestCleaningLeftovers,
 } from "./utils/testUSProgramBrief.js";
-import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Program Brief`, function () {
   let recorder: Recorder;

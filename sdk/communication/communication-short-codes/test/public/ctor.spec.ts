@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import type { Context } from "mocha";
 import { ShortCodesClient } from "../../src/index.js";
-import { assert } from "chai";
 import { createMockToken } from "./utils/recordedClient.js";
+import { describe, it, assert } from "vitest";
 
 describe("ShortCodesClient - constructor", function () {
   const endpoint = "https://contoso.spool.azure.local";

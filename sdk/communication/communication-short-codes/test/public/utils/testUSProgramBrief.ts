@@ -9,10 +9,10 @@ import {
   ProgramDetailsMapper,
   TrafficDetailsMapper,
 } from "../../../src/index.js";
-import { assert } from "chai";
 import type { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { v4 as uuid } from "uuid";
+import { assert } from "vitest";
 
 const TestCompanyName: string = "Contoso";
 const TestProgramBriefName: string = "Contoso Loyalty Program";

@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { ShortCodesClient } from "../../src/index.js";
-import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe(`ShortCodeCostsClient - lists Short Code Costs`, function () {
   let recorder: Recorder;
