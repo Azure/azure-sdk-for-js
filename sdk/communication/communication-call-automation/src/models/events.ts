@@ -119,7 +119,7 @@ export {
   RestMediaStreamingStopped,
   RestMediaStreamingFailed,
   RestCreateCallFailed,
-  RestAnswerFailed
+  RestAnswerFailed,
 };
 export interface ResultInformation
   extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
