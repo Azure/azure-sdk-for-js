@@ -8,7 +8,7 @@ import {
   KeyVaultClient,
   Setting as GeneratedSetting,
   KeyVaultClientOptionalParams,
-} from "./generated/src/index.js";
+} from "./generated/index.js";
 import { logger } from "./log.js";
 import {
   UpdateSettingOptions,

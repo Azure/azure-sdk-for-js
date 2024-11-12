@@ -13,7 +13,7 @@ import {
 // import { KeyVaultAdminPollOperationState } from "./lro/keyVaultAdminPoller.js";
 import { KeyVaultBackupOperationState } from "./lro/backup/operation.js";
 // import { KeyVaultBackupPoller } from "./lro/backup/poller.js";
-import { KeyVaultClient } from "./generated/src/keyVaultClient.js";
+import { KeyVaultClient } from "./generated/keyVaultClient.js";
 import { KeyVaultRestoreOperationState } from "./lro/restore/operation.js";
 // import { KeyVaultRestorePoller } from "./lro/restore/poller.js";
 import { KeyVaultSelectiveKeyRestoreOperationState } from "./lro/selectiveKeyRestore/operation.js";
