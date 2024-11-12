@@ -67,8 +67,7 @@
     "@azure/core-tracing": "^1.0.0",
     "@azure/logger": "^1.0.0",
     "events": "^3.0.0",
-    "tslib": "^2.2.0",
-    "uuid": "^8.3.2"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "@azure-tools/test-recorder": "^4.1.0",
@@ -78,12 +77,10 @@
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.0.1",
     "@types/node": "^18.0.0",
-    "@types/uuid": "^8.3.2",
     "@vitest/browser": "^2.1.4",
     "@vitest/coverage-istanbul": "^2.1.4",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "inherits": "^2.0.3",
     "playwright": "^1.48.2",
     "typescript": "~5.6.2",
     "vitest": "^2.1.4"
