@@ -16,7 +16,7 @@ import {
   ListRoleDefinitionsOptions,
   SetRoleDefinitionOptions,
 } from "./accessControlModels.js";
-import { KeyVaultClient, KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
+import { KeyVaultClient, KeyVaultClientOptionalParams } from "./generated/src/keyVaultClient.js";
 import { LATEST_API_VERSION, SDK_VERSION } from "./constants.js";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { TokenCredential } from "@azure/core-auth";
@@ -26,7 +26,7 @@ import { mapPagedAsyncIterable, mappings } from "./mappings.js";
 import { tracingClient } from "./tracing.js";
 import { randomUUID } from "@azure/core-util";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
-import { Permission, RoleScope } from "./generated/index.js";
+import { Permission, RoleScope } from "./generated/src/index.js";
 
 /**
  * The KeyVaultAccessControlClient provides methods to manage
