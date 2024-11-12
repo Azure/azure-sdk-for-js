@@ -6,26 +6,24 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { PhoneNumbersClient } from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-matrix([[true, false]], async function (useAad) {
-  describe(`PhoneNumbersClient - countries lists${useAad ? " [AAD]" : ""}`, function () {
+matrix([[true, false]], async (useAad) => {
+  describe(`PhoneNumbersClient - countries lists${useAad ? " [AAD]" : ""}`, () => {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
-    beforeEach(async function (ctx) {
+    beforeEach(async (ctx) => {
       ({ client, recorder } = useAad
-        ? await createRecordedClientWithToken(this)!
-        : await createRecordedClient(this));
+        ? await createRecordedClientWithToken(ctx)!
+        : await createRecordedClient(ctx));
     });
 
-    afterEach(async function (ctx) {
-      if (!ctx.task.pending) {
-        await recorder.stop();
-      }
+    afterEach(async () => {
+      await recorder.stop();
     });
 
-    it("can list all available countries", async function () {
+    it("can list all available countries", { timeout: 60000 }, async () => {
       const countriesList = [
         {
           localizedName: "Canada",
@@ -44,6 +42,6 @@ matrix([[true, false]], async function (useAad) {
         assert.deepInclude(responseCountries, currentCountry);
       }
       setLogLevel("error");
-    }).timeout(60000);
+    });
   });
 });

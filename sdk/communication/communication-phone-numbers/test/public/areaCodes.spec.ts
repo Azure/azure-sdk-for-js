@@ -3,28 +3,29 @@
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { PhoneNumbersListAreaCodesOptionalParams, PhoneNumbersClient } from "../../src/index.js";
+import type {
+  PhoneNumbersListAreaCodesOptionalParams,
+  PhoneNumbersClient,
+} from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-matrix([[true, false]], async function (useAad) {
-  describe(`PhoneNumbersClient - area codes lists${useAad ? " [AAD]" : ""}`, function () {
+matrix([[true, false]], async (useAad) => {
+  describe(`PhoneNumbersClient - area codes lists${useAad ? " [AAD]" : ""}`, () => {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
-    beforeEach(async function (ctx) {
+    beforeEach(async (ctx) => {
       ({ client, recorder } = useAad
-        ? await createRecordedClientWithToken(this)!
-        : await createRecordedClient(this));
+        ? await createRecordedClientWithToken(ctx)!
+        : await createRecordedClient(ctx));
     });
 
-    afterEach(async function (ctx) {
-      if (!ctx.task.pending) {
-        await recorder.stop();
-      }
+    afterEach(async () => {
+      await recorder.stop();
     });
 
-    it("can list all geographic area codes", async function () {
+    it("can list all geographic area codes", { timeout: 60000 }, async () => {
       const availableLocalities = await client.listAvailableLocalities("US");
       const locality = await availableLocalities.next();
       const request: PhoneNumbersListAreaCodesOptionalParams = {
@@ -35,9 +36,9 @@ matrix([[true, false]], async function (useAad) {
       for await (const areaCode of areaCodes) {
         assert.isNotNull(areaCode);
       }
-    }).timeout(60000);
+    });
 
-    it("can list all toll free area codes", async function () {
+    it("can list all toll free area codes", { timeout: 60000 }, async () => {
       const tollFreeAreaCodesList = [
         {
           areaCode: "888",
@@ -68,6 +69,6 @@ matrix([[true, false]], async function (useAad) {
       for await (const areaCode of areaCodes) {
         assert.deepInclude(tollFreeAreaCodesList, areaCode);
       }
-    }).timeout(60000);
+    });
   });
 });

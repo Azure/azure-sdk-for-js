@@ -5,26 +5,24 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { PhoneNumbersClient } from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-matrix([[true, false]], async function (useAad) {
-  describe(`PhoneNumbersClient - lists${useAad ? " [AAD]" : ""}`, function () {
+matrix([[true, false]], async (useAad) => {
+  describe(`PhoneNumbersClient - lists${useAad ? " [AAD]" : ""}`, () => {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
-    beforeEach(async function (ctx) {
+    beforeEach(async (ctx) => {
       ({ client, recorder } = useAad
-        ? await createRecordedClientWithToken(this)!
-        : await createRecordedClient(this));
+        ? await createRecordedClientWithToken(ctx)!
+        : await createRecordedClient(ctx));
     });
 
-    afterEach(async function (ctx) {
-      if (!ctx.task.pending) {
-        await recorder.stop();
-      }
+    afterEach(async () => {
+      await recorder.stop();
     });
 
-    it("can list all purchased phone numbers", async function () {
+    it("can list all purchased phone numbers", { timeout: 60000 }, async () => {
       let all = 0;
       for await (const purchased of client.listPurchasedPhoneNumbers()) {
         assert.match(purchased.phoneNumber, /\+\d{1}\d{3}\d{3}\d{4}/g);
@@ -32,6 +30,6 @@ matrix([[true, false]], async function (useAad) {
       }
 
       assert.isTrue(all > 0);
-    }).timeout(60000);
+    });
   });
 });

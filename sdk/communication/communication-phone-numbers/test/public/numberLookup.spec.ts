@@ -5,23 +5,21 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import type { PhoneNumbersClient } from "../../src/index.js";
 import { createRecordedClient } from "./utils/recordedClient.js";
 import { getPhoneNumber } from "./utils/testPhoneNumber.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe(`PhoneNumbersClient - look up phone number`, function () {
+describe(`PhoneNumbersClient - look up phone number`, () => {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
 
-  beforeEach(async function (ctx) {
-    ({ client, recorder } = await createRecordedClient(this));
+  beforeEach(async (ctx) => {
+    ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async function (ctx) {
-    if (!ctx.task.pending) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
-  it("can look up a phone number", async function (ctx) {
+  it("can look up a phone number", { timeout: 60000 }, async () => {
     const phoneNumbers = [getPhoneNumber()];
     const operatorInformation = await client.searchOperatorInformation(phoneNumbers);
 
@@ -29,9 +27,9 @@ describe(`PhoneNumbersClient - look up phone number`, function () {
       ? operatorInformation.values[0].phoneNumber
       : "";
     assert.strictEqual(resultPhoneNumber, phoneNumbers[0]);
-  }).timeout(60000);
+  });
 
-  it("errors if multiple phone numbers are requested", async function () {
+  it("errors if multiple phone numbers are requested", { timeout: 60000 }, async () => {
     const phoneNumbers = [getPhoneNumber(), getPhoneNumber()];
     try {
       await client.searchOperatorInformation(phoneNumbers);
@@ -39,9 +37,9 @@ describe(`PhoneNumbersClient - look up phone number`, function () {
       assert.strictEqual(error.code, "BadRequest");
       assert.strictEqual(error.message, "Can only accept one phoneNumber");
     }
-  }).timeout(60000);
+  });
 
-  it("respects includeAdditionalOperatorDetails option", async function (ctx) {
+  it("respects includeAdditionalOperatorDetails option", { timeout: 60000 }, async () => {
     const phoneNumbers = [getPhoneNumber()];
 
     let operatorInformation = await client.searchOperatorInformation(phoneNumbers, {
@@ -81,5 +79,5 @@ describe(`PhoneNumbersClient - look up phone number`, function () {
     assert.isNotNull(
       operatorInformation.values ? operatorInformation.values[0].operatorDetails : null,
     );
-  }).timeout(60000);
+  });
 });

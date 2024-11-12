@@ -18898,7 +18898,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-TFOWK46fB+Xt/4wne7rUVXbFOJLR6FWn9+hUo1Q09WA/LTL5CyTfC1fPK7dpdGPR2OA/+ebefNQjguLcLvR2BQ==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-kRnm7dSlOcUN3BpxBqb6K3cAum4jdmmU4BdQ4o+BaHcS7s6yWImkZL4vKz0ELMgUSCSLu4w2FqV5XinSAg4eeA==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -18909,6 +18909,8 @@ packages:
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -18925,22 +18927,36 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/communication-recipient-verification.tgz:
-    resolution: {integrity: sha512-oMQJoVgxh+OHiDBs3Cn7Mh/6P27eKJ5NOB6TSeIzyKaC4SVIggPi/SjtU1eSEgcVqOetzZ1Cikqhf9gKYb3hDg==, tarball: file:projects/communication-recipient-verification.tgz}
+    resolution: {integrity: sha512-cpVMuIbO+tSFbjQSjDB1yOL3QgqBKppbLvWuYCe2JoY10LBIu+a5SWMTSk9DbjlN+DfUCQ8gQN01zbizH0BBhw==, tarball: file:projects/communication-recipient-verification.tgz}
     name: '@rush-temp/communication-recipient-verification'
     version: 0.0.0
     dependencies:

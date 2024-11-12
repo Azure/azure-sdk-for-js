@@ -6,77 +6,74 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-matrix([[true, false]], async function (useAad) {
-  describe(`PhoneNumbersClient - lro - purchase and release${useAad ? " [AAD]" : ""}`, function () {
-    let recorder: Recorder;
-    let client: PhoneNumbersClient;
+matrix([[true, false]], async (useAad) => {
+  const includePhoneNumberLiveTests = env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true";
 
-    before(function (ctx) {
-      const includePhoneNumberLiveTests = env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true";
-      if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
-        ctx.skip();
-      }
-    });
+  describe(
+    `PhoneNumbersClient - lro - purchase and release${useAad ? " [AAD]" : ""}`,
+    { skip: !includePhoneNumberLiveTests && !isPlaybackMode() },
+    () => {
+      let recorder: Recorder;
+      let client: PhoneNumbersClient;
 
-    beforeEach(async function (ctx) {
-      ({ client, recorder } = useAad
-        ? await createRecordedClientWithToken(this)!
-        : await createRecordedClient(this));
-    });
+      beforeEach(async (ctx) => {
+        ({ client, recorder } = useAad
+          ? await createRecordedClientWithToken(ctx)!
+          : await createRecordedClient(ctx));
+      });
 
-    afterEach(async function (ctx) {
-      if (!ctx.task.pending) {
+      afterEach(async () => {
         await recorder.stop();
-      }
-    });
+      });
 
-    it("can purchase and release a phone number", async function (ctx) {
-      // search for phone number
-      const searchRequest: SearchAvailablePhoneNumbersRequest = {
-        countryCode: "US",
-        phoneNumberType: "tollFree",
-        assignmentType: "application",
-        capabilities: {
-          sms: "inbound+outbound",
-          calling: "none",
-        },
-      };
-      const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
-      const searchResults = await searchPoller.pollUntilDone();
+      it("can purchase and release a phone number", { timeout: 90000 }, async () => {
+        // search for phone number
+        const searchRequest: SearchAvailablePhoneNumbersRequest = {
+          countryCode: "US",
+          phoneNumberType: "tollFree",
+          assignmentType: "application",
+          capabilities: {
+            sms: "inbound+outbound",
+            calling: "none",
+          },
+        };
+        const searchPoller = await client.beginSearchAvailablePhoneNumbers(searchRequest);
+        const searchResults = await searchPoller.pollUntilDone();
 
-      assert.ok(searchPoller.getOperationState().isCompleted);
-      assert.isNotEmpty(searchResults.searchId);
-      assert.isNotEmpty(searchResults.phoneNumbers);
-      assert.equal(searchResults.phoneNumbers.length, 1);
+        assert.ok(searchPoller.getOperationState().isCompleted);
+        assert.isNotEmpty(searchResults.searchId);
+        assert.isNotEmpty(searchResults.phoneNumbers);
+        assert.equal(searchResults.phoneNumbers.length, 1);
 
-      const purchasedPhoneNumber = searchResults.phoneNumbers[0];
-      assert.isNotEmpty(purchasedPhoneNumber);
+        const purchasedPhoneNumber = searchResults.phoneNumbers[0];
+        assert.isNotEmpty(purchasedPhoneNumber);
 
-      // purchase phone number
-      const purchasePoller = await client.beginPurchasePhoneNumbers(searchResults.searchId);
+        // purchase phone number
+        const purchasePoller = await client.beginPurchasePhoneNumbers(searchResults.searchId);
 
-      await purchasePoller.pollUntilDone();
-      assert.ok(purchasePoller.getOperationState().isCompleted);
+        await purchasePoller.pollUntilDone();
+        assert.ok(purchasePoller.getOperationState().isCompleted);
 
-      console.log(`Purchased ${purchasedPhoneNumber}`);
+        console.log(`Purchased ${purchasedPhoneNumber}`);
 
-      // get phone number to ensure it was purchased
-      const { phoneNumber } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
-      assert.equal(purchasedPhoneNumber, phoneNumber);
+        // get phone number to ensure it was purchased
+        const { phoneNumber } = await client.getPurchasedPhoneNumber(purchasedPhoneNumber);
+        assert.equal(purchasedPhoneNumber, phoneNumber);
 
-      // release phone number
-      console.log(`Will release ${purchasedPhoneNumber}`);
+        // release phone number
+        console.log(`Will release ${purchasedPhoneNumber}`);
 
-      const releasePoller = await client.beginReleasePhoneNumber(purchasedPhoneNumber as string);
+        const releasePoller = await client.beginReleasePhoneNumber(purchasedPhoneNumber as string);
 
-      await releasePoller.pollUntilDone();
-      assert.ok(releasePoller.getOperationState().isCompleted);
-      const result = releasePoller.getOperationState().result! as any;
-      assert.equal(result.body.status, "succeeded");
+        await releasePoller.pollUntilDone();
+        assert.ok(releasePoller.getOperationState().isCompleted);
+        const result = releasePoller.getOperationState().result! as any;
+        assert.equal(result.body.status, "succeeded");
 
-      console.log(`Released: ${purchasedPhoneNumber}`);
-    }).timeout(90000);
-  });
+        console.log(`Released: ${purchasedPhoneNumber}`);
+      });
+    },
+  );
 });

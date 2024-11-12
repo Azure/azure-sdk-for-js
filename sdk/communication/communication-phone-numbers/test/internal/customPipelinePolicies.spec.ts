@@ -18,7 +18,7 @@ describe("phoneNumbersPagingPolicy", function () {
     requestId: "any-id",
   };
 
-  async function createMockResponse(parsedBody: any) {
+  async function createMockResponse(parsedBody: any): Promise<PipelineResponse> {
     return Promise.resolve({ parsedBody }) as unknown as PipelineResponse;
   }
 
