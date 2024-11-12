@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { RecipientVerificationClient } from "../../src/index.js";
-import { assert } from "chai";
 import { createRecordedClient } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe(`RecipientVerificationClient - Get verification constants`, function () {
   let recorder: Recorder;
