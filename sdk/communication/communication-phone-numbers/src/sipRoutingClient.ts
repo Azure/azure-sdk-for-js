@@ -12,8 +12,16 @@ import { isTokenCredential } from "@azure/core-auth";
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { logger } from "./utils/index.js";
 import { SipRoutingClient as SipRoutingGeneratedClient } from "./generated/src/siprouting/sipRoutingClient.js";
-import type { SipConfigurationUpdate, SipRoutingError } from "./generated/src/siprouting/models/index.js";
-import type { ListSipRoutesOptions, ListSipTrunksOptions, SipTrunk, SipTrunkRoute } from "./models.js";
+import type {
+  SipConfigurationUpdate,
+  SipRoutingError,
+} from "./generated/src/siprouting/models/index.js";
+import type {
+  ListSipRoutesOptions,
+  ListSipTrunksOptions,
+  SipTrunk,
+  SipTrunkRoute,
+} from "./models.js";
 import { transformFromRestModel, transformIntoRestModel } from "./mappers.js";
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import { tracingClient } from "./generated/src/tracing.js";
