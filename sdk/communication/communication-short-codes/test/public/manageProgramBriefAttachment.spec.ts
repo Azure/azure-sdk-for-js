@@ -20,17 +20,17 @@ import {
 } from "./utils/testUSProgramBrief.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createRecordedClient } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe(`ShortCodesClient - manage Attachments`, function () {
+describe(`ShortCodesClient - manage Attachments`, () => {
   let recorder: Recorder;
   let client: ShortCodesClient;
 
-  beforeEach(async function (ctx) {
-    ({ client, recorder } = await createRecordedClient(this));
+  beforeEach(async (ctx) => {
+    ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async function (ctx) {
+  afterEach(async (ctx) => {
     if (!ctx.task.pending) {
       await recorder.stop();
     }
@@ -130,7 +130,7 @@ describe(`ShortCodesClient - manage Attachments`, function () {
     return true;
   };
 
-  it("can manage Attachments", async function () {
+  it("can manage Attachments", { timeout: 80000 }, async () => {
     const uspb = getTestUSProgramBrief();
     const pbTestId = recorder.variable(`pb-var`, uspb.id);
     uspb.id = pbTestId;
@@ -201,5 +201,5 @@ describe(`ShortCodesClient - manage Attachments`, function () {
         "Delete program brief was unsuccessful, program brief is still returned",
       );
     });
-  }).timeout(80000);
+  });
 });

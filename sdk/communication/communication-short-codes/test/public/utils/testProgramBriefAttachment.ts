@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import type { ProgramBriefAttachment, ShortCodesClient } from "../../../src/index.js";
-import { v4 as uuid } from "uuid";
+import { randomUUID } from "@azure/core-util";
 
 export function getTestProgramBriefAttachment(): ProgramBriefAttachment {
-  const attachmentId = uuid();
+  const attachmentId = randomUUID();
 
   const testProgramBriefAttachment: ProgramBriefAttachment = {
     id: attachmentId,
