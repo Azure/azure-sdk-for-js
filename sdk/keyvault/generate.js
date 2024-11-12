@@ -4,6 +4,7 @@ $.verbose = true;
 
 // Run using `npx zx ../generate.js` from package root
 async function main() {
+  // TODO: once the generator is ready to support src-folder we can remove all of of the file renaming
   // Steps:
   // Setup the environment
   await $`rm -rf src/generated/*`;
