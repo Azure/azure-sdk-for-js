@@ -715,7 +715,7 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
     assert.equal(data.operationContext, options.operationContext);
-    assert.equal(data.interruptCallMediaOperation, options.interruptCallMediaOperation);
+    assert.equal(data.playOptions.interruptCallMediaOperation, options.interruptCallMediaOperation);
   });
 
   it("makes successful PlayToAll barge in request with PlayOptions instead of PlayToAllOptions", async function () {
@@ -743,7 +743,7 @@ describe("CallMedia Unit Tests", async function () {
     assert.equal(data.playSources[0].file.uri, playSource[0].url);
     assert.equal(request.method, "POST");
     assert.equal(data.operationContext, options.operationContext);
-    assert.equal(data.interruptCallMediaOperation, false);
+    assert.equal(data.playOptions.interruptCallMediaOperation, undefined);
   });
 });
 
