@@ -7,7 +7,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isLiveMode } from "@azure-tools/test-recorder";
 import { DeviceCodeCredential } from "../../../src/index.js";
 import { PublicClientApplication } from "@azure/msal-node";
-import { describe, it, assert, expect, vi, beforeEach, afterEach, MockInstance } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach, MockInstance } from "vitest";
 
 describe("DeviceCodeCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
@@ -32,7 +32,7 @@ describe("DeviceCodeCredential (internal)", function () {
     await cleanup();
   });
 
-  const scope = "https://vault.azure.net/.default";
+  const scope = "https://graph.microsoft.com/.default";
 
   it("Authenticates silently after the initial request", async function (ctx) {
     // These tests should not run live because this credential requires user interaction.
@@ -43,7 +43,7 @@ describe("DeviceCodeCredential (internal)", function () {
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,
         clientId: env.AZURE_CLIENT_ID,
-      }),
+      })
     );
 
     await credential.getToken(scope);
@@ -66,7 +66,7 @@ describe("DeviceCodeCredential (internal)", function () {
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,
         clientId: env.AZURE_CLIENT_ID,
-      }),
+      })
     );
 
     await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID });
