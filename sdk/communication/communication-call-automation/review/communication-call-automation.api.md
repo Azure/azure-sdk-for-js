@@ -512,6 +512,22 @@ export enum KnownCallRejectReason {
 }
 
 // @public
+export enum KnownMediaStreamingAudioChannelType {
+    Mixed = "mixed",
+    Unmixed = "unmixed"
+}
+
+// @public
+export enum KnownMediaStreamingContentType {
+    Audio = "audio"
+}
+
+// @public
+export enum KnownMediaStreamingTransportType {
+    Websocket = "websocket"
+}
+
+// @public
 export interface ListParticipantsResult {
     nextLink?: string;
     values?: CallParticipant[];
