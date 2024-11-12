@@ -103,11 +103,8 @@ export interface ListMessagesQueryParam {
 export type ListMessagesParameters = ListMessagesQueryParam & RequestParameters;
 export type GetMessageParameters = RequestParameters;
 
-export interface UpdateMessageOptions {
-  metadata?: Record<string, string> | null;
-}
 export interface UpdateMessageBodyParam {
-  body: UpdateMessageOptions;
+  body: { metadata?: Record<string, string> | null };
 }
 
 export type UpdateMessageParameters = UpdateMessageBodyParam &

@@ -4,7 +4,7 @@
 
 import { Client, RequestParameters } from "@azure-rest/core-client";
 import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
-import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, DeleteFileParameters, GetFileContentParameters, GetFileParameters, GetRunParameters, ListAgentsQueryParamProperties, ListFilesParameters, ListMessagesQueryParamProperties, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateMessageOptions, UpdateRunParameters, UploadFileParameters } from "../generated/src/parameters.js";
+import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, DeleteFileParameters, GetFileContentParameters, GetFileParameters, GetRunParameters, ListAgentsQueryParamProperties, ListFilesParameters, ListMessagesQueryParamProperties, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters, UploadFileParameters } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
@@ -13,6 +13,7 @@ import { createMessage, listMessages, updateMessage } from "./messages.js";
 import { AgentThreadCreationOptions, CreateAgentOptions, CreateAndRunThreadOptions, CreateRunOptions, ThreadMessageOptions, UpdateAgentOptions, UpdateAgentThreadOptions } from "../generated/src/models.js";
 import { createRunStreaming, createThreadAndRunStreaming } from "./streaming.js";
 import { AgentStreamEventMessage } from "./streamingModels.js";
+import { UpdateMessageOptions } from "./messagesModels.js";
 
 export interface AgentsOperations {
   /** Creates a new agent. */

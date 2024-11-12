@@ -123,7 +123,6 @@ export interface AgentsOperations {
     // Warning: (ae-forgotten-export) The symbol "SubmitToolOutputsToRunParameters" needs to be exported by the entry point index.d.ts
     submitToolOutputsToRun: (threadId: string, runId: string, options: SubmitToolOutputsToRunParameters) => Promise<ThreadRunOutput>;
     updateAgent: (assistantId: string, options: UpdateAgentOptions) => Promise<AgentOutput>;
-    // Warning: (ae-forgotten-export) The symbol "UpdateMessageOptions" needs to be exported by the entry point index.d.ts
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: RequestParameters) => Promise<ThreadMessageOutput>;
     // Warning: (ae-forgotten-export) The symbol "UpdateRunParameters" needs to be exported by the entry point index.d.ts
     updateRun: (threadId: string, runId: string, options: UpdateRunParameters) => Promise<ThreadRunOutput>;
@@ -1584,6 +1583,12 @@ export interface UpdateFileSearchToolResourceOptions {
 // @public
 export interface UpdateFileSearchToolResourceOptionsOutput {
     vector_store_ids?: string[];
+}
+
+// @public (undocumented)
+export interface UpdateMessageOptions {
+    // (undocumented)
+    metadata?: Record<string, string>;
 }
 
 // @public
