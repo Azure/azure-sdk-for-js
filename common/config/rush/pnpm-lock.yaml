@@ -18464,7 +18464,7 @@ packages:
     dev: false
 
   file:projects/batch.tgz:
-    resolution: {integrity: sha512-6RrcBorSumWEO4KlTeLQ0b5SZRPDSjfWrEndxfqI4fGeDn4hKIdU2SvGMftjsVbnkli6xpQlgRNwI7U0GlHMRw==, tarball: file:projects/batch.tgz}
+    resolution: {integrity: sha512-5aWGICBLDXaS8dyz90IUuG+KysKDtOr7RkVjdYzfxCimiWRMgPYdRmvP+k7Dkm5xkp16VRTIG8kTnJFVUBSMHw==, tarball: file:projects/batch.tgz}
     name: '@rush-temp/batch'
     version: 0.0.0
     dependencies:
@@ -18501,7 +18501,7 @@ packages:
     dev: false
 
   file:projects/communication-alpha-ids.tgz:
-    resolution: {integrity: sha512-/vES/isBSUn6KSc6TIOiY7k8cSBlHGIqJpJzaN8z0AunG3c3TqTGn6IM4CSfnFm+b1WCWvbVdfyad3RVJUSTag==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-JoRTIDlwHZDPs7keNqgIU0MrximNBp+fJgAIZoRfwav8szwZz08PtN2HvqjTP1BZ8bFcnOkdlWJhZwvcHiPBsA==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
@@ -18511,6 +18511,8 @@ packages:
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -18526,18 +18528,32 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/communication-call-automation.tgz:
@@ -19127,7 +19143,7 @@ packages:
     dev: false
 
   file:projects/communication-toll-free-verification.tgz:
-    resolution: {integrity: sha512-zMOvMqhXXp3AXPsBp2GhCzlURqqW3V92ZnQiN7yDeRO1Ii50dG7d6aqlXPi4FrAFuh9Bn9j3gDoN8Z0RHfMZrA==, tarball: file:projects/communication-toll-free-verification.tgz}
+    resolution: {integrity: sha512-mh4iB2h+E3K7dWs6knXVxNVb98YvNIrrSZobhGiQoRb9Wy6RGmX45o28nQyHVm7yk7nQV+DTtBu4N3aTIQtKUQ==, tarball: file:projects/communication-toll-free-verification.tgz}
     name: '@rush-temp/communication-toll-free-verification'
     version: 0.0.0
     dependencies:
@@ -19137,6 +19153,8 @@ packages:
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -19152,18 +19170,32 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/confidential-ledger.tgz:
@@ -19526,7 +19558,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-EAxNqaujEkbx3igQiVu3RXXdE4owEiwiwS5+eeuI98VjbnysDkT9ckaOdJbUgel/CwOTEr8oz0JdDS1V36ngMw==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-rxq/J1ftJ2e0MkPDv49RFsVQcu/68yCe6/h0R6+SdIkKBnhbYY12SkHzwOEOLFtemwLv+mh2SAqE6KHTYwJ8Lg==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
@@ -21352,7 +21384,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-cRuHz8yQdwmhQN1s3AiWPL30Osvv2lQIkF3ojq1QIMkrijM8Ap5Gb7dYY7LTdcpOodiOsI3VZ70LrYWqGOGbnQ==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-pllRWLfOMD+ngWvcILVdzLi1f1XtozTseyFDESOKh67IT3MbSBExuav0w6vQOk2H5E88cpYU8mh0c/kFn2/Iwg==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -21363,6 +21395,8 @@ packages:
       '@types/node': 18.19.64
       '@types/pako': 2.0.3
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -21380,20 +21414,34 @@ packages:
       mocha: 10.8.2
       nyc: 17.1.0
       pako: 2.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:
