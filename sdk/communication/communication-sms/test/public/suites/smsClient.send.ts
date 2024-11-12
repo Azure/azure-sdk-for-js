@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { SmsSendOptions, SmsSendRequest } from "../../../src/index.js";
+
+import type { SmsClient, SmsSendOptions, SmsSendRequest } from "../../../src/index.js";
 import { env } from "@azure-tools/test-recorder";
 import { assertIsFailureResult, assertIsSuccessResult } from "../utils/assertHelpers.js";
-import { assert } from "vitest";
+import { it, assert } from "vitest";
 
-export default function testCases(): void {
-  it("can send an SMS message", async function (ctx) {
+export default function testCases(smsClient: SmsClient): void {
+  it("can send an SMS message", { timeout: 5000 }, async () => {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
-    const results = await this.smsClient.send({
+    const results = await smsClient.send({
       from: fromNumber,
       to: [validToNumber],
       message: "test message",
@@ -17,12 +18,12 @@ export default function testCases(): void {
 
     assert.lengthOf(results, 1, "must return as many results as there were recipients");
     assertIsSuccessResult(results[0], validToNumber);
-  }).timeout(5000);
+  });
 
-  it("can send an SMS message with options passed in", async function (ctx) {
+  it("can send an SMS message with options passed in", { timeout: 4000 }, async () => {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
-    const results = await this.smsClient.send(
+    const results = await smsClient.send(
       {
         from: fromNumber,
         to: [validToNumber],
@@ -37,9 +38,9 @@ export default function testCases(): void {
 
     assert.lengthOf(results, 1, "must return as many results as there were recipients");
     assertIsSuccessResult(results[0], validToNumber);
-  }).timeout(4000);
+  });
 
-  it("sends a new message each time send is called", async function (ctx) {
+  it("sends a new message each time send is called", { timeout: 4000 }, async () => {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
 
@@ -53,21 +54,21 @@ export default function testCases(): void {
       tag: "SMS_LIVE_TEST",
     };
 
-    const firstResults = await this.smsClient.send(sendRequest, options);
-    const secondResults = await this.smsClient.send(sendRequest, options);
+    const firstResults = await smsClient.send(sendRequest, options);
+    const secondResults = await smsClient.send(sendRequest, options);
 
     assertIsSuccessResult(firstResults[0], validToNumber);
     assertIsSuccessResult(secondResults[0], validToNumber);
     assert.notEqual(firstResults[0].messageId, secondResults[0].messageId);
-  }).timeout(4000);
+  });
 
-  it("can send an SMS message to multiple recipients", async function (ctx) {
+  it("can send an SMS message to multiple recipients", { timeout: 4000 }, async () => {
     const fromNumber = env.AZURE_PHONE_NUMBER as string;
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
     const invalidToNumber = "+1425555012345"; // invalid number that's too long
     const recipients = [validToNumber, invalidToNumber];
 
-    const results = await this.smsClient.send({
+    const results = await smsClient.send({
       from: fromNumber,
       to: recipients,
       message: "test message",
@@ -81,13 +82,13 @@ export default function testCases(): void {
 
     assertIsSuccessResult(results[0], validToNumber);
     assertIsFailureResult(results[1], invalidToNumber, "Unknown country code.");
-  }).timeout(4000);
+  });
 
-  it("throws an exception when sending from a number you don't own", async function (ctx) {
+  it("throws an exception when sending from a number you don't own", async () => {
     const fromNumber = "+14255550123";
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
     try {
-      await this.smsClient.send(
+      await smsClient.send(
         {
           from: fromNumber,
           to: [validToNumber],
@@ -104,11 +105,11 @@ export default function testCases(): void {
     }
   });
 
-  it("throws an exception when sending from an invalid number", async function (ctx) {
+  it("throws an exception when sending from an invalid number", async () => {
     const fromNumber = "+1425555012345"; // invalid number that's too long
     const validToNumber = env.AZURE_PHONE_NUMBER as string;
     try {
-      await this.smsClient.send(
+      await smsClient.send(
         {
           from: fromNumber,
           to: [validToNumber],

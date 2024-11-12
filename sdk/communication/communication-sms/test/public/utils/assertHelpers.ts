@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { SmsSendResult } from "../../../src/index.js";
 import { assert } from "vitest";
 

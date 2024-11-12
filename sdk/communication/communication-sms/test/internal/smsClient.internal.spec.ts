@@ -18,10 +18,10 @@ import {
   createRecordedSmsClient,
   createRecordedSmsClientWithToken,
 } from "../public/utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, vi, beforeEach, afterEach } from "vitest";
 
 matrix([[true, false]], async function (useAad: boolean) {
-  describe(`SmsClient [Playback/Record]${useAad ? " [AAD]" : ""}`, async function () {
+  describe(`SmsClient [Playback/Record]${useAad ? " [AAD]" : ""}`, async () => {
     let recorder: Recorder;
     let client: SmsClient;
 
@@ -29,22 +29,15 @@ matrix([[true, false]], async function (useAad: boolean) {
       if (isLiveMode()) {
         ctx.skip();
       } else if (isPlaybackMode()) {
-        
-                      vi.spyOn(Uuid, "generateUuid")
-                      .mockReturnValue("sanitized")
-                    ;
-        
-                      vi.spyOn(Date, "now")
-                      .mockReturnValue(0)
-                    ;
+        vi.spyOn(Uuid, "generateUuid").mockReturnValue("sanitized");
+        vi.spyOn(Date, "now").mockReturnValue(0);
       }
 
       if (useAad) {
-        ({ client, recorder } = await createRecordedSmsClientWithToken(this));
+        ({ client, recorder } = await createRecordedSmsClientWithToken(ctx));
       } else {
-        ({ client, recorder } = await createRecordedSmsClient(this));
+        ({ client, recorder } = await createRecordedSmsClient(ctx));
       }
-      this.smsClient = client;
     });
 
     afterEach(async function (ctx) {
@@ -56,6 +49,8 @@ matrix([[true, false]], async function (useAad: boolean) {
       }
     });
 
-    describe("when sending SMS", sendSmsSuites);
+    describe("when sending SMS", () => {
+      sendSmsSuites(client);
+    });
   });
 });

@@ -12,49 +12,46 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 import type { SmsClient } from "../../src/index.js";
 import { Uuid } from "../../src/utils/uuid.js";
 import sendSmsSuites from "./suites/smsClient.send.js";
-import { createRecordedSmsClient, createRecordedSmsClientWithToken } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import {
+  createRecordedSmsClient,
+  createRecordedSmsClientWithToken,
+} from "./utils/recordedClient.js";
+import { describe, vi, beforeEach, afterEach } from "vitest";
 
 matrix([[true, false]], async function (useAad: boolean) {
-  describe(`SmsClient [Live]${useAad ? " [AAD]" : ""}`, async function () {
-    let recorder: Recorder;
-    let client: SmsClient;
+  const skipIntSMSTests = env.COMMUNICATION_SKIP_INT_SMS_TEST === "true";
 
-    before(function (ctx) {
-      const skipIntSMSTests = env.COMMUNICATION_SKIP_INT_SMS_TEST === "true";
-      if (skipIntSMSTests) {
-        ctx.skip();
-      }
-    });
+  describe(
+    `SmsClient [Live]${useAad ? " [AAD]" : ""}`,
+    { skip: skipIntSMSTests },
+    async function () {
+      let recorder: Recorder;
+      let client: SmsClient;
 
-    beforeEach(async function (ctx) {
-      if (isPlaybackMode()) {
-        
-                      vi.spyOn(Uuid, "generateUuid")
-                      .mockReturnValue("sanitized")
-                    ;
-        
-                      vi.spyOn(Date, "now")
-                      .mockReturnValue(0)
-                    ;
-      }
-      if (useAad) {
-        ({ client, recorder } = await createRecordedSmsClientWithToken(this));
-      } else {
-        ({ client, recorder } = await createRecordedSmsClient(this));
-      }
-      this.smsClient = client;
-    });
+      beforeEach(async function (ctx) {
+        if (isPlaybackMode()) {
+          vi.spyOn(Uuid, "generateUuid").mockReturnValue("sanitized");
+          vi.spyOn(Date, "now").mockReturnValue(0);
+        }
+        if (useAad) {
+          ({ client, recorder } = await createRecordedSmsClientWithToken(ctx));
+        } else {
+          ({ client, recorder } = await createRecordedSmsClient(ctx));
+        }
+      });
 
-    afterEach(async function (ctx) {
-      if (!ctx.task.pending) {
-        await recorder.stop();
-      }
-      if (isPlaybackMode()) {
-        vi.restoreAllMocks();
-      }
-    });
+      afterEach(async function (ctx) {
+        if (!ctx.task.pending) {
+          await recorder.stop();
+        }
+        if (isPlaybackMode()) {
+          vi.restoreAllMocks();
+        }
+      });
 
-    describe("test send method", sendSmsSuites);
-  });
+      describe("test send method", () => {
+        sendSmsSuites(client);
+      });
+    },
+  );
 });
