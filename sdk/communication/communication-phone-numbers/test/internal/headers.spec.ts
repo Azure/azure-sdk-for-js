@@ -4,14 +4,12 @@
 import { AzureKeyCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-util";
 import type { TokenCredential } from "@azure/identity";
-import { assert } from "chai";
-import sinon from "sinon";
 import { PhoneNumbersClient } from "../../src/phoneNumbersClient.js";
 import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients.js";
 import { SDK_VERSION } from "../../src/utils/constants.js";
-import type { Context } from "mocha";
 import { createMockToken } from "../public/utils/recordedClient.js";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("PhoneNumbersClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";

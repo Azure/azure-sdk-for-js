@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type { PhoneNumbersClient } from "../../src/index.js";
 import { createRecordedClient } from "./utils/recordedClient.js";
 import { getPhoneNumber } from "./utils/testPhoneNumber.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe(`PhoneNumbersClient - look up phone number`, function () {
   let recorder: Recorder;

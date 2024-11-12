@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { assert } from "chai";
-import type { Context } from "mocha";
 import { PhoneNumbersClient } from "../../src/index.js";
 import { createMockToken } from "./utils/recordedClient.js";
+import { describe, it, assert } from "vitest";
 
 describe("PhoneNumbersClient - constructor", function () {
   const endpoint = "https://contoso.spool.azure.local";

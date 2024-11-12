@@ -3,10 +3,9 @@
 
 import { matrix } from "@azure-tools/test-utils";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type { PhoneNumbersClient } from "../../src/index.js";
 import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 matrix([[true, false]], async function (useAad) {
   describe(`PhoneNumbersClient - lists${useAad ? " [AAD]" : ""}`, function () {

@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Context, Test } from "mocha";
 import * as dotenv from "dotenv";
 
 import type { RecorderStartOptions, SanitizerOptions } from "@azure-tools/test-recorder";

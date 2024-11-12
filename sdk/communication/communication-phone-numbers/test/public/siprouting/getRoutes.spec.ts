@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import type { Context } from "mocha";
-
 import type { SipRoutingClient } from "../../../src/index.js";
 
 import { matrix } from "@azure-tools/test-utils";
@@ -15,6 +11,7 @@ import {
   createRecordedClientWithToken,
   listAllRoutes,
 } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 matrix([[true, false]], async function (useAad) {
   describe(`SipRoutingClient - get routes${useAad ? " [AAD]" : ""}`, function () {

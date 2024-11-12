@@ -4,8 +4,8 @@
 import type { FullOperationResponse } from "@azure/core-client";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { assert } from "chai";
 import { createPhoneNumbersPagingPolicy } from "../../src/utils/customPipelinePolicies.js";
+import { describe, it, assert } from "vitest";
 
 describe("phoneNumbersPagingPolicy", function () {
   const endpoint = "https://contoso.spool.azure.local";
