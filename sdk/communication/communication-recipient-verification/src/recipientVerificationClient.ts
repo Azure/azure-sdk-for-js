@@ -14,7 +14,10 @@ import type {
 import type { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import type { AcsVerification, VerificationConstantsResponse } from "./generated/src/models/index.js";
+import type {
+  AcsVerification,
+  VerificationConstantsResponse,
+} from "./generated/src/models/index.js";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
 import { RecipientVerificationClient as RecipientVerificationGeneratedClient } from "./generated/src/index.js";
