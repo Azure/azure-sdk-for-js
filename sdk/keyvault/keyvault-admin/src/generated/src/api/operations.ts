@@ -492,7 +492,7 @@ export function _updateSettingSend(
   options: UpdateSettingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
-    .path("/settings/{settingName}", settingName)
+    .path("/settings/{setting-name}", settingName)
     .patch({
       ...operationOptionsToRequestParameters(options),
       body: { value: parameters["value"] },
@@ -536,7 +536,7 @@ export function _getSettingSend(
   options: GetSettingOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
-    .path("/settings/{settingName}", settingName)
+    .path("/settings/{setting-name}", settingName)
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
