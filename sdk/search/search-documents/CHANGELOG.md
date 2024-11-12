@@ -2,6 +2,19 @@
 
 ## 12.3.0-beta.1 (2024-11-21)
 
+### Features Added
+
+- Added generative query rewriting for semantic and vectorized text queries [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
+  - Use the new `queryRewrites` field in `SemanticSearchOptions` and `VectorizedTextQuery`.
+- Added hierarchical aggregation and facet filtering [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
+  - `FacetResult` now includes a recursive `facets` field.
+- Added configuration for storing vectors in their uncompressed state for rescoring [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
+  - Configure through `VectorSearchCompression.rescoringOptions`.
+- Added Markdown parsing mode for indexers [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
+  - Configure through the `markdownParsingSubmode` and `markdownHeaderDepth` properties of `IndexingParametersConfiguration`.
+- Added `DocumentIntelligenceLayoutSkill` [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
+- Added subdomain billing for skillsets [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
+ 
 ### Bugs Fixed
 
 - Fixed the type of `SearchResult.documentDebugInfo` to not erroneously describe it as an array [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)

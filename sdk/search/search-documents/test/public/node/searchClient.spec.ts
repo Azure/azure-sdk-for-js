@@ -8,18 +8,19 @@ import { assert } from "chai";
 import type { Context, Suite } from "mocha";
 import type {
   AutocompleteResult,
+  SearchFieldArray,
   SearchIndex,
   SearchIndexClient,
+  SelectArray,
   SelectFields,
 } from "../../../src";
 import {
   AzureKeyCredential,
   IndexDocumentsBatch,
   KnownQueryLanguage,
-  KnownSpeller,
+  KnownQuerySpeller,
   SearchClient,
 } from "../../../src";
-import type { SearchFieldArray, SelectArray } from "../../../src/indexModels";
 import { defaultServiceVersion } from "../../../src/serviceUtils";
 import type { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
@@ -112,7 +113,7 @@ describe("SearchClient", function (this: Suite) {
         top: 5,
         includeTotalCount: true,
         queryLanguage: KnownQueryLanguage.EnUs,
-        speller: KnownSpeller.Lexicon,
+        speller: KnownQuerySpeller.Lexicon,
       });
       assert.equal(searchResults.count, 6);
     });
