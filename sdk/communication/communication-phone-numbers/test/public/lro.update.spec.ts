@@ -6,10 +6,10 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import type { Context } from "mocha";
-import type { PhoneNumberCapabilitiesRequest, PhoneNumbersClient } from "../../src";
-import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
-import { getPhoneNumber } from "./utils/testPhoneNumber";
-import { isClientErrorStatusCode } from "./utils/statusCodeHelpers";
+import type { PhoneNumberCapabilitiesRequest, PhoneNumbersClient } from "../../src/index.js";
+import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
+import { getPhoneNumber } from "./utils/testPhoneNumber.js";
+import { isClientErrorStatusCode } from "./utils/statusCodeHelpers.js";
 
 matrix([[true, false]], async function (useAad) {
   describe(`PhoneNumbersClient - lro - update${useAad ? " [AAD]" : ""}`, function () {
@@ -18,25 +18,25 @@ matrix([[true, false]], async function (useAad) {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
-    before(function (this: Context) {
+    before(function (ctx) {
       const skipPhoneNumbersTests =
         !isPlaybackMode() && env.COMMUNICATION_SKIP_INT_PHONENUMBERS_TESTS === "true";
       const skipUpdateCapabilitiesLiveTests =
         !isPlaybackMode() && env.SKIP_UPDATE_CAPABILITIES_LIVE_TESTS === "true";
 
       if (skipPhoneNumbersTests || skipUpdateCapabilitiesLiveTests) {
-        this.skip();
+        ctx.skip();
       }
     });
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)!
         : await createRecordedClient(this));
     });
 
-    afterEach(async function (this: Context) {
-      if (!this.currentTest?.isPending()) {
+    afterEach(async function (ctx) {
+      if (!ctx.task.pending) {
         await recorder.stop();
       }
     });

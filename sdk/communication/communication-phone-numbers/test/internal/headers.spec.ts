@@ -6,11 +6,11 @@ import { isNode } from "@azure/core-util";
 import type { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import sinon from "sinon";
-import { PhoneNumbersClient } from "../../src/phoneNumbersClient";
-import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients";
-import { SDK_VERSION } from "../../src/utils/constants";
+import { PhoneNumbersClient } from "../../src/phoneNumbersClient.js";
+import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients.js";
+import { SDK_VERSION } from "../../src/utils/constants.js";
 import type { Context } from "mocha";
-import { createMockToken } from "../public/utils/recordedClient";
+import { createMockToken } from "../public/utils/recordedClient.js";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 
 describe("PhoneNumbersClient - headers", function () {
@@ -33,9 +33,9 @@ describe("PhoneNumbersClient - headers", function () {
     request = spy.getCall(0).args[0];
   });
 
-  it("[node] sets correct host", function (this: Context) {
+  it("[node] sets correct host", function (ctx) {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
     assert.equal(request.headers.get("host"), "contoso.spool.azure.local");
   });
@@ -78,7 +78,7 @@ describe("PhoneNumbersClient - headers", function () {
     );
   });
 
-  it("sets bearer authorization header with TokenCredential", async function (this: Context) {
+  it("sets bearer authorization header with TokenCredential", async function (ctx) {
     const credential: TokenCredential = createMockToken();
 
     client = new PhoneNumbersClient(endpoint, credential, {

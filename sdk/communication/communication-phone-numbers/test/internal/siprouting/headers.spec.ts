@@ -6,11 +6,11 @@ import { isNode } from "@azure/core-util";
 import type { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
 import sinon from "sinon";
-import { SipRoutingClient } from "../../../src/sipRoutingClient";
-import { getTrunksHttpClient } from "../../public/siprouting/utils/mockHttpClients";
-import { SDK_VERSION } from "../../../src/utils/constants";
+import { SipRoutingClient } from "../../../src/sipRoutingClient.js";
+import { getTrunksHttpClient } from "../../public/siprouting/utils/mockHttpClients.js";
+import { SDK_VERSION } from "../../../src/utils/constants.js";
 import type { Context } from "mocha";
-import { createMockToken } from "../../public/utils/recordedClient";
+import { createMockToken } from "../../public/utils/recordedClient.js";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 
 describe("SipRoutingClient - headers", function () {
@@ -34,9 +34,9 @@ describe("SipRoutingClient - headers", function () {
     request = spy.getCall(0).args[0];
   });
 
-  it("[node] sets correct host", function (this: Context) {
+  it("[node] sets correct host", function (ctx) {
     if (!isNode) {
-      this.skip();
+      ctx.skip();
     }
     assert.equal(request.headers.get("host"), "contoso.spool.azure.local");
   });
@@ -80,7 +80,7 @@ describe("SipRoutingClient - headers", function () {
     );
   });
 
-  it("sets bearer authorization header with TokenCredential", async function (this: Context) {
+  it("sets bearer authorization header with TokenCredential", async function (ctx) {
     const credential: TokenCredential = createMockToken();
 
     client = new SipRoutingClient(endpoint, credential, {

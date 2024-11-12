@@ -4,8 +4,8 @@
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import type { Context } from "mocha";
-import { PhoneNumbersClient } from "../../src";
-import { createMockToken } from "./utils/recordedClient";
+import { PhoneNumbersClient } from "../../src/index.js";
+import { createMockToken } from "./utils/recordedClient.js";
 
 describe("PhoneNumbersClient - constructor", function () {
   const endpoint = "https://contoso.spool.azure.local";
@@ -27,7 +27,7 @@ describe("PhoneNumbersClient - constructor", function () {
     assert.instanceOf(client, PhoneNumbersClient);
   });
 
-  it("successfully instantiates with with endpoint and managed identity", function (this: Context) {
+  it("successfully instantiates with with endpoint and managed identity", function (ctx) {
     const client = new PhoneNumbersClient(endpoint, createMockToken());
     assert.instanceOf(client, PhoneNumbersClient);
   });

@@ -4,11 +4,11 @@
 import { assert } from "chai";
 import type { Context } from "mocha";
 
-import type { SipRoutingClient } from "../../../src";
+import type { SipRoutingClient } from "../../../src/index.js";
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import type { SipTrunk, SipTrunkRoute } from "../../../src/models";
+import type { SipTrunk, SipTrunkRoute } from "../../../src/models.js";
 import {
   clearSipConfiguration,
   createRecordedClient,
@@ -17,7 +17,7 @@ import {
   listAllRoutes,
   listAllTrunks,
   resetUniqueFqdns,
-} from "./utils/recordedClient";
+} from "./utils/recordedClient.js";
 import { matrix } from "@azure-tools/test-utils";
 
 matrix([[true, false]], async function (useAad) {
@@ -27,13 +27,13 @@ matrix([[true, false]], async function (useAad) {
     let firstFqdn = "";
     let secondFqdn = "";
 
-    before(async function (this: Context) {
+    before(async function (ctx) {
       if (!isPlaybackMode()) {
         await clearSipConfiguration();
       }
     });
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
@@ -41,8 +41,8 @@ matrix([[true, false]], async function (useAad) {
       secondFqdn = getUniqueFqdn(recorder);
     });
 
-    afterEach(async function (this: Context) {
-      if (!this.currentTest?.isPending()) {
+    afterEach(async function (ctx) {
+      if (!ctx.task.pending) {
         await recorder.stop();
       }
       resetUniqueFqdns();

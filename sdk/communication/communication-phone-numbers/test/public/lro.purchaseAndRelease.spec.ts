@@ -6,34 +6,34 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import type { Context } from "mocha";
-import type { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../../src";
-import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
+import type { PhoneNumbersClient, SearchAvailablePhoneNumbersRequest } from "../../src/index.js";
+import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
 
 matrix([[true, false]], async function (useAad) {
   describe(`PhoneNumbersClient - lro - purchase and release${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
-    before(function (this: Context) {
+    before(function (ctx) {
       const includePhoneNumberLiveTests = env.INCLUDE_PHONENUMBER_LIVE_TESTS === "true";
       if (!includePhoneNumberLiveTests && !isPlaybackMode()) {
-        this.skip();
+        ctx.skip();
       }
     });
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)!
         : await createRecordedClient(this));
     });
 
-    afterEach(async function (this: Context) {
-      if (!this.currentTest?.isPending()) {
+    afterEach(async function (ctx) {
+      if (!ctx.task.pending) {
         await recorder.stop();
       }
     });
 
-    it("can purchase and release a phone number", async function (this: Context) {
+    it("can purchase and release a phone number", async function (ctx) {
       // search for phone number
       const searchRequest: SearchAvailablePhoneNumbersRequest = {
         countryCode: "US",

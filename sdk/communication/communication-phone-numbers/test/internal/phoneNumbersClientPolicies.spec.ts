@@ -3,8 +3,8 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
-import { PhoneNumbersClient } from "../../src/phoneNumbersClient";
-import { mockListPhoneNumbersHttpClient } from "../public/utils/mockHttpClients";
+import { PhoneNumbersClient } from "../../src/phoneNumbersClient.js";
+import { mockListPhoneNumbersHttpClient } from "../public/utils/mockHttpClients.js";
 
 describe("PhoneNumbersClient - custom policies ", function () {
   const endpoint = "https://contoso.spool.azure.local";

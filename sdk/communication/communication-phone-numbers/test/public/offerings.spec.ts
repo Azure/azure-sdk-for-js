@@ -5,22 +5,22 @@ import { matrix } from "@azure-tools/test-utils";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import type { Context } from "mocha";
-import type { PhoneNumbersClient } from "../../src";
-import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient";
+import type { PhoneNumbersClient } from "../../src/index.js";
+import { createRecordedClient, createRecordedClientWithToken } from "./utils/recordedClient.js";
 
 matrix([[true, false]], async function (useAad) {
   describe(`PhoneNumbersClient - offerings lists${useAad ? " [AAD]" : ""}`, function () {
     let recorder: Recorder;
     let client: PhoneNumbersClient;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)!
         : await createRecordedClient(this));
     });
 
-    afterEach(async function (this: Context) {
-      if (!this.currentTest?.isPending()) {
+    afterEach(async function (ctx) {
+      if (!ctx.task.pending) {
         await recorder.stop();
       }
     });

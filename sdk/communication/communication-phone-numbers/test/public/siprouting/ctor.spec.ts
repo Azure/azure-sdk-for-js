@@ -4,8 +4,8 @@
 import { AzureKeyCredential } from "@azure/core-auth";
 import { assert } from "chai";
 import type { Context } from "mocha";
-import { SipRoutingClient } from "../../../src";
-import { createMockToken } from "./utils/recordedClient";
+import { SipRoutingClient } from "../../../src/index.js";
+import { createMockToken } from "./utils/recordedClient.js";
 
 describe("SipRoutingClient - constructor", function () {
   const endpoint = "https://contoso.spool.azure.local";
@@ -27,7 +27,7 @@ describe("SipRoutingClient - constructor", function () {
     assert.instanceOf(client, SipRoutingClient);
   });
 
-  it("successfully instantiates with with endpoint and managed identity", function (this: Context) {
+  it("successfully instantiates with with endpoint and managed identity", function (ctx) {
     const client = new SipRoutingClient(endpoint, createMockToken());
     assert.instanceOf(client, SipRoutingClient);
   });

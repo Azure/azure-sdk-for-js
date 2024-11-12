@@ -4,7 +4,7 @@
 import { assert } from "chai";
 import type { Context } from "mocha";
 
-import type { SipRoutingClient } from "../../../src";
+import type { SipRoutingClient } from "../../../src/index.js";
 
 import { matrix } from "@azure-tools/test-utils";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -14,27 +14,27 @@ import {
   createRecordedClient,
   createRecordedClientWithToken,
   listAllRoutes,
-} from "./utils/recordedClient";
+} from "./utils/recordedClient.js";
 
 matrix([[true, false]], async function (useAad) {
   describe(`SipRoutingClient - get routes${useAad ? " [AAD]" : ""}`, function () {
     let client: SipRoutingClient;
     let recorder: Recorder;
 
-    before(async function (this: Context) {
+    before(async function (ctx) {
       if (!isPlaybackMode()) {
         await clearSipConfiguration();
       }
     });
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       ({ client, recorder } = useAad
         ? await createRecordedClientWithToken(this)
         : await createRecordedClient(this));
     });
 
-    afterEach(async function (this: Context) {
-      if (!this.currentTest?.isPending()) {
+    afterEach(async function (ctx) {
+      if (!ctx.task.pending) {
         await recorder.stop();
       }
     });

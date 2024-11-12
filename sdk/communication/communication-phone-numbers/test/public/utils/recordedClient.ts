@@ -6,12 +6,12 @@ import * as dotenv from "dotenv";
 
 import type { RecorderStartOptions, SanitizerOptions } from "@azure-tools/test-recorder";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { PhoneNumbersClient } from "../../../src";
+import { PhoneNumbersClient } from "../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
 import type { TokenCredential } from "@azure/identity";
 import { isNode } from "@azure-tools/test-utils";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
 
 if (isNode) {
   dotenv.config();
