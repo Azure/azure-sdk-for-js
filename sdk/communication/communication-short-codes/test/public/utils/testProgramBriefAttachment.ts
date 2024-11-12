@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ProgramBriefAttachment, ShortCodesClient } from "../../../src";
+import type { ProgramBriefAttachment, ShortCodesClient } from "../../../src/index.js";
 import { v4 as uuid } from "uuid";
 
 export function getTestProgramBriefAttachment(): ProgramBriefAttachment {

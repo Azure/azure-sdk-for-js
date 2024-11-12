@@ -7,10 +7,10 @@ import {
   createEmptyPipeline,
   bearerTokenAuthenticationPolicyName,
 } from "@azure/core-rest-pipeline";
-import { ShortCodesClient as ShortCodesGeneratedClient } from "../../src/generated/src";
+import { ShortCodesClient as ShortCodesGeneratedClient } from "../../src/generated/src/index.js";
 import type { TokenCredential } from "@azure/identity";
 import { assert } from "chai";
-import { createMockToken } from "../public/utils/recordedClient";
+import { createMockToken } from "../public/utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
 import { parseClientArguments } from "@azure/communication-common";
 import sinon from "sinon";

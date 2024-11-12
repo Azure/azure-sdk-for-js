@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 import type { RestError } from "@azure/core-rest-pipeline";
-import type { ShortCodesClient, USProgramBrief } from "../../../src";
+import type { ShortCodesClient, USProgramBrief } from "../../../src/index.js";
 import {
   CompanyInformationMapper,
   MessageDetailsMapper,
   ProgramDetailsMapper,
   TrafficDetailsMapper,
-} from "../../../src";
+} from "../../../src/index.js";
 import { assert } from "chai";
 import type { CompositeMapper } from "@azure/core-client";
 import { isPlaybackMode } from "@azure-tools/test-recorder";

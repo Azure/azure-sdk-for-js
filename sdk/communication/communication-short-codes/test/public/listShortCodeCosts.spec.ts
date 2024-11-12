@@ -3,20 +3,20 @@
 
 import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { ShortCodesClient } from "../../src";
+import type { ShortCodesClient } from "../../src/index.js";
 import { assert } from "chai";
-import { createRecordedClient } from "./utils/recordedClient";
+import { createRecordedClient } from "./utils/recordedClient.js";
 
 describe(`ShortCodeCostsClient - lists Short Code Costs`, function () {
   let recorder: Recorder;
   let client: ShortCodesClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     ({ client, recorder } = await createRecordedClient(this));
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+  afterEach(async function (ctx) {
+    if (!ctx.task.pending) {
       await recorder.stop();
     }
   });

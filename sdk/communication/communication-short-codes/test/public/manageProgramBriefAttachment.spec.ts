@@ -6,33 +6,33 @@ import type {
   ShortCodesClient,
   ShortCodesUpsertUSProgramBriefOptionalParams,
   USProgramBrief,
-} from "../../src";
+} from "../../src/index.js";
 import {
   doesProgramBriefContainAnyAttachment,
   getProgramBriefAttachmentsWithId,
   getProgramBriefAttachmentsWithIdByPage,
   getTestProgramBriefAttachment,
-} from "./utils/testProgramBriefAttachment";
+} from "./utils/testProgramBriefAttachment.js";
 import {
   doesProgramBriefExist,
   getTestUSProgramBrief,
   runTestCleaningLeftovers,
-} from "./utils/testUSProgramBrief";
+} from "./utils/testUSProgramBrief.js";
 import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createRecordedClient } from "./utils/recordedClient";
+import { createRecordedClient } from "./utils/recordedClient.js";
 
 describe(`ShortCodesClient - manage Attachments`, function () {
   let recorder: Recorder;
   let client: ShortCodesClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     ({ client, recorder } = await createRecordedClient(this));
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+  afterEach(async function (ctx) {
+    if (!ctx.task.pending) {
       await recorder.stop();
     }
   });

@@ -12,10 +12,10 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import type { Context } from "mocha";
-import { ShortCodesClient } from "../../../src";
+import { ShortCodesClient } from "../../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
-import { createMSUserAgentPolicy } from "./msUserAgentPolicy";
+import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
 
 if (isNodeLike) {
   dotenv.config();

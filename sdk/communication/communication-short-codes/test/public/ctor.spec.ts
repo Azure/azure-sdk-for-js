@@ -3,9 +3,9 @@
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import type { Context } from "mocha";
-import { ShortCodesClient } from "../../src";
+import { ShortCodesClient } from "../../src/index.js";
 import { assert } from "chai";
-import { createMockToken } from "./utils/recordedClient";
+import { createMockToken } from "./utils/recordedClient.js";
 
 describe("ShortCodesClient - constructor", function () {
   const endpoint = "https://contoso.spool.azure.local";
@@ -27,7 +27,7 @@ describe("ShortCodesClient - constructor", function () {
     assert.instanceOf(client, ShortCodesClient);
   });
 
-  it("successfully instantiates with with endpoint and managed identity", function (this: Context) {
+  it("successfully instantiates with with endpoint and managed identity", function (ctx) {
     const client = new ShortCodesClient(endpoint, createMockToken());
     assert.instanceOf(client, ShortCodesClient);
   });
