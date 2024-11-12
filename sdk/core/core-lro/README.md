@@ -7,8 +7,8 @@ This is the default implementation of long running operations in Azure SDK JavaS
 Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/core-lro)
-- [Package (npm)](https://www.npmjs.com/package/@azure/core-lro) 
-- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/core-lro) 
+- [Package (npm)](https://www.npmjs.com/package/@azure/core-lro)
+- [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/core-lro)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/core/core-lro/samples)
 
 ## Getting started
@@ -58,7 +58,6 @@ A function that returns an object of type `SimplePollerLike`. This poller behave
 
 - calls to `poll` and `pollUntilDone` will throw an error in case the operation has failed or canceled unless the `resolveOnUnsuccessful` option was set to true.
 - `poller.getOperationState().status` will be set to true when either the operation fails or it returns an error response.
-
 
 ## Examples
 
