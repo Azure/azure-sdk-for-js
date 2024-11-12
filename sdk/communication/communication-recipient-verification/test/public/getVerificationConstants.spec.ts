@@ -1,28 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { RecipientVerificationClient } from "../../src/index.js";
 import { createRecordedClient } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe(`RecipientVerificationClient - Get verification constants`, function () {
+describe(`RecipientVerificationClient - Get verification constants`, () => {
   let recorder: Recorder;
   let client: RecipientVerificationClient;
 
-  beforeEach(async function (ctx) {
-    ({ client, recorder } = await createRecordedClient(this));
+  beforeEach(async (ctx) => {
+    ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async function (ctx) {
+  afterEach(async (ctx) => {
     if (!ctx.task.pending) {
       await recorder.stop();
     }
   });
 
-  it("get verification constants", async function () {
+  it("get verification constants", { timeout: 30000 }, async () => {
     const verificationConstants = await client.getVerificationConstants();
     assert.isNotNull(verificationConstants.currentNumberOfVerifications);
     assert.isNotNull(verificationConstants.maxRetriesAllowed);
     assert.isNotNull(verificationConstants.maxVerificationsAllowed);
-  }).timeout(30000);
+  });
 });
