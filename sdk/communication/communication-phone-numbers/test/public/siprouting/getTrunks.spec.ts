@@ -13,7 +13,7 @@ import {
   listAllTrunks,
   resetUniqueFqdns,
 } from "./utils/recordedClient.js";
-import { matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 matrix([[true, false]], async function (useAad) {

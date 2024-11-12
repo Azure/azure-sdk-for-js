@@ -7,7 +7,7 @@ import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { PhoneNumbersClient } from "../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
 import type { TokenCredential } from "@azure/identity";
-import { isNode } from "@azure-tools/test-utils";
+import { isNode } from "@azure-tools/test-utils-vitest";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { createMSUserAgentPolicy } from "./msUserAgentPolicy.js";
 
