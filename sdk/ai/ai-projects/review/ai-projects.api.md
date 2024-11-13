@@ -101,21 +101,18 @@ export interface AgentsOperations {
     createThreadAndRun: (options: CreateThreadAndRunParameters) => Promise<ThreadRunOutput>;
     createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: RequestParameters) => AsyncIterable<AgentStreamEventMessage>;
     deleteAgent: (assistantId: string) => Promise<AgentDeletionStatusOutput>;
-    // Warning: (ae-forgotten-export) The symbol "DeleteFileParameters" needs to be exported by the entry point index.d.ts
-    deleteFile: (fileId: string, options?: DeleteFileParameters) => Promise<FileDeletionStatusOutput>;
+    deleteFile: (fileId: string, requestParams?: RequestParameters) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, requestParams?: RequestParameters) => Promise<ThreadDeletionStatusOutput>;
     getAgent: (assistantId: string) => Promise<AgentOutput>;
-    // Warning: (ae-forgotten-export) The symbol "GetFileParameters" needs to be exported by the entry point index.d.ts
-    getFile: (fileId: string, options?: GetFileParameters) => Promise<OpenAIFileOutput>;
-    // Warning: (ae-forgotten-export) The symbol "GetFileContentParameters" needs to be exported by the entry point index.d.ts
-    getFileContent: (fileId: string, options?: GetFileContentParameters) => Promise<string>;
+    getFile: (fileId: string, requestParams?: RequestParameters) => Promise<OpenAIFileOutput>;
+    getFileContent: (fileId: string, requestParams?: RequestParameters) => Promise<string>;
     // Warning: (ae-forgotten-export) The symbol "GetRunParameters" needs to be exported by the entry point index.d.ts
     getRun: (threadId: string, runId: string, options?: GetRunParameters) => Promise<ThreadRunOutput>;
     getThread: (threadId: string, requestParams?: RequestParameters) => Promise<AgentThreadOutput>;
     // Warning: (ae-forgotten-export) The symbol "ListAgentsQueryParamProperties" needs to be exported by the entry point index.d.ts
     listAgents: (options?: ListAgentsQueryParamProperties) => Promise<OpenAIPageableListOfAgentOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ListFilesParameters" needs to be exported by the entry point index.d.ts
-    listFiles: (options?: ListFilesParameters) => Promise<FileListResponseOutput>;
+    // Warning: (ae-forgotten-export) The symbol "ListFilesQueryParamProperties" needs to be exported by the entry point index.d.ts
+    listFiles: (options?: ListFilesQueryParamProperties, requestParams?: RequestParameters) => Promise<FileListResponseOutput>;
     // Warning: (ae-forgotten-export) The symbol "ListMessagesParameters" needs to be exported by the entry point index.d.ts
     listMessages: (threadId: string, options?: ListMessagesParameters) => Promise<ThreadMessageOutput>;
     // Warning: (ae-forgotten-export) The symbol "ListRunsParameters" needs to be exported by the entry point index.d.ts
@@ -129,7 +126,7 @@ export interface AgentsOperations {
     updateRun: (threadId: string, runId: string, options: UpdateRunParameters) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: RequestParameters) => Promise<AgentThreadOutput>;
     // Warning: (ae-forgotten-export) The symbol "UploadFileParameters" needs to be exported by the entry point index.d.ts
-    uploadFile: (options: UploadFileParameters) => Promise<OpenAIFileOutput>;
+    uploadFile: (options: UploadFileParameters, requestParams?: RequestParameters) => Promise<OpenAIFileOutput>;
 }
 
 // @public (undocumented)

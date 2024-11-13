@@ -1,10 +1,9 @@
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 import { Client, RequestParameters } from "@azure-rest/core-client";
 import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadRunOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
-import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, DeleteFileParameters, GetFileContentParameters, GetFileParameters, GetRunParameters, ListAgentsQueryParamProperties, ListFilesParameters, ListMessagesParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateMessageParameters, UpdateRunParameters, UploadFileParameters } from "../generated/src/parameters.js";
+import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, GetRunParameters, ListAgentsQueryParamProperties, ListFilesQueryParamProperties, ListMessagesParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateMessageParameters, UpdateRunParameters, UploadFileParameters } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
@@ -130,26 +129,26 @@ export interface AgentsOperations {
 
   /** Gets a list of previously uploaded files. */
   listFiles: (
-    options?: ListFilesParameters,
+    options?: ListFilesQueryParamProperties, requestParams?: RequestParameters
   ) => Promise<FileListResponseOutput>;
   /** Uploads a file for use by other operations. */
   uploadFile: (
-    options: UploadFileParameters,
+    options: UploadFileParameters, requestParams?: RequestParameters
   ) => Promise<OpenAIFileOutput>;
   /** Delete a previously uploaded file. */
   deleteFile: (
     fileId: string,
-    options?: DeleteFileParameters,
+    requestParams?: RequestParameters
   ) => Promise<FileDeletionStatusOutput>;
   /** Returns information about a specific file. Does not retrieve file content. */
   getFile: (
     fileId: string,
-    options?: GetFileParameters,
+    requestParams?: RequestParameters
   ) => Promise<OpenAIFileOutput>;
   /** Returns the content of a specific file. */
   getFileContent: (
     fileId: string,
-    options?: GetFileContentParameters,
+    requestParams?: RequestParameters
   ) => Promise<string>;
 }
 
@@ -205,16 +204,16 @@ function getAgents(context: Client): AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options: UpdateMessageParameters) =>
       updateMessage(context, threadId, messageId, options),
 
-    listFiles: (options?: ListFilesParameters) =>
-      listFiles(context, options),
+    listFiles: (options?: ListFilesQueryParamProperties, requestParams?: RequestParameters) =>
+      listFiles(context, {...requestParams, body: { ...options } }),
     uploadFile: (options: UploadFileParameters) =>
       uploadFile(context, options),
-    deleteFile: (fileId: string, options?: DeleteFileParameters) =>
-      deleteFile(context, fileId, options),
-    getFile: (fileId: string, options?: GetFileParameters) =>
-      getFile(context, fileId, options),
-    getFileContent: (fileId: string, options?: GetFileContentParameters) =>
-      getFileContent(context, fileId, options),
+    deleteFile: (fileId: string, requestParams?: RequestParameters) =>
+      deleteFile(context, fileId, requestParams),
+    getFile: (fileId: string, requestParams?: RequestParameters) =>
+      getFile(context, fileId, requestParams),
+    getFileContent: (fileId: string, requestParams?: RequestParameters) =>
+      getFileContent(context, fileId, requestParams),
   };
 }
 
