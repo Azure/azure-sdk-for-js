@@ -5,11 +5,7 @@ import { ManagedIdentityCredential } from "../../src/index.js";
 import { describe, it, assert } from "vitest";
 
 describe("AzureVM UserAssigned Integration test", function () {
-  it("works with a user assigned clientId", async function (ctx) {
-    if (!isLiveMode()) {
-      ctx.skip();
-    }
-
+  it.skipIf(!isLiveMode())("works with a user assigned clientId", async function () {
     const userAssignedClientId = process.env.IDENTITY_VM_USER_ASSIGNED_MI_CLIENT_ID;
     if (!userAssignedClientId) {
       console.log("IDENTITY_VM_USER_ASSIGNED_MI_CLIENT_ID is not set");

@@ -89,6 +89,10 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   await run(["rushx", "format"], { cwd: projectFolder });
   await commitChanges(projectFolder, "rushx format");
 
+  log.info(
+    "Done. Please run `rush update`, `rush build -t <project-name>`, and run tests to verify the changes.",
+  );
+
   return true;
 });
 
