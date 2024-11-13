@@ -3,11 +3,10 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { ExceptionPolicy, JobRouterAdministrationClient } from "../../../src/index.js";
-import { assert } from "chai";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
-import type { Context } from "mocha";
 import { getExceptionPolicyRequest } from "../utils/testData.js";
 import { timeoutMs } from "../utils/constants.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("JobRouterClient", function () {
   let administrationClient: JobRouterAdministrationClient;

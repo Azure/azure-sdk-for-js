@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import type {
   CreateJobOptions,
   JobRouterAdministrationClient,
@@ -10,7 +9,6 @@ import type {
   RouterJob,
   UpdateJobOptions,
 } from "../../../src/index.js";
-import type { Context } from "mocha";
 import {
   getClassificationPolicyRequest,
   getDistributionPolicyRequest,
@@ -21,6 +19,7 @@ import {
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
 import { sleep, timeoutMs } from "../utils/constants.js";
 import { pollForJobQueued, retry } from "../utils/polling.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("JobRouterClient", function () {
   let client: JobRouterClient;

@@ -9,18 +9,17 @@ import {
   getQueueRequest,
   getWorkerRequest,
 } from "../utils/testData.js";
-import { assert } from "chai";
 import type {
   RouterJobAssignment,
   RouterJobOffer,
   JobRouterAdministrationClient,
   JobRouterClient,
 } from "../../../src/index.js";
-import type { Context } from "mocha";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
 import { timeoutMs } from "../utils/constants.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { pollForJobAssignment, pollForJobOffer } from "../utils/polling.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("JobRouterClient", function () {
   let client: JobRouterClient;

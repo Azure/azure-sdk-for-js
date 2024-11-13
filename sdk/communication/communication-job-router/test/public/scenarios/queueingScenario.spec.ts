@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import type { JobRouterAdministrationClient, JobRouterClient } from "../../../src/index.js";
-import type { Context } from "mocha";
 import {
   getClassificationPolicyCombined,
   getClassificationPolicyConditional,
@@ -24,6 +21,7 @@ import { createRecordedRouterClientWithConnectionString } from "../../internal/u
 import { timeoutMs } from "../utils/constants.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { pollForJobQueued, retry } from "../utils/polling.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("JobRouterClient", function () {
   let client: JobRouterClient;

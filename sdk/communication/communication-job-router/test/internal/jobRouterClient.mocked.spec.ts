@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import sinon from "sinon";
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import { JobRouterClient } from "../../src/index.js";
 import { baseUri, generateToken } from "../public/utils/connection.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("[Mocked] JobRouterClient", async function () {
   afterEach(function () {
