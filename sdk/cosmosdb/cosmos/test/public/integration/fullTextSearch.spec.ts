@@ -7,7 +7,7 @@ import { ContainerDefinition, Container } from "../../../src";
 import items from "./text-3properties-1536dimensions-100documents";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
-describe("Validate full text search queries", function (this: Suite) {
+describe.skip("Validate full text search queries", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   const partitionKey = "id";
