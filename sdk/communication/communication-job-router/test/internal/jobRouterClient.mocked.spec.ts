@@ -7,7 +7,7 @@ import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest"
 
 describe("[Mocked] JobRouterClient", async function () {
   afterEach(function () {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("can instantiate", async function () {
