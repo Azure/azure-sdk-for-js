@@ -4,18 +4,16 @@
 
 ```ts
 
-import type { Client } from '@azure-rest/core-client';
+import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
-import type { ErrorResponse } from '@azure-rest/core-client';
-import type { HttpResponse } from '@azure-rest/core-client';
+import { ErrorResponse } from '@azure-rest/core-client';
+import { HttpResponse } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
-import type { Paged } from '@azure/core-paging';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import type { RequestParameters } from '@azure-rest/core-client';
-import type { StreamableMethod } from '@azure-rest/core-client';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
@@ -493,10 +491,10 @@ export interface DirectMapRouterRuleOutput extends RouterRuleOutputParent {
 export type DistributionMode = DistributionModeParent | BestWorkerMode | LongestIdleMode | RoundRobinMode;
 
 // @public
-export type DistributionModeKind = "bestWorker" | "longestIdle" | "roundRobin";
+export type DistributionModeKind = string;
 
 // @public
-export type DistributionModeKindOutput = "bestWorker" | "longestIdle" | "roundRobin";
+export type DistributionModeKindOutput = string;
 
 // @public
 export type DistributionModeOutput = DistributionModeOutputParent | BestWorkerModeOutput | LongestIdleModeOutput | RoundRobinModeOutput;
@@ -542,10 +540,10 @@ export type DistributionPolicyResourceMergeAndPatch = Partial<DistributionPolicy
 export type ExceptionAction = ExceptionActionParent | CancelExceptionAction | ManualReclassifyExceptionAction | ReclassifyExceptionAction;
 
 // @public
-export type ExceptionActionKind = "cancel" | "manualReclassify" | "reclassify";
+export type ExceptionActionKind = string;
 
 // @public
-export type ExceptionActionKindOutput = "cancel" | "manualReclassify" | "reclassify";
+export type ExceptionActionKindOutput = string;
 
 // @public
 export type ExceptionActionOutput = ExceptionActionOutputParent | CancelExceptionActionOutput | ManualReclassifyExceptionActionOutput | ReclassifyExceptionActionOutput;
@@ -599,10 +597,10 @@ export interface ExceptionRuleOutput {
 export type ExceptionTrigger = ExceptionTriggerParent | QueueLengthExceptionTrigger | WaitTimeExceptionTrigger;
 
 // @public
-export type ExceptionTriggerKind = "queueLength" | "waitTime";
+export type ExceptionTriggerKind = string;
 
 // @public
-export type ExceptionTriggerKindOutput = "queueLength" | "waitTime";
+export type ExceptionTriggerKindOutput = string;
 
 // @public
 export type ExceptionTriggerOutput = ExceptionTriggerOutputParent | QueueLengthExceptionTriggerOutput | WaitTimeExceptionTriggerOutput;
@@ -627,10 +625,10 @@ export interface ExpressionRouterRule extends RouterRuleParent {
 }
 
 // @public
-export type ExpressionRouterRuleLanguage = "powerFx";
+export type ExpressionRouterRuleLanguage = string;
 
 // @public
-export type ExpressionRouterRuleLanguageOutput = "powerFx";
+export type ExpressionRouterRuleLanguageOutput = string;
 
 // @public
 export interface ExpressionRouterRuleOutput extends RouterRuleOutputParent {
@@ -838,7 +836,7 @@ export interface GetJobDefaultResponse extends HttpResponse {
 export type GetJobParameters = RequestParameters;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -1045,10 +1043,10 @@ export function isUnexpected(response: ListWorkers200Response | ListWorkersDefau
 export type JobMatchingMode = JobMatchingModeParent | ScheduleAndSuspendMode | QueueAndMatchMode | SuspendMode;
 
 // @public
-export type JobMatchingModeKind = "queueAndMatch" | "scheduleAndSuspend" | "suspend";
+export type JobMatchingModeKind = string;
 
 // @public
-export type JobMatchingModeKindOutput = "queueAndMatch" | "scheduleAndSuspend" | "suspend";
+export type JobMatchingModeKindOutput = string;
 
 // @public
 export type JobMatchingModeOutput = JobMatchingModeOutputParent | ScheduleAndSuspendModeOutput | QueueAndMatchModeOutput | SuspendModeOutput;
@@ -1066,10 +1064,10 @@ export interface JobMatchingModeParent {
 }
 
 // @public
-export type LabelOperator = "equal" | "notEqual" | "lessThan" | "lessThanOrEqual" | "greaterThan" | "greaterThanOrEqual";
+export type LabelOperator = string;
 
 // @public
-export type LabelOperatorOutput = "equal" | "notEqual" | "lessThan" | "lessThanOrEqual" | "greaterThan" | "greaterThanOrEqual";
+export type LabelOperatorOutput = string;
 
 // @public (undocumented)
 export interface ListClassificationPolicies {
@@ -1372,22 +1370,52 @@ export interface OAuth2WebhookClientCredentialOutput {
 }
 
 // @public
-export type PagedClassificationPolicyOutput = Paged<ClassificationPolicyOutput>;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
 
 // @public
-export type PagedDistributionPolicyOutput = Paged<DistributionPolicyOutput>;
+export interface PagedClassificationPolicyOutput {
+    nextLink?: string;
+    value: Array<ClassificationPolicyOutput>;
+}
 
 // @public
-export type PagedExceptionPolicyOutput = Paged<ExceptionPolicyOutput>;
+export interface PagedDistributionPolicyOutput {
+    nextLink?: string;
+    value: Array<DistributionPolicyOutput>;
+}
 
 // @public
-export type PagedRouterJobOutput = Paged<RouterJobOutput>;
+export interface PagedExceptionPolicyOutput {
+    nextLink?: string;
+    value: Array<ExceptionPolicyOutput>;
+}
 
 // @public
-export type PagedRouterQueueOutput = Paged<RouterQueueOutput>;
+export interface PagedRouterJobOutput {
+    nextLink?: string;
+    value: Array<RouterJobOutput>;
+}
 
 // @public
-export type PagedRouterWorkerOutput = Paged<RouterWorkerOutput>;
+export interface PagedRouterQueueOutput {
+    nextLink?: string;
+    value: Array<RouterQueueOutput>;
+}
+
+// @public
+export interface PagedRouterWorkerOutput {
+    nextLink?: string;
+    value: Array<RouterWorkerOutput>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -1460,10 +1488,10 @@ export interface QueueLengthExceptionTriggerOutput extends ExceptionTriggerOutpu
 export type QueueSelectorAttachment = QueueSelectorAttachmentParent | ConditionalQueueSelectorAttachment | PassThroughQueueSelectorAttachment | RuleEngineQueueSelectorAttachment | StaticQueueSelectorAttachment | WeightedAllocationQueueSelectorAttachment;
 
 // @public
-export type QueueSelectorAttachmentKind = "conditional" | "passThrough" | "ruleEngine" | "static" | "weightedAllocation";
+export type QueueSelectorAttachmentKind = string;
 
 // @public
-export type QueueSelectorAttachmentKindOutput = "conditional" | "passThrough" | "ruleEngine" | "static" | "weightedAllocation";
+export type QueueSelectorAttachmentKindOutput = string;
 
 // @public
 export type QueueSelectorAttachmentOutput = QueueSelectorAttachmentOutputParent | ConditionalQueueSelectorAttachmentOutput | PassThroughQueueSelectorAttachmentOutput | RuleEngineQueueSelectorAttachmentOutput | StaticQueueSelectorAttachmentOutput | WeightedAllocationQueueSelectorAttachmentOutput;
@@ -1670,13 +1698,13 @@ export interface RouterJobPositionDetailsOutput {
 export type RouterJobResourceMergeAndPatch = Partial<RouterJob>;
 
 // @public
-export type RouterJobStatus = "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation";
+export type RouterJobStatus = string;
 
 // @public
-export type RouterJobStatusOutput = "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation";
+export type RouterJobStatusOutput = string;
 
 // @public
-export type RouterJobStatusSelector = "all" | "pendingClassification" | "queued" | "assigned" | "completed" | "closed" | "cancelled" | "classificationFailed" | "created" | "pendingSchedule" | "scheduled" | "scheduleFailed" | "waitingForActivation" | "active";
+export type RouterJobStatusSelector = string;
 
 // @public
 export interface RouterQueue {
@@ -1725,10 +1753,10 @@ export interface RouterQueueStatisticsOutput {
 export type RouterRule = RouterRuleParent | DirectMapRouterRule | ExpressionRouterRule | FunctionRouterRule | StaticRouterRule | WebhookRouterRule;
 
 // @public
-export type RouterRuleKind = "directMap" | "expression" | "function" | "static" | "webhook";
+export type RouterRuleKind = string;
 
 // @public
-export type RouterRuleKindOutput = "directMap" | "expression" | "function" | "static" | "webhook";
+export type RouterRuleKindOutput = string;
 
 // @public
 export type RouterRuleOutput = RouterRuleOutputParent | DirectMapRouterRuleOutput | ExpressionRouterRuleOutput | FunctionRouterRuleOutput | StaticRouterRuleOutput | WebhookRouterRuleOutput;
@@ -1813,19 +1841,19 @@ export interface RouterWorkerSelectorOutput {
 }
 
 // @public
-export type RouterWorkerSelectorStatus = "active" | "expired";
+export type RouterWorkerSelectorStatus = string;
 
 // @public
-export type RouterWorkerSelectorStatusOutput = "active" | "expired";
+export type RouterWorkerSelectorStatusOutput = string;
 
 // @public
-export type RouterWorkerState = "active" | "draining" | "inactive";
+export type RouterWorkerState = string;
 
 // @public
-export type RouterWorkerStateOutput = "active" | "draining" | "inactive";
+export type RouterWorkerStateOutput = string;
 
 // @public
-export type RouterWorkerStateSelector = "active" | "draining" | "inactive" | "all";
+export type RouterWorkerStateSelector = string;
 
 // @public (undocumented)
 export interface Routes {
@@ -1905,10 +1933,10 @@ export interface ScoringRuleOptionsOutput {
 }
 
 // @public
-export type ScoringRuleParameterSelector = "jobLabels" | "workerSelectors";
+export type ScoringRuleParameterSelector = string;
 
 // @public
-export type ScoringRuleParameterSelectorOutput = "jobLabels" | "workerSelectors";
+export type ScoringRuleParameterSelectorOutput = string;
 
 // @public
 export interface StaticQueueSelectorAttachment extends QueueSelectorAttachmentParent {
@@ -2533,10 +2561,10 @@ export interface WeightedAllocationWorkerSelectorAttachmentOutput extends Worker
 export type WorkerSelectorAttachment = WorkerSelectorAttachmentParent | ConditionalWorkerSelectorAttachment | PassThroughWorkerSelectorAttachment | RuleEngineWorkerSelectorAttachment | StaticWorkerSelectorAttachment | WeightedAllocationWorkerSelectorAttachment;
 
 // @public
-export type WorkerSelectorAttachmentKind = "conditional" | "passThrough" | "ruleEngine" | "static" | "weightedAllocation";
+export type WorkerSelectorAttachmentKind = string;
 
 // @public
-export type WorkerSelectorAttachmentKindOutput = "conditional" | "passThrough" | "ruleEngine" | "static" | "weightedAllocation";
+export type WorkerSelectorAttachmentKindOutput = string;
 
 // @public
 export type WorkerSelectorAttachmentOutput = WorkerSelectorAttachmentOutputParent | ConditionalWorkerSelectorAttachmentOutput | PassThroughWorkerSelectorAttachmentOutput | RuleEngineWorkerSelectorAttachmentOutput | StaticWorkerSelectorAttachmentOutput | WeightedAllocationWorkerSelectorAttachmentOutput;
