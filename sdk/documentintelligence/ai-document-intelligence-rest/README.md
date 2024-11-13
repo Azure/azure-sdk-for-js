@@ -157,7 +157,7 @@ console.log(result);
 // }
 ```
 
-### Batch analysis
+## Batch analysis
 
 ```ts
 import {
@@ -166,7 +166,37 @@ import {
   isUnexpected,
 } from "@azure-rest/ai-document-intelligence";
 
-// Analyze a batch of documents
+/// 1. Training files with container URL input
+async function requireModel(): Promise<DocumentModelDetailsOutput> {
+  if (!_model) {
+    // Compute a unique name for the model
+    modelId = `modelName${getRandomNumber()}`;
+    const initialResponse = await client.path("/documentModels:build").post({
+      body: {
+        buildMode: "generative",
+        modelId: modelId,
+        azureBlobSource: {
+          containerUrl: batchTrainingFilesContainerUrl(),
+        },
+      },
+    });
+    if (isUnexpected(initialResponse)) {
+      throw initialResponse.body.error;
+    }
+    const poller = getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+    const response = (await (await poller).pollUntilDone()).body as DocumentModelDetailsOutput;
+    if (!response) {
+      throw new Error("Expected a DocumentModelDetailsOutput response.");
+    }
+    _model = response;
+
+    assert.equal(_model!.modelId, modelId);
+  }
+
+  return _model!;
+}
+
+// 2. Analyze a batch of documents
 const initialResponse = await client
   .path("/documentModels/{modelId}:analyzeBatch", model.modelId)
   .post({
@@ -188,7 +218,7 @@ const operationId = parseOperationIdFromResponse(initialResponse);
 console.log("operationId: ", operationId);
 console.log("model id: ", model.modelId);
 
-// At a later time, you can retrieve the operation result using the operationId
+// 3. At a later time, you can retrieve the operation result using the operationId
 const batchModelId = "modelName10119";
 const operationId = "6fabe817-e8ec-4dac-af85-2d150e707faa";
 const output = await client
