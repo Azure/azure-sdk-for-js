@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   UpsertClassificationPolicyParameters,
   GetClassificationPolicyParameters,
   DeleteClassificationPolicyParameters,
@@ -35,8 +35,8 @@ import type {
   GetWorkerParameters,
   DeleteWorkerParameters,
   ListWorkersParameters,
-} from "./parameters";
-import type {
+} from "./parameters.js";
+import {
   UpsertClassificationPolicy200Response,
   UpsertClassificationPolicy201Response,
   UpsertClassificationPolicyDefaultResponse,
@@ -109,8 +109,8 @@ import type {
   DeleteWorkerDefaultResponse,
   ListWorkers200Response,
   ListWorkersDefaultResponse,
-} from "./responses";
-import type { Client, StreamableMethod } from "@azure-rest/core-client";
+} from "./responses.js";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface UpsertClassificationPolicy {
   /** Creates or updates a classification policy. */
@@ -124,12 +124,15 @@ export interface UpsertClassificationPolicy {
   /** Retrieves an existing classification policy by Id. */
   get(
     options?: GetClassificationPolicyParameters,
-  ): StreamableMethod<GetClassificationPolicy200Response | GetClassificationPolicyDefaultResponse>;
+  ): StreamableMethod<
+    GetClassificationPolicy200Response | GetClassificationPolicyDefaultResponse
+  >;
   /** Delete a classification policy by Id. */
   delete(
     options?: DeleteClassificationPolicyParameters,
   ): StreamableMethod<
-    DeleteClassificationPolicy204Response | DeleteClassificationPolicyDefaultResponse
+    | DeleteClassificationPolicy204Response
+    | DeleteClassificationPolicyDefaultResponse
   >;
 }
 
@@ -138,7 +141,8 @@ export interface ListClassificationPolicies {
   get(
     options?: ListClassificationPoliciesParameters,
   ): StreamableMethod<
-    ListClassificationPolicies200Response | ListClassificationPoliciesDefaultResponse
+    | ListClassificationPolicies200Response
+    | ListClassificationPoliciesDefaultResponse
   >;
 }
 
@@ -154,12 +158,15 @@ export interface UpsertDistributionPolicy {
   /** Retrieves an existing distribution policy by Id. */
   get(
     options?: GetDistributionPolicyParameters,
-  ): StreamableMethod<GetDistributionPolicy200Response | GetDistributionPolicyDefaultResponse>;
+  ): StreamableMethod<
+    GetDistributionPolicy200Response | GetDistributionPolicyDefaultResponse
+  >;
   /** Delete a distribution policy by Id. */
   delete(
     options?: DeleteDistributionPolicyParameters,
   ): StreamableMethod<
-    DeleteDistributionPolicy204Response | DeleteDistributionPolicyDefaultResponse
+    | DeleteDistributionPolicy204Response
+    | DeleteDistributionPolicyDefaultResponse
   >;
 }
 
@@ -168,7 +175,8 @@ export interface ListDistributionPolicies {
   get(
     options?: ListDistributionPoliciesParameters,
   ): StreamableMethod<
-    ListDistributionPolicies200Response | ListDistributionPoliciesDefaultResponse
+    | ListDistributionPolicies200Response
+    | ListDistributionPoliciesDefaultResponse
   >;
 }
 
@@ -184,25 +192,33 @@ export interface UpsertExceptionPolicy {
   /** Retrieves an existing exception policy by Id. */
   get(
     options?: GetExceptionPolicyParameters,
-  ): StreamableMethod<GetExceptionPolicy200Response | GetExceptionPolicyDefaultResponse>;
+  ): StreamableMethod<
+    GetExceptionPolicy200Response | GetExceptionPolicyDefaultResponse
+  >;
   /** Deletes a exception policy by Id. */
   delete(
     options?: DeleteExceptionPolicyParameters,
-  ): StreamableMethod<DeleteExceptionPolicy204Response | DeleteExceptionPolicyDefaultResponse>;
+  ): StreamableMethod<
+    DeleteExceptionPolicy204Response | DeleteExceptionPolicyDefaultResponse
+  >;
 }
 
 export interface ListExceptionPolicies {
   /** Retrieves existing exception policies. */
   get(
     options?: ListExceptionPoliciesParameters,
-  ): StreamableMethod<ListExceptionPolicies200Response | ListExceptionPoliciesDefaultResponse>;
+  ): StreamableMethod<
+    ListExceptionPolicies200Response | ListExceptionPoliciesDefaultResponse
+  >;
 }
 
 export interface UpsertQueue {
   /** Creates or updates a queue. */
   patch(
     options: UpsertQueueParameters,
-  ): StreamableMethod<UpsertQueue200Response | UpsertQueue201Response | UpsertQueueDefaultResponse>;
+  ): StreamableMethod<
+    UpsertQueue200Response | UpsertQueue201Response | UpsertQueueDefaultResponse
+  >;
   /** Retrieves an existing queue by Id. */
   get(
     options?: GetQueueParameters,
@@ -224,9 +240,13 @@ export interface UpsertJob {
   /** Creates or updates a router job. */
   patch(
     options: UpsertJobParameters,
-  ): StreamableMethod<UpsertJob200Response | UpsertJob201Response | UpsertJobDefaultResponse>;
+  ): StreamableMethod<
+    UpsertJob200Response | UpsertJob201Response | UpsertJobDefaultResponse
+  >;
   /** Retrieves an existing job by Id. */
-  get(options?: GetJobParameters): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
+  get(
+    options?: GetJobParameters,
+  ): StreamableMethod<GetJob200Response | GetJobDefaultResponse>;
   /** Deletes a job and all of its traces. */
   delete(
     options?: DeleteJobParameters,
@@ -242,7 +262,9 @@ export interface Reclassify {
 
 export interface Cancel {
   /** Submits request to cancel an existing job by Id while supplying free-form cancellation reason. */
-  post(options?: CancelParameters): StreamableMethod<Cancel200Response | CancelDefaultResponse>;
+  post(
+    options?: CancelParameters,
+  ): StreamableMethod<Cancel200Response | CancelDefaultResponse>;
 }
 
 export interface Complete {
@@ -254,7 +276,9 @@ export interface Complete {
 
 export interface Close {
   /** Closes a completed job. */
-  post(options?: CloseParameters): StreamableMethod<Close200Response | CloseDefaultResponse>;
+  post(
+    options?: CloseParameters,
+  ): StreamableMethod<Close200Response | CloseDefaultResponse>;
 }
 
 export interface ListJobs {
@@ -268,7 +292,9 @@ export interface GetInQueuePosition {
   /** Gets a job's position details. */
   get(
     options?: GetInQueuePositionParameters,
-  ): StreamableMethod<GetInQueuePosition200Response | GetInQueuePositionDefaultResponse>;
+  ): StreamableMethod<
+    GetInQueuePosition200Response | GetInQueuePositionDefaultResponse
+  >;
 }
 
 export interface Unassign {
@@ -280,19 +306,25 @@ export interface Unassign {
 
 export interface Accept {
   /** Accepts an offer to work on a job and returns a 409/Conflict if another agent accepted the job already. */
-  post(options?: AcceptParameters): StreamableMethod<Accept200Response | AcceptDefaultResponse>;
+  post(
+    options?: AcceptParameters,
+  ): StreamableMethod<Accept200Response | AcceptDefaultResponse>;
 }
 
 export interface Decline {
   /** Declines an offer to work on a job. */
-  post(options?: DeclineParameters): StreamableMethod<Decline200Response | DeclineDefaultResponse>;
+  post(
+    options?: DeclineParameters,
+  ): StreamableMethod<Decline200Response | DeclineDefaultResponse>;
 }
 
 export interface GetQueueStatistics {
   /** Retrieves a queue's statistics. */
   get(
     options?: GetQueueStatisticsParameters,
-  ): StreamableMethod<GetQueueStatistics200Response | GetQueueStatisticsDefaultResponse>;
+  ): StreamableMethod<
+    GetQueueStatistics200Response | GetQueueStatisticsDefaultResponse
+  >;
 }
 
 export interface UpsertWorker {
@@ -300,7 +332,9 @@ export interface UpsertWorker {
   patch(
     options: UpsertWorkerParameters,
   ): StreamableMethod<
-    UpsertWorker200Response | UpsertWorker201Response | UpsertWorkerDefaultResponse
+    | UpsertWorker200Response
+    | UpsertWorker201Response
+    | UpsertWorkerDefaultResponse
   >;
   /** Retrieves an existing worker by Id. */
   get(
@@ -386,7 +420,10 @@ export interface Routes {
     offerId: string,
   ): Decline;
   /** Resource for '/routing/queues/\{queueId\}/statistics' has methods for the following verbs: get */
-  (path: "/routing/queues/{queueId}/statistics", queueId: string): GetQueueStatistics;
+  (
+    path: "/routing/queues/{queueId}/statistics",
+    queueId: string,
+  ): GetQueueStatistics;
   /** Resource for '/routing/workers/\{workerId\}' has methods for the following verbs: patch, get, delete */
   (path: "/routing/workers/{workerId}", workerId: string): UpsertWorker;
   /** Resource for '/routing/workers' has methods for the following verbs: get */
