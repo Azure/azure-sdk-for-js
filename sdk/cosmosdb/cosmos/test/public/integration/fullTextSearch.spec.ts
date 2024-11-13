@@ -4,10 +4,11 @@
 import { Suite } from "mocha";
 import assert from "assert";
 import { ContainerDefinition, Container } from "../../../src";
-import items from "./text-3properties-1536dimensions-100documents";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
+import * as fs from "fs";
+import * as path from "path";
 
-describe.skip("Validate full text search queries", function (this: Suite) {
+describe("Validate full text search queries", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   const partitionKey = "id";
@@ -127,14 +128,31 @@ describe.skip("Validate full text search queries", function (this: Suite) {
       containerDefinition,
       containerOptions,
     );
-    for (const item of items) {
-      await container.items.create(item);
+
+    // Read JSON file
+    const filePath = path.join(__dirname, "text-3properties-1536dimensions-100documents.json");
+    const rawData = fs.readFileSync(filePath, "utf-8");
+
+    // Parse JSON file
+    let items: any[];
+    try {
+      items = JSON.parse(rawData);
+    } catch (error) {
+      console.error("Error parsing JSON file:", error);
+    }
+
+    try {
+      for (const item of items) {
+        await container.items.create(item);
+      }
+    } catch (error) {
+      console.error("Error inserting items:", error);
     }
   });
 
   it("should return correct expected values for all the queries", async function () {
     for (const [query, { expected1, expected2 }] of queriesMap) {
-      const queryOptions = { allowUnboundedNonStreamingQueries: true };
+      const queryOptions = { allowUnboundedNonStreamingQueries: true, forceQueryPlan: true };
       const queryIterator = container.items.query(query, queryOptions);
 
       const results: any[] = [];
