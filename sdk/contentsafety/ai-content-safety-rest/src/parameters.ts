@@ -5,8 +5,6 @@ import type { RequestParameters } from "@azure-rest/core-client";
 import type {
   AnalyzeImageOptions,
   AnalyzeTextOptions,
-  ShieldPromptOptions,
-  DetectTextProtectedMaterialOptions,
   TextBlocklist,
   AddOrUpdateTextBlocklistItemsOptions,
   RemoveTextBlocklistItemsOptions,
@@ -25,21 +23,6 @@ export interface AnalyzeTextBodyParam {
 }
 
 export type AnalyzeTextParameters = AnalyzeTextBodyParam & RequestParameters;
-
-export interface ShieldPromptBodyParam {
-  /** The request body to be detected, which may contain direct or indirect injection attacks. */
-  body: ShieldPromptOptions;
-}
-
-export type ShieldPromptParameters = ShieldPromptBodyParam & RequestParameters;
-
-export interface DetectTextProtectedMaterialBodyParam {
-  /** The request body to be detected, which may contain protected material. */
-  body: DetectTextProtectedMaterialOptions;
-}
-
-export type DetectTextProtectedMaterialParameters = DetectTextProtectedMaterialBodyParam &
-  RequestParameters;
 export type GetTextBlocklistParameters = RequestParameters;
 /** The resource instance. */
 export type TextBlocklistResourceMergeAndPatch = Partial<TextBlocklist>;

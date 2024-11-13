@@ -6,10 +6,6 @@ import type {
   AnalyzeImageDefaultResponse,
   AnalyzeText200Response,
   AnalyzeTextDefaultResponse,
-  ShieldPrompt200Response,
-  ShieldPromptDefaultResponse,
-  DetectTextProtectedMaterial200Response,
-  DetectTextProtectedMaterialDefaultResponse,
   GetTextBlocklist200Response,
   GetTextBlocklistDefaultResponse,
   CreateOrUpdateTextBlocklist200Response,
@@ -32,8 +28,6 @@ import type {
 const responseMap: Record<string, string[]> = {
   "POST /image:analyze": ["200"],
   "POST /text:analyze": ["200"],
-  "POST /text:shieldPrompt": ["200"],
-  "POST /text:detectProtectedMaterial": ["200"],
   "GET /text/blocklists/{blocklistName}": ["200"],
   "PATCH /text/blocklists/{blocklistName}": ["200", "201"],
   "DELETE /text/blocklists/{blocklistName}": ["204"],
@@ -50,12 +44,6 @@ export function isUnexpected(
 export function isUnexpected(
   response: AnalyzeText200Response | AnalyzeTextDefaultResponse,
 ): response is AnalyzeTextDefaultResponse;
-export function isUnexpected(
-  response: ShieldPrompt200Response | ShieldPromptDefaultResponse,
-): response is ShieldPromptDefaultResponse;
-export function isUnexpected(
-  response: DetectTextProtectedMaterial200Response | DetectTextProtectedMaterialDefaultResponse,
-): response is DetectTextProtectedMaterialDefaultResponse;
 export function isUnexpected(
   response: GetTextBlocklist200Response | GetTextBlocklistDefaultResponse,
 ): response is GetTextBlocklistDefaultResponse;
@@ -89,10 +77,6 @@ export function isUnexpected(
     | AnalyzeImageDefaultResponse
     | AnalyzeText200Response
     | AnalyzeTextDefaultResponse
-    | ShieldPrompt200Response
-    | ShieldPromptDefaultResponse
-    | DetectTextProtectedMaterial200Response
-    | DetectTextProtectedMaterialDefaultResponse
     | GetTextBlocklist200Response
     | GetTextBlocklistDefaultResponse
     | CreateOrUpdateTextBlocklist200Response
@@ -113,8 +97,6 @@ export function isUnexpected(
 ): response is
   | AnalyzeImageDefaultResponse
   | AnalyzeTextDefaultResponse
-  | ShieldPromptDefaultResponse
-  | DetectTextProtectedMaterialDefaultResponse
   | GetTextBlocklistDefaultResponse
   | CreateOrUpdateTextBlocklistDefaultResponse
   | DeleteTextBlocklistDefaultResponse
