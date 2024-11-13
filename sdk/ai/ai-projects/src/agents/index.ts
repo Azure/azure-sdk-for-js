@@ -3,8 +3,8 @@
 // Licensed under the MIT License.
 
 import { Client } from "@azure-rest/core-client";
-import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, OpenAIPageableListOfVectorStoreOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
-import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListAgentsQueryParamProperties, ListFilesParameters, ListMessagesQueryParamProperties, ListRunsQueryParamProperties, ListVectorStoresQueryParamProperties, SubmitToolOutputsToRunParameters, UploadFileParameters } from "../generated/src/parameters.js";
+import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
+import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListAgentsQueryParamProperties, ListFilesParameters, ListMessagesQueryParamProperties, ListRunsQueryParamProperties, ListRunStepsQueryParamProperties, ListVectorStoresQueryParamProperties, SubmitToolOutputsToRunParameters, UploadFileParameters } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
@@ -16,6 +16,7 @@ import { AgentStreamEventMessage } from "./streamingModels.js";
 import { UpdateMessageOptions } from "./messagesModels.js";
 import { OptionalRequestParameters, UpdateRunOptions } from "./inputOutputs.js";
 import { createVectorStore, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
+import { getRunStep, listRunSteps } from "./runSteps.js";
 
 export interface AgentsOperations {
   /** Creates a new agent. */
@@ -185,6 +186,21 @@ export interface AgentsOperations {
     vectorStoreId: string,
     requestParams?: OptionalRequestParameters,
   ) => Promise<VectorStoreDeletionStatusOutput>;
+
+  /** Gets a single run step from a thread run. */
+  getRunStep: (
+    threadId: string,
+    runId: string,
+    stepId: string,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<RunStepOutput>;
+  /** Gets a list of run steps from a thread run. */
+  listRunSteps: (
+    threadId: string,
+    runId: string,
+    options?: ListRunStepsQueryParamProperties,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<OpenAIPageableListOfRunStepOutput>;
 }
 
 function getAgents(context: Client): AgentsOperations {
@@ -261,6 +277,11 @@ function getAgents(context: Client): AgentsOperations {
       modifyVectorStore(context, vectorStoreId, { ...requestParams, body: options as Record<string, unknown> }),
     deleteVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) =>
       deleteVectorStore(context, vectorStoreId, requestParams),
+  
+    getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) =>
+      getRunStep(context, threadId, runId, stepId, { ...requestParams }),
+    listRunSteps: (threadId: string, runId: string, options?: ListRunStepsQueryParamProperties, requestParams?: OptionalRequestParameters) =>
+      listRunSteps(context, threadId, runId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
   };
 }
 
