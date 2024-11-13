@@ -54,6 +54,10 @@ export interface SimplePollerLike<
    */
   getOperationState(): TState;
   /**
+   * Returns the id of the operation.
+   */
+  getOperationId(): string;
+  /**
    * Returns the result value of the operation,
    * regardless of the state of the poller.
    * It can return undefined or an incomplete form of the final TResult value
@@ -118,8 +122,8 @@ export interface SimplePollerLike<
  */
 export async function getLongRunningPoller<
   TResult extends
-    | AnalyzeBatchDocumentsLogicalResponse
-    | AnalyzeBatchDocumentsDefaultResponse,
+  | AnalyzeBatchDocumentsLogicalResponse
+  | AnalyzeBatchDocumentsDefaultResponse,
 >(
   client: Client,
   initialResponse:
@@ -150,8 +154,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-    | BuildClassifierLogicalResponse
-    | BuildClassifierDefaultResponse,
+  | BuildClassifierLogicalResponse
+  | BuildClassifierDefaultResponse,
 >(
   client: Client,
   initialResponse: BuildClassifier202Response | BuildClassifierDefaultResponse,
@@ -159,8 +163,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-    | CopyClassifierToLogicalResponse
-    | CopyClassifierToDefaultResponse,
+  | CopyClassifierToLogicalResponse
+  | CopyClassifierToDefaultResponse,
 >(
   client: Client,
   initialResponse:
@@ -170,8 +174,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-    | AnalyzeDocumentFromStreamLogicalResponse
-    | AnalyzeDocumentFromStreamDefaultResponse,
+  | AnalyzeDocumentFromStreamLogicalResponse
+  | AnalyzeDocumentFromStreamDefaultResponse,
 >(
   client: Client,
   initialResponse:
@@ -181,8 +185,8 @@ export async function getLongRunningPoller<
 ): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 export async function getLongRunningPoller<
   TResult extends
-    | ClassifyDocumentFromStreamLogicalResponse
-    | ClassifyDocumentFromStreamDefaultResponse,
+  | ClassifyDocumentFromStreamLogicalResponse
+  | ClassifyDocumentFromStreamDefaultResponse,
 >(
   client: Client,
   initialResponse:

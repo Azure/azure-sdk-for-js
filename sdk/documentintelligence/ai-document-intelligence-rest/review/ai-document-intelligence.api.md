@@ -132,7 +132,7 @@ export interface AnalyzeBatchResultOperationOutput {
 
 // @public
 export interface AnalyzeBatchResultOutput {
-    details: Array<AnalyzeBatchOperationDetailOutput>;
+    details?: Array<AnalyzeBatchOperationDetailOutput>;
     failedCount: number;
     skippedCount: number;
     succeededCount: number;
@@ -847,6 +847,40 @@ export interface CustomDocumentModelsDetailsOutput {
     limit: number;
 }
 
+// @public
+export interface DeleteAnalyzeBatchResult204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface DeleteAnalyzeBatchResultDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DeleteAnalyzeBatchResultParameters = RequestParameters;
+
+// @public
+export interface DeleteAnalyzeResult204Response extends HttpResponse {
+    // (undocumented)
+    status: "204";
+}
+
+// @public (undocumented)
+export interface DeleteAnalyzeResultDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type DeleteAnalyzeResultParameters = RequestParameters;
+
 // @public (undocumented)
 export interface DeleteClassifier204Headers {
     "x-ms-client-request-id"?: string;
@@ -970,6 +1004,7 @@ export interface DocumentClassifierDetailsOutput {
     description?: string;
     docTypes: Record<string, ClassifierDocumentTypeDetailsOutput>;
     expirationDateTime?: string;
+    readonly modifiedDateTime?: string;
     warnings?: Array<WarningOutput>;
 }
 
@@ -1119,6 +1154,7 @@ export interface DocumentModelDetailsOutput {
     readonly docTypes?: Record<string, DocumentTypeDetailsOutput>;
     readonly expirationDateTime?: string;
     modelId: string;
+    readonly modifiedDateTime?: string;
     split?: SplitModeOutput;
     tags?: Record<string, string>;
     readonly trainingHours?: number;
@@ -1278,6 +1314,7 @@ export type FontWeightOutput = string;
 
 // @public (undocumented)
 export interface GetAnalyzeBatchResult {
+    delete(options?: DeleteAnalyzeBatchResultParameters): StreamableMethod<DeleteAnalyzeBatchResult204Response | DeleteAnalyzeBatchResultDefaultResponse>;
     get(options?: GetAnalyzeBatchResultParameters): StreamableMethod<GetAnalyzeBatchResult200Response | GetAnalyzeBatchResultDefaultResponse>;
 }
 
@@ -1302,6 +1339,7 @@ export type GetAnalyzeBatchResultParameters = RequestParameters;
 
 // @public (undocumented)
 export interface GetAnalyzeResult {
+    delete(options?: DeleteAnalyzeResultParameters): StreamableMethod<DeleteAnalyzeResult204Response | DeleteAnalyzeResultDefaultResponse>;
     get(options?: GetAnalyzeResultParameters): StreamableMethod<GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse>;
 }
 
@@ -1818,6 +1856,9 @@ export function isUnexpected(response: GetResourceInfo200Response | GetResourceI
 export function isUnexpected(response: GetAnalyzeResult200Response | GetAnalyzeResultDefaultResponse): response is GetAnalyzeResultDefaultResponse;
 
 // @public (undocumented)
+export function isUnexpected(response: DeleteAnalyzeResult204Response | DeleteAnalyzeResultDefaultResponse): response is DeleteAnalyzeResultDefaultResponse;
+
+// @public (undocumented)
 export function isUnexpected(response: GetAnalyzeResultPdf200Response | GetAnalyzeResultPdfDefaultResponse): response is GetAnalyzeResultPdfDefaultResponse;
 
 // @public (undocumented)
@@ -1833,7 +1874,13 @@ export function isUnexpected(response: AnalyzeDocument202Response | AnalyzeDocum
 export function isUnexpected(response: GetAnalyzeBatchResult200Response | GetAnalyzeBatchResultDefaultResponse): response is GetAnalyzeBatchResultDefaultResponse;
 
 // @public (undocumented)
+export function isUnexpected(response: DeleteAnalyzeBatchResult204Response | DeleteAnalyzeBatchResultDefaultResponse): response is DeleteAnalyzeBatchResultDefaultResponse;
+
+// @public (undocumented)
 export function isUnexpected(response: AnalyzeBatchDocuments202Response | AnalyzeBatchDocumentsLogicalResponse | AnalyzeBatchDocumentsDefaultResponse): response is AnalyzeBatchDocumentsDefaultResponse;
+
+// @public (undocumented)
+export function isUnexpected(response: ListAnalyzeBatchResults200Response | ListAnalyzeBatchResultsDefaultResponse): response is ListAnalyzeBatchResultsDefaultResponse;
 
 // @public (undocumented)
 export function isUnexpected(response: GetModel200Response | GetModelDefaultResponse): response is GetModelDefaultResponse;
@@ -1885,6 +1932,30 @@ export function isUnexpected(response: CopyClassifierTo202Response | CopyClassif
 
 // @public
 export type LengthUnitOutput = string;
+
+// @public (undocumented)
+export interface ListAnalyzeBatchResults {
+    get(options?: ListAnalyzeBatchResultsParameters): StreamableMethod<ListAnalyzeBatchResults200Response | ListAnalyzeBatchResultsDefaultResponse>;
+}
+
+// @public
+export interface ListAnalyzeBatchResults200Response extends HttpResponse {
+    // (undocumented)
+    body: PagedAnalyzeBatchResultOperationOutput;
+    // (undocumented)
+    status: "200";
+}
+
+// @public (undocumented)
+export interface ListAnalyzeBatchResultsDefaultResponse extends HttpResponse {
+    // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
+    status: string;
+}
+
+// @public (undocumented)
+export type ListAnalyzeBatchResultsParameters = RequestParameters;
 
 // @public (undocumented)
 export interface ListClassifiers {
@@ -2037,6 +2108,9 @@ export type OperationKindOutput = string;
 export type OperationStatusOutput = string;
 
 // @public
+export type PagedAnalyzeBatchResultOperationOutput = Paged<AnalyzeBatchResultOperationOutput>;
+
+// @public
 export type PagedDocumentClassifierDetailsOutput = Paged<DocumentClassifierDetailsOutput>;
 
 // @public
@@ -2064,6 +2138,13 @@ export interface PagingOptions<TResponse> {
 export type ParagraphRoleOutput = string;
 
 // @public
+export function parseOperationIdFromResponse(initialResponse: {
+    headers: {
+        "operation-location": string;
+    };
+}): string;
+
+// @public
 export interface ResourceDetailsOutput {
     customDocumentModels: CustomDocumentModelsDetailsOutput;
 }
@@ -2079,6 +2160,7 @@ export interface Routes {
     (path: "/documentModels/{modelId}:analyze", modelId: string): AnalyzeDocumentFromStream;
     (path: "/documentModels/{modelId}/analyzeBatchResults/{resultId}", modelId: string, resultId: string): GetAnalyzeBatchResult;
     (path: "/documentModels/{modelId}:analyzeBatch", modelId: string): AnalyzeBatchDocuments;
+    (path: "/documentModels/{modelId}/analyzeBatchResults", modelId: string): ListAnalyzeBatchResults;
     (path: "/documentModels/{modelId}", modelId: string): GetModel;
     (path: "/documentModels:build"): BuildModel;
     (path: "/documentModels:compose"): ComposeModel;
