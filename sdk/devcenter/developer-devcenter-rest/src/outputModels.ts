@@ -1,8 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Paged } from "@azure/core-paging";
 import type { ErrorModel } from "@azure-rest/core-client";
+
+/** Paged collection of Project items */
+export interface PagedProjectOutput {
+  /** The Project items on this page */
+  value: Array<ProjectOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
 
 /** Project details. */
 export interface ProjectOutput {
@@ -41,6 +48,14 @@ export interface OperationStatusOutput {
   properties?: any;
   /** Operation Error message. */
   error?: ErrorModel;
+}
+
+/** Paged collection of Pool items */
+export interface PagedPoolOutput {
+  /** The Pool items on this page */
+  value: Array<PoolOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** A pool of Dev Boxes. */
@@ -141,6 +156,14 @@ export interface StopOnDisconnectConfigurationOutput {
   gracePeriodMinutes?: number;
 }
 
+/** Paged collection of DevBox items */
+export interface PagedDevBoxOutput {
+  /** The DevBox items on this page */
+  value: Array<DevBoxOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** A Dev Box. */
 export interface DevBoxOutput {
   /** Display name for the Dev Box. */
@@ -208,6 +231,14 @@ export interface DevBoxOutput {
   localAdministrator?: LocalAdminStatusOutput;
 }
 
+/** Paged collection of Schedule items */
+export interface PagedScheduleOutput {
+  /** The Schedule items on this page */
+  value: Array<ScheduleOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** A Schedule to execute action. */
 export interface ScheduleOutput {
   /** Display name for the Schedule. */
@@ -238,6 +269,14 @@ export interface RemoteConnectionOutput {
   rdpConnectionUrl?: string;
 }
 
+/** Paged collection of DevBoxAction items */
+export interface PagedDevBoxActionOutput {
+  /** The DevBoxAction items on this page */
+  value: Array<DevBoxActionOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** An action which will take place on a Dev Box. */
 export interface DevBoxActionOutput {
   /** The name of the action. */
@@ -262,6 +301,14 @@ export interface DevBoxNextActionOutput {
   scheduledTime: string;
 }
 
+/** Paged collection of DevBoxActionDelayResult items */
+export interface PagedDevBoxActionDelayResultOutput {
+  /** The DevBoxActionDelayResult items on this page */
+  value: Array<DevBoxActionDelayResultOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** The action delay result. */
 export interface DevBoxActionDelayResultOutput {
   /** The name of the action. */
@@ -276,6 +323,14 @@ export interface DevBoxActionDelayResultOutput {
   action?: DevBoxActionOutput;
   /** Information about the error that occurred. Only populated on error. */
   error?: ErrorModel;
+}
+
+/** Paged collection of Environment items */
+export interface PagedEnvironmentOutput {
+  /** The Environment items on this page */
+  value: Array<EnvironmentOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** Properties of an environment. */
@@ -304,10 +359,26 @@ export interface EnvironmentOutput {
   readonly error?: ErrorModel;
 }
 
+/** Paged collection of Catalog items */
+export interface PagedCatalogOutput {
+  /** The Catalog items on this page */
+  value: Array<CatalogOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** A catalog. */
 export interface CatalogOutput {
   /** Name of the catalog. */
   readonly name: string;
+}
+
+/** Paged collection of EnvironmentDefinition items */
+export interface PagedEnvironmentDefinitionOutput {
+  /** The EnvironmentDefinition items on this page */
+  value: Array<EnvironmentDefinitionOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /** An environment definition. */
@@ -356,6 +427,14 @@ export interface EnvironmentDefinitionParameterOutput {
   allowed?: string[];
 }
 
+/** Paged collection of EnvironmentType items */
+export interface PagedEnvironmentTypeOutput {
+  /** The EnvironmentType items on this page */
+  value: Array<EnvironmentTypeOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** Properties of an environment type. */
 export interface EnvironmentTypeOutput {
   /** Name of the environment type. */
@@ -374,12 +453,8 @@ export interface EnvironmentTypeOutput {
   status: EnvironmentTypeEnableStatusOutput;
 }
 
-/** Paged collection of Project items */
-export type PagedProjectOutput = Paged<ProjectOutput>;
 /** Alias for OperationStateOutput */
 export type OperationStateOutput = string;
-/** Paged collection of Pool items */
-export type PagedPoolOutput = Paged<PoolOutput>;
 /** Alias for OsTypeOutput */
 export type OsTypeOutput = string;
 /** Alias for SkuNameOutput */
@@ -392,37 +467,21 @@ export type LocalAdminStatusOutput = string;
 export type StopOnDisconnectEnableStatusOutput = string;
 /** Alias for PoolHealthStatusOutput */
 export type PoolHealthStatusOutput = string;
-/** Paged collection of DevBox items */
-export type PagedDevBoxOutput = Paged<DevBoxOutput>;
 /** Alias for DevBoxProvisioningStateOutput */
 export type DevBoxProvisioningStateOutput = string;
 /** Alias for PowerStateOutput */
 export type PowerStateOutput = string;
-/** Paged collection of Schedule items */
-export type PagedScheduleOutput = Paged<ScheduleOutput>;
 /** Alias for ScheduledTypeOutput */
 export type ScheduledTypeOutput = string;
 /** Alias for ScheduledFrequencyOutput */
 export type ScheduledFrequencyOutput = string;
-/** Paged collection of DevBoxAction items */
-export type PagedDevBoxActionOutput = Paged<DevBoxActionOutput>;
 /** Alias for DevBoxActionTypeOutput */
 export type DevBoxActionTypeOutput = string;
-/** Paged collection of DevBoxActionDelayResult items */
-export type PagedDevBoxActionDelayResultOutput = Paged<DevBoxActionDelayResultOutput>;
 /** Alias for DevBoxActionDelayResultStatusOutput */
 export type DevBoxActionDelayResultStatusOutput = string;
-/** Paged collection of Environment items */
-export type PagedEnvironmentOutput = Paged<EnvironmentOutput>;
 /** Alias for EnvironmentProvisioningStateOutput */
 export type EnvironmentProvisioningStateOutput = string;
-/** Paged collection of Catalog items */
-export type PagedCatalogOutput = Paged<CatalogOutput>;
-/** Paged collection of EnvironmentDefinition items */
-export type PagedEnvironmentDefinitionOutput = Paged<EnvironmentDefinitionOutput>;
 /** Alias for ParameterTypeOutput */
 export type ParameterTypeOutput = string;
-/** Paged collection of EnvironmentType items */
-export type PagedEnvironmentTypeOutput = Paged<EnvironmentTypeOutput>;
 /** Alias for EnvironmentTypeEnableStatusOutput */
 export type EnvironmentTypeEnableStatusOutput = string;

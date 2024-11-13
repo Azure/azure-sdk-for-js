@@ -25,7 +25,7 @@ export default function createClient(
   { apiVersion = "2023-04-01", ...options }: AzureDeveloperDevCenterClientOptions = {},
 ): AzureDeveloperDevCenterClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}`;
-  const userAgentInfo = `azsdk-js-developer-devcenter-rest/1.0.0`;
+  const userAgentInfo = `azsdk-js-developer-devcenter-rest/1.0.1`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -52,9 +52,8 @@ export default function createClient(
       // Append one if there is no apiVersion and we have one at client options
       const url = new URL(req.url);
       if (!url.searchParams.get("api-version") && apiVersion) {
-        req.url = `${req.url}${
-          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
-        }api-version=${apiVersion}`;
+        req.url = `${req.url}${Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+          }api-version=${apiVersion}`;
       }
 
       return next(req);

@@ -18898,7 +18898,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-kRnm7dSlOcUN3BpxBqb6K3cAum4jdmmU4BdQ4o+BaHcS7s6yWImkZL4vKz0ELMgUSCSLu4w2FqV5XinSAg4eeA==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-24JG0UquvqCfpD2fHYVg31EE7Zu+1LadlqbxK1oIhPj3dnaQ152m8T++HHMAkFzfbNdaH/1yqWjLTpBVotKMXA==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -19996,17 +19996,19 @@ packages:
     dev: false
 
   file:projects/developer-devcenter.tgz:
-    resolution: {integrity: sha512-Udy5L39qvC1bAYmkcYQ62Pj7frKtq+q6xGml9ppF+yBSMoew6HHzZVHqMi3kExEbqZX4uPABBG5nEbPdd/qDYA==, tarball: file:projects/developer-devcenter.tgz}
+    resolution: {integrity: sha512-s7vncX7737PoGCpPxsOydkdWLtXc9/DjrHO8dhCqnGbcX8D+ANTtQ+1wqqcedAf0ViX6BkPpJCiawMZbnfhY6Q==, tarball: file:projects/developer-devcenter.tgz}
     name: '@rush-temp/developer-devcenter'
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 3.0.0
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
       '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       dotenv: 16.4.5
-      eslint: 9.14.0
+      eslint: 8.57.1
       playwright: 1.48.2
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
@@ -20015,7 +20017,6 @@ packages:
       - '@vitest/ui'
       - bufferutil
       - happy-dom
-      - jiti
       - jsdom
       - less
       - lightningcss
@@ -21182,7 +21183,7 @@ packages:
     dev: false
 
   file:projects/maps-render.tgz:
-    resolution: {integrity: sha512-DrEwi8UQP65AkDO5eQx9LbwzEGtngMa8+aoOuoEZ3XdfLM5te0RH2g1B2ugosRq7lbjmRpuex6xBKZE3tQw7Yw==, tarball: file:projects/maps-render.tgz}
+    resolution: {integrity: sha512-UsWhK4PLe8c4SueDX/MzVuOtEwAHCNrHYZHGSwEJ8nFvkT5qBQS0E6v0p87R+7dNE+2hUrXoXV2pYwTbM7NeMg==, tarball: file:projects/maps-render.tgz}
     name: '@rush-temp/maps-render'
     version: 0.0.0
     dependencies:

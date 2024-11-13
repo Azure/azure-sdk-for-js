@@ -13,8 +13,6 @@ import type { ErrorModel } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
 import type { OperationState } from '@azure/core-lro';
-import type { Paged } from '@azure/core-paging';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
@@ -661,7 +659,7 @@ export function getLongRunningPoller<TResult extends CreateOrReplaceEnvironmentL
 export function getLongRunningPoller<TResult extends DeleteEnvironmentLogicalResponse | DeleteEnvironmentDefaultResponse>(client: Client, initialResponse: DeleteEnvironment202Response | DeleteEnvironment204Response | DeleteEnvironmentDefaultResponse, options?: CreateHttpPollerOptions<TResult, OperationState<TResult>>): Promise<SimplePollerLike<OperationState<TResult>, TResult>>;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -1363,34 +1361,76 @@ export type OsType = string;
 export type OsTypeOutput = string;
 
 // @public
-export type PagedCatalogOutput = Paged<CatalogOutput>;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
 
 // @public
-export type PagedDevBoxActionDelayResultOutput = Paged<DevBoxActionDelayResultOutput>;
+export interface PagedCatalogOutput {
+    nextLink?: string;
+    value: Array<CatalogOutput>;
+}
 
 // @public
-export type PagedDevBoxActionOutput = Paged<DevBoxActionOutput>;
+export interface PagedDevBoxActionDelayResultOutput {
+    nextLink?: string;
+    value: Array<DevBoxActionDelayResultOutput>;
+}
 
 // @public
-export type PagedDevBoxOutput = Paged<DevBoxOutput>;
+export interface PagedDevBoxActionOutput {
+    nextLink?: string;
+    value: Array<DevBoxActionOutput>;
+}
 
 // @public
-export type PagedEnvironmentDefinitionOutput = Paged<EnvironmentDefinitionOutput>;
+export interface PagedDevBoxOutput {
+    nextLink?: string;
+    value: Array<DevBoxOutput>;
+}
 
 // @public
-export type PagedEnvironmentOutput = Paged<EnvironmentOutput>;
+export interface PagedEnvironmentDefinitionOutput {
+    nextLink?: string;
+    value: Array<EnvironmentDefinitionOutput>;
+}
 
 // @public
-export type PagedEnvironmentTypeOutput = Paged<EnvironmentTypeOutput>;
+export interface PagedEnvironmentOutput {
+    nextLink?: string;
+    value: Array<EnvironmentOutput>;
+}
 
 // @public
-export type PagedPoolOutput = Paged<PoolOutput>;
+export interface PagedEnvironmentTypeOutput {
+    nextLink?: string;
+    value: Array<EnvironmentTypeOutput>;
+}
 
 // @public
-export type PagedProjectOutput = Paged<ProjectOutput>;
+export interface PagedPoolOutput {
+    nextLink?: string;
+    value: Array<PoolOutput>;
+}
 
 // @public
-export type PagedScheduleOutput = Paged<ScheduleOutput>;
+export interface PagedProjectOutput {
+    nextLink?: string;
+    value: Array<ProjectOutput>;
+}
+
+// @public
+export interface PagedScheduleOutput {
+    nextLink?: string;
+    value: Array<ScheduleOutput>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
