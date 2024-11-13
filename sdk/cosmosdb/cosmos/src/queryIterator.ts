@@ -304,6 +304,13 @@ export class QueryIterator<T> {
           this.fetchAllTempResources.push(result);
         }
       }
+      if (options && options.ruCapPerOperation) {
+        const ruConsumed = await ruConsumedManager.getRUConsumed();
+        if (ruConsumed * 2 > options.ruCapPerOperation) {
+          ruConsumedManager = new RUConsumedManager();
+          options.ruCapPerOperation = options.ruCapPerOperation - ruConsumed;
+        }
+      }
     }
     return new FeedResponse(
       this.fetchAllTempResources,
