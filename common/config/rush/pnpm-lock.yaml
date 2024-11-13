@@ -10828,6 +10828,12 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript@5.6.3:
+    resolution: {integrity: sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
   /ua-parser-js@0.7.39:
     resolution: {integrity: sha512-IZ6acm6RhQHNibSt7+c09hhvsKy9WUr4DVbeq9U8o71qxyYtJpQeDxQnMrVqnIFMLcQjHO0I9wgfO2vIahht4w==}
     hasBin: true
@@ -11679,30 +11685,30 @@ packages:
     dev: false
 
   file:projects/ai-document-intelligence.tgz:
-    resolution: {integrity: sha512-zURjI8KO009BcdIDTFJo5RtJ5DbL6mfI7ZODOyLGsBvEvJLc+V84Eu6HszTN6lVFifOv+9ImSFYsSXxQOhV2/A==, tarball: file:projects/ai-document-intelligence.tgz}
+    resolution: {integrity: sha512-PQajdSlh09dU/jwAC3z4O/rlZS87SBHGBN8+dXJRFibq+h/cJUrDi9ECzAs+vQzTNTg0vYupfsIJWGagIQfuvg==, tarball: file:projects/ai-document-intelligence.tgz}
     name: '@rush-temp/ai-document-intelligence'
     version: 0.0.0
     dependencies:
       '@azure/identity': 4.4.1
       '@microsoft/api-extractor': 7.47.9(@types/node@18.19.54)
       '@types/node': 18.19.54
-      '@vitest/browser': 2.1.1(playwright@1.47.2)(typescript@5.6.2)(vitest@2.1.1)
+      '@vitest/browser': 2.1.1(playwright@1.47.2)(typescript@5.5.4)(vitest@2.1.1)
       '@vitest/coverage-istanbul': 2.1.1(vitest@2.1.1)
       dotenv: 16.4.5
-      eslint: 9.11.1
+      eslint: 8.57.1
       mkdirp: 3.0.1
       playwright: 1.47.2
       prettier: 3.3.3
       rimraf: 5.0.10
+      tshy: 1.18.0
       tslib: 2.7.0
-      typescript: 5.6.2
+      typescript: 5.5.4
       vitest: 2.1.1(@types/node@18.19.54)(@vitest/browser@2.1.1)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
       - bufferutil
       - happy-dom
-      - jiti
       - jsdom
       - less
       - lightningcss
@@ -21273,7 +21279,7 @@ packages:
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.6.2
+      '@_ts/max': /typescript@5.6.3
       '@_ts/min': /typescript@4.2.4
       '@azure/identity': 4.4.1
       '@eslint/js': 9.11.1
