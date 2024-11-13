@@ -4,7 +4,7 @@
 
 import { Client, RequestParameters } from "@azure-rest/core-client";
 import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadRunOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
-import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, DeleteFileParameters, GetFileContentParameters, GetFileParameters, GetRunParameters, ListAgentsQueryParamProperties, ListFilesParameters, ListMessagesParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateMessageParameters, UpdateRunParameters, UploadFileParameters } from "../generated/src/parameters.js";
+import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListAgentsQueryParamProperties, ListFilesParameters, ListMessagesParameters, ListRunsQueryParamProperties, SubmitToolOutputsToRunParameters, UpdateMessageParameters, UploadFileParameters } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
@@ -13,15 +13,11 @@ import { createMessage, listMessages, updateMessage } from "./messages.js";
 import { AgentThreadCreationOptions, CreateAgentOptions, CreateAndRunThreadOptions, CreateRunOptions, ThreadMessageOptions, UpdateAgentOptions, UpdateAgentThreadOptions } from "../generated/src/models.js";
 import { createRunStreaming, createThreadAndRunStreaming } from "./streaming.js";
 import { AgentStreamEventMessage } from "./streamingModels.js";
+import { OptionalRequestParameters, UpdateRunOptions } from "./inputOutputs.js";
 
 export interface AgentsOperations {
   /** Creates a new agent. */
   createAgent: (
-    options: CreateAgentOptions,
-  ) => Promise<AgentOutput>;
-
-  /** Creates a new agent. */
-  createAgentAlternative: (
     model: string,
     options?: Omit<CreateAgentOptions, "model">,
   ) => Promise<AgentOutput>;
@@ -69,24 +65,28 @@ export interface AgentsOperations {
   /** Creates and starts a new run of the specified thread using the specified agent. */
   createRun: (
     threadId: string,
-    options: CreateRunParameters,
+    assistantId: string,
+    options?: Omit<CreateRunOptions, "assistant_id">,
+    requestParams?: OptionalRequestParameters
   ) => Promise<ThreadRunOutput>;
   /** Gets a list of runs for a specified thread. */
   listRuns: (
     threadId: string,
-    options?: ListRunsParameters,
+    options?: ListRunsQueryParamProperties,
+    requestParams?: OptionalRequestParameters
   ) => Promise<OpenAIPageableListOfThreadRunOutput>;
   /** Gets an existing run from an existing thread. */
   getRun: (
     threadId: string,
     runId: string,
-    options?: GetRunParameters,
+    requestParams?: OptionalRequestParameters,
   ) => Promise<ThreadRunOutput>;
   /** Modifies an existing thread run. */
   updateRun: (
     threadId: string,
     runId: string,
-    options: UpdateRunParameters,
+    options?: UpdateRunOptions,
+    requestParams?: OptionalRequestParameters,
   ) => Promise<ThreadRunOutput>;
   /** Submits outputs from tools as requested by tool calls in a run. Runs that need submitted tool outputs will have a status of 'requires_action' with a required_action.type of 'submit_tool_outputs'. */
   submitToolOutputsToRun: (
@@ -98,18 +98,20 @@ export interface AgentsOperations {
   cancelRun: (
     threadId: string,
     runId: string,
-    options?: CancelRunParameters,
+    requestParams?: OptionalRequestParameters,
   ) => Promise<ThreadRunOutput>;
   /** Creates a new thread and immediately starts a run of that thread. */
   createThreadAndRun: (
-    options: CreateThreadAndRunParameters,
+    assistantId: string,
+    options?: Omit<CreateAndRunThreadOptions, "assistant_id">,
+    requestParams?: OptionalRequestParameters
   ) => Promise<ThreadRunOutput>;
 
   /** create a new thread and immediately start a run of that thread and stream */
-  createRunStreaming: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: RequestParameters) => AsyncIterable<AgentStreamEventMessage>;
+  createRunStreaming: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => AsyncIterable<AgentStreamEventMessage>;
 
   /** create a new thread and immediately start a run of that thread and stream */
-  createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: RequestParameters) => AsyncIterable<AgentStreamEventMessage>;
+  createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => AsyncIterable<AgentStreamEventMessage>;
 
   /** Creates a new message on a specified thread. */
   createMessage: (
@@ -155,10 +157,8 @@ export interface AgentsOperations {
 
 function getAgents(context: Client): AgentsOperations {
   return {
-    createAgentAlternative: (model: string, options?: Omit<CreateAgentOptions, "model">) =>
+    createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">) =>
       createAgent(context, { body: { ...options, model } }),
-    createAgent: (options: CreateAgentOptions) =>
-      createAgent(context, { body: options }),
     listAgents: (options?: ListAgentsQueryParamProperties) =>
       listAgents(context, { queryParameters: options as Record<string, unknown> }),
     getAgent: (assistantId: string) =>
@@ -172,30 +172,32 @@ function getAgents(context: Client): AgentsOperations {
     ) => deleteAgent(context, assistantId),
 
     createThread: (options?: AgentThreadCreationOptions, requestParams?: RequestParameters) =>
-      createThread(context, {...requestParams, body: {...options}}),
+      createThread(context, { ...requestParams, body: { ...options } }),
     getThread: (threadId: string, requestParams?: RequestParameters) =>
       getThread(context, threadId, requestParams),
     updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: RequestParameters) =>
-      updateThread(context, threadId, {...requestParams, body: {...options}}),
+      updateThread(context, threadId, { ...requestParams, body: { ...options } }),
     deleteThread: (threadId: string, requestParams?: RequestParameters) =>
       deleteThread(context, threadId, requestParams),
 
-    createRun: (threadId: string, options: CreateRunParameters) =>
-      createRun(context, threadId, options),
-    listRuns: (threadId: string, options?: ListRunsParameters) =>
-      listRuns(context, threadId, options),
-    getRun: (threadId: string, runId: string, options?: GetRunParameters) =>
-      getRun(context, threadId, runId, options),
-    updateRun: (threadId: string, runId: string, options: UpdateRunParameters) =>
-      updateRun(context, threadId, runId, options),
+    createRun: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: RequestParameters) =>
+      createRun(context, threadId, { ...requestParams, body: { ...options, assistant_id: assistantId,  } }),
+    listRuns: (threadId: string, options?: ListRunsQueryParamProperties, requestParams?: RequestParameters) =>
+      listRuns(context, threadId, { ...requestParams, body: options }),
+    getRun: (threadId: string, runId: string, requestParams?: RequestParameters) =>
+      getRun(context, threadId, runId, requestParams),
+    updateRun: (threadId: string, runId: string, options?: UpdateRunOptions, requestParams?: RequestParameters) =>
+      updateRun(context, threadId, runId, { ...requestParams, body: options ?? {} }),
     submitToolOutputsToRun: (threadId: string, runId: string, options: SubmitToolOutputsToRunParameters) =>
       submitToolOutputsToRun(context, threadId, runId, options),
-    cancelRun: (threadId: string, runId: string, options?: CancelRunParameters) =>
-      cancelRun(context, threadId, runId, options),
-    createThreadAndRun: (options: CreateThreadAndRunParameters) =>
-      createThreadAndRun(context, options),
+    cancelRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) =>
+      cancelRun(context, threadId, runId, requestParams),
+    createThreadAndRun: ( assistantId: string,
+      options?: Omit<CreateAndRunThreadOptions, "assistant_id">,
+      requestParams?: OptionalRequestParameters) =>
+      createThreadAndRun(context, { ...requestParams, body: { ...options, assistant_id: assistantId } }),
     createRunStreaming: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: RequestParameters) =>
-      createRunStreaming(context, threadId, {...requestParams, body: { ...options, assistant_id: assistantId } }),
+      createRunStreaming(context, threadId, { ...requestParams, body: { ...options, assistant_id: assistantId } }),
     createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: RequestParameters) =>
       createThreadAndRunStreaming(context, { ...requestParams, body: { ...options, assistant_id: assistantId } }),
     createMessage: (threadId: string, options: ThreadMessageOptions) =>
