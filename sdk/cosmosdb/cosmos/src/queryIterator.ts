@@ -101,7 +101,7 @@ export class QueryIterator<T> {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
-          await this.createExecutionContext();
+          await this.createExecutionContext(diagnosticNode);
           try {
             response = await this.queryExecutionContext.fetchMore(diagnosticNode);
           } catch (queryError: any) {

@@ -97,7 +97,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       await this.fetchMoreInternal(diagnosticNode, nextItemRespHeaders);
     }
 
-    if (this.buffer.length > 0) {
+    if (this.state === HybridQueryExecutionContextBaseStates.draining && this.buffer.length > 0) {
       return this.drainOne(nextItemRespHeaders);
     } else {
       return this.done(nextItemRespHeaders);
@@ -226,11 +226,10 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private applySkipAndTakeToBuffer(): void {
     const { skip, take } = this.partitionedQueryExecutionInfo.hybridSearchQueryInfo;
     if (skip) {
-      this.buffer = this.buffer.slice(skip);
+      this.buffer = skip >= this.buffer.length ? [] : this.buffer.slice(skip);
     }
-
     if (take) {
-      this.buffer = this.buffer.slice(0, take);
+      this.buffer = take <= 0 ? [] : this.buffer.slice(0, take);
     }
   }
 
@@ -397,7 +396,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   ): QueryInfo[] {
     return componentQueryInfos.map((queryInfo) => {
       if (!queryInfo.hasNonStreamingOrderBy) {
-        throw new Error("The component query should a non streaming order by");
+        throw new Error("The component query must have a non-streaming order by clause.");
       }
       return {
         ...queryInfo,
