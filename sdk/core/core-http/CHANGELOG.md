@@ -1,14 +1,10 @@
 # Release History
 
-## 3.0.5 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
+## 3.0.5 (2024-11-13)
 
 ### Other Changes
+
+- Add deprecation note to README.
 
 ## 3.0.4 (2023-11-14)
 
