@@ -410,7 +410,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       !globalStats.documentCount ||
       !Array.isArray(globalStats.fullTextStatistics)
     ) {
-      throw new Error("Invalid globalStats object provided.");
+      throw new Error("GlobalStats validation failed");
     }
 
     // Replace total document count
