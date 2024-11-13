@@ -3,13 +3,13 @@
 
 import { Client, RequestParameters } from "@azure-rest/core-client";
 import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadRunOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
-import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, GetRunParameters, ListAgentsQueryParamProperties, ListFilesQueryParamProperties, ListMessagesParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateMessageParameters, UpdateRunParameters, UploadFileParameters } from "../generated/src/parameters.js";
+import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, GetRunParameters, ListAgentsQueryParamProperties, ListMessagesParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateMessageParameters, UpdateRunParameters } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
 import { cancelRun, createRun, createThreadAndRun, getRun, listRuns, submitToolOutputsToRun, updateRun } from "./runs.js";
 import { createMessage, listMessages, updateMessage } from "./messages.js";
-import { AgentThreadCreationOptions, CreateAgentOptions, CreateAndRunThreadOptions, CreateRunOptions, ThreadMessageOptions, UpdateAgentOptions, UpdateAgentThreadOptions } from "../generated/src/models.js";
+import { AgentThreadCreationOptions, CreateAgentOptions, CreateAndRunThreadOptions, CreateRunOptions, FilePurpose, ThreadMessageOptions, UpdateAgentOptions, UpdateAgentThreadOptions } from "../generated/src/models.js";
 import { createRunStreaming, createThreadAndRunStreaming } from "./streaming.js";
 import { AgentStreamEventMessage } from "./streamingModels.js";
 
@@ -129,12 +129,11 @@ export interface AgentsOperations {
 
   /** Gets a list of previously uploaded files. */
   listFiles: (
-    options?: ListFilesQueryParamProperties, requestParams?: RequestParameters
+    purpose?:FilePurpose, requestParams?: RequestParameters
   ) => Promise<FileListResponseOutput>;
   /** Uploads a file for use by other operations. */
-  uploadFile: (
-    options: UploadFileParameters, requestParams?: RequestParameters
-  ) => Promise<OpenAIFileOutput>;
+  uploadFile: (content: ReadableStream |NodeJS.ReadableStream, purpose:string,   fileName?: string,  requestParams?: RequestParameters   
+  ) => Promise<OpenAIFileOutput>
   /** Delete a previously uploaded file. */
   deleteFile: (
     fileId: string,
@@ -204,10 +203,13 @@ function getAgents(context: Client): AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options: UpdateMessageParameters) =>
       updateMessage(context, threadId, messageId, options),
 
-    listFiles: (options?: ListFilesQueryParamProperties, requestParams?: RequestParameters) =>
-      listFiles(context, {...requestParams, body: { ...options } }),
-    uploadFile: (options: UploadFileParameters) =>
-      uploadFile(context, options),
+    listFiles: (purpose?: FilePurpose, requestParams?: RequestParameters) =>
+      listFiles(context, {...requestParams, body: {purpose } }),
+    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, _purpose: string, fileName?: string, requestParams?: RequestParameters) =>
+      uploadFile(context, {
+        body: [{ name: "file" as const, body: content, filename: fileName, }], ...(requestParams as { [key: string]: any; }),
+        contentType: "multipart/form-data"
+      }),
     deleteFile: (fileId: string, requestParams?: RequestParameters) =>
       deleteFile(context, fileId, requestParams),
     getFile: (fileId: string, requestParams?: RequestParameters) =>
