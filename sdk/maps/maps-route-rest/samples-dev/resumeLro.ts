@@ -73,7 +73,7 @@ async function main(): Promise<void> {
   const initialPoller = await getLongRunningPoller(client, initialResponse);
   /* We can get a partial of the results first */
   /** Serialized the current operation for future poller */
-  const serializedState = await (await initialPoller).serialize();
+  const serializedState = await initialPoller.serialize();
   /** Use the `resumeFrom` option to rehydrate the previous operation */
   const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
     restoreFrom: serializedState,
