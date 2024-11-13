@@ -122,9 +122,11 @@ export default leafCommand(commandInfo, async () => {
 
   const apiExtractorJsonPath: string = path.join(projectInfo.path, "api-extractor.json");
   const extractorConfigObject = ExtractorConfig.loadFile(apiExtractorJsonPath);
+  // sub path exports extraction
+  const exports = buildExportConfiguration(packageJson);
   if (
     !extractorConfigObject.mainEntryPointFilePath ||
-    !extractorConfigObject?.dtsRollup?.publicTrimmedFilePath
+    (exports === undefined && !extractorConfigObject?.dtsRollup?.publicTrimmedFilePath)
   ) {
     log.error("Unexpected api-extractor configuration");
     return false;
@@ -137,8 +139,7 @@ export default leafCommand(commandInfo, async () => {
   log.debug(`  reportTempFolder: ${extractorConfigObject.apiReport?.reportTempFolder}`);
 
   let succeed = true;
-  // sub path exports extraction
-  const exports = buildExportConfiguration(packageJson);
+
   if (exports !== undefined) {
     log.info("Detected subpath exports, extracting markdown for each subpath.");
     for (const exportEntry of exports) {
@@ -176,7 +177,6 @@ export default leafCommand(commandInfo, async () => {
 
       const updatedConfigObject: IConfigFile = {
         ...extractorConfigObject,
-        dtsRollup: { enabled: false }, // disable dtsRollup for ESM/tshy packages
         docModel: newDocModel,
         apiReport: newApiReport,
         mainEntryPointFilePath: exportEntry.mainEntryPointFilePath,
