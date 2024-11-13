@@ -3,14 +3,10 @@
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import { JobRouterClient } from "../../src/index.js";
 import { baseUri, generateToken } from "../public/utils/connection.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it } from "vitest";
 
-describe("[Mocked] JobRouterClient", async function () {
-  afterEach(function () {
-    vi.restoreAllMocks();
-  });
-
-  it("can instantiate", async function () {
+describe("[Mocked] JobRouterClient", async () => {
+  it("can instantiate", async () => {
     new JobRouterClient(baseUri, new AzureCommunicationTokenCredential(generateToken()));
   });
 });
