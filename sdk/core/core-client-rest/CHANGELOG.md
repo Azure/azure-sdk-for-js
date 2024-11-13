@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Allow dashes (`-`) in path parameter identifiers. PR [#31731](https://github.com/Azure/azure-sdk-for-js/pull/31731)
+
 ### Other Changes
 
 ## 2.3.1 (2024-10-10)
