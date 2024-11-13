@@ -1,12 +1,16 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0-beta.5 (2024-11-13)
+
+This release fixes a bug related to upload method and few Engineering Systems updates.
 
 ### Features Added
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+-Fixed a bug where the upload buffer and upload file methods were not awaited, which sometimes resulted in 404 errors in the web application.
 
 ### Other Changes
 
