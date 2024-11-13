@@ -28,13 +28,6 @@
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "unit-test-cpolicies:node": "dev-tool run test:vitest -- -testPattern 'test/**/classificationPolicies.spec.ts'",
-    "unit-test-dpolicies:node": "dev-tool run test:vitest -- -testPattern 'test/**/distributionPolicies.spec.ts'",
-    "unit-test-epolicies:node": "dev-tool run test:vitest -- -testPattern 'test/**/exceptionPolicies.spec.ts'",
-    "unit-test-jobs:node": "dev-tool run test:vitest -- -testPattern 'test/**/jobs.spec.ts'",
-    "unit-test-queues:node": "dev-tool run test:vitest -- -testPattern 'test/**/queues.spec.ts'",
-    "unit-test-scenarios:node": "dev-tool run test:vitest -- -testPattern 'test/**/scenarios/**.spec.ts'",
-    "unit-test-workers:node": "dev-tool run test:vitest -- -testPattern 'test/**/workers.spec.ts'",
     "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
     "update-snippets": "echo skipped"
