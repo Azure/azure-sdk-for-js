@@ -31,7 +31,7 @@ import type { CIInfo } from "./cIInfoProvider";
 import { CI_PROVIDERS } from "./cIInfoProvider";
 import { CIInfoProvider } from "./cIInfoProvider";
 import type { StorageUri } from "../model/storageUri";
-
+import { getReporterVersion } from "./utils";
 class ReporterUtils {
   private envVariables: EnvironmentVariables;
 
@@ -393,7 +393,7 @@ class ReporterUtils {
       },
       testType: Constants.TEST_TYPE,
       testSdkLanguage: Constants.TEST_SDK_LANGUAGE,
-      reporterPackageVersion: Constants.REPORTER_PACKAGE_VERSION,
+      reporterPackageVersion: getReporterVersion(),
     };
     return testRunConfig;
   }

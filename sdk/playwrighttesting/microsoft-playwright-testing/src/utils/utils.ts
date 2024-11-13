@@ -143,6 +143,12 @@ export const getPlaywrightVersion = (): string => {
   return process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]!;
 };
 
+export const getReporterVersion = (): string => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  const version = require("../../package.json").version;
+  return version;
+};
+
 export const getVersionInfo = (version: string): VersionInfo => {
   const regex = /^(\d+)(?:\.(\d+))?(?:\.(\d+))?/;
   const match = version.match(regex);
