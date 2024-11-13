@@ -8,7 +8,7 @@ import { createRecorder, createClient } from "./utils/recordedClient";
 import type { Context } from "mocha";
 import type { ContentSafetyClient, TextBlocklistItemOutput } from "../../src";
 import { isUnexpected, paginate } from "../../src";
-import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator, PageSettings } from "../../src/paginateHelper";
 import fs from "fs";
 import path from "path";
 import { isBrowser } from "@azure/core-util";

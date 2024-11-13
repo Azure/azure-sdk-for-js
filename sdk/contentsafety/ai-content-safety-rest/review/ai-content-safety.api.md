@@ -9,8 +9,6 @@ import type { ClientOptions } from '@azure-rest/core-client';
 import type { ErrorResponse } from '@azure-rest/core-client';
 import type { HttpResponse } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
-import type { Paged } from '@azure/core-paging';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import type { PathUncheckedResponse } from '@azure-rest/core-client';
 import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import type { RequestParameters } from '@azure-rest/core-client';
@@ -305,7 +303,7 @@ export interface DocumentInjectionAnalysisResultOutput {
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -505,10 +503,28 @@ export interface ListTextBlocklistsDefaultResponse extends HttpResponse {
 export type ListTextBlocklistsParameters = RequestParameters;
 
 // @public
-export type PagedTextBlocklistItemOutput = Paged<TextBlocklistItemOutput>;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
 
 // @public
-export type PagedTextBlocklistOutput = Paged<TextBlocklistOutput>;
+export interface PagedTextBlocklistItemOutput {
+    nextLink?: string;
+    value: Array<TextBlocklistItemOutput>;
+}
+
+// @public
+export interface PagedTextBlocklistOutput {
+    nextLink?: string;
+    value: Array<TextBlocklistOutput>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;

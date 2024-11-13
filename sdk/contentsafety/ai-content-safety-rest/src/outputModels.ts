@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Paged } from "@azure/core-paging";
-
 /** The image analysis response. */
 export interface AnalyzeImageResultOutput {
   /** Analysis result for categories. */
@@ -91,6 +89,14 @@ export interface TextBlocklistOutput {
   description?: string;
 }
 
+/** Paged collection of TextBlocklist items */
+export interface PagedTextBlocklistOutput {
+  /** The TextBlocklist items on this page */
+  value: Array<TextBlocklistOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** Item in a TextBlocklist. */
 export interface TextBlocklistItemOutput {
   /** The service will generate a BlocklistItemId, which will be a UUID. */
@@ -109,11 +115,15 @@ export interface AddOrUpdateTextBlocklistItemsResultOutput {
   blocklistItems: Array<TextBlocklistItemOutput>;
 }
 
+/** Paged collection of TextBlocklistItem items */
+export interface PagedTextBlocklistItemOutput {
+  /** The TextBlocklistItem items on this page */
+  value: Array<TextBlocklistItemOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /** Alias for ImageCategoryOutput */
 export type ImageCategoryOutput = string;
 /** Alias for TextCategoryOutput */
 export type TextCategoryOutput = string;
-/** Paged collection of TextBlocklist items */
-export type PagedTextBlocklistOutput = Paged<TextBlocklistOutput>;
-/** Paged collection of TextBlocklistItem items */
-export type PagedTextBlocklistItemOutput = Paged<TextBlocklistItemOutput>;
