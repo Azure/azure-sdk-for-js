@@ -21,6 +21,7 @@ This table shows the relationship between SDK versions and supported API version
 
 | SDK version  | Supported API version of service |
 | ------------ | -------------------------------- |
+| 1.0.0        | 2024-11-30                       |
 | 1.0.0-beta.3 | 2024-07-31-preview               |
 | 1.0.0-beta.2 | 2024-02-29-preview               |
 | 1.0.0-beta.1 | 2023-10-31-preview               |
@@ -154,6 +155,46 @@ console.log(result);
 //     contentFormat: 'text'
 //   }
 // }
+```
+
+### Batch analysis
+
+```ts
+import {
+  parseOperationIdFromResponse,
+  AnalyzeResultOperationOutput,
+  isUnexpected,
+} from "@azure-rest/ai-document-intelligence";
+
+// Analyze a batch of documents
+const initialResponse = await client
+  .path("/documentModels/{modelId}:analyzeBatch", model.modelId)
+  .post({
+    contentType: "application/json",
+    body: {
+      azureBlobSource: {
+        containerUrl: batchTrainingFilesContainerUrl(),
+      },
+      resultContainerUrl: batchTrainingFilesResultContainerUrl(),
+      resultPrefix: "result",
+    },
+  });
+console.log("initialResponse: ", initialResponse);
+
+if (isUnexpected(initialResponse)) {
+  throw initialResponse.body.error;
+}
+const operationId = parseOperationIdFromResponse(initialResponse);
+console.log("operationId: ", operationId);
+console.log("model id: ", model.modelId);
+
+// At a later time, you can retrieve the operation result using the operationId
+const batchModelId = "modelName10119";
+const operationId = "6fabe817-e8ec-4dac-af85-2d150e707faa";
+const output = await client
+  .path("/documentModels/{modelId}/analyzeResults/{resultId}", batchModelId, operationId)
+  .get();
+console.log(output);
 ```
 
 ### Markdown content format
