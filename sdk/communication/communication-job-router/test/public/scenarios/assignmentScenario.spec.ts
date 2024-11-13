@@ -8,19 +8,19 @@ import {
   getJobRequest,
   getQueueRequest,
   getWorkerRequest,
-} from "../utils/testData";
+} from "../utils/testData.js";
 import { assert } from "chai";
 import type {
   RouterJobAssignment,
   RouterJobOffer,
   JobRouterAdministrationClient,
   JobRouterClient,
-} from "../../../src";
+} from "../../../src/index.js";
 import type { Context } from "mocha";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { timeoutMs } from "../utils/constants";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { timeoutMs } from "../utils/constants.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { pollForJobAssignment, pollForJobOffer } from "../utils/polling";
+import { pollForJobAssignment, pollForJobOffer } from "../utils/polling.js";
 
 describe("JobRouterClient", function () {
   let client: JobRouterClient;
@@ -39,7 +39,7 @@ describe("JobRouterClient", function () {
   const { workerId, workerRequest } = getWorkerRequest(testRunId);
 
   describe("Assignment Scenario", function () {
-    this.beforeEach(async function (this: Context) {
+    this.beforeEach(async function (ctx) {
       ({ client, administrationClient, recorder } =
         await createRecordedRouterClientWithConnectionString(this));
 
@@ -56,7 +56,7 @@ describe("JobRouterClient", function () {
       await client.createWorker(workerId, { ...workerRequest, availableForOffers: true });
     });
 
-    this.afterEach(async function (this: Context) {
+    this.afterEach(async function (ctx) {
       await client.deleteWorker(workerId);
       await client.deleteJob(jobId);
       await administrationClient.deleteClassificationPolicy(classificationPolicyId);

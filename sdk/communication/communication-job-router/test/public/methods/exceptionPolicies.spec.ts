@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { ExceptionPolicy, JobRouterAdministrationClient } from "../../../src";
+import type { ExceptionPolicy, JobRouterAdministrationClient } from "../../../src/index.js";
 import { assert } from "chai";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
 import type { Context } from "mocha";
-import { getExceptionPolicyRequest } from "../utils/testData";
-import { timeoutMs } from "../utils/constants";
+import { getExceptionPolicyRequest } from "../utils/testData.js";
+import { timeoutMs } from "../utils/constants.js";
 
 describe("JobRouterClient", function () {
   let administrationClient: JobRouterAdministrationClient;
@@ -18,12 +18,12 @@ describe("JobRouterClient", function () {
   const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(testRunId);
 
   describe("Exception Policy Operations", function () {
-    this.beforeEach(async function (this: Context) {
+    this.beforeEach(async function (ctx) {
       ({ administrationClient, recorder } =
         await createRecordedRouterClientWithConnectionString(this));
     });
 
-    this.afterEach(async function (this: Context) {
+    this.afterEach(async function (ctx) {
       if (!this.currentTest?.isPending() && recorder) {
         await recorder.stop();
       }

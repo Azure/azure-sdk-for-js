@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import type { JobRouterAdministrationClient, JobRouterClient } from "../../../src";
+import type { JobRouterAdministrationClient, JobRouterClient } from "../../../src/index.js";
 import type { Context } from "mocha";
 import {
   getClassificationPolicyCombined,
@@ -19,11 +19,11 @@ import {
   getQueueEnglish,
   getQueueFrench,
   getQueueRequest,
-} from "../utils/testData";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { timeoutMs } from "../utils/constants";
+} from "../utils/testData.js";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { timeoutMs } from "../utils/constants.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { pollForJobQueued, retry } from "../utils/polling";
+import { pollForJobQueued, retry } from "../utils/polling.js";
 
 describe("JobRouterClient", function () {
   let client: JobRouterClient;
@@ -47,7 +47,7 @@ describe("JobRouterClient", function () {
   }
 
   describe("Queueing Scenario", function () {
-    this.beforeEach(async function (this: Context) {
+    this.beforeEach(async function (ctx) {
       ({ client, administrationClient, recorder } =
         await createRecordedRouterClientWithConnectionString(this));
 
@@ -59,7 +59,7 @@ describe("JobRouterClient", function () {
       await administrationClient.createQueue(queueId, queueRequest);
     });
 
-    this.afterEach(async function (this: Context) {
+    this.afterEach(async function (ctx) {
       await retry(
         async () => {
           await administrationClient.deleteQueue(queueId);

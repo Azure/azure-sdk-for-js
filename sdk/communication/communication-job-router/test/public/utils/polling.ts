@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { JobRouterClient } from "../../../src/jobRouterClient";
-import type { RouterJob, RouterWorker, RouterJobAssignment, RouterJobOffer } from "../../../src";
+import type { JobRouterClient } from "../../../src/jobRouterClient.js";
+import type { RouterJob, RouterWorker, RouterJobAssignment, RouterJobOffer } from "../../../src/index.js";
 
 export async function pollForJobOffer(
   workerId: string,

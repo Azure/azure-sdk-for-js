@@ -4,15 +4,15 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import type { Context } from "mocha";
-import type { JobRouterAdministrationClient, JobRouterClient, RouterWorker } from "../../../src";
+import type { JobRouterAdministrationClient, JobRouterClient, RouterWorker } from "../../../src/index.js";
 import {
   getDistributionPolicyRequest,
   getExceptionPolicyRequest,
   getQueueRequest,
   getWorkerRequest,
-} from "../utils/testData";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { sleep, timeoutMs } from "../utils/constants";
+} from "../utils/testData.js";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { sleep, timeoutMs } from "../utils/constants.js";
 
 describe("JobRouterClient", function () {
   let client: JobRouterClient;
@@ -29,7 +29,7 @@ describe("JobRouterClient", function () {
 
   // Order matters (registration idempotency)
   describe("Worker Operations", function () {
-    this.beforeEach(async function (this: Context) {
+    this.beforeEach(async function (ctx) {
       ({ client, administrationClient, recorder } =
         await createRecordedRouterClientWithConnectionString(this));
 
@@ -42,7 +42,7 @@ describe("JobRouterClient", function () {
       await client.createWorker(workerId, workerRequest);
     });
 
-    this.afterEach(async function (this: Context) {
+    this.afterEach(async function (ctx) {
       await client.deleteWorker(workerId);
       await administrationClient.deleteQueue(queueId);
       await administrationClient.deleteExceptionPolicy(exceptionPolicyId);

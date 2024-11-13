@@ -6,7 +6,7 @@ import { isNode } from "@azure/core-util";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
 import type { Test } from "mocha";
-import { generateToken } from "../../public/utils/connection";
+import { generateToken } from "../../public/utils/connection.js";
 
 if (isNode) {
   dotenv.config();

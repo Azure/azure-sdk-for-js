@@ -4,11 +4,11 @@
 import * as dotenv from "dotenv";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-import { JobRouterAdministrationClient, JobRouterClient } from "../../../src";
+import { JobRouterAdministrationClient, JobRouterClient } from "../../../src/index.js";
 import type { Context } from "mocha";
 import { isNode } from "@azure/core-util";
-import type { JobRouterAdministrationClientOptions, JobRouterClientOptions } from "../../../src";
-import { createRecorder } from "./recordedClient";
+import type { JobRouterAdministrationClientOptions, JobRouterClientOptions } from "../../../src/index.js";
+import { createRecorder } from "./recordedClient.js";
 
 if (isNode) {
   dotenv.config();

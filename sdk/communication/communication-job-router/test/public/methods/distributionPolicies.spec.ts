@@ -4,10 +4,10 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import type { Context } from "mocha";
-import type { DistributionPolicy, JobRouterAdministrationClient } from "../../../src";
-import { getDistributionPolicyRequest } from "../utils/testData";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { timeoutMs } from "../utils/constants";
+import type { DistributionPolicy, JobRouterAdministrationClient } from "../../../src/index.js";
+import { getDistributionPolicyRequest } from "../utils/testData.js";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { timeoutMs } from "../utils/constants.js";
 
 describe("JobRouterClient", function () {
   let administrationClient: JobRouterAdministrationClient;
@@ -19,12 +19,12 @@ describe("JobRouterClient", function () {
     getDistributionPolicyRequest(testRunId);
 
   describe("Distribution Policy Operations", function () {
-    this.beforeEach(async function (this: Context) {
+    this.beforeEach(async function (ctx) {
       ({ administrationClient, recorder } =
         await createRecordedRouterClientWithConnectionString(this));
     });
 
-    this.afterEach(async function (this: Context) {
+    this.afterEach(async function (ctx) {
       if (!this.currentTest?.isPending() && recorder) {
         await recorder.stop();
       }

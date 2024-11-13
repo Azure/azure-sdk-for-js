@@ -3,8 +3,8 @@
 
 import sinon from "sinon";
 import { AzureCommunicationTokenCredential } from "@azure/communication-common";
-import { JobRouterClient } from "../../src";
-import { baseUri, generateToken } from "../public/utils/connection";
+import { JobRouterClient } from "../../src/index.js";
+import { baseUri, generateToken } from "../public/utils/connection.js";
 
 describe("[Mocked] JobRouterClient", async function () {
   afterEach(function () {

@@ -9,7 +9,7 @@ import type {
   JobRouterClient,
   RouterJob,
   UpdateJobOptions,
-} from "../../../src";
+} from "../../../src/index.js";
 import type { Context } from "mocha";
 import {
   getClassificationPolicyRequest,
@@ -17,10 +17,10 @@ import {
   getExceptionPolicyRequest,
   getJobRequest,
   getQueueRequest,
-} from "../utils/testData";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { sleep, timeoutMs } from "../utils/constants";
-import { pollForJobQueued, retry } from "../utils/polling";
+} from "../utils/testData.js";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { sleep, timeoutMs } from "../utils/constants.js";
+import { pollForJobQueued, retry } from "../utils/polling.js";
 
 describe("JobRouterClient", function () {
   let client: JobRouterClient;
@@ -48,7 +48,7 @@ describe("JobRouterClient", function () {
   }
 
   describe("Job Operations", function () {
-    this.beforeEach(async function (this: Context) {
+    this.beforeEach(async function (ctx) {
       ({ client, administrationClient, recorder } =
         await createRecordedRouterClientWithConnectionString(this));
 
@@ -64,7 +64,7 @@ describe("JobRouterClient", function () {
       );
     });
 
-    this.afterEach(async function (this: Context) {
+    this.afterEach(async function (ctx) {
       await retry(
         async () => {
           if (

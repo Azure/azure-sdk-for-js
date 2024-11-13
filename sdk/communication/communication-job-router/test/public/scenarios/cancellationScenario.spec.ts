@@ -7,14 +7,14 @@ import {
   getExceptionPolicyRequest,
   getJobRequest,
   getQueueRequest,
-} from "../utils/testData";
+} from "../utils/testData.js";
 import { assert } from "chai";
 import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { JobRouterAdministrationClient, JobRouterClient } from "../../../src";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { pollForJobCancelled, pollForJobQueued } from "../utils/polling";
-import { timeoutMs } from "../utils/constants";
+import type { JobRouterAdministrationClient, JobRouterClient } from "../../../src/index.js";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { pollForJobCancelled, pollForJobQueued } from "../utils/polling.js";
+import { timeoutMs } from "../utils/constants.js";
 
 describe("JobRouterClient", function () {
   let client: JobRouterClient;
@@ -33,7 +33,7 @@ describe("JobRouterClient", function () {
   const dispositionCode = `disposition-${testRunId}`;
 
   describe("Cancellation Scenario", function () {
-    this.beforeEach(async function (this: Context) {
+    this.beforeEach(async function (ctx) {
       ({ client, administrationClient, recorder } =
         await createRecordedRouterClientWithConnectionString(this));
 
@@ -49,7 +49,7 @@ describe("JobRouterClient", function () {
       );
     });
 
-    this.afterEach(async function (this: Context) {
+    this.afterEach(async function (ctx) {
       await client.deleteJob(jobId);
       await administrationClient.deleteClassificationPolicy(classificationPolicyId);
       await administrationClient.deleteQueue(queueId);
