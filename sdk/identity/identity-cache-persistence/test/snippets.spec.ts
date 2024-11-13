@@ -9,17 +9,17 @@ describe("snippets", function () {
   it("getting_started", function () {
     useIdentityPlugin(cachePersistencePlugin);
   });
-
+  // @ts-preserve-whitespace
   it("device_code_credential_example", async function () {
     const credential = new DeviceCodeCredential({
       tokenCachePersistenceOptions: {
         enabled: true,
       },
     });
-
+    // @ts-preserve-whitespace
     // We'll use the Microsoft Graph scope as an example
     const scope = "https://graph.microsoft.com/.default";
-
+    // @ts-preserve-whitespace
     // Print out part of the access token
     console.log((await credential.getToken(scope)).token.substring(0, 10), "...");
   });

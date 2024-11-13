@@ -21,6 +21,7 @@ export interface CredentialPersistenceOptions {
    * import { useIdentityPlugin, DeviceCodeCredential } from "@azure/identity";
    *
    * useIdentityPlugin(cachePersistencePlugin);
+   *
    * const credential = new DeviceCodeCredential({
    *   tokenCachePersistenceOptions: {
    *     enabled: true,

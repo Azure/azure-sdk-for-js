@@ -288,6 +288,11 @@ async function parseSnippetDefinitions(
           /\r?\n[ ]*\/\/\s*@ts-ignore\s*\r?\n/g,
           EOL,
         )
+        .replace(
+          // Need to get rid of any ts-ignores that were added because of unused symbols
+          /\r?\n[ ]*\/\/\s*@ts-preserve-whitespace\s*\r?\n/g,
+          EOL + EOL,
+        )
         .trim();
 
       // Run the same syntax validation pass that we run on samples when we convert to JS. This will prevent you from
