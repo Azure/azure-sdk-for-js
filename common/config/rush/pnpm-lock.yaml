@@ -18771,7 +18771,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router-1.tgz:
-    resolution: {integrity: sha512-RZbsUhQkZUx5IKP0bXznxjTXhgPuBwPUEKVgusXlHstCp2/Qlo0Gj28SFhFxRIccGikPKPoTcLvspMSRJ/oQNg==, tarball: file:projects/communication-job-router-1.tgz}
+    resolution: {integrity: sha512-7NGs1l8E3JJ5oW9FXr+0jZnJyJkaCWcNqd/iA2rE1PqlEPv1bJ1GkPY+vh6cmDoZUSodOmWK4kn7Un4S5nsinw==, tarball: file:projects/communication-job-router-1.tgz}
     name: '@rush-temp/communication-job-router-1'
     version: 0.0.0
     dependencies:
@@ -18781,6 +18781,8 @@ packages:
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -18799,20 +18801,34 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
       uuid: 8.3.2
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/communication-job-router.tgz:
@@ -18898,7 +18914,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-kRnm7dSlOcUN3BpxBqb6K3cAum4jdmmU4BdQ4o+BaHcS7s6yWImkZL4vKz0ELMgUSCSLu4w2FqV5XinSAg4eeA==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-24JG0UquvqCfpD2fHYVg31EE7Zu+1LadlqbxK1oIhPj3dnaQ152m8T++HHMAkFzfbNdaH/1yqWjLTpBVotKMXA==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -21182,7 +21198,7 @@ packages:
     dev: false
 
   file:projects/maps-render.tgz:
-    resolution: {integrity: sha512-DrEwi8UQP65AkDO5eQx9LbwzEGtngMa8+aoOuoEZ3XdfLM5te0RH2g1B2ugosRq7lbjmRpuex6xBKZE3tQw7Yw==, tarball: file:projects/maps-render.tgz}
+    resolution: {integrity: sha512-UsWhK4PLe8c4SueDX/MzVuOtEwAHCNrHYZHGSwEJ8nFvkT5qBQS0E6v0p87R+7dNE+2hUrXoXV2pYwTbM7NeMg==, tarball: file:projects/maps-render.tgz}
     name: '@rush-temp/maps-render'
     version: 0.0.0
     dependencies:
