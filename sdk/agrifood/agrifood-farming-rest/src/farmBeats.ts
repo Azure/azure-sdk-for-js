@@ -3,9 +3,9 @@
 
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
+import { logger } from "./logger";
 import type { TokenCredential } from "@azure/core-auth";
 import type { FarmBeatsClient } from "./clientDefinitions";
-import { logger } from "./logger";
 
 /** The optional parameters for the client */
 export interface FarmBeatsClientOptions extends ClientOptions {
