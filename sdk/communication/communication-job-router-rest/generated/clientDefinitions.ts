@@ -35,7 +35,7 @@ import {
   GetWorkerParameters,
   DeleteWorkerParameters,
   ListWorkersParameters,
-} from "./parameters.js";
+} from "./parameters";
 import {
   UpsertClassificationPolicy200Response,
   UpsertClassificationPolicy201Response,
@@ -109,7 +109,7 @@ import {
   DeleteWorkerDefaultResponse,
   ListWorkers200Response,
   ListWorkersDefaultResponse,
-} from "./responses.js";
+} from "./responses";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface UpsertClassificationPolicy {

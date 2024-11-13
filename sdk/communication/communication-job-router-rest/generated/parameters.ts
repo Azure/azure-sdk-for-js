@@ -18,7 +18,7 @@ import {
   DeclineJobOfferOptions,
   RouterWorker,
   RouterWorkerStateSelector,
-} from "./models.js";
+} from "./models";
 
 export interface UpsertClassificationPolicyHeaders {
   /** The request should only proceed if an entity matches this string. */
@@ -47,9 +47,9 @@ export interface UpsertClassificationPolicyMediaTypesParam {
 
 export type UpsertClassificationPolicyParameters =
   UpsertClassificationPolicyHeaderParam &
-    UpsertClassificationPolicyMediaTypesParam &
-    UpsertClassificationPolicyBodyParam &
-    RequestParameters;
+  UpsertClassificationPolicyMediaTypesParam &
+  UpsertClassificationPolicyBodyParam &
+  RequestParameters;
 export type GetClassificationPolicyParameters = RequestParameters;
 export type DeleteClassificationPolicyParameters = RequestParameters;
 
@@ -92,9 +92,9 @@ export interface UpsertDistributionPolicyMediaTypesParam {
 
 export type UpsertDistributionPolicyParameters =
   UpsertDistributionPolicyHeaderParam &
-    UpsertDistributionPolicyMediaTypesParam &
-    UpsertDistributionPolicyBodyParam &
-    RequestParameters;
+  UpsertDistributionPolicyMediaTypesParam &
+  UpsertDistributionPolicyBodyParam &
+  RequestParameters;
 export type GetDistributionPolicyParameters = RequestParameters;
 export type DeleteDistributionPolicyParameters = RequestParameters;
 

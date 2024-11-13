@@ -74,7 +74,7 @@ import {
   DeleteWorkerDefaultResponse,
   ListWorkers200Response,
   ListWorkersDefaultResponse,
-} from "./responses.js";
+} from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "PATCH /routing/classificationPolicies/{classificationPolicyId}": [
