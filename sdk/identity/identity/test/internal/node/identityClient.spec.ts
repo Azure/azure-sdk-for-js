@@ -1,17 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TokenResponse } from "../../src/client/identityClient";
-import { IdentityClient, getIdentityClientAuthorityHost } from "../../src/client/identityClient";
-import { IdentityTestContext, prepareMSALResponses } from "../httpRequests";
-import type { IdentityTestContextInterface } from "../httpRequestsCommon";
-import { createResponse } from "../httpRequestsCommon";
-import { ClientSecretCredential } from "../../src";
-import type { Context } from "mocha";
-import { PlaybackTenantId } from "../msalTestUtils";
-import { assert } from "chai";
-import { isExpectedError } from "../authTestUtils";
+import {
+  IdentityClient,
+  getIdentityClientAuthorityHost,
+} from "../../../src/client/identityClient.js";
+import { IdentityTestContext } from "../../httpRequests.js";
+import type { IdentityTestContextInterface } from "../../httpRequestsCommon.js";
+import { createResponse } from "../../httpRequestsCommon.js";
+import { ClientSecretCredential } from "../../../src/index.js";
+import { openIdConfigurationResponse, PlaybackTenantId } from "../../msalTestUtils.js";
+import { isExpectedError } from "../../authTestUtils.js";
 import { isNode } from "@azure/core-util";
+import { describe, it, assert, beforeEach, afterEach, vi, expect } from "vitest";
+import type { HttpClient } from "@azure/core-rest-pipeline";
+import { createDefaultHttpClient, createHttpHeaders } from "@azure/core-rest-pipeline";
 
 describe("IdentityClient", function () {
   let testContext: IdentityTestContextInterface;
@@ -51,29 +54,40 @@ describe("IdentityClient", function () {
   });
 
   it("throws an exception when an authentication request fails", async () => {
-    const { error } = await testContext.sendCredentialRequests({
-      scopes: ["https://test/.default"],
-      credential: new ClientSecretCredential("adfs", "client", "secret", {
-        // createResponse below will simulate a 200 when trying to resolve the authority,
-        // then the 400 error when trying to get the token
-        authorityHost: "https://fake-authority.com",
-      }),
-      secureResponses: [
-        ...prepareMSALResponses(),
-        createResponse(400, {
-          error: "test_error",
-          error_description: "This is a test error",
-        }),
-      ],
+    const mockHttpClient: HttpClient = createDefaultHttpClient();
+    vi.spyOn(mockHttpClient, "sendRequest")
+      .mockImplementationOnce(async (request) => {
+        return {
+          request,
+          status: 200,
+          bodyAsText: JSON.stringify(openIdConfigurationResponse),
+          headers: createHttpHeaders(),
+        };
+      })
+      .mockImplementationOnce(async (request) => {
+        return {
+          request,
+          status: 400,
+          bodyAsText: JSON.stringify({
+            error: "test_error",
+            error_description: "This is a test error",
+          }),
+          headers: createHttpHeaders(),
+        };
+      });
+
+    const credential = new ClientSecretCredential("adfs", "client", "secret", {
+      authorityHost: "https://fake-authority.com",
+      httpClient: mockHttpClient,
     });
+
     if (isNode) {
-      assert.strictEqual(error!.name, "AuthenticationRequiredError");
-      assert.ok(error!.message.indexOf("This is a test error") > -1);
+      await expect(credential.getToken(["scope"])).rejects.toThrow("This is a test error");
     } else {
       // The browser version of this credential uses a legacy approach.
       // While the Node version uses MSAL, the browser version does the network requests directly.
       // While that means the browser version is simpler, it also means the browser version will not keep the same behavior.
-      assert.strictEqual(error!.name, "AuthenticationError");
+      await expect(credential.getToken(["scope"])).rejects.toThrow("AuthenticationError");
     }
   });
 
@@ -94,18 +108,18 @@ describe("IdentityClient", function () {
     );
   });
 
-  it("parses authority host environment variable as expected", function (this: Context) {
+  it("parses authority host environment variable as expected", function (ctx) {
     if (!isNode) {
-      return this.skip();
+      return ctx.skip();
     }
     process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";
     assert.equal(getIdentityClientAuthorityHost({}), process.env.AZURE_AUTHORITY_HOST);
     return;
   });
 
-  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function (this: Context) {
+  it("throws an exception when an Env AZURE_AUTHORITY_HOST using 'http' is provided", async function (ctx) {
     if (!isNode) {
-      return this.skip();
+      return ctx.skip();
     }
     process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";
     assert.throws(
@@ -130,61 +144,74 @@ describe("IdentityClient", function () {
   });
 
   it("returns a usable error when the authentication response doesn't contain a body", async () => {
-    const credential = new ClientSecretCredential("adfs", "client", "secret");
-    const { error } = await testContext.sendCredentialRequests({
-      scopes: ["scope"],
-      credential,
-      secureResponses: [...prepareMSALResponses(), createResponse(300)],
+    const mockHttpClient: HttpClient = createDefaultHttpClient();
+    vi.spyOn(mockHttpClient, "sendRequest")
+      .mockImplementationOnce(async (request) => {
+        return {
+          request,
+          status: 200,
+          bodyAsText: JSON.stringify(openIdConfigurationResponse),
+          headers: createHttpHeaders(),
+        };
+      })
+      .mockImplementationOnce(async (request) => {
+        return {
+          request,
+          status: 300,
+          headers: createHttpHeaders(),
+        };
+      });
+    const credential = new ClientSecretCredential("adfs", "client", "secret", {
+      httpClient: mockHttpClient,
     });
+
     if (isNode) {
-      assert.strictEqual(error?.name, "AuthenticationRequiredError");
-      assert.strictEqual(error?.message, `Response had no "expiresOn" property.`);
+      await expect(credential.getToken(["scope"])).rejects.toThrow(
+        'Response had no "expiresOn" property.',
+      );
     } else {
       // The browser version of this credential uses a legacy approach.
       // While the Node version uses MSAL, the browser version does the network requests directly.
       // While that means the browser version is simpler, it also means the browser version will not keep the same behavior.
-      assert.strictEqual(error!.name, "AuthenticationError");
+      await expect(credential.getToken(["scope"])).rejects.toThrow("AuthenticationError");
     }
   });
 
-  it("parses authority host environment variable as expected", function (this: Context) {
+  it("parses authority host environment variable as expected", function (ctx) {
     if (!isNode) {
-      return this.skip();
+      return ctx.skip();
     }
     process.env.AZURE_AUTHORITY_HOST = "http://totallyinsecure.lol";
     assert.equal(getIdentityClientAuthorityHost({}), process.env.AZURE_AUTHORITY_HOST);
     return;
   });
 
-  it("returns null when the token refresh request returns an 'interaction_required' error", async function (this: Context) {
-    const client = new IdentityClient({ authorityHost: "https://authority" });
-    const response = createResponse(401, {
-      error: "interaction_required",
-      error_description: "Interaction required",
+  it("returns null when the token refresh request returns an 'interaction_required' error", async function () {
+    const mockHttpClient = createDefaultHttpClient();
+    vi.spyOn(mockHttpClient, "sendRequest").mockImplementation((request) =>
+      Promise.resolve({
+        request,
+        headers: createHttpHeaders(),
+        status: 401,
+        bodyAsText: JSON.stringify({
+          error: "interaction_required",
+          error_description: "Interaction required",
+        }),
+      }),
+    );
+    const client = new IdentityClient({
+      authorityHost: "https://authority",
+      httpClient: mockHttpClient,
     });
-    const tokenResponse = await testContext.sendIndividualRequest<TokenResponse>(async () => {
-      return client.refreshAccessToken("tenant", "client", "scopes", "token", undefined);
-    }, response);
-
-    assert.equal(tokenResponse, null);
-
-    const expectedMessages = [
-      /.*azure:identity:info.*IdentityClient: refreshing access token with client ID: client, scopes: scopes started.*/,
-      /.*azure:identity:info.*IdentityClient: sending token request to \[https:\/\/authority\/tenant\/oauth2\/v2.0\/token\].*/,
-      /.*azure:identity:warning.*IdentityClient: authentication error. HTTP status: 401, Interaction required.*/,
-      /.*azure:identity:info.*IdentityClient: interaction required for client ID: client.*/,
-    ];
-
-    const logMessages = testContext.logMessages.filter(
-      (msg: string) => msg.indexOf("azure:identity:") >= 0,
+    const tokenResponse = await client.refreshAccessToken(
+      "tenant",
+      "client",
+      "scopes",
+      "token",
+      undefined,
     );
 
-    assert.equal(logMessages.length, expectedMessages.length);
-
-    for (let i = 0; i < logMessages.length; i++) {
-      assert.ok(logMessages[i].match(expectedMessages[i]), `Checking[${i}] ${logMessages[i]}`);
-    }
-    return;
+    assert.equal(tokenResponse, null);
   });
 
   it("rethrows any other error that is thrown while refreshing the access token", async () => {

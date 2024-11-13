@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import * as sinon from "sinon";
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import type { AzureLogLevel } from "@azure/logger";
 import { AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
@@ -9,9 +7,10 @@ import type {
   IdentityTestContextInterface,
   RawTestResponse,
   TestResponse,
-} from "./httpRequestsCommon";
+} from "./httpRequestsCommon.js";
 import type { RestError } from "@azure/core-rest-pipeline";
-import { getError } from "./authTestUtils";
+import { getError } from "./authTestUtils.js";
+import { type MockInstance, vi } from "vitest";
 
 /**
  * Helps specify a different number of responses for Node and for the browser.
@@ -52,18 +51,15 @@ export type TrackedRequest = {
  * @internal
  */
 export class IdentityTestContext implements IdentityTestContextInterface {
-  public sandbox: sinon.SinonSandbox;
-  public clock: sinon.SinonFakeTimers;
   public oldLogLevel: AzureLogLevel | undefined;
   public oldLogger: any;
   public logMessages: string[];
-  public fetch: sinon.SinonStub;
+  public fetch: MockInstance;
   public requests: TrackedRequest[];
   public responses: RawTestResponse[];
 
   constructor({ replaceLogger, logLevel }: { replaceLogger?: boolean; logLevel?: AzureLogLevel }) {
-    this.sandbox = sinon.createSandbox();
-    this.clock = this.sandbox.useFakeTimers();
+    vi.useFakeTimers();
     this.oldLogLevel = getLogLevel();
     this.oldLogger = AzureLogger.log;
     this.logMessages = [];
@@ -72,7 +68,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
      * Browser specific code.
      * Sets up a fake fetch implementation that will be used to answer any outgoing request.
      */
-    this.fetch = this.sandbox.stub(self, "fetch");
+    this.fetch = vi.spyOn(self, "fetch");
     this.requests = [];
     this.responses = [];
 
@@ -104,7 +100,8 @@ export class IdentityTestContext implements IdentityTestContextInterface {
   }
 
   async restore(): Promise<void> {
-    this.sandbox.restore();
+    vi.useRealTimers();
+    vi.restoreAllMocks();
     AzureLogger.log = this.oldLogger;
     setLogLevel(this.oldLogLevel);
   }
@@ -121,7 +118,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
      * Both keeps track of the outgoing requests,
      * and ensures each request answers with each received response, in order.
      */
-    this.fetch.callsFake(async (url, request) => {
+    this.fetch.mockImplementation(async (url, request) => {
       this._trackRequest(url, request);
 
       return new Response(response.body, {
@@ -130,7 +127,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
       });
     });
     const promise = sendPromise();
-    await this.clock.runAllAsync();
+    await vi.runAllTimersAsync();
     return promise;
   }
 
@@ -170,7 +167,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     }[];
   }> {
     this.responses.push(...[...insecureResponses, ...secureResponses]);
-    this.fetch.callsFake(async (url, request) => {
+    this.fetch.mockImplementation(async (url, request) => {
       this._trackRequest(url, request);
       if (!this.responses.length) {
         throw new Error("No responses to send");
@@ -199,7 +196,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
       // We need the promises to begin triggering, so the server has something to respond to,
       // and only then we can wait for all of the async processes to finish.
       const promise = credential.getToken(scopes, getTokenOptions);
-      await this.clock.runAllAsync();
+      await vi.runAllTimersAsync();
       result = await promise;
     } catch (e: any) {
       error = e;
