@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AnalyzeBatchResult,
   EntityLinkingResult,
   EntityRecognitionResult,
   KeyPhraseExtractionResult,
-  KnownErrorCode,
   LanguageDetectionResult,
   PiiEntityRecognitionResult,
   PiiEntityRecognitionSuccessResult,
   SentimentAnalysisResult,
 } from "../../src/";
+import { KnownErrorCode } from "../../src/";
 
 const failedOn = undefined as any;
 const modelVersion = undefined as any;

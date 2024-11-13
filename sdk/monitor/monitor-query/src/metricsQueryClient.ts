@@ -1,40 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { TokenCredential } from "@azure/core-auth";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { CommonClientOptions } from "@azure/core-client";
-import { tracingClient } from "./tracing";
+import type { TokenCredential } from "@azure/core-auth";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { CommonClientOptions } from "@azure/core-client";
+import { tracingClient } from "./tracing.js";
 
-import {
+import type {
   ListMetricDefinitionsOptions,
   ListMetricNamespacesOptions,
   MetricDefinition,
   MetricNamespace,
   MetricsQueryOptions,
   MetricsQueryResult,
-} from "./models/publicMetricsModels";
+} from "./models/publicMetricsModels.js";
 
 import {
   MonitorManagementClient as GeneratedMetricsClient,
   KnownApiVersion20240201 as MetricsApiVersion,
-} from "./generated/metrics/src";
+} from "./generated/metrics/src/index.js";
 import {
   MonitorManagementClient as GeneratedMetricsDefinitionsClient,
   KnownApiVersion20240201 as MetricDefinitionsApiVersion,
-} from "./generated/metricsdefinitions/src";
+} from "./generated/metricsdefinitions/src/index.js";
+import type { MetricNamespacesListOptionalParams } from "./generated/metricsnamespaces/src/index.js";
 import {
   MonitorManagementClient as GeneratedMetricsNamespacesClient,
   KnownApiVersion20240201 as MetricNamespacesApiVersion,
-  MetricNamespacesListOptionalParams,
-} from "./generated/metricsnamespaces/src";
+} from "./generated/metricsnamespaces/src/index.js";
 import {
   convertRequestForMetrics,
   convertRequestOptionsForMetricsDefinitions,
   convertResponseForMetricNamespaces,
   convertResponseForMetrics,
   convertResponseForMetricsDefinitions,
-} from "./internal/modelConverters";
-import { SDK_VERSION, KnownMonitorMetricsQueryAudience } from "./constants";
+} from "./internal/modelConverters.js";
+import { SDK_VERSION, KnownMonitorMetricsQueryAudience } from "./constants.js";
 
 /**
  * Options for the MetricsQueryClient.

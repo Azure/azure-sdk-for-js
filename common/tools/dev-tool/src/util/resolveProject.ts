@@ -5,6 +5,7 @@ import fs from "fs-extra";
 import path from "node:path";
 import { createPrinter } from "./printer";
 import { SampleConfiguration } from "./samples/configuration";
+import { pathToFileURL } from "node:url";
 
 const { debug } = createPrinter("resolve-project");
 
@@ -43,6 +44,7 @@ declare global {
         [k: string]: string[];
       };
     };
+    tshy?: Record<string, object>;
     type?: string;
     module?: string;
     bin?: Record<string, string>;
@@ -136,7 +138,7 @@ async function findAzSDKPackageJson(directory: string): Promise<[string, Package
 
   for (const file of files) {
     if (file === "package.json") {
-      const fullPath = path.join(directory, file);
+      const fullPath = pathToFileURL(path.join(directory, file)).href;
       const packageObject = (await import(fullPath)).default;
       if (await isAzureSDKPackage(fullPath)) {
         return [directory, packageObject];

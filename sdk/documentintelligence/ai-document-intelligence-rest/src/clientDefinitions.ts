@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ListOperationsParameters,
   GetDocumentModelBuildOperationParameters,
   GetDocumentModelComposeOperationParameters,
@@ -37,7 +37,7 @@ import {
   AuthorizeClassifierCopyParameters,
   CopyClassifierToParameters,
 } from "./parameters.js";
-import {
+import type {
   ListOperations200Response,
   ListOperationsDefaultResponse,
   GetDocumentModelBuildOperation200Response,
@@ -107,7 +107,7 @@ import {
   CopyClassifierTo202Response,
   CopyClassifierToDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListOperations {
   /** Lists all operations. */

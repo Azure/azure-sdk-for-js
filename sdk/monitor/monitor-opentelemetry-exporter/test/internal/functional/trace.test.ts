@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assertCount, assertTraceExpectation } from "../../utils/assert";
-import { TraceBasicScenario } from "../../utils/basic";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
+import { assertCount, assertTraceExpectation } from "../../utils/assert.js";
+import { TraceBasicScenario } from "../../utils/basic.js";
+import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants.js";
 import nock from "nock";
-import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
-import { TelemetryItem as Envelope } from "../../../src/generated";
+import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
+import type { TelemetryItem as Envelope } from "../../../src/generated/index.js";
+import { describe, it, beforeAll, afterAll } from "vitest";
 
 describe("Trace Exporter Scenarios", () => {
   describe(TraceBasicScenario.prototype.constructor.name, () => {
     const scenario = new TraceBasicScenario();
     let ingest: Envelope[] = [];
 
-    before(() => {
+    beforeAll(() => {
       nock(DEFAULT_BREEZE_ENDPOINT)
         .post("/v2.1/track", (body: Envelope[]) => {
           // todo: gzip is not supported by generated applicationInsightsClient
@@ -27,27 +28,17 @@ describe("Trace Exporter Scenarios", () => {
       scenario.prepare();
     });
 
-    after(() => {
+    afterAll(() => {
       scenario.cleanup();
       nock.cleanAll();
       ingest = [];
     });
 
-    it("should work", (done) => {
-      scenario
-        .run()
-        .then(() => {
-          // promisify doesn't work on this, so use callbacks/done for now
-          // eslint-disable-next-line promise/always-return
-          return scenario.flush().then(() => {
-            assertTraceExpectation(ingest, scenario.expectation);
-            assertCount(ingest, scenario.expectation);
-            done();
-          });
-        })
-        .catch((e) => {
-          done(e);
-        });
+    it("should work", async () => {
+      await scenario.run();
+      await scenario.flush();
+      assertTraceExpectation(ingest, scenario.expectation);
+      assertCount(ingest, scenario.expectation);
     });
   });
 
@@ -55,7 +46,7 @@ describe("Trace Exporter Scenarios", () => {
     const scenario = new TraceBasicScenario();
     let ingest: Envelope[] = [];
 
-    before(() => {
+    beforeAll(() => {
       process.env.ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED = "true";
       nock(DEFAULT_BREEZE_ENDPOINT)
         .post("/v2.1/track", (body: Envelope[]) => {
@@ -70,27 +61,18 @@ describe("Trace Exporter Scenarios", () => {
       scenario.prepare();
     });
 
-    after(() => {
+    afterAll(() => {
       scenario.cleanup();
       nock.cleanAll();
       ingest = [];
     });
 
-    it("should work with OTel resource metric disabled", (done) => {
-      scenario
-        .run()
-        .then(() => {
-          // promisify doesn't work on this, so use callbacks/done for now
-          // eslint-disable-next-line promise/always-return
-          return scenario.flush().then(() => {
-            assertTraceExpectation(ingest, scenario.disabledExpectation);
-            assertCount(ingest, scenario.disabledExpectation);
-            done();
-          });
-        })
-        .catch((e) => {
-          done(e);
-        });
+    it("should work with OTel resource metric disabled", async () => {
+      await scenario.run();
+
+      await scenario.flush();
+      assertTraceExpectation(ingest, scenario.disabledExpectation);
+      assertCount(ingest, scenario.disabledExpectation);
     });
   });
 });

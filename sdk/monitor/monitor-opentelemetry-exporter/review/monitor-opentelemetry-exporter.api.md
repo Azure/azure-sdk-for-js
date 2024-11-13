@@ -5,22 +5,22 @@
 ```ts
 
 import { AggregationTemporality } from '@opentelemetry/sdk-metrics';
-import { Attributes } from '@opentelemetry/api';
-import { Context } from '@opentelemetry/api';
+import type { Attributes } from '@opentelemetry/api';
+import type { Context } from '@opentelemetry/api';
 import * as coreClient from '@azure/core-client';
-import { ExportResult } from '@opentelemetry/core';
+import type { ExportResult } from '@opentelemetry/core';
 import { InstrumentType } from '@opentelemetry/sdk-metrics';
-import { Link } from '@opentelemetry/api';
+import type { Link } from '@opentelemetry/api';
 import type { LogRecordExporter } from '@opentelemetry/sdk-logs';
-import { PushMetricExporter } from '@opentelemetry/sdk-metrics';
+import type { PushMetricExporter } from '@opentelemetry/sdk-metrics';
 import type { ReadableLogRecord } from '@opentelemetry/sdk-logs';
-import { ReadableSpan } from '@opentelemetry/sdk-trace-base';
-import { ResourceMetrics } from '@opentelemetry/sdk-metrics';
-import { Sampler } from '@opentelemetry/sdk-trace-base';
-import { SamplingResult } from '@opentelemetry/sdk-trace-base';
-import { SpanExporter } from '@opentelemetry/sdk-trace-base';
-import { SpanKind } from '@opentelemetry/api';
-import { TokenCredential } from '@azure/core-auth';
+import type { ReadableSpan } from '@opentelemetry/sdk-trace-base';
+import type { ResourceMetrics } from '@opentelemetry/sdk-metrics';
+import type { Sampler } from '@opentelemetry/sdk-trace-base';
+import type { SamplingResult } from '@opentelemetry/sdk-trace-base';
+import type { SpanExporter } from '@opentelemetry/sdk-trace-base';
+import type { SpanKind } from '@opentelemetry/api';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ApplicationInsightsClientOptionalParams extends coreClient.ServiceClientOptions {

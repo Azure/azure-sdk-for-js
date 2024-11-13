@@ -6,6 +6,8 @@
 
 ### Breaking Changes
 
+- Marked fields in various interfaces as readonly, which may impact code that previously modified these properties.
+
 ### Bugs Fixed
 
 - Fix the Microsoft Entra ID authentication when providing `baseUrl`.

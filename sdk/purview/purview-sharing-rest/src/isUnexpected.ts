@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ReceivedSharesGetReceivedShare200Response,
   ReceivedSharesGetReceivedShareDefaultResponse,
   ReceivedSharesCreateOrReplace200Response,

@@ -14,8 +14,8 @@ import {
 } from "./utils/utils.js";
 import path from "path";
 import fs from "fs";
-import { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
-import {
+import type { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
+import type {
   AnalyzeResultOperationOutput,
   DocumentBarcodeOutput,
   DocumentModelBuildOperationDetailsOutput,
@@ -25,6 +25,7 @@ import {
   isUnexpected,
   parseOperationIdFromResponse,
 } from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
 
 describe("DocumentIntelligenceClient", () => {
   let recorder: Recorder;

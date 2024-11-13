@@ -7,7 +7,7 @@ import {
   RequestConstants,
   ResponseConstants,
 } from "./constants";
-import {
+import type {
   ProvideClaimsForToken,
   TokenIssuanceStartRequest,
 } from "@azure/functions-authentication-events";

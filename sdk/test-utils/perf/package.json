@@ -11,12 +11,11 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && tsc -p .",
     "build:samples": "echo Skipped.",
     "build:test": "echo not needed",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "clean": "rimraf --glob dist dist-* types *.tgz *.log",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-* types *.tgz *.log",
     "docs": "echo Skipped.",
     "extract-api": "echo skipped",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -77,7 +76,6 @@
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-env-preprocessor": "^0.1.1",
-    "rimraf": "^5.0.5",
     "ts-node": "^10.0.0",
     "typescript": "~5.6.2"
   }

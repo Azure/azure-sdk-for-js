@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
+import type { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
 import { logger as coreClientLogger } from "./log.js";
 import { decodeStringToString } from "./base64.js";
 
@@ -94,6 +94,9 @@ export async function authorizeRequestOnClaimChallenge(
     return false;
   }
 
-  onChallengeOptions.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
+  onChallengeOptions.request.headers.set(
+    "Authorization",
+    `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`,
+  );
   return true;
 }
