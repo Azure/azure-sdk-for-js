@@ -18464,7 +18464,7 @@ packages:
     dev: false
 
   file:projects/batch.tgz:
-    resolution: {integrity: sha512-6RrcBorSumWEO4KlTeLQ0b5SZRPDSjfWrEndxfqI4fGeDn4hKIdU2SvGMftjsVbnkli6xpQlgRNwI7U0GlHMRw==, tarball: file:projects/batch.tgz}
+    resolution: {integrity: sha512-5aWGICBLDXaS8dyz90IUuG+KysKDtOr7RkVjdYzfxCimiWRMgPYdRmvP+k7Dkm5xkp16VRTIG8kTnJFVUBSMHw==, tarball: file:projects/batch.tgz}
     name: '@rush-temp/batch'
     version: 0.0.0
     dependencies:
@@ -18501,7 +18501,7 @@ packages:
     dev: false
 
   file:projects/communication-alpha-ids.tgz:
-    resolution: {integrity: sha512-/vES/isBSUn6KSc6TIOiY7k8cSBlHGIqJpJzaN8z0AunG3c3TqTGn6IM4CSfnFm+b1WCWvbVdfyad3RVJUSTag==, tarball: file:projects/communication-alpha-ids.tgz}
+    resolution: {integrity: sha512-JoRTIDlwHZDPs7keNqgIU0MrximNBp+fJgAIZoRfwav8szwZz08PtN2HvqjTP1BZ8bFcnOkdlWJhZwvcHiPBsA==, tarball: file:projects/communication-alpha-ids.tgz}
     name: '@rush-temp/communication-alpha-ids'
     version: 0.0.0
     dependencies:
@@ -18511,6 +18511,8 @@ packages:
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -18526,18 +18528,32 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/communication-call-automation.tgz:
@@ -18882,7 +18898,7 @@ packages:
     dev: false
 
   file:projects/communication-phone-numbers.tgz:
-    resolution: {integrity: sha512-TFOWK46fB+Xt/4wne7rUVXbFOJLR6FWn9+hUo1Q09WA/LTL5CyTfC1fPK7dpdGPR2OA/+ebefNQjguLcLvR2BQ==, tarball: file:projects/communication-phone-numbers.tgz}
+    resolution: {integrity: sha512-kRnm7dSlOcUN3BpxBqb6K3cAum4jdmmU4BdQ4o+BaHcS7s6yWImkZL4vKz0ELMgUSCSLu4w2FqV5XinSAg4eeA==, tarball: file:projects/communication-phone-numbers.tgz}
     name: '@rush-temp/communication-phone-numbers'
     version: 0.0.0
     dependencies:
@@ -18893,6 +18909,8 @@ packages:
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -18909,22 +18927,36 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/communication-recipient-verification.tgz:
-    resolution: {integrity: sha512-EJ/L18WNgHvJpQIzFUPd4+srCdToi/A/urtL2S9Rsh9TVrJpJsBgW42B8c1IXOVbvVr6WahdceA2JME1xz1eZw==, tarball: file:projects/communication-recipient-verification.tgz}
+    resolution: {integrity: sha512-cpVMuIbO+tSFbjQSjDB1yOL3QgqBKppbLvWuYCe2JoY10LBIu+a5SWMTSk9DbjlN+DfUCQ8gQN01zbizH0BBhw==, tarball: file:projects/communication-recipient-verification.tgz}
     name: '@rush-temp/communication-recipient-verification'
     version: 0.0.0
     dependencies:
@@ -18935,6 +18967,8 @@ packages:
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -18951,19 +18985,33 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       uuid: 8.3.2
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/communication-rooms.tgz:
@@ -18999,7 +19047,7 @@ packages:
     dev: false
 
   file:projects/communication-short-codes.tgz:
-    resolution: {integrity: sha512-u4yftj8OtAnnZP1tzyGPOuPCdjNg97D572Hp+KrktonP7AqemRnAsWGPQyi/iMuR8qAED6pSRc9c682XrVXrEA==, tarball: file:projects/communication-short-codes.tgz}
+    resolution: {integrity: sha512-4Bh0DOycDYo2hEz+Yj2Z1IJ+BrRhHj3PLWrEPEBRS61LJqNcFHxyROmdSniFzPFMccdLftvLeekkq34WbBcMuw==, tarball: file:projects/communication-short-codes.tgz}
     name: '@rush-temp/communication-short-codes'
     version: 0.0.0
     dependencies:
@@ -19010,6 +19058,8 @@ packages:
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -19026,19 +19076,33 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       uuid: 8.3.2
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/communication-sms.tgz:
@@ -19084,7 +19148,7 @@ packages:
     dev: false
 
   file:projects/communication-tiering.tgz:
-    resolution: {integrity: sha512-nDoqnFBea7fbl3xKZpetYRo4tdp0rw5rDRLrhjprDsgSrCOBoKrioCzzIWQ8Jr9VJ8bRHvhvc7m56jihYGDe7g==, tarball: file:projects/communication-tiering.tgz}
+    resolution: {integrity: sha512-rz1BR/nFh76ye4xr8Y7ma9rk7L5MdY/OvQzCHdccWUqJtna7thL+3dBEzfugUV3+3x25rHJ6QTwpj6VFz8P6Pg==, tarball: file:projects/communication-tiering.tgz}
     name: '@rush-temp/communication-tiering'
     version: 0.0.0
     dependencies:
@@ -19095,6 +19159,8 @@ packages:
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -19111,23 +19177,37 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       uuid: 8.3.2
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/communication-toll-free-verification.tgz:
-    resolution: {integrity: sha512-zMOvMqhXXp3AXPsBp2GhCzlURqqW3V92ZnQiN7yDeRO1Ii50dG7d6aqlXPi4FrAFuh9Bn9j3gDoN8Z0RHfMZrA==, tarball: file:projects/communication-toll-free-verification.tgz}
+    resolution: {integrity: sha512-mh4iB2h+E3K7dWs6knXVxNVb98YvNIrrSZobhGiQoRb9Wy6RGmX45o28nQyHVm7yk7nQV+DTtBu4N3aTIQtKUQ==, tarball: file:projects/communication-toll-free-verification.tgz}
     name: '@rush-temp/communication-toll-free-verification'
     version: 0.0.0
     dependencies:
@@ -19137,6 +19217,8 @@ packages:
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -19152,18 +19234,32 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/confidential-ledger.tgz:
@@ -19526,7 +19622,7 @@ packages:
     dev: false
 
   file:projects/core-sse.tgz:
-    resolution: {integrity: sha512-EAxNqaujEkbx3igQiVu3RXXdE4owEiwiwS5+eeuI98VjbnysDkT9ckaOdJbUgel/CwOTEr8oz0JdDS1V36ngMw==, tarball: file:projects/core-sse.tgz}
+    resolution: {integrity: sha512-rxq/J1ftJ2e0MkPDv49RFsVQcu/68yCe6/h0R6+SdIkKBnhbYY12SkHzwOEOLFtemwLv+mh2SAqE6KHTYwJ8Lg==, tarball: file:projects/core-sse.tgz}
     name: '@rush-temp/core-sse'
     version: 0.0.0
     dependencies:
@@ -21044,7 +21140,7 @@ packages:
     dev: false
 
   file:projects/maps-geolocation.tgz:
-    resolution: {integrity: sha512-ySfkp5wDGj+DQd49810Knq6uM5KLIgM2sD3THKJJhFe7Tp+7Y1d9nR3m3JErYhrGoMQ+N7iH2wUOjUndgWMGgQ==, tarball: file:projects/maps-geolocation.tgz}
+    resolution: {integrity: sha512-hQNWWAB2csKwDQitJWjwgAIBiFBEpmBFX82U1x9CGNkoXy7MNi/O7u880S2Hbarm+WI7UyuxSIF27KLBEH8C2Q==, tarball: file:projects/maps-geolocation.tgz}
     name: '@rush-temp/maps-geolocation'
     version: 0.0.0
     dependencies:
@@ -21352,7 +21448,7 @@ packages:
     dev: false
 
   file:projects/monitor-ingestion.tgz:
-    resolution: {integrity: sha512-cRuHz8yQdwmhQN1s3AiWPL30Osvv2lQIkF3ojq1QIMkrijM8Ap5Gb7dYY7LTdcpOodiOsI3VZ70LrYWqGOGbnQ==, tarball: file:projects/monitor-ingestion.tgz}
+    resolution: {integrity: sha512-pllRWLfOMD+ngWvcILVdzLi1f1XtozTseyFDESOKh67IT3MbSBExuav0w6vQOk2H5E88cpYU8mh0c/kFn2/Iwg==, tarball: file:projects/monitor-ingestion.tgz}
     name: '@rush-temp/monitor-ingestion'
     version: 0.0.0
     dependencies:
@@ -21363,6 +21459,8 @@ packages:
       '@types/node': 18.19.64
       '@types/pako': 2.0.3
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -21380,20 +21478,34 @@ packages:
       mocha: 10.8.2
       nyc: 17.1.0
       pako: 2.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/monitor-opentelemetry-exporter.tgz:

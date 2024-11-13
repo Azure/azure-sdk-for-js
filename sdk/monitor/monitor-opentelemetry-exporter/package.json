@@ -18,7 +18,7 @@
     "generate:client": "autorest --typescript ./swagger/README.md",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
-    "integration-test:node": "dev-tool run test:node-ts-input --no-test-proxy -- --timeout 1200000 \"test/internal/functional/**/*.test.ts\"",
+    "integration-test:node": "dev-tool run test:vitest --no-test-proxy -- -c vitest.integration.config.ts",
     "lint": "eslint package.json api-extractor.json src test",
     "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
