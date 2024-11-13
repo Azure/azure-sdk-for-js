@@ -3,18 +3,19 @@
 // Licensed under the MIT License.
 
 import { Client } from "@azure-rest/core-client";
-import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
-import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListAgentsQueryParamProperties, ListFilesParameters, ListMessagesQueryParamProperties, ListRunsQueryParamProperties, SubmitToolOutputsToRunParameters, UploadFileParameters } from "../generated/src/parameters.js";
+import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, OpenAIPageableListOfVectorStoreOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
+import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListAgentsQueryParamProperties, ListFilesParameters, ListMessagesQueryParamProperties, ListRunsQueryParamProperties, ListVectorStoresQueryParamProperties, SubmitToolOutputsToRunParameters, UploadFileParameters } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
 import { cancelRun, createRun, createThreadAndRun, getRun, listRuns, submitToolOutputsToRun, updateRun } from "./runs.js";
 import { createMessage, listMessages, updateMessage } from "./messages.js";
-import { AgentThreadCreationOptions, CreateAgentOptions, CreateAndRunThreadOptions, CreateRunOptions, ThreadMessageOptions, UpdateAgentOptions, UpdateAgentThreadOptions } from "../generated/src/models.js";
+import { AgentThreadCreationOptions, CreateAgentOptions, CreateAndRunThreadOptions, CreateRunOptions, ThreadMessageOptions, UpdateAgentOptions, UpdateAgentThreadOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
 import { createRunStreaming, createThreadAndRunStreaming } from "./streaming.js";
 import { AgentStreamEventMessage } from "./streamingModels.js";
 import { UpdateMessageOptions } from "./messagesModels.js";
 import { OptionalRequestParameters, UpdateRunOptions } from "./inputOutputs.js";
+import { createVectorStore, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
 
 export interface AgentsOperations {
   /** Creates a new agent. */
@@ -157,6 +158,33 @@ export interface AgentsOperations {
     fileId: string,
     options?: GetFileContentParameters,
   ) => Promise<string>;
+
+  /** Returns a list of vector stores. */
+  listVectorStores: (
+    options?: ListVectorStoresQueryParamProperties,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<OpenAIPageableListOfVectorStoreOutput>;
+  /** Creates a vector store. */
+  createVectorStore: (
+    options?: VectorStoreOptions,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<VectorStoreOutput>;
+  /** Returns the vector store object object matching the specific ID. */
+  getVectorStore: (
+    vectorStoreId: string,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<VectorStoreOutput>;
+  /** The ID of the vector store to modify. */
+  modifyVectorStore: (
+    vectorStoreId: string,
+    options?: VectorStoreUpdateOptions,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<VectorStoreOutput>;
+  /** Deletes the vector store object matching the specified ID. */
+  deleteVectorStore: (
+    vectorStoreId: string,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<VectorStoreDeletionStatusOutput>;
 }
 
 function getAgents(context: Client): AgentsOperations {
@@ -222,6 +250,17 @@ function getAgents(context: Client): AgentsOperations {
       getFile(context, fileId, options),
     getFileContent: (fileId: string, options?: GetFileContentParameters) =>
       getFileContent(context, fileId, options),
+
+    listVectorStores: (options?: ListVectorStoresQueryParamProperties, requestParams?: OptionalRequestParameters,) =>
+      listVectorStores(context, {...requestParams, queryParameters: options as Record<string, unknown> }),
+    createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) =>
+      createVectorStore(context, { ...requestParams, body: options as Record<string, unknown> }),
+    getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) =>
+      getVectorStore(context, vectorStoreId, requestParams),
+    modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) =>
+      modifyVectorStore(context, vectorStoreId, { ...requestParams, body: options as Record<string, unknown> }),
+    deleteVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) =>
+      deleteVectorStore(context, vectorStoreId, requestParams),
   };
 }
 
