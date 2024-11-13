@@ -12,15 +12,34 @@
       "./package.json": "./package.json",
       ".": "./src/index.ts"
     },
-    "dialects": ["esm", "commonjs"],
-    "esmDialects": ["browser", "react-native"],
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser",
+      "react-native"
+    ],
     "selfLink": false
   },
   "type": "module",
-  "keywords": ["node", "azure", "cloud", "typescript", "browser", "isomorphic"],
+  "keywords": [
+    "node",
+    "azure",
+    "cloud",
+    "typescript",
+    "browser",
+    "isomorphic"
+  ],
   "author": "Microsoft Corporation",
   "license": "MIT",
-  "files": ["dist", "README.md", "LICENSE", "review/*", "CHANGELOG.md"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "review/*",
+    "CHANGELOG.md"
+  ],
   "sdk-type": "client",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
@@ -94,18 +113,22 @@
     "./package.json": "./package.json",
     ".": {
       "browser": {
+        "source": "./src/index.ts",
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
       "react-native": {
+        "source": "./src/index.ts",
         "types": "./dist/react-native/index.d.ts",
         "default": "./dist/react-native/index.js"
       },
       "import": {
+        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
+        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
