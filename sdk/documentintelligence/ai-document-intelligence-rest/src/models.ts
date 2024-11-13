@@ -24,7 +24,7 @@ export interface DocumentTypeDetails {
   /**
    * Custom document model build mode.
    *
-   * Possible values: "template", "neural", "generative"
+   * Possible values: "template", "neural"
    */
   buildMode?: DocumentBuildMode;
   /** Description of the document semantic schema using a JSON Schema style syntax. */
@@ -123,7 +123,7 @@ export interface BuildDocumentModelRequest {
   /**
    * Custom document model build mode.
    *
-   * Possible values: "template", "neural", "generative"
+   * Possible values: "template", "neural"
    */
   buildMode: DocumentBuildMode;
   /**

@@ -6,7 +6,7 @@ import { relativeRecordingsPath } from "@azure-tools/test-recorder";
 
 export default defineConfig({
   test: {
-    reporters: ["verbose", "basic"],
+    reporters: ["basic", "junit"],
     outputFile: {
       junit: "test-results.browser.xml",
     },

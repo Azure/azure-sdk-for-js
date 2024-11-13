@@ -1,10 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
-import { getPagedAsyncIterator } from "@azure/core-paging";
-import type { Client, PathUncheckedResponse } from "@azure-rest/core-client";
-import { createRestError } from "@azure-rest/core-client";
+import {
+  getPagedAsyncIterator,
+  PagedAsyncIterableIterator,
+  PagedResult,
+} from "@azure/core-paging";
+import {
+  Client,
+  createRestError,
+  PathUncheckedResponse,
+} from "@azure-rest/core-client";
 
 /**
  * Helper type to extract the type of an array
@@ -69,7 +75,9 @@ export function paginate<TResponse extends PathUncheckedResponse>(
       typeof customGetPage === "function"
         ? customGetPage
         : async (pageLink: string) => {
-            const result = firstRun ? initialResponse : await client.pathUnchecked(pageLink).get();
+            const result = firstRun
+              ? initialResponse
+              : await client.pathUnchecked(pageLink).get();
             firstRun = false;
             checkPagingRequest(result);
             const nextLink = getNextLink(result.body, nextLinkName);
@@ -95,7 +103,9 @@ function getNextLink(body: unknown, nextLinkName?: string): string | undefined {
   const nextLink = (body as Record<string, unknown>)[nextLinkName];
 
   if (typeof nextLink !== "string" && typeof nextLink !== "undefined") {
-    throw new Error(`Body Property ${nextLinkName} should be a string or undefined`);
+    throw new Error(
+      `Body Property ${nextLinkName} should be a string or undefined`,
+    );
   }
 
   return nextLink;
@@ -123,7 +133,18 @@ function getElements<T = unknown>(body: unknown, itemName: string): T[] {
  * Checks if a request failed
  */
 function checkPagingRequest(response: PathUncheckedResponse): void {
-  const Http2xxStatusCodes = ["200", "201", "202", "203", "204", "205", "206", "207", "208", "226"];
+  const Http2xxStatusCodes = [
+    "200",
+    "201",
+    "202",
+    "203",
+    "204",
+    "205",
+    "206",
+    "207",
+    "208",
+    "226",
+  ];
   if (!Http2xxStatusCodes.includes(response.status)) {
     throw createRestError(
       `Pagination failed with unexpected statusCode ${response.status}`,

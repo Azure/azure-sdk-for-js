@@ -30,7 +30,8 @@ export interface ListOperationsHeaderParam {
   headers?: RawHttpHeadersInput & ListOperationsHeaders;
 }
 
-export type ListOperationsParameters = ListOperationsHeaderParam & RequestParameters;
+export type ListOperationsParameters = ListOperationsHeaderParam &
+  RequestParameters;
 
 export interface GetDocumentModelBuildOperationHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -41,8 +42,8 @@ export interface GetDocumentModelBuildOperationHeaderParam {
   headers?: RawHttpHeadersInput & GetDocumentModelBuildOperationHeaders;
 }
 
-export type GetDocumentModelBuildOperationParameters = GetDocumentModelBuildOperationHeaderParam &
-  RequestParameters;
+export type GetDocumentModelBuildOperationParameters =
+  GetDocumentModelBuildOperationHeaderParam & RequestParameters;
 
 export interface GetDocumentModelComposeOperationHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -65,8 +66,8 @@ export interface GetDocumentModelCopyToOperationHeaderParam {
   headers?: RawHttpHeadersInput & GetDocumentModelCopyToOperationHeaders;
 }
 
-export type GetDocumentModelCopyToOperationParameters = GetDocumentModelCopyToOperationHeaderParam &
-  RequestParameters;
+export type GetDocumentModelCopyToOperationParameters =
+  GetDocumentModelCopyToOperationHeaderParam & RequestParameters;
 
 export interface GetDocumentClassifierCopyToOperationHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -101,11 +102,13 @@ export interface GetOperationHeaderParam {
   headers?: RawHttpHeadersInput & GetOperationHeaders;
 }
 
-export type GetOperationParameters = GetOperationHeaderParam & RequestParameters;
+export type GetOperationParameters = GetOperationHeaderParam &
+  RequestParameters;
 export type GetResourceInfoParameters = RequestParameters;
 export type GetAnalyzeResultParameters = RequestParameters;
 export type GetAnalyzeResultPdfParameters = RequestParameters;
 export type GetAnalyzeResultFigureParameters = RequestParameters;
+export type DeleteAnalyzeResultParameters = RequestParameters;
 
 export interface AnalyzeDocumentFromStreamBodyParam {
   /**
@@ -113,7 +116,11 @@ export interface AnalyzeDocumentFromStreamBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface AnalyzeDocumentFromStreamQueryParamProperties {
@@ -164,10 +171,11 @@ export interface AnalyzeDocumentFromStreamMediaTypesParam {
     | "application/vnd.openxmlformats-officedocument.presentationml.presentation";
 }
 
-export type AnalyzeDocumentFromStreamParameters = AnalyzeDocumentFromStreamQueryParam &
-  AnalyzeDocumentFromStreamMediaTypesParam &
-  AnalyzeDocumentFromStreamBodyParam &
-  RequestParameters;
+export type AnalyzeDocumentFromStreamParameters =
+  AnalyzeDocumentFromStreamQueryParam &
+    AnalyzeDocumentFromStreamMediaTypesParam &
+    AnalyzeDocumentFromStreamBodyParam &
+    RequestParameters;
 
 export interface AnalyzeDocumentBodyParam {
   /** Analyze request parameters. */
@@ -263,6 +271,8 @@ export type AnalyzeBatchDocumentsParameters = AnalyzeBatchDocumentsQueryParam &
   AnalyzeBatchDocumentsMediaTypesParam &
   AnalyzeBatchDocumentsBodyParam &
   RequestParameters;
+export type ListAnalyzeBatchResultsParameters = RequestParameters;
+export type DeleteAnalyzeBatchResultParameters = RequestParameters;
 
 export interface GetModelHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -294,7 +304,8 @@ export interface AuthorizeModelCopyBodyParam {
   body: AuthorizeCopyRequest;
 }
 
-export type AuthorizeModelCopyParameters = AuthorizeModelCopyBodyParam & RequestParameters;
+export type AuthorizeModelCopyParameters = AuthorizeModelCopyBodyParam &
+  RequestParameters;
 
 export interface CopyModelToBodyParam {
   /** Copy to request parameters. */
@@ -330,7 +341,8 @@ export interface BuildClassifierBodyParam {
   body: BuildDocumentClassifierRequest;
 }
 
-export type BuildClassifierParameters = BuildClassifierBodyParam & RequestParameters;
+export type BuildClassifierParameters = BuildClassifierBodyParam &
+  RequestParameters;
 
 export interface ListClassifiersHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -341,7 +353,8 @@ export interface ListClassifiersHeaderParam {
   headers?: RawHttpHeadersInput & ListClassifiersHeaders;
 }
 
-export type ListClassifiersParameters = ListClassifiersHeaderParam & RequestParameters;
+export type ListClassifiersParameters = ListClassifiersHeaderParam &
+  RequestParameters;
 
 export interface GetClassifierHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -352,7 +365,8 @@ export interface GetClassifierHeaderParam {
   headers?: RawHttpHeadersInput & GetClassifierHeaders;
 }
 
-export type GetClassifierParameters = GetClassifierHeaderParam & RequestParameters;
+export type GetClassifierParameters = GetClassifierHeaderParam &
+  RequestParameters;
 
 export interface DeleteClassifierHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -363,7 +377,8 @@ export interface DeleteClassifierHeaderParam {
   headers?: RawHttpHeadersInput & DeleteClassifierHeaders;
 }
 
-export type DeleteClassifierParameters = DeleteClassifierHeaderParam & RequestParameters;
+export type DeleteClassifierParameters = DeleteClassifierHeaderParam &
+  RequestParameters;
 
 export interface ClassifyDocumentFromStreamBodyParam {
   /**
@@ -371,7 +386,11 @@ export interface ClassifyDocumentFromStreamBodyParam {
    *
    * Value may contain any sequence of octets
    */
-  body: string | Uint8Array | ReadableStream<Uint8Array> | NodeJS.ReadableStream;
+  body:
+    | string
+    | Uint8Array
+    | ReadableStream<Uint8Array>
+    | NodeJS.ReadableStream;
 }
 
 export interface ClassifyDocumentFromStreamQueryParamProperties {
@@ -411,10 +430,11 @@ export interface ClassifyDocumentFromStreamMediaTypesParam {
     | "application/vnd.openxmlformats-officedocument.presentationml.presentation";
 }
 
-export type ClassifyDocumentFromStreamParameters = ClassifyDocumentFromStreamQueryParam &
-  ClassifyDocumentFromStreamMediaTypesParam &
-  ClassifyDocumentFromStreamBodyParam &
-  RequestParameters;
+export type ClassifyDocumentFromStreamParameters =
+  ClassifyDocumentFromStreamQueryParam &
+    ClassifyDocumentFromStreamMediaTypesParam &
+    ClassifyDocumentFromStreamBodyParam &
+    RequestParameters;
 
 export interface ClassifyDocumentBodyParam {
   /** Classify request parameters. */
@@ -458,12 +478,13 @@ export interface AuthorizeClassifierCopyBodyParam {
   body: AuthorizeClassifierCopyRequest;
 }
 
-export type AuthorizeClassifierCopyParameters = AuthorizeClassifierCopyBodyParam &
-  RequestParameters;
+export type AuthorizeClassifierCopyParameters =
+  AuthorizeClassifierCopyBodyParam & RequestParameters;
 
 export interface CopyClassifierToBodyParam {
   /** Copy to request parameters. */
   body: ClassifierCopyAuthorization;
 }
 
-export type CopyClassifierToParameters = CopyClassifierToBodyParam & RequestParameters;
+export type CopyClassifierToParameters = CopyClassifierToBodyParam &
+  RequestParameters;

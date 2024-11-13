@@ -10,7 +10,7 @@ export interface OperationDetailsOutputParent {
   /**
    * Operation status.  notStarted, running, completed, or failed
    *
-   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
+   * Possible values: "notStarted", "running", "failed", "succeeded", "canceled", "skipped"
    */
   status: OperationStatusOutput;
   /** Operation progress (0-100). */
@@ -55,7 +55,8 @@ export interface InnerErrorOutput {
 }
 
 /** Get Operation response object. */
-export interface DocumentModelBuildOperationDetailsOutput extends OperationDetailsOutputParent {
+export interface DocumentModelBuildOperationDetailsOutput
+  extends OperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentModelDetailsOutput;
   /** Type of operation. */
@@ -72,6 +73,8 @@ export interface DocumentModelDetailsOutput {
   readonly createdDateTime: string;
   /** Date and time (UTC) when the document model will expire. */
   readonly expirationDateTime?: string;
+  /** Date and time (UTC) when the document model was last modified. */
+  readonly modifiedDateTime?: string;
   /** API version used to create this document model. */
   readonly apiVersion?: string;
   /** List of key-value tag attributes associated with the document model. */
@@ -79,7 +82,7 @@ export interface DocumentModelDetailsOutput {
   /**
    * Custom document model build mode.
    *
-   * Possible values: "template", "neural", "generative"
+   * Possible values: "template", "neural"
    */
   readonly buildMode?: DocumentBuildModeOutput;
   /**
@@ -131,7 +134,7 @@ export interface DocumentTypeDetailsOutput {
   /**
    * Custom document model build mode.
    *
-   * Possible values: "template", "neural", "generative"
+   * Possible values: "template", "neural"
    */
   buildMode?: DocumentBuildModeOutput;
   /** Description of the document semantic schema using a JSON Schema style syntax. */
@@ -179,7 +182,8 @@ export interface WarningOutput {
 }
 
 /** Get Operation response object. */
-export interface DocumentModelComposeOperationDetailsOutput extends OperationDetailsOutputParent {
+export interface DocumentModelComposeOperationDetailsOutput
+  extends OperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentModelDetailsOutput;
   /** Type of operation. */
@@ -187,7 +191,8 @@ export interface DocumentModelComposeOperationDetailsOutput extends OperationDet
 }
 
 /** Get Operation response object. */
-export interface DocumentModelCopyToOperationDetailsOutput extends OperationDetailsOutputParent {
+export interface DocumentModelCopyToOperationDetailsOutput
+  extends OperationDetailsOutputParent {
   /** Operation result upon success. */
   result?: DocumentModelDetailsOutput;
   /** Type of operation. */
@@ -213,6 +218,8 @@ export interface DocumentClassifierDetailsOutput {
   createdDateTime: string;
   /** Date and time (UTC) when the document classifier will expire. */
   expirationDateTime?: string;
+  /** Date and time (UTC) when the document model was last modified. */
+  readonly modifiedDateTime?: string;
   /** API version used to create this document classifier. */
   apiVersion: string;
   /** Base classifierId on top of which the classifier was trained. */
@@ -279,7 +286,7 @@ export interface AnalyzeResultOperationOutput {
   /**
    * Operation status.  notStarted, running, succeeded, or failed
    *
-   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
+   * Possible values: "notStarted", "running", "failed", "succeeded", "canceled", "skipped"
    */
   status: OperationStatusOutput;
   /** Date and time (UTC) when the analyze operation was submitted. */
@@ -806,9 +813,9 @@ export interface AddressValueOutput {
 /** Status and result of the analyze batch operation. */
 export interface AnalyzeBatchResultOperationOutput {
   /**
-   * Operation status.  notStarted, running, completed, or failed
+   * Operation status.  notStarted, running, succeeded, or failed
    *
-   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
+   * Possible values: "notStarted", "running", "failed", "succeeded", "canceled", "skipped"
    */
   status: OperationStatusOutput;
   /** Date and time (UTC) when the operation was submitted. */
@@ -832,7 +839,7 @@ export interface AnalyzeBatchResultOutput {
   /** Number of documents that completed with status skipped. */
   skippedCount: number;
   /** Operation detail for each document in the batch. */
-  details: Array<AnalyzeBatchOperationDetailOutput>;
+  details?: Array<AnalyzeBatchOperationDetailOutput>;
 }
 
 /** Operation detail for a document in a batch analysis. */
@@ -840,7 +847,7 @@ export interface AnalyzeBatchOperationDetailOutput {
   /**
    * Analyze status.  succeeded, failed, or skipped
    *
-   * Possible values: "notStarted", "running", "failed", "succeeded", "completed", "canceled"
+   * Possible values: "notStarted", "running", "failed", "succeeded", "canceled", "skipped"
    */
   status: OperationStatusOutput;
   /** URL of the source document. */
@@ -941,7 +948,11 @@ export type FontStyleOutput = string;
 export type FontWeightOutput = string;
 /** Alias for DocumentSignatureTypeOutput */
 export type DocumentSignatureTypeOutput = string;
+/** Paged collection of AnalyzeBatchResultOperation items */
+export type PagedAnalyzeBatchResultOperationOutput =
+  Paged<AnalyzeBatchResultOperationOutput>;
 /** Paged collection of DocumentModelDetails items */
 export type PagedDocumentModelDetailsOutput = Paged<DocumentModelDetailsOutput>;
 /** Paged collection of DocumentClassifierDetails items */
-export type PagedDocumentClassifierDetailsOutput = Paged<DocumentClassifierDetailsOutput>;
+export type PagedDocumentClassifierDetailsOutput =
+  Paged<DocumentClassifierDetailsOutput>;
