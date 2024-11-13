@@ -111,7 +111,7 @@ export class QueryIterator<T> {
         });
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
-          await this.createExecutionContext();
+          await this.createExecutionContext(diagnosticNode);
           try {
             response = await this.queryExecutionContext.fetchMore({
               diagnosticNode: diagnosticNode,
@@ -274,7 +274,7 @@ export class QueryIterator<T> {
         });
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
-          await this.createExecutionContext();
+          await this.createExecutionContext(diagnosticNode);
           response = await this.queryExecutionContext.nextItem({
             diagnosticNode: diagnosticNode,
             operationOptions: options,

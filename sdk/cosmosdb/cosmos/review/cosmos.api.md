@@ -1102,24 +1102,16 @@ export interface FullTextIndex {
     path: string;
 }
 
-// @public (undocumented)
+// @public
 export interface FullTextPath {
     language: string;
     path: string;
 }
 
-// @public (undocumented)
+// @public
 export interface FullTextPolicy {
     defaultLanguage: string;
     fullTextPaths: FullTextPath[];
-}
-
-// @public (undocumented)
-export interface FullTextStatistics {
-    // (undocumented)
-    hitCounts: number[];
-    // (undocumented)
-    totalWordCount: number;
 }
 
 // @public (undocumented)
@@ -1166,14 +1158,6 @@ export class GlobalEndpointManager {
 }
 
 // @public (undocumented)
-export interface GlobalStatistics {
-    // (undocumented)
-    documentCount: number;
-    // (undocumented)
-    fullTextStatistics: FullTextStatistics[];
-}
-
-// @public (undocumented)
 export interface GroupByAliasToAggregateType {
     // (undocumented)
     [key: string]: AggregateType;
@@ -1196,17 +1180,12 @@ export enum HTTPMethod {
     put = "PUT"
 }
 
-// @public (undocumented)
+// @public
 export interface HybridSearchQueryInfo {
-    // (undocumented)
     componentQueryInfos: QueryInfo[];
-    // (undocumented)
     globalStatisticsQuery: string;
-    // (undocumented)
     requiresGlobalStatistics: boolean;
-    // (undocumented)
     skip: number;
-    // (undocumented)
     take: number;
 }
 
@@ -1502,7 +1481,6 @@ export type OperationWithItem = OperationBase & {
 
 // @public (undocumented)
 export interface PartitionedQueryExecutionInfo {
-    // (undocumented)
     hybridSearchQueryInfo?: HybridSearchQueryInfo;
     // (undocumented)
     partitionedQueryExecutionInfoVersion: number;

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureLogger, createClientLogger } from "@azure/logger";
 import { ClientContext } from "../ClientContext";
 import {
   FeedOptions,
@@ -43,6 +44,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private TOTAL_DOCUMENT_COUNT_PLACEHOLDER =
     "documentdb-formattablehybridsearchquery-totaldocumentcount";
   private RRF_CONSTANT = 60; // Constant for RRF score calculation
+  private logger: AzureLogger = createClientLogger("HybridQueryExecutionContext");
 
   constructor(
     private clientContext: ClientContext,
@@ -110,7 +112,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       });
     }
 
-    if (this.buffer.length > 0) {
+    if (this.state === HybridQueryExecutionContextBaseStates.draining && this.buffer.length > 0) {
       return this.drainOne(nextItemRespHeaders);
     } else {
       return this.done(nextItemRespHeaders);
@@ -265,11 +267,10 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private applySkipAndTakeToBuffer(): void {
     const { skip, take } = this.partitionedQueryExecutionInfo.hybridSearchQueryInfo;
     if (skip) {
-      this.buffer = this.buffer.slice(skip);
+      this.buffer = skip >= this.buffer.length ? [] : this.buffer.slice(skip);
     }
-
     if (take) {
-      this.buffer = this.buffer.slice(0, take);
+      this.buffer = take <= 0 ? [] : this.buffer.slice(0, take);
     }
   }
 
@@ -372,7 +373,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
 
   private async drainSingleComponent(options: ExecutionContextHybridOptions): Promise<void> {
     if (this.componentsExecutionContext && this.componentsExecutionContext.length !== 1) {
-      throw new Error("drainSingleComponent called on multiple components");
+      this.logger.error("drainSingleComponent called on multiple components");
+      return;
     }
     try {
       const componentExecutionContext = this.componentsExecutionContext[0];
@@ -444,7 +446,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   ): QueryInfo[] {
     return componentQueryInfos.map((queryInfo) => {
       if (!queryInfo.hasNonStreamingOrderBy) {
-        throw new Error("The component query should a non streaming order by");
+        throw new Error("The component query must have a non-streaming order by clause.");
       }
       return {
         ...queryInfo,
