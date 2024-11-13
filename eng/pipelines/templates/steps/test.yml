@@ -14,7 +14,8 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - script: |
-      node common/scripts/install-run-rush.js install
+      npm install -g pnpm
+      pnpm install
     displayName: "Install dependencies"
 
   - template: /eng/pipelines/templates/steps/set-artifact-packages.yml
@@ -25,13 +26,13 @@ steps:
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
+      pnpm build $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Build libraries"
 
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner.js build:test $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
+      pnpm build:test $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build test assets"
 
   - template: ../steps/use-node-test-version.yml
@@ -42,14 +43,14 @@ steps:
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner.js unit-test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
+      pnpm unit-test:node $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Test libraries"
     condition: and(succeeded(),eq(variables['TestType'], 'node'))
 
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
-      node eng/tools/rush-runner.js unit-test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
+      pnpm unit-test:browser $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Test libraries"
     condition: and(succeeded(),eq(variables['TestType'], 'browser'))
 
@@ -65,7 +66,7 @@ steps:
   # running in this repository" if the previous rush command was killed.
   - pwsh: |
       for ($i=0; $i -lt 30; $i++) {
-        node eng/tools/rush-runner.js unlink
+        pnpm unlink
         if ($lastexitcode -eq 0) {
           break
         }

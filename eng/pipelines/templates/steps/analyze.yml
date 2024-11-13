@@ -67,7 +67,8 @@ steps:
     displayName: "Analyze library dependencies"
 
   - script: |
-      node common/scripts/install-run-rush.js install
+      npm install -g pnpm
+      pnpm install
     displayName: "Install dependencies"
 
   - script: |

@@ -199,7 +199,7 @@ stages:
                               displayName: Increment package version
 
                             - bash: |
-                                node common/scripts/install-run-rush.js install
+                                pnpm install
                               displayName: "Install dependencies"
 
                             # Disabled until packages can be updated to support ES2019 syntax.
@@ -240,7 +240,7 @@ stages:
                       Write-Host "Detected package name: $($detectedPackageName)"
                       if ($detectedPackageName -notmatch "-alpha")
                       {
-                        Write-Error "Found non alpha version artifact to publish as dev version. Failing publish step. VersionPolicy should be client or core in rush.json to get alpha version build."
+                        Write-Error "Found non alpha version artifact to publish as dev version. Failing publish step."
                         exit 1
                       }
                       echo "##vso[task.setvariable variable=Package.Archive]$detectedPackageName"
