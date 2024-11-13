@@ -2,8 +2,10 @@
 // Licensed under the MIT License.
 
 import type {
-  AnalyzeTextParameters,
   AnalyzeImageParameters,
+  AnalyzeTextParameters,
+  ShieldPromptParameters,
+  DetectTextProtectedMaterialParameters,
   GetTextBlocklistParameters,
   CreateOrUpdateTextBlocklistParameters,
   DeleteTextBlocklistParameters,
@@ -14,10 +16,14 @@ import type {
   ListTextBlocklistItemsParameters,
 } from "./parameters";
 import type {
-  AnalyzeText200Response,
-  AnalyzeTextDefaultResponse,
   AnalyzeImage200Response,
   AnalyzeImageDefaultResponse,
+  AnalyzeText200Response,
+  AnalyzeTextDefaultResponse,
+  ShieldPrompt200Response,
+  ShieldPromptDefaultResponse,
+  DetectTextProtectedMaterial200Response,
+  DetectTextProtectedMaterialDefaultResponse,
   GetTextBlocklist200Response,
   GetTextBlocklistDefaultResponse,
   CreateOrUpdateTextBlocklist200Response,
@@ -38,6 +44,13 @@ import type {
 } from "./responses";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
+export interface AnalyzeImage {
+  /** A synchronous API for the analysis of potentially harmful image content. Currently, it supports four categories: Hate, SelfHarm, Sexual, and Violence. */
+  post(
+    options: AnalyzeImageParameters,
+  ): StreamableMethod<AnalyzeImage200Response | AnalyzeImageDefaultResponse>;
+}
+
 export interface AnalyzeText {
   /** A synchronous API for the analysis of potentially harmful text content. Currently, it supports four categories: Hate, SelfHarm, Sexual, and Violence. */
   post(
@@ -45,11 +58,20 @@ export interface AnalyzeText {
   ): StreamableMethod<AnalyzeText200Response | AnalyzeTextDefaultResponse>;
 }
 
-export interface AnalyzeImage {
-  /** A synchronous API for the analysis of potentially harmful image content. Currently, it supports four categories: Hate, SelfHarm, Sexual, and Violence. */
+export interface ShieldPrompt {
+  /** A synchronous API for shielding prompt from direct and indirect injection attacks. */
   post(
-    options: AnalyzeImageParameters,
-  ): StreamableMethod<AnalyzeImage200Response | AnalyzeImageDefaultResponse>;
+    options: ShieldPromptParameters,
+  ): StreamableMethod<ShieldPrompt200Response | ShieldPromptDefaultResponse>;
+}
+
+export interface DetectTextProtectedMaterial {
+  /** A synchronous API for detecting protected material in the given text. */
+  post(
+    options: DetectTextProtectedMaterialParameters,
+  ): StreamableMethod<
+    DetectTextProtectedMaterial200Response | DetectTextProtectedMaterialDefaultResponse
+  >;
 }
 
 export interface GetTextBlocklist {
@@ -109,10 +131,14 @@ export interface ListTextBlocklistItems {
 }
 
 export interface Routes {
-  /** Resource for '/text:analyze' has methods for the following verbs: post */
-  (path: "/text:analyze"): AnalyzeText;
   /** Resource for '/image:analyze' has methods for the following verbs: post */
   (path: "/image:analyze"): AnalyzeImage;
+  /** Resource for '/text:analyze' has methods for the following verbs: post */
+  (path: "/text:analyze"): AnalyzeText;
+  /** Resource for '/text:shieldPrompt' has methods for the following verbs: post */
+  (path: "/text:shieldPrompt"): ShieldPrompt;
+  /** Resource for '/text:detectProtectedMaterial' has methods for the following verbs: post */
+  (path: "/text:detectProtectedMaterial"): DetectTextProtectedMaterial;
   /** Resource for '/text/blocklists/\{blocklistName\}' has methods for the following verbs: get, patch, delete */
   (path: "/text/blocklists/{blocklistName}", blocklistName: string): GetTextBlocklist;
   /** Resource for '/text/blocklists' has methods for the following verbs: get */

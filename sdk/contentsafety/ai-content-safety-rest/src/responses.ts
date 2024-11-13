@@ -4,14 +4,33 @@
 import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import type { HttpResponse, ErrorResponse } from "@azure-rest/core-client";
 import type {
-  AnalyzeTextResultOutput,
   AnalyzeImageResultOutput,
+  AnalyzeTextResultOutput,
+  ShieldPromptResultOutput,
+  DetectTextProtectedMaterialResultOutput,
   TextBlocklistOutput,
   PagedTextBlocklistOutput,
   AddOrUpdateTextBlocklistItemsResultOutput,
   TextBlocklistItemOutput,
   PagedTextBlocklistItemOutput,
 } from "./outputModels";
+
+/** The request has succeeded. */
+export interface AnalyzeImage200Response extends HttpResponse {
+  status: "200";
+  body: AnalyzeImageResultOutput;
+}
+
+export interface AnalyzeImageDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface AnalyzeImageDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & AnalyzeImageDefaultHeaders;
+}
 
 /** The request has succeeded. */
 export interface AnalyzeText200Response extends HttpResponse {
@@ -31,20 +50,37 @@ export interface AnalyzeTextDefaultResponse extends HttpResponse {
 }
 
 /** The request has succeeded. */
-export interface AnalyzeImage200Response extends HttpResponse {
+export interface ShieldPrompt200Response extends HttpResponse {
   status: "200";
-  body: AnalyzeImageResultOutput;
+  body: ShieldPromptResultOutput;
 }
 
-export interface AnalyzeImageDefaultHeaders {
+export interface ShieldPromptDefaultHeaders {
   /** String error code indicating what went wrong. */
   "x-ms-error-code"?: string;
 }
 
-export interface AnalyzeImageDefaultResponse extends HttpResponse {
+export interface ShieldPromptDefaultResponse extends HttpResponse {
   status: string;
   body: ErrorResponse;
-  headers: RawHttpHeaders & AnalyzeImageDefaultHeaders;
+  headers: RawHttpHeaders & ShieldPromptDefaultHeaders;
+}
+
+/** The request has succeeded. */
+export interface DetectTextProtectedMaterial200Response extends HttpResponse {
+  status: "200";
+  body: DetectTextProtectedMaterialResultOutput;
+}
+
+export interface DetectTextProtectedMaterialDefaultHeaders {
+  /** String error code indicating what went wrong. */
+  "x-ms-error-code"?: string;
+}
+
+export interface DetectTextProtectedMaterialDefaultResponse extends HttpResponse {
+  status: string;
+  body: ErrorResponse;
+  headers: RawHttpHeaders & DetectTextProtectedMaterialDefaultHeaders;
 }
 
 /** The request has succeeded. */
