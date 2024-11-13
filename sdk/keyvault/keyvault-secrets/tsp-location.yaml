@@ -1,4 +1,5 @@
 directory: specification/keyvault/data-plane/Security.KeyVault.Secrets/
-# commit: 3b8b88ac46c13de87d715033b570b7de935bd43d
-# repo: maorleger/azure-rest-api-specs
-local-spec-repo: ../azure-rest-api-specs
+commit: 3b8b88ac46c13de87d715033b570b7de935bd43d
+repo: maorleger/azure-rest-api-specs
+
+# tsp-client init --debug --tsp-config ../azure-rest-api-specs/specification/keyvault/Security.KeyVault.Administration/tspconfig.yaml --local-spec-repo ../azure-rest-api-specs/specification/keyvault/Security.KeyVault.Administration --repo ../azure-rest-api-specs --commit 5d647f7cffd2836ac8255bbc13ea6b17201b23fe'

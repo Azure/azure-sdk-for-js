@@ -23,7 +23,9 @@ execCommand("rm -rf src/generated/*");
 execCommand("cp tsp-location.yaml src/generated");
 
 // Step 3: Run tsp-client command
-execCommand("tsp-client update -d -o src/generated");
+execCommand(
+  "tsp-client update -d -o src/generated --tsp-config ~/workspace/azure-rest-api-specs/specification/keyvault/Security.KeyVault.Secrets/tspconfig.yaml --local-spec-repo ~/workspace/azure-rest-api-specs/specification/keyvault/Security.KeyVault.Secrets --repo ~/workspace/azure-rest-api-specs --commit 5d647f7cffd2836ac8255bbc13ea6b17201b23fe",
+);
 
 // Step 4: Move generated/src/* files to generated
 execCommand("mv src/generated/src/* src/generated/");
