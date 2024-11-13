@@ -88,3 +88,7 @@ jobs:
               - template: /eng/common/pipelines/templates/steps/save-package-properties.yml
                 parameters:
                   ServiceDirectory: ${{parameters.ServiceDirectory}}
+              - pwsh: |
+                  git --version
+                  Get-ChildItem -Recurse -Force | % { Write-Host $_.FullName }
+                displayName: Dump visible package files
