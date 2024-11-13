@@ -251,7 +251,7 @@ export class QueryIterator<T> {
     diagnosticNode: DiagnosticNodeInternal,
     options?: QueryOperationOptions,
   ): Promise<FeedResponse<T>> {
-    const ruConsumedManager = new RUConsumedManager();
+    let ruConsumedManager = new RUConsumedManager();
     this.queryPlanPromise = withMetadataDiagnostics(
       async (metadataNode: DiagnosticNodeInternal) => {
         return this.fetchQueryPlan(metadataNode);
@@ -333,6 +333,7 @@ export class QueryIterator<T> {
     queryPlan: PartitionedQueryExecutionInfo,
     diagnosticNode?: DiagnosticNodeInternal,
   ): Promise<void> {
+    this.nonStreamingOrderBy = true;
     const allPartitionKeyRanges = (
       await this.partitionKeyRangeCache.onCollectionRoutingMap(this.resourceLink, diagnosticNode)
     ).getOrderedParitionKeyRanges();

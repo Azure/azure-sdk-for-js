@@ -95,6 +95,13 @@ export class HybridQueryExecutionContext implements ExecutionContext {
         this.state === HybridQueryExecutionContextBaseStates.initialized) &&
       this.buffer.length === 0
     ) {
+      if (
+        options.operationOptions &&
+        options.operationOptions.ruCapPerOperation &&
+        (await options.ruConsumed.getRUConsumed()) * 2 > options.operationOptions.ruCapPerOperation
+      ) {
+        return { result: {}, headers: nextItemRespHeaders };
+      }
       await this.fetchMoreInternal({
         diagnosticNode: options.diagnosticNode,
         nextItemRespHeaders: nextItemRespHeaders,
@@ -207,7 +214,6 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     try {
       const hybridSearchResult: HybridSearchQueryResult[] = [];
       const uniqueItems = new Map<string, HybridSearchQueryResult>();
-
       for (const componentExecutionContext of this.componentsExecutionContext) {
         while (componentExecutionContext.hasMoreResults()) {
           const result = await componentExecutionContext.fetchMore({
@@ -383,6 +389,14 @@ export class HybridQueryExecutionContext implements ExecutionContext {
           response.forEach((item: any) => {
             hybridSearchResult.push(HybridSearchQueryResult.create(item));
           });
+        }
+        if (
+          options.operationOptions &&
+          options.operationOptions.ruCapPerOperation &&
+          (await options.ruConsumed.getRUConsumed()) * 2 >
+            options.operationOptions.ruCapPerOperation
+        ) {
+          return;
         }
       }
       hybridSearchResult.forEach((item) => this.buffer.push(item.data));
