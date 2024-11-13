@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   base64encode,
@@ -15,17 +15,16 @@ import {
 } from "./utils";
 import { delay, Recorder } from "@azure-tools/test-recorder";
 import { getYieldedValue, assert } from "@azure-tools/test-utils";
-import {
-  ContainerClient,
-  BlockBlobTier,
+import type {
   ContainerListBlobHierarchySegmentResponse,
   BlobServiceClient,
   BlockBlobClient,
   BlobHTTPHeaders,
 } from "../src";
+import { ContainerClient, BlockBlobTier } from "../src";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
-import { Context } from "mocha";
-import { Tags } from "../src/models";
+import type { Context } from "mocha";
+import type { Tags } from "../src/models";
 
 describe("ContainerClient", () => {
   let blobServiceClient: BlobServiceClient;

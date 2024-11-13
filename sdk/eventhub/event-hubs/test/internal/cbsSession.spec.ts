@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ConnectionContext } from "../../src/connectionContext.js";
+import type { ConnectionContext } from "../../src/connectionContext.js";
 import { openCbsSession } from "../../src/withAuth.js";
-import { CbsClient, StandardAbortMessage } from "@azure/core-amqp";
+import type { CbsClient } from "@azure/core-amqp";
+import { StandardAbortMessage } from "@azure/core-amqp";
 import { describe, it, beforeEach, afterEach } from "vitest";
 import { createContext } from "../utils/clients.js";
 import { assert } from "../utils/chai.js";

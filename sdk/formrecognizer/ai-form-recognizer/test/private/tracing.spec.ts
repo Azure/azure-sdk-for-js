@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
 import { DocumentAnalysisClient } from "../../src/documentAnalysisClient";
 import { DocumentModelAdministrationClient } from "../../src/documentModelAdministrationClient";
 
 import { assert } from "@azure-tools/test-utils";
-import { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
-import { OperationTracingOptions } from "@azure/core-tracing";
-import { CopyAuthorization } from "../../src/generated";
-import { FormRecognizerRequestBody } from "../../src/lro/analysis";
+import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
+import type { OperationTracingOptions } from "@azure/core-tracing";
+import type { CopyAuthorization } from "../../src/generated";
+import type { FormRecognizerRequestBody } from "../../src/lro/analysis";
 
 // #region FakeClient
 

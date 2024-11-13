@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   JobRouterAdministrationUpsertClassificationPolicyOptionalParams,
   JobRouterAdministrationUpsertDistributionPolicyOptionalParams,
   JobRouterAdministrationUpsertExceptionPolicyOptionalParams,
@@ -14,8 +14,8 @@ import {
   JobRouterUnassignJobActionOptionalParams,
   ChannelConfiguration,
 } from "./generated/src";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import {
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type {
   JSONObject,
   RouterJobMatchingMode,
   RouterJobNote,

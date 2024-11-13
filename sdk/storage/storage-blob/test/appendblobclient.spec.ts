@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
-import { AppendBlobClient, ContainerClient } from "../src";
+import type { ContainerClient } from "../src";
+import { AppendBlobClient } from "../src";
 import {
   bodyToString,
   configureBlobStorageClient,

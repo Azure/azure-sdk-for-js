@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   WorkspacesListByResourceGroupOptionalParams,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List workspaces.
  *
  * @summary List workspaces.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/Workspace_ListByResourceGroup.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/Workspace_ListByResourceGroup.json
  */
 async function workspaceListByResourceGroup() {
   const subscriptionId =
@@ -35,14 +35,14 @@ async function workspaceListByResourceGroup() {
   const options: WorkspacesListByResourceGroupOptionalParams = {
     pageSize,
     isDescending,
-    initialSkip
+    initialSkip,
   };
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.workspaces.listByResourceGroup(
     resourceGroupName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

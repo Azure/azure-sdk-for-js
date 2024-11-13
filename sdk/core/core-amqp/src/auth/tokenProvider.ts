@@ -1,13 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  AccessToken,
-  NamedKeyCredential,
-  SASCredential,
-  isNamedKeyCredential,
-  isSASCredential,
-} from "@azure/core-auth";
+import type { AccessToken, NamedKeyCredential, SASCredential } from "@azure/core-auth";
+import { isNamedKeyCredential, isSASCredential } from "@azure/core-auth";
 import { signString } from "../util/hmacSha256.js";
 
 /**

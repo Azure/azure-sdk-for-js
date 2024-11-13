@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { ContainerClient, BlobServiceClient } from "@azure/storage-blob";
-import { TestDocument, createTestDocument } from "../utils/TestDocument";
-import { Pipeline } from "@azure/core-rest-pipeline";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { ContainerClient } from "@azure/storage-blob";
+import { BlobServiceClient } from "@azure/storage-blob";
+import type { TestDocument } from "../utils/TestDocument";
+import { createTestDocument } from "../utils/TestDocument";
+import type { Pipeline } from "@azure/core-rest-pipeline";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 export const ONE_TEST_DOCUMENTS = [

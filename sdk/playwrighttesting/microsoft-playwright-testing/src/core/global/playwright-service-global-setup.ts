@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { dirname } from "path";
-import { FullConfig } from "../../common/types";
+import type { FullConfig } from "../../common/types";
 import playwrightServiceEntra from "../playwrightServiceEntra";
 import { loadCustomerGlobalFunction } from "../../common/executor";
 import customerConfig from "../../common/customerConfig";

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a virtual network link to the specified Private DNS zone.
  *
  * @summary Gets a virtual network link to the specified Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/VirtualNetworkLinkGet.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/VirtualNetworkLinkGet.json
  */
 async function getPrivateDnsZoneVirtualNetworkLink() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function getPrivateDnsZoneVirtualNetworkLink() {
   const result = await client.virtualNetworkLinks.get(
     resourceGroupName,
     privateZoneName,
-    virtualNetworkLinkName
+    virtualNetworkLinkName,
   );
   console.log(result);
 }

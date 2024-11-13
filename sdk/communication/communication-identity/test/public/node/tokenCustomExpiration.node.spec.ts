@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CommunicationUserIdentifier } from "@azure/communication-common";
-import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { CommunicationUserIdentifier } from "@azure/communication-common";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
 import { assert } from "chai";
 import { matrix } from "@azure-tools/test-utils";
-import { CommunicationIdentityClient } from "../../../src/communicationIdentityClient";
+import type { CommunicationIdentityClient } from "../../../src/communicationIdentityClient";
 import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
 } from "../utils/recordedClient";
-import { CreateUserAndTokenOptions, GetTokenOptions } from "../../../src/models";
+import type { CreateUserAndTokenOptions, GetTokenOptions } from "../../../src/models";
 
 matrix([[true, false]], async function (useAad: boolean) {
   describe(`Get Token With Custom Expiration [Playback/Live]${

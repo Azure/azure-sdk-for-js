@@ -1,20 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { DirectSendNotificationOptions, SendNotificationOptions } from "../models/options.js";
-import { createRequest, parseNotificationSendResponse, sendRequest } from "./internal/_client.js";
-import {
-  isDirectSendNotificationOptions,
-  isSendNotificationOptions,
-} from "../utils/optionUtils.js";
-import { BrowserPushChannel } from "../models/installation.js";
-import { NonNullableRecord } from "../utils/utils.js";
-import { Notification } from "../models/notification.js";
-import { NotificationHubsClientContext } from "./index.js";
-import { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
-import { createMultipartDirectNotification } from "../utils/notificationUtils.js";
-import { randomUUID } from "@azure/core-util";
-import { tracingClient } from "../utils/tracing.js";
+import type { DirectSendNotificationOptions, SendNotificationOptions } from "../models/options.js";
+import type { Notification } from "../models/notification.js";
+import type { NotificationHubsClientContext } from "./index.js";
+import type { NotificationHubsMessageResponse } from "../models/notificationDetails.js";
+import { sendNotificationInternal } from "./internal/_sendNotification.js";
 
 /**
  * Sends push notifications to devices that match the given tags or tag expression.
@@ -26,66 +17,7 @@ import { tracingClient } from "../utils/tracing.js";
 export function sendNotification(
   context: NotificationHubsClientContext,
   notification: Notification,
-  options: DirectSendNotificationOptions | SendNotificationOptions = { enableTestSend: false },
+  options: DirectSendNotificationOptions | SendNotificationOptions,
 ): Promise<NotificationHubsMessageResponse> {
-  return tracingClient.withSpan(
-    `NotificationHubsClientContext.sendNotification`,
-    options,
-    async (updatedOptions) => {
-      const endpoint = context.requestUrl();
-      endpoint.pathname += "/messages/";
-
-      // Check if batch direct send
-      if (isDirectSendNotificationOptions(options) && Array.isArray(options.deviceHandle)) {
-        endpoint.pathname += "$batch";
-      }
-
-      // Check for test send
-      if (isSendNotificationOptions(options) && options.enableTestSend) {
-        endpoint.searchParams.append("test", "true");
-      }
-
-      const headers = await context.createHeaders(
-        "sendNotification",
-        notification.headers as NonNullableRecord,
-      );
-      headers.set("ServiceBusNotification-Format", notification.platform);
-
-      let body = notification.body;
-      let contentType: string = notification.contentType;
-
-      // Check for direct batch send
-      if (isDirectSendNotificationOptions(options) && Array.isArray(options.deviceHandle)) {
-        endpoint.searchParams.append("direct", "true");
-        const boundary = `nh-boundary-${randomUUID()}`;
-        contentType = `multipart/mixed; boundary = "${boundary}"`;
-        body = createMultipartDirectNotification(boundary, notification, options.deviceHandle);
-      } else if (isDirectSendNotificationOptions(options)) {
-        endpoint.searchParams.append("direct", "true");
-
-        if (notification.platform === "browser") {
-          const browserHandle = options.deviceHandle as BrowserPushChannel;
-          headers.set("ServiceBusNotification-DeviceHandle", browserHandle.endpoint);
-          headers.set("Auth", browserHandle.auth);
-          headers.set("P256DH", browserHandle.p256dh);
-        } else {
-          headers.set("ServiceBusNotification-DeviceHandle", options.deviceHandle as string);
-        }
-      } else if (isSendNotificationOptions(options)) {
-        if (options.tagExpression) {
-          headers.set("ServiceBusNotification-Tags", options.tagExpression);
-        }
-      }
-
-      headers.set("Content-Type", contentType);
-      headers.set("ServiceBusNotification-Format", notification.platform);
-
-      const request = createRequest(endpoint, "POST", headers, updatedOptions);
-      request.body = body;
-
-      const response = await sendRequest(context, request, 201);
-
-      return parseNotificationSendResponse(response);
-    },
-  );
+  return sendNotificationInternal(context, notification, options);
 }

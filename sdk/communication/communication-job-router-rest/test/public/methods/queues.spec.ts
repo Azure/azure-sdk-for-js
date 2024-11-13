@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { AzureCommunicationRoutingServiceClient, paginate, RouterQueueOutput } from "../../../src";
-import { Context } from "mocha";
+import type { AzureCommunicationRoutingServiceClient, RouterQueueOutput } from "../../../src";
+import { paginate } from "../../../src";
+import type { Context } from "mocha";
 import {
   getQueueRequest,
   getExceptionPolicyRequest,

@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import {
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type {
   RequestBodyType as HttpRequestBody,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
   CopyFileSmbInfo,
   DeleteSnapshotsOptionType,
   DirectoryCreateResponse,
@@ -92,13 +93,14 @@ import {
   FileListHandlesHeaders,
   RawFileDownloadResponse,
 } from "./generatedModels";
-import {
+import type {
   FileRenameHeaders,
   ListFilesAndDirectoriesSegmentResponse as GeneratedListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse as GeneratedListHandlesResponse,
 } from "./generated/src/models";
-import { Share, Directory, File } from "./generated/src/operationsInterfaces";
-import { isPipelineLike, newPipeline, Pipeline, PipelineLike } from "./Pipeline";
+import type { Share, Directory, File } from "./generated/src/operationsInterfaces";
+import type { Pipeline, PipelineLike } from "./Pipeline";
+import { isPipelineLike, newPipeline } from "./Pipeline";
 import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
@@ -108,6 +110,7 @@ import {
   FileAttributesPreserve,
   FileAttributesNone,
 } from "./utils/constants";
+import type { WithResponse } from "./utils/utils.common";
 import {
   appendToURLPath,
   setURLParameter,
@@ -121,7 +124,6 @@ import {
   EscapePath,
   ConvertInternalResponseOfListFiles,
   ConvertInternalResponseOfListHandles,
-  WithResponse,
   assertResponse,
   removeEmptyString,
   asSharePermission,
@@ -130,50 +132,57 @@ import { Credential } from "../../storage-blob/src/credentials/Credential";
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 import { tracingClient } from "./utils/tracing";
-import { StorageClient, CommonOptions } from "./StorageClient";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { CommonOptions } from "./StorageClient";
+import { StorageClient } from "./StorageClient";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { FileDownloadResponse } from "./FileDownloadResponse";
-import { Range, rangeToString } from "./Range";
-import {
+import type { Range } from "./Range";
+import { rangeToString } from "./Range";
+import type {
   CloseHandlesInfo,
   FileAndDirectoryCreateCommonOptions,
   FileAndDirectorySetPropertiesCommonOptions,
-  fileAttributesToString,
-  fileCreationTimeToString,
   FileHttpHeaders,
-  fileLastWriteTimeToString,
   Metadata,
-  validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
-  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions,
   ShareProtocols,
-  toShareProtocolsString,
-  toShareProtocols,
   HttpAuthorization,
-  fileChangeTimeToString,
   ShareClientOptions,
   ShareClientConfig,
 } from "./models";
+import {
+  fileAttributesToString,
+  fileCreationTimeToString,
+  fileLastWriteTimeToString,
+  validateAndSetDefaultsForFileAndDirectoryCreateCommonOptions,
+  validateAndSetDefaultsForFileAndDirectorySetPropertiesCommonOptions,
+  toShareProtocolsString,
+  toShareProtocols,
+  fileChangeTimeToString,
+} from "./models";
 import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
-import { Readable } from "stream";
+import type { Readable } from "stream";
 import {
   fsStat,
   fsCreateReadStream,
   readStreamToLocalFile,
   streamToBuffer,
 } from "./utils/utils.node";
-import { FileSetHttpHeadersHeaders, StorageClient as StorageClientContext } from "./generated/src/";
+import type {
+  FileSetHttpHeadersHeaders,
+  StorageClient as StorageClientContext,
+} from "./generated/src/";
 import { randomUUID } from "@azure/core-util";
 import {
   generateFileSASQueryParameters,
   generateFileSASQueryParametersInternal,
 } from "./FileSASSignatureValues";
-import { ShareSASPermissions } from "./ShareSASPermissions";
-import { SASProtocol } from "./SASQueryParameters";
-import { SasIPRange } from "./SasIPRange";
-import { FileSASPermissions } from "./FileSASPermissions";
-import { ListFilesIncludeType } from "./generated/src";
+import type { ShareSASPermissions } from "./ShareSASPermissions";
+import type { SASProtocol } from "./SASQueryParameters";
+import type { SasIPRange } from "./SasIPRange";
+import type { FileSASPermissions } from "./FileSASPermissions";
+import type { ListFilesIncludeType } from "./generated/src";
 
 export { ShareClientOptions, ShareClientConfig } from "./models";
 
@@ -233,6 +242,14 @@ export interface ShareCreateOptions extends CommonOptions {
    * Optional. Integer. Default if not specified is the maximum IOPS the file share can support. Current maximum for a file share is 102,400 IOPS.
    */
   paidBurstingMaxIops?: number;
+  /**
+   * Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares.
+   * Specifies the provisioned number of input/output operations per second (IOPS) of the share. If this is not specified, the provisioned IOPS is set to value calculated based on recommendation formula.
+   */
+  shareProvisionedIops?: number;
+
+  /** Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares. Specifies the provisioned bandwidth of the share, in mebibytes per second (MiBps). If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula. */
+  shareProvisionedBandwidthMibps?: number;
 }
 
 /**
@@ -397,6 +414,13 @@ export interface ShareSetPropertiesOptions extends CommonOptions {
    * Optional. Integer. Default if not specified is the maximum IOPS the file share can support. Current maximum for a file share is 102,400 IOPS.
    */
   paidBurstingMaxIops?: number;
+  /**
+   * Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares.
+   * Specifies the provisioned number of input/output operations per second (IOPS) of the share. If this is not specified, the provisioned IOPS is set to value calculated based on recommendation formula.
+   */
+  shareProvisionedIops?: number;
+  /** Optional. Supported in version 2025-01-05 and later. Only allowed for provisioned v2 file shares. Specifies the provisioned bandwidth of the share, in mebibytes per second (MiBps). If this is not specified, the provisioned bandwidth is set to value calculated based on recommendation formula. */
+  shareProvisionedBandwidthMibps?: number;
 }
 
 /**
@@ -639,7 +663,7 @@ export class ShareClient extends StorageClient {
    * @param options - Optional. Options to configure the HTTP pipeline.
    */
   // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
-  /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
+
   constructor(connectionString: string, name: string, options?: ShareClientOptions);
   /**
    * Creates an instance of ShareClient.
@@ -656,7 +680,7 @@ export class ShareClient extends StorageClient {
     url: string,
     credential?: Credential | TokenCredential,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
-    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
+
     options?: ShareClientOptions,
   );
   /**
@@ -674,7 +698,7 @@ export class ShareClient extends StorageClient {
     urlOrConnectionString: string,
     credentialOrPipelineOrShareName?: Credential | TokenCredential | PipelineLike | string,
     // Legacy, no way to fix the eslint error without breaking. Disable the rule for this line.
-    /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
+
     options?: ShareClientOptions,
   ) {
     let pipeline: Pipeline;
@@ -3097,6 +3121,12 @@ export interface FileStartCopyOptions extends CommonOptions {
    * specified.
    */
   filePermission?: string;
+  /**
+   * Optional. Available for version 2023-06-01 and later. Specifies the format in which the permission is returned.
+   * Acceptable values are SDDL or binary. If x-ms-file-permission-format is unspecified or explicitly set to SDDL, the permission is returned in SDDL format.
+   * If x-ms-file-permission-format is explicitly set to binary, the permission is returned as a base64 string representing the binary encoding of the permission
+   */
+  filePermissionFormat?: FilePermissionFormat;
   /**
    * Key of the permission to be set for the directory/file. Note: Only one of the
    * x-ms-file-permission or x-ms-file-permission-key should be specified.

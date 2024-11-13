@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import {
@@ -12,9 +12,10 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils";
-import { ShareServiceClient, newPipeline, StorageSharedKeyCredential, ShareItem } from "../../src";
+import type { StorageSharedKeyCredential, ShareItem } from "../../src";
+import { ShareServiceClient, newPipeline } from "../../src";
 import { delay, Recorder } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("FileServiceClient Node.js only", () => {
   let recorder: Recorder;

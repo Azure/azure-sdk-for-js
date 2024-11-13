@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ClientOptions, OperationOptions } from "@azure-rest/core-client";
-import { BrowserPushChannel } from "./installation.js";
+import type { ClientOptions, OperationOptions } from "@azure-rest/core-client";
+import type { BrowserPushChannel } from "./installation.js";
 
 /**
  * Describes the options that can be provided while creating the NotificationHubsClientContext.
@@ -20,29 +20,33 @@ export interface PolledOperationOptions extends OperationOptions {
 }
 
 /**
- * Options for sending notifications for both tag based send and broadcast scheduled send.
+ * Options for sending notifications for both tag based scheduled send.
  */
 export interface ScheduleNotificationOptions extends OperationOptions {
   /**
    * A tag expression used to target devices. Use the `createTagExpression` function to create a tag expression from an array of tags.
-   * If not set, this results in a broadcast notification to be scheduled.
    */
-  tagExpression?: string;
+  tagExpression: string;
 }
 
 /**
- * Options for sending notifications for both tag based send and broadcast send.
+ * Options for sending notifications for test send.
  */
-export interface SendNotificationOptions extends OperationOptions {
-  /**
-   * A tag expression used to target devices. Use the `createTagExpression` function to create a tag expression from an array of tags.
-   * If not set, this results in a broadcast notification to be sent.
-   */
-  tagExpression?: string;
+export interface BroadcastSendNotificationOptions extends OperationOptions {
   /**
    * Set to true to enable test send.
    */
   enableTestSend?: boolean;
+}
+
+/**
+ * Options for sending notifications for tag based send.
+ */
+export interface SendNotificationOptions extends BroadcastSendNotificationOptions {
+  /**
+   * A tag expression used to target devices. Use the `createTagExpression` function to create a tag expression from an array of tags.
+   */
+  tagExpression: string;
 }
 
 /**

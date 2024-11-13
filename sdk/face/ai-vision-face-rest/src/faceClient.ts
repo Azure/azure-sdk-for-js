@@ -1,13 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
-import { TokenCredential, KeyCredential } from "@azure/core-auth";
-import { FaceClient } from "./clientDefinitions.js";
-import { Versions } from "./models.js";
+import type { TokenCredential, KeyCredential } from "@azure/core-auth";
+import type { FaceClient } from "./clientDefinitions.js";
+import type { Versions } from "./models.js";
 
+/** The optional parameters for the client */
 export interface FaceClientOptions extends ClientOptions {
+  /** API Version */
   apiVersion?: Versions;
 }
 
@@ -21,12 +24,10 @@ export interface FaceClientOptions extends ClientOptions {
 export default function createClient(
   endpointParam: string,
   credentials: TokenCredential | KeyCredential,
-  options: FaceClientOptions = {},
+  { apiVersion = "v1.2-preview.1", ...options }: FaceClientOptions = {},
 ): FaceClient {
-  const apiVersion = options.apiVersion ?? "v1.1-preview.1";
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpointParam}/face/${apiVersion}`;
-
-  const userAgentInfo = `azsdk-js-ai-vision-face-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-ai-vision-face-rest/1.0.0-beta.3`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
@@ -44,7 +45,6 @@ export default function createClient(
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "Ocp-Apim-Subscription-Key",
     },
   };
-
   const client = getClient(endpointUrl, credentials, options) as FaceClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as fs from "fs";
 import { promisify } from "util";
-import { SynonymMap } from "./serviceModels";
+import type { SynonymMap } from "./serviceModels";
 const readFileAsync = promisify(fs.readFile);
 
 /**

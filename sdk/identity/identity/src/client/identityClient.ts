@@ -1,25 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
-import { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
 import { ServiceClient } from "@azure/core-client";
 import { isNode } from "@azure/core-util";
-import {
-  PipelineRequest,
-  PipelineResponse,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { AuthenticationError, AuthenticationErrorName } from "../errors";
 import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
 import { DefaultAuthorityHost, SDK_VERSION } from "../constants";
 import { tracingClient } from "../util/tracing";
 import { logger } from "../util/logging";
-import { TokenCredentialOptions } from "../tokenCredentialOptions";
+import type { TokenCredentialOptions } from "../tokenCredentialOptions";
+import type { TokenResponseParsedBody } from "../credentials/managedIdentityCredential/utils";
 import {
-  TokenResponseParsedBody,
   parseExpirationTimestamp,
   parseRefreshTimestamp,
 } from "../credentials/managedIdentityCredential/utils";
@@ -124,7 +120,8 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
           token: parsedBody.access_token,
           expiresOnTimestamp: parseExpirationTimestamp(parsedBody),
           refreshAfterTimestamp: parseRefreshTimestamp(parsedBody),
-        },
+          tokenType: "Bearer",
+        } as AccessToken,
         refreshToken: parsedBody.refresh_token,
       };
 

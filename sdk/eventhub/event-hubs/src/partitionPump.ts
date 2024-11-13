@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { TracingSpanOptions, TracingSpanLink } from "@azure/core-tracing";
+import type { TracingSpanOptions, TracingSpanLink } from "@azure/core-tracing";
 import { logErrorStackTrace, logger } from "./logger.js";
 import { CloseReason } from "./models/public.js";
-import { CommonEventProcessorOptions } from "./models/private.js";
-import { ConnectionContext } from "./connectionContext.js";
-import { EventHubConnectionConfig } from "./eventhubConnectionConfig.js";
-import { createReceiver, PartitionReceiver } from "./partitionReceiver.js";
-import { EventPosition } from "./eventPosition.js";
-import { MessagingError } from "@azure/core-amqp";
-import { PartitionProcessor } from "./partitionProcessor.js";
-import { ReceivedEventData } from "./eventData.js";
+import type { CommonEventProcessorOptions } from "./models/private.js";
+import type { ConnectionContext } from "./connectionContext.js";
+import type { EventHubConnectionConfig } from "./eventhubConnectionConfig.js";
+import type { PartitionReceiver } from "./partitionReceiver.js";
+import { createReceiver } from "./partitionReceiver.js";
+import type { EventPosition } from "./eventPosition.js";
+import type { MessagingError } from "@azure/core-amqp";
+import type { PartitionProcessor } from "./partitionProcessor.js";
+import type { ReceivedEventData } from "./eventData.js";
 import { toSpanOptions, tracingClient } from "./diagnostics/tracing.js";
 import { extractSpanContextFromEventData } from "./diagnostics/instrumentEventData.js";
 

@@ -1,32 +1,33 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ConnectionConfig } from "@azure/core-amqp";
-import { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
+import type { ConnectionConfig } from "@azure/core-amqp";
+import type { TokenCredential, NamedKeyCredential, SASCredential } from "@azure/core-auth";
+import type { ServiceBusClientOptions } from "./constructorHelpers.js";
 import {
-  ServiceBusClientOptions,
   createConnectionContextForConnectionString,
   createConnectionContextForCredential,
-} from "./constructorHelpers";
-import { ConnectionContext } from "./connectionContext";
-import {
+} from "./constructorHelpers.js";
+import { ConnectionContext } from "./connectionContext.js";
+import type {
   ServiceBusReceiverOptions,
   ServiceBusSessionReceiverOptions,
   ReceiveMode,
   ServiceBusSenderOptions,
-} from "./models";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "./receivers/receiver";
-import {
-  ServiceBusSessionReceiver,
-  ServiceBusSessionReceiverImpl,
-} from "./receivers/sessionReceiver";
-import { ServiceBusRuleManager, ServiceBusRuleManagerImpl } from "./serviceBusRuleManager";
-import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
-import { entityPathMisMatchError } from "./util/errors";
-import { MessageSession } from "./session/messageSession";
+} from "./models.js";
+import type { ServiceBusReceiver } from "./receivers/receiver.js";
+import { ServiceBusReceiverImpl } from "./receivers/receiver.js";
+import type { ServiceBusSessionReceiver } from "./receivers/sessionReceiver.js";
+import { ServiceBusSessionReceiverImpl } from "./receivers/sessionReceiver.js";
+import type { ServiceBusRuleManager } from "./serviceBusRuleManager.js";
+import { ServiceBusRuleManagerImpl } from "./serviceBusRuleManager.js";
+import type { ServiceBusSender } from "./sender.js";
+import { ServiceBusSenderImpl } from "./sender.js";
+import { entityPathMisMatchError } from "./util/errors.js";
+import { MessageSession } from "./session/messageSession.js";
 import { isDefined } from "@azure/core-util";
-import { isCredential } from "./util/typeGuards";
-import { ensureValidIdentifier } from "./util/utils";
+import { isCredential } from "./util/typeGuards.js";
+import { ensureValidIdentifier } from "./util/utils.js";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -476,6 +477,7 @@ export class ServiceBusClient {
    * to the service until one of the methods on the sender is called.
    * @param queueOrTopicName - The name of a queue or topic to send messages to.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   createSender(queueOrTopicName: string, options: ServiceBusSenderOptions = {}): ServiceBusSender {
     validateEntityPath(this._connectionContext.config, queueOrTopicName);
 

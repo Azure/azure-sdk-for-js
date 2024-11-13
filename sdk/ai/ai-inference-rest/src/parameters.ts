@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   ExtraParameters,
   ChatRequestMessage,
   ChatCompletionsResponseFormat,
@@ -38,9 +38,7 @@ export interface GetChatCompletionsBodyParam {
     response_format?: ChatCompletionsResponseFormat;
     stop?: string[];
     tools?: Array<ChatCompletionsToolDefinition>;
-    tool_choice?:
-      | ChatCompletionsToolSelectionPreset
-      | ChatCompletionsNamedToolSelection;
+    tool_choice?: ChatCompletionsToolSelectionPreset | ChatCompletionsNamedToolSelection;
     seed?: number;
     model?: string;
   };

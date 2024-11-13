@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import type {
+  KeepAliveOptions,
+  ExtendedServiceClientOptions,
+  HttpPipelineLogLevel,
+} from "@azure/core-http-compat";
 import {
   CompatResponse as HttpOperationResponse,
   RequestPolicy as IHttpClient,
@@ -9,31 +14,32 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptionsLike as RequestPolicyOptions,
   WebResourceLike as WebResource,
-  KeepAliveOptions,
-  ExtendedServiceClientOptions,
   convertHttpClient,
   createRequestPolicyFactoryPolicy,
-  HttpPipelineLogLevel,
 } from "@azure/core-http-compat";
-import {
-  RequestBodyType as HttpRequestBody,
+import type {
   ProxySettings as ProxyOptions,
   UserAgentPolicyOptions as UserAgentOptions,
-  bearerTokenAuthenticationPolicy,
   Pipeline as CorePipeline,
-  decompressResponsePolicyName,
   PipelinePolicy,
   HttpClient,
 } from "@azure/core-rest-pipeline";
+import {
+  RequestBodyType as HttpRequestBody,
+  bearerTokenAuthenticationPolicy,
+  decompressResponsePolicyName,
+} from "@azure/core-rest-pipeline";
 import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/core-client";
 import { parseXML, stringifyXML } from "@azure/core-xml";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log";
-import { StorageRetryOptions, StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
+import type { StorageRetryOptions } from "./StorageRetryPolicyFactory";
+import { StorageRetryPolicyFactory } from "./StorageRetryPolicyFactory";
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
-import { Credential } from "../../storage-blob/src/credentials/Credential";
+import type { Credential } from "../../storage-blob/src/credentials/Credential";
 import {
   StorageOAuthScopes,
   StorageFileLoggingAllowedHeaderNames,
@@ -45,7 +51,7 @@ import { storageBrowserPolicy } from "../../storage-blob/src/policies/StorageBro
 import { storageRetryPolicy } from "./policies/StorageRetryPolicyV2";
 import { storageSharedKeyCredentialPolicy } from "../../storage-blob/src/policies/StorageSharedKeyCredentialPolicyV2";
 import { StorageBrowserPolicyFactory } from "../../storage-blob/src/StorageBrowserPolicyFactory";
-import { ShareTokenIntent } from "./generatedModels";
+import type { ShareTokenIntent } from "./generatedModels";
 import { storageCorrectContentLengthPolicy } from "../../storage-blob/src/policies/StorageCorrectContentLengthPolicy";
 
 // Export following interfaces and types for customers who want to implement their

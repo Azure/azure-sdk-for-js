@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import sinon from "sinon";
 import { assert } from "chai";
-import { RoomsClient } from "../../src";
+import type { RoomsClient } from "../../src";
 import {
   createRoomsClient,
   generateHttpClient,

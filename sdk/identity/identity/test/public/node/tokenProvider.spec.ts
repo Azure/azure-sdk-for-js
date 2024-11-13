@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { DefaultAzureCredential, getBearerTokenProvider } from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, delay, isPlaybackMode } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import { getBearerTokenProvider, TokenCredential } from "../../../src";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import { delay, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
 import { assert } from "@azure-tools/test-utils";
 
 describe("getBearerTokenProvider", function () {
   let cleanup: MsalTestCleanup;
-  let recorder: Recorder;
 
   beforeEach(async function (this: Context) {
     const setup = await msalNodeTestSetup(this.currentTest);
-    recorder = setup.recorder;
     cleanup = setup.cleanup;
   });
   afterEach(async function () {
@@ -23,7 +22,15 @@ describe("getBearerTokenProvider", function () {
   const scope = "https://vault.azure.net/.default";
 
   it("returns a callback that returns string tokens", async function () {
-    const credential = new DefaultAzureCredential(recorder.configureClientOptions({}));
+    // Create a fake credential similar to NoOpCredential
+    const credential: TokenCredential = {
+      getToken: () =>
+        Promise.resolve({
+          token: "Example-token",
+          tokenType: "Bearer",
+          expiresOnTimestamp: new Date().getTime() + 10000,
+        }),
+    };
 
     const getAccessToken = getBearerTokenProvider(credential, scope);
 
@@ -32,6 +39,7 @@ describe("getBearerTokenProvider", function () {
         await delay(500);
       }
       const token = await getAccessToken();
+      assert.equal(token, "Example-token");
       assert.isString(token);
     }
   });

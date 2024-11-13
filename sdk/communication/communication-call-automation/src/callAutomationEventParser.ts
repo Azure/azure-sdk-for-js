@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createSerializer } from "@azure/core-client";
 
 import { communicationIdentifierConverter, callParticipantConverter } from "./utli/converters";
 
-import {
+import type {
   CallAutomationEvent,
   AddParticipantSucceeded,
   AddParticipantFailed,
@@ -40,7 +40,7 @@ import {
 } from "./models/events";
 
 import { CloudEventMapper } from "./models/mapper";
-import { CallParticipantInternal } from "./generated/src";
+import type { CallParticipantInternal } from "./generated/src";
 
 const serializer = createSerializer();
 

@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import type { PipelinePolicy } from "@azure/core-rest-pipeline";
 import {
-  PipelinePolicy,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
   bearerTokenAuthenticationPolicyName,
 } from "@azure/core-rest-pipeline";
-import { ShortCodesClient as ShortCodesGeneratedClient } from "../../src/generated/src";
-import { TokenCredential } from "@azure/identity";
-import { assert } from "chai";
-import { createMockToken } from "../public/utils/recordedClient";
+import { ShortCodesClient as ShortCodesGeneratedClient } from "../../src/generated/src/index.js";
+import type { TokenCredential } from "@azure/identity";
+import { createMockToken } from "../public/utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
 import { parseClientArguments } from "@azure/communication-common";
-import sinon from "sinon";
-import { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi } from "vitest";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,
@@ -110,9 +109,9 @@ describe("ShortCodesGeneratedClient - constructor", function () {
       "pipeline should have CustomApiVersionPolicy",
     );
 
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     await client.shortCodes.getUSProgramBrief("9fb78ef0-5704-4866-bca2-6a040ec83c0b");
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
   });
 
   it("verify bearer policy exists without explicitly adding it", async function () {
@@ -146,8 +145,8 @@ describe("ShortCodesGeneratedClient - constructor", function () {
       "pipeline should have CustomApiVersionPolicy",
     );
 
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     await client.shortCodes.getUSProgramBrief("9fb78ef0-5704-4866-bca2-6a040ec83c0b");
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
   });
 });

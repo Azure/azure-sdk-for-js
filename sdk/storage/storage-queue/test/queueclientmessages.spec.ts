@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import { getQSU, getSASConnectionStringFromEnvironment } from "./utils";
@@ -12,7 +12,7 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils/testutils.common";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("QueueClient message methods", () => {
   let queueName: string;

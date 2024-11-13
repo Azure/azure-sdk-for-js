@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { PrimitivePartitionKeyValue } from "../../documents";
+// Licensed under the MIT License.
+import type { PrimitivePartitionKeyValue } from "../../documents";
 import { hashV2PartitionKey } from "./v2";
 
 /**

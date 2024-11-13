@@ -97,7 +97,7 @@ node administratorsCreateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env POSTGRESQL_SUBSCRIPTION_ID="<postgresql subscription id>" POSTGRESQL_RESOURCE_GROUP="<postgresql resource group>" node administratorsCreateSample.js
+npx dev-tool run vendored cross-env POSTGRESQL_SUBSCRIPTION_ID="<postgresql subscription id>" POSTGRESQL_RESOURCE_GROUP="<postgresql resource group>" node administratorsCreateSample.js
 ```
 
 ## Next Steps

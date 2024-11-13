@@ -1,36 +1,33 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
-
+import type { AtomXmlSerializer } from "../../../src/util/atomXmlHelper.js";
 import {
-  AtomXmlSerializer,
   deserializeAtomXmlResponse,
   executeAtomXmlOperation,
   sanitizeSerializableObject,
-} from "../../../src/util/atomXmlHelper";
-import * as Constants from "../../../src/util/constants";
-import { ServiceBusAdministrationClient } from "../../../src/serviceBusAtomManagementClient";
+} from "../../../src/util/atomXmlHelper.js";
+import * as Constants from "../../../src/util/constants.js";
+import { ServiceBusAdministrationClient } from "../../../src/serviceBusAtomManagementClient.js";
 import {
   buildQueueOptions,
   QueueResourceSerializer,
-} from "../../../src/serializers/queueResourceSerializer";
+} from "../../../src/serializers/queueResourceSerializer.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import {
   buildTopicOptions,
   TopicResourceSerializer,
-} from "../../../src/serializers/topicResourceSerializer";
+} from "../../../src/serializers/topicResourceSerializer.js";
 import {
   buildSubscriptionOptions,
   SubscriptionResourceSerializer,
-} from "../../../src/serializers/subscriptionResourceSerializer";
-import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSerializer";
-import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils";
-import { TestConstants } from "../../public/fakeTestSecrets";
-import { FullOperationResponse } from "@azure/core-client";
+} from "../../../src/serializers/subscriptionResourceSerializer.js";
+import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSerializer.js";
+import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils.js";
+import { TestConstants } from "../../public/fakeTestSecrets.js";
+import type { FullOperationResponse } from "@azure/core-client";
+import { beforeEach, describe, it } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 const queueProperties = [
   Constants.LOCK_DURATION,
@@ -1259,7 +1256,7 @@ describe("ATOM Serializers", () => {
     ].forEach((testCase) => {
       it(testCase.title, () => {
         sanitizeSerializableObject(testCase.input);
-        chai.assert.deepEqual(testCase.input, testCase.output as any);
+        assert.deepEqual(testCase.input, testCase.output as any);
       });
     });
   });
@@ -1276,7 +1273,7 @@ describe("ATOM Serializers", () => {
       { input: "abc", output: false },
     ].forEach((testCase) => {
       it(`${JSON.stringify(testCase.input)}`, () => {
-        chai.assert.equal(isJSONLikeObject(testCase.input), testCase.output);
+        assert.equal(isJSONLikeObject(testCase.input), testCase.output);
       });
     });
   });
@@ -1359,9 +1356,9 @@ describe("ATOM Serializers", () => {
       it(`${testCase.title}`, () => {
         try {
           const xmlnsPrefix = getXMLNSPrefix(testCase.input);
-          chai.assert.equal(xmlnsPrefix, testCase.output.value);
+          assert.equal(xmlnsPrefix, testCase.output.value);
         } catch (error: any) {
-          chai.assert.equal(error, testCase.output.error, "Unexpected error thrown");
+          assert.equal(error, testCase.output.error, "Unexpected error thrown");
         }
       });
     });

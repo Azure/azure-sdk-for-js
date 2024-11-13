@@ -1,16 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ConnectionContext } from "../connectionContext";
-import { MessageHandlers, ReceiveMessagesOptions, ServiceBusReceivedMessage } from "..";
-import {
+import type { ConnectionContext } from "../connectionContext.js";
+import type {
+  MessageHandlers,
+  ReceiveMessagesOptions,
+  ServiceBusReceivedMessage,
+} from "../index.js";
+import type {
   PeekMessagesOptions,
   GetMessageIteratorOptions,
   SubscribeOptions,
   DeleteMessagesOptions,
   PurgeMessagesOptions,
-} from "../models";
-import { MessageSession } from "../session/messageSession";
+} from "../models.js";
+import type { MessageSession } from "../session/messageSession.js";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
@@ -20,8 +24,8 @@ import {
   throwTypeErrorIfParameterNotLong,
   throwErrorIfInvalidOperationOnMessage,
   throwTypeErrorIfParameterTypeMismatch,
-} from "../util/errors";
-import { OnError, OnMessage } from "../core/messageReceiver";
+} from "../util/errors.js";
+import type { OnError, OnMessage } from "../core/messageReceiver.js";
 import {
   abandonMessage,
   assertValidMessageHandlers,
@@ -30,28 +34,19 @@ import {
   deferMessage,
   getMessageIterator,
   wrapProcessErrorHandler,
-} from "./receiverCommon";
-import {
-  defaultMaxTimeAfterFirstMessageForBatchingMs,
-  MaxDeleteMessageCount,
-  ServiceBusReceiver,
-} from "./receiver";
-import Long from "long";
-import { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage";
-import {
-  Constants,
-  RetryConfig,
-  RetryOperationType,
-  RetryOptions,
-  retry,
-  ErrorNameConditionMapper,
-} from "@azure/core-amqp";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { AmqpError } from "rhea-promise";
-import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage";
-import { tracingClient } from "../diagnostics/tracing";
-import { receiverLogger as logger } from "../log";
-import { translateServiceBusError } from "../serviceBusError";
+} from "./receiverCommon.js";
+import type { ServiceBusReceiver } from "./receiver.js";
+import { defaultMaxTimeAfterFirstMessageForBatchingMs, MaxDeleteMessageCount } from "./receiver.js";
+import type Long from "long";
+import type { ServiceBusMessageImpl, DeadLetterOptions } from "../serviceBusMessage.js";
+import type { RetryConfig, RetryOptions } from "@azure/core-amqp";
+import { Constants, RetryOperationType, retry, ErrorNameConditionMapper } from "@azure/core-amqp";
+import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import type { AmqpError } from "rhea-promise";
+import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage.js";
+import { tracingClient } from "../diagnostics/tracing.js";
+import { receiverLogger as logger } from "../log.js";
+import { translateServiceBusError } from "../serviceBusError.js";
 
 /**
  *A receiver that handles sessions, including renewing the session lock.
@@ -337,15 +332,19 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
       skipParsingBodyAsJson: this._skipParsingBodyAsJson,
       skipConvertingDate: this._skipConvertingDate,
     };
+    // omitMessageBody is available at runtime, but only exported in experimental subpath
+    const { fromSequenceNumber, omitMessageBody } = options as PeekMessagesOptions & {
+      omitMessageBody: boolean;
+    };
     const peekOperationPromise = async (): Promise<ServiceBusReceivedMessage[]> => {
-      if (options.fromSequenceNumber !== undefined) {
+      if (fromSequenceNumber !== undefined) {
         return this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
-            options.fromSequenceNumber,
+            fromSequenceNumber,
             maxMessageCount,
             this.sessionId,
-            options.omitMessageBody,
+            omitMessageBody,
             managementRequestOptions,
           );
       } else {
@@ -354,7 +353,7 @@ export class ServiceBusSessionReceiverImpl implements ServiceBusSessionReceiver 
           .peekMessagesBySession(
             this.sessionId,
             maxMessageCount,
-            options.omitMessageBody,
+            omitMessageBody,
             managementRequestOptions,
           );
       }

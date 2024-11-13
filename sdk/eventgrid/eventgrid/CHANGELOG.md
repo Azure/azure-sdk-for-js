@@ -1,5 +1,31 @@
 # Release History
 
+## 5.8.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 5.8.0 (2024-10-14)
+
+### Other Changes
+
+- A new property `onBehalfOfCallee` is added to the `AcsIncomingCallEventData` interface.
+
+### Bugs Fixed
+
+- The property `serializedName` has been removed from `MediaJobOutputProgressEventData` & `MediaJobScheduledEventData` models.
+
+## 5.7.0 (2024-09-23)
+
+### Other Changes
+
+- A new property `tierToColdSummary` is added to the `StorageLifecyclePolicyCompletedEventData` interface.
+
 ## 5.6.0 (2024-08-21)
 
 ### Other Changes

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // https://azure.github.io/azure-sdk/typescript_design.html#ts-config-lib
 /// <reference lib="esnext.asynciterable" />
 
-import {
+import type {
   AddConfigurationSettingOptions,
   AddConfigurationSettingParam,
   AddConfigurationSettingResponse,
@@ -39,8 +39,8 @@ import {
   SnapshotInfo,
   UpdateSnapshotOptions,
   UpdateSnapshotResponse,
-} from "./models";
-import {
+} from "./models.js";
+import type {
   AppConfigurationGetKeyValuesHeaders,
   AppConfigurationGetRevisionsHeaders,
   AppConfigurationGetSnapshotsHeaders,
@@ -50,19 +50,20 @@ import {
   ConfigurationSnapshot,
   GetLabelsResponse,
   AppConfigurationGetLabelsHeaders,
-} from "./generated/src/models";
-import { InternalClientPipelineOptions } from "@azure/core-client";
-import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
-import {
-  PipelinePolicy,
-  bearerTokenAuthenticationPolicy,
-  RestError,
-} from "@azure/core-rest-pipeline";
-import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import {
+} from "./generated/src/models/index.js";
+import type { InternalClientPipelineOptions } from "@azure/core-client";
+import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
+import { getPagedAsyncIterator } from "@azure/core-paging";
+import type { PipelinePolicy, RestError } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy.js";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type {
   SendConfigurationSettingsOptions,
   SendLabelsRequestOptions,
+} from "./internal/helpers.js";
+import {
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromLinkHeader,
@@ -79,15 +80,15 @@ import {
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
   transformSnapshotResponse,
-} from "./internal/helpers";
-import { AppConfiguration } from "./generated/src/appConfiguration";
-import { FeatureFlagValue } from "./featureFlag";
-import { SecretReferenceValue } from "./secretReference";
-import { appConfigKeyCredentialPolicy } from "./appConfigCredential";
-import { tracingClient } from "./internal/tracing";
-import { logger } from "./logger";
-import { OperationState, SimplePollerLike } from "@azure/core-lro";
-import { appConfigurationApiVersion } from "./internal/constants";
+} from "./internal/helpers.js";
+import { AppConfiguration } from "./generated/src/appConfiguration.js";
+import type { FeatureFlagValue } from "./featureFlag.js";
+import type { SecretReferenceValue } from "./secretReference.js";
+import { appConfigKeyCredentialPolicy } from "./appConfigCredential.js";
+import { tracingClient } from "./internal/tracing.js";
+import { logger } from "./logger.js";
+import type { OperationState, SimplePollerLike } from "@azure/core-lro";
+import { appConfigurationApiVersion } from "./internal/constants.js";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
 const deserializationContentTypes = {
@@ -188,7 +189,7 @@ export class AppConfigurationClient {
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
     this.client = new AppConfiguration(
       appConfigEndpoint,
-      appConfigurationApiVersion,
+      options?.apiVersion ?? appConfigurationApiVersion,
       internalClientPipelineOptions,
     );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });
@@ -653,6 +654,7 @@ export class AppConfigurationClient {
    */
   beginCreateSnapshot(
     snapshot: SnapshotInfo,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateSnapshotOptions = {},
   ): Promise<SimplePollerLike<OperationState<CreateSnapshotResponse>, CreateSnapshotResponse>> {
     return tracingClient.withSpan(
@@ -669,6 +671,7 @@ export class AppConfigurationClient {
    */
   beginCreateSnapshotAndWait(
     snapshot: SnapshotInfo,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: CreateSnapshotOptions = {},
   ): Promise<CreateSnapshotResponse> {
     return tracingClient.withSpan(
@@ -717,6 +720,7 @@ export class AppConfigurationClient {
    */
   recoverSnapshot(
     name: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: UpdateSnapshotOptions = {},
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(
@@ -753,6 +757,7 @@ export class AppConfigurationClient {
    */
   archiveSnapshot(
     name: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: UpdateSnapshotOptions = {},
   ): Promise<UpdateSnapshotResponse> {
     return tracingClient.withSpan(

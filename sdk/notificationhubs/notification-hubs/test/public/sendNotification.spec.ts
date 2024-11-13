@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import { NotificationHubsClientContext, sendNotification } from "../../src/api/index.js";
+import type { NotificationHubsClientContext } from "../../src/api/index.js";
+import { sendBroadcastNotification, sendNotification } from "../../src/api/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createAppleNotification } from "../../src/models/index.js";
 import { createRecordedClientContext } from "./utils/recordedClient.js";
@@ -33,7 +34,9 @@ describe("sendDirectNotification()", () => {
     });
 
     // Not required but can set test send to true for debugging purposes.
-    const result = await sendNotification(context, notification, { enableTestSend: false });
+    const result = await sendBroadcastNotification(context, notification, {
+      enableTestSend: false,
+    });
 
     assert.isDefined(result.trackingId);
     assert.isDefined(result.correlationId);

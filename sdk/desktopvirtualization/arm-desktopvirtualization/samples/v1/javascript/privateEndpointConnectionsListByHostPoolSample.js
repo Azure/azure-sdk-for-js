@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List private endpoint connections associated with hostpool.
  *
  * @summary List private endpoint connections associated with hostpool.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/PrivateEndpointConnection_ListByHostPool.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/PrivateEndpointConnection_ListByHostPool.json
  */
 async function privateEndpointConnectionListByHostPool() {
   const subscriptionId =
@@ -28,7 +28,7 @@ async function privateEndpointConnectionListByHostPool() {
   const resArray = new Array();
   for await (let item of client.privateEndpointConnections.listByHostPool(
     resourceGroupName,
-    hostPoolName
+    hostPoolName,
   )) {
     resArray.push(item);
   }

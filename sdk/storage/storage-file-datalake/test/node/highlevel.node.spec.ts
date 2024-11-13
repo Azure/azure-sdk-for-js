@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import * as fs from "fs";
 import * as path from "path";
 import * as buffer from "buffer";
-import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
+import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
 import {
   bodyToString,
   createRandomLocalFile,
@@ -23,7 +23,7 @@ import {
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 import { Readable, PassThrough } from "stream";
 import { streamToBuffer2 } from "../../src/utils/utils.node";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 
 describe("Highlevel Node.js only", () => {

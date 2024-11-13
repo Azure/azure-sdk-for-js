@@ -79,7 +79,7 @@ node dist/recognizeCustomForm.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env FORM_RECOGNIZER_ENDPOINT="<form recognizer endpoint>" FORM_RECOGNIZER_API_KEY="<form recognizer api key>" CUSTOM_MODEL_ID="<custom model id>" node dist/recognizeCustomForm.js
+npx dev-tool run vendored cross-env FORM_RECOGNIZER_ENDPOINT="<form recognizer endpoint>" FORM_RECOGNIZER_API_KEY="<form recognizer api key>" CUSTOM_MODEL_ID="<custom model id>" node dist/recognizeCustomForm.js
 ```
 
 ## Next Steps

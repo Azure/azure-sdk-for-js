@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 //
 // Curated exports
 //
-export { LogsQueryClientOptions, LogsQueryClient } from "./logsQueryClient";
+export { LogsQueryClientOptions, LogsQueryClient } from "./logsQueryClient.js";
 export {
   QueryBatch,
   LogsQueryBatchOptions,
@@ -18,11 +18,11 @@ export {
   LogsColumn,
   LogsQueryResultStatus,
   LogsErrorInfo,
-} from "./models/publicLogsModels";
+} from "./models/publicLogsModels.js";
 export {
   MetricsQueryClient,
   MetricsQueryClientOptions as MetricsClientOptions,
-} from "./metricsQueryClient";
+} from "./metricsQueryClient.js";
 export {
   ListMetricDefinitionsOptions,
   ListMetricNamespacesOptions,
@@ -34,10 +34,10 @@ export {
   TimeSeriesElement,
   MetricNamespace,
   MetricAvailability,
-} from "./models/publicMetricsModels";
+} from "./models/publicMetricsModels.js";
 
-export { Durations } from "./models/constants";
-export { QueryTimeInterval } from "./models/timeInterval";
+export { Durations } from "./models/constants.js";
+export { QueryTimeInterval } from "./models/timeInterval.js";
 //
 // LogsClient: generated exports
 //
@@ -46,7 +46,7 @@ export {
   // TODO: these are the generated model names. We probably want to run them
   // through a manual review to make them consistent with style.
   LogsColumnType,
-} from "./generated/logquery/src";
+} from "./generated/logquery/src/index.js";
 
 //
 // MetricsClient: generated exports (from all three clients)
@@ -57,15 +57,15 @@ export {
   MetricValue,
   ResultType,
   MetricUnit,
-} from "./generated/metrics/src";
+} from "./generated/metrics/src/index.js";
 
-export { AggregationType, MetricClass } from "./generated/metricsdefinitions/src";
-export { NamespaceClassification } from "./generated/metricsnamespaces/src";
+export { AggregationType, MetricClass } from "./generated/metricsdefinitions/src/index.js";
+export { NamespaceClassification } from "./generated/metricsnamespaces/src/index.js";
 
-export { MetricsQueryResourcesOptions } from "./models/publicBatchModels";
-export { MetricsClient } from "./metricsClient";
+export { MetricsQueryResourcesOptions } from "./models/publicBatchModels.js";
+export { MetricsClient } from "./metricsClient.js";
 export {
   KnownMonitorAudience,
   KnownMonitorLogsQueryAudience,
   KnownMonitorMetricsQueryAudience,
-} from "./constants";
+} from "./constants.js";

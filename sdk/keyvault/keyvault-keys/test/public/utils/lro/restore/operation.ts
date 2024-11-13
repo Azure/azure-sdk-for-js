@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { PollOperation, PollOperationState } from "@azure/core-lro";
-import { OperationOptions } from "@azure/core-client";
-import { KeyPollerOptions, KeyVaultKey } from "../../../../../src";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { PollOperation, PollOperationState } from "@azure/core-lro";
+import type { OperationOptions } from "@azure/core-client";
+import type { KeyPollerOptions, KeyVaultKey } from "../../../../../src/index.js";
 
 /**
  * Options sent to the beginRestoreKeyBackup method.

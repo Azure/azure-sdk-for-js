@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   CommunicationAccessToken,
   CommunicationIdentityClient,
   GetTokenForTeamsUserOptions,
 } from "../../../src";
-import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
 } from "../utils/recordedClient";
 import { PublicClientApplication } from "@azure/msal-node";
 import { matrix } from "@azure-tools/test-utils";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { assert } from "chai";
 
 matrix([[true, false]], async function (useAad) {

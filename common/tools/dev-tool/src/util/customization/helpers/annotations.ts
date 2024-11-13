@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import { CallSignatureDeclaration, PropertySignature } from "ts-morph";
 import { Declaration } from "../common";

@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, delay } from "@azure-tools/test-recorder";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { delay } from "@azure-tools/test-recorder";
 
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { UsernamePasswordCredential } from "../../../src";
 import { assert } from "@azure-tools/test-utils";
 import { getUsernamePasswordStaticResources } from "../../msalTestUtils";

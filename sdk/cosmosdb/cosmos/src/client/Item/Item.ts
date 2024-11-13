@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+// Licensed under the MIT License.
+import type { ClientContext } from "../../ClientContext";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   createDocumentUri,
   getIdFromLink,
@@ -10,12 +10,13 @@ import {
   ResourceType,
   StatusCodes,
 } from "../../common";
-import { PartitionKey, PartitionKeyInternal, convertToInternalPartitionKey } from "../../documents";
-import { RequestOptions, Response } from "../../request";
-import { PatchRequestBody } from "../../utils/patch";
-import { Container } from "../Container";
-import { Resource } from "../Resource";
-import { ItemDefinition } from "./ItemDefinition";
+import type { PartitionKey, PartitionKeyInternal } from "../../documents";
+import { convertToInternalPartitionKey } from "../../documents";
+import type { RequestOptions, Response } from "../../request";
+import type { PatchRequestBody } from "../../utils/patch";
+import type { Container } from "../Container";
+import type { Resource } from "../Resource";
+import type { ItemDefinition } from "./ItemDefinition";
 import { ItemResponse } from "./ItemResponse";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 import { setPartitionKeyIfUndefined } from "../../extractPartitionKey";

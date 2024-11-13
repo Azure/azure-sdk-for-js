@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Context, Test } from "mocha";
-import { Recorder, SanitizerOptions, env } from "@azure-tools/test-recorder";
+import type { Context, Test } from "mocha";
+import type { SanitizerOptions } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import { EmailClient } from "../../../src";
 
 export interface RecordedEmailClient {
@@ -22,14 +23,19 @@ const sanitizerOptions: SanitizerOptions = {
     { key: "x-ms-content-sha256", value: "Sanitized" },
     {
       key: "Operation-Location",
-      value: "https://someEndpoint/emails/operations/someId?api-version=2023-03-31",
+      value: "https://someEndpoint/emails/operations/someId?api-version=2024-07-01-preview",
     },
   ],
   uriSanitizers: [
     {
       regex: true,
-      target: `emails/operations/.*?api`,
-      value: "emails/operations/someId?api",
+      target: `https://[^/]+/emails/operations/.*?api`,
+      value: "https://someEndpoint/emails/operations/someId?api",
+    },
+    {
+      regex: true,
+      target: `https://[^/]+/emails:send\\?api`,
+      value: "https://someEndpoint/emails:send?api-version=2024-07-01-preview",
     },
   ],
   bodySanitizers: [

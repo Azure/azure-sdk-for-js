@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { MsalClient } from "../msal/nodeFlows/msalClient";
+import { createMsalClient } from "../msal/nodeFlows/msalClient";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
 } from "../util/tenantIdUtils";
 
-import { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions";
+import type { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions";
 import { CredentialUnavailableError } from "../errors";
 import { credentialLogger } from "../util/logging";
 import { tracingClient } from "../util/tracing";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   ActionConstants,
@@ -7,7 +7,7 @@ import {
   RequestConstants,
   ResponseConstants,
 } from "./constants";
-import {
+import type {
   ProvideClaimsForToken,
   TokenIssuanceStartRequest,
 } from "@azure/functions-authentication-events";

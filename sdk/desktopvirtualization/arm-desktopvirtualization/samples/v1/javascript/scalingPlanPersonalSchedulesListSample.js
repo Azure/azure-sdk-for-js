@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List ScalingPlanPersonalSchedules.
  *
  * @summary List ScalingPlanPersonalSchedules.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ScalingPlanPersonalSchedule_List.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/ScalingPlanPersonalSchedule_List.json
  */
 async function scalingPlanPersonalSchedulesList() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function scalingPlanPersonalSchedulesList() {
   for await (let item of client.scalingPlanPersonalSchedules.list(
     resourceGroupName,
     scalingPlanName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
