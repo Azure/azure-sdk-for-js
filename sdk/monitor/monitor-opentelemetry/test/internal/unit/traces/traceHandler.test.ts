@@ -19,6 +19,7 @@ import type {
 import type { ProxyTracerProvider, Span } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
+import { AI_OPERATION_NAME } from "../../../../src/types";
 
 describe("Library/TraceHandler", () => {
   let http: any = null;
@@ -341,6 +342,32 @@ describe("Library/TraceHandler", () => {
                 .catch((error) => {
                   done(error);
                 });
+            })
+            .catch((error) => {
+              done(error);
+            });
+        })
+        .catch((error) => {
+          done(error);
+        });
+    });
+    
+    it("Span processing propagates operation id", (done) => {
+      createHandler({ enabled: true });
+      makeHttpRequest()
+        .then(() => {
+          ((trace.getTracerProvider() as ProxyTracerProvider).getDelegate() as NodeTracerProvider)
+            .forceFlush()
+            .then(() => {
+              assert.ok(exportStub.calledOnce, "Export called");
+              const spans = exportStub.args[0][0];
+              assert.deepStrictEqual(spans.length, 2);
+              // Outgoing request
+              assert.deepStrictEqual(
+                spans[1].attributes[AI_OPERATION_NAME],
+                "test",
+              );
+              done();
             })
             .catch((error) => {
               done(error);

@@ -108,7 +108,9 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
       }
     }
   } else {
-    tags[KnownContextTagKeys.AiOperationName] = span.attributes[KnownContextTagKeys.AiOperationName] as string;
+    if (span.attributes[KnownContextTagKeys.AiOperationName]) {
+      tags[KnownContextTagKeys.AiOperationName] = span.attributes[KnownContextTagKeys.AiOperationName] as string;
+    }
   }
   // TODO: Location IP TBD for non server spans
 
