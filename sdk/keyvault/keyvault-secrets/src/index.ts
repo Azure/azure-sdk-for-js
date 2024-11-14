@@ -136,11 +136,7 @@ export class SecretClient {
       },
     };
 
-    this.client = new KeyVaultClient(
-      pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      credential,
-      internalPipelineOptions,
-    );
+    this.client = new KeyVaultClient(this.vaultUrl, credential, internalPipelineOptions);
 
     // The authentication policy must come after the deserialization policy since the deserialization policy
     // converts 401 responses to an Error, and we don't want to deal with that.

@@ -3,20 +3,23 @@
 
 import { SDK_VERSION } from "../../src/constants.js";
 import { SecretClient } from "../../src/index.js";
-import type { TokenCredential } from "@azure/core-auth";
 import { describe, it, assert } from "vitest";
 
 describe("Secrets client's user agent (only in Node, because of fs)", () => {
   it("SDK_VERSION and user-agent should match", async function () {
     let userAgent: string | undefined;
-    const client = new SecretClient("https://myvault.vault.azure.net", {} as TokenCredential, {
-      httpClient: {
-        sendRequest: async (request) => {
-          userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
-          throw new Error("only a test");
+    const client = new SecretClient(
+      "https://myvault.vault.azure.net",
+      { getToken: () => Promise.resolve({ token: "my-token", expiresOnTimestamp: Date.now() }) },
+      {
+        httpClient: {
+          sendRequest: async (request) => {
+            userAgent = request.headers.get("user-agent") ?? request.headers.get("x-ms-useragent");
+            throw new Error("only a test");
+          },
         },
       },
-    });
+    );
 
     try {
       await client.getSecret("foo");
