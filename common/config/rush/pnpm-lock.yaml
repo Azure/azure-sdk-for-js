@@ -14392,7 +14392,7 @@ packages:
     dev: false
 
   file:projects/arm-devopsinfrastructure.tgz:
-    resolution: {integrity: sha512-zm1zJUacHQHrVisNSNKl6fuuO1JO3qpkdcnAIv2TeISXJYJFxIkSTyv70j+TIUa0C/c9MWgtNaCNp35yGhnc0g==, tarball: file:projects/arm-devopsinfrastructure.tgz}
+    resolution: {integrity: sha512-26NUbY9nDuqLqDF06QZFrMoNdmuI3nmYfTx5FjpwRcMR+jJobCAbvrAD5AKLz8AM1cdbls6LoEXEEd9XmsgALA==, tarball: file:projects/arm-devopsinfrastructure.tgz}
     name: '@rush-temp/arm-devopsinfrastructure'
     version: 0.0.0
     dependencies:
@@ -14400,20 +14400,42 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
+      '@vitest/browser': 2.1.4(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.4)
+      '@vitest/coverage-istanbul': 2.1.4(vitest@2.1.4)
       chai: 4.3.10
       dotenv: 16.4.5
+      eslint: 8.57.1
       esm: 3.2.25
       mocha: 10.8.2
+      playwright: 1.48.2
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/arm-devspaces.tgz:
