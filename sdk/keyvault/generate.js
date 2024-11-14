@@ -23,9 +23,7 @@ execCommand("rm -rf src/generated/*");
 execCommand("cp tsp-location.yaml src/generated");
 
 // Step 3: Run tsp-client command
-execCommand(
-  "tsp-client update -d -o src/generated --tsp-config ~/workspace/azure-rest-api-specs/specification/keyvault/Security.KeyVault.Secrets/tspconfig.yaml --local-spec-repo ~/workspace/azure-rest-api-specs/specification/keyvault/Security.KeyVault.Secrets --repo ~/workspace/azure-rest-api-specs --commit 5d647f7cffd2836ac8255bbc13ea6b17201b23fe",
-);
+execCommand("tsp-client update -d -o src/generated");
 
 // Step 4: Move generated/src/* files to generated
 execCommand("mv src/generated/src/* src/generated/");
@@ -45,21 +43,5 @@ const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 delete packageJson.dependencies["@azure/core-client"];
 packageJson.dependencies["@azure-rest/core-client"] = "^2.0.0";
 
-// Update @azure/core-lro to version 3.0.0
-// packageJson.dependencies["@azure/core-lro"] = "^3.0.0";
-
 // Write updated package.json back to disk
 fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2), "utf8");
-
-console.log("Environment setup completed successfully.");
-
-// Codemod tasks can be implemented here...
-console.log("Running codemods...");
-
-/*
-    1. Replace imports from "@azure/core-client" to "@azure-rest/core-client"
-    2. Remove this.vaultUrl from calls to client
-    3. Add mapper for paging
-    4. Pass credential to generated client constructor
-    5. Remove all paging helpers and use the mapper
-  */
