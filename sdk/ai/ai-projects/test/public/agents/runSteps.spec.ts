@@ -52,35 +52,36 @@ describe("Agents - run steps", () => {
     assert.isNotNull(runSteps.data);
 
     // Clean up
-    await agents.deleteThread(thread.id);
+    agents.deleteThread(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
-    await agents.deleteAgent(agent.id);
+    agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 
   it("should get steps", async function () {
     // Create agent
     const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are helpful agent" });
-    console.log(`Created agent with ID: ${agent.id}`);
+    console.log(`Created agent, agent ID: ${agent.id}`);
 
     // Create thread
     const thread = await agents.createThread();
-    console.log(`Created thread with ID: ${thread.id}`);
+    console.log(`Created thread, thread ID: ${thread.id}`);
 
     // Create message
-    await agents.createMessage(thread.id, { role: "user", content: "hello, world!" });
-    console.log(`Created message in thread ID: ${thread.id}`);
+    const message = await agents.createMessage(thread.id, { role: "user", content: "hello, world!" });
+    console.log(`Created message, message ID: ${message.id}`);
 
     // Create run
     let run = await agents.createRun(thread.id, agent.id);
-    console.log(`Created run with ID: ${run.id}`);
+    console.log(`Created run, run ID: ${run.id}`);
 
     // Wait for run to complete
     assert.oneOf(run.status, ["queued", "in_progress", "requires_action", "completed"]);
+    console.log(`Run status - ${run.status}, run ID: ${run.id}`);
     while (["queued", "in_progress", "requires_action"].includes(run.status)) {
       await delay(1000);
       run = await agents.getRun(thread.id, run.id);
-      console.log(`Run status: ${run.status}`);
+      console.log(`Run status - ${run.status}, run ID: ${run.id}`);
       assert.include(["queued", "in_progress", "requires_action", "completed"], run.status);
     }
 
@@ -88,18 +89,19 @@ describe("Agents - run steps", () => {
     const runSteps = await agents.listRunSteps(thread.id, run.id);
     assert.isNotNull(runSteps.data);
     assert.isTrue(runSteps.data.length > 0);
+    console.log(`Listed run steps, run ID: ${run.id}`);
 
     // Get specific run step
     const stepId = runSteps.data[0].id;
     const step = await agents.getRunStep(thread.id, run.id, stepId);
-    console.log(`Retrieved run, run ID: ${stepId}`);
+    console.log(`Retrieved run, step ID: ${stepId}`);
     assert.isNotNull(step);
     assert.equal(step.id, stepId);
 
     // Clean up
-    await agents.deleteThread(thread.id);
+    agents.deleteThread(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
-    await agents.deleteAgent(agent.id);
+    agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 
