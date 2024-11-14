@@ -7,7 +7,6 @@ import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import JobRouter from "../../../src/index.js";
 import type { AzureCommunicationRoutingServiceClient } from "../../../src/index.js";
-import type { Context, Test } from "mocha";
 import { isNode } from "@azure/core-util";
 import { generateToken } from "../../public/utils/connection.js";
 

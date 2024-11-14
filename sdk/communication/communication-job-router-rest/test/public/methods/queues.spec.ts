@@ -2,10 +2,8 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import type { AzureCommunicationRoutingServiceClient, RouterQueueOutput } from "../../../src/index.js";
 import { paginate } from "../../../src/index.js";
-import type { Context } from "mocha";
 import {
   getQueueRequest,
   getExceptionPolicyRequest,
@@ -13,6 +11,7 @@ import {
 } from "../utils/testData.js";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
 import { timeoutMs } from "../utils/constants.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("JobRouterClient", function () {
   let routerClient: AzureCommunicationRoutingServiceClient;
