@@ -58,7 +58,7 @@ export async function updateRun(
   context: Client,
   threadId: string,
   runId: string,
-  options: UpdateRunParameters,
+  options?: UpdateRunParameters,
 ): Promise<ThreadRunOutput> {
     const result = await context
     .path("/threads/{threadId}/runs/{runId}", threadId, runId)

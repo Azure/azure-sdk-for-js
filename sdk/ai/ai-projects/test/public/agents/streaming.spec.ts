@@ -22,8 +22,7 @@ describe("Agents - streaming", () => {
   });
 
   it("should run streaming", async function () {
-    const agent = await agents.createAgent({
-      model: "gpt-4-1106-preview",
+    const agent = await agents.createAgent("gpt-4-1106-preview", {
       name: "My Friendly Test Assistant",
       instructions: "You are helpful agent",
     });
@@ -52,8 +51,7 @@ describe("Agents - streaming", () => {
 
   // eslint-disable-next-line no-only-tests/no-only-tests
   it("should create thread and run streaming", async function () {
-    const agent = await agents.createAgent({
-      model: "gpt-4-1106-preview",
+    const agent = await agents.createAgent("gpt-4-1106-preview", {
       name: "My Friendly Test Assistant",
       instructions: "You are helpful agent",
     });

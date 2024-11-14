@@ -88,18 +88,15 @@ export type AgentsNamedToolChoiceTypeOutput = string;
 
 // @public (undocumented)
 export interface AgentsOperations {
-    // Warning: (ae-forgotten-export) The symbol "CancelRunParameters" needs to be exported by the entry point index.d.ts
-    cancelRun: (threadId: string, runId: string, options?: CancelRunParameters) => Promise<ThreadRunOutput>;
-    createAgent: (options: CreateAgentOptions) => Promise<AgentOutput>;
-    createAgentAlternative: (model: string, options?: Omit<CreateAgentOptions, "model">) => Promise<AgentOutput>;
-    createMessage: (threadId: string, options: ThreadMessageOptions) => Promise<ThreadMessageOutput>;
-    // Warning: (ae-forgotten-export) The symbol "CreateRunParameters" needs to be exported by the entry point index.d.ts
-    createRun: (threadId: string, options: CreateRunParameters) => Promise<ThreadRunOutput>;
-    createRunStreaming: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: RequestParameters) => AsyncIterable<AgentStreamEventMessage>;
-    createThread: (options?: AgentThreadCreationOptions, requestParams?: RequestParameters) => Promise<AgentThreadOutput>;
-    // Warning: (ae-forgotten-export) The symbol "CreateThreadAndRunParameters" needs to be exported by the entry point index.d.ts
-    createThreadAndRun: (options: CreateThreadAndRunParameters) => Promise<ThreadRunOutput>;
-    createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: RequestParameters) => AsyncIterable<AgentStreamEventMessage>;
+    cancelRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
+    createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">) => Promise<AgentOutput>;
+    createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
+    createRun: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
+    createRunStreaming: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => AsyncIterable<AgentStreamEventMessage>;
+    createThread: (options?: AgentThreadCreationOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
+    createThreadAndRun: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
+    createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => AsyncIterable<AgentStreamEventMessage>;
+    createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     deleteAgent: (assistantId: string) => Promise<AgentDeletionStatusOutput>;
     deleteFile: (fileId: string, requestParams?: RequestParameters) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, requestParams?: RequestParameters) => Promise<ThreadDeletionStatusOutput>;
@@ -957,6 +954,9 @@ export interface OpenAIPageableListOfVectorStoreOutput {
 }
 
 // @public
+export type OptionalRequestParameters = Pick<RequestParameters, "headers" | "timeout" | "abortSignal" | "tracingOptions">;
+
+// @public
 export type PagedEvaluationOutput = Paged<EvaluationOutput>;
 
 // @public
@@ -1579,6 +1579,18 @@ export interface UpdateFileSearchToolResourceOptions {
 // @public
 export interface UpdateFileSearchToolResourceOptionsOutput {
     vector_store_ids?: string[];
+}
+
+// @public (undocumented)
+export interface UpdateMessageOptions {
+    // (undocumented)
+    metadata?: Record<string, string>;
+}
+
+// @public
+export interface UpdateRunOptions {
+    // (undocumented)
+    metadata?: Record<string, string> | null;
 }
 
 // @public
