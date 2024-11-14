@@ -3,21 +3,6 @@
 
 import { WorkloadsContext } from "../../api/workloadsContext.js";
 import {
-  StartRequest,
-  OperationStatusResult,
-  StopRequest,
-  SAPVirtualInstance,
-  UpdateSAPVirtualInstanceRequest,
-  SAPSizingRecommendationRequest,
-  SAPSupportedSkusRequest,
-  SAPSupportedResourceSkusResult,
-  SAPDiskConfigurationsRequest,
-  SAPDiskConfigurationsResult,
-  SAPAvailabilityZoneDetailsRequest,
-  SAPAvailabilityZoneDetailsResult,
-  SAPSizingRecommendationResultUnion,
-} from "../../models/models.js";
-import {
   sAPVirtualInstancesGet,
   sAPVirtualInstancesCreate,
   sAPVirtualInstancesUpdate,
@@ -31,6 +16,19 @@ import {
   sAPVirtualInstancesGetDiskConfigurations,
   sAPVirtualInstancesGetAvailabilityZoneDetails,
 } from "../../api/sAPVirtualInstances/index.js";
+import {
+  OperationStatusResult,
+  SAPVirtualInstance,
+  UpdateSAPVirtualInstanceRequest,
+  SAPSizingRecommendationRequest,
+  SAPSizingRecommendationResultUnion,
+  SAPSupportedSkusRequest,
+  SAPSupportedResourceSkusResult,
+  SAPDiskConfigurationsRequest,
+  SAPDiskConfigurationsResult,
+  SAPAvailabilityZoneDetailsRequest,
+  SAPAvailabilityZoneDetailsResult,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -46,7 +44,7 @@ import {
   SAPVirtualInstancesGetSapSupportedSkuOptionalParams,
   SAPVirtualInstancesGetDiskConfigurationsOptionalParams,
   SAPVirtualInstancesGetAvailabilityZoneDetailsOptionalParams,
-} from "../../models/options.js";
+} from "../../api/options.js";
 
 /** Interface representing a SAPVirtualInstances operations. */
 export interface SAPVirtualInstancesOperations {
@@ -89,14 +87,12 @@ export interface SAPVirtualInstancesOperations {
   start: (
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    body?: StartRequest,
     options?: SAPVirtualInstancesStartOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
   /** Stops the SAP Application, that is the Application server instances and Central Services instance. */
   stop: (
     resourceGroupName: string,
     sapVirtualInstanceName: string,
-    body?: StopRequest,
     options?: SAPVirtualInstancesStopOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
   /** Gets the sizing recommendations. */
@@ -189,7 +185,6 @@ export function getSAPVirtualInstances(context: WorkloadsContext, subscriptionId
     start: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,
-      body?: StartRequest,
       options?: SAPVirtualInstancesStartOptionalParams,
     ) =>
       sAPVirtualInstancesStart(
@@ -197,13 +192,11 @@ export function getSAPVirtualInstances(context: WorkloadsContext, subscriptionId
         subscriptionId,
         resourceGroupName,
         sapVirtualInstanceName,
-        body,
         options,
       ),
     stop: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,
-      body?: StopRequest,
       options?: SAPVirtualInstancesStopOptionalParams,
     ) =>
       sAPVirtualInstancesStop(
@@ -211,7 +204,6 @@ export function getSAPVirtualInstances(context: WorkloadsContext, subscriptionId
         subscriptionId,
         resourceGroupName,
         sapVirtualInstanceName,
-        body,
         options,
       ),
     getSizingRecommendations: (

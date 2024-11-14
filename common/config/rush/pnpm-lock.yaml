@@ -18476,7 +18476,7 @@ packages:
     dev: false
 
   file:projects/arm-workloadssapvirtualinstance.tgz:
-    resolution: {integrity: sha512-dq+CIQJ2fpCLWMC27KVsg12EPQYVUB0G/qEfLhtqEepY4PSu3YGayPUHO7qD2e/euO2i6jzEpJ0JoGwN2TSILw==, tarball: file:projects/arm-workloadssapvirtualinstance.tgz}
+    resolution: {integrity: sha512-QiKNxVIZ0XooljqfWvZYxbSoWiGFEk8vt+oOzcwN3XOHaIth/1hFuFzKvddMvI+p/lglogZZtxCl5DBikWrM6g==, tarball: file:projects/arm-workloadssapvirtualinstance.tgz}
     name: '@rush-temp/arm-workloadssapvirtualinstance'
     version: 0.0.0
     dependencies:
@@ -18484,6 +18484,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
@@ -18495,7 +18496,7 @@ packages:
       mocha: 10.8.2
       playwright: 1.48.2
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
-      tshy: 1.18.0
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.4(@types/node@18.19.64)(@vitest/browser@2.1.4)

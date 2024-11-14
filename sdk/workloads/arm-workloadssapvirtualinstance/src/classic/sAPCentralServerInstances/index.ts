@@ -3,13 +3,6 @@
 
 import { WorkloadsContext } from "../../api/workloadsContext.js";
 import {
-  StartRequest,
-  OperationStatusResult,
-  StopRequest,
-  SAPCentralServerInstance,
-  UpdateSAPCentralInstanceRequest,
-} from "../../models/models.js";
-import {
   sAPCentralServerInstancesGet,
   sAPCentralServerInstancesCreate,
   sAPCentralServerInstancesUpdate,
@@ -18,6 +11,11 @@ import {
   sAPCentralServerInstancesStart,
   sAPCentralServerInstancesStop,
 } from "../../api/sAPCentralServerInstances/index.js";
+import {
+  OperationStatusResult,
+  SAPCentralServerInstance,
+  UpdateSAPCentralInstanceRequest,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -28,7 +26,7 @@ import {
   SAPCentralServerInstancesListOptionalParams,
   SAPCentralServerInstancesStartOptionalParams,
   SAPCentralServerInstancesStopOptionalParams,
-} from "../../models/options.js";
+} from "../../api/options.js";
 
 /** Interface representing a SAPCentralServerInstances operations. */
 export interface SAPCentralServerInstancesOperations {
@@ -73,7 +71,6 @@ export interface SAPCentralServerInstancesOperations {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     centralInstanceName: string,
-    body?: StartRequest,
     options?: SAPCentralServerInstancesStartOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
   /** Stops the SAP Central Services Instance. */
@@ -81,7 +78,6 @@ export interface SAPCentralServerInstancesOperations {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     centralInstanceName: string,
-    body?: StopRequest,
     options?: SAPCentralServerInstancesStopOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
@@ -164,7 +160,6 @@ export function getSAPCentralServerInstances(context: WorkloadsContext, subscrip
       resourceGroupName: string,
       sapVirtualInstanceName: string,
       centralInstanceName: string,
-      body?: StartRequest,
       options?: SAPCentralServerInstancesStartOptionalParams,
     ) =>
       sAPCentralServerInstancesStart(
@@ -173,14 +168,12 @@ export function getSAPCentralServerInstances(context: WorkloadsContext, subscrip
         resourceGroupName,
         sapVirtualInstanceName,
         centralInstanceName,
-        body,
         options,
       ),
     stop: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,
       centralInstanceName: string,
-      body?: StopRequest,
       options?: SAPCentralServerInstancesStopOptionalParams,
     ) =>
       sAPCentralServerInstancesStop(
@@ -189,7 +182,6 @@ export function getSAPCentralServerInstances(context: WorkloadsContext, subscrip
         resourceGroupName,
         sapVirtualInstanceName,
         centralInstanceName,
-        body,
         options,
       ),
   };

@@ -2,37 +2,40 @@
 // Licensed under the MIT License.
 
 import {
-  sAPApplicationServerPropertiesSerializer,
-  SAPApplicationServerInstance,
-  UpdateSAPApplicationInstanceRequest,
-  StartRequest,
-  OperationStatusResult,
-  StopRequest,
-  _SAPApplicationServerInstanceListResult,
-} from "../../models/models.js";
-import { WorkloadsContext as Client } from "../index.js";
+  WorkloadsContext as Client,
+  SAPApplicationServerInstancesCreateOptionalParams,
+  SAPApplicationServerInstancesDeleteOptionalParams,
+  SAPApplicationServerInstancesGetOptionalParams,
+  SAPApplicationServerInstancesListOptionalParams,
+  SAPApplicationServerInstancesStartOptionalParams,
+  SAPApplicationServerInstancesStopOptionalParams,
+  SAPApplicationServerInstancesUpdateOptionalParams,
+} from "../index.js";
 import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
-import { serializeRecord } from "../../helpers/serializerHelpers.js";
+  SAPApplicationServerInstance,
+  sAPApplicationServerInstanceSerializer,
+  sAPApplicationServerInstanceDeserializer,
+  UpdateSAPApplicationInstanceRequest,
+  updateSAPApplicationInstanceRequestSerializer,
+  _SAPApplicationServerInstanceListResult,
+  _sAPApplicationServerInstanceListResultDeserializer,
+  startRequestSerializer,
+  OperationStatusResult,
+  operationStatusResultDeserializer,
+  stopRequestSerializer,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
-  SAPApplicationServerInstancesGetOptionalParams,
-  SAPApplicationServerInstancesCreateOptionalParams,
-  SAPApplicationServerInstancesUpdateOptionalParams,
-  SAPApplicationServerInstancesDeleteOptionalParams,
-  SAPApplicationServerInstancesListOptionalParams,
-  SAPApplicationServerInstancesStartOptionalParams,
-  SAPApplicationServerInstancesStopOptionalParams,
-} from "../../models/options.js";
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _sAPApplicationServerInstancesGetSend(
   context: Client,
@@ -63,86 +66,7 @@ export async function _sAPApplicationServerInstancesGetDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          instanceNo: result.body.properties?.["instanceNo"],
-          subnet: result.body.properties?.["subnet"],
-          hostname: result.body.properties?.["hostname"],
-          kernelVersion: result.body.properties?.["kernelVersion"],
-          kernelPatch: result.body.properties?.["kernelPatch"],
-          ipAddress: result.body.properties?.["ipAddress"],
-          gatewayPort: result.body.properties?.["gatewayPort"],
-          icmHttpPort: result.body.properties?.["icmHttpPort"],
-          icmHttpsPort: result.body.properties?.["icmHttpsPort"],
-          dispatcherStatus: result.body.properties?.["dispatcherStatus"],
-          loadBalancerDetails: !result.body.properties?.loadBalancerDetails
-            ? undefined
-            : { id: result.body.properties?.loadBalancerDetails?.["id"] },
-          vmDetails:
-            result.body.properties?.["vmDetails"] === undefined
-              ? result.body.properties?.["vmDetails"]
-              : result.body.properties?.["vmDetails"].map((p: any) => {
-                  return {
-                    type: p["type"],
-                    virtualMachineId: p["virtualMachineId"],
-                    storageDetails:
-                      p["storageDetails"] === undefined
-                        ? p["storageDetails"]
-                        : p["storageDetails"].map((p: any) => {
-                            return { id: p["id"] };
-                          }),
-                  };
-                }),
-          status: result.body.properties?.["status"],
-          health: result.body.properties?.["health"],
-          provisioningState: result.body.properties?.["provisioningState"],
-          errors: !result.body.properties?.errors
-            ? undefined
-            : {
-                properties: !result.body.properties?.errors?.properties
-                  ? undefined
-                  : {
-                      code: result.body.properties?.errors?.properties?.["code"],
-                      message: result.body.properties?.errors?.properties?.["message"],
-                      details:
-                        result.body.properties?.errors?.properties?.["details"] === undefined
-                          ? result.body.properties?.errors?.properties?.["details"]
-                          : result.body.properties?.errors?.properties?.["details"].map(
-                              (p: any) => {
-                                return {
-                                  code: p["code"],
-                                  message: p["message"],
-                                  details: !p.details ? undefined : p.details,
-                                };
-                              },
-                            ),
-                    },
-              },
-        },
-  };
+  return sAPApplicationServerInstanceDeserializer(result.body);
 }
 
 /** Gets the SAP Application Server Instance corresponding to the Virtual Instance for SAP solutions resource. */
@@ -188,13 +112,7 @@ export function _sAPApplicationServerInstancesCreateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
-        location: resource["location"],
-        properties: !resource.properties
-          ? resource.properties
-          : sAPApplicationServerPropertiesSerializer(resource.properties),
-      },
+      body: sAPApplicationServerInstanceSerializer(resource),
     });
 }
 
@@ -206,86 +124,7 @@ export async function _sAPApplicationServerInstancesCreateDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          instanceNo: result.body.properties?.["instanceNo"],
-          subnet: result.body.properties?.["subnet"],
-          hostname: result.body.properties?.["hostname"],
-          kernelVersion: result.body.properties?.["kernelVersion"],
-          kernelPatch: result.body.properties?.["kernelPatch"],
-          ipAddress: result.body.properties?.["ipAddress"],
-          gatewayPort: result.body.properties?.["gatewayPort"],
-          icmHttpPort: result.body.properties?.["icmHttpPort"],
-          icmHttpsPort: result.body.properties?.["icmHttpsPort"],
-          dispatcherStatus: result.body.properties?.["dispatcherStatus"],
-          loadBalancerDetails: !result.body.properties?.loadBalancerDetails
-            ? undefined
-            : { id: result.body.properties?.loadBalancerDetails?.["id"] },
-          vmDetails:
-            result.body.properties?.["vmDetails"] === undefined
-              ? result.body.properties?.["vmDetails"]
-              : result.body.properties?.["vmDetails"].map((p: any) => {
-                  return {
-                    type: p["type"],
-                    virtualMachineId: p["virtualMachineId"],
-                    storageDetails:
-                      p["storageDetails"] === undefined
-                        ? p["storageDetails"]
-                        : p["storageDetails"].map((p: any) => {
-                            return { id: p["id"] };
-                          }),
-                  };
-                }),
-          status: result.body.properties?.["status"],
-          health: result.body.properties?.["health"],
-          provisioningState: result.body.properties?.["provisioningState"],
-          errors: !result.body.properties?.errors
-            ? undefined
-            : {
-                properties: !result.body.properties?.errors?.properties
-                  ? undefined
-                  : {
-                      code: result.body.properties?.errors?.properties?.["code"],
-                      message: result.body.properties?.errors?.properties?.["message"],
-                      details:
-                        result.body.properties?.errors?.properties?.["details"] === undefined
-                          ? result.body.properties?.errors?.properties?.["details"]
-                          : result.body.properties?.errors?.properties?.["details"].map(
-                              (p: any) => {
-                                return {
-                                  code: p["code"],
-                                  message: p["message"],
-                                  details: !p.details ? undefined : p.details,
-                                };
-                              },
-                            ),
-                    },
-              },
-        },
-  };
+  return sAPApplicationServerInstanceDeserializer(result.body);
 }
 
 /** Puts the SAP Application Server Instance resource. &lt;br&gt;&lt;br&gt;This will be used by service only. PUT by end user will return a Bad Request error. */
@@ -343,9 +182,7 @@ export function _sAPApplicationServerInstancesUpdateSend(
     )
     .patch({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
-      },
+      body: updateSAPApplicationInstanceRequestSerializer(properties),
     });
 }
 
@@ -357,86 +194,7 @@ export async function _sAPApplicationServerInstancesUpdateDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          instanceNo: result.body.properties?.["instanceNo"],
-          subnet: result.body.properties?.["subnet"],
-          hostname: result.body.properties?.["hostname"],
-          kernelVersion: result.body.properties?.["kernelVersion"],
-          kernelPatch: result.body.properties?.["kernelPatch"],
-          ipAddress: result.body.properties?.["ipAddress"],
-          gatewayPort: result.body.properties?.["gatewayPort"],
-          icmHttpPort: result.body.properties?.["icmHttpPort"],
-          icmHttpsPort: result.body.properties?.["icmHttpsPort"],
-          dispatcherStatus: result.body.properties?.["dispatcherStatus"],
-          loadBalancerDetails: !result.body.properties?.loadBalancerDetails
-            ? undefined
-            : { id: result.body.properties?.loadBalancerDetails?.["id"] },
-          vmDetails:
-            result.body.properties?.["vmDetails"] === undefined
-              ? result.body.properties?.["vmDetails"]
-              : result.body.properties?.["vmDetails"].map((p: any) => {
-                  return {
-                    type: p["type"],
-                    virtualMachineId: p["virtualMachineId"],
-                    storageDetails:
-                      p["storageDetails"] === undefined
-                        ? p["storageDetails"]
-                        : p["storageDetails"].map((p: any) => {
-                            return { id: p["id"] };
-                          }),
-                  };
-                }),
-          status: result.body.properties?.["status"],
-          health: result.body.properties?.["health"],
-          provisioningState: result.body.properties?.["provisioningState"],
-          errors: !result.body.properties?.errors
-            ? undefined
-            : {
-                properties: !result.body.properties?.errors?.properties
-                  ? undefined
-                  : {
-                      code: result.body.properties?.errors?.properties?.["code"],
-                      message: result.body.properties?.errors?.properties?.["message"],
-                      details:
-                        result.body.properties?.errors?.properties?.["details"] === undefined
-                          ? result.body.properties?.errors?.properties?.["details"]
-                          : result.body.properties?.errors?.properties?.["details"].map(
-                              (p: any) => {
-                                return {
-                                  code: p["code"],
-                                  message: p["message"],
-                                  details: !p.details ? undefined : p.details,
-                                };
-                              },
-                            ),
-                    },
-              },
-        },
-  };
+  return sAPApplicationServerInstanceDeserializer(result.body);
 }
 
 /** Puts the SAP Application Server Instance resource. */
@@ -554,89 +312,7 @@ export async function _sAPApplicationServerInstancesListDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        tags: p["tags"],
-        location: p["location"],
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              instanceNo: p.properties?.["instanceNo"],
-              subnet: p.properties?.["subnet"],
-              hostname: p.properties?.["hostname"],
-              kernelVersion: p.properties?.["kernelVersion"],
-              kernelPatch: p.properties?.["kernelPatch"],
-              ipAddress: p.properties?.["ipAddress"],
-              gatewayPort: p.properties?.["gatewayPort"],
-              icmHttpPort: p.properties?.["icmHttpPort"],
-              icmHttpsPort: p.properties?.["icmHttpsPort"],
-              dispatcherStatus: p.properties?.["dispatcherStatus"],
-              loadBalancerDetails: !p.properties?.loadBalancerDetails
-                ? undefined
-                : { id: p.properties?.loadBalancerDetails?.["id"] },
-              vmDetails:
-                p.properties?.["vmDetails"] === undefined
-                  ? p.properties?.["vmDetails"]
-                  : p.properties?.["vmDetails"].map((p: any) => {
-                      return {
-                        type: p["type"],
-                        virtualMachineId: p["virtualMachineId"],
-                        storageDetails:
-                          p["storageDetails"] === undefined
-                            ? p["storageDetails"]
-                            : p["storageDetails"].map((p: any) => {
-                                return { id: p["id"] };
-                              }),
-                      };
-                    }),
-              status: p.properties?.["status"],
-              health: p.properties?.["health"],
-              provisioningState: p.properties?.["provisioningState"],
-              errors: !p.properties?.errors
-                ? undefined
-                : {
-                    properties: !p.properties?.errors?.properties
-                      ? undefined
-                      : {
-                          code: p.properties?.errors?.properties?.["code"],
-                          message: p.properties?.errors?.properties?.["message"],
-                          details:
-                            p.properties?.errors?.properties?.["details"] === undefined
-                              ? p.properties?.errors?.properties?.["details"]
-                              : p.properties?.errors?.properties?.["details"].map((p: any) => {
-                                  return {
-                                    code: p["code"],
-                                    message: p["message"],
-                                    details: !p.details ? undefined : p.details,
-                                  };
-                                }),
-                        },
-                  },
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _sAPApplicationServerInstanceListResultDeserializer(result.body);
 }
 
 /** Lists the SAP Application Server Instance resources for a given Virtual Instance for SAP solutions resource. */
@@ -671,7 +347,6 @@ export function _sAPApplicationServerInstancesStartSend(
   resourceGroupName: string,
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
-  body?: StartRequest,
   options: SAPApplicationServerInstancesStartOptionalParams = {
     requestOptions: {},
   },
@@ -686,7 +361,7 @@ export function _sAPApplicationServerInstancesStartSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: body === undefined ? body : { startVm: body["startVm"] },
+      body: !options["body"] ? options["body"] : startRequestSerializer(options["body"]),
     });
 }
 
@@ -698,92 +373,7 @@ export async function _sAPApplicationServerInstancesStartDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    id: result.body["id"],
-    name: result.body["name"],
-    status: result.body["status"],
-    percentComplete: result.body["percentComplete"],
-    startTime:
-      result.body["startTime"] !== undefined ? new Date(result.body["startTime"]) : undefined,
-    endTime: result.body["endTime"] !== undefined ? new Date(result.body["endTime"]) : undefined,
-    operations:
-      result.body["operations"] === undefined
-        ? result.body["operations"]
-        : result.body["operations"].map((p: any) => {
-            return {
-              id: p["id"],
-              name: p["name"],
-              status: p["status"],
-              percentComplete: p["percentComplete"],
-              startTime: p["startTime"] !== undefined ? new Date(p["startTime"]) : undefined,
-              endTime: p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
-              operations: !p.operations ? undefined : (p.operations as any),
-              error: !p.error
-                ? undefined
-                : {
-                    code: p.error?.["code"],
-                    message: p.error?.["message"],
-                    target: p.error?.["target"],
-                    details:
-                      p.error?.["details"] === undefined
-                        ? p.error?.["details"]
-                        : p.error?.["details"].map((p: any) => {
-                            return {
-                              code: p["code"],
-                              message: p["message"],
-                              target: p["target"],
-                              details: !p.details ? undefined : p.details,
-                              additionalInfo:
-                                p["additionalInfo"] === undefined
-                                  ? p["additionalInfo"]
-                                  : p["additionalInfo"].map((p: any) => {
-                                      return {
-                                        type: p["type"],
-                                        info: p["info"],
-                                      };
-                                    }),
-                            };
-                          }),
-                    additionalInfo:
-                      p.error?.["additionalInfo"] === undefined
-                        ? p.error?.["additionalInfo"]
-                        : p.error?.["additionalInfo"].map((p: any) => {
-                            return { type: p["type"], info: p["info"] };
-                          }),
-                  },
-            };
-          }),
-    error: !result.body.error
-      ? undefined
-      : {
-          code: result.body.error?.["code"],
-          message: result.body.error?.["message"],
-          target: result.body.error?.["target"],
-          details:
-            result.body.error?.["details"] === undefined
-              ? result.body.error?.["details"]
-              : result.body.error?.["details"].map((p: any) => {
-                  return {
-                    code: p["code"],
-                    message: p["message"],
-                    target: p["target"],
-                    details: !p.details ? undefined : p.details,
-                    additionalInfo:
-                      p["additionalInfo"] === undefined
-                        ? p["additionalInfo"]
-                        : p["additionalInfo"].map((p: any) => {
-                            return { type: p["type"], info: p["info"] };
-                          }),
-                  };
-                }),
-          additionalInfo:
-            result.body.error?.["additionalInfo"] === undefined
-              ? result.body.error?.["additionalInfo"]
-              : result.body.error?.["additionalInfo"].map((p: any) => {
-                  return { type: p["type"], info: p["info"] };
-                }),
-        },
-  };
+  return operationStatusResultDeserializer(result.body);
 }
 
 /** Starts the SAP Application Server Instance. */
@@ -793,7 +383,6 @@ export function sAPApplicationServerInstancesStart(
   resourceGroupName: string,
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
-  body?: StartRequest,
   options: SAPApplicationServerInstancesStartOptionalParams = {
     requestOptions: {},
   },
@@ -812,7 +401,6 @@ export function sAPApplicationServerInstancesStart(
           resourceGroupName,
           sapVirtualInstanceName,
           applicationInstanceName,
-          body,
           options,
         ),
       resourceLocationConfig: "location",
@@ -826,7 +414,6 @@ export function _sAPApplicationServerInstancesStopSend(
   resourceGroupName: string,
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
-  body?: StopRequest,
   options: SAPApplicationServerInstancesStopOptionalParams = {
     requestOptions: {},
   },
@@ -841,13 +428,7 @@ export function _sAPApplicationServerInstancesStopSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body:
-        body === undefined
-          ? body
-          : {
-              softStopTimeoutSeconds: body["softStopTimeoutSeconds"],
-              deallocateVm: body["deallocateVm"],
-            },
+      body: !options["body"] ? options["body"] : stopRequestSerializer(options["body"]),
     });
 }
 
@@ -859,92 +440,7 @@ export async function _sAPApplicationServerInstancesStopDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    id: result.body["id"],
-    name: result.body["name"],
-    status: result.body["status"],
-    percentComplete: result.body["percentComplete"],
-    startTime:
-      result.body["startTime"] !== undefined ? new Date(result.body["startTime"]) : undefined,
-    endTime: result.body["endTime"] !== undefined ? new Date(result.body["endTime"]) : undefined,
-    operations:
-      result.body["operations"] === undefined
-        ? result.body["operations"]
-        : result.body["operations"].map((p: any) => {
-            return {
-              id: p["id"],
-              name: p["name"],
-              status: p["status"],
-              percentComplete: p["percentComplete"],
-              startTime: p["startTime"] !== undefined ? new Date(p["startTime"]) : undefined,
-              endTime: p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
-              operations: !p.operations ? undefined : (p.operations as any),
-              error: !p.error
-                ? undefined
-                : {
-                    code: p.error?.["code"],
-                    message: p.error?.["message"],
-                    target: p.error?.["target"],
-                    details:
-                      p.error?.["details"] === undefined
-                        ? p.error?.["details"]
-                        : p.error?.["details"].map((p: any) => {
-                            return {
-                              code: p["code"],
-                              message: p["message"],
-                              target: p["target"],
-                              details: !p.details ? undefined : p.details,
-                              additionalInfo:
-                                p["additionalInfo"] === undefined
-                                  ? p["additionalInfo"]
-                                  : p["additionalInfo"].map((p: any) => {
-                                      return {
-                                        type: p["type"],
-                                        info: p["info"],
-                                      };
-                                    }),
-                            };
-                          }),
-                    additionalInfo:
-                      p.error?.["additionalInfo"] === undefined
-                        ? p.error?.["additionalInfo"]
-                        : p.error?.["additionalInfo"].map((p: any) => {
-                            return { type: p["type"], info: p["info"] };
-                          }),
-                  },
-            };
-          }),
-    error: !result.body.error
-      ? undefined
-      : {
-          code: result.body.error?.["code"],
-          message: result.body.error?.["message"],
-          target: result.body.error?.["target"],
-          details:
-            result.body.error?.["details"] === undefined
-              ? result.body.error?.["details"]
-              : result.body.error?.["details"].map((p: any) => {
-                  return {
-                    code: p["code"],
-                    message: p["message"],
-                    target: p["target"],
-                    details: !p.details ? undefined : p.details,
-                    additionalInfo:
-                      p["additionalInfo"] === undefined
-                        ? p["additionalInfo"]
-                        : p["additionalInfo"].map((p: any) => {
-                            return { type: p["type"], info: p["info"] };
-                          }),
-                  };
-                }),
-          additionalInfo:
-            result.body.error?.["additionalInfo"] === undefined
-              ? result.body.error?.["additionalInfo"]
-              : result.body.error?.["additionalInfo"].map((p: any) => {
-                  return { type: p["type"], info: p["info"] };
-                }),
-        },
-  };
+  return operationStatusResultDeserializer(result.body);
 }
 
 /** Stops the SAP Application Server Instance. */
@@ -954,7 +450,6 @@ export function sAPApplicationServerInstancesStop(
   resourceGroupName: string,
   sapVirtualInstanceName: string,
   applicationInstanceName: string,
-  body?: StopRequest,
   options: SAPApplicationServerInstancesStopOptionalParams = {
     requestOptions: {},
   },
@@ -973,7 +468,6 @@ export function sAPApplicationServerInstancesStop(
           resourceGroupName,
           sapVirtualInstanceName,
           applicationInstanceName,
-          body,
           options,
         ),
       resourceLocationConfig: "location",

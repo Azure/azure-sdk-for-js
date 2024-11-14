@@ -2,52 +2,61 @@
 // Licensed under the MIT License.
 
 import {
-  sAPVirtualInstancePropertiesSerializer,
-  managedServiceIdentitySerializer,
-  updateSAPVirtualInstancePropertiesSerializer,
-  StartRequest,
-  OperationStatusResult,
-  StopRequest,
-  SAPVirtualInstance,
-  UpdateSAPVirtualInstanceRequest,
-  SAPSizingRecommendationRequest,
-  SAPSupportedSkusRequest,
-  SAPSupportedResourceSkusResult,
-  SAPDiskConfigurationsRequest,
-  SAPDiskConfigurationsResult,
-  SAPAvailabilityZoneDetailsRequest,
-  SAPAvailabilityZoneDetailsResult,
-  SAPSizingRecommendationResultUnion,
-  _SAPVirtualInstanceListResult,
-} from "../../models/models.js";
-import { WorkloadsContext as Client } from "../index.js";
+  WorkloadsContext as Client,
+  SAPVirtualInstancesCreateOptionalParams,
+  SAPVirtualInstancesDeleteOptionalParams,
+  SAPVirtualInstancesGetAvailabilityZoneDetailsOptionalParams,
+  SAPVirtualInstancesGetDiskConfigurationsOptionalParams,
+  SAPVirtualInstancesGetOptionalParams,
+  SAPVirtualInstancesGetSapSupportedSkuOptionalParams,
+  SAPVirtualInstancesGetSizingRecommendationsOptionalParams,
+  SAPVirtualInstancesListByResourceGroupOptionalParams,
+  SAPVirtualInstancesListBySubscriptionOptionalParams,
+  SAPVirtualInstancesStartOptionalParams,
+  SAPVirtualInstancesStopOptionalParams,
+  SAPVirtualInstancesUpdateOptionalParams,
+} from "../index.js";
 import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  PathUncheckedResponse,
-  createRestError,
-} from "@azure-rest/core-client";
-import { serializeRecord } from "../../helpers/serializerHelpers.js";
+  startRequestSerializer,
+  OperationStatusResult,
+  operationStatusResultDeserializer,
+  stopRequestSerializer,
+  SAPVirtualInstance,
+  sAPVirtualInstanceSerializer,
+  sAPVirtualInstanceDeserializer,
+  UpdateSAPVirtualInstanceRequest,
+  updateSAPVirtualInstanceRequestSerializer,
+  _SAPVirtualInstanceListResult,
+  _sAPVirtualInstanceListResultDeserializer,
+  SAPSizingRecommendationRequest,
+  sAPSizingRecommendationRequestSerializer,
+  sAPSizingRecommendationResultUnionDeserializer,
+  SAPSizingRecommendationResultUnion,
+  SAPSupportedSkusRequest,
+  sAPSupportedSkusRequestSerializer,
+  SAPSupportedResourceSkusResult,
+  sAPSupportedResourceSkusResultDeserializer,
+  SAPDiskConfigurationsRequest,
+  sAPDiskConfigurationsRequestSerializer,
+  SAPDiskConfigurationsResult,
+  sAPDiskConfigurationsResultDeserializer,
+  SAPAvailabilityZoneDetailsRequest,
+  sAPAvailabilityZoneDetailsRequestSerializer,
+  SAPAvailabilityZoneDetailsResult,
+  sAPAvailabilityZoneDetailsResultDeserializer,
+} from "../../models/models.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
 import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
-import { PollerLike, OperationState } from "@azure/core-lro";
 import {
-  SAPVirtualInstancesGetOptionalParams,
-  SAPVirtualInstancesCreateOptionalParams,
-  SAPVirtualInstancesUpdateOptionalParams,
-  SAPVirtualInstancesDeleteOptionalParams,
-  SAPVirtualInstancesListByResourceGroupOptionalParams,
-  SAPVirtualInstancesListBySubscriptionOptionalParams,
-  SAPVirtualInstancesStartOptionalParams,
-  SAPVirtualInstancesStopOptionalParams,
-  SAPVirtualInstancesGetSizingRecommendationsOptionalParams,
-  SAPVirtualInstancesGetSapSupportedSkuOptionalParams,
-  SAPVirtualInstancesGetDiskConfigurationsOptionalParams,
-  SAPVirtualInstancesGetAvailabilityZoneDetailsOptionalParams,
-} from "../../models/options.js";
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
+import { PollerLike, OperationState } from "@azure/core-lro";
 
 export function _sAPVirtualInstancesGetSend(
   context: Client,
@@ -74,80 +83,7 @@ export async function _sAPVirtualInstancesGetDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          environment: result.body.properties?.["environment"],
-          sapProduct: result.body.properties?.["sapProduct"],
-          managedResourcesNetworkAccessType:
-            result.body.properties?.["managedResourcesNetworkAccessType"],
-          configuration: {
-            configurationType: result.body.properties?.configuration["configurationType"],
-          },
-          managedResourceGroupConfiguration: !result.body.properties
-            ?.managedResourceGroupConfiguration
-            ? undefined
-            : {
-                name: result.body.properties?.managedResourceGroupConfiguration?.["name"],
-              },
-          status: result.body.properties?.["status"],
-          health: result.body.properties?.["health"],
-          state: result.body.properties?.["state"],
-          provisioningState: result.body.properties?.["provisioningState"],
-          errors: !result.body.properties?.errors
-            ? undefined
-            : {
-                properties: !result.body.properties?.errors?.properties
-                  ? undefined
-                  : {
-                      code: result.body.properties?.errors?.properties?.["code"],
-                      message: result.body.properties?.errors?.properties?.["message"],
-                      details:
-                        result.body.properties?.errors?.properties?.["details"] === undefined
-                          ? result.body.properties?.errors?.properties?.["details"]
-                          : result.body.properties?.errors?.properties?.["details"].map(
-                              (p: any) => {
-                                return {
-                                  code: p["code"],
-                                  message: p["message"],
-                                  details: !p.details ? undefined : p.details,
-                                };
-                              },
-                            ),
-                    },
-              },
-        },
-    identity: !result.body.identity
-      ? undefined
-      : {
-          principalId: result.body.identity?.["principalId"],
-          tenantId: result.body.identity?.["tenantId"],
-          type: result.body.identity?.["type"],
-          userAssignedIdentities: result.body.identity?.["userAssignedIdentities"],
-        },
-  };
+  return sAPVirtualInstanceDeserializer(result.body);
 }
 
 /** Gets a Virtual Instance for SAP solutions resource */
@@ -185,16 +121,7 @@ export function _sAPVirtualInstancesCreateSend(
     )
     .put({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        tags: !resource.tags ? resource.tags : (serializeRecord(resource.tags as any) as any),
-        location: resource["location"],
-        properties: !resource.properties
-          ? resource.properties
-          : sAPVirtualInstancePropertiesSerializer(resource.properties),
-        identity: !resource.identity
-          ? resource.identity
-          : managedServiceIdentitySerializer(resource.identity),
-      },
+      body: sAPVirtualInstanceSerializer(resource),
     });
 }
 
@@ -206,80 +133,7 @@ export async function _sAPVirtualInstancesCreateDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          environment: result.body.properties?.["environment"],
-          sapProduct: result.body.properties?.["sapProduct"],
-          managedResourcesNetworkAccessType:
-            result.body.properties?.["managedResourcesNetworkAccessType"],
-          configuration: {
-            configurationType: result.body.properties?.configuration["configurationType"],
-          },
-          managedResourceGroupConfiguration: !result.body.properties
-            ?.managedResourceGroupConfiguration
-            ? undefined
-            : {
-                name: result.body.properties?.managedResourceGroupConfiguration?.["name"],
-              },
-          status: result.body.properties?.["status"],
-          health: result.body.properties?.["health"],
-          state: result.body.properties?.["state"],
-          provisioningState: result.body.properties?.["provisioningState"],
-          errors: !result.body.properties?.errors
-            ? undefined
-            : {
-                properties: !result.body.properties?.errors?.properties
-                  ? undefined
-                  : {
-                      code: result.body.properties?.errors?.properties?.["code"],
-                      message: result.body.properties?.errors?.properties?.["message"],
-                      details:
-                        result.body.properties?.errors?.properties?.["details"] === undefined
-                          ? result.body.properties?.errors?.properties?.["details"]
-                          : result.body.properties?.errors?.properties?.["details"].map(
-                              (p: any) => {
-                                return {
-                                  code: p["code"],
-                                  message: p["message"],
-                                  details: !p.details ? undefined : p.details,
-                                };
-                              },
-                            ),
-                    },
-              },
-        },
-    identity: !result.body.identity
-      ? undefined
-      : {
-          principalId: result.body.identity?.["principalId"],
-          tenantId: result.body.identity?.["tenantId"],
-          type: result.body.identity?.["type"],
-          userAssignedIdentities: result.body.identity?.["userAssignedIdentities"],
-        },
-  };
+  return sAPVirtualInstanceDeserializer(result.body);
 }
 
 /** Creates a Virtual Instance for SAP solutions (VIS) resource */
@@ -324,15 +178,7 @@ export function _sAPVirtualInstancesUpdateSend(
     )
     .patch({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        tags: !properties.tags ? properties.tags : (serializeRecord(properties.tags as any) as any),
-        identity: !properties.identity
-          ? properties.identity
-          : managedServiceIdentitySerializer(properties.identity),
-        properties: !properties.properties
-          ? properties.properties
-          : updateSAPVirtualInstancePropertiesSerializer(properties.properties),
-      },
+      body: updateSAPVirtualInstanceRequestSerializer(properties),
     });
 }
 
@@ -344,80 +190,7 @@ export async function _sAPVirtualInstancesUpdateDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    tags: result.body["tags"],
-    location: result.body["location"],
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          environment: result.body.properties?.["environment"],
-          sapProduct: result.body.properties?.["sapProduct"],
-          managedResourcesNetworkAccessType:
-            result.body.properties?.["managedResourcesNetworkAccessType"],
-          configuration: {
-            configurationType: result.body.properties?.configuration["configurationType"],
-          },
-          managedResourceGroupConfiguration: !result.body.properties
-            ?.managedResourceGroupConfiguration
-            ? undefined
-            : {
-                name: result.body.properties?.managedResourceGroupConfiguration?.["name"],
-              },
-          status: result.body.properties?.["status"],
-          health: result.body.properties?.["health"],
-          state: result.body.properties?.["state"],
-          provisioningState: result.body.properties?.["provisioningState"],
-          errors: !result.body.properties?.errors
-            ? undefined
-            : {
-                properties: !result.body.properties?.errors?.properties
-                  ? undefined
-                  : {
-                      code: result.body.properties?.errors?.properties?.["code"],
-                      message: result.body.properties?.errors?.properties?.["message"],
-                      details:
-                        result.body.properties?.errors?.properties?.["details"] === undefined
-                          ? result.body.properties?.errors?.properties?.["details"]
-                          : result.body.properties?.errors?.properties?.["details"].map(
-                              (p: any) => {
-                                return {
-                                  code: p["code"],
-                                  message: p["message"],
-                                  details: !p.details ? undefined : p.details,
-                                };
-                              },
-                            ),
-                    },
-              },
-        },
-    identity: !result.body.identity
-      ? undefined
-      : {
-          principalId: result.body.identity?.["principalId"],
-          tenantId: result.body.identity?.["tenantId"],
-          type: result.body.identity?.["type"],
-          userAssignedIdentities: result.body.identity?.["userAssignedIdentities"],
-        },
-  };
+  return sAPVirtualInstanceDeserializer(result.body);
 }
 
 /** Updates a Virtual Instance for SAP solutions resource */
@@ -526,82 +299,7 @@ export async function _sAPVirtualInstancesListByResourceGroupDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        tags: p["tags"],
-        location: p["location"],
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              environment: p.properties?.["environment"],
-              sapProduct: p.properties?.["sapProduct"],
-              managedResourcesNetworkAccessType:
-                p.properties?.["managedResourcesNetworkAccessType"],
-              configuration: {
-                configurationType: p.properties?.configuration["configurationType"],
-              },
-              managedResourceGroupConfiguration: !p.properties?.managedResourceGroupConfiguration
-                ? undefined
-                : {
-                    name: p.properties?.managedResourceGroupConfiguration?.["name"],
-                  },
-              status: p.properties?.["status"],
-              health: p.properties?.["health"],
-              state: p.properties?.["state"],
-              provisioningState: p.properties?.["provisioningState"],
-              errors: !p.properties?.errors
-                ? undefined
-                : {
-                    properties: !p.properties?.errors?.properties
-                      ? undefined
-                      : {
-                          code: p.properties?.errors?.properties?.["code"],
-                          message: p.properties?.errors?.properties?.["message"],
-                          details:
-                            p.properties?.errors?.properties?.["details"] === undefined
-                              ? p.properties?.errors?.properties?.["details"]
-                              : p.properties?.errors?.properties?.["details"].map((p: any) => {
-                                  return {
-                                    code: p["code"],
-                                    message: p["message"],
-                                    details: !p.details ? undefined : p.details,
-                                  };
-                                }),
-                        },
-                  },
-            },
-        identity: !p.identity
-          ? undefined
-          : {
-              principalId: p.identity?.["principalId"],
-              tenantId: p.identity?.["tenantId"],
-              type: p.identity?.["type"],
-              userAssignedIdentities: p.identity?.["userAssignedIdentities"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _sAPVirtualInstanceListResultDeserializer(result.body);
 }
 
 /** Gets all Virtual Instances for SAP solutions resources in a Resource Group. */
@@ -651,82 +349,7 @@ export async function _sAPVirtualInstancesListBySubscriptionDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p: any) => {
-      return {
-        tags: p["tags"],
-        location: p["location"],
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              environment: p.properties?.["environment"],
-              sapProduct: p.properties?.["sapProduct"],
-              managedResourcesNetworkAccessType:
-                p.properties?.["managedResourcesNetworkAccessType"],
-              configuration: {
-                configurationType: p.properties?.configuration["configurationType"],
-              },
-              managedResourceGroupConfiguration: !p.properties?.managedResourceGroupConfiguration
-                ? undefined
-                : {
-                    name: p.properties?.managedResourceGroupConfiguration?.["name"],
-                  },
-              status: p.properties?.["status"],
-              health: p.properties?.["health"],
-              state: p.properties?.["state"],
-              provisioningState: p.properties?.["provisioningState"],
-              errors: !p.properties?.errors
-                ? undefined
-                : {
-                    properties: !p.properties?.errors?.properties
-                      ? undefined
-                      : {
-                          code: p.properties?.errors?.properties?.["code"],
-                          message: p.properties?.errors?.properties?.["message"],
-                          details:
-                            p.properties?.errors?.properties?.["details"] === undefined
-                              ? p.properties?.errors?.properties?.["details"]
-                              : p.properties?.errors?.properties?.["details"].map((p: any) => {
-                                  return {
-                                    code: p["code"],
-                                    message: p["message"],
-                                    details: !p.details ? undefined : p.details,
-                                  };
-                                }),
-                        },
-                  },
-            },
-        identity: !p.identity
-          ? undefined
-          : {
-              principalId: p.identity?.["principalId"],
-              tenantId: p.identity?.["tenantId"],
-              type: p.identity?.["type"],
-              userAssignedIdentities: p.identity?.["userAssignedIdentities"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _sAPVirtualInstanceListResultDeserializer(result.body);
 }
 
 /** Gets all Virtual Instances for SAP solutions resources in a Subscription. */
@@ -751,7 +374,6 @@ export function _sAPVirtualInstancesStartSend(
   subscriptionId: string,
   resourceGroupName: string,
   sapVirtualInstanceName: string,
-  body?: StartRequest,
   options: SAPVirtualInstancesStartOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
@@ -763,7 +385,7 @@ export function _sAPVirtualInstancesStartSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: body === undefined ? body : { startVm: body["startVm"] },
+      body: !options["body"] ? options["body"] : startRequestSerializer(options["body"]),
     });
 }
 
@@ -775,92 +397,7 @@ export async function _sAPVirtualInstancesStartDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    id: result.body["id"],
-    name: result.body["name"],
-    status: result.body["status"],
-    percentComplete: result.body["percentComplete"],
-    startTime:
-      result.body["startTime"] !== undefined ? new Date(result.body["startTime"]) : undefined,
-    endTime: result.body["endTime"] !== undefined ? new Date(result.body["endTime"]) : undefined,
-    operations:
-      result.body["operations"] === undefined
-        ? result.body["operations"]
-        : result.body["operations"].map((p: any) => {
-            return {
-              id: p["id"],
-              name: p["name"],
-              status: p["status"],
-              percentComplete: p["percentComplete"],
-              startTime: p["startTime"] !== undefined ? new Date(p["startTime"]) : undefined,
-              endTime: p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
-              operations: !p.operations ? undefined : (p.operations as any),
-              error: !p.error
-                ? undefined
-                : {
-                    code: p.error?.["code"],
-                    message: p.error?.["message"],
-                    target: p.error?.["target"],
-                    details:
-                      p.error?.["details"] === undefined
-                        ? p.error?.["details"]
-                        : p.error?.["details"].map((p: any) => {
-                            return {
-                              code: p["code"],
-                              message: p["message"],
-                              target: p["target"],
-                              details: !p.details ? undefined : p.details,
-                              additionalInfo:
-                                p["additionalInfo"] === undefined
-                                  ? p["additionalInfo"]
-                                  : p["additionalInfo"].map((p: any) => {
-                                      return {
-                                        type: p["type"],
-                                        info: p["info"],
-                                      };
-                                    }),
-                            };
-                          }),
-                    additionalInfo:
-                      p.error?.["additionalInfo"] === undefined
-                        ? p.error?.["additionalInfo"]
-                        : p.error?.["additionalInfo"].map((p: any) => {
-                            return { type: p["type"], info: p["info"] };
-                          }),
-                  },
-            };
-          }),
-    error: !result.body.error
-      ? undefined
-      : {
-          code: result.body.error?.["code"],
-          message: result.body.error?.["message"],
-          target: result.body.error?.["target"],
-          details:
-            result.body.error?.["details"] === undefined
-              ? result.body.error?.["details"]
-              : result.body.error?.["details"].map((p: any) => {
-                  return {
-                    code: p["code"],
-                    message: p["message"],
-                    target: p["target"],
-                    details: !p.details ? undefined : p.details,
-                    additionalInfo:
-                      p["additionalInfo"] === undefined
-                        ? p["additionalInfo"]
-                        : p["additionalInfo"].map((p: any) => {
-                            return { type: p["type"], info: p["info"] };
-                          }),
-                  };
-                }),
-          additionalInfo:
-            result.body.error?.["additionalInfo"] === undefined
-              ? result.body.error?.["additionalInfo"]
-              : result.body.error?.["additionalInfo"].map((p: any) => {
-                  return { type: p["type"], info: p["info"] };
-                }),
-        },
-  };
+  return operationStatusResultDeserializer(result.body);
 }
 
 /** Starts the SAP application, that is the Central Services instance and Application server instances. */
@@ -869,7 +406,6 @@ export function sAPVirtualInstancesStart(
   subscriptionId: string,
   resourceGroupName: string,
   sapVirtualInstanceName: string,
-  body?: StartRequest,
   options: SAPVirtualInstancesStartOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
   return getLongRunningPoller(context, _sAPVirtualInstancesStartDeserialize, ["200", "202"], {
@@ -881,7 +417,6 @@ export function sAPVirtualInstancesStart(
         subscriptionId,
         resourceGroupName,
         sapVirtualInstanceName,
-        body,
         options,
       ),
     resourceLocationConfig: "location",
@@ -893,7 +428,6 @@ export function _sAPVirtualInstancesStopSend(
   subscriptionId: string,
   resourceGroupName: string,
   sapVirtualInstanceName: string,
-  body?: StopRequest,
   options: SAPVirtualInstancesStopOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
@@ -905,13 +439,7 @@ export function _sAPVirtualInstancesStopSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body:
-        body === undefined
-          ? body
-          : {
-              softStopTimeoutSeconds: body["softStopTimeoutSeconds"],
-              deallocateVm: body["deallocateVm"],
-            },
+      body: !options["body"] ? options["body"] : stopRequestSerializer(options["body"]),
     });
 }
 
@@ -923,92 +451,7 @@ export async function _sAPVirtualInstancesStopDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    id: result.body["id"],
-    name: result.body["name"],
-    status: result.body["status"],
-    percentComplete: result.body["percentComplete"],
-    startTime:
-      result.body["startTime"] !== undefined ? new Date(result.body["startTime"]) : undefined,
-    endTime: result.body["endTime"] !== undefined ? new Date(result.body["endTime"]) : undefined,
-    operations:
-      result.body["operations"] === undefined
-        ? result.body["operations"]
-        : result.body["operations"].map((p: any) => {
-            return {
-              id: p["id"],
-              name: p["name"],
-              status: p["status"],
-              percentComplete: p["percentComplete"],
-              startTime: p["startTime"] !== undefined ? new Date(p["startTime"]) : undefined,
-              endTime: p["endTime"] !== undefined ? new Date(p["endTime"]) : undefined,
-              operations: !p.operations ? undefined : (p.operations as any),
-              error: !p.error
-                ? undefined
-                : {
-                    code: p.error?.["code"],
-                    message: p.error?.["message"],
-                    target: p.error?.["target"],
-                    details:
-                      p.error?.["details"] === undefined
-                        ? p.error?.["details"]
-                        : p.error?.["details"].map((p: any) => {
-                            return {
-                              code: p["code"],
-                              message: p["message"],
-                              target: p["target"],
-                              details: !p.details ? undefined : p.details,
-                              additionalInfo:
-                                p["additionalInfo"] === undefined
-                                  ? p["additionalInfo"]
-                                  : p["additionalInfo"].map((p: any) => {
-                                      return {
-                                        type: p["type"],
-                                        info: p["info"],
-                                      };
-                                    }),
-                            };
-                          }),
-                    additionalInfo:
-                      p.error?.["additionalInfo"] === undefined
-                        ? p.error?.["additionalInfo"]
-                        : p.error?.["additionalInfo"].map((p: any) => {
-                            return { type: p["type"], info: p["info"] };
-                          }),
-                  },
-            };
-          }),
-    error: !result.body.error
-      ? undefined
-      : {
-          code: result.body.error?.["code"],
-          message: result.body.error?.["message"],
-          target: result.body.error?.["target"],
-          details:
-            result.body.error?.["details"] === undefined
-              ? result.body.error?.["details"]
-              : result.body.error?.["details"].map((p: any) => {
-                  return {
-                    code: p["code"],
-                    message: p["message"],
-                    target: p["target"],
-                    details: !p.details ? undefined : p.details,
-                    additionalInfo:
-                      p["additionalInfo"] === undefined
-                        ? p["additionalInfo"]
-                        : p["additionalInfo"].map((p: any) => {
-                            return { type: p["type"], info: p["info"] };
-                          }),
-                  };
-                }),
-          additionalInfo:
-            result.body.error?.["additionalInfo"] === undefined
-              ? result.body.error?.["additionalInfo"]
-              : result.body.error?.["additionalInfo"].map((p: any) => {
-                  return { type: p["type"], info: p["info"] };
-                }),
-        },
-  };
+  return operationStatusResultDeserializer(result.body);
 }
 
 /** Stops the SAP Application, that is the Application server instances and Central Services instance. */
@@ -1017,7 +460,6 @@ export function sAPVirtualInstancesStop(
   subscriptionId: string,
   resourceGroupName: string,
   sapVirtualInstanceName: string,
-  body?: StopRequest,
   options: SAPVirtualInstancesStopOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<OperationStatusResult>, OperationStatusResult> {
   return getLongRunningPoller(context, _sAPVirtualInstancesStopDeserialize, ["200", "202"], {
@@ -1029,7 +471,6 @@ export function sAPVirtualInstancesStop(
         subscriptionId,
         resourceGroupName,
         sapVirtualInstanceName,
-        body,
         options,
       ),
     resourceLocationConfig: "location",
@@ -1053,17 +494,7 @@ export function _sAPVirtualInstancesGetSizingRecommendationsSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        appLocation: body["appLocation"],
-        environment: body["environment"],
-        sapProduct: body["sapProduct"],
-        deploymentType: body["deploymentType"],
-        saps: body["saps"],
-        dbMemory: body["dbMemory"],
-        databaseType: body["databaseType"],
-        dbScaleMethod: body["dbScaleMethod"],
-        highAvailabilityType: body["highAvailabilityType"],
-      },
+      body: sAPSizingRecommendationRequestSerializer(body),
     });
 }
 
@@ -1075,7 +506,7 @@ export async function _sAPVirtualInstancesGetSizingRecommendationsDeserialize(
     throw createRestError(result);
   }
 
-  return result.body;
+  return sAPSizingRecommendationResultUnionDeserializer(result.body);
 }
 
 /** Gets the sizing recommendations. */
@@ -1115,14 +546,7 @@ export function _sAPVirtualInstancesGetSapSupportedSkuSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        appLocation: body["appLocation"],
-        environment: body["environment"],
-        sapProduct: body["sapProduct"],
-        deploymentType: body["deploymentType"],
-        databaseType: body["databaseType"],
-        highAvailabilityType: body["highAvailabilityType"],
-      },
+      body: sAPSupportedSkusRequestSerializer(body),
     });
 }
 
@@ -1134,18 +558,7 @@ export async function _sAPVirtualInstancesGetSapSupportedSkuDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    supportedSkus:
-      result.body["supportedSkus"] === undefined
-        ? result.body["supportedSkus"]
-        : result.body["supportedSkus"].map((p: any) => {
-            return {
-              vmSku: p["vmSku"],
-              isAppServerCertified: p["isAppServerCertified"],
-              isDatabaseCertified: p["isDatabaseCertified"],
-            };
-          }),
-  };
+  return sAPSupportedResourceSkusResultDeserializer(result.body);
 }
 
 /** Get a list of SAP supported SKUs for ASCS, Application and Database tier. */
@@ -1185,14 +598,7 @@ export function _sAPVirtualInstancesGetDiskConfigurationsSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        appLocation: body["appLocation"],
-        environment: body["environment"],
-        sapProduct: body["sapProduct"],
-        databaseType: body["databaseType"],
-        deploymentType: body["deploymentType"],
-        dbVmSku: body["dbVmSku"],
-      },
+      body: sAPDiskConfigurationsRequestSerializer(body),
     });
 }
 
@@ -1204,9 +610,7 @@ export async function _sAPVirtualInstancesGetDiskConfigurationsDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    volumeConfigurations: result.body["volumeConfigurations"],
-  };
+  return sAPDiskConfigurationsResultDeserializer(result.body);
 }
 
 /** Get the SAP Disk Configuration Layout prod/non-prod SAP System. */
@@ -1246,11 +650,7 @@ export function _sAPVirtualInstancesGetAvailabilityZoneDetailsSend(
     )
     .post({
       ...operationOptionsToRequestParameters(options),
-      body: {
-        appLocation: body["appLocation"],
-        sapProduct: body["sapProduct"],
-        databaseType: body["databaseType"],
-      },
+      body: sAPAvailabilityZoneDetailsRequestSerializer(body),
     });
 }
 
@@ -1262,14 +662,7 @@ export async function _sAPVirtualInstancesGetAvailabilityZoneDetailsDeserialize(
     throw createRestError(result);
   }
 
-  return {
-    availabilityZonePairs:
-      result.body["availabilityZonePairs"] === undefined
-        ? result.body["availabilityZonePairs"]
-        : result.body["availabilityZonePairs"].map((p: any) => {
-            return { zoneA: p["zoneA"], zoneB: p["zoneB"] };
-          }),
-  };
+  return sAPAvailabilityZoneDetailsResultDeserializer(result.body);
 }
 
 /** Get the recommended SAP Availability Zone Pair Details for your region. */

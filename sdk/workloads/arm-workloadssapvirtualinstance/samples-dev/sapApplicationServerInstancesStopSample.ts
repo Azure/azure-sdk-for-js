@@ -15,7 +15,7 @@ async function stopTheSapApplicationServerInstance() {
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
   const result = await client.sAPApplicationServerInstances.stop("test-rg", "X00", "app01", {
-    softStopTimeoutSeconds: 0,
+    body: { softStopTimeoutSeconds: 0 },
   });
   console.log(result);
 }
@@ -31,8 +31,7 @@ async function stopTheSapApplicationServerInstanceAndItInfrastructure() {
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
   const result = await client.sAPApplicationServerInstances.stop("test-rg", "X00", "app01", {
-    deallocateVm: true,
-    softStopTimeoutSeconds: 0,
+    body: { deallocateVm: true, softStopTimeoutSeconds: 0 },
   });
   console.log(result);
 }
@@ -48,7 +47,7 @@ async function softStopTheSapApplicationServerInstance() {
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
   const result = await client.sAPApplicationServerInstances.stop("test-rg", "X00", "app01", {
-    softStopTimeoutSeconds: 300,
+    body: { softStopTimeoutSeconds: 300 },
   });
   console.log(result);
 }
@@ -64,8 +63,7 @@ async function softStopTheSapApplicationServerInstanceAndItInfrastructure() {
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
   const result = await client.sAPApplicationServerInstances.stop("test-rg", "X00", "app01", {
-    deallocateVm: true,
-    softStopTimeoutSeconds: 300,
+    body: { deallocateVm: true, softStopTimeoutSeconds: 300 },
   });
   console.log(result);
 }

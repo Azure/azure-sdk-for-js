@@ -14,7 +14,9 @@ async function startTheSapApplicationServerInstance() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
-  const result = await client.sAPApplicationServerInstances.start("test-rg", "X00", "app01", {});
+  const result = await client.sAPApplicationServerInstances.start("test-rg", "X00", "app01", {
+    body: {},
+  });
   console.log(result);
 }
 
@@ -29,7 +31,7 @@ async function startVirtualMachineAndTheSapApplicationServerInstanceOnIt() {
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
   const result = await client.sAPApplicationServerInstances.start("test-rg", "X00", "app01", {
-    startVm: true,
+    body: { startVm: true },
   });
   console.log(result);
 }

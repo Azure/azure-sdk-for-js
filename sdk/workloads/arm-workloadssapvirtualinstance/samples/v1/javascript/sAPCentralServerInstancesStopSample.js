@@ -15,7 +15,7 @@ async function stopTheSapCentralServicesInstance() {
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
   const result = await client.sAPCentralServerInstances.stop("test-rg", "X00", "centralServer", {
-    softStopTimeoutSeconds: 1200,
+    body: { softStopTimeoutSeconds: 1200 },
   });
   console.log(result);
 }
@@ -31,7 +31,7 @@ async function stopTheSapCentralServicesInstanceAndItsUnderlyingVirtualMachineS(
   const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
   const client = new WorkloadsClient(credential, subscriptionId);
   const result = await client.sAPCentralServerInstances.stop("test-rg", "X00", "centralServer", {
-    deallocateVm: true,
+    body: { deallocateVm: true },
   });
   console.log(result);
 }

@@ -3,13 +3,6 @@
 
 import { WorkloadsContext } from "../../api/workloadsContext.js";
 import {
-  StartRequest,
-  OperationStatusResult,
-  StopRequest,
-  SAPDatabaseInstance,
-  UpdateSAPDatabaseInstanceRequest,
-} from "../../models/models.js";
-import {
   sAPDatabaseInstancesGet,
   sAPDatabaseInstancesCreate,
   sAPDatabaseInstancesUpdate,
@@ -18,6 +11,11 @@ import {
   sAPDatabaseInstancesStart,
   sAPDatabaseInstancesStop,
 } from "../../api/sAPDatabaseInstances/index.js";
+import {
+  OperationStatusResult,
+  SAPDatabaseInstance,
+  UpdateSAPDatabaseInstanceRequest,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -28,7 +26,7 @@ import {
   SAPDatabaseInstancesListOptionalParams,
   SAPDatabaseInstancesStartOptionalParams,
   SAPDatabaseInstancesStopOptionalParams,
-} from "../../models/options.js";
+} from "../../api/options.js";
 
 /** Interface representing a SAPDatabaseInstances operations. */
 export interface SAPDatabaseInstancesOperations {
@@ -73,7 +71,6 @@ export interface SAPDatabaseInstancesOperations {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    body?: StartRequest,
     options?: SAPDatabaseInstancesStartOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
   /** Stops the database instance of the SAP system. */
@@ -81,7 +78,6 @@ export interface SAPDatabaseInstancesOperations {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     databaseInstanceName: string,
-    body?: StopRequest,
     options?: SAPDatabaseInstancesStopOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
@@ -164,7 +160,6 @@ export function getSAPDatabaseInstances(context: WorkloadsContext, subscriptionI
       resourceGroupName: string,
       sapVirtualInstanceName: string,
       databaseInstanceName: string,
-      body?: StartRequest,
       options?: SAPDatabaseInstancesStartOptionalParams,
     ) =>
       sAPDatabaseInstancesStart(
@@ -173,14 +168,12 @@ export function getSAPDatabaseInstances(context: WorkloadsContext, subscriptionI
         resourceGroupName,
         sapVirtualInstanceName,
         databaseInstanceName,
-        body,
         options,
       ),
     stop: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,
       databaseInstanceName: string,
-      body?: StopRequest,
       options?: SAPDatabaseInstancesStopOptionalParams,
     ) =>
       sAPDatabaseInstancesStop(
@@ -189,7 +182,6 @@ export function getSAPDatabaseInstances(context: WorkloadsContext, subscriptionI
         resourceGroupName,
         sapVirtualInstanceName,
         databaseInstanceName,
-        body,
         options,
       ),
   };

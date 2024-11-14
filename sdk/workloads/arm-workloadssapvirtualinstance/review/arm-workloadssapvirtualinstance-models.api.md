@@ -4,8 +4,6 @@
 
 ```ts
 
-import { OperationOptions } from '@azure-rest/core-client';
-
 // @public
 export type ActionType = string;
 
@@ -196,11 +194,6 @@ export interface ErrorDetail {
 }
 
 // @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
-}
-
-// @public
 export interface ExternalInstallationSoftwareConfiguration extends SoftwareConfiguration {
     centralServerVmId?: string;
     softwareInstallationType: "External";
@@ -285,13 +278,13 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownDiskSkuName {
-    PremiumLRS = "Premium_LRS",
-    PremiumV2LRS = "PremiumV2_LRS",
-    PremiumZRS = "Premium_ZRS",
-    StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS",
-    StandardSSDZRS = "StandardSSD_ZRS",
-    UltraSSDLRS = "UltraSSD_LRS"
+    Premium_LRS = "Premium_LRS",
+    Premium_ZRS = "Premium_ZRS",
+    PremiumV2_LRS = "PremiumV2_LRS",
+    Standard_LRS = "Standard_LRS",
+    StandardSSD_LRS = "StandardSSD_LRS",
+    StandardSSD_ZRS = "StandardSSD_ZRS",
+    UltraSSD_LRS = "UltraSSD_LRS"
 }
 
 // @public
@@ -314,23 +307,15 @@ export enum KnownManagedResourcesNetworkAccessType {
 }
 
 // @public
-export enum KnownManagedServiceIdentityType {
-    None = "None",
-    SystemAndUserAssigned = "SystemAssigned,UserAssigned",
-    SystemAssigned = "SystemAssigned",
-    UserAssigned = "UserAssigned"
-}
-
-// @public
 export enum KnownNamingPatternType {
     FullResourceName = "FullResourceName"
 }
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -398,6 +383,12 @@ export enum KnownSAPSoftwareInstallationType {
 }
 
 // @public
+export enum KnownSAPVirtualInstanceIdentityType {
+    None = "None",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownSapVirtualInstanceProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
@@ -436,6 +427,11 @@ export enum KnownSAPVirtualInstanceStatus {
 }
 
 // @public
+export enum KnownVersions {
+    v2024_09_01 = "2024-09-01"
+}
+
+// @public
 export interface LinuxConfiguration extends OSConfiguration {
     disablePasswordAuthentication?: boolean;
     osType: "Linux";
@@ -463,17 +459,6 @@ export type ManagedResourcesNetworkAccessType = string;
 export interface ManagedRGConfiguration {
     name?: string;
 }
-
-// @public
-export interface ManagedServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
-}
-
-// @public
-export type ManagedServiceIdentityType = string;
 
 // @public
 export interface MessageServerProperties {
@@ -521,10 +506,6 @@ export interface OperationDisplay {
     readonly operation?: string;
     readonly provider?: string;
     readonly resource?: string;
-}
-
-// @public
-export interface OperationsListOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -580,38 +561,6 @@ export interface SAPApplicationServerInstance extends TrackedResource {
 }
 
 // @public
-export interface SAPApplicationServerInstancesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPApplicationServerInstancesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPApplicationServerInstancesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPApplicationServerInstancesListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPApplicationServerInstancesStartOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPApplicationServerInstancesStopOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPApplicationServerInstancesUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface SAPApplicationServerProperties {
     readonly dispatcherStatus?: string;
     readonly errors?: SAPVirtualInstanceError;
@@ -655,38 +604,6 @@ export interface SAPCentralServerInstance extends TrackedResource {
 }
 
 // @public
-export interface SAPCentralServerInstancesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPCentralServerInstancesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPCentralServerInstancesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPCentralServerInstancesListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPCentralServerInstancesStartOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPCentralServerInstancesStopOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPCentralServerInstancesUpdateOptionalParams extends OperationOptions {
-}
-
-// @public
 export interface SAPCentralServerProperties {
     enqueueReplicationServerProperties?: EnqueueReplicationServerProperties;
     enqueueServerProperties?: EnqueueServerProperties;
@@ -718,38 +635,6 @@ export type SAPConfigurationUnion = DiscoveryConfiguration | DeploymentConfigura
 // @public
 export interface SAPDatabaseInstance extends TrackedResource {
     properties?: SAPDatabaseProperties;
-}
-
-// @public
-export interface SAPDatabaseInstancesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPDatabaseInstancesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPDatabaseInstancesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPDatabaseInstancesListOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPDatabaseInstancesStartOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPDatabaseInstancesStopOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPDatabaseInstancesUpdateOptionalParams extends OperationOptions {
 }
 
 // @public
@@ -864,7 +749,7 @@ export interface SAPSupportedSkusRequest {
 
 // @public
 export interface SAPVirtualInstance extends TrackedResource {
-    identity?: ManagedServiceIdentity;
+    identity?: SAPVirtualInstanceIdentity;
     properties?: SAPVirtualInstanceProperties;
 }
 
@@ -872,6 +757,15 @@ export interface SAPVirtualInstance extends TrackedResource {
 export interface SAPVirtualInstanceError {
     properties?: ErrorDefinition;
 }
+
+// @public
+export interface SAPVirtualInstanceIdentity {
+    type: SAPVirtualInstanceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+}
+
+// @public
+export type SAPVirtualInstanceIdentityType = string;
 
 // @public
 export interface SAPVirtualInstanceProperties {
@@ -891,63 +785,10 @@ export interface SAPVirtualInstanceProperties {
 export type SapVirtualInstanceProvisioningState = string;
 
 // @public
-export interface SAPVirtualInstancesCreateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPVirtualInstancesDeleteOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPVirtualInstancesGetAvailabilityZoneDetailsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPVirtualInstancesGetDiskConfigurationsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPVirtualInstancesGetOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPVirtualInstancesGetSapSupportedSkuOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPVirtualInstancesGetSizingRecommendationsOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPVirtualInstancesListByResourceGroupOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPVirtualInstancesListBySubscriptionOptionalParams extends OperationOptions {
-}
-
-// @public
-export interface SAPVirtualInstancesStartOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
-export interface SAPVirtualInstancesStopOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
-
-// @public
 export type SAPVirtualInstanceState = string;
 
 // @public
 export type SAPVirtualInstanceStatus = string;
-
-// @public
-export interface SAPVirtualInstancesUpdateOptionalParams extends OperationOptions {
-    updateIntervalInMs?: number;
-}
 
 // @public
 export interface ServiceInitiatedSoftwareConfiguration extends SoftwareConfiguration {
@@ -1125,7 +966,7 @@ export interface UpdateSAPVirtualInstanceProperties {
 
 // @public
 export interface UpdateSAPVirtualInstanceRequest {
-    identity?: ManagedServiceIdentity;
+    identity?: SAPVirtualInstanceIdentity;
     properties?: UpdateSAPVirtualInstanceProperties;
     tags?: Record<string, string>;
 }

@@ -4,8 +4,10 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 Workloads client provides access to various workload operations.
 
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-workloadssapvirtualinstance) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-workloadssapvirtualinstance?view=azure-node-preview) |
+Key links:
+
+- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-workloadssapvirtualinstance)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-workloadssapvirtualinstance?view=azure-node-preview)
 
 ## Getting started
 

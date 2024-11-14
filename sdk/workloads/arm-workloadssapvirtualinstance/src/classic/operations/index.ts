@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 import { WorkloadsContext } from "../../api/workloadsContext.js";
-import { Operation } from "../../models/models.js";
 import { operationsList } from "../../api/operations/index.js";
+import { Operation } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
-import { OperationsListOptionalParams } from "../../models/options.js";
+import { OperationsListOptionalParams } from "../../api/options.js";
 
 /** Interface representing a Operations operations. */
 export interface OperationsOperations {

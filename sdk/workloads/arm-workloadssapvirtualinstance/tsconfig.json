@@ -8,11 +8,11 @@
     "paths": { "@azure/arm-workloadssapvirtualinstance": ["./src/index"] }
   },
   "include": [
-    "./src/**/*.ts",
-    "./src/**/*.mts",
-    "./src/**/*.cts",
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
     "test/**/*.ts",
-    "./test/**/*.ts",
+    "test/**/*.ts",
     "samples-dev/**/*.ts"
   ]
 }

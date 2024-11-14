@@ -3,13 +3,6 @@
 
 import { WorkloadsContext } from "../../api/workloadsContext.js";
 import {
-  SAPApplicationServerInstance,
-  UpdateSAPApplicationInstanceRequest,
-  StartRequest,
-  OperationStatusResult,
-  StopRequest,
-} from "../../models/models.js";
-import {
   sAPApplicationServerInstancesGet,
   sAPApplicationServerInstancesCreate,
   sAPApplicationServerInstancesUpdate,
@@ -18,6 +11,11 @@ import {
   sAPApplicationServerInstancesStart,
   sAPApplicationServerInstancesStop,
 } from "../../api/sAPApplicationServerInstances/index.js";
+import {
+  SAPApplicationServerInstance,
+  UpdateSAPApplicationInstanceRequest,
+  OperationStatusResult,
+} from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
@@ -28,7 +26,7 @@ import {
   SAPApplicationServerInstancesListOptionalParams,
   SAPApplicationServerInstancesStartOptionalParams,
   SAPApplicationServerInstancesStopOptionalParams,
-} from "../../models/options.js";
+} from "../../api/options.js";
 
 /** Interface representing a SAPApplicationServerInstances operations. */
 export interface SAPApplicationServerInstancesOperations {
@@ -73,7 +71,6 @@ export interface SAPApplicationServerInstancesOperations {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    body?: StartRequest,
     options?: SAPApplicationServerInstancesStartOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
   /** Stops the SAP Application Server Instance. */
@@ -81,7 +78,6 @@ export interface SAPApplicationServerInstancesOperations {
     resourceGroupName: string,
     sapVirtualInstanceName: string,
     applicationInstanceName: string,
-    body?: StopRequest,
     options?: SAPApplicationServerInstancesStopOptionalParams,
   ) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
 }
@@ -167,7 +163,6 @@ export function getSAPApplicationServerInstances(
       resourceGroupName: string,
       sapVirtualInstanceName: string,
       applicationInstanceName: string,
-      body?: StartRequest,
       options?: SAPApplicationServerInstancesStartOptionalParams,
     ) =>
       sAPApplicationServerInstancesStart(
@@ -176,14 +171,12 @@ export function getSAPApplicationServerInstances(
         resourceGroupName,
         sapVirtualInstanceName,
         applicationInstanceName,
-        body,
         options,
       ),
     stop: (
       resourceGroupName: string,
       sapVirtualInstanceName: string,
       applicationInstanceName: string,
-      body?: StopRequest,
       options?: SAPApplicationServerInstancesStopOptionalParams,
     ) =>
       sAPApplicationServerInstancesStop(
@@ -192,7 +185,6 @@ export function getSAPApplicationServerInstances(
         resourceGroupName,
         sapVirtualInstanceName,
         applicationInstanceName,
-        body,
         options,
       ),
   };

@@ -208,11 +208,6 @@ export interface ErrorDetail {
 }
 
 // @public
-export interface ErrorResponse {
-    error?: ErrorDetail;
-}
-
-// @public
 export interface ExternalInstallationSoftwareConfiguration extends SoftwareConfiguration {
     centralServerVmId?: string;
     softwareInstallationType: "External";
@@ -297,13 +292,13 @@ export enum KnownCreatedByType {
 
 // @public
 export enum KnownDiskSkuName {
-    PremiumLRS = "Premium_LRS",
-    PremiumV2LRS = "PremiumV2_LRS",
-    PremiumZRS = "Premium_ZRS",
-    StandardLRS = "Standard_LRS",
-    StandardSSDLRS = "StandardSSD_LRS",
-    StandardSSDZRS = "StandardSSD_ZRS",
-    UltraSSDLRS = "UltraSSD_LRS"
+    Premium_LRS = "Premium_LRS",
+    Premium_ZRS = "Premium_ZRS",
+    PremiumV2_LRS = "PremiumV2_LRS",
+    Standard_LRS = "Standard_LRS",
+    StandardSSD_LRS = "StandardSSD_LRS",
+    StandardSSD_ZRS = "StandardSSD_ZRS",
+    UltraSSD_LRS = "UltraSSD_LRS"
 }
 
 // @public
@@ -326,23 +321,15 @@ export enum KnownManagedResourcesNetworkAccessType {
 }
 
 // @public
-export enum KnownManagedServiceIdentityType {
-    None = "None",
-    SystemAndUserAssigned = "SystemAssigned,UserAssigned",
-    SystemAssigned = "SystemAssigned",
-    UserAssigned = "UserAssigned"
-}
-
-// @public
 export enum KnownNamingPatternType {
     FullResourceName = "FullResourceName"
 }
 
 // @public
 export enum KnownOrigin {
-    System = "system",
-    User = "user",
-    UserSystem = "user,system"
+    "user,system" = "user,system",
+    system = "system",
+    user = "user"
 }
 
 // @public
@@ -410,6 +397,12 @@ export enum KnownSAPSoftwareInstallationType {
 }
 
 // @public
+export enum KnownSAPVirtualInstanceIdentityType {
+    None = "None",
+    UserAssigned = "UserAssigned"
+}
+
+// @public
 export enum KnownSapVirtualInstanceProvisioningState {
     Canceled = "Canceled",
     Creating = "Creating",
@@ -448,6 +441,11 @@ export enum KnownSAPVirtualInstanceStatus {
 }
 
 // @public
+export enum KnownVersions {
+    v2024_09_01 = "2024-09-01"
+}
+
+// @public
 export interface LinuxConfiguration extends OSConfiguration {
     disablePasswordAuthentication?: boolean;
     osType: "Linux";
@@ -475,17 +473,6 @@ export type ManagedResourcesNetworkAccessType = string;
 export interface ManagedRGConfiguration {
     name?: string;
 }
-
-// @public
-export interface ManagedServiceIdentity {
-    readonly principalId?: string;
-    readonly tenantId?: string;
-    type: ManagedServiceIdentityType;
-    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
-}
-
-// @public
-export type ManagedServiceIdentityType = string;
 
 // @public
 export interface MessageServerProperties {
@@ -642,18 +629,20 @@ export interface SAPApplicationServerInstancesOperations {
     delete: (resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesGetOptionalParams) => Promise<SAPApplicationServerInstance>;
     list: (resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPApplicationServerInstancesListOptionalParams) => PagedAsyncIterableIterator<SAPApplicationServerInstance>;
-    start: (resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, body?: StartRequest, options?: SAPApplicationServerInstancesStartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    stop: (resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, body?: StopRequest, options?: SAPApplicationServerInstancesStopOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    start: (resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    stop: (resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, options?: SAPApplicationServerInstancesStopOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
     update: (resourceGroupName: string, sapVirtualInstanceName: string, applicationInstanceName: string, properties: UpdateSAPApplicationInstanceRequest, options?: SAPApplicationServerInstancesUpdateOptionalParams) => Promise<SAPApplicationServerInstance>;
 }
 
 // @public
 export interface SAPApplicationServerInstancesStartOptionalParams extends OperationOptions {
+    body?: StartRequest;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface SAPApplicationServerInstancesStopOptionalParams extends OperationOptions {
+    body?: StopRequest;
     updateIntervalInMs?: number;
 }
 
@@ -728,18 +717,20 @@ export interface SAPCentralServerInstancesOperations {
     delete: (resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralServerInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralServerInstancesGetOptionalParams) => Promise<SAPCentralServerInstance>;
     list: (resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPCentralServerInstancesListOptionalParams) => PagedAsyncIterableIterator<SAPCentralServerInstance>;
-    start: (resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, body?: StartRequest, options?: SAPCentralServerInstancesStartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    stop: (resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, body?: StopRequest, options?: SAPCentralServerInstancesStopOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    start: (resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralServerInstancesStartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    stop: (resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, options?: SAPCentralServerInstancesStopOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
     update: (resourceGroupName: string, sapVirtualInstanceName: string, centralInstanceName: string, properties: UpdateSAPCentralInstanceRequest, options?: SAPCentralServerInstancesUpdateOptionalParams) => Promise<SAPCentralServerInstance>;
 }
 
 // @public
 export interface SAPCentralServerInstancesStartOptionalParams extends OperationOptions {
+    body?: StartRequest;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface SAPCentralServerInstancesStopOptionalParams extends OperationOptions {
+    body?: StopRequest;
     updateIntervalInMs?: number;
 }
 
@@ -805,18 +796,20 @@ export interface SAPDatabaseInstancesOperations {
     delete: (resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesDeleteOptionalParams) => PollerLike<OperationState<void>, void>;
     get: (resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesGetOptionalParams) => Promise<SAPDatabaseInstance>;
     list: (resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPDatabaseInstancesListOptionalParams) => PagedAsyncIterableIterator<SAPDatabaseInstance>;
-    start: (resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, body?: StartRequest, options?: SAPDatabaseInstancesStartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    stop: (resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, body?: StopRequest, options?: SAPDatabaseInstancesStopOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    start: (resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    stop: (resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, options?: SAPDatabaseInstancesStopOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
     update: (resourceGroupName: string, sapVirtualInstanceName: string, databaseInstanceName: string, properties: UpdateSAPDatabaseInstanceRequest, options?: SAPDatabaseInstancesUpdateOptionalParams) => Promise<SAPDatabaseInstance>;
 }
 
 // @public
 export interface SAPDatabaseInstancesStartOptionalParams extends OperationOptions {
+    body?: StartRequest;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface SAPDatabaseInstancesStopOptionalParams extends OperationOptions {
+    body?: StopRequest;
     updateIntervalInMs?: number;
 }
 
@@ -936,7 +929,7 @@ export interface SAPSupportedSkusRequest {
 
 // @public
 export interface SAPVirtualInstance extends TrackedResource {
-    identity?: ManagedServiceIdentity;
+    identity?: SAPVirtualInstanceIdentity;
     properties?: SAPVirtualInstanceProperties;
 }
 
@@ -944,6 +937,15 @@ export interface SAPVirtualInstance extends TrackedResource {
 export interface SAPVirtualInstanceError {
     properties?: ErrorDefinition;
 }
+
+// @public
+export interface SAPVirtualInstanceIdentity {
+    type: SAPVirtualInstanceIdentityType;
+    userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
+}
+
+// @public
+export type SAPVirtualInstanceIdentityType = string;
 
 // @public
 export interface SAPVirtualInstanceProperties {
@@ -1011,18 +1013,20 @@ export interface SAPVirtualInstancesOperations {
     getSizingRecommendations: (location: string, body: SAPSizingRecommendationRequest, options?: SAPVirtualInstancesGetSizingRecommendationsOptionalParams) => Promise<SAPSizingRecommendationResultUnion>;
     listByResourceGroup: (resourceGroupName: string, options?: SAPVirtualInstancesListByResourceGroupOptionalParams) => PagedAsyncIterableIterator<SAPVirtualInstance>;
     listBySubscription: (options?: SAPVirtualInstancesListBySubscriptionOptionalParams) => PagedAsyncIterableIterator<SAPVirtualInstance>;
-    start: (resourceGroupName: string, sapVirtualInstanceName: string, body?: StartRequest, options?: SAPVirtualInstancesStartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
-    stop: (resourceGroupName: string, sapVirtualInstanceName: string, body?: StopRequest, options?: SAPVirtualInstancesStopOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    start: (resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStartOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
+    stop: (resourceGroupName: string, sapVirtualInstanceName: string, options?: SAPVirtualInstancesStopOptionalParams) => PollerLike<OperationState<OperationStatusResult>, OperationStatusResult>;
     update: (resourceGroupName: string, sapVirtualInstanceName: string, properties: UpdateSAPVirtualInstanceRequest, options?: SAPVirtualInstancesUpdateOptionalParams) => PollerLike<OperationState<SAPVirtualInstance>, SAPVirtualInstance>;
 }
 
 // @public
 export interface SAPVirtualInstancesStartOptionalParams extends OperationOptions {
+    body?: StartRequest;
     updateIntervalInMs?: number;
 }
 
 // @public
 export interface SAPVirtualInstancesStopOptionalParams extends OperationOptions {
+    body?: StopRequest;
     updateIntervalInMs?: number;
 }
 
@@ -1213,7 +1217,7 @@ export interface UpdateSAPVirtualInstanceProperties {
 
 // @public
 export interface UpdateSAPVirtualInstanceRequest {
-    identity?: ManagedServiceIdentity;
+    identity?: SAPVirtualInstanceIdentity;
     properties?: UpdateSAPVirtualInstanceProperties;
     tags?: Record<string, string>;
 }
