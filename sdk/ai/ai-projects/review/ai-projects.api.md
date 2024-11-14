@@ -105,6 +105,7 @@ export interface AgentsOperations {
     getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
     getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<string>;
     getRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
+    getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) => Promise<RunStepOutput>;
     getThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
     getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     // Warning: (ae-forgotten-export) The symbol "ListAgentsQueryParamProperties" needs to be exported by the entry point index.d.ts
@@ -114,6 +115,8 @@ export interface AgentsOperations {
     listMessages: (threadId: string, options?: ListMessagesQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     // Warning: (ae-forgotten-export) The symbol "ListRunsQueryParamProperties" needs to be exported by the entry point index.d.ts
     listRuns: (threadId: string, options?: ListRunsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadRunOutput>;
+    // Warning: (ae-forgotten-export) The symbol "ListRunStepsQueryParamProperties" needs to be exported by the entry point index.d.ts
+    listRunSteps: (threadId: string, runId: string, options?: ListRunStepsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfRunStepOutput>;
     // Warning: (ae-forgotten-export) The symbol "ListVectorStoresQueryParamProperties" needs to be exported by the entry point index.d.ts
     listVectorStores: (options?: ListVectorStoresQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;

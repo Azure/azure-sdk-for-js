@@ -15,6 +15,7 @@ import { AgentStreamEventMessage } from "./streamingModels.js";
 import { UpdateMessageOptions } from "./messagesModels.js";
 import { OptionalRequestParameters, UpdateRunOptions } from "./inputOutputs.js";
 import { createVectorStore, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
+import { getRunStep, listRunSteps } from "./runSteps.js";
 
 export interface AgentsOperations {
   /** Creates a new agent. */
@@ -183,6 +184,21 @@ export interface AgentsOperations {
     vectorStoreId: string,
     requestParams?: OptionalRequestParameters,
   ) => Promise<VectorStoreDeletionStatusOutput>;
+
+  /** Gets a single run step from a thread run. */
+  getRunStep: (
+    threadId: string,
+    runId: string,
+    stepId: string,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<RunStepOutput>;
+  /** Gets a list of run steps from a thread run. */
+  listRunSteps: (
+    threadId: string,
+    runId: string,
+    options?: ListRunStepsQueryParamProperties,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<OpenAIPageableListOfRunStepOutput>;
 }
 
 function getAgents(context: Client): AgentsOperations {
@@ -262,6 +278,11 @@ function getAgents(context: Client): AgentsOperations {
       modifyVectorStore(context, vectorStoreId, { ...requestParams, body: options as Record<string, unknown> }),
     deleteVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) =>
       deleteVectorStore(context, vectorStoreId, requestParams),
+  
+    getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) =>
+      getRunStep(context, threadId, runId, stepId, { ...requestParams }),
+    listRunSteps: (threadId: string, runId: string, options?: ListRunStepsQueryParamProperties, requestParams?: OptionalRequestParameters) =>
+      listRunSteps(context, threadId, runId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
   };
 }
 
