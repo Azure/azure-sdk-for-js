@@ -26,6 +26,7 @@ import type {
   KnownCommunicationCloudEnvironmentModel,
   PhoneNumberIdentifierModel,
   CommunicationUserIdentifierModel,
+  MicrosoftTeamsAppIdentifierModel,
 } from "../generated/src/index.js";
 import { KnownCommunicationIdentifierModelKind } from "../generated/src/index.js";
 import type { CallParticipant } from "../models/models.js";

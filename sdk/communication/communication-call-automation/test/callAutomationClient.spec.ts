@@ -11,36 +11,33 @@ import {
 } from "./utils/connectionUtils.js";
 import type {
   CommunicationIdentifier,
-  CommunicationUserIdentifier,
   MicrosoftTeamsAppIdentifier,
 } from "@azure/communication-common";
-import type {
-  CallInvite,
-  CallConnection,
-  CreateCallOptions,
-  AnswerCallOptions,
-} from "../src/index.js";
-import { CallAutomationClient } from "../src/index.js";
-import {
-  createRecorder,
-  createTestUser,
-  dispatcherCallback,
-  serviceBusWithNewCall,
-  createCallAutomationClient,
-  waitForIncomingCallContext,
-  waitForEvent,
-  events,
-  serviceBusReceivers,
-  incomingCallContexts,
-  loadPersistedEvents,
-  persistEvents,
-} from "./utils/recordedClient.js";
+import type { CallInvite, CallConnection } from "../src/index.js";
 import type {
   AnswerCallEventResult,
   CreateCallEventResult,
 } from "../src/eventprocessor/eventResponses.js";
 import { randomUUID } from "@azure/core-util";
 import { KnownCommunicationCloudEnvironmentModel } from "../src/generated/src/index.js";
+import type { MockedObject } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach } from "vitest";
+
+vi.mock("../src/index.js", async (importActual) => {
+  const CallAutomationClient = vi.fn();
+  CallAutomationClient.prototype.createCall = vi.fn();
+  CallAutomationClient.prototype.createGroupCall = vi.fn();
+  CallAutomationClient.prototype.answerCall = vi.fn();
+  CallAutomationClient.prototype.redirectCall = vi.fn();
+  CallAutomationClient.prototype.rejectCall = vi.fn();
+
+  return {
+    ...(await importActual()),
+    CallAutomationClient,
+  };
+});
+
+import { CallAutomationClient } from "../src/index.js";
 
 function createOPSCallAutomationClient(
   oPSSourceIdentity: MicrosoftTeamsAppIdentifier,
@@ -71,7 +68,11 @@ describe("Call Automation Client Unit Tests", () => {
       targetParticipant: { communicationUserId: CALL_TARGET_ID },
     };
     // stub CallAutomationClient
-    client = vi.mocked(new CallAutomationClient(expect.anything()));
+    client = vi.mocked(
+      new CallAutomationClient(
+        "endpoint=https://redacted.communication.azure.com/;accesskey=redacted",
+      ),
+    );
   });
 
   it("RepeatabilityHeadersGeneration", async () => {
@@ -144,16 +145,15 @@ describe("Call Automation Client Unit Tests", () => {
     };
 
     // stub an OPS CallAutomationClient
-    const createOPSClientStub = Sinon.stub().callsFake(() =>
-      createOPSCallAutomationClient(oPSSouceStub),
-    );
+    const createOPSClientStub = vi
+      .fn()
+      .mockImplementation(() => createOPSCallAutomationClient(oPSSouceStub));
 
     // Use the stubbed factory function to create the client
-    const oPSClient: SinonStubbedInstance<CallAutomationClient> & CallAutomationClient =
-      createOPSClientStub();
+    const oPSClient: MockedObject<CallAutomationClient> = createOPSClientStub();
 
     // Explicitly stub the createCall method
-    oPSClient.createCall = Sinon.stub();
+    oPSClient.createCall = vi.fn();
 
     // mocks
     const createCallResultMock: CreateCallResult = {
@@ -170,15 +170,14 @@ describe("Call Automation Client Unit Tests", () => {
       },
     };
 
-    (oPSClient.createCall as Sinon.SinonStub).returns(Promise.resolve(createCallResultMock));
-
+    vi.spyOn(oPSClient, "createCall").mockResolvedValue(createCallResultMock);
     const promiseResult = oPSClient.createCall(target, CALL_CALLBACK_URL);
 
     // asserts
     promiseResult
       .then((result: CreateCallResult) => {
         assert.isNotNull(result);
-        assert.isTrue(oPSClient.createCall.calledWith(target, CALL_CALLBACK_URL));
+        expect(oPSClient.createCall).toHaveBeenCalledWith(target, CALL_CALLBACK_URL);
         assert.equal(result, createCallResultMock);
         return;
       })
