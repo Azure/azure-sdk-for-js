@@ -194,9 +194,9 @@ export interface Client {
    * strong types. When used by the codegen this type gets overridden with the generated
    * types. For example:
    * ```typescript snippet:path_example
-   * import { Client, Routes } from "@typespec/ts-http-runtime";
+   * import { Client } from "@typespec/ts-http-runtime";
    *
-   * export type MyClient = Client & {
+   * type MyClient = Client & {
    *   path: Routes;
    * };
    * ```
