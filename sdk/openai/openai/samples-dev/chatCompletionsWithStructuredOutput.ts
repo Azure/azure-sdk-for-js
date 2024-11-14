@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to get chat completions for a chat context.
+ * Demonstrates how to get chat completions with structured output.
  *
- * @summary get chat completions.
+ * @summary get chat completions with structured output.
  * @azsdk-weight 100
  */
 
@@ -19,7 +19,7 @@ import { zodResponseFormat } from "openai/helpers/zod";
 import "dotenv/config";
 
 export async function main() {
-  console.log("== Chat Completions Sample ==");
+  console.log("== Chat Completions With Structured Output Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);

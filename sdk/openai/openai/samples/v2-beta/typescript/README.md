@@ -19,7 +19,7 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [audioTranslation.ts][audiotranslation]                                             | audio translation.                                                           |
 | [batch.ts][batch]                                                                   | create and retrieve batch content.                                           |
 | [chatCompletions.ts][chatcompletions]                                               | get chat completions.                                                        |
-| [chatCompletionsWithStructuredOutput.ts][chatcompletionswithstructuredoutput]       | get chat completions.                                                        |
+| [chatCompletionsWithStructuredOutput.ts][chatcompletionswithstructuredoutput]       | get chat completions with structured output.                                 |
 | [codeInterpreter.ts][codeinterpreter]                                               | interpreting code.                                                           |
 | [completions.ts][completions]                                                       | get completions.                                                             |
 | [embeddings.ts][embeddings]                                                         | generates embedding vectors from a prompt using Azure OpenAI Get Embeddings. |

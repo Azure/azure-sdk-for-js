@@ -19,7 +19,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | [audioTranslation.js][audiotranslation]                                             | audio translation.                                                           |
 | [batch.js][batch]                                                                   | create and retrieve batch content.                                           |
 | [chatCompletions.js][chatcompletions]                                               | get chat completions.                                                        |
-| [chatCompletionsWithStructuredOutput.js][chatcompletionswithstructuredoutput]       | get chat completions.                                                        |
+| [chatCompletionsWithStructuredOutput.js][chatcompletionswithstructuredoutput]       | get chat completions with structured output.                                 |
 | [codeInterpreter.js][codeinterpreter]                                               | interpreting code.                                                           |
 | [completions.js][completions]                                                       | get completions.                                                             |
 | [embeddings.js][embeddings]                                                         | generates embedding vectors from a prompt using Azure OpenAI Get Embeddings. |
