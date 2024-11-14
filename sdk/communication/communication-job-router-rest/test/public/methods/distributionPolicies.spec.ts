@@ -7,11 +7,11 @@ import type { Context } from "mocha";
 import type {
   AzureCommunicationRoutingServiceClient,
   DistributionPolicyOutput,
-} from "../../../src";
-import { paginate } from "../../../src";
-import { getDistributionPolicyRequest } from "../utils/testData";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { timeoutMs } from "../utils/constants";
+} from "../../../src/index.js";
+import { paginate } from "../../../src/index.js";
+import { getDistributionPolicyRequest } from "../utils/testData.js";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { timeoutMs } from "../utils/constants.js";
 
 describe("JobRouterClient", function () {
   let routerClient: AzureCommunicationRoutingServiceClient;
@@ -23,11 +23,11 @@ describe("JobRouterClient", function () {
     getDistributionPolicyRequest(testRunId);
 
   describe("Distribution Policy Operations", function () {
-    this.beforeEach(async function (this: Context) {
+    this.beforeEach(async function (ctx) {
       ({ routerClient, recorder } = await createRecordedRouterClientWithConnectionString(this));
     });
 
-    this.afterEach(async function (this: Context) {
+    this.afterEach(async function (ctx) {
       if (!this.currentTest?.isPending() && recorder) {
         await recorder.stop();
       }

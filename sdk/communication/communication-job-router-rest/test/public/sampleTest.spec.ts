@@ -3,13 +3,13 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createRecorder } from "./utils/recordedClient";
+import { createRecorder } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
 
 describe("My test", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
   });
 

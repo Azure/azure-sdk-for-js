@@ -8,8 +8,8 @@ import type {
   RouterJob,
   RouterJobOutput,
   RouterJobPositionDetailsOutput,
-} from "../../../src";
-import { paginate } from "../../../src";
+} from "../../../src/index.js";
+import { paginate } from "../../../src/index.js";
 import type { Context } from "mocha";
 import {
   getClassificationPolicyRequest,
@@ -17,10 +17,10 @@ import {
   getExceptionPolicyRequest,
   getJobRequest,
   getQueueRequest,
-} from "../utils/testData";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { timeoutMs } from "../utils/constants";
-import { pollForJobQueued, retry } from "../utils/polling";
+} from "../utils/testData.js";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { timeoutMs } from "../utils/constants.js";
+import { pollForJobQueued, retry } from "../utils/polling.js";
 
 describe("JobRouterClient", function () {
   let routerClient: AzureCommunicationRoutingServiceClient;
@@ -49,7 +49,7 @@ describe("JobRouterClient", function () {
   // }
 
   describe("Job Operations", function () {
-    this.beforeEach(async function (this: Context) {
+    this.beforeEach(async function (ctx) {
       ({ routerClient, recorder } = await createRecordedRouterClientWithConnectionString(this));
 
       await routerClient
@@ -76,7 +76,7 @@ describe("JobRouterClient", function () {
         });
     });
 
-    this.afterEach(async function (this: Context) {
+    this.afterEach(async function (ctx) {
       await routerClient
         .path("/routing/classificationPolicies/{classificationPolicyId}", classificationPolicyId)
         .delete();

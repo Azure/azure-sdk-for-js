@@ -5,11 +5,11 @@ import type { ClientOptions } from "@azure-rest/core-client";
 import * as dotenv from "dotenv";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import JobRouter from "../../../src";
-import type { AzureCommunicationRoutingServiceClient } from "../../../src";
+import JobRouter from "../../../src/index.js";
+import type { AzureCommunicationRoutingServiceClient } from "../../../src/index.js";
 import type { Context, Test } from "mocha";
 import { isNode } from "@azure/core-util";
-import { generateToken } from "../../public/utils/connection";
+import { generateToken } from "../../public/utils/connection.js";
 
 if (isNode) {
   dotenv.config();

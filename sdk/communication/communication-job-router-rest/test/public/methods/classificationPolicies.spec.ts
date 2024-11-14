@@ -7,16 +7,16 @@ import type { Context } from "mocha";
 import type {
   AzureCommunicationRoutingServiceClient,
   ClassificationPolicyOutput,
-} from "../../../src";
-import { paginate } from "../../../src";
+} from "../../../src/index.js";
+import { paginate } from "../../../src/index.js";
 import {
   getClassificationPolicyRequest,
   getDistributionPolicyRequest,
   getExceptionPolicyRequest,
   getQueueRequest,
-} from "../utils/testData";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { timeoutMs } from "../utils/constants";
+} from "../utils/testData.js";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { timeoutMs } from "../utils/constants.js";
 
 describe("JobRouterClient", function () {
   let routerClient: AzureCommunicationRoutingServiceClient;
@@ -35,7 +35,7 @@ describe("JobRouterClient", function () {
   const { queueId, queueRequest } = getQueueRequest(testRunId);
 
   describe("classification Policy Operations", function () {
-    this.beforeEach(async function (this: Context) {
+    this.beforeEach(async function (ctx) {
       ({ routerClient, recorder } = await createRecordedRouterClientWithConnectionString(this));
 
       await routerClient
@@ -56,7 +56,7 @@ describe("JobRouterClient", function () {
       });
     });
 
-    this.afterEach(async function (this: Context) {
+    this.afterEach(async function (ctx) {
       await routerClient
         .path("/routing/distributionPolicies/{distributionPolicyId}", distributionPolicyId)
         .delete();

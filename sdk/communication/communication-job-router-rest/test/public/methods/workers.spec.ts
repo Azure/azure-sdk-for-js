@@ -4,16 +4,16 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import type { Context } from "mocha";
-import type { AzureCommunicationRoutingServiceClient, RouterWorkerOutput } from "../../../src";
-import { paginate } from "../../../src";
+import type { AzureCommunicationRoutingServiceClient, RouterWorkerOutput } from "../../../src/index.js";
+import { paginate } from "../../../src/index.js";
 import {
   getDistributionPolicyRequest,
   getExceptionPolicyRequest,
   getQueueRequest,
   getWorkerRequest,
-} from "../utils/testData";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { sleep, timeoutMs } from "../utils/constants";
+} from "../utils/testData.js";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { sleep, timeoutMs } from "../utils/constants.js";
 
 describe("JobRouterClient", function () {
   let routerClient: AzureCommunicationRoutingServiceClient;
@@ -28,7 +28,7 @@ describe("JobRouterClient", function () {
   const { workerId, workerRequest } = getWorkerRequest(testRunId);
 
   describe("Worker Operations", function () {
-    this.beforeEach(async function (this: Context) {
+    this.beforeEach(async function (ctx) {
       ({ routerClient, recorder } = await createRecordedRouterClientWithConnectionString(this));
 
       await routerClient
@@ -49,7 +49,7 @@ describe("JobRouterClient", function () {
       });
     });
 
-    this.afterEach(async function (this: Context) {
+    this.afterEach(async function (ctx) {
       await routerClient
         .path("/routing/distributionPolicies/{distributionPolicyId}", distributionPolicyId)
         .delete();

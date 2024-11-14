@@ -4,7 +4,7 @@
 import type { Context } from "mocha";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder } from "@azure-tools/test-recorder";
-import "./env";
+import "./env.js";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",

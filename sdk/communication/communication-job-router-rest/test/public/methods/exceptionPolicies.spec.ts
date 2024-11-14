@@ -4,11 +4,11 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import type { Context } from "mocha";
-import type { AzureCommunicationRoutingServiceClient, ExceptionPolicyOutput } from "../../../src";
-import { paginate } from "../../../src";
-import { getExceptionPolicyRequest } from "../utils/testData";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { timeoutMs } from "../utils/constants";
+import type { AzureCommunicationRoutingServiceClient, ExceptionPolicyOutput } from "../../../src/index.js";
+import { paginate } from "../../../src/index.js";
+import { getExceptionPolicyRequest } from "../utils/testData.js";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { timeoutMs } from "../utils/constants.js";
 
 describe("JobRouterClient", function () {
   let routerClient: AzureCommunicationRoutingServiceClient;
@@ -20,11 +20,11 @@ describe("JobRouterClient", function () {
     getExceptionPolicyRequest(testRunId);
 
   describe("exception Policy Operations", function () {
-    this.beforeEach(async function (this: Context) {
+    this.beforeEach(async function (ctx) {
       ({ routerClient, recorder } = await createRecordedRouterClientWithConnectionString(this));
     });
 
-    this.afterEach(async function (this: Context) {
+    this.afterEach(async function (ctx) {
       if (!this.currentTest?.isPending() && recorder) {
         await recorder.stop();
       }
