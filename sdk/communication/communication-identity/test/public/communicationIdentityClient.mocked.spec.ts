@@ -14,7 +14,7 @@ describe("CommunicationIdentityClient [Mocked]", function () {
   const user: CommunicationUserIdentifier = { communicationUserId: "ACS_ID" };
 
   afterEach(function () {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("creates instance of CommunicationIdentityClient", function () {
