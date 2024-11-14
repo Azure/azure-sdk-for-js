@@ -7,7 +7,7 @@ import type { TokenCredential } from "@azure/core-auth";
 import { logger } from "./log.js";
 
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike } from "@azure/core-lro";
+import { PollerLike, PollOperationState } from "@azure/core-lro";
 import type { KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
 import { KeyVaultClient } from "./generated/keyVaultClient.js";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
@@ -37,6 +37,8 @@ import { getSecretFromSecretBundle, mapPagedAsyncIterable } from "./transformati
 import { tracingClient } from "./tracing.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 import { SDK_VERSION } from "./constants.js";
+import { DeleteSecretPoller } from "./lro/delete/poller.js";
+import { RecoverDeletedSecretPoller } from "./lro/recover/poller.js";
 
 type DeletionRecoveryLevel = string;
 enum KnownDeletionRecoveryLevel {
@@ -210,19 +212,18 @@ export class SecretClient {
    * @param options - The optional parameters.
    */
   public async beginDeleteSecret(
-    _name: string,
-    _options: BeginDeleteSecretOptions = {},
-  ): Promise<any> {
-    // const poller = new DeleteSecretPoller({
-    //   name,
-    //   client: this.client,
-    //   vaultUrl: this.vaultUrl,
-    //   ...options,
-    //   operationOptions: options,
-    // });
-    // // This will initialize the poller's operation (the deletion of the secret).
-    // await poller.poll();
-    // return poller;
+    name: string,
+    options: BeginDeleteSecretOptions = {},
+  ): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>> {
+    const poller = new DeleteSecretPoller({
+      name,
+      client: this.client,
+      ...options,
+      operationOptions: options,
+    });
+    // This will initialize the poller's operation (the deletion of the secret).
+    await poller.poll();
+    return poller;
   }
 
   /**
@@ -375,9 +376,20 @@ export class SecretClient {
    * @param options - The optional parameters.
    */
   public async beginRecoverDeletedSecret(
-    _name: string,
-    _options: BeginRecoverDeletedSecretOptions = {},
-  ): Promise<any> {}
+    name: string,
+    options: BeginRecoverDeletedSecretOptions = {},
+  ): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>> {
+    const poller = new RecoverDeletedSecretPoller({
+      name,
+      client: this.client,
+      ...options,
+      operationOptions: options,
+    });
+
+    // This will initialize the poller's operation (the recovery of the deleted secret).
+    await poller.poll();
+    return poller;
+  }
 
   /**
    * Requests that a backup of the specified secret be downloaded to the client. All versions of the

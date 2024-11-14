@@ -11,7 +11,6 @@ import { delay } from "@azure/core-util";
  * Common parameters to a Key Vault Secret Poller.
  */
 export interface KeyVaultSecretPollerOptions {
-  vaultUrl: string;
   client: KeyVaultClient;
   name: string;
   operationOptions?: OperationOptions;
