@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import type { AtomXmlSerializer } from "../../../src/util/atomXmlHelper.js";
 import {
-  AtomXmlSerializer,
   deserializeAtomXmlResponse,
   executeAtomXmlOperation,
   sanitizeSerializableObject,
@@ -25,7 +25,7 @@ import {
 import { RuleResourceSerializer } from "../../../src/serializers/ruleResourceSerializer.js";
 import { getXMLNSPrefix, isJSONLikeObject } from "../../../src/util/utils.js";
 import { TestConstants } from "../../public/fakeTestSecrets.js";
-import { FullOperationResponse } from "@azure/core-client";
+import type { FullOperationResponse } from "@azure/core-client";
 import { beforeEach, describe, it } from "vitest";
 import { assert } from "../../public/utils/chai.js";
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PathParameterWithOptions, RequestParameters } from "./common.js";
+import type { PathParameterWithOptions, RequestParameters } from "./common.js";
 
 type QueryParameterStyle = "form" | "spaceDelimited" | "pipeDelimited";
 
@@ -54,7 +54,7 @@ function isQueryParameterWithOptions(x: unknown): x is QueryParameterWithOptions
 export function buildRequestUrl(
   endpoint: string,
   routePath: string,
-  pathParameters: (string | PathParameterWithOptions)[],
+  pathParameters: (string | number | PathParameterWithOptions)[],
   options: RequestParameters = {},
 ): string {
   if (routePath.startsWith("https://") || routePath.startsWith("http://")) {
@@ -187,19 +187,18 @@ export function buildBaseUrl(endpoint: string, options: RequestParameters): stri
 
 function buildRoutePath(
   routePath: string,
-  pathParameters: (string | PathParameterWithOptions)[],
+  pathParameters: (string | number | PathParameterWithOptions)[],
   options: RequestParameters = {},
 ): string {
   for (const pathParam of pathParameters) {
-    const allowReserved =
-      typeof pathParam === "string" ? false : (pathParam?.allowReserved ?? false);
-    let value = typeof pathParam === "string" ? pathParam : pathParam?.value;
+    const allowReserved = typeof pathParam === "object" && (pathParam.allowReserved ?? false);
+    let value = typeof pathParam === "object" ? pathParam.value : pathParam;
 
     if (!options.skipUrlEncoding && !allowReserved) {
       value = encodeURIComponent(value);
     }
 
-    routePath = routePath.replace(/\{\w+\}/, value);
+    routePath = routePath.replace(/\{[\w-]+\}/, String(value));
   }
   return routePath;
 }

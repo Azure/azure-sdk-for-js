@@ -9,6 +9,7 @@ import type { AccessToken } from '@azure/core-auth';
 import { AzureLogger } from '@azure/logger';
 import type { Debugger } from '@azure/logger';
 import type { GetTokenOptions } from '@azure/core-auth';
+import { HttpMethods } from '@azure/core-util';
 import type { OperationTracingOptions } from '@azure/core-tracing';
 import type { TokenCredential } from '@azure/core-auth';
 
@@ -177,8 +178,7 @@ export interface HttpHeaders extends Iterable<[string, string]> {
     }): RawHttpHeaders;
 }
 
-// @public
-export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
+export { HttpMethods }
 
 // @public
 export interface InternalPipelineOptions extends PipelineOptions {

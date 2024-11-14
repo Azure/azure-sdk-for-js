@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   CommunicationAccessToken,
-  CommunicationIdentityClient,
   CommunicationIdentityClientOptions,
   CommunicationUserToken,
   TokenScope,
 } from "../../../src";
+import { CommunicationIdentityClient } from "../../../src";
 import {
   createUserAndTokenHttpClient,
   createUserHttpClient,
@@ -15,8 +15,8 @@ import {
   getTokenHttpClient,
   revokeTokensHttpClient,
 } from "./mockHttpClients";
-import { CommunicationUserIdentifier } from "@azure/communication-common";
-import { OperationOptions } from "@azure/core-client";
+import type { CommunicationUserIdentifier } from "@azure/communication-common";
+import type { OperationOptions } from "@azure/core-client";
 
 export class TestCommunicationIdentityClient {
   private connectionString: string = "endpoint=https://contoso.spool.azure.local;accesskey=banana";

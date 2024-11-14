@@ -4,14 +4,14 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { HttpHeaders } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineRequest } from '@azure/core-rest-pipeline';
-import { PipelineResponse } from '@azure/core-rest-pipeline';
-import { PollerLike } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { HttpHeaders } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PipelineRequest } from '@azure/core-rest-pipeline';
+import type { PipelineResponse } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function beginSubmitNotificationHubJob(context: NotificationHubsClientContext, notificationHubJob: NotificationHubJob, polledOperationOptions?: PolledOperationOptions): Promise<NotificationHubJobPoller>;

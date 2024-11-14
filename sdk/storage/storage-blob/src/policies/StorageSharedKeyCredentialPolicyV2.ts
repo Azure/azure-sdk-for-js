@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { createHmac } from "crypto";
-import {
+import type {
   PipelineRequest,
   PipelineResponse,
   SendRequest,

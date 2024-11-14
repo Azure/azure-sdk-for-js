@@ -10,6 +10,7 @@
 
 - The API endpoint for `GetMapStaticImage` has been updated. The `format` parameter has been removed from the path, changing the usage from `(path: "/map/static/{format}", format: "png")` to `(path: "/map/static")`.
 - Replaced `layer` and `style` parameters with `tilesetId` in `RenderGetMapStaticImageQueryParamProperties`, which now supports more detailed map and traffic visualization.
+- Marked fields in various interfaces as readonly, which may impact code that previously modified these properties.
 
 ### Bugs Fixed
 

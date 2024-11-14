@@ -3,18 +3,14 @@
 
 /* eslint-disable @typescript-eslint/no-namespace */
 
-import {
-  InteractiveBrowserCredential,
-  InteractiveBrowserCredentialNodeOptions,
-} from "../../../src";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env } from "@azure-tools/test-recorder";
-
-import { Context } from "mocha";
-import Sinon from "sinon";
-import { assert } from "chai";
-import http from "http";
-import { interactiveBrowserMockable } from "../../../src/msal/nodeFlows/msalClient";
+import type { InteractiveBrowserCredentialNodeOptions } from "../../../src/index.js";
+import { InteractiveBrowserCredential } from "../../../src/index.js";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
+import type http from "node:http";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 declare global {
   namespace NodeJS {
@@ -24,18 +20,27 @@ declare global {
   }
 }
 
+vi.mock("open", async () => {
+  const original = await vi.importActual("open");
+  return {
+    ...original,
+    default: () => {
+      throw new Error("No browsers available on this test.");
+    },
+  };
+});
+
 describe("InteractiveBrowserCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
-  let sandbox: Sinon.SinonSandbox;
   let listen: http.Server | undefined;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
-    sandbox = setup.sandbox;
+  beforeEach(async function (ctx) {
+    const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
     recorder = setup.recorder;
   });
+
   afterEach(async function () {
     if (listen) {
       listen.close();
@@ -45,14 +50,7 @@ describe("InteractiveBrowserCredential (internal)", function () {
 
   const scope = "https://vault.azure.net/.default";
 
-  it("Throws an expected error if no browser is available", async function (this: Context) {
-    // The SinonStub type does not include this second parameter to throws().
-    const testErrorMessage = "No browsers available on this test.";
-    (sandbox.stub(interactiveBrowserMockable, "open") as any).throws(
-      "BrowserConfigurationAuthError",
-      testErrorMessage,
-    );
-
+  it("Throws an expected error if no browser is available", async function (ctx) {
     const credential = new InteractiveBrowserCredential(
       recorder.configureClientOptions({
         redirectUri: "http://localhost:8081",
@@ -61,13 +59,6 @@ describe("InteractiveBrowserCredential (internal)", function () {
       } as InteractiveBrowserCredentialNodeOptions),
     );
 
-    let error: Error | undefined;
-    try {
-      await credential.getToken(scope);
-    } catch (e: any) {
-      error = e;
-    }
-    assert.equal(error?.name, "BrowserConfigurationAuthError");
-    assert.equal(error?.message, "No browsers available on this test.");
+    await expect(credential.getToken(scope)).rejects.toThrow("No browsers available on this test.");
   });
 });

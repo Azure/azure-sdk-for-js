@@ -89,6 +89,10 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   await run(["rushx", "format"], { cwd: projectFolder });
   await commitChanges(projectFolder, "rushx format");
 
+  log.info(
+    "Done. Please run `rush update`, `rush build -t <project-name>`, and run tests to verify the changes.",
+  );
+
   return true;
 });
 
@@ -167,7 +171,7 @@ export default mergeConfig(
 async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
   const testConfig = {
     extends: "./.tshy/build.json",
-    include: ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.spec.ts"],
+    include: ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.spec.ts", "./test/**/*.mts"],
     exclude: ["./test/**/node/**/*.ts"],
     compilerOptions: {
       outDir: "./dist-test/browser",
@@ -176,7 +180,7 @@ async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
     },
   };
 
-  await saveJson(resolve(packageFolder, "test.browser.config.json"), testConfig);
+  await saveJson(resolve(packageFolder, "tsconfig.browser.config.json"), testConfig);
 }
 
 async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void> {
@@ -266,7 +270,7 @@ function setScriptsSection(scripts: PackageJson["scripts"]): void {
   scripts["build"] = "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
   scripts["unit-test:browser"] =
-    "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser";
+    "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser";
   scripts["unit-test:node"] = "dev-tool run test:vitest";
 
   for (const script of Object.keys(scripts)) {

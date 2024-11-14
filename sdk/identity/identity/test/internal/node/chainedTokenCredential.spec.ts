@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, ChainedTokenCredential, TokenCredential } from "../../../src";
-import Sinon from "sinon";
-import { assert } from "chai";
-import { logger as chainedTokenCredentialLogger } from "../../../src/credentials/chainedTokenCredential";
+import type { AccessToken, TokenCredential } from "../../../src/index.js";
+import { ChainedTokenCredential } from "../../../src/index.js";
+import { logger as chainedTokenCredentialLogger } from "../../../src/credentials/chainedTokenCredential.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 class TestMockCredential implements TokenCredential {
   constructor(public returnPromise: Promise<AccessToken | null>) {}
@@ -15,28 +15,32 @@ class TestMockCredential implements TokenCredential {
 }
 
 describe("ChainedTokenCredential", function () {
+  afterEach(() => {
+    vi.restoreAllMocks();
+  });
   it("Logs the expected successful message", async () => {
     const chainedTokenCredential = new ChainedTokenCredential(
-      new TestMockCredential(Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0 })),
+      new TestMockCredential(
+        Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0, tokenType: "Bearer" }),
+      ),
     );
 
-    const infoSpy = Sinon.spy(chainedTokenCredentialLogger.parent, "info");
-    const getTokenInfoSpy = Sinon.spy(chainedTokenCredentialLogger.getToken, "info");
+    const infoSpy = vi.spyOn(chainedTokenCredentialLogger.parent, "info");
+    const getTokenInfoSpy = vi.spyOn(chainedTokenCredentialLogger.getToken, "info");
 
     const accessToken = await chainedTokenCredential.getToken("<scope>");
     assert.notStrictEqual(accessToken, null);
 
+    expect(infoSpy).toHaveBeenCalled();
     assert.equal(
-      infoSpy.getCalls()[0].args.join(" "),
+      infoSpy.mock.calls[0].join(" "),
       "ChainedTokenCredential => getToken() => Result for TestMockCredential: SUCCESS. Scopes: <scope>.",
     );
+    expect(getTokenInfoSpy).toHaveBeenCalled();
     assert.equal(
-      getTokenInfoSpy.getCalls()[0].args[0],
+      getTokenInfoSpy.mock.calls[0][0],
       "Result for TestMockCredential: SUCCESS. Scopes: <scope>.",
     );
-
-    infoSpy.restore();
-    getTokenInfoSpy.restore();
   });
 
   it("Doesn't throw with a clossure credential", async () => {
@@ -47,25 +51,23 @@ describe("ChainedTokenCredential", function () {
     }
 
     const chainedTokenCredential = new ChainedTokenCredential(
-      mockCredential(Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0 })),
+      mockCredential(
+        Promise.resolve({ token: "firstToken", expiresOnTimestamp: 0, tokenType: "Bearer" }),
+      ),
     );
 
-    const infoSpy = Sinon.spy(chainedTokenCredentialLogger.parent, "info");
-    const getTokenInfoSpy = Sinon.spy(chainedTokenCredentialLogger.getToken, "info");
+    const infoSpy = vi.spyOn(chainedTokenCredentialLogger.parent, "info");
+    const getTokenInfoSpy = vi.spyOn(chainedTokenCredentialLogger.getToken, "info");
 
     const accessToken = await chainedTokenCredential.getToken("<scope>");
     assert.notStrictEqual(accessToken, null);
 
+    expect(infoSpy).toHaveBeenCalled();
     assert.equal(
-      infoSpy.getCalls()[0].args.join(" "),
+      infoSpy.mock.calls[0].join(" "),
       "ChainedTokenCredential => getToken() => Result for Object: SUCCESS. Scopes: <scope>.",
     );
-    assert.equal(
-      getTokenInfoSpy.getCalls()[0].args[0],
-      "Result for Object: SUCCESS. Scopes: <scope>.",
-    );
-
-    infoSpy.restore();
-    getTokenInfoSpy.restore();
+    expect(getTokenInfoSpy).toHaveBeenCalled();
+    assert.equal(getTokenInfoSpy.mock.calls[0][0], "Result for Object: SUCCESS. Scopes: <scope>.");
   });
 });

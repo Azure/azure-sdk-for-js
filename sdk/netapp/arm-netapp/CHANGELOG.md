@@ -1,6 +1,6 @@
 # Release History
 
-## 21.2.1 (Unreleased)
+## 21.3.1 (Unreleased)
 
 ### Features Added
 
@@ -10,6 +10,41 @@
 
 ### Other Changes
 
+## 21.3.0 (2024-10-24)
+    
+### Features Added
+
+  - Added operation Volumes.beginAuthorizeExternalReplication
+  - Added operation Volumes.beginAuthorizeExternalReplicationAndWait
+  - Added operation Volumes.beginFinalizeExternalReplication
+  - Added operation Volumes.beginFinalizeExternalReplicationAndWait
+  - Added operation Volumes.beginPeerExternalCluster
+  - Added operation Volumes.beginPeerExternalClusterAndWait
+  - Added operation Volumes.beginPerformReplicationTransfer
+  - Added operation Volumes.beginPerformReplicationTransferAndWait
+  - Added Interface ClusterPeerCommandResponse
+  - Added Interface PeerClusterForVolumeMigrationRequest
+  - Added Interface RemotePath
+  - Added Interface SvmPeerCommandResponse
+  - Added Interface VolumesAuthorizeExternalReplicationHeaders
+  - Added Interface VolumesAuthorizeExternalReplicationOptionalParams
+  - Added Interface VolumesFinalizeExternalReplicationHeaders
+  - Added Interface VolumesFinalizeExternalReplicationOptionalParams
+  - Added Interface VolumesPeerExternalClusterHeaders
+  - Added Interface VolumesPeerExternalClusterOptionalParams
+  - Added Interface VolumesPerformReplicationTransferHeaders
+  - Added Interface VolumesPerformReplicationTransferOptionalParams
+  - Added Type Alias VolumesAuthorizeExternalReplicationResponse
+  - Added Type Alias VolumesFinalizeExternalReplicationResponse
+  - Added Type Alias VolumesPeerExternalClusterResponse
+  - Added Type Alias VolumesPerformReplicationTransferResponse
+  - Interface FilePathAvailabilityRequest has a new optional parameter availabilityZone
+  - Interface NetAppResourceCheckFilePathAvailabilityOptionalParams has a new optional parameter availabilityZone
+  - Interface ReplicationObject has a new optional parameter remotePath
+  - Interface Volume has a new optional parameter effectiveNetworkFeatures
+  - Interface VolumeGroupVolumeProperties has a new optional parameter effectiveNetworkFeatures
+    
+    
 ## 21.2.0 (2024-08-12)
     
 ### Features Added

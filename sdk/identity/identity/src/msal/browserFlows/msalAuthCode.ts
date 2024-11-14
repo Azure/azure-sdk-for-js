@@ -3,19 +3,20 @@
 
 import * as msalBrowser from "@azure/msal-browser";
 
-import { MsalBrowser, MsalBrowserFlowOptions } from "./msalBrowserCommon";
+import type { MsalBrowserFlowOptions } from "./msalBrowserCommon.js";
+import { MsalBrowser } from "./msalBrowserCommon.js";
 import {
   defaultLoggerCallback,
   getMSALLogLevel,
   handleMsalError,
   msalToPublic,
   publicToMsal,
-} from "../utils";
+} from "../utils.js";
 
-import { AccessToken } from "@azure/core-auth";
-import { AuthenticationRecord } from "../types";
-import { AuthenticationRequiredError } from "../../errors";
-import { CredentialFlowGetTokenOptions } from "../credentials";
+import type { AccessToken } from "@azure/core-auth";
+import type { AuthenticationRecord } from "../types.js";
+import { AuthenticationRequiredError } from "../../errors.js";
+import type { CredentialFlowGetTokenOptions } from "../credentials.js";
 import { getLogLevel } from "@azure/logger";
 
 // We keep a copy of the redirect hash.
@@ -243,7 +244,7 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
         // we'll load the MSAL account in the constructor.
 
         await app.acquireTokenRedirect(parameters);
-        return { token: "", expiresOnTimestamp: 0 };
+        return { token: "", expiresOnTimestamp: 0, tokenType: "Bearer" };
       case "popup":
         return this.handleResult(scopes, await app.acquireTokenPopup(parameters));
     }

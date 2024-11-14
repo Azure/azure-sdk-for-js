@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AppConfigurationClient,
   ConfigurationSetting,
   ConfigurationSettingParam,
   ListConfigurationSettingPage,
 } from "../../src/index.js";
-import { Recorder, delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { delay, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   assertEqualSettings,
   assertTags,
@@ -328,7 +329,7 @@ describe("AppConfigurationClient", () => {
     // Skipping all "accepts operation options flaky tests" https://github.com/Azure/azure-sdk-for-js/issues/26447
     it.skip("accepts  operation options", async function (ctx) {
       // Recorder checks for the recording and complains before core-rest-pipeline could throw the AbortError (Recorder v2 should help here)
-      // eslint-disable-next-line @typescript-eslint/no-invalid-this
+
       if (isPlaybackMode()) ctx.skip();
       const key = recorder.variable(
         "deleteConfigTest",
@@ -992,7 +993,7 @@ describe("AppConfigurationClient", () => {
       // More details at https://github.com/Azure/azure-sdk-for-js/issues/16743
       //
       // Remove the following line if you want to hit the live service.
-      // eslint-disable-next-line @typescript-eslint/no-invalid-this
+
       if (isLiveMode()) ctx.skip();
 
       const key = recorder.variable(

@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 import { afterEach, assert, beforeEach, describe, expect, it } from "vitest";
-import { SecretClient } from "../../src/index.js";
+import type { SecretClient } from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate } from "./utils/testAuthentication.js";
-import TestClient from "./utils/testClient.js";
+import type TestClient from "./utils/testClient.js";
 expect.extend({ toSupportTracing });
 
 describe("Secret client - create, read, update and delete operations", () => {

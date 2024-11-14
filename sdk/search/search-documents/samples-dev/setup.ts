@@ -6,9 +6,10 @@
  * @azsdk-util
  */
 
-import { KnownAnalyzerNames, SearchIndex, SearchIndexClient } from "@azure/search-documents";
+import type { SearchIndex, SearchIndexClient } from "@azure/search-documents";
+import { KnownAnalyzerNames } from "@azure/search-documents";
 import { env } from "process";
-import { Hotel } from "./interfaces";
+import type { Hotel } from "./interfaces";
 
 export const WAIT_TIME = 4000;
 
