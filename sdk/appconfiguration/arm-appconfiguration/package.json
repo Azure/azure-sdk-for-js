@@ -78,7 +78,7 @@
     "pack": "npm pack 2>&1",
     "extract-api": "dev-tool run extract-api",
     "lint": "echo skipped",
-    "clean": "rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
+    "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
     "build:node": "echo skipped",
     "build:browser": "echo skipped",
     "build:test": "echo skipped",
