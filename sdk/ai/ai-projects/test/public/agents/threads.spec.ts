@@ -27,34 +27,60 @@ describe("Agents - threads", () => {
   });
 
   it("should create thread", async function () {  
-    const thread = await agents.createThread()
+    // Create thread
+    const thread = await agents.createThread();
+    console.log(`Created thread, thread ID: ${thread.id}`);
     assert.isNotNull(thread);
     assert.isNotNull(thread.id);
-    await agents.deleteThread(thread.id);
+
+    // Delete thread
+    agents.deleteThread(thread.id);
+    console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
   it("should retrieve thread", async function () {
-    const thread = await agents.createThread()
+    // Create thread
+    const thread = await agents.createThread();
+    console.log(`Created thread, thread ID: ${thread.id}`);
+
+    // Retrieve thread
     const _thread = await agents.getThread(thread.id);
     assert.isNotEmpty(_thread);
-    assert.equal(_thread.id, thread.id)
-    await agents.deleteThread(thread.id);
+    assert.equal(_thread.id, thread.id);
+    console.log(`Retrieved thread, thread ID: ${_thread.id}`);
+
+    // Delete thread
+    agents.deleteThread(thread.id);
+    console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
   it("should update thread", async function () {  
-    const thread = await agents.createThread()
+    // Create thread
+    const thread = await agents.createThread();
+    console.log(`Created thread, thread ID: ${thread.id}`);
+
+    // Update thread
     await agents.updateThread(thread.id, { metadata: {"key": "value"} });
     const _thread = await agents.getThread(thread.id);
     assert.equal(_thread.id, thread.id);
     assert.isNotEmpty(_thread.metadata);
     assert.equal(_thread.metadata?.key, "value");
-    await agents.deleteThread(thread.id);
+    console.log(`Updated thread to have metadata "key":"${_thread.metadata?.key}", thread ID: ${_thread.id}`);
+
+    // Delete thread
+    agents.deleteThread(thread.id);
+    console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
   it("should delete thread", async function () {
-    const thread = await agents.createThread()
+    // Create thread
+    const thread = await agents.createThread();
+    console.log(`Created thread, thread ID: ${thread.id}`);
+
+    // Delete thread
     const deleted = await agents.deleteThread(thread.id);
     assert.isNotNull(deleted);
+    console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
 });

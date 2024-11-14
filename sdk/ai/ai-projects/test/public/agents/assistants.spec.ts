@@ -27,32 +27,58 @@ describe("Agents - assistants", () => {
   });
 
   it("should delete agent", async function () {
-    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are helpful agent" })
+    // Create agent
+    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are a helpful agent" })
+    console.log(`Created agent, agent ID: ${agent.id}`);
+
+    // Delete agent
     const deleted = await agents.deleteAgent(agent.id);
     assert.isNotNull(deleted);
+    console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 
   it("should list assistants", async function () {
-    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are helpful agent" })
+    // Create agent
+    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are a helpful agent" })
+    console.log(`Created agent, agent ID: ${agent.id}`);
+
+    // List agents
     const assistants = await agents.listAgents();
-    agents.deleteAgent(agent.id);
     assert.isNotEmpty(assistants);
     assert.isAtLeast(assistants.data.length, 1)
+    console.log(`Listed agents, agents count: ${assistants.data.length}`);
+
+    // Delete agent
+    agents.deleteAgent(agent.id);
+    console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 
   it("should create agent", async function () {
-    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are helpful agent" })
+    // Create agent
+    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are a helpful agent" })
+    console.log(`Created agent, agent ID: ${agent.id}`);
     assert.isNotNull(agent);
     assert.isNotNull(agent.id);
+    
+    // Delete agent
     agents.deleteAgent(agent.id);
+    console.log(`Deleted agent, agent ID: ${agent.id}`);
   })
 
   it("should update agent", async function () {
-    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are helpful agent" })
+    // Create agent
+    const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are a helpful agent" })
+    console.log(`Created agent, agent ID: ${agent.id}`);
+
+    // Update agent
     const updated = await agents.updateAgent(agent.id, { name: "my-updated-agent" });
     assert.isNotNull(updated);
     assert.equal(updated.name, "my-updated-agent");
+    console.log(`Updated agent name to ${updated.name}, agent ID: ${agent.id}`);
+    
+    // Delete agent
     agents.deleteAgent(agent.id);
+    console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 
 });
