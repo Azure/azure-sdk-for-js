@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError } from "../util/logging";
-import type { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions";
+import { credentialLogger, formatError } from "../util/logging.js";
+import type { AuthorizationCodeCredentialOptions } from "./authorizationCodeCredentialOptions.js";
 
 const BrowserNotSupportedError = new Error(
   "AuthorizationCodeCredential is not supported in the browser. InteractiveBrowserCredential is more appropriate for this use case.",

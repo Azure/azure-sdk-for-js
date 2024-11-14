@@ -25,8 +25,7 @@
   "types": "./types/identity-vscode.d.ts",
   "files": [
     "dist/",
-    "dist-esm/identity/src",
-    "dist-esm/identity-vscode/src",
+    "dist-esm/src",
     "types/identity-vscode.d.ts",
     "README.md",
     "LICENSE"

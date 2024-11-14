@@ -2,16 +2,17 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError } from "../util/logging";
 
-const credentialName = "OnBehalfOfCredential";
-const BrowserNotSupportedError = new Error(`${credentialName}: Not supported in the browser.`);
-const logger = credentialLogger(credentialName);
+import { credentialLogger, formatError } from "../util/logging.js";
+
+const BrowserNotSupportedError = new Error("DeviceCodeCredential is not supported in the browser.");
+const logger = credentialLogger("DeviceCodeCredential");
 
 /**
- * Enables authentication to Microsoft Entra ID using the [On Behalf Of flow](https://learn.microsoft.com/entra/identity-platform/v2-oauth2-on-behalf-of-flow).
+ * Enables authentication to Microsoft Entra ID using a device code
+ * that the user can enter into https://microsoft.com/devicelogin.
  */
-export class OnBehalfOfCredential implements TokenCredential {
+export class DeviceCodeCredential implements TokenCredential {
   /**
    * Only available in Node.js
    */

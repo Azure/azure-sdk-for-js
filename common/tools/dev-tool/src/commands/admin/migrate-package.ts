@@ -85,11 +85,13 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
   await prepareFiles(projectFolder, { browser });
   await applyCodemods(projectFolder);
 
-  log.info("Running `pnpm install`");
-  await run(["pnpm", "install"], { cwd: projectFolder });
   log.info("Formatting files");
   await run(["pnpm", "format"], { cwd: projectFolder });
   await commitChanges(projectFolder, "pnpm format");
+
+  log.info(
+    "Done. Please run `rush update`, `rush build -t <project-name>`, and run tests to verify the changes.",
+  );
 
   return true;
 });

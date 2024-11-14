@@ -495,4 +495,11 @@ describe("Service Utils", () => {
     const result = populateValuesFromServiceUrl();
     expect(result).to.be.null;
   });
+  it("should return the correct version from package.json", async () => {
+    const mockVersion = "1.0.0";
+    const packageJson = require("../../package.json");
+    sandbox.stub(packageJson, "version").value(mockVersion);
+    const version = utils.getPackageVersion();
+    expect(version).to.equal(mockVersion);
+  });
 });

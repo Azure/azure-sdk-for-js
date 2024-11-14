@@ -25,8 +25,7 @@
   "types": "./types/identity-cache-persistence.d.ts",
   "files": [
     "dist/",
-    "dist-esm/identity/src",
-    "dist-esm/identity-cache-persistence/src",
+    "dist-esm/src",
     "types/identity-cache-persistence.d.ts",
     "README.md",
     "LICENSE"

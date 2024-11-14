@@ -17,39 +17,55 @@
   "license": "MIT",
   "author": "Microsoft Corporation",
   "sideEffects": false,
-  "main": "dist/index.js",
-  "module": "dist-esm/identity-broker/src/index.js",
-  "types": "./types/identity-broker.d.ts",
+  "type": "module",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "browser": "./dist/browser/index.js",
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
+  },
   "files": [
     "dist/",
-    "dist-esm/identity/src",
-    "dist-esm/identity-broker/src",
-    "types/identity-broker.d.ts",
     "README.md",
     "LICENSE"
   ],
   "scripts": {
-    "build": "npm run extract-api && tsc -p . && dev-tool run bundle",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run extract-api",
     "build:samples": "echo skipped",
-    "build:test": "tsc -p . && dev-tool run bundle",
+    "build:test": "dev-tool run build-package && dev-tool run bundle",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-esm types \"*.tgz\" \"*.log\"",
     "execute:samples": "echo skipped",
-    "extract-api": "tsc -p . && dev-tool run extract-api",
+    "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../prettier.config.cjs --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
-    "lint": "dev-tool run vendored eslint package.json api-extractor.json README.md src test",
-    "lint:fix": "dev-tool run vendored eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json README.md src test",
+    "lint:fix": "eslint package.json api-extractor.json README.md src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && npm run build:test && npm run unit-test && npm run integration-test",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "test:browser": "echo skipped",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
     "unit-test:manual": "dev-tool run test:node-ts-input -- --timeout 300000 'test/manual/node/popTokenSupport.spec.ts'",
-    "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 300000 --exclude 'test/**/browser/**/*.spec.ts' --exclude 'test/snippets.spec.ts' 'test/**/**/*.spec.ts'",
+    "unit-test:node": "dev-tool run test:vitest -- --test-timeout 300000",
     "update-snippets": "dev-tool run update-snippets"
   },
   "dependencies": {
@@ -60,22 +76,22 @@
     "tslib": "catalog:"
   },
   "devDependencies": {
-    "@azure-tools/test-recorder": "catalog:test-recorderV3",
-    "@azure-tools/test-utils": "workspace:*",
-    "@azure/abort-controller": "catalog:abort-controllerV1",
+    "@azure-tools/test-recorder": "workspace:*",
+    "@azure-tools/test-utils-vitest": "workspace:*",
+    "@azure/abort-controller": "workspace:*",
     "@azure/core-client": "workspace:*",
+    "@azure/core-rest-pipeline": "workspace:*",
     "@azure/core-util": "workspace:*",
     "@azure/dev-tool": "workspace:*",
     "@azure/eslint-plugin-azure-sdk": "workspace:*",
     "@azure/logger": "workspace:*",
-    "@types/mocha": "catalog:legacy",
     "@types/node": "catalog:",
-    "@types/sinon": "catalog:legacy",
+    "@vitest/browser": "catalog:",
+    "@vitest/coverage-istanbul": "catalog:",
     "eslint": "catalog:",
-    "mocha": "catalog:legacy",
-    "puppeteer": "catalog:legacy",
-    "sinon": "catalog:legacy",
-    "typescript": "catalog:"
+    "playwright": "catalog:",
+    "typescript": "catalog:",
+    "vitest": "catalog:"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -90,5 +106,19 @@
       "Microsoft Entra App Registration": "https://learn.microsoft.com/azure/active-directory/develop/quickstart-register-app"
     }
   },
-  "sdk-type": "client"
+  "sdk-type": "client",
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "esmDialects": [
+      "browser"
+    ],
+    "selfLink": false
+  }
 }

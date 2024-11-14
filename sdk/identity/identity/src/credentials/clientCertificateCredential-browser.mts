@@ -2,18 +2,18 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError } from "../util/logging";
+import { credentialLogger, formatError } from "../util/logging.js";
 
 const BrowserNotSupportedError = new Error(
-  "AzureDeveloperCliCredential is not supported in the browser.",
+  "ClientCertificateCredential is not supported in the browser.",
 );
-const logger = credentialLogger("AzureDeveloperCliCredential");
+const logger = credentialLogger("ClientCertificateCredential");
 
 /**
- * This credential will use the currently logged-in user login information
- * via the Azure Developer CLI ('azd') commandline tool.
+ * Enables authentication to Microsoft Entra ID using a PEM-encoded
+ * certificate that is assigned to an App Registration.
  */
-export class AzureDeveloperCliCredential implements TokenCredential {
+export class ClientCertificateCredential implements TokenCredential {
   /**
    * Only available in Node.js
    */
@@ -22,7 +22,7 @@ export class AzureDeveloperCliCredential implements TokenCredential {
     throw BrowserNotSupportedError;
   }
 
-  getToken(): Promise<AccessToken | null> {
+  public getToken(): Promise<AccessToken | null> {
     logger.getToken.info(formatError("", BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
