@@ -74,8 +74,7 @@ jobs:
           MatrixConfigs: ${{ parameters.MatrixConfigs }}
           MatrixFilters: ${{ parameters.MatrixFilters }}
           MatrixReplace: ${{ parameters.MatrixReplace }}
-          ${{ if eq(parameters.ServiceDirectory, 'auto') }}:
-            SparseCheckoutPaths: [ "**/package.json", "**/ci*.yml"]
+          SparseCheckout: false
           CloudConfig:
             Cloud: Public
           AdditionalParameters:
