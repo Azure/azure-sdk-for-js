@@ -45,8 +45,6 @@
   "types": "./dist/commonjs/index.d.ts",
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types/latest/",
     "README.md",
     "LICENSE"
   ],

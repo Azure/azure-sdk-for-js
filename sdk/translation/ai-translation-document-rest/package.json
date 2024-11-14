@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/ai-translation-document",
-  "version": "2.0.0-beta.1",
+  "version": "1.0.0",
   "description": "A generated SDK for DocumentTranslationClient.",
   "keywords": [
     "node",

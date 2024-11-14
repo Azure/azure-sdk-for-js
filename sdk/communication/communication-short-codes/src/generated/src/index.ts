@@ -7,6 +7,6 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export * from "./models";
-export { ShortCodesClient } from "./shortCodesClient";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { ShortCodesClient } from "./shortCodesClient.js";
+export * from "./operationsInterfaces/index.js";

@@ -63,7 +63,8 @@
     "@azure-rest/core-client": "catalog:core-rest-clientV1",
     "@azure/core-auth": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
-    "@azure/maps-common": "1.0.0-beta.2",
+    "@azure/maps-common": "workspace:*",
+    "@azure/logger": "workspace:*",
     "tslib": "catalog:"
   },
   "devDependencies": {

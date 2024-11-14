@@ -39,8 +39,7 @@
   "files": [
     "dist/",
     "bin/",
-    "LICENSE",
-    "dist-esm/src"
+    "LICENSE"
   ],
   "scripts": {
     "build": "npm run clean && dev-tool run build-package && npm run bundle:bin && dev-tool run extract-api",
