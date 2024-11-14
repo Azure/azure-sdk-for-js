@@ -338,6 +338,86 @@ console.log(response);
 //  }
 ```
 
+## Get analyze PDF
+
+```ts
+const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
+
+const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
+
+const initialResponse = await client
+  .path("/documentModels/{modelId}:analyze", "prebuilt-read")
+  .post({
+    contentType: "application/json",
+    body: {
+      base64Source,
+    },
+    queryParameters: { output: ["pdf"] },
+  });
+
+if (isUnexpected(initialResponse)) {
+  throw initialResponse.body.error;
+}
+
+const poller = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+
+await poller.pollUntilDone();
+
+const output = await client
+  .path(
+    "/documentModels/{modelId}/analyzeResults/{resultId}/pdf",
+    "prebuilt-read",
+    parseOperationIdFromResponse(initialResponse),
+  )
+  .get();
+
+// A PDF's header is expected to be: %PDF-
+assert.ok(output.body.toString().startsWith("%PDF-"));
+```
+
+## Get analyze Figures
+
+```ts
+const filePath = path.join(ASSET_PATH, "layout-pageobject.pdf");
+
+const base64Source = fs.readFileSync(filePath, { encoding: "base64" });
+
+const initialResponse = await client
+  .path("/documentModels/{modelId}:analyze", "prebuilt-layout")
+  .post({
+    contentType: "application/json",
+    body: {
+      base64Source,
+    },
+    queryParameters: { output: ["figures"] },
+  });
+
+if (isUnexpected(initialResponse)) {
+  throw initialResponse.body.error;
+}
+
+const poller = await getLongRunningPoller(client, initialResponse, { ...testPollingOptions });
+
+const result = (await poller.pollUntilDone()).body as AnalyzeResultOperationOutput;
+const figures = result.analyzeResult?.figures;
+assert.isArray(figures);
+assert.isNotEmpty(figures?.[0]);
+const figureId = figures?.[0].id || "";
+assert.isDefined(figureId);
+
+const output = await client
+  .path(
+    "/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}",
+    "prebuilt-layout",
+    parseOperationIdFromResponse(initialResponse),
+    figureId,
+  )
+  .get();
+
+// Header starts with a special character followed by "PNG"
+assert.equal(output.body.toString().slice(1, 4), "PNG");
+```
+
 ## Get Info
 
 ```ts
