@@ -8,6 +8,8 @@ The configuration is following the [RLC quick start guide](https://github.com/Az
 For the configuration property, please refer to [Index of AutoRest Flag](https://github.com/Azure/autorest/blob/main/docs/generate/flags.md).
 
 ```yaml
+flavor: azure
+openapi-type: data-plane
 package-name: "@azure-rest/maps-search"
 title: MapsSearchClient
 description: Azure Maps Search Client
@@ -18,12 +20,12 @@ generate-metadata: false
 # This flag generated test files such as sampleTest.spec.ts and recordedClient.ts.
 # Switch to false after the first generation due to the same reason above.
 generate-test: false
-# This flag generated the the sample files
+# This flag generated the sample files
 # Switch to false after the first generation due to the same reason above.
 generate-sample: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
-source-code-folder-path: ./src/generated
+source-code-folder-path: ./generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/maps/data-plane/Search/stable/2023-06-01/search.json
 package-version: 2.0.0-beta.2
 rest-level-client: true
@@ -32,7 +34,7 @@ rest-level-client: true
 security: AzureKey
 security-header-name: subscription-key
 use-extension:
-  "@autorest/typescript": "6.0.12"
+  "@autorest/typescript": "latest"
 ```
 
 ## Customization for Track 2 Generator

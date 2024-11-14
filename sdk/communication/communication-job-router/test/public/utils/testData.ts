@@ -15,7 +15,7 @@ import type {
   StaticQueueSelectorAttachment,
   CreateJobOptions,
   CreateClassificationPolicyOptions,
-} from "../../../src";
+} from "../../../src/index.js";
 
 const queueId = "test-queue";
 const exceptionPolicyId = "test-e-policy";

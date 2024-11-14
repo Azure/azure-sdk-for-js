@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MsalTestCleanup } from "../../node/msalNodeTestSetup";
-import { msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { ClientSecretCredential } from "../../../src/credentials/clientSecretCredential";
-import type { Context } from "mocha";
-import { IdentityClient } from "../../../src/client/identityClient";
-import { assert } from "@azure-tools/test-utils";
+import { ClientSecretCredential } from "../../../src/credentials/clientSecretCredential.js";
+import { IdentityClient } from "../../../src/client/identityClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("MultiTenantAuthentication", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(async function (ctx) {
+    const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
     recorder = setup.recorder;
   });
@@ -35,7 +34,7 @@ describe("MultiTenantAuthentication", function () {
     if (!tenantId || !clientId || !clientSecret) {
       // multi-tenant credentials live in a shared keyvault whose values are mounted in CI, but not in local dev
       console.log("Multi-tenant credentials not provided, skipping test");
-      this.skip();
+      ctx.skip();
     }
 
     const credential = new ClientSecretCredential(

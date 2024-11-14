@@ -4,10 +4,8 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable sort-imports */
 
-import type { TokenCachePersistenceOptions } from "../../../../identity/src";
-import { DeviceCodeCredential } from "../../../../identity/src";
-import type { MsalTestCleanup } from "../../../../identity/test/node/msalNodeTestSetup";
-import { msalNodeTestSetup } from "../../../../identity/test/node/msalNodeTestSetup";
+import { DeviceCodeCredential, type TokenCachePersistenceOptions } from "@azure/identity";
+import { msalNodeTestSetup, type MsalTestCleanup } from "./msalNodeTestSetup";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
 

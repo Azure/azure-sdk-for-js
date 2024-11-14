@@ -6,10 +6,10 @@
 
 import * as path from "path";
 
-import type { TokenCachePersistenceOptions } from "../../../../identity/src";
-import { ClientCertificateCredential } from "../../../../identity/src";
-import type { MsalTestCleanup } from "../../../../identity/test/node/msalNodeTestSetup";
-import { msalNodeTestSetup } from "../../../../identity/test/node/msalNodeTestSetup";
+import type { TokenCachePersistenceOptions } from "@azure/identity";
+import { ClientCertificateCredential } from "@azure/identity";
+import type { MsalTestCleanup } from "./msalNodeTestSetup";
+import { msalNodeTestSetup } from "./msalNodeTestSetup";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 
