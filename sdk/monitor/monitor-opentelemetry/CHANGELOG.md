@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for operation name on dependencies and logs.
+
 ### Breaking Changes
 
 ### Bugs Fixed
