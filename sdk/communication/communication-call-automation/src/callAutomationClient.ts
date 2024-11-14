@@ -30,7 +30,11 @@ import type {
   RejectCallOptions,
 } from "./models/options.js";
 import type { AnswerCallResult, CreateCallResult } from "./models/responses.js";
-import type { CallConnectionProperties, CallInvite, CustomCallingContext } from "./models/models.js";
+import type {
+  CallConnectionProperties,
+  CallInvite,
+  CustomCallingContext,
+} from "./models/models.js";
 import {
   communicationIdentifierConverter,
   communicationIdentifierModelConverter,
@@ -43,7 +47,10 @@ import {
 import { randomUUID } from "@azure/core-util";
 import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
 import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor.js";
-import type { AnswerCallEventResult, CreateCallEventResult } from "./eventprocessor/eventResponses.js";
+import type {
+  AnswerCallEventResult,
+  CreateCallEventResult,
+} from "./eventprocessor/eventResponses.js";
 /**
  * Client options used to configure CallAutomation Client API requests.
  */
