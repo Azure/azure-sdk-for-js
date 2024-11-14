@@ -13,6 +13,8 @@ import { logger } from "./logger.js";
 /**
  * Create an HTTP pipeline policy to authenticate a request
  * using an `AzureKeyCredential` for AppConfig.
+ *
+ * Test Change
  */
 export function appConfigKeyCredentialPolicy(credential: string, secret: string): PipelinePolicy {
   return {
