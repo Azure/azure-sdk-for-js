@@ -60,8 +60,6 @@ $env:IDENTITY_SP_CERT_PEM = $pemPath
 
 
 if ($CI) {
-  # Install latest version of the Azure CLI
-  pip install azure-cli
   # The owner is a service principal
   $templateFileParameters['principalUserType'] = 'ServicePrincipal'
   Write-Host "Sleeping for a bit to ensure service principal is ready."
