@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { AzureCommunicationRoutingServiceClient, RouterWorkerOutput } from "../../../src/index.js";
+import type {
+  AzureCommunicationRoutingServiceClient,
+  RouterWorkerOutput,
+} from "../../../src/index.js";
 import { paginate } from "../../../src/index.js";
 import {
   getDistributionPolicyRequest,

@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { AzureCommunicationRoutingServiceClient, ExceptionPolicyOutput } from "../../../src/index.js";
+import type {
+  AzureCommunicationRoutingServiceClient,
+  ExceptionPolicyOutput,
+} from "../../../src/index.js";
 import { paginate } from "../../../src/index.js";
 import { getExceptionPolicyRequest } from "../utils/testData.js";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";

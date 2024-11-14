@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureCommunicationRoutingServiceClient, RouterJobOutput } from "../../../src/index.js";
+import type {
+  AzureCommunicationRoutingServiceClient,
+  RouterJobOutput,
+} from "../../../src/index.js";
 import type { RouterJob } from "../../../src/index.js";
 
 // export async function pollForJobOffer(
