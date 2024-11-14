@@ -5,9 +5,8 @@ import type { EmailClient, EmailMessage } from "../../src/index.js";
 import { KnownEmailSendStatus } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
-import { assert } from "chai";
 import { createRecordedEmailClientWithConnectionString } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe(`EmailClient [Playback/Live]`, function () {
   let recorder: Recorder;

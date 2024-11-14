@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Context, Test } from "mocha";
 import type { SanitizerOptions } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { EmailClient } from "../../../src/index.js";
