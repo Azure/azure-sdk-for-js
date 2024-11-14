@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import type { HttpResponse } from "@azure-rest/core-client";
-import type {
+import { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import { HttpResponse } from "@azure-rest/core-client";
+import {
   PagedOperationDetailsOutput,
   ErrorResponseOutput,
   DocumentModelBuildOperationDetailsOutput,

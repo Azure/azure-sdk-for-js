@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ClientOptions } from "@azure-rest/core-client";
-import { getClient } from "@azure-rest/core-client";
+import { getClient, ClientOptions } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
-import type { TokenCredential, KeyCredential } from "@azure/core-auth";
-import type { DocumentIntelligenceClient } from "./clientDefinitions.js";
+import { TokenCredential, KeyCredential } from "@azure/core-auth";
+import { DocumentIntelligenceClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface DocumentIntelligenceClientOptions extends ClientOptions {

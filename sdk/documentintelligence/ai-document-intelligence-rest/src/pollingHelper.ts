@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Client, HttpResponse } from "@azure-rest/core-client";
-import type { AbortSignalLike } from "@azure/abort-controller";
-import type {
+import { Client, HttpResponse } from "@azure-rest/core-client";
+import { AbortSignalLike } from "@azure/abort-controller";
+import {
   CancelOnProgress,
   CreateHttpPollerOptions,
   RunningOperation,
   OperationResponse,
   OperationState,
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
-import type {
+import {
   AnalyzeDocumentFromStream202Response,
   AnalyzeDocumentFromStreamDefaultResponse,
   AnalyzeDocumentFromStreamLogicalResponse,
@@ -53,10 +53,6 @@ export interface SimplePollerLike<
    * Returns the state of the operation.
    */
   getOperationState(): TState;
-  /**
-   * Returns the id of the operation.
-   */
-  getOperationId(): string;
   /**
    * Returns the result value of the operation,
    * regardless of the state of the poller.
@@ -280,7 +276,6 @@ export async function getLongRunningPoller<TResult extends HttpResponse>(
     pollUntilDone: httpPoller.pollUntilDone,
     serialize: httpPoller.serialize,
     submitted: httpPoller.submitted,
-    getOperationId: () => parseOperationId(initialResponse.headers["operation-location"]),
   };
   return simplePoller;
 }

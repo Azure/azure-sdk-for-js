@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Paged } from "@azure/core-paging";
+/** Paged collection of OperationDetails items */
+export interface PagedOperationDetailsOutput {
+  /** The OperationDetails items on this page */
+  value: Array<OperationDetailsOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
 
 /** Operation info. */
 export interface OperationDetailsOutputParent {
@@ -812,6 +818,8 @@ export interface AddressValueOutput {
 
 /** Status and result of the analyze batch operation. */
 export interface AnalyzeBatchResultOperationOutput {
+  /** Analyze batch operation result ID. */
+  resultId?: string;
   /**
    * Operation status.  notStarted, running, succeeded, or failed
    *
@@ -858,6 +866,14 @@ export interface AnalyzeBatchOperationDetailOutput {
   error?: ErrorModelOutput;
 }
 
+/** Paged collection of AnalyzeBatchResultOperation items */
+export interface PagedAnalyzeBatchResultOperationOutput {
+  /** The AnalyzeBatchResultOperation items on this page */
+  value: Array<AnalyzeBatchResultOperationOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
 /**
  * Authorization to copy a document model to the specified target resource and
  * modelId.
@@ -878,6 +894,22 @@ export interface CopyAuthorizationOutput {
   accessToken: string;
   /** Date/time when the access token expires. */
   expirationDateTime: string;
+}
+
+/** Paged collection of DocumentModelDetails items */
+export interface PagedDocumentModelDetailsOutput {
+  /** The DocumentModelDetails items on this page */
+  value: Array<DocumentModelDetailsOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Paged collection of DocumentClassifierDetails items */
+export interface PagedDocumentClassifierDetailsOutput {
+  /** The DocumentClassifierDetails items on this page */
+  value: Array<DocumentClassifierDetailsOutput>;
+  /** The link to the next page of items */
+  nextLink?: string;
 }
 
 /**
@@ -910,8 +942,6 @@ export type OperationDetailsOutput =
   | DocumentModelCopyToOperationDetailsOutput
   | DocumentClassifierCopyToOperationDetailsOutput
   | DocumentClassifierBuildOperationDetailsOutput;
-/** Paged collection of OperationDetails items */
-export type PagedOperationDetailsOutput = Paged<OperationDetailsOutput>;
 /** Alias for OperationStatusOutput */
 export type OperationStatusOutput = string;
 /** Alias for OperationKindOutput */
@@ -948,11 +978,3 @@ export type FontStyleOutput = string;
 export type FontWeightOutput = string;
 /** Alias for DocumentSignatureTypeOutput */
 export type DocumentSignatureTypeOutput = string;
-/** Paged collection of AnalyzeBatchResultOperation items */
-export type PagedAnalyzeBatchResultOperationOutput =
-  Paged<AnalyzeBatchResultOperationOutput>;
-/** Paged collection of DocumentModelDetails items */
-export type PagedDocumentModelDetailsOutput = Paged<DocumentModelDetailsOutput>;
-/** Paged collection of DocumentClassifierDetails items */
-export type PagedDocumentClassifierDetailsOutput =
-  Paged<DocumentClassifierDetailsOutput>;

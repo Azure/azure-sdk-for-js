@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import type { RequestParameters } from "@azure-rest/core-client";
-import type {
+import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import { RequestParameters } from "@azure-rest/core-client";
+import {
   StringIndexType,
   DocumentAnalysisFeature,
   ContentFormat,

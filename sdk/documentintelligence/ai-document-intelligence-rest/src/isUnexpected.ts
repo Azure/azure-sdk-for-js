@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type {
+import {
   ListOperations200Response,
   ListOperationsDefaultResponse,
   GetDocumentModelBuildOperation200Response,
