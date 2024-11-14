@@ -372,10 +372,12 @@ class ReporterUtils {
     const completed = Math.round(width * percent);
     const remaining = width - completed;
 
-    process.stdout.write("\r");
-    process.stdout.write(
-      `[${"=".repeat(completed)}${" ".repeat(remaining)}] ${Math.round(percent * 100)}%`,
-    );
+    if (current % Math.round(total / 5) === 0 || current === total) {
+      process.stdout.write("\r");
+      process.stdout.write(
+        `[${"=".repeat(completed)}${" ".repeat(remaining)}] ${Math.round(percent * 100)}%`,
+      );
+    }
   }
 
   private getTestRunConfig(): TestRunConfig {
