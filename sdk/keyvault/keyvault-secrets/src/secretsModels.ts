@@ -3,6 +3,7 @@
 
 import type * as coreClient from "@azure-rest/core-client";
 import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import { DeletionRecoveryLevel } from "./generated/index.js";
 
 /**
  * The latest supported KeyVault service API version
@@ -132,7 +133,7 @@ export interface SecretProperties {
    * **NOTE: This property will not be serialized. It can only be populated by
    * the server.**
    */
-  readonly recoveryLevel?: string;
+  readonly recoveryLevel?: DeletionRecoveryLevel;
   /**
    * The retention dates of the softDelete data.
    * The value should be `>=7` and `<=90` when softDelete enabled.

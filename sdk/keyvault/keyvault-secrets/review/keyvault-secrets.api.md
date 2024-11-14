@@ -153,7 +153,7 @@ export interface SecretProperties {
     name: string;
     readonly notBefore?: Date;
     recoverableDays?: number;
-    readonly recoveryLevel?: string;
+    readonly recoveryLevel?: DeletionRecoveryLevel;
     tags?: {
         [propertyName: string]: string;
     };
