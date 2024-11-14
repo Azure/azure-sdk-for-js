@@ -46,7 +46,7 @@ delete packageJson.dependencies["@azure/core-client"];
 packageJson.dependencies["@azure-rest/core-client"] = "^2.0.0";
 
 // Update @azure/core-lro to version 3.0.0
-packageJson.dependencies["@azure/core-lro"] = "^3.0.0";
+// packageJson.dependencies["@azure/core-lro"] = "^3.0.0";
 
 // Write updated package.json back to disk
 fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2), "utf8");
