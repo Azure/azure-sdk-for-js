@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { Context, trace } from "@opentelemetry/api";
 import type { MetricHandler } from "../metrics/handler";
 import type { LogRecord, LogRecordProcessor } from "@opentelemetry/sdk-logs";
+import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 
 /**
  * Azure Monitor LogRecord Processor.
@@ -15,7 +17,12 @@ export class AzureLogRecordProcessor implements LogRecordProcessor {
     this._metricHandler = metricHandler;
   }
 
-  public onEmit(logRecord: LogRecord): void {
+  public onEmit(logRecord: LogRecord, context: Context): void {
+    const parentSpan = trace.getSpan(context);
+    if (parentSpan && "name" in parentSpan) {
+      // If the parent span has a name we can assume it's a ReadableSpan and cast it as such
+      logRecord.attributes["ai.operation.name"] = (parentSpan as unknown as ReadableSpan).name;
+    }
     this._metricHandler.recordLog(logRecord);
   }
 

@@ -174,6 +174,11 @@ export const DEFAULT_BREEZE_ENDPOINT = "https://dc.services.visualstudio.com";
  * @internal
  */
 export const DEFAULT_LIVEMETRICS_ENDPOINT = "https://global.livediagnostics.monitor.azure.com";
+/**
+ * Operation Name attribute name.
+ * @internal
+ */
+export const AI_OPERATION_NAME = "ai.operation.name";
 
 /**
  * Internal attribute name for sample rate

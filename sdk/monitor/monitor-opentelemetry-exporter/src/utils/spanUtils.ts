@@ -107,8 +107,10 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
         tags[KnownContextTagKeys.AiLocationIp] = String(netPeerIp);
       }
     }
+  } else {
+    tags[KnownContextTagKeys.AiOperationName] = span.attributes[KnownContextTagKeys.AiOperationName] as string;
   }
-  // TODO: Operation Name and Location IP TBD for non server spans
+  // TODO: Location IP TBD for non server spans
 
   return tags;
 }
@@ -141,7 +143,8 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
           key === SEMATTRS_RPC_GRPC_STATUS_CODE ||
           key === SEMATTRS_EXCEPTION_TYPE ||
           key === SEMATTRS_EXCEPTION_MESSAGE ||
-          key === SEMATTRS_EXCEPTION_STACKTRACE
+          key === SEMATTRS_EXCEPTION_STACKTRACE ||
+          key === KnownContextTagKeys.AiOperationName as string
         )
       ) {
         properties[key] = serializeAttribute(attributes[key]);
