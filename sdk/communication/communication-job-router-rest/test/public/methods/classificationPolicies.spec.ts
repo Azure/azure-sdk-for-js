@@ -15,9 +15,9 @@ import {
 } from "../utils/testData.js";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
 import { timeoutMs } from "../utils/constants.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("JobRouterClient", function () {
+describe("JobRouterClient", () => {
   let routerClient: AzureCommunicationRoutingServiceClient;
   let recorder: Recorder;
 
@@ -33,9 +33,9 @@ describe("JobRouterClient", function () {
 
   const { queueId, queueRequest } = getQueueRequest(testRunId);
 
-  describe("classification Policy Operations", function () {
-    this.beforeEach(async function (ctx) {
-      ({ routerClient, recorder } = await createRecordedRouterClientWithConnectionString(this));
+  describe("classification Policy Operations", () => {
+    beforeEach(async (ctx) => {
+      ({ routerClient, recorder } = await createRecordedRouterClientWithConnectionString(ctx));
 
       await routerClient
         .path("/routing/distributionPolicies/{distributionPolicyId}", distributionPolicyId)
@@ -55,7 +55,7 @@ describe("JobRouterClient", function () {
       });
     });
 
-    this.afterEach(async function (ctx) {
+    afterEach(async (ctx) => {
       await routerClient
         .path("/routing/distributionPolicies/{distributionPolicyId}", distributionPolicyId)
         .delete();
@@ -64,12 +64,12 @@ describe("JobRouterClient", function () {
         .delete();
       await routerClient.path("/routing/queues/{queueId}", queueId).delete();
 
-      if (!this.currentTest?.isPending() && recorder) {
+      if (!ctx.task.pending && recorder) {
         await recorder.stop();
       }
     });
 
-    it("should create a classification policy", async function () {
+    it("should create a classification policy", { timeout: timeoutMs }, async () => {
       const response = await routerClient
         .path("/routing/classificationPolicies/{classificationPolicyId}", classificationPolicyId)
         .patch({
@@ -85,9 +85,9 @@ describe("JobRouterClient", function () {
       assert.isDefined(result);
       assert.isDefined(result?.id);
       assert.equal(result.name, classificationPolicyRequest.name);
-    }).timeout(timeoutMs);
+    });
 
-    it("should get a classification policy", async function () {
+    it("should get a classification policy", { timeout: timeoutMs }, async () => {
       const response = await routerClient
         .path("/routing/classificationPolicies/{classificationPolicyId}", classificationPolicyId)
         .get();
@@ -99,9 +99,9 @@ describe("JobRouterClient", function () {
 
       assert.equal(result.id, classificationPolicyId);
       assert.equal(result.name, classificationPolicyRequest.name);
-    }).timeout(timeoutMs);
+    });
 
-    it("should update a classification policy", async function () {
+    it("should update a classification policy", { timeout: timeoutMs }, async () => {
       const updatePatch = { ...classificationPolicyRequest, name: "new-name" };
       let response = await routerClient
         .path("/routing/classificationPolicies/{classificationPolicyId}", classificationPolicyId)
@@ -134,9 +134,9 @@ describe("JobRouterClient", function () {
       assert.isDefined(removeResult.id);
       assert.equal(updateResult.name, updatePatch.name);
       assert.isUndefined(removeResult.name);
-    }).timeout(timeoutMs);
+    });
 
-    it("should list classification policies", async function () {
+    it("should list classification policies", { timeout: timeoutMs }, async () => {
       const result: ClassificationPolicyOutput[] = [];
       const response = await routerClient
         .path("/routing/classificationPolicies")
@@ -153,9 +153,9 @@ describe("JobRouterClient", function () {
       }
 
       assert.isNotEmpty(result);
-    }).timeout(timeoutMs);
+    });
 
-    it("should delete a classification policy", async function () {
+    it("should delete a classification policy", { timeout: timeoutMs }, async () => {
       const response = await routerClient
         .path("/routing/classificationPolicies/{classificationPolicyId}", classificationPolicyId)
         .delete();
@@ -165,6 +165,6 @@ describe("JobRouterClient", function () {
       }
 
       assert.isDefined(response);
-    }).timeout(timeoutMs);
+    });
   });
 });

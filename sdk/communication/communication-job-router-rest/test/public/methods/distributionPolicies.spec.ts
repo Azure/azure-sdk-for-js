@@ -10,9 +10,9 @@ import { paginate } from "../../../src/index.js";
 import { getDistributionPolicyRequest } from "../utils/testData.js";
 import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
 import { timeoutMs } from "../utils/constants.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("JobRouterClient", function () {
+describe("JobRouterClient", () => {
   let routerClient: AzureCommunicationRoutingServiceClient;
   let recorder: Recorder;
 
@@ -21,18 +21,18 @@ describe("JobRouterClient", function () {
   const { distributionPolicyIdForCreationAndDeletionTest, distributionPolicyRequest } =
     getDistributionPolicyRequest(testRunId);
 
-  describe("Distribution Policy Operations", function () {
-    this.beforeEach(async function (ctx) {
-      ({ routerClient, recorder } = await createRecordedRouterClientWithConnectionString(this));
+  describe("Distribution Policy Operations", () => {
+    beforeEach(async (ctx) => {
+      ({ routerClient, recorder } = await createRecordedRouterClientWithConnectionString(ctx));
     });
 
-    this.afterEach(async function (ctx) {
-      if (!this.currentTest?.isPending() && recorder) {
+    afterEach(async (ctx) => {
+      if (!ctx.task.pending && recorder) {
         await recorder.stop();
       }
     });
 
-    it("should create a distribution policy", async function () {
+    it("should create a distribution policy", { timeout: timeoutMs }, async () => {
       const response = await routerClient
         .path(
           "/routing/distributionPolicies/{distributionPolicyId}",
@@ -51,9 +51,9 @@ describe("JobRouterClient", function () {
       assert.isDefined(result);
       assert.isDefined(result?.id);
       assert.equal(result.name, distributionPolicyRequest.name);
-    }).timeout(timeoutMs);
+    });
 
-    it("should get a distribution policy", async function () {
+    it("should get a distribution policy", { timeout: timeoutMs }, async () => {
       const response = await routerClient
         .path(
           "/routing/distributionPolicies/{distributionPolicyId}",
@@ -73,9 +73,9 @@ describe("JobRouterClient", function () {
         distributionPolicyRequest.offerExpiresAfterSeconds,
       );
       assert.deepEqual(result.mode, distributionPolicyRequest.mode);
-    }).timeout(timeoutMs);
+    });
 
-    it("should update a distribution policy", async function () {
+    it("should update a distribution policy", { timeout: timeoutMs }, async () => {
       const updatePatch = { ...distributionPolicyRequest, name: "new-name" };
       let response = await routerClient
         .path(
@@ -114,9 +114,9 @@ describe("JobRouterClient", function () {
       assert.isDefined(removeResult.id);
       assert.equal(updateResult.name, updatePatch.name);
       assert.isUndefined(removeResult.name);
-    }).timeout(timeoutMs);
+    });
 
-    it("should list distribution policies", async function () {
+    it("should list distribution policies", { timeout: timeoutMs }, async () => {
       const result: DistributionPolicyOutput[] = [];
       const response = await routerClient
         .path("/routing/distributionPolicies")
@@ -133,9 +133,9 @@ describe("JobRouterClient", function () {
       }
 
       assert.isNotEmpty(result);
-    }).timeout(timeoutMs);
+    });
 
-    it("should delete a distribution policy", async function () {
+    it("should delete a distribution policy", { timeout: timeoutMs }, async () => {
       const response = await routerClient
         .path(
           "/routing/distributionPolicies/{distributionPolicyId}",
@@ -148,6 +148,6 @@ describe("JobRouterClient", function () {
       }
 
       assert.isDefined(response);
-    }).timeout(timeoutMs);
+    });
   });
 });

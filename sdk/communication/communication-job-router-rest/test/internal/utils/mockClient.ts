@@ -3,14 +3,14 @@
 
 import type { ClientOptions } from "@azure-rest/core-client";
 import * as dotenv from "dotenv";
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import JobRouter from "../../../src/index.js";
 import type { AzureCommunicationRoutingServiceClient } from "../../../src/index.js";
-import { isNode } from "@azure/core-util";
+import { isNodeLike } from "@azure/core-util";
 import { generateToken } from "../../public/utils/connection.js";
 
-if (isNode) {
+if (isNodeLike) {
   dotenv.config();
 }
 
@@ -30,7 +30,7 @@ export const recorderOptions: RecorderStartOptions = {
   ],
 };
 
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   await recorder.addSanitizers(recorderOptions.sanitizerOptions!, ["record", "playback"]);
@@ -44,9 +44,9 @@ export interface RecordedRouterClient {
 }
 
 export async function createRecordedRouterClientWithConnectionString(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedRouterClient> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   return {
     routerClient: JobRouter(
