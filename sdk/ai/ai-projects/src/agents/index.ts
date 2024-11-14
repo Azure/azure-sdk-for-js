@@ -130,7 +130,7 @@ export interface AgentsOperations {
   /** Gets a list of previously uploaded files. */
   listFiles: (
     purpose?:FilePurpose, requestParams?: RequestParameters
-  ) => Promise<FileListResponseOutput>;
+  ) => Promise<FileListResponseOutput>; 
   /** Uploads a file for use by other operations. */
   uploadFile: (content: ReadableStream |NodeJS.ReadableStream, purpose:string,   fileName?: string,  requestParams?: RequestParameters   
   ) => Promise<OpenAIFileOutput>
