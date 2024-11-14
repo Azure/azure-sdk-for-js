@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.2 (2024-11-13)
+## 1.0.0-beta.2 (2024-11-15)
 
 This release includes updates to Engineering Systems and the migration of the package to ECMAScript modules and Vitest.
 

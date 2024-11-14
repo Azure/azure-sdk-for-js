@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.5 (2024-11-13)
+## 1.0.0-beta.5 (2024-11-15)
 
 This release fixes a bug related to upload method and few Engineering Systems updates.
 
@@ -13,6 +13,8 @@ This release fixes a bug related to upload method and few Engineering Systems up
 -Fixed a bug where the upload buffer and upload file methods were not awaited, which sometimes resulted in 404 errors in the web application.
 
 ### Other Changes
+
+-Added X-MS-Package-Version header to connect session API for language and package version decoding.
 
 ## 1.0.0-beta.4 (2024-10-21)
 
