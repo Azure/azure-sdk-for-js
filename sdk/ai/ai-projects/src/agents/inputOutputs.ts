@@ -8,3 +8,11 @@ export * from "../generated/src/models.js"
 export * from "../generated/src/outputModels.js"
 export * from "./customModels.js"
 export * from "./runModels.js"
+
+export {
+  ListAgentsQueryParamProperties,
+  ListMessagesQueryParamProperties,
+  ListRunsQueryParamProperties,
+  ListRunStepsQueryParamProperties,
+  ListVectorStoresQueryParamProperties
+} from "../generated/src/parameters.js"

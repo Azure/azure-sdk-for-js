@@ -111,17 +111,12 @@ export interface AgentsOperations {
     getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) => Promise<RunStepOutput>;
     getThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
     getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ListAgentsQueryParamProperties" needs to be exported by the entry point index.d.ts
     listAgents: (options?: ListAgentsQueryParamProperties) => Promise<OpenAIPageableListOfAgentOutput>;
     // Warning: (ae-forgotten-export) The symbol "ListFilesParameters" needs to be exported by the entry point index.d.ts
     listFiles: (options?: ListFilesParameters) => Promise<FileListResponseOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ListMessagesQueryParamProperties" needs to be exported by the entry point index.d.ts
     listMessages: (threadId: string, options?: ListMessagesQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadMessageOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ListRunsQueryParamProperties" needs to be exported by the entry point index.d.ts
     listRuns: (threadId: string, options?: ListRunsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadRunOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ListRunStepsQueryParamProperties" needs to be exported by the entry point index.d.ts
     listRunSteps: (threadId: string, runId: string, options?: ListRunStepsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfRunStepOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ListVectorStoresQueryParamProperties" needs to be exported by the entry point index.d.ts
     listVectorStores: (options?: ListVectorStoresQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     // Warning: (ae-forgotten-export) The symbol "SubmitToolOutputsToRunParameters" needs to be exported by the entry point index.d.ts
@@ -601,13 +596,54 @@ export interface InternalConnectionPropertiesSASAuthOutput extends InternalConne
     target: string;
 }
 
+// @public (undocumented)
+export interface ListAgentsQueryParamProperties {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: ListSortOrder;
+}
+
 // @public
 export interface ListConnectionsResponseOutput {
     value: Array<GetConnectionResponseOutput>;
 }
 
+// @public (undocumented)
+export interface ListMessagesQueryParamProperties {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: ListSortOrder;
+    runId?: string;
+}
+
+// @public (undocumented)
+export interface ListRunsQueryParamProperties {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: ListSortOrder;
+}
+
+// @public (undocumented)
+export interface ListRunStepsQueryParamProperties {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: ListSortOrder;
+}
+
 // @public
 export type ListSortOrder = string;
+
+// @public (undocumented)
+export interface ListVectorStoresQueryParamProperties {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: ListSortOrder;
+}
 
 // @public
 export interface MessageAttachment {
