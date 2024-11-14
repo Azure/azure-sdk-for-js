@@ -4,6 +4,8 @@
 export {
   SecretSetParameters,
   SecretAttributes,
+  KnownDeletionRecoveryLevel,
+  DeletionRecoveryLevel,
   SecretBundle,
   KeyVaultError,
   ErrorModel,

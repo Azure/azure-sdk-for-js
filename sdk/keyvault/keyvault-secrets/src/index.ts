@@ -7,7 +7,8 @@ import type { TokenCredential } from "@azure/core-auth";
 import { logger } from "./log.js";
 
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { PollOperationState } from "@azure/core-lro";
+import { PollerLike } from "@azure/core-lro";
 import type { KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
 import { KeyVaultClient } from "./generated/keyVaultClient.js";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
@@ -39,17 +40,7 @@ import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 import { SDK_VERSION } from "./constants.js";
 import { DeleteSecretPoller } from "./lro/delete/poller.js";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller.js";
-
-type DeletionRecoveryLevel = string;
-enum KnownDeletionRecoveryLevel {
-  CustomizedRecoverable = "CustomizedRecoverable",
-  CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
-  CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
-  Purgeable = "Purgeable",
-  Recoverable = "Recoverable",
-  RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
-  RecoverablePurgeable = "Recoverable+Purgeable",
-}
+import { DeletionRecoveryLevel, KnownDeletionRecoveryLevel } from "./generated/index.js";
 
 export {
   SecretClientOptions,

@@ -10,6 +10,7 @@ import type { ExtendedCommonClientOptions } from '@azure/core-http-compat';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
+import type { PollOperationState } from '@azure/core-lro';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -38,7 +39,7 @@ export interface DeletedSecret {
     value?: string;
 }
 
-// @public (undocumented)
+// @public
 export type DeletionRecoveryLevel = string;
 
 // @public
@@ -65,22 +66,15 @@ export interface KeyVaultSecretIdentifier {
     version?: string;
 }
 
-// @public (undocumented)
+// @public
 export enum KnownDeletionRecoveryLevel {
-    // (undocumented)
+    "Recoverable+Purgeable" = "Recoverable+Purgeable",
     CustomizedRecoverable = "CustomizedRecoverable",
-    // (undocumented)
-    CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
-    // (undocumented)
-    CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
-    // (undocumented)
+    CustomizedRecoverable_ProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
+    CustomizedRecoverable_Purgeable = "CustomizedRecoverable+Purgeable",
     Purgeable = "Purgeable",
-    // (undocumented)
     Recoverable = "Recoverable",
-    // (undocumented)
-    RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
-    // (undocumented)
-    RecoverablePurgeable = "Recoverable+Purgeable"
+    Recoverable_ProtectedSubscription = "Recoverable+ProtectedSubscription"
 }
 
 // @public
@@ -119,8 +113,8 @@ export interface RestoreSecretBackupOptions extends coreClient.OperationOptions 
 export class SecretClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: SecretClientOptions);
     backupSecret(secretName: string, options?: BackupSecretOptions): Promise<Uint8Array | undefined>;
-    beginDeleteSecret(_name: string, _options?: BeginDeleteSecretOptions): Promise<any>;
-    beginRecoverDeletedSecret(_name: string, _options?: BeginRecoverDeletedSecretOptions): Promise<any>;
+    beginDeleteSecret(name: string, options?: BeginDeleteSecretOptions): Promise<PollerLike<PollOperationState<DeletedSecret>, DeletedSecret>>;
+    beginRecoverDeletedSecret(name: string, options?: BeginRecoverDeletedSecretOptions): Promise<PollerLike<PollOperationState<SecretProperties>, SecretProperties>>;
     getDeletedSecret(secretName: string, options?: GetDeletedSecretOptions): Promise<DeletedSecret>;
     getSecret(secretName: string, options?: GetSecretOptions): Promise<KeyVaultSecret>;
     listDeletedSecrets(options?: ListDeletedSecretsOptions): PagedAsyncIterableIterator<DeletedSecret>;
