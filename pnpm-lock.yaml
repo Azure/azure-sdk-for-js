@@ -3576,11 +3576,11 @@ importers:
         version: 2.7.0
     devDependencies:
       '@azure-tools/test-recorder':
-        specifier: catalog:test-recorderV3
-        version: 3.5.2
-      '@azure-tools/test-utils':
         specifier: workspace:*
-        version: link:../../test-utils/test-utils
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:*
+        version: link:../../test-utils/test-utils-vitest
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -3593,66 +3593,30 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.5.0
-      '@types/chai':
-        specifier: catalog:legacy
-        version: 4.3.17
-      '@types/mocha':
-        specifier: catalog:legacy
-        version: 10.0.7
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
-      '@types/sinon':
-        specifier: catalog:legacy
-        version: 17.0.3
-      chai:
-        specifier: catalog:legacy
-        version: 4.5.0
+      '@vitest/browser':
+        specifier: 'catalog:'
+        version: 2.1.4(@types/node@18.19.45)(playwright@1.46.1)(typescript@5.6.3)(vite@5.4.8(@types/node@18.19.45))(vitest@2.1.4)
+      '@vitest/coverage-istanbul':
+        specifier: 'catalog:'
+        version: 2.1.4(vitest@2.1.4)
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      karma:
-        specifier: catalog:legacy
-        version: 6.4.4
-      karma-chrome-launcher:
-        specifier: catalog:legacy
-        version: 3.2.0
-      karma-coverage:
-        specifier: catalog:legacy
-        version: 2.2.1
-      karma-env-preprocessor:
-        specifier: catalog:legacy
-        version: 0.1.1
-      karma-firefox-launcher:
-        specifier: catalog:legacy
-        version: 1.3.0
-      karma-junit-reporter:
-        specifier: catalog:legacy
-        version: 2.0.1(karma@6.4.4)
-      karma-mocha:
-        specifier: catalog:legacy
-        version: 2.0.1
-      karma-mocha-reporter:
-        specifier: catalog:legacy
-        version: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader:
-        specifier: catalog:legacy
-        version: 0.3.8
-      mocha:
-        specifier: catalog:legacy
-        version: 10.7.3
-      nyc:
-        specifier: catalog:legacy
-        version: 17.0.0
-      sinon:
-        specifier: catalog:legacy
-        version: 19.0.2
+      playwright:
+        specifier: 'catalog:'
+        version: 1.46.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
+      vitest:
+        specifier: 'catalog:'
+        version: 2.1.4(@types/node@18.19.45)(@vitest/browser@2.1.4)(msw@2.6.0(@types/node@18.19.45)(typescript@5.6.3))
 
   sdk/communication/communication-call-automation:
     dependencies:
@@ -4219,16 +4183,16 @@ importers:
       tslib:
         specifier: 'catalog:'
         version: 2.7.0
-      uuid:
-        specifier: ^10.0.0
-        version: 10.0.0
     devDependencies:
       '@azure-tools/test-recorder':
-        specifier: catalog:test-recorderV3
-        version: 3.5.2
+        specifier: workspace:*
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:*
+        version: link:../../test-utils/test-utils-vitest
       '@azure/communication-identity':
-        specifier: ^1.0.0
-        version: 1.3.1
+        specifier: workspace:*
+        version: link:../communication-identity
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -4238,75 +4202,30 @@ importers:
       '@azure/eslint-plugin-azure-sdk':
         specifier: workspace:*
         version: link:../../../common/tools/eslint-plugin-azure-sdk
-      '@types/chai':
-        specifier: catalog:legacy
-        version: 4.3.17
-      '@types/mocha':
-        specifier: catalog:legacy
-        version: 10.0.7
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
-      '@types/sinon':
-        specifier: catalog:legacy
-        version: 17.0.3
-      '@types/uuid':
-        specifier: ^8.0.0
-        version: 8.3.4
-      chai:
-        specifier: catalog:legacy
-        version: 4.5.0
+      '@vitest/browser':
+        specifier: 'catalog:'
+        version: 2.1.4(@types/node@18.19.45)(playwright@1.46.1)(typescript@5.6.3)(vite@5.4.8(@types/node@18.19.45))(vitest@2.1.4)
+      '@vitest/coverage-istanbul':
+        specifier: 'catalog:'
+        version: 2.1.4(vitest@2.1.4)
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      karma:
-        specifier: catalog:legacy
-        version: 6.4.4
-      karma-chrome-launcher:
-        specifier: catalog:legacy
-        version: 3.2.0
-      karma-coverage:
-        specifier: catalog:legacy
-        version: 2.2.1
-      karma-env-preprocessor:
-        specifier: catalog:legacy
-        version: 0.1.1
-      karma-firefox-launcher:
-        specifier: catalog:legacy
-        version: 1.3.0
-      karma-json-preprocessor:
-        specifier: catalog:legacy
-        version: 0.3.3(karma@6.4.4)
-      karma-json-to-file-reporter:
-        specifier: catalog:legacy
-        version: 1.0.1
-      karma-junit-reporter:
-        specifier: catalog:legacy
-        version: 2.0.1(karma@6.4.4)
-      karma-mocha:
-        specifier: catalog:legacy
-        version: 2.0.1
-      karma-mocha-reporter:
-        specifier: catalog:legacy
-        version: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader:
-        specifier: catalog:legacy
-        version: 0.3.8
-      mocha:
-        specifier: catalog:legacy
-        version: 10.7.3
-      nyc:
-        specifier: catalog:legacy
-        version: 17.0.0
-      sinon:
-        specifier: catalog:legacy
-        version: 19.0.2
+      playwright:
+        specifier: 'catalog:'
+        version: 1.46.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
+      vitest:
+        specifier: 'catalog:'
+        version: 2.1.4(@types/node@18.19.45)(@vitest/browser@2.1.4)(msw@2.6.0(@types/node@18.19.45)(typescript@5.6.3))
 
   sdk/communication/communication-job-router-rest:
     dependencies:
@@ -4560,14 +4479,14 @@ importers:
         version: 2.7.0
     devDependencies:
       '@azure-tools/test-credential':
-        specifier: catalog:test-credentialV1
-        version: 1.2.0
-      '@azure-tools/test-recorder':
-        specifier: catalog:test-recorderV3
-        version: 3.5.2
-      '@azure-tools/test-utils':
         specifier: workspace:*
-        version: link:../../test-utils/test-utils
+        version: link:../../test-utils/test-credential
+      '@azure-tools/test-recorder':
+        specifier: workspace:*
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:*
+        version: link:../../test-utils/test-utils-vitest
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -4577,66 +4496,30 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.5.0
-      '@types/chai':
-        specifier: catalog:legacy
-        version: 4.3.17
-      '@types/mocha':
-        specifier: catalog:legacy
-        version: 10.0.7
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
-      '@types/sinon':
-        specifier: catalog:legacy
-        version: 17.0.3
-      chai:
-        specifier: catalog:legacy
-        version: 4.5.0
+      '@vitest/browser':
+        specifier: 'catalog:'
+        version: 2.1.4(@types/node@18.19.45)(playwright@1.46.1)(typescript@5.6.3)(vite@5.4.8(@types/node@18.19.45))(vitest@2.1.4)
+      '@vitest/coverage-istanbul':
+        specifier: 'catalog:'
+        version: 2.1.4(vitest@2.1.4)
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      karma:
-        specifier: catalog:legacy
-        version: 6.4.4
-      karma-chrome-launcher:
-        specifier: catalog:legacy
-        version: 3.2.0
-      karma-coverage:
-        specifier: catalog:legacy
-        version: 2.2.1
-      karma-env-preprocessor:
-        specifier: catalog:legacy
-        version: 0.1.1
-      karma-firefox-launcher:
-        specifier: catalog:legacy
-        version: 1.3.0
-      karma-junit-reporter:
-        specifier: catalog:legacy
-        version: 2.0.1(karma@6.4.4)
-      karma-mocha:
-        specifier: catalog:legacy
-        version: 2.0.1
-      karma-mocha-reporter:
-        specifier: catalog:legacy
-        version: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader:
-        specifier: catalog:legacy
-        version: 0.3.8
-      mocha:
-        specifier: catalog:legacy
-        version: 10.7.3
-      nyc:
-        specifier: catalog:legacy
-        version: 17.0.0
-      sinon:
-        specifier: catalog:legacy
-        version: 19.0.2
+      playwright:
+        specifier: 'catalog:'
+        version: 1.46.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
+      vitest:
+        specifier: 'catalog:'
+        version: 2.1.4(@types/node@18.19.45)(@vitest/browser@2.1.4)(msw@2.6.0(@types/node@18.19.45)(typescript@5.6.3))
 
   sdk/communication/communication-recipient-verification:
     dependencies:
@@ -4673,16 +4556,13 @@ importers:
       tslib:
         specifier: 'catalog:'
         version: 2.7.0
-      uuid:
-        specifier: ^10.0.0
-        version: 10.0.0
     devDependencies:
       '@azure-tools/test-recorder':
-        specifier: catalog:test-recorderV3
-        version: 3.5.2
-      '@azure-tools/test-utils':
         specifier: workspace:*
-        version: link:../../test-utils/test-utils
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:*
+        version: link:../../test-utils/test-utils-vitest
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -4695,69 +4575,30 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.5.0
-      '@types/chai':
-        specifier: catalog:legacy
-        version: 4.3.17
-      '@types/mocha':
-        specifier: catalog:legacy
-        version: 10.0.7
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
-      '@types/sinon':
-        specifier: catalog:legacy
-        version: 17.0.3
-      '@types/uuid':
-        specifier: ^10.0.0
-        version: 10.0.0
-      chai:
-        specifier: catalog:legacy
-        version: 4.5.0
+      '@vitest/browser':
+        specifier: 'catalog:'
+        version: 2.1.4(@types/node@18.19.45)(playwright@1.46.1)(typescript@5.6.3)(vite@5.4.8(@types/node@18.19.45))(vitest@2.1.4)
+      '@vitest/coverage-istanbul':
+        specifier: 'catalog:'
+        version: 2.1.4(vitest@2.1.4)
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      karma:
-        specifier: catalog:legacy
-        version: 6.4.4
-      karma-chrome-launcher:
-        specifier: catalog:legacy
-        version: 3.2.0
-      karma-coverage:
-        specifier: catalog:legacy
-        version: 2.2.1
-      karma-env-preprocessor:
-        specifier: catalog:legacy
-        version: 0.1.1
-      karma-firefox-launcher:
-        specifier: catalog:legacy
-        version: 1.3.0
-      karma-junit-reporter:
-        specifier: catalog:legacy
-        version: 2.0.1(karma@6.4.4)
-      karma-mocha:
-        specifier: catalog:legacy
-        version: 2.0.1
-      karma-mocha-reporter:
-        specifier: catalog:legacy
-        version: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader:
-        specifier: catalog:legacy
-        version: 0.3.8
-      mocha:
-        specifier: catalog:legacy
-        version: 10.7.3
-      nyc:
-        specifier: catalog:legacy
-        version: 17.0.0
-      sinon:
-        specifier: catalog:legacy
-        version: 19.0.2
+      playwright:
+        specifier: 'catalog:'
+        version: 1.46.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
+      vitest:
+        specifier: 'catalog:'
+        version: 2.1.4(@types/node@18.19.45)(@vitest/browser@2.1.4)(msw@2.6.0(@types/node@18.19.45)(typescript@5.6.3))
 
   sdk/communication/communication-rooms:
     dependencies:
@@ -4879,16 +4720,13 @@ importers:
       tslib:
         specifier: 'catalog:'
         version: 2.7.0
-      uuid:
-        specifier: ^10.0.0
-        version: 10.0.0
     devDependencies:
       '@azure-tools/test-recorder':
-        specifier: catalog:test-recorderV3
-        version: 3.5.2
-      '@azure-tools/test-utils':
         specifier: workspace:*
-        version: link:../../test-utils/test-utils
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:*
+        version: link:../../test-utils/test-utils-vitest
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -4901,69 +4739,30 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.5.0
-      '@types/chai':
-        specifier: catalog:legacy
-        version: 4.3.17
-      '@types/mocha':
-        specifier: catalog:legacy
-        version: 10.0.7
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
-      '@types/sinon':
-        specifier: catalog:legacy
-        version: 17.0.3
-      '@types/uuid':
-        specifier: ^10.0.0
-        version: 10.0.0
-      chai:
-        specifier: catalog:legacy
-        version: 4.5.0
+      '@vitest/browser':
+        specifier: 'catalog:'
+        version: 2.1.4(@types/node@18.19.45)(playwright@1.46.1)(typescript@5.6.3)(vite@5.4.8(@types/node@18.19.45))(vitest@2.1.4)
+      '@vitest/coverage-istanbul':
+        specifier: 'catalog:'
+        version: 2.1.4(vitest@2.1.4)
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      karma:
-        specifier: catalog:legacy
-        version: 6.4.4
-      karma-chrome-launcher:
-        specifier: catalog:legacy
-        version: 3.2.0
-      karma-coverage:
-        specifier: catalog:legacy
-        version: 2.2.1
-      karma-env-preprocessor:
-        specifier: catalog:legacy
-        version: 0.1.1
-      karma-firefox-launcher:
-        specifier: catalog:legacy
-        version: 1.3.0
-      karma-junit-reporter:
-        specifier: catalog:legacy
-        version: 2.0.1(karma@6.4.4)
-      karma-mocha:
-        specifier: catalog:legacy
-        version: 2.0.1
-      karma-mocha-reporter:
-        specifier: catalog:legacy
-        version: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader:
-        specifier: catalog:legacy
-        version: 0.3.8
-      mocha:
-        specifier: catalog:legacy
-        version: 10.7.3
-      nyc:
-        specifier: catalog:legacy
-        version: 17.0.0
-      sinon:
-        specifier: catalog:legacy
-        version: 19.0.2
+      playwright:
+        specifier: 'catalog:'
+        version: 1.46.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
+      vitest:
+        specifier: 'catalog:'
+        version: 2.1.4(@types/node@18.19.45)(@vitest/browser@2.1.4)(msw@2.6.0(@types/node@18.19.45)(typescript@5.6.3))
 
   sdk/communication/communication-sms:
     dependencies:
@@ -5112,16 +4911,13 @@ importers:
       tslib:
         specifier: 'catalog:'
         version: 2.7.0
-      uuid:
-        specifier: ^10.0.0
-        version: 10.0.0
     devDependencies:
       '@azure-tools/test-recorder':
-        specifier: catalog:test-recorderV3
-        version: 3.5.2
-      '@azure-tools/test-utils':
         specifier: workspace:*
-        version: link:../../test-utils/test-utils
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:*
+        version: link:../../test-utils/test-utils-vitest
       '@azure/core-util':
         specifier: workspace:*
         version: link:../../core/core-util
@@ -5134,69 +4930,30 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.5.0
-      '@types/chai':
-        specifier: catalog:legacy
-        version: 4.3.17
-      '@types/mocha':
-        specifier: catalog:legacy
-        version: 10.0.7
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
-      '@types/sinon':
-        specifier: catalog:legacy
-        version: 17.0.3
-      '@types/uuid':
-        specifier: ^10.0.0
-        version: 10.0.0
-      chai:
-        specifier: catalog:legacy
-        version: 4.5.0
+      '@vitest/browser':
+        specifier: 'catalog:'
+        version: 2.1.4(@types/node@18.19.45)(playwright@1.46.1)(typescript@5.6.3)(vite@5.4.8(@types/node@18.19.45))(vitest@2.1.4)
+      '@vitest/coverage-istanbul':
+        specifier: 'catalog:'
+        version: 2.1.4(vitest@2.1.4)
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      karma:
-        specifier: catalog:legacy
-        version: 6.4.4
-      karma-chrome-launcher:
-        specifier: catalog:legacy
-        version: 3.2.0
-      karma-coverage:
-        specifier: catalog:legacy
-        version: 2.2.1
-      karma-env-preprocessor:
-        specifier: catalog:legacy
-        version: 0.1.1
-      karma-firefox-launcher:
-        specifier: catalog:legacy
-        version: 1.3.0
-      karma-junit-reporter:
-        specifier: catalog:legacy
-        version: 2.0.1(karma@6.4.4)
-      karma-mocha:
-        specifier: catalog:legacy
-        version: 2.0.1
-      karma-mocha-reporter:
-        specifier: catalog:legacy
-        version: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader:
-        specifier: catalog:legacy
-        version: 0.3.8
-      mocha:
-        specifier: catalog:legacy
-        version: 10.7.3
-      nyc:
-        specifier: catalog:legacy
-        version: 17.0.0
-      sinon:
-        specifier: catalog:legacy
-        version: 19.0.2
+      playwright:
+        specifier: 'catalog:'
+        version: 1.46.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
+      vitest:
+        specifier: 'catalog:'
+        version: 2.1.4(@types/node@18.19.45)(@vitest/browser@2.1.4)(msw@2.6.0(@types/node@18.19.45)(typescript@5.6.3))
 
   sdk/communication/communication-toll-free-verification:
     dependencies:
@@ -5235,11 +4992,11 @@ importers:
         version: 2.7.0
     devDependencies:
       '@azure-tools/test-recorder':
-        specifier: catalog:test-recorderV3
-        version: 3.5.2
-      '@azure-tools/test-utils':
         specifier: workspace:*
-        version: link:../../test-utils/test-utils
+        version: link:../../test-utils/recorder
+      '@azure-tools/test-utils-vitest':
+        specifier: workspace:*
+        version: link:../../test-utils/test-utils-vitest
       '@azure/dev-tool':
         specifier: workspace:*
         version: link:../../../common/tools/dev-tool
@@ -5249,66 +5006,30 @@ importers:
       '@azure/identity':
         specifier: catalog:internal
         version: 4.5.0
-      '@types/chai':
-        specifier: catalog:legacy
-        version: 4.3.17
-      '@types/mocha':
-        specifier: catalog:legacy
-        version: 10.0.7
       '@types/node':
         specifier: 'catalog:'
         version: 18.19.45
-      '@types/sinon':
-        specifier: catalog:legacy
-        version: 17.0.3
-      chai:
-        specifier: catalog:legacy
-        version: 4.5.0
+      '@vitest/browser':
+        specifier: 'catalog:'
+        version: 2.1.4(@types/node@18.19.45)(playwright@1.46.1)(typescript@5.6.3)(vite@5.4.8(@types/node@18.19.45))(vitest@2.1.4)
+      '@vitest/coverage-istanbul':
+        specifier: 'catalog:'
+        version: 2.1.4(vitest@2.1.4)
       dotenv:
         specifier: 'catalog:'
         version: 16.4.5
       eslint:
         specifier: 'catalog:'
         version: 9.12.0
-      karma:
-        specifier: catalog:legacy
-        version: 6.4.4
-      karma-chrome-launcher:
-        specifier: catalog:legacy
-        version: 3.2.0
-      karma-coverage:
-        specifier: catalog:legacy
-        version: 2.2.1
-      karma-env-preprocessor:
-        specifier: catalog:legacy
-        version: 0.1.1
-      karma-firefox-launcher:
-        specifier: catalog:legacy
-        version: 1.3.0
-      karma-junit-reporter:
-        specifier: catalog:legacy
-        version: 2.0.1(karma@6.4.4)
-      karma-mocha:
-        specifier: catalog:legacy
-        version: 2.0.1
-      karma-mocha-reporter:
-        specifier: catalog:legacy
-        version: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader:
-        specifier: catalog:legacy
-        version: 0.3.8
-      mocha:
-        specifier: catalog:legacy
-        version: 10.7.3
-      nyc:
-        specifier: catalog:legacy
-        version: 17.0.0
-      sinon:
-        specifier: catalog:legacy
-        version: 19.0.2
+      playwright:
+        specifier: 'catalog:'
+        version: 1.46.1
       typescript:
         specifier: 'catalog:'
         version: 5.6.3
+      vitest:
+        specifier: 'catalog:'
+        version: 2.1.4(@types/node@18.19.45)(@vitest/browser@2.1.4)(msw@2.6.0(@types/node@18.19.45)(typescript@5.6.3))
 
   sdk/compute/arm-compute:
     dependencies:
@@ -15492,9 +15213,12 @@ importers:
       '@azure/core-rest-pipeline':
         specifier: workspace:*
         version: link:../../core/core-rest-pipeline
+      '@azure/logger':
+        specifier: workspace:*
+        version: link:../../core/logger
       '@azure/maps-common':
-        specifier: 1.0.0-beta.2
-        version: 1.0.0-beta.2
+        specifier: workspace:*
+        version: link:../maps-common
       tslib:
         specifier: 'catalog:'
         version: 2.7.0
@@ -26706,14 +26430,6 @@ packages:
     resolution: {integrity: sha512-iba1BroEL/PY1ZZg8SiqFkjB/NsXbgBCOIkOzp9pfWrukyuh96IDZCbRL+ASN2lWkXrZgbg9uuZ4zlX28xMYTQ==}
     engines: {node: '>=18.0.0'}
 
-  '@azure/communication-common@2.3.1':
-    resolution: {integrity: sha512-6ZQt20iMZbyckQn4m1TDwiDv3Fzyt1h4lnQ1szBBns2x3VQY9XHbnskPtvUdwK/HT+c/1PoUwof3toy1AIznbQ==}
-    engines: {node: '>=18.0.0'}
-
-  '@azure/communication-identity@1.3.1':
-    resolution: {integrity: sha512-S54UTeEM3SbUNGFeGcGQEw64KLUu8CmZi2/2hRu3sy6Rx2i4Y8aL+ITlGC7bOm2v5rKELD5PoXAVYDJxVCJN1w==}
-    engines: {node: '>=18.0.0'}
-
   '@azure/communication-signaling@1.0.0-beta.29':
     resolution: {integrity: sha512-bTNxJaS000wjtbLlH/nju3Off9uSybYeRVLvx1Y5k3ajb1rqVGUcsIduSEz1JBf+dRQx9pHRDCAEAXs/hOvzpg==}
     engines: {node: '>=8.0.0'}
@@ -32388,35 +32104,6 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@azure/communication-common@2.3.1':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-auth': 1.9.0
-      '@azure/core-rest-pipeline': 1.17.0
-      '@azure/core-tracing': 1.2.0
-      '@azure/core-util': 1.11.0
-      events: 3.3.0
-      jwt-decode: 4.0.0
-      tslib: 2.7.0
-    transitivePeerDependencies:
-      - supports-color
-
-  '@azure/communication-identity@1.3.1':
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/communication-common': 2.3.1
-      '@azure/core-auth': 1.7.2
-      '@azure/core-client': 1.9.2
-      '@azure/core-lro': 2.7.2
-      '@azure/core-paging': 1.6.2
-      '@azure/core-rest-pipeline': 1.16.3
-      '@azure/core-tracing': 1.1.2
-      '@azure/logger': 1.1.4
-      events: 3.3.0
-      tslib: 2.7.0
-    transitivePeerDependencies:
-      - supports-color
-
   '@azure/communication-signaling@1.0.0-beta.29':
     dependencies:
       '@azure/abort-controller': 1.1.0
@@ -34601,7 +34288,7 @@ snapshots:
   '@vitest/snapshot@2.1.2':
     dependencies:
       '@vitest/pretty-format': 2.1.2
-      magic-string: 0.30.11
+      magic-string: 0.30.12
       pathe: 1.1.2
 
   '@vitest/snapshot@2.1.4':
