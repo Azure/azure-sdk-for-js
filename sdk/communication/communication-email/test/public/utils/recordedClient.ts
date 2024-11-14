@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { SanitizerOptions } from "@azure-tools/test-recorder";
+import type { SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import { EmailClient } from "../../../src/index.js";
 
@@ -45,7 +45,7 @@ const sanitizerOptions: SanitizerOptions = {
   ],
 };
 
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start({ envSetupForPlayback });
   await recorder.addSanitizers(sanitizerOptions, ["record", "playback"]);
@@ -59,9 +59,9 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedEmailClientWithConnectionString(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedEmailClient> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   const client = new EmailClient(
     env.COMMUNICATION_CONNECTION_STRING_EMAIL ?? "",
