@@ -9,33 +9,48 @@ import {
   CALL_TARGET_ID,
   CALL_TARGET_ID_2,
 } from "./utils/connectionUtils.js";
-import type { CommunicationIdentifier } from "@azure/communication-common";
-import type { CallInvite, CallConnection } from "../src/index.js";
+import type {
+  CommunicationIdentifier,
+  CommunicationUserIdentifier,
+  MicrosoftTeamsAppIdentifier,
+} from "@azure/communication-common";
+import type {
+  CallInvite,
+  CallConnection,
+  CreateCallOptions,
+  AnswerCallOptions,
+} from "../src/index.js";
+import { CallAutomationClient } from "../src/index.js";
+import {
+  createRecorder,
+  createTestUser,
+  dispatcherCallback,
+  serviceBusWithNewCall,
+  createCallAutomationClient,
+  waitForIncomingCallContext,
+  waitForEvent,
+  events,
+  serviceBusReceivers,
+  incomingCallContexts,
+  loadPersistedEvents,
+  persistEvents,
+} from "./utils/recordedClient.js";
 import type {
   AnswerCallEventResult,
   CreateCallEventResult,
 } from "../src/eventprocessor/eventResponses.js";
 import { randomUUID } from "@azure/core-util";
-import type { MockedObject } from "vitest";
-import { describe, it, assert, expect, vi, beforeEach } from "vitest";
+import { KnownCommunicationCloudEnvironmentModel } from "../src/generated/src/index.js";
 
-vi.mock(import("../src/index.js"), async (importOriginal) => {
-  const mod = await importOriginal();
+function createOPSCallAutomationClient(
+  oPSSourceIdentity: MicrosoftTeamsAppIdentifier,
+): CallAutomationClient {
+  const connectionString = "endpoint=https://redacted.communication.azure.com/;accesskey=redacted";
 
-  const CallAutomationClient = vi.fn();
-  CallAutomationClient.prototype.createCall = vi.fn();
-  CallAutomationClient.prototype.createGroupCall = vi.fn();
-  CallAutomationClient.prototype.answerCall = vi.fn();
-  CallAutomationClient.prototype.redirectCall = vi.fn();
-  CallAutomationClient.prototype.rejectCall = vi.fn();
-
-  return {
-    ...mod,
-    CallAutomationClient,
-  };
-});
-
-import { CallAutomationClient } from "../src/index.js";
+  return new CallAutomationClient(connectionString, {
+    opsSourceIdentity: oPSSourceIdentity,
+  });
+}
 
 describe("Call Automation Client Unit Tests", () => {
   let targets: CommunicationIdentifier[];
@@ -117,6 +132,57 @@ describe("Call Automation Client Unit Tests", () => {
     assert.isNotNull(result);
     expect(client.createGroupCall).toHaveBeenCalledWith(targets, CALL_CALLBACK_URL);
     assert.equal(result, createGroupCallResultMock);
+  });
+
+  it("CreateOPSCall", async () => {
+    // defined dummy variables
+    const appId = "28:acs:redacted";
+    const appCloud = KnownCommunicationCloudEnvironmentModel.Public;
+    const oPSSouceStub = {
+      teamsAppId: appId,
+      cloud: appCloud,
+    };
+
+    // stub an OPS CallAutomationClient
+    const createOPSClientStub = Sinon.stub().callsFake(() =>
+      createOPSCallAutomationClient(oPSSouceStub),
+    );
+
+    // Use the stubbed factory function to create the client
+    const oPSClient: SinonStubbedInstance<CallAutomationClient> & CallAutomationClient =
+      createOPSClientStub();
+
+    // Explicitly stub the createCall method
+    oPSClient.createCall = Sinon.stub();
+
+    // mocks
+    const createCallResultMock: CreateCallResult = {
+      callConnectionProperties: {
+        source: {
+          rawId: appId,
+          teamsAppId: appId,
+          cloud: appCloud,
+        } as MicrosoftTeamsAppIdentifier,
+      } as CallConnectionProperties,
+      callConnection: {} as CallConnection,
+      waitForEventProcessor: async () => {
+        return {} as CreateCallEventResult;
+      },
+    };
+
+    (oPSClient.createCall as Sinon.SinonStub).returns(Promise.resolve(createCallResultMock));
+
+    const promiseResult = oPSClient.createCall(target, CALL_CALLBACK_URL);
+
+    // asserts
+    promiseResult
+      .then((result: CreateCallResult) => {
+        assert.isNotNull(result);
+        assert.isTrue(oPSClient.createCall.calledWith(target, CALL_CALLBACK_URL));
+        assert.equal(result, createCallResultMock);
+        return;
+      })
+      .catch((error) => console.error(error));
   });
 
   it("AnswerCall", async () => {

@@ -43,8 +43,6 @@
   },
   "files": [
     "dist/",
-    "dist-esm/src/",
-    "types/latest/",
     "README.md",
     "LICENSE"
   ],
