@@ -30,7 +30,6 @@
   "devDependencies": {
     "@microsoft/api-extractor": "^7.31.1",
     "typescript": "~5.6.2",
-    "uglify-js": "^3.4.9",
     "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^4.2.1",
@@ -41,7 +40,6 @@
     "tsx": "^4.7.1",
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
     "@types/node": "^18.0.0",
     "ts-node": "^10.0.0"
   },
