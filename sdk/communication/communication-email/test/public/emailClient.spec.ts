@@ -1,24 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EmailClient, EmailMessage } from "../../src";
-import { KnownEmailSendStatus } from "../../src";
+import type { EmailClient, EmailMessage } from "../../src/index.js";
+import { KnownEmailSendStatus } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import type { Context } from "mocha";
 import { assert } from "chai";
-import { createRecordedEmailClientWithConnectionString } from "./utils/recordedClient";
+import { createRecordedEmailClientWithConnectionString } from "./utils/recordedClient.js";
 
 describe(`EmailClient [Playback/Live]`, function () {
   let recorder: Recorder;
   let client: EmailClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     ({ client, recorder } = await createRecordedEmailClientWithConnectionString(this));
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+  afterEach(async function (ctx) {
+    if (!ctx.task.pending) {
       await recorder.stop();
     }
   });
