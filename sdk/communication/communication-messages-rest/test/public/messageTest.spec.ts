@@ -3,9 +3,7 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createRecorderWithConnectionString } from "./utils/recordedClient.js";
-import type { Context } from "mocha";
 import type {
   MessagesServiceClient,
   Send202Response,
@@ -18,6 +16,7 @@ import type {
   VideoNotificationContent,
   DocumentNotificationContent,
 } from "../../src/generated/src/index.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Notification Messages Test", () => {
   let recorder: Recorder;
