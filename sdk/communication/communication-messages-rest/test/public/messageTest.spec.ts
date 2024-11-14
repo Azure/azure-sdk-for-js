@@ -16,23 +16,23 @@ import type {
   VideoNotificationContent,
   DocumentNotificationContent,
 } from "../../src/generated/src/index.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Notification Messages Test", () => {
   let recorder: Recorder;
   let client: MessagesServiceClient;
 
-  beforeEach(async function (ctx) {
-    ({ client, recorder } = await createRecorderWithConnectionString(this));
+  beforeEach(async (ctx) => {
+    ({ client, recorder } = await createRecorderWithConnectionString(ctx));
   });
 
-  afterEach(async function () {
+  afterEach(async (ctx) => {
     if (!ctx.task.pending) {
       await recorder.stop();
     }
   });
 
-  it("send simple text message test", async function () {
+  it("send simple text message test", async () => {
     const result = await client.path("/messages/notifications:send").post({
       contentType: "application/json",
       body: {
@@ -48,7 +48,7 @@ describe("Notification Messages Test", () => {
     assert.isDefined(response.body.receipts[0].messageId);
   });
 
-  it("send document message test", async function () {
+  it("send document message test", async () => {
     const documentMessage: DocumentNotificationContent = {
       kind: "document",
       mediaUri: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
@@ -66,7 +66,7 @@ describe("Notification Messages Test", () => {
     assert.isDefined(response.body.receipts[0].messageId);
   });
 
-  it("send video message test", async function () {
+  it("send video message test", async () => {
     const videoMessage: VideoNotificationContent = {
       kind: "video",
       mediaUri: "https://sample-videos.com/video321/mp4/480/big_buck_bunny_480p_1mb.mp4",
@@ -84,7 +84,7 @@ describe("Notification Messages Test", () => {
     assert.isDefined(response.body.receipts[0].messageId);
   });
 
-  it("send audio message test", async function () {
+  it("send audio message test", async () => {
     const audioMessage: AudioNotificationContent = {
       kind: "audio",
       mediaUri: "https://sample-videos.com/audio/mp3/wave.mp3",
@@ -102,7 +102,7 @@ describe("Notification Messages Test", () => {
     assert.isDefined(response.body.receipts[0].messageId);
   });
 
-  it("send image message test", async function () {
+  it("send image message test", async () => {
     const imageMessage: ImageNotificationContent = {
       kind: "image",
       mediaUri: "https://www.w3schools.com/w3css/img_lights.jpg",
@@ -121,7 +121,7 @@ describe("Notification Messages Test", () => {
     assert.isDefined(response.body.receipts[0].messageId);
   });
 
-  it("send simple text template message test", async function () {
+  it("send simple text template message test", async () => {
     const DaysTemplateValue: MessageTemplateValue = {
       kind: "text",
       name: "Days",
@@ -159,7 +159,7 @@ describe("Notification Messages Test", () => {
     assert.isDefined(response.body.receipts[0].messageId);
   });
 
-  it("send template message with video test", async function () {
+  it("send template message with video test", async () => {
     const HeaderVideo: MessageTemplateValue = {
       kind: "video",
       name: "HappyHourVideo",
@@ -217,7 +217,7 @@ describe("Notification Messages Test", () => {
     assert.isDefined(response.body.receipts[0].messageId);
   });
 
-  it("send template message with image test", async function () {
+  it("send template message with image test", async () => {
     const HeaderImage: MessageTemplateValue = {
       kind: "image",
       name: "CompanyPhoto",
@@ -266,7 +266,7 @@ describe("Notification Messages Test", () => {
     assert.isDefined(response.body.receipts[0].messageId);
   });
 
-  it("send template message with document test", async function () {
+  it("send template message with document test", async () => {
     const HeaderDoc: MessageTemplateValue = {
       kind: "document",
       name: "BoardingPass",
@@ -333,7 +333,7 @@ describe("Notification Messages Test", () => {
     assert.isDefined(response.body.receipts[0].messageId);
   });
 
-  it("send template message with quick reply buttons test", async function () {
+  it("send template message with quick reply buttons test", async () => {
     const NameTemplateValue: MessageTemplateValue = {
       kind: "text",
       name: "NameValue",
@@ -398,17 +398,17 @@ describe("Message Template Read Test", () => {
   let recorder: Recorder;
   let client: MessagesServiceClient;
 
-  beforeEach(async function (ctx) {
-    ({ client, recorder } = await createRecorderWithConnectionString(this));
+  beforeEach(async (ctx) => {
+    ({ client, recorder } = await createRecorderWithConnectionString(ctx));
   });
 
-  afterEach(async function () {
+  afterEach(async (ctx) => {
     if (!ctx.task.pending) {
       await recorder.stop();
     }
   });
 
-  it("get template test", async function () {
+  it("get template test", async () => {
     const result = await client
       .path("/messages/channels/{channelId}/templates", env.CHANNEL_ID || "")
       .get();
