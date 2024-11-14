@@ -25,7 +25,7 @@ $sshKey = Get-Content $PSScriptRoot/sshKey.pub
 $templateFileParameters['sshPubKey'] = $sshKey
 
 # Get the max version that is not preview and then get the name of the patch version with the max value
-$latestAksVersion = Get-AzAksVersion -Location westus | Where-Object { $_.isPreview -eq $null } | Select-Object -ExpandProperty OrchestratorVersion | Sort-Object -Descending | Select-Object -First 1
+$latestAksVersion = Get-AzAksVersion -Location westus2 | Where-Object { $_.isPreview -eq $null } | Select-Object -ExpandProperty OrchestratorVersion | Sort-Object -Descending | Select-Object -First 1
 Write-Host "Latest AKS version: $latestAksVersion"
 $templateFileParameters['latestAksVersion'] = $latestAksVersion
 
