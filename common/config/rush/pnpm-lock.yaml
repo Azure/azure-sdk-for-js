@@ -19237,7 +19237,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-5LLJCERriFc6PMsBRCH2FAYffKFHxBTudi1OCbylAy5IUtqtIwzPME18A0VE/ixM90FkKYtJUc9vnIn9+8cfWA==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-xPt7oEFIEnDcZHXkEsgPlaOBwbjSF6dQq4uDtXsp/yeslQgiTdGNnO5bUMfuqpTTiiwSsXCyCKEy2FmmrcRHLw==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
@@ -19247,6 +19247,8 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       autorest: 3.7.1
       chai: 4.3.10
       dotenv: 16.4.5
@@ -19263,18 +19265,32 @@ packages:
       karma-sourcemap-loader: 0.4.0
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.48.2
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/communication-messages.tgz:
