@@ -5,13 +5,13 @@ import type {
   CommunicationAccessToken,
   CommunicationIdentityClient,
   GetTokenForTeamsUserOptions,
-} from "../../../src";
+} from "../../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
-} from "../utils/recordedClient";
+} from "../utils/recordedClient.js";
 import { PublicClientApplication } from "@azure/msal-node";
 import { matrix } from "@azure-tools/test-utils";
 import type { Context } from "mocha";
@@ -28,17 +28,17 @@ matrix([[true, false]], async function (useAad) {
       userObjectId: sanitizedValue,
     };
 
-    before(async function (this: Context) {
+    before(async function (ctx) {
       const skipTests = env.SKIP_INT_IDENTITY_EXCHANGE_TOKEN_TEST === "true";
       if (skipTests) {
-        this.skip();
+        ctx.skip();
       }
       if (!isPlaybackMode()) {
         options = await fetchParamsForGetTokenForTeamsUser();
       }
     });
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       if (useAad) {
         ({ client, recorder } = await createRecordedCommunicationIdentityClientWithToken(this));
       } else {
@@ -46,8 +46,8 @@ matrix([[true, false]], async function (useAad) {
       }
     });
 
-    afterEach(async function (this: Context) {
-      if (!this.currentTest?.isPending()) {
+    afterEach(async function (ctx) {
+      if (!ctx.task.pending) {
         await recorder.stop();
       }
     });

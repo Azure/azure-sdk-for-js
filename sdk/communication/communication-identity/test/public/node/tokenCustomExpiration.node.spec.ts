@@ -7,12 +7,12 @@ import { isLiveMode } from "@azure-tools/test-recorder";
 import type { Context } from "mocha";
 import { assert } from "chai";
 import { matrix } from "@azure-tools/test-utils";
-import type { CommunicationIdentityClient } from "../../../src/communicationIdentityClient";
+import type { CommunicationIdentityClient } from "../../../src/communicationIdentityClient.js";
 import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
-} from "../utils/recordedClient";
-import type { CreateUserAndTokenOptions, GetTokenOptions } from "../../../src/models";
+} from "../utils/recordedClient.js";
+import type { CreateUserAndTokenOptions, GetTokenOptions } from "../../../src/models.js";
 
 matrix([[true, false]], async function (useAad: boolean) {
   describe(`Get Token With Custom Expiration [Playback/Live]${
@@ -22,7 +22,7 @@ matrix([[true, false]], async function (useAad: boolean) {
     let recorder: Recorder;
     let client: CommunicationIdentityClient;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       if (useAad) {
         ({ client, recorder } = await createRecordedCommunicationIdentityClientWithToken(this));
       } else {
@@ -30,8 +30,8 @@ matrix([[true, false]], async function (useAad: boolean) {
       }
     });
 
-    afterEach(async function (this: Context) {
-      if (!this.currentTest?.isPending()) {
+    afterEach(async function (ctx) {
+      if (!ctx.task.pending) {
         await recorder.stop();
       }
     });

@@ -8,8 +8,8 @@ import { isPlaybackMode } from "@azure-tools/test-recorder";
 import {
   createRecordedCommunicationIdentityClient,
   createRecordedCommunicationIdentityClientWithToken,
-} from "./utils/recordedClient";
-import type { CommunicationIdentityClient, TokenScope } from "../../src";
+} from "./utils/recordedClient.js";
+import type { CommunicationIdentityClient, TokenScope } from "../../src/index.js";
 import type { Context } from "mocha";
 import { assert } from "chai";
 import { matrix } from "@azure-tools/test-utils";
@@ -33,7 +33,7 @@ matrix([[true, false]], async function (useAad: boolean) {
       { scopes: ["chat.join", "voip.join"], description: "ChatJoinVoipJoinScopes" },
     ];
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       if (useAad) {
         ({ client, recorder } = await createRecordedCommunicationIdentityClientWithToken(this));
       } else {
@@ -41,8 +41,8 @@ matrix([[true, false]], async function (useAad: boolean) {
       }
     });
 
-    afterEach(async function (this: Context) {
-      if (!this.currentTest?.isPending()) {
+    afterEach(async function (ctx) {
+      if (!ctx.task.pending) {
         await recorder.stop();
       }
     });

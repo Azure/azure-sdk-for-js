@@ -3,9 +3,9 @@
 
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import { isCommunicationUserIdentifier } from "@azure/communication-common";
-import { getTokenForTeamsUserHttpClient, getTokenHttpClient } from "./utils/mockHttpClients";
-import { CommunicationIdentityClient } from "../../src";
-import { TestCommunicationIdentityClient } from "./utils/testCommunicationIdentityClient";
+import { getTokenForTeamsUserHttpClient, getTokenHttpClient } from "./utils/mockHttpClients.js";
+import { CommunicationIdentityClient } from "../../src/index.js";
+import { TestCommunicationIdentityClient } from "./utils/testCommunicationIdentityClient.js";
 import { assert } from "chai";
 import { isNode } from "@azure/core-util";
 import sinon from "sinon";
