@@ -14,8 +14,7 @@ import {
 } from "../utils/recordedClient.js";
 import { PublicClientApplication } from "@azure/msal-node";
 import { matrix } from "@azure-tools/test-utils";
-import type { Context } from "mocha";
-import { assert } from "chai";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 matrix([[true, false]], async function (useAad) {
   describe(`Get Token For Teams User [Playback/Live]${useAad ? " [AAD]" : ""}`, function () {
