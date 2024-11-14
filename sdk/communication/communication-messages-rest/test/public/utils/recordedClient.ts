@@ -4,8 +4,8 @@
 import type { Context, Test } from "mocha";
 import type { RecorderStartOptions, SanitizerOptions } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import type { MessagesServiceClient } from "../../../src";
-import MessageClient from "../../../src";
+import type { MessagesServiceClient } from "../../../src/index.js";
+import MessageClient from "../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
 import type { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";

@@ -4,7 +4,7 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createRecorderWithConnectionString } from "./utils/recordedClient";
+import { createRecorderWithConnectionString } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
 import type {
   MessagesServiceClient,
@@ -17,18 +17,18 @@ import type {
   AudioNotificationContent,
   VideoNotificationContent,
   DocumentNotificationContent,
-} from "../../src/generated/src";
+} from "../../src/generated/src/index.js";
 
 describe("Notification Messages Test", () => {
   let recorder: Recorder;
   let client: MessagesServiceClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     ({ client, recorder } = await createRecorderWithConnectionString(this));
   });
 
   afterEach(async function () {
-    if (!this.currentTest?.isPending()) {
+    if (!ctx.task.pending) {
       await recorder.stop();
     }
   });
@@ -399,12 +399,12 @@ describe("Message Template Read Test", () => {
   let recorder: Recorder;
   let client: MessagesServiceClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     ({ client, recorder } = await createRecorderWithConnectionString(this));
   });
 
   afterEach(async function () {
-    if (!this.currentTest?.isPending()) {
+    if (!ctx.task.pending) {
       await recorder.stop();
     }
   });
