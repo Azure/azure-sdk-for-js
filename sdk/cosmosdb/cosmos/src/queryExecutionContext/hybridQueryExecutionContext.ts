@@ -450,35 +450,68 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       }
       return {
         ...queryInfo,
-        rewrittenQuery: this.replacePlaceholders(queryInfo.rewrittenQuery, globalStats),
+        rewrittenQuery: this.replacePlaceholdersWorkaroud(
+          queryInfo.rewrittenQuery,
+          globalStats,
+          componentQueryInfos.length,
+        ),
         orderByExpressions: queryInfo.orderByExpressions.map((expr) =>
-          this.replacePlaceholders(expr, globalStats),
+          this.replacePlaceholdersWorkaroud(expr, globalStats, componentQueryInfos.length),
         ),
       };
     });
   }
+  // This method is commented currently, but we will switch back to using this
+  // once the gateway has been redeployed with the fix for placeholder indexes
+  // private replacePlaceholders(query: string, globalStats: GlobalStatistics): string {
+  //   // Replace total document count
+  //   query = query.replace(
+  //     new RegExp(`{${this.TOTAL_DOCUMENT_COUNT_PLACEHOLDER}}`, "g"),
+  //     globalStats.documentCount.toString(),
+  //   );
 
-  private replacePlaceholders(query: string, globalStats: GlobalStatistics): string {
+  //   // Replace total word counts and hit counts from fullTextStatistics
+  //   globalStats.fullTextStatistics.forEach((stats, index) => {
+  //     // Replace total word counts
+  //     query = query.replace(
+  //       new RegExp(`{${this.TOTAL_WORD_COUNT_PLACEHOLDER}-${index}}`, "g"),
+  //       stats.totalWordCount.toString(),
+  //     );
+  //     // Replace hit counts
+  //     query = query.replace(
+  //       new RegExp(`{${this.HIT_COUNTS_ARRAY_PLACEHOLDER}-${index}}`, "g"),
+  //       `[${stats.hitCounts.join(",")}]`,
+  //     );
+  //   });
+
+  //   return query;
+  // }
+
+  private replacePlaceholdersWorkaroud(
+    query: string,
+    globalStats: GlobalStatistics,
+    componentCount: number,
+  ): string {
     // Replace total document count
     query = query.replace(
       new RegExp(`{${this.TOTAL_DOCUMENT_COUNT_PLACEHOLDER}}`, "g"),
       globalStats.documentCount.toString(),
     );
-
-    // Replace total word counts and hit counts from fullTextStatistics
-    globalStats.fullTextStatistics.forEach((stats, index) => {
+    let statisticsIndex: number = 0;
+    for (let i = 0; i < componentCount; i++) {
+      // Replace total word counts and hit counts from fullTextStatistics
+      const wordCountPlaceholder = `{${this.TOTAL_WORD_COUNT_PLACEHOLDER}-${i}}`;
+      const hitCountPlaceholder = `{${this.HIT_COUNTS_ARRAY_PLACEHOLDER}-${i}}`;
+      if (!query.includes(wordCountPlaceholder)) {
+        continue;
+      }
+      const stats = globalStats.fullTextStatistics[statisticsIndex];
       // Replace total word counts
-      query = query.replace(
-        new RegExp(`{${this.TOTAL_WORD_COUNT_PLACEHOLDER}-${index}}`, "g"),
-        stats.totalWordCount.toString(),
-      );
+      query = query.replace(new RegExp(wordCountPlaceholder, "g"), stats.totalWordCount.toString());
       // Replace hit counts
-      query = query.replace(
-        new RegExp(`{${this.HIT_COUNTS_ARRAY_PLACEHOLDER}-${index}}`, "g"),
-        `[${stats.hitCounts.join(",")}]`,
-      );
-    });
-
+      query = query.replace(new RegExp(hitCountPlaceholder, "g"), `[${stats.hitCounts.join(",")}]`);
+      statisticsIndex++;
+    }
     return query;
   }
 }
