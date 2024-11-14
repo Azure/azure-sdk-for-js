@@ -15110,6 +15110,9 @@ importers:
       '@azure/core-rest-pipeline':
         specifier: workspace:*
         version: link:../../core/core-rest-pipeline
+      '@azure/logger':
+        specifier: workspace:*
+        version: link:../../core/logger
       '@azure/maps-common':
         specifier: workspace:*
         version: link:../maps-common

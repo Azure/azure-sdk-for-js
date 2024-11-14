@@ -64,6 +64,7 @@
     "@azure/core-auth": "workspace:*",
     "@azure/core-rest-pipeline": "workspace:*",
     "@azure/maps-common": "workspace:*",
+    "@azure/logger": "workspace:*",
     "tslib": "catalog:"
   },
   "devDependencies": {
