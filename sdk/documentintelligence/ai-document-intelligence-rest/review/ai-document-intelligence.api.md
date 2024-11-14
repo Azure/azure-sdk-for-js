@@ -4,22 +4,20 @@
 
 ```ts
 
-import type { AbortSignalLike } from '@azure/abort-controller';
-import type { CancelOnProgress } from '@azure/core-lro';
-import type { Client } from '@azure-rest/core-client';
-import type { ClientOptions } from '@azure-rest/core-client';
-import type { CreateHttpPollerOptions } from '@azure/core-lro';
-import type { HttpResponse } from '@azure-rest/core-client';
-import type { KeyCredential } from '@azure/core-auth';
-import type { OperationState } from '@azure/core-lro';
-import type { Paged } from '@azure/core-paging';
-import type { PagedAsyncIterableIterator } from '@azure/core-paging';
-import type { PathUncheckedResponse } from '@azure-rest/core-client';
-import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import type { RequestParameters } from '@azure-rest/core-client';
-import type { StreamableMethod } from '@azure-rest/core-client';
-import type { TokenCredential } from '@azure/core-auth';
+import { AbortSignalLike } from '@azure/abort-controller';
+import { CancelOnProgress } from '@azure/core-lro';
+import { Client } from '@azure-rest/core-client';
+import { ClientOptions } from '@azure-rest/core-client';
+import { CreateHttpPollerOptions } from '@azure/core-lro';
+import { HttpResponse } from '@azure-rest/core-client';
+import { KeyCredential } from '@azure/core-auth';
+import { OperationState } from '@azure/core-lro';
+import { PathUncheckedResponse } from '@azure-rest/core-client';
+import { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AddressValueOutput {
@@ -127,6 +125,7 @@ export interface AnalyzeBatchResultOperationOutput {
     lastUpdatedDateTime: string;
     percentCompleted?: number;
     result?: AnalyzeBatchResultOutput;
+    resultId?: string;
     status: OperationStatusOutput;
 }
 
@@ -1792,7 +1791,7 @@ export interface GetOperationHeaders {
 export type GetOperationParameters = GetOperationHeaderParam & RequestParameters;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
@@ -2108,16 +2107,40 @@ export type OperationKindOutput = string;
 export type OperationStatusOutput = string;
 
 // @public
-export type PagedAnalyzeBatchResultOperationOutput = Paged<AnalyzeBatchResultOperationOutput>;
+export interface PagedAnalyzeBatchResultOperationOutput {
+    nextLink?: string;
+    value: Array<AnalyzeBatchResultOperationOutput>;
+}
 
 // @public
-export type PagedDocumentClassifierDetailsOutput = Paged<DocumentClassifierDetailsOutput>;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
 
 // @public
-export type PagedDocumentModelDetailsOutput = Paged<DocumentModelDetailsOutput>;
+export interface PagedDocumentClassifierDetailsOutput {
+    nextLink?: string;
+    value: Array<DocumentClassifierDetailsOutput>;
+}
 
 // @public
-export type PagedOperationDetailsOutput = Paged<OperationDetailsOutput>;
+export interface PagedDocumentModelDetailsOutput {
+    nextLink?: string;
+    value: Array<DocumentModelDetailsOutput>;
+}
+
+// @public
+export interface PagedOperationDetailsOutput {
+    nextLink?: string;
+    value: Array<OperationDetailsOutput>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -2136,13 +2159,6 @@ export interface PagingOptions<TResponse> {
 
 // @public
 export type ParagraphRoleOutput = string;
-
-// @public
-export function parseOperationIdFromResponse(initialResponse: {
-    headers: {
-        "operation-location": string;
-    };
-}): string;
 
 // @public
 export interface ResourceDetailsOutput {
