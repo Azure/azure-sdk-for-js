@@ -55,7 +55,7 @@ export function imageVersionPropertiesDeserializer(item: any): ImageVersionPrope
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource { }
+export interface ProxyResource extends Resource {}
 
 export function proxyResourceDeserializer(item: any): ProxyResource {
   return {
@@ -422,13 +422,13 @@ export function resourceSkuRestrictionInfoDeserializer(item: any): ResourceSkuRe
     locations: !item["locations"]
       ? item["locations"]
       : item["locations"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     zones: !item["zones"]
       ? item["zones"]
       : item["zones"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -768,8 +768,8 @@ export function gitHubOrganizationSerializer(item: GitHubOrganization): any {
     repositories: !item["repositories"]
       ? item["repositories"]
       : item["repositories"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -779,8 +779,8 @@ export function gitHubOrganizationDeserializer(item: any): GitHubOrganization {
     repositories: !item["repositories"]
       ? item["repositories"]
       : item["repositories"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -846,8 +846,8 @@ export function organizationSerializer(item: Organization): any {
     projects: !item["projects"]
       ? item["projects"]
       : item["projects"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     parallelism: item["parallelism"],
   };
 }
@@ -858,8 +858,8 @@ export function organizationDeserializer(item: any): Organization {
     projects: !item["projects"]
       ? item["projects"]
       : item["projects"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     parallelism: item["parallelism"],
   };
 }
@@ -880,13 +880,13 @@ export function azureDevOpsPermissionProfileSerializer(item: AzureDevOpsPermissi
     users: !item["users"]
       ? item["users"]
       : item["users"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     groups: !item["groups"]
       ? item["groups"]
       : item["groups"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -896,13 +896,13 @@ export function azureDevOpsPermissionProfileDeserializer(item: any): AzureDevOps
     users: !item["users"]
       ? item["users"]
       : item["users"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     groups: !item["groups"]
       ? item["groups"]
       : item["groups"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
@@ -992,7 +992,7 @@ export function agentProfileUnionDeserializer(item: any): AgentProfileUnion {
 }
 
 /** Defines pool buffer. */
-export interface ResourcePredictions { }
+export interface ResourcePredictions {}
 
 export function resourcePredictionsSerializer(item: ResourcePredictions): any {
   return item;
@@ -1351,8 +1351,8 @@ export function poolImageSerializer(item: PoolImage): any {
     aliases: !item["aliases"]
       ? item["aliases"]
       : item["aliases"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     buffer: item["buffer"],
   };
 }
@@ -1364,8 +1364,8 @@ export function poolImageDeserializer(item: any): PoolImage {
     aliases: !item["aliases"]
       ? item["aliases"]
       : item["aliases"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     buffer: item["buffer"],
   };
 }
