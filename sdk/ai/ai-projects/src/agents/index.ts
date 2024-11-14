@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, RequestParameters } from "@azure-rest/core-client";
+import { Client } from "@azure-rest/core-client";
 import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, OpenAIPageableListOfVectorStoreOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
 import { ListAgentsQueryParamProperties, ListMessagesQueryParamProperties, ListRunsQueryParamProperties, ListVectorStoresQueryParamProperties, SubmitToolOutputsToRunParameters } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
@@ -136,25 +136,25 @@ export interface AgentsOperations {
 
   /** Gets a list of previously uploaded files. */
   listFiles: (
-    purpose?: FilePurpose, requestParams?: RequestParameters
+    purpose?: FilePurpose, requestParams?: OptionalRequestParameters
   ) => Promise<FileListResponseOutput>;
   /** Uploads a file for use by other operations. */
-  uploadFile: (content: ReadableStream |NodeJS.ReadableStream, purpose:string, fileName?: string, requestParams?: RequestParameters   
+  uploadFile: (content: ReadableStream |NodeJS.ReadableStream, purpose:string, fileName?: string, requestParams?: OptionalRequestParameters   
   ) => Promise<OpenAIFileOutput>
   /** Delete a previously uploaded file. */
   deleteFile: (
     fileId: string,
-    requestParams?: RequestParameters
+    requestParams?: OptionalRequestParameters
   ) => Promise<FileDeletionStatusOutput>;
   /** Returns information about a specific file. Does not retrieve file content. */
   getFile: (
     fileId: string,
-    requestParams?: RequestParameters
+    requestParams?: OptionalRequestParameters
   ) => Promise<OpenAIFileOutput>;
   /** Returns the content of a specific file. */
   getFileContent: (
     fileId: string,
-    requestParams?: RequestParameters
+    requestParams?: OptionalRequestParameters
   ) => Promise<string>;
 
   /** Returns a list of vector stores. */
@@ -238,18 +238,18 @@ function getAgents(context: Client): AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) =>
       updateMessage(context, threadId, messageId, {...requestParams, body: {...options}}),
 
-    listFiles: (purpose?: FilePurpose, requestParams?: RequestParameters) =>
+    listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) =>
       listFiles(context, {...requestParams, body: {purpose } }),
-    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, _purpose: string, fileName?: string, requestParams?: RequestParameters) =>
+    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, _purpose: string, fileName?: string, requestParams?: OptionalRequestParameters) =>
       uploadFile(context, {
         body: [{ name: "file" as const, body: content, filename: fileName, }], ...(requestParams as { [key: string]: any; }),
         contentType: "multipart/form-data"
       }),
-    deleteFile: (fileId: string, requestParams?: RequestParameters) =>
+    deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) =>
       deleteFile(context, fileId, requestParams),
-    getFile: (fileId: string, requestParams?: RequestParameters) =>
+    getFile: (fileId: string, requestParams?: OptionalRequestParameters) =>
       getFile(context, fileId, requestParams),
-    getFileContent: (fileId: string, requestParams?: RequestParameters) =>
+    getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) =>
       getFileContent(context, fileId, requestParams),
 
     listVectorStores: (options?: ListVectorStoresQueryParamProperties, requestParams?: OptionalRequestParameters,) =>
