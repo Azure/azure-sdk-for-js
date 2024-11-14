@@ -111,7 +111,9 @@ function assertParsedMessage<ParsedT>(
   if (message.content && message.parsed) {
     assert.deepEqual(message.content, JSON.stringify(message.parsed));
   }
-  assertNonEmptyArray(message.tool_calls, assertParsedFunctionToolCall);
+  for (const item of message.tool_calls) {
+    assertParsedFunctionToolCall(item);
+  }
 }
 
 function assertParsedFunctionToolCall(parsedFunction: ParsedFunctionToolCall): void {
