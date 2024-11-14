@@ -499,7 +499,7 @@ describe("Service Utils", () => {
     const mockVersion = "1.0.0";
     const packageJson = require("../../package.json");
     sandbox.stub(packageJson, "version").value(mockVersion);
-    const version = utils.getReporterVersion();
+    const version = utils.getPackageVersion();
     expect(version).to.equal(mockVersion);
   });
 });

@@ -20,7 +20,7 @@ import {
   validatePlaywrightVersion,
   validateServiceUrl,
   exitWithFailureMessage,
-  getReporterVersion,
+  getPackageVersion,
 } from "../utils/utils";
 
 /**
@@ -102,7 +102,7 @@ const getServiceConfig = (
         ),
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
-          "x-ms-package-version": `@azure/microsoft-playwright-testing/${getReporterVersion()}`,
+          "x-ms-package-version": `@azure/microsoft-playwright-testing/${getPackageVersion()}`,
         },
         timeout: playwrightServiceConfig.timeout,
         exposeNetwork: playwrightServiceConfig.exposeNetwork,
@@ -157,7 +157,7 @@ const getConnectOptions = async (
     options: {
       headers: {
         Authorization: `Bearer ${token}`,
-        "x-ms-package-version": `@azure/microsoft-playwright-testing/${getReporterVersion()}`,
+        "x-ms-package-version": `@azure/microsoft-playwright-testing/${getPackageVersion()}`,
       },
       timeout: playwrightServiceConfig.timeout,
       exposeNetwork: playwrightServiceConfig.exposeNetwork,
