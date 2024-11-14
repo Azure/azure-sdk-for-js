@@ -14,6 +14,8 @@ This release fixes a bug related to upload method and few Engineering Systems up
 
 ### Other Changes
 
+-Removed runName support from the wsEndpoint as he auth service needs to handle URL encoding properly.
+
 -Added X-MS-Package-Version header to connect session API for language and package version decoding.
 
 ## 1.0.0-beta.4 (2024-10-21)
