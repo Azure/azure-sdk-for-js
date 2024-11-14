@@ -94,7 +94,7 @@ export enum KnownDeletionRecoveryLevel {
    * unless a Purge operation is requested, or the subscription is cancelled. System
    * wil permanently delete it after 90 days, if not recovered
    */
-  "Recoverable+Purgeable" = "Recoverable+Purgeable",
+  Recoverable_Purgeable = "Recoverable+Purgeable",
   /**
    * Denotes a vault state in which deletion is recoverable without the possibility
    * for immediate and permanent deletion (i.e. purge). This level guarantees the

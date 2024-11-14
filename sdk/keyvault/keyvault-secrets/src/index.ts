@@ -46,7 +46,7 @@ export {
   SecretClientOptions,
   DeletedSecret,
   DeletionRecoveryLevel,
-  KnownDeletionRecoveryLevel,
+  KnownDeletionRecoveryLevel, // TODO: resolve this breaking change via https://github.com/Azure/azure-rest-api-specs/pull/29249/files#r1842678240
   GetSecretOptions,
   GetDeletedSecretOptions,
   PurgeDeletedSecretOptions,

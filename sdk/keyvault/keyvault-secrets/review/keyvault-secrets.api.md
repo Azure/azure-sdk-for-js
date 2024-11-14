@@ -68,13 +68,13 @@ export interface KeyVaultSecretIdentifier {
 
 // @public
 export enum KnownDeletionRecoveryLevel {
-    "Recoverable+Purgeable" = "Recoverable+Purgeable",
     CustomizedRecoverable = "CustomizedRecoverable",
     CustomizedRecoverable_ProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
     CustomizedRecoverable_Purgeable = "CustomizedRecoverable+Purgeable",
     Purgeable = "Purgeable",
     Recoverable = "Recoverable",
-    Recoverable_ProtectedSubscription = "Recoverable+ProtectedSubscription"
+    Recoverable_ProtectedSubscription = "Recoverable+ProtectedSubscription",
+    Recoverable_Purgeable = "Recoverable+Purgeable"
 }
 
 // @public
