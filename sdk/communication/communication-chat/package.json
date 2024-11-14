@@ -1,13 +1,12 @@
 {
   "name": "@azure/communication-chat",
-  "version": "1.5.3",
+  "version": "1.5.5",
   "description": "Azure client library for Azure Communication Chat services",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "types/communication-chat.d.ts",
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && dev-tool run vendored rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:node": "tsc -p . && dev-tool run bundle",
@@ -30,7 +29,7 @@
     "test:node": "npm run build:test && npm run unit-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "dev-tool run test:browser",
-    "unit-test:node": "cross-env TS_NODE_FILES=true dev-tool run test:node-ts-input -- --timeout 1200000 'test/**/*.spec.ts'",
+    "unit-test:node": "dev-tool run vendored cross-env TS_NODE_FILES=true dev-tool run test:node-ts-input -- --timeout 1200000 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
   },
   "files": [
@@ -86,10 +85,9 @@
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^17.0.0",
+    "@types/sinon": "^17.0.3",
     "@types/uuid": "^8.0.0",
     "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "inherits": "^2.0.3",
@@ -106,7 +104,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
     "nyc": "^17.0.0",
-    "sinon": "^17.0.0",
+    "sinon": "^19.0.2",
     "ts-node": "^10.0.0",
     "typescript": "~5.6.2",
     "util": "^0.12.1"

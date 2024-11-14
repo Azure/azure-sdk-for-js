@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Constants, RetryOptions } from "@azure/core-amqp";
+import type { RetryOptions } from "@azure/core-amqp";
+import { Constants } from "@azure/core-amqp";
 
 /**
  * @internal

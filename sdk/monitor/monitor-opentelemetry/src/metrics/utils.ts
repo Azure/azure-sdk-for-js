@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Attributes, SpanStatusCode } from "@opentelemetry/api";
-import { ReadableSpan } from "@opentelemetry/sdk-trace-base";
+import type { Attributes } from "@opentelemetry/api";
+import { SpanStatusCode } from "@opentelemetry/api";
+import type { ReadableSpan } from "@opentelemetry/sdk-trace-base";
 import {
   SEMRESATTRS_SERVICE_NAME,
   SEMRESATTRS_SERVICE_NAMESPACE,
@@ -24,16 +25,15 @@ import {
   DBSYSTEMVALUES_HSQLDB,
   DBSYSTEMVALUES_H2,
 } from "@opentelemetry/semantic-conventions";
-import {
+import type {
   MetricDependencyDimensions,
   MetricDimensionTypeKeys,
   MetricRequestDimensions,
   StandardMetricBaseDimensions,
-  StandardMetricIds,
-  StandardMetricPropertyNames,
 } from "./types";
-import { LogRecord } from "@opentelemetry/sdk-logs";
-import { Resource } from "@opentelemetry/resources";
+import { StandardMetricIds, StandardMetricPropertyNames } from "./types";
+import type { LogRecord } from "@opentelemetry/sdk-logs";
+import type { Resource } from "@opentelemetry/resources";
 import * as os from "os";
 
 export function getRequestDimensions(span: ReadableSpan): Attributes {

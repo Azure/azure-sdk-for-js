@@ -32,7 +32,6 @@
     "node": ">=18.0.0"
   },
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && dev-tool run vendored rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:debug": "tsc -p . && dev-tool run bundle && dev-tool run extract-api",
@@ -66,6 +65,7 @@
     "@azure/core-auth": "^1.3.0",
     "@azure/core-rest-pipeline": "^1.8.0",
     "@azure/maps-common": "1.0.0-beta.2",
+    "@azure/logger": "^1.0.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
@@ -81,7 +81,6 @@
     "@types/node": "^18.0.0",
     "autorest": "latest",
     "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "karma": "^6.2.0",

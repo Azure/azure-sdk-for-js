@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 'use strict';
 
 var Parser = require('yargs-parser');
@@ -966,6 +965,8 @@ async function generateProject(widgetConfig, deploymentConfig, options = {}) {
     return;
 }
 
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 const log = console.log;
 const white = (msg) => log(chalk.white(msg));
 const green = (msg) => log(chalk.green(msg));

@@ -2,11 +2,8 @@
 // Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
-import {
-  NotificationHubsClientContext,
-  sendBroadcastNotification,
-  sendNotification,
-} from "../../src/api/index.js";
+import type { NotificationHubsClientContext } from "../../src/api/index.js";
+import { sendBroadcastNotification, sendNotification } from "../../src/api/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createAppleNotification } from "../../src/models/index.js";
 import { createRecordedClientContext } from "./utils/recordedClient.js";

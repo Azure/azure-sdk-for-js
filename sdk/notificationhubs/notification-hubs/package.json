@@ -17,7 +17,6 @@
   },
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && dev-tool run vendored rimraf -G node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run build:test && dev-tool run extract-api",
     "build:samples": "echo Obsolete",
     "build:test": "dev-tool run build-package && dev-tool run build-test",
@@ -73,7 +72,7 @@
     "eslint": "^9.9.0",
     "playwright": "^1.43.0",
     "tsx": "^4.19.1",
-    "typescript": "~5.5.3",
+    "typescript": "~5.6.2",
     "vitest": "^2.0.5"
   },
   "dependencies": {

@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Aggregator } from "./Aggregator";
+import type { Aggregator } from "./Aggregator";
 
 /** @hidden */
 export interface AverageAggregateResult {

@@ -1,5 +1,21 @@
 # Release History
 
+## 1.5.5 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.5.4 (2024-10-24)
+
+### Bugs Fixed
+
+- Updated the @azure/communication-chat version in UserAgentPrefix.
+
 ## 1.5.3 (2024-10-23)
 
 ### Other Changes

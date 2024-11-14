@@ -8,11 +8,12 @@
  *  These tests will be skipped in Live Mode since the public tests run in live mode only.
  */
 
-import { Recorder, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 import { matrix } from "@azure-tools/test-utils";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import * as sinon from "sinon";
-import { SmsClient } from "../../src";
+import type { SmsClient } from "../../src";
 import { Uuid } from "../../src/utils/uuid";
 import sendSmsSuites from "../public/suites/smsClient.send";
 import {

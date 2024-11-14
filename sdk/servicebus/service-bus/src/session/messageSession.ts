@@ -1,44 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  Constants,
-  ErrorNameConditionMapper,
-  MessagingError,
-  RetryOptions,
-  StandardAbortMessage,
-} from "@azure/core-amqp";
-import {
-  AmqpError,
-  EventContext,
-  OnAmqpEvent,
-  Receiver,
-  ReceiverEvents,
-  ReceiverOptions,
-} from "rhea-promise";
-import { ConnectionContext } from "../connectionContext.js";
+import type { MessagingError, RetryOptions } from "@azure/core-amqp";
+import { Constants, ErrorNameConditionMapper, StandardAbortMessage } from "@azure/core-amqp";
+import type { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
+import { ReceiverEvents } from "rhea-promise";
+import type { ConnectionContext } from "../connectionContext.js";
 import { LinkEntity } from "../core/linkEntity.js";
-import { DispositionStatusOptions } from "../core/managementClient.js";
-import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver.js";
+import type { DispositionStatusOptions } from "../core/managementClient.js";
+import type { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver.js";
 import { receiverLogger as logger } from "../log.js";
 import { DispositionType, ServiceBusMessageImpl } from "../serviceBusMessage.js";
 import { throwErrorIfConnectionClosed } from "../util/errors.js";
 import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils.js";
-import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver.js";
-import {
-  onMessageSettled,
-  DeferredPromiseAndTimer,
-  createReceiverOptions,
-} from "../core/shared.js";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import type { MinimalReceiver } from "../core/batchingReceiver.js";
+import { BatchingReceiverLite } from "../core/batchingReceiver.js";
+import type { DeferredPromiseAndTimer } from "../core/shared.js";
+import { onMessageSettled, createReceiverOptions } from "../core/shared.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper.js";
-import {
+import type {
   ServiceBusSessionReceiverOptions,
   ProcessErrorArgs,
   ReceiveMode,
   SubscribeOptions,
 } from "../models.js";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
 import { ServiceBusError, translateServiceBusError } from "../serviceBusError.js";
 import { abandonMessage, completeMessage } from "../receivers/receiverCommon.js";
 import { delay, isDefined } from "@azure/core-util";

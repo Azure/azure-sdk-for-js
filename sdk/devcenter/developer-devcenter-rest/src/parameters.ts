@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import { DevBox, Environment } from "./models.js";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type { DevBox, Environment } from "./models.js";
 
 export type ListProjectsParameters = RequestParameters;
 export type GetProjectParameters = RequestParameters;

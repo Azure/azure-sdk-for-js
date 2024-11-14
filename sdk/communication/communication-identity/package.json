@@ -7,7 +7,6 @@
   "module": "dist-esm/src/index.js",
   "types": "types/communication-identity.d.ts",
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && dev-tool run vendored rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:clean": "rush update --recheck && rush rebuild && npm run build",
@@ -121,7 +120,6 @@
     "@types/node": "^18.0.0",
     "@types/sinon": "^17.0.0",
     "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "inherits": "^2.0.3",

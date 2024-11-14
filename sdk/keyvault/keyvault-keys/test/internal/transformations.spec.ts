@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
+import type {
   DeletedKeyBundle,
   DeletedKeyItem,
   KeyRotationPolicy as GeneratedKeyRotationPolicy,
   KeyBundle,
 } from "../../src/generated/index.js";
-import {
+import type {
   DeletedKey,
   KeyProperties,
   KeyRotationPolicy,
