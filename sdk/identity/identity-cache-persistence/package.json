@@ -21,7 +21,7 @@
   "author": "Microsoft Corporation",
   "sideEffects": false,
   "main": "dist/index.js",
-  "module": "dist-esm/identity-cache-persistence/src/index.js",
+  "module": "dist-esm/src/index.js",
   "types": "./types/identity-cache-persistence.d.ts",
   "files": [
     "dist/",

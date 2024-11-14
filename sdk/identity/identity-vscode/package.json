@@ -21,7 +21,7 @@
   "author": "Microsoft Corporation",
   "sideEffects": false,
   "main": "dist/index.js",
-  "module": "dist-esm/identity-vscode/src/index.js",
+  "module": "dist-esm/src/index.js",
   "types": "./types/identity-vscode.d.ts",
   "files": [
     "dist/",
@@ -69,7 +69,6 @@
     "@types/node": "catalog:",
     "@types/qs": "^6.5.3",
     "@types/sinon": "catalog:legacy",
-    "@types/uuid": "^8.0.0",
     "dotenv": "catalog:",
     "eslint": "catalog:",
     "mocha": "catalog:legacy",
