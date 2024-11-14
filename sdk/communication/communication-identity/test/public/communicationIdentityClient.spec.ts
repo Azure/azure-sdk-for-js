@@ -10,7 +10,7 @@ import {
   createRecordedCommunicationIdentityClientWithToken,
 } from "./utils/recordedClient.js";
 import type { CommunicationIdentityClient, TokenScope } from "../../src/index.js";
-import { matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 matrix([[true, false]], async function (useAad: boolean) {

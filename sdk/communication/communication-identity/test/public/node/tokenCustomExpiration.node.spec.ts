@@ -4,7 +4,7 @@
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
-import { matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils-vitest";
 import type { CommunicationIdentityClient } from "../../../src/communicationIdentityClient.js";
 import {
   createRecordedCommunicationIdentityClient,
