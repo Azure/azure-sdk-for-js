@@ -10,7 +10,7 @@ import type { CommunicationIdentifier } from "@azure/communication-common";
 import type { CommunicationUserToken } from "@azure/communication-identity";
 import { describe, it, assert, expect, vi, beforeEach, afterEach, beforeAll } from "vitest";
 
-describe("ChatClient", function () {
+describe("ChatClient", () => {
   let threadId: string | undefined;
   let recorder: Recorder;
   let chatClient: ChatClient;
@@ -19,8 +19,8 @@ describe("ChatClient", function () {
   let testUser: CommunicationIdentifier;
   let testUser2: CommunicationIdentifier;
 
-  describe("Chat Operations", function () {
-    beforeEach(async function (ctx) {
+  describe("Chat Operations", () => {
+    beforeEach(async (ctx) => {
       recorder = await createRecorder(ctx);
       await recorder.setMatcher("HeaderlessMatcher");
       if (!communicationUserToken) {
@@ -29,11 +29,11 @@ describe("ChatClient", function () {
       chatClient = createChatClient(communicationUserToken.token, recorder);
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await recorder.stop();
     });
 
-    it("successfully creates a thread", { timeout: 8000 }, async function () {
+    it("successfully creates a thread", { timeout: 8000 }, async () => {
       testUser = communicationUserToken.user;
       testUser2 = (await createTestUser(recorder)).user;
 
@@ -53,19 +53,19 @@ describe("ChatClient", function () {
       assert.isDefined(chatThread?.id);
     });
 
-    it("successfully retrieves a thread client", async function () {
+    it("successfully retrieves a thread client", async () => {
       chatThreadClient = chatClient.getChatThreadClient(threadId!);
       assert.isNotNull(chatThreadClient);
       assert.equal(chatThreadClient.threadId, threadId);
     });
 
-    it("successfully deletes a thread", async function () {
+    it("successfully deletes a thread", async () => {
       await chatClient.deleteChatThread(threadId!);
     });
   });
 
-  describe.skipIf(isNodeLike)("Realtime Notifications", function () {
-    beforeAll(async function () {
+  describe("Realtime Notifications", { skip: isNodeLike || !isLiveMode() }, () => {
+    beforeAll(async () => {
       // Create a thread
       const request = {
         topic: "notification tests",
@@ -78,16 +78,12 @@ describe("ChatClient", function () {
       chatThreadClient = chatClient.getChatThreadClient(threadId!);
     });
 
-    beforeEach(async function () {
+    beforeEach(async () => {
       // Start notifications
       await chatClient.startRealtimeNotifications();
     });
 
-    it("successfully stops realtime notifications", async function (ctx) {
-      if (!isLiveMode()) {
-        ctx.skip();
-      }
-
+    it("successfully stops realtime notifications", async () => {
       const listener = vi.fn();
 
       chatClient.on("typingIndicatorReceived", listener);
@@ -103,12 +99,8 @@ describe("ChatClient", function () {
     it(
       "successfully unsubscribes a listener",
       { timeout: 8000 },
-      (ctx) =>
+      () =>
         new Promise<void>((resolve) => {
-          if (!isLiveMode()) {
-            ctx.skip();
-          }
-
           function listener(): void {
             assert.fail();
           }
@@ -127,12 +119,8 @@ describe("ChatClient", function () {
     it(
       "successfully listens to typingIndicatorReceivedEvents",
       { timeout: 8000 },
-      (ctx) =>
+      () =>
         new Promise<void>((resolve) => {
-          if (!isLiveMode()) {
-            ctx.skip();
-          }
-
           function listener(): void {
             resolve();
           }
@@ -147,12 +135,8 @@ describe("ChatClient", function () {
     it(
       "successfully listens to chatMessageEditedEvents",
       { timeout: 8000 },
-      (ctx) =>
+      () =>
         new Promise<void>((resolve) => {
-          if (!isLiveMode()) {
-            ctx.skip();
-          }
-
           function listener(): void {
             resolve();
           }
@@ -175,12 +159,8 @@ describe("ChatClient", function () {
     it(
       "successfully listens to chatMessageReceivedEvents",
       { timeout: 8000 },
-      (ctx) =>
+      () =>
         new Promise<void>((resolve) => {
-          if (!isLiveMode()) {
-            ctx.skip();
-          }
-
           function listener(): void {
             resolve();
           }
@@ -196,12 +176,8 @@ describe("ChatClient", function () {
     it(
       "successfully listens to chatMessageDeletedEvents",
       { timeout: 8000 },
-      (ctx) =>
+      () =>
         new Promise<void>((resolve) => {
-          if (!isLiveMode()) {
-            ctx.skip();
-          }
-
           function listener(): void {
             resolve();
           }
@@ -222,12 +198,8 @@ describe("ChatClient", function () {
     it(
       "successfully listens to chatThreadCreatedEvents",
       { timeout: 8000 },
-      (ctx) =>
+      () =>
         new Promise<void>((resolve) => {
-          if (!isLiveMode()) {
-            ctx.skip();
-          }
-
           function listener(): void {
             resolve();
           }
@@ -246,12 +218,8 @@ describe("ChatClient", function () {
     it(
       "successfully listens to chatThreadDeletedEvents",
       { timeout: 8000 },
-      (ctx) =>
+      () =>
         new Promise<void>((resolve) => {
-          if (!isLiveMode()) {
-            ctx.skip();
-          }
-
           function listener(): void {
             resolve();
           }
@@ -275,12 +243,8 @@ describe("ChatClient", function () {
     it(
       "successfully listens to chatThreadPropertiesUpdatedEvents",
       { timeout: 8000 },
-      (ctx) =>
+      () =>
         new Promise<void>((resolve) => {
-          if (!isLiveMode()) {
-            ctx.skip();
-          }
-
           function listener(): void {
             resolve();
           }
@@ -295,12 +259,8 @@ describe("ChatClient", function () {
     it(
       "successfully listens to participantsAddedEvents",
       { timeout: 8000 },
-      (ctx) =>
+      () =>
         new Promise<void>((resolve) => {
-          if (!isLiveMode()) {
-            ctx.skip();
-          }
-
           function listener(): void {
             resolve();
           }
@@ -318,12 +278,8 @@ describe("ChatClient", function () {
     it(
       "successfully listens to participantsRemovedEvents",
       { timeout: 8000 },
-      (ctx) =>
+      () =>
         new Promise<void>((resolve) => {
-          if (!isLiveMode()) {
-            ctx.skip();
-          }
-
           function listener(): void {
             resolve();
           }
@@ -335,13 +291,12 @@ describe("ChatClient", function () {
         }),
     );
 
+    // TODO: Read receipt notification is timing out even with increased timeout
     it(
       "successfully listens to readReceiptReceivedEvents",
-      { timeout: 8000 },
-      (ctx) =>
+      { timeout: 8000, skip: true },
+      () =>
         new Promise<void>((resolve) => {
-          // TODO: Read receipt notification is timing out even with increased timeout
-          ctx.skip();
           function listener(): void {
             resolve();
           }
