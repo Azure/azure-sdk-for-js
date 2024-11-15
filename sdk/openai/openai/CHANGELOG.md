@@ -6,7 +6,7 @@ This release marks the first stable library version for `@azure/openai` and it e
 
 The following features are supported in this release:
 
-- Azure OpenAI On Your Data which enables you to run advanced AI models, without needing to train or fine-tune models, on your own enterprise data located in an Azure Search index or in an vector stor in Azure Cosmos DB.
+- Azure OpenAI On Your Data which enables you to run advanced AI models, without needing to train or fine-tune models, on your own enterprise data located in an Azure Search index or in an vector store in Azure Cosmos DB.
 - Azure OpenAI content filtering which detects and prevents the output of harmful content.
 
 ### Breaking Changes
