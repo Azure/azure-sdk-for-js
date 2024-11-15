@@ -14,7 +14,7 @@ This release fixes a bug related to upload method and Performance Enhancements.
 
 ### Other Changes
 
--Removed passing runName in wsEndpoint as its not required and can cause issue for cloud browser.
+- Removed runName support in cloud hosted browser uri
 
 -Added X-MS-Package-Version header to API that requests cloud hosted browser for language and package version decoding.
 
