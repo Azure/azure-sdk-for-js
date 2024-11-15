@@ -57,6 +57,7 @@ export interface AppConfigurationManagementClientOptionalParams extends coreClie
     $host?: string;
     apiVersion?: string;
     endpoint?: string;
+    azureCloud?: string;
 }
 
 // @public
