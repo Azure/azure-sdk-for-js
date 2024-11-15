@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure/communication-chat": [
-        "./src/index"
-      ]
+      "@azure/communication-chat": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
@@ -18,5 +16,5 @@
     "test/**/*.ts",
     "test/**/*.mts",
     "test/**/*.cts"
-  ],
+  ]
 }
