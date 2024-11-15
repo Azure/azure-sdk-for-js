@@ -1,5 +1,11 @@
 # Release History
 
+## 12.3.0-beta.1 (2024-11-21)
+
+### Bugs Fixed
+
+- Fixed the type of `SearchResult.documentDebugInfo` to not erroneously describe it as an array [#31792](https://github.com/Azure/azure-sdk-for-js/pull/31792)
+
 ## 12.2.0-beta.1 (2024-09-25)
 
 ### Breaking Changes

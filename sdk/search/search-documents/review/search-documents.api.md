@@ -2857,7 +2857,7 @@ export type SearchResult<TModel extends object, TFields extends SelectFields<TMo
     };
     readonly captions?: QueryCaptionResult[];
     document: NarrowedModel<TModel, TFields>;
-    readonly documentDebugInfo?: DocumentDebugInfo[];
+    readonly documentDebugInfo?: DocumentDebugInfo;
 };
 
 // @public

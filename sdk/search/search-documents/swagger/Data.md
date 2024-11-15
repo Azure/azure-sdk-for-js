@@ -152,7 +152,18 @@ directive:
   - from: swagger-document
     where: $.definitions.SearchRequest.properties.hybridSearch
     transform: >
-      delete $["type"];
+      delete $.type;
       delete $.items;
       $["$ref"] = "#/definitions/HybridSearch";
+```
+
+### Fix `SearchResult["@search.documentDebugInfo"]`
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.SearchResult.properties["@search.documentDebugInfo"]
+    transform: >
+      $["$ref"] = $.items["$ref"];
+      delete $.type;
+      delete $.items;
 ```

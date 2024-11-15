@@ -443,7 +443,7 @@ export type SearchResult<
    * Contains debugging information that can be used to further explore your search results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly documentDebugInfo?: DocumentDebugInfo[];
+  readonly documentDebugInfo?: DocumentDebugInfo;
 };
 
 /**

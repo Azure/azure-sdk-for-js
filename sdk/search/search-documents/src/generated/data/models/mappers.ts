@@ -636,16 +636,9 @@ export const SearchResult: coreClient.CompositeMapper = {
       },
       documentDebugInfo: {
         serializedName: "@search\\.documentDebugInfo",
-        readOnly: true,
-        nullable: true,
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DocumentDebugInfo",
-            },
-          },
+          name: "Composite",
+          className: "DocumentDebugInfo",
         },
       },
     },

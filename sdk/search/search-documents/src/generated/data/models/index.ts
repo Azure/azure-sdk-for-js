@@ -285,7 +285,7 @@ export interface SearchResult {
    * Contains debugging information that can be used to further explore your search results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly documentDebugInfo?: DocumentDebugInfo[];
+  readonly documentDebugInfo?: DocumentDebugInfo;
 }
 
 /** Captions are the most representative passages from the document relatively to the search query. They are often used as document summary. Captions are only returned for queries of type `semantic`. */
