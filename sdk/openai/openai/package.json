@@ -63,7 +63,7 @@
     "build:samples": "echo Obsolete",
     "build:test": "dev-tool run build-package && dev-tool run build-test",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\"  \"samples-dev/**/*.ts\" \"*.{js,json}\"",
-    "clean": "tsc --build --clean && dev-tool run vendored rimraf --glob dist dist-* temp types *.tgz *.log",
+    "clean": "tsc --build --clean && dev-tool run vendored rimraf --glob dist project-dist dist-* temp types *.tgz *.log",
     "execute:samples": "dev-tool samples run samples-dev",
     "extract-api": "dev-tool run build-package && dev-tool run extract-api",
     "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples-dev/**/*.ts\" \"*.{js,json}\"",

@@ -6,7 +6,7 @@
     "moduleResolution": "NodeNext",
     "rootDir": "./samples-dev",
     "paths": {
-      "@azure/openai": ["./src/index.js"]
+      "@azure/openai": ["./dist/esm/index.js"]
     },
     "noEmit": true,
     "composite": true

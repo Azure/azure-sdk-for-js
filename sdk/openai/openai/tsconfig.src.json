@@ -4,7 +4,8 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "./src",
+    "outDir": "./project-dist",
     "composite": true
   },
-  "exclude": ["./test", "./samples", "./samples-dev", "vitest*.config.ts"]
+  "exclude": ["./project-dist", "./test", "./samples", "./samples-dev", "vitest*.config.ts"]
 }
