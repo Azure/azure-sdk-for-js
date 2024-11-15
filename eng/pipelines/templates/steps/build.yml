@@ -84,7 +84,7 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - pwsh: |
-      $artifacts = $(ArtifactPackageNames).Split(",")
+      $artifacts = "$(ArtifactPackageNames)".Split(",")
 
       foreach ($artifact in $artifacts)
       {
