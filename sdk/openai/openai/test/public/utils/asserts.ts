@@ -12,7 +12,7 @@ import {
   ContentFilterResultsForChoiceOutput,
   ContentFilterResultsForPromptOutput,
   ContentFilterDetailedResults,
-} from "../../../src/types/index.js";
+} from "../../../dist/esm/types/index.js";
 import { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 import {
   Batch,

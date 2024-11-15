@@ -7,9 +7,8 @@
     "rootDir": "./test",
     "lib": ["DOM"],
     "skipLibCheck": true,
-    "composite": true,
-    "noEmit": true
+    "noEmit": true,
+    "composite": true
   },
-  "references": [{ "path": "./tsconfig.src.json" }],
-  "exclude": ["./samples", "./samples-dev", "vitest*.config.ts"]
+  "exclude": ["./src", "./samples", "./samples-dev", "vitest*.config.ts"]
 }

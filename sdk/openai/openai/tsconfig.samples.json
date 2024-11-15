@@ -11,6 +11,5 @@
     "noEmit": true,
     "composite": true
   },
-  "references": [{ "path": "./tsconfig.src.json" }],
   "exclude": ["./src", "./test", "./samples", "vitest*.config.ts"]
 }

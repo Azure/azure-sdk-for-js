@@ -22,7 +22,7 @@ import {
 } from "./utils/utils.js";
 import { ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
 import { completionsModelsToSkip, functionCallModelsToSkip } from "./utils/models.js";
-import "../../src/types/index.js";
+import "../../dist/esm/types/index.js";
 
 describe("Completions", function () {
   let deployments: DeploymentInfo[] = [];
