@@ -272,10 +272,10 @@ describe("LRO", function (this: Suite) {
       const initialResponse = await client.path("/route/directions/batch/{format}", "json").post({
         body: createRouteDirectionsBatchRequest(batchRequests),
       });
-      const originalPoller = getLongRunningPoller(client, initialResponse, {
+      const originalPoller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
       });
-      const serializedState = await (await originalPoller).serialize();
+      const serializedState = await originalPoller.serialize();
 
       // Use serialized state to retrieve the result
       const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
@@ -330,7 +330,7 @@ describe("LRO", function (this: Suite) {
       const originalResult = await originalPoller.pollUntilDone();
 
       // Use serialized state to retrieve the result
-      const serializedState = await (await originalPoller).serialize();
+      const serializedState = await  originalPoller.serialize();
 
       const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
         restoreFrom: serializedState,
@@ -401,7 +401,7 @@ describe("LRO", function (this: Suite) {
       const originalPoller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
       });
-      const serializedState = await (await originalPoller).serialize();
+      const serializedState = await  originalPoller.serialize();
 
       // Use saved batchId to retrieve the result
       const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
@@ -444,7 +444,7 @@ describe("LRO", function (this: Suite) {
       const originalResult = await originalPoller.pollUntilDone();
 
       // Use serialized state to retrieve the result
-      const serializedState = await (await originalPoller).serialize();
+      const serializedState = await  originalPoller.serialize();
 
       const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
