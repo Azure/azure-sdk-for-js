@@ -146,8 +146,12 @@ function Get-javascript-UpdatedDocsMsToc($toc) {
       }
 
       # Sort the items in the Cognitive Services ToC so OpenAI ends up in the
-      # correct place
-      $services[$i].items = $services[$i].items | Sort-Object -Property name
+      # correct place. The "Management" item should always be at the end of the
+      # list.
+      $management = $services[$i].items | Where-Object { $_.name -eq 'Management' }
+      $sortedItems = $services[$i].items | Where-Object { $_.name -ne 'Management' } | Sort-Object -Property name
+
+      $services[$i].items = $sortedItems + $management
     }
   }
 
