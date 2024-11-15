@@ -23,7 +23,7 @@ export async function main(): Promise<void> {
     const readable = new Readable();
     readable.push(fileContent);
     readable.push(null); // end the stream
-    const file = await client.agents.uploadFile(readable, "purpose");
+    const file = await client.agents.uploadFile(readable, "assistants");
     console.log(`Uploaded file, file ID : ${file.id}`);
 
     // List files
@@ -48,7 +48,7 @@ export async function main(): Promise<void> {
 
     // Upload local file
     const localFileStream = fs.createReadStream("path/to/file");
-    const localFile = await client.agents.uploadFile(localFileStream, "purpose");
+    const localFile = await client.agents.uploadFile(localFileStream, "assistants");
 
     console.log(`Uploaded local file, file ID : ${localFile.id}`);
 
