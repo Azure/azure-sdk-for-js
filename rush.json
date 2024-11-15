@@ -2306,6 +2306,11 @@
       "packageName": "@azure/arm-containerorchestratorruntime",
       "projectFolder": "sdk/kubernetesruntime/arm-containerorchestratorruntime",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-neonpostgres",
+      "projectFolder": "sdk/neonpostgres/arm-neonpostgres",
+      "versionPolicyName": "management"
     }
   ]
 }
