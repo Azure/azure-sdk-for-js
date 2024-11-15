@@ -15416,7 +15416,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-+DX7eIMt7WAbn6AD+QZpjVyoMuXdNpGH452FuoUH2UvFhOBtlZD3B5y8bwW/oE8d3E/u2eZ3B4N2cAFV32bgbw==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-IxFMCCeH0D2P6u+4Vwi9ROrWBKeO0DJEfs2jxyfJnrGNMrRKAWfplx0QVZY6ETK5Thjlm3myTMffxO2BT5PBiA==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
@@ -18933,7 +18933,7 @@ packages:
     dev: false
 
   file:projects/communication-call-automation.tgz:
-    resolution: {integrity: sha512-Fd/HeZS/REzGRLDLjxyqGG1NM1QgMCK7pzWoE0849CzJUyCUGayK6xbpCkvHxhexi1MBvlmwSwIp+Vaixtk0Qg==, tarball: file:projects/communication-call-automation.tgz}
+    resolution: {integrity: sha512-D4KNL9bNWVFH8xU8q2knxiHZQ27WCk4+5KsZJZLfHz842OcPqCGR84E259HV6RjW6i0btpxbofFBrqGrG/XVnw==, tarball: file:projects/communication-call-automation.tgz}
     name: '@rush-temp/communication-call-automation'
     version: 0.0.0
     dependencies:
@@ -18944,6 +18944,8 @@ packages:
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -18961,19 +18963,33 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.48.2
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/communication-chat.tgz:
@@ -19240,7 +19256,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-xPt7oEFIEnDcZHXkEsgPlaOBwbjSF6dQq4uDtXsp/yeslQgiTdGNnO5bUMfuqpTTiiwSsXCyCKEy2FmmrcRHLw==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-2asWr03USbfs287ufZkj8sgX94e8AIkX8BU9mVvBxqPp+5NwM8F2I2OeKa/ZRb9z7dcawliux8IwyB2kNGIEAg==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
