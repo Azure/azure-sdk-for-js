@@ -1,0 +1,15 @@
+{
+  "extends": "../../../tsconfig",
+  "compilerOptions": {
+    "target": "ES2023",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "./test",
+    "lib": ["DOM"],
+    "skipLibCheck": true,
+    "composite": true,
+    "noEmit": true
+  },
+  "references": [{ "path": "./tsconfig.src.json" }],
+  "exclude": ["./samples", "./samples-dev", "vitest*.config.ts"]
+}

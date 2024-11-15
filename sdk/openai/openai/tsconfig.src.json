@@ -1,0 +1,10 @@
+{
+  "extends": "../../../tsconfig",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "./src",
+    "composite": true
+  },
+  "exclude": ["./test", "./samples", "./samples-dev", "vitest*.config.ts"]
+}
