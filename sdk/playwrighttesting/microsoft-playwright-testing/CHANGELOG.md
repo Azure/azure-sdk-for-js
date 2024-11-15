@@ -16,7 +16,7 @@ This release fixes a bug related to upload method and few Engineering Systems up
 
 -Removed passing runName in wsEndpoint as its not required and can cause issue for cloud browser.
 
--Added X-MS-Package-Version header to connect session API for language and package version decoding.
+-Added X-MS-Package-Version header to cloud hosted browser API for language and package version decoding.
 
 ## 1.0.0-beta.4 (2024-10-21)
 
