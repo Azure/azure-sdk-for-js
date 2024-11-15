@@ -2,7 +2,7 @@
 
 ## 1.0.0-beta.2 (2024-11-15)
 
-This release includes updates to Engineering Systems and the migration of the package to ECMAScript modules and Vitest.
+This release improves compatibility with modern JavaScript environments by migrating the package to ECMAScript modules and Vitest
 
 ### Features Added
 
