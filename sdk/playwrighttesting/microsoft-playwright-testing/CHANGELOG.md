@@ -2,7 +2,7 @@
 
 ## 1.0.0-beta.5 (2024-11-15)
 
-This release fixes a bug related to upload method and Performance Enhancements.
+This release fixes a bug related to artifact upload and performance enhancements.
 
 ### Features Added
 
