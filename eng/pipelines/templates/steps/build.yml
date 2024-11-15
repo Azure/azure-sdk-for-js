@@ -84,8 +84,7 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - pwsh: |
-      $artifacts = Get-ChildItem -Recurse -Force "$(Build.ArtifactStagingDirectory)/PackageInfo/*.json" `
-          | ForEach-Object { $_.Name.Replace(".json", "") }
+      $artifacts = $(ArtifactPackageNames).Split(",")
 
       foreach ($artifact in $artifacts)
       {
