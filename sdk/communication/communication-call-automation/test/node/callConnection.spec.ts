@@ -24,8 +24,8 @@ import type {
   AddParticipantOptions,
   RemoveParticipantsOption,
   CancelAddParticipantOperationOptions,
-} from "../src/index.js";
-import { CALL_TARGET_ID, CALL_TARGET_ID_2 } from "./utils/connectionUtils.js";
+} from "../../src/index.js";
+import { CALL_TARGET_ID, CALL_TARGET_ID_2 } from "../utils/connectionUtils.js";
 import {
   createRecorder,
   createTestUser,
@@ -39,11 +39,11 @@ import {
   incomingCallContexts,
   persistEvents,
   loadPersistedEvents,
-} from "./utils/recordedClient.js";
+} from "../utils/recordedClient.js";
 import type { MockedObject } from "vitest";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
-vi.mock(import("../src/index.js"), async (importOriginal) => {
+vi.mock(import("../../src/index.js"), async (importOriginal) => {
   const mod = await importOriginal();
 
   const CallConnection = vi.fn();
@@ -63,7 +63,7 @@ vi.mock(import("../src/index.js"), async (importOriginal) => {
   };
 });
 
-import { CallConnection } from "../src/index.js";
+import { CallConnection } from "../../src/index.js";
 
 describe("CallConnection Unit Tests", () => {
   let target: CallInvite;

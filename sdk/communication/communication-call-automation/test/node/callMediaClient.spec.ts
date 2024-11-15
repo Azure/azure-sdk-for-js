@@ -12,14 +12,14 @@ import type {
 import { serializeCommunicationIdentifier } from "@azure/communication-common";
 
 // Parent directory imports
-import { CallMedia } from "../src/callMedia.js";
+import { CallMedia } from "../../src/callMedia.js";
 import type {
   FileSource,
   TextSource,
   SsmlSource,
   RecognitionChoice,
-} from "../src/models/models.js";
-import { DtmfTone } from "../src/models/models.js";
+} from "../../src/models/models.js";
+import { DtmfTone } from "../../src/models/models.js";
 import type {
   CallMediaRecognizeDtmfOptions,
   CallMediaRecognizeChoiceOptions,
@@ -36,8 +36,8 @@ import type {
   StopTranscriptionOptions,
   HoldOptions,
   UnholdOptions,
-} from "../src/index.js";
-import { CallAutomationEventProcessor } from "../src/index.js";
+} from "../../src/index.js";
+import { CallAutomationEventProcessor } from "../../src/index.js";
 
 // Current directory imports
 import {
@@ -55,8 +55,8 @@ import {
   persistEvents,
   fileSourceUrl,
   getPhoneNumbers,
-} from "./utils/recordedClient.js";
-import { createMediaClient, generateHttpClient } from "./utils/mockClient.js";
+} from "../utils/recordedClient.js";
+import { createMediaClient, generateHttpClient } from "../utils/mockClient.js";
 import {
   CALL_CONNECTION_ID,
   CALL_TARGET_ID,
@@ -64,7 +64,7 @@ import {
   MEDIA_URL_WAV,
   baseUri,
   generateToken,
-} from "./utils/connectionUtils.js";
+} from "../utils/connectionUtils.js";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
 describe("CallMedia Unit Tests", async function () {
