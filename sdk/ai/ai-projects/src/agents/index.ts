@@ -259,8 +259,7 @@ function getAgents(context: Client): AgentsOperations {
       listFiles(context, {...requestParams, body: {purpose } }),
     uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: string, fileName?: string, requestParams?: OptionalRequestParameters) =>
       uploadFile(context, {
-        body: [{ name: "file" as const, body: content, filename: fileName }],
-        queryParameters: { purpose },
+        body: [{ name: "file" as const, body: content, filename: fileName }, {name: "purpose" as const, body: purpose}],
         ...(requestParams as { [key: string]: any; }),
         contentType: "multipart/form-data"
       }),
