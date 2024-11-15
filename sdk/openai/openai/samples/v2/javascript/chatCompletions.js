@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to generate images from prompts using Azure OpenAI Batch Image Generation.
+ * Demonstrates how to get chat completions for a chat context.
  *
- * @summary generates images from prompts using Azure OpenAI Batch Image Generation.
+ * @summary get chat completions.
  */
 
 const { AzureOpenAI } = require("openai");
@@ -15,25 +15,26 @@ const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/ident
 // Load the .env file if it exists
 require("dotenv/config");
 
-// The prompt to generate images from
-const prompt = "a monkey eating a banana";
-const size = "1024x1024";
-
-// The number of images to generate
-const n = 1;
-
 async function main() {
-  console.log("== Batch Image Generation ==");
+  console.log("== Chat Completions Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "dall-e-3";
-  const apiVersion = "2024-09-01-preview";
+  const deployment = "gpt-35-turbo";
+  const apiVersion = "2024-10-21";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const results = await client.images.generate({ prompt, model: "", n, size });
+  const result = await client.chat.completions.create({
+    messages: [
+      { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
+      { role: "user", content: "Can you help me?" },
+      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
+      { role: "user", content: "What's the best way to train a parrot?" },
+    ],
+    model: "",
+  });
 
-  for (const image of results.data) {
-    console.log(`Image generation result URL: ${image.url}`);
+  for (const choice of result.choices) {
+    console.log(choice.message);
   }
 }
 

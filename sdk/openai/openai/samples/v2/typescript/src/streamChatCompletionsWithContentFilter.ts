@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to list chat completions for a chat context.
+ * Demonstrates how to get completions for the provided prompt and parse output for content filter
  *
- * @summary list chat completions.
+ * @summary get completions.
  */
 
 import { AzureOpenAI } from "openai";
 import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+import "@azure/openai/types";
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
@@ -21,7 +22,7 @@ export async function main() {
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-35-turbo";
-  const apiVersion = "2024-09-01-preview";
+  const apiVersion = "2024-10-21";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const events = await client.chat.completions.create({
     messages: [
@@ -37,7 +38,30 @@ export async function main() {
 
   for await (const event of events) {
     for (const choice of event.choices) {
-      console.log(choice.delta?.content);
+      console.log(`Chunk: ${choice.delta?.content}`);
+      const filterResults = choice.content_filter_results;
+      if (!filterResults) {
+        continue;
+      }
+      if (filterResults.error) {
+        console.log(
+          `\tContent filter ran into an error ${filterResults.error.code}: ${filterResults.error.message}`,
+        );
+      } else {
+        const { hate, sexual, self_harm, violence } = filterResults;
+        console.log(
+          `\tHate category is filtered: ${hate?.filtered}, with ${hate?.severity} severity`,
+        );
+        console.log(
+          `\tSexual category is filtered: ${sexual?.filtered}, with ${sexual?.severity} severity`,
+        );
+        console.log(
+          `\tSelf-harm category is filtered: ${self_harm?.filtered}, with ${self_harm?.severity} severity`,
+        );
+        console.log(
+          `\tViolence category is filtered: ${violence?.filtered}, with ${violence?.severity} severity`,
+        );
+      }
     }
   }
 }

@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to list completions for the provided prompt.
+ * Demonstrates how to get completions for the provided prompt.
  *
- * @summary list completions.
+ * @summary get completions.
  */
 
 import { AzureOpenAI } from "openai";
@@ -18,24 +18,17 @@ import "dotenv/config";
 const prompt = ["What is Azure OpenAI?"];
 
 export async function main() {
-  console.log("== Stream Completions Sample ==");
+  console.log("== Get completions Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "text-davinci-003";
-  const apiVersion = "2024-09-01-preview";
+  const apiVersion = "2024-10-21";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const events = await client.completions.create({
-    prompt,
-    model: "",
-    max_tokens: 128,
-    stream: true,
-  });
+  const result = await client.completions.create({ prompt, model: "", max_tokens: 128 });
 
-  for await (const event of events) {
-    for (const choice of event.choices) {
-      console.log(choice.text);
-    }
+  for (const choice of result.choices) {
+    console.log(choice.text);
   }
 }
 

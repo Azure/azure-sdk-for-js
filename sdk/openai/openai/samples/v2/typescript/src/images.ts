@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to list completions for the provided prompt.
+ * Demonstrates how to generate images from prompts using Azure OpenAI Batch Image Generation.
  *
- * @summary list completions.
+ * @summary generates images from prompts using Azure OpenAI Batch Image Generation.
  */
 
 import { AzureOpenAI } from "openai";
@@ -15,27 +15,25 @@ import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity"
 // Load the .env file if it exists
 import "dotenv/config";
 
-const prompt = ["What is Azure OpenAI?"];
+// The prompt to generate images from
+const prompt = "a monkey eating a banana";
+const size = "1024x1024";
+
+// The number of images to generate
+const n = 1;
 
 export async function main() {
-  console.log("== Stream Completions Sample ==");
+  console.log("== Batch Image Generation ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "text-davinci-003";
-  const apiVersion = "2024-09-01-preview";
+  const deployment = "dall-e-3";
+  const apiVersion = "2024-10-21";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const events = await client.completions.create({
-    prompt,
-    model: "",
-    max_tokens: 128,
-    stream: true,
-  });
+  const results = await client.images.generate({ prompt, model: "", n, size });
 
-  for await (const event of events) {
-    for (const choice of event.choices) {
-      console.log(choice.text);
-    }
+  for (const image of results.data) {
+    console.log(`Image generation result URL: ${image.url}`);
   }
 }
 

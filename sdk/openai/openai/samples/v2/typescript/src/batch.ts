@@ -7,21 +7,21 @@
  * @summary create and retrieve batch content.
  */
 
-const { AzureOpenAI, toFile } = require("openai");
-const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
+import { AzureOpenAI, toFile } from "openai";
+import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
-require("dotenv/config");
+import "dotenv/config";
 
-async function main() {
+export async function main() {
   console.log("== Batch Chat Completions Sample ==");
 
+  const apiVersion = "2024-09-01-preview";
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-4-turbo";
-  const apiVersion = "2024-09-01-preview";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
 
   const batchContent = `{ "custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": { "model": "${deployment}", "messages": [{ "role": "system", "content": "You are a helpful assistant." }, { "role": "user", "content": "What is 2+2?" }] } }`;
@@ -60,5 +60,3 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };

@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to list completions for the provided prompt.
+ * Demonstrates how to get embedding vectors for a piece of text using Azure OpenAI.
  *
- * @summary list completions.
+ * @summary generates embedding vectors from a prompt using Azure OpenAI Get Embeddings.
  */
 
 import { AzureOpenAI } from "openai";
@@ -15,27 +15,21 @@ import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity"
 // Load the .env file if it exists
 import "dotenv/config";
 
-const prompt = ["What is Azure OpenAI?"];
+// The prompt to generate the embeddings vector
+const input = ["This is the sample text to be embedded"];
 
 export async function main() {
-  console.log("== Stream Completions Sample ==");
+  console.log("== Get embeddings sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "text-davinci-003";
-  const apiVersion = "2024-09-01-preview";
+  const apiVersion = "2024-10-21";
+  const deployment = "text-embedding-3-large";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const events = await client.completions.create({
-    prompt,
-    model: "",
-    max_tokens: 128,
-    stream: true,
-  });
+  const embeddings = await client.embeddings.create({ input, model: "" });
 
-  for await (const event of events) {
-    for (const choice of event.choices) {
-      console.log(choice.text);
-    }
+  for (const embeddingData of embeddings.data) {
+    console.log(`The embedding values are ${embeddingData.embedding}`);
   }
 }
 

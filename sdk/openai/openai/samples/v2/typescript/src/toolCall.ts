@@ -7,13 +7,13 @@
  * @summary get chat completions with functions.
  */
 
-const { AzureOpenAI } = require("openai");
-const { DefaultAzureCredential, getBearerTokenProvider } = require("@azure/identity");
+import { AzureOpenAI } from "openai";
+import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 
 // Set AZURE_OPENAI_ENDPOINT to the endpoint of your
 // OpenAI resource. You can find this in the Azure portal.
 // Load the .env file if it exists
-require("dotenv/config");
+import "dotenv/config";
 
 const getCurrentWeather = {
   name: "get_current_weather",
@@ -34,13 +34,13 @@ const getCurrentWeather = {
   },
 };
 
-async function main() {
+export async function main() {
   console.log("== Chat Completions Sample with Tool Calling ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
   const deployment = "gpt-4-turbo";
-  const apiVersion = "2024-09-01-preview";
+  const apiVersion = "2024-10-21";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
   const result = await client.chat.completions.create({
     messages: [{ role: "user", content: "What's the weather like in Boston?" }],
@@ -61,5 +61,3 @@ async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
-
-module.exports = { main };

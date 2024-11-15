@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 /**
- * Demonstrates how to list completions for the provided prompt.
+ * Demonstrates how to list chat completions for a chat context.
  *
- * @summary list completions.
+ * @summary list chat completions.
  */
 
 import { AzureOpenAI } from "openai";
@@ -15,18 +15,21 @@ import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity"
 // Load the .env file if it exists
 import "dotenv/config";
 
-const prompt = ["What is Azure OpenAI?"];
-
 export async function main() {
-  console.log("== Stream Completions Sample ==");
+  console.log("== Streaming Chat Completions Sample ==");
 
   const scope = "https://cognitiveservices.azure.com/.default";
   const azureADTokenProvider = getBearerTokenProvider(new DefaultAzureCredential(), scope);
-  const deployment = "text-davinci-003";
-  const apiVersion = "2024-09-01-preview";
+  const deployment = "gpt-35-turbo";
+  const apiVersion = "2024-10-21";
   const client = new AzureOpenAI({ azureADTokenProvider, deployment, apiVersion });
-  const events = await client.completions.create({
-    prompt,
+  const events = await client.chat.completions.create({
+    messages: [
+      { role: "system", content: "You are a helpful assistant. You will talk like a pirate." },
+      { role: "user", content: "Can you help me?" },
+      { role: "assistant", content: "Arrrr! Of course, me hearty! What can I do for ye?" },
+      { role: "user", content: "What's the best way to train a parrot?" },
+    ],
     model: "",
     max_tokens: 128,
     stream: true,
@@ -34,7 +37,7 @@ export async function main() {
 
   for await (const event of events) {
     for (const choice of event.choices) {
-      console.log(choice.text);
+      console.log(choice.delta?.content);
     }
   }
 }
