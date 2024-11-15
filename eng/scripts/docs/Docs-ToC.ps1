@@ -139,11 +139,14 @@ function Get-javascript-UpdatedDocsMsToc($toc) {
     }
 
     if ($services[$i].name -eq 'Cognitive Services') {
+      # Add OpenAI to the ToC for Cognitive Services
       $services[$i].items += [PSCustomObject]@{
         name = "OpenAI";
         href = "~/docs-ref-services/{moniker}/openai-readme.md";
       }
 
+      # Sort the items in the Cognitive Services ToC so OpenAI ends up in the
+      # correct place
       $services[$i].items = $services[$i].items | Sort-Object -Property name
     }
   }
