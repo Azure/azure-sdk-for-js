@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type * as RestModel from "../src/generated/src/models/index.js";
-import { createRecordingClient, generateHttpClient } from "./utils/mockClient.js";
+import type * as RestModel from "../../src/generated/src/models/index.js";
+import { createRecordingClient, generateHttpClient } from "../utils/mockClient.js";
 import {
   baseUri,
   CALL_CALLBACK_URL,
@@ -11,21 +11,21 @@ import {
   generateToken,
   RECORDING_ID,
   RECORDING_STATE,
-} from "./utils/connectionUtils.js";
-import { CallRecording } from "../src/callRecording.js";
+} from "../utils/connectionUtils.js";
+import { CallRecording } from "../../src/callRecording.js";
 import type {
   AnswerCallOptions,
   CreateCallOptions,
   PlayOptions,
   StartRecordingOptions,
-} from "../src/models/options.js";
-import { apiVersion } from "../src/generated/src/models/parameters.js";
+} from "../../src/models/options.js";
+import { apiVersion } from "../../src/generated/src/models/parameters.js";
 import type { ChannelAffinity } from "@azure/communication-call-automation";
 import type {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
-import type { CallAutomationClient, CallInvite, CallConnection } from "../src/index.js";
+import type { CallAutomationClient, CallInvite, CallConnection } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import {
   createRecorder,
@@ -41,22 +41,22 @@ import {
   loadPersistedEvents,
   persistEvents,
   fileSourceUrl,
-} from "./utils/recordedClient.js";
-import type { FileSource } from "../src/models/models.js";
+} from "../utils/recordedClient.js";
+import type { FileSource } from "../../src/models/models.js";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
-describe("CallRecording Unit Tests", async function () {
+describe("CallRecording Unit Tests", () => {
   let callRecording: CallRecording;
 
-  afterEach(function () {
+  afterEach(() => {
     vi.restoreAllMocks();
   });
 
-  it("can instantiate", async function () {
+  it("can instantiate", async () => {
     new CallRecording(baseUri, { key: generateToken() });
   });
 
-  it("makes successful startRecording request with channel affinity", async function () {
+  it("makes successful startRecording request with channel affinity", async () => {
     const mockResponse: RestModel.RecordingStateResponse = {
       recordingId: RECORDING_ID,
       recordingState: RECORDING_STATE,
@@ -98,7 +98,7 @@ describe("CallRecording Unit Tests", async function () {
     );
   });
 
-  it("makes successful startRecording request", async function () {
+  it("makes successful startRecording request", async () => {
     const mockResponse: RestModel.RecordingStateResponse = {
       recordingId: RECORDING_ID,
       recordingState: RECORDING_STATE,
@@ -129,7 +129,7 @@ describe("CallRecording Unit Tests", async function () {
     );
   });
 
-  it("makes successful getRecordingProperties request", async function () {
+  it("makes successful getRecordingProperties request", async () => {
     const mockResponse: RestModel.RecordingStateResponse = {
       recordingId: RECORDING_ID,
       recordingState: RECORDING_STATE,
@@ -192,7 +192,7 @@ describe("CallRecording Unit Tests", async function () {
   });
 });
 
-describe("CallRecording Live Tests", function () {
+describe("CallRecording Live Tests", () => {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;
@@ -209,7 +209,7 @@ describe("CallRecording Live Tests", function () {
     receiverCallAutomationClient = createCallAutomationClient(recorder, testUser2);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     persistEvents(testName);
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();

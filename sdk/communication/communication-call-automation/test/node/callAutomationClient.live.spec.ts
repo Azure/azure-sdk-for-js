@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { CallAutomationClient } from "../src/index.js";
+import type { CallAutomationClient } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 import {
   createRecorder,
@@ -17,16 +17,17 @@ import {
   incomingCallContexts,
   loadPersistedEvents,
   persistEvents,
-} from "./utils/recordedClient.js";
+} from "../utils/recordedClient.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import type {
   CallInvite,
   CallConnection,
   CreateCallOptions,
   AnswerCallOptions,
-} from "../src/index.js";
+} from "../../src/index.js";
+import { isNodeLike } from "@azure/core-util";
 
-describe("Call Automation Main Client Live Tests", function () {
+describe("Call Automation Main Client Live Tests", { skip: !isNodeLike }, () => {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;
@@ -35,7 +36,7 @@ describe("Call Automation Main Client Live Tests", function () {
   let testUser2: CommunicationUserIdentifier;
   let testName: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
     testUser = await createTestUser(recorder);
     testUser2 = await createTestUser(recorder);
@@ -43,7 +44,7 @@ describe("Call Automation Main Client Live Tests", function () {
     receiverCallAutomationClient = createCallAutomationClient(recorder, testUser2);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     persistEvents(testName);
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
@@ -64,7 +65,7 @@ describe("Call Automation Main Client Live Tests", function () {
     }
   });
 
-  it("Create a call and hangup", { timeout: 60000 }, async function (ctx) {
+  it("Create a call and hangup", { timeout: 60000 }, async (ctx) => {
     const fullTitle: string | undefined =
       ctx.task.suite && ctx.task.suite.name && ctx.task.name
         ? `${ctx.task.suite.name} ${ctx.task.name}`
@@ -111,7 +112,7 @@ describe("Call Automation Main Client Live Tests", function () {
     assert.isDefined(callDisconnectedEvent);
   });
 
-  it("Reject call", { timeout: 60000 }, async function (ctx) {
+  it("Reject call", { timeout: 60000 }, async (ctx) => {
     const fullTitle: string | undefined =
       ctx.task.suite && ctx.task.suite.name && ctx.task.name
         ? `${ctx.task.suite.name} ${ctx.task.name}`
