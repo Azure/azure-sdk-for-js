@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SendMessageRequest } from "../generated/src/models";
-import type { SmsSendOptions, SmsSendRequest } from "../smsClient";
-import { Uuid } from "./uuid";
-import type { SmsSendOptions as InternalOptions } from "../generated/src/models";
+import type { SendMessageRequest } from "../generated/src/models/index.js";
+import type { SmsSendOptions, SmsSendRequest } from "../smsClient.js";
+import { Uuid } from "./uuid.js";
+import type { SmsSendOptions as InternalOptions } from "../generated/src/models/index.js";
 
 export function generateSendMessageRequest(
   smsRequest: SmsSendRequest,
