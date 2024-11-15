@@ -5,6 +5,7 @@ import {AIProjectsClient} from "@azure/ai-projects"
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
+import { Readable } from "stream";
 dotenv.config();
 
 const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
@@ -16,8 +17,11 @@ export async function main(): Promise<void> {
 
     console.log(`Created agent, agent ID : ${agent.id}`);
 
-    const file = await client.agents.uploadFile({file: "file"});
-
+    const fileContent = "Hello, World!";
+    const readable = new Readable();
+    readable.push(fileContent);
+    readable.push(null); // end the stream
+    const file = await client.agents.uploadFile(readable, "purpose");
     console.log(`Uploaded file, file ID : ${file.id}`);
 
     const files = await client.agents.listFiles();

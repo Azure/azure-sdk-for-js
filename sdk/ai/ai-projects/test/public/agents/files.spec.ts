@@ -32,26 +32,50 @@ describe("Agents - files", () => {
   });
 
   it("should upload file", async function () {
-    const file = await agents.uploadFile({file: "file"});
+    const fileContent = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      }
+    });
+    const file = await agents.uploadFile(fileContent, "purpose", "fileName");
     assert.isNotEmpty(file);
   });
 
   it("should delete file", async function () {
-    const file = await agents.uploadFile({file: "file"});
+    const fileContent = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      }
+    });
+    const file = await agents.uploadFile(fileContent, "purpose", "fileName");
     const deleted = await agents.deleteFile(file.id);
     assert.isNotNull(deleted);
   });
   
   it("should retrieve file", async function () {
-    const file = await agents.uploadFile({file: "file"});
+    const fileContent = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      }
+    });
+    const file = await agents.uploadFile(fileContent, "purpose", "fileName");
     const _file = await agents.getFile(file.id);
     assert.isNotEmpty(_file);
-    assert.equal(_file.id, file.id)
+    assert.equal(_file.id, file.id);
     await agents.deleteFile(file.id);
   });
 
   it("should retrieve file content", async function () {
-    const file = await agents.uploadFile({file: "file"});
+    const fileContent = new ReadableStream({
+      start(controller) {
+        controller.enqueue(new TextEncoder().encode("fileContent"));
+        controller.close();
+      }
+    });
+    const file = await agents.uploadFile(fileContent, "purpose", "fileName");
     const content = await agents.getFileContent(file.id);
     assert.isNotEmpty(content);
   });

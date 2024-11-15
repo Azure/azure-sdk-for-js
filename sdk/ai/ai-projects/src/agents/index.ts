@@ -16,6 +16,7 @@ import { UpdateMessageOptions } from "./messagesModels.js";
 import { OptionalRequestParameters, UpdateRunOptions } from "./inputOutputs.js";
 import { createVectorStore, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
 import { getRunStep, listRunSteps } from "./runSteps.js";
+import { ReadableStreamReader } from "stream/web";
 
 export interface AgentsOperations {
   /** Creates a new agent. */
@@ -156,7 +157,7 @@ export interface AgentsOperations {
   getFileContent: (
     fileId: string,
     requestParams?: OptionalRequestParameters
-  ) => Promise<string>;
+  ) => Promise<ReadableStreamReader<string>>;
 
   /** Returns a list of vector stores. */
   listVectorStores: (
@@ -256,9 +257,11 @@ function getAgents(context: Client): AgentsOperations {
 
     listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) =>
       listFiles(context, {...requestParams, body: {purpose } }),
-    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, _purpose: string, fileName?: string, requestParams?: OptionalRequestParameters) =>
+    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: string, fileName?: string, requestParams?: OptionalRequestParameters) =>
       uploadFile(context, {
-        body: [{ name: "file" as const, body: content, filename: fileName, }], ...(requestParams as { [key: string]: any; }),
+        body: [{ name: "file" as const, body: content, filename: fileName }],
+        queryParameters: { purpose },
+        ...(requestParams as { [key: string]: any; }),
         contentType: "multipart/form-data"
       }),
     deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) =>
