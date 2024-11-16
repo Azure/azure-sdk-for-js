@@ -22,7 +22,7 @@ steps:
 
   - script: |
       npm install ./eng/tools/versioning
-      node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)"
+      node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
       node common/scripts/install-run-rush.js update
     condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
     displayName: "Update package versions for dev build"
@@ -84,8 +84,7 @@ steps:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   - pwsh: |
-      $artifacts = Get-ChildItem -Recurse -Force "$(Build.ArtifactStagingDirectory)/PackageInfo/*.json" `
-          | ForEach-Object { $_.Name.Replace(".json", "") }
+      $artifacts = "$(ArtifactPackageNames)".Split(",")
 
       foreach ($artifact in $artifacts)
       {

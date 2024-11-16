@@ -1,6 +1,6 @@
 {
   "name": "@azure/communication-chat",
-  "version": "1.5.4",
+  "version": "1.5.5",
   "description": "Azure client library for Azure Communication Chat services",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -85,7 +85,7 @@
     "@types/chai": "^4.1.6",
     "@types/mocha": "^10.0.0",
     "@types/node": "^18.0.0",
-    "@types/sinon": "^17.0.0",
+    "@types/sinon": "^17.0.3",
     "@types/uuid": "^8.0.0",
     "chai": "^4.2.0",
     "dotenv": "^16.0.0",
@@ -104,7 +104,7 @@
     "karma-sourcemap-loader": "^0.3.8",
     "mocha": "^10.0.0",
     "nyc": "^17.0.0",
-    "sinon": "^17.0.0",
+    "sinon": "^19.0.2",
     "ts-node": "^10.0.0",
     "typescript": "~5.6.2",
     "util": "^0.12.1"
