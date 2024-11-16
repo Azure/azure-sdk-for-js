@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { Context, Suite } from "mocha";
-
 import { delay } from "@azure/core-util";
 import type { OpenAIClient } from "@azure/openai";
+import { assert } from "chai";
+import type { Context, Suite } from "mocha";
 import type {
   AutocompleteResult,
   SearchIndex,
