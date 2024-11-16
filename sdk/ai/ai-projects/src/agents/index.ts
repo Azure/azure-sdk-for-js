@@ -141,7 +141,7 @@ export interface AgentsOperations {
     purpose?: FilePurpose, requestParams?: OptionalRequestParameters
   ) => Promise<FileListResponseOutput>;
   /** Uploads a file for use by other operations. */
-  uploadFile: (content: ReadableStream |NodeJS.ReadableStream, purpose:string, fileName?: string, requestParams?: OptionalRequestParameters   
+  uploadFile: (content: ReadableStream |NodeJS.ReadableStream, purpose:FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters   
   ) => Promise<OpenAIFileOutput>
   /** Delete a previously uploaded file. */
   deleteFile: (
@@ -257,7 +257,7 @@ function getAgents(context: Client): AgentsOperations {
 
     listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) =>
       listFiles(context, {...requestParams, body: {purpose } }),
-    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: string, fileName?: string, requestParams?: OptionalRequestParameters) =>
+    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) =>
       uploadFile(context, {
         body: [{ name: "file" as const, body: content, filename: fileName }, {name: "purpose" as const, body: purpose}],
         ...(requestParams as { [key: string]: any; }),
