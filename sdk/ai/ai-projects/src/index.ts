@@ -3,8 +3,10 @@
 
 import { AIProjectsClient, AIProjectsClientOptions } from "./aiProjectsClient.js";
 import { ProjectsClientOptions } from "./generated/src/projectsClient.js"
-export {AgentsOperations }  from "./agents/index.js";
+export { AgentsOperations }  from "./agents/index.js";
+export { ConnectionsOperations } from "./connections/index.js";
 
-export  *   from "./agents/inputOutputs.js";
+export * from "./agents/inputOutputs.js";
+export * from "./connections/inputOutput.js";
 
 export { AIProjectsClient, AIProjectsClientOptions, ProjectsClientOptions };

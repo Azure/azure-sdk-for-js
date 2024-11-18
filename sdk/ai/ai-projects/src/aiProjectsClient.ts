@@ -5,6 +5,7 @@ import { Pipeline } from "@azure/core-rest-pipeline";
 import createClient, { ProjectsClientOptions } from "./generated/src/projectsClient.js";
 import { Client } from "@azure-rest/core-client";
 import { AgentsOperations, getAgentsOperations } from "./agents/index.js";
+import { ConnectionsOperations, getConnectionsOperations } from "./connections/index.js";
 
 export interface AIProjectsClientOptions extends ProjectsClientOptions{
 }
@@ -39,6 +40,7 @@ export class AIProjectsClient {
     );
     this.pipeline = this._client.pipeline;
     this.agents = getAgentsOperations(this._client);
+    this.connections = getConnectionsOperations(this._client);
   }
 
   /**
@@ -82,4 +84,7 @@ export class AIProjectsClient {
 
   /** The operation groups for Agents */
   public readonly agents: AgentsOperations;
+
+  /** The operation groups for connections */
+  public readonly connections: ConnectionsOperations;
 }

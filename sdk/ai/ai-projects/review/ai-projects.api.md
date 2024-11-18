@@ -165,6 +165,7 @@ export interface AgentThreadOutput {
 export class AIProjectsClient {
     constructor(endpointParam: string, subscriptionId: string, resourceGroupName: string, projectName: string, credential: TokenCredential, options?: AIProjectsClientOptions);
     readonly agents: AgentsOperations;
+    readonly connections: ConnectionsOperations;
     static fromConnectionString(connectionString: string, credential: TokenCredential, options?: AIProjectsClientOptions): AIProjectsClient;
     readonly pipeline: Pipeline;
 }
@@ -255,6 +256,14 @@ export interface CodeInterpreterToolResource {
 // @public
 export interface CodeInterpreterToolResourceOutput {
     file_ids?: string[];
+}
+
+// @public (undocumented)
+export interface ConnectionsOperations {
+    getConnection: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
+    getConnectionWithSecrets: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
+    getWorkspace: (requestParams?: OptionalRequestParameters) => Promise<GetWorkspaceResponseOutput>;
+    listConnections: (options?: ListConnectionsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<ListConnectionsResponseOutput>;
 }
 
 // @public
@@ -599,6 +608,13 @@ export interface InternalConnectionPropertiesSASAuthOutput extends InternalConne
     category: ConnectionTypeOutput;
     credentials: CredentialsSASAuthOutput;
     target: string;
+}
+
+// @public (undocumented)
+export interface ListConnectionsQueryParamProperties {
+    category?: ConnectionType;
+    includeAll?: boolean;
+    target?: string;
 }
 
 // @public
