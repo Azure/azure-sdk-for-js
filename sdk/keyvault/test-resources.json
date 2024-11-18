@@ -67,9 +67,18 @@
       "virtualNetworkRules": [],
       "ipRules": [],
       "defaultAction": "Allow"
-    }
+    },
+    "managedIdentityName": "[format('{0}-mi', parameters('baseName'))]",
+    "managedIdentityId": "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('managedIdentityName'))]"
   },
   "resources": [
+    {
+      "type": "Microsoft.ManagedIdentity/userAssignedIdentities",
+      "apiVersion": "2023-01-31",
+      "condition": "[parameters('enableHsm')]",
+      "name": "[variables('managedIdentityName')]",
+      "location": "[parameters('location')]"
+    },
     {
       "type": "Microsoft.KeyVault/vaults",
       "apiVersion": "2024-04-01-preview",
@@ -108,6 +117,12 @@
         "family": "B",
         "name": "Standard_B1"
       },
+      "identity": {
+        "type": "UserAssigned",
+        "userAssignedIdentities": {
+          "[variables('managedIdentityId')]": {}
+        }
+      },
       "properties": {
         "publicNetworkAccess": "Enabled",
         "networkAcls": "[variables('networkAcls')]",
@@ -116,7 +131,10 @@
         "enablePurgeProtection": false,
         "enableSoftDelete": true,
         "softDeleteRetentionInDays": 7
-      }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('managedIdentityName'))]"
+      ]
     },
     {
       "type": "Microsoft.Storage/storageAccounts",
@@ -193,9 +211,7 @@
           ]
         }
       },
-      "dependsOn": [
-        "[resourceId('Microsoft.Web/serverfarms', variables('attestationFarm'))]"
-      ]
+      "dependsOn": ["[resourceId('Microsoft.Web/serverfarms', variables('attestationFarm'))]"]
     }
   ],
   "outputs": {
@@ -226,6 +242,10 @@
     "AZURE_KEYVAULT_ATTESTATION_URI": {
       "type": "string",
       "value": "[format('https://{0}/', reference(resourceId('Microsoft.Web/sites', variables('attestationSite')), '2023-12-01').defaultHostName)]"
+    },
+    "MANAGED_IDENTITY_ID": {
+      "type": "string",
+      "value": "[variables('managedIdentityId')]"
     }
   }
 }
