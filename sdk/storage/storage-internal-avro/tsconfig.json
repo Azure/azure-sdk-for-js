@@ -15,26 +15,11 @@
     "declaration": true,
     "declarationMap": true,
     "importHelpers": true,
-    "lib": [
-      "dom",
-      "es5",
-      "es6",
-      "es7",
-      "esnext"
-    ],
+    "lib": ["dom", "es5", "es6", "es7", "esnext"],
     "esModuleInterop": true,
     "rootDir": "."
   },
   "compileOnSave": true,
-  "exclude": [
-    "node_modules",
-    "./samples/**"
-  ],
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.mts",
-    "src/**/*.cts",
-    "samples-dev/**/*.ts",
-    "test/**/*.ts"
-  ]
+  "exclude": ["node_modules", "./samples/**"],
+  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "samples-dev/**/*.ts", "test/**/*.ts"]
 }
