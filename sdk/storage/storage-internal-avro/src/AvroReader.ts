@@ -9,11 +9,11 @@ import {
   AVRO_INIT_BYTES,
   AVRO_SCHEMA_KEY,
   AVRO_SYNC_MARKER_SIZE,
-} from "./AvroConstants";
-import { AvroParser, AvroType } from "./AvroParser";
+} from "./AvroConstants.js";
+import { AvroParser, AvroType } from "./AvroParser.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { AvroReadable } from "./AvroReadable";
-import { arraysEqual } from "./utils/utils.common";
+import type { AvroReadable } from "./AvroReadable.js";
+import { arraysEqual } from "./utils/utils.common.js";
 
 /**
  * Options to configure the {@link AvroReader.parseObjects} operation.

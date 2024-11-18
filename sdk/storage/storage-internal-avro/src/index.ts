@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { AvroReader } from "./AvroReader";
-export { AvroReadable } from "./AvroReadable";
-export { AvroReadableFromStream } from "./AvroReadableFromStream";
+export { AvroReader } from "./AvroReader.js";
+export { AvroReadable } from "./AvroReadable.js";
+export { AvroReadableFromStream } from "./AvroReadableFromStream.js";
