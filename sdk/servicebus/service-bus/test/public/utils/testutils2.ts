@@ -3,13 +3,13 @@
 
 // Anything we expect to be available to users should come from this import
 // as a simple sanity check that we've exported things properly.
-import {
-  ServiceBusClient,
+import type {
   ServiceBusReceiver,
   ServiceBusSessionReceiver,
   ServiceBusClientOptions,
   ServiceBusSender,
 } from "../../../src/index.js";
+import { ServiceBusClient } from "../../../src/index.js";
 
 import { TestClientType, TestMessage } from "./testUtils.js";
 import { EnvVarNames, getEnvVars } from "./envVarUtils.js";
@@ -19,8 +19,11 @@ import {
   recreateTopic,
   verifyMessageCount,
 } from "./managementUtils.js";
-import { ServiceBusReceivedMessage, ServiceBusMessage } from "../../../src/index.js";
-import { ServiceBusReceiverOptions, ServiceBusSessionReceiverOptions } from "../../../src/index.js";
+import type { ServiceBusReceivedMessage, ServiceBusMessage } from "../../../src/index.js";
+import type {
+  ServiceBusReceiverOptions,
+  ServiceBusSessionReceiverOptions,
+} from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { afterAll, afterEach, beforeAll, beforeEach } from "vitest";
 import { should } from "./chai.js";

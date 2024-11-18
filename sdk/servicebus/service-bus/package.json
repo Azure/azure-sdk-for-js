@@ -124,7 +124,6 @@
     "chai": "^5.1.1",
     "chai-as-promised": "^8.0.0",
     "chai-exclude": "^3.0.0",
-    "cross-env": "^7.0.2",
     "debug": "^4.1.1",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",

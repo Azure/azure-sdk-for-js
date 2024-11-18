@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   KeyVaultBackupClientOptions,
   KeyVaultBackupResult,
   KeyVaultBeginBackupOptions,
@@ -19,8 +19,8 @@ import { KeyVaultRestorePoller } from "./lro/restore/poller.js";
 import { KeyVaultSelectiveKeyRestoreOperationState } from "./lro/selectiveKeyRestore/operation.js";
 import { KeyVaultSelectiveKeyRestorePoller } from "./lro/selectiveKeyRestore/poller.js";
 import { LATEST_API_VERSION } from "./constants.js";
-import { PollerLike } from "@azure/core-lro";
-import { TokenCredential } from "@azure/core-auth";
+import type { PollerLike } from "@azure/core-lro";
+import type { TokenCredential } from "@azure/core-auth";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { logger } from "./log.js";
 import { mappings } from "./mappings.js";

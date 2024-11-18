@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-util";
-import {
+import type {
   QueueCreateResponse,
   QueueDeleteResponse,
   QueueItem,
@@ -19,11 +20,13 @@ import {
   ServiceGetStatisticsHeaders,
   QueueServiceStatistics,
 } from "./generatedModels";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { Service } from "./generated/src/operationsInterfaces";
-import { newPipeline, StoragePipelineOptions, Pipeline, isPipelineLike } from "./Pipeline";
-import { StorageClient, CommonOptions } from "./StorageClient";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { Service } from "./generated/src/operationsInterfaces";
+import type { StoragePipelineOptions, Pipeline } from "./Pipeline";
+import { newPipeline, isPipelineLike } from "./Pipeline";
+import type { CommonOptions } from "./StorageClient";
+import { StorageClient } from "./StorageClient";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   appendToURLPath,
   appendToURLQuery,
@@ -33,15 +36,16 @@ import {
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 import { tracingClient } from "./utils/tracing";
-import { QueueClient, QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
+import type { QueueCreateOptions, QueueDeleteOptions } from "./QueueClient";
+import { QueueClient } from "./QueueClient";
 import { AccountSASPermissions } from "./AccountSASPermissions";
 import {
   generateAccountSASQueryParameters,
   generateAccountSASQueryParametersInternal,
 } from "./AccountSASSignatureValues";
 import { AccountSASServices } from "./AccountSASServices";
-import { SASProtocol } from "./SASQueryParameters";
-import { SasIPRange } from "./SasIPRange";
+import type { SASProtocol } from "./SASQueryParameters";
+import type { SasIPRange } from "./SasIPRange";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 
 /**

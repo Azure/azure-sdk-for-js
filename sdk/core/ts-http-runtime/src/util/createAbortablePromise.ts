@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { AbortError } from "../abort-controller/AbortError.js";
-import { AbortOptions } from "./aborterUtils.js";
+import type { AbortOptions } from "./aborterUtils.js";
 
 /**
  * Options for the createAbortablePromise function.

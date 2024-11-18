@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DataType, IndexingMode, IndexKind } from "./index";
+import type { DataType, IndexingMode, IndexKind } from "./index";
 
 export interface IndexingPolicy {
   /** The indexing mode (consistent or lazy) {@link IndexingMode}. */

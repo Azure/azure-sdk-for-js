@@ -3,7 +3,7 @@
 
 import { describe, it, assert, vi } from "vitest";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
-import { PipelinePolicy } from "../src/pipeline.js";
+import type { PipelinePolicy } from "../src/pipeline.js";
 import { createHttpHeaders } from "../src/httpHeaders.js";
 import { createPipelineFromOptions } from "../src/createPipelineFromOptions.js";
 import { createPipelineRequest } from "../src/pipelineRequest.js";

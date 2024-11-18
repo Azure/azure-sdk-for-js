@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { WebPubSubMessage } from "../models/messages";
+import type { WebPubSubMessage } from "../models/messages";
 import { WebPubSubJsonProtocolImpl } from "./webPubSubJsonProtocol";
 import { WebPubSubJsonReliableProtocolImpl } from "./webPubSubJsonReliableProtocol";
 

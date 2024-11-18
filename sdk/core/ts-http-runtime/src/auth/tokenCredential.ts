@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
-import { TracingContext } from "../tracing/interfaces.js";
+import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
+import type { TracingContext } from "../tracing/interfaces.js";
 
 /**
  * Represents a credential capable of providing an authentication token.

@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { BlobSASPermissions } from "./BlobSASPermissions";
-import { UserDelegationKey } from "../BlobServiceClient";
+import type { UserDelegationKey } from "../BlobServiceClient";
 import { ContainerSASPermissions } from "./ContainerSASPermissions";
 import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
 import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential";
-import { ipRangeToString, SasIPRange } from "./SasIPRange";
-import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
+import type { SasIPRange } from "./SasIPRange";
+import { ipRangeToString } from "./SasIPRange";
+import type { SASProtocol } from "./SASQueryParameters";
+import { SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "../utils/constants";
 import { truncatedISO8061Date } from "../utils/utils.common";
 

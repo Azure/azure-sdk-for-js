@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export * from "./models";
-export * from "./tieringClient";
+export * from "./models.js";
+export * from "./tieringClient.js";

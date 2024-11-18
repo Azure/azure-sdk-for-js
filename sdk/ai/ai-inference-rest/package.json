@@ -1,6 +1,6 @@
 {
   "name": "@azure-rest/ai-inference",
-  "version": "1.0.0-beta.3",
+  "version": "1.0.0-beta.4",
   "description": "Inference API for Azure-supported AI models",
   "exports": {
     "./package.json": "./package.json",
@@ -99,7 +99,6 @@
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
     "autorest": "latest",
-    "cross-env": "7.0.3",
     "dotenv": "^16.4.5",
     "eslint": "^9.9.0",
     "playwright": "^1.41.2",

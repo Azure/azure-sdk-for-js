@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { isTokenCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import { logger } from "./logger";
-import { AzureCommunicationRoutingServiceClient } from "./clientDefinitions";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import { logger } from "./logger.js";
+import type { AzureCommunicationRoutingServiceClient } from "./clientDefinitions.js";
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,

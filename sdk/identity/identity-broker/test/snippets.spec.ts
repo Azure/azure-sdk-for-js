@@ -4,6 +4,7 @@
 import { InteractiveBrowserCredential, useIdentityPlugin } from "@azure/identity";
 import { nativeBrokerPlugin } from "@azure/identity-broker";
 import { setLogLevel } from "@azure/logger";
+import { describe, it } from "vitest";
 
 describe("snippets", function () {
   it("getting_started", function () {

@@ -7,13 +7,13 @@
 /// <reference lib="esnext.asynciterable" />
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
-import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-client';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { Pipeline } from '@azure/core-rest-pipeline';
-import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { ExtendedCommonClientOptions } from '@azure/core-http-compat';
+import type { KeyCredential } from '@azure/core-auth';
+import type { OperationOptions } from '@azure/core-client';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { Pipeline } from '@azure/core-rest-pipeline';
+import type { RestError } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AIServicesVisionParameters {

@@ -3,20 +3,23 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, delay } from "@azure-tools/test-recorder";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { delay } from "@azure-tools/test-recorder";
+import { UsernamePasswordCredential } from "../../../src/index.js";
+import { getUsernamePasswordStaticResources } from "../../msalTestUtils.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-import { Context } from "mocha";
-import { UsernamePasswordCredential } from "../../../src";
-import { assert } from "@azure-tools/test-utils";
-import { getUsernamePasswordStaticResources } from "../../msalTestUtils";
+expect.extend({ toSupportTracing });
 
 describe("UsernamePasswordCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(async function (ctx) {
+    const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
     recorder = setup.recorder;
   });
@@ -26,7 +29,7 @@ describe("UsernamePasswordCredential", function () {
 
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates", async function (this: Context) {
+  it("authenticates", async function (ctx) {
     const { tenantId, clientId, username, password } = getUsernamePasswordStaticResources();
 
     const credential = new UsernamePasswordCredential(
@@ -73,22 +76,18 @@ describe("UsernamePasswordCredential", function () {
     assert.ok(error?.message.includes("endpoints_resolution_error"));
   });
 
-  it("supports tracing", async function (this: Context) {
+  it("supports tracing", async function (ctx) {
     const { clientId, tenantId, username, password } = getUsernamePasswordStaticResources();
 
-    await assert.supportsTracing(
-      async (tracingOptions) => {
-        const credential = new UsernamePasswordCredential(
-          tenantId,
-          clientId,
-          username,
-          password,
-          recorder.configureClientOptions({}),
-        );
-
-        await credential.getToken(scope, tracingOptions);
-      },
-      ["UsernamePasswordCredential.getToken"],
-    );
+    await expect(async (tracingOptions) => {
+      const credential = new UsernamePasswordCredential(
+        tenantId,
+        clientId,
+        username,
+        password,
+        recorder.configureClientOptions({}),
+      );
+      await credential.getToken(scope, tracingOptions);
+    }).toSupportTracing(["UsernamePasswordCredential.getToken"]);
   });
 });

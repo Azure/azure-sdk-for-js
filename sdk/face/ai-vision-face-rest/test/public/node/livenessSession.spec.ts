@@ -6,9 +6,10 @@ import { readFileSync } from "fs";
 
 import { createRecorder, createClient } from "../utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 
-import { FaceClient, isUnexpected } from "../../../src/index.js";
+import type { FaceClient } from "../../../src/index.js";
+import { isUnexpected } from "../../../src/index.js";
 
 describe("SessionWithVerify", () => {
   let recorder: Recorder;

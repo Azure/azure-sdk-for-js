@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MessagingError } from "@azure/core-amqp";
+import type { MessagingError } from "@azure/core-amqp";
 import { LockRenewer } from "../../../src/core/autoLockRenewer.js";
-import {
+import type {
   ManagementClient,
   SendManagementRequestOptions,
 } from "../../../src/core/managementClient.js";

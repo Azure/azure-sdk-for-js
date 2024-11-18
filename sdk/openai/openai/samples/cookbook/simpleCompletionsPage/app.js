@@ -25,7 +25,7 @@ app.post("/api/completions", async (req, res) => {
     endpoint: process.env.AZURE_OPENAI_ENDPOINT,
     deployment: process.env.AZURE_OPENAI_DEPLOYMENT,
     azureADTokenProvider,
-    apiVersion: "2024-07-01-preview",
+    apiVersion: "2024-10-21",
   });
 
   const prompt = req.body.prompt;
