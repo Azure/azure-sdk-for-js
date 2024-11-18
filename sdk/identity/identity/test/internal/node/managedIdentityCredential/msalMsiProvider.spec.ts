@@ -1,20 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import Sinon from "sinon";
-import { assert } from "@azure-tools/test-utils";
-import type { AuthenticationResult } from "@azure/msal-node";
+import type { AuthenticationResult, ManagedIdentityRequestParams } from "@azure/msal-node";
 import { AuthError, ManagedIdentityApplication } from "@azure/msal-node";
-import { ManagedIdentityCredential } from "../../../../src/credentials/managedIdentityCredential/index";
-import { tokenExchangeMsi } from "../../../../src/credentials/managedIdentityCredential/tokenExchangeMsi";
-import { imdsMsi } from "../../../../src/credentials/managedIdentityCredential/imdsMsi";
+import { ManagedIdentityCredential } from "../../../../src/credentials/managedIdentityCredential/index.js";
+import { tokenExchangeMsi } from "../../../../src/credentials/managedIdentityCredential/tokenExchangeMsi.js";
+import { imdsMsi } from "../../../../src/credentials/managedIdentityCredential/imdsMsi.js";
 import { RestError } from "@azure/core-rest-pipeline";
-import { AuthenticationRequiredError, CredentialUnavailableError } from "../../../../src/errors";
-import type { AccessToken } from "@azure/core-auth";
+import { AuthenticationRequiredError, CredentialUnavailableError } from "../../../../src/errors.js";
+import type { AccessToken, GetTokenOptions } from "@azure/core-auth";
+import { describe, it, assert, expect, vi, beforeEach, afterEach, MockInstance } from "vitest";
+import { IdentityClient } from "../../../../src/client/identityClient.js";
 
 describe("ManagedIdentityCredential (MSAL)", function () {
-  let acquireTokenStub: Sinon.SinonStub;
-  let imdsIsAvailableStub: Sinon.SinonStub;
+  let acquireTokenStub: MockInstance<
+    (managedIdentityRequestParams: ManagedIdentityRequestParams) => Promise<AuthenticationResult>
+  >;
+  let imdsIsAvailableStub: MockInstance<
+    (options: {
+      scopes: string | string[];
+      identityClient?: IdentityClient;
+      clientId?: string;
+      resourceId?: string;
+      getTokenOptions?: GetTokenOptions;
+    }) => Promise<boolean>
+  >;
 
   const validAuthenticationResult: Partial<AuthenticationResult> = {
     accessToken: "test_token",
@@ -22,12 +31,12 @@ describe("ManagedIdentityCredential (MSAL)", function () {
   };
 
   beforeEach(function () {
-    acquireTokenStub = Sinon.stub(ManagedIdentityApplication.prototype, "acquireToken");
-    imdsIsAvailableStub = Sinon.stub(imdsMsi, "isAvailable").resolves(true); // Skip pinging the IMDS endpoint in tests
+    acquireTokenStub = vi.spyOn(ManagedIdentityApplication.prototype, "acquireToken");
+    imdsIsAvailableStub = vi.spyOn(imdsMsi, "isAvailable").mockResolvedValue(true); // Skip pinging the IMDS endpoint in tests
   });
 
   afterEach(function () {
-    Sinon.restore();
+    vi.restoreAllMocks();
   });
 
   describe("constructor", function () {
@@ -67,7 +76,7 @@ describe("ManagedIdentityCredential (MSAL)", function () {
 
     describe("when using CloudShell Managed Identity", function () {
       it("throws when user-assigned IDs are provided", function () {
-        Sinon.stub(ManagedIdentityApplication.prototype, "getManagedIdentitySource").returns(
+        vi.spyOn(ManagedIdentityApplication.prototype, "getManagedIdentitySource").mockReturnValue(
           "CloudShell",
         );
 
@@ -90,7 +99,7 @@ describe("ManagedIdentityCredential (MSAL)", function () {
   describe("#getToken", function () {
     describe("when getToken is successful", function () {
       it("returns a token", async function () {
-        acquireTokenStub.resolves(validAuthenticationResult as AuthenticationResult);
+        acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
         const credential = new ManagedIdentityCredential();
         const token = await credential.getToken("scope");
         assert.strictEqual(token.token, validAuthenticationResult.accessToken);
@@ -107,8 +116,10 @@ describe("ManagedIdentityCredential (MSAL)", function () {
             expiresOnTimestamp: new Date().getTime(),
             tokenType: "Bearer",
           } as AccessToken;
-          Sinon.stub(tokenExchangeMsi, "isAvailable").resolves(true);
-          Sinon.stub(tokenExchangeMsi, "getToken").resolves(validToken);
+
+          vi.spyOn(tokenExchangeMsi, "isAvailable").mockResolvedValue(true);
+
+          vi.spyOn(tokenExchangeMsi, "getToken").mockResolvedValue(validToken);
 
           const credential = new ManagedIdentityCredential();
           const token = await credential.getToken("scope");
@@ -119,50 +130,51 @@ describe("ManagedIdentityCredential (MSAL)", function () {
 
       describe("when using IMDS", function () {
         it("probes the IMDS endpoint", async function () {
-          Sinon.stub(ManagedIdentityApplication.prototype, "getManagedIdentitySource").returns(
-            "DefaultToImds",
-          );
-          acquireTokenStub.resolves(validAuthenticationResult as AuthenticationResult);
+          vi.spyOn(
+            ManagedIdentityApplication.prototype,
+            "getManagedIdentitySource",
+          ).mockReturnValue("DefaultToImds");
+          acquireTokenStub.mockResolvedValue(validAuthenticationResult as AuthenticationResult);
 
           const credential = new ManagedIdentityCredential();
           await credential.getToken("scope");
-          assert.isTrue(imdsIsAvailableStub.calledOnce);
+          expect(imdsIsAvailableStub).toHaveBeenCalledOnce();
         });
       });
     });
 
     it("validates multiple scopes are not supported", async function () {
       const credential = new ManagedIdentityCredential();
-      await assert.isRejected(credential.getToken(["scope1", "scope2"]), /Multiple scopes/);
+      await expect(credential.getToken(["scope1", "scope2"])).rejects.toThrow(/Multiple scopes/);
     });
 
     describe("error handling", function () {
       it("rethrows AuthenticationRequiredError", async function () {
-        acquireTokenStub.rejects(new AuthenticationRequiredError({ scopes: ["scope"] }));
+        acquireTokenStub.mockRejectedValue(new AuthenticationRequiredError({ scopes: ["scope"] }));
         const credential = new ManagedIdentityCredential();
-        await assert.isRejected(credential.getToken("scope"), AuthenticationRequiredError);
+        await expect(credential.getToken("scope")).rejects.toThrow(AuthenticationRequiredError);
       });
 
       it("handles an unreachable network error", async function () {
-        acquireTokenStub.rejects(new AuthError("network_error"));
+        acquireTokenStub.mockRejectedValue(new AuthError("network_error"));
         const credential = new ManagedIdentityCredential();
-        await assert.isRejected(credential.getToken("scope"), CredentialUnavailableError);
+        await expect(credential.getToken("scope")).rejects.toThrow(CredentialUnavailableError);
       });
 
       it("handles a 403 status code", async function () {
-        acquireTokenStub.rejects(
+        acquireTokenStub.mockRejectedValue(
           new RestError("A socket operation was attempted to an unreachable network", {
             statusCode: 403,
           }),
         );
         const credential = new ManagedIdentityCredential();
-        await assert.isRejected(credential.getToken("scope"), /Network unreachable/);
+        await expect(credential.getToken("scope")).rejects.toThrow(/Network unreachable/);
       });
 
       it("handles unexpected errors", async function () {
-        acquireTokenStub.rejects(new Error("Some unexpected error"));
+        acquireTokenStub.mockRejectedValue(new Error("Some unexpected error"));
         const credential = new ManagedIdentityCredential();
-        await assert.isRejected(credential.getToken("scope"), /Authentication failed/);
+        await expect(credential.getToken("scope")).rejects.toThrow(/Authentication failed/);
       });
     });
   });

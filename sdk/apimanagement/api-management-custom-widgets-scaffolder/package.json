@@ -26,8 +26,7 @@
   "files": [
     "dist/",
     "bin/",
-    "LICENSE",
-    "dist-esm/src"
+    "LICENSE"
   ],
   "type": "module",
   "scripts": {
