@@ -5,7 +5,7 @@
 ```ts
 
 import { AzureLogger } from '@azure/logger';
-import type * as coreClient from '@azure/core-client';
+import type * as coreClient from '@azure-rest/core-client';
 import type { ExtendedCommonClientOptions } from '@azure/core-http-compat';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
@@ -146,7 +146,7 @@ export interface DeletedKey {
     };
 }
 
-// @public
+// @public (undocumented)
 export type DeletionRecoveryLevel = string;
 
 // @public
@@ -352,11 +352,8 @@ export interface KeyVaultKeyIdentifier {
 // @public
 export type KeyWrapAlgorithm = "A128KW" | "A192KW" | "A256KW" | "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
-// @public
+// @public (undocumented)
 export enum KnownDeletionRecoveryLevel {
-    CustomizedRecoverable = "CustomizedRecoverable",
-    CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
-    CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
     Purgeable = "Purgeable",
     Recoverable = "Recoverable",
     RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
@@ -385,7 +382,7 @@ export enum KnownEncryptionAlgorithms {
 // @public
 export enum KnownKeyCurveNames {
     P256 = "P-256",
-    P256K = "P-256K",
+    P256_K = "P-256K",
     P384 = "P-384",
     P521 = "P-521"
 }
@@ -421,7 +418,7 @@ export enum KnownKeyTypes {
 // @public
 export enum KnownSignatureAlgorithms {
     ES256 = "ES256",
-    ES256K = "ES256K",
+    ES256_K = "ES256K",
     ES384 = "ES384",
     ES512 = "ES512",
     PS256 = "PS256",
@@ -430,7 +427,7 @@ export enum KnownSignatureAlgorithms {
     RS256 = "RS256",
     RS384 = "RS384",
     RS512 = "RS512",
-    Rsnull = "RSNULL"
+    RSNULL = "RSNULL"
 }
 
 // @public

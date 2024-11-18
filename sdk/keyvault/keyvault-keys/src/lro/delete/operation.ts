@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import type { KeyVaultClient } from "../../generated/keyVaultClient.js";
 import type { DeleteKeyOptions, DeletedKey, GetDeletedKeyOptions } from "../../keysModels.js";
 import { tracingClient } from "../../tracing.js";
@@ -21,7 +21,6 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
 > {
   constructor(
     public state: DeleteKeyPollOperationState,
-    private vaultUrl: string,
     private client: KeyVaultClient,
     private operationOptions: OperationOptions = {},
   ) {
@@ -34,7 +33,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
    */
   private deleteKey(name: string, options: DeleteKeyOptions = {}): Promise<DeletedKey> {
     return tracingClient.withSpan("DeleteKeyPoller.deleteKey", options, async (updatedOptions) => {
-      const response = await this.client.deleteKey(this.vaultUrl, name, updatedOptions);
+      const response = await this.client.deleteKey(name, updatedOptions);
       return getKeyFromKeyBundle(response);
     });
   }
@@ -48,7 +47,7 @@ export class DeleteKeyPollOperation extends KeyVaultKeyPollOperation<
       "DeleteKeyPoller.getDeletedKey",
       options,
       async (updatedOptions) => {
-        const response = await this.client.getDeletedKey(this.vaultUrl, name, updatedOptions);
+        const response = await this.client.getDeletedKey(name, updatedOptions);
         return getKeyFromKeyBundle(response);
       },
     );

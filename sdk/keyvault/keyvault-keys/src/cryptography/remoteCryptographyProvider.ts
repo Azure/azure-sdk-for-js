@@ -21,6 +21,7 @@ import type {
 } from "../cryptographyClientModels.js";
 import { SDK_VERSION } from "../constants.js";
 import type { UnwrapResult } from "../cryptographyClientModels.js";
+import type { KeyVaultClientOptionalParams } from "../generated/index.js";
 import { KeyVaultClient } from "../generated/index.js";
 import { parseKeyVaultKeyIdentifier } from "../identifier.js";
 import type { CryptographyClientOptions, GetKeyOptions, KeyVaultKey } from "../keysModels.js";
@@ -31,6 +32,7 @@ import type { CryptographyProvider, CryptographyProviderOperation } from "./mode
 import { logger } from "../log.js";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { tracingClient } from "../tracing.js";
+import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 
 /**
  * The remote cryptography provider is used to run crypto operations against KeyVault.
@@ -42,7 +44,9 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     credential: TokenCredential,
     pipelineOptions: CryptographyClientOptions = {},
   ) {
-    this.client = getOrInitializeClient(credential, pipelineOptions);
+    const keyUrl = typeof key === "string" ? key : key.id!;
+    const vaultUrl = parseKeyVaultKeyIdentifier(keyUrl).vaultUrl;
+    this.client = getOrInitializeClient(vaultUrl, credential, pipelineOptions);
 
     this.key = key;
 
@@ -90,11 +94,18 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       requestOptions,
       async (updatedOptions) => {
         const result = await this.client.encrypt(
-          this.vaultUrl,
           this.name,
           this.version,
-          algorithm,
-          plaintext,
+          {
+            algorithm,
+            value: plaintext,
+            aad:
+              "additionalAuthenticatedData" in encryptParameters
+                ? encryptParameters.additionalAuthenticatedData
+                : undefined,
+            iv: "iv" in encryptParameters ? encryptParameters.iv : undefined,
+            // TODO: tag?
+          },
           updatedOptions,
         );
 
@@ -122,11 +133,21 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       requestOptions,
       async (updatedOptions) => {
         const result = await this.client.decrypt(
-          this.vaultUrl,
           this.name,
           this.version,
-          algorithm,
-          ciphertext,
+          {
+            algorithm,
+            value: ciphertext,
+            aad:
+              "additionalAuthenticatedData" in decryptParameters
+                ? decryptParameters.additionalAuthenticatedData
+                : undefined,
+            iv: "iv" in decryptParameters ? decryptParameters.iv : undefined,
+            tag:
+              "authenticationTag" in decryptParameters
+                ? decryptParameters.authenticationTag
+                : undefined,
+          },
           updatedOptions,
         );
         return {
@@ -148,11 +169,12 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       options,
       async (updatedOptions) => {
         const result = await this.client.wrapKey(
-          this.vaultUrl,
           this.name,
           this.version,
-          algorithm,
-          keyToWrap,
+          {
+            algorithm,
+            value: keyToWrap,
+          },
           updatedOptions,
         );
 
@@ -175,11 +197,12 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       options,
       async (updatedOptions) => {
         const result = await this.client.unwrapKey(
-          this.vaultUrl,
           this.name,
           this.version,
-          algorithm,
-          encryptedKey,
+          {
+            algorithm,
+            value: encryptedKey,
+          },
           updatedOptions,
         );
 
@@ -198,11 +221,12 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       options,
       async (updatedOptions) => {
         const result = await this.client.sign(
-          this.vaultUrl,
           this.name,
           this.version,
-          algorithm,
-          digest,
+          {
+            algorithm,
+            value: digest,
+          },
           updatedOptions,
         );
 
@@ -238,12 +262,13 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       options,
       async (updatedOptions) => {
         const response = await this.client.verify(
-          this.vaultUrl,
           this.name,
           this.version,
-          algorithm,
-          digest,
-          signature,
+          {
+            algorithm,
+            digest,
+            signature,
+          },
           updatedOptions,
         );
         return {
@@ -261,11 +286,12 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       async (updatedOptions) => {
         const digest = await createHash(algorithm, data);
         const result = await this.client.sign(
-          this.vaultUrl,
           this.name,
           this.version,
-          algorithm,
-          digest,
+          {
+            algorithm,
+            value: digest,
+          },
           updatedOptions,
         );
         return { result: result.result!, algorithm, keyID: this.getKeyID() };
@@ -300,7 +326,6 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
             throw new Error("getKey requires a key with a name");
           }
           const response = await this.client.getKey(
-            this.vaultUrl,
             this.name,
             options && options.version ? options.version : this.version ? this.version : "",
             updatedOptions,
@@ -359,6 +384,7 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
  * @returns - A generated client instance
  */
 function getOrInitializeClient(
+  vaultUrl: string,
   credential: TokenCredential,
   options: CryptographyClientOptions & { generatedClient?: KeyVaultClient },
 ): KeyVaultClient {
@@ -377,11 +403,12 @@ function getOrInitializeClient(
         : libInfo,
   };
 
-  const internalPipelineOptions = {
+  const internalPipelineOptions: KeyVaultClientOptionalParams = {
     ...options,
+    apiVersion: options.serviceVersion || LATEST_API_VERSION,
     loggingOptions: {
       logger: logger.info,
-      allowedHeaderNames: [
+      additionalAllowedHeaderNames: [
         "x-ms-keyvault-region",
         "x-ms-keyvault-network-info",
         "x-ms-keyvault-service-version",
@@ -389,13 +416,11 @@ function getOrInitializeClient(
     },
   };
 
-  const client = new KeyVaultClient(
-    options.serviceVersion || LATEST_API_VERSION,
-    internalPipelineOptions,
-  );
+  const client = new KeyVaultClient(vaultUrl, credential, internalPipelineOptions);
 
   // The authentication policy must come after the deserialization policy since the deserialization policy
   // converts 401 responses to an Error, and we don't want to deal with that.
+  client.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
   client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, options), {
     afterPolicies: ["deserializationPolicy"],
   });

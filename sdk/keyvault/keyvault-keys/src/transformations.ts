@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ActionType } from "./generated/index.js";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import type {
   DeletedKeyBundle,
   DeletedKeyItem,
@@ -16,6 +16,7 @@ import type {
   DeletedKey,
   KeyProperties,
   KeyRotationPolicy,
+  KeyRotationPolicyAction,
   KeyRotationPolicyProperties,
   KeyVaultKey,
 } from "./keysModels.js";
@@ -128,10 +129,10 @@ const actionTypeCaseInsensitiveMapping: Record<string, string> = {
   notify: "Notify",
 };
 
-function getNormalizedActionType(caseInsensitiveActionType: string): ActionType {
+function getNormalizedActionType(caseInsensitiveActionType: string): string {
   const result = actionTypeCaseInsensitiveMapping[caseInsensitiveActionType.toLowerCase()];
   if (result) {
-    return result as ActionType;
+    return result;
   }
 
   throw new Error(`Unrecognized action type: ${caseInsensitiveActionType}`);
@@ -175,7 +176,7 @@ export const keyRotationTransformations = {
       expiresIn: generated.attributes?.expiryTime,
       lifetimeActions: generated.lifetimeActions?.map((action) => {
         return {
-          action: getNormalizedActionType(action.action!.type!),
+          action: getNormalizedActionType(action.action!.type!) as KeyRotationPolicyAction, // TODO: fix the type
           timeAfterCreate: action.trigger?.timeAfterCreate,
           timeBeforeExpiry: action.trigger?.timeBeforeExpiry,
         };
@@ -184,3 +185,28 @@ export const keyRotationTransformations = {
     return policy;
   },
 };
+
+export function mapPagedAsyncIterable<T, U>(
+  iter: PagedAsyncIterableIterator<T>,
+  mapper: (x: T) => U,
+): PagedAsyncIterableIterator<U> {
+  return {
+    async next() {
+      const result = await iter.next();
+
+      return {
+        ...result,
+        value: result.value && mapper(result.value),
+      };
+    },
+    [Symbol.asyncIterator]() {
+      return this;
+    },
+    async *byPage(settings) {
+      const iteratorByPage = iter.byPage(settings);
+      for await (const page of iteratorByPage) {
+        yield page.map(mapper);
+      }
+    },
+  };
+}
