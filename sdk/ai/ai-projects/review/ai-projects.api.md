@@ -111,18 +111,13 @@ export interface AgentsOperations {
     getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) => Promise<RunStepOutput>;
     getThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
     getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ListAgentsQueryParamProperties" needs to be exported by the entry point index.d.ts
-    listAgents: (options?: ListAgentsQueryParamProperties) => Promise<OpenAIPageableListOfAgentOutput>;
+    listAgents: (options?: OpenAIListRequestOptions) => Promise<OpenAIPageableListOfAgentOutput>;
     // Warning: (ae-forgotten-export) The symbol "ListFilesParameters" needs to be exported by the entry point index.d.ts
     listFiles: (options?: ListFilesParameters) => Promise<FileListResponseOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ListMessagesQueryParamProperties" needs to be exported by the entry point index.d.ts
-    listMessages: (threadId: string, options?: ListMessagesQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadMessageOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ListRunsQueryParamProperties" needs to be exported by the entry point index.d.ts
-    listRuns: (threadId: string, options?: ListRunsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadRunOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ListRunStepsQueryParamProperties" needs to be exported by the entry point index.d.ts
-    listRunSteps: (threadId: string, runId: string, options?: ListRunStepsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfRunStepOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ListVectorStoresQueryParamProperties" needs to be exported by the entry point index.d.ts
-    listVectorStores: (options?: ListVectorStoresQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
+    listMessages: (threadId: string, runId?: string, options?: OpenAIListRequestOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadMessageOutput>;
+    listRuns: (threadId: string, options?: OpenAIListRequestOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadRunOutput>;
+    listRunSteps: (threadId: string, runId: string, options?: OpenAIListRequestOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfRunStepOutput>;
+    listVectorStores: (options?: OpenAIListRequestOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     // Warning: (ae-forgotten-export) The symbol "SubmitToolOutputsToRunParameters" needs to be exported by the entry point index.d.ts
     submitToolOutputsToRun: (threadId: string, runId: string, options: SubmitToolOutputsToRunParameters) => Promise<ThreadRunOutput>;
@@ -910,6 +905,14 @@ export interface OpenAIFileOutput {
 }
 
 // @public
+export interface OpenAIListRequestOptions {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: "asc" | "desc";
+}
+
+// @public
 export interface OpenAIPageableListOfAgentOutput {
     data: Array<AgentOutput>;
     first_id: string;
@@ -1591,10 +1594,10 @@ export interface UpdateFileSearchToolResourceOptionsOutput {
     vector_store_ids?: string[];
 }
 
-// @public (undocumented)
+// @public
 export interface UpdateMessageOptions {
     // (undocumented)
-    metadata?: Record<string, string>;
+    metadata?: Record<string, string> | null;
 }
 
 // @public
