@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
-import { NotificationContent } from "./models";
+import { NotificationContent } from "./models.js";
 
 export interface GetMediaHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -26,7 +26,8 @@ export interface SendHeaders {
 }
 
 export interface SendBodyParam {
-  body?: NotificationContent;
+  /** Details of the message to send. */
+  body: NotificationContent;
 }
 
 export interface SendHeaderParam {

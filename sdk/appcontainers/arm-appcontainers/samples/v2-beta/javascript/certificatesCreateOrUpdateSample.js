@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or Update a Certificate.
  *
  * @summary Create or Update a Certificate.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Certificate_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Certificate_CreateOrUpdate.json
  */
 async function createOrUpdateCertificate() {
   const subscriptionId =
@@ -50,7 +50,7 @@ async function createOrUpdateCertificate() {
  * This sample demonstrates how to Create or Update a Certificate.
  *
  * @summary Create or Update a Certificate.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Certificate_CreateOrUpdate_FromKeyVault.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Certificate_CreateOrUpdate_FromKeyVault.json
  */
 async function createOrUpdateCertificateUsingManagedIdentity() {
   const subscriptionId =

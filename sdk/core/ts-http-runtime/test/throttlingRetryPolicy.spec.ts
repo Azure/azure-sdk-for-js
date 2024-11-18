@@ -1,13 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
-import {
-  PipelineResponse,
-  SendRequest,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "../src/index.js";
+import type { PipelineResponse, SendRequest } from "../src/index.js";
+import { createHttpHeaders, createPipelineRequest } from "../src/index.js";
 import { throttlingRetryPolicy } from "../src/policies/throttlingRetryPolicy.js";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 
@@ -49,7 +45,7 @@ describe("throttlingRetryPolicy", function () {
         };
 
         const policy = throttlingRetryPolicy();
-        const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+        const next = vi.fn<SendRequest>();
         next.mockResolvedValueOnce(retryResponse);
         next.mockResolvedValueOnce(successResponse);
 
@@ -88,7 +84,7 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(retryResponse);
     next.mockResolvedValueOnce(successResponse);
 
@@ -129,7 +125,7 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(retryResponse);
     next.mockResolvedValueOnce(successResponse);
 
@@ -166,7 +162,7 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(retryResponse);
     next.mockResolvedValueOnce(successResponse);
 
@@ -207,7 +203,7 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(retryResponse);
     next.mockResolvedValueOnce(successResponse);
 
@@ -238,7 +234,7 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     let i = 0;
     for (; i < DEFAULT_RETRY_POLICY_COUNT; ++i) {
       next.mockResolvedValueOnce(retryResponse);
@@ -279,7 +275,7 @@ describe("throttlingRetryPolicy", function () {
     };
 
     const policy = throttlingRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(retryResponse);
     next.mockResolvedValueOnce(successResponse);
 

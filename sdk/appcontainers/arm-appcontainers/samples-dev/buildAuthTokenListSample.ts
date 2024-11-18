@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the token used to connect to the endpoint where source code can be uploaded for a build.
  *
  * @summary Gets the token used to connect to the endpoint where source code can be uploaded for a build.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Builds_ListAuthToken.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builds_ListAuthToken.json
  */
 async function getBuildAuthToken() {
   const subscriptionId =

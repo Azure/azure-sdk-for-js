@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update storage for a managedEnvironment.
  *
  * @summary Create or update storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironmentsStorages_CreateOrUpdate.json
  */
 async function createOrUpdateEnvironmentsStorage() {
   const subscriptionId =
@@ -49,7 +49,7 @@ async function createOrUpdateEnvironmentsStorage() {
  * This sample demonstrates how to Create or update storage for a managedEnvironment.
  *
  * @summary Create or update storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ManagedEnvironmentsStorages_CreateOrUpdate_NfsAzureFile.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironmentsStorages_CreateOrUpdate_NfsAzureFile.json
  */
 async function createOrUpdateEnvironmentsStorageForNfsAzureFile() {
   const subscriptionId =

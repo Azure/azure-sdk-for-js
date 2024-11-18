@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AvroReadable, AvroReadableFromStream } from "../../../storage-internal-avro/src";
+import type { AvroReadable } from "../../../storage-internal-avro/src";
+import { AvroReadableFromStream } from "../../../storage-internal-avro/src";
 
 /**
  * Read body from downloading operation methods to string.

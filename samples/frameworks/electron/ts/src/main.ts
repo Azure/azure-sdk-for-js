@@ -1,6 +1,6 @@
 /*
   Copyright (c) Microsoft Corporation.
-  Licensed under the MIT license.
+  Licensed under the MIT License.
 
   The main process is responsible for renderer window management
   as well as integration between a renderer and the authentication provider.

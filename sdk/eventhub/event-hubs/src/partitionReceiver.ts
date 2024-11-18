@@ -1,41 +1,43 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
+import type { MessagingError, RetryConfig } from "@azure/core-amqp";
 import {
   Constants,
-  MessagingError,
   RetryOperationType,
   StandardAbortMessage,
   retry,
   translate,
-  RetryConfig,
 } from "@azure/core-amqp";
-import {
+import type {
   EventContext,
   Receiver as Link,
   ReceiverOptions as RheaReceiverOptions,
   Source,
-  types,
 } from "rhea-promise";
-import { EventDataInternal, ReceivedEventData, fromRheaMessage } from "./eventData.js";
-import { EventPosition, getEventPositionFilter } from "./eventPosition.js";
+import { types } from "rhea-promise";
+import type { EventDataInternal, ReceivedEventData } from "./eventData.js";
+import { fromRheaMessage } from "./eventData.js";
+import type { EventPosition } from "./eventPosition.js";
+import { getEventPositionFilter } from "./eventPosition.js";
+import type { SimpleLogger } from "./logger.js";
 import {
   createSimpleLogger,
   logErrorStackTrace,
   logObj,
   logger as azureLogger,
-  SimpleLogger,
   createReceiverLogPrefix,
 } from "./logger.js";
-import { ConnectionContext } from "./connectionContext.js";
-import { PartitionReceiverOptions } from "./models/private.js";
+import type { ConnectionContext } from "./connectionContext.js";
+import type { PartitionReceiverOptions } from "./models/private.js";
 import { getRetryAttemptTimeoutInMs } from "./util/retries.js";
 import { createAbortablePromise } from "@azure/core-util";
-import { TimerLoop } from "./util/timerLoop.js";
+import type { TimerLoop } from "./util/timerLoop.js";
 import { getRandomName } from "./util/utils.js";
 import { withAuth } from "./withAuth.js";
-import { receiverIdPropertyName } from "./util/constants.js";
+import { geoReplication, receiverIdPropertyName } from "./util/constants.js";
 
 type Writable<T> = {
   -readonly [P in keyof T]: T[P];
@@ -530,7 +532,7 @@ function createRheaOptions(
   if (typeof ownerLevel === "number") {
     rheaOptions.properties[Constants.attachEpoch] = types.wrap_long(ownerLevel);
   }
-  rheaOptions.desired_capabilities = [Constants.geoReplication];
+  rheaOptions.desired_capabilities = [geoReplication];
   if (options.trackLastEnqueuedEventProperties) {
     rheaOptions.desired_capabilities.push(Constants.enableReceiverRuntimeMetricName);
   }

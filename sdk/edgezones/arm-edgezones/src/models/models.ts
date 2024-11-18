@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
 export interface Resource {

@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { EmailMessage as EmailMessageMapper } from "../models/mappers";
+import { EmailMessage as EmailMessageMapper } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -51,7 +51,7 @@ export const operationId: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-03-31",
+    defaultValue: "2024-07-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List BuilderResource resources by subscription ID
  *
  * @summary List BuilderResource resources by subscription ID
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Builders_ListBySubscription.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builders_ListBySubscription.json
  */
 async function buildersListBySubscription0() {
   const subscriptionId =

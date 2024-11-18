@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete a Container App SourceControl.
  *
  * @summary Delete a Container App SourceControl.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/SourceControls_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/SourceControls_Delete.json
  */
 async function deleteContainerAppSourceControl() {
   const subscriptionId =
@@ -24,12 +24,21 @@ async function deleteContainerAppSourceControl() {
   const resourceGroupName = process.env["APPCONTAINERS_RESOURCE_GROUP"] || "workerapps-rg-xj";
   const containerAppName = "testcanadacentral";
   const sourceControlName = "current";
+  const xMsGithubAuxiliary = "githubaccesstoken";
+  const ignoreWorkflowDeletionFailure = false;
+  const deleteWorkflow = false;
+  const options = {
+    xMsGithubAuxiliary,
+    ignoreWorkflowDeletionFailure,
+    deleteWorkflow,
+  };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
   const result = await client.containerAppsSourceControls.beginDeleteAndWait(
     resourceGroupName,
     containerAppName,
     sourceControlName,
+    options,
   );
   console.log(result);
 }

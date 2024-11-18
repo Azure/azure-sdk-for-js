@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient";
-import { AzureKeyCredential } from "@azure/core-auth";
-import MapsSearch, { isUnexpected, MapsSearchClient } from "../../src";
+import type { MapsSearchClient } from "../../src";
+import MapsSearch, { isUnexpected } from "../../src";
 
 describe("Authentication", function () {
   let recorder: Recorder;
@@ -21,15 +22,7 @@ describe("Authentication", function () {
     await recorder.stop();
   });
 
-  it("should work with Shared Key authentication", async function () {
-    const credential = new AzureKeyCredential(env["MAPS_SUBSCRIPTION_KEY"] as string);
-    const client = MapsSearch(credential, recorder.configureClientOptions({}));
-
-    const response = await client.path("/geocode").get({ queryParameters: { query: "Starbucks" } });
-    assert.isOk(!isUnexpected(response));
-  });
-
-  it("should work with AAD authentication", async function () {
+  it("should work with Microsoft Entra ID authentication", async function () {
     /**
      * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
      * But it requires user's interaction, which is not testable in karma.

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the Dapr subscriptions for a managed environment.
  *
  * @summary Get the Dapr subscriptions for a managed environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DaprSubscriptions_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_List.json
  */
 async function listDaprSubscriptions() {
   const subscriptionId =

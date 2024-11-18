@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the resiliency policies for a Dapr component.
  *
  * @summary Get the resiliency policies for a Dapr component.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DaprComponentResiliencyPolicies_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprComponentResiliencyPolicies_List.json
  */
 async function listDaprComponentResiliencyPolicies() {
   const subscriptionId =

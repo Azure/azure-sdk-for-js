@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a BuilderResource
  *
  * @summary Update a BuilderResource
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Builders_Update.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Builders_Update.json
  */
 async function buildersUpdate0() {
   const subscriptionId =

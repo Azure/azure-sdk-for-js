@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { SipTrunk } from "./models";
-import { TrunkUpdate as RestSipTrunk } from "./generated/src/siprouting/models";
+import type { SipTrunk } from "./models.js";
+import type { TrunkUpdate as RestSipTrunk } from "./generated/src/siprouting/models/index.js";
 
 /**
  * @internal

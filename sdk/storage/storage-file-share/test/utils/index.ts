@@ -1,30 +1,30 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { randomBytes } from "crypto";
 import * as fs from "fs";
 import * as path from "path";
-import { env, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { BlobServiceClient } from "@azure/storage-blob";
 
+import type { ShareClientConfig, ShareClientOptions } from "../../src";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
   AccountSASServices,
   generateAccountSASQueryParameters,
   SASProtocol,
-  ShareClientConfig,
-  ShareClientOptions,
 } from "../../src";
 import { StorageSharedKeyCredential } from "../../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { newPipeline } from "../../src/Pipeline";
 import { ShareServiceClient } from "../../src/ShareServiceClient";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { getUniqueName, configureStorageClient } from "./testutils.common";
-import { StorageClient } from "../../src/StorageClient";
+import type { StorageClient } from "../../src/StorageClient";
 
 export * from "./testutils.common";
 
@@ -57,6 +57,41 @@ export function getGenericBSU(
 export function getBlobServiceClient(recorder: Recorder): BlobServiceClient {
   const client = BlobServiceClient.fromConnectionString(getConnectionStringFromEnvironment());
   configureStorageClient(recorder, client as unknown as StorageClient);
+  return client;
+}
+
+export function getSoftDeleteBSUWithDefaultCredential(
+  recorder: Recorder,
+  accountNameSuffix: string = "",
+  shareClientConfig?: ShareClientConfig,
+): ShareServiceClient {
+  return getTokenBSUWithDefaultCredential(
+    recorder,
+    "SOFT_DELETE_",
+    accountNameSuffix,
+    shareClientConfig,
+  );
+}
+
+export function getTokenBSUWithDefaultCredential(
+  recorder: Recorder,
+  accountType: string = "",
+  accountNameSuffix: string = "",
+  shareClientConfig?: ShareClientConfig,
+): ShareServiceClient {
+  const accountNameEnvVar = `${accountType}ACCOUNT_NAME`;
+
+  const accountName = env[accountNameEnvVar];
+
+  if (!accountName || accountName === "") {
+    throw new Error(`${accountNameEnvVar} environment variables not specified.`);
+  }
+
+  const credential = createTestCredential();
+  const pipeline = newPipeline(credential);
+  const blobPrimaryURL = `https://${accountName}${accountNameSuffix}.file.core.windows.net/`;
+  const client = new ShareServiceClient(blobPrimaryURL, pipeline, shareClientConfig);
+  configureStorageClient(recorder, client);
   return client;
 }
 

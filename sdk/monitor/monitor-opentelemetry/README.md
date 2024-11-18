@@ -101,7 +101,7 @@ useAzureMonitor(options);
 | enableStandardMetrics      | Enable/Disable Standard Metrics. |true|
 | logRecordProcessors        | Array of log record processors to register to the global logger provider. ||
 | spanProcessors             | Array of span processors to register to the global tracer provider. ||
-<!--- TODO: Enable when feature is released | enableTraceBasedSamplingForLogs      | Enable log sampling based on trace. |true|-->
+| enableTraceBasedSamplingForLogs  | Enable log sampling based on trace. |false|
 
 Options could be set using configuration file `applicationinsights.json` located under root folder of @azure/monitor-opentelemetry package installation folder, Ex: `node_modules/@azure/monitor-opentelemetry`. These configuration values will be applied to all AzureMonitorOpenTelemetryClient instances. 
 
@@ -182,6 +182,7 @@ Application Insights Browser SDK Loader allows you to inject the web SDK into no
 * Server resonse contains both <head> and </head> tags.
 * Response does not contain current /backup web Instrumentation CDN endpoints. (current and backup Web Instrumentation CDN endpoints [here](https://github.com/microsoft/ApplicationInsights-JS#active-public-cdn-endpoints))
 
+Further information on usage of the browser SDK loader can be found [here](https://learn.microsoft.com/azure/azure-monitor/app/javascript-sdk?tabs=javascriptwebsdkloaderscript).
 
 ## Set the Cloud Role Name and the Cloud Role Instance
 
@@ -408,7 +409,7 @@ process.env.APPLICATIONINSIGHTS_LOGDIR = "C:/applicationinsights/logs";
 useAzureMonitor();
 ```
 
-`APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment varialbe could be used to set desired log level, supporting the following values: `NONE`, `ERROR`, `WARN`, `INFO`, `DEBUG`, `VERBOSE` and  `ALL`.
+`APPLICATIONINSIGHTS_INSTRUMENTATION_LOGGING_LEVEL` environment variable could be used to set desired log level, supporting the following values: `NONE`, `ERROR`, `WARN`, `INFO`, `DEBUG`, `VERBOSE` and  `ALL`.
 
 Logs could be put into local file using `APPLICATIONINSIGHTS_LOG_DESTINATION` environment variable, supported values are `file` and `file+console`, a file named `applicationinsights.log` will be generated on tmp folder by default, including all logs,  `/tmp` for *nix and `USERDIR/AppData/Local/Temp` for Windows. Log directory could be configured using `APPLICATIONINSIGHTS_LOGDIR` environment variable.
 

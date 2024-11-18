@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { PipelinePolicy } from "@azure/core-rest-pipeline";
-import { ClientOptions } from "./common.js";
+import type { PipelinePolicy } from "@azure/core-rest-pipeline";
+import type { ClientOptions } from "./common.js";
 
 export const apiVersionPolicyName = "ApiVersionPolicy";
 

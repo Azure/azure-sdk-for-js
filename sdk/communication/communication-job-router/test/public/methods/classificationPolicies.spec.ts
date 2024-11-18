@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { ClassificationPolicy, JobRouterAdministrationClient } from "../../../src";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { ClassificationPolicy, JobRouterAdministrationClient } from "../../../src/index.js";
 import {
   getClassificationPolicyRequest,
   getDistributionPolicyRequest,
   getExceptionPolicyRequest,
   getQueueRequest,
-} from "../utils/testData";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { timeoutMs } from "../utils/constants";
+} from "../utils/testData.js";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { timeoutMs } from "../utils/constants.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("JobRouterClient", function () {
+describe("JobRouterClient", () => {
   let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
@@ -27,10 +26,10 @@ describe("JobRouterClient", function () {
   const { classificationPolicyId, classificationPolicyRequest } =
     getClassificationPolicyRequest(testRunId);
 
-  describe("Classification Policy Operations", function () {
-    this.beforeEach(async function (this: Context) {
+  describe("Classification Policy Operations", () => {
+    beforeEach(async (ctx) => {
       ({ administrationClient, recorder } =
-        await createRecordedRouterClientWithConnectionString(this));
+        await createRecordedRouterClientWithConnectionString(ctx));
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyId,
@@ -44,18 +43,18 @@ describe("JobRouterClient", function () {
       );
     });
 
-    this.afterEach(async function (this: Context) {
+    afterEach(async (ctx) => {
       await administrationClient.deleteClassificationPolicy(classificationPolicyId);
       await administrationClient.deleteQueue(queueId);
       await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
       await administrationClient.deleteDistributionPolicy(distributionPolicyId);
 
-      if (!this.currentTest?.isPending() && recorder) {
+      if (!ctx.task.pending && recorder) {
         await recorder.stop();
       }
     });
 
-    it("should create a classification policy", async function () {
+    it("should create a classification policy", { timeout: timeoutMs }, async () => {
       const result = await administrationClient.createClassificationPolicy(
         classificationPolicyId,
         classificationPolicyRequest,
@@ -64,16 +63,16 @@ describe("JobRouterClient", function () {
       assert.isDefined(result);
       assert.isDefined(result.id);
       assert.equal(result.name, classificationPolicyRequest.name);
-    }).timeout(timeoutMs);
+    });
 
-    it("should get a classification policy", async function () {
+    it("should get a classification policy", { timeout: timeoutMs }, async () => {
       const result = await administrationClient.getClassificationPolicy(classificationPolicyId);
 
       assert.equal(result.id, classificationPolicyId);
       assert.equal(result.name, classificationPolicyRequest.name);
-    }).timeout(timeoutMs);
+    });
 
-    it("should update a classification policy", async function () {
+    it("should update a classification policy", { timeout: timeoutMs }, async () => {
       const updatePatch = { ...classificationPolicyRequest, name: "new name" };
       const updateResult = await administrationClient.updateClassificationPolicy(
         classificationPolicyId,
@@ -92,9 +91,9 @@ describe("JobRouterClient", function () {
       assert.isDefined(removeResult.id);
       assert.equal(updatePatch.name, updateResult.name);
       assert.isUndefined(removeResult.name);
-    }).timeout(timeoutMs);
+    });
 
-    it("should list classification policies", async function () {
+    it("should list classification policies", async () => {
       const result: ClassificationPolicy[] = [];
       for await (const policy of administrationClient.listClassificationPolicies({
         maxPageSize: 20,
@@ -103,12 +102,12 @@ describe("JobRouterClient", function () {
       }
 
       assert.isNotEmpty(result);
-    }).timeout(timeoutMs);
+    });
 
-    it("should delete a classification policy", async function () {
+    it("should delete a classification policy", { timeout: timeoutMs }, async () => {
       const result = await administrationClient.deleteClassificationPolicy(classificationPolicyId);
 
       assert.isDefined(result);
-    }).timeout(timeoutMs);
+    });
   });
 });

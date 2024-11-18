@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AzureLogger, createClientLogger } from "@azure/logger";
+import type { AzureLogger } from "@azure/logger";
+import { createClientLogger } from "@azure/logger";
 
 /**
  * The AzureLogger used for all clients within the identity package

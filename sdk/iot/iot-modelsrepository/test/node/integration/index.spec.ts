@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /* eslint-disable no-undef */
 
-import { ModelsRepositoryClient, ModelsRepositoryClientOptions } from "../../../src";
+import type { ModelsRepositoryClientOptions } from "../../../src";
+import { ModelsRepositoryClient } from "../../../src";
 
 import { assert, expect } from "chai";
 import * as sinon from "sinon";
 
-import { dependencyResolutionType } from "../../../src/dependencyResolutionType";
+import type { dependencyResolutionType } from "../../../src/dependencyResolutionType";
 import { ServiceClient } from "@azure/core-client";
-import { PipelineRequest } from "@azure/core-rest-pipeline";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
 
 interface RemoteResolutionScenario {
   name: string;

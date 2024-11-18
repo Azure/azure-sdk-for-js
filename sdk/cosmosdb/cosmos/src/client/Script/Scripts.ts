@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { StoredProcedures, StoredProcedure } from "../StoredProcedure";
 import { Trigger, Triggers } from "../Trigger";
 import { UserDefinedFunction, UserDefinedFunctions } from "../UserDefinedFunction";
-import { ClientContext } from "../../ClientContext";
-import { Container } from "../Container/Container";
+import type { ClientContext } from "../../ClientContext";
+import type { Container } from "../Container/Container";
 
 export class Scripts {
   /**

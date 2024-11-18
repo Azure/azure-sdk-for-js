@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a Java Component.
  *
  * @summary Get a Java Component.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/JavaComponents_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/JavaComponents_Get.json
  */
 async function getJavaComponent() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function getJavaComponent() {
  * This sample demonstrates how to Get a Java Component.
  *
  * @summary Get a Java Component.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/JavaComponents_Get_ServiceBind.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/JavaComponents_Get_ServiceBind.json
  */
 async function getJavaComponentWithServiceBinds() {
   const subscriptionId =

@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Update container app resiliency policy.
  *
  * @summary Update container app resiliency policy.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/AppResiliency_Patch.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/AppResiliency_Patch.json
  */
 async function updateAppResiliency() {
   const subscriptionId =

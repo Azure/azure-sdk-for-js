@@ -112,7 +112,7 @@ node accountsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env NETAPP_SUBSCRIPTION_ID="<netapp subscription id>" NETAPP_RESOURCE_GROUP="<netapp resource group>" node accountsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env NETAPP_SUBSCRIPTION_ID="<netapp subscription id>" NETAPP_RESOURCE_GROUP="<netapp resource group>" node accountsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

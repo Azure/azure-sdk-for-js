@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export {
   AttachmentType,
@@ -35,4 +35,4 @@ export {
   TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse,
   TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams,
   TollFreeVerificationGetCampaignBriefAttachmentOptionalParams,
-} from "./generated/src/models/";
+} from "./generated/src/models/index.js";

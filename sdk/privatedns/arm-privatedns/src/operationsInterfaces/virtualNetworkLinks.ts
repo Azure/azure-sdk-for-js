@@ -17,7 +17,7 @@ import {
   VirtualNetworkLinksUpdateResponse,
   VirtualNetworkLinksDeleteOptionalParams,
   VirtualNetworkLinksGetOptionalParams,
-  VirtualNetworkLinksGetResponse
+  VirtualNetworkLinksGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface VirtualNetworkLinks {
   list(
     resourceGroupName: string,
     privateZoneName: string,
-    options?: VirtualNetworkLinksListOptionalParams
+    options?: VirtualNetworkLinksListOptionalParams,
   ): PagedAsyncIterableIterator<VirtualNetworkLink>;
   /**
    * Creates or updates a virtual network link to the specified Private DNS zone.
@@ -47,7 +47,7 @@ export interface VirtualNetworkLinks {
     privateZoneName: string,
     virtualNetworkLinkName: string,
     parameters: VirtualNetworkLink,
-    options?: VirtualNetworkLinksCreateOrUpdateOptionalParams
+    options?: VirtualNetworkLinksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualNetworkLinksCreateOrUpdateResponse>,
@@ -67,7 +67,7 @@ export interface VirtualNetworkLinks {
     privateZoneName: string,
     virtualNetworkLinkName: string,
     parameters: VirtualNetworkLink,
-    options?: VirtualNetworkLinksCreateOrUpdateOptionalParams
+    options?: VirtualNetworkLinksCreateOrUpdateOptionalParams,
   ): Promise<VirtualNetworkLinksCreateOrUpdateResponse>;
   /**
    * Updates a virtual network link to the specified Private DNS zone.
@@ -82,7 +82,7 @@ export interface VirtualNetworkLinks {
     privateZoneName: string,
     virtualNetworkLinkName: string,
     parameters: VirtualNetworkLink,
-    options?: VirtualNetworkLinksUpdateOptionalParams
+    options?: VirtualNetworkLinksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualNetworkLinksUpdateResponse>,
@@ -102,7 +102,7 @@ export interface VirtualNetworkLinks {
     privateZoneName: string,
     virtualNetworkLinkName: string,
     parameters: VirtualNetworkLink,
-    options?: VirtualNetworkLinksUpdateOptionalParams
+    options?: VirtualNetworkLinksUpdateOptionalParams,
   ): Promise<VirtualNetworkLinksUpdateResponse>;
   /**
    * Deletes a virtual network link to the specified Private DNS zone. WARNING: In case of a registration
@@ -117,7 +117,7 @@ export interface VirtualNetworkLinks {
     resourceGroupName: string,
     privateZoneName: string,
     virtualNetworkLinkName: string,
-    options?: VirtualNetworkLinksDeleteOptionalParams
+    options?: VirtualNetworkLinksDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a virtual network link to the specified Private DNS zone. WARNING: In case of a registration
@@ -132,7 +132,7 @@ export interface VirtualNetworkLinks {
     resourceGroupName: string,
     privateZoneName: string,
     virtualNetworkLinkName: string,
-    options?: VirtualNetworkLinksDeleteOptionalParams
+    options?: VirtualNetworkLinksDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a virtual network link to the specified Private DNS zone.
@@ -145,6 +145,6 @@ export interface VirtualNetworkLinks {
     resourceGroupName: string,
     privateZoneName: string,
     virtualNetworkLinkName: string,
-    options?: VirtualNetworkLinksGetOptionalParams
+    options?: VirtualNetworkLinksGetOptionalParams,
   ): Promise<VirtualNetworkLinksGetResponse>;
 }

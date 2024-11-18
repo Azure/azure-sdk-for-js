@@ -1,18 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import chaiExclude from "chai-exclude";
-import { testPeekMsgsLength, addServiceBusClientForLiveTesting } from "../public/utils/testutils2";
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
+// Licensed under the MIT License.
+import {
+  testPeekMsgsLength,
+  addServiceBusClientForLiveTesting,
+} from "../public/utils/testutils2.js";
+import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
 import { v4 as generateUuid } from "uuid";
-import { TestClientType } from "./utils/testUtils";
-
-const should = chai.should();
-chai.use(chaiAsPromised);
-chai.use(chaiExclude);
-const assert: typeof chai.assert = chai.assert;
+import { TestClientType } from "./utils/testUtils.js";
+import { describe, it } from "vitest";
+import { assert, should } from "./utils/chai.js";
 
 [
   // when we encode messages the partition+session queues are basically the "hardest" one
@@ -278,11 +274,11 @@ const assert: typeof chai.assert = chai.assert;
             // now let's just resend it, unaltered
             await sender().sendMessages(message);
 
-            const reencodedMessages = await receiver().receiveMessages(1);
-            const reencodedMessage = reencodedMessages[0];
+            const reEncodedMessages = await receiver().receiveMessages(1);
+            const reEncodedMessage = reEncodedMessages[0];
 
-            assert.equal(reencodedMessage._rawAmqpMessage.bodyType, expectedBodyType);
-            assert.deepEqual(reencodedMessage.body, expectedBody);
+            assert.equal(reEncodedMessage._rawAmqpMessage.bodyType, expectedBodyType);
+            assert.deepEqual(reEncodedMessage.body, expectedBody);
           });
         });
       });

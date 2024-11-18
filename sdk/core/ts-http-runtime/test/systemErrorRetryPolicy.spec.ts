@@ -1,14 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
-import {
-  PipelineResponse,
-  RestError,
-  SendRequest,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "../src/index.js";
+import type { PipelineResponse, SendRequest } from "../src/index.js";
+import { RestError, createHttpHeaders, createPipelineRequest } from "../src/index.js";
 import { systemErrorRetryPolicy } from "../src/policies/systemErrorRetryPolicy.js";
 import { DEFAULT_RETRY_POLICY_COUNT } from "../src/constants.js";
 
@@ -29,7 +24,7 @@ describe("systemErrorRetryPolicy", function () {
     };
 
     const policy = systemErrorRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValueOnce(systemError);
     next.mockResolvedValueOnce(successResponse);
 
@@ -57,7 +52,7 @@ describe("systemErrorRetryPolicy", function () {
     const systemError = new RestError("Test Error!", { code: "ENOENT" });
 
     const policy = systemErrorRetryPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockRejectedValue(systemError);
 
     vi.useFakeTimers();

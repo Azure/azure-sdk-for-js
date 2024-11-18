@@ -18,6 +18,14 @@ export interface AbortOptions {
 }
 
 // @public
+export function calculateRetryDelay(retryAttempt: number, config: {
+    retryDelayInMs: number;
+    maxRetryDelayInMs: number;
+}): {
+    retryAfterInMs: number;
+};
+
+// @public
 export function cancelablePromiseRace<T extends unknown[]>(abortablePromiseBuilders: AbortablePromiseBuilder<T[number]>[], options?: {
     abortSignal?: AbortSignalLike;
 }): Promise<T[number]>;
@@ -51,6 +59,9 @@ export function getErrorMessage(e: unknown): string;
 
 // @public
 export function getRandomIntegerInclusive(min: number, max: number): number;
+
+// @public
+export type HttpMethods = "GET" | "PUT" | "POST" | "DELETE" | "PATCH" | "HEAD" | "OPTIONS" | "TRACE";
 
 // @public
 export const isBrowser: boolean;

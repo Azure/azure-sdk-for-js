@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { type LogPolicyOptions, logPolicy } from "./policies/logPolicy.js";
 import { type Pipeline, createEmptyPipeline } from "./pipeline.js";

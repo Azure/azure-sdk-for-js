@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { v4 as uuid } from "uuid";
+// Licensed under the MIT License.
+
+import { randomUUID } from "@azure/core-util";
 import { env } from "@azure-tools/test-recorder";
 
 // HACK: Intentionally block to:
@@ -12,5 +13,5 @@ export function sleep(ms: number): Promise<any> {
 export const timeoutMs: number = 15000;
 
 export const getTestRunId = (staticId: string): string => {
-  return ["record", "playback", "undefined"].includes(env.TEST_MODE!) ? staticId : uuid();
+  return ["record", "playback", "undefined"].includes(env.TEST_MODE!) ? staticId : randomUUID();
 };

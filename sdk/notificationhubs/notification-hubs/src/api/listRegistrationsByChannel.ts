@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RegistrationDescription, RegistrationChannel } from "../models/registration.js";
+import type { RegistrationDescription, RegistrationChannel } from "../models/registration.js";
 import { listRegistrationPagingPage, listRegistrationsAll } from "./internal/_listRegistrations.js";
-import { NotificationHubsClientContext } from "./index.js";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RegistrationQueryLimitOptions } from "../models/options.js";
+import type { NotificationHubsClientContext } from "./index.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { RegistrationQueryLimitOptions } from "../models/options.js";
 import { getFilterByChannel } from "../utils/registrationUtils.js";
 import { tracingClient } from "../utils/tracing.js";
 

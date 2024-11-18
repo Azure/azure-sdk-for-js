@@ -1,17 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ClientOptions } from "@azure-rest/core-client";
-import {
-  AzureKeyCredential,
-  AzureSASCredential,
-  TokenCredential,
-  isSASCredential,
-  isTokenCredential,
-} from "@azure/core-auth";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { AzureKeyCredential, AzureSASCredential, TokenCredential } from "@azure/core-auth";
+import { isSASCredential, isTokenCredential } from "@azure/core-auth";
 import { createMapsClientIdPolicy } from "@azure/maps-common";
-import { MapsSearchClient } from "./generated";
-import createClient from "./generated";
+import type { MapsSearchClient } from "../generated";
+import createClient from "../generated";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 /**
@@ -81,7 +76,7 @@ export default function MapsSearch(
   const options = typeof clientIdOrOptions === "string" ? maybeOptions : clientIdOrOptions;
 
   /**
-   * maps service requires a header "ms-x-client-id", which is different from the standard AAD.
+   * maps service requires a header "ms-x-client-id", which is different from the standard Microsoft Entra ID.
    * So we need to do our own implementation.
    * This customized authentication is following by this guide: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md#custom-authentication
    */
@@ -94,7 +89,7 @@ export default function MapsSearch(
     client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: `${options.baseUrl || "https://atlas.microsoft.com"}/.default`,
+        scopes: "https://atlas.microsoft.com/.default",
       }),
     );
     client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));

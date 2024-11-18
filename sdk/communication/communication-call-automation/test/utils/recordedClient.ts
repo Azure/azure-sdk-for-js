@@ -1,51 +1,48 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as dotenv from "dotenv";
 import { isNode } from "@azure/core-util";
 import fs from "fs";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import {
   Recorder,
-  RecorderStartOptions,
   env,
   assertEnvironmentVariable,
   isRecordMode,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { Test } from "mocha";
+import type { Test } from "mocha";
 import { generateToken } from "./connectionUtils";
-import {
-  CommunicationIdentityClient,
-  CommunicationIdentityClientOptions,
-} from "@azure/communication-identity";
-import {
+import type { CommunicationIdentityClientOptions } from "@azure/communication-identity";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
+import type {
   CommunicationUserIdentifier,
   CommunicationIdentifier,
-  serializeCommunicationIdentifier,
-  isPhoneNumberIdentifier,
-  createIdentifierFromRawId,
   CommunicationIdentifierKind,
 } from "@azure/communication-common";
 import {
-  CallAutomationClient,
-  CallAutomationClientOptions,
-  CallAutomationEvent,
-  parseCallAutomationEvent,
-} from "../../src";
-import { CommunicationIdentifierModel } from "../../src/generated/src";
+  serializeCommunicationIdentifier,
+  isPhoneNumberIdentifier,
+  createIdentifierFromRawId,
+} from "@azure/communication-common";
+import type { CallAutomationClientOptions, CallAutomationEvent } from "../../src";
+import { CallAutomationClient, parseCallAutomationEvent } from "../../src";
+import type { CommunicationIdentifierModel } from "../../src/generated/src";
 import { assert } from "chai";
 import {
   createDefaultHttpClient,
   createHttpHeaders,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import {
-  ServiceBusClient,
+import type {
   ServiceBusReceiver,
   ServiceBusReceivedMessage,
   ProcessErrorArgs,
 } from "@azure/service-bus";
-import { PhoneNumbersClient, PhoneNumbersClientOptions } from "@azure/communication-phone-numbers";
+import { ServiceBusClient } from "@azure/service-bus";
+import type { PhoneNumbersClientOptions } from "@azure/communication-phone-numbers";
+import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
 if (isNode) {
   dotenv.config();

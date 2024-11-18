@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+// Licensed under the MIT License.
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
 import { getDefaultProxySettings } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import { AbortSignalLike } from "@azure/abort-controller";
-import {
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type {
   ServiceGetUserDelegationKeyHeaders,
   ContainerCreateResponse,
   ContainerDeleteResponse,
@@ -27,33 +28,35 @@ import {
   ServiceGetStatisticsResponseInternal,
   ServiceListContainersSegmentResponseInternal,
 } from "./generatedModels";
-import { Service } from "./generated/src/operationsInterfaces";
-import { newPipeline, StoragePipelineOptions, PipelineLike, isPipelineLike } from "./Pipeline";
-import {
-  ContainerClient,
-  ContainerCreateOptions,
-  ContainerDeleteMethodOptions,
-} from "./ContainerClient";
+import type { Service } from "./generated/src/operationsInterfaces";
+import type { StoragePipelineOptions, PipelineLike } from "./Pipeline";
+import { newPipeline, isPipelineLike } from "./Pipeline";
+import type { ContainerCreateOptions, ContainerDeleteMethodOptions } from "./ContainerClient";
+import { ContainerClient } from "./ContainerClient";
+import type { WithResponse } from "./utils/utils.common";
 import {
   appendToURLPath,
   appendToURLQuery,
   extractConnectionStringParts,
   toTags,
-  WithResponse,
 } from "./utils/utils.common";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { truncatedISO8061Date, assertResponse } from "./utils/utils.common";
 import { tracingClient } from "./utils/tracing";
 import { BlobBatchClient } from "./BlobBatchClient";
-import { CommonOptions, StorageClient } from "./StorageClient";
+import type { CommonOptions } from "./StorageClient";
+import { StorageClient } from "./StorageClient";
 import { AccountSASPermissions } from "./sas/AccountSASPermissions";
-import { SASProtocol } from "./sas/SASQueryParameters";
-import { SasIPRange } from "./sas/SasIPRange";
-import { generateAccountSASQueryParameters } from "./sas/AccountSASSignatureValues";
-import { AccountSASServices } from "./sas/AccountSASServices";
+import type { SASProtocol } from "./sas/SASQueryParameters";
+import type { SasIPRange } from "./sas/SasIPRange";
 import {
+  generateAccountSASQueryParameters,
+  generateAccountSASQueryParametersInternal,
+} from "./sas/AccountSASSignatureValues";
+import { AccountSASServices } from "./sas/AccountSASServices";
+import type {
   ContainerRenameHeaders,
   ContainerRestoreHeaders,
   ListContainersIncludeType,
@@ -1262,5 +1265,48 @@ export class BlobServiceClient extends StorageClient {
     ).toString();
 
     return appendToURLQuery(this.url, sas);
+  }
+
+  /**
+   * Only available for BlobServiceClient constructed with a shared key credential.
+   *
+   * Generates string to sign for a Blob account Shared Access Signature (SAS) URI based on
+   * the client properties and parameters passed in. The SAS is signed by the shared key credential of the client.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-account-sas
+   *
+   * @param expiresOn - Optional. The time at which the shared access signature becomes invalid. Default to an hour later if not provided.
+   * @param permissions - Specifies the list of permissions to be associated with the SAS.
+   * @param resourceTypes - Specifies the resource types associated with the shared access signature.
+   * @param options - Optional parameters.
+   * @returns An account SAS URI consisting of the URI to the resource represented by this client, followed by the generated SAS token.
+   */
+  public generateSasStringToSign(
+    expiresOn?: Date,
+    permissions: AccountSASPermissions = AccountSASPermissions.parse("r"),
+    resourceTypes: string = "sco",
+    options: ServiceGenerateAccountSasUrlOptions = {},
+  ): string {
+    if (!(this.credential instanceof StorageSharedKeyCredential)) {
+      throw RangeError(
+        "Can only generate the account SAS when the client is initialized with a shared key credential",
+      );
+    }
+
+    if (expiresOn === undefined) {
+      const now = new Date();
+      expiresOn = new Date(now.getTime() + 3600 * 1000);
+    }
+
+    return generateAccountSASQueryParametersInternal(
+      {
+        permissions,
+        expiresOn,
+        resourceTypes,
+        services: AccountSASServices.parse("b").toString(),
+        ...options,
+      },
+      this.credential,
+    ).stringToSign;
   }
 }

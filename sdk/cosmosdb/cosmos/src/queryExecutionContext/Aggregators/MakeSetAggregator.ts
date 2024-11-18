@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { Aggregator } from "./Aggregator";
+// Licensed under the MIT License.
+import type { Aggregator } from "./Aggregator";
 
 /** @hidden */
 /**

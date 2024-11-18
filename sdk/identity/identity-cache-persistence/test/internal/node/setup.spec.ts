@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-require-imports */
 
 // We need to set up the plugin for the tests!
 
-import { useIdentityPlugin } from "../../../../identity/src";
+import { useIdentityPlugin } from "@azure/identity";
 
 // The persistence tests have to run on the same version of Node that's used to
 // install dependencies, currently 16.

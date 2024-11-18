@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { QueueSASPermissions } from "./QueueSASPermissions";
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
-import { SasIPRange, ipRangeToString } from "./SasIPRange";
-import { SASProtocol } from "./SASQueryParameters";
+import type { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
+import type { SasIPRange } from "./SasIPRange";
+import { ipRangeToString } from "./SasIPRange";
+import type { SASProtocol } from "./SASQueryParameters";
 import { SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "./utils/constants";
 import { truncatedISO8061Date } from "./utils/utils.common";
@@ -80,6 +81,14 @@ export function generateQueueSASQueryParameters(
   queueSASSignatureValues: QueueSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential,
 ): SASQueryParameters {
+  return generateQueueSASQueryParametersInternal(queueSASSignatureValues, sharedKeyCredential)
+    .sasQueryParameters;
+}
+
+export function generateQueueSASQueryParametersInternal(
+  queueSASSignatureValues: QueueSASSignatureValues,
+  sharedKeyCredential: StorageSharedKeyCredential,
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
   if (
     !queueSASSignatureValues.identifier &&
     !(queueSASSignatureValues.permissions && queueSASSignatureValues.expiresOn)
@@ -119,18 +128,21 @@ export function generateQueueSASQueryParameters(
 
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
 
-  return new SASQueryParameters(
-    version,
-    signature,
-    verifiedPermissions,
-    undefined,
-    undefined,
-    queueSASSignatureValues.protocol,
-    queueSASSignatureValues.startsOn,
-    queueSASSignatureValues.expiresOn,
-    queueSASSignatureValues.ipRange,
-    queueSASSignatureValues.identifier,
-  );
+  return {
+    sasQueryParameters: new SASQueryParameters(
+      version,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      queueSASSignatureValues.protocol,
+      queueSASSignatureValues.startsOn,
+      queueSASSignatureValues.expiresOn,
+      queueSASSignatureValues.ipRange,
+      queueSASSignatureValues.identifier,
+    ),
+    stringToSign: stringToSign,
+  };
 }
 
 function getCanonicalName(accountName: string, queueName: string): string {

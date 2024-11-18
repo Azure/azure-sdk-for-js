@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a Dapr subscription in a Managed Environment.
  *
  * @summary Creates or updates a Dapr subscription in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DaprSubscriptions_CreateOrUpdate_BulkSubscribeAndScopes.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_CreateOrUpdate_BulkSubscribeAndScopes.json
  */
 async function createOrUpdateDaprSubscriptionWithBulkSubscribeConfigurationAndScopes() {
   const subscriptionId =
@@ -57,7 +57,7 @@ async function createOrUpdateDaprSubscriptionWithBulkSubscribeConfigurationAndSc
  * This sample demonstrates how to Creates or updates a Dapr subscription in a Managed Environment.
  *
  * @summary Creates or updates a Dapr subscription in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DaprSubscriptions_CreateOrUpdate_DefaultRoute.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_CreateOrUpdate_DefaultRoute.json
  */
 async function createOrUpdateDaprSubscriptionWithDefaultRouteOnly() {
   const subscriptionId =
@@ -87,7 +87,7 @@ async function createOrUpdateDaprSubscriptionWithDefaultRouteOnly() {
  * This sample demonstrates how to Creates or updates a Dapr subscription in a Managed Environment.
  *
  * @summary Creates or updates a Dapr subscription in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DaprSubscriptions_CreateOrUpdate_RouteRulesAndMetadata.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_CreateOrUpdate_RouteRulesAndMetadata.json
  */
 async function createOrUpdateDaprSubscriptionWithRouteRulesAndMetadata() {
   const subscriptionId =

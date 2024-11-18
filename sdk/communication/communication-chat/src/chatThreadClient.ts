@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { logger } from "./models/logger";
-import {
+import type {
   CommunicationIdentifier,
   CommunicationTokenCredential,
-  serializeCommunicationIdentifier,
 } from "@azure/communication-common";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import { serializeCommunicationIdentifier } from "@azure/communication-common";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   AddParticipantsRequest,
   SendMessageRequest,
   SendReadReceiptRequest,
 } from "./models/requests";
 
-import {
+import type {
   AddChatParticipantsResult,
   ChatMessage,
   ChatMessageReadReceipt,
@@ -30,7 +30,7 @@ import {
   mapToChatThreadPropertiesSdkModel,
   mapToReadReceiptSdkModel,
 } from "./models/mappers";
-import {
+import type {
   AddParticipantsOptions,
   ChatThreadClientOptions,
   DeleteMessageOptions,
@@ -47,7 +47,7 @@ import {
   UpdateTopicOptions,
 } from "./models/options";
 import { ChatApiClient } from "./generated/src";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
 import { tracingClient } from "./generated/src/tracing";
 

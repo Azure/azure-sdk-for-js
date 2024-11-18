@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a .NET Component.
  *
  * @summary Delete a .NET Component.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DotNetComponents_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_Delete.json
  */
 async function deleteNetComponent() {
   const subscriptionId =

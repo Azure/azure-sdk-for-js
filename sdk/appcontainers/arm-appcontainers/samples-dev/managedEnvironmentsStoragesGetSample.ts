@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get storage for a managedEnvironment.
  *
  * @summary Get storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ManagedEnvironmentsStorages_Get.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironmentsStorages_Get.json
  */
 async function getAEnvironmentsStorage() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function getAEnvironmentsStorage() {
  * This sample demonstrates how to Get storage for a managedEnvironment.
  *
  * @summary Get storage for a managedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ManagedEnvironmentsStorages_Get_NfsAzureFile.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ManagedEnvironmentsStorages_Get_NfsAzureFile.json
  */
 async function getAEnvironmentsStorageForNfsAzureFile() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Terminates execution of a running container apps job
  *
  * @summary Terminates execution of a running container apps job
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Job_Stop_Multiple.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Job_Stop_Multiple.json
  */
 async function terminateMultipleContainerAppsJob() {
   const subscriptionId =

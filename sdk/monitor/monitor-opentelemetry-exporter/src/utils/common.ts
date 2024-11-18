@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import os from "os";
+import os from "node:os";
 import {
   SEMRESATTRS_DEVICE_ID,
   SEMRESATTRS_DEVICE_MODEL_NAME,
@@ -34,16 +34,18 @@ import {
   SEMRESATTRS_K8S_JOB_NAME,
   SEMRESATTRS_K8S_CRONJOB_NAME,
   SEMRESATTRS_K8S_DAEMONSET_NAME,
-  SEMRESATTRS_TELEMETRY_SDK_VERSION,
-  SEMRESATTRS_TELEMETRY_SDK_LANGUAGE,
-  SEMRESATTRS_TELEMETRY_SDK_NAME,
+  ATTR_TELEMETRY_SDK_VERSION,
+  ATTR_TELEMETRY_SDK_LANGUAGE,
+  ATTR_TELEMETRY_SDK_NAME,
 } from "@opentelemetry/semantic-conventions";
-import { Tags } from "../types";
-import { getInstance } from "../platform";
-import { KnownContextTagKeys, TelemetryItem as Envelope, MetricsData } from "../generated";
-import { Resource } from "@opentelemetry/resources";
-import { Attributes, HrTime } from "@opentelemetry/api";
+import type { Tags } from "../types.js";
+import { getInstance } from "../platform/index.js";
+import type { TelemetryItem as Envelope, MetricsData } from "../generated/index.js";
+import { KnownContextTagKeys } from "../generated/index.js";
+import type { Resource } from "@opentelemetry/resources";
+import type { Attributes, HrTime } from "@opentelemetry/api";
 import { hrTimeToNanoseconds } from "@opentelemetry/core";
+import type { AnyValue } from "@opentelemetry/api-logs";
 
 export function hrTimeToDate(hrTime: HrTime): Date {
   return new Date(hrTimeToNanoseconds(hrTime) / 1000000);
@@ -137,7 +139,7 @@ function getCloudRoleInstance(resource: Resource): string {
   return os && os.hostname();
 }
 
-export function isSqlDB(dbSystem: string) {
+export function isSqlDB(dbSystem: string): boolean {
   return (
     dbSystem === DBSYSTEMVALUES_DB2 ||
     dbSystem === DBSYSTEMVALUES_DERBY ||
@@ -222,9 +224,9 @@ export function createResourceMetricEnvelope(
       if (
         !(
           key.startsWith("_MS.") ||
-          key === SEMRESATTRS_TELEMETRY_SDK_VERSION ||
-          key === SEMRESATTRS_TELEMETRY_SDK_LANGUAGE ||
-          key === SEMRESATTRS_TELEMETRY_SDK_NAME
+          key === ATTR_TELEMETRY_SDK_VERSION ||
+          key === ATTR_TELEMETRY_SDK_LANGUAGE ||
+          key === ATTR_TELEMETRY_SDK_NAME
         )
       ) {
         resourceAttributes[key] = resource.attributes[key] as string;
@@ -253,4 +255,32 @@ export function createResourceMetricEnvelope(
     }
   }
   return;
+}
+
+export function serializeAttribute(value: AnyValue): string {
+  if (typeof value === "object") {
+    if (value instanceof Error) {
+      try {
+        return JSON.stringify(value, Object.getOwnPropertyNames(value));
+      } catch (err: unknown) {
+        // Failed to serialize, return string cast
+        return String(value);
+      }
+    } else if (value instanceof Uint8Array) {
+      return String(value);
+    } else {
+      try {
+        return JSON.stringify(value);
+      } catch (err: unknown) {
+        // Failed to serialize, return string cast
+        return String(value);
+      }
+    }
+  }
+  // Return scalar and undefined values
+  return String(value);
+}
+
+export function shouldCreateResourceMetric(): boolean {
+  return !(process.env.ENV_OPENTELEMETRY_RESOURCE_METRIC_DISABLED?.toLowerCase() === "true");
 }

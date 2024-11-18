@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the diagnostics data for a Container App Job.
  *
  * @summary Get the diagnostics data for a Container App Job.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Job_GetDetector.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Job_GetDetector.json
  */
 async function getDiagnosticDataForAContainerAppJob() {
   const subscriptionId =

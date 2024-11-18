@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationTracingOptions, TracingClient, createTracingClient } from "@azure/core-tracing";
+import type { OperationTracingOptions, TracingClient } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
+import type { Pipeline, PipelineResponse } from "@azure/core-rest-pipeline";
 import {
-  Pipeline,
-  PipelineResponse,
   createDefaultHttpClient,
   createHttpHeaders,
   createPipelineFromOptions,
 } from "@azure/core-rest-pipeline";
 
-import { SDK_VERSION } from "../../../src/configuration";
+import { SDK_VERSION } from "../../../src/configuration.js";
 
 /**
  * A partial interface compatible with OperationOptions.
@@ -43,6 +43,7 @@ export class TestClient {
   /**
    * The entrypoint of this client, which the tests will call into
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   exampleOperation(options: Options = {}): Promise<PipelineResponse> {
     return this.tracingClient.withSpan("TestClient.outer", options, (updatedOptions) =>
       this.generatedClientOperation(updatedOptions),

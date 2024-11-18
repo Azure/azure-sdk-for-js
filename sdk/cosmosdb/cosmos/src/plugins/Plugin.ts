@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { RequestContext } from "../request/RequestContext";
-import { Response } from "../request/Response";
+// Licensed under the MIT License.
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type { RequestContext } from "../request/RequestContext";
+import type { Response } from "../request/Response";
 
 /**
  * Used to specify which type of events to execute this plug in on.

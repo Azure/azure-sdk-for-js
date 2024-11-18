@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
 import EventEmitter from "events";
-import { SendMessageError, SendMessageErrorOptions } from "./errors";
+import type { SendMessageErrorOptions } from "./errors";
+import { SendMessageError } from "./errors";
 import { logger } from "./logger";
-import {
+import type {
   WebPubSubResult,
   JoinGroupOptions,
   LeaveGroupOptions,
@@ -23,7 +24,7 @@ import {
   StartOptions,
   GetClientAccessUrlOptions,
 } from "./models";
-import {
+import type {
   ConnectedMessage,
   DisconnectedMessage,
   GroupDataMessage,
@@ -37,10 +38,14 @@ import {
   AckMessage,
   SequenceAckMessage,
 } from "./models/messages";
-import { WebPubSubClientProtocol, WebPubSubJsonReliableProtocol } from "./protocols";
-import { WebPubSubClientCredential } from "./webPubSubClientCredential";
+import type { WebPubSubClientProtocol } from "./protocols";
+import { WebPubSubJsonReliableProtocol } from "./protocols";
+import type { WebPubSubClientCredential } from "./webPubSubClientCredential";
 import { WebSocketClientFactory } from "./websocket/websocketClient";
-import { WebSocketClientFactoryLike, WebSocketClientLike } from "./websocket/websocketClientLike";
+import type {
+  WebSocketClientFactoryLike,
+  WebSocketClientLike,
+} from "./websocket/websocketClientLike";
 import { abortablePromise } from "./utils/abortablePromise";
 
 enum WebPubSubClientState {
@@ -913,7 +918,7 @@ export class WebPubSubClient {
     // Try recover connection
     let recovered = false;
     this._state = WebPubSubClientState.Recovering;
-    const abortSignal = AbortController.timeout(30 * 1000);
+    const abortSignal = AbortSignal.timeout(30 * 1000);
     try {
       while (!abortSignal.aborted || this._isStopping) {
         try {

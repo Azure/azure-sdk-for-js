@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { PurviewMetadataPolicies } from "../../src";
+// Licensed under the MIT License.
+import type { PurviewMetadataPolicies } from "../../src";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
 import { createMetadataClient } from "./utils/recordedClient";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("List Metadata", () => {
   let recorder: Recorder;

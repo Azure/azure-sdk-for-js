@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a dapr subscription.
  *
  * @summary Get a dapr subscription.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DaprSubscriptions_Get_DefaultRoute.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_Get_DefaultRoute.json
  */
 async function getDaprSubscriptionWithBulkSubscribeConfigurationAndScopes() {
   const subscriptionId =
@@ -42,7 +42,7 @@ async function getDaprSubscriptionWithBulkSubscribeConfigurationAndScopes() {
  * This sample demonstrates how to Get a dapr subscription.
  *
  * @summary Get a dapr subscription.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DaprSubscriptions_Get_BulkSubscribeAndScopes.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_Get_BulkSubscribeAndScopes.json
  */
 async function getDaprSubscriptionWithDefaultRouteOnly() {
   const subscriptionId =
@@ -66,7 +66,7 @@ async function getDaprSubscriptionWithDefaultRouteOnly() {
  * This sample demonstrates how to Get a dapr subscription.
  *
  * @summary Get a dapr subscription.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DaprSubscriptions_Get_RouteRulesAndMetadata.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprSubscriptions_Get_RouteRulesAndMetadata.json
  */
 async function getDaprSubscriptionWithRouteRulesAndMetadata() {
   const subscriptionId =

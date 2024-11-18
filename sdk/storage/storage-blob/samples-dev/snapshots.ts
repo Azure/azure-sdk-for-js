@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * If you use BlobClient.download() to download an append-blob which is being actively appended, you may get an HTTP 412

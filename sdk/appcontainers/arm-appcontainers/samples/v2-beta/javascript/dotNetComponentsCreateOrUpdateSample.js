@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a .NET Component in a Managed Environment.
  *
  * @summary Creates or updates a .NET Component in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DotNetComponents_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_CreateOrUpdate.json
  */
 async function createOrUpdateNetComponent() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function createOrUpdateNetComponent() {
  * This sample demonstrates how to Creates or updates a .NET Component in a Managed Environment.
  *
  * @summary Creates or updates a .NET Component in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DotNetComponents_CreateOrUpdate_ServiceBind.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_CreateOrUpdate_ServiceBind.json
  */
 async function createOrUpdateNetComponentWithServiceBinds() {
   const subscriptionId =

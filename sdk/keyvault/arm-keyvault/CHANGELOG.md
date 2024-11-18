@@ -12,7 +12,7 @@
 
 ## 3.1.0 (2023-10-18)
     
-**Features**
+### Features Added
 
   - Added Interface ManagedServiceIdentity
   - Added Interface UserAssignedIdentity
@@ -23,7 +23,7 @@
     
 ## 3.0.0 (2023-04-10)
     
-**Features**
+### Features Added
 
   - Added operation group ManagedHsmKeys
   - Added operation group MhsmRegions
@@ -108,7 +108,7 @@
   - Interface ManagedHsmsListByResourceGroupNextOptionalParams no longer has parameter top
   - Interface ManagedHsmsListBySubscriptionNextOptionalParams no longer has parameter top
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface MhsmPrivateEndpointConnectionsDeleteHeaders no longer has parameter retryAfter
     

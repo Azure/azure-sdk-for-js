@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Patches a Container App using JSON Merge Patch
  *
  * @summary Patches a Container App using JSON Merge Patch
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ContainerApps_Patch.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerApps_Patch.json
  */
 async function patchContainerApp() {
   const subscriptionId =
@@ -75,6 +75,18 @@ async function patchContainerApp() {
         ],
       },
       maxInactiveRevisions: 10,
+      runtime: {
+        dotnet: { autoConfigureDataProtection: true },
+        java: {
+          enableMetrics: true,
+          javaAgent: {
+            enabled: true,
+            logging: {
+              loggerSettings: [{ level: "debug", logger: "org.springframework.boot" }],
+            },
+          },
+        },
+      },
       service: { type: "redis" },
     },
     location: "East US",
@@ -106,8 +118,10 @@ async function patchContainerApp() {
         },
       ],
       scale: {
+        cooldownPeriod: 350,
         maxReplicas: 5,
         minReplicas: 1,
+        pollingInterval: 35,
         rules: [
           {
             name: "httpscalingrule",

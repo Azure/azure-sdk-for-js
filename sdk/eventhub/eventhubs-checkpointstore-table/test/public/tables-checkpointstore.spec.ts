@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { TableClient, TableServiceClient } from "@azure/data-tables";
 import type { Checkpoint, PartitionOwnership } from "@azure/event-hubs";
@@ -9,6 +9,7 @@ import debugModule from "debug";
 import { afterEach, beforeEach, describe, it } from "vitest";
 import { should } from "../util/chai.js";
 import { createClients } from "../util/clients.js";
+import { addToOffset } from "../util/testUtils.js";
 
 const debug = debugModule("azure:event-hubs:tableCheckpointStore");
 
@@ -78,7 +79,7 @@ describe("TableCheckpointStore", function () {
           consumerGroup: eventHubProperties.consumerGroup,
           eventHubName: eventHubProperties.eventHubName,
           fullyQualifiedNamespace: eventHubProperties.fullyQualifiedNamespace,
-          offset: 0,
+          offset: "0",
           partitionId: "0",
           sequenceNumber: 1,
         };
@@ -110,7 +111,7 @@ describe("TableCheckpointStore", function () {
           consumerGroup: eventHubProperties.consumerGroup,
           eventHubName: eventHubProperties.eventHubName,
           fullyQualifiedNamespace: eventHubProperties.fullyQualifiedNamespace,
-          offset: 0,
+          offset: "0",
           partitionId: "0",
           sequenceNumber: 1,
         };
@@ -439,7 +440,7 @@ describe("TableCheckpointStore", function () {
             ...eventHubProperties,
             partitionId: i.toString(),
             sequenceNumber: 100 + i,
-            offset: 1023 + i,
+            offset: `${1023 + i}`,
           };
           await checkpointStore.updateCheckpoint(checkpoint);
           i++;
@@ -461,10 +462,10 @@ describe("TableCheckpointStore", function () {
           checkpoint.consumerGroup.should.equal("testConsumerGroup");
           checkpoint.eventHubName.should.equal("testEventHub");
           checkpoint.sequenceNumber!.should.equal(100 + i);
-          checkpoint.offset!.should.equal(1023 + i);
+          checkpoint.offset!.should.equal(`${1023 + i}`);
 
           // now update it
-          checkpoint.offset++;
+          checkpoint.offset = addToOffset(checkpoint.offset, 1);
           checkpoint.sequenceNumber++;
 
           await checkpointStore.updateCheckpoint(checkpoint);
@@ -484,7 +485,7 @@ describe("TableCheckpointStore", function () {
           checkpoint.consumerGroup.should.equal("testConsumerGroup");
           checkpoint.eventHubName.should.equal("testEventHub");
           checkpoint.sequenceNumber!.should.equal(100 + i + 1);
-          checkpoint.offset!.should.equal(1023 + i + 1);
+          checkpoint.offset!.should.equal(`${1023 + i + 1}`);
         }
       });
     });

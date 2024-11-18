@@ -1,24 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AlphaIdsClient } from "../../src";
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
-import { createRecordedClient } from "./utils/recordedClient";
-import { assert } from "chai";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { DynamicAlphaIdConfiguration } from "../../src";
+import type { AlphaIdsClient } from "../../src/index.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { createRecordedClient } from "./utils/recordedClient.js";
+import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import type { DynamicAlphaIdConfiguration } from "../../src/index.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe(`AlphaIdsClient - manage configuration`, function () {
   let recorder: Recorder;
   let client: AlphaIdsClient;
 
-  beforeEach(async function (this: Context) {
-    ({ client, recorder } = await createRecordedClient(this));
+  beforeEach(async function (ctx) {
+    ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+  afterEach(async function (ctx) {
+    if (!ctx.task.pending) {
       await recorder.stop();
     }
   });
@@ -84,7 +83,7 @@ describe(`AlphaIdsClient - manage configuration`, function () {
     }
   };
 
-  it("can manage configuration", async function () {
+  it("can manage configuration", { timeout: 30000 }, async function () {
     let configuration: DynamicAlphaIdConfiguration;
     let configurationResponse: FullOperationResponse | undefined;
 
@@ -107,12 +106,12 @@ describe(`AlphaIdsClient - manage configuration`, function () {
       `The expected configuration: false is different than the received configuration: true 
        CV: ${configurationResponse?.headers.get("MS-CV")}`,
     );
-  }).timeout(30000);
+  });
 
-  it("can list all dynamic alpha ids countries", async function () {
+  it("can list all dynamic alpha ids countries", { timeout: 20000 }, async function () {
     const countries = await _getDynamicCountries();
     countries?.forEach((countryCode) => {
       assert.isNotNull(countryCode);
     });
-  }).timeout(20000);
+  });
 });

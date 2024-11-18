@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update storage for a connectedEnvironment.
  *
  * @summary Create or update storage for a connectedEnvironment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ConnectedEnvironmentsStorages_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ConnectedEnvironmentsStorages_CreateOrUpdate.json
  */
 async function createOrUpdateEnvironmentsStorage() {
   const subscriptionId =

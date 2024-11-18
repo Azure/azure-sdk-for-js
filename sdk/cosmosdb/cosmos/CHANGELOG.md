@@ -1,6 +1,23 @@
 # Release History
 
-## 4.1.0 (Unreleased)
+## 4.1.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 4.1.1 (2024-08-30)
+
+### Bugs Fixed
+
+- Fixed a issue caused by accessing `process` without checking its existence in the global scope, it was leading to crashes in non-Node environments.
+- The default value of `continueOnError` of BulkRequestOptions is now set to true. Pass `{ continueOnError: false }` in `bulkOptions` to stop executing operations when one fails.
+
+## 4.1.0 (2024-08-07)
 
 ### Features Added
 
@@ -13,7 +30,6 @@
 - Split proof Bulk API: Earlier, whenever Bulk API encountered a partition split during processing, it would return an error message. Now, JS SDK ensures that the Bulk API is resistant to partition split. [#18682](https://github.com/Azure/azure-sdk-for-js/issues/18682)
 - Improved samples: The samples have been updated in this release, now organized into two folders: `v3` for features up to the v3 release, and `v4` for features up to the v4 release.
 - Added support for MakeList and MakeSet query aggregators
-
 
 #### Vector Search
 
@@ -65,7 +81,7 @@ const containerDefinition = {
 await database.containers.createIfNotExists(containerDefinition);
 ```
 
-- Vector Search queries without TOP or LIMIT+OFFSET are blocked by default, with an option to disable this check using ```allowUnboundedNonStreamingQueries``` in query FeedOptions. Also added an internal buffer size check to prevent excessive memory consumption, throwing errors if the buffer size exceeds the default. The max buffer size can be increased using the ```vectorSearchBufferSize``` option from query FeedOptions.
+- Vector Search queries without TOP or LIMIT+OFFSET are blocked by default, with an option to disable this check using `allowUnboundedNonStreamingQueries` in query FeedOptions. Also added an internal buffer size check to prevent excessive memory consumption, throwing errors if the buffer size exceeds the default. The max buffer size can be increased using the `vectorSearchBufferSize` option from query FeedOptions.
 
 #### Change Feed - All versions and deletes mode
 
@@ -146,8 +162,6 @@ await database.containers.createIfNotExists(containerDefinition);
 ### Bugs Fixed
 
 - Fix Bulk operations(Read, Delete, and Patch) failing due to wrong format of partition key in non-partitioned container.
-
-### Other Changes
 
 ## 4.0.0 (2023-09-12)
 

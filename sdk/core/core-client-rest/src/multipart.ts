@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   BodyPart,
   MultipartRequestBody,
   RawHttpHeadersInput,
-  RestError,
-  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
+import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { stringToUint8Array } from "@azure/core-util";
 import { isBinaryBody } from "./helpers/isBinaryBody.js";
 

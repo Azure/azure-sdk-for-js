@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the Revisions for a given Container App.
  *
  * @summary Get the Revisions for a given Container App.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Revisions_List.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Revisions_List.json
  */
 async function listContainerAppRevisions() {
   const subscriptionId =

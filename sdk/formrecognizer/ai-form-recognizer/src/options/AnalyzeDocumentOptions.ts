@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
-import {
+import type { OperationOptions } from "@azure/core-client";
+import type {
   AnalyzeResult,
   AnalyzedDocument,
   DocumentAnalysisPollOperationState,
 } from "../lro/analysis";
-import { PollerOptions } from "./PollerOptions";
+import type { PollerOptions } from "./PollerOptions";
 
 /**
  * Add-on capabilities (features) that can be enabled for the request.
@@ -18,7 +18,6 @@ import { PollerOptions } from "./PollerOptions";
  */
 export type FormRecognizerFeature =
   | (typeof FormRecognizerFeature)[keyof typeof FormRecognizerFeature]
-  // eslint-disable-next-line @typescript-eslint/ban-types
   | (string & {});
 
 /**

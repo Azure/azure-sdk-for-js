@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { TokenCredential } from "@azure/core-auth";
+// Licensed under the MIT License.
+import type { TokenCredential } from "@azure/core-auth";
 import { StorageContextClient } from "./StorageContextClient";
-import { StorageClient as StorageClientContext } from "./generated/src";
-import { Pipeline, PipelineLike, StoragePipelineOptions } from "./Pipeline";
-import { BlobServiceClient, AnonymousCredential } from "@azure/storage-blob";
-import { StorageSharedKeyCredential } from "@azure/storage-blob";
+import type { StorageClient as StorageClientContext } from "./generated/src";
+import type { Pipeline, PipelineLike, StoragePipelineOptions } from "./Pipeline";
+import type { AnonymousCredential } from "@azure/storage-blob";
+import { BlobServiceClient } from "@azure/storage-blob";
+import type { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { toBlobEndpointUrl, toDfsEndpointUrl } from "./transforms";
 import { escapeURLPath, getAccountNameFromUrl, getURLScheme, iEqual } from "./utils/utils.common";
-import { ExtendedServiceClientOptions } from "@azure/core-http-compat";
-import { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import type { ExtendedServiceClientOptions } from "@azure/core-http-compat";
+import type { HttpClient, Pipeline as CorePipeline } from "@azure/core-rest-pipeline";
+import type { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
  * An interface for options common to every remote operation.

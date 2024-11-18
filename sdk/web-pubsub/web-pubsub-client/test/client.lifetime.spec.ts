@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert, expect } from "chai";
 import sinon from "sinon";
-import {
+import type {
   JoinGroupMessage,
   JoinGroupOptions,
   LeaveGroupMessage,
@@ -19,7 +19,6 @@ import { delay } from "@azure/core-util";
 import { TestWebSocketClient } from "./testWebSocketClient";
 import { WebPubSubJsonProtocol } from "../src/protocols";
 import { getConnectedPayload } from "./utils";
-import { AbortController } from "@azure/abort-controller";
 import { SendMessageError } from "../src/errors";
 
 describe("WebPubSubClient", function () {

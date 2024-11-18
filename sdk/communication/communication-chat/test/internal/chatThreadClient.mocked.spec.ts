@@ -1,20 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import sinon from "sinon";
 import { assert } from "chai";
-import {
-  AzureCommunicationTokenCredential,
-  CommunicationUserIdentifier,
-} from "@azure/communication-common";
-import {
+import type { CommunicationUserIdentifier } from "@azure/communication-common";
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
+import type {
   AddParticipantsRequest,
-  ChatThreadClient,
   SendMessageOptions,
   SendMessageRequest,
   UpdateMessageOptions,
 } from "../../src";
-import * as RestModel from "../../src/generated/src/models";
+import { ChatThreadClient } from "../../src";
+import type * as RestModel from "../../src/generated/src/models";
 import { apiVersion } from "../../src/generated/src/models/parameters";
 import { baseUri, generateToken } from "../public/utils/connectionUtils";
 import {

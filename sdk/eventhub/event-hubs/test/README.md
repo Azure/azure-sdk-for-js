@@ -4,7 +4,7 @@ To test this project, make sure to build it by following our [building instructi
 
 ## Azure resources 
 
-The Azure Event Hubs client does not have any recorded tests and so, all the tests require an Azure Event Hubs namespace to be set up beforehand with at least a single Event Hub instance in it. You can use existing Azure resources for the live tests, or generate new ones by using our [New-TestResources.ps1](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/common/TestResources/New-TestResources.ps1) script, which will use an [ARM template](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/test-resources.json) that already has all of the the necessary configurations.
+The Azure Event Hubs client does not have any recorded tests and so, all the tests require an Azure Event Hubs namespace to be set up beforehand with at least a single Event Hub instance in it. You can use existing Azure resources for the live tests, or generate new ones by using our [New-TestResources.ps1](https://github.com/Azure/azure-sdk-for-js/blob/main/eng/common/TestResources/New-TestResources.ps1) script, which will use a [bicep template](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/eventhub/test-resources.bicep) that already has all of the the necessary configurations.
 
 The Azure resources that are used by the tests in this project are:
 

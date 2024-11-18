@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates (patches) a snapshot.
  *
  * @summary Updates (patches) a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/snapshotExamples/Snapshot_Update_WithAcceleratedNetwork.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/snapshotExamples/Snapshot_Update_WithAcceleratedNetwork.json
  */
 async function updateASnapshotWithAcceleratedNetworking() {
   const subscriptionId =
@@ -45,7 +45,7 @@ async function updateASnapshotWithAcceleratedNetworking() {
  * This sample demonstrates how to Updates (patches) a snapshot.
  *
  * @summary Updates (patches) a snapshot.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/snapshotExamples/Snapshot_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/snapshotExamples/Snapshot_Update.json
  */
 async function updateASnapshot() {
   const subscriptionId =

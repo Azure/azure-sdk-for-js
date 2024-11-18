@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete container app resiliency policy.
  *
  * @summary Delete container app resiliency policy.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/AppResiliency_Delete.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/AppResiliency_Delete.json
  */
 async function deleteAppResiliency() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Analyzes a custom hostname for a Container App
  *
  * @summary Analyzes a custom hostname for a Container App
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/ContainerApps_ListCustomHostNameAnalysis.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/ContainerApps_ListCustomHostNameAnalysis.json
  */
 async function analyzeCustomHostname() {
   const subscriptionId =

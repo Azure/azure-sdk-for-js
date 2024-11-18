@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { TracingClient, createTracingClient } from "@azure/core-tracing";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { TracingClient } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants";
-import {
+import type {
   CopyAuthorization,
   GeneratedClient,
   ResourceDetails,
@@ -16,18 +17,19 @@ import {
   DocumentClassifierDetails,
 } from "./generated";
 import { accept1 } from "./generated/models/parameters";
-import {
+import type {
   TrainingOperationDefinition,
   DocumentModelOperationState,
   DocumentModelPoller,
-  toTrainingPollOperationState,
   DocumentModelBuildResponse,
   AdministrationOperationState,
   DocumentClassifierPoller,
   DocumentClassifierOperationState,
 } from "./lro/administration";
-import { OperationContext, lro } from "./lro/util/poller";
-import {
+import { toTrainingPollOperationState } from "./lro/administration";
+import type { OperationContext } from "./lro/util/poller";
+import { lro } from "./lro/util/poller";
+import type {
   BeginCopyModelOptions,
   DeleteDocumentModelOptions,
   DocumentModelAdministrationClientOptions,
@@ -39,15 +41,15 @@ import {
   ListOperationsOptions,
   PollerOptions,
 } from "./options";
-import { BeginBuildDocumentClassifierOptions } from "./options/BuildDocumentClassifierOptions";
-import {
+import type { BeginBuildDocumentClassifierOptions } from "./options/BuildDocumentClassifierOptions";
+import type {
   BeginBuildDocumentModelOptions,
   BeginComposeDocumentModelOptions,
   DocumentModelBuildMode,
 } from "./options/BuildModelOptions";
 import { Mappers, SERIALIZER, makeServiceClient } from "./util";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import {
+import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import type {
   DocumentModelSource,
   DocumentClassifierDocumentTypeSources,
   AzureBlobSource,
@@ -438,6 +440,7 @@ export class DocumentModelAdministrationClient {
   public async beginCopyModelTo(
     sourceModelId: string,
     authorization: CopyAuthorization,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: BeginCopyModelOptions = {},
   ): Promise<DocumentModelPoller> {
     return this._tracing.withSpan(
@@ -765,6 +768,7 @@ export class DocumentModelAdministrationClient {
    */
   public getDocumentModel(
     modelId: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: GetModelOptions = {},
   ): Promise<DocumentModelDetails> {
     return this._tracing.withSpan(
@@ -830,6 +834,7 @@ export class DocumentModelAdministrationClient {
    * @returns an async iterable of model summaries that supports paging
    */
   public listDocumentModels(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListModelsOptions = {},
   ): PagedAsyncIterableIterator<DocumentModelSummary> {
     return this._restClient.documentModels.listModels(options);
@@ -891,6 +896,7 @@ export class DocumentModelAdministrationClient {
    */
   public getDocumentClassifier(
     classifierId: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<DocumentClassifierDetails> {
     return this._tracing.withSpan(
@@ -940,6 +946,7 @@ export class DocumentModelAdministrationClient {
    * @returns an async iterable of classifier details that supports paging
    */
   public listDocumentClassifiers(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: ListModelsOptions = {},
   ): PagedAsyncIterableIterator<DocumentClassifierDetails> {
     return this._restClient.documentClassifiers.listClassifiers(options);
@@ -959,6 +966,7 @@ export class DocumentModelAdministrationClient {
    */
   public deleteDocumentClassifier(
     classifierId: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<void> {
     return this._tracing.withSpan(

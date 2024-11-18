@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   ConfigurationSetting,
   ConfigurationSettingParam,
   HttpResponseField,
   HttpResponseFields,
-  featureFlagContentType,
-  secretReferenceContentType,
   ConfigurationSettingId,
-} from "../../src";
+} from "../../src/index.js";
+import { featureFlagContentType, secretReferenceContentType } from "../../src/index.js";
 import {
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromLinkHeader,
@@ -22,11 +21,11 @@ import {
   transformKeyValue,
   transformKeyValueResponse,
   transformKeyValueResponseWithStatusCode,
-} from "../../src/internal/helpers";
-import { FeatureFlagValue } from "../../src/featureFlag";
-import { WebResourceLike } from "@azure/core-http-compat";
-import { SecretReferenceValue } from "../../src/secretReference";
-import { assert } from "chai";
+} from "../../src/internal/helpers.js";
+import type { FeatureFlagValue } from "../../src/featureFlag.js";
+import type { WebResourceLike } from "@azure/core-http-compat";
+import type { SecretReferenceValue } from "../../src/secretReference.js";
+import { describe, it, assert } from "vitest";
 
 describe("helper methods", () => {
   it("checkAndFormatIfAndIfNoneMatch", () => {
@@ -186,9 +185,9 @@ describe("helper methods", () => {
         url: "unused",
         abortSignal: {
           aborted: true,
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
+
           addEventListener: () => {},
-          // eslint-disable-next-line @typescript-eslint/no-empty-function
+
           removeEventListener: () => {},
         },
         method: "GET",

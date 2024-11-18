@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
+import type { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { FileSASPermissions } from "./FileSASPermissions";
-import { SasIPRange, ipRangeToString } from "./SasIPRange";
-import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
+import type { SasIPRange } from "./SasIPRange";
+import { ipRangeToString } from "./SasIPRange";
+import type { SASProtocol } from "./SASQueryParameters";
+import { SASQueryParameters } from "./SASQueryParameters";
 import { ShareSASPermissions } from "./ShareSASPermissions";
 import { SERVICE_VERSION } from "./utils/constants";
 import { truncatedISO8061Date } from "./utils/utils.common";
@@ -111,6 +113,14 @@ export function generateFileSASQueryParameters(
   fileSASSignatureValues: FileSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential,
 ): SASQueryParameters {
+  return generateFileSASQueryParametersInternal(fileSASSignatureValues, sharedKeyCredential)
+    .sasQueryParameters;
+}
+
+export function generateFileSASQueryParametersInternal(
+  fileSASSignatureValues: FileSASSignatureValues,
+  sharedKeyCredential: StorageSharedKeyCredential,
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
   if (
     !fileSASSignatureValues.identifier &&
     !(fileSASSignatureValues.permissions && fileSASSignatureValues.expiresOn)
@@ -167,24 +177,27 @@ export function generateFileSASQueryParameters(
 
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
 
-  return new SASQueryParameters(
-    version,
-    signature,
-    verifiedPermissions,
-    undefined,
-    undefined,
-    fileSASSignatureValues.protocol,
-    fileSASSignatureValues.startsOn,
-    fileSASSignatureValues.expiresOn,
-    fileSASSignatureValues.ipRange,
-    fileSASSignatureValues.identifier,
-    resource,
-    fileSASSignatureValues.cacheControl,
-    fileSASSignatureValues.contentDisposition,
-    fileSASSignatureValues.contentEncoding,
-    fileSASSignatureValues.contentLanguage,
-    fileSASSignatureValues.contentType,
-  );
+  return {
+    sasQueryParameters: new SASQueryParameters(
+      version,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      fileSASSignatureValues.protocol,
+      fileSASSignatureValues.startsOn,
+      fileSASSignatureValues.expiresOn,
+      fileSASSignatureValues.ipRange,
+      fileSASSignatureValues.identifier,
+      resource,
+      fileSASSignatureValues.cacheControl,
+      fileSASSignatureValues.contentDisposition,
+      fileSASSignatureValues.contentEncoding,
+      fileSASSignatureValues.contentLanguage,
+      fileSASSignatureValues.contentType,
+    ),
+    stringToSign: stringToSign,
+  };
 }
 
 function getCanonicalName(accountName: string, shareName: string, filePath?: string): string {

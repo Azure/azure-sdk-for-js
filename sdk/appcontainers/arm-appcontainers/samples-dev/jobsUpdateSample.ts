@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Patches a Container Apps Job using JSON Merge Patch
  *
  * @summary Patches a Container Apps Job using JSON Merge Patch
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Job_Patch.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Job_Patch.json
  */
 async function patchContainerAppsJob() {
   const subscriptionId =

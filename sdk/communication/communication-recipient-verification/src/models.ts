@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export {
   AcsVerificationGetVerificationsOptionalParams,
@@ -14,4 +14,4 @@ export {
   AcsVerification,
   VerificationConstantsResponse,
   VerificationResponse,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";

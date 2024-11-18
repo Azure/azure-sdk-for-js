@@ -1,5 +1,28 @@
 # Release History
 
+## 1.0.0-beta.27 (2024-10-23)
+
+### Other Changes
+
+- Update Statsbeat shutdown logic to include more status codes for shutdown.
+- Add non-essential statsbeat metrics.
+- Update logic for when to emit exceptions.
+
+## 1.0.0-beta.26 (2024-09-13)
+
+### Other Changes
+
+- Enforce property length limits on telemetry using truncation.
+- Updated OTel dependencies.
+
+## 1.0.0-beta.25 (2024-08-14)
+
+### Other Changes
+
+- Added APPLICATIONINSIGHTS_OPENTELEMETRY_RESOURCE_METRIC_DISABLED environment variable.
+- Update value used to send sample rate to ingestion.
+- Update to the latest OpenTelemetry dependencies.
+
 ## 1.0.0-beta.24 (2024-06-13)
 
 ### Bugs Fixed

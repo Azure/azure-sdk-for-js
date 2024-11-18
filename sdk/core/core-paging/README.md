@@ -11,7 +11,7 @@ then run `rush install` after cloning the repo.
 
 Otherwise, use npm to install this package in your application as follows
 
-```javascript
+```
 npm install @azure/core-paging
 ```
 
@@ -23,17 +23,28 @@ You can find an explanation of how this repository's code works by going to our 
 
 Example of building with the types:
 
-```typescript
-  public listSecrets(
-    options: ListSecretsOptions = {}
-  ): PagedAsyncIterableIterator<SecretAttributes> {
-    const iter = this.listSecretsAll(options);
-    return {
-      async next() { return iter.next(); },
-      [Symbol.asyncIterator]() { return this; },
-      byPage: (settings: PageSettings = {}) => this.listSecretsPage(settings, options),
-    };
+```typescript snippet:paging_example
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+
+function listSecrets(
+  options: ListSecretsOptions = {},
+): PagedAsyncIterableIterator<SecretAttributes> {
+  const iter = listSecretsAll(options);
+  return {
+    async next() {
+      return iter.next();
+    },
+    [Symbol.asyncIterator]() {
+      return this;
+    },
+    byPage: (settings: PageSettings = {}) => listSecretsPage(settings, options),
+  };
+}
+for await (const page of listSecrets().byPage({ maxPageSize: 2 })) {
+  for (const secret of page) {
+    console.log("secret: ", secret);
   }
+}
 ```
 
 And using the types:

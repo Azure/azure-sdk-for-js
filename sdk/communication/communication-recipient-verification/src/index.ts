@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-export * from "./models";
-export * from "./mappers";
-export * from "./recipientVerificationClient";
+export * from "./models.js";
+export * from "./mappers.js";
+export * from "./recipientVerificationClient.js";

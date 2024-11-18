@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a resiliency policy for a Dapr component.
  *
  * @summary Creates or updates a resiliency policy for a Dapr component.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DaprComponentResiliencyPolicy_CreateOrUpdate_AllOptions.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprComponentResiliencyPolicy_CreateOrUpdate_AllOptions.json
  */
 async function createOrUpdateDaprComponentResiliencyPolicyWithAllOptions() {
   const subscriptionId =
@@ -80,7 +80,7 @@ async function createOrUpdateDaprComponentResiliencyPolicyWithAllOptions() {
  * This sample demonstrates how to Creates or updates a resiliency policy for a Dapr component.
  *
  * @summary Creates or updates a resiliency policy for a Dapr component.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DaprComponentResiliencyPolicy_CreateOrUpdate_OutboundOnly.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprComponentResiliencyPolicy_CreateOrUpdate_OutboundOnly.json
  */
 async function createOrUpdateDaprComponentResiliencyPolicyWithOutboundPolicyOnly() {
   const subscriptionId =
@@ -124,7 +124,7 @@ async function createOrUpdateDaprComponentResiliencyPolicyWithOutboundPolicyOnly
  * This sample demonstrates how to Creates or updates a resiliency policy for a Dapr component.
  *
  * @summary Creates or updates a resiliency policy for a Dapr component.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DaprComponentResiliencyPolicy_CreateOrUpdate_SparseOptions.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DaprComponentResiliencyPolicy_CreateOrUpdate_SparseOptions.json
  */
 async function createOrUpdateDaprComponentResiliencyPolicyWithSparseOptions() {
   const subscriptionId =

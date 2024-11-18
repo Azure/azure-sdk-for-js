@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import * as avro from "avsc";
+import avro from "avsc";
 
 /**
  * Custom logical type used to encode native Date objects as longs.

@@ -1,14 +1,39 @@
 # Release History
 
-## 12.24.1 (Unreleased)
+## 12.26.0 (2024-11-13)
 
 ### Features Added
 
-### Breaking Changes
+- Includes all features released in 12.26.0-beta.1.
 
-### Bugs Fixed
+## 12.26.0-beta.1 (2024-10-15)
+
+### Features Added
+
+- Added support for service version 2025-01-05.
+- Added support for the provisioned V2 billing model.
+- Added support for specifying the binary file permission format for ShareFileClient.startCopy().
+- Added ShareAccessTier.Premium enum value.
+
+## 12.25.0 (2024-09-22)
+
+### Features Added
+
+- Includes all features released in 12.25.0-beta.1.
 
 ### Other Changes
+
+- Upgraded dependency on `@azure/core-xml` to version `1.4.3`.
+
+## 12.25.0-beta.1 (2024-08-09)
+
+### Features Added
+
+- Added support for service version 2024-11-04.
+- Added support for token-based authentication for all APIs.
+- Added support for paid bursting on premium file share accounts.
+- Added support for binary format for file permissions.
+- Added ability to retrieve SAS string to sign for debugging purposes.
 
 ## 12.24.0 (2024-07-18)
 

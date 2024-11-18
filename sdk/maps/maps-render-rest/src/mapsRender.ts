@@ -1,18 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ClientOptions } from "@azure-rest/core-client";
-import {
-  AzureKeyCredential,
-  AzureSASCredential,
-  isSASCredential,
-  isTokenCredential,
-  TokenCredential,
-} from "@azure/core-auth";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { AzureKeyCredential, AzureSASCredential, TokenCredential } from "@azure/core-auth";
+import { isSASCredential, isTokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { createMapsClientIdPolicy } from "@azure/maps-common";
-import { MapsRenderClient } from "./generated";
-import createClient from "./generated/mapsRenderClient";
+import type { MapsRenderClient } from "../generated";
+import createClient from "../generated/mapsRenderClient";
 
 /**
  * Creates an instance of MapsRenderClient from a subscription key.
@@ -80,7 +75,7 @@ export default function MapsRender(
   const options = typeof clientIdOrOptions === "string" ? maybeOptions : clientIdOrOptions;
 
   /**
-   * maps service requires a header "ms-x-client-id", which is different from the standard AAD.
+   * maps service requires a header "ms-x-client-id", which is different from the standard Microsoft Entra ID.
    * So we need to do our own implementation.
    * This customized authentication is following by this guide: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/RLC-customization.md#custom-authentication
    */
@@ -93,7 +88,7 @@ export default function MapsRender(
     client.pipeline.addPolicy(
       bearerTokenAuthenticationPolicy({
         credential,
-        scopes: `${options.baseUrl || "https://atlas.microsoft.com"}/.default`,
+        scopes: "https://atlas.microsoft.com/.default",
       }),
     );
     client.pipeline.addPolicy(createMapsClientIdPolicy(clientId));

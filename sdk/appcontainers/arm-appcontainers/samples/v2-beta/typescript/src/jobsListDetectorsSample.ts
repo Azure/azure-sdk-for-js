@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the list of diagnostics for a Container App Job.
  *
  * @summary Get the list of diagnostics for a Container App Job.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/Job_ListDetectors.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/Job_ListDetectors.json
  */
 async function getTheListOfAvailableDiagnosticDataForAContainerAppJob() {
   const subscriptionId =
@@ -29,8 +29,14 @@ async function getTheListOfAvailableDiagnosticDataForAContainerAppJob() {
   const jobName = "mikonojob1";
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
-  const result = await client.jobs.listDetectors(resourceGroupName, jobName);
-  console.log(result);
+  const resArray = new Array();
+  for await (let item of client.jobs.listDetectors(
+    resourceGroupName,
+    jobName,
+  )) {
+    resArray.push(item);
+  }
+  console.log(resArray);
 }
 
 async function main() {

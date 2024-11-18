@@ -1,25 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   CorrelationRuleFilter,
   RuleProperties,
   ServiceBusMessage,
   ServiceBusSender,
   SqlRuleAction,
   SqlRuleFilter,
-} from "../../src";
-import { TestClientType } from "../public/utils/testUtils";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import {
-  ServiceBusClientForTests,
-  createServiceBusClientForTests,
-} from "../public/utils/testutils2";
-import { recreateSubscription } from "./utils/managementUtils";
-
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
+} from "../../src/index.js";
+import { TestClientType } from "../public/utils/testUtils.js";
+import type { ServiceBusClientForTests } from "../public/utils/testutils2.js";
+import { createServiceBusClientForTests } from "../public/utils/testutils2.js";
+import { recreateSubscription } from "./utils/managementUtils.js";
+import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
 
 const defaultRuleName = "$Default";
 interface Order {
@@ -55,11 +49,11 @@ async function getRules(ruleManager: any): Promise<RuleProperties[]> {
 describe("RuleManager tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
-  before(async () => {
+  beforeAll(async () => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
   describe("subscriptions", () => {
@@ -67,7 +61,7 @@ describe("RuleManager tests", () => {
     let topic: string;
     let subscription: string;
 
-    before(async () => {
+    beforeAll(async () => {
       const entity = await serviceBusClient.test.createTestEntities(
         TestClientType.UnpartitionedSubscription,
       );
@@ -509,7 +503,7 @@ async function receiveAndValidate(
   topicName: string,
   subscriptionName: string,
   expectedOrders: Order[],
-) {
+): Promise<ServiceBusMessage[]> {
   const receiver = serviceBusClient.test.addToCleanup(
     serviceBusClient.createReceiver(topicName, subscriptionName),
   );

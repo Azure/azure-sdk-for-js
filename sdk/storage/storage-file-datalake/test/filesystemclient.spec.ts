@@ -1,18 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert, getYieldedValue } from "@azure-tools/test-utils";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { useFakeTimers } from "sinon";
 
-import {
-  DataLakeFileSystemClient,
+import type {
   FileSystemListPathsResponse,
   DataLakeServiceClient,
   FileSystemListDeletedPathsResponse,
-  DataLakeFileClient,
-  DataLakeDirectoryClient,
 } from "../src";
+import { DataLakeFileSystemClient, DataLakeFileClient, DataLakeDirectoryClient } from "../src";
 import {
   getDataLakeServiceClient,
   getEncryptionScope,
@@ -21,7 +19,7 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "./utils";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("DataLakeFileSystemClient", () => {
   let fileSystemName: string;

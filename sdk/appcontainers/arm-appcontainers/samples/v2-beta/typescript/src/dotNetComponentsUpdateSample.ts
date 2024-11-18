@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Patches a .NET Component using JSON Merge Patch
  *
  * @summary Patches a .NET Component using JSON Merge Patch
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DotNetComponents_Patch.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_Patch.json
  */
 async function patchNetComponent() {
   const subscriptionId =
@@ -50,7 +50,7 @@ async function patchNetComponent() {
  * This sample demonstrates how to Patches a .NET Component using JSON Merge Patch
  *
  * @summary Patches a .NET Component using JSON Merge Patch
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/DotNetComponents_Patch_ServiceBind.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/DotNetComponents_Patch_ServiceBind.json
  */
 async function patchNetComponentWithServiceBinds() {
   const subscriptionId =

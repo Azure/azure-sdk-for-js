@@ -80,7 +80,7 @@ node dist/entityLinking.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" LANGUAGE_API_KEY="<language api key>" node dist/entityLinking.js
+npx dev-tool run vendored cross-env ENDPOINT="<endpoint>" LANGUAGE_API_KEY="<language api key>" node dist/entityLinking.js
 ```
 
 ## Next Steps

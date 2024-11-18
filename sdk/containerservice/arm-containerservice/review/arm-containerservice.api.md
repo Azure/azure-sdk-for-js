@@ -56,6 +56,7 @@ export interface AgentPool extends SubResource {
     scaleDownMode?: ScaleDownMode;
     scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
     scaleSetPriority?: ScaleSetPriority;
+    securityProfile?: AgentPoolSecurityProfile;
     spotMaxPrice?: number;
     tags?: {
         [propertyName: string]: string;
@@ -84,6 +85,11 @@ export interface AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem {
 }
 
 // @public
+export interface AgentPoolDeleteMachinesParameter {
+    machineNames: string[];
+}
+
+// @public
 export interface AgentPoolListResult {
     readonly nextLink?: string;
     value?: AgentPool[];
@@ -107,6 +113,8 @@ export interface AgentPools {
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): Promise<AgentPoolsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<AgentPoolsDeleteResponse>;
+    beginDeleteMachines(resourceGroupName: string, resourceName: string, agentPoolName: string, machines: AgentPoolDeleteMachinesParameter, options?: AgentPoolsDeleteMachinesOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteMachinesResponse>, AgentPoolsDeleteMachinesResponse>>;
+    beginDeleteMachinesAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, machines: AgentPoolDeleteMachinesParameter, options?: AgentPoolsDeleteMachinesOptionalParams): Promise<AgentPoolsDeleteMachinesResponse>;
     beginUpgradeNodeImageVersion(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsUpgradeNodeImageVersionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUpgradeNodeImageVersionAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsUpgradeNodeImageVersionOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsGetOptionalParams): Promise<AgentPoolsGetResponse>;
@@ -145,13 +153,34 @@ export interface AgentPoolsDeleteHeaders {
 }
 
 // @public
+export interface AgentPoolsDeleteMachinesHeaders {
+    location?: string;
+}
+
+// @public
+export interface AgentPoolsDeleteMachinesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AgentPoolsDeleteMachinesResponse = AgentPoolsDeleteMachinesHeaders;
+
+// @public
 export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOptions {
+    ignorePodDisruptionBudget?: boolean;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
 export type AgentPoolsDeleteResponse = AgentPoolsDeleteHeaders;
+
+// @public
+export interface AgentPoolSecurityProfile {
+    enableSecureBoot?: boolean;
+    enableVtpm?: boolean;
+}
 
 // @public
 export interface AgentPoolsGetAvailableAgentPoolVersionsOptionalParams extends coreClient.OperationOptions {
@@ -281,6 +310,8 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     agentPools: AgentPools;
     // (undocumented)
     apiVersion: string;
+    // (undocumented)
+    machines: Machines;
     // (undocumented)
     maintenanceConfigurations: MaintenanceConfigurations;
     // (undocumented)
@@ -849,6 +880,61 @@ export interface LinuxOSConfig {
 export type LoadBalancerSku = string;
 
 // @public
+export interface Machine extends SubResource {
+    readonly properties?: MachineProperties;
+}
+
+// @public
+export interface MachineIpAddress {
+    readonly family?: IpFamily;
+    readonly ip?: string;
+}
+
+// @public
+export interface MachineListResult {
+    readonly nextLink?: string;
+    value?: Machine[];
+}
+
+// @public
+export interface MachineNetworkProperties {
+    readonly ipAddresses?: MachineIpAddress[];
+}
+
+// @public
+export interface MachineProperties {
+    readonly network?: MachineNetworkProperties;
+    readonly resourceId?: string;
+}
+
+// @public
+export interface Machines {
+    get(resourceGroupName: string, resourceName: string, agentPoolName: string, machineName: string, options?: MachinesGetOptionalParams): Promise<MachinesGetResponse>;
+    list(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: MachinesListOptionalParams): PagedAsyncIterableIterator<Machine>;
+}
+
+// @public
+export interface MachinesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MachinesGetResponse = Machine;
+
+// @public
+export interface MachinesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MachinesListNextResponse = MachineListResult;
+
+// @public
+export interface MachinesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MachinesListResponse = MachineListResult;
+
+// @public
 export interface MaintenanceConfiguration extends SubResource {
     maintenanceWindow?: MaintenanceWindow;
     notAllowedTime?: TimeSpan[];
@@ -1038,6 +1124,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     scaleDownMode?: ScaleDownMode;
     scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
     scaleSetPriority?: ScaleSetPriority;
+    securityProfile?: AgentPoolSecurityProfile;
     spotMaxPrice?: number;
     tags?: {
         [propertyName: string]: string;

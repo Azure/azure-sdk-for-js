@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a Java Component in a Managed Environment.
  *
  * @summary Creates or updates a Java Component in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/JavaComponents_CreateOrUpdate.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/JavaComponents_CreateOrUpdate.json
  */
 async function createOrUpdateJavaComponent() {
   const subscriptionId =
@@ -32,14 +32,17 @@ async function createOrUpdateJavaComponent() {
   const environmentName = "myenvironment";
   const name = "myjavacomponent";
   const javaComponentEnvelope: JavaComponent = {
-    componentType: "SpringBootAdmin",
-    configurations: [
-      { propertyName: "spring.boot.admin.ui.enable-toasts", value: "true" },
-      {
-        propertyName: "spring.boot.admin.monitor.status-interval",
-        value: "10000ms",
-      },
-    ],
+    properties: {
+      componentType: "SpringBootAdmin",
+      configurations: [
+        { propertyName: "spring.boot.admin.ui.enable-toasts", value: "true" },
+        {
+          propertyName: "spring.boot.admin.monitor.status-interval",
+          value: "10000ms",
+        },
+      ],
+      scale: { maxReplicas: 1, minReplicas: 1 },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
@@ -56,7 +59,7 @@ async function createOrUpdateJavaComponent() {
  * This sample demonstrates how to Creates or updates a Java Component in a Managed Environment.
  *
  * @summary Creates or updates a Java Component in a Managed Environment.
- * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2023-11-02-preview/examples/JavaComponents_CreateOrUpdate_ServiceBind.json
+ * x-ms-original-file: specification/app/resource-manager/Microsoft.App/preview/2024-08-02-preview/examples/JavaComponents_CreateOrUpdate_ServiceBind.json
  */
 async function createOrUpdateJavaComponentWithServiceBinds() {
   const subscriptionId =
@@ -67,21 +70,24 @@ async function createOrUpdateJavaComponentWithServiceBinds() {
   const environmentName = "myenvironment";
   const name = "myjavacomponent";
   const javaComponentEnvelope: JavaComponent = {
-    componentType: "SpringBootAdmin",
-    configurations: [
-      { propertyName: "spring.boot.admin.ui.enable-toasts", value: "true" },
-      {
-        propertyName: "spring.boot.admin.monitor.status-interval",
-        value: "10000ms",
-      },
-    ],
-    serviceBinds: [
-      {
-        name: "yellowcat",
-        serviceId:
-          "/subscriptions/8efdecc5-919e-44eb-b179-915dca89ebf9/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/myenvironment/javaComponents/yellowcat",
-      },
-    ],
+    properties: {
+      componentType: "SpringBootAdmin",
+      configurations: [
+        { propertyName: "spring.boot.admin.ui.enable-toasts", value: "true" },
+        {
+          propertyName: "spring.boot.admin.monitor.status-interval",
+          value: "10000ms",
+        },
+      ],
+      scale: { maxReplicas: 1, minReplicas: 1 },
+      serviceBinds: [
+        {
+          name: "yellowcat",
+          serviceId:
+            "/subscriptions/8efdecc5-919e-44eb-b179-915dca89ebf9/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/myenvironment/javaComponents/yellowcat",
+        },
+      ],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ContainerAppsAPIClient(credential, subscriptionId);
