@@ -259,7 +259,7 @@ describe.skip("Validate full text search queries", function (this: Suite) {
 
   it("FetchNext: should return correct expected values for all the queries", async function () {
     for (const [query, { expected1, expected2 }] of queriesMap) {
-      const queryOptions = { allowUnboundedNonStreamingQueries: true, forceQueryOlan: true };
+      const queryOptions = { allowUnboundedNonStreamingQueries: true, forceQueryPlan: true };
       const queryIterator = container.items.query(query, queryOptions);
 
       const results: any[] = [];
