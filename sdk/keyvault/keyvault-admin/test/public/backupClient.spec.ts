@@ -12,7 +12,6 @@ import { delay } from "@azure/core-util";
 import type { KeyClient } from "@azure/keyvault-keys";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
-// TODO: https://github.com/Azure/azure-sdk-for-js/issues/30273
 describe("KeyVaultBackupClient", () => {
   let client: KeyVaultBackupClient;
   let keyClient: KeyClient;
