@@ -9,8 +9,8 @@ export default mergeConfig(
   defineConfig({
     test: {
       include: ["test/**/*.spec.ts"],
+      hookTimeout: 5000000,
+      testTimeout: 5000000,
     },
-    hookTimeout: 5000000,
-    testTimeout: 5000000,
   }),
 );
