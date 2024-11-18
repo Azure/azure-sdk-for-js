@@ -29,16 +29,19 @@ export async function main(): Promise<void> {
 
     const localContent = await client.agents.getFileContent(localFile.id);
 
-    let localContentString = '';
-    if (localContent instanceof Readable) {
-      for await (const chunk of localContent) {
-        localContentString += chunk;
-      }
-    } else {
-      localContentString = localContent.toString();
-    }
+    console.log(localContent.values());
 
-    console.log(`Retrieved local file content: ${localContentString}`);
+    const localChunks: Uint8Array[] = [];
+    let result;
+    while (!(result = await localContent.read(new Uint8Array(1024))).done) {
+      localChunks.push(result.value);
+    }
+    const byteArray = Buffer.concat(localChunks);
+    console.log(byteArray);
+    const decoder = new TextDecoder("utf-8");
+    const localData = decoder.decode(byteArray);
+
+    console.log(`Retrieved local file content: ${localData}`);
 
     // Delete local file
     await client.agents.deleteFile(localFile.id);

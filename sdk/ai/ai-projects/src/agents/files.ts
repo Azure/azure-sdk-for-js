@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError } from "@azure-rest/core-client";
+import { Client, createRestError, StreamableMethod } from "@azure-rest/core-client";
 import { FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput } from "../generated/src/outputModels.js";
 import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListFilesParameters, UploadFileParameters } from "../generated/src/parameters.js";
-import { ReadableStreamReader } from "stream/web";
 
 const expectedStatuses = ["200"];
 
@@ -67,7 +66,7 @@ export async function getFileContent(
   context: Client,
   fileId: string,
   options?: GetFileContentParameters,
-): Promise<ReadableStreamReader<string>> {
+): Promise<StreamableMethod> {
   const result = await context
     .path("/files/{fileId}", fileId)
     .get(options);

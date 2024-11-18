@@ -21,10 +21,10 @@ export async function main(): Promise<void> {
     const file = await client.agents.uploadFile(readable, "assistants", "my-file");
     console.log(`Uploaded file, file ID : ${file.id}`);
 
-    // List files
+    // List uploaded files
     const files = await client.agents.listFiles();
 
-    console.log(`List of files : ${files}`);
+    console.log(`List of files : ${files.data[0].filename}`);
 
     // Retrieve file
     const _file = await client.agents.getFile(file.id);
@@ -32,9 +32,17 @@ export async function main(): Promise<void> {
     console.log(`Retrieved file, file ID : ${_file.id}`);
 
     // Retrieve file content
-    const content = await client.agents.getFileContent(file.id);
-
-    console.log(`Retrieved file content : ${content.toString()}`);
+  const content = (await client.agents.getFileContent(file.id)).asNodeStream();
+  const chunks: Uint8Array[] = [];
+  let result;
+  while (!(result = await content.read(new Uint8Array(1024))).done) {
+    chunks.push(result.value);
+  }
+  const byteArray = Buffer.concat(chunks);
+  console.log(byteArray);
+  const decoder = new TextDecoder("utf-8");
+  const data = decoder.decode(byteArray);
+  console.log(`Retrieved file content : ${data}`);
 
     // Delete file
     await client.agents.deleteFile(file.id);

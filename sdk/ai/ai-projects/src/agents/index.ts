@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client } from "@azure-rest/core-client";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
 import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
 import { ListAgentsQueryParamProperties, ListMessagesQueryParamProperties, ListRunsQueryParamProperties, ListRunStepsQueryParamProperties, ListVectorStoresQueryParamProperties, SubmitToolOutputsToRunParameters } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
@@ -16,7 +16,6 @@ import { UpdateMessageOptions } from "./messagesModels.js";
 import { OptionalRequestParameters, UpdateRunOptions } from "./inputOutputs.js";
 import { createVectorStore, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
 import { getRunStep, listRunSteps } from "./runSteps.js";
-import { ReadableStreamReader } from "stream/web";
 
 export interface AgentsOperations {
   /** Creates a new agent. */
@@ -157,7 +156,7 @@ export interface AgentsOperations {
   getFileContent: (
     fileId: string,
     requestParams?: OptionalRequestParameters
-  ) => Promise<ReadableStreamReader<string>>;
+  ) => Promise<StreamableMethod>;
 
   /** Returns a list of vector stores. */
   listVectorStores: (
