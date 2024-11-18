@@ -36,7 +36,7 @@ async function run(): Promise<void> {
     fullTextPaths: [{ path: "/text1", language: "en-US" }],
   };
 
-  const container = await database.containers.createIfNotExists({
+  const { container } = await database.containers.createIfNotExists({
     id: containerId,
     partitionKey: { paths: ["/id"] },
     fullTextPolicy: fullTextPolicy,
