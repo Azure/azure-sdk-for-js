@@ -1,57 +1,44 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Operation, _OperationListResult } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
-import { buildPagedAsyncIterator } from "../pagingHelpers.js";
 import {
-  isUnexpected,
   HealthDataAIServicesContext as Client,
-  OperationsList200Response,
-  OperationsListDefaultResponse,
-} from "../../rest/index.js";
+  OperationsListOptionalParams,
+} from "../index.js";
+import {
+  _OperationListResult,
+  _operationListResultDeserializer,
+  Operation,
+} from "../../models/models.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
 import {
   StreamableMethod,
-  operationOptionsToRequestParameters,
+  PathUncheckedResponse,
   createRestError,
+  operationOptionsToRequestParameters,
 } from "@azure-rest/core-client";
-import { OperationsListOptionalParams } from "../../models/options.js";
 
 export function _operationsListSend(
   context: Client,
   options: OperationsListOptionalParams = { requestOptions: {} },
-): StreamableMethod<OperationsList200Response | OperationsListDefaultResponse> {
+): StreamableMethod {
   return context
     .path("/providers/Microsoft.HealthDataAIServices/operations")
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
 export async function _operationsListDeserialize(
-  result: OperationsList200Response | OperationsListDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<_OperationListResult> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p) => {
-      return {
-        name: p["name"],
-        isDataAction: p["isDataAction"],
-        display: !p.display
-          ? undefined
-          : {
-              provider: p.display?.["provider"],
-              resource: p.display?.["resource"],
-              operation: p.display?.["operation"],
-              description: p.display?.["description"],
-            },
-        origin: p["origin"],
-        actionType: p["actionType"],
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _operationListResultDeserializer(result.body);
 }
 
 /** List the operations for the provider */
@@ -63,6 +50,7 @@ export function operationsList(
     context,
     () => _operationsListSend(context, options),
     _operationsListDeserialize,
+    ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }

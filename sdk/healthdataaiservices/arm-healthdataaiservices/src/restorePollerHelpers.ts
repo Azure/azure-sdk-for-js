@@ -1,14 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  PollerLike,
-  OperationState,
-  deserializeState,
-  ResourceLocationConfig,
-} from "@azure/core-lro";
 import { HealthDataAIServicesClient } from "./healthDataAIServicesClient.js";
-import { getLongRunningPoller } from "./api/pollingHelpers.js";
 import {
   _deidServicesCreateDeserialize,
   _deidServicesUpdateDeserialize,
@@ -18,8 +11,18 @@ import {
   _privateEndpointConnectionsCreateDeserialize,
   _privateEndpointConnectionsDeleteDeserialize,
 } from "./api/privateEndpointConnections/index.js";
-import { PathUncheckedResponse, OperationOptions } from "@azure-rest/core-client";
+import { getLongRunningPoller } from "./static-helpers/pollingHelpers.js";
+import {
+  OperationOptions,
+  PathUncheckedResponse,
+} from "@azure-rest/core-client";
 import { AbortSignalLike } from "@azure/abort-controller";
+import {
+  PollerLike,
+  OperationState,
+  deserializeState,
+  ResourceLocationConfig,
+} from "@azure/core-lro";
 
 export interface RestorePollerOptions<
   TResult,
@@ -43,7 +46,9 @@ export interface RestorePollerOptions<
 export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   client: HealthDataAIServicesClient,
   serializedState: string,
-  sourceOperation: (...args: any[]) => PollerLike<OperationState<TResult>, TResult>,
+  sourceOperation: (
+    ...args: any[]
+  ) => PollerLike<OperationState<TResult>, TResult>,
   options?: RestorePollerOptions<TResult>,
 ): PollerLike<OperationState<TResult>, TResult> {
   const pollerConfig = deserializeState(serializedState).config;
@@ -56,8 +61,9 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   const resourceLocationConfig = metadata?.["resourceLocationConfig"] as
     | ResourceLocationConfig
     | undefined;
-  const deserializeHelper =
-    options?.processResponseBody ?? getDeserializationHelper(initialRequestUrl, requestMethod);
+  const { deserializer, expectedStatuses = [] } =
+    getDeserializationHelper(initialRequestUrl, requestMethod) ?? {};
+  const deserializeHelper = options?.processResponseBody ?? deserializer;
   if (!deserializeHelper) {
     throw new Error(
       `Please ensure the operation is in this client! We can't find its deserializeHelper for ${sourceOperation?.name}.`,
@@ -66,6 +72,7 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   return getLongRunningPoller(
     (client as any)["_client"] ?? client,
     deserializeHelper as (result: TResponse) => Promise<TResult>,
+    expectedStatuses,
     {
       updateIntervalInMs: options?.updateIntervalInMs,
       abortSignal: options?.abortSignal,
@@ -76,23 +83,43 @@ export function restorePoller<TResponse extends PathUncheckedResponse, TResult>(
   );
 }
 
-const deserializeMap: Record<string, Function> = {
+interface DeserializationHelper {
+  deserializer: Function;
+  expectedStatuses: string[];
+}
+
+const deserializeMap: Record<string, DeserializationHelper> = {
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
-    _deidServicesCreateDeserialize,
+    {
+      deserializer: _deidServicesCreateDeserialize,
+      expectedStatuses: ["200", "201"],
+    },
   "PATCH /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
-    _deidServicesUpdateDeserialize,
+    {
+      deserializer: _deidServicesUpdateDeserialize,
+      expectedStatuses: ["200", "202"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}":
-    _deidServicesDeleteDeserialize,
+    {
+      deserializer: _deidServicesDeleteDeserialize,
+      expectedStatuses: ["202", "204", "200"],
+    },
   "PUT /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}":
-    _privateEndpointConnectionsCreateDeserialize,
+    {
+      deserializer: _privateEndpointConnectionsCreateDeserialize,
+      expectedStatuses: ["200", "201"],
+    },
   "DELETE /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthDataAIServices/deidServices/{deidServiceName}/privateEndpointConnections/{privateEndpointConnectionName}":
-    _privateEndpointConnectionsDeleteDeserialize,
+    {
+      deserializer: _privateEndpointConnectionsDeleteDeserialize,
+      expectedStatuses: ["202", "204", "200"],
+    },
 };
 
 function getDeserializationHelper(
   urlStr: string,
   method: string,
-): ((result: unknown) => Promise<unknown>) | undefined {
+): DeserializationHelper | undefined {
   const path = new URL(urlStr).pathname;
   const pathParts = path.split("/");
 
@@ -100,7 +127,7 @@ function getDeserializationHelper(
   // matchedLen: the length of candidate path
   // matchedValue: the matched status code array
   let matchedLen = -1,
-    matchedValue: ((result: unknown) => Promise<unknown>) | undefined;
+    matchedValue: DeserializationHelper | undefined;
 
   // Iterate the responseMap to find a match
   for (const [key, value] of Object.entries(deserializeMap)) {
@@ -115,17 +142,24 @@ function getDeserializationHelper(
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
-      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
+    ) {
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
-          pathParts[j] || "",
-        );
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
         if (!isMatched) {
           found = false;
@@ -147,7 +181,7 @@ function getDeserializationHelper(
     // Update the matched value if and only if we found the longer pattern
     if (found && candidatePath.length > matchedLen) {
       matchedLen = candidatePath.length;
-      matchedValue = value as (result: unknown) => Promise<unknown>;
+      matchedValue = value;
     }
   }
 

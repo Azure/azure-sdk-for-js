@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-healthdataaiservices",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "A generated SDK for HealthDataAIServicesClient.",
   "engines": {
     "node": ">=18.0.0"
@@ -11,7 +11,6 @@
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",
-      "./api": "./src/api/index.ts",
       "./models": "./src/models/index.ts"
     },
     "dialects": [
@@ -47,67 +46,74 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthdataaiservices/arm-healthdataaiservices/README.md",
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/rest/healthDataAIServicesClient.ts",
+        "path": "src/api/healthDataAIServicesContext.ts",
         "prefix": "userAgentInfo"
       }
     ]
   },
   "dependencies": {
-    "@azure-rest/core-client": "^2.1.0",
-    "@azure/abort-controller": "^2.1.2",
+    "@azure/core-util": "^1.9.2",
+    "@azure-rest/core-client": "^2.3.1",
     "@azure/core-auth": "^1.6.0",
-    "@azure/core-lro": "^3.0.0",
-    "@azure/core-paging": "^1.5.0",
     "@azure/core-rest-pipeline": "^1.5.0",
     "@azure/logger": "^1.0.0",
-    "tslib": "^2.6.2"
+    "tslib": "^2.6.2",
+    "@azure/core-lro": "^3.1.0",
+    "@azure/abort-controller": "^2.1.2"
   },
   "devDependencies": {
-    "@azure-tools/test-credential": "^2.0.0",
-    "@azure-tools/test-recorder": "^4.0.0",
-    "@azure/core-util": "^1.0.0",
-    "@azure/dev-tool": "^1.0.0",
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^4.2.1",
+    "dotenv": "^16.0.0",
+    "@microsoft/api-extractor": "^7.40.3",
     "@types/node": "^18.0.0",
+    "eslint": "^8.55.0",
+    "typescript": "~5.6.2",
+    "tshy": "^2.0.0",
+    "@azure/identity": "^4.2.1",
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
-    "dotenv": "^16.0.0",
-    "eslint": "^9.9.0",
     "playwright": "^1.41.2",
-    "prettier": "^3.2.5",
-    "typescript": "~5.6.2",
-    "vitest": "^2.0.5"
+    "vitest": "^2.0.5",
+    "@azure-tools/test-credential": "^2.0.0",
+    "@azure-tools/test-recorder": "^4.0.0",
+    "@azure/dev-tool": "^1.0.0",
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0"
   },
   "scripts": {
-    "build": "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
-    "build:samples": "echo skipped",
-    "build:test": "npm run clean && dev-tool run build-package && dev-tool run build-test",
-    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
     "clean": "dev-tool run vendored rimraf --glob dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:samples": "echo skipped",
     "extract-api": "dev-tool run vendored rimraf review && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
-    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\"",
-    "generate:client": "echo skipped",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
-    "lint": "echo skipped",
-    "lint:fix": "echo skipped",
-    "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
-    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
-    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
-    "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
+    "lint": "eslint package.json api-extractor.json src test",
+    "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run build:test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "build:samples": "dev-tool run typecheck --paths samples-dev/*.ts && dev-tool samples publish -f",
+    "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "execute:samples": "dev-tool samples run samples-dev",
+    "format": "dev-tool run vendored prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.{ts,cts,mts}\" \"test/**/*.{ts,cts,mts}\" \"*.{js,cjs,mjs,json}\" \"samples-dev/*.ts\"",
+    "generate:client": "echo skipped",
+    "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
+    "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
+    "build:test": "npm run clean && dev-tool run build-package && dev-tool run build-test",
+    "build": "npm run clean && dev-tool run build-package && dev-tool run vendored mkdirp ./review && dev-tool run extract-api",
+    "test:node": "npm run clean && dev-tool run build-package && npm run unit-test:node && npm run integration-test:node",
+    "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "update-snippets": "echo skipped"
+  },
+  "//sampleConfiguration": {
+    "productName": "@azure/arm-healthdataaiservices",
+    "productSlugs": [
+      "azure"
+    ],
+    "disableDocsMs": true,
+    "apiRefLink": "https://docs.microsoft.com/javascript/api/@azure/arm-healthdataaiservices?view=azure-node-preview"
   },
   "exports": {
     "./package.json": "./package.json",
@@ -127,24 +133,6 @@
       "require": {
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
-      }
-    },
-    "./api": {
-      "browser": {
-        "types": "./dist/browser/api/index.d.ts",
-        "default": "./dist/browser/api/index.js"
-      },
-      "react-native": {
-        "types": "./dist/react-native/api/index.d.ts",
-        "default": "./dist/react-native/api/index.js"
-      },
-      "import": {
-        "types": "./dist/esm/api/index.d.ts",
-        "default": "./dist/esm/api/index.js"
-      },
-      "require": {
-        "types": "./dist/commonjs/api/index.d.ts",
-        "default": "./dist/commonjs/api/index.js"
       }
     },
     "./models": {

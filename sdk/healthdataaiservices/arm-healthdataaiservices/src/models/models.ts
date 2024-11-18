@@ -1,26 +1,97 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { serializeRecord } from "../helpers/serializerHelpers.js";
-import {
-  PrivateEndpointConnectionResource as PrivateEndpointConnectionResourceRest,
-  PrivateEndpointConnectionProperties as PrivateEndpointConnectionPropertiesRest,
-  PrivateLinkServiceConnectionState as PrivateLinkServiceConnectionStateRest,
-  TrackedResource as TrackedResourceRest,
-  DeidService as DeidServiceRest,
-  DeidServiceProperties as DeidServicePropertiesRest,
-  ManagedServiceIdentity as ManagedServiceIdentityRest,
-  DeidUpdate as DeidUpdateRest,
-  ManagedServiceIdentityUpdate as ManagedServiceIdentityUpdateRest,
-  DeidPropertiesUpdate as DeidPropertiesUpdateRest,
-} from "../rest/index.js";
-
 /** The response of a PrivateLinkResource list operation. */
 export interface _PrivateLinkResourceListResult {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResource[];
   /** The link to the next page of items */
   nextLink?: string;
+}
+
+export function _privateLinkResourceListResultDeserializer(
+  item: any,
+): _PrivateLinkResourceListResult {
+  return {
+    value: privateLinkResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function privateLinkResourceArrayDeserializer(
+  result: Array<PrivateLinkResource>,
+): any[] {
+  return result.map((item) => {
+    return privateLinkResourceDeserializer(item);
+  });
+}
+
+/** Private Links for DeidService resource */
+export interface PrivateLinkResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PrivateLinkResourceProperties;
+}
+
+export function privateLinkResourceDeserializer(
+  item: any,
+): PrivateLinkResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateLinkResourcePropertiesDeserializer(item["properties"]),
+  };
+}
+
+/** Properties of a private link resource. */
+export interface PrivateLinkResourceProperties {
+  /** The private link resource group id. */
+  readonly groupId?: string;
+  /** The private link resource required member names. */
+  readonly requiredMembers?: string[];
+  /** The private link resource private link DNS zone name. */
+  requiredZoneNames?: string[];
+}
+
+export function privateLinkResourcePropertiesDeserializer(
+  item: any,
+): PrivateLinkResourceProperties {
+  return {
+    groupId: item["groupId"],
+    requiredMembers: !item["requiredMembers"]
+      ? item["requiredMembers"]
+      : item["requiredMembers"].map((p: any) => {
+        return p;
+      }),
+    requiredZoneNames: !item["requiredZoneNames"]
+      ? item["requiredZoneNames"]
+      : item["requiredZoneNames"].map((p: any) => {
+        return p;
+      }),
+  };
+}
+
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource { }
+
+export function proxyResourceSerializer(item: ProxyResource): any {
+  return item;
+}
+
+export function proxyResourceDeserializer(item: any): ProxyResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -35,8 +106,19 @@ export interface Resource {
   readonly systemData?: SystemData;
 }
 
-export function resourceSerializer(item: Resource) {
-  return item as any;
+export function resourceSerializer(item: Resource): any {
+  return item;
+}
+
+export function resourceDeserializer(item: any): Resource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+  };
 }
 
 /** Metadata pertaining to creation and last modification of the resource. */
@@ -55,80 +137,44 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
-/** Known values of {@link CreatedByType} that the service accepts. */
+export function systemDataDeserializer(item: any): SystemData {
+  return {
+    createdBy: item["createdBy"],
+    createdByType: item["createdByType"],
+    createdAt: !item["createdAt"]
+      ? item["createdAt"]
+      : new Date(item["createdAt"]),
+    lastModifiedBy: item["lastModifiedBy"],
+    lastModifiedByType: item["lastModifiedByType"],
+    lastModifiedAt: !item["lastModifiedAt"]
+      ? item["lastModifiedAt"]
+      : new Date(item["lastModifiedAt"]),
+  };
+}
+
+/** The kind of entity that created the resource. */
 export enum KnownCreatedByType {
-  /** User */
+  /** The entity was created by a user. */
   User = "User",
-  /** Application */
+  /** The entity was created by an application. */
   Application = "Application",
-  /** ManagedIdentity */
+  /** The entity was created by a managed identity. */
   ManagedIdentity = "ManagedIdentity",
-  /** Key */
+  /** The entity was created by a key. */
   Key = "Key",
 }
 
 /**
  * The kind of entity that created the resource. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ * {@link KnowncreatedByType} can be used interchangeably with createdByType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
+ * **User**: The entity was created by a user. \
+ * **Application**: The entity was created by an application. \
+ * **ManagedIdentity**: The entity was created by a managed identity. \
+ * **Key**: The entity was created by a key.
  */
 export type CreatedByType = string;
-
-/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
-
-export function proxyResourceSerializer(item: ProxyResource) {
-  return item as any;
-}
-
-/** Private Links for DeidService resource */
-export interface PrivateLinkResource extends ProxyResource {
-  /** The resource-specific properties for this resource. */
-  properties?: PrivateLinkResourceProperties;
-}
-
-/** Properties of a private link resource. */
-export interface PrivateLinkResourceProperties {
-  /** The private link resource group id. */
-  readonly groupId?: string;
-  /** The private link resource required member names. */
-  readonly requiredMembers?: string[];
-  /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: string[];
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /** The error code. */
-  readonly code?: string;
-  /** The error message. */
-  readonly message?: string;
-  /** The error target. */
-  readonly target?: string;
-  /** The error details. */
-  readonly details?: ErrorDetail[];
-  /** The error additional info. */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /** The additional info type. */
-  readonly type?: string;
-  /** The additional info. */
-  readonly info?: Record<string, any>;
-}
 
 /** Holder for private endpoint connections */
 export interface PrivateEndpointConnectionResource extends ProxyResource {
@@ -138,11 +184,27 @@ export interface PrivateEndpointConnectionResource extends ProxyResource {
 
 export function privateEndpointConnectionResourceSerializer(
   item: PrivateEndpointConnectionResource,
-): PrivateEndpointConnectionResourceRest {
+): any {
   return {
-    properties: !item.properties
-      ? item.properties
-      : privateEndpointConnectionPropertiesSerializer(item.properties),
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateEndpointConnectionPropertiesSerializer(item["properties"]),
+  };
+}
+
+export function privateEndpointConnectionResourceDeserializer(
+  item: any,
+): PrivateEndpointConnectionResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateEndpointConnectionPropertiesDeserializer(item["properties"]),
   };
 }
 
@@ -160,14 +222,35 @@ export interface PrivateEndpointConnectionProperties {
 
 export function privateEndpointConnectionPropertiesSerializer(
   item: PrivateEndpointConnectionProperties,
-): PrivateEndpointConnectionPropertiesRest {
+): any {
   return {
-    privateEndpoint: !item.privateEndpoint
-      ? item.privateEndpoint
-      : privateEndpointSerializer(item.privateEndpoint),
-    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
-      item.privateLinkServiceConnectionState,
-    ),
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointSerializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState:
+      privateLinkServiceConnectionStateSerializer(
+        item["privateLinkServiceConnectionState"],
+      ),
+  };
+}
+
+export function privateEndpointConnectionPropertiesDeserializer(
+  item: any,
+): PrivateEndpointConnectionProperties {
+  return {
+    groupIds: !item["groupIds"]
+      ? item["groupIds"]
+      : item["groupIds"].map((p: any) => {
+        return p;
+      }),
+    privateEndpoint: !item["privateEndpoint"]
+      ? item["privateEndpoint"]
+      : privateEndpointDeserializer(item["privateEndpoint"]),
+    privateLinkServiceConnectionState:
+      privateLinkServiceConnectionStateDeserializer(
+        item["privateLinkServiceConnectionState"],
+      ),
+    provisioningState: item["provisioningState"],
   };
 }
 
@@ -177,8 +260,14 @@ export interface PrivateEndpoint {
   readonly id?: string;
 }
 
-export function privateEndpointSerializer(item: PrivateEndpoint) {
-  return item as any;
+export function privateEndpointSerializer(item: PrivateEndpoint): any {
+  return item;
+}
+
+export function privateEndpointDeserializer(item: any): PrivateEndpoint {
+  return {
+    id: item["id"],
+  };
 }
 
 /** A collection of information about the state of the connection between service consumer and provider. */
@@ -193,7 +282,7 @@ export interface PrivateLinkServiceConnectionState {
 
 export function privateLinkServiceConnectionStateSerializer(
   item: PrivateLinkServiceConnectionState,
-): PrivateLinkServiceConnectionStateRest {
+): any {
   return {
     status: item["status"],
     description: item["description"],
@@ -201,13 +290,23 @@ export function privateLinkServiceConnectionStateSerializer(
   };
 }
 
-/** Known values of {@link PrivateEndpointServiceConnectionStatus} that the service accepts. */
+export function privateLinkServiceConnectionStateDeserializer(
+  item: any,
+): PrivateLinkServiceConnectionState {
+  return {
+    status: item["status"],
+    description: item["description"],
+    actionsRequired: item["actionsRequired"],
+  };
+}
+
+/** The private endpoint connection status. */
 export enum KnownPrivateEndpointServiceConnectionStatus {
-  /** Pending */
+  /** Connectionaiting for approval or rejection */
   Pending = "Pending",
-  /** Approved */
+  /** Connection approved */
   Approved = "Approved",
-  /** Rejected */
+  /** Connection Rejected */
   Rejected = "Rejected",
 }
 
@@ -216,21 +315,21 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
  * {@link KnownPrivateEndpointServiceConnectionStatus} can be used interchangeably with PrivateEndpointServiceConnectionStatus,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Pending** \
- * **Approved** \
- * **Rejected**
+ * **Pending**: Connectionaiting for approval or rejection \
+ * **Approved**: Connection approved \
+ * **Rejected**: Connection Rejected
  */
 export type PrivateEndpointServiceConnectionStatus = string;
 
-/** Known values of {@link PrivateEndpointConnectionProvisioningState} that the service accepts. */
+/** The current provisioning state. */
 export enum KnownPrivateEndpointConnectionProvisioningState {
-  /** Succeeded */
+  /** Connection has been provisioned */
   Succeeded = "Succeeded",
-  /** Creating */
+  /** Connection is being created */
   Creating = "Creating",
-  /** Deleting */
+  /** Connection is being deleted */
   Deleting = "Deleting",
-  /** Failed */
+  /** Connection provisioning has failed */
   Failed = "Failed",
 }
 
@@ -239,10 +338,10 @@ export enum KnownPrivateEndpointConnectionProvisioningState {
  * {@link KnownPrivateEndpointConnectionProvisioningState} can be used interchangeably with PrivateEndpointConnectionProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Creating** \
- * **Deleting** \
- * **Failed**
+ * **Succeeded**: Connection has been provisioned \
+ * **Creating**: Connection is being created \
+ * **Deleting**: Connection is being deleted \
+ * **Failed**: Connection provisioning has failed
  */
 export type PrivateEndpointConnectionProvisioningState = string;
 
@@ -254,19 +353,29 @@ export interface _PrivateEndpointConnectionResourceListResult {
   nextLink?: string;
 }
 
-/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
-export interface TrackedResource extends Resource {
-  /** Resource tags. */
-  tags?: Record<string, string>;
-  /** The geo-location where the resource lives */
-  location: string;
+export function _privateEndpointConnectionResourceListResultDeserializer(
+  item: any,
+): _PrivateEndpointConnectionResourceListResult {
+  return {
+    value: privateEndpointConnectionResourceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
 }
 
-export function trackedResourceSerializer(item: TrackedResource): TrackedResourceRest {
-  return {
-    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
-    location: item["location"],
-  };
+export function privateEndpointConnectionResourceArraySerializer(
+  result: Array<PrivateEndpointConnectionResource>,
+): any[] {
+  return result.map((item) => {
+    return privateEndpointConnectionResourceSerializer(item);
+  });
+}
+
+export function privateEndpointConnectionResourceArrayDeserializer(
+  result: Array<PrivateEndpointConnectionResource>,
+): any[] {
+  return result.map((item) => {
+    return privateEndpointConnectionResourceDeserializer(item);
+  });
 }
 
 /** A HealthDataAIServicesProviderHub resource */
@@ -277,14 +386,35 @@ export interface DeidService extends TrackedResource {
   identity?: ManagedServiceIdentity;
 }
 
-export function deidServiceSerializer(item: DeidService): DeidServiceRest {
+export function deidServiceSerializer(item: DeidService): any {
   return {
-    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
+    tags: item["tags"],
     location: item["location"],
-    properties: !item.properties
-      ? item.properties
-      : deidServicePropertiesSerializer(item.properties),
-    identity: !item.identity ? item.identity : managedServiceIdentitySerializer(item.identity),
+    properties: !item["properties"]
+      ? item["properties"]
+      : deidServicePropertiesSerializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentitySerializer(item["identity"]),
+  };
+}
+
+export function deidServiceDeserializer(item: any): DeidService {
+  return {
+    tags: item["tags"],
+    location: item["location"],
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : deidServicePropertiesDeserializer(item["properties"]),
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityDeserializer(item["identity"]),
   };
 }
 
@@ -302,37 +432,86 @@ export interface DeidServiceProperties {
 
 export function deidServicePropertiesSerializer(
   item: DeidServiceProperties,
-): DeidServicePropertiesRest {
+): any {
+  return { publicNetworkAccess: item["publicNetworkAccess"] };
+}
+
+export function deidServicePropertiesDeserializer(
+  item: any,
+): DeidServiceProperties {
   return {
+    provisioningState: item["provisioningState"],
+    serviceUrl: item["serviceUrl"],
+    privateEndpointConnections: !item["privateEndpointConnections"]
+      ? item["privateEndpointConnections"]
+      : privateEndpointConnectionArrayDeserializer(
+        item["privateEndpointConnections"],
+      ),
     publicNetworkAccess: item["publicNetworkAccess"],
   };
 }
 
-/** Known values of {@link ResourceProvisioningState} that the service accepts. */
-export enum KnownResourceProvisioningState {
-  /** Succeeded */
+/** The status of the current operation. */
+export enum KnownProvisioningState {
+  /** Resource has been created. */
   Succeeded = "Succeeded",
-  /** Failed */
+  /** Resource creation failed. */
   Failed = "Failed",
-  /** Canceled */
+  /** Resource creation was canceled. */
   Canceled = "Canceled",
+  /** The resource is being provisioned. */
+  Provisioning = "Provisioning",
+  /** The resource is being updated. */
+  Updating = "Updating",
+  /** The resource is being deleted. */
+  Deleting = "Deleting",
+  /** The resource provisioning request has been accepted. */
+  Accepted = "Accepted",
 }
 
 /**
- * The provisioning state of a resource type. \
- * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ * The status of the current operation. \
+ * {@link KnownProvisioningState} can be used interchangeably with ProvisioningState,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Succeeded** \
- * **Failed** \
- * **Canceled**
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled. \
+ * **Provisioning**: The resource is being provisioned. \
+ * **Updating**: The resource is being updated. \
+ * **Deleting**: The resource is being deleted. \
+ * **Accepted**: The resource provisioning request has been accepted.
  */
-export type ResourceProvisioningState = string;
+export type ProvisioningState = string;
+
+export function privateEndpointConnectionArrayDeserializer(
+  result: Array<PrivateEndpointConnection>,
+): any[] {
+  return result.map((item) => {
+    return privateEndpointConnectionDeserializer(item);
+  });
+}
 
 /** The private endpoint connection resource */
 export interface PrivateEndpointConnection extends Resource {
   /** The private endpoint connection properties */
   properties?: PrivateEndpointConnectionProperties;
+}
+
+export function privateEndpointConnectionDeserializer(
+  item: any,
+): PrivateEndpointConnection {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : privateEndpointConnectionPropertiesDeserializer(item["properties"]),
+  };
 }
 
 /** State of the public network access. */
@@ -352,28 +531,34 @@ export interface ManagedServiceIdentity {
 
 export function managedServiceIdentitySerializer(
   item: ManagedServiceIdentity,
-): ManagedServiceIdentityRest {
+): any {
   return {
     type: item["type"],
-    userAssignedIdentities: !item.userAssignedIdentities
-      ? item.userAssignedIdentities
-      : (serializeRecord(
-          item.userAssignedIdentities as any,
-          userAssignedIdentitySerializer,
-        ) as any),
+    userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-/** Known values of {@link ManagedServiceIdentityType} that the service accepts. */
+export function managedServiceIdentityDeserializer(
+  item: any,
+): ManagedServiceIdentity {
+  return {
+    principalId: item["principalId"],
+    tenantId: item["tenantId"],
+    type: item["type"],
+    userAssignedIdentities: item["userAssignedIdentities"],
+  };
+}
+
+/** Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed). */
 export enum KnownManagedServiceIdentityType {
-  /** None */
+  /** No managed identity. */
   None = "None",
-  /** SystemAssigned */
+  /** System assigned managed identity. */
   SystemAssigned = "SystemAssigned",
-  /** UserAssigned */
+  /** User assigned managed identity. */
   UserAssigned = "UserAssigned",
-  /** SystemAssigned,UserAssigned */
-  "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
+  /** System and user assigned managed identity. */
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -381,10 +566,10 @@ export enum KnownManagedServiceIdentityType {
  * {@link KnownManagedServiceIdentityType} can be used interchangeably with ManagedServiceIdentityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **None** \
- * **SystemAssigned** \
- * **UserAssigned** \
- * **SystemAssigned,UserAssigned**
+ * **None**: No managed identity. \
+ * **SystemAssigned**: System assigned managed identity. \
+ * **UserAssigned**: User assigned managed identity. \
+ * **SystemAssigned,UserAssigned**: System and user assigned managed identity.
  */
 export type ManagedServiceIdentityType = string;
 
@@ -396,8 +581,44 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(item: UserAssignedIdentity) {
-  return item as any;
+export function userAssignedIdentitySerializer(
+  item: UserAssignedIdentity,
+): any {
+  return item;
+}
+
+export function userAssignedIdentityDeserializer(
+  item: any,
+): UserAssignedIdentity {
+  return {
+    principalId: item["principalId"],
+    clientId: item["clientId"],
+  };
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: Record<string, string>;
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+export function trackedResourceSerializer(item: TrackedResource): any {
+  return { tags: item["tags"], location: item["location"] };
+}
+
+export function trackedResourceDeserializer(item: any): TrackedResource {
+  return {
+    id: item["id"],
+    name: item["name"],
+    type: item["type"],
+    systemData: !item["systemData"]
+      ? item["systemData"]
+      : systemDataDeserializer(item["systemData"]),
+    tags: item["tags"],
+    location: item["location"],
+  };
 }
 
 /** The response of a DeidService list operation. */
@@ -406,6 +627,29 @@ export interface _DeidServiceListResult {
   value: DeidService[];
   /** The link to the next page of items */
   nextLink?: string;
+}
+
+export function _deidServiceListResultDeserializer(
+  item: any,
+): _DeidServiceListResult {
+  return {
+    value: deidServiceArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function deidServiceArraySerializer(result: Array<DeidService>): any[] {
+  return result.map((item) => {
+    return deidServiceSerializer(item);
+  });
+}
+
+export function deidServiceArrayDeserializer(
+  result: Array<DeidService>,
+): any[] {
+  return result.map((item) => {
+    return deidServiceDeserializer(item);
+  });
 }
 
 /** Patch request body for DeidService */
@@ -418,15 +662,15 @@ export interface DeidUpdate {
   properties?: DeidPropertiesUpdate;
 }
 
-export function deidUpdateSerializer(item: DeidUpdate): DeidUpdateRest {
+export function deidUpdateSerializer(item: DeidUpdate): any {
   return {
-    tags: !item.tags ? item.tags : (serializeRecord(item.tags as any) as any),
-    identity: !item.identity
-      ? item.identity
-      : managedServiceIdentityUpdateSerializer(item.identity),
-    properties: !item.properties
-      ? item.properties
-      : deidPropertiesUpdateSerializer(item.properties),
+    tags: item["tags"],
+    identity: !item["identity"]
+      ? item["identity"]
+      : managedServiceIdentityUpdateSerializer(item["identity"]),
+    properties: !item["properties"]
+      ? item["properties"]
+      : deidPropertiesUpdateSerializer(item["properties"]),
   };
 }
 
@@ -440,15 +684,10 @@ export interface ManagedServiceIdentityUpdate {
 
 export function managedServiceIdentityUpdateSerializer(
   item: ManagedServiceIdentityUpdate,
-): ManagedServiceIdentityUpdateRest {
+): any {
   return {
     type: item["type"],
-    userAssignedIdentities: !item.userAssignedIdentities
-      ? item.userAssignedIdentities
-      : (serializeRecord(
-          item.userAssignedIdentities as any,
-          userAssignedIdentitySerializer,
-        ) as any),
+    userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
@@ -460,10 +699,8 @@ export interface DeidPropertiesUpdate {
 
 export function deidPropertiesUpdateSerializer(
   item: DeidPropertiesUpdate,
-): DeidPropertiesUpdateRest {
-  return {
-    publicNetworkAccess: item["publicNetworkAccess"],
-  };
+): any {
+  return { publicNetworkAccess: item["publicNetworkAccess"] };
 }
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
@@ -472,6 +709,21 @@ export interface _OperationListResult {
   value: Operation[];
   /** The link to the next page of items */
   nextLink?: string;
+}
+
+export function _operationListResultDeserializer(
+  item: any,
+): _OperationListResult {
+  return {
+    value: operationArrayDeserializer(item["value"]),
+    nextLink: item["nextLink"],
+  };
+}
+
+export function operationArrayDeserializer(result: Array<Operation>): any[] {
+  return result.map((item) => {
+    return operationDeserializer(item);
+  });
 }
 
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
@@ -488,6 +740,18 @@ export interface Operation {
   actionType?: ActionType;
 }
 
+export function operationDeserializer(item: any): Operation {
+  return {
+    name: item["name"],
+    isDataAction: item["isDataAction"],
+    display: !item["display"]
+      ? item["display"]
+      : operationDisplayDeserializer(item["display"]),
+    origin: item["origin"],
+    actionType: item["actionType"],
+  };
+}
+
 /** Localized display information for and operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
@@ -500,14 +764,23 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
+export function operationDisplayDeserializer(item: any): OperationDisplay {
+  return {
+    provider: item["provider"],
+    resource: item["resource"],
+    operation: item["operation"],
+    description: item["description"],
+  };
+}
+
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** user */
-  user = "user",
+  User = "user",
   /** system */
-  system = "system",
+  System = "system",
   /** user,system */
-  "user,system" = "user,system",
+  UserSystem = "user,system",
 }
 
 /**
@@ -521,9 +794,9 @@ export enum KnownOrigin {
  */
 export type Origin = string;
 
-/** Known values of {@link ActionType} that the service accepts. */
+/** Extensible enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
 export enum KnownActionType {
-  /** Internal */
+  /** Actions are for internal-only APIs. */
   Internal = "Internal",
 }
 
@@ -532,16 +805,12 @@ export enum KnownActionType {
  * {@link KnownActionType} can be used interchangeably with ActionType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **Internal**
+ * **Internal**: Actions are for internal-only APIs.
  */
 export type ActionType = string;
+
 /** Supported API versions for the Microsoft.HealthDataAIServices resource provider. */
-export type Versions = "2024-02-28-preview";
-/** Alias for ProvisioningState */
-export type ProvisioningState =
-  | ResourceProvisioningState
-  | "Provisioning"
-  | "Updating"
-  | "Deleting"
-  | "Accepted"
-  | string;
+export enum KnownVersions {
+  /** The 2024-09-20 version. */
+  v2024_09_20 = "2024-09-20",
+}

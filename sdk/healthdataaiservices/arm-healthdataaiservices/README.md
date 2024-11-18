@@ -4,9 +4,10 @@ This package contains an isomorphic SDK (runs both in Node.js and in browsers) f
 
 
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/healthdataaiservices/arm-healthdataaiservices) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/arm-healthdataaiservices) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-healthdataaiservices?view=azure-node-preview) |
+Key links:
+
+- [Package (NPM)](https://www.npmjs.com/package/@azure/arm-healthdataaiservices)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-healthdataaiservices?view=azure-node-preview)
 
 ## Getting started
 
@@ -85,6 +86,7 @@ setLogLevel("info");
 ```
 
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/core/logger).
+
 
 ## Contributing
 
