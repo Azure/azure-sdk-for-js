@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import sinon from "sinon";
-import { assert } from "chai";
-import type * as RestModel from "../src/generated/src/models";
-import { createRecordingClient, generateHttpClient } from "./utils/mockClient";
+import type * as RestModel from "../../src/generated/src/models/index.js";
+import { createRecordingClient, generateHttpClient } from "../utils/mockClient.js";
 import {
   baseUri,
   CALL_CALLBACK_URL,
@@ -13,23 +11,22 @@ import {
   generateToken,
   RECORDING_ID,
   RECORDING_STATE,
-} from "./utils/connectionUtils";
-import { CallRecording } from "../src/callRecording";
+} from "../utils/connectionUtils.js";
+import { CallRecording } from "../../src/callRecording.js";
 import type {
   AnswerCallOptions,
   CreateCallOptions,
   PlayOptions,
   StartRecordingOptions,
-} from "../src/models/options";
-import { apiVersion } from "../src/generated/src/models/parameters";
+} from "../../src/models/options.js";
+import { apiVersion } from "../../src/generated/src/models/parameters.js";
 import type { ChannelAffinity } from "@azure/communication-call-automation";
 import type {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
 } from "@azure/communication-common";
-import type { CallAutomationClient, CallInvite, CallConnection } from "../src";
+import type { CallAutomationClient, CallInvite, CallConnection } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 import {
   createRecorder,
   createTestUser,
@@ -44,21 +41,22 @@ import {
   loadPersistedEvents,
   persistEvents,
   fileSourceUrl,
-} from "./utils/recordedClient";
-import type { FileSource } from "../src/models/models";
+} from "../utils/recordedClient.js";
+import type { FileSource } from "../../src/models/models.js";
+import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
-describe("CallRecording Unit Tests", async function () {
+describe("CallRecording Unit Tests", () => {
   let callRecording: CallRecording;
 
-  afterEach(function () {
-    sinon.restore();
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
-  it("can instantiate", async function () {
+  it("can instantiate", async () => {
     new CallRecording(baseUri, { key: generateToken() });
   });
 
-  it("makes successful startRecording request with channel affinity", async function () {
+  it("makes successful startRecording request with channel affinity", async () => {
     const mockResponse: RestModel.RecordingStateResponse = {
       recordingId: RECORDING_ID,
       recordingState: RECORDING_STATE,
@@ -66,7 +64,7 @@ describe("CallRecording Unit Tests", async function () {
 
     const mockHttpClient = generateHttpClient(200, mockResponse);
     callRecording = createRecordingClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const channelZeroParticipant: CommunicationIdentifier = { communicationUserId: CALL_TARGET_ID };
     const channelAffinity: ChannelAffinity = {
@@ -84,7 +82,7 @@ describe("CallRecording Unit Tests", async function () {
     };
 
     await callRecording.start(recOptions);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.callLocator.kind, "serverCallLocator");
@@ -100,7 +98,7 @@ describe("CallRecording Unit Tests", async function () {
     );
   });
 
-  it("makes successful startRecording request", async function () {
+  it("makes successful startRecording request", async () => {
     const mockResponse: RestModel.RecordingStateResponse = {
       recordingId: RECORDING_ID,
       recordingState: RECORDING_STATE,
@@ -108,7 +106,7 @@ describe("CallRecording Unit Tests", async function () {
 
     const mockHttpClient = generateHttpClient(200, mockResponse);
     callRecording = createRecordingClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const recOptions: StartRecordingOptions = {
       recordingStateCallbackEndpointUrl: CALL_CALLBACK_URL,
@@ -119,7 +117,7 @@ describe("CallRecording Unit Tests", async function () {
     };
 
     await callRecording.start(recOptions);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     const data = JSON.parse(request.body?.toString() || "");
 
     assert.equal(data.callLocator.kind, "serverCallLocator");
@@ -131,7 +129,7 @@ describe("CallRecording Unit Tests", async function () {
     );
   });
 
-  it("makes successful getRecordingProperties request", async function () {
+  it("makes successful getRecordingProperties request", async () => {
     const mockResponse: RestModel.RecordingStateResponse = {
       recordingId: RECORDING_ID,
       recordingState: RECORDING_STATE,
@@ -139,10 +137,10 @@ describe("CallRecording Unit Tests", async function () {
 
     const mockHttpClient = generateHttpClient(200, mockResponse);
     callRecording = createRecordingClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     await callRecording.getState(RECORDING_ID);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
 
     assert.equal(request.method, "GET");
     assert.equal(
@@ -154,9 +152,9 @@ describe("CallRecording Unit Tests", async function () {
   it("Sends correct args to stop a recording", async () => {
     const mockHttpClient = generateHttpClient(204);
     callRecording = createRecordingClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     await callRecording.stop(RECORDING_ID);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
 
     assert.equal(
       request.url,
@@ -168,9 +166,9 @@ describe("CallRecording Unit Tests", async function () {
   it("Sends correct args to pause a recording", async () => {
     const mockHttpClient = generateHttpClient(202);
     callRecording = createRecordingClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     await callRecording.pause(RECORDING_ID);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
 
     assert.equal(
       request.url,
@@ -182,9 +180,9 @@ describe("CallRecording Unit Tests", async function () {
   it("Sends correct args to resume a recording", async () => {
     const mockHttpClient = generateHttpClient(202);
     callRecording = createRecordingClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     await callRecording.resume(RECORDING_ID);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
 
     assert.equal(
       request.url,
@@ -194,7 +192,7 @@ describe("CallRecording Unit Tests", async function () {
   });
 });
 
-describe("CallRecording Live Tests", function () {
+describe("CallRecording Live Tests", () => {
   let recorder: Recorder;
   let callerCallAutomationClient: CallAutomationClient;
   let receiverCallAutomationClient: CallAutomationClient;
@@ -203,15 +201,15 @@ describe("CallRecording Live Tests", function () {
   let testUser2: CommunicationUserIdentifier;
   let testName: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = await createRecorder(ctx);
     testUser = await createTestUser(recorder);
     testUser2 = await createTestUser(recorder);
     callerCallAutomationClient = createCallAutomationClient(recorder, testUser);
     receiverCallAutomationClient = createCallAutomationClient(recorder, testUser2);
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async () => {
     persistEvents(testName);
     serviceBusReceivers.forEach((receiver) => {
       receiver.close();
@@ -232,10 +230,12 @@ describe("CallRecording Live Tests", function () {
     }
   });
 
-  it("Creates a call, start recording, and hangs up", async function () {
-    testName = this.test?.fullTitle()
-      ? this.test?.fullTitle().replace(/ /g, "_")
-      : "create_call_start_recording_and_hang_up";
+  it("Creates a call, start recording, and hangs up", { timeout: 60000 }, async function (ctx) {
+    const fullTitle: string | undefined =
+      ctx.task.suite && ctx.task.suite.name && ctx.task.name
+        ? `${ctx.task.suite.name} ${ctx.task.name}`
+        : undefined;
+    testName = fullTitle ? fullTitle.replace(/ /g, "_") : "create_call_start_recording_and_hang_up";
     await loadPersistedEvents(testName);
 
     const callInvite: CallInvite = { targetParticipant: testUser2 };
@@ -300,5 +300,5 @@ describe("CallRecording Live Tests", function () {
       .getState(recordingStateResult.recordingId);
     assert.equal(recStatus.recordingState, "active");
     await callerCallAutomationClient.getCallRecording().stop(recordingStateResult.recordingId);
-  }).timeout(60000);
+  });
 });
