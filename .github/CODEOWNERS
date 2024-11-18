@@ -913,6 +913,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/timeseriesinsights/arm-timeseriesinsights/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/terraform/arm-terraform/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/trafficmanager/arm-trafficmanager/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
