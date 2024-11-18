@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.5 (2024-11-15)
+## 1.0.0-beta.5 (2024-11-18)
 
 This release fixes a bug related to artifact upload and performance enhancements.
 
