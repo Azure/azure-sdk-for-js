@@ -4,12 +4,14 @@ import { getImageDimensionsFromResponse, getImageDimensionsFromString } from "./
 import {
   AzureChatExtensionDataSourceResponseCitationOutput,
   AzureChatExtensionsMessageContextOutput,
+  ContentFilterBlocklistIdResultOutput,
   ContentFilterCitedDetectionResultOutput,
   ContentFilterDetectionResultOutput,
   ContentFilterResultOutput,
   ContentFilterResultDetailsForPromptOutput,
   ContentFilterResultsForChoiceOutput,
   ContentFilterResultsForPromptOutput,
+  ContentFilterDetailedResults,
 } from "../../../src/types/index.js";
 import { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 import {
@@ -155,6 +157,7 @@ function assertContentFilterResultsForChoice(cfr: ContentFilterResultsForChoiceO
     ifDefined(cfr.sexual, assertContentFilterResult);
     ifDefined(cfr.violence, assertContentFilterResult);
     ifDefined(cfr.profanity, assertContentFilterDetectionResult);
+    ifDefined(cfr.custom_blocklists, assertContentFilterDetailedResult);
     ifDefined(cfr.protected_material_code, assertContentFilterCitedDetectionResult);
     ifDefined(cfr.protected_material_text, assertContentFilterDetectionResult);
   }
@@ -193,6 +196,7 @@ function assertContentFilterResultDetailsForPrompt(
     ifDefined(cfr.violence, assertContentFilterResult);
     ifDefined(cfr.profanity, assertContentFilterDetectionResult);
     ifDefined(cfr.jailbreak, assertContentFilterDetectionResult);
+    ifDefined(cfr.custom_blocklists, assertContentFilterDetailedResult);
   }
 }
 
@@ -209,6 +213,19 @@ function assertContentFilterResult(val: ContentFilterResultOutput): void {
 
 function assertContentFilterDetectionResult(val: ContentFilterDetectionResultOutput): void {
   assert.isBoolean(val.detected);
+  assert.isBoolean(val.filtered);
+}
+
+function assertContentFilterDetailedResult(val: ContentFilterDetailedResults): void {
+  assert.isBoolean(val.filtered);
+  // TODO: Update the corresponding types once the Swagger is updated
+  ifDefined(val.details, (details) => {
+    assertNonEmptyArray(details, assertContentFilterBlocklistIdResult);
+  });
+}
+
+function assertContentFilterBlocklistIdResult(val: ContentFilterBlocklistIdResultOutput): void {
+  assert.isString(val.id);
   assert.isBoolean(val.filtered);
 }
 
