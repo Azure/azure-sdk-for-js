@@ -6,14 +6,19 @@
     "lib": ["dom", "es2019"],
     "paths": {
       "@azure/storage-blob": ["./src/index"]
-    }
+    },
+    "skipLibCheck": true
   },
   "compileOnSave": true,
   "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
-    "./samples-dev/**/*.ts",
     "../storage-internal-avro/**/*.ts",
-    "../storage-common/**/*.ts"
+    "../storage-common/**/*.ts",
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts",
+    "samples-dev/**/*.ts"
   ]
 }
