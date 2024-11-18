@@ -4,10 +4,6 @@
 
 This release fixes a bug related to artifact upload and performance enhancements.
 
-### Features Added
-
-### Breaking Changes
-
 ### Bugs Fixed
 
 -Fixed failures when uploading artifacts due to race conditions.

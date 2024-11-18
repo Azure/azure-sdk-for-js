@@ -4,12 +4,6 @@
 
 This release improves compatibility with modern JavaScript environments by migrating the package to ECMAScript modules and Vitest
 
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
 ### Other Changes
 
 -Migrated package to ECMAScript modules and vitest.
