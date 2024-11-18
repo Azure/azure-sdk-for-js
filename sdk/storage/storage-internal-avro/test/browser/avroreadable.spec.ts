@@ -3,7 +3,7 @@
 
 import { AvroReadableFromBlob } from "../../src/index.browser.js";
 import { arraysEqual } from "../../src/utils/utils.common.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("AvroReadableFromBlob", () => {
   const size = 1024;
