@@ -1839,14 +1839,14 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
   };
 }
 
-/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
+/** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
-  /** Indicates the operation is initiated by a user. */
-  user = "user",
-  /** Indicates the operation is initiated by a system. */
-  system = "system",
-  /** Indicates the operation is initiated by a user or system. */
-  "user,system" = "user,system",
+  /** user */
+  User = "user",
+  /** system */
+  System = "system",
+  /** user,system */
+  UserSystem = "user,system",
 }
 
 /**
@@ -1854,9 +1854,9 @@ export enum KnownOrigin {
  * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user**: Indicates the operation is initiated by a user. \
- * **system**: Indicates the operation is initiated by a system. \
- * **user,system**: Indicates the operation is initiated by a user or system.
+ * **user** \
+ * **system** \
+ * **user,system**
  */
 export type Origin = string;
 
