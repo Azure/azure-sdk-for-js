@@ -34,9 +34,28 @@ describe("Agents - assistants", () => {
     console.log(`Retrieved workspace, workspace ID: ${workspace.id}`);
   });
 
-  // it("should list connections", async function () {
-  //   // List connections
-  //   const connectionsList = await connections.listConnections();
-  // });
+  it("should list connections", async function () {
+    // List connections
+    const connectionsList = await connections.listConnections();
+    assert.isNotNull(connectionsList);
+    assert.isAtLeast(connectionsList.value.length, 1);
+    console.log(`Retrieved ${connectionsList.value.length} connections`);
+  });
+
+  it("should retrieve connection", async function () {
+    // List connections
+    const connectionsList = await connections.listConnections();
+    assert.isNotNull(connectionsList);
+    assert.isAtLeast(connectionsList.value.length, 1);
+
+    // Retrieve one connection
+    connectionsList.value.forEach(async (i) => {
+      const connectionName = i.name;
+      const connection = await connections.getConnection(connectionName);
+      assert.isNotNull(connection);
+      assert.equal(connection.name, connectionName);
+      console.log(`Retrieved connection, connection name: ${i.name}`);
+    });
+  });
 
 });
