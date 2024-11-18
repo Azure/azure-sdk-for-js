@@ -1,18 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import {
-  ConfidentialLedgerClient,
-  CreateLedgerEntryParameters,
-  isUnexpected,
-  LedgerEntry,
-  paginate,
-} from "../../src";
+import type { ConfidentialLedgerClient, CreateLedgerEntryParameters, LedgerEntry } from "../../src";
+import { isUnexpected, paginate } from "../../src";
 
 import { createClient, createRecorder, getRecorderUniqueVariable } from "./utils/recordedClient";
 
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("Range query should be successful", function () {
   let recorder: Recorder;

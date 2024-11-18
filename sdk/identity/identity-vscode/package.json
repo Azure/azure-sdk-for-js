@@ -4,7 +4,7 @@
   "sdk-type": "client",
   "description": "Use the Azure Account extension for Visual Studio Code to authenticate with Azure Identity",
   "main": "dist/index.js",
-  "module": "dist-esm/identity-vscode/src/index.js",
+  "module": "dist-esm/src/index.js",
   "types": "./types/identity-vscode.d.ts",
   "scripts": {
     "build": "npm run clean && npm run extract-api && tsc -p . && dev-tool run bundle",
@@ -31,8 +31,7 @@
   },
   "files": [
     "dist/",
-    "dist-esm/identity/src",
-    "dist-esm/identity-vscode/src",
+    "dist-esm/src",
     "types/identity-vscode.d.ts",
     "README.md",
     "LICENSE"
@@ -75,7 +74,6 @@
     "@types/qs": "^6.5.3",
     "@types/sinon": "^17.0.0",
     "@types/uuid": "^8.0.0",
-    "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "inherits": "^2.0.3",

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AckMessageError } from "../models/messages";
+import type { AckMessageError } from "../models/messages";
 
 /**
  * Error when sending message failed

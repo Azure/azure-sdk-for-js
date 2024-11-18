@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { Receiver, ReceiverOptions } from "rhea-promise";
-import { ConnectionContext } from "../../../src/connectionContext.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { Receiver, ReceiverOptions } from "rhea-promise";
+import type { ConnectionContext } from "../../../src/connectionContext.js";
 import { BatchingReceiver } from "../../../src/core/batchingReceiver.js";
 import { LinkEntity } from "../../../src/core/linkEntity.js";
 import { ManagementClient } from "../../../src/core/managementClient.js";

@@ -39,14 +39,14 @@ const azureADTokenProvider = getBearerTokenProvider(credential, scope);
 
 ### (⚠️ Highly Discouraged) API Key
 
-API keys are not recommended for production use because they are less secure than other authentication methods. However, if you are using an API key to authenticate `OpenAIClient` or `AssistantsClient`, an `AzureKeyCredential` object must have been created as follows:
+API keys are not recommended for production use because they are less secure than other authentication methods. Previously, `AzureKeyCredential` objects were created as follows to authenticate `OpenAIClient` or `AssistantsClient`:
 
 ```typescript
 import { AzureKeyCredential } from "@azure/openai";
 const apiKey = new AzureKeyCredential("your API key");
 ```
 
-Authenticating `AzureOpenAI` with an API key is as simple as setting the `AZURE_OPENAI_API_KEY` environment variable or as setting the `apiKey` string property in the options object when creating the `AzureOpenAI` client.
+On the other hand, `AzureOpenAI` can be authenticated with an API key by setting the `AZURE_OPENAI_API_KEY` environment variable or by setting the `apiKey` string property in the options object when creating the `AzureOpenAI` client.
 
 ## Constructing the client
 
@@ -69,7 +69,7 @@ Migrated code:
 ```typescript
 import { AzureOpenAI } from "openai";
 const deployment = "Your Azure OpenAI deployment";
-const apiVersion = "2024-07-01-preview";
+const apiVersion = "2024-10-21";
 const options = { azureADTokenProvider, deployment, apiVersion }
 const client = new AzureOpenAI(options);
 ```

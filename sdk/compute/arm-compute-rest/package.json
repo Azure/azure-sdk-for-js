@@ -53,7 +53,7 @@
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
-    "unit-test": "cross-env TEST_MODE=playback && npm run unit-test:node && npm run unit-test:browser",
+    "unit-test": "dev-tool run vendored cross-env TEST_MODE=playback && npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "dev-tool run test:browser",
     "unit-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 --exclude 'test/**/browser/*.spec.ts' 'test/**/*.spec.ts'",
     "update-snippets": "echo skipped"
@@ -81,7 +81,6 @@
     "@types/node": "^18.0.0",
     "autorest": "latest",
     "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "karma": "^6.2.0",

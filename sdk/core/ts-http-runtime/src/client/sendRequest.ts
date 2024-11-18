@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   HttpClient,
   HttpMethods,
   MultipartRequestBody,
@@ -10,13 +10,14 @@ import {
   RequestBodyType,
 } from "../interfaces.js";
 import { isRestError, RestError } from "../restError.js";
-import { Pipeline } from "../pipeline.js";
+import type { Pipeline } from "../pipeline.js";
 import { createHttpHeaders } from "../httpHeaders.js";
 import { createPipelineRequest } from "../pipelineRequest.js";
 import { getCachedDefaultHttpsClient } from "./clientHelpers.js";
 import { isReadableStream } from "../util/typeGuards.js";
-import { HttpResponse, RequestParameters } from "./common.js";
-import { PartDescriptor, buildMultipartBody } from "./multipart.js";
+import type { HttpResponse, RequestParameters } from "./common.js";
+import type { PartDescriptor } from "./multipart.js";
+import { buildMultipartBody } from "./multipart.js";
 
 /**
  * Helper function to send request used by the client
