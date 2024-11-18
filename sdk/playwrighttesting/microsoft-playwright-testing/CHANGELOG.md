@@ -1,6 +1,8 @@
 # Release History
 
-## 1.0.0-beta.5 (Unreleased)
+## 1.0.0-beta.5 (2024-11-15)
+
+This release fixes a bug related to artifact upload and performance enhancements.
 
 ### Features Added
 
@@ -8,7 +10,13 @@
 
 ### Bugs Fixed
 
+-Fixed failures when uploading artifacts due to race conditions.
+
 ### Other Changes
+
+- Removed runName support in cloud hosted browser uri
+
+-Added X-MS-Package-Version header to API that requests cloud hosted browser for language and package version decoding.
 
 ## 1.0.0-beta.4 (2024-10-21)
 
