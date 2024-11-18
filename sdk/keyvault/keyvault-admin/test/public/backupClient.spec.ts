@@ -100,9 +100,7 @@ describe("KeyVaultBackupClient", () => {
       }
     });
 
-    // This test can only be run in playback mode because running a backup
-    // or restore puts the instance in a bad state (tracked in IcM).
-    it.skipIf(!isPlaybackMode())("selectiveKeyRestore completes successfully", async function () {
+    it("selectiveKeyRestore completes successfully", async function () {
       const keyName = "rsa1";
       await keyClient.createRsaKey(keyName);
       const backupPoller = await client.beginBackup(blobStorageUri, testPollerProperties);
