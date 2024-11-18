@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-// External module imports
-// Internal module imports
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type {
@@ -10,8 +8,6 @@ import type {
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
 import { serializeCommunicationIdentifier } from "@azure/communication-common";
-
-// Parent directory imports
 import { CallMedia } from "../../src/callMedia.js";
 import type {
   FileSource,
