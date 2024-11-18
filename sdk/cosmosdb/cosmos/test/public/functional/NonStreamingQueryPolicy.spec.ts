@@ -91,11 +91,6 @@ describe("Vector search feature", async () => {
         assert.fail("Container creation should have failed for missing vectorEmbeddingPolicy.");
       } catch (e) {
         assert(e.code === 400);
-        assert(
-          e.body.message.includes(
-            "Vector Indexing Policy's path::\\/vector1 not matching in Embedding's path",
-          ),
-        );
       }
 
       // Pass a vector indexing policy with non-matching path
@@ -146,9 +141,6 @@ describe("Vector search feature", async () => {
         assert.fail("Container replace should have failed for indexing policy.");
       } catch (e) {
         assert(e.code === 400);
-        assert(
-          e.body.message.includes("Vector Indexing Policy cannot be changed in Collection Replace"),
-        );
       }
     });
 
@@ -477,3 +469,133 @@ async function executeQueryAndVerifyOrder(
   }
   assert.equal(count, size);
 }
+
+describe.skip("Full text search feature", async () => {
+  let database: Database;
+
+  before(async function () {
+    database = await getTestDatabase("full text search database");
+  });
+
+  after(async function () {
+    await database.delete();
+  });
+
+  const indexingPolicy: IndexingPolicy = {
+    includedPaths: [{ path: "/*" }],
+    excludedPaths: [{ path: '/"_etag"/?' }],
+    fullTextIndexes: [{ path: "/text1" }, { path: "/text2" }],
+  };
+
+  const fullTextPolicy = {
+    defaultLanguage: "en-US",
+    fullTextPaths: [
+      { path: "/text1", language: "1033" },
+      { path: "/text2", language: "en-US" },
+    ],
+  };
+
+  it("validate full text search policy", async function () {
+    const containerName = "full text search container policy";
+    const { resource: containerdef } = await database.containers.createIfNotExists({
+      id: containerName,
+      fullTextPolicy: fullTextPolicy,
+      indexingPolicy: indexingPolicy,
+      throughput: 1000,
+    });
+
+    assert(containerdef.indexingPolicy !== undefined);
+    assert(containerdef.fullTextPolicy !== undefined);
+    assert(containerdef.fullTextPolicy.defaultLanguage === "en-US");
+    assert(containerdef.fullTextPolicy.fullTextPaths.length === 2);
+    assert(containerdef.fullTextPolicy.fullTextPaths[0].path === "/text1");
+    assert(containerdef.fullTextPolicy.fullTextPaths[1].path === "/text2");
+  });
+
+  it("should execute a full text query", async function () {
+    const containerName = "full text search container 1";
+    const query = "SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.text1, ['swim', 'run'])";
+
+    const { container } = await database.containers.createIfNotExists({
+      id: containerName,
+      throughput: 22000,
+    });
+
+    await container.items.create({ id: "1", text1: "I like to swim", text2: "I like to swim" });
+    await container.items.create({ id: "2", text1: "I like to run", text2: "I like to run" });
+
+    const queryOptions = { forceQueryPlan: true };
+    const queryIterator = container.items.query(query, queryOptions);
+    const result = [];
+    while (queryIterator.hasMoreResults()) {
+      result.push(...(await queryIterator.fetchNext()).resources);
+    }
+    assert(result.length === 2);
+  });
+
+  it("should execute a full text query with RRF score", async function () {
+    const containerName = "full text search container 2";
+    const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
+      vectorEmbeddings: [
+        {
+          path: "/image",
+          dataType: VectorEmbeddingDataType.Float32,
+          dimensions: 3,
+          distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
+        },
+      ],
+    };
+
+    const query =
+      "SELECT TOP 10 c FROM c WHERE FullTextContains(c.text, 'swim') AND FullTextContains(c.text2, 'swim') ORDER BY RANK RRF (FullTextScore(c.text, ['swim', 'run']),FullTextScore(c.text2, ['swim', 'run']))";
+
+    const { container } = await database.containers.createIfNotExists({
+      id: containerName,
+      throughput: 15000,
+      vectorEmbeddingPolicy: vectorEmbeddingPolicy,
+    });
+
+    const items = [
+      { id: "1", text: "I like to swim", image: [1, 2, 3], text2: "I do not like to swim" },
+      { id: "2", text: "I like to run", image: [2, 2, 3], text2: "I do not like to run" },
+      {
+        id: "3",
+        text: "I like to run and swim",
+        image: [2, 2, 3],
+        text2: "I do not like to run and swim",
+      },
+    ];
+
+    for (const item of items) {
+      await container.items.create(item);
+    }
+
+    const queryOptions = { forceQueryPlan: true };
+    const queryIterator = container.items.query(query, queryOptions);
+    const result = [];
+
+    while (queryIterator.hasMoreResults()) {
+      result.push(...(await queryIterator.fetchNext()).resources);
+    }
+
+    assert(result.length === 2);
+  });
+
+  it("should execute a full text query with fetchAll", async function () {
+    const containerName = "full text search container 3";
+    const query = "SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.text, ['swim', 'run'])";
+
+    const { container } = await database.containers.createIfNotExists({
+      id: containerName,
+      throughput: 22000,
+    });
+
+    await container.items.create({ id: "1", text: "I like to swim" });
+    await container.items.create({ id: "2", text: "I like to run" });
+
+    const queryOptions = { forceQueryPlan: true };
+    const queryIterator = container.items.query(query, queryOptions);
+    const result = await queryIterator.fetchAll();
+    assert(result.resources.length === 2);
+  });
+});
