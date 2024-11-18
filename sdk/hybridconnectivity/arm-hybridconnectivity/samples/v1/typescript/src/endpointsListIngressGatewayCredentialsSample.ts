@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   EndpointsListIngressGatewayCredentialsOptionalParams,
-  HybridConnectivityManagementAPI
+  HybridConnectivityManagementAPI,
 } from "@azure/arm-hybridconnectivity";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the ingress gateway endpoint credentials
  *
  * @summary Gets the ingress gateway endpoint credentials
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/EndpointsPostListIngressGatewayCredentials.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/EndpointsPostListIngressGatewayCredentials.json
  */
 async function hybridConnectivityEndpointsPostListIngressGatewayCredentials() {
   const resourceUri =
@@ -29,14 +29,14 @@ async function hybridConnectivityEndpointsPostListIngressGatewayCredentials() {
   const endpointName = "default";
   const expiresin = 10800;
   const options: EndpointsListIngressGatewayCredentialsOptionalParams = {
-    expiresin
+    expiresin,
   };
   const credential = new DefaultAzureCredential();
   const client = new HybridConnectivityManagementAPI(credential);
   const result = await client.endpoints.listIngressGatewayCredentials(
     resourceUri,
     endpointName,
-    options
+    options,
   );
   console.log(result);
 }

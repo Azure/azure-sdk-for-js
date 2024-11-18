@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ManagedProxyRequest,
-  HybridConnectivityManagementAPI
+  HybridConnectivityManagementAPI,
 } from "@azure/arm-hybridconnectivity";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Fetches the managed proxy details
  *
  * @summary Fetches the managed proxy details
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/EndpointsPostListManagedProxyDetails.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/EndpointsPostListManagedProxyDetails.json
  */
 async function hybridConnectivityEndpointsPostListManagedProxyDetails() {
   const resourceUri =
@@ -30,14 +30,14 @@ async function hybridConnectivityEndpointsPostListManagedProxyDetails() {
   const managedProxyRequest: ManagedProxyRequest = {
     hostname: "r.proxy.arc.com",
     service: "127.0.0.1:65035",
-    serviceName: "WAC"
+    serviceName: "WAC",
   };
   const credential = new DefaultAzureCredential();
   const client = new HybridConnectivityManagementAPI(credential);
   const result = await client.endpoints.listManagedProxyDetails(
     resourceUri,
     endpointName,
-    managedProxyRequest
+    managedProxyRequest,
   );
   console.log(result);
 }

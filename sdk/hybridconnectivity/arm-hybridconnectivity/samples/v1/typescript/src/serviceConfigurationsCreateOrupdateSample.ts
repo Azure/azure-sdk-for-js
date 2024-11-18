@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ServiceConfigurationResource,
-  HybridConnectivityManagementAPI
+  HybridConnectivityManagementAPI,
 } from "@azure/arm-hybridconnectivity";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a service in serviceConfiguration for the endpoint resource.
  *
  * @summary Create or update a service in serviceConfiguration for the endpoint resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/ServiceConfigurationsPutSSH.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/ServiceConfigurationsPutSSH.json
  */
 async function serviceConfigurationsPutSsh() {
   const resourceUri =
@@ -30,7 +30,7 @@ async function serviceConfigurationsPutSsh() {
   const serviceConfigurationName = "SSH";
   const serviceConfigurationResource: ServiceConfigurationResource = {
     port: 22,
-    serviceName: "SSH"
+    serviceName: "SSH",
   };
   const credential = new DefaultAzureCredential();
   const client = new HybridConnectivityManagementAPI(credential);
@@ -38,7 +38,7 @@ async function serviceConfigurationsPutSsh() {
     resourceUri,
     endpointName,
     serviceConfigurationName,
-    serviceConfigurationResource
+    serviceConfigurationResource,
   );
   console.log(result);
 }
@@ -47,7 +47,7 @@ async function serviceConfigurationsPutSsh() {
  * This sample demonstrates how to Create or update a service in serviceConfiguration for the endpoint resource.
  *
  * @summary Create or update a service in serviceConfiguration for the endpoint resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/ServiceConfigurationsPutWAC.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/ServiceConfigurationsPutWAC.json
  */
 async function serviceConfigurationsPutWac() {
   const resourceUri =
@@ -56,7 +56,7 @@ async function serviceConfigurationsPutWac() {
   const serviceConfigurationName = "WAC";
   const serviceConfigurationResource: ServiceConfigurationResource = {
     port: 6516,
-    serviceName: "WAC"
+    serviceName: "WAC",
   };
   const credential = new DefaultAzureCredential();
   const client = new HybridConnectivityManagementAPI(credential);
@@ -64,7 +64,7 @@ async function serviceConfigurationsPutWac() {
     resourceUri,
     endpointName,
     serviceConfigurationName,
-    serviceConfigurationResource
+    serviceConfigurationResource,
   );
   console.log(result);
 }

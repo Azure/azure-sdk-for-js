@@ -11,36 +11,68 @@ import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import {
   PipelineRequest,
   PipelineResponse,
-  SendRequest
+  SendRequest,
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
 import {
+  SolutionConfigurationsImpl,
+  InventoryImpl,
+  GenerateAwsTemplateImpl,
+  PublicCloudConnectorsImpl,
+  SolutionTypesImpl,
   OperationsImpl,
   EndpointsImpl,
-  ServiceConfigurationsImpl
+  ServiceConfigurationsImpl,
 } from "./operations";
 import {
+  SolutionConfigurations,
+  Inventory,
+  GenerateAwsTemplate,
+  PublicCloudConnectors,
+  SolutionTypes,
   Operations,
   Endpoints,
-  ServiceConfigurations
+  ServiceConfigurations,
 } from "./operationsInterfaces";
 import { HybridConnectivityManagementAPIOptionalParams } from "./models";
 
 export class HybridConnectivityManagementAPI extends coreClient.ServiceClient {
   $host: string;
   apiVersion: string;
+  subscriptionId?: string;
 
   /**
    * Initializes a new instance of the HybridConnectivityManagementAPI class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
+   * @param subscriptionId The ID of the target subscription. The value must be an UUID.
    * @param options The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
-    options?: HybridConnectivityManagementAPIOptionalParams
+    subscriptionId: string,
+    options?: HybridConnectivityManagementAPIOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    options?: HybridConnectivityManagementAPIOptionalParams,
+  );
+  constructor(
+    credentials: coreAuth.TokenCredential,
+    subscriptionIdOrOptions?:
+      | HybridConnectivityManagementAPIOptionalParams
+      | string,
+    options?: HybridConnectivityManagementAPIOptionalParams,
   ) {
     if (credentials === undefined) {
       throw new Error("'credentials' cannot be null");
+    }
+
+    let subscriptionId: string | undefined;
+
+    if (typeof subscriptionIdOrOptions === "string") {
+      subscriptionId = subscriptionIdOrOptions;
+    } else if (typeof subscriptionIdOrOptions === "object") {
+      options = subscriptionIdOrOptions;
     }
 
     // Initializing default values for options
@@ -49,10 +81,10 @@ export class HybridConnectivityManagementAPI extends coreClient.ServiceClient {
     }
     const defaults: HybridConnectivityManagementAPIOptionalParams = {
       requestContentType: "application/json; charset=utf-8",
-      credential: credentials
+      credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-hybridconnectivity/1.0.1`;
+    const packageDetails = `azsdk-js-arm-hybridconnectivity/1.1.0`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -62,20 +94,21 @@ export class HybridConnectivityManagementAPI extends coreClient.ServiceClient {
       ...defaults,
       ...options,
       userAgentOptions: {
-        userAgentPrefix
+        userAgentPrefix,
       },
       endpoint:
-        options.endpoint ?? options.baseUri ?? "https://management.azure.com"
+        options.endpoint ?? options.baseUri ?? "https://management.azure.com",
     };
     super(optionsWithDefaults);
 
     let bearerTokenAuthenticationPolicyFound: boolean = false;
     if (options?.pipeline && options.pipeline.getOrderedPolicies().length > 0) {
-      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] = options.pipeline.getOrderedPolicies();
+      const pipelinePolicies: coreRestPipeline.PipelinePolicy[] =
+        options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
           pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName
+          coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
@@ -85,7 +118,7 @@ export class HybridConnectivityManagementAPI extends coreClient.ServiceClient {
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
-        name: coreRestPipeline.bearerTokenAuthenticationPolicyName
+        name: coreRestPipeline.bearerTokenAuthenticationPolicyName,
       });
       this.pipeline.addPolicy(
         coreRestPipeline.bearerTokenAuthenticationPolicy({
@@ -95,15 +128,22 @@ export class HybridConnectivityManagementAPI extends coreClient.ServiceClient {
             `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
             authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge
-          }
-        })
+              coreClient.authorizeRequestOnClaimChallenge,
+          },
+        }),
       );
     }
+    // Parameter assignments
+    this.subscriptionId = subscriptionId;
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2023-03-15";
+    this.apiVersion = options.apiVersion || "2024-12-01";
+    this.solutionConfigurations = new SolutionConfigurationsImpl(this);
+    this.inventory = new InventoryImpl(this);
+    this.generateAwsTemplate = new GenerateAwsTemplateImpl(this);
+    this.publicCloudConnectors = new PublicCloudConnectorsImpl(this);
+    this.solutionTypes = new SolutionTypesImpl(this);
     this.operations = new OperationsImpl(this);
     this.endpoints = new EndpointsImpl(this);
     this.serviceConfigurations = new ServiceConfigurationsImpl(this);
@@ -119,7 +159,7 @@ export class HybridConnectivityManagementAPI extends coreClient.ServiceClient {
       name: "CustomApiVersionPolicy",
       async sendRequest(
         request: PipelineRequest,
-        next: SendRequest
+        next: SendRequest,
       ): Promise<PipelineResponse> {
         const param = request.url.split("?");
         if (param.length > 1) {
@@ -133,11 +173,16 @@ export class HybridConnectivityManagementAPI extends coreClient.ServiceClient {
           request.url = param[0] + "?" + newParams.join("&");
         }
         return next(request);
-      }
+      },
     };
     this.pipeline.addPolicy(apiVersionPolicy);
   }
 
+  solutionConfigurations: SolutionConfigurations;
+  inventory: Inventory;
+  generateAwsTemplate: GenerateAwsTemplate;
+  publicCloudConnectors: PublicCloudConnectors;
+  solutionTypes: SolutionTypes;
   operations: Operations;
   endpoints: Endpoints;
   serviceConfigurations: ServiceConfigurations;

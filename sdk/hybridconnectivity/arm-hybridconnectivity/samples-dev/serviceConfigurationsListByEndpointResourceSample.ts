@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to API to enumerate registered services in service configurations under a Endpoint Resource
  *
  * @summary API to enumerate registered services in service configurations under a Endpoint Resource
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/ServiceConfigurationsList.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/ServiceConfigurationsList.json
  */
 async function getClustersExample() {
   const resourceUri =
@@ -29,7 +29,7 @@ async function getClustersExample() {
   const resArray = new Array();
   for await (let item of client.serviceConfigurations.listByEndpointResource(
     resourceUri,
-    endpointName
+    endpointName,
   )) {
     resArray.push(item);
   }

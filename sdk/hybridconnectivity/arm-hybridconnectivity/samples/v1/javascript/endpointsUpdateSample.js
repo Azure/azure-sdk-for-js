@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update the endpoint to the target resource.
  *
  * @summary Update the endpoint to the target resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/EndpointsPatchDefault.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/EndpointsPatchDefault.json
  */
 async function hybridConnectivityEndpointsPatchDefault() {
   const resourceUri =

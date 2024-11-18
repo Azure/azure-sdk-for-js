@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the endpoint access to the target resource.
  *
  * @summary Deletes the endpoint access to the target resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/EndpointsDeleteDefault.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/EndpointsDeleteDefault.json
  */
 async function hybridConnectivityEndpointsDeleteDefault() {
   const resourceUri =

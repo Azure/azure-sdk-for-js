@@ -8,6 +8,291 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** The response of a SolutionConfiguration list operation. */
+export interface SolutionConfigurationListResult {
+  /** The SolutionConfiguration items on this page */
+  value: SolutionConfiguration[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Solution configuration resource. */
+export interface SolutionConfigurationProperties {
+  /**
+   * The resource provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ResourceProvisioningState;
+  /** The type of the solution */
+  solutionType: string;
+  /** Solution settings */
+  solutionSettings?: { [propertyName: string]: string };
+  /**
+   * The status of solution configurations
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly status?: SolutionConfigurationStatus;
+  /**
+   * The detailed message of status details
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly statusDetails?: string;
+  /**
+   * The last time resources were inventoried
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastSyncTime?: Date;
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
+/** Solution configuration resource. */
+export interface SolutionConfigurationPropertiesUpdate {
+  /** The type of the solution */
+  solutionType?: string;
+  /** Solution settings */
+  solutionSettings?: { [propertyName: string]: string };
+}
+
+/** The response of a InventoryResource list operation. */
+export interface InventoryResourceListResult {
+  /** The InventoryResource items on this page */
+  value: InventoryResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Definition of inventory. */
+export interface InventoryProperties {
+  /** Gets or sets the cloud native resource type. */
+  cloudNativeType?: CloudNativeType;
+  /** Gets or sets the cloud native resource name. */
+  cloudNativeResourceId?: string;
+  /** Gets or sets the mapped azure resource id. */
+  azureResourceId?: string;
+  /** Gets or sets the status of the inventory. */
+  status?: SolutionConfigurationStatus;
+  /** Gets or sets the status details. */
+  statusDetails?: string;
+  /**
+   * The resource provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ResourceProvisioningState;
+}
+
+/** The current status of an async operation. */
+export interface OperationStatusResult {
+  /** Fully qualified ID for the async operation. */
+  id?: string;
+  /**
+   * Fully qualified ID of the resource against which the original async operation was started.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly resourceId?: string;
+  /** Name of the async operation. */
+  name?: string;
+  /** Operation status. */
+  status: string;
+  /** Percent of the operation that is complete. */
+  percentComplete?: number;
+  /** The start time of the operation. */
+  startTime?: Date;
+  /** The end time of the operation. */
+  endTime?: Date;
+  /** The operations list. */
+  operations?: OperationStatusResult[];
+  /** If present, details of the operation error. */
+  error?: ErrorDetail;
+}
+
+/** ConnectorId and SolutionTypes and their properties to Generate AWS CFT Template. */
+export interface GenerateAwsTemplateRequest {
+  /** The name of public cloud connector */
+  connectorId: string;
+  /** The list of solution types and their settings */
+  solutionTypes?: SolutionTypeSettings[];
+}
+
+/** The properties of Solution Type */
+export interface SolutionTypeSettings {
+  /** The type of the solution */
+  solutionType: string;
+  /** Solution settings */
+  solutionSettings?: { [propertyName: string]: string };
+}
+
+/** The response of a PublicCloudConnector list operation. */
+export interface PublicCloudConnectorListResult {
+  /** The PublicCloudConnector items on this page */
+  value: PublicCloudConnector[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Properties of public cloud connectors. */
+export interface PublicCloudConnectorProperties {
+  /** Cloud profile for AWS. */
+  awsCloudProfile: AwsCloudProfile;
+  /** Host cloud the public cloud connector. */
+  hostType: HostType;
+  /**
+   * The resource provisioning state.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: ResourceProvisioningState;
+  /**
+   * Connector primary identifier.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly connectorPrimaryIdentifier?: string;
+}
+
+/** cloud profile for AWS. */
+export interface AwsCloudProfile {
+  /** Account id for the AWS account. */
+  accountId: string;
+  /** List of AWS accounts which need to be excluded. */
+  excludedAccounts?: string[];
+  /** Boolean value that indicates whether the account is organizational or not. True represents organization account, whereas false represents a single account. */
+  isOrganizationalAccount?: boolean;
+}
+
+/** The response of a SolutionTypeResource list operation. */
+export interface SolutionTypeResourceListResult {
+  /** The SolutionTypeResource items on this page */
+  value: SolutionTypeResource[];
+  /** The link to the next page of items */
+  nextLink?: string;
+}
+
+/** Definition of Solution type resource. */
+export interface SolutionTypeProperties {
+  /** The name of the solution type. */
+  solutionType?: string;
+  /** Short description of solution type. */
+  description?: string;
+  /** The locations this solution is supported in. */
+  supportedAzureRegions?: string[];
+  /** Array of solution settings and its description. */
+  solutionSettings?: SolutionTypeSettingsProperties[];
+}
+
+/** Represent Solution settings properties description array. */
+export interface SolutionTypeSettingsProperties {
+  /** The name of the solution setting property. */
+  name: string;
+  /** The UI friendly name of the solution setting property. */
+  displayName: string;
+  /** Type of the solution setting property, represented as a string. */
+  type: string;
+  /** Description of solution setting property. */
+  description: string;
+  /** Array of allowed values for this solution settings property. */
+  allowedValues: string[];
+  /** Default value for this solution settings property. */
+  defaultValue: string;
+}
+
+/** Properties of public cloud connectors. */
+export interface PublicCloudConnectorPropertiesUpdate {
+  /** Cloud profile for AWS. */
+  awsCloudProfile?: AwsCloudProfileUpdate;
+}
+
+/** cloud profile for AWS. */
+export interface AwsCloudProfileUpdate {
+  /** List of AWS accounts which need to be excluded. */
+  excludedAccounts?: string[];
+}
+
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
   /**
@@ -72,55 +357,6 @@ export interface OperationDisplay {
   readonly description?: string;
 }
 
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
-}
-
 /** The list of endpoints. */
 export interface EndpointsList {
   /** The link used to get the next page of endpoints list. */
@@ -140,46 +376,6 @@ export interface EndpointProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly provisioningState?: string;
-}
-
-/** Common fields that are returned in the response for all Azure Resource Manager resources */
-export interface Resource {
-  /**
-   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly systemData?: SystemData;
-}
-
-/** Metadata pertaining to creation and last modification of the resource. */
-export interface SystemData {
-  /** The identity that created the resource. */
-  createdBy?: string;
-  /** The type of identity that created the resource. */
-  createdByType?: CreatedByType;
-  /** The timestamp of resource creation (UTC). */
-  createdAt?: Date;
-  /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
-  /** The type of identity that last modified the resource. */
-  lastModifiedByType?: CreatedByType;
-  /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: Date;
 }
 
 /** The paginated list of serviceConfigurations */
@@ -270,8 +466,63 @@ export interface ManagedProxyResource {
   expiresOn: number;
 }
 
+/** Solution type permissions. */
+export interface SolutionTypePermissions {
+  /** The name of solution Type */
+  solutionType: SolutionTypeEnum;
+  /** The status */
+  status: Status;
+  /** The details of the status */
+  statusDetails: string;
+}
+
+/** Public connector permissions. */
+export interface TestPermissionResult {
+  /** Solution type permissions. */
+  solutionTypes: SolutionTypePermissions[];
+}
+
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
 export interface ProxyResource extends Resource {}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface TrackedResource extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+  /** The geo-location where the resource lives */
+  location: string;
+}
+
+/** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
+export interface AzureResourceManagerCommonTypesTrackedResourceUpdate
+  extends Resource {
+  /** Resource tags. */
+  tags?: { [propertyName: string]: string };
+}
+
+/** Solution Configuration */
+export interface SolutionConfiguration extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SolutionConfigurationProperties;
+}
+
+/** Solution Configuration */
+export interface SolutionConfigurationUpdate extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SolutionConfigurationPropertiesUpdate;
+}
+
+/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
+export interface InventoryResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: InventoryProperties;
+}
+
+/** Concrete proxy resource types can be created by aliasing this type using a specific property type. */
+export interface SolutionTypeResource extends ProxyResource {
+  /** The resource-specific properties for this resource. */
+  properties?: SolutionTypeProperties;
+}
 
 /** The endpoint for the target resource. */
 export interface EndpointResource extends ProxyResource {
@@ -294,6 +545,142 @@ export interface ServiceConfigurationResource extends ProxyResource {
   readonly provisioningState?: ProvisioningState;
 }
 
+/** Public Cloud Connector */
+export interface PublicCloudConnector extends TrackedResource {
+  /** The resource-specific properties for this resource. */
+  properties?: PublicCloudConnectorProperties;
+}
+
+/** Public Cloud Connector */
+export interface PublicCloudConnectorUpdate
+  extends AzureResourceManagerCommonTypesTrackedResourceUpdate {
+  /** The resource-specific properties for this resource. */
+  properties?: PublicCloudConnectorPropertiesUpdate;
+}
+
+/** Defines headers for SolutionConfigurations_syncNow operation. */
+export interface SolutionConfigurationsSyncNowHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for PublicCloudConnectors_createOrUpdate operation. */
+export interface PublicCloudConnectorsCreateOrUpdateHeaders {
+  /** A link to the status monitor */
+  azureAsyncOperation?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Defines headers for PublicCloudConnectors_testPermissions operation. */
+export interface PublicCloudConnectorsTestPermissionsHeaders {
+  /** The Location header contains the URL where the status of the long running operation can be checked. */
+  location?: string;
+  /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
+  retryAfter?: number;
+}
+
+/** Known values of {@link ResourceProvisioningState} that the service accepts. */
+export enum KnownResourceProvisioningState {
+  /** Resource has been created. */
+  Succeeded = "Succeeded",
+  /** Resource creation failed. */
+  Failed = "Failed",
+  /** Resource creation was canceled. */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for ResourceProvisioningState. \
+ * {@link KnownResourceProvisioningState} can be used interchangeably with ResourceProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded**: Resource has been created. \
+ * **Failed**: Resource creation failed. \
+ * **Canceled**: Resource creation was canceled.
+ */
+export type ResourceProvisioningState = string;
+
+/** Known values of {@link SolutionConfigurationStatus} that the service accepts. */
+export enum KnownSolutionConfigurationStatus {
+  /** New status */
+  New = "New",
+  /** InProgress status */
+  InProgress = "InProgress",
+  /** Canceled status */
+  Completed = "Completed",
+  /** Failed status */
+  Failed = "Failed",
+}
+
+/**
+ * Defines values for SolutionConfigurationStatus. \
+ * {@link KnownSolutionConfigurationStatus} can be used interchangeably with SolutionConfigurationStatus,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **New**: New status \
+ * **InProgress**: InProgress status \
+ * **Completed**: Canceled status \
+ * **Failed**: Failed status
+ */
+export type SolutionConfigurationStatus = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
+
+/** Known values of {@link CloudNativeType} that the service accepts. */
+export enum KnownCloudNativeType {
+  /** ec2 enum. */
+  Ec2 = "ec2",
+}
+
+/**
+ * Defines values for CloudNativeType. \
+ * {@link KnownCloudNativeType} can be used interchangeably with CloudNativeType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **ec2**: ec2 enum.
+ */
+export type CloudNativeType = string;
+
+/** Known values of {@link HostType} that the service accepts. */
+export enum KnownHostType {
+  /** AWS state */
+  AWS = "AWS",
+}
+
+/**
+ * Defines values for HostType. \
+ * {@link KnownHostType} can be used interchangeably with HostType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **AWS**: AWS state
+ */
+export type HostType = string;
+
 /** Known values of {@link Origin} that the service accepts. */
 export enum KnownOrigin {
   /** User */
@@ -301,7 +688,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -318,7 +705,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -335,7 +722,7 @@ export enum KnownType {
   /** Default */
   Default = "default",
   /** Custom */
-  Custom = "custom"
+  Custom = "custom",
 }
 
 /**
@@ -348,36 +735,12 @@ export enum KnownType {
  */
 export type Type = string;
 
-/** Known values of {@link CreatedByType} that the service accepts. */
-export enum KnownCreatedByType {
-  /** User */
-  User = "User",
-  /** Application */
-  Application = "Application",
-  /** ManagedIdentity */
-  ManagedIdentity = "ManagedIdentity",
-  /** Key */
-  Key = "Key"
-}
-
-/**
- * Defines values for CreatedByType. \
- * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **User** \
- * **Application** \
- * **ManagedIdentity** \
- * **Key**
- */
-export type CreatedByType = string;
-
 /** Known values of {@link ServiceName} that the service accepts. */
 export enum KnownServiceName {
   /** SSH */
   SSH = "SSH",
   /** WAC */
-  WAC = "WAC"
+  WAC = "WAC",
 }
 
 /**
@@ -401,7 +764,7 @@ export enum KnownProvisioningState {
   /** Failed */
   Failed = "Failed",
   /** Canceled */
-  Canceled = "Canceled"
+  Canceled = "Canceled",
 }
 
 /**
@@ -416,6 +779,243 @@ export enum KnownProvisioningState {
  * **Canceled**
  */
 export type ProvisioningState = string;
+
+/** Known values of {@link SolutionTypeEnum} that the service accepts. */
+export enum KnownSolutionTypeEnum {
+  /** Asset Management solution type */
+  MicrosoftAssetManagement = "Microsoft.AssetManagement",
+  /** Hybrid Compute Onboard solution type */
+  MicrosoftHybridComputeOnboard = "Microsoft.HybridCompute.Onboard",
+  /** VWan Provisioning solution type */
+  MicrosoftHybridNetworkVWanProvision = "Microsoft.HybridNetwork.VWan.Provision",
+}
+
+/**
+ * Defines values for SolutionTypeEnum. \
+ * {@link KnownSolutionTypeEnum} can be used interchangeably with SolutionTypeEnum,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Microsoft.AssetManagement**: Asset Management solution type \
+ * **Microsoft.HybridCompute.Onboard**: Hybrid Compute Onboard solution type \
+ * **Microsoft.HybridNetwork.VWan.Provision**: VWan Provisioning solution type
+ */
+export type SolutionTypeEnum = string;
+
+/** Known values of {@link Status} that the service accepts. */
+export enum KnownStatus {
+  /** Connected status */
+  Connected = "Connected",
+  /** Disconnected status */
+  Disconnected = "Disconnected",
+}
+
+/**
+ * Defines values for Status. \
+ * {@link KnownStatus} can be used interchangeably with Status,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Connected**: Connected status \
+ * **Disconnected**: Disconnected status
+ */
+export type Status = string;
+
+/** Optional parameters. */
+export interface SolutionConfigurationsListOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the list operation. */
+export type SolutionConfigurationsListResponse =
+  SolutionConfigurationListResult;
+
+/** Optional parameters. */
+export interface SolutionConfigurationsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SolutionConfigurationsGetResponse = SolutionConfiguration;
+
+/** Optional parameters. */
+export interface SolutionConfigurationsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the createOrUpdate operation. */
+export type SolutionConfigurationsCreateOrUpdateResponse =
+  SolutionConfiguration;
+
+/** Optional parameters. */
+export interface SolutionConfigurationsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type SolutionConfigurationsUpdateResponse = SolutionConfiguration;
+
+/** Optional parameters. */
+export interface SolutionConfigurationsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface SolutionConfigurationsSyncNowOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the syncNow operation. */
+export type SolutionConfigurationsSyncNowResponse = OperationStatusResult;
+
+/** Optional parameters. */
+export interface SolutionConfigurationsListNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listNext operation. */
+export type SolutionConfigurationsListNextResponse =
+  SolutionConfigurationListResult;
+
+/** Optional parameters. */
+export interface InventoryListBySolutionConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySolutionConfiguration operation. */
+export type InventoryListBySolutionConfigurationResponse =
+  InventoryResourceListResult;
+
+/** Optional parameters. */
+export interface InventoryGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type InventoryGetResponse = InventoryResource;
+
+/** Optional parameters. */
+export interface InventoryListBySolutionConfigurationNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySolutionConfigurationNext operation. */
+export type InventoryListBySolutionConfigurationNextResponse =
+  InventoryResourceListResult;
+
+/** Optional parameters. */
+export interface GenerateAwsTemplatePostOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the post operation. */
+export type GenerateAwsTemplatePostResponse = Record<string, unknown>;
+
+/** Optional parameters. */
+export interface PublicCloudConnectorsListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type PublicCloudConnectorsListBySubscriptionResponse =
+  PublicCloudConnectorListResult;
+
+/** Optional parameters. */
+export interface PublicCloudConnectorsListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type PublicCloudConnectorsListByResourceGroupResponse =
+  PublicCloudConnectorListResult;
+
+/** Optional parameters. */
+export interface PublicCloudConnectorsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type PublicCloudConnectorsGetResponse = PublicCloudConnector;
+
+/** Optional parameters. */
+export interface PublicCloudConnectorsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type PublicCloudConnectorsCreateOrUpdateResponse = PublicCloudConnector;
+
+/** Optional parameters. */
+export interface PublicCloudConnectorsUpdateOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the update operation. */
+export type PublicCloudConnectorsUpdateResponse = PublicCloudConnector;
+
+/** Optional parameters. */
+export interface PublicCloudConnectorsDeleteOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Optional parameters. */
+export interface PublicCloudConnectorsTestPermissionsOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the testPermissions operation. */
+export type PublicCloudConnectorsTestPermissionsResponse =
+  OperationStatusResult;
+
+/** Optional parameters. */
+export interface PublicCloudConnectorsListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type PublicCloudConnectorsListBySubscriptionNextResponse =
+  PublicCloudConnectorListResult;
+
+/** Optional parameters. */
+export interface PublicCloudConnectorsListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type PublicCloudConnectorsListByResourceGroupNextResponse =
+  PublicCloudConnectorListResult;
+
+/** Optional parameters. */
+export interface SolutionTypesListBySubscriptionOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscription operation. */
+export type SolutionTypesListBySubscriptionResponse =
+  SolutionTypeResourceListResult;
+
+/** Optional parameters. */
+export interface SolutionTypesListByResourceGroupOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroup operation. */
+export type SolutionTypesListByResourceGroupResponse =
+  SolutionTypeResourceListResult;
+
+/** Optional parameters. */
+export interface SolutionTypesGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type SolutionTypesGetResponse = SolutionTypeResource;
+
+/** Optional parameters. */
+export interface SolutionTypesListBySubscriptionNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listBySubscriptionNext operation. */
+export type SolutionTypesListBySubscriptionNextResponse =
+  SolutionTypeResourceListResult;
+
+/** Optional parameters. */
+export interface SolutionTypesListByResourceGroupNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByResourceGroupNext operation. */
+export type SolutionTypesListByResourceGroupNextResponse =
+  SolutionTypeResourceListResult;
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
@@ -485,7 +1085,8 @@ export interface EndpointsListIngressGatewayCredentialsOptionalParams
 }
 
 /** Contains response data for the listIngressGatewayCredentials operation. */
-export type EndpointsListIngressGatewayCredentialsResponse = IngressGatewayResource;
+export type EndpointsListIngressGatewayCredentialsResponse =
+  IngressGatewayResource;
 
 /** Optional parameters. */
 export interface EndpointsListManagedProxyDetailsOptionalParams
@@ -506,7 +1107,8 @@ export interface ServiceConfigurationsListByEndpointResourceOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByEndpointResource operation. */
-export type ServiceConfigurationsListByEndpointResourceResponse = ServiceConfigurationList;
+export type ServiceConfigurationsListByEndpointResourceResponse =
+  ServiceConfigurationList;
 
 /** Optional parameters. */
 export interface ServiceConfigurationsGetOptionalParams
@@ -520,7 +1122,8 @@ export interface ServiceConfigurationsCreateOrupdateOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the createOrupdate operation. */
-export type ServiceConfigurationsCreateOrupdateResponse = ServiceConfigurationResource;
+export type ServiceConfigurationsCreateOrupdateResponse =
+  ServiceConfigurationResource;
 
 /** Optional parameters. */
 export interface ServiceConfigurationsUpdateOptionalParams
@@ -538,7 +1141,8 @@ export interface ServiceConfigurationsListByEndpointResourceNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByEndpointResourceNext operation. */
-export type ServiceConfigurationsListByEndpointResourceNextResponse = ServiceConfigurationList;
+export type ServiceConfigurationsListByEndpointResourceNextResponse =
+  ServiceConfigurationList;
 
 /** Optional parameters. */
 export interface HybridConnectivityManagementAPIOptionalParams

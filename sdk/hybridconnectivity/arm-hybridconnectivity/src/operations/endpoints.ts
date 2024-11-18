@@ -32,7 +32,7 @@ import {
   ManagedProxyRequest,
   EndpointsListManagedProxyDetailsOptionalParams,
   EndpointsListManagedProxyDetailsResponse,
-  EndpointsListNextResponse
+  EndpointsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +56,7 @@ export class EndpointsImpl implements Endpoints {
    */
   public list(
     resourceUri: string,
-    options?: EndpointsListOptionalParams
+    options?: EndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<EndpointResource> {
     const iter = this.listPagingAll(resourceUri, options);
     return {
@@ -71,14 +71,14 @@ export class EndpointsImpl implements Endpoints {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(resourceUri, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     resourceUri: string,
     options?: EndpointsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<EndpointResource[]> {
     let result: EndpointsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -100,7 +100,7 @@ export class EndpointsImpl implements Endpoints {
 
   private async *listPagingAll(
     resourceUri: string,
-    options?: EndpointsListOptionalParams
+    options?: EndpointsListOptionalParams,
   ): AsyncIterableIterator<EndpointResource> {
     for await (const page of this.listPagingPage(resourceUri, options)) {
       yield* page;
@@ -115,11 +115,11 @@ export class EndpointsImpl implements Endpoints {
    */
   private _list(
     resourceUri: string,
-    options?: EndpointsListOptionalParams
+    options?: EndpointsListOptionalParams,
   ): Promise<EndpointsListResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -133,11 +133,11 @@ export class EndpointsImpl implements Endpoints {
   get(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsGetOptionalParams
+    options?: EndpointsGetOptionalParams,
   ): Promise<EndpointsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -153,11 +153,11 @@ export class EndpointsImpl implements Endpoints {
     resourceUri: string,
     endpointName: string,
     endpointResource: EndpointResource,
-    options?: EndpointsCreateOrUpdateOptionalParams
+    options?: EndpointsCreateOrUpdateOptionalParams,
   ): Promise<EndpointsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, endpointResource, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -173,11 +173,11 @@ export class EndpointsImpl implements Endpoints {
     resourceUri: string,
     endpointName: string,
     endpointResource: EndpointResource,
-    options?: EndpointsUpdateOptionalParams
+    options?: EndpointsUpdateOptionalParams,
   ): Promise<EndpointsUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, endpointResource, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -191,11 +191,11 @@ export class EndpointsImpl implements Endpoints {
   delete(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsDeleteOptionalParams
+    options?: EndpointsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -209,11 +209,11 @@ export class EndpointsImpl implements Endpoints {
   listCredentials(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsListCredentialsOptionalParams
+    options?: EndpointsListCredentialsOptionalParams,
   ): Promise<EndpointsListCredentialsResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, options },
-      listCredentialsOperationSpec
+      listCredentialsOperationSpec,
     );
   }
 
@@ -227,11 +227,11 @@ export class EndpointsImpl implements Endpoints {
   listIngressGatewayCredentials(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsListIngressGatewayCredentialsOptionalParams
+    options?: EndpointsListIngressGatewayCredentialsOptionalParams,
   ): Promise<EndpointsListIngressGatewayCredentialsResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, options },
-      listIngressGatewayCredentialsOperationSpec
+      listIngressGatewayCredentialsOperationSpec,
     );
   }
 
@@ -247,11 +247,11 @@ export class EndpointsImpl implements Endpoints {
     resourceUri: string,
     endpointName: string,
     managedProxyRequest: ManagedProxyRequest,
-    options?: EndpointsListManagedProxyDetailsOptionalParams
+    options?: EndpointsListManagedProxyDetailsOptionalParams,
   ): Promise<EndpointsListManagedProxyDetailsResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, managedProxyRequest, options },
-      listManagedProxyDetailsOperationSpec
+      listManagedProxyDetailsOperationSpec,
     );
   }
 
@@ -265,11 +265,11 @@ export class EndpointsImpl implements Endpoints {
   private _listNext(
     resourceUri: string,
     nextLink: string,
-    options?: EndpointsListNextOptionalParams
+    options?: EndpointsListNextOptionalParams,
   ): Promise<EndpointsListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -281,189 +281,182 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointsList
+      bodyMapper: Mappers.EndpointsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.resourceUri],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointResource
+      bodyMapper: Mappers.EndpointResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointResource
+      bodyMapper: Mappers.EndpointResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.endpointResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointResource
+      bodyMapper: Mappers.EndpointResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.endpointResource,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listCredentialsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listCredentials",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listCredentials",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointAccessResource
+      bodyMapper: Mappers.EndpointAccessResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.listCredentialsRequest,
   queryParameters: [Parameters.apiVersion, Parameters.expiresin],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listIngressGatewayCredentialsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listIngressGatewayCredentials",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listIngressGatewayCredentials",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.IngressGatewayResource
+      bodyMapper: Mappers.IngressGatewayResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.listIngressGatewayCredentialsRequest,
   queryParameters: [Parameters.apiVersion, Parameters.expiresin],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listManagedProxyDetailsOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listManagedProxyDetails",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/listManagedProxyDetails",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ManagedProxyResource
+      bodyMapper: Mappers.ManagedProxyResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.managedProxyRequest,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
-    Parameters.endpointName
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EndpointsList
+      bodyMapper: Mappers.EndpointsList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
+    Parameters.resourceUri,
     Parameters.nextLink,
-    Parameters.resourceUri
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

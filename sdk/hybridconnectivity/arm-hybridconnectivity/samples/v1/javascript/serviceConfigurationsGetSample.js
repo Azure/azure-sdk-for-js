@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the details about the service to the resource.
  *
  * @summary Gets the details about the service to the resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/ServiceConfigurationsGetSSH.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/ServiceConfigurationsGetSSH.json
  */
 async function hybridConnectivityEndpointsServiceconfigurationsGetSsh() {
   const resourceUri =
@@ -28,7 +28,7 @@ async function hybridConnectivityEndpointsServiceconfigurationsGetSsh() {
   const result = await client.serviceConfigurations.get(
     resourceUri,
     endpointName,
-    serviceConfigurationName
+    serviceConfigurationName,
   );
   console.log(result);
 }
@@ -37,7 +37,7 @@ async function hybridConnectivityEndpointsServiceconfigurationsGetSsh() {
  * This sample demonstrates how to Gets the details about the service to the resource.
  *
  * @summary Gets the details about the service to the resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/ServiceConfigurationsGetWAC.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/ServiceConfigurationsGetWAC.json
  */
 async function hybridConnectivityEndpointsServiceconfigurationsGetWac() {
   const resourceUri =
@@ -49,7 +49,7 @@ async function hybridConnectivityEndpointsServiceconfigurationsGetWac() {
   const result = await client.serviceConfigurations.get(
     resourceUri,
     endpointName,
-    serviceConfigurationName
+    serviceConfigurationName,
   );
   console.log(result);
 }

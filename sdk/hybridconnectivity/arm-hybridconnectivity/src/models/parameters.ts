@@ -9,15 +9,20 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
+  SolutionConfiguration as SolutionConfigurationMapper,
+  SolutionConfigurationUpdate as SolutionConfigurationUpdateMapper,
+  GenerateAwsTemplateRequest as GenerateAwsTemplateRequestMapper,
+  PublicCloudConnector as PublicCloudConnectorMapper,
+  PublicCloudConnectorUpdate as PublicCloudConnectorUpdateMapper,
   EndpointResource as EndpointResourceMapper,
   ListCredentialsRequest as ListCredentialsRequestMapper,
   ListIngressGatewayCredentialsRequest as ListIngressGatewayCredentialsRequestMapper,
   ManagedProxyRequest as ManagedProxyRequestMapper,
   ServiceConfigurationResource as ServiceConfigurationResourceMapper,
-  ServiceConfigurationResourcePatch as ServiceConfigurationResourcePatchMapper
+  ServiceConfigurationResourcePatch as ServiceConfigurationResourcePatchMapper,
 } from "../models/mappers";
 
 export const accept: OperationParameter = {
@@ -27,9 +32,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -38,34 +43,22 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-03-15",
+    defaultValue: "2024-12-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
-};
-
-export const nextLink: OperationURLParameter = {
-  parameterPath: "nextLink",
-  mapper: {
-    serializedName: "nextLink",
-    required: true,
-    type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
 };
 
 export const resourceUri: OperationURLParameter = {
@@ -74,22 +67,24 @@ export const resourceUri: OperationURLParameter = {
     serializedName: "resourceUri",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
-export const endpointName: OperationURLParameter = {
-  parameterPath: "endpointName",
+export const solutionConfiguration: OperationURLParameter = {
+  parameterPath: "solutionConfiguration",
   mapper: {
-    serializedName: "endpointName",
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,63}$"),
+    },
+    serializedName: "solutionConfiguration",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
 };
 
 export const contentType: OperationParameter = {
@@ -99,19 +94,130 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
+};
+
+export const resource: OperationParameter = {
+  parameterPath: "resource",
+  mapper: SolutionConfigurationMapper,
+};
+
+export const properties: OperationParameter = {
+  parameterPath: "properties",
+  mapper: SolutionConfigurationUpdateMapper,
+};
+
+export const nextLink: OperationURLParameter = {
+  parameterPath: "nextLink",
+  mapper: {
+    serializedName: "nextLink",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
+};
+
+export const inventoryId: OperationURLParameter = {
+  parameterPath: "inventoryId",
+  mapper: {
+    serializedName: "inventoryId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const generateAwsTemplateRequest: OperationParameter = {
+  parameterPath: "generateAwsTemplateRequest",
+  mapper: GenerateAwsTemplateRequestMapper,
+};
+
+export const subscriptionId: OperationURLParameter = {
+  parameterPath: "subscriptionId",
+  mapper: {
+    serializedName: "subscriptionId",
+    required: true,
+    type: {
+      name: "Uuid",
+    },
+  },
+};
+
+export const resourceGroupName: OperationURLParameter = {
+  parameterPath: "resourceGroupName",
+  mapper: {
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+    },
+    serializedName: "resourceGroupName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const publicCloudConnector: OperationURLParameter = {
+  parameterPath: "publicCloudConnector",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9-]{3,63}$"),
+    },
+    serializedName: "publicCloudConnector",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const resource1: OperationParameter = {
+  parameterPath: "resource",
+  mapper: PublicCloudConnectorMapper,
+};
+
+export const properties1: OperationParameter = {
+  parameterPath: "properties",
+  mapper: PublicCloudConnectorUpdateMapper,
+};
+
+export const solutionType: OperationURLParameter = {
+  parameterPath: "solutionType",
+  mapper: {
+    serializedName: "solutionType",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const endpointName: OperationURLParameter = {
+  parameterPath: "endpointName",
+  mapper: {
+    serializedName: "endpointName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+  skipEncoding: true,
 };
 
 export const endpointResource: OperationParameter = {
   parameterPath: "endpointResource",
-  mapper: EndpointResourceMapper
+  mapper: EndpointResourceMapper,
 };
 
 export const listCredentialsRequest: OperationParameter = {
   parameterPath: ["options", "listCredentialsRequest"],
-  mapper: ListCredentialsRequestMapper
+  mapper: ListCredentialsRequestMapper,
 };
 
 export const expiresin: OperationQueryParameter = {
@@ -120,23 +226,23 @@ export const expiresin: OperationQueryParameter = {
     defaultValue: 10800,
     constraints: {
       InclusiveMaximum: 10800,
-      InclusiveMinimum: 600
+      InclusiveMinimum: 600,
     },
     serializedName: "expiresin",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const listIngressGatewayCredentialsRequest: OperationParameter = {
   parameterPath: ["options", "listIngressGatewayCredentialsRequest"],
-  mapper: ListIngressGatewayCredentialsRequestMapper
+  mapper: ListIngressGatewayCredentialsRequestMapper,
 };
 
 export const managedProxyRequest: OperationParameter = {
   parameterPath: "managedProxyRequest",
-  mapper: ManagedProxyRequestMapper
+  mapper: ManagedProxyRequestMapper,
 };
 
 export const serviceConfigurationName: OperationURLParameter = {
@@ -145,18 +251,18 @@ export const serviceConfigurationName: OperationURLParameter = {
     serializedName: "serviceConfigurationName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const serviceConfigurationResource: OperationParameter = {
   parameterPath: "serviceConfigurationResource",
-  mapper: ServiceConfigurationResourceMapper
+  mapper: ServiceConfigurationResourceMapper,
 };
 
 export const serviceConfigurationResource1: OperationParameter = {
   parameterPath: "serviceConfigurationResource",
-  mapper: ServiceConfigurationResourcePatchMapper
+  mapper: ServiceConfigurationResourcePatchMapper,
 };

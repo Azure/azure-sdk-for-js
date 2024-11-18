@@ -6,6 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+export * from "./solutionConfigurations";
+export * from "./inventory";
+export * from "./generateAwsTemplate";
+export * from "./publicCloudConnectors";
+export * from "./solutionTypes";
 export * from "./operations";
 export * from "./endpoints";
 export * from "./serviceConfigurations";

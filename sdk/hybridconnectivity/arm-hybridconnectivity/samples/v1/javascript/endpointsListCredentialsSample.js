@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the endpoint access credentials to the resource.
  *
  * @summary Gets the endpoint access credentials to the resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/EndpointsPostListCredentials.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/EndpointsPostListCredentials.json
  */
 async function hybridConnectivityEndpointsPostListCredentials() {
   const resourceUri =

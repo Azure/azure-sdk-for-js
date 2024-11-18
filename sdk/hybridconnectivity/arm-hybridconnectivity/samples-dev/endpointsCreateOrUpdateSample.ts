@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   EndpointResource,
-  HybridConnectivityManagementAPI
+  HybridConnectivityManagementAPI,
 } from "@azure/arm-hybridconnectivity";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update the endpoint to the target resource.
  *
  * @summary Create or update the endpoint to the target resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/EndpointsPutCustom.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/EndpointsPutCustom.json
  */
 async function hybridConnectivityEndpointsPutCustom() {
   const resourceUri =
@@ -31,15 +31,15 @@ async function hybridConnectivityEndpointsPutCustom() {
     properties: {
       type: "custom",
       resourceId:
-        "/subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.Relay/namespaces/custom-relay-namespace"
-    }
+        "/subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.Relay/namespaces/custom-relay-namespace",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new HybridConnectivityManagementAPI(credential);
   const result = await client.endpoints.createOrUpdate(
     resourceUri,
     endpointName,
-    endpointResource
+    endpointResource,
   );
   console.log(result);
 }
@@ -48,21 +48,21 @@ async function hybridConnectivityEndpointsPutCustom() {
  * This sample demonstrates how to Create or update the endpoint to the target resource.
  *
  * @summary Create or update the endpoint to the target resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/EndpointsPutDefault.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/EndpointsPutDefault.json
  */
 async function hybridConnectivityEndpointsPutDefault() {
   const resourceUri =
     "subscriptions/f5bcc1d9-23af-4ae9-aca1-041d0f593a63/resourceGroups/hybridRG/providers/Microsoft.HybridCompute/machines/testMachine";
   const endpointName = "default";
   const endpointResource: EndpointResource = {
-    properties: { type: "default" }
+    properties: { type: "default" },
   };
   const credential = new DefaultAzureCredential();
   const client = new HybridConnectivityManagementAPI(credential);
   const result = await client.endpoints.createOrUpdate(
     resourceUri,
     endpointName,
-    endpointResource
+    endpointResource,
   );
   console.log(result);
 }

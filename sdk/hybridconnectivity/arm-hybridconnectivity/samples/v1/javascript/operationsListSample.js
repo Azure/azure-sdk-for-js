@@ -16,11 +16,13 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the available Hybrid Connectivity REST API operations.
  *
  * @summary Lists the available Hybrid Connectivity REST API operations.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/OperationsList.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/OperationsList.json
  */
 async function hybridConnectivityOperationsList() {
+  const subscriptionId =
+    process.env["HYBRIDCONNECTIVITY_SUBSCRIPTION_ID"] || "00000000-0000-0000-0000-000000000000";
   const credential = new DefaultAzureCredential();
-  const client = new HybridConnectivityManagementAPI(credential);
+  const client = new HybridConnectivityManagementAPI(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.operations.list()) {
     resArray.push(item);

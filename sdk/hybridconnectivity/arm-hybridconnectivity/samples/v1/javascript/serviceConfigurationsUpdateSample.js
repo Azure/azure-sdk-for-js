@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update the service details in the service configurations of the target resource.
  *
  * @summary Update the service details in the service configurations of the target resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/ServiceConfigurationsPatchSSH.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/ServiceConfigurationsPatchSSH.json
  */
 async function serviceConfigurationsPatchSsh() {
   const resourceUri =
@@ -32,7 +32,7 @@ async function serviceConfigurationsPatchSsh() {
     resourceUri,
     endpointName,
     serviceConfigurationName,
-    serviceConfigurationResource
+    serviceConfigurationResource,
   );
   console.log(result);
 }

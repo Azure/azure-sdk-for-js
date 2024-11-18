@@ -23,7 +23,7 @@ import {
   EndpointsListIngressGatewayCredentialsResponse,
   ManagedProxyRequest,
   EndpointsListManagedProxyDetailsOptionalParams,
-  EndpointsListManagedProxyDetailsResponse
+  EndpointsListManagedProxyDetailsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +37,7 @@ export interface Endpoints {
    */
   list(
     resourceUri: string,
-    options?: EndpointsListOptionalParams
+    options?: EndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<EndpointResource>;
   /**
    * Gets the endpoint to the resource.
@@ -49,7 +49,7 @@ export interface Endpoints {
   get(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsGetOptionalParams
+    options?: EndpointsGetOptionalParams,
   ): Promise<EndpointsGetResponse>;
   /**
    * Create or update the endpoint to the target resource.
@@ -63,7 +63,7 @@ export interface Endpoints {
     resourceUri: string,
     endpointName: string,
     endpointResource: EndpointResource,
-    options?: EndpointsCreateOrUpdateOptionalParams
+    options?: EndpointsCreateOrUpdateOptionalParams,
   ): Promise<EndpointsCreateOrUpdateResponse>;
   /**
    * Update the endpoint to the target resource.
@@ -77,7 +77,7 @@ export interface Endpoints {
     resourceUri: string,
     endpointName: string,
     endpointResource: EndpointResource,
-    options?: EndpointsUpdateOptionalParams
+    options?: EndpointsUpdateOptionalParams,
   ): Promise<EndpointsUpdateResponse>;
   /**
    * Deletes the endpoint access to the target resource.
@@ -89,7 +89,7 @@ export interface Endpoints {
   delete(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsDeleteOptionalParams
+    options?: EndpointsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the endpoint access credentials to the resource.
@@ -101,7 +101,7 @@ export interface Endpoints {
   listCredentials(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsListCredentialsOptionalParams
+    options?: EndpointsListCredentialsOptionalParams,
   ): Promise<EndpointsListCredentialsResponse>;
   /**
    * Gets the ingress gateway endpoint credentials
@@ -113,7 +113,7 @@ export interface Endpoints {
   listIngressGatewayCredentials(
     resourceUri: string,
     endpointName: string,
-    options?: EndpointsListIngressGatewayCredentialsOptionalParams
+    options?: EndpointsListIngressGatewayCredentialsOptionalParams,
   ): Promise<EndpointsListIngressGatewayCredentialsResponse>;
   /**
    * Fetches the managed proxy details
@@ -127,6 +127,6 @@ export interface Endpoints {
     resourceUri: string,
     endpointName: string,
     managedProxyRequest: ManagedProxyRequest,
-    options?: EndpointsListManagedProxyDetailsOptionalParams
+    options?: EndpointsListManagedProxyDetailsOptionalParams,
   ): Promise<EndpointsListManagedProxyDetailsResponse>;
 }

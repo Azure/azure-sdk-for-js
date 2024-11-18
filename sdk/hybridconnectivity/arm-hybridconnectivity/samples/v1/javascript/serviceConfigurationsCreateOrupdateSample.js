@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a service in serviceConfiguration for the endpoint resource.
  *
  * @summary Create or update a service in serviceConfiguration for the endpoint resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/ServiceConfigurationsPutSSH.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/ServiceConfigurationsPutSSH.json
  */
 async function serviceConfigurationsPutSsh() {
   const resourceUri =
@@ -33,7 +33,7 @@ async function serviceConfigurationsPutSsh() {
     resourceUri,
     endpointName,
     serviceConfigurationName,
-    serviceConfigurationResource
+    serviceConfigurationResource,
   );
   console.log(result);
 }
@@ -42,7 +42,7 @@ async function serviceConfigurationsPutSsh() {
  * This sample demonstrates how to Create or update a service in serviceConfiguration for the endpoint resource.
  *
  * @summary Create or update a service in serviceConfiguration for the endpoint resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/ServiceConfigurationsPutWAC.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/ServiceConfigurationsPutWAC.json
  */
 async function serviceConfigurationsPutWac() {
   const resourceUri =
@@ -59,7 +59,7 @@ async function serviceConfigurationsPutWac() {
     resourceUri,
     endpointName,
     serviceConfigurationName,
-    serviceConfigurationResource
+    serviceConfigurationResource,
   );
   console.log(result);
 }

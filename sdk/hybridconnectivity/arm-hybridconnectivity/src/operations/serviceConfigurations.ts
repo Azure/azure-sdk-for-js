@@ -26,7 +26,7 @@ import {
   ServiceConfigurationsUpdateOptionalParams,
   ServiceConfigurationsUpdateResponse,
   ServiceConfigurationsDeleteOptionalParams,
-  ServiceConfigurationsListByEndpointResourceNextResponse
+  ServiceConfigurationsListByEndpointResourceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -52,12 +52,12 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
   public listByEndpointResource(
     resourceUri: string,
     endpointName: string,
-    options?: ServiceConfigurationsListByEndpointResourceOptionalParams
+    options?: ServiceConfigurationsListByEndpointResourceOptionalParams,
   ): PagedAsyncIterableIterator<ServiceConfigurationResource> {
     const iter = this.listByEndpointResourcePagingAll(
       resourceUri,
       endpointName,
-      options
+      options,
     );
     return {
       next() {
@@ -74,9 +74,9 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
           resourceUri,
           endpointName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -84,7 +84,7 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
     resourceUri: string,
     endpointName: string,
     options?: ServiceConfigurationsListByEndpointResourceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ServiceConfigurationResource[]> {
     let result: ServiceConfigurationsListByEndpointResourceResponse;
     let continuationToken = settings?.continuationToken;
@@ -92,7 +92,7 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
       result = await this._listByEndpointResource(
         resourceUri,
         endpointName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -104,7 +104,7 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
         resourceUri,
         endpointName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -116,12 +116,12 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
   private async *listByEndpointResourcePagingAll(
     resourceUri: string,
     endpointName: string,
-    options?: ServiceConfigurationsListByEndpointResourceOptionalParams
+    options?: ServiceConfigurationsListByEndpointResourceOptionalParams,
   ): AsyncIterableIterator<ServiceConfigurationResource> {
     for await (const page of this.listByEndpointResourcePagingPage(
       resourceUri,
       endpointName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -137,11 +137,11 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
   private _listByEndpointResource(
     resourceUri: string,
     endpointName: string,
-    options?: ServiceConfigurationsListByEndpointResourceOptionalParams
+    options?: ServiceConfigurationsListByEndpointResourceOptionalParams,
   ): Promise<ServiceConfigurationsListByEndpointResourceResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, options },
-      listByEndpointResourceOperationSpec
+      listByEndpointResourceOperationSpec,
     );
   }
 
@@ -157,11 +157,11 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
     resourceUri: string,
     endpointName: string,
     serviceConfigurationName: string,
-    options?: ServiceConfigurationsGetOptionalParams
+    options?: ServiceConfigurationsGetOptionalParams,
   ): Promise<ServiceConfigurationsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, serviceConfigurationName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -179,7 +179,7 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
     endpointName: string,
     serviceConfigurationName: string,
     serviceConfigurationResource: ServiceConfigurationResource,
-    options?: ServiceConfigurationsCreateOrupdateOptionalParams
+    options?: ServiceConfigurationsCreateOrupdateOptionalParams,
   ): Promise<ServiceConfigurationsCreateOrupdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -187,9 +187,9 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
         endpointName,
         serviceConfigurationName,
         serviceConfigurationResource,
-        options
+        options,
       },
-      createOrupdateOperationSpec
+      createOrupdateOperationSpec,
     );
   }
 
@@ -207,7 +207,7 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
     endpointName: string,
     serviceConfigurationName: string,
     serviceConfigurationResource: ServiceConfigurationResourcePatch,
-    options?: ServiceConfigurationsUpdateOptionalParams
+    options?: ServiceConfigurationsUpdateOptionalParams,
   ): Promise<ServiceConfigurationsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -215,9 +215,9 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
         endpointName,
         serviceConfigurationName,
         serviceConfigurationResource,
-        options
+        options,
       },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -233,11 +233,11 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
     resourceUri: string,
     endpointName: string,
     serviceConfigurationName: string,
-    options?: ServiceConfigurationsDeleteOptionalParams
+    options?: ServiceConfigurationsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, serviceConfigurationName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -253,11 +253,11 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
     resourceUri: string,
     endpointName: string,
     nextLink: string,
-    options?: ServiceConfigurationsListByEndpointResourceNextOptionalParams
+    options?: ServiceConfigurationsListByEndpointResourceNextOptionalParams,
   ): Promise<ServiceConfigurationsListByEndpointResourceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceUri, endpointName, nextLink, options },
-      listByEndpointResourceNextOperationSpec
+      listByEndpointResourceNextOperationSpec,
     );
   }
 }
@@ -265,62 +265,59 @@ export class ServiceConfigurationsImpl implements ServiceConfigurations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByEndpointResourceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceConfigurationList
+      bodyMapper: Mappers.ServiceConfigurationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.resourceUri,
-    Parameters.endpointName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ServiceConfigurationResource
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
     Parameters.endpointName,
-    Parameters.serviceConfigurationName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.ServiceConfigurationResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.resourceUri,
+    Parameters.endpointName,
+    Parameters.serviceConfigurationName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrupdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceConfigurationResource
+      bodyMapper: Mappers.ServiceConfigurationResource,
     },
     201: {
-      bodyMapper: Mappers.ServiceConfigurationResource
+      bodyMapper: Mappers.ServiceConfigurationResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.serviceConfigurationResource,
   queryParameters: [Parameters.apiVersion],
@@ -328,23 +325,22 @@ const createOrupdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceUri,
     Parameters.endpointName,
-    Parameters.serviceConfigurationName
+    Parameters.serviceConfigurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceConfigurationResource
+      bodyMapper: Mappers.ServiceConfigurationResource,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.serviceConfigurationResource1,
   queryParameters: [Parameters.apiVersion],
@@ -352,50 +348,49 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.resourceUri,
     Parameters.endpointName,
-    Parameters.serviceConfigurationName
+    Parameters.serviceConfigurationName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
+  path: "/{resourceUri}/providers/Microsoft.HybridConnectivity/endpoints/{endpointName}/serviceConfigurations/{serviceConfigurationName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.resourceUri,
     Parameters.endpointName,
-    Parameters.serviceConfigurationName
+    Parameters.serviceConfigurationName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByEndpointResourceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ServiceConfigurationList
+      bodyMapper: Mappers.ServiceConfigurationList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
-    Parameters.nextLink,
     Parameters.resourceUri,
-    Parameters.endpointName
+    Parameters.nextLink,
+    Parameters.endpointName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

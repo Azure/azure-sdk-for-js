@@ -17,7 +17,7 @@ import {
   ServiceConfigurationResourcePatch,
   ServiceConfigurationsUpdateOptionalParams,
   ServiceConfigurationsUpdateResponse,
-  ServiceConfigurationsDeleteOptionalParams
+  ServiceConfigurationsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface ServiceConfigurations {
   listByEndpointResource(
     resourceUri: string,
     endpointName: string,
-    options?: ServiceConfigurationsListByEndpointResourceOptionalParams
+    options?: ServiceConfigurationsListByEndpointResourceOptionalParams,
   ): PagedAsyncIterableIterator<ServiceConfigurationResource>;
   /**
    * Gets the details about the service to the resource.
@@ -47,7 +47,7 @@ export interface ServiceConfigurations {
     resourceUri: string,
     endpointName: string,
     serviceConfigurationName: string,
-    options?: ServiceConfigurationsGetOptionalParams
+    options?: ServiceConfigurationsGetOptionalParams,
   ): Promise<ServiceConfigurationsGetResponse>;
   /**
    * Create or update a service in serviceConfiguration for the endpoint resource.
@@ -63,7 +63,7 @@ export interface ServiceConfigurations {
     endpointName: string,
     serviceConfigurationName: string,
     serviceConfigurationResource: ServiceConfigurationResource,
-    options?: ServiceConfigurationsCreateOrupdateOptionalParams
+    options?: ServiceConfigurationsCreateOrupdateOptionalParams,
   ): Promise<ServiceConfigurationsCreateOrupdateResponse>;
   /**
    * Update the service details in the service configurations of the target resource.
@@ -79,7 +79,7 @@ export interface ServiceConfigurations {
     endpointName: string,
     serviceConfigurationName: string,
     serviceConfigurationResource: ServiceConfigurationResourcePatch,
-    options?: ServiceConfigurationsUpdateOptionalParams
+    options?: ServiceConfigurationsUpdateOptionalParams,
   ): Promise<ServiceConfigurationsUpdateResponse>;
   /**
    * Deletes the service details to the target resource.
@@ -93,6 +93,6 @@ export interface ServiceConfigurations {
     resourceUri: string,
     endpointName: string,
     serviceConfigurationName: string,
-    options?: ServiceConfigurationsDeleteOptionalParams
+    options?: ServiceConfigurationsDeleteOptionalParams,
   ): Promise<void>;
 }

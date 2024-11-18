@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the endpoint to the resource.
  *
  * @summary Gets the endpoint to the resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/EndpointsGetCustom.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/EndpointsGetCustom.json
  */
 async function hybridConnectivityEndpointsGetCustom() {
   const resourceUri =
@@ -32,7 +32,7 @@ async function hybridConnectivityEndpointsGetCustom() {
  * This sample demonstrates how to Gets the endpoint to the resource.
  *
  * @summary Gets the endpoint to the resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/EndpointsGetDefault.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/EndpointsGetDefault.json
  */
 async function hybridConnectivityEndpointsGetDefault() {
   const resourceUri =

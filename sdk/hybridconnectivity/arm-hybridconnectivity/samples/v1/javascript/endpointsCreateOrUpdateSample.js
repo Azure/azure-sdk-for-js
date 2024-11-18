@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update the endpoint to the target resource.
  *
  * @summary Create or update the endpoint to the target resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/EndpointsPutCustom.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/EndpointsPutCustom.json
  */
 async function hybridConnectivityEndpointsPutCustom() {
   const resourceUri =
@@ -39,7 +39,7 @@ async function hybridConnectivityEndpointsPutCustom() {
  * This sample demonstrates how to Create or update the endpoint to the target resource.
  *
  * @summary Create or update the endpoint to the target resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/EndpointsPutDefault.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/EndpointsPutDefault.json
  */
 async function hybridConnectivityEndpointsPutDefault() {
   const resourceUri =

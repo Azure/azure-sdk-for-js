@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the service details to the target resource.
  *
  * @summary Deletes the service details to the target resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/ServiceConfigurationsDeleteSSH.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/ServiceConfigurationsDeleteSSH.json
  */
 async function serviceConfigurationsDeleteSsh() {
   const resourceUri =
@@ -28,7 +28,7 @@ async function serviceConfigurationsDeleteSsh() {
   const result = await client.serviceConfigurations.delete(
     resourceUri,
     endpointName,
-    serviceConfigurationName
+    serviceConfigurationName,
   );
   console.log(result);
 }

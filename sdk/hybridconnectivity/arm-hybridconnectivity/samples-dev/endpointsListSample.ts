@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List of endpoints to the target resource.
  *
  * @summary List of endpoints to the target resource.
- * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2023-03-15/examples/EndpointsList.json
+ * x-ms-original-file: specification/hybridconnectivity/resource-manager/Microsoft.HybridConnectivity/stable/2024-12-01/examples/EndpointsList.json
  */
 async function hybridConnectivityEndpointsGet() {
   const resourceUri =
