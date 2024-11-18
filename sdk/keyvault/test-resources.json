@@ -182,17 +182,16 @@
     },
     {
       "type": "Microsoft.Authorization/roleAssignments",
-      "condition": "[parameters('enableHsm')]",
       "apiVersion": "2022-04-01",
-      "name": "[variables('roleAssignmentName')]",
+      "name": "[guid(resourceGroup().id, 'StorageBlobContributor', variables('managedIdentityId'))]",
       "properties": {
-        "roleDefinitionId": "[resourceId('Microsoft.Authorization/roleDefinitions', 'Storage Blob Data Contributor')]",
+        "roleDefinitionId": "[subscriptionResourceId('Microsoft.Authorization/roleDefinitions', 'ba92f5b4-2d11-453d-a403-e96b0029c9fe')]",
         "principalId": "[reference(resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('managedIdentityName'))).principalId]",
-        "scope": "[resourceId('Microsoft.Storage/storageAccounts', variables('primaryAccountName'))]"
+        "scope": "[resourceGroup().id]",
+        "principalType": "ServicePrincipal"
       },
       "dependsOn": [
-        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('managedIdentityName'))]",
-        "[resourceId('Microsoft.Storage/storageAccounts', variables('primaryAccountName'))]"
+        "[resourceId('Microsoft.ManagedIdentity/userAssignedIdentities', variables('managedIdentityName'))]"
       ]
     },
     {
@@ -258,6 +257,10 @@
     "AZURE_KEYVAULT_ATTESTATION_URI": {
       "type": "string",
       "value": "[format('https://{0}/', reference(resourceId('Microsoft.Web/sites', variables('attestationSite')), '2023-12-01').defaultHostName)]"
+    },
+    "MANAGED_IDENTITY_ID": {
+      "type": "string",
+      "value": "[variables('managedIdentityId')]"
     }
   }
 }

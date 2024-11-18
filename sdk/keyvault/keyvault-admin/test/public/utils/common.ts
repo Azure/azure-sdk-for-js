@@ -32,10 +32,10 @@ export function getEnvironmentVariable(envVarName: string): string {
 /**
  * Get a predefined SAS token and Storage URI to use when backing up a KeyVault
  */
-export function getSasToken(): { blobStorageUri: string; blobSasToken: string } {
+export function getSasToken(): { blobStorageUri: string; blobSasToken?: string } {
   const baseStorageUri = getEnvironmentVariable("BLOB_STORAGE_URI").replace(/\/$/, "");
   const blobStorageUri = `${baseStorageUri}/${getEnvironmentVariable("BLOB_CONTAINER_NAME")}`;
-  const blobSasToken = getEnvironmentVariable("BLOB_STORAGE_SAS_TOKEN");
+  const blobSasToken = env["BLOB_STORAGE_SAS_TOKEN"]; // not required
 
   return { blobStorageUri, blobSasToken };
 }
