@@ -18,7 +18,11 @@ import {
   PipelinedQueryExecutionContext,
 } from "./queryExecutionContext";
 import type { Response } from "./request";
-import type { ErrorResponse, PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
+import type {
+  ErrorResponse,
+  PartitionedQueryExecutionInfo,
+  QueryRange,
+} from "./request/ErrorResponse";
 import type { FeedOptions } from "./request/FeedOptions";
 import { FeedResponse } from "./request/FeedResponse";
 import {
