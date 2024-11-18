@@ -23,7 +23,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/health-insights-radiologyinsights.d.ts",
+    "types/*",
     "README.md",
     "LICENSE",
     "review/*"
