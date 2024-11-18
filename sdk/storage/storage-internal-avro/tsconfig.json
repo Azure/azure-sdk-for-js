@@ -7,20 +7,34 @@
     "inlineSources": true,
     "newLine": "LF",
     "target": "ES2017",
-    "moduleResolution": "node",
+    "moduleResolution": "NodeNext",
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "strict": true,
-    "module": "esNext",
-    "outDir": "./dist-esm",
+    "module": "NodeNext",
     "declaration": true,
     "declarationMap": true,
     "importHelpers": true,
-    "declarationDir": "./types/latest",
-    "lib": ["dom", "es5", "es6", "es7", "esnext"],
-    "esModuleInterop": true
+    "lib": [
+      "dom",
+      "es5",
+      "es6",
+      "es7",
+      "esnext"
+    ],
+    "esModuleInterop": true,
+    "rootDir": "."
   },
   "compileOnSave": true,
-  "exclude": ["node_modules", "./samples/**"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "exclude": [
+    "node_modules",
+    "./samples/**"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts"
+  ]
 }
