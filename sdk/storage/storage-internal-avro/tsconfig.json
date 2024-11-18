@@ -1,25 +1,14 @@
 {
+  "extends": "../../../tsconfig",
   "compilerOptions": {
-    "alwaysStrict": true,
-    "noImplicitAny": true,
-    "preserveConstEnums": true,
-    "sourceMap": true,
-    "inlineSources": true,
-    "newLine": "LF",
-    "target": "ES2017",
-    "moduleResolution": "NodeNext",
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "strict": true,
+    "paths": {
+      "@azure/storage-internal-avro": ["./src/index.js"]
+    },
     "module": "NodeNext",
-    "declaration": true,
-    "declarationMap": true,
-    "importHelpers": true,
-    "lib": ["dom", "es5", "es6", "es7", "esnext"],
-    "esModuleInterop": true,
-    "rootDir": "."
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
+    "skipLibCheck": true,
+    "lib": ["esnext", "dom"]
   },
-  "compileOnSave": true,
-  "exclude": ["node_modules", "./samples/**"],
-  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "samples-dev/**/*.ts", "test/**/*.ts"]
+  "include": ["src/**/*.ts", "src/**/*.cts", "src/**/*.mts", "test/**/*.ts", "samples-dev/**/*.ts"]
 }
