@@ -172,69 +172,30 @@ async function run() {
   console.log("Container with vector embedding and indexing policies created");
 
   logStep("Create container with full text search container policy");
+
   // Create a container with full text policy and full text indexes
   const indexingPolicyFTS = {
     automatic: true,
     includedPaths: [{ path: "/*" }],
     excludedPaths: [{ path: '/"_etag"/?' }],
-    fullTextIndexes: [{ path: "/text1" }],
+    fullTextIndexes: [{ path: "/text1" }, { path: "/text2" }],
   };
 
   const fullTextPolicy = {
     defaultLanguage: "en-US",
-    fullTextPaths: [{ path: "/text1", language: "en-US" }],
+    fullTextPaths: [
+      { path: "/text1", language: "1033" },
+      { path: "/text2", language: "en-US" },
+    ],
   };
 
-  const { container: ContainerWithFTSPolicy } = await database.containers.createIfNotExists({
+  await database.containers.createIfNotExists({
     id: "ContainerWithFTSPolicy",
     partitionKey: { paths: ["/id"] },
     fullTextPolicy: fullTextPolicy,
     indexingPolicy: indexingPolicyFTS,
   });
   console.log("Container with full text search policy created");
-
-  const sample_texts = [
-    "Common popular pop music artists include Taylor Swift and The Weekend.",
-    "The weekend is coming up soon, do you have any plans?",
-    "Depending on the artist, their music can be very different.",
-    "Mozart and Beethoven are some of the most recognizable names in classical music.",
-    "Taylor acts in many movies, and is considered a great artist.",
-  ];
-
-  // Create some items to use with full text search
-  for (let i = 0; i < 10; i++) {
-    await ContainerWithFTSPolicy.items.create({ id: "full_text_item" + i, text1: "some-text" });
-  }
-  for (let i = 10; i < 15; i++) {
-    await ContainerWithFTSPolicy.items.create({
-      id: "full_text_item" + i,
-      text1: sample_texts[i - 10],
-      vector: [1, 2, 3],
-    });
-  }
-
-  //  Run full text search queries using full text score ranking
-  let query = "SELECT TOP 3 c.text1 FROM c ORDER BY RANK FullTextScore(c.text1, ['artist'])";
-  let ftsResponse = await ContainerWithFTSPolicy.items
-    .query(query, { forceQueryPlan: true })
-    .fetchAll();
-  console.log("Response: ", ftsResponse.resources);
-
-  //  Run full text search queries with full text contains
-  query =
-    "SELECT TOP 3 c.text1 FROM c WHERE FullTextContains(c.text1, 'artist') ORDER BY RANK RRF (FullTextScore(c.text1, ['movies']),FullTextScore(c.text1, ['music']))";
-  ftsResponse = await ContainerWithFTSPolicy.items
-    .query(query, { forceQueryPlan: true })
-    .fetchAll();
-  console.log("Response: ", ftsResponse.resources);
-
-  // Run hybrid search queries using RRF ranking wth vector distances
-  query =
-    "SELECT TOP 3 c.text1 FROM c ORDER BY RANK RRF(FullTextScore(c.text1, ['music']), VectorDistance(c.vector, [1, 2, 3]))";
-  ftsResponse = await ContainerWithFTSPolicy.items
-    .query(query, { forceQueryPlan: true })
-    .fetchAll();
-  console.log("Response: ", ftsResponse.resources);
 
   await finish();
 }
