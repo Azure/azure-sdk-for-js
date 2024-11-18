@@ -770,6 +770,9 @@ dependencies:
   '@rush-temp/arm-templatespecs':
     specifier: file:./projects/arm-templatespecs.tgz
     version: file:projects/arm-templatespecs.tgz
+  '@rush-temp/arm-terraform':
+    specifier: file:./projects/arm-terraform.tgz
+    version: file:projects/arm-terraform.tgz
   '@rush-temp/arm-timeseriesinsights':
     specifier: file:./projects/arm-timeseriesinsights.tgz
     version: file:projects/arm-timeseriesinsights.tgz
@@ -3913,7 +3916,7 @@ packages:
   /@types/express-serve-static-core@4.19.6:
     resolution: {integrity: sha512-N4LZ2xG7DatVqhCZzOGb1Yi5lMbXSZcmdLDe9EzSndPV2HpWYWzRbaerl2n27irrm94EPpprqa8KpskPT085+A==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
       '@types/qs': 6.9.16
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3932,7 +3935,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/http-errors@2.0.4:
@@ -3959,7 +3962,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/jsonwebtoken@9.0.7:
@@ -4090,7 +4093,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.64
+      '@types/node': 20.17.6
     dev: false
 
   /@types/resolve@1.20.2:
@@ -15416,7 +15419,7 @@ packages:
     dev: false
 
   file:projects/arm-hybridcompute.tgz:
-    resolution: {integrity: sha512-+DX7eIMt7WAbn6AD+QZpjVyoMuXdNpGH452FuoUH2UvFhOBtlZD3B5y8bwW/oE8d3E/u2eZ3B4N2cAFV32bgbw==, tarball: file:projects/arm-hybridcompute.tgz}
+    resolution: {integrity: sha512-IxFMCCeH0D2P6u+4Vwi9ROrWBKeO0DJEfs2jxyfJnrGNMrRKAWfplx0QVZY6ETK5Thjlm3myTMffxO2BT5PBiA==, tarball: file:projects/arm-hybridcompute.tgz}
     name: '@rush-temp/arm-hybridcompute'
     version: 0.0.0
     dependencies:
@@ -18530,6 +18533,43 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-terraform.tgz:
+    resolution: {integrity: sha512-Emfl2nYOlyHvEUQn52bjceznQXcHvOFvn3kEHtbNb5RCyIICzcWSEjQNAD5rDhVA/zEfsmAhFpfS3H8ua3Wk6Q==, tarball: file:projects/arm-terraform.tgz}
+    name: '@rush-temp/arm-terraform'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
+      '@types/node': 18.19.64
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
+      dotenv: 16.4.5
+      eslint: 8.57.1
+      playwright: 1.48.2
+      tshy: 2.0.1
+      tslib: 2.8.1
+      typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
+    dev: false
+
   file:projects/arm-timeseriesinsights.tgz:
     resolution: {integrity: sha512-M5JNlYjuksfmjRYhRoQQBgymivooZF50jpe2EptMZQNRfn19ukQ2DilgCzx2EdJPHoT6IuVUo1D5DkbL7ebV3w==, tarball: file:projects/arm-timeseriesinsights.tgz}
     name: '@rush-temp/arm-timeseriesinsights'
@@ -19240,7 +19280,7 @@ packages:
     dev: false
 
   file:projects/communication-job-router.tgz:
-    resolution: {integrity: sha512-xPt7oEFIEnDcZHXkEsgPlaOBwbjSF6dQq4uDtXsp/yeslQgiTdGNnO5bUMfuqpTTiiwSsXCyCKEy2FmmrcRHLw==, tarball: file:projects/communication-job-router.tgz}
+    resolution: {integrity: sha512-2asWr03USbfs287ufZkj8sgX94e8AIkX8BU9mVvBxqPp+5NwM8F2I2OeKa/ZRb9z7dcawliux8IwyB2kNGIEAg==, tarball: file:projects/communication-job-router.tgz}
     name: '@rush-temp/communication-job-router'
     version: 0.0.0
     dependencies:
