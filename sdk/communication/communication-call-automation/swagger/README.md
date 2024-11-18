@@ -13,7 +13,7 @@ license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
 tag: package-2024-09-01-preview
 require:
-  - https://github.com/Azure/azure-rest-api-specs/blob/6204479165ba24610f678105dce67ed501201b39/specification/communication/data-plane/CallAutomation/readme.md
+  - https://github.com/Azure/azure-rest-api-specs/blob/3499ad1477c912c8f8682d7510bf03e160ffc136/specification/communication/data-plane/CallAutomation/readme.md
 package-version: 1.3.0-beta.1
 model-date-time-as-string: false
 optional-response-headers: true
@@ -196,4 +196,20 @@ directive:
   where: "$.definitions.StartCallRecordingRequest.properties.externalStorage"
   transform: >
     $["x-ms-client-name"] = "recordingStorage";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.TranscriptionResultType.x-ms-enum"
+  transform: >
+    $["name"] = "TranscriptionResultState";
+```
+
+```yaml
+directive:
+  from: swagger-document
+  where: "$.definitions.TranscriptionSubscription.properties.subscribedResultTypes"
+  transform: >
+    $["x-ms-client-name"] = "subscribedResultStates";
 ```

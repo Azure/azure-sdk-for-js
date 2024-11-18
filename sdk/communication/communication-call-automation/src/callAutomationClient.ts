@@ -566,9 +566,9 @@ export class CallAutomationClient {
                 connectCallEventResult.successResult = event;
                 return true;
               }
-              if (event.callConnectionId === callConnectionId && event.kind === "ConnectFailed") {
+              if (event.callConnectionId === callConnectionId) { //&& event.kind === "ConnectFailed"
                 connectCallEventResult.isSuccess = false;
-                connectCallEventResult.failureResult = event;
+               // connectCallEventResult.failureResult = event;
                 return true;
               } else {
                 return false;

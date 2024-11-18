@@ -21,7 +21,7 @@ import type {
   CancelAddParticipantFailed,
   CreateCallFailed,
   AnswerFailed,
-  ConnectFailed,
+ // ConnectFailed,
 } from "../models/events";
 
 /**
@@ -83,7 +83,7 @@ export interface ConnectCallEventResult {
   /** contains success event if the result was successful */
   successResult?: CallConnected;
   /** contains failure event if the result was failure */
-  failureResult?: ConnectFailed;
+ // failureResult?: ConnectFailed;
 }
 
 /**

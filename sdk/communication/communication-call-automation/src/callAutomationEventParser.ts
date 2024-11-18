@@ -37,7 +37,7 @@ import type {
   CreateCallFailed,
   AnswerFailed,
   HoldFailed,
-  ConnectFailed,
+  // ConnectFailed,
   MediaStreamingStarted,
   MediaStreamingStopped,
   MediaStreamingFailed,
@@ -167,9 +167,9 @@ export function parseCallAutomationEvent(
     case "Microsoft.Communication.HoldFailed":
       callbackEvent = { kind: "HoldFailed" } as HoldFailed;
       break;
-    case "Microsoft.Communication.ConnectFailed":
-      callbackEvent = { kind: "ConnectFailed" } as ConnectFailed;
-      break;
+    // case "Microsoft.Communication.ConnectFailed":
+    //   callbackEvent = { kind: "ConnectFailed" } as ConnectFailed;
+    //   break;
     case "Microsoft.Communication.MediaStreamingStarted":
       callbackEvent = { kind: "MediaStreamingStarted" } as MediaStreamingStarted;
       break;
