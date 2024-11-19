@@ -218,7 +218,7 @@ describe("Validate full text search queries", function (this: Suite) {
     [
       `SELECT TOP 10 c.index AS Index, c.title AS Title, c.text AS Text
         FROM c
-        ORDER BY RANK RRF(VectorDistance(c.vector,[${sampleVector}]),FullTextScore(c.title, ['John']), FullTextScore(c.text, ['United States']))`,
+        ORDER BY RANK RRF(VectorDistance(c.vector,[${sampleVector}]), FullTextScore(c.title, ['John']), FullTextScore(c.text, ['United States']))`,
       {
         expected1: [21, 75, 37, 24, 26, 35, 49, 87, 55, 9],
         expected2: [21, 75, 37, 24, 26, 35, 49, 87, 55, 9],
@@ -255,7 +255,8 @@ describe("Validate full text search queries", function (this: Suite) {
     );
 
     // Read JSON file
-    const filePath = path.join(__dirname, "text-3properties-1536dimensions-100documents.json");
+    const fileName = "text-3properties-1536dimensions-100documents.json";
+    const filePath = path.join(__dirname, fileName);
     const rawData = fs.readFileSync(filePath, "utf-8");
 
     // Parse JSON file

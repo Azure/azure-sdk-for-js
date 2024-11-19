@@ -230,7 +230,6 @@
     "test/public/integration/nonStreamingOrderBy/nonStreamingDistinctOrderBy.spec.ts",
     "test/public/integration/client.retry.spec.ts",
     "test/public/integration/fullTextSearch.spec.ts",
-    "test/public/integration/text-3properties-1536dimensions-100documents.json",
     "test/public/functional/NonStreamingQueryPolicy.spec.ts",
     "test/public/functional/computedProperties.spec.ts",
     "test/internal/unit/utils/nonStreamingOrderByPriorityQueue.spec.ts",
