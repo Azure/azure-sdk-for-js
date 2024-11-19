@@ -9,7 +9,11 @@ import { logger } from "./log.js";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 
-import { KnownJsonWebKeyType } from "./generated/models/index.js";
+import {
+  DeletionRecoveryLevel,
+  KnownDeletionRecoveryLevel,
+  KnownJsonWebKeyType,
+} from "./generated/models/index.js";
 import type { KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
 import { KeyVaultClient } from "./generated/keyVaultClient.js";
 import { SDK_VERSION } from "./constants.js";
@@ -29,7 +33,6 @@ import {
   CryptographyClientOptions,
   CryptographyOptions,
   DeletedKey,
-  DeletionRecoveryLevel,
   GetCryptographyClientOptions,
   GetDeletedKeyOptions,
   GetKeyOptions,
@@ -49,7 +52,6 @@ import {
   KeyRotationPolicyProperties,
   KeyType,
   KeyVaultKey,
-  KnownDeletionRecoveryLevel,
   KnownKeyExportEncryptionAlgorithm,
   KnownKeyOperations,
   KnownKeyTypes,

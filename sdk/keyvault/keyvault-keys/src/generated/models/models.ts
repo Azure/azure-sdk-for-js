@@ -61,9 +61,9 @@ export enum KnownJsonWebKeyType {
   /** RSA with a private key which is stored in the HSM. */
   RSA_HSM = "RSA-HSM",
   /** Octet sequence (used to represent symmetric keys) */
-  OCT = "oct",
+  oct = "oct",
   /** Octet sequence (used to represent symmetric keys) which is stored the HSM. */
-  OCT_HSM = "oct-HSM",
+  oct_HSM = "oct-HSM",
 }
 
 /**
@@ -1253,3 +1253,114 @@ export enum KnownVersions {
   /** The 7.6-preview.1 API version. */
   "v7.6_preview.1" = "7.6-preview.1",
 }
+
+/**
+ * Reflects the deletion recovery level currently in effect for certificates in
+ * the current vault. If it contains 'Purgeable', the certificate can be
+ * permanently deleted by a privileged user; otherwise, only the system can purge
+ * the certificate, at the end of the retention interval.
+ */
+export enum KnownDeletionRecoveryLevel {
+  /**
+   * Denotes a vault state in which deletion is an irreversible operation, without
+   * the possibility for recovery. This level corresponds to no protection being
+   * available against a Delete operation; the data is irretrievably lost upon
+   * accepting a Delete operation at the entity level or higher (vault, resource
+   * group, subscription etc.)
+   */
+  Purgeable = "Purgeable",
+  /**
+   * Denotes a vault state in which deletion is recoverable, and which also permits
+   * immediate and permanent deletion (i.e. purge). This level guarantees the
+   * recoverability of the deleted entity during the retention interval (90 days),
+   * unless a Purge operation is requested, or the subscription is cancelled. System
+   * wil permanently delete it after 90 days, if not recovered
+   */
+  RecoverablePurgeable = "Recoverable+Purgeable",
+  /**
+   * Denotes a vault state in which deletion is recoverable without the possibility
+   * for immediate and permanent deletion (i.e. purge). This level guarantees the
+   * recoverability of the deleted entity during the retention interval(90 days) and
+   * while the subscription is still available. System wil permanently delete it
+   * after 90 days, if not recovered
+   */
+  Recoverable = "Recoverable",
+  /**
+   * Denotes a vault and subscription state in which deletion is recoverable within
+   * retention interval (90 days), immediate and permanent deletion (i.e. purge) is
+   * not permitted, and in which the subscription itself  cannot be permanently
+   * canceled. System wil permanently delete it after 90 days, if not recovered
+   */
+  RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
+  /**
+   * Denotes a vault state in which deletion is recoverable, and which also permits
+   * immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays
+   * < 90). This level guarantees the recoverability of the deleted entity during
+   * the retention interval, unless a Purge operation is requested, or the
+   * subscription is cancelled.
+   */
+  CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
+  /**
+   * Denotes a vault state in which deletion is recoverable without the possibility
+   * for immediate and permanent deletion (i.e. purge when 7<=
+   * SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the
+   * deleted entity during the retention interval and while the subscription is
+   * still available.
+   */
+  CustomizedRecoverable = "CustomizedRecoverable",
+  /**
+   * Denotes a vault and subscription state in which deletion is recoverable,
+   * immediate and permanent deletion (i.e. purge) is not permitted, and in which
+   * the subscription itself cannot be permanently canceled when 7<=
+   * SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the
+   * deleted entity during the retention interval, and also reflects the fact that
+   * the subscription itself cannot be cancelled.
+   */
+  CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
+}
+
+/**
+ * Reflects the deletion recovery level currently in effect for certificates in
+ * the current vault. If it contains 'Purgeable', the certificate can be
+ * permanently deleted by a privileged user; otherwise, only the system can purge
+ * the certificate, at the end of the retention interval. \
+ * {@link KnownDeletionRecoveryLevel} can be used interchangeably with DeletionRecoveryLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Purgeable**: Denotes a vault state in which deletion is an irreversible operation, without
+ * the possibility for recovery. This level corresponds to no protection being
+ * available against a Delete operation; the data is irretrievably lost upon
+ * accepting a Delete operation at the entity level or higher (vault, resource
+ * group, subscription etc.) \
+ * **Recoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits
+ * immediate and permanent deletion (i.e. purge). This level guarantees the
+ * recoverability of the deleted entity during the retention interval (90 days),
+ * unless a Purge operation is requested, or the subscription is cancelled. System
+ * wil permanently delete it after 90 days, if not recovered \
+ * **Recoverable**: Denotes a vault state in which deletion is recoverable without the possibility
+ * for immediate and permanent deletion (i.e. purge). This level guarantees the
+ * recoverability of the deleted entity during the retention interval(90 days) and
+ * while the subscription is still available. System wil permanently delete it
+ * after 90 days, if not recovered \
+ * **Recoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable within
+ * retention interval (90 days), immediate and permanent deletion (i.e. purge) is
+ * not permitted, and in which the subscription itself  cannot be permanently
+ * canceled. System wil permanently delete it after 90 days, if not recovered \
+ * **CustomizedRecoverable+Purgeable**: Denotes a vault state in which deletion is recoverable, and which also permits
+ * immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays
+ * < 90). This level guarantees the recoverability of the deleted entity during
+ * the retention interval, unless a Purge operation is requested, or the
+ * subscription is cancelled. \
+ * **CustomizedRecoverable**: Denotes a vault state in which deletion is recoverable without the possibility
+ * for immediate and permanent deletion (i.e. purge when 7<=
+ * SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the
+ * deleted entity during the retention interval and while the subscription is
+ * still available. \
+ * **CustomizedRecoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable,
+ * immediate and permanent deletion (i.e. purge) is not permitted, and in which
+ * the subscription itself cannot be permanently canceled when 7<=
+ * SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the
+ * deleted entity during the retention interval, and also reflects the fact that
+ * the subscription itself cannot be cancelled.
+ */
+export type DeletionRecoveryLevel = string;

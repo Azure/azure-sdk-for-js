@@ -51,6 +51,8 @@ export {
   GetRandomBytesRequest,
   RandomBytes,
   KnownVersions,
+  KnownDeletionRecoveryLevel,
+  DeletionRecoveryLevel,
 } from "./models/index.js";
 export {
   KeyVaultClientOptionalParams,

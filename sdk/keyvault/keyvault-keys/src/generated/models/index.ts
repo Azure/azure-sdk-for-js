@@ -44,4 +44,6 @@ export {
   GetRandomBytesRequest,
   RandomBytes,
   KnownVersions,
+  KnownDeletionRecoveryLevel,
+  DeletionRecoveryLevel,
 } from "./models.js";
