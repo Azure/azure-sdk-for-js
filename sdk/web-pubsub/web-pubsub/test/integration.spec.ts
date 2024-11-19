@@ -3,9 +3,8 @@
 /* eslint-disable no-invalid-this */
 import { WebPubSubServiceClient, odata } from "../src/index.js";
 import { isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
-import { assert } from "chai";
 import ws from "ws";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 function defer<T>(): {
   promise: Promise<T>;

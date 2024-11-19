@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 /* eslint-disable no-invalid-this */
 import { odata } from "../src/utils.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("Can parse odata to string", function () {
   it("can wrap different types as expected", async () => {

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 /* eslint-disable no-invalid-this */
 import { parseConnectionString } from "../src/parseConnectionString.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("Can parse connection string", function () {
   it("can parse valid connection string", async () => {

@@ -3,10 +3,11 @@
 /* eslint-disable no-invalid-this */
 import { Recorder, isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { WebPubSubServiceClient, AzureKeyCredential } from "../src/index.js";
-import { assert } from "@azure-tools/test-utils";
 import recorderOptions from "./testEnv.js";
 import type { FullOperationResponse } from "@azure/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+
 /* eslint-disable @typescript-eslint/no-invalid-this */
 
 describe("HubClient", function () {

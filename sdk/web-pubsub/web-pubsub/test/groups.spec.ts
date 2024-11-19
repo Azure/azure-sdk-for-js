@@ -4,10 +4,11 @@
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import type { WebPubSubGroup } from "../src/index.js";
 import { WebPubSubServiceClient } from "../src/index.js";
-import { assert } from "chai";
 import recorderOptions from "./testEnv.js";
 import type { FullOperationResponse } from "@azure/core-client";
 import type { RestError } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+
 /* eslint-disable @typescript-eslint/no-invalid-this */
 
 describe("Group client working with a group", function () {
