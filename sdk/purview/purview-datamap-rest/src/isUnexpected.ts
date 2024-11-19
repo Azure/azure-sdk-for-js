@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   EntityCreateOrUpdate200Response,
   EntityCreateOrUpdateDefaultResponse,
   EntityListByGuids200Response,

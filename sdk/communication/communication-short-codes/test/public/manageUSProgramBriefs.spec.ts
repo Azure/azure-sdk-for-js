@@ -1,32 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ShortCodesClient,
   ShortCodesUpsertUSProgramBriefOptionalParams,
   USProgramBrief,
-} from "../../src";
+} from "../../src/index.js";
 import {
   assertEditableFieldsAreEqual,
   doesProgramBriefExist,
   getTestUSProgramBrief,
   runTestCleaningLeftovers,
-} from "./utils/testUSProgramBrief";
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createRecordedClient } from "./utils/recordedClient";
+} from "./utils/testUSProgramBrief.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { createRecordedClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Program Brief`, function () {
+describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Program Brief`, () => {
   let recorder: Recorder;
   let client: ShortCodesClient;
 
-  beforeEach(async function (this: Context) {
-    ({ client, recorder } = await createRecordedClient(this));
+  beforeEach(async (ctx) => {
+    ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+  afterEach(async (ctx) => {
+    if (!ctx.task.pending) {
       await recorder.stop();
     }
   });
@@ -137,7 +136,7 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
     assertEditableFieldsAreEqual(uspb, actualProgramBrief, "get after initial create");
   };
 
-  it("can create and delete a US Program Brief", async function () {
+  it("can create and delete a US Program Brief", { timeout: 60000 }, async () => {
     const testProgramBrief = getTestUSProgramBrief();
     // override test brief id with variable id
     const pbTestId = recorder.variable(`pb-var-${0}`, testProgramBrief.id);
@@ -152,9 +151,9 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       // delete program briefs, ensure it was removed
       await _deleteUSProgramBriefs([testProgramBrief]);
     });
-  }).timeout(60000);
+  });
 
-  it("can create, and list a US Program Brief", async function () {
+  it("can create, and list a US Program Brief", { timeout: 60000 }, async () => {
     const testProgramBriefs = [getTestUSProgramBrief(), getTestUSProgramBrief()];
     // override test brief id with variable id
     const testProgramBriefIds = testProgramBriefs.map((pb, index) => {
@@ -176,5 +175,5 @@ describe(`ShortCodesClient - creates, gets, updates, lists, and deletes US Progr
       // delete program briefs, ensure it was removed
       await _deleteUSProgramBriefs(testProgramBriefs);
     });
-  }).timeout(60000);
+  });
 });

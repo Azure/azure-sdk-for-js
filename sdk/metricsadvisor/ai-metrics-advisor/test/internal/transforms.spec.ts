@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 
-import {
+import type {
   AnomalyDetectionConfiguration as ServiceAnomalyDetectionConfiguration,
   AnomalyFeedback as ServiceAnomalyFeedback,
   ChangePointFeedback as ServiceChangePointFeedback,
@@ -13,7 +13,7 @@ import {
   PeriodFeedback as ServicePeriodFeedback,
   WholeMetricConfiguration as ServiceWholeMetricConfiguration,
 } from "../../src/generated/models";
-import {
+import type {
   AzureBlobDataFeedSource,
   DataFeedGranularity,
   MetricDetectionCondition,

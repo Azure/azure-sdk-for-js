@@ -2,13 +2,22 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "lib": ["DOM"],
-    "declarationDir": "./types",
-    "outDir": "./dist-esm",
     "resolveJsonModule": true,
     "paths": {
       "@azure/identity": ["./src/index"]
-    }
+    },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
-  "include": ["src/**/*", "test/**/*", "samples-dev/**/*.ts"],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
+  ],
   "exclude": ["test/manual*/**/*", "integration/**", "node_modules"]
 }

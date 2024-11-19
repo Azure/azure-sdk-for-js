@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PollOperation, PollOperationState, Poller } from "@azure/core-lro";
-import { TracingClient } from "@azure/core-tracing";
-import { GeneratedClient } from "../generated/generatedClient";
-import { State, TextDocumentInput } from "../generated/models";
+import type { PollOperation, PollOperationState } from "@azure/core-lro";
+import { Poller } from "@azure/core-lro";
+import type { TracingClient } from "@azure/core-tracing";
+import type { GeneratedClient } from "../generated/generatedClient";
+import type { State, TextDocumentInput } from "../generated/models";
 import { delay } from "../util";
 
 /**

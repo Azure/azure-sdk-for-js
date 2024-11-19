@@ -5,7 +5,7 @@ import {
   GetMediaParameters,
   SendParameters,
   ListTemplatesParameters,
-} from "./parameters";
+} from "./parameters.js";
 import {
   GetMedia200Response,
   GetMediaDefaultResponse,
@@ -13,7 +13,7 @@ import {
   SendDefaultResponse,
   ListTemplates200Response,
   ListTemplatesDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetMedia {

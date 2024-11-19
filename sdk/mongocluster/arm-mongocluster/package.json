@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-mongocluster",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A generated SDK for DocumentDBClient.",
   "engines": {
     "node": ">=18.0.0"
@@ -79,7 +79,6 @@
     "eslint": "^8.55.0",
     "playwright": "^1.41.2",
     "prettier": "^3.2.5",
-    "tshy": "^2.0.0",
     "typescript": "~5.6.2",
     "vitest": "^2.0.5"
   },
@@ -98,7 +97,7 @@
     "integration-test:node": "echo skipped",
     "lint": "echo skipped",
     "lint:fix": "echo skipped",
-    "minify": "uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
+    "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run bundle && npm run unit-test:browser && npm run integration-test",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser && npm run integration-test:browser",

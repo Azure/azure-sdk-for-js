@@ -3,7 +3,7 @@ parameters:
 
 steps:
   - script: |
-      npm install
+      npm ci
     workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/generate-doc
     displayName: "Install tool dependencies"
 
@@ -15,7 +15,17 @@ steps:
   - pwsh: |
       node $(Build.SourcesDirectory)/eng/tools/generate-doc/dist/index.js --serviceDir "${{parameters.ServiceDirectory}}"
     displayName: "Run Typedoc Docs"
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+
+  - pwsh: |
+      if ('$(ChangedServices)' -and '$(ChangedServices)' -notlike '*ChangedServices*') {
+        foreach($service in '$(ChangedServices)'.Split(" ")) {
+          node $(Build.SourcesDirectory)/eng/tools/generate-doc/dist/index.js --serviceDir "$service"
+        }
+      }
+    displayName: "Run Typedocs for PR"
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'PullRequest'))
 
   - pwsh: |
       $(Build.SourcesDirectory)/eng/tools/compress-subfolders.ps1 "$(Build.SourcesDirectory)/docGen" "$(Build.SourcesDirectory)/docGen"
-    displayName: "Generate Typedoc Docs"
+    displayName: "Compress generated docs"

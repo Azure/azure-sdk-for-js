@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { EmailRecipients, EmailAttachment, EmailAddress } from "./models";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { EmailRecipients, EmailAttachment, EmailAddress } from "./models.js";
 
 /**
  * Client options used to configure Email Client API requests.
@@ -71,4 +71,4 @@ export {
   ErrorDetail,
   ErrorAdditionalInfo,
   KnownEmailSendStatus,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";

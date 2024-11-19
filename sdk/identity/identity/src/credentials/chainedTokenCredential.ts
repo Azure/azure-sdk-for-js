@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AggregateAuthenticationError, CredentialUnavailableError } from "../errors";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { tracingClient } from "../util/tracing";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { AggregateAuthenticationError, CredentialUnavailableError } from "../errors.js";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging.js";
+import { tracingClient } from "../util/tracing.js";
 
 /**
  * @internal

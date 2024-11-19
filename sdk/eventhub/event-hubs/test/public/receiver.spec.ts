@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   EventData,
   EventHubConsumerClient,
   EventHubProducerClient,
   ReceivedEventData,
   Subscription,
-  earliestEventPosition,
-  latestEventPosition,
 } from "../../src/index.js";
+import { earliestEventPosition, latestEventPosition } from "../../src/index.js";
 import debugModule from "debug";
 import { should } from "../utils/chai.js";
 import { describe, it, afterEach, beforeEach } from "vitest";

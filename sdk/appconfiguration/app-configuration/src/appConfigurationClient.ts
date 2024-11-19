@@ -4,7 +4,7 @@
 // https://azure.github.io/azure-sdk/typescript_design.html#ts-config-lib
 /// <reference lib="esnext.asynciterable" />
 
-import {
+import type {
   AddConfigurationSettingOptions,
   AddConfigurationSettingParam,
   AddConfigurationSettingResponse,
@@ -40,7 +40,7 @@ import {
   UpdateSnapshotOptions,
   UpdateSnapshotResponse,
 } from "./models.js";
-import {
+import type {
   AppConfigurationGetKeyValuesHeaders,
   AppConfigurationGetRevisionsHeaders,
   AppConfigurationGetSnapshotsHeaders,
@@ -51,18 +51,19 @@ import {
   GetLabelsResponse,
   AppConfigurationGetLabelsHeaders,
 } from "./generated/src/models/index.js";
-import { InternalClientPipelineOptions } from "@azure/core-client";
-import { PagedAsyncIterableIterator, PagedResult, getPagedAsyncIterator } from "@azure/core-paging";
-import {
-  PipelinePolicy,
-  bearerTokenAuthenticationPolicy,
-  RestError,
-} from "@azure/core-rest-pipeline";
+import type { InternalClientPipelineOptions } from "@azure/core-client";
+import type { PagedAsyncIterableIterator, PagedResult } from "@azure/core-paging";
+import { getPagedAsyncIterator } from "@azure/core-paging";
+import type { PipelinePolicy, RestError } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 import { SyncTokens, syncTokenPolicy } from "./internal/synctokenpolicy.js";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import {
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type {
   SendConfigurationSettingsOptions,
   SendLabelsRequestOptions,
+} from "./internal/helpers.js";
+import {
   assertResponse,
   checkAndFormatIfAndIfNoneMatch,
   extractAfterTokenFromLinkHeader,
@@ -81,12 +82,12 @@ import {
   transformSnapshotResponse,
 } from "./internal/helpers.js";
 import { AppConfiguration } from "./generated/src/appConfiguration.js";
-import { FeatureFlagValue } from "./featureFlag.js";
-import { SecretReferenceValue } from "./secretReference.js";
+import type { FeatureFlagValue } from "./featureFlag.js";
+import type { SecretReferenceValue } from "./secretReference.js";
 import { appConfigKeyCredentialPolicy } from "./appConfigCredential.js";
 import { tracingClient } from "./internal/tracing.js";
 import { logger } from "./logger.js";
-import { OperationState, SimplePollerLike } from "@azure/core-lro";
+import type { OperationState, SimplePollerLike } from "@azure/core-lro";
 import { appConfigurationApiVersion } from "./internal/constants.js";
 
 const ConnectionStringRegex = /Endpoint=(.*);Id=(.*);Secret=(.*)/;
@@ -188,7 +189,7 @@ export class AppConfigurationClient {
     this._syncTokens = appConfigOptions.syncTokens || new SyncTokens();
     this.client = new AppConfiguration(
       appConfigEndpoint,
-      appConfigurationApiVersion,
+      options?.apiVersion ?? appConfigurationApiVersion,
       internalClientPipelineOptions,
     );
     this.client.pipeline.addPolicy(authPolicy, { phase: "Sign" });

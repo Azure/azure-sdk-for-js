@@ -1,7 +1,7 @@
 {
   "name": "@azure/storage-file-share",
   "sdk-type": "client",
-  "version": "12.26.0-beta.1",
+  "version": "12.26.0",
   "description": "Microsoft Azure Storage SDK for JavaScript - File",
   "main": "./dist/index.js",
   "module": "./dist-esm/storage-file-share/src/index.js",
@@ -142,7 +142,6 @@
     "@types/node": "^18.0.0",
     "@types/sinon": "^17.0.0",
     "chai": "^4.2.0",
-    "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "es6-promise": "^4.2.5",
     "eslint": "^9.9.0",

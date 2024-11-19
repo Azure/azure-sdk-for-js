@@ -1,9 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzurePluginContext } from "../../identity/src/plugins/provider";
-import { IdentityPlugin } from "@azure/identity";
+import type { IdentityPlugin, TokenCachePersistenceOptions } from "@azure/identity";
 import { createPersistenceCachePlugin } from "./provider";
+
+/**
+ * Plugin context entries for controlling cache plugins.
+ */
+interface CachePluginControl {
+  setPersistence(
+    persistenceFactory: (
+      options?: TokenCachePersistenceOptions,
+    ) => Promise<import("@azure/msal-node").ICachePlugin>,
+  ): void;
+}
+/**
+ * Context options passed to a plugin during initialization.
+ *
+ * Represents a subset of the context defined in `@azure/identity`
+ *
+ */
+interface AzurePluginContext {
+  cachePluginControl: CachePluginControl;
+}
 
 /**
  * A plugin that provides persistent token caching for `@azure/identity`

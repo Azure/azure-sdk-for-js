@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ConfidentialLedgerClient, isUnexpected } from "../../src";
+import type { ConfidentialLedgerClient } from "../../src";
+import { isUnexpected } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("Colder endpoints", function () {
   let recorder: Recorder;

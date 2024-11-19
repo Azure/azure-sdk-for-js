@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { ContainerClient, CommonOptions } from "@azure/storage-blob";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { CHANGE_FEED_SEGMENT_PREFIX, CHANGE_FEED_INITIALIZATION_SEGMENT } from "./constants";
 import { tracingClient } from "./tracing";
-import { BlobChangeFeedEvent, UpdatedBlobProperties } from "../models/BlobChangeFeedEvent";
+import type { BlobChangeFeedEvent, UpdatedBlobProperties } from "../models/BlobChangeFeedEvent";
 
 const millisecondsInAnHour = 60 * 60 * 1000;
 export function ceilToNearestHour(date: Date | undefined): Date | undefined {

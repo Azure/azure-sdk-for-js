@@ -2,10 +2,12 @@
 // Licensed under the MIT License.
 
 import { logErrorStackTrace, logger } from "../logger.js";
-import { ConnectionContext } from "../connectionContext.js";
+import type { ConnectionContext } from "../connectionContext.js";
 import { isDefined } from "@azure/core-util";
-import { AmqpError, isAmqpError } from "rhea-promise";
-import { isMessagingError, MessagingError, translate } from "@azure/core-amqp";
+import type { AmqpError } from "rhea-promise";
+import { isAmqpError } from "rhea-promise";
+import type { MessagingError } from "@azure/core-amqp";
+import { isMessagingError, translate } from "@azure/core-amqp";
 
 /**
  * @internal

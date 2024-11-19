@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { Response } from "../../request";
-import { ExecutionContext } from "../ExecutionContext";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { Response } from "../../request";
+import type { ExecutionContext } from "../ExecutionContext";
 import { OrderByComparator } from "../orderByComparator";
-import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
+import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
 import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue";
 import { getInitialHeader } from "../headerUtils";
 

@@ -2,22 +2,28 @@
 // Licensed under the MIT License.
 
 /// <reference lib="esnext.asynciterable" />
-import { ClientContext } from "./ClientContext";
+import type { ClientContext } from "./ClientContext";
 import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
 import { getPathFromLink, ResourceType, StatusCodes } from "./common";
-import {
+import type {
   CosmosHeaders,
-  DefaultQueryExecutionContext,
   ExecutionContext,
   FetchFunctionCallback,
+  SqlQuerySpec,
+} from "./queryExecutionContext";
+import {
+  DefaultQueryExecutionContext,
   getInitialHeader,
   mergeHeaders,
   PipelinedQueryExecutionContext,
-  SqlQuerySpec,
 } from "./queryExecutionContext";
-import { Response } from "./request";
-import { ErrorResponse, PartitionedQueryExecutionInfo, QueryRange } from "./request/ErrorResponse";
-import { FeedOptions } from "./request/FeedOptions";
+import type { Response } from "./request";
+import type {
+  ErrorResponse,
+  PartitionedQueryExecutionInfo,
+  QueryRange,
+} from "./request/ErrorResponse";
+import type { FeedOptions } from "./request/FeedOptions";
 import { FeedResponse } from "./request/FeedResponse";
 import {
   getEmptyCosmosDiagnostics,
@@ -101,7 +107,7 @@ export class QueryIterator<T> {
         response = await this.queryExecutionContext.fetchMore(diagnosticNode);
       } catch (error: any) {
         if (this.needsQueryPlan(error)) {
-          await this.createExecutionContext();
+          await this.createExecutionContext(diagnosticNode);
           try {
             response = await this.queryExecutionContext.fetchMore(diagnosticNode);
           } catch (queryError: any) {

@@ -3,7 +3,7 @@
 
 import { assert } from "@azure-tools/test-utils";
 import { lro } from "../../src/lro/util/poller";
-import { PollOperationState } from "@azure/core-lro";
+import type { PollOperationState } from "@azure/core-lro";
 import { AbortError } from "@azure/abort-controller";
 
 describe("custom poller", function () {

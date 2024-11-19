@@ -4,21 +4,12 @@ import { getImageDimensionsFromResponse, getImageDimensionsFromString } from "./
 import {
   AzureChatExtensionDataSourceResponseCitationOutput,
   AzureChatExtensionsMessageContextOutput,
-  ContentFilterBlocklistIdResultOutput,
   ContentFilterCitedDetectionResultOutput,
   ContentFilterDetectionResultOutput,
   ContentFilterResultOutput,
   ContentFilterResultDetailsForPromptOutput,
   ContentFilterResultsForChoiceOutput,
   ContentFilterResultsForPromptOutput,
-  ChatFinishDetailsOutput,
-  StopFinishDetailsOutput,
-  AzureChatEnhancementsOutput,
-  AzureGroundingEnhancementOutput,
-  AzureGroundingEnhancementLineSpanOutput,
-  AzureGroundingEnhancementCoordinatePointOutput,
-  AzureGroundingEnhancementLineOutput,
-  ContentFilterDetailedResults,
 } from "../../../src/types/index.js";
 import { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 import {
@@ -164,7 +155,6 @@ function assertContentFilterResultsForChoice(cfr: ContentFilterResultsForChoiceO
     ifDefined(cfr.sexual, assertContentFilterResult);
     ifDefined(cfr.violence, assertContentFilterResult);
     ifDefined(cfr.profanity, assertContentFilterDetectionResult);
-    ifDefined(cfr.custom_blocklists, assertContentFilterDetailedResult);
     ifDefined(cfr.protected_material_code, assertContentFilterCitedDetectionResult);
     ifDefined(cfr.protected_material_text, assertContentFilterDetectionResult);
   }
@@ -203,7 +193,6 @@ function assertContentFilterResultDetailsForPrompt(
     ifDefined(cfr.violence, assertContentFilterResult);
     ifDefined(cfr.profanity, assertContentFilterDetectionResult);
     ifDefined(cfr.jailbreak, assertContentFilterDetectionResult);
-    ifDefined(cfr.custom_blocklists, assertContentFilterDetailedResult);
   }
 }
 
@@ -220,19 +209,6 @@ function assertContentFilterResult(val: ContentFilterResultOutput): void {
 
 function assertContentFilterDetectionResult(val: ContentFilterDetectionResultOutput): void {
   assert.isBoolean(val.detected);
-  assert.isBoolean(val.filtered);
-}
-
-function assertContentFilterDetailedResult(val: ContentFilterDetailedResults): void {
-  assert.isBoolean(val.filtered);
-  // TODO: Update the corresponding types once the Swagger is updated
-  ifDefined(val.details, (details) => {
-    assertNonEmptyArray(details, assertContentFilterBlocklistIdResult);
-  });
-}
-
-function assertContentFilterBlocklistIdResult(val: ContentFilterBlocklistIdResultOutput): void {
-  assert.isString(val.id);
   assert.isBoolean(val.filtered);
 }
 
@@ -254,8 +230,6 @@ function assertChoice(
   }
   assert.isNumber(choice.index);
   ifDefined(choice.content_filter_results, assertContentFilterResultsForChoice);
-  ifDefined(choice.enhancements, assertAzureChatEnhancements);
-  ifDefined(choice.finish_details, assertChatFinishDetails);
   ifDefined(choice.logprobs, assertLogProbability);
   ifDefined(choice.finish_reason, assert.isString);
 }
@@ -362,17 +336,6 @@ function assertToolCall(
   }
 }
 
-function assertChatFinishDetails(val: ChatFinishDetailsOutput): void {
-  switch (val.type) {
-    case "max_tokens":
-      break;
-    case "stop": {
-      assert.isString((val as StopFinishDetailsOutput).stop);
-      break;
-    }
-  }
-}
-
 export function assertNonEmptyArray<T>(val: T[], validate: (x: T) => void): void {
   assert.isNotEmpty(val);
   assertArray(val, validate);
@@ -453,34 +416,6 @@ function assertMessage(
 function assertContext(context: AzureChatExtensionsMessageContextOutput): void {
   ifDefined(context.intent, assert.isString);
   ifDefined(context.citations, (arr) => assertArray(arr, assertCitations));
-}
-
-function assertAzureChatEnhancements(val: AzureChatEnhancementsOutput): void {
-  ifDefined(val.grounding, assertAzureGroundingEnhancement);
-}
-
-function assertAzureGroundingEnhancementLine(val: AzureGroundingEnhancementLineOutput): void {
-  assertNonEmptyArray(val.spans, assertAzureGroundingEnhancementLineSpan);
-}
-
-function assertAzureGroundingEnhancement(val: AzureGroundingEnhancementOutput): void {
-  assertNonEmptyArray(val.lines, assertAzureGroundingEnhancementLine);
-}
-
-function assertAzureGroundingEnhancementLineSpan(
-  val: AzureGroundingEnhancementLineSpanOutput,
-): void {
-  assert.isNumber(val.length);
-  assert.isNumber(val.offset);
-  assert.isString(val.text);
-  assertNonEmptyArray(val.polygon, assertAzureGroundingEnhancementCoordinatePoint);
-}
-
-function assertAzureGroundingEnhancementCoordinatePoint(
-  val: AzureGroundingEnhancementCoordinatePointOutput,
-): void {
-  assert.isNumber(val.x);
-  assert.isNumber(val.y);
 }
 
 function assertCitations(citations: AzureChatExtensionDataSourceResponseCitationOutput): void {

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+import { AzureLogger, createClientLogger } from "@azure/logger";
 import { ClientContext } from "../ClientContext";
 import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
 import {
@@ -35,6 +36,12 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private emitRawOrderByPayload: boolean = true;
   private buffer: HybridSearchQueryResult[] = [];
   private DEFAULT_PAGE_SIZE = 10;
+  private TOTAL_WORD_COUNT_PLACEHOLDER = "documentdb-formattablehybridsearchquery-totalwordcount";
+  private HIT_COUNTS_ARRAY_PLACEHOLDER = "documentdb-formattablehybridsearchquery-hitcountsarray";
+  private TOTAL_DOCUMENT_COUNT_PLACEHOLDER =
+    "documentdb-formattablehybridsearchquery-totaldocumentcount";
+  private RRF_CONSTANT = 60; // Constant for RRF score calculation
+  private logger: AzureLogger = createClientLogger("HybridQueryExecutionContext");
 
   constructor(
     private clientContext: ClientContext,
@@ -90,7 +97,7 @@ export class HybridQueryExecutionContext implements ExecutionContext {
       await this.fetchMoreInternal(diagnosticNode, nextItemRespHeaders);
     }
 
-    if (this.buffer.length > 0) {
+    if (this.state === HybridQueryExecutionContextBaseStates.draining && this.buffer.length > 0) {
       return this.drainOne(nextItemRespHeaders);
     } else {
       return this.done(nextItemRespHeaders);
@@ -219,11 +226,10 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private applySkipAndTakeToBuffer(): void {
     const { skip, take } = this.partitionedQueryExecutionInfo.hybridSearchQueryInfo;
     if (skip) {
-      this.buffer = this.buffer.slice(skip);
+      this.buffer = skip >= this.buffer.length ? [] : this.buffer.slice(skip);
     }
-
     if (take) {
-      this.buffer = this.buffer.slice(0, take);
+      this.buffer = take <= 0 ? [] : this.buffer.slice(0, take);
     }
   }
 
@@ -310,10 +316,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     };
 
     // Compute RRF scores and sort based on them
-    const k = 60; // Constant for RRF score calculation
     const rrfScores = ranksArray.map((item) => ({
       rid: item.rid,
-      rrfScore: computeRRFScore(item.ranks, k),
+      rrfScore: computeRRFScore(item.ranks, this.RRF_CONSTANT),
     }));
 
     // Sort based on RRF scores
@@ -331,7 +336,8 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     fetchMoreRespHeaders: CosmosHeaders,
   ): Promise<void> {
     if (this.componentsExecutionContext && this.componentsExecutionContext.length !== 1) {
-      throw new Error("drainSingleComponent called on multiple components");
+      this.logger.error("drainSingleComponent called on multiple components");
+      return;
     }
     try {
       const componentExecutionContext = this.componentsExecutionContext[0];
@@ -391,20 +397,52 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   ): QueryInfo[] {
     return componentQueryInfos.map((queryInfo) => {
       if (!queryInfo.hasNonStreamingOrderBy) {
-        throw new Error("The component query should a non streaming order by");
+        throw new Error("The component query must have a non-streaming order by clause.");
       }
       return {
         ...queryInfo,
-        rewrittenQuery: this.replacePlaceholders(queryInfo.rewrittenQuery, globalStats),
+        rewrittenQuery: this.replacePlaceholdersWorkaroud(
+          queryInfo.rewrittenQuery,
+          globalStats,
+          componentQueryInfos.length,
+        ),
         orderByExpressions: queryInfo.orderByExpressions.map((expr) =>
-          this.replacePlaceholders(expr, globalStats),
+          this.replacePlaceholdersWorkaroud(expr, globalStats, componentQueryInfos.length),
         ),
       };
     });
   }
+  // This method is commented currently, but we will switch back to using this
+  // once the gateway has been redeployed with the fix for placeholder indexes
+  // private replacePlaceholders(query: string, globalStats: GlobalStatistics): string {
+  //   // Replace total document count
+  //   query = query.replace(
+  //     new RegExp(`{${this.TOTAL_DOCUMENT_COUNT_PLACEHOLDER}}`, "g"),
+  //     globalStats.documentCount.toString(),
+  //   );
 
-  private replacePlaceholders(query: string, globalStats: GlobalStatistics): string {
-    // Validate globalStats object
+  //   // Replace total word counts and hit counts from fullTextStatistics
+  //   globalStats.fullTextStatistics.forEach((stats, index) => {
+  //     // Replace total word counts
+  //     query = query.replace(
+  //       new RegExp(`{${this.TOTAL_WORD_COUNT_PLACEHOLDER}-${index}}`, "g"),
+  //       stats.totalWordCount.toString(),
+  //     );
+  //     // Replace hit counts
+  //     query = query.replace(
+  //       new RegExp(`{${this.HIT_COUNTS_ARRAY_PLACEHOLDER}-${index}}`, "g"),
+  //       `[${stats.hitCounts.join(",")}]`,
+  //     );
+  //   });
+
+  //   return query;
+  // }
+
+  private replacePlaceholdersWorkaroud(
+    query: string,
+    globalStats: GlobalStatistics,
+    componentCount: number,
+  ): string {
     if (
       !globalStats ||
       !globalStats.documentCount ||
@@ -412,27 +450,26 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     ) {
       throw new Error("GlobalStats validation failed");
     }
-
     // Replace total document count
     query = query.replace(
-      /{documentdb-formattablehybridsearchquery-totaldocumentcount}/g,
+      new RegExp(`{${this.TOTAL_DOCUMENT_COUNT_PLACEHOLDER}}`, "g"),
       globalStats.documentCount.toString(),
     );
-
-    // Replace total word counts and hit counts from fullTextStatistics
-    globalStats.fullTextStatistics.forEach((stats, index) => {
+    let statisticsIndex: number = 0;
+    for (let i = 0; i < componentCount; i++) {
+      // Replace total word counts and hit counts from fullTextStatistics
+      const wordCountPlaceholder = `{${this.TOTAL_WORD_COUNT_PLACEHOLDER}-${i}}`;
+      const hitCountPlaceholder = `{${this.HIT_COUNTS_ARRAY_PLACEHOLDER}-${i}}`;
+      if (!query.includes(wordCountPlaceholder)) {
+        continue;
+      }
+      const stats = globalStats.fullTextStatistics[statisticsIndex];
       // Replace total word counts
-      query = query.replace(
-        new RegExp(`{documentdb-formattablehybridsearchquery-totalwordcount-${index}}`, "g"),
-        stats.totalWordCount.toString(),
-      );
+      query = query.replace(new RegExp(wordCountPlaceholder, "g"), stats.totalWordCount.toString());
       // Replace hit counts
-      query = query.replace(
-        new RegExp(`{documentdb-formattablehybridsearchquery-hitcountsarray-${index}}`, "g"),
-        `[${stats.hitCounts.join(",")}]`,
-      );
-    });
-
+      query = query.replace(new RegExp(hitCountPlaceholder, "g"), `[${stats.hitCounts.join(",")}]`);
+      statisticsIndex++;
+    }
     return query;
   }
 }

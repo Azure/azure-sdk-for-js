@@ -5,7 +5,7 @@ import { assert } from "chai";
 import { extractConnectionStringParts } from "../../src/utils/utils.common";
 import { Recorder } from "@azure-tools/test-recorder";
 import { recorderEnvSetup } from "../utils";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("Utility Helpers Node.js only", () => {
   let recorder: Recorder;

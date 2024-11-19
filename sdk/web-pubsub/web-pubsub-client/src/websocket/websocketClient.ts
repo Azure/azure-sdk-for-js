@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-import WebSocket, { CloseEvent, MessageEvent, ErrorEvent } from "ws";
-import { WebSocketClientLike, WebSocketClientFactoryLike } from "./websocketClientLike";
+import type { CloseEvent, MessageEvent, ErrorEvent } from "ws";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+import WebSocket from "ws";
+import type { WebSocketClientLike, WebSocketClientFactoryLike } from "./websocketClientLike";
 
 export class WebSocketClient implements WebSocketClientLike {
   private _socket: WebSocket;

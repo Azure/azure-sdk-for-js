@@ -9,7 +9,7 @@
 import {
   MetricNamespacesListOptionalParams,
   MetricNamespacesListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a MetricNamespaces. */
 export interface MetricNamespaces {
