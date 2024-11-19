@@ -55,18 +55,18 @@ export interface SecretAttributes {
 export function secretAttributesSerializer(item: SecretAttributes): any {
   return {
     enabled: item["enabled"],
-    nbf: !item["notBefore"] ? item["notBefore"] : item["notBefore"].getTime(),
-    exp: !item["expires"] ? item["expires"] : item["expires"].getTime(),
+    nbf: !item["notBefore"] ? item["notBefore"] : item["notBefore"].getTime() / 1000,
+    exp: !item["expires"] ? item["expires"] : item["expires"].getTime() / 1000,
   };
 }
 
 export function secretAttributesDeserializer(item: any): SecretAttributes {
   return {
     enabled: item["enabled"],
-    notBefore: !item["nbf"] ? item["nbf"] : new Date(item["nbf"]),
-    expires: !item["exp"] ? item["exp"] : new Date(item["exp"]),
-    created: !item["created"] ? item["created"] : new Date(item["created"]),
-    updated: !item["updated"] ? item["updated"] : new Date(item["updated"]),
+    notBefore: !item["nbf"] ? item["nbf"] : new Date(item["nbf"] * 1000),
+    expires: !item["exp"] ? item["exp"] : new Date(item["exp"] * 1000),
+    created: !item["created"] ? item["created"] : new Date(item["created"] * 1000),
+    updated: !item["updated"] ? item["updated"] : new Date(item["updated"] * 1000),
     recoverableDays: item["recoverableDays"],
     recoveryLevel: item["recoveryLevel"],
   };

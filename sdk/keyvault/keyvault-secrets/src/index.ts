@@ -33,6 +33,7 @@ import {
   SetSecretOptions,
   UpdateSecretPropertiesOptions,
 } from "./secretsModels.js";
+import { KnownDeletionRecoveryLevel, DeletionRecoveryLevel } from "./generated/index.js";
 import { KeyVaultSecretIdentifier, parseKeyVaultSecretIdentifier } from "./identifier.js";
 import { getSecretFromSecretBundle, mapPagedAsyncIterable } from "./transformations.js";
 import { tracingClient } from "./tracing.js";
@@ -40,78 +41,12 @@ import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
 import { SDK_VERSION } from "./constants.js";
 import { DeleteSecretPoller } from "./lro/delete/poller.js";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller.js";
-import { DeletionRecoveryLevel } from "./generated/index.js";
-
-/**
- * Reflects the deletion recovery level currently in effect for secrets in the
- * current vault. If it contains 'Purgeable', the secret can be permanently
- * deleted by a privileged user; otherwise, only the system can purge the secret,
- * at the end of the retention interval.
- */
-// TODO: Resolve this per discussion in https://github.com/Azure/azure-rest-api-specs/pull/29249#discussion_r1842678240
-export enum KnownDeletionRecoveryLevel {
-  /**
-   * Denotes a vault state in which deletion is an irreversible operation, without
-   * the possibility for recovery. This level corresponds to no protection being
-   * available against a Delete operation; the data is irretrievably lost upon
-   * accepting a Delete operation at the entity level or higher (vault, resource
-   * group, subscription etc.)
-   */
-  Purgeable = "Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable, and which also permits
-   * immediate and permanent deletion (i.e. purge). This level guarantees the
-   * recoverability of the deleted entity during the retention interval (90 days),
-   * unless a Purge operation is requested, or the subscription is cancelled. System
-   * wil permanently delete it after 90 days, if not recovered
-   */
-  RecoverablePurgeable = "Recoverable+Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable without the possibility
-   * for immediate and permanent deletion (i.e. purge). This level guarantees the
-   * recoverability of the deleted entity during the retention interval(90 days) and
-   * while the subscription is still available. System wil permanently delete it
-   * after 90 days, if not recovered
-   */
-  Recoverable = "Recoverable",
-  /**
-   * Denotes a vault and subscription state in which deletion is recoverable within
-   * retention interval (90 days), immediate and permanent deletion (i.e. purge) is
-   * not permitted, and in which the subscription itself  cannot be permanently
-   * canceled. System wil permanently delete it after 90 days, if not recovered
-   */
-  RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
-  /**
-   * Denotes a vault state in which deletion is recoverable, and which also permits
-   * immediate and permanent deletion (i.e. purge when 7\<= SoftDeleteRetentionInDays
-   * \< 90). This level guarantees the recoverability of the deleted entity during
-   * the retention interval, unless a Purge operation is requested, or the
-   * subscription is cancelled.
-   */
-  CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
-  /**
-   * Denotes a vault state in which deletion is recoverable without the possibility
-   * for immediate and permanent deletion (i.e. purge when 7\<=
-   * SoftDeleteRetentionInDays \< 90).This level guarantees the recoverability of the
-   * deleted entity during the retention interval and while the subscription is
-   * still available.
-   */
-  CustomizedRecoverable = "CustomizedRecoverable",
-  /**
-   * Denotes a vault and subscription state in which deletion is recoverable,
-   * immediate and permanent deletion (i.e. purge) is not permitted, and in which
-   * the subscription itself cannot be permanently canceled when 7\<=
-   * SoftDeleteRetentionInDays \< 90. This level guarantees the recoverability of the
-   * deleted entity during the retention interval, and also reflects the fact that
-   * the subscription itself cannot be cancelled.
-   */
-  CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
-}
 
 export {
   SecretClientOptions,
   DeletedSecret,
   DeletionRecoveryLevel,
+  KnownDeletionRecoveryLevel,
   GetSecretOptions,
   GetDeletedSecretOptions,
   PurgeDeletedSecretOptions,
@@ -201,6 +136,17 @@ export class SecretClient {
     this.client.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
     this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, pipelineOptions), {
       afterPolicies: ["deserializationPolicy"],
+    });
+    // Workaround for: https://github.com/Azure/azure-sdk-for-js/issues/31843
+    this.client.pipeline.addPolicy({
+      name: "ContentTypePolicy",
+      sendRequest(request, next) {
+        const contentType = request.headers.get("Content-Type") ?? "";
+        if (contentType.startsWith("application/json")) {
+          request.headers.set("Content-Type", "application/json");
+        }
+        return next(request);
+      },
     });
   }
 
