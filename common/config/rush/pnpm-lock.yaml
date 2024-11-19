@@ -197,6 +197,9 @@ dependencies:
   '@rush-temp/arm-confluent':
     specifier: file:./projects/arm-confluent.tgz
     version: file:projects/arm-confluent.tgz
+  '@rush-temp/arm-connectedcache':
+    specifier: file:./projects/arm-connectedcache.tgz
+    version: file:projects/arm-connectedcache.tgz
   '@rush-temp/arm-connectedvmware':
     specifier: file:./projects/arm-connectedvmware.tgz
     version: file:projects/arm-connectedvmware.tgz
@@ -13876,6 +13879,43 @@ packages:
       - supports-color
     dev: false
 
+  file:projects/arm-connectedcache.tgz:
+    resolution: {integrity: sha512-z09VpU8HdMfm7XwTPPUYSVW3NaaMfTQwjVUggbtWe+xm7gPo5L3zB13SjvVaduyXorZg5roXzeT2At0W6Vkkqg==, tarball: file:projects/arm-connectedcache.tgz}
+    name: '@rush-temp/arm-connectedcache'
+    version: 0.0.0
+    dependencies:
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
+      '@types/node': 18.19.64
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.48.2)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
+      dotenv: 16.4.5
+      eslint: 8.57.1
+      playwright: 1.48.2
+      tshy: 2.0.1
+      tslib: 2.8.1
+      typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
+    transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
+      - bufferutil
+      - happy-dom
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+      - utf-8-validate
+      - vite
+      - webdriverio
+    dev: false
+
   file:projects/arm-connectedvmware.tgz:
     resolution: {integrity: sha512-vhQ7ZhjOJ0BmjhBsyAvkQLyF9VgXGOcW83y+4X2y03VpkYuTF4nh/lREFr87lhx6j9IGAZHVMoLNIzwMiqpMTg==, tarball: file:projects/arm-connectedvmware.tgz}
     name: '@rush-temp/arm-connectedvmware'
@@ -21763,7 +21803,7 @@ packages:
     dev: false
 
   file:projects/maps-route.tgz:
-    resolution: {integrity: sha512-0ctRSAumdIjIYk2gsJWzoER0exI6GI4XYhIcuVJH1xNf19LCLOw0erfKvdgYnMscP447hOavv+t1DHahw6yUsw==, tarball: file:projects/maps-route.tgz}
+    resolution: {integrity: sha512-7CIlx59lH1iXpkFOrf1zQ6r986jREdZS9F+cKejJPIrbqqj0e9uO5Po1q9aUwQgEkQFlh8wQ55GrK36jhQG5jQ==, tarball: file:projects/maps-route.tgz}
     name: '@rush-temp/maps-route'
     version: 0.0.0
     dependencies:
