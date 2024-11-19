@@ -280,6 +280,17 @@ export class KeyClient {
     this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, pipelineOptions), {
       afterPolicies: ["deserializationPolicy"],
     });
+    // Workaround for: https://github.com/Azure/azure-sdk-for-js/issues/31843
+    this.client.pipeline.addPolicy({
+      name: "ContentTypePolicy",
+      sendRequest(request, next) {
+        const contentType = request.headers.get("Content-Type") ?? "";
+        if (contentType.startsWith("application/json")) {
+          request.headers.set("Content-Type", "application/json");
+        }
+        return next(request);
+      },
+    });
   }
 
   /**
@@ -404,54 +415,26 @@ export class KeyClient {
   public importKey(
     name: string,
     key: JsonWebKey,
-    options?: ImportKeyOptions,
+    options: ImportKeyOptions = {},
   ): Promise<KeyVaultKey> {
-    let unflattenedOptions = {};
-
-    if (options) {
-      const {
+    return tracingClient.withSpan(`KeyClient.importKey`, options, async (updatedOptions) => {
+      const { enabled, notBefore, expiresOn: expires, exportable, releasePolicy, tags } = options;
+      const keyAttributes = {
         enabled,
         notBefore,
+        expires,
         exportable,
-        expiresOn: expires,
-        hardwareProtected: hsm,
-        ...remainingOptions
-      } = options;
-      unflattenedOptions = {
-        ...remainingOptions,
-        keyAttributes: {
-          enabled,
-          notBefore,
-          expires,
-          hsm,
-          exportable,
-        },
       };
-    }
-
-    return tracingClient.withSpan(
-      `KeyClient.importKey`,
-      unflattenedOptions,
-      async (updatedOptions) => {
-        const response = await this.client.importKey(
-          name,
-          {
-            key,
-            hsm: options?.hardwareProtected,
-            keyAttributes: {
-              enabled: options?.enabled,
-              notBefore: options?.notBefore,
-              expires: options?.expiresOn,
-              exportable: options?.exportable,
-            },
-            releasePolicy: options?.releasePolicy,
-            tags: options?.tags,
-          },
-          updatedOptions,
-        );
-        return getKeyFromKeyBundle(response);
-      },
-    );
+      const parameters = {
+        key,
+        hsm: options?.hardwareProtected,
+        keyAttributes,
+        releasePolicy,
+        tags,
+      };
+      const response = await this.client.importKey(name, parameters, updatedOptions);
+      return getKeyFromKeyBundle(response);
+    });
   }
 
   /**

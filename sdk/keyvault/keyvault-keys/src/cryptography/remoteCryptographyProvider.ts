@@ -422,6 +422,17 @@ function getOrInitializeClient(
   client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, options), {
     afterPolicies: ["deserializationPolicy"],
   });
+  // Workaround for: https://github.com/Azure/azure-sdk-for-js/issues/31843
+  client.pipeline.addPolicy({
+    name: "ContentTypePolicy",
+    sendRequest(request, next) {
+      const contentType = request.headers.get("Content-Type") ?? "";
+      if (contentType.startsWith("application/json")) {
+        request.headers.set("Content-Type", "application/json");
+      }
+      return next(request);
+    },
+  });
 
   return client;
 }

@@ -6,7 +6,7 @@ import type { KeyClient } from "../../src/index.js";
 import { testPollerProperties } from "./utils/recorderUtils.js";
 import { authenticate, envSetupForPlayback } from "./utils/testAuthentication.js";
 import type TestClient from "./utils/testClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Keys client - list keys in various ways", () => {
   const keyPrefix = `list${env.KEY_NAME || "KeyName"}`;

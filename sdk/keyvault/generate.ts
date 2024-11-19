@@ -51,3 +51,36 @@ packageJson.dependencies["@azure/core-lro"] = "^3.0.0";
 
 // Write updated package.json back to disk
 fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2), "utf8");
+
+// Generated code changes
+// https://github.com/Azure/autorest.typescript/pull/2135/files
+// keyvault-keys/src/generated/models/models.ts changes:
+const modelsPath = path.resolve("./src/generated/models/models.ts");
+let modelsContent = fs.readFileSync(modelsPath, "utf8");
+modelsContent = modelsContent
+  .replace(
+    /created: !item\["created"\] \? item\["created"\] : new Date\(item\["created"\]\),/g,
+    'created: !item["created"] ? item["created"] : new Date(item["created"] * 1000),'
+  )
+  .replace(
+    /updated: !item\["updated"\] \? item\["updated"\] : new Date\(item\["updated"\]\),/g,
+    'updated: !item["updated"] ? item["updated"] : new Date(item["updated"] * 1000),'
+  )
+  .replace(
+    /notBefore: !item\["nbf"\] \? item\["nbf"\] : new Date\(item\["nbf"\]\),/g,
+    'notBefore: !item["nbf"] ? item["nbf"] : new Date(item["nbf"] * 1000),'
+  )
+  .replace(
+    /expires: !item\["exp"\] \? item\["exp"\] : new Date\(item\["exp"\]\),/g,
+    'expires: !item["exp"] ? item["exp"] : new Date(item["exp"] * 1000),'
+  )
+  .replace(
+    /nbf: !item\["notBefore"\] \? item\["notBefore"\] : item\["notBefore"\].getTime\(\),/g,
+    'nbf: !item["notBefore"] ? item["notBefore"] : item["notBefore"].getTime() / 1000,'
+  )
+  .replace(
+    /exp: !item\["expires"\] \? item\["expires"\] : item\["expires"\].getTime\(\),/g,
+    'exp: !item["expires"] ? item["expires"] : item["expires"].getTime() / 1000,'
+  );
+
+fs.writeFileSync(modelsPath, modelsContent, "utf8");
