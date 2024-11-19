@@ -6,12 +6,6 @@
 
 - Full Text and Hybrid Search Support: Implemented full text and indexing policies, and added support for full text and hybrid search queries.
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
 ## 4.1.1 (2024-08-30)
 
 ### Bugs Fixed
