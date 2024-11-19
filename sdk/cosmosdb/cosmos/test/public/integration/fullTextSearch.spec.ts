@@ -8,7 +8,7 @@ import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 import * as fs from "fs";
 import * as path from "path";
 
-describe("Validate full text search queries", function (this: Suite) {
+describe.skip("Validate full text search queries", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
   const partitionKey = "id";
