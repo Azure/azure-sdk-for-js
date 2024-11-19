@@ -110,7 +110,6 @@
     ],
     "selfLink": false
   },
-  "browser": "./dist/browser/index.js",
   "exports": {
     "./package.json": "./package.json",
     ".": {
