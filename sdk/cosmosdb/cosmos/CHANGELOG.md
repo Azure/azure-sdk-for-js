@@ -6,6 +6,7 @@
 
 - Full Text Support: This feature adds support for full text search policy and indexing policy. It also enables performing full text search queries. [docs](https://learn.microsoft.com/azure/cosmos-db/gen-ai/full-text-search)
 - Hybrid Search Support: This feature adds support for performing hybrid search queries. [docs](https://learn.microsoft.com/azure/cosmos-db/gen-ai/hybrid-search)
+- Added support for three optional properties to support `quantizedFlat` and `diskANN` vector indexing policies. The properties are: `quantizationByteSize`, `vectorIndexShardKey` and `indexingSearchListSize`.
 
 ## 4.1.1 (2024-08-30)
 
