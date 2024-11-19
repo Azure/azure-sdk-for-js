@@ -1329,6 +1329,25 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/app-configuration@1.8.0:
+    resolution: {integrity: sha512-RO4IGZMa3hI1yVhvb5rPr+r+UDxe4VDxbntFZIc5fsUPGqZbKzmGR2wABEtlrC2SU5YX6tL+NS3xWb4vf1M9lQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-http-compat': 2.1.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.17.0
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      '@azure/logger': 1.1.4
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-compute@21.6.0:
     resolution: {integrity: sha512-Qk6kxoqMgzOvceUBqD1WTHrPh/iaxlTLQPp241u3iNVOE4FVSTqSzTxjG1tr/UL1rBWGvoLPZExUFddo+Qd5KQ==}
     engines: {node: '>=18.0.0'}
@@ -22803,11 +22822,11 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-JFCNoKOfUy/Fpku2+O3FUNBUQizLMDZLTCA2LfIMd6O1RFZB8nddRc+x9VNhMhmPhIAaAhg03Z2iZLlTiHEJZw==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-H9lwEHrd3bsYGzbW4iA0phHcYG3cSxOWv+xecF06UaSMHQ2FCJEErNxi3+dVP7UAQcS9V2PmJr9JKD7wvFmzPA==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
-      '@azure/app-configuration': 1.5.0-beta.2
+      '@azure/app-configuration': 1.8.0
       '@types/node': 18.19.64
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -22815,8 +22834,6 @@ packages:
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
       - jiti
       - supports-color
     dev: false
