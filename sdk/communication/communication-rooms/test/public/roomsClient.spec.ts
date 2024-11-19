@@ -34,7 +34,7 @@ describe("RoomsClient", function () {
       }
       await recorder.stop();
       if (isPlaybackMode()) {
-        sinon.restore();
+        vi.restoreAllMocks();
       }
     });
 
@@ -486,7 +486,7 @@ describe("Participants Operations", function () {
 
     await recorder.stop();
     if (isPlaybackMode()) {
-      sinon.restore();
+      vi.restoreAllMocks();
     }
   });
 

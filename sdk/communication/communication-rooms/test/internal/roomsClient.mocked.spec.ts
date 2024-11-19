@@ -17,7 +17,7 @@ describe("[Mocked] RoomsClient", async function () {
   let roomsClient: RoomsClient;
 
   afterEach(function () {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("makes successful create Rooms request", async function () {
