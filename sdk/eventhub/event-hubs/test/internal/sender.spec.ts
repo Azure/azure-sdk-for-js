@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   EventData,
   EventHubConsumerClient,
   EventHubProducerClient,
@@ -9,7 +9,7 @@ import {
   ReceivedEventData,
   SendBatchOptions,
 } from "../../src/index.js";
-import { EventDataBatchImpl } from "../../src/eventDataBatch.js";
+import type { EventDataBatchImpl } from "../../src/eventDataBatch.js";
 import { expect, should } from "../utils/chai.js";
 import { SubscriptionHandlerForTests } from "../utils/subscriptionHandlerForTests.js";
 import { getStartingPositionsForTests } from "../utils/testUtils.js";

@@ -5,10 +5,10 @@
 ```ts
 
 import { AbortError } from '@azure/abort-controller';
-import { HttpClient } from '@azure/core-rest-pipeline';
-import { Pipeline } from '@azure/core-rest-pipeline';
+import type { HttpClient } from '@azure/core-rest-pipeline';
+import type { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 export { AbortError }
 

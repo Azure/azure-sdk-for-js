@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
-import { TokenCredential } from "@azure/core-auth";
-import {
+import type { OperationOptions } from "@azure/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import type {
   CryptographyClientOptions,
   GetKeyOptions,
   JsonWebKey,
   KeyOperation,
   KeyVaultKey,
-  KnownKeyOperations,
 } from "./keysModels.js";
-import {
+import { KnownKeyOperations } from "./keysModels.js";
+import type {
   AesCbcEncryptParameters,
   AesCbcEncryptionAlgorithm,
   CryptographyClientKey,
@@ -35,7 +35,7 @@ import {
 } from "./cryptographyClientModels.js";
 import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider.js";
 import { randomBytes } from "./cryptography/crypto.js";
-import { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models.js";
+import type { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models.js";
 import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider.js";
 import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider.js";
 import { tracingClient } from "./tracing.js";

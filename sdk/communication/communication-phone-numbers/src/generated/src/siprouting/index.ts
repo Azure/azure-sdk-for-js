@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { SipRoutingClient } from "./sipRoutingClient";
-export { SipRoutingClientContext } from "./sipRoutingClientContext";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { SipRoutingClient } from "./sipRoutingClient.js";
+export { SipRoutingClientContext } from "./sipRoutingClientContext.js";
+export * from "./operationsInterfaces/index.js";

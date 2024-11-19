@@ -3,7 +3,7 @@
 /* eslint-disable no-invalid-this */
 import { WebPubSubServiceClient, odata } from "../src/index";
 import { isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { assert } from "chai";
 import ws from "ws";
 

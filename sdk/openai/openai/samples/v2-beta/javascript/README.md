@@ -63,7 +63,7 @@ node audioTranscription.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AUDIO_FILE_PATH="<audio file path>" node audioTranscription.js
+npx dev-tool run vendored cross-env AUDIO_FILE_PATH="<audio file path>" node audioTranscription.js
 ```
 
 ## Next Steps
@@ -84,7 +84,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [streamcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/streamCompletions.js
 [texttospeech]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/textToSpeech.js
 [toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/toolCall.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/openai
+[apiref]: https://learn.microsoft.com/javascript/api/overview/azure/openai
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/README.md

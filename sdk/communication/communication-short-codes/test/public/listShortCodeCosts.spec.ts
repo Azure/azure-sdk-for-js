@@ -1,36 +1,34 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
-import { ShortCodesClient } from "../../src";
-import { assert } from "chai";
-import { createRecordedClient } from "./utils/recordedClient";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { ShortCodesClient } from "../../src/index.js";
+import { createRecordedClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe(`ShortCodeCostsClient - lists Short Code Costs`, function () {
   let recorder: Recorder;
   let client: ShortCodesClient;
 
-  beforeEach(async function (this: Context) {
-    ({ client, recorder } = await createRecordedClient(this));
+  beforeEach(async (ctx) => {
+    ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+  afterEach(async (ctx) => {
+    if (!ctx.task.pending) {
       await recorder.stop();
     }
   });
 
-  it("can list all short code costs", async function () {
+  it("can list all short code costs", { timeout: 30000 }, async () => {
     let count = 0;
     for await (const shortCodeCost of client.listShortCodeCosts()) {
       count++;
       assert.isNotNull(shortCodeCost);
     }
     assert.isAtLeast(count, 3);
-  }).timeout(30000);
+  });
 
-  it("can list all short code costs, by Page", async function () {
+  it("can list all short code costs, by Page", { timeout: 30000 }, async () => {
     const pages = client.listShortCodeCosts({ top: 1 }).byPage();
     for await (const page of pages) {
       if (page.length === 0) {
@@ -42,5 +40,5 @@ describe(`ShortCodeCostsClient - lists Short Code Costs`, function () {
         assert.isNotNull(shortCodeCost);
       }
     }
-  }).timeout(30000);
+  });
 });

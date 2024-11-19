@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   PlayRequest,
   PlaySourceInternal,
   FileSourceInternal,
   TextSourceInternal,
   SsmlSourceInternal,
-  KnownPlaySourceType,
   RecognizeRequest,
-  KnownRecognizeInputType,
   RecognizeOptions,
   DtmfOptions,
   CallAutomationApiClient,
@@ -25,17 +23,16 @@ import {
   UpdateTranscriptionRequest,
   HoldRequest,
   UnholdRequest,
-} from "./generated/src";
+} from "./generated/src/index.js";
+import { KnownPlaySourceType, KnownRecognizeInputType } from "./generated/src/index.js";
 
-import { CallMediaImpl } from "./generated/src/operations";
+import { CallMediaImpl } from "./generated/src/operations/index.js";
 
-import {
-  CommunicationIdentifier,
-  serializeCommunicationIdentifier,
-} from "@azure/communication-common";
+import type { CommunicationIdentifier } from "@azure/communication-common";
+import { serializeCommunicationIdentifier } from "@azure/communication-common";
 
-import { FileSource, TextSource, SsmlSource, DtmfTone } from "./models/models";
-import {
+import type { FileSource, TextSource, SsmlSource, DtmfTone } from "./models/models.js";
+import type {
   PlayOptions,
   CallMediaRecognizeDtmfOptions,
   CallMediaRecognizeChoiceOptions,
@@ -47,23 +44,23 @@ import {
   StopTranscriptionOptions,
   HoldOptions,
   UnholdOptions,
-} from "./models/options";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
-import {
+} from "./models/options.js";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type {
   CancelAllMediaOperationsResult,
   PlayResult,
   SendDtmfTonesResult,
   StartRecognizingResult,
-} from "./models/responses";
-import {
+} from "./models/responses.js";
+import type {
   CancelAllMediaOperationsEventResult,
   PlayEventResult,
   SendDtmfEventResult,
   StartRecognizingEventResult,
-} from "./eventprocessor/eventResponses";
-import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
+} from "./eventprocessor/eventResponses.js";
+import type { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor.js";
 import { randomUUID } from "@azure/core-util";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
 
 /**
  * CallMedia class represents call media related APIs.

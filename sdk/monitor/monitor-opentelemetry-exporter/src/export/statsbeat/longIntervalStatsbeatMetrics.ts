@@ -1,31 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  diag,
+import type {
   BatchObservableResult,
   ObservableGauge,
   ObservableResult,
   Meter,
 } from "@opentelemetry/api";
-import { ExportResult, ExportResultCode } from "@opentelemetry/core";
-import {
-  MeterProvider,
-  PeriodicExportingMetricReader,
-  PeriodicExportingMetricReaderOptions,
-} from "@opentelemetry/sdk-metrics";
-import { AzureMonitorExporterOptions } from "../../index";
-import * as ai from "../../utils/constants/applicationinsights";
-import { StatsbeatMetrics } from "./statsbeatMetrics";
-import {
-  StatsbeatCounter,
-  STATSBEAT_LANGUAGE,
+import { diag } from "@opentelemetry/api";
+import type { ExportResult } from "@opentelemetry/core";
+import { ExportResultCode } from "@opentelemetry/core";
+import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
+import { MeterProvider, PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+import type { AzureMonitorExporterOptions } from "../../index.js";
+import * as ai from "../../utils/constants/applicationinsights.js";
+import { StatsbeatMetrics } from "./statsbeatMetrics.js";
+import type {
   CommonStatsbeatProperties,
   AttachStatsbeatProperties,
-  StatsbeatFeatureType,
   StatsbeatOptions,
-} from "./types";
-import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter";
+} from "./types.js";
+import { StatsbeatCounter, STATSBEAT_LANGUAGE, StatsbeatFeatureType } from "./types.js";
+import { AzureMonitorStatsbeatExporter } from "./statsbeatExporter.js";
 
 let instance: LongIntervalStatsbeatMetrics | null = null;
 

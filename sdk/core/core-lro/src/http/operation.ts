@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   HttpOperationMode,
   RunningOperation,
   ResourceLocationConfig,
@@ -9,7 +9,7 @@ import {
   RawResponse,
   ResponseBody,
 } from "./models.js";
-import {
+import type {
   LroError,
   OperationConfig,
   OperationState,
@@ -17,7 +17,7 @@ import {
   RestorableOperationState,
 } from "../poller/models.js";
 import { pollOperation } from "../poller/operation.js";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { logger } from "../logger.js";
 
 function getOperationLocationPollingUrl(inputs: {

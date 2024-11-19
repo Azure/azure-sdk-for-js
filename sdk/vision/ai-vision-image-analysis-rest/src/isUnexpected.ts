@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AnalyzeFromImageData200Response,
   AnalyzeFromImageDataDefaultResponse,
   AnalyzeFromUrl200Response,

@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import { createRecorder, createClient } from "./utils/recordedClient";
-import { Context } from "mocha";
-import { ContentSafetyClient, isUnexpected, paginate, TextBlocklistItemOutput } from "../../src";
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type { Context } from "mocha";
+import type { ContentSafetyClient, TextBlocklistItemOutput } from "../../src";
+import { isUnexpected, paginate } from "../../src";
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import fs from "fs";
 import path from "path";
 import { isBrowser } from "@azure/core-util";

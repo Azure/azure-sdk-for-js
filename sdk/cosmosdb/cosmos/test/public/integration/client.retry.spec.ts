@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "assert";
-import { CosmosClient, RequestContext } from "../../../src";
+import type { RequestContext } from "../../../src";
+import { CosmosClient } from "../../../src";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { PluginOn } from "../../../src";
 import { TimeoutErrorCode } from "../../../src/request/TimeoutError";

@@ -1,33 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
-import { DeviceCodeCredential } from "../../../src";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isLiveMode } from "@azure-tools/test-recorder";
+import { DeviceCodeCredential } from "../../../src/index.js";
 import { PublicClientApplication } from "@azure/msal-node";
-import Sinon from "sinon";
-import { assert } from "chai";
+import { describe, it, assert, expect, vi, beforeEach, afterEach, MockInstance } from "vitest";
 
 describe("DeviceCodeCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
-  let getTokenSilentSpy: Sinon.SinonSpy;
-  let doGetTokenSpy: Sinon.SinonSpy;
+  let getTokenSilentSpy: MockInstance<typeof PublicClientApplication.prototype.acquireTokenSilent>;
+  let doGetTokenSpy: MockInstance<
+    typeof PublicClientApplication.prototype.acquireTokenByDeviceCode
+  >;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(async function (ctx) {
+    const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
     recorder = setup.recorder;
 
     // MsalClient calls to this method underneath when silent authentication can be attempted.
-    getTokenSilentSpy = setup.sandbox.spy(PublicClientApplication.prototype, "acquireTokenSilent");
+    getTokenSilentSpy = vi.spyOn(PublicClientApplication.prototype, "acquireTokenSilent");
 
     // MsalClient calls to this method underneath for interactive auth.
-    doGetTokenSpy = setup.sandbox.spy(
-      PublicClientApplication.prototype,
-      "acquireTokenByDeviceCode",
-    );
+    doGetTokenSpy = vi.spyOn(PublicClientApplication.prototype, "acquireTokenByDeviceCode");
   });
   afterEach(async function () {
     await cleanup();
@@ -35,10 +34,10 @@ describe("DeviceCodeCredential (internal)", function () {
 
   const scope = "https://vault.azure.net/.default";
 
-  it("Authenticates silently after the initial request", async function (this: Context) {
+  it("Authenticates silently after the initial request", async function (ctx) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
@@ -48,25 +47,20 @@ describe("DeviceCodeCredential (internal)", function () {
     );
 
     await credential.getToken(scope);
-    assert.equal(doGetTokenSpy.callCount, 1, "doGetTokenSpy.callCount should have been 1.");
+    expect(doGetTokenSpy).toHaveBeenCalledOnce();
 
     await credential.getToken(scope);
-    assert.equal(
-      getTokenSilentSpy.callCount,
-      1,
-      "getTokenSilentSpy.callCount should have been 1 (Silent authentication after the initial request).",
-    );
-    assert.equal(
-      doGetTokenSpy.callCount,
-      1,
+    expect(getTokenSilentSpy).toHaveBeenCalledOnce();
+    expect(
+      doGetTokenSpy,
       "Expected no additional calls to doGetTokenSpy after the initial request.",
-    );
+    ).toHaveBeenCalledOnce();
   });
 
-  it("Authenticates with tenantId on getToken", async function (this: Context) {
+  it("Authenticates with tenantId on getToken", async function (ctx) {
     // These tests should not run live because this credential requires user interaction.
     if (isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const credential = new DeviceCodeCredential(
       recorder.configureClientOptions({
@@ -76,6 +70,6 @@ describe("DeviceCodeCredential (internal)", function () {
     );
 
     await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID });
-    assert.equal(doGetTokenSpy.callCount, 1, "doGetTokenSpy.callCount should have been 1");
+    expect(doGetTokenSpy).toHaveBeenCalledOnce();
   });
 });

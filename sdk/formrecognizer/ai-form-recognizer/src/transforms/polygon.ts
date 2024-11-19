@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   BoundingRegion as GeneratedBoundingRegion,
   DocumentKeyValuePair as GeneratedDocumentKeyValuePair,
   DocumentTable as GeneratedDocumentTable,
 } from "../generated";
-import { BoundingRegion, DocumentKeyValuePair, DocumentTable } from "../models/documentElements";
+import type {
+  BoundingRegion,
+  DocumentKeyValuePair,
+  DocumentTable,
+} from "../models/documentElements";
 
 /**
  * Represents a point used to define bounding polygons. The unit is either 'pixel' or 'inch' (See {@link LengthUnit}).

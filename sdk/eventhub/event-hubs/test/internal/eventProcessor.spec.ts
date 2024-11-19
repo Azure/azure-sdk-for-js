@@ -1,33 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   CheckpointStore,
-  CloseReason,
   EventData,
   EventHubConsumerClient,
   EventHubProducerClient,
   PartitionOwnership,
   ReceivedEventData,
   SubscriptionEventHandlers,
-  earliestEventPosition,
-  latestEventPosition,
 } from "../../src/index.js";
-import { Dictionary } from "rhea-promise";
+import { CloseReason, earliestEventPosition, latestEventPosition } from "../../src/index.js";
+import type { Dictionary } from "rhea-promise";
 import { loopUntil } from "../utils/testUtils.js";
-import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor.js";
+import type { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor.js";
 import {
   SubscriptionHandlerForTests,
   sendOneMessagePerPartition,
 } from "../utils/subscriptionHandlerForTests.js";
 import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy.js";
-import { Checkpoint } from "../../src/partitionProcessor.js";
+import type { Checkpoint } from "../../src/partitionProcessor.js";
 import { FakeSubscriptionEventHandlers } from "../utils/fakeSubscriptionEventHandlers.js";
 import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy.js";
 import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore.js";
-import { PartitionContext } from "../../src/eventHubConsumerClientModels.js";
+import type { PartitionContext } from "../../src/eventHubConsumerClientModels.js";
 import debugModule from "debug";
-import { delay, MessagingError } from "@azure/core-amqp";
+import type { MessagingError } from "@azure/core-amqp";
+import { delay } from "@azure/core-amqp";
 import { isLatestPosition } from "../../src/eventPosition.js";
 import { loggerForTest } from "../utils/logHelpers.js";
 import { getRandomName } from "../../src/util/utils.js";

@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, testPollingOptions } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { testPollingOptions } from "@azure-tools/test-recorder";
 import {
   assertThrowsRestError,
   createAppConfigurationClientForTests,
   deleteKeyCompletely,
   startRecorder,
 } from "./utils/testHelpers.js";
-import { AppConfigurationClient } from "../../src/index.js";
+import type { AppConfigurationClient } from "../../src/index.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("etags", () => {

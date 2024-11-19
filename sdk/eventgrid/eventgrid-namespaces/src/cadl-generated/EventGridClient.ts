@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential, KeyCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import {
+import type { TokenCredential, KeyCredential } from "@azure/core-auth";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type {
   CloudEvent,
   PublishResult,
   ReceiveResult,
@@ -12,7 +12,7 @@ import {
   RejectResult,
   RenewLocksResult,
 } from "./models/models";
-import {
+import type {
   PublishCloudEventOptionalParams,
   PublishCloudEventsOptionalParams,
   ReceiveCloudEventsOptionalParams,
@@ -21,10 +21,9 @@ import {
   RejectCloudEventsOptionalParams,
   RenewCloudEventLocksOptionalParams,
 } from "./models/options";
+import type { EventGridClientOptions, EventGridContext } from "./api/index";
 import {
   createEventGrid,
-  EventGridClientOptions,
-  EventGridContext,
   publishCloudEvent,
   publishCloudEvents,
   receiveCloudEvents,
