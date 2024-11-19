@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 /* eslint-disable no-invalid-this */
 import { Recorder, isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { WebPubSubServiceClient, AzureKeyCredential } from "../src";
+import { WebPubSubServiceClient, AzureKeyCredential } from "../src/index.js";
 import { assert } from "@azure-tools/test-utils";
-import recorderOptions from "./testEnv";
+import recorderOptions from "./testEnv.js";
 import type { FullOperationResponse } from "@azure/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 /* eslint-disable @typescript-eslint/no-invalid-this */
@@ -56,7 +56,7 @@ describe("HubClient", function () {
       lastResponse = response;
     }
     beforeEach(async function () {
-      recorder = new Recorder(this.currentTest);
+      recorder = new Recorder(ctx);
       await recorder.start(recorderOptions);
 
       client = new WebPubSubServiceClient(
@@ -219,7 +219,7 @@ describe("HubClient", function () {
 
     it("can check if a connection exists", async function () {
       // likely bug in recorder for this test - recording not generating properly
-      if (!isLiveMode()) this.skip();
+      if (!isLiveMode()) ctx.skip();
       const res = await client.connectionExists("xxx");
       assert.ok(!res);
     });
@@ -241,7 +241,7 @@ describe("HubClient", function () {
 
     it("can revoke permissions from connections", async function () {
       // likely bug in recorder for this test - recording not generating properly
-      if (!isLiveMode()) this.skip();
+      if (!isLiveMode()) ctx.skip();
       await client.revokePermission("invalid-id", "joinLeaveGroup", { targetName: "x" });
       // Service doesn't throw error for invalid connection-ids
     });

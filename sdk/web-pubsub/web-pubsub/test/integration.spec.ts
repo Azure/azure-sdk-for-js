@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /* eslint-disable no-invalid-this */
-import { WebPubSubServiceClient, odata } from "../src/index";
+import { WebPubSubServiceClient, odata } from "../src/index.js";
 import { isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import type { Context } from "mocha";
 import { assert } from "chai";
@@ -96,8 +96,8 @@ function getEndSignal(id: number | undefined = undefined): Uint8Array {
 }
 
 describe("ServiceClient to manage the connected WebSocket connections", function () {
-  it("Simple clients can receive expected messages with different content types", async function (this: Context) {
-    if (!isLiveMode()) this.skip();
+  it("Simple clients can receive expected messages with different content types", async function (ctx) {
+    if (!isLiveMode()) ctx.skip();
     const hub = "SimpleClientCanReceiveMessage";
 
     const messages: SimpleWebSocketFrame[] = [];
@@ -140,8 +140,8 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     assert.equal(messages[1].dataAsString, "Hi there!");
   });
 
-  it("Simple clients can can join group and receive group messages", async function (this: Context) {
-    if (!isLiveMode()) this.skip();
+  it("Simple clients can can join group and receive group messages", async function (ctx) {
+    if (!isLiveMode()) ctx.skip();
     const hub = "SimpleClientCanReceiveGroupMessage";
 
     const messages: SimpleWebSocketFrame[] = [];
@@ -195,8 +195,8 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     assert.isTrue(messages.findIndex((s) => s.dataAsString === "Hi there from group2!") > -1);
   });
 
-  it("Subprotocol clients can receive expected messages with different content types", async function (this: Context) {
-    if (!isLiveMode()) this.skip();
+  it("Subprotocol clients can receive expected messages with different content types", async function (ctx) {
+    if (!isLiveMode()) ctx.skip();
     const hub = "PubSubClientCanReceiveMessage";
     const messages: PubSubWebSocketFrame[] = [];
 
@@ -251,8 +251,8 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     );
   });
 
-  it("Clients can receive messages with filters", async function (this: Context) {
-    if (!isLiveMode()) this.skip();
+  it("Clients can receive messages with filters", async function (ctx) {
+    if (!isLiveMode()) ctx.skip();
     const hub = "ClientCanReceiveMessageWithFilters";
 
     const messages: SimpleWebSocketFrame[] = [];
@@ -303,8 +303,8 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     assert.equal(messages[1].dataAsString, "Hello world!");
   });
 
-  it("Clients can join or leave multiple groups with filter", async function (this: Context) {
-    if (!isLiveMode()) this.skip();
+  it("Clients can join or leave multiple groups with filter", async function (ctx) {
+    if (!isLiveMode()) ctx.skip();
     const hub = "ClientsCanJoinOrLeaveMultipleGroupsWithFilter";
 
     const messages: SimpleWebSocketFrame[] = [];

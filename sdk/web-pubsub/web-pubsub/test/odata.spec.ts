@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 /* eslint-disable no-invalid-this */
-import { odata } from "../src/utils";
+import { odata } from "../src/utils.js";
 import { assert } from "chai";
 
 describe("Can parse odata to string", function () {

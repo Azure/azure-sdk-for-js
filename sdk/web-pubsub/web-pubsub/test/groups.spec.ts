@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 /* eslint-disable no-invalid-this */
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import type { WebPubSubGroup } from "../src";
-import { WebPubSubServiceClient } from "../src";
+import type { WebPubSubGroup } from "../src/index.js";
+import { WebPubSubServiceClient } from "../src/index.js";
 import { assert } from "chai";
-import recorderOptions from "./testEnv";
+import recorderOptions from "./testEnv.js";
 import type { FullOperationResponse } from "@azure/core-client";
 import type { RestError } from "@azure/core-rest-pipeline";
 /* eslint-disable @typescript-eslint/no-invalid-this */
@@ -18,7 +18,7 @@ describe("Group client working with a group", function () {
     lastResponse = response;
   }
   beforeEach(async function () {
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     const hubClient = new WebPubSubServiceClient(
       assertEnvironmentVariable("WPS_CONNECTION_STRING"),
@@ -113,7 +113,7 @@ describe("client working with multiple groups", function () {
     lastResponse = response;
   }
   beforeEach(async function () {
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     hubClient = new WebPubSubServiceClient(
       assertEnvironmentVariable("WPS_CONNECTION_STRING"),

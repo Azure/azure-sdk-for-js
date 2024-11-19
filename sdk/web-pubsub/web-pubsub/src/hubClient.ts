@@ -8,27 +8,27 @@ import type {
 } from "@azure/core-client";
 import type { RequestBodyType } from "@azure/core-rest-pipeline";
 import { RestError } from "@azure/core-rest-pipeline";
-import { GeneratedClient } from "./generated/generatedClient";
+import { GeneratedClient } from "./generated/generatedClient.js";
 import type {
   WebPubSubGroup,
   GroupAddConnectionOptions,
   GroupRemoveConnectionOptions,
-} from "./groupClient";
-import { WebPubSubGroupImpl } from "./groupClient";
+} from "./groupClient.js";
+import { WebPubSubGroupImpl } from "./groupClient.js";
 import type { AzureKeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { webPubSubKeyCredentialPolicy } from "./webPubSubCredentialPolicy";
-import { tracingClient } from "./tracing";
-import { logger } from "./logger";
-import { parseConnectionString } from "./parseConnectionString";
+import { webPubSubKeyCredentialPolicy } from "./webPubSubCredentialPolicy.js";
+import { tracingClient } from "./tracing.js";
+import { logger } from "./logger.js";
+import { parseConnectionString } from "./parseConnectionString.js";
 import jwt from "jsonwebtoken";
-import { getPayloadForMessage } from "./utils";
+import { getPayloadForMessage } from "./utils.js";
 import type {
   GeneratedClientOptionalParams,
   AddToGroupsRequest,
   RemoveFromGroupsRequest,
-} from "./generated";
-import { webPubSubReverseProxyPolicy } from "./reverseProxyPolicy";
+} from "./generated/index.js";
+import { webPubSubReverseProxyPolicy } from "./reverseProxyPolicy.js";
 
 /**
  * Options for closing a connection to a hub.
