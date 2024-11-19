@@ -405,6 +405,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/communication/arm-communication/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/connectedcache/arm-connectedcache/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/compute/arm-compute/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
