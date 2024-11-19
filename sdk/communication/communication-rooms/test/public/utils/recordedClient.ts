@@ -13,10 +13,10 @@ import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import { parseConnectionString } from "@azure/communication-common";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { Context, Test } from "mocha";
-import { RoomsClient } from "../../../src";
+import { RoomsClient } from "../../../src/index.js";
 import type { CommunicationUserToken } from "@azure/communication-identity";
 import { CommunicationIdentityClient } from "@azure/communication-identity";
-import { generateToken } from "./connectionUtils";
+import { generateToken } from "./connectionUtils.js";
 
 export interface RecordedClient<T> {
   client: T;

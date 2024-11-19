@@ -3,7 +3,7 @@
 
 import sinon from "sinon";
 import { assert } from "chai";
-import type { RoomsClient } from "../../src";
+import type { RoomsClient } from "../../src/index.js";
 import {
   createRoomsClient,
   generateHttpClient,
@@ -13,7 +13,7 @@ import {
   mockListRoomsResultWithoutNextLink,
   mockCreateRoomsWithPstnDialOutEnabledResult,
   mockUpdateRoomsWithPstnEnabledResult,
-} from "./utils/mockedClient";
+} from "./utils/mockedClient.js";
 
 describe("[Mocked] RoomsClient", async function () {
   let roomsClient: RoomsClient;

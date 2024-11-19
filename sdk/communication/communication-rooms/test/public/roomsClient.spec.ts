@@ -3,14 +3,14 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { createRecordedRoomsClient, createTestUser } from "./utils/recordedClient";
+import { createRecordedRoomsClient, createTestUser } from "./utils/recordedClient.js";
 import { assert, expect } from "chai";
 import type { Context } from "mocha";
 import sinon from "sinon";
-import type { RoomsClient } from "../../src/roomsClient";
+import type { RoomsClient } from "../../src/roomsClient.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
-import type { CreateRoomOptions, UpdateRoomOptions } from "../../src/models/options";
-import type { CommunicationRoom, RoomParticipantPatch } from "../../src/models/models";
+import type { CreateRoomOptions, UpdateRoomOptions } from "../../src/models/options.js";
+import type { CommunicationRoom, RoomParticipantPatch } from "../../src/models/models.js";
 
 describe("RoomsClient", function () {
   let recorder: Recorder;
@@ -25,7 +25,7 @@ describe("RoomsClient", function () {
     let testUser2: CommunicationUserIdentifier;
     let roomId = "";
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       ({ client, recorder } = await createRecordedRoomsClient(this));
     });
 
@@ -476,7 +476,7 @@ describe("Participants Operations", function () {
   let roomId = "";
   const delayInMs = 1000;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     ({ client, recorder } = await createRecordedRoomsClient(this));
   });
 
