@@ -284,6 +284,9 @@ export class HybridQueryExecutionContext implements ExecutionContext {
   private sortHybridSearchResultByRRFScore(
     hybridSearchResult: HybridSearchQueryResult[],
   ): HybridSearchQueryResult[] {
+    if (hybridSearchResult.length === 0) {
+      return [];
+    }
     const ranksArray: { rid: string; ranks: number[] }[] = hybridSearchResult.map((item) => ({
       rid: item.rid,
       ranks: new Array(item.componentScores.length).fill(0),
@@ -442,6 +445,13 @@ export class HybridQueryExecutionContext implements ExecutionContext {
     globalStats: GlobalStatistics,
     componentCount: number,
   ): string {
+    if (
+      !globalStats ||
+      !globalStats.documentCount ||
+      !Array.isArray(globalStats.fullTextStatistics)
+    ) {
+      throw new Error("GlobalStats validation failed");
+    }
     // Replace total document count
     query = query.replace(
       new RegExp(`{${this.TOTAL_DOCUMENT_COUNT_PLACEHOLDER}}`, "g"),
