@@ -7,6 +7,9 @@ import recorderOptions from "./testEnv.js";
 import type { FullOperationResponse } from "@azure/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+
+expect.extend({ toSupportTracing })
 
 /* eslint-disable @typescript-eslint/no-invalid-this */
 
@@ -248,52 +251,49 @@ describe("HubClient", function () {
     });
 
     it("can trace through the various options", async function () {
-      await assert.supportsTracing(
-        async (options) => {
-          const promises: Promise<any>[] = [
-            client.sendToAll("hello", { contentType: "text/plain", onResponse, ...options }),
-            client.sendToUser("brian", "hello", {
-              contentType: "text/plain",
-              onResponse,
-              ...options,
-            }),
-            client.sendToConnection("xxxx", "hello", {
-              contentType: "text/plain",
-              onResponse,
-              ...options,
-            }),
-            client.connectionExists("xxxx", options),
-            client.closeConnection("xxxx", options),
-            client.closeAllConnections(options),
-            client.closeUserConnections("xxxx", options),
-            client.removeUserFromAllGroups("foo", options),
-            client.groupExists("foo", options),
-            client.userExists("foo", options),
-            client.grantPermission("xxxx", "joinLeaveGroup", { targetName: "x", ...options }),
-            client.hasPermission("xxxx", "joinLeaveGroup", { targetName: "x", ...options }),
-            client.revokePermission("xxxx", "joinLeaveGroup", options),
-            client.getClientAccessToken(options),
-          ];
-          // We don't care about errors, only that we created (and closed) the appropriate spans.
-          await Promise.all(promises.map((p) => p.catch(() => undefined)));
-        },
-        [
-          "WebPubSubServiceClient.sendToAll",
-          "WebPubSubServiceClient.sendToUser",
-          "WebPubSubServiceClient.sendToConnection",
-          "WebPubSubServiceClient.connectionExists",
-          "WebPubSubServiceClient.closeConnection",
-          "WebPubSubServiceClient.closeAllConnections",
-          "WebPubSubServiceClient.closeUserConnections",
-          "WebPubSubServiceClient.removeUserFromAllGroups",
-          "WebPubSubServiceClient.groupExists",
-          "WebPubSubServiceClient.userExists",
-          "WebPubSubServiceClient.grantPermission",
-          "WebPubSubServiceClient.hasPermission",
-          "WebPubSubServiceClient.revokePermission",
-          "WebPubSubServiceClient.getClientAccessToken",
-        ],
-      );
+      await expect(async (options) => {
+    const promises: Promise<any>[] = [
+        client.sendToAll("hello", { contentType: "text/plain", onResponse, ...options }),
+        client.sendToUser("brian", "hello", {
+            contentType: "text/plain",
+            onResponse,
+            ...options,
+        }),
+        client.sendToConnection("xxxx", "hello", {
+            contentType: "text/plain",
+            onResponse,
+            ...options,
+        }),
+        client.connectionExists("xxxx", options),
+        client.closeConnection("xxxx", options),
+        client.closeAllConnections(options),
+        client.closeUserConnections("xxxx", options),
+        client.removeUserFromAllGroups("foo", options),
+        client.groupExists("foo", options),
+        client.userExists("foo", options),
+        client.grantPermission("xxxx", "joinLeaveGroup", { targetName: "x", ...options }),
+        client.hasPermission("xxxx", "joinLeaveGroup", { targetName: "x", ...options }),
+        client.revokePermission("xxxx", "joinLeaveGroup", options),
+        client.getClientAccessToken(options),
+    ];
+    // We don't care about errors, only that we created (and closed) the appropriate spans.
+    await Promise.all(promises.map((p) => p.catch(() => undefined)));
+}).toSupportTracing([
+    "WebPubSubServiceClient.sendToAll",
+    "WebPubSubServiceClient.sendToUser",
+    "WebPubSubServiceClient.sendToConnection",
+    "WebPubSubServiceClient.connectionExists",
+    "WebPubSubServiceClient.closeConnection",
+    "WebPubSubServiceClient.closeAllConnections",
+    "WebPubSubServiceClient.closeUserConnections",
+    "WebPubSubServiceClient.removeUserFromAllGroups",
+    "WebPubSubServiceClient.groupExists",
+    "WebPubSubServiceClient.userExists",
+    "WebPubSubServiceClient.grantPermission",
+    "WebPubSubServiceClient.hasPermission",
+    "WebPubSubServiceClient.revokePermission",
+    "WebPubSubServiceClient.getClientAccessToken",
+]);
     });
 
     it("can generate client tokens", async () => {
