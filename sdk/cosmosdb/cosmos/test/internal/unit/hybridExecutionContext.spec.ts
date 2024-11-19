@@ -247,7 +247,7 @@ describe("hybridQueryExecutionContext", function () {
 
       // Iterate through the array of queryTestCases
       queryTestCases.forEach(({ queryToTest, expectedQuery }) => {
-        const result = context["replacePlaceholders"](queryToTest, stats1);
+        const result = context["replacePlaceholdersWorkaroud"](queryToTest, stats1, 1);
 
         // Normalize both actual and expected queries by removing all whitespace
         const normalize = (str: string) => str.replace(/\s+/g, " ").trim();
