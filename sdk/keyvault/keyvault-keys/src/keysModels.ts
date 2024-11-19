@@ -731,6 +731,8 @@ export interface UpdateKeyRotationPolicyOptions extends coreClient.OperationOpti
  */
 export interface GetKeyRotationPolicyOptions extends coreClient.OperationOptions {}
 
+/* eslint-disable tsdoc/syntax */
+
 /** Known values of {@link DeletionRecoveryLevel} that the service accepts. */
 export enum KnownDeletionRecoveryLevel {
   /** Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.) */
@@ -763,3 +765,5 @@ export enum KnownDeletionRecoveryLevel {
  * **CustomizedRecoverable+ProtectedSubscription**: Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7<= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled.
  */
 export type DeletionRecoveryLevel = string;
+
+/* eslint-enable tsdoc/syntax */

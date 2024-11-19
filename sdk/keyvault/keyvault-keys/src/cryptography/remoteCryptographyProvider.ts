@@ -102,7 +102,6 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
                 ? encryptParameters.additionalAuthenticatedData
                 : undefined,
             iv: "iv" in encryptParameters ? encryptParameters.iv : undefined,
-            // TODO: tag?
           },
           updatedOptions,
         );
