@@ -68,19 +68,6 @@ export async function createThreadAndRunStreaming(
   return processStream(context
     .path("/threads/runs")
     .post(options));
-
-  // const response =
-  //   isNodeLike ?
-  //     await (context as ProjectsClient)
-  //       .path("/threads/runs")
-  //       .post(options)
-  //       .asNodeStream()
-  //     : await (context as ProjectsClient)
-  //       .path("/threads/runs")
-  //       .post(options)
-  //       .asBrowserStream();
-
-  // yield* processStream(response);
 }
 
 export async function submitToolOutputsToRunStreaming(
@@ -93,17 +80,4 @@ export async function submitToolOutputsToRunStreaming(
 
   return processStream(context.path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
     .post(options));
-
-  // const response =
-  //   isNodeLike ?
-  //     await (context as ProjectsClient)
-  //       .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
-  //       .post(options)
-  //       .asNodeStream()
-  //     : await (context as ProjectsClient)
-  //       .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
-  //       .post(options)
-  //       .asBrowserStream();
-
-  // yield* processStream(response);
 }
