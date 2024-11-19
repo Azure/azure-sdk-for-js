@@ -103,7 +103,18 @@ async function calculatePatchFileContents(): Promise<string> {
 
     // Commit the Azure files, then remove everything so that they can be replaced by the unbranded files
     await run(["git", "add", "."], { cwd: tmpDir });
-    await run(["git", "commit", "-m", "Placeholder commit"], { cwd: tmpDir });
+    await run(
+      [
+        "git",
+        "commit",
+        "-m",
+        "Placeholder commit",
+        // Must set author since some pipelines do not have the author set properly
+        "--author",
+        "Fake Author <fakeauthor@example.com>",
+      ],
+      { cwd: tmpDir },
+    );
     await fs.rm(path.join(tmpDir, "src"), { recursive: true, force: true });
 
     // Copy the unbranded files into the temp repo
