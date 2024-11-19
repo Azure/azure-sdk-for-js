@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-invalid-this */
+
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import type { WebPubSubGroup } from "../src/index.js";
 import { WebPubSubServiceClient } from "../src/index.js";
 import recorderOptions from "./testEnv.js";
 import type { FullOperationResponse } from "@azure/core-client";
 import type { RestError } from "@azure/core-rest-pipeline";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-/* eslint-disable @typescript-eslint/no-invalid-this */
-
-describe("Group client working with a group", function () {
+describe("Group client working with a group", () => {
   let recorder: Recorder;
   let client: WebPubSubGroup;
   let lastResponse: FullOperationResponse | undefined;
   function onResponse(response: FullOperationResponse): void {
     lastResponse = response;
   }
-  beforeEach(async function () {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     const hubClient = new WebPubSubServiceClient(
@@ -101,19 +99,19 @@ describe("Group client working with a group", function () {
     await client.removeUser("brian");
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 });
 
-describe("client working with multiple groups", function () {
+describe("client working with multiple groups", () => {
   let recorder: Recorder;
   let lastResponse: FullOperationResponse | undefined;
   let hubClient: WebPubSubServiceClient;
   function onResponse(response: FullOperationResponse): void {
     lastResponse = response;
   }
-  beforeEach(async function () {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     hubClient = new WebPubSubServiceClient(
@@ -123,7 +121,7 @@ describe("client working with multiple groups", function () {
     );
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
