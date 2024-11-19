@@ -1,38 +1,38 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
-import type { Expectation } from "./types";
+import { assert } from "vitest";
+import type { Expectation } from "./types.js";
 import type {
   MetricsData,
   MonitorBase,
   RequestData,
   TelemetryItem as Envelope,
   MonitorDomain,
-} from "./models/index";
-import { KnownContextTagKeys } from "./models/index";
-import { TelemetryItem as EnvelopeMapper } from "./models/mappers";
+} from "./models/index.js";
+import { KnownContextTagKeys } from "./models/index.js";
+import { TelemetryItem as EnvelopeMapper } from "./models/mappers.js";
 
 export const assertData = (actual: MonitorBase, expected: MonitorBase): void => {
   assert.strictEqual(actual.baseType, expected.baseType);
 
   assert.ok(actual.baseData, "Actual base data must be defined.");
   assert.ok(expected.baseData, "Expected base data must be defined.");
-  for (const [key, value] of Object.entries(expected.baseData)) {
+  for (const [key, value] of Object.entries(expected.baseData as any)) {
     const serializedKey = (EnvelopeMapper.type as any).modelProperties![key]?.serializedName ?? key;
     if (typeof value === "object") {
-      for (const [nestedKey, nestedValue] of Object.entries(value)) {
+      for (const [nestedKey, nestedValue] of Object.entries(value as any)) {
         assert.deepStrictEqual(
-          expected.baseData[serializedKey][nestedKey],
+          expected.baseData![serializedKey][nestedKey],
           nestedValue,
-          `baseData.${serializedKey}.${nestedKey} should be equal\nActual: ${JSON.stringify(actual.baseData[serializedKey][nestedKey])}\nExpected: ${JSON.stringify(nestedValue)}`,
+          `baseData.${serializedKey}.${nestedKey} should be equal\nActual: ${JSON.stringify(actual.baseData![serializedKey][nestedKey])}\nExpected: ${JSON.stringify(nestedValue)}`,
         );
       }
     } else {
       assert.deepStrictEqual(
-        actual.baseData[serializedKey],
+        actual.baseData![serializedKey],
         value,
-        `baseData.${serializedKey} should be equal\nActual: ${JSON.stringify(actual.baseData[serializedKey])}\nExpected: ${JSON.stringify(value)}`,
+        `baseData.${serializedKey} should be equal\nActual: ${JSON.stringify(actual.baseData![serializedKey])}\nExpected: ${JSON.stringify(value)}`,
       );
     }
   }

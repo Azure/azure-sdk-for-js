@@ -1,42 +1,40 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as assert from "assert";
 import type {
   DerivedMetricInfo,
   FilterConjunctionGroupInfo,
   FilterInfo,
   RemoteDependency,
-  /* eslint-disable-next-line @typescript-eslint/no-redeclare */
   Request,
   Exception,
   Trace,
   DocumentFilterConjunctionGroupInfo,
-} from "../../../../src/generated";
+} from "../../../../src/generated/index.js";
 import {
   KnownPredicateType,
   KnownTelemetryType,
   KnownDocumentType,
   KnownAggregationType,
-} from "../../../../src/generated";
-import { Validator } from "../../../../src/metrics/quickpulse/filtering/validator";
-import { Filter } from "../../../../src/metrics/quickpulse/filtering/filter";
-import { Projection } from "../../../../src/metrics/quickpulse/filtering/projection";
+} from "../../../../src/generated/index.js";
+import { Validator } from "../../../../src/metrics/quickpulse/filtering/validator.js";
+import { Filter } from "../../../../src/metrics/quickpulse/filtering/filter.js";
+import { Projection } from "../../../../src/metrics/quickpulse/filtering/projection.js";
 import {
   TelemetryTypeError,
   UnexpectedFilterCreateError,
   MetricFailureToCreateError,
-} from "../../../../src/metrics/quickpulse/filtering/quickpulseErrors";
+} from "../../../../src/metrics/quickpulse/filtering/quickpulseErrors.js";
 import type {
   RequestData,
   DependencyData,
   ExceptionData,
   TraceData,
-} from "../../../../src/metrics/quickpulse/types";
+} from "../../../../src/metrics/quickpulse/types.js";
 import {
   KnownRequestColumns,
   KnownDependencyColumns,
-} from "../../../../src/metrics/quickpulse/types";
+} from "../../../../src/metrics/quickpulse/types.js";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
 import { millisToHrTime } from "@opentelemetry/core";
 import { LogRecord, LoggerProvider } from "@opentelemetry/sdk-logs";
@@ -47,7 +45,8 @@ import {
   getSpanDocument,
   getLogDocument,
   getMsFromFilterTimestampString,
-} from "../../../../src/metrics/quickpulse/utils";
+} from "../../../../src/metrics/quickpulse/utils.js";
+import { describe, it, assert } from "vitest";
 
 describe("Live Metrics filtering - Validator", () => {
   const validator: Validator = new Validator();

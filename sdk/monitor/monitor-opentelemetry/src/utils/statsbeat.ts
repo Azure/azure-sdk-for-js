@@ -6,14 +6,14 @@ import type {
   StatsbeatFeatures,
   StatsbeatInstrumentations,
   StatsbeatOption,
-} from "../types";
+} from "../types.js";
 import {
   AZURE_MONITOR_STATSBEAT_FEATURES,
   StatsbeatFeature,
   StatsbeatFeaturesMap,
   StatsbeatInstrumentation,
-} from "../types";
-import { Logger as InternalLogger } from "../shared/logging";
+} from "../types.js";
+import { Logger as InternalLogger } from "../shared/logging/index.js";
 
 let instance: StatsbeatConfiguration;
 

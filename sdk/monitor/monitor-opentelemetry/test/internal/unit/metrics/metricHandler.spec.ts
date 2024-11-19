@@ -3,19 +3,18 @@
 
 /* eslint-disable no-underscore-dangle*/
 
-import * as assert from "assert";
-import * as sinon from "sinon";
-import { MetricHandler } from "../../../../src/metrics";
-import { InternalConfig } from "../../../../src/shared";
+import { MetricHandler } from "../../../../src/metrics/index.js";
+import { InternalConfig } from "../../../../src/shared/index.js";
 import { ExportResultCode } from "@opentelemetry/core";
 import { metrics as MetricsApi } from "@opentelemetry/api";
 import { MeterProvider } from "@opentelemetry/sdk-metrics";
+import type { MockInstance } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("MetricHandler", () => {
   let originalEnv: NodeJS.ProcessEnv;
-  let sandbox: sinon.SinonSandbox;
   let handler: MetricHandler;
-  let exportStub: sinon.SinonStub;
+  let exportStub: MockInstance;
   const _config = new InternalConfig();
   if (_config.azureMonitorExporterOptions) {
     _config.azureMonitorExporterOptions.connectionString =
@@ -26,22 +25,18 @@ describe("MetricHandler", () => {
     originalEnv = process.env;
   });
 
-  before(() => {
-    sandbox = sinon.createSandbox();
-  });
-
-  afterEach(() => {
+  afterEach(async () => {
     process.env = originalEnv;
-    handler.shutdown();
+    await handler.shutdown();
     MetricsApi.disable();
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   function createHandler(): void {
     handler = new MetricHandler(_config, {
       collectionInterval: 100,
     });
-    exportStub = sinon.stub(handler["_azureExporter"], "export").callsFake(
+    exportStub = vi.spyOn(handler["_azureExporter"], "export").mockImplementation(
       (result: any, resultCallback: any) =>
         new Promise((resolve) => {
           resultCallback({
@@ -64,8 +59,8 @@ describe("MetricHandler", () => {
     });
     counter.add(2);
     await new Promise((resolve) => setTimeout(resolve, 220));
-    assert.ok(exportStub.called);
-    const resourceMetrics = exportStub.args[0][0];
+    expect(exportStub).toHaveBeenCalled();
+    const resourceMetrics = exportStub.mock.calls[0][0];
     const scopeMetrics = resourceMetrics.scopeMetrics;
     assert.strictEqual(scopeMetrics.length, 1, "scopeMetrics count");
     const metrics = scopeMetrics[0].metrics;

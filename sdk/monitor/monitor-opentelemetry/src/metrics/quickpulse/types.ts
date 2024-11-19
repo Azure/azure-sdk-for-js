@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { TokenCredential } from "@azure/core-auth";
-import type { MonitoringDataPoint, PublishResponse } from "../../generated";
-import type { DocumentIngress, CollectionConfigurationError } from "../../generated";
+import type { MonitoringDataPoint, PublishResponse } from "../../generated/index.js";
+import type { DocumentIngress, CollectionConfigurationError } from "../../generated/index.js";
 
 /**
  * Quickpulse Exporter Options

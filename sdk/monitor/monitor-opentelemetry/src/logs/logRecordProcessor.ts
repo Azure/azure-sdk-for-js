@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { MetricHandler } from "../metrics/handler";
+import type { MetricHandler } from "../metrics/handler.js";
 import type { LogRecord, LogRecordProcessor } from "@opentelemetry/sdk-logs";
 
 /**

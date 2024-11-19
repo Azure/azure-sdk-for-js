@@ -3,33 +3,30 @@
 
 /* eslint-disable no-underscore-dangle*/
 
-import * as assert from "assert";
-import type * as http from "http";
-import * as sinon from "sinon";
-import { BrowserSdkLoader } from "../../../../src/browserSdkLoader/browserSdkLoader";
-import * as BrowserSdkLoaderHelper from "../../../../src/browserSdkLoader/browserSdkLoaderHelper";
-import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/index";
-import { shutdownAzureMonitor, useAzureMonitor } from "../../../../src/index";
-import { getOsPrefix } from "../../../../src/utils/common";
+import type * as http from "node:http";
+import { BrowserSdkLoader } from "../../../../src/browserSdkLoader/browserSdkLoader.js";
+import * as BrowserSdkLoaderHelper from "../../../../src/browserSdkLoader/browserSdkLoaderHelper.js";
+import type { AzureMonitorOpenTelemetryOptions } from "../../../../src/index.js";
+import { shutdownAzureMonitor, useAzureMonitor } from "../../../../src/index.js";
+import { getOsPrefix } from "../../../../src/utils/common.js";
 import { metrics, trace } from "@opentelemetry/api";
 import { logs } from "@opentelemetry/api-logs";
+import { describe, it, assert, vi, beforeEach, afterEach, afterAll, expect } from "vitest";
 
 describe("#BrowserSdkLoader", () => {
-  let sandbox: sinon.SinonSandbox;
   let originalEnv: NodeJS.ProcessEnv;
 
   afterEach(async () => {
     process.env = originalEnv;
     await shutdownAzureMonitor();
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   beforeEach(() => {
     originalEnv = process.env;
-    sandbox = sinon.createSandbox();
   });
 
-  after(() => {
+  afterAll(() => {
     metrics.disable();
     trace.disable();
     logs.disable();
@@ -62,14 +59,13 @@ describe("#BrowserSdkLoader", () => {
     useAzureMonitor(config);
     const browserSdkLoader = BrowserSdkLoader.getInstance();
 
-    const _headers: any = {};
+    const _headers: Record<string, string | undefined> = {};
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const response: http.ServerResponse = <any>{
       setHeader: (header: string, value: string) => {
         _headers[header] = value;
       },
       getHeader: (header: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return _headers[header];
       },
     };
@@ -103,7 +99,7 @@ describe("#BrowserSdkLoader", () => {
     useAzureMonitor(config);
     const browserSdkLoader = BrowserSdkLoader.getInstance();
 
-    const _headers: any = {};
+    const _headers: Record<string, string | undefined> = {};
 
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const response: http.ServerResponse = <any>{
@@ -111,7 +107,6 @@ describe("#BrowserSdkLoader", () => {
         _headers[header] = value;
       },
       getHeader: (header: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return _headers[header];
       },
       removeHeader: (header: string) => {
@@ -146,14 +141,13 @@ describe("#BrowserSdkLoader", () => {
     };
     useAzureMonitor(config);
     const browserSdkLoader = BrowserSdkLoader.getInstance();
-    const _headers: any = {};
+    const _headers: Record<string, string | undefined> = {};
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const response: http.ServerResponse = <any>{
       setHeader: (header: string, value: string) => {
         _headers[header] = value;
       },
       getHeader: (header: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return _headers[header];
       },
       removeHeader: (header: string) => {
@@ -181,14 +175,13 @@ describe("#BrowserSdkLoader", () => {
     useAzureMonitor(config);
     const browserSdkLoader = BrowserSdkLoader.getInstance();
 
-    const _headers: any = {};
+    const _headers: Record<string, string | undefined> = {};
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const response: http.ServerResponse = <any>{
       setHeader: (header: string, value: string) => {
         _headers[header] = value;
       },
       getHeader: (header: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return _headers[header];
       },
       removeHeader: (header: string) => {
@@ -225,14 +218,13 @@ describe("#BrowserSdkLoader", () => {
     useAzureMonitor(config);
     const browserSdkLoader = BrowserSdkLoader.getInstance();
 
-    const _headers: any = {};
+    const _headers: Record<string, string | undefined> = {};
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const response: http.ServerResponse = <any>{
       setHeader: (header: string, value: string) => {
         _headers[header] = value;
       },
       getHeader: (header: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return _headers[header];
       },
       removeHeader: (header: string) => {
@@ -269,7 +261,7 @@ describe("#BrowserSdkLoader", () => {
     useAzureMonitor(config);
     const browserSdkLoader = BrowserSdkLoader.getInstance();
 
-    const _headers: any = {};
+    const _headers: Record<string, string | undefined> = {};
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const response: http.ServerResponse = <any>{
       setHeader: (header: string, value: string) => {
@@ -313,14 +305,13 @@ describe("#BrowserSdkLoader", () => {
     const browserSdkLoader = BrowserSdkLoader.getInstance();
 
     assert.equal(browserSdkLoader["_isIkeyValid"], true, "ikey should be set to valid");
-    const _headers: any = {};
+    const _headers: Record<string, string | undefined> = {};
     // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
     const response: http.ServerResponse = <any>{
       setHeader: (header: string, value: string) => {
         _headers[header] = value;
       },
       getHeader: (header: string) => {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return _headers[header];
       },
       removeHeader: (header: string) => {
@@ -344,7 +335,7 @@ describe("#BrowserSdkLoader", () => {
   });
 
   it("injection should throw errors when ikey from config is not valid", () => {
-    const infoStub = sandbox.stub(console, "info");
+    const infoStub = vi.spyOn(console, "info");
     const config: AzureMonitorOpenTelemetryOptions = {
       azureMonitorExporterOptions: {
         connectionString: "InstrumentationKey=1aa11111-bbbb-1ccc-8ddd-eeeeffff3333",
@@ -359,6 +350,6 @@ describe("#BrowserSdkLoader", () => {
     const browserSdkLoader = BrowserSdkLoader.getInstance();
 
     assert.equal(browserSdkLoader["_isIkeyValid"], false, "ikey should be set to invalid");
-    assert.ok(infoStub.calledOn, "invalid key warning was raised");
+    expect(infoStub).toHaveBeenCalled();
   });
 });

@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { assertCount, assertLogExpectation } from "../../utils/assert";
-import { LogBasicScenario } from "../../utils/basic";
+import { assertCount, assertLogExpectation } from "../../utils/assert.js";
+import { LogBasicScenario } from "../../utils/basic.js";
 import nock from "nock";
-import { successfulBreezeResponse } from "../../utils/breezeTestUtils";
-import type { TelemetryItem as Envelope } from "../../utils/models/index";
+import { successfulBreezeResponse } from "../../utils/breezeTestUtils.js";
+import type { TelemetryItem as Envelope } from "../../utils/models/index.js";
+import { describe, it, beforeAll, afterAll } from "vitest";
 
 /** TODO: Add winston-transport check functional test */
 describe("Log Exporter Scenarios", () => {
@@ -13,7 +14,7 @@ describe("Log Exporter Scenarios", () => {
     const scenario = new LogBasicScenario();
     let ingest: Envelope[] = [];
 
-    before(() => {
+    beforeAll(() => {
       nock("https://dc.services.visualstudio.com")
         .post("/v2.1/track", (body: Envelope[]) => {
           // todo: gzip is not supported by generated applicationInsightsClient
@@ -27,27 +28,17 @@ describe("Log Exporter Scenarios", () => {
       scenario.prepare();
     });
 
-    after(() => {
+    afterAll(() => {
       scenario.cleanup();
       nock.cleanAll();
       ingest = [];
     });
 
-    it("should work", (done) => {
-      scenario
-        .run()
-        .then(() => {
-          // promisify doesn't work on this, so use callbacks/done for now
-          return scenario.flush().then(() => {
-            assertLogExpectation(ingest, scenario.expectation);
-            assertCount(ingest, scenario.expectation);
-            done();
-            return;
-          });
-        })
-        .catch((e) => {
-          done(e);
-        });
+    it("should work", async () => {
+      await scenario.run();
+      await scenario.flush();
+      assertLogExpectation(ingest, scenario.expectation);
+      assertCount(ingest, scenario.expectation);
     });
   });
 });

@@ -3,15 +3,15 @@
 
 /* eslint-disable no-underscore-dangle*/
 
-import * as fs from "fs";
-import * as path from "path";
+import * as fs from "node:fs";
+import * as path from "node:path";
 import type {
   BrowserSdkLoaderOptions,
   AzureMonitorOpenTelemetryOptions,
   InstrumentationOptions,
-} from "../types";
+} from "../types.js";
 import type { AzureMonitorExporterOptions } from "@azure/monitor-opentelemetry-exporter";
-import { Logger } from "./logging";
+import { Logger } from "./logging/index.js";
 
 const ENV_CONFIGURATION_FILE = "APPLICATIONINSIGHTS_CONFIGURATION_FILE";
 const ENV_CONTENT = "APPLICATIONINSIGHTS_CONFIGURATION_CONTENT";
