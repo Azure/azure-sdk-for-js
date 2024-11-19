@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-/* eslint-disable no-invalid-this */
+
 import { WebPubSubServiceClient, odata } from "../src/index.js";
 import { isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import ws from "ws";
