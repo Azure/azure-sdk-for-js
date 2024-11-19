@@ -4,6 +4,8 @@
 
 ### Features Added
 
+- Added support for three optional properties to support `quantizedFlat` and `diskANN` vector indexing policies. The properties are: `quantizationByteSize`, `vectorIndexShardKey` and `indexingSearchListSize`.
+
 ### Breaking Changes
 
 ### Bugs Fixed
