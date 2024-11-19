@@ -1338,6 +1338,25 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/app-configuration@1.8.0:
+    resolution: {integrity: sha512-RO4IGZMa3hI1yVhvb5rPr+r+UDxe4VDxbntFZIc5fsUPGqZbKzmGR2wABEtlrC2SU5YX6tL+NS3xWb4vf1M9lQ==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/abort-controller': 2.1.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-http-compat': 2.1.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-paging': 1.6.2
+      '@azure/core-rest-pipeline': 1.18.0
+      '@azure/core-tracing': 1.2.0
+      '@azure/core-util': 1.11.0
+      '@azure/logger': 1.1.4
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/arm-compute@21.6.0:
     resolution: {integrity: sha512-Qk6kxoqMgzOvceUBqD1WTHrPh/iaxlTLQPp241u3iNVOE4FVSTqSzTxjG1tr/UL1rBWGvoLPZExUFddo+Qd5KQ==}
     engines: {node: '>=18.0.0'}
@@ -1452,6 +1471,11 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/core-asynciterator-polyfill@1.0.2:
+    resolution: {integrity: sha512-3rkP4LnnlWawl0LZptJOdXNrT/fHp2eQMadoasa6afspXdpGrtPZuAQc2PD0cpgyuoXtUWyC3tv7xfntjGS5Dw==}
+    engines: {node: '>=12.0.0'}
+    dev: false
+
   /@azure/core-auth@1.9.0:
     resolution: {integrity: sha512-FPwHpZywuyasDSLMqJ6fhbOK3TqUdviZNF8OqRGA4W5Ewib2lEEZ+pBsYcBa88B2NGO/SEnYPGhyBqNlE8ilSw==}
     engines: {node: '>=18.0.0'}
@@ -1485,6 +1509,30 @@ packages:
       '@azure/core-rest-pipeline': 1.18.0
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@azure/core-http@1.2.6:
+    resolution: {integrity: sha512-odtH7UMKtekc5YQ86xg9GlVHNXR6pq2JgJ5FBo7/jbOjNGdBqcrIVrZx2bevXVJz/uUTSx6vUf62gzTXTfqYSQ==}
+    engines: {node: '>=8.0.0'}
+    deprecated: This package is no longer supported. Please migrate to use @azure/core-rest-pipeline
+    dependencies:
+      '@azure/abort-controller': 1.1.0
+      '@azure/core-asynciterator-polyfill': 1.0.2
+      '@azure/core-auth': 1.9.0
+      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/logger': 1.1.4
+      '@types/node-fetch': 2.6.12
+      '@types/tunnel': 0.0.1
+      form-data: 3.0.2
+      node-fetch: 2.7.0
+      process: 0.11.10
+      tough-cookie: 4.1.4
+      tslib: 2.8.1
+      tunnel: 0.0.6
+      uuid: 8.3.2
+      xml2js: 0.4.23
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@azure/core-lro@2.7.2:
@@ -1534,6 +1582,15 @@ packages:
     resolution: {integrity: sha512-KSSdIKy8kvWCpYr8Hzpu22j3wcXsVTYE0IlgmI1T/aHvBDsLgV91y90UTfVWnuiuApRLCCVC4gS09ApBGOmYQA==}
     engines: {node: '>=18.0.0'}
     dependencies:
+      tslib: 2.8.1
+    dev: false
+
+  /@azure/core-tracing@1.0.0-preview.11:
+    resolution: {integrity: sha512-frF0pJc9HTmKncVokhBxCqipjbql02DThQ1ZJ9wLi7SDMLdPAFyDI5xZNzX5guLz+/DtPkY+SGK2li9FIXqshQ==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      '@opencensus/web-types': 0.0.7
+      '@opentelemetry/api': 1.0.0-rc.0
       tslib: 2.8.1
     dev: false
 
@@ -1742,6 +1799,19 @@ packages:
       tslib: 2.8.1
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /@azure/template@1.0.11:
+    resolution: {integrity: sha512-C3cRndvh39WU3zI1GrXxTzAsGXjMa9CvOtizT9/6HFwnHx6wLkByV4fBU4Y9k8pivwcw63/rV6eNpeGkUua3ag==}
+    engines: {node: '>=8.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.9.0
+      '@azure/core-http': 1.2.6
+      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/logger': 1.1.4
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - encoding
     dev: false
 
   /@azure/web-pubsub-client@1.0.0-beta.2:
@@ -2783,6 +2853,11 @@ packages:
     resolution: {integrity: sha512-U69T3ItWHvLwGg5eJ0n3I62nWuE6ilHlmz7zM0npLBRvPRd7e6NYmg54vvRtP5mZG7kZqZCFVdsTWo7BPtBujg==}
     dev: false
 
+  /@opencensus/web-types@0.0.7:
+    resolution: {integrity: sha512-xB+w7ZDAu3YBzqH44rCmG9/RlrOmFuDPt/bpf17eJr8eZSrLt7nc7LnWdxM9Mmoj/YKMHpxRg28txu3TcpiL+g==}
+    engines: {node: '>=6.0'}
+    dev: false
+
   /@opentelemetry/api-logs@0.54.2:
     resolution: {integrity: sha512-4MTVwwmLgUh5QrJnZpYo6YRO5IBLAggf2h8gWDblwRagDStY13aEvt7gGk3jewrMaPlHiF83fENhIx0HO97/cQ==}
     engines: {node: '>=14'}
@@ -2795,6 +2870,11 @@ packages:
     engines: {node: '>=14'}
     dependencies:
       '@opentelemetry/api': 1.9.0
+    dev: false
+
+  /@opentelemetry/api@1.0.0-rc.0:
+    resolution: {integrity: sha512-iXKByCMfrlO5S6Oh97BuM56tM2cIBB0XsL/vWF/AtJrJEKx4MC/Xdu0xDsGXMGcNWpqF7ujMsjjnp0+UHBwnDQ==}
+    engines: {node: '>=8.0.0'}
     dev: false
 
   /@opentelemetry/api@1.9.0:
@@ -4057,6 +4137,12 @@ packages:
 
   /@types/trusted-types@2.0.7:
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
+    dev: false
+
+  /@types/tunnel@0.0.1:
+    resolution: {integrity: sha512-AOqu6bQu5MSWwYvehMXLukFHnupHrpZ8nvgae5Ggie9UwzDR1CCwoXgSSWNZJuyOlCdfdsWMA5F2LlmvyoTv8A==}
+    dependencies:
+      '@types/node': 18.19.64
     dev: false
 
   /@types/underscore@1.13.0:
@@ -5714,10 +5800,6 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
-  /edge-launcher@1.2.2:
-    resolution: {integrity: sha512-JcD5WBi3BHZXXVSSeEhl6sYO8g5cuynk/hifBzds2Bp4JdzCGLNMHgMCKu5DvrO1yatMgF0goFsxXRGus0yh1g==}
-    dev: false
-
   /ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
@@ -6572,6 +6654,15 @@ packages:
 
   /form-data-encoder@1.7.2:
     resolution: {integrity: sha512-qfqtYan3rxrnCk1VYaA4H+Ms9xdpPqvLZa6xmMgFvhO32x7/3J/ExcTd6qpxM0vH2GdMI+poehyBZvqfMTto8A==}
+    dev: false
+
+  /form-data@3.0.2:
+    resolution: {integrity: sha512-sJe+TQb2vIaIyO783qN6BlMYWMw3WBOHA1Ay2qxsnjuafEOQFJ2JakedOQirT6D5XPRxDvS7AHYyem9fTpb4LQ==}
+    engines: {node: '>= 6'}
+    dependencies:
+      asynckit: 0.4.0
+      combined-stream: 1.0.8
+      mime-types: 2.1.35
     dev: false
 
   /form-data@4.0.1:
@@ -7591,16 +7682,6 @@ packages:
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /karma-edge-launcher@0.4.2(karma@6.4.4):
-    resolution: {integrity: sha512-YAJZb1fmRcxNhMIWYsjLuxwODBjh2cSHgTW/jkVmdpGguJjLbs9ZgIK/tEJsMQcBLUkO+yO4LBbqYxqgGW2HIw==}
-    engines: {node: '>=4'}
-    peerDependencies:
-      karma: '>=0.9'
-    dependencies:
-      edge-launcher: 1.2.2
-      karma: 6.4.4
     dev: false
 
   /karma-env-preprocessor@0.1.1:
@@ -9590,6 +9671,10 @@ packages:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
     dev: false
 
+  /sax@1.4.1:
+    resolution: {integrity: sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==}
+    dev: false
+
   /seek-bzip@1.0.6:
     resolution: {integrity: sha512-e1QtP3YL5tWww8uKaOCQ18UxIT2laNBXHjV/S2WYCiK4udiv8lkG89KRIoCjUagnAmCBurjF4zEVX2ByBbnCjQ==}
     hasBin: true
@@ -10499,6 +10584,11 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
+  /tunnel@0.0.6:
+    resolution: {integrity: sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==}
+    engines: {node: '>=0.6.11 <=0.7.0 || >=0.7.3'}
+    dev: false
+
   /type-check@0.3.2:
     resolution: {integrity: sha512-ZCmOJdvOWDBYJlzAoFkC+Q0+bUyEOS1ltgp1MGU03fqHG+dbi9tBFU2Rd9QKiDZFAYrhPh2JUf7rZRIuHRKtOg==}
     engines: {node: '>= 0.8.0'}
@@ -11273,6 +11363,19 @@ packages:
         optional: true
       utf-8-validate:
         optional: true
+    dev: false
+
+  /xml2js@0.4.23:
+    resolution: {integrity: sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==}
+    engines: {node: '>=4.0.0'}
+    dependencies:
+      sax: 1.4.1
+      xmlbuilder: 11.0.1
+    dev: false
+
+  /xmlbuilder@11.0.1:
+    resolution: {integrity: sha512-fDlsI/kFEx7gLvbecc0/ohLG50fugQp8ryHzMTuW9vSa1GJ0XYWKnhsUx7oie3G98+r56aTQIUB4kht42R3JvA==}
+    engines: {node: '>=4.0'}
     dev: false
 
   /xmlbuilder@12.0.0:
@@ -21882,20 +21985,19 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-JFCNoKOfUy/Fpku2+O3FUNBUQizLMDZLTCA2LfIMd6O1RFZB8nddRc+x9VNhMhmPhIAaAhg03Z2iZLlTiHEJZw==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-kmbAc3bouxAlOjHvI8nrh8wa9dJShOSqRDKs84u6EZrIqLW0O/MO2ZLMMlMyIySWutUiiazwuYPvcGuczabYew==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
-      '@azure/app-configuration': 1.5.0-beta.2
+      '@azure/app-configuration': 1.8.0
+      '@azure/template': 1.0.11
       '@types/node': 18.19.64
       dotenv: 16.4.5
       eslint: 9.15.0
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - encoding
       - jiti
       - supports-color
     dev: false
@@ -22927,44 +23029,39 @@ packages:
     dev: false
 
   file:projects/template-dpg.tgz:
-    resolution: {integrity: sha512-wYF0Ghijqe5ChRQ1Mm3WPgFCrVjGItpUywmLmFcIjFev16RdOA0aQf3YpC6tvVBZHM00vuW+GJ+aEpAdUL9ZAQ==, tarball: file:projects/template-dpg.tgz}
+    resolution: {integrity: sha512-UJwkAC81L049EHeAKs0ou6XCuvhFYRC0eddCEuuTg5a9/y65Jm/zVZQm9WieV/cIgQVUcQSH6zz/4Fg7jqnvvg==, tarball: file:projects/template-dpg.tgz}
     name: '@rush-temp/template-dpg'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
-      chai: 4.3.10
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-edge-launcher: 0.4.2(karma@6.4.4)
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 2.1.3
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
-      puppeteer: 23.8.0(typescript@5.6.3)
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      util: 0.12.5
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/template.tgz:
