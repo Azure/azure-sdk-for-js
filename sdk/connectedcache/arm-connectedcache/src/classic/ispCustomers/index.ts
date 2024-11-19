@@ -18,10 +18,7 @@ import {
   IspCustomersListByResourceGroupOptionalParams,
   IspCustomersListBySubscriptionOptionalParams,
 } from "../../api/options.js";
-import {
-  ConnectedCachePatchResource,
-  IspCustomerResource,
-} from "../../models/models.js";
+import { ConnectedCachePatchResource, IspCustomerResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -64,23 +61,13 @@ export interface IspCustomersOperations {
   ) => PagedAsyncIterableIterator<IspCustomerResource>;
 }
 
-export function getIspCustomers(
-  context: ConnectedCacheContext,
-  subscriptionId: string,
-) {
+export function getIspCustomers(context: ConnectedCacheContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,
       customerResourceName: string,
       options?: IspCustomersGetOptionalParams,
-    ) =>
-      ispCustomersGet(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        customerResourceName,
-        options,
-      ),
+    ) => ispCustomersGet(context, subscriptionId, resourceGroupName, customerResourceName, options),
     createOrUpdate: (
       resourceGroupName: string,
       customerResourceName: string,
@@ -114,26 +101,13 @@ export function getIspCustomers(
       customerResourceName: string,
       options?: IspCustomersDeleteOptionalParams,
     ) =>
-      ispCustomersDelete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        customerResourceName,
-        options,
-      ),
+      ispCustomersDelete(context, subscriptionId, resourceGroupName, customerResourceName, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: IspCustomersListByResourceGroupOptionalParams,
-    ) =>
-      ispCustomersListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
-    listBySubscription: (
-      options?: IspCustomersListBySubscriptionOptionalParams,
-    ) => ispCustomersListBySubscription(context, subscriptionId, options),
+    ) => ispCustomersListByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    listBySubscription: (options?: IspCustomersListBySubscriptionOptionalParams) =>
+      ispCustomersListBySubscription(context, subscriptionId, options),
   };
 }
 

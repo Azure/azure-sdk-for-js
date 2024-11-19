@@ -14,12 +14,11 @@ async function getsRequiredPropertiesForEnterpriseMccCacheNodeResourceInstallKey
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
-  const result =
-    await client.enterpriseMccCacheNodesOperations.getCacheNodeInstallDetails(
-      "rgConnectedCache",
-      "fzwxcjmdpxxzayecabqqlh",
-      "ccexmqqttritxvtctivraso",
-    );
+  const result = await client.enterpriseMccCacheNodesOperations.getCacheNodeInstallDetails(
+    "rgConnectedCache",
+    "fzwxcjmdpxxzayecabqqlh",
+    "ccexmqqttritxvtctivraso",
+  );
   console.log(result);
 }
 

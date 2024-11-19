@@ -18,10 +18,7 @@ import {
   EnterpriseMccCustomersListByResourceGroupOptionalParams,
   EnterpriseMccCustomersListBySubscriptionOptionalParams,
 } from "../../api/options.js";
-import {
-  ConnectedCachePatchResource,
-  EnterpriseMccCustomerResource,
-} from "../../models/models.js";
+import { ConnectedCachePatchResource, EnterpriseMccCustomerResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -39,10 +36,7 @@ export interface EnterpriseMccCustomersOperations {
     customerResourceName: string,
     resource: EnterpriseMccCustomerResource,
     options?: EnterpriseMccCustomersCreateOrUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<EnterpriseMccCustomerResource>,
-    EnterpriseMccCustomerResource
-  >;
+  ) => PollerLike<OperationState<EnterpriseMccCustomerResource>, EnterpriseMccCustomerResource>;
   /** This api updates an existing enterprise mcc customer resource */
   update: (
     resourceGroupName: string,
@@ -67,10 +61,7 @@ export interface EnterpriseMccCustomersOperations {
   ) => PagedAsyncIterableIterator<EnterpriseMccCustomerResource>;
 }
 
-export function getEnterpriseMccCustomers(
-  context: ConnectedCacheContext,
-  subscriptionId: string,
-) {
+export function getEnterpriseMccCustomers(context: ConnectedCacheContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,
@@ -134,14 +125,8 @@ export function getEnterpriseMccCustomers(
         resourceGroupName,
         options,
       ),
-    listBySubscription: (
-      options?: EnterpriseMccCustomersListBySubscriptionOptionalParams,
-    ) =>
-      enterpriseMccCustomersListBySubscription(
-        context,
-        subscriptionId,
-        options,
-      ),
+    listBySubscription: (options?: EnterpriseMccCustomersListBySubscriptionOptionalParams) =>
+      enterpriseMccCustomersListBySubscription(context, subscriptionId, options),
   };
 }
 

@@ -14,11 +14,9 @@ async function enterpriseMccCustomersUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
-  const result = await client.enterpriseMccCustomers.update(
-    "rgConnectedCache",
-    "MccRPTest1",
-    { tags: { key1878: "warz" } },
-  );
+  const result = await client.enterpriseMccCustomers.update("rgConnectedCache", "MccRPTest1", {
+    tags: { key1878: "warz" },
+  });
   console.log(result);
 }
 

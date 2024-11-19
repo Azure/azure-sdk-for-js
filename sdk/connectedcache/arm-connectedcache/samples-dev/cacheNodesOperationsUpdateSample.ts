@@ -14,11 +14,9 @@ async function cacheNodesPrivatePreviewLegacyUpdateOperationGeneratedByMaximumSe
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
-  const result = await client.cacheNodesOperations.update(
-    "rgConnectedCache",
-    "wlrwpdbcv",
-    { tags: { key5032: "esiuyjbpcwkpqriqiqztxuocv" } },
-  );
+  const result = await client.cacheNodesOperations.update("rgConnectedCache", "wlrwpdbcv", {
+    tags: { key5032: "esiuyjbpcwkpqriqiqztxuocv" },
+  });
   console.log(result);
 }
 

@@ -14,12 +14,11 @@ async function ispCacheNodeResourceGetInstallDetailsGeneratedByMaximumSetRule() 
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
-  const result =
-    await client.ispCacheNodesOperations.getCacheNodeInstallDetails(
-      "rgConnectedCache",
-      "MccRPTest1",
-      "MCCCachenode1",
-    );
+  const result = await client.ispCacheNodesOperations.getCacheNodeInstallDetails(
+    "rgConnectedCache",
+    "MccRPTest1",
+    "MCCCachenode1",
+  );
   console.log(result);
 }
 

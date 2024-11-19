@@ -15,9 +15,7 @@ async function cacheNodesPrivatePreviewLegacyGetOperationListByResourceGroupGene
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
   const resArray = new Array();
-  for await (let item of client.cacheNodesOperations.listByResourceGroup(
-    "rgConnectedCache",
-  )) {
+  for await (let item of client.cacheNodesOperations.listByResourceGroup("rgConnectedCache")) {
     resArray.push(item);
   }
 

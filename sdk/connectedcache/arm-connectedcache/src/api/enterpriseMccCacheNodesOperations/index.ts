@@ -135,10 +135,7 @@ export function enterpriseMccCacheNodesOperationsCreateOrUpdate(
   options: EnterpriseMccCacheNodesOperationsCreateOrUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<EnterpriseMccCacheNodeResource>,
-  EnterpriseMccCacheNodeResource
-> {
+): PollerLike<OperationState<EnterpriseMccCacheNodeResource>, EnterpriseMccCacheNodeResource> {
   return getLongRunningPoller(
     context,
     _enterpriseMccCacheNodesOperationsCreateOrUpdateDeserialize,
@@ -158,10 +155,7 @@ export function enterpriseMccCacheNodesOperationsCreateOrUpdate(
         ),
       resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<
-    OperationState<EnterpriseMccCacheNodeResource>,
-    EnterpriseMccCacheNodeResource
-  >;
+  ) as PollerLike<OperationState<EnterpriseMccCacheNodeResource>, EnterpriseMccCacheNodeResource>;
 }
 
 export function _enterpriseMccCacheNodesOperationsUpdateSend(
@@ -387,16 +381,13 @@ export async function enterpriseMccCacheNodesOperationsGetCacheNodeInstallDetail
     requestOptions: {},
   },
 ): Promise<MccCacheNodeInstallDetails> {
-  const result =
-    await _enterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsSend(
-      context,
-      subscriptionId,
-      resourceGroupName,
-      customerResourceName,
-      cacheNodeResourceName,
-      options,
-    );
-  return _enterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsDeserialize(
-    result,
+  const result = await _enterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsSend(
+    context,
+    subscriptionId,
+    resourceGroupName,
+    customerResourceName,
+    cacheNodeResourceName,
+    options,
   );
+  return _enterpriseMccCacheNodesOperationsGetCacheNodeInstallDetailsDeserialize(result);
 }

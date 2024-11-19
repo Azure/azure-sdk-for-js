@@ -7,23 +7,19 @@ import { OperationOptions } from "@azure-rest/core-client";
 export interface OperationsListOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EnterpriseCustomerOperationsGetOptionalParams
-  extends OperationOptions {}
+export interface EnterpriseCustomerOperationsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EnterpriseCustomerOperationsCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface EnterpriseCustomerOperationsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface EnterpriseCustomerOperationsUpdateOptionalParams
-  extends OperationOptions {}
+export interface EnterpriseCustomerOperationsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EnterpriseCustomerOperationsDeleteOptionalParams
-  extends OperationOptions {}
+export interface EnterpriseCustomerOperationsDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface EnterpriseCustomerOperationsListByResourceGroupOptionalParams
@@ -34,38 +30,31 @@ export interface EnterpriseCustomerOperationsListBySubscriptionOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CacheNodesOperationsGetOptionalParams
-  extends OperationOptions {}
+export interface CacheNodesOperationsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CacheNodesOperationsCreateorUpdateOptionalParams
-  extends OperationOptions {
+export interface CacheNodesOperationsCreateorUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface CacheNodesOperationsDeleteOptionalParams
-  extends OperationOptions {}
+export interface CacheNodesOperationsDeleteOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CacheNodesOperationsUpdateOptionalParams
-  extends OperationOptions {}
+export interface CacheNodesOperationsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CacheNodesOperationsListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface CacheNodesOperationsListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface CacheNodesOperationsListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface CacheNodesOperationsListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface IspCustomersGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface IspCustomersCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface IspCustomersCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -80,31 +69,25 @@ export interface IspCustomersDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface IspCustomersListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface IspCustomersListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface IspCustomersListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface IspCustomersListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface IspCacheNodesOperationsGetOptionalParams
-  extends OperationOptions {}
+export interface IspCacheNodesOperationsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface IspCacheNodesOperationsCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface IspCacheNodesOperationsCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface IspCacheNodesOperationsUpdateOptionalParams
-  extends OperationOptions {}
+export interface IspCacheNodesOperationsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface IspCacheNodesOperationsDeleteOptionalParams
-  extends OperationOptions {
+export interface IspCacheNodesOperationsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
@@ -114,46 +97,38 @@ export interface IspCacheNodesOperationsListByIspCustomerResourceOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface IspCacheNodesOperationsGetBgpCidrsOptionalParams
-  extends OperationOptions {}
+export interface IspCacheNodesOperationsGetBgpCidrsOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface IspCacheNodesOperationsGetCacheNodeInstallDetailsOptionalParams
   extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EnterpriseMccCustomersGetOptionalParams
-  extends OperationOptions {}
+export interface EnterpriseMccCustomersGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EnterpriseMccCustomersCreateOrUpdateOptionalParams
-  extends OperationOptions {
+export interface EnterpriseMccCustomersCreateOrUpdateOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface EnterpriseMccCustomersUpdateOptionalParams
-  extends OperationOptions {}
+export interface EnterpriseMccCustomersUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EnterpriseMccCustomersDeleteOptionalParams
-  extends OperationOptions {
+export interface EnterpriseMccCustomersDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }
 
 /** Optional parameters. */
-export interface EnterpriseMccCustomersListByResourceGroupOptionalParams
-  extends OperationOptions {}
+export interface EnterpriseMccCustomersListByResourceGroupOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EnterpriseMccCustomersListBySubscriptionOptionalParams
-  extends OperationOptions {}
+export interface EnterpriseMccCustomersListBySubscriptionOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EnterpriseMccCacheNodesOperationsGetOptionalParams
-  extends OperationOptions {}
+export interface EnterpriseMccCacheNodesOperationsGetOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
 export interface EnterpriseMccCacheNodesOperationsCreateOrUpdateOptionalParams
@@ -163,12 +138,10 @@ export interface EnterpriseMccCacheNodesOperationsCreateOrUpdateOptionalParams
 }
 
 /** Optional parameters. */
-export interface EnterpriseMccCacheNodesOperationsUpdateOptionalParams
-  extends OperationOptions {}
+export interface EnterpriseMccCacheNodesOperationsUpdateOptionalParams extends OperationOptions {}
 
 /** Optional parameters. */
-export interface EnterpriseMccCacheNodesOperationsDeleteOptionalParams
-  extends OperationOptions {
+export interface EnterpriseMccCacheNodesOperationsDeleteOptionalParams extends OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
 }

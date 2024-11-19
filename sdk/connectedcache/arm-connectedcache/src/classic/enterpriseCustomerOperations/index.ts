@@ -18,10 +18,7 @@ import {
   EnterpriseCustomerOperationsListByResourceGroupOptionalParams,
   EnterpriseCustomerOperationsListBySubscriptionOptionalParams,
 } from "../../api/options.js";
-import {
-  ConnectedCachePatchResource,
-  EnterprisePreviewResource,
-} from "../../models/models.js";
+import { ConnectedCachePatchResource, EnterprisePreviewResource } from "../../models/models.js";
 import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 
@@ -39,10 +36,7 @@ export interface EnterpriseCustomerOperationsOperations {
     customerResourceName: string,
     resource: EnterprisePreviewResource,
     options?: EnterpriseCustomerOperationsCreateOrUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<EnterprisePreviewResource>,
-    EnterprisePreviewResource
-  >;
+  ) => PollerLike<OperationState<EnterprisePreviewResource>, EnterprisePreviewResource>;
   /** updates an existing enterpriseCustomers */
   update: (
     resourceGroupName: string,
@@ -134,14 +128,8 @@ export function getEnterpriseCustomerOperations(
         resourceGroupName,
         options,
       ),
-    listBySubscription: (
-      options?: EnterpriseCustomerOperationsListBySubscriptionOptionalParams,
-    ) =>
-      enterpriseCustomerOperationsListBySubscription(
-        context,
-        subscriptionId,
-        options,
-      ),
+    listBySubscription: (options?: EnterpriseCustomerOperationsListBySubscriptionOptionalParams) =>
+      enterpriseCustomerOperationsListBySubscription(context, subscriptionId, options),
   };
 }
 

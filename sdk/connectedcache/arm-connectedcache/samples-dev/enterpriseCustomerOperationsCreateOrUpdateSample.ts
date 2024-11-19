@@ -14,20 +14,16 @@ async function enterpriseCustomerOperationsCreateOrUpdate() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
-  const result = await client.enterpriseCustomerOperations.createOrUpdate(
-    "rgConnectedCache",
-    "l",
-    {
-      properties: {
-        statusCode: "oldkroffqtkryqffpsi",
-        statusText: "bs",
-        statusDetails: "lhwvcz",
-        error: {},
-      },
-      tags: { key4215: "zjbszvlzf" },
-      location: "zdzhhkjyogrqxwihkifnmeyhwpujbr",
+  const result = await client.enterpriseCustomerOperations.createOrUpdate("rgConnectedCache", "l", {
+    properties: {
+      statusCode: "oldkroffqtkryqffpsi",
+      statusText: "bs",
+      statusDetails: "lhwvcz",
+      error: {},
     },
-  );
+    tags: { key4215: "zjbszvlzf" },
+    location: "zdzhhkjyogrqxwihkifnmeyhwpujbr",
+  });
   console.log(result);
 }
 

@@ -122,10 +122,7 @@ export function cacheNodesOperationsCreateorUpdate(
   options: CacheNodesOperationsCreateorUpdateOptionalParams = {
     requestOptions: {},
   },
-): PollerLike<
-  OperationState<CacheNodePreviewResource>,
-  CacheNodePreviewResource
-> {
+): PollerLike<OperationState<CacheNodePreviewResource>, CacheNodePreviewResource> {
   return getLongRunningPoller(
     context,
     _cacheNodesOperationsCreateorUpdateDeserialize,
@@ -144,10 +141,7 @@ export function cacheNodesOperationsCreateorUpdate(
         ),
       resourceLocationConfig: "azure-async-operation",
     },
-  ) as PollerLike<
-    OperationState<CacheNodePreviewResource>,
-    CacheNodePreviewResource
-  >;
+  ) as PollerLike<OperationState<CacheNodePreviewResource>, CacheNodePreviewResource>;
 }
 
 export function _cacheNodesOperationsDeleteSend(
@@ -336,12 +330,7 @@ export function cacheNodesOperationsListBySubscription(
 ): PagedAsyncIterableIterator<CacheNodePreviewResource> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _cacheNodesOperationsListBySubscriptionSend(
-        context,
-        subscriptionId,
-        options,
-      ),
+    () => _cacheNodesOperationsListBySubscriptionSend(context, subscriptionId, options),
     _cacheNodesOperationsListBySubscriptionDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },

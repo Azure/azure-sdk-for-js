@@ -14,11 +14,9 @@ async function ispCustomerUpdateDetailsGeneratedByMaximumSetRule() {
   const credential = new DefaultAzureCredential();
   const subscriptionId = "12345678-1234-1234-1234-123456789098";
   const client = new ConnectedCacheClient(credential, subscriptionId);
-  const result = await client.ispCustomers.update(
-    "rgConnectedCache",
-    "MccRPTest2",
-    { tags: { key1653: "nzjczrhclhkndesgy" } },
-  );
+  const result = await client.ispCustomers.update("rgConnectedCache", "MccRPTest2", {
+    tags: { key1653: "nzjczrhclhkndesgy" },
+  });
   console.log(result);
 }
 

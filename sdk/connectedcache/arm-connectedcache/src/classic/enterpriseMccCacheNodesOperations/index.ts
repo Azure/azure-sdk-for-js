@@ -42,10 +42,7 @@ export interface EnterpriseMccCacheNodesOperationsOperations {
     cacheNodeResourceName: string,
     resource: EnterpriseMccCacheNodeResource,
     options?: EnterpriseMccCacheNodesOperationsCreateOrUpdateOptionalParams,
-  ) => PollerLike<
-    OperationState<EnterpriseMccCacheNodeResource>,
-    EnterpriseMccCacheNodeResource
-  >;
+  ) => PollerLike<OperationState<EnterpriseMccCacheNodeResource>, EnterpriseMccCacheNodeResource>;
   /** This api updates an existing ispCacheNode resource */
   update: (
     resourceGroupName: string,

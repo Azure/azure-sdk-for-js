@@ -83,10 +83,7 @@ export interface IspCacheNodesOperationsOperations {
   ) => Promise<MccCacheNodeInstallDetails>;
 }
 
-export function getIspCacheNodesOperations(
-  context: ConnectedCacheContext,
-  subscriptionId: string,
-) {
+export function getIspCacheNodesOperations(context: ConnectedCacheContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,

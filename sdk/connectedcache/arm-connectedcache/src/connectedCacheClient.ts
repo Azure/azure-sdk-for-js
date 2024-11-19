@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  getOperationsOperations,
-  OperationsOperations,
-} from "./classic/operations/index.js";
+import { getOperationsOperations, OperationsOperations } from "./classic/operations/index.js";
 import {
   getEnterpriseCustomerOperationsOperations,
   EnterpriseCustomerOperationsOperations,
@@ -13,10 +10,7 @@ import {
   getCacheNodesOperationsOperations,
   CacheNodesOperationsOperations,
 } from "./classic/cacheNodesOperations/index.js";
-import {
-  getIspCustomersOperations,
-  IspCustomersOperations,
-} from "./classic/ispCustomers/index.js";
+import { getIspCustomersOperations, IspCustomersOperations } from "./classic/ispCustomers/index.js";
 import {
   getIspCacheNodesOperationsOperations,
   IspCacheNodesOperationsOperations,
@@ -60,26 +54,21 @@ export class ConnectedCacheClient {
     });
     this.pipeline = this._client.pipeline;
     this.operations = getOperationsOperations(this._client);
-    this.enterpriseCustomerOperations =
-      getEnterpriseCustomerOperationsOperations(this._client, subscriptionId);
-    this.cacheNodesOperations = getCacheNodesOperationsOperations(
+    this.enterpriseCustomerOperations = getEnterpriseCustomerOperationsOperations(
       this._client,
       subscriptionId,
     );
+    this.cacheNodesOperations = getCacheNodesOperationsOperations(this._client, subscriptionId);
     this.ispCustomers = getIspCustomersOperations(this._client, subscriptionId);
     this.ispCacheNodesOperations = getIspCacheNodesOperationsOperations(
       this._client,
       subscriptionId,
     );
-    this.enterpriseMccCustomers = getEnterpriseMccCustomersOperations(
+    this.enterpriseMccCustomers = getEnterpriseMccCustomersOperations(this._client, subscriptionId);
+    this.enterpriseMccCacheNodesOperations = getEnterpriseMccCacheNodesOperationsOperations(
       this._client,
       subscriptionId,
     );
-    this.enterpriseMccCacheNodesOperations =
-      getEnterpriseMccCacheNodesOperationsOperations(
-        this._client,
-        subscriptionId,
-      );
   }
 
   /** The operation groups for Operations */
