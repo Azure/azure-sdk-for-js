@@ -146,7 +146,7 @@ export interface DeletedKey {
     };
 }
 
-// @public (undocumented)
+// @public
 export type DeletionRecoveryLevel = string;
 
 // @public
@@ -352,8 +352,11 @@ export interface KeyVaultKeyIdentifier {
 // @public
 export type KeyWrapAlgorithm = "A128KW" | "A192KW" | "A256KW" | "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
-// @public (undocumented)
+// @public
 export enum KnownDeletionRecoveryLevel {
+    CustomizedRecoverable = "CustomizedRecoverable",
+    CustomizedRecoverableProtectedSubscription = "CustomizedRecoverable+ProtectedSubscription",
+    CustomizedRecoverablePurgeable = "CustomizedRecoverable+Purgeable",
     Purgeable = "Purgeable",
     Recoverable = "Recoverable",
     RecoverableProtectedSubscription = "Recoverable+ProtectedSubscription",
