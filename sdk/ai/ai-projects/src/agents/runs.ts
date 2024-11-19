@@ -13,13 +13,14 @@ export async function createRun(
   threadId: string,
   options: CreateRunParameters,
 ): Promise<ThreadRunOutput> {
-    const result = await context
+  options.body.stream = false;
+  const result = await context
     .path("/threads/{threadId}/runs", threadId)
     .post(options);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }
 
 /** Gets a list of runs for a specified thread. */
@@ -28,13 +29,13 @@ export async function listRuns(
   threadId: string,
   options?: ListRunsParameters,
 ): Promise<OpenAIPageableListOfThreadRunOutput> {
-    const result = await context
+  const result = await context
     .path("/threads/{threadId}/runs", threadId)
     .get(options);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }
 
 /** Gets an existing run from an existing thread. */
@@ -44,13 +45,13 @@ export async function getRun(
   runId: string,
   options?: GetRunParameters,
 ): Promise<ThreadRunOutput> {
-    const result = await context
+  const result = await context
     .path("/threads/{threadId}/runs/{runId}", threadId, runId)
     .get(options);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }
 
 /** Modifies an existing thread run. */
@@ -60,13 +61,13 @@ export async function updateRun(
   runId: string,
   options?: UpdateRunParameters,
 ): Promise<ThreadRunOutput> {
-    const result = await context
+  const result = await context
     .path("/threads/{threadId}/runs/{runId}", threadId, runId)
     .post(options);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }
 
 /** Submits outputs from tools as requested by tool calls in a run. Runs that need submitted tool outputs will have a status of 'requires_action' with a required_action.type of 'submit_tool_outputs'. */
@@ -74,15 +75,16 @@ export async function submitToolOutputsToRun(
   context: Client,
   threadId: string,
   runId: string,
-  options?: SubmitToolOutputsToRunParameters,
+  options: SubmitToolOutputsToRunParameters,
 ): Promise<ThreadRunOutput> {
-    const result = await context
+  options.body.stream = false;
+  const result = await context
     .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
     .post(options);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }
 
 /** Cancels a run of an in progress thread. */
@@ -92,13 +94,13 @@ export async function cancelRun(
   runId: string,
   options?: CancelRunParameters,
 ): Promise<ThreadRunOutput> {
-    const result = await context
+  const result = await context
     .path("/threads/{threadId}/runs/{runId}/cancel", threadId, runId)
     .post(options);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }
 
 /** Creates a new thread and immediately starts a run of that thread. */
@@ -106,9 +108,10 @@ export async function createThreadAndRun(
   context: Client,
   options: CreateThreadAndRunParameters,
 ): Promise<ThreadRunOutput> {
-    const result = await context.path("/threads/runs").post(options);
+  options.body.stream = false;
+  const result = await context.path("/threads/runs").post(options);
   if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
+    throw createRestError(result);
   }
-  return result.body; 
+  return result.body;
 }

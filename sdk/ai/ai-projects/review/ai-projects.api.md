@@ -18,6 +18,16 @@ export interface AgentDeletionStatusOutput {
 }
 
 // @public
+export interface AgentEventMessage {
+    data: AgentThreadOutput | ThreadRunOutput | RunStepOutput | ThreadMessageOutput | MessageDeltaChunk | RunStepDeltaChunk | string;
+    event: AgentStreamEventType | string;
+}
+
+// @public
+export interface AgentEventMessageStream extends AsyncDisposable, AsyncIterable<AgentEventMessage> {
+}
+
+// @public
 export interface AgentOutput {
     created_at: number;
     description: string | null;
@@ -92,10 +102,10 @@ export interface AgentsOperations {
     createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">) => Promise<AgentOutput>;
     createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     createRun: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
-    createRunStreaming: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => AsyncIterable<AgentStreamEventMessage>;
+    createRunStreaming: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
     createThread: (options?: AgentThreadCreationOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
     createThreadAndRun: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
-    createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => AsyncIterable<AgentStreamEventMessage>;
+    createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
     createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     deleteAgent: (assistantId: string) => Promise<AgentDeletionStatusOutput>;
     // Warning: (ae-forgotten-export) The symbol "DeleteFileParameters" needs to be exported by the entry point index.d.ts
@@ -124,8 +134,8 @@ export interface AgentsOperations {
     // Warning: (ae-forgotten-export) The symbol "ListVectorStoresQueryParamProperties" needs to be exported by the entry point index.d.ts
     listVectorStores: (options?: ListVectorStoresQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
-    // Warning: (ae-forgotten-export) The symbol "SubmitToolOutputsToRunParameters" needs to be exported by the entry point index.d.ts
-    submitToolOutputsToRun: (threadId: string, runId: string, options: SubmitToolOutputsToRunParameters) => Promise<ThreadRunOutput>;
+    submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, stream?: boolean | null, options?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
+    submitToolOutputsToRunStreaming: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, options?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
     updateAgent: (assistantId: string, options: UpdateAgentOptions) => Promise<AgentOutput>;
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
@@ -134,15 +144,7 @@ export interface AgentsOperations {
     uploadFile: (options: UploadFileParameters) => Promise<OpenAIFileOutput>;
 }
 
-// @public (undocumented)
-export interface AgentStreamEventMessage {
-    // (undocumented)
-    data: AgentThreadOutput | ThreadRunOutput | RunStepOutput | ThreadMessageOutput | MessageDeltaChunk | RunStepDeltaChunk | string;
-    // (undocumented)
-    event: AgentStreamEventType | string;
-}
-
-// @public (undocumented)
+// @public
 export type AgentStreamEventType = ThreadStreamEvent | RunStreamEvent | RunStepStreamEvent | MessageStreamEvent | ErrorEvent | DoneEvent;
 
 // @public
@@ -480,6 +482,9 @@ export type Frequency = string;
 export type FrequencyOutput = string;
 
 // @public
+export function fromFunctionDefinition(functionDefintion: FunctionDefinition): FunctionToolDefinition;
+
+// @public
 export interface FunctionDefinition {
     description?: string;
     name: string;
@@ -600,6 +605,11 @@ export interface InternalConnectionPropertiesSASAuthOutput extends InternalConne
     credentials: CredentialsSASAuthOutput;
     target: string;
 }
+
+// @public
+export function isOutputOfType<T extends {
+    type: string;
+}>(output: RequiredActionOutput | RequiredToolCallOutput | ToolDefinitionOutputParent, type: string): output is T;
 
 // @public
 export interface ListConnectionsResponseOutput {
