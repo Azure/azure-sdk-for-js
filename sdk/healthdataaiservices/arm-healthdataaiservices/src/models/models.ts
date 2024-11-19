@@ -18,9 +18,7 @@ export function _privateLinkResourceListResultDeserializer(
   };
 }
 
-export function privateLinkResourceArrayDeserializer(
-  result: Array<PrivateLinkResource>,
-): any[] {
+export function privateLinkResourceArrayDeserializer(result: Array<PrivateLinkResource>): any[] {
   return result.map((item) => {
     return privateLinkResourceDeserializer(item);
   });
@@ -32,9 +30,7 @@ export interface PrivateLinkResource extends ProxyResource {
   properties?: PrivateLinkResourceProperties;
 }
 
-export function privateLinkResourceDeserializer(
-  item: any,
-): PrivateLinkResource {
+export function privateLinkResourceDeserializer(item: any): PrivateLinkResource {
   return {
     id: item["id"],
     name: item["name"],
@@ -66,18 +62,18 @@ export function privateLinkResourcePropertiesDeserializer(
     requiredMembers: !item["requiredMembers"]
       ? item["requiredMembers"]
       : item["requiredMembers"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     requiredZoneNames: !item["requiredZoneNames"]
       ? item["requiredZoneNames"]
       : item["requiredZoneNames"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
   };
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource { }
+export interface ProxyResource extends Resource {}
 
 export function proxyResourceSerializer(item: ProxyResource): any {
   return item;
@@ -141,9 +137,7 @@ export function systemDataDeserializer(item: any): SystemData {
   return {
     createdBy: item["createdBy"],
     createdByType: item["createdByType"],
-    createdAt: !item["createdAt"]
-      ? item["createdAt"]
-      : new Date(item["createdAt"]),
+    createdAt: !item["createdAt"] ? item["createdAt"] : new Date(item["createdAt"]),
     lastModifiedBy: item["lastModifiedBy"],
     lastModifiedByType: item["lastModifiedByType"],
     lastModifiedAt: !item["lastModifiedAt"]
@@ -227,10 +221,9 @@ export function privateEndpointConnectionPropertiesSerializer(
     privateEndpoint: !item["privateEndpoint"]
       ? item["privateEndpoint"]
       : privateEndpointSerializer(item["privateEndpoint"]),
-    privateLinkServiceConnectionState:
-      privateLinkServiceConnectionStateSerializer(
-        item["privateLinkServiceConnectionState"],
-      ),
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateSerializer(
+      item["privateLinkServiceConnectionState"],
+    ),
   };
 }
 
@@ -241,15 +234,14 @@ export function privateEndpointConnectionPropertiesDeserializer(
     groupIds: !item["groupIds"]
       ? item["groupIds"]
       : item["groupIds"].map((p: any) => {
-        return p;
-      }),
+          return p;
+        }),
     privateEndpoint: !item["privateEndpoint"]
       ? item["privateEndpoint"]
       : privateEndpointDeserializer(item["privateEndpoint"]),
-    privateLinkServiceConnectionState:
-      privateLinkServiceConnectionStateDeserializer(
-        item["privateLinkServiceConnectionState"],
-      ),
+    privateLinkServiceConnectionState: privateLinkServiceConnectionStateDeserializer(
+      item["privateLinkServiceConnectionState"],
+    ),
     provisioningState: item["provisioningState"],
   };
 }
@@ -430,23 +422,17 @@ export interface DeidServiceProperties {
   publicNetworkAccess?: PublicNetworkAccess;
 }
 
-export function deidServicePropertiesSerializer(
-  item: DeidServiceProperties,
-): any {
+export function deidServicePropertiesSerializer(item: DeidServiceProperties): any {
   return { publicNetworkAccess: item["publicNetworkAccess"] };
 }
 
-export function deidServicePropertiesDeserializer(
-  item: any,
-): DeidServiceProperties {
+export function deidServicePropertiesDeserializer(item: any): DeidServiceProperties {
   return {
     provisioningState: item["provisioningState"],
     serviceUrl: item["serviceUrl"],
     privateEndpointConnections: !item["privateEndpointConnections"]
       ? item["privateEndpointConnections"]
-      : privateEndpointConnectionArrayDeserializer(
-        item["privateEndpointConnections"],
-      ),
+      : privateEndpointConnectionArrayDeserializer(item["privateEndpointConnections"]),
     publicNetworkAccess: item["publicNetworkAccess"],
   };
 }
@@ -498,9 +484,7 @@ export interface PrivateEndpointConnection extends Resource {
   properties?: PrivateEndpointConnectionProperties;
 }
 
-export function privateEndpointConnectionDeserializer(
-  item: any,
-): PrivateEndpointConnection {
+export function privateEndpointConnectionDeserializer(item: any): PrivateEndpointConnection {
   return {
     id: item["id"],
     name: item["name"],
@@ -529,18 +513,14 @@ export interface ManagedServiceIdentity {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentitySerializer(
-  item: ManagedServiceIdentity,
-): any {
+export function managedServiceIdentitySerializer(item: ManagedServiceIdentity): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
   };
 }
 
-export function managedServiceIdentityDeserializer(
-  item: any,
-): ManagedServiceIdentity {
+export function managedServiceIdentityDeserializer(item: any): ManagedServiceIdentity {
   return {
     principalId: item["principalId"],
     tenantId: item["tenantId"],
@@ -581,15 +561,11 @@ export interface UserAssignedIdentity {
   readonly clientId?: string;
 }
 
-export function userAssignedIdentitySerializer(
-  item: UserAssignedIdentity,
-): any {
+export function userAssignedIdentitySerializer(item: UserAssignedIdentity): any {
   return item;
 }
 
-export function userAssignedIdentityDeserializer(
-  item: any,
-): UserAssignedIdentity {
+export function userAssignedIdentityDeserializer(item: any): UserAssignedIdentity {
   return {
     principalId: item["principalId"],
     clientId: item["clientId"],
@@ -629,9 +605,7 @@ export interface _DeidServiceListResult {
   nextLink?: string;
 }
 
-export function _deidServiceListResultDeserializer(
-  item: any,
-): _DeidServiceListResult {
+export function _deidServiceListResultDeserializer(item: any): _DeidServiceListResult {
   return {
     value: deidServiceArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -644,9 +618,7 @@ export function deidServiceArraySerializer(result: Array<DeidService>): any[] {
   });
 }
 
-export function deidServiceArrayDeserializer(
-  result: Array<DeidService>,
-): any[] {
+export function deidServiceArrayDeserializer(result: Array<DeidService>): any[] {
   return result.map((item) => {
     return deidServiceDeserializer(item);
   });
@@ -682,9 +654,7 @@ export interface ManagedServiceIdentityUpdate {
   userAssignedIdentities?: Record<string, UserAssignedIdentity | null>;
 }
 
-export function managedServiceIdentityUpdateSerializer(
-  item: ManagedServiceIdentityUpdate,
-): any {
+export function managedServiceIdentityUpdateSerializer(item: ManagedServiceIdentityUpdate): any {
   return {
     type: item["type"],
     userAssignedIdentities: item["userAssignedIdentities"],
@@ -697,9 +667,7 @@ export interface DeidPropertiesUpdate {
   publicNetworkAccess?: PublicNetworkAccess;
 }
 
-export function deidPropertiesUpdateSerializer(
-  item: DeidPropertiesUpdate,
-): any {
+export function deidPropertiesUpdateSerializer(item: DeidPropertiesUpdate): any {
   return { publicNetworkAccess: item["publicNetworkAccess"] };
 }
 
@@ -711,9 +679,7 @@ export interface _OperationListResult {
   nextLink?: string;
 }
 
-export function _operationListResultDeserializer(
-  item: any,
-): _OperationListResult {
+export function _operationListResultDeserializer(item: any): _OperationListResult {
   return {
     value: operationArrayDeserializer(item["value"]),
     nextLink: item["nextLink"],
@@ -744,9 +710,7 @@ export function operationDeserializer(item: any): Operation {
   return {
     name: item["name"],
     isDataAction: item["isDataAction"],
-    display: !item["display"]
-      ? item["display"]
-      : operationDisplayDeserializer(item["display"]),
+    display: !item["display"] ? item["display"] : operationDisplayDeserializer(item["display"]),
     origin: item["origin"],
     actionType: item["actionType"],
   };

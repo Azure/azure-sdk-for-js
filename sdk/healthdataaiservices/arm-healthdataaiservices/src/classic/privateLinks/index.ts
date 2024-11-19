@@ -17,10 +17,7 @@ export interface PrivateLinksOperations {
   ) => PagedAsyncIterableIterator<PrivateLinkResource>;
 }
 
-export function getPrivateLinks(
-  context: HealthDataAIServicesContext,
-  subscriptionId: string,
-) {
+export function getPrivateLinks(context: HealthDataAIServicesContext, subscriptionId: string) {
   return {
     listByDeidService: (
       resourceGroupName: string,

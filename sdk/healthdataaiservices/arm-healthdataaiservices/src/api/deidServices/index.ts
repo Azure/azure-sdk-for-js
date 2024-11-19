@@ -117,13 +117,7 @@ export function deidServicesListByResourceGroup(
 ): PagedAsyncIterableIterator<DeidService> {
   return buildPagedAsyncIterator(
     context,
-    () =>
-      _deidServicesListByResourceGroupSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
+    () => _deidServicesListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
     _deidServicesListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -214,25 +208,20 @@ export function deidServicesCreate(
   resource: DeidService,
   options: DeidServicesCreateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DeidService>, DeidService> {
-  return getLongRunningPoller(
-    context,
-    _deidServicesCreateDeserialize,
-    ["200", "201"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _deidServicesCreateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          deidServiceName,
-          resource,
-          options,
-        ),
-      resourceLocationConfig: "azure-async-operation",
-    },
-  ) as PollerLike<OperationState<DeidService>, DeidService>;
+  return getLongRunningPoller(context, _deidServicesCreateDeserialize, ["200", "201"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _deidServicesCreateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        deidServiceName,
+        resource,
+        options,
+      ),
+    resourceLocationConfig: "azure-async-operation",
+  }) as PollerLike<OperationState<DeidService>, DeidService>;
 }
 
 export function _deidServicesUpdateSend(
@@ -276,25 +265,20 @@ export function deidServicesUpdate(
   properties: DeidUpdate,
   options: DeidServicesUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<DeidService>, DeidService> {
-  return getLongRunningPoller(
-    context,
-    _deidServicesUpdateDeserialize,
-    ["200", "202"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _deidServicesUpdateSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          deidServiceName,
-          properties,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<DeidService>, DeidService>;
+  return getLongRunningPoller(context, _deidServicesUpdateDeserialize, ["200", "202"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _deidServicesUpdateSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        deidServiceName,
+        properties,
+        options,
+      ),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<DeidService>, DeidService>;
 }
 
 export function _deidServicesDeleteSend(
@@ -314,9 +298,7 @@ export function _deidServicesDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _deidServicesDeleteDeserialize(
-  result: PathUncheckedResponse,
-): Promise<void> {
+export async function _deidServicesDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -333,22 +315,11 @@ export function deidServicesDelete(
   deidServiceName: string,
   options: DeidServicesDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(
-    context,
-    _deidServicesDeleteDeserialize,
-    ["202", "204", "200"],
-    {
-      updateIntervalInMs: options?.updateIntervalInMs,
-      abortSignal: options?.abortSignal,
-      getInitialResponse: () =>
-        _deidServicesDeleteSend(
-          context,
-          subscriptionId,
-          resourceGroupName,
-          deidServiceName,
-          options,
-        ),
-      resourceLocationConfig: "location",
-    },
-  ) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(context, _deidServicesDeleteDeserialize, ["202", "204", "200"], {
+    updateIntervalInMs: options?.updateIntervalInMs,
+    abortSignal: options?.abortSignal,
+    getInitialResponse: () =>
+      _deidServicesDeleteSend(context, subscriptionId, resourceGroupName, deidServiceName, options),
+    resourceLocationConfig: "location",
+  }) as PollerLike<OperationState<void>, void>;
 }

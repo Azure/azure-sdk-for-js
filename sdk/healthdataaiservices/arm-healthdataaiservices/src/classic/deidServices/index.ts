@@ -61,36 +61,19 @@ export interface DeidServicesOperations {
   ) => PollerLike<OperationState<void>, void>;
 }
 
-export function getDeidServices(
-  context: HealthDataAIServicesContext,
-  subscriptionId: string,
-) {
+export function getDeidServices(context: HealthDataAIServicesContext, subscriptionId: string) {
   return {
     get: (
       resourceGroupName: string,
       deidServiceName: string,
       options?: DeidServicesGetOptionalParams,
-    ) =>
-      deidServicesGet(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        options,
-      ),
+    ) => deidServicesGet(context, subscriptionId, resourceGroupName, deidServiceName, options),
     listByResourceGroup: (
       resourceGroupName: string,
       options?: DeidServicesListByResourceGroupOptionalParams,
-    ) =>
-      deidServicesListByResourceGroup(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        options,
-      ),
-    listBySubscription: (
-      options?: DeidServicesListBySubscriptionOptionalParams,
-    ) => deidServicesListBySubscription(context, subscriptionId, options),
+    ) => deidServicesListByResourceGroup(context, subscriptionId, resourceGroupName, options),
+    listBySubscription: (options?: DeidServicesListBySubscriptionOptionalParams) =>
+      deidServicesListBySubscription(context, subscriptionId, options),
     create: (
       resourceGroupName: string,
       deidServiceName: string,
@@ -123,14 +106,7 @@ export function getDeidServices(
       resourceGroupName: string,
       deidServiceName: string,
       options?: DeidServicesDeleteOptionalParams,
-    ) =>
-      deidServicesDelete(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        deidServiceName,
-        options,
-      ),
+    ) => deidServicesDelete(context, subscriptionId, resourceGroupName, deidServiceName, options),
   };
 }
 

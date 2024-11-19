@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  HealthDataAIServicesContext as Client,
-  OperationsListOptionalParams,
-} from "../index.js";
+import { HealthDataAIServicesContext as Client, OperationsListOptionalParams } from "../index.js";
 import {
   _OperationListResult,
   _operationListResultDeserializer,
