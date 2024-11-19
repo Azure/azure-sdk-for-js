@@ -31,19 +31,6 @@ export async function main(): Promise<void> {
 
     console.log(`Retrieved file, file ID : ${_file.id}`);
 
-    // Retrieve file content
-  const content = (await client.agents.getFileContent(file.id)).asNodeStream();
-  const chunks: Uint8Array[] = [];
-  let result;
-  while (!(result = await content.read(new Uint8Array(1024))).done) {
-    chunks.push(result.value);
-  }
-  const byteArray = Buffer.concat(chunks);
-  console.log(byteArray);
-  const decoder = new TextDecoder("utf-8");
-  const data = decoder.decode(byteArray);
-  console.log(`Retrieved file content : ${data}`);
-
     // Delete file
     await client.agents.deleteFile(file.id);
 

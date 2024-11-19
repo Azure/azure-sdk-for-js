@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client, createRestError, StreamableMethod } from "@azure-rest/core-client";
+import { Client, createRestError } from "@azure-rest/core-client";
 import { FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput } from "../generated/src/outputModels.js";
 import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListFilesParameters, UploadFileParameters } from "../generated/src/parameters.js";
 
@@ -66,9 +66,9 @@ export async function getFileContent(
   context: Client,
   fileId: string,
   options?: GetFileContentParameters,
-): Promise<StreamableMethod> {
+): Promise<string> {
   const result = await context
-    .path("/files/{fileId}", fileId)
+    .path("/files/{fileId}/content", fileId)
     .get(options);
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
