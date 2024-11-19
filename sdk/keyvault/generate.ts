@@ -46,15 +46,11 @@ const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 delete packageJson.dependencies["@azure/core-client"];
 packageJson.dependencies["@azure-rest/core-client"] = "^2.0.0";
 
-// Update @azure/core-lro to 3.0.0
-packageJson.dependencies["@azure/core-lro"] = "^3.0.0";
-
 // Write updated package.json back to disk
 fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2), "utf8");
 
 // Generated code changes
-// https://github.com/Azure/autorest.typescript/pull/2135/files
-// keyvault-keys/src/generated/models/models.ts changes:
+// Workaround for https://github.com/Azure/autorest.typescript/pull/2135/files
 const modelsPath = path.resolve("./src/generated/models/models.ts");
 let modelsContent = fs.readFileSync(modelsPath, "utf8");
 modelsContent = modelsContent
