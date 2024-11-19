@@ -4538,6 +4538,40 @@ packages:
       - vite
     dev: false
 
+  /@vitest/browser@2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5):
+    resolution: {integrity: sha512-JrpnxvkrjlBrF7oXbK/YytWVYfJIzWYeDKppANlUaisBKwDso+yXlWocAJrANx8gUxyirF355Yx80S+SKQqayg==}
+    peerDependencies:
+      playwright: '*'
+      safaridriver: '*'
+      vitest: 2.1.5
+      webdriverio: '*'
+    peerDependenciesMeta:
+      playwright:
+        optional: true
+      safaridriver:
+        optional: true
+      webdriverio:
+        optional: true
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 2.1.5(msw@2.6.4)
+      '@vitest/utils': 2.1.5
+      magic-string: 0.30.12
+      msw: 2.6.4(@types/node@18.19.64)(typescript@5.6.3)
+      playwright: 1.49.0
+      sirv: 3.0.0
+      tinyrainbow: 1.2.0
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
+      ws: 8.18.0
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+    dev: false
+
   /@vitest/coverage-istanbul@1.6.0(vitest@1.6.0):
     resolution: {integrity: sha512-h/BwpXehkkS0qsNCS00QxiupAqVkNi0WT19BR0dQvlge5oHghoSVLx63fABYFoKxVb7Ue7+k6V2KokmQ1zdMpg==}
     peerDependencies:
@@ -9351,12 +9385,28 @@ packages:
     hasBin: true
     dev: false
 
+  /playwright-core@1.49.0:
+    resolution: {integrity: sha512-R+3KKTQF3npy5GTiKH/T+kdhoJfJojjHESR1YEWhYuEKRVfVaxH3+4+GvXE5xyCngCxhxnykk0Vlah9v8fs3jA==}
+    engines: {node: '>=18'}
+    hasBin: true
+    dev: false
+
   /playwright@1.48.2:
     resolution: {integrity: sha512-NjYvYgp4BPmiwfe31j4gHLa3J7bD2WiBz8Lk2RoSsmX38SVIARZ18VYjxLjAcDsAhA+F4iSEXTSGgjua0rrlgQ==}
     engines: {node: '>=18'}
     hasBin: true
     dependencies:
       playwright-core: 1.48.2
+    optionalDependencies:
+      fsevents: 2.3.2
+    dev: false
+
+  /playwright@1.49.0:
+    resolution: {integrity: sha512-eKpmys0UFDnfNb3vfsf8Vx2LEOtflgRebl0Im2eQQnYMA4Aqd+Zw8bEOB+7ZKvN76901mRnqdsiOGKxzVTbi7A==}
+    engines: {node: '>=18'}
+    hasBin: true
+    dependencies:
+      playwright-core: 1.49.0
     optionalDependencies:
       fsevents: 2.3.2
     dev: false
@@ -23802,7 +23852,7 @@ packages:
     dev: false
 
   file:projects/template-dpg.tgz:
-    resolution: {integrity: sha512-wYF0Ghijqe5ChRQ1Mm3WPgFCrVjGItpUywmLmFcIjFev16RdOA0aQf3YpC6tvVBZHM00vuW+GJ+aEpAdUL9ZAQ==, tarball: file:projects/template-dpg.tgz}
+    resolution: {integrity: sha512-UJwkAC81L049EHeAKs0ou6XCuvhFYRC0eddCEuuTg5a9/y65Jm/zVZQm9WieV/cIgQVUcQSH6zz/4Fg7jqnvvg==, tarball: file:projects/template-dpg.tgz}
     name: '@rush-temp/template-dpg'
     version: 0.0.0
     dependencies:
@@ -23812,6 +23862,8 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.14.0
@@ -23827,19 +23879,33 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       puppeteer: 23.7.0(typescript@5.6.3)
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/template.tgz:
