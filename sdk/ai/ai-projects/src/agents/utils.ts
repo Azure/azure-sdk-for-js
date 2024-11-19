@@ -19,12 +19,12 @@ export function isOutputOfType<T extends { type: string }>(output: RequiredActio
 /**
  * Converts a function definition to a function tool definition.
  *
- * @param func - The function definition to convert.
+ * @param functionDefintion - The function definition to convert.
  * @returns The function tool definition.
  */
-export function fromFunctionDefinition(func: FunctionDefinition): FunctionToolDefinition {
+export function fromFunctionDefinition(functionDefintion: FunctionDefinition): FunctionToolDefinition {
     return {
         type: "function",
-        function: func
+        function: functionDefintion
     }
 }
