@@ -44,10 +44,6 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
     credential: TokenCredential,
     pipelineOptions: CryptographyClientOptions = {},
   ) {
-    const keyUrl = typeof key === "string" ? key : key.id!;
-    const vaultUrl = parseKeyVaultKeyIdentifier(keyUrl).vaultUrl;
-    this.client = getOrInitializeClient(vaultUrl, credential, pipelineOptions);
-
     this.key = key;
 
     let keyId: string;
@@ -70,6 +66,8 @@ export class RemoteCryptographyProvider implements CryptographyProvider {
       this.vaultUrl = parsed.vaultUrl;
       this.name = parsed.name;
       this.version = parsed.version ?? "";
+
+      this.client = getOrInitializeClient(this.vaultUrl, credential, pipelineOptions);
     } catch (err: any) {
       logger.error(err);
 

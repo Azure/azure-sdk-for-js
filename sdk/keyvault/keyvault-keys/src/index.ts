@@ -10,7 +10,8 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 
 import { KnownJsonWebKeyType } from "./generated/models/index.js";
-import { KeyVaultClient, KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
+import type { KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
+import { KeyVaultClient } from "./generated/keyVaultClient.js";
 import { SDK_VERSION } from "./constants.js";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 
