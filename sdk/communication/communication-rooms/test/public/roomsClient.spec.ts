@@ -4,13 +4,11 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createRecordedRoomsClient, createTestUser } from "./utils/recordedClient.js";
-import { assert, expect } from "chai";
-import type { Context } from "mocha";
-import sinon from "sinon";
 import type { RoomsClient } from "../../src/roomsClient.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import type { CreateRoomOptions, UpdateRoomOptions } from "../../src/models/options.js";
 import type { CommunicationRoom, RoomParticipantPatch } from "../../src/models/models.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("RoomsClient", function () {
   let recorder: Recorder;

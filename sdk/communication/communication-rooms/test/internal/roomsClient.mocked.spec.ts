@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import sinon from "sinon";
-import { assert } from "chai";
 import type { RoomsClient } from "../../src/index.js";
 import {
   createRoomsClient,
@@ -14,6 +11,7 @@ import {
   mockCreateRoomsWithPstnDialOutEnabledResult,
   mockUpdateRoomsWithPstnEnabledResult,
 } from "./utils/mockedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("[Mocked] RoomsClient", async function () {
   let roomsClient: RoomsClient;
