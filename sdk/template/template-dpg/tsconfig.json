@@ -2,25 +2,15 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure/template-dpg": [
-        "./src/index.js"
-      ]
+      "@azure/template-dpg": ["./src/index.js"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "lib": [
-      "esnext"
-    ],
+    "lib": ["esnext"],
     "rootDir": "."
   },
   "ts-node": {
     "esm": true
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.mts",
-    "src/**/*.cts",
-    "samples-dev/**/*.ts",
-    "test/**/*.ts"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "samples-dev/**/*.ts", "test/**/*.ts"]
 }
