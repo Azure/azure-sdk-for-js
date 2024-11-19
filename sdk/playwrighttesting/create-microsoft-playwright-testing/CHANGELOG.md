@@ -1,5 +1,15 @@
 # Release History
 
+## 1.0.0-beta.3 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.0-beta.2 (2024-11-19)
 
 This release improves compatibility with modern JavaScript environments by migrating the package to ECMAScript modules and Vitest
