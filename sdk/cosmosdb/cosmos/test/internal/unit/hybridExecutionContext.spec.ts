@@ -166,7 +166,7 @@ describe("hybridQueryExecutionContext", function () {
 
       // Stub the processComponentQueries and replacePlaceholders methods to assert that they are called
       const processComponentQueriesSpy = sinon.spy(context as any, "processComponentQueries");
-      const replacePlaceholdersSpy = sinon.spy(context as any, "replacePlaceholders");
+      const replacePlaceholdersSpy = sinon.spy(context as any, "replacePlaceholdersWorkaroud");
 
       // Call the initialize method
       await context["initialize"](diagnosticNode, sampleHeader);
@@ -247,7 +247,7 @@ describe("hybridQueryExecutionContext", function () {
 
       // Iterate through the array of queryTestCases
       queryTestCases.forEach(({ queryToTest, expectedQuery }) => {
-        const result = context["replacePlaceholdersWorkaroud"](queryToTest, stats1, 1);
+        const result = context["replacePlaceholdersWorkaroud"](queryToTest, stats1, 2);
 
         // Normalize both actual and expected queries by removing all whitespace
         const normalize = (str: string) => str.replace(/\s+/g, " ").trim();
