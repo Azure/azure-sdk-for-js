@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AuthenticationRecord, MsalAccountInfo, MsalToken, ValidMsalToken } from "./types";
-import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors";
-import { CredentialLogger, credentialLogger, formatError } from "../util/logging";
-import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
+import type { AuthenticationRecord, MsalAccountInfo, MsalToken, ValidMsalToken } from "./types.js";
+import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors.js";
+import type { CredentialLogger } from "../util/logging.js";
+import { credentialLogger, formatError } from "../util/logging.js";
+import { DefaultAuthorityHost, DefaultTenantId } from "../constants.js";
 import { randomUUID as coreRandomUUID, isNode, isNodeLike } from "@azure/core-util";
 
 import { AbortError } from "@azure/abort-controller";
-import { AzureLogLevel } from "@azure/logger";
-import { GetTokenOptions } from "@azure/core-auth";
-import { msalCommon } from "./msal";
+import type { AzureLogLevel } from "@azure/logger";
+import type { GetTokenOptions } from "@azure/core-auth";
+import { msalCommon } from "./msal.js";
 
 export interface ILoggerCallback {
   (level: msalCommon.LogLevel, message: string, containsPii: boolean): void;
@@ -225,17 +226,17 @@ export function handleMsalError(
 export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountInfo {
   // Purpose is to convert the `authority host` to `enviroment` which is essentially the doamin + top-level domain
   const matches = account.authority.match(/([a-z]+(\.[a-z]+)+)/);
-  // Ideally authority host should always be a valid url 
+  // Ideally authority host should always be a valid url
   // and it should never hit this case
-  if(matches == null){
-    throw new Error(`Invalid authority ${account.authority}`)
+  if (matches == null) {
+    throw new Error(`Invalid authority ${account.authority}`);
   }
   return {
     localAccountId: account.homeAccountId,
-    environment:  matches[0],
+    environment: matches[0],
     username: account.username,
     homeAccountId: account.homeAccountId,
-    tenantId: account.tenantId
+    tenantId: account.tenantId,
   };
 }
 

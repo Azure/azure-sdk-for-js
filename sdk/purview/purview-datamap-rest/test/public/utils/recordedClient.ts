@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "mocha";
-import PurviewDataMap, { PurviewDataMapClient } from "../../../src";
-import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
+import type { PurviewDataMapClient } from "../../../src";
+import PurviewDataMap from "../../../src";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import "./env";
-import { ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://fakeAccount.purview.azure.com/",

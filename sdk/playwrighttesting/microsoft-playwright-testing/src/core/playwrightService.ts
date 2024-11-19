@@ -5,7 +5,7 @@ import { InternalEnvironmentVariables, ServiceAuth } from "../common/constants";
 import customerConfig from "../common/customerConfig";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig";
 import playwrightServiceEntra from "./playwrightServiceEntra";
-import {
+import type {
   PlaywrightServiceAdditionalOptions,
   PlaywrightConfig,
   PlaywrightConfigInput,
@@ -20,6 +20,7 @@ import {
   validatePlaywrightVersion,
   validateServiceUrl,
   exitWithFailureMessage,
+  getPackageVersion,
 } from "../utils/utils";
 
 /**
@@ -100,6 +101,7 @@ const getServiceConfig = (
         ),
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
+          "x-ms-package-version": `@azure/microsoft-playwright-testing/${getPackageVersion()}`,
         },
         timeout: playwrightServiceConfig.timeout,
         exposeNetwork: playwrightServiceConfig.exposeNetwork,
@@ -153,6 +155,7 @@ const getConnectOptions = async (
     options: {
       headers: {
         Authorization: `Bearer ${token}`,
+        "x-ms-package-version": `@azure/microsoft-playwright-testing/${getPackageVersion()}`,
       },
       timeout: playwrightServiceConfig.timeout,
       exposeNetwork: playwrightServiceConfig.exposeNetwork,

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ConfigurationSetting, ConfigurationSettingParam } from "./models.js";
-import { JsonSecretReferenceValue } from "./internal/jsonModels.js";
+import type { ConfigurationSetting, ConfigurationSettingParam } from "./models.js";
+import type { JsonSecretReferenceValue } from "./internal/jsonModels.js";
 import { logger } from "./logger.js";
 
 /**

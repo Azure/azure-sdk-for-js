@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
   MicrosoftTeamsUserIdentifier,
   MicrosoftTeamsAppIdentifier,
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
-import { CallConnectionStateModel } from "../generated/src";
+import type { CallConnectionStateModel } from "../generated/src";
 
 export {
   CallConnectionStateModel,

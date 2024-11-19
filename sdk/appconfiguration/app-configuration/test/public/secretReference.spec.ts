@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AddConfigurationSettingResponse,
   AppConfigurationClient,
   ConfigurationSetting,
   SecretReferenceValue,
+} from "../../src/index.js";
+import {
   isSecretReference,
   parseSecretReference,
   secretReferenceContentType,
 } from "../../src/index.js";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

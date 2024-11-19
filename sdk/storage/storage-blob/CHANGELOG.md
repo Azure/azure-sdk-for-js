@@ -1,14 +1,18 @@
 # Release History
 
-## 12.25.1 (Unreleased)
+## 12.26.0 (2024-11-13)
 
 ### Features Added
 
-### Breaking Changes
+- Includes all features released in 12.26.0-beta.1.
 
-### Bugs Fixed
+## 12.26.0-beta.1 (2024-10-15)
 
-### Other Changes
+### Features Added
+
+- Added support for service version 2025-01-05.
+- Added generateUserDelegationSasUrl() to BlobClient and ContainerClient.
+- Added BlobErrorCode.BlobAccessTierNotSupportedForAccountType enum value.
 
 ## 12.25.0 (2024-09-22)
 

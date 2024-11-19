@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DataType, IndexingMode, IndexKind } from "./index";
+import type { DataType, IndexingMode, IndexKind } from "./index";
 
 export interface IndexingPolicy {
   /** The indexing mode (consistent or lazy) {@link IndexingMode}. */
@@ -15,6 +15,8 @@ export interface IndexingPolicy {
   vectorIndexes?: VectorIndex[];
   /** An array of {@link CompositeIndexes} representing composite indexes to be included. */
   compositeIndexes?: CompositePath[][];
+  /** An array of {@link FullTextIndex} representing full text indexes to be included. */
+  fullTextIndexes?: FullTextIndex[];
 }
 
 /* The target data type of a spatial path */
@@ -95,4 +97,12 @@ export interface CompositePath {
   path: string;
   /** The order of the composite index, either "ascending" or "descending". */
   order: "ascending" | "descending";
+}
+
+/**
+ * Represents a full text index in the indexing policy.
+ */
+export interface FullTextIndex {
+  /** The path in the JSON document to index. */
+  path: string;
 }

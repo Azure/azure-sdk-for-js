@@ -5,10 +5,10 @@
 ```ts
 
 import { AbortError } from '@azure/abort-controller';
-import { HttpClient } from '@azure/core-rest-pipeline';
-import { Pipeline } from '@azure/core-rest-pipeline';
+import type { HttpClient } from '@azure/core-rest-pipeline';
+import type { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 export { AbortError }
 
@@ -634,6 +634,7 @@ export interface ContainerDefinition {
     computedProperties?: ComputedProperty[];
     conflictResolutionPolicy?: ConflictResolutionPolicy;
     defaultTtl?: number;
+    fullTextPolicy?: FullTextPolicy;
     geospatialConfig?: {
         type: GeospatialType;
     };
@@ -1095,6 +1096,23 @@ export class FeedResponse<TResource> {
     readonly resources: TResource[];
 }
 
+// @public
+export interface FullTextIndex {
+    path: string;
+}
+
+// @public
+export interface FullTextPath {
+    language: string;
+    path: string;
+}
+
+// @public
+export interface FullTextPolicy {
+    defaultLanguage: string;
+    fullTextPaths: FullTextPath[];
+}
+
 // @public (undocumented)
 export type GatewayStatistics = {
     activityId?: string;
@@ -1161,6 +1179,15 @@ export enum HTTPMethod {
     put = "PUT"
 }
 
+// @public
+export interface HybridSearchQueryInfo {
+    componentQueryInfos: QueryInfo[];
+    globalStatisticsQuery: string;
+    requiresGlobalStatistics: boolean;
+    skip: number;
+    take: number;
+}
+
 // @public (undocumented)
 export interface Index {
     // (undocumented)
@@ -1192,6 +1219,7 @@ export interface IndexingPolicy {
     automatic?: boolean;
     compositeIndexes?: CompositePath[][];
     excludedPaths?: IndexedPath[];
+    fullTextIndexes?: FullTextIndex[];
     includedPaths?: IndexedPath[];
     indexingMode?: keyof typeof IndexingMode;
     // (undocumented)
@@ -1452,10 +1480,11 @@ export type OperationWithItem = OperationBase & {
 
 // @public (undocumented)
 export interface PartitionedQueryExecutionInfo {
+    hybridSearchQueryInfo?: HybridSearchQueryInfo;
     // (undocumented)
     partitionedQueryExecutionInfoVersion: number;
     // (undocumented)
-    queryInfo: QueryInfo;
+    queryInfo?: QueryInfo;
     // (undocumented)
     queryRanges: QueryRange[];
 }

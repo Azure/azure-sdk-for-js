@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { GeneratedClient } from "./generated";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { GeneratedClient } from "./generated";
 import { base64decode } from "./utils/base64";
 
 export interface ContainerRegistryGetTokenOptions extends GetTokenOptions {

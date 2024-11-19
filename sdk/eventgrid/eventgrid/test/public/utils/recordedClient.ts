@@ -1,18 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Test } from "mocha";
+import type { Test } from "mocha";
 
-import {
-  assertEnvironmentVariable,
-  Recorder,
-  RecorderStartOptions,
-} from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 
-import { EventGridPublisherClient, InputSchema } from "../../../src";
+import type { InputSchema } from "../../../src";
+import { EventGridPublisherClient } from "../../../src";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AdditionalPolicyConfig } from "@azure/core-client";
-import { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
+import type { AdditionalPolicyConfig } from "@azure/core-client";
+import type { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
 
 export interface RecordedClient<T extends InputSchema> {
   client: EventGridPublisherClient<T>;

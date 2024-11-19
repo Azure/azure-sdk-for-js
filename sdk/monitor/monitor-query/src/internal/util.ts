@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { LogsQueryOptions } from "../models/publicLogsModels";
+import type { LogsQueryOptions } from "../models/publicLogsModels.js";
 
 /**
  * @internal

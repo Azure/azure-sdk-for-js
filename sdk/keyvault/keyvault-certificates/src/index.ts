@@ -5,12 +5,13 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { InternalClientPipelineOptions } from "@azure/core-client";
+import type { InternalClientPipelineOptions } from "@azure/core-client";
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log.js";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import type { PollOperationState } from "@azure/core-lro";
+import { PollerLike } from "@azure/core-lro";
 
 import {
   KeyVaultCertificate,
@@ -78,13 +79,15 @@ import {
   PollerLikeWithCancellation,
 } from "./certificatesModels.js";
 
-import {
+import type {
   GetCertificatesOptionalParams,
   GetCertificateIssuersOptionalParams,
   GetCertificateVersionsOptionalParams,
   SetCertificateIssuerOptionalParams,
-  BackupCertificateResult,
   GetDeletedCertificatesOptionalParams,
+} from "./generated/models/index.js";
+import {
+  BackupCertificateResult,
   IssuerParameters,
   IssuerCredentials,
   IssuerAttributes,
@@ -98,7 +101,7 @@ import {
   KeyUsageType,
 } from "./generated/models/index.js";
 import { KeyVaultClient } from "./generated/keyVaultClient.js";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 import { CreateCertificatePoller } from "./lro/create/poller.js";
 import { CertificateOperationPoller } from "./lro/operation/poller.js";

@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  HttpClient,
-  PipelineResponse,
-  createHttpHeaders,
-  createPipelineRequest,
-} from "@azure/core-rest-pipeline";
+import type { HttpClient, PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { TableTransaction, parseTransactionResponse } from "../../src/TableTransaction";
 import { TableClient } from "../../src/TableClient";
 import { assert } from "chai";

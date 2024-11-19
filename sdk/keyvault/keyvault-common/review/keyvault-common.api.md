@@ -4,8 +4,8 @@
 
 ```ts
 
-import { PipelinePolicy } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export function keyVaultAuthenticationPolicy(credential: TokenCredential, options?: KeyVaultAuthenticationPolicyOptions): PipelinePolicy;

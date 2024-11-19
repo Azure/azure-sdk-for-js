@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { LatLon } from "@azure/maps-common";
+import type { LatLon } from "@azure/maps-common";
 import { createMultiCollection } from "./createMultiCollection";
 
 /**

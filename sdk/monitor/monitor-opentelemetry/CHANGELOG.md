@@ -1,13 +1,21 @@
 # Release History
 
-## 1.7.2 (Unreleased)
+## 1.8.1 (Unreleased)
 
 ### Features Added
-- Support for Live Metrics Filtering
 
 ### Breaking Changes
 
 ### Bugs Fixed
+
+### Other Changes
+
+## 1.8.0 (2024-10-23)
+
+### Features Added
+- Changed live metrics CPU/Memory perf counter metrics to emit normalized process CPU and process physical memory bytes.
+- Support for Live Metrics Filtering.
+- Support parsing AAD Audience from the connection string for live metrics.
 
 ### Other Changes
 

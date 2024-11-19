@@ -8,8 +8,8 @@
 
 import { assert } from "chai";
 
-import { AnalyzedDocument } from "../../src/lro/analysis";
-import {
+import type { AnalyzedDocument } from "../../src/lro/analysis";
+import type {
   DocumentArrayField,
   DocumentDateField,
   DocumentField,

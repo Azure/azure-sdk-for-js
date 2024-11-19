@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { LatLon } from "@azure/maps-common";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { LatLon } from "@azure/maps-common";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { createPinsQuery, isUnexpected, MapsRenderClient } from "../../src";
+import type { Context } from "mocha";
+import type { MapsRenderClient } from "../../src";
+import { createPinsQuery, isUnexpected } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 describe("create pins query helper", () => {
