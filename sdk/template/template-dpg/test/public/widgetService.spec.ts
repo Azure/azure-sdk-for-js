@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { expect } from "chai";
-import type { Context } from "mocha";
 import { WidgetServiceClient } from "../../src/index.js";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
