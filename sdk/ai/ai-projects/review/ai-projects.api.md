@@ -124,8 +124,7 @@ export interface AgentsOperations {
     // Warning: (ae-forgotten-export) The symbol "ListVectorStoresQueryParamProperties" needs to be exported by the entry point index.d.ts
     listVectorStores: (options?: ListVectorStoresQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
-    // Warning: (ae-forgotten-export) The symbol "SubmitToolOutputsToRunParameters" needs to be exported by the entry point index.d.ts
-    submitToolOutputsToRun: (threadId: string, runId: string, options: SubmitToolOutputsToRunParameters) => Promise<ThreadRunOutput>;
+    submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, stream?: boolean | null, options?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
     updateAgent: (assistantId: string, options: UpdateAgentOptions) => Promise<AgentOutput>;
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
@@ -480,6 +479,9 @@ export type Frequency = string;
 export type FrequencyOutput = string;
 
 // @public
+export function fromFunctionDefinition(func: FunctionDefinition): FunctionToolDefinition;
+
+// @public
 export interface FunctionDefinition {
     description?: string;
     name: string;
@@ -600,6 +602,11 @@ export interface InternalConnectionPropertiesSASAuthOutput extends InternalConne
     credentials: CredentialsSASAuthOutput;
     target: string;
 }
+
+// @public
+export function isOutputOfType<T extends {
+    type: string;
+}>(output: RequiredActionOutput | RequiredToolCallOutput | ToolDefinitionOutputParent, type: string): output is T;
 
 // @public
 export interface ListConnectionsResponseOutput {

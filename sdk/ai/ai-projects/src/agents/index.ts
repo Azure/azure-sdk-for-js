@@ -4,13 +4,13 @@
 
 import { Client } from "@azure-rest/core-client";
 import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
-import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListAgentsQueryParamProperties, ListFilesParameters, ListMessagesQueryParamProperties, ListRunsQueryParamProperties, ListRunStepsQueryParamProperties, ListVectorStoresQueryParamProperties, SubmitToolOutputsToRunParameters, UploadFileParameters } from "../generated/src/parameters.js";
+import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListAgentsQueryParamProperties, ListFilesParameters, ListMessagesQueryParamProperties, ListRunsQueryParamProperties, ListRunStepsQueryParamProperties, ListVectorStoresQueryParamProperties, UploadFileParameters } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
 import { cancelRun, createRun, createThreadAndRun, getRun, listRuns, submitToolOutputsToRun, updateRun } from "./runs.js";
 import { createMessage, listMessages, updateMessage } from "./messages.js";
-import { AgentThreadCreationOptions, CreateAgentOptions, CreateAndRunThreadOptions, CreateRunOptions, ThreadMessageOptions, UpdateAgentOptions, UpdateAgentThreadOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
+import { AgentThreadCreationOptions, CreateAgentOptions, CreateAndRunThreadOptions, CreateRunOptions, ThreadMessageOptions, ToolOutput, UpdateAgentOptions, UpdateAgentThreadOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
 import { createRunStreaming, createThreadAndRunStreaming } from "./streaming.js";
 import { AgentStreamEventMessage } from "./streamingModels.js";
 import { UpdateMessageOptions } from "./messagesModels.js";
@@ -95,7 +95,9 @@ export interface AgentsOperations {
   submitToolOutputsToRun: (
     threadId: string,
     runId: string,
-    options: SubmitToolOutputsToRunParameters,
+    tool_outputs: Array<ToolOutput>,
+    stream?: boolean | null,
+    options?: OptionalRequestParameters,
   ) => Promise<ThreadRunOutput>;
   /** Cancels a run of an in progress thread. */
   cancelRun: (
@@ -236,8 +238,10 @@ function getAgents(context: Client): AgentsOperations {
       getRun(context, threadId, runId, requestParams),
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptions, requestParams?: OptionalRequestParameters) =>
       updateRun(context, threadId, runId, { ...requestParams, body: options ?? {} }),
-    submitToolOutputsToRun: (threadId: string, runId: string, options: SubmitToolOutputsToRunParameters) =>
-      submitToolOutputsToRun(context, threadId, runId, options),
+    submitToolOutputsToRun: (threadId: string, runId: string,     tool_outputs: Array<ToolOutput>,
+      stream?: boolean | null,
+      options?: OptionalRequestParameters,) =>
+      submitToolOutputsToRun(context, threadId, runId, { body: {tool_outputs, stream}, ...options }),
     cancelRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) =>
       cancelRun(context, threadId, runId, requestParams),
     createThreadAndRun: ( assistantId: string,

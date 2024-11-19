@@ -12,7 +12,7 @@ const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "
 export async function main(): Promise<void> {
     const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
-    const agent = await client.agents.createAgent({ model: "gpt-4-1106-preview", name: "my-assistant", instructions: "You are helpful agent" });
+    const agent = await client.agents.createAgent("gpt-4-1106-preview", { name: "my-assistant", instructions: "You are helpful agent" });
 
     console.log(`Created agent, agent ID : ${agent.id}`);
 
