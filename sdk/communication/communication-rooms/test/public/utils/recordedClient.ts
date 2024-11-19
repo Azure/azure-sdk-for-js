@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecorderStartOptions, SanitizerOptions } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
 import {
   Recorder,
   assertEnvironmentVariable,
@@ -65,7 +65,7 @@ const recorderOptions: RecorderStartOptions = {
   ],
 };
 
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   await recorder.setMatcher("HeaderlessMatcher");
@@ -73,9 +73,9 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedRoomsClient(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<RoomsClient>> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   const client = new RoomsClient(
     env.COMMUNICATION_CONNECTION_STRING_ROOMS ?? "",
@@ -88,9 +88,9 @@ export async function createRecordedRoomsClient(
 }
 
 export async function createRecordedRoomsClientWithToken(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<RoomsClient>> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(env.COMMUNICATION_CONNECTION_STRING_ROOMS ?? "").endpoint;
