@@ -3,4 +3,4 @@
 
 export { AvroReader } from "./AvroReader.js";
 export { AvroReadable } from "./AvroReadable.js";
-export { AvroReadableFromStream } from "./AvroReadableFromStream.js";
+export { AvroReadableFromBlob } from "./AvroReadableFromBlob.js";
