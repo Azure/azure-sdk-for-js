@@ -60,6 +60,7 @@ export {
   KeyVaultSecretIdentifier,
   parseKeyVaultSecretIdentifier,
   PollerLike,
+  PollOperationState,
   KeyVaultSecret,
   SecretProperties,
   SecretPollerOptions,

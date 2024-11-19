@@ -101,6 +101,8 @@ export function parseKeyVaultSecretIdentifier(id: string): KeyVaultSecretIdentif
 
 export { PollerLike }
 
+export { PollOperationState }
+
 // @public
 export interface PurgeDeletedSecretOptions extends coreClient.OperationOptions {
 }
