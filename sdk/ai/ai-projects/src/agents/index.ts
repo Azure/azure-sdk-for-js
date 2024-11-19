@@ -140,7 +140,7 @@ export interface AgentsOperations {
     purpose?: FilePurpose, requestParams?: OptionalRequestParameters
   ) => Promise<FileListResponseOutput>;
   /** Uploads a file for use by other operations. */
-  uploadFile: (content: ReadableStream |NodeJS.ReadableStream, purpose:FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters   
+  uploadFile: (data: ReadableStream |NodeJS.ReadableStream, purpose:FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters   
   ) => Promise<OpenAIFileOutput>
   /** Delete a previously uploaded file. */
   deleteFile: (

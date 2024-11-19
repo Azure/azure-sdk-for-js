@@ -126,7 +126,7 @@ export interface AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
-    uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
+    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
 }
 
 // @public (undocumented)
