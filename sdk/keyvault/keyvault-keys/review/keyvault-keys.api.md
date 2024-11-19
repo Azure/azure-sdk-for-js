@@ -385,7 +385,7 @@ export enum KnownEncryptionAlgorithms {
 // @public
 export enum KnownKeyCurveNames {
     P256 = "P-256",
-    P256_K = "P-256K",
+    P256K = "P-256K",
     P384 = "P-384",
     P521 = "P-521"
 }
@@ -421,7 +421,7 @@ export enum KnownKeyTypes {
 // @public
 export enum KnownSignatureAlgorithms {
     ES256 = "ES256",
-    ES256_K = "ES256K",
+    ES256K = "ES256K",
     ES384 = "ES384",
     ES512 = "ES512",
     PS256 = "PS256",
@@ -430,7 +430,7 @@ export enum KnownSignatureAlgorithms {
     RS256 = "RS256",
     RS384 = "RS384",
     RS512 = "RS512",
-    RSNULL = "RSNULL"
+    Rsnull = "RSNULL"
 }
 
 // @public
