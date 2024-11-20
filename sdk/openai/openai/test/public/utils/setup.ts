@@ -28,7 +28,7 @@ function assertEnvironmentVariable(key: string): string {
   return value;
 }
 
-export default async function ({ provide }: GlobalSetupContext) {
+export default async function ({ provide }: GlobalSetupContext): Promise<() => void> {
   for (const key of Object.values(EnvVarKeys)) {
     provide(key, assertEnvironmentVariable(key));
   }
