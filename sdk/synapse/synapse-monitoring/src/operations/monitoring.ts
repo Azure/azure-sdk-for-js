@@ -6,18 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { Monitoring } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import { Monitoring } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MonitoringClient } from "../monitoringClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MonitoringClient } from "../monitoringClient.js";
 import {
   MonitoringGetSparkJobListOptionalParams,
   MonitoringGetSparkJobListResponse,
   MonitoringGetSqlJobQueryStringOptionalParams,
   MonitoringGetSqlJobQueryStringResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Monitoring operations. */
 export class MonitoringImpl implements Monitoring {

@@ -11,7 +11,7 @@ import {
   MonitoringGetSparkJobListResponse,
   MonitoringGetSqlJobQueryStringOptionalParams,
   MonitoringGetSqlJobQueryStringResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Monitoring. */
 export interface Monitoring {

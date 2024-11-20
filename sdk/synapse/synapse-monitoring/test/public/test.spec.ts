@@ -1,15 +1,15 @@
-import { MonitoringClient } from "../../src/monitoringClient";
+import { MonitoringClient } from "../../src/monitoringClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "@azure-tools/test-utils";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 import { Context } from "mocha";
 
 describe("Access Control smoke", () => {
   let recorder: Recorder;
   let client: MonitoringClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = await createRecorder(ctx);
     client = createClient({ recorder });
   });
 

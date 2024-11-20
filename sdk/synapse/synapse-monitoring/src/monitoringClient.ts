@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { MonitoringImpl } from "./operations";
-import { Monitoring } from "./operationsInterfaces";
-import { MonitoringClientOptionalParams } from "./models";
+import { MonitoringImpl } from "./operations/index.js";
+import { Monitoring } from "./operationsInterfaces/index.js";
+import { MonitoringClientOptionalParams } from "./models/index.js";
 
 export class MonitoringClient extends coreClient.ServiceClient {
   endpoint: string;

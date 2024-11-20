@@ -10,7 +10,7 @@ import {
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 
-import { MonitoringClient, MonitoringClientOptionalParams } from "../../../src";
+import { MonitoringClient, MonitoringClientOptionalParams } from "../../../src/index.js";
 
 const envSetupForPlayback: { [k: string]: string } = {
   ENDPOINT: "https://testaccount.dev.azuresynapse.net",
