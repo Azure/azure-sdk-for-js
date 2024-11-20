@@ -1,7 +1,10 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { assert } from "vitest";
-import { get, Metadata } from "./utils.js";
+import { get, type Metadata } from "./utils.js";
 import { getImageDimensionsFromResponse, getImageDimensionsFromString } from "./images.js";
-import {
+import type {
   AzureChatExtensionDataSourceResponseCitationOutput,
   AzureChatExtensionsMessageContextOutput,
   ContentFilterCitedDetectionResultOutput,
@@ -10,9 +13,9 @@ import {
   ContentFilterResultDetailsForPromptOutput,
   ContentFilterResultsForChoiceOutput,
   ContentFilterResultsForPromptOutput,
-} from "../../../src/types/index.js";
-import { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
-import {
+} from "../../../dist/esm/types/index.js";
+import type { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
+import type {
   Batch,
   BatchError,
   BatchRequestCounts,
@@ -25,13 +28,13 @@ import {
   CreateEmbeddingResponse,
   ImagesResponse,
 } from "openai/resources/index";
-import { ErrorModel } from "@azure-rest/core-client";
-import {
+import type { ErrorModel } from "@azure-rest/core-client";
+import type {
   ChatCompletion,
   ChatCompletionMessageToolCall,
 } from "openai/resources/chat/completions.mjs";
-import { Transcription } from "openai/resources/audio/transcriptions.mjs";
-import { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
+import type { Transcription } from "openai/resources/audio/transcriptions.mjs";
+import type { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
 
 export function assertAudioResult(responseFormat: AudioResultFormat, result: Transcription): void {
   switch (responseFormat) {
@@ -83,7 +86,7 @@ export function assertChatCompletions(
 
 function assertChatCompletionsNoUsage(
   completions: ChatCompletion,
-  { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions,
+  { allowEmptyChoices, ...opts }: ChatCompletionTestOptions,
 ): void {
   if (!allowEmptyChoices || completions.choices.length > 0) {
     assertNonEmptyArray(completions.choices, (choice) => assertChoice(choice, opts));
@@ -93,7 +96,7 @@ function assertChatCompletionsNoUsage(
 
 function assertChatCompletionsChunkNoUsage(
   completions: ChatCompletionChunk,
-  { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions,
+  { allowEmptyChoices, ...opts }: ChatCompletionTestOptions,
 ): void {
   if (!allowEmptyChoices || completions.choices.length > 0) {
     assertNonEmptyArray(completions.choices, (choice) => assertChoice(choice, opts));
@@ -220,8 +223,8 @@ function assertChoice(
   if (stream) {
     const delta = (choice as ChatCompletionChunk.Choice).delta;
     // TODO: Relevant issue https://github.com/openai/openai-python/issues/1677
-    ifDefined(delta, (delta) => {
-      assertMessage(delta, options);
+    ifDefined(delta, (d) => {
+      assertMessage(d, options);
     });
     assert.isFalse("message" in choice);
   } else {
@@ -384,7 +387,7 @@ export function assertImagesWithJSON(image: ImagesResponse, height: number, widt
 export function assertEmbeddings(
   embeddings: CreateEmbeddingResponse,
   options?: EmbeddingTestOptions,
-) {
+): void {
   assert.isNotNull(embeddings.data);
   assert.equal(embeddings.data.length > 0, true);
   assert.isNotNull(embeddings.data[0].embedding);

@@ -4,8 +4,8 @@
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it, beforeAll } from "vitest";
 import { createClient } from "./utils/createClient.js";
-import { APIMatrix, APIVersion, DeploymentInfo } from "./utils/utils.js";
-import OpenAI, { AzureOpenAI } from "openai";
+import { APIMatrix, type APIVersion, type DeploymentInfo } from "./utils/utils.js";
+import type { OpenAI, AzureOpenAI } from "openai";
 import {
   assertChatCompletions,
   assertChatCompletionsList,
@@ -20,9 +20,9 @@ import {
   updateWithSucceeded,
   withDeployments,
 } from "./utils/utils.js";
-import { ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
+import { type ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
 import { completionsModelsToSkip, functionCallModelsToSkip } from "./utils/models.js";
-import "../../src/types/index.js";
+import "../../dist/esm/types/index.js";
 
 describe("Completions", function () {
   let deployments: DeploymentInfo[] = [];
@@ -364,7 +364,7 @@ describe("Completions", function () {
                   if (!content) assert.fail("Undefined content");
                   try {
                     JSON.parse(content);
-                  } catch (e) {
+                  } catch {
                     assert.fail(`Invalid JSON: ${content}`);
                   }
                 },

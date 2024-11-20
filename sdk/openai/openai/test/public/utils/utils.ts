@@ -3,8 +3,8 @@
 
 import { assert } from "vitest";
 import {
-  PipelineRequest,
-  PipelineResponse,
+  type PipelineRequest,
+  type PipelineResponse,
   RestError,
   createDefaultHttpClient,
   createEmptyPipeline,
@@ -21,9 +21,9 @@ import {
   EnvironmentVariableNamesForVision,
   EnvironmentVariableNamesForAudio,
 } from "./envVars.js";
-import { Run } from "openai/resources/beta/threads/runs/runs.mjs";
+import type { Run } from "openai/resources/beta/threads/runs/runs.mjs";
 import { createClientLogger } from "@azure/logger";
-import { AzureChatExtensionConfiguration } from "../../../src/types/models.js";
+import type { AzureChatExtensionConfiguration } from "../../../dist/esm/types/models.js";
 
 const logger = createClientLogger("openai");
 
