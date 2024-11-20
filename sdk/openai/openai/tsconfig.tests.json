@@ -4,11 +4,10 @@
     "target": "ES2023",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "./test",
     "lib": ["DOM"],
     "skipLibCheck": true,
     "noEmit": true,
     "composite": true
   },
-  "exclude": ["./src", "./samples", "./samples-dev", "vitest*.config.ts"]
+  "include": ["./test"]
 }

@@ -4,12 +4,11 @@
     "target": "ES2023",
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "./samples-dev",
     "paths": {
       "@azure/openai": ["./dist/esm/index.js"]
     },
     "noEmit": true,
     "composite": true
   },
-  "exclude": ["./src", "./test", "./samples", "vitest*.config.ts"]
+  "include": ["./samples-dev"]
 }

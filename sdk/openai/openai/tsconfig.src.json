@@ -6,5 +6,5 @@
     "rootDir": "./src",
     "composite": true
   },
-  "exclude": ["./test", "./samples", "./samples-dev", "vitest*.config.ts"]
+  "include": ["./src"]
 }
