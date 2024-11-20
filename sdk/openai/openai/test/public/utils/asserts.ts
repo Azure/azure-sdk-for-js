@@ -13,7 +13,7 @@ import type {
   ContentFilterResultDetailsForPromptOutput,
   ContentFilterResultsForChoiceOutput,
   ContentFilterResultsForPromptOutput,
-} from "../../../src/types/index.js";
+} from "@azure/openai/types";
 import type { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 import type {
   Batch,
