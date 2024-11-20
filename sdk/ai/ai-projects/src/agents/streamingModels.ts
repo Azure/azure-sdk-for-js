@@ -4,7 +4,7 @@
 import { MessageRole } from "../generated/src/models.js";
 import { AgentThreadOutput, RunStepOutput, ThreadMessageOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
 
-/*
+/**
 Each event in a server-sent events stream has an `event` and `data` property:
   
   ```
@@ -20,9 +20,11 @@ Each event in a server-sent events stream has an `event` and `data` property:
   `thread.message.completed` event.
   
   We may add additional events over time, so we recommend handling unknown events gracefully
-  in your code.*/
-  export interface AgentStreamEventMessage {
+  in your code.**/
+  export interface AgentEventMessage {
+    /** The data of the event. The data can be of type AgentThreadOutput, ThreadRunOutput, RunStepOutput, ThreadMessageOutput, MessageDeltaChunk,RunStepDeltaChunk  */
     data: AgentThreadOutput | ThreadRunOutput | RunStepOutput| ThreadMessageOutput | MessageDeltaChunk | RunStepDeltaChunk | string
+    /** The type of the event. */
     event: AgentStreamEventType | string;
   }
   
@@ -121,6 +123,9 @@ Each event in a server-sent events stream has an `event` and `data` property:
     Done= "done",
   }
   
+  /**
+    Represents the type of an agent stream event.
+   */
   export type AgentStreamEventType = 
     | ThreadStreamEvent
     | RunStreamEvent
@@ -408,4 +413,6 @@ export interface  MessageDeltaChunk {
     /** The file ID for the image. */
     fileId?: string;
   }
-  
+
+  /** Represents a stream of agent event message. */  
+  export interface AgentEventMessageStream extends AsyncDisposable, AsyncIterable<AgentEventMessage> { }
