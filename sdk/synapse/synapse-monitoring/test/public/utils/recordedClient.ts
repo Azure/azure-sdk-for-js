@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { Test } from "mocha";
-
 import {
   Recorder,
   RecorderStartOptions,

@@ -1,8 +1,7 @@
 import { MonitoringClient } from "../../src/monitoringClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "@azure-tools/test-utils";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-import { Context } from "mocha";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Access Control smoke", () => {
   let recorder: Recorder;
