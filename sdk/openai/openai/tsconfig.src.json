@@ -3,7 +3,6 @@
   "compilerOptions": {
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": "./src",
     "composite": true
   },
   "include": ["./src"]
