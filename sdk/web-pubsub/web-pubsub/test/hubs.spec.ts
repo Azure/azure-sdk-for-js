@@ -385,7 +385,7 @@ describe("HubClient", function () {
       // Recording not generated properly, so only run in live mode
       if (!isLiveMode()) this.skip();
       const dacClient = new WebPubSubServiceClient(
-        assertEnvironmentVariable("WPS_ENDPOINT"),
+        assertEnvironmentVariable("WPS_SOCKETIO_ENDPOINT"),
         credential,
         "simplechat",
         recorder.configureClientOptions({}),
