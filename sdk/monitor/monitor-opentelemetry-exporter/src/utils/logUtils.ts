@@ -46,7 +46,9 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   const instrumentationKey = ikey;
   const tags = createTagsFromLog(log);
   if (log.attributes[KnownContextTagKeys.AiOperationName]) {
-    tags[KnownContextTagKeys.AiOperationName] = log.attributes[KnownContextTagKeys.AiOperationName] as string;
+    tags[KnownContextTagKeys.AiOperationName] = log.attributes[
+      KnownContextTagKeys.AiOperationName
+    ] as string;
   }
   // eslint-disable-next-line prefer-const
   let [properties, measurements] = createPropertiesFromLog(log);
@@ -145,7 +147,7 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
           key === ATTR_EXCEPTION_TYPE ||
           key === ATTR_EXCEPTION_MESSAGE ||
           key === ATTR_EXCEPTION_STACKTRACE ||
-          key === KnownContextTagKeys.AiOperationName as string
+          key === (KnownContextTagKeys.AiOperationName as string)
         )
       ) {
         properties[key] = serializeAttribute(log.attributes[key]);

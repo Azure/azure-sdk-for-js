@@ -109,7 +109,9 @@ function createTagsFromSpan(span: ReadableSpan): Tags {
     }
   } else {
     if (span.attributes[KnownContextTagKeys.AiOperationName]) {
-      tags[KnownContextTagKeys.AiOperationName] = span.attributes[KnownContextTagKeys.AiOperationName] as string;
+      tags[KnownContextTagKeys.AiOperationName] = span.attributes[
+        KnownContextTagKeys.AiOperationName
+      ] as string;
     }
   }
   // TODO: Location IP TBD for non server spans
@@ -146,7 +148,7 @@ function createPropertiesFromSpanAttributes(attributes?: Attributes): {
           key === SEMATTRS_EXCEPTION_TYPE ||
           key === SEMATTRS_EXCEPTION_MESSAGE ||
           key === SEMATTRS_EXCEPTION_STACKTRACE ||
-          key === KnownContextTagKeys.AiOperationName as string
+          key === (KnownContextTagKeys.AiOperationName as string)
         )
       ) {
         properties[key] = serializeAttribute(attributes[key]);
