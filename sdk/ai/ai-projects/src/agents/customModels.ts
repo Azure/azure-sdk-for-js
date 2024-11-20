@@ -7,7 +7,7 @@ import { RequestParameters } from "@azure-rest/core-client"
 export type OptionalRequestParameters = Pick<RequestParameters, "headers"| "timeout"| "abortSignal"| "tracingOptions">
 
 /** Request options for list requests */
-export interface OpenAIListRequestOptions {
+export interface ListQueryParameters {
   /** A limit on the number of objects to be returned. Limit can range between 1 and 100, and the default is 20. */
   limit?: number;
 

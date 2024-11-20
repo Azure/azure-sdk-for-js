@@ -117,12 +117,12 @@ export interface AgentsOperations {
     getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) => Promise<RunStepOutput>;
     getThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
     getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
-    listAgents: (options?: OpenAIListRequestOptions) => Promise<OpenAIPageableListOfAgentOutput>;
+    listAgents: (options?: ListQueryParameters) => Promise<OpenAIPageableListOfAgentOutput>;
     listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) => Promise<FileListResponseOutput>;
-    listMessages: (threadId: string, runId?: string, options?: OpenAIListRequestOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadMessageOutput>;
-    listRuns: (threadId: string, options?: OpenAIListRequestOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadRunOutput>;
-    listRunSteps: (threadId: string, runId: string, options?: OpenAIListRequestOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfRunStepOutput>;
-    listVectorStores: (options?: OpenAIListRequestOptions, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
+    listMessages: (threadId: string, runId?: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadMessageOutput>;
+    listRuns: (threadId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadRunOutput>;
+    listRunSteps: (threadId: string, runId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfRunStepOutput>;
+    listVectorStores: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, stream?: boolean | null, options?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
     submitToolOutputsToRunStreaming: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, options?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
@@ -621,6 +621,14 @@ export interface ListConnectionsResponseOutput {
 }
 
 // @public
+export interface ListQueryParameters {
+    after?: string;
+    before?: string;
+    limit?: number;
+    order?: "asc" | "desc";
+}
+
+// @public
 export type ListSortOrder = string;
 
 // @public
@@ -921,14 +929,6 @@ export interface OpenAIFileOutput {
     purpose: FilePurposeOutput;
     status?: FileStateOutput;
     status_details?: string;
-}
-
-// @public
-export interface OpenAIListRequestOptions {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: "asc" | "desc";
 }
 
 // @public
