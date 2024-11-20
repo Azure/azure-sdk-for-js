@@ -113,5 +113,5 @@ New-AzKeyVaultRoleAssignment -HsmName $hsmName -RoleDefinitionName "Managed HSM 
 Log "Role assignments created for '$testApplicationOid'"
 
 Log "Associating managed identity with managed HSM"
-Update-AzKeyVaultManagedHsm -HsmName $hsmName -IdentityType "UserAssigned" -UserAssignedIdentityId $DeploymentOutputs["MANAGED_IDENTITY_ID"]
+Update-AzKeyVaultManagedHsm -HsmName $hsmName -ResourceGroupName $DeploymentOutputs["KEYVAULT_RESOURCE_GROUP"] -UserAssignedIdentity $DeploymentOutputs["MANAGED_IDENTITY_ID"]
 Log "Managed identity associated with managed HSM - backup and restore using managed identity is enabled"

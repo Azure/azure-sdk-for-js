@@ -7,10 +7,10 @@ import { isPlaybackMode } from "@azure-tools/test-recorder";
 import type { KeyVaultBackupClient } from "../../src/index.js";
 import { authenticate } from "./utils/authentication.js";
 import { testPollerProperties } from "./utils/recorder.js";
-import { getSasToken } from "./utils/common.js";
 import { delay } from "@azure/core-util";
 import type { KeyClient } from "@azure/keyvault-keys";
 import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { getEnvironmentVariable } from "./utils/common.js";
 
 describe("KeyVaultBackupClient", () => {
   let client: KeyVaultBackupClient;
@@ -24,8 +24,10 @@ describe("KeyVaultBackupClient", () => {
     client = authentication.backupClient;
     keyClient = authentication.keyClient;
     recorder = authentication.recorder;
-    const sasTokenData = getSasToken();
-    blobStorageUri = sasTokenData.blobStorageUri;
+    blobStorageUri = new URL(
+      getEnvironmentVariable("BLOB_CONTAINER_NAME"),
+      getEnvironmentVariable("BLOB_STORAGE_URI"),
+    ).href;
   });
 
   afterEach(async function () {
