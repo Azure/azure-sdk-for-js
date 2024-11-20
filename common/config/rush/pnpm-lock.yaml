@@ -16216,7 +16216,7 @@ packages:
     dev: false
 
   file:projects/arm-networkcloud.tgz:
-    resolution: {integrity: sha512-l7r7fIkcr84goO2xsF+iKLPcmZnVzQ3nYu8QvlOcaDYvhKUkdjI5Lf4hw1VNhfQNwukxb3WQy73OmbARaeNs0Q==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-qUQ3i4OVkfQE5+77nAfA8sPFS/alTvoo4UFkmbpRtUO7n+7uj9KfHYtC15iqdGG/KPJ36xSJUq/rH7veGqb4dg==, tarball: file:projects/arm-networkcloud.tgz}
     name: '@rush-temp/arm-networkcloud'
     version: 0.0.0
     dependencies:
@@ -16224,15 +16224,19 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
+      tsx: 4.19.2
       typescript: 5.6.3
+      uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
