@@ -263,7 +263,7 @@ function getAgents(context: Client): AgentsOperations {
     createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) =>
       createMessage(context, threadId, { ...requestParams, body: options }),
     listMessages: (threadId: string, runId?: string, options?: OpenAIListRequestOptions, requestParams?: OptionalRequestParameters) =>
-      listMessages(context, threadId, {...requestParams, queryParameters: { runId: runId, ...options }}),
+      listMessages(context, threadId, { ...requestParams, queryParameters: { runId: runId, ...options }}),
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) =>
       updateMessage(context, threadId, messageId, { ...requestParams, body: { ...options } }),
 
