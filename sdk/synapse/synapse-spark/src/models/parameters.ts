@@ -15,7 +15,7 @@ import {
   SparkBatchJobOptions as SparkBatchJobOptionsMapper,
   SparkSessionOptions as SparkSessionOptionsMapper,
   SparkStatementOptions as SparkStatementOptionsMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

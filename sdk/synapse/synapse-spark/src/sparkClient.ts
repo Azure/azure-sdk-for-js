@@ -9,9 +9,9 @@
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { SparkBatchImpl, SparkSessionOperationsImpl } from "./operations";
-import { SparkBatch, SparkSessionOperations } from "./operationsInterfaces";
-import { SparkClientOptionalParams } from "./models";
+import { SparkBatchImpl, SparkSessionOperationsImpl } from "./operations/index.js";
+import { SparkBatch, SparkSessionOperations } from "./operationsInterfaces/index.js";
+import { SparkClientOptionalParams } from "./models/index.js";
 
 /**
  * Represents the Synapse Spark client operations.

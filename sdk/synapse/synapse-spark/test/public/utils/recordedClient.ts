@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import "./env";
+import "./env.js";
 
 import {
   Recorder,  
   RecorderStartOptions,
   env
 } from "@azure-tools/test-recorder";
-import { SparkClient, SparkClientOptionalParams } from "../../../src";
+import { SparkClient, SparkClientOptionalParams } from "../../../src/index.js";
 import { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 

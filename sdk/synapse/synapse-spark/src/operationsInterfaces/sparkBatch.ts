@@ -15,7 +15,7 @@ import {
   SparkBatchGetSparkBatchJobOptionalParams,
   SparkBatchGetSparkBatchJobResponse,
   SparkBatchCancelSparkBatchJobOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SparkBatch. */
 export interface SparkBatch {

@@ -25,7 +25,7 @@ import {
   SparkSessionGetSparkStatementResponse,
   SparkSessionCancelSparkStatementOptionalParams,
   SparkSessionCancelSparkStatementResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SparkSessionOperations. */
 export interface SparkSessionOperations {

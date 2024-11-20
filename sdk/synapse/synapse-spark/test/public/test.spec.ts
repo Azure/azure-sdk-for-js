@@ -1,7 +1,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { SparkClient } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { SparkClient } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 
 describe("Synapse Managed Private Endpoints", () => {
   let recorder: Recorder;
