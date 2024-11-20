@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -6,27 +9,27 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   MonitoringGetSparkJobListOptionalParams,
   MonitoringGetSparkJobListResponse,
   MonitoringGetSqlJobQueryStringOptionalParams,
-  MonitoringGetSqlJobQueryStringResponse
+  MonitoringGetSqlJobQueryStringResponse,
 } from "../models/index.js";
 
 /** Interface representing a Monitoring. */
 export interface Monitoring {
   /**
    * Get list of spark applications for the workspace.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   getSparkJobList(
-    options?: MonitoringGetSparkJobListOptionalParams
+    options?: MonitoringGetSparkJobListOptionalParams,
   ): Promise<MonitoringGetSparkJobListResponse>;
   /**
    * Get SQL OD/DW Query for the workspace.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   getSqlJobQueryString(
-    options?: MonitoringGetSqlJobQueryStringOptionalParams
+    options?: MonitoringGetSqlJobQueryStringOptionalParams,
   ): Promise<MonitoringGetSqlJobQueryStringResponse>;
 }
