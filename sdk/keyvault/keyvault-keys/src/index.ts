@@ -9,11 +9,7 @@ import { logger } from "./log.js";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 
-import {
-  DeletionRecoveryLevel,
-  KnownDeletionRecoveryLevel,
-  KnownJsonWebKeyType,
-} from "./generated/models/index.js";
+import { DeletionRecoveryLevel, KnownDeletionRecoveryLevel } from "./generated/models/index.js";
 import type { KeyVaultClientOptionalParams } from "./generated/keyVaultClient.js";
 import { KeyVaultClient } from "./generated/keyVaultClient.js";
 import { SDK_VERSION } from "./constants.js";
@@ -330,7 +326,6 @@ export class KeyClient {
           },
           keyOps: options?.keyOps,
           keySize: options?.keySize,
-          // TODO: publicExponent?
           releasePolicy: options?.releasePolicy,
           tags: options?.tags,
         },
@@ -355,7 +350,7 @@ export class KeyClient {
    * @param options - The optional parameters.
    */
   public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey> {
-    const keyType = options?.hsm ? KnownKeyTypes.ECHSM : KnownJsonWebKeyType.EC;
+    const keyType = options?.hsm ? KnownKeyTypes.ECHSM : KnownKeyTypes.EC;
     return this.createKey(name, keyType, options);
   }
 
@@ -374,7 +369,7 @@ export class KeyClient {
    * @param options - The optional parameters.
    */
   public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey> {
-    const keyType = options?.hsm ? KnownKeyTypes.RSAHSM : KnownJsonWebKeyType.RSA;
+    const keyType = options?.hsm ? KnownKeyTypes.RSAHSM : KnownKeyTypes.RSA;
     return this.createKey(name, keyType, options);
   }
 
