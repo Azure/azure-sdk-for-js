@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, isLiveMode, assertEnvironmentVariable, isPlaybackMode, env } from "@azure-tools/test-recorder";
+import {
+  Recorder,
+  isLiveMode,
+  assertEnvironmentVariable,
+  isPlaybackMode,
+  env,
+} from "@azure-tools/test-recorder";
 import { WebPubSubServiceClient, AzureKeyCredential } from "../src/index.js";
 import recorderOptions from "./testEnv.js";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
@@ -20,7 +26,7 @@ describe("HubClient", () => {
         env.WPS_ENDPOINT = recorderOptions.envSetupForPlayback.WPS_ENDPOINT;
         env.WPS_API_KEY = recorderOptions.envSetupForPlayback.WPS_API_KEY;
       }
-    })
+    });
     const credential = createTestCredential();
     it("takes a connection string, hub name, and options", () => {
       assert.doesNotThrow(() => {
@@ -341,9 +347,8 @@ describe("HubClient", () => {
       assert.equal(tokenPayload.aud, client.endpoint + `clients/mqtt/hubs/${client.hubName}`);
     });
 
-    it("can generate default client tokens with DAC", async function () {
-      // Recording not generated properly, so only run in live mode
-      if (!isLiveMode()) this.skip();
+    // Recording not generated properly, so only run in live mode
+    it("can generate default client tokens with DAC", { skip: !isLiveMode() }, async () => {
       const dacClient = new WebPubSubServiceClient(
         assertEnvironmentVariable("WPS_ENDPOINT"),
         credential,
@@ -363,9 +368,7 @@ describe("HubClient", () => {
       assert.equal(tokenPayload.aud, client.endpoint + `client/hubs/${client.hubName}`);
     });
 
-    it("can generate client MQTT tokens with DAC", async function () {
-      // Recording not generated properly, so only run in live mode
-      if (!isLiveMode()) this.skip();
+    it("can generate client MQTT tokens with DAC", { skip: !isLiveMode() }, async () => {
       const dacClient = new WebPubSubServiceClient(
         assertEnvironmentVariable("WPS_ENDPOINT"),
         credential,
@@ -385,9 +388,7 @@ describe("HubClient", () => {
       assert.equal(tokenPayload.aud, client.endpoint + `clients/mqtt/hubs/${client.hubName}`);
     });
 
-    it("can generate client socketIO tokens with DAC", async function () {
-      // Recording not generated properly, so only run in live mode
-      if (!isLiveMode()) this.skip();
+    it("can generate client socketIO tokens with DAC", { skip: !isLiveMode() }, async () => {
       const dacClient = new WebPubSubServiceClient(
         assertEnvironmentVariable("WPS_SOCKETIO_ENDPOINT"),
         credential,
