@@ -737,13 +737,13 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
   };
 }
 
-/** Known values of {@link Origin} that the service accepts. */
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
-  /** user */
+  /** Indicates the operation is initiated by a user. */
   User = "user",
-  /** system */
+  /** Indicates the operation is initiated by a system. */
   System = "system",
-  /** user,system */
+  /** Indicates the operation is initiated by a user or system. */
   UserSystem = "user,system",
 }
 
@@ -752,9 +752,9 @@ export enum KnownOrigin {
  * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user** \
- * **system** \
- * **user,system**
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
  */
 export type Origin = string;
 
@@ -776,5 +776,5 @@ export type ActionType = string;
 /** Supported API versions for the Microsoft.HealthDataAIServices resource provider. */
 export enum KnownVersions {
   /** The 2024-09-20 version. */
-  v2024_09_20 = "2024-09-20",
+  V20240920 = "2024-09-20",
 }
