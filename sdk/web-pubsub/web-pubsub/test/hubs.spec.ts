@@ -1,18 +1,23 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { Recorder, isLiveMode, assertEnvironmentVariable, isPlaybackMode, env } from "@azure-tools/test-recorder";
 import { WebPubSubServiceClient, AzureKeyCredential } from "../src/index.js";
 import recorderOptions from "./testEnv.js";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach, beforeAll } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 expect.extend({ toSupportTracing });
 
 describe("HubClient", () => {
   describe("Constructing a HubClient", () => {
+    beforeAll(() => {
+      if (isPlaybackMode()) {
+        env = { ...env, ...recorderOptions.envSetupForPlayback };
+      }
+    })
     const credential = createTestCredential();
     it("takes a connection string, hub name, and options", () => {
       assert.doesNotThrow(() => {
