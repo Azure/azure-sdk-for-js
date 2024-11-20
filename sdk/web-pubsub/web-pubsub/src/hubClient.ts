@@ -976,10 +976,10 @@ export class WebPubSubServiceClient {
 
         let token: string;
         if (isTokenCredential(this.credential)) {
-          const response = await this.client.webPubSub.generateClientToken(
-            this.hubName,
-            updatedOptions,
-          );
+          const response = await this.client.webPubSub.generateClientToken(this.hubName, {
+            ...updatedOptions,
+            clientType: clientProtocol,
+          });
           token = response.token!;
         } else {
           const key = this.credential.key;
