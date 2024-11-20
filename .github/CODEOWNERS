@@ -405,6 +405,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/communication/arm-communication/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/connectedcache/arm-connectedcache/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/compute/arm-compute/      @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -914,6 +917,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/timeseriesinsights/arm-timeseriesinsights/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/terraform/arm-terraform/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/trafficmanager/arm-trafficmanager/ @qiaozha @MaryGao

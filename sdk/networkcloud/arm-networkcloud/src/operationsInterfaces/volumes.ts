@@ -17,8 +17,9 @@ import {
   VolumesCreateOrUpdateOptionalParams,
   VolumesCreateOrUpdateResponse,
   VolumesDeleteOptionalParams,
+  VolumesDeleteResponse,
   VolumesUpdateOptionalParams,
-  VolumesUpdateResponse
+  VolumesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +30,7 @@ export interface Volumes {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: VolumesListBySubscriptionOptionalParams
+    options?: VolumesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<Volume>;
   /**
    * Get a list of volumes in the provided resource group.
@@ -38,7 +39,7 @@ export interface Volumes {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: VolumesListByResourceGroupOptionalParams
+    options?: VolumesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<Volume>;
   /**
    * Get properties of the provided volume.
@@ -49,7 +50,7 @@ export interface Volumes {
   get(
     resourceGroupName: string,
     volumeName: string,
-    options?: VolumesGetOptionalParams
+    options?: VolumesGetOptionalParams,
   ): Promise<VolumesGetResponse>;
   /**
    * Create a new volume or update the properties of the existing one.
@@ -62,7 +63,7 @@ export interface Volumes {
     resourceGroupName: string,
     volumeName: string,
     volumeParameters: Volume,
-    options?: VolumesCreateOrUpdateOptionalParams
+    options?: VolumesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VolumesCreateOrUpdateResponse>,
@@ -80,7 +81,7 @@ export interface Volumes {
     resourceGroupName: string,
     volumeName: string,
     volumeParameters: Volume,
-    options?: VolumesCreateOrUpdateOptionalParams
+    options?: VolumesCreateOrUpdateOptionalParams,
   ): Promise<VolumesCreateOrUpdateResponse>;
   /**
    * Delete the provided volume.
@@ -91,8 +92,13 @@ export interface Volumes {
   beginDelete(
     resourceGroupName: string,
     volumeName: string,
-    options?: VolumesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: VolumesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VolumesDeleteResponse>,
+      VolumesDeleteResponse
+    >
+  >;
   /**
    * Delete the provided volume.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -102,8 +108,8 @@ export interface Volumes {
   beginDeleteAndWait(
     resourceGroupName: string,
     volumeName: string,
-    options?: VolumesDeleteOptionalParams
-  ): Promise<void>;
+    options?: VolumesDeleteOptionalParams,
+  ): Promise<VolumesDeleteResponse>;
   /**
    * Update tags associated with the provided volume.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -113,6 +119,6 @@ export interface Volumes {
   update(
     resourceGroupName: string,
     volumeName: string,
-    options?: VolumesUpdateOptionalParams
+    options?: VolumesUpdateOptionalParams,
   ): Promise<VolumesUpdateResponse>;
 }

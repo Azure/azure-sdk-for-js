@@ -2598,8 +2598,11 @@ export interface VectorEmbeddingPolicy {
 
 // @public
 export interface VectorIndex {
+    indexingSearchListSize?: number;
     path: string;
+    quantizationByteSize?: number;
     type: VectorIndexType;
+    vectorIndexShardKey?: string[];
 }
 
 // @public
