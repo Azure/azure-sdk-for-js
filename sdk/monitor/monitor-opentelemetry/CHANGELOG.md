@@ -21,7 +21,7 @@
 
 ### Other Changes
 
-- Update to using the logRecordProcessors property.
+- Update to using the logRecordProcessors property. 
 
 ## 1.7.1 (2024-09-13)
 
