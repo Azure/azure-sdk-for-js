@@ -6,7 +6,6 @@
 
 import { ClientOptions } from '@azure-rest/core-client';
 import { Paged } from '@azure/core-paging';
-import { Pipeline } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -162,8 +161,8 @@ export interface AgentThreadOutput {
 export class AIProjectsClient {
     constructor(endpointParam: string, subscriptionId: string, resourceGroupName: string, projectName: string, credential: TokenCredential, options?: AIProjectsClientOptions);
     readonly agents: AgentsOperations;
+    readonly connections: ConnectionsOperations;
     static fromConnectionString(connectionString: string, credential: TokenCredential, options?: AIProjectsClientOptions): AIProjectsClient;
-    readonly pipeline: Pipeline;
 }
 
 // @public (undocumented)
@@ -252,6 +251,14 @@ export interface CodeInterpreterToolResource {
 // @public
 export interface CodeInterpreterToolResourceOutput {
     file_ids?: string[];
+}
+
+// @public (undocumented)
+export interface ConnectionsOperations {
+    getConnection: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
+    getConnectionWithSecrets: (connectionName: string, requestParams?: OptionalRequestParameters) => Promise<GetConnectionResponseOutput>;
+    getWorkspace: (requestParams?: OptionalRequestParameters) => Promise<GetWorkspaceResponseOutput>;
+    listConnections: (options?: ListConnectionsQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<ListConnectionsResponseOutput>;
 }
 
 // @public
@@ -605,6 +612,13 @@ export interface InternalConnectionPropertiesSASAuthOutput extends InternalConne
 export function isOutputOfType<T extends {
     type: string;
 }>(output: RequiredActionOutput | RequiredToolCallOutput | ToolDefinitionOutputParent, type: string): output is T;
+
+// @public (undocumented)
+export interface ListConnectionsQueryParamProperties {
+    category?: ConnectionType;
+    includeAll?: boolean;
+    target?: string;
+}
 
 // @public
 export interface ListConnectionsResponseOutput {
