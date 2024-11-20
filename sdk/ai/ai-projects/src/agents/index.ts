@@ -20,24 +20,29 @@ export interface AgentsOperations {
   createAgent: (
     model: string,
     options?: Omit<CreateAgentOptions, "model">,
+    requestParams?: OptionalRequestParameters
   ) => Promise<AgentOutput>;
 
   /** Gets a list of agents that were previously created. */
   listAgents: (
     options?: ListQueryParameters,
+    requestParams?: OptionalRequestParameters
   ) => Promise<OpenAIPageableListOfAgentOutput>;
   /** Retrieves an existing agent. */
   getAgent: (
-    assistantId: string
+    assistantId: string,
+    requestParams?: OptionalRequestParameters
   ) => Promise<AgentOutput>;
   /** Modifies an existing agent. */
   updateAgent: (
     assistantId: string,
     options: UpdateAgentOptions,
+    requestParams?: OptionalRequestParameters
   ) => Promise<AgentOutput>;
   /** Deletes an agent. */
   deleteAgent: (
-    assistantId: string
+    assistantId: string,
+    requestParams?: OptionalRequestParameters
   ) => Promise<AgentDeletionStatusOutput>;
 
   /** Creates a new thread. Threads contain messages and can be run by agents. */
@@ -149,7 +154,7 @@ export interface AgentsOperations {
     purpose?: FilePurpose, requestParams?: OptionalRequestParameters
   ) => Promise<FileListResponseOutput>;
   /** Uploads a file for use by other operations. */
-  uploadFile: (data: ReadableStream |NodeJS.ReadableStream, purpose:FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters   
+  uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters
   ) => Promise<OpenAIFileOutput>
   /** Delete a previously uploaded file. */
   deleteFile: (
@@ -212,19 +217,21 @@ export interface AgentsOperations {
 
 function getAgents(context: Client): AgentsOperations {
   return {
-    createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">) =>
-      createAgent(context, { body: { ...options, model } }),
-    listAgents: (options?: ListQueryParameters) =>
-      listAgents(context, { queryParameters: options as Record<string, unknown> }),
-    getAgent: (assistantId: string) =>
-      getAgent(context, assistantId),
+    createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">, requestParams?: OptionalRequestParameters) =>
+      createAgent(context, { body: { ...options, model }, ...requestParams }),
+    listAgents: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) =>
+      listAgents(context, { queryParameters: options as Record<string, unknown>, ...requestParams }),
+    getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) =>
+      getAgent(context, assistantId, requestParams),
     updateAgent: (
       assistantId: string,
       options: UpdateAgentOptions,
-    ) => updateAgent(context, assistantId, { body: options }),
+      requestParams?: OptionalRequestParameters
+    ) => updateAgent(context, assistantId, { body: options, ...requestParams }),
     deleteAgent: (
-      assistantId: string
-    ) => deleteAgent(context, assistantId),
+      assistantId: string,
+      requestParams?: OptionalRequestParameters
+    ) => deleteAgent(context, assistantId, requestParams),
 
     createThread: (options?: AgentThreadCreationOptions, requestParams?: OptionalRequestParameters) =>
       createThread(context, { ...requestParams, body: { ...options } }),
@@ -263,15 +270,15 @@ function getAgents(context: Client): AgentsOperations {
     createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) =>
       createMessage(context, threadId, { ...requestParams, body: options }),
     listMessages: (threadId: string, runId?: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) =>
-      listMessages(context, threadId, { ...requestParams, queryParameters: { runId: runId, ...options }}),
+      listMessages(context, threadId, { ...requestParams, queryParameters: { runId: runId, ...options } }),
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) =>
       updateMessage(context, threadId, messageId, { ...requestParams, body: { ...options } }),
 
     listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) =>
-      listFiles(context, {...requestParams, body: {purpose } }),
+      listFiles(context, { ...requestParams, body: { purpose } }),
     uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) =>
       uploadFile(context, {
-        body: [{ name: "file" as const, body: content, filename: fileName }, {name: "purpose" as const, body: purpose}],
+        body: [{ name: "file" as const, body: content, filename: fileName }, { name: "purpose" as const, body: purpose }],
         ...(requestParams as { [key: string]: any; }),
         contentType: "multipart/form-data"
       }),

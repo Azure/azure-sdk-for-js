@@ -63,6 +63,15 @@ export interface FileSearchToolDefinitionDetails {
    * Note that the file search tool may output fewer than `max_num_results` results. See the file search tool documentation for more information.
    */
   max_num_results?: number;
+  ranking_options?: FileSearchRankingOptions;
+}
+
+/** Ranking options for file search. */
+export interface FileSearchRankingOptions {
+  /** File search ranker. */
+  ranker: string;
+  /** Ranker search threshold. */
+  score_threshold: number;
 }
 
 /** The input definition information for a function tool as used to configure an agent. */
@@ -149,6 +158,19 @@ export interface CodeInterpreterToolResource {
    * associated with the tool.
    */
   file_ids?: string[];
+  /** The data sources to be used. This option is mutually exclusive with fileIds. */
+  data_sources?: Array<VectorStoreDataSource>;
+}
+
+/**
+ * The structure, containing Azure asset URI path and the asset type of the file used as a data source
+ * for the enterprise file search.
+ */
+export interface VectorStoreDataSource {
+  /** Asset URI. */
+  uri: string;
+  /** The asset type * */
+  type: VectorStoreDataSourceAssetType;
 }
 
 /** A set of resources that are used by the `file_search` tool. */
@@ -158,6 +180,29 @@ export interface FileSearchToolResource {
    * store attached to the agent.
    */
   vector_store_ids?: string[];
+  /**
+   * The list of vector store configuration objects from Azure. This list is limited to one
+   * element. The only element of this list contains
+   * the list of azure asset IDs used by the search tool.
+   */
+  vector_stores?: Array<VectorStoreConfigurations>;
+}
+
+/** The structure, containing the list of vector storage configurations i.e. the list of azure asset IDs. */
+export interface VectorStoreConfigurations {
+  /** Name */
+  name: string;
+  /** Configurations */
+  configuration: VectorStoreConfiguration;
+}
+
+/**
+ * Vector storage configuration is the list of data sources, used when multiple
+ * files can be used for the enterprise file search.
+ */
+export interface VectorStoreConfiguration {
+  /** Data sources */
+  data_sources: Array<VectorStoreDataSource>;
 }
 
 /** A set of index resources used by the `azure_ai_search` tool. */
@@ -266,7 +311,9 @@ export interface ThreadMessageOptions {
 /** This describes to which tools a file has been attached. */
 export interface MessageAttachment {
   /** The ID of the file to attach to the message. */
-  file_id: string;
+  file_id?: string;
+  /** Azure asset ID. */
+  data_sources?: Array<VectorStoreDataSource>;
   /** The tools to add to this file. */
   tools: MessageAttachmentToolDefinition[];
 }
@@ -619,6 +666,8 @@ export interface VectorStoreOptions {
   file_ids?: string[];
   /** The name of the vector store. */
   name?: string;
+  /** The vector store configuration, used when vector store is created from Azure asset URIs. */
+  configuration?: VectorStoreConfiguration;
   /** Details on when this vector store expires */
   expires_after?: VectorStoreExpirationPolicy;
   /** The chunking strategy used to chunk the file(s). If not set, will use the auto strategy. Only applicable if file_ids is non-empty. */
@@ -806,6 +855,8 @@ export type InputData =
   | Dataset;
 /** Abstract data class for input data configuration. */
 export type Trigger = TriggerParent | RecurrenceTrigger | CronTrigger;
+/** Alias for VectorStoreDataSourceAssetType */
+export type VectorStoreDataSourceAssetType = "uri_asset" | "id_asset";
 /** Alias for AgentsApiResponseFormatMode */
 export type AgentsApiResponseFormatMode = string;
 /** Alias for ApiResponseFormat */
