@@ -152,6 +152,11 @@
     "src/queryExecutionContext/orderByComparator.ts",
     "src/utils/fixedSizePriorityQueue.ts",
     "src/utils/supportedQueryFeaturesBuilder.ts",
+    "src/documents/FullTextPolicy.ts",
+    "src/queryExecutionContext/Aggregators/GlobalStatisticsAggregator.ts",
+    "src/queryExecutionContext/hybridQueryExecutionContext.ts",
+    "src/request/globalStatistics.ts",
+    "src/request/hybridSearchQueryResult.ts",
     "test/public/common/TestHelpers.ts",
     "test/internal/session.spec.ts",
     "test/internal/unit/auth.spec.ts",
@@ -223,8 +228,11 @@
     "test/public/integration/nonStreamingOrderBy/nonStreamingOrderBy.spec.ts",
     "test/public/integration/nonStreamingOrderBy/nonStreamingDistinctOrderBy.spec.ts",
     "test/public/integration/client.retry.spec.ts",
-    "test/public/functional/vectorEmbeddingPolicy.spec.ts",
+    "test/public/integration/fullTextSearch.spec.ts",
+    "test/public/integration/text-3properties-1536dimensions-100documents.ts",
+    "test/public/functional/NonStreamingQueryPolicy.spec.ts",
     "test/public/functional/computedProperties.spec.ts",
-    "test/internal/unit/utils/nonStreamingOrderByPriorityQueue.spec.ts"
+    "test/internal/unit/utils/nonStreamingOrderByPriorityQueue.spec.ts",
+    "test/internal/unit/globalStatisticsAggregator.spec.ts"
   ]
 }

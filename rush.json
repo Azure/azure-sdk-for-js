@@ -2311,6 +2311,11 @@
       "packageName": "@azure/arm-terraform",
       "projectFolder": "sdk/terraform/arm-terraform",
       "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-connectedcache",
+      "projectFolder": "sdk/connectedcache/arm-connectedcache",
+      "versionPolicyName": "management"
     }
   ]
 }

@@ -69,7 +69,7 @@ Migrated code:
 ```typescript
 import { AzureOpenAI } from "openai";
 const deployment = "Your Azure OpenAI deployment";
-const apiVersion = "2024-08-01-preview";
+const apiVersion = "2024-10-21";
 const options = { azureADTokenProvider, deployment, apiVersion }
 const client = new AzureOpenAI(options);
 ```
@@ -548,4 +548,4 @@ The following table explores several type names from `@azure/openai` and shows t
 
 ## Azure types
 
-`AzureOpenAI` connects to the Azure OpenAI service and can call all the operations available in the service. However, the types of the requests and responses are inherited from the `OpenAI` and are not yet updated to reflect the additional features supported exclusively by the Azure OpenAI service. TypeScript users will need to import `"@azure/openai/types"` from `@azure/openai@2.0.0-beta.1` which will merge Azure-specific definitions into existing types. Examples in [the Migration examples](#migration-examples) section show how to do this.
+`AzureOpenAI` connects to the Azure OpenAI service and can call all the operations available in the service. However, the types of the requests and responses are inherited from the `OpenAI` and are not yet updated to reflect the additional features supported exclusively by the Azure OpenAI service. TypeScript users will need to import `"@azure/openai/types"` from `@azure/openai@latest` which will merge Azure-specific definitions into existing types. Examples in [the Migration examples](#migration-examples) section show how to do this.
