@@ -608,17 +608,17 @@ export interface InternalConnectionPropertiesSASAuthOutput extends InternalConne
     target: string;
 }
 
+// @public
+export function isOutputOfType<T extends {
+    type: string;
+}>(output: RequiredActionOutput | RequiredToolCallOutput | ToolDefinitionOutputParent, type: string): output is T;
+
 // @public (undocumented)
 export interface ListConnectionsQueryParamProperties {
     category?: ConnectionType;
     includeAll?: boolean;
     target?: string;
 }
-
-// @public
-export function isOutputOfType<T extends {
-    type: string;
-}>(output: RequiredActionOutput | RequiredToolCallOutput | ToolDefinitionOutputParent, type: string): output is T;
 
 // @public
 export interface ListConnectionsResponseOutput {
