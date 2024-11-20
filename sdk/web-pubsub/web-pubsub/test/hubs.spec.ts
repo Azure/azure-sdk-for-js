@@ -8,6 +8,7 @@ import type { FullOperationResponse, OperationOptions } from "@azure/core-client
 import { createTestCredential } from "@azure-tools/test-credential";
 import { describe, it, assert, expect, beforeEach, afterEach, beforeAll } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+import { parseJwt } from "./testUtils.js";
 
 expect.extend({ toSupportTracing });
 
@@ -15,7 +16,9 @@ describe("HubClient", () => {
   describe("Constructing a HubClient", () => {
     beforeAll(() => {
       if (isPlaybackMode()) {
-        env = { ...env, ...recorderOptions.envSetupForPlayback };
+        env.WPS_CONNECTION_STRING = recorderOptions.envSetupForPlayback.WPS_CONNECTION_STRING;
+        env.WPS_ENDPOINT = recorderOptions.envSetupForPlayback.WPS_ENDPOINT;
+        env.WPS_API_KEY = recorderOptions.envSetupForPlayback.WPS_API_KEY;
       }
     })
     const credential = createTestCredential();
