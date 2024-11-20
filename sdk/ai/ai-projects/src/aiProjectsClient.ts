@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import { TokenCredential } from "@azure/core-auth";
-import { Pipeline } from "@azure/core-rest-pipeline";
 import createClient, { ProjectsClientOptions } from "./generated/src/projectsClient.js";
 import { Client } from "@azure-rest/core-client";
 import { AgentsOperations, getAgentsOperations } from "./agents/index.js";
@@ -12,8 +11,7 @@ export interface AIProjectsClientOptions extends ProjectsClientOptions{
 
 export class AIProjectsClient {
   private _client: Client;
-  /** The pipeline used by this client to make requests */
-  public readonly pipeline: Pipeline;
+  private _connectionClient: Client;
 
   /*
    * @param endpointParam - The Azure AI Studio project endpoint, in the form `https://<azure-region>.api.azureml.ms` or `https://<private-link-guid>.<azure-region>.api.azureml.ms`, where <azure-region> is the Azure region where the project is deployed (e.g. westus) and <private-link-guid> is the GUID of the Enterprise private link.
@@ -30,6 +28,7 @@ export class AIProjectsClient {
     credential: TokenCredential,
     options: AIProjectsClientOptions = {},
   ) {
+    const connectionEndPoint = `https://management.azure.com/subscriptions/${subscriptionId}/resourceGroups/${resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/${projectName}`
     this._client = createClient(
       endpointParam,
       subscriptionId,
@@ -38,9 +37,13 @@ export class AIProjectsClient {
       credential,
       options,
     );
-    this.pipeline = this._client.pipeline;
+    this._connectionClient = createClient(endpointParam, subscriptionId,
+      resourceGroupName,
+      projectName,
+      credential,
+      {...options, endpoint:connectionEndPoint})
     this.agents = getAgentsOperations(this._client);
-    this.connections = getConnectionsOperations(this._client);
+    this.connections = getConnectionsOperations(this._connectionClient);
   }
 
   /**

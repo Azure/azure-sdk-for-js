@@ -12,7 +12,7 @@ export async function getWorkspace(
   context: Client,
   options?: GetWorkspaceParameters
 ): Promise<GetWorkspaceResponseOutput> {
-  const result = await context.path("").get(options);
+  const result = await context.path("/").get(options);
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
