@@ -2,19 +2,11 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure/synapse-monitoring": [
-        "./src/index"
-      ]
+      "@azure/synapse-monitoring": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.mts",
-    "src/**/*.cts",
-    "samples-dev/**/*.ts",
-    "test/**/*.ts"
-  ]
+  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "samples-dev/**/*.ts", "test/**/*.ts"]
 }
