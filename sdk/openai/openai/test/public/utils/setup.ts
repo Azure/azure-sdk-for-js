@@ -6,10 +6,10 @@ enum EnvVarKeys {
   AZURE_LOG_LEVEL = "AZURE_LOG_LEVEL",
 }
 declare module "vitest" {
-  type MyEnvVar = {
+  type MyEnvVarKey = {
     [K in keyof typeof EnvVarKeys]: string;
   };
-  export interface ProvidedContext extends MyEnvVar {}
+  export interface ProvidedContext extends MyEnvVarKey {}
 }
 
 const defaultLogLevel = "info";

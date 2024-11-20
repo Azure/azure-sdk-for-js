@@ -5803,6 +5803,10 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
+  /edge-launcher@1.2.2:
+    resolution: {integrity: sha512-JcD5WBi3BHZXXVSSeEhl6sYO8g5cuynk/hifBzds2Bp4JdzCGLNMHgMCKu5DvrO1yatMgF0goFsxXRGus0yh1g==}
+    dev: false
+
   /ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
@@ -7685,6 +7689,16 @@ packages:
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
+    dev: false
+
+  /karma-edge-launcher@0.4.2(karma@6.4.4):
+    resolution: {integrity: sha512-YAJZb1fmRcxNhMIWYsjLuxwODBjh2cSHgTW/jkVmdpGguJjLbs9ZgIK/tEJsMQcBLUkO+yO4LBbqYxqgGW2HIw==}
+    engines: {node: '>=4'}
+    peerDependencies:
+      karma: '>=0.9'
+    dependencies:
+      edge-launcher: 1.2.2
+      karma: 6.4.4
     dev: false
 
   /karma-env-preprocessor@0.1.1:
@@ -16216,7 +16230,7 @@ packages:
     dev: false
 
   file:projects/arm-networkcloud.tgz:
-    resolution: {integrity: sha512-qUQ3i4OVkfQE5+77nAfA8sPFS/alTvoo4UFkmbpRtUO7n+7uj9KfHYtC15iqdGG/KPJ36xSJUq/rH7veGqb4dg==, tarball: file:projects/arm-networkcloud.tgz}
+    resolution: {integrity: sha512-LaOlA/TKoXjoy4wZfzCOzFLQYEbbFJjQb4jqcf6UtfKWLloToXzmbjFc0UP00IeGSeDS2qAA4Q9hOZ1bx51/Gw==, tarball: file:projects/arm-networkcloud.tgz}
     name: '@rush-temp/arm-networkcloud'
     version: 0.0.0
     dependencies:
@@ -16229,14 +16243,12 @@ packages:
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       chai: 4.3.10
-      cross-env: 7.0.3
       dotenv: 16.4.5
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
       typescript: 5.6.3
-      uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -22038,6 +22050,7 @@ packages:
       '@types/node': 18.19.64
       dotenv: 16.4.5
       eslint: 9.15.0
+      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
@@ -23077,14 +23090,35 @@ packages:
     name: '@rush-temp/template-dpg'
     version: 0.0.0
     dependencies:
+      '@azure-rest/core-client': 1.4.0
+      '@azure-tools/test-credential': 1.3.1
+      '@azure-tools/test-recorder': 3.5.2
+      '@types/chai': 4.3.20
+      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
+      chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.15.0
+      karma: 6.4.4
+      karma-chrome-launcher: 3.2.0
+      karma-coverage: 2.2.1
+      karma-edge-launcher: 0.4.2(karma@6.4.4)
+      karma-env-preprocessor: 0.1.1
+      karma-firefox-launcher: 2.1.3
+      karma-junit-reporter: 2.0.1(karma@6.4.4)
+      karma-mocha: 2.0.1
+      karma-mocha-reporter: 2.2.5(karma@6.4.4)
+      karma-sourcemap-loader: 0.3.8
+      mocha: 10.8.2
+      nyc: 17.1.0
       playwright: 1.49.0
+      puppeteer: 23.8.0(typescript@5.6.3)
+      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      util: 0.12.5
       vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23487,7 +23521,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub.tgz:
-    resolution: {integrity: sha512-DP1BGLo7iPMjZiNWklIJPPxYS7lE3nurONLOIlSMHBH7eieYiQ+ut8QCOaPRvcT+DAwDrkqL1NJat3oyMnMMOw==, tarball: file:projects/web-pubsub.tgz}
+    resolution: {integrity: sha512-9qOQ3T6D4CiqL/mRmdEK6fl05ZmfXc+F76zy6eQMct15j6XqFy3GODZmdOPpW6BqOrOPbwRvTULlGTR+BcScsA==, tarball: file:projects/web-pubsub.tgz}
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
@@ -23499,6 +23533,8 @@ packages:
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       '@types/ws': 8.5.13
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.15.0
@@ -23514,19 +23550,33 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       puppeteer: 23.8.0(typescript@5.6.3)
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
       ws: 8.18.0
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
