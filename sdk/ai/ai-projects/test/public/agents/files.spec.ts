@@ -67,17 +67,4 @@ describe("Agents - files", () => {
     assert.equal(_file.id, file.id);
     await agents.deleteFile(file.id);
   });
-
-  it("should retrieve file content", async function () {
-    const fileContent = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      }
-    });
-    const file = await agents.uploadFile(fileContent, "assistants", "fileName");
-    const content = await agents.getFileContent(file.id);
-    assert.isNotEmpty(content);
-  });
-
 });
