@@ -9,7 +9,6 @@ import {
   env
 } from "@azure-tools/test-recorder";
 import { SparkClient, SparkClientOptionalParams } from "../../../src/index.js";
-import { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 export function createClient(pool: string, options?: SparkClientOptionalParams): SparkClient {
