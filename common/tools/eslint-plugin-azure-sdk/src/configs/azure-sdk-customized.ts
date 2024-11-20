@@ -43,7 +43,7 @@ const tsEslintCustomization: Record<string, SharedConfig.RuleEntry> = {
   "@typescript-eslint/no-empty-object-type": "off",
   "@typescript-eslint/no-namespace": "error",
   "@typescript-eslint/no-non-null-assertion": "off",
-  "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
+  "@typescript-eslint/no-unused-vars": "off", // typescript compiler already checks this
   "@typescript-eslint/no-unused-expressions": "off",
   "@typescript-eslint/no-useless-constructor": "error",
   "@typescript-eslint/no-var-requires": "off",

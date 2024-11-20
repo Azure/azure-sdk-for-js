@@ -13,4 +13,5 @@ https://docs.microsoft.com/javascript/api/@azure/arm-trustedsigning?view=azure-n
 https://docs.microsoft.com/javascript/api/@azure/arm-containerorchestratorruntime?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-iotoperations?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-databoundaries?view=azure-node-preview
+https://docs.microsoft.com/javascript/api/@azure/arm-terraform?view=azure-node-preview
 https://docs.microsoft.com/javascript/api/@azure/arm-connectedcache?view=azure-node-preview
