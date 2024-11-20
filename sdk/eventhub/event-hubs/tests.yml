@@ -13,5 +13,3 @@ extends:
           Location: 'usgovarizona'
         China:
           Location: 'chinaeast'
-      EnvVars:
-        AZURE_LOG_LEVEL: info
