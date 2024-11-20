@@ -108,23 +108,19 @@ export interface AgentsOperations {
     createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
     createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     deleteAgent: (assistantId: string) => Promise<AgentDeletionStatusOutput>;
-    // Warning: (ae-forgotten-export) The symbol "DeleteFileParameters" needs to be exported by the entry point index.d.ts
-    deleteFile: (fileId: string, options?: DeleteFileParameters) => Promise<FileDeletionStatusOutput>;
+    deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadDeletionStatusOutput>;
     deleteVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreDeletionStatusOutput>;
     getAgent: (assistantId: string) => Promise<AgentOutput>;
-    // Warning: (ae-forgotten-export) The symbol "GetFileParameters" needs to be exported by the entry point index.d.ts
-    getFile: (fileId: string, options?: GetFileParameters) => Promise<OpenAIFileOutput>;
-    // Warning: (ae-forgotten-export) The symbol "GetFileContentParameters" needs to be exported by the entry point index.d.ts
-    getFileContent: (fileId: string, options?: GetFileContentParameters) => Promise<string>;
+    getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
+    getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<string>;
     getRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
     getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) => Promise<RunStepOutput>;
     getThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
     getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     // Warning: (ae-forgotten-export) The symbol "ListAgentsQueryParamProperties" needs to be exported by the entry point index.d.ts
     listAgents: (options?: ListAgentsQueryParamProperties) => Promise<OpenAIPageableListOfAgentOutput>;
-    // Warning: (ae-forgotten-export) The symbol "ListFilesParameters" needs to be exported by the entry point index.d.ts
-    listFiles: (options?: ListFilesParameters) => Promise<FileListResponseOutput>;
+    listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) => Promise<FileListResponseOutput>;
     // Warning: (ae-forgotten-export) The symbol "ListMessagesQueryParamProperties" needs to be exported by the entry point index.d.ts
     listMessages: (threadId: string, options?: ListMessagesQueryParamProperties, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     // Warning: (ae-forgotten-export) The symbol "ListRunsQueryParamProperties" needs to be exported by the entry point index.d.ts
@@ -140,8 +136,7 @@ export interface AgentsOperations {
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
     updateThread: (threadId: string, options?: UpdateAgentThreadOptions, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
-    // Warning: (ae-forgotten-export) The symbol "UploadFileParameters" needs to be exported by the entry point index.d.ts
-    uploadFile: (options: UploadFileParameters) => Promise<OpenAIFileOutput>;
+    uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
 }
 
 // @public

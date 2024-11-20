@@ -68,7 +68,7 @@ export async function getFileContent(
   options?: GetFileContentParameters,
 ): Promise<string> {
   const result = await context
-    .path("/files/{fileId}", fileId)
+    .path("/files/{fileId}/content", fileId)
     .get(options);
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
