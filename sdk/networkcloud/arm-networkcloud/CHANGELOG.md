@@ -1,6 +1,6 @@
 # Release History
     
-## 1.1.0-beta.1 (2024-11-18)
+## 2.0.0-beta.1 (2024-11-18)
 Compared with version 1.0.0
     
 ### Features Added
@@ -137,7 +137,44 @@ Compared with version 1.0.0
   - Enum KnownRackSkuProvisioningState has a new value Canceled
   - Enum KnownRackSkuProvisioningState has a new value Failed
     
-    
+### Breaking Changes
+
+  - the return type of AgentPools.beginDelete operation has been changed from void into AgentPoolsDeleteResponse
+  - the return type of AgentPools.beginDeleteAndWait operation has been changed from void into AgentPoolsDeleteResponse
+  - the return type of BareMetalMachineKeySets.beginDelete operation has been changed from void into BareMetalMachineKeySetsDeleteResponse
+  - the return type of BareMetalMachineKeySets.beginDeleteAndWait operation has been changed from void into BareMetalMachineKeySetsDeleteResponse
+  - the return type of BareMetalMachines.beginDelete operation has been changed from void into BareMetalMachinesDeleteResponse
+  - the return type of BareMetalMachines.beginDeleteAndWait operation has been changed from void into BareMetalMachinesDeleteResponse
+  - the return type of BmcKeySets.beginDelete operation has been changed from void into BmcKeySetsDeleteResponse
+  - the return type of BmcKeySets.beginDeleteAndWait operation has been changed from void into BmcKeySetsDeleteResponse
+  - the return type of CloudServicesNetworks.beginDelete operation has been changed from void into CloudServicesNetworksDeleteResponse
+  - the return type of CloudServicesNetworks.beginDeleteAndWait operation has been changed from void into CloudServicesNetworksDeleteResponse
+  - the return type of ClusterManagers.beginDelete operation has been changed from void into ClusterManagersDeleteResponse
+  - the return type of ClusterManagers.beginDeleteAndWait operation has been changed from void into ClusterManagersDeleteResponse
+  - the return type of Clusters.beginDelete operation has been changed from void into ClustersDeleteResponse
+  - the return type of Clusters.beginDeleteAndWait operation has been changed from void into ClustersDeleteResponse
+  - the return type of Consoles.beginDelete operation has been changed from void into ConsolesDeleteResponse
+  - the return type of Consoles.beginDeleteAndWait operation has been changed from void into ConsolesDeleteResponse
+  - the return type of KubernetesClusters.beginDelete operation has been changed from void into KubernetesClustersDeleteResponse
+  - the return type of KubernetesClusters.beginDeleteAndWait operation has been changed from void into KubernetesClustersDeleteResponse
+  - the return type of L2Networks.beginDelete operation has been changed from void into L2NetworksDeleteResponse
+  - the return type of L2Networks.beginDeleteAndWait operation has been changed from void into L2NetworksDeleteResponse
+  - the return type of L3Networks.beginDelete operation has been changed from void into L3NetworksDeleteResponse
+  - the return type of L3Networks.beginDeleteAndWait operation has been changed from void into L3NetworksDeleteResponse
+  - the return type of MetricsConfigurations.beginDelete operation has been changed from void into MetricsConfigurationsDeleteResponse
+  - the return type of MetricsConfigurations.beginDeleteAndWait operation has been changed from void into MetricsConfigurationsDeleteResponse
+  - the return type of Racks.beginDelete operation has been changed from void into RacksDeleteResponse
+  - the return type of Racks.beginDeleteAndWait operation has been changed from void into RacksDeleteResponse
+  - the return type of StorageAppliances.beginDelete operation has been changed from void into StorageAppliancesDeleteResponse
+  - the return type of StorageAppliances.beginDeleteAndWait operation has been changed from void into StorageAppliancesDeleteResponse
+  - the return type of TrunkedNetworks.beginDelete operation has been changed from void into TrunkedNetworksDeleteResponse
+  - the return type of TrunkedNetworks.beginDeleteAndWait operation has been changed from void into TrunkedNetworksDeleteResponse
+  - the return type of VirtualMachines.beginDelete operation has been changed from void into VirtualMachinesDeleteResponse
+  - the return type of VirtualMachines.beginDeleteAndWait operation has been changed from void into VirtualMachinesDeleteResponse
+  - the return type of Volumes.beginDelete operation has been changed from void into VolumesDeleteResponse
+  - the return type of Volumes.beginDeleteAndWait operation has been changed from void into VolumesDeleteResponse
+
+
 ## 1.0.0 (2023-08-22)
 
 The package of @azure/arm-networkcloud is using our next generation design principles. To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).
