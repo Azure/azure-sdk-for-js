@@ -6,7 +6,6 @@
 
 import { ClientOptions } from '@azure-rest/core-client';
 import { Paged } from '@azure/core-paging';
-import { Pipeline } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
@@ -167,7 +166,6 @@ export class AIProjectsClient {
     readonly agents: AgentsOperations;
     readonly connections: ConnectionsOperations;
     static fromConnectionString(connectionString: string, credential: TokenCredential, options?: AIProjectsClientOptions): AIProjectsClient;
-    readonly pipeline: Pipeline;
 }
 
 // @public (undocumented)

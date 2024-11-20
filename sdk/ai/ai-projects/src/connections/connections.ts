@@ -50,7 +50,7 @@ export async function getConnectionWithSecrets(
   connectionName: string,
   options?: GetConnectionWithSecretsParameters
 ): Promise<GetConnectionResponseOutput> {
-  const result = await context.path("/connections/{connectionName}/secrets", connectionName).get(options);
+  const result = await context.path("/connections/{connectionName}/listsecrets", connectionName).post(options);
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
