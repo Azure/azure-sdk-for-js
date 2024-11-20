@@ -1,37 +1,37 @@
 # Guide for migrating to `@azure-rest/batch` from `@azure/batch`
 
-This guide is intended to assist customers in the migration to `@azure-rest/batch` from the legacy `@azure/batch` package. It will focus on side-by-side comparisons for similar operations between the two packages.
+This guide is intended to assist customers in migrating to `@azure-rest/batch` from the legacy `@azure/batch` package. It will focus on side-by-side comparisons of similar operations between the two packages.
 
-Familiarity with the legacy client library is assumed. For those new to the Azure Batch JavaScript client library, please refer to [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/batch-rest/README.md) and [samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/batch-rest/samples) of `@azure-rest/batch` instead of this guide.
+Familiarity with the legacy client library is assumed. For those new to the Azure Batch JavaScript client library, please refer to the [README](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/batch-rest/README.md) and [samples](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/batch/batch-rest/samples) of `@azure-rest/batch` instead of this guide.
 
-## Table of contents
+## Table of Contents
 
-- [Migration benefits](#migration-benefits)
-- [Constructing the clients](#constructing-the-clients)
-  - [Authenticate with shared key credentials](#authenticate-with-shared-key-credentials)
+- [Migration Benefits](#migration-benefits)
+- [Constructing the Clients](#constructing-the-clients)
+  - [Authenticate with Shared Key Credentials](#authenticate-with-shared-key-credentials)
   - [Authenticate with Microsoft Entra ID](#authenticate-with-microsoft-entra-id)
-- [Operation response differences](#operation-response-differences)
-- [Error handling](#error-handling)
+- [Operation Response Differences](#operation-response-differences)
+- [Error Handling](#error-handling)
 - [More Examples](#more-examples)
-  - [Create pools](#create-pools)
-  - [Create jobs](#create-jobs)
-  - [Submit tasks](#submit-tasks)
+  - [Create Pools](#create-pools)
+  - [Create Jobs](#create-jobs)
+  - [Submit Tasks](#submit-tasks)
 
-## Migration benefits
+## Migration Benefits
 
-- Reduced package sizes, `@azure-rest/batch` comes in a form called Rest Level Client(RLC), which is much more lightwight than the traditional Modular Client like `@azure/batch`. It take advantages of Typescript type inferences and reduce bundle size if you were to use it in a browser environment. For more referece of RLC, please see this [doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) and our introduction [blog](https://devblogs.microsoft.com/azure-sdk/azure-rest-libraries-for-javascript/).
+- Reduced package size: `@azure-rest/batch` is a [REST client](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md), which is more lightweight compared to the `@azure/batch` package. It takes advantage of TypeScript type inferences and reduces bundle size when used in a browser environment. For more information, please see this [doc](https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/rest-clients.md) and our introduction [blog](https://devblogs.microsoft.com/azure-sdk/azure-rest-libraries-for-javascript/).
 
-- Embrace the lastest Azure JavaScript SDK ecosystem, for example it works [`@azure/identiy`](https://www.npmjs.com/package/@azure/identity) to simplify authentication during local development and with Azure Entra. It also benefit from the onsistant paging API and unified logging with [`@azure/logger`](https://www.npmjs.com/package/@azure/logger) across all Azure Javascript SDKs.
+- Embrace the latest Azure JavaScript SDK ecosystem: Works with [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) for simpler and more secure authentication. Also leverages common paging and logging utilities used by all REST clients.
 
-- Get the latest features/ API versions of Azure Batch service, as we are planing to deprecate the `@azure/batch` package, it may not contain the lastes updates of the Azure Batch service, while with `@azure-rest/batch` you can use the latest API version of Azure Batch service.
+- Get the latest features of the Azure Batch service: The `@azure/batch` package is scheduled for deprecation and may not support new features and API versions of the service as they become available.
 
-## Constructing the clients
+## Constructing the Clients
 
-### Authenticate with shared key credentials
+### Authenticate with Shared Key Credentials
 
 Both `@azure/batch` and `@azure-rest/batch` support shared key authentication.
 
-Previously in `@azure/batch`, you can use the `BatchSharedKeyCredentials` class exported from `@azure/batch` to construct a shared key credential, then pass the credential and account endpoint to the `BatchServiceClient` constructor to create a client instance.
+Previously in `@azure/batch`, you could use the `BatchSharedKeyCredentials` class exported from `@azure/batch` to construct a shared key credential, then pass the credential and account endpoint to the `BatchServiceClient` constructor to create a client instance.
 
 ```typescript
 import { BatchSharedKeyCredentials, BatchServiceClient } from '@azure/batch';
@@ -40,7 +40,7 @@ const credential = new BatchSharedKeyCredentials("<account-name>", "<account-key
 const client = new BatchServiceClient(credential, "<account-endpoint>");
 ```
 
-Now in `@azure-rest/batch`, you need to install [`@azure/core-auth`](https://www.npmjs.com/package/@azure/core-auth) package and use the `AzureNamedKeyCredential` class exported from `@azure/core-auth` to construct a shared key credential, then pass the credential and account endpoint to the default exported `createClient` method from `@azure-rest/batch` to create a client instance.
+Now in `@azure-rest/batch`, you need to install the [`@azure/core-auth`](https://www.npmjs.com/package/@azure/core-auth) package and use the `AzureNamedKeyCredential` class exported from `@azure/core-auth` to construct a shared key credential. Then, pass the credential and account endpoint to the default exported `createClient` method from `@azure-rest/batch` to create a client instance.
 
 ```typescript
 import { AzureNamedKeyCredential } from "@azure/core-auth";
@@ -52,7 +52,7 @@ const client = createClient("<account-endpoint>", credential);
 
 ### Authenticate with Microsoft Entra ID
 
-Previously in `@azure/batch`, it only support the legacy [@azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package, and the browser environment is not supported. The following example use the `loginWithVmMSI` method exported from `@azure/ms-rest-nodeauth` to authenticate with the Azure Batch service using MSI (Managed Service Identity) based login from a virtual machine created in Azure.
+Previously in `@azure/batch`, it only supported the legacy [@azure/ms-rest-nodeauth](https://www.npmjs.com/package/@azure/ms-rest-nodeauth) package, and the browser environment was not supported. The following example uses the `loginWithVmMSI` method exported from `@azure/ms-rest-nodeauth` to authenticate with the Azure Batch service using MSI (Managed Service Identity) based login from a virtual machine created in Azure.
 
 ```typescript
 import { BatchServiceClient } from "@azure/batch";
@@ -64,7 +64,7 @@ const credential = await loginWithVmMSI({
 const client = new BatchServiceClient(credential, "<account-endpoint>");
 ```
 
-Now in `@azure-rest/batch`, you can pass any of the [credentials from the `@azure/identity` package](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md) to the `createClient` method to make use of your Microsft Entra ID credentials. In following sample, it creates an instance of [`DefaultAzureCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential) to authenticate with the Azure Batch service.
+Now in `@azure-rest/batch`, you can pass any of the [credentials from the `@azure/identity` package](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/samples/AzureIdentityExamples.md) to the `createClient` method to make use of your Microsoft Entra ID credentials. In the following sample, it creates an instance of [`DefaultAzureCredential`](https://learn.microsoft.com/javascript/api/@azure/identity/defaultazurecredential) to authenticate with the Azure Batch service.
 
 ```typescript
 import { DefaultAzureCredential } from "@azure/identity";
@@ -74,16 +74,16 @@ const credential = new DefaultAzureCredential();
 const client = createClient("<account-endpoint>", credential);
 ```
 
-## Operation response differences
+## Operation Response Differences
 
-Previously in `@azure/batch`, the client operation return a `Promise` that resolves to the result of the response body JSON. The following example demonstrates how to get a job with the `BatchServiceClient` instance.
+Previously in `@azure/batch`, the client operation returned a `Promise` that resolves to the result of the response body JSON. The following example demonstrates how to get a job with the `BatchServiceClient` instance.
 
 ```typescript
 const job = await client.job.get("<job-id>");
 console.log(`Job id: ${job.id}, state: ${job.state}`);
 ```
 
-Now in `@azure-rest/batch`, the client operation return a `Promise` that resolves to the response object, which contains the response body and the status code. In order to get the response body JSON, you need to first check if the response is unexpected with the `isUnexpected` helper method, then access the response body. The following example demonstrates how to get a job in `@azure-rest/batch`.
+Now in `@azure-rest/batch`, the client operation returns a `Promise` that resolves to the response object, which contains the response body and the status code. In order to get the response body JSON, you need to first check if the response is unexpected with the `isUnexpected` helper method, then access the response body. The following example demonstrates how to get a job in `@azure-rest/batch`.
 
 ```typescript
 import { isUnexpected } from '@azure-rest/batch';
@@ -97,9 +97,9 @@ const job = response.body;
 console.log(`Job id: ${job.id}, state: ${job.state}`);
 ```
 
-## Error handling
+## Error Handling
 
-Previously in `@azure/batch`, the client operation succeed only when service return expected HTTP status code, for example `201` for create resources operations or `200` for general HTTP GET requests. Unexpected HTTP status code will throw a `RestError` from `@azure/ms-rest-js` package. The following example demonstrate how to handle different errors might occur in the get pool request.
+Previously in `@azure/batch`, the client operation succeeded only when the service returned the expected HTTP status code, for example `201` for create resource operations or `200` for general HTTP GET requests. Unexpected HTTP status codes would throw a `RestError` from the `@azure/ms-rest-js` package. The following example demonstrates how to handle different errors that might occur in the get pool request.
 
 ```typescript
 import { RestError } from "@azure/ms-rest-js";
@@ -110,7 +110,7 @@ try {
 } catch (error) {
   if (error instanceof RestError) {
     // Returned HTTP status is not 200
-    console.log(`Service return unexpected status code ${error.statusCode}: ${error.body}`)
+    console.log(`Service returned unexpected status code ${error.statusCode}: ${error.body}`)
   } else {
     // Other errors like connection errors or other exceptions
     console.log("Failed to get pool with error: ", error)
@@ -118,14 +118,14 @@ try {
 }
 ```
 
-Now, for `@azure-rest/batch`, the client operation won't throw errors even when the returned HTTP status code is unexpected, instead it exports a helper method `isUnexpected` to help you check if the response is unexpected. The following example demostarte how to handle different errors might occur in the get pool request.
+Now, for `@azure-rest/batch`, the client operation won't throw errors even when the returned HTTP status code is unexpected. Instead, it exports a helper method `isUnexpected` to help you check if the response is unexpected. The following example demonstrates how to handle different errors that might occur in the get pool request.
 
 ```typescript
 try {
   const response = await client.path("/pools/{poolId}", "<pool-id>").get();
   if (isUnexpected(response)) {
     // Returned HTTP status is not 200
-    console.log(`Service return unexpected status code ${response.status}: ${response.body}`)
+    console.log(`Service returned unexpected status code ${response.status}: ${response.body}`)
   } {
     console.log("Get pool success: ", response.body)
   }
@@ -135,11 +135,11 @@ try {
 }
 ```
 
-## More examples
+## More Examples
 
-### Create pools
+### Create Pools
 
-Previously in `@azure/batch`, you can use the `BatchServiceClient` instance to create a pool with the `pool.add` method. The following example demonstrates how to create a pool with the `BatchServiceClient` instance.
+Previously in `@azure/batch`, you could use the `BatchServiceClient` instance to create a pool with the `pool.add` method. The following example demonstrates how to create a pool with the `BatchServiceClient` instance.
 
 ```typescript
 import { BatchServiceModels } from "@azure/batch";
@@ -164,7 +164,7 @@ const result = await client.pool.add(poolParams);
 console.log("Pool created");
 ```
 
-Now in `@azure-rest/batch`, you can use the `path` method of the client instance to send a POST request to the `/pools` endpoint with the pool parameters. Note the `CreatePoolParameters` interface has a `body` field to hold the request body and a `contentType` field to specify the content type of the request.
+Now in `@azure-rest/batch`, you can use the `path` method of the client instance to send a POST request to the `/pools` endpoint with the pool parameters. Note that the `CreatePoolParameters` interface has a `body` field to hold the request body and a `contentType` field to specify the content type of the request.
 
 ```typescript
 import { CreatePoolParameters, isUnexpected } from "@azure-rest/batch"
@@ -198,7 +198,7 @@ console.log("Pool created");
 
 ## Create jobs
 
-Previously in `@azure/batch`, you can use the `BatchServiceClient` instance to create a job with the `job.add` method. The following example demonstrates how to create a job with the `BatchServiceClient` instance.
+Previously in `@azure/batch`, you could use the `BatchServiceClient` instance to create a job with the `job.add` method. The following example demonstrates how to create a job with the `BatchServiceClient` instance.
 
 ```typescript
 import { BatchServiceModels } from "@azure/batch"
@@ -232,7 +232,7 @@ console.log(`Job created`);
 
 ## Submit tasks
 
-Previously in `@azure/batch`, you can use the `BatchServiceClient` instance to submit a task to a job with the `task.add` method. The following example demonstrates how to submit a task with the `BatchServiceClient` instance.
+Previously in `@azure/batch`, you could use the `BatchServiceClient` instance to submit a task to a job with the `task.add` method. The following example demonstrates how to submit a task with the `BatchServiceClient` instance.
 
 ```typescript
 import { BatchServiceModels } from "@azure/batch"

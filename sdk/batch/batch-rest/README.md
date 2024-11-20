@@ -7,7 +7,7 @@ Azure Batch provides Cloud-scale job scheduling and compute management.
 Key links:
 
 - [Package (NPM)](https://www.npmjs.com/package/@azure-rest/batch)
-- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/batch?view=azure-node-preview)
+- [API reference documentation](https://docs.microsoft.com/javascript/api/@azure-rest/batch)
 
 ## Getting started
 
