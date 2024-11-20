@@ -12,7 +12,7 @@ import {
   RunFilterParameters,
   TriggerRunQueryTriggerRunsByWorkspaceOptionalParams,
   TriggerRunQueryTriggerRunsByWorkspaceResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a TriggerRunOperations. */
 export interface TriggerRunOperations {

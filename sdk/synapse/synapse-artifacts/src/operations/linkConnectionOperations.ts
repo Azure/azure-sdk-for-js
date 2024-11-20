@@ -6,14 +6,14 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
+import { tracingClient } from "../tracing.js";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import { setContinuationToken } from "../pagingHelper";
-import { LinkConnectionOperations } from "../operationsInterfaces";
+import { setContinuationToken } from "../pagingHelper.js";
+import { LinkConnectionOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ArtifactsClient } from "../artifactsClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ArtifactsClient } from "../artifactsClient.js";
 import {
   LinkConnectionResource,
   LinkConnectionListByWorkspaceNextOptionalParams,
@@ -40,7 +40,7 @@ import {
   LinkConnectionPauseOptionalParams,
   LinkConnectionResumeOptionalParams,
   LinkConnectionListByWorkspaceNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing LinkConnectionOperations operations. */

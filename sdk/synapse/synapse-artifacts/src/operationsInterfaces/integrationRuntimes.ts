@@ -11,7 +11,7 @@ import {
   IntegrationRuntimesListResponse,
   IntegrationRuntimesGetOptionalParams,
   IntegrationRuntimesGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a IntegrationRuntimes. */
 export interface IntegrationRuntimes {

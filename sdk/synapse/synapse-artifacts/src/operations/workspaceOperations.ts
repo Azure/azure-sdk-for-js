@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { WorkspaceOperations } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import { WorkspaceOperations } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ArtifactsClient } from "../artifactsClient";
-import { WorkspaceGetOptionalParams, WorkspaceGetResponse } from "../models";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ArtifactsClient } from "../artifactsClient.js";
+import { WorkspaceGetOptionalParams, WorkspaceGetResponse } from "../models/index.js";
 
 /** Class containing WorkspaceOperations operations. */
 export class WorkspaceOperationsImpl implements WorkspaceOperations {

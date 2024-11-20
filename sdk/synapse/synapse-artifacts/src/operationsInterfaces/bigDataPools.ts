@@ -11,7 +11,7 @@ import {
   BigDataPoolsListResponse,
   BigDataPoolsGetOptionalParams,
   BigDataPoolsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a BigDataPools. */
 export interface BigDataPools {

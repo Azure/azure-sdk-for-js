@@ -15,7 +15,7 @@ import {
   PipelineRunQueryActivityRunsOptionalParams,
   PipelineRunQueryActivityRunsResponse,
   PipelineRunCancelPipelineRunOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a PipelineRunOperations. */
 export interface PipelineRunOperations {

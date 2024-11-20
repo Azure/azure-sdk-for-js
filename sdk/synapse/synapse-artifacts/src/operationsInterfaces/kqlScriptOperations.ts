@@ -16,7 +16,7 @@ import {
   KqlScriptDeleteByNameOptionalParams,
   ArtifactRenameRequest,
   KqlScriptRenameOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a KqlScriptOperations. */
 export interface KqlScriptOperations {

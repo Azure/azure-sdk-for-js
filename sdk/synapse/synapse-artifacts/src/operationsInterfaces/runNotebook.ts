@@ -17,7 +17,7 @@ import {
   RunNotebookCancelRunResponse,
   RunNotebookGetSnapshotOptionalParams,
   RunNotebookGetSnapshotResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a RunNotebook. */
 export interface RunNotebook {

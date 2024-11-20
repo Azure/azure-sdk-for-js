@@ -36,7 +36,7 @@ import {
   SparkJobDefinitionResource as SparkJobDefinitionResourceMapper,
   SqlScriptResource as SqlScriptResourceMapper,
   TriggerResource as TriggerResourceMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

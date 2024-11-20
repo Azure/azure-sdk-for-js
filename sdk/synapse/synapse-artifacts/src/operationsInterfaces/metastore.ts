@@ -16,7 +16,7 @@ import {
   MetastoreUpdateOptionalParams,
   MetastoreUpdateResponse,
   MetastoreDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Metastore. */
 export interface Metastore {

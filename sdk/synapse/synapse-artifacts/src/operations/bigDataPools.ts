@@ -6,18 +6,18 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { BigDataPools } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import { BigDataPools } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ArtifactsClient } from "../artifactsClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ArtifactsClient } from "../artifactsClient.js";
 import {
   BigDataPoolsListOptionalParams,
   BigDataPoolsListResponse,
   BigDataPoolsGetOptionalParams,
   BigDataPoolsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing BigDataPools operations. */
 export class BigDataPoolsImpl implements BigDataPools {

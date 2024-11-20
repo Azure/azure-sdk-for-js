@@ -11,7 +11,7 @@ import {
   SqlPoolsListResponse,
   SqlPoolsGetOptionalParams,
   SqlPoolsGetResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SqlPools. */
 export interface SqlPools {

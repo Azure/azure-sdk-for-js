@@ -34,7 +34,7 @@ import {
   TriggerOperationsImpl,
   TriggerRunOperationsImpl,
   WorkspaceOperationsImpl,
-} from "./operations";
+} from "./operations/index.js";
 import {
   LinkConnectionOperations,
   RunNotebook,
@@ -60,8 +60,8 @@ import {
   TriggerOperations,
   TriggerRunOperations,
   WorkspaceOperations,
-} from "./operationsInterfaces";
-import { ArtifactsClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import { ArtifactsClientOptionalParams } from "./models/index.js";
 
 export class ArtifactsClient extends coreClient.ServiceClient {
   endpoint: string;

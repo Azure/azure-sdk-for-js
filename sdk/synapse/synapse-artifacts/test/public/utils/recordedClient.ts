@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ArtifactsClient, ArtifactsClientOptionalParams } from "../../../src";
+import { ArtifactsClient, ArtifactsClientOptionalParams } from "../../../src/index.js";
 import { TokenCredential } from "@azure/identity";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { Recorder, env } from "@azure-tools/test-recorder";

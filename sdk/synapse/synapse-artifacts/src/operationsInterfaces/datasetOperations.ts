@@ -18,7 +18,7 @@ import {
   DatasetDeleteDatasetOptionalParams,
   ArtifactRenameRequest,
   DatasetRenameDatasetOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a DatasetOperations. */

@@ -10,7 +10,7 @@ import {
   GitHubAccessTokenRequest,
   WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams,
   WorkspaceGitRepoManagementGetGitHubAccessTokenResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a WorkspaceGitRepoManagement. */
 export interface WorkspaceGitRepoManagement {
