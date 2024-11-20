@@ -3,7 +3,6 @@
 
 import { Client } from "@azure-rest/core-client";
 import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
-import { ListAgentsQueryParamProperties, ListMessagesQueryParamProperties, ListRunsQueryParamProperties, ListRunStepsQueryParamProperties, ListVectorStoresQueryParamProperties } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
@@ -12,7 +11,7 @@ import { createMessage, listMessages, updateMessage } from "./messages.js";
 import { AgentThreadCreationOptions, CreateAgentOptions, CreateAndRunThreadOptions, CreateRunOptions, FilePurpose, ThreadMessageOptions, ToolOutput, UpdateAgentOptions, UpdateAgentThreadOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
 import { createRunStreaming, createThreadAndRunStreaming, submitToolOutputsToRunStreaming } from "./streaming.js";
 import { UpdateMessageOptions } from "./messagesModels.js";
-import { AgentEventMessageStream, OptionalRequestParameters, UpdateRunOptions } from "./inputOutputs.js";
+import { AgentEventMessageStream, ListQueryParameters, OptionalRequestParameters, UpdateRunOptions } from "./inputOutputs.js";
 import { createVectorStore, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
 import { getRunStep, listRunSteps } from "./runSteps.js";
 
@@ -25,7 +24,7 @@ export interface AgentsOperations {
 
   /** Gets a list of agents that were previously created. */
   listAgents: (
-    options?: ListAgentsQueryParamProperties,
+    options?: ListQueryParameters,
   ) => Promise<OpenAIPageableListOfAgentOutput>;
   /** Retrieves an existing agent. */
   getAgent: (
@@ -73,7 +72,7 @@ export interface AgentsOperations {
   /** Gets a list of runs for a specified thread. */
   listRuns: (
     threadId: string,
-    options?: ListRunsQueryParamProperties,
+    options?: ListQueryParameters,
     requestParams?: OptionalRequestParameters
   ) => Promise<OpenAIPageableListOfThreadRunOutput>;
   /** Gets an existing run from an existing thread. */
@@ -119,10 +118,9 @@ export interface AgentsOperations {
     requestParams?: OptionalRequestParameters
   ) => Promise<ThreadRunOutput>;
 
-  /** create a new thread and immediately start a run of that thread and stream */
+  /** Creates a new thread and immediately start a run of that thread and stream */
   createRunStreaming: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
-
-  /** create a new thread and immediately start a run of that thread and stream */
+  /** Creates a new thread and immediately start a run of that thread and stream */
   createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
 
   /** Creates a new message on a specified thread. */
@@ -134,7 +132,8 @@ export interface AgentsOperations {
   /** Gets a list of messages that exist on a thread. */
   listMessages: (
     threadId: string,
-    options?: ListMessagesQueryParamProperties,
+    runId?: string,
+    options?: ListQueryParameters,
     requestParams?: OptionalRequestParameters,
   ) => Promise<OpenAIPageableListOfThreadMessageOutput>;
   /** Modifies an existing message on an existing thread. */
@@ -170,7 +169,7 @@ export interface AgentsOperations {
 
   /** Returns a list of vector stores. */
   listVectorStores: (
-    options?: ListVectorStoresQueryParamProperties,
+    options?: ListQueryParameters,
     requestParams?: OptionalRequestParameters,
   ) => Promise<OpenAIPageableListOfVectorStoreOutput>;
   /** Creates a vector store. */
@@ -206,7 +205,7 @@ export interface AgentsOperations {
   listRunSteps: (
     threadId: string,
     runId: string,
-    options?: ListRunStepsQueryParamProperties,
+    options?: ListQueryParameters,
     requestParams?: OptionalRequestParameters,
   ) => Promise<OpenAIPageableListOfRunStepOutput>;
 }
@@ -215,7 +214,7 @@ function getAgents(context: Client): AgentsOperations {
   return {
     createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">) =>
       createAgent(context, { body: { ...options, model } }),
-    listAgents: (options?: ListAgentsQueryParamProperties) =>
+    listAgents: (options?: ListQueryParameters) =>
       listAgents(context, { queryParameters: options as Record<string, unknown> }),
     getAgent: (assistantId: string) =>
       getAgent(context, assistantId),
@@ -238,8 +237,8 @@ function getAgents(context: Client): AgentsOperations {
 
     createRun: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) =>
       createRun(context, threadId, { ...requestParams, body: { ...options, assistant_id: assistantId, } }),
-    listRuns: (threadId: string, options?: ListRunsQueryParamProperties, requestParams?: OptionalRequestParameters) =>
-      listRuns(context, threadId, { ...requestParams, body: options }),
+    listRuns: (threadId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) =>
+      listRuns(context, threadId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
     getRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) =>
       getRun(context, threadId, runId, requestParams),
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptions, requestParams?: OptionalRequestParameters) =>
@@ -263,8 +262,8 @@ function getAgents(context: Client): AgentsOperations {
 
     createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) =>
       createMessage(context, threadId, { ...requestParams, body: options }),
-    listMessages: (threadId: string, options?: ListMessagesQueryParamProperties, requestParams?: OptionalRequestParameters) =>
-      listMessages(context, threadId, { ...requestParams, queryParameters: { ...options } }),
+    listMessages: (threadId: string, runId?: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) =>
+      listMessages(context, threadId, { ...requestParams, queryParameters: { runId: runId, ...options }}),
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) =>
       updateMessage(context, threadId, messageId, { ...requestParams, body: { ...options } }),
 
@@ -283,7 +282,7 @@ function getAgents(context: Client): AgentsOperations {
     getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) =>
       getFileContent(context, fileId, requestParams),
 
-    listVectorStores: (options?: ListVectorStoresQueryParamProperties, requestParams?: OptionalRequestParameters,) =>
+    listVectorStores: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters,) =>
       listVectorStores(context, { ...requestParams, queryParameters: options as Record<string, unknown> }),
     createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) =>
       createVectorStore(context, { ...requestParams, body: options as Record<string, unknown> }),
@@ -296,7 +295,7 @@ function getAgents(context: Client): AgentsOperations {
 
     getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) =>
       getRunStep(context, threadId, runId, stepId, { ...requestParams }),
-    listRunSteps: (threadId: string, runId: string, options?: ListRunStepsQueryParamProperties, requestParams?: OptionalRequestParameters) =>
+    listRunSteps: (threadId: string, runId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) =>
       listRunSteps(context, threadId, runId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
   };
 }
