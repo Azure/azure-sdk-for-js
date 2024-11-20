@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 import { ArtifactsClient } from "../../src/artifactsClient.js";
-import { Context } from "mocha";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createClient } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("DataFlow", () => {
   const dataFlowName = "testdataflow";
