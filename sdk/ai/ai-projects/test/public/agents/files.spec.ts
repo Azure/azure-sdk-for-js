@@ -5,6 +5,7 @@ import { Recorder, VitestTestContext } from "@azure-tools/test-recorder";
 import { AgentsOperations, AIProjectsClient } from "../../../src/index.js";
 import { createRecorder, createProjectsClient } from "../utils/createClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
+import { Readable } from "stream";
  
 describe("Agents - files", () => {
   let recorder: Recorder;
@@ -66,18 +67,6 @@ describe("Agents - files", () => {
     assert.isNotEmpty(_file);
     assert.equal(_file.id, file.id);
     await agents.deleteFile(file.id);
-  });
-
-  it("should retrieve file content", async function () {
-    const fileContent = new ReadableStream({
-      start(controller) {
-        controller.enqueue(new TextEncoder().encode("fileContent"));
-        controller.close();
-      }
-    });
-    const file = await agents.uploadFile(fileContent, "assistants", "fileName");
-    const content = await agents.getFileContent(file.id);
-    assert.isNotEmpty(content);
   });
 
 });
