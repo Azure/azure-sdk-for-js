@@ -13,7 +13,7 @@ import {
   ParticipantsUpdateResponse,
   ParticipantsListNextOptionalParams,
   ParticipantsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Participants. */
 export interface Participants {
