@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -6,6 +9,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { SparkClient } from "./sparkClient";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { SparkClient } from "./sparkClient.js";
+export * from "./operationsInterfaces/index.js";
