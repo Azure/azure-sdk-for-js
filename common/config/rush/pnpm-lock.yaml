@@ -8677,7 +8677,7 @@ packages:
       is-wsl: 2.2.0
     dev: false
 
-  /openai@4.72.0:
+  /openai@4.72.0(zod@3.23.8):
     resolution: {integrity: sha512-hFqG9BWCs7L7ifrhJXw7mJXmUBr7d9N6If3J9563o0jfwVA4wFANFDDaOIWFdgDdwgCXg5emf0Q+LoLCGszQYA==}
     hasBin: true
     peerDependencies:
@@ -8693,6 +8693,7 @@ packages:
       form-data-encoder: 1.7.2
       formdata-node: 4.4.1
       node-fetch: 2.7.0
+      zod: 3.23.8
     transitivePeerDependencies:
       - encoding
     dev: false
@@ -13603,7 +13604,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-ydpilnTOvg+oXwo+mhmH0sgy18nc7f1Lc3bIERPjMXBquOusiTJ3RQzPdEMRlDMs4tHOX5kxLaQuMc6MTY3KyA==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-s7pcgXSyMJcxDuhA9Y7aavPBCQ5h/TowVP7Ni7LsaWMm55Dges6xYWeVwZ13VPtab99BVIc0/E5ZWrd+VXmj+Q==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -16094,7 +16095,7 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-x542tCXTk8RsRswHTLsg+A0Jd3cSTO3bX5WCc5HxXuH+OjtEiNmpvTGbQS781+zCEIJAJ86c3CP6VY5Btgq/Hg==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-t+R19DeTmy9lenQFbaBgiJXx8vvRwsiQ+EtFLODfk/IWGP1ZodnrZdUu2AcsfAKE+PrKhLcvnLavSEDWmrZqSw==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
@@ -21534,7 +21535,7 @@ packages:
     dev: false
 
   file:projects/openai.tgz:
-    resolution: {integrity: sha512-HbvC8ZldtA4WQ2pLFQaqYn7GBJbve7a4L/FlCFInJL8qXMDqC0B0by+XFQRFwJNyhR16BUE4OzqLtmr0RZHi0A==, tarball: file:projects/openai.tgz}
+    resolution: {integrity: sha512-HBj/Qx2MYsVo5U0oej6XaULyK8gfk1zjl0N6dQdu97ICZhWcACer7FroEXj3CUq2DJs1Z8nIQDV3gU/WLCUCUw==, tarball: file:projects/openai.tgz}
     name: '@rush-temp/openai'
     version: 0.0.0
     dependencies:
@@ -21543,11 +21544,12 @@ packages:
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       dotenv: 16.4.5
       eslint: 9.15.0
-      openai: 4.72.0
+      openai: 4.72.0(zod@3.23.8)
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
+      zod: 3.23.8
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -21569,7 +21571,6 @@ packages:
       - utf-8-validate
       - vite
       - webdriverio
-      - zod
     dev: false
 
   file:projects/opentelemetry-instrumentation-azure-sdk.tgz:
@@ -22932,7 +22933,7 @@ packages:
     dev: false
 
   file:projects/synapse-artifacts.tgz:
-    resolution: {integrity: sha512-VgOqK+FmSJ9y+Heaix3xq751wFJaNoSe4dWtR/lVhRb5zJflE8yTN/3GqYodDUuoArgU5pX9iwpDKsveTh6f+w==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-5rjggfXNlltSIRafPLODuubz9l0qMTDLyDbF9fMNGQxiCs+CQ9CHFxYu26bL3bC8FkqKbFzi9TntWrWX1F/TYw==, tarball: file:projects/synapse-artifacts.tgz}
     name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
@@ -23068,7 +23069,7 @@ packages:
     dev: false
 
   file:projects/synapse-spark.tgz:
-    resolution: {integrity: sha512-HdvST82PGUU/bhFPH62vM+p8dN+hQNMEZoLjmITPNlqnavW3qHVoNFNb5OZpF0HdHxGiAc29slBngUqeYQlK4Q==, tarball: file:projects/synapse-spark.tgz}
+    resolution: {integrity: sha512-7VuuV5NynayhACA7upeM3teS3wfatr9zrVsViPOWaY9D2pg63KDr3duw0olTfwdDyIzFvraUWChLH1YGesC9Wg==, tarball: file:projects/synapse-spark.tgz}
     name: '@rush-temp/synapse-spark'
     version: 0.0.0
     dependencies:
