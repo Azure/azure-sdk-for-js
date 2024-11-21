@@ -43,7 +43,7 @@ describe("DeviceCodeCredential (internal)", function () {
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,
         clientId: env.AZURE_CLIENT_ID,
-      })
+      }),
     );
 
     await credential.getToken(scope);
@@ -66,7 +66,7 @@ describe("DeviceCodeCredential (internal)", function () {
       recorder.configureClientOptions({
         tenantId: env.AZURE_TENANT_ID,
         clientId: env.AZURE_CLIENT_ID,
-      })
+      }),
     );
 
     await credential.getToken(scope, { tenantId: env.AZURE_TENANT_ID });

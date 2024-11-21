@@ -196,7 +196,7 @@ export async function msalNodeTestSetup(
           },
         ],
       },
-      ["record", "playback"]
+      ["record", "playback"],
     );
 
     return {
