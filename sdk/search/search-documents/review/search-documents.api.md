@@ -2531,8 +2531,10 @@ export interface SoftDeleteColumnDeletionDetectionPolicy extends BaseDataDeletio
 // @public
 export interface SplitSkill extends BaseSearchIndexerSkill {
     defaultLanguageCode?: SplitSkillLanguage;
+    maximumPagesToTake?: number;
     maxPageLength?: number;
     odatatype: "#Microsoft.Skills.Text.SplitSkill";
+    pageOverlapLength?: number;
     textSplitMode?: TextSplitMode;
 }
 
