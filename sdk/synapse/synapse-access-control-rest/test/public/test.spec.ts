@@ -4,10 +4,10 @@
 import { AccessControlRestClient, isUnexpected } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { RoleAssignmentDetailsOutput } from "../../src/index.js";
-import { assert } from "chai";
 import { createClient } from "./utils/recordedClient.js";
 import { isNode } from "@azure/core-util";
 import { paginate } from "../../src/paginateHelper.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Access Control smoke", () => {
   let recorder: Recorder;
