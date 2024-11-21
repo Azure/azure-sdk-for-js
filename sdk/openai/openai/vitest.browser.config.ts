@@ -19,6 +19,7 @@ export default mergeConfig(
       ],
       alias: {
         "@azure/openai": resolve("./dist/browser/index.js"),
+        "@azure/openai/types": resolve("./dist/browser/types/index.js"),
         "../../dist/esm": resolve("./dist/browser"),
       },
     },
