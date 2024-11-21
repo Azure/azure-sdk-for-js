@@ -41,7 +41,7 @@ it("should create agent with function tool", async function () {
     assert.equal((agent.tools[0] as FunctionToolDefinition).function.name, "getCurrentDateTime");
 
     // Delete agent
-    agents.deleteAgent(agent.id);
+    await agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
 })
 
@@ -114,5 +114,3 @@ it("should create agent with run function tool", async function () {
     console.log(`Deleted agent, agent ID: ${agent.id}`);
 })
 });
-
-
