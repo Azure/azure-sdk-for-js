@@ -7,9 +7,9 @@ import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure-tools/test-recorder";
-import { UsernamePasswordCredential } from "../../../src/index.js";
+import { type GetTokenOptions, UsernamePasswordCredential } from "@azure/identity";
 import { getUsernamePasswordStaticResources } from "../../msalTestUtils.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 expect.extend({ toSupportTracing });
@@ -29,7 +29,7 @@ describe("UsernamePasswordCredential", function () {
 
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates", async function (ctx) {
+  it("authenticates", async function () {
     const { tenantId, clientId, username, password } = getUsernamePasswordStaticResources();
 
     const credential = new UsernamePasswordCredential(
@@ -76,10 +76,10 @@ describe("UsernamePasswordCredential", function () {
     assert.ok(error?.message.includes("endpoints_resolution_error"));
   });
 
-  it("supports tracing", async function (ctx) {
+  it("supports tracing", async function () {
     const { clientId, tenantId, username, password } = getUsernamePasswordStaticResources();
 
-    await expect(async (tracingOptions) => {
+    await expect(async (tracingOptions: GetTokenOptions) => {
       const credential = new UsernamePasswordCredential(
         tenantId,
         clientId,

@@ -9,10 +9,10 @@ import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 
-import { ClientSecretCredential } from "../../../src/index.js";
+import { ClientSecretCredential } from "@azure/identity";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import type { GetTokenOptions } from "@azure/core-auth";
-import { describe, it, assert, expect, vi, beforeEach, afterEach, MockInstance } from "vitest";
+import { describe, it, assert, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
 
 describe("ClientSecretCredential (internal)", function () {
   let cleanup: MsalTestCleanup;

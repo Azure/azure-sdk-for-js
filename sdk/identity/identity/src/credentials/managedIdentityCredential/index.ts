@@ -10,13 +10,13 @@ import { IdentityClient } from "../../client/identityClient.js";
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../../errors.js";
 import { getMSALLogLevel, defaultLoggerCallback } from "../../msal/utils.js";
 import { imdsRetryPolicy } from "./imdsRetryPolicy.js";
-import { MSIConfiguration } from "./models.js";
+import type { MSIConfiguration } from "./models.js";
 import { formatSuccess, formatError, credentialLogger } from "../../util/logging.js";
 import { tracingClient } from "../../util/tracing.js";
 import { imdsMsi } from "./imdsMsi.js";
 import { tokenExchangeMsi } from "./tokenExchangeMsi.js";
 import { mapScopesToResource } from "./utils.js";
-import { MsalToken, ValidMsalToken } from "../../msal/types.js";
+import type { MsalToken, ValidMsalToken } from "../../msal/types.js";
 
 const logger = credentialLogger("ManagedIdentityCredential");
 

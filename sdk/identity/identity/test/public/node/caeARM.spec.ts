@@ -3,8 +3,8 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import type { AccessToken, TokenCredential } from "../../../src/index.js";
-import { DeviceCodeCredential, UsernamePasswordCredential } from "../../../src/index.js";
+import type { AccessToken, TokenCredential } from "@azure/identity";
+import { DeviceCodeCredential, UsernamePasswordCredential } from "@azure/identity";
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -15,10 +15,10 @@ import {
   createEmptyPipeline,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { DeveloperSignOnClientId } from "../../../src/constants.js";
-import { IdentityClient } from "../../../src/client/identityClient.js";
+import { DeveloperSignOnClientId } from "../../../dist/esm/constants.js";
+import { IdentityClient } from "../../../dist/esm/client/identityClient.js";
 import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 /**
  * Sequence of events needed to test the CAE challenges on the Graph endpoint.
@@ -145,7 +145,7 @@ describe.skip("CAE", function () {
     await cleanup();
   });
 
-  it("DeviceCodeCredential", async function (ctx) {
+  it("DeviceCodeCredential", async function () {
     const [firstAccessToken, finalAccessToken] = await challengeFlow(
       new DeviceCodeCredential(recorder.configureClientOptions({ tenantId: env.AZURE_TENANT_ID })),
       recorder,
@@ -154,7 +154,7 @@ describe.skip("CAE", function () {
     assert.notDeepEqual(firstAccessToken, finalAccessToken);
   });
 
-  it("UsernamePasswordCredential", async function (ctx) {
+  it("UsernamePasswordCredential", async function () {
     // Important: Recording this test may only work in certain tenants.
 
     const [firstAccessToken, finalAccessToken] = await challengeFlow(

@@ -4,13 +4,13 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
 import type { AbortError } from "@azure/abort-controller";
-import type { DeviceCodePromptCallback } from "../../../src/index.js";
-import { DeviceCodeCredential } from "../../../src/index.js";
+import type { DeviceCodePromptCallback } from "@azure/identity";
+import { DeviceCodeCredential } from "@azure/identity";
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { delay, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 expect.extend({ toSupportTracing });

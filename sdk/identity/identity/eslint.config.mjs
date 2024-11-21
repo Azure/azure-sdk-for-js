@@ -15,4 +15,20 @@ export default [
       "@typescript-eslint/no-unused-vars": "off",
     },
   },
+  {
+    files: ["**/*.ts", "**/*.cts", "**/*.mts"],
+    languageOptions: {
+      parserOptions: {
+        project: ["./tsconfig.src.json", "./tsconfig.tests.json"],
+      },
+    },
+  },
+  {
+    files: ["*.md/*.ts"],
+    languageOptions: {
+      parserOptions: {
+        project: null,
+      },
+    },
+  },
 ];

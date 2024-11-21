@@ -6,10 +6,10 @@
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { delay, env, isRecordMode } from "@azure-tools/test-recorder";
+import { delay, env } from "@azure-tools/test-recorder";
 
-import { ClientSecretCredential } from "../../../src/index.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { ClientSecretCredential, type GetTokenOptions } from "@azure/identity";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 expect.extend({ toSupportTracing });
@@ -83,7 +83,7 @@ describe("ClientSecretCredential", function () {
   });
 
   it("supports tracing", async () => {
-    await expect(async (tracingOptions) => {
+    await expect(async (tracingOptions: GetTokenOptions) => {
       const credential = new ClientSecretCredential(
         env.AZURE_TENANT_ID!,
         env.AZURE_CLIENT_ID!,

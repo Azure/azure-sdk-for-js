@@ -3,7 +3,7 @@
 
 import * as https from "node:https";
 import * as http from "node:http";
-import type { AccessToken, GetTokenOptions, TokenCredential } from "../src/index.js";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/identity";
 import type { AzureLogLevel } from "@azure/logger";
 import { AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "node:http";

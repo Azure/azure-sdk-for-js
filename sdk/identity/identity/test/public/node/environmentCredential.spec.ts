@@ -3,7 +3,11 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import { EnvironmentCredential, UsernamePasswordCredential } from "../../../src/index.js";
+import {
+  EnvironmentCredential,
+  type GetTokenOptions,
+  UsernamePasswordCredential,
+} from "@azure/identity";
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -136,7 +140,7 @@ describe("EnvironmentCredential", function () {
       // Live test run not supported on CI at the moment. Locally should work though.
       ctx.skip();
     }
-    await expect(async (tracingOptions) => {
+    await expect(async (tracingOptions: GetTokenOptions) => {
       // The following environment variables must be set for this to work.
       // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
       process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
@@ -149,7 +153,7 @@ describe("EnvironmentCredential", function () {
   });
 
   it("supports tracing with environment username/password", async () => {
-    await expect(async (tracingOptions) => {
+    await expect(async (tracingOptions: GetTokenOptions) => {
       // The following environment variables must be set for this to work.
       // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
       process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;

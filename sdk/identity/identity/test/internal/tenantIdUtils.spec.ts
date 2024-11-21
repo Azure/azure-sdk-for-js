@@ -5,9 +5,9 @@ import {
   checkTenantId,
   resolveAdditionallyAllowedTenantIds,
   resolveTenantId,
-} from "../../src/util/tenantIdUtils.js";
-import { DeveloperSignOnClientId } from "../../src/constants.js";
-import { credentialLogger } from "../../src/util/logging.js";
+} from "../../dist/esm/util/tenantIdUtils.js";
+import { DeveloperSignOnClientId } from "../../dist/esm/constants.js";
+import { credentialLogger } from "../../dist/esm/util/logging.js";
 import { describe, it, assert } from "vitest";
 
 describe("tenantIdUtils", () => {

@@ -11,13 +11,13 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { createJWTTokenFromCertificate } from "./utils/utils.js";
 import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "node:fs";
-import type { WorkloadIdentityCredentialOptions } from "../../../src/index.js";
+import type { WorkloadIdentityCredentialOptions } from "@azure/identity";
 import {
   DefaultAzureCredential,
   ManagedIdentityCredential,
   WorkloadIdentityCredential,
-} from "../../../src/index.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+} from "@azure/identity";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe.skip("WorkloadIdentityCredential", function () {
   let cleanup: MsalTestCleanup;
@@ -44,7 +44,7 @@ describe.skip("WorkloadIdentityCredential", function () {
     return jwtoken;
   }
 
-  it("authenticates with WorkloadIdentity Credential", async function (ctx) {
+  it("authenticates with WorkloadIdentity Credential", async function () {
     const fileDir = await setupFileandEnv("workload-identity");
     const credential = new WorkloadIdentityCredential(
       recorder.configureClientOptions({
@@ -63,7 +63,7 @@ describe.skip("WorkloadIdentityCredential", function () {
     }
   });
 
-  it("authenticates with ManagedIdentity Credential", async function (ctx) {
+  it("authenticates with ManagedIdentity Credential", async function () {
     const fileDir = await setupFileandEnv("token-exchange-msi");
     const credential = new ManagedIdentityCredential(clientId, recorder.configureClientOptions({}));
     try {
@@ -76,7 +76,7 @@ describe.skip("WorkloadIdentityCredential", function () {
     }
   });
 
-  it("authenticates with DefaultAzure Credential", async function (ctx) {
+  it("authenticates with DefaultAzure Credential", async function () {
     const fileDir = await setupFileandEnv("token-exchange-msi");
     const credential = new DefaultAzureCredential(recorder.configureClientOptions({}));
     try {
@@ -90,7 +90,7 @@ describe.skip("WorkloadIdentityCredential", function () {
       rmdirSync(fileDir.tempDir);
     }
   });
-  it("authenticates with DefaultAzure Credential and client ID", async function (ctx) {
+  it("authenticates with DefaultAzure Credential and client ID", async function () {
     const fileDir = await setupFileandEnv("token-exchange-msi");
     const credential = new DefaultAzureCredential(
       recorder.configureClientOptions({

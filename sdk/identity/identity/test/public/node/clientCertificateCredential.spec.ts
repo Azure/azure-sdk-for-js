@@ -10,10 +10,10 @@ import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { delay, env, isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
 
-import { ClientCertificateCredential } from "../../../src/index.js";
+import { ClientCertificateCredential, type GetTokenOptions } from "@azure/identity";
 import type { PipelineResponse } from "@azure/core-rest-pipeline";
 import fs from "node:fs";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 expect.extend({ toSupportTracing });
@@ -41,7 +41,7 @@ describe("ClientCertificateCredential", function () {
   const certificatePath = env.IDENTITY_SP_CERT_PEM || path.join(ASSET_PATH, "fake-cert.pem");
   const scope = "https://vault.azure.net/.default";
 
-  it("authenticates", async function (ctx) {
+  it("authenticates", async function () {
     const credential = new ClientCertificateCredential(
       env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
       env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
@@ -54,7 +54,7 @@ describe("ClientCertificateCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with a PEM certificate string directly", async function (ctx) {
+  it("authenticates with a PEM certificate string directly", async function () {
     const credential = new ClientCertificateCredential(
       env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
       env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,
@@ -116,7 +116,7 @@ describe("ClientCertificateCredential", function () {
       // and I'm trying to avoid having to generate one ourselves.
       ctx.skip();
     }
-    await expect(async (tracingOptions) => {
+    await expect(async (tracingOptions: GetTokenOptions) => {
       const credential = new ClientCertificateCredential(
         env.IDENTITY_SP_TENANT_ID || env.AZURE_TENANT_ID!,
         env.IDENTITY_SP_CLIENT_ID || env.AZURE_CLIENT_ID!,

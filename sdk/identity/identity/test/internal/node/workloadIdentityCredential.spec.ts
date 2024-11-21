@@ -3,12 +3,12 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import type { AccessToken, WorkloadIdentityCredentialOptions } from "../../../src/index.js";
+import type { AccessToken, WorkloadIdentityCredentialOptions } from "@azure/identity";
 import {
   DefaultAzureCredential,
   ManagedIdentityCredential,
   WorkloadIdentityCredential,
-} from "../../../src/index.js";
+} from "@azure/identity";
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 
@@ -52,7 +52,7 @@ describe("WorkloadIdentityCredential", function () {
     await cleanup();
   });
 
-  it("authenticates with WorkloadIdentity Credential", async function (ctx) {
+  it("authenticates with WorkloadIdentity Credential", async function () {
     const credential = new WorkloadIdentityCredential({
       tenantId,
       clientId,
@@ -67,7 +67,7 @@ describe("WorkloadIdentityCredential", function () {
     });
   });
 
-  it("authenticates with ManagedIdentity Credential", async function (ctx) {
+  it("authenticates with ManagedIdentity Credential", async function () {
     vi.stubEnv("AZURE_FEDERATED_TOKEN_FILE", tokenFilePath);
     vi.stubEnv("AZURE_CLIENT_ID", clientId);
     vi.stubEnv("AZURE_TENANT_ID", tenantId);
@@ -77,7 +77,7 @@ describe("WorkloadIdentityCredential", function () {
     assert.ok(token?.expiresOnTimestamp! > Date.now());
   });
 
-  it("authenticates with DefaultAzure Credential", async function (ctx) {
+  it("authenticates with DefaultAzure Credential", async function () {
     const credential = new DefaultAzureCredential();
     try {
       const { token, successfulCredential } = await credential["getTokenInternal"](scope);
@@ -98,7 +98,7 @@ describe("WorkloadIdentityCredential", function () {
       vi.restoreAllMocks();
     }
   });
-  it("authenticates with DefaultAzure Credential and client ID", async function (ctx) {
+  it("authenticates with DefaultAzure Credential and client ID", async function () {
     const credential = new DefaultAzureCredential({
       managedIdentityClientId: "managedIdentityClientId",
       workloadIdentityClientId: "workloadIdentityClientId",

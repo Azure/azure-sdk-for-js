@@ -4,7 +4,7 @@
 import type { IdentityTestContextInterface } from "../../httpRequestsCommon.js";
 import { createResponse } from "../../httpRequestsCommon.js";
 import { IdentityTestContext } from "../../httpRequests.js";
-import { UsernamePasswordCredential } from "../../../src/index.js";
+import { UsernamePasswordCredential } from "@azure/identity";
 import { assertClientCredentials } from "../../authTestUtils.js";
 import { fakeTestPasswordPlaceholder } from "@azure-tools/test-utils-vitest";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureApplicationCredential } from "../../../src/credentials/azureApplicationCredential.js";
+import { AzureApplicationCredential } from "../../../dist/esm/credentials/azureApplicationCredential.js";
 import {
   createDefaultHttpClient,
   createHttpHeaders,
-  HttpClient,
+  type HttpClient,
   RestError,
 } from "@azure/core-rest-pipeline";
 import { ManagedIdentityApplication } from "@azure/msal-node";

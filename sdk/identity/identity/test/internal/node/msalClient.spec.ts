@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as msalClient from "../../../src/msal/nodeFlows/msalClient.js";
+import * as msalClient from "../../../dist/esm/msal/nodeFlows/msalClient.js";
 
 import type { AuthenticationResult } from "@azure/msal-node";
 import {
@@ -15,12 +15,12 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isLiveMode } from "@azure-tools/test-recorder";
 
 import { AbortError } from "@azure/abort-controller";
-import { AuthenticationRequiredError } from "../../../src/errors.js";
-import { DeveloperSignOnClientId } from "../../../src/constants.js";
-import { IdentityClient } from "../../../src/client/identityClient.js";
-import { credentialLogger } from "../../../src/util/logging.js";
+import { AuthenticationRequiredError } from "../../../dist/esm/errors.js";
+import { DeveloperSignOnClientId } from "../../../dist/esm/constants.js";
+import { IdentityClient } from "../../../dist/esm/client/identityClient.js";
+import { credentialLogger } from "../../../dist/esm/util/logging.js";
 import { getUsernamePasswordStaticResources } from "../../msalTestUtils.js";
-import { msalPlugins } from "../../../src/msal/nodeFlows/msalPlugins.js";
+import { msalPlugins } from "../../../dist/esm/msal/nodeFlows/msalPlugins.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("MsalClient", function () {
@@ -446,7 +446,7 @@ describe("MsalClient", function () {
       });
     });
 
-    it("supports cancellation", async function (ctx) {
+    it("supports cancellation", async function () {
       const client = msalClient.createMsalClient(clientId, tenantId);
 
       const scopes = ["https://vault.azure.net/.default"];
@@ -465,7 +465,7 @@ describe("MsalClient", function () {
     });
 
     describe("cross-tenant federation", function () {
-      it("allows passing an authority host", async function (ctx) {
+      it("allows passing an authority host", async function () {
         const tenantIdOne = "tenantOne";
         const tenantIdTwo = "tenantTwo";
         const authorityHost = "https://custom.authority.com";
@@ -490,7 +490,7 @@ describe("MsalClient", function () {
         assert.equal(requestAuthority, expectedAuthority);
       });
 
-      it("allows using the AZURE_AUTHORITY_HOST environment variable", async function (ctx) {
+      it("allows using the AZURE_AUTHORITY_HOST environment variable", async function () {
         const tenantIdOne = "tenantOne";
         const tenantIdTwo = "tenantTwo";
         const authorityHost = "https://custom.authority.com";

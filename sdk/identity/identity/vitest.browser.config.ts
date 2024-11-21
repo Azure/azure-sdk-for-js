@@ -3,6 +3,7 @@
 
 import { defineConfig, mergeConfig } from "vitest/config";
 import viteConfig from "../../../vitest.browser.shared.config.ts";
+import { resolve } from "node:path";
 
 export default mergeConfig(
   viteConfig,
@@ -10,6 +11,10 @@ export default mergeConfig(
     test: {
       include: ["dist-test/browser/test/**/*.spec.js"],
       exclude: ["dist-test/browser/test/snippets.spec.js"],
+      alias: {
+        "@azure/identity": resolve("./dist/browser/index.js"),
+        "../../dist/esm": resolve("./dist/browser"),
+      },
       hookTimeout: 500000,
       testTimeout: 500000,
     },

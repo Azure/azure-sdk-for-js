@@ -8,9 +8,9 @@ import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 
-import { ClientCertificateCredential } from "../../../src/index.js";
-import { parseCertificate } from "../../../src/credentials/clientCertificateCredential.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { ClientCertificateCredential } from "@azure/identity";
+import { parseCertificate } from "../../../dist/esm/credentials/clientCertificateCredential.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const ASSET_PATH = "assets";
 
@@ -100,7 +100,7 @@ describe("ClientCertificateCredential (internal)", function () {
     );
   });
 
-  it("throws when given a file that doesn't contain a PEM-formatted certificate", async function (ctx) {
+  it("throws when given a file that doesn't contain a PEM-formatted certificate", async function () {
     const fullPath = path.resolve("./clientCertificateCredential.spec.ts");
     const credential = new ClientCertificateCredential("tenant", "client", {
       certificatePath: fullPath,
@@ -117,7 +117,7 @@ describe("ClientCertificateCredential (internal)", function () {
     assert.deepEqual(error?.message, `ENOENT: no such file or directory, open '${fullPath}'`);
   });
 
-  it("throws when given a certificate that isn't PEM-formatted", async function (ctx) {
+  it("throws when given a certificate that isn't PEM-formatted", async function () {
     const credential = new ClientCertificateCredential("tenant", "client", {
       certificate: "not-pem-formatted",
     });

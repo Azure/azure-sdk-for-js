@@ -1,23 +1,9 @@
 {
   "extends": "../../../tsconfig",
-  "compilerOptions": {
-    "lib": ["DOM"],
-    "resolveJsonModule": true,
-    "paths": {
-      "@azure/identity": ["./src/index"]
-    },
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "rootDir": "."
-  },
-  "include": [
-    "src/**/*.ts",
-    "src/**/*.mts",
-    "src/**/*.cts",
-    "samples-dev/**/*.ts",
-    "test/**/*.ts",
-    "test/**/*.mts",
-    "test/**/*.cts"
+  "references": [
+    { "path": "./tsconfig.src.json" },
+    { "path": "./tsconfig.samples.json" },
+    { "path": "./tsconfig.tests.json" }
   ],
-  "exclude": ["test/manual*/**/*", "integration/**", "node_modules"]
+  "files": []
 }
