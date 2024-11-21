@@ -3,7 +3,8 @@
 
 import * as cnst from "../../../src/utils/constants.js";
 import { readFileSync } from "node:fs";
-import { expect } from "chai";
+import { describe, it, assert } from "vitest";
+
 describe("constants", function () {
   it("uses same version as package.json", function () {
     const pkgjson = readFileSync("./package.json", "utf-8");

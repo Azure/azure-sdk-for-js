@@ -4,13 +4,10 @@
 
 import type { ModelsRepositoryClientOptions } from "../../../src/index.js";
 import { ModelsRepositoryClient } from "../../../src/index.js";
-
-import { assert, expect } from "chai";
-import * as sinon from "sinon";
-
 import type { dependencyResolutionType } from "../../../src/dependencyResolutionType.js";
 import { ServiceClient } from "@azure/core-client";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 interface RemoteResolutionScenario {
   name: string;

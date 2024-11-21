@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import * as lib from "../../../src/dtmiConventions.js";
-
-import { assert, expect } from "chai";
+import { describe, it, assert } from "vitest";
 
 interface TestCase {
   dtmi: string;
