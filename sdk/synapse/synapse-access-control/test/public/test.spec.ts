@@ -1,14 +1,17 @@
-import { AccessControlClient } from "../../src/accessControlClient.js";
-import { Recorder } from "@azure-tools/test-recorder";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+import type { AccessControlClient } from "../../src/accessControlClient.js";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Access Control smoke", () => {
   let recorder: Recorder;
   let client: AccessControlClient;
 
-  beforeEach(async function() {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 

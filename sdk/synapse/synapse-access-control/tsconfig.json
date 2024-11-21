@@ -1,6 +1,9 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
+    "paths": {
+      "@azure/synapse-access-control": ["./src/index.js"]
+    },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
@@ -10,14 +13,8 @@
     "src/**/*.mts",
     "src/**/*.cts",
     "samples-dev/**/*.ts",
-    "test/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules",
-    "types",
-    "temp",
-    "browser",
-    "dist*",
-    "./dom-shims.d.ts"
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
   ]
 }
