@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { Context } from "mocha";
-import { CancerProfilingRestClient, getLongRunningPoller } from "../../src";
+import type { Context } from "mocha";
+import type { CancerProfilingRestClient } from "../../src";
+import { getLongRunningPoller } from "../../src";
 import { createClient, createRecorder } from "./utils/recordedClient";
 
 const patientInfo = {

@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",

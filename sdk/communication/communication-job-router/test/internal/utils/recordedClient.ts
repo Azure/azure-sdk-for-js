@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import * as dotenv from "dotenv";
-import { isNode } from "@azure/core-util";
-import { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { Test } from "mocha";
-import { generateToken } from "../../public/utils/connection";
+import { isNodeLike } from "@azure/core-util";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
+import { Recorder } from "@azure-tools/test-recorder";
+import { generateToken } from "../../public/utils/connection.js";
 
-if (isNode) {
+if (isNodeLike) {
   dotenv.config();
 }
 
@@ -27,7 +27,7 @@ export const recorderOptions: RecorderStartOptions = {
   ],
 };
 
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   await recorder.setMatcher("HeaderlessMatcher");

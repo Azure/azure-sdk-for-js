@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { InternalClientPipelineOptions } from "@azure/core-client";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { InternalClientPipelineOptions } from "@azure/core-client";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { CommunicationIdentifier } from "@azure/communication-common";
 import {
-  CommunicationIdentifier,
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
 
-import { logger } from "./logger";
-import { tracingClient } from "./tracing";
-import { RoomsRestClient } from "./generated/src";
+import { logger } from "./logger.js";
+import { tracingClient } from "./tracing.js";
+import { RoomsRestClient } from "./generated/src/index.js";
 import {
   mapCommunicationRoomToSDKModel,
   mapRoomParticipantForRemoval,
   mapRoomParticipantToRawId,
   mapToRoomParticipantSDKModel,
-} from "./models/mappers";
-import { CommunicationRoom, RoomParticipantPatch, RoomParticipant } from "./models/models";
-import {
+} from "./models/mappers.js";
+import type { CommunicationRoom, RoomParticipantPatch, RoomParticipant } from "./models/models.js";
+import type {
   CreateRoomOptions,
   DeleteRoomOptions,
   GetRoomOptions,
@@ -30,9 +30,9 @@ import {
   RoomsClientOptions,
   UpdateRoomOptions,
   AddOrUpdateParticipantsOptions,
-} from "./models/options";
+} from "./models/options.js";
 import { randomUUID } from "@azure/core-util";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * @internal

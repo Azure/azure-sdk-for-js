@@ -8,10 +8,10 @@ import {
   ResourceType,
   SDKSupportedCapabilities,
 } from "../common";
-import { CosmosClientOptions } from "../CosmosClientOptions";
-import { PartitionKeyInternal } from "../documents";
-import { CosmosHeaders } from "../queryExecutionContext";
-import { FeedOptions, RequestOptions } from "./index";
+import type { CosmosClientOptions } from "../CosmosClientOptions";
+import type { PartitionKeyInternal } from "../documents";
+import type { CosmosHeaders } from "../queryExecutionContext";
+import type { FeedOptions, RequestOptions } from "./index";
 import { defaultLogger } from "../common/logger";
 import { ChangeFeedMode } from "../client/ChangeFeed";
 // ----------------------------------------------------------------------------

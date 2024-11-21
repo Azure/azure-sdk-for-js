@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { CommonClientOptions } from "@azure/core-client";
-import { dependencyResolutionType } from "../dependencyResolutionType";
+import type { CommonClientOptions } from "@azure/core-client";
+import type { dependencyResolutionType } from "../dependencyResolutionType";
 
 /**
  * Options for creating a Pipeline to use with ModelsRepositoryClient.

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DTDL } from "./psuedoDtdl";
+import type { DTDL } from "./psuedoDtdl";
 import { logger } from "./logger";
-import { DtmiResolver } from "./dtmiResolver";
+import type { DtmiResolver } from "./dtmiResolver";
 import { RestError } from "@azure/core-rest-pipeline";
 
 /**

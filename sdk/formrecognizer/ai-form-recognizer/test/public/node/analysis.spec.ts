@@ -1,22 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { matrix } from "@azure-tools/test-utils";
 import { assert } from "chai";
 import fs from "fs";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import path from "path";
-import {
+import type {
   AnalyzedDocument,
-  DocumentAnalysisClient,
-  DocumentModelAdministrationClient,
   DocumentTable,
   DocumentModelDetails,
-  FormRecognizerFeature,
   DocumentBarcode,
 } from "../../../src";
-import { DocumentSelectionMarkField } from "../../../src/models/fields";
+import {
+  DocumentAnalysisClient,
+  DocumentModelAdministrationClient,
+  FormRecognizerFeature,
+} from "../../../src";
+import type { DocumentSelectionMarkField } from "../../../src/models/fields";
 import {
   createRecorder,
   getRandomNumber,
@@ -27,7 +30,7 @@ import { DocumentModelBuildMode } from "../../../src/options/BuildModelOptions";
 import { createValidator } from "../../utils/fieldValidator";
 
 import { PrebuiltModels } from "../../utils/prebuilts";
-import { PrebuiltIdDocumentDocument } from "../../../samples-dev/prebuilt/prebuilt-idDocument";
+import type { PrebuiltIdDocumentDocument } from "../../../samples-dev/prebuilt/prebuilt-idDocument";
 import { ASSET_PATH, makeTestUrl } from "../../utils/etc";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");

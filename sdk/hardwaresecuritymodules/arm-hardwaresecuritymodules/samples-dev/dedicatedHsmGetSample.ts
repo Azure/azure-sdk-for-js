@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specified Azure dedicated HSM.
  *
  * @summary Gets the specified Azure dedicated HSM.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2021-11-30/examples/DedicatedHsm_Get.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/DedicatedHsm_Get.json
  */
 async function getADedicatedHsm() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function getADedicatedHsm() {
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
   const result = await client.dedicatedHsmOperations.get(
     resourceGroupName,
-    name
+    name,
   );
   console.log(result);
 }
@@ -40,7 +40,7 @@ async function getADedicatedHsm() {
  * This sample demonstrates how to Gets the specified Azure dedicated HSM.
  *
  * @summary Gets the specified Azure dedicated HSM.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2021-11-30/examples/PaymentHsm_Get.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/PaymentHsm_Get.json
  */
 async function getAPaymentHsm() {
   const subscriptionId =
@@ -53,7 +53,7 @@ async function getAPaymentHsm() {
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
   const result = await client.dedicatedHsmOperations.get(
     resourceGroupName,
-    name
+    name,
   );
   console.log(result);
 }
@@ -62,7 +62,7 @@ async function getAPaymentHsm() {
  * This sample demonstrates how to Gets the specified Azure dedicated HSM.
  *
  * @summary Gets the specified Azure dedicated HSM.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2021-11-30/examples/PaymentHsm_Get_With_2018-10-31Preview_Version.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/PaymentHsm_Get_With_2018-10-31Preview_Version.json
  */
 async function getAPaymentHsmWith20181031PreviewApiVersion() {
   const subscriptionId =
@@ -75,7 +75,7 @@ async function getAPaymentHsmWith20181031PreviewApiVersion() {
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
   const result = await client.dedicatedHsmOperations.get(
     resourceGroupName,
-    name
+    name,
   );
   console.log(result);
 }

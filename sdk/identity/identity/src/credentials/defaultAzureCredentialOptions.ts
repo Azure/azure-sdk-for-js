@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AuthorityValidationOptions } from "./authorityValidationOptions";
-import { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions";
+import type { AuthorityValidationOptions } from "./authorityValidationOptions.js";
+import type { MultiTenantTokenCredentialOptions } from "./multiTenantTokenCredentialOptions.js";
 
 /**
  * Provides options to configure the {@link DefaultAzureCredential} class.

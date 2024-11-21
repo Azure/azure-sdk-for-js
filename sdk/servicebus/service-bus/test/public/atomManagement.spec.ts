@@ -2,25 +2,23 @@
 // Licensed under the MIT License.
 
 import { isNodeLike } from "@azure/core-util";
-import { PageSettings } from "@azure/core-paging";
+import type { PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 import { parseServiceBusConnectionString } from "../../src/index.js";
-import { CreateQueueOptions } from "../../src/index.js";
-import { RuleProperties } from "../../src/index.js";
-import { CreateSubscriptionOptions, SubscriptionProperties } from "../../src/index.js";
-import { CreateTopicOptions } from "../../src/index.js";
-import { ServiceBusAdministrationClient, WithResponse } from "../../src/index.js";
-import { EntityStatus, EntityAvailabilityStatus } from "../../src/index.js";
+import type { CreateQueueOptions } from "../../src/index.js";
+import type { RuleProperties } from "../../src/index.js";
+import type { CreateSubscriptionOptions, SubscriptionProperties } from "../../src/index.js";
+import type { CreateTopicOptions } from "../../src/index.js";
+import type { WithResponse } from "../../src/index.js";
+import { ServiceBusAdministrationClient } from "../../src/index.js";
+import type { EntityStatus, EntityAvailabilityStatus } from "../../src/index.js";
 import { EnvVarNames, getEnvVars, getEnvVarValue } from "./utils/envVarUtils.js";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils.js";
 import { EntityNames, TestClientType } from "./utils/testUtils.js";
 import { TestConstants } from "./fakeTestSecrets.js";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
-import {
-  createServiceBusClientForTests,
-  getFullyQualifiedNamespace,
-  ServiceBusClientForTests,
-} from "./utils/testutils2.js";
+import type { ServiceBusClientForTests } from "./utils/testutils2.js";
+import { createServiceBusClientForTests, getFullyQualifiedNamespace } from "./utils/testutils2.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { afterAll, afterEach, assert, beforeAll, beforeEach, describe, it } from "vitest";
 import { should } from "./utils/chai.js";

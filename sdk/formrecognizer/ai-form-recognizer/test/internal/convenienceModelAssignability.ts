@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   Document as GeneratedDocument,
   DocumentKeyValueElement as GeneratedDocumentKeyValueElement,
   DocumentLine as GeneratedDocumentLine,
@@ -14,7 +14,7 @@ import {
   DocumentBarcode as GeneratedDocumentBarcode,
   DocumentFormula as GeneratedDocumentFormula,
 } from "../../src/generated";
-import {
+import type {
   Document,
   DocumentKeyValueElement,
   DocumentLine,

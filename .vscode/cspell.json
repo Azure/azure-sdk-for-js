@@ -136,6 +136,7 @@
     "reoffer",
     "rrggbb",
     "rushx",
+    "socketio",
     "soundex",
     "southcentralus",
     "struct",
@@ -167,7 +168,11 @@
   "overrides": [
     {
       "filename": "eng/pipelines",
-      "words": ["azuresdkartifacts", "gdnbaselines", "policheck"]
+      "words": ["azuresdkartifacts", "gdnbaselines", "policheck", "issecret", "dlrw"]
+    },
+    {
+      "filename": "eng/tools/rush-runner.js",
+      "words": ["Jsons"]
     },
     {
       "filename": "sdk/apimanagement/api-management-custom-widgets-scaffolder/review/api-management-custom-widgets-scaffolder.api.md",

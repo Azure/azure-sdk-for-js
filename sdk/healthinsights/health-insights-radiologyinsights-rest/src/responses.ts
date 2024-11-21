@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HttpResponse } from "@azure-rest/core-client";
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HealthInsightsErrorResponseOutput, RadiologyInsightsJobOutput } from "./outputModels";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HealthInsightsErrorResponseOutput, RadiologyInsightsJobOutput } from "./outputModels";
 
 /** Get the headers of the succeeded request */
 export interface GetJob200Headers {
