@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {AIProjectsClient, CodeInterpreterToolDefinition, MessageTextContentOutput, ToolResources } from "@azure/ai-projects"
+import {AIProjectsClient, isOutputOfType, CodeInterpreterToolDefinition, MessageTextContentOutput, ToolResources, MessageImageFileContentOutput, MessageContentOutput } from "@azure/ai-projects"
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
@@ -58,31 +58,41 @@ console.log("Deleted file");
 
 // Print the messages from the agent
 const messages = await client.agents.listMessages(thread.id);
+console.log("Messages:", messages);
 
-// console.log(((messages.data[0].content[0] as MessageTextContentOutput).text).value);
-
-// TODO: fix output
-for (const m of messages.data) {
-  console.log(`Message ${m.id} contents: ${((m.content[0] as MessageTextContentOutput).text).value}`);
+// Get most recent message from the assistant
+const assistantMessage = messages.data.find(msg => msg.role === "assistant");
+if (assistantMessage) {
+  const textContent = assistantMessage.content.find(content => isOutputOfType<MessageTextContentOutput>(content, "text")) as MessageTextContentOutput;
+  if (textContent) {
+    console.log(`Last message: ${textContent.text.value}`);
+  }
 }
 
-// TODO: Save the newly created file
-// const file = await client.agents.getFile(localFile.id);
-// const fileStream = fs.createWriteStream("nifty_500_quarterly_results.csv");
-// fileStream.write(client.agents.getFileContent(localFile.id));
-// fileStream.close();
-
+// Save the newly created file
+messages.data.forEach( m => {
+  m.content.forEach(async (content: MessageContentOutput) => {
+      if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
+          const imageContent = content as MessageImageFileContentOutput;
+          const file = await client.agents.uploadFile(fs.createReadStream(imageContent.image_file.file_id), "assistants", "uploaded-image-file");
+          console.log(`Saved new file, file ID : ${file.id}`);
+      }
+  });
+});
 
 // Iterate through file path annotations in messages and print details for each annotation
 console.log(`Message Details:`);
-for (const m of messages.data) {
+messages.data.forEach((m) => {
   console.log(`File Paths:`);
-  console.log(`Type: ${m.content[0].type}`); // This will be "file_path"
-  // console.log(`Text: ${(m.content[0] as MessageTextContentOutput).text.value}`);
+  console.log(`Type: ${m.content[0].type}`); 
+  if (isOutputOfType<MessageTextContentOutput>(m.content[0], "text")) {
+    const textContent = m.content[0] as MessageTextContentOutput;
+    console.log(`Text: ${textContent.text.value}`);
+  } 
   console.log(`File ID: ${m.id}`);
   console.log(`Start Index: ${messages.first_id}`);
   console.log(`End Index: ${messages.last_id}`);
-}
+});
 
 // Delete the agent once done
 await client.agents.deleteAgent(agent.id);
