@@ -25,7 +25,7 @@ async function runTypeDoc({ outputFolder, cwd }: { outputFolder: string; cwd: st
       }
     }
   }
-  console.log(`  entrypoints: ${JSON.stringify(entryPoints)}`);
+  console.log(`entrypoints: ${JSON.stringify(entryPoints)}`);
 
   const app = await TypeDocApplication.bootstrap({
     entryPoints,
