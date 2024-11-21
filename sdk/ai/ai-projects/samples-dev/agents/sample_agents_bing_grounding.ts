@@ -46,8 +46,9 @@ export async function main(): Promise<void> {
     "gpt-4-0125-preview", {
       name: "my-agent", 
       instructions: "You are a helpful agent",
-      tools: [{type: "bing_grounding", bing_grounding: {connections: [{connection_id: connectionId}]}} as BingGroundingToolDefinition],
-      // headers: {"x-ms-enable-preview": "true"} // TODO: Request options for agents CRUD ops?
+      tools: [{type: "bing_grounding", bing_grounding: {connections: [{connection_id: connectionId}]}} as BingGroundingToolDefinition]
+    }, {
+      headers: {"x-ms-enable-preview": "true"}
     });
   console.log(connectionId)
   console.log(`Created agent, agent ID : ${agent.id}`);
@@ -73,7 +74,7 @@ export async function main(): Promise<void> {
 
   // Delete the assistant when done
   client.agents.deleteAgent(agent.id)
-  console.log(`Deleted agent`);
+  console.log(`Deleted agent, agent ID: ${agent.id}`);
 
   // Fetch and log all messages
   const messages = await client.agents.listMessages(thread.id)
