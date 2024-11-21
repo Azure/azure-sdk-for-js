@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 import { assert } from "vitest";
 import { get, Metadata } from "./utils.js";
 import { getImageDimensionsFromResponse, getImageDimensionsFromString } from "./images.js";
@@ -276,7 +279,7 @@ function assertContentFilterBlocklistIdResult(val: ContentFilterBlocklistIdResul
 
 function assertChoice(
   choice: ChatCompletion.Choice | ChatCompletionChunk.Choice,
-  { ...options }: ChatCompletionTestOptions,
+  options: ChatCompletionTestOptions,
 ): void {
   const stream = options.stream;
   if (stream) {
@@ -555,29 +558,8 @@ interface ChatCompletionTestOptions {
   functions?: boolean;
   allowEmptyStream?: boolean;
   allowEmptyId?: boolean;
-  structuredOutput?: boolean;
 }
 
 interface EmbeddingTestOptions {
   dimensions?: number;
-}
-
-// Structure output interfaces
-export interface Step {
-  explanation: string;
-  output: string;
-}
-export interface MathResponse {
-  steps: Step[];
-  final_answer: string;
-}
-
-function assertStep(steps: Step): void {
-  assert.isString(steps.explanation);
-  assert.isString(steps.output);
-}
-
-export function assertMathResponseOutput(output: MathResponse): void {
-  assertNonEmptyArray(output.steps, assertStep);
-  assert.isString(output.final_answer);
 }
