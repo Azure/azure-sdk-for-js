@@ -2048,7 +2048,12 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+    Parameters.ifNoneMatch,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -2080,7 +2085,11 @@ const updateTagsOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
   ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
+  headerParameters: [
+    Parameters.accept,
+    Parameters.contentType,
+    Parameters.ifMatch,
+  ],
   mediaType: "json",
   serializer,
 };
@@ -2111,7 +2120,7 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.resourceName,
   ],
-  headerParameters: [Parameters.accept],
+  headerParameters: [Parameters.accept, Parameters.ifMatch],
   serializer,
 };
 const resetServicePrincipalProfileOperationSpec: coreClient.OperationSpec = {
