@@ -14,7 +14,6 @@ import {
 } from "@azure-tools/test-recorder";
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import { Context } from "mocha";
 
 export function createClient(
   options?: ManagedPrivateEndpointsClientOptionalParams

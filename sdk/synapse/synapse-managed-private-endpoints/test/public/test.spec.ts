@@ -1,7 +1,7 @@
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { ManagedPrivateEndpoint, ManagedPrivateEndpointsClient } from "../../src/index.js";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Synapse Managed Private Endpoints", () => {
   let recorder: Recorder;
