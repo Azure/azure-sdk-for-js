@@ -14,7 +14,7 @@ import { HttpHeaders } from "../../src/httpHeaders";
 import { ProxySettings } from "../../src/serviceClient";
 import { RequestPolicyOptions } from "../../src/policies/requestPolicy";
 import { WebResource } from "../../src/webResource";
-import { fakeTestSecretPlaceholder } from "@azure/test-utils";
+import { fakeTestSecretPlaceholder } from "@azure-tools/test-utils";
 import { should } from "chai";
 
 describe("ProxyPolicy (node)", function () {

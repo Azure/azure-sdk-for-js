@@ -5,7 +5,7 @@ import "chai/register-should";
 import { HttpHeaders, ProxySettings } from "../src";
 import { createProxyAgent, createTunnel } from "../src/proxyAgent";
 import Tunnel from "tunnel";
-import { fakeTestSecretPlaceholder } from "@azure/test-utils";
+import { fakeTestSecretPlaceholder } from "@azure-tools/test-utils";
 import https from "https";
 import { should } from "chai";
 
