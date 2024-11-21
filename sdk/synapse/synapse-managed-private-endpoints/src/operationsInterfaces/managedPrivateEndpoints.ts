@@ -17,13 +17,12 @@ import type {
   ManagedPrivateEndpointsDeleteOptionalParams,
 } from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a ManagedPrivateEndpoints. */
 export interface ManagedPrivateEndpoints {
   /**
    * List Managed Private Endpoints
-   * @param managedVirtualNetworkName Managed virtual network name
-   * @param options The options parameters.
+   * @param managedVirtualNetworkName - Managed virtual network name
+   * @param options - The options parameters.
    */
   list(
     managedVirtualNetworkName: string,
@@ -31,9 +30,9 @@ export interface ManagedPrivateEndpoints {
   ): PagedAsyncIterableIterator<ManagedPrivateEndpoint>;
   /**
    * Get Managed Private Endpoints
-   * @param managedVirtualNetworkName Managed virtual network name
-   * @param managedPrivateEndpointName Managed private endpoint name
-   * @param options The options parameters.
+   * @param managedVirtualNetworkName - Managed virtual network name
+   * @param managedPrivateEndpointName - Managed private endpoint name
+   * @param options - The options parameters.
    */
   get(
     managedVirtualNetworkName: string,
@@ -42,10 +41,10 @@ export interface ManagedPrivateEndpoints {
   ): Promise<ManagedPrivateEndpointsGetResponse>;
   /**
    * Create Managed Private Endpoints
-   * @param managedVirtualNetworkName Managed virtual network name
-   * @param managedPrivateEndpointName Managed private endpoint name
-   * @param managedPrivateEndpoint Managed private endpoint properties.
-   * @param options The options parameters.
+   * @param managedVirtualNetworkName - Managed virtual network name
+   * @param managedPrivateEndpointName - Managed private endpoint name
+   * @param managedPrivateEndpoint - Managed private endpoint properties.
+   * @param options - The options parameters.
    */
   create(
     managedVirtualNetworkName: string,
@@ -55,9 +54,9 @@ export interface ManagedPrivateEndpoints {
   ): Promise<ManagedPrivateEndpointsCreateResponse>;
   /**
    * Delete Managed Private Endpoints
-   * @param managedVirtualNetworkName Managed virtual network name
-   * @param managedPrivateEndpointName Managed private endpoint name
-   * @param options The options parameters.
+   * @param managedVirtualNetworkName - Managed virtual network name
+   * @param managedPrivateEndpointName - Managed private endpoint name
+   * @param options - The options parameters.
    */
   delete(
     managedVirtualNetworkName: string,

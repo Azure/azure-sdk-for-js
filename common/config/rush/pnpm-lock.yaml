@@ -22994,7 +22994,7 @@ packages:
     dev: false
 
   file:projects/synapse-managed-private-endpoints.tgz:
-    resolution: {integrity: sha512-M8Tqc7HZYLwzaffD0npPj+8au49x82iVNX3VkLArIkCzyUsL22HqOx5witrWIvRIW/iEqKJsMYnXs1m70jWVAw==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
+    resolution: {integrity: sha512-Zpd22jZb08NobyWIJwBybVo2rLF1jcIPtcPosR7Gtuv286aRX2tdD1ki14DasDmhtox1Ey6EiUkx9gtq9+W5sw==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
     name: '@rush-temp/synapse-managed-private-endpoints'
     version: 0.0.0
     dependencies:
@@ -23004,6 +23004,8 @@ packages:
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
@@ -23020,17 +23022,31 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/synapse-monitoring.tgz:
@@ -23084,7 +23100,7 @@ packages:
     dev: false
 
   file:projects/synapse-spark.tgz:
-    resolution: {integrity: sha512-HdvST82PGUU/bhFPH62vM+p8dN+hQNMEZoLjmITPNlqnavW3qHVoNFNb5OZpF0HdHxGiAc29slBngUqeYQlK4Q==, tarball: file:projects/synapse-spark.tgz}
+    resolution: {integrity: sha512-7VuuV5NynayhACA7upeM3teS3wfatr9zrVsViPOWaY9D2pg63KDr3duw0olTfwdDyIzFvraUWChLH1YGesC9Wg==, tarball: file:projects/synapse-spark.tgz}
     name: '@rush-temp/synapse-spark'
     version: 0.0.0
     dependencies:
