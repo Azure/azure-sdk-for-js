@@ -25,7 +25,6 @@ export class CreateCertificatePoller extends KeyVaultCertificatePoller<
 > {
   constructor(options: CreateCertificatePollerOptions) {
     const {
-      vaultUrl,
       client,
       certificateName,
       certificatePolicy,
@@ -48,7 +47,6 @@ export class CreateCertificatePoller extends KeyVaultCertificatePoller<
         certificatePolicy,
         createCertificateOptions,
       },
-      vaultUrl,
       client,
       operationOptions,
     );
