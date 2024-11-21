@@ -14,7 +14,7 @@ import {
 import {
   CheckPrincipalAccessRequest as CheckPrincipalAccessRequestMapper,
   RoleAssignmentRequest as RoleAssignmentRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

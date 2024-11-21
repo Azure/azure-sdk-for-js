@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
+import { tracingClient } from "../tracing.js";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RoleAssignments } from "../operationsInterfaces";
+import { RoleAssignments } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AccessControlClient } from "../accessControlClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { AccessControlClient } from "../accessControlClient.js";
 import {
   RoleAssignmentDetails,
   RoleAssignmentsListRoleAssignmentsOptionalParams,
@@ -26,7 +26,7 @@ import {
   RoleAssignmentsGetRoleAssignmentByIdOptionalParams,
   RoleAssignmentsGetRoleAssignmentByIdResponse,
   RoleAssignmentsDeleteRoleAssignmentByIdOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing RoleAssignments operations. */

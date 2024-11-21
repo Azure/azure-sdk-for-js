@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { RoleAssignmentsImpl, RoleDefinitionsImpl } from "./operations";
-import { RoleAssignments, RoleDefinitions } from "./operationsInterfaces";
-import { AccessControlClientOptionalParams } from "./models";
+import { RoleAssignmentsImpl, RoleDefinitionsImpl } from "./operations/index.js";
+import { RoleAssignments, RoleDefinitions } from "./operationsInterfaces/index.js";
+import { AccessControlClientOptionalParams } from "./models/index.js";
 
 export class AccessControlClient extends coreClient.ServiceClient {
   endpoint: string;

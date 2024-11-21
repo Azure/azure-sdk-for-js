@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import "./env";
+import "./env.js";
 
 import { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AccessControlClient, AccessControlClientOptionalParams } from "../../../src";
+import { AccessControlClient, AccessControlClientOptionalParams } from "../../../src/index.js";
 import {
   Recorder,
   RecorderStartOptions,

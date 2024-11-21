@@ -1,7 +1,7 @@
-import { AccessControlClient } from "../../src/accessControlClient";
+import { AccessControlClient } from "../../src/accessControlClient.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 
 describe("Access Control smoke", () => {
   let recorder: Recorder;
