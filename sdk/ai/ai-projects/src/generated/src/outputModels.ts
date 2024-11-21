@@ -32,6 +32,15 @@ export interface FileSearchToolDefinitionDetailsOutput {
    * Note that the file search tool may output fewer than `max_num_results` results. See the file search tool documentation for more information.
    */
   max_num_results?: number;
+  ranking_options?: FileSearchRankingOptionsOutput;
+}
+
+/** Ranking options for file search. */
+export interface FileSearchRankingOptionsOutput {
+  /** File search ranker. */
+  ranker: string;
+  /** Ranker search threshold. */
+  score_threshold: number;
 }
 
 /** The input definition information for a function tool as used to configure an agent. */
@@ -123,6 +132,19 @@ export interface CodeInterpreterToolResourceOutput {
    * associated with the tool.
    */
   file_ids?: string[];
+  /** The data sources to be used. This option is mutually exclusive with fileIds. */
+  data_sources?: Array<VectorStoreDataSourceOutput>;
+}
+
+/**
+ * The structure, containing Azure asset URI path and the asset type of the file used as a data source
+ * for the enterprise file search.
+ */
+export interface VectorStoreDataSourceOutput {
+  /** Asset URI. */
+  uri: string;
+  /** The asset type * */
+  type: VectorStoreDataSourceAssetTypeOutput;
 }
 
 /** A set of resources that are used by the `file_search` tool. */
@@ -132,6 +154,29 @@ export interface FileSearchToolResourceOutput {
    * store attached to the agent.
    */
   vector_store_ids?: string[];
+  /**
+   * The list of vector store configuration objects from Azure. This list is limited to one
+   * element. The only element of this list contains
+   * the list of azure asset IDs used by the search tool.
+   */
+  vector_stores?: Array<VectorStoreConfigurationsOutput>;
+}
+
+/** The structure, containing the list of vector storage configurations i.e. the list of azure asset IDs. */
+export interface VectorStoreConfigurationsOutput {
+  /** Name */
+  name: string;
+  /** Configurations */
+  configuration: VectorStoreConfigurationOutput;
+}
+
+/**
+ * Vector storage configuration is the list of data sources, used when multiple
+ * files can be used for the enterprise file search.
+ */
+export interface VectorStoreConfigurationOutput {
+  /** Data sources */
+  data_sources: Array<VectorStoreDataSourceOutput>;
 }
 
 /** A set of index resources used by the `azure_ai_search` tool. */
@@ -232,7 +277,9 @@ export interface AgentDeletionStatusOutput {
 /** This describes to which tools a file has been attached. */
 export interface MessageAttachmentOutput {
   /** The ID of the file to attach to the message. */
-  file_id: string;
+  file_id?: string;
+  /** Azure asset ID. */
+  data_sources?: Array<VectorStoreDataSourceOutput>;
   /** The tools to add to this file. */
   tools: MessageAttachmentToolDefinitionOutput[];
 }
@@ -853,7 +900,7 @@ export interface RunStepCompletionUsageOutput {
 }
 
 /** The response data for a requested list of items. */
-export interface OpenAIPageableListOfRunStepOutput{
+export interface OpenAIPageableListOfRunStepOutput {
   /** The object type, which is always list. */
   object: "list";
   /** The requested list of items. */
@@ -1141,6 +1188,10 @@ export interface GetConnectionResponseOutput {
 
 /** Connection properties */
 export interface InternalConnectionPropertiesOutputParent {
+  /** Category of the connection */
+  category: ConnectionTypeOutput;
+  /** The connection URL to be used for this service */
+  target: string;
   authType: AuthenticationTypeOutput;
 }
 
@@ -1149,12 +1200,8 @@ export interface InternalConnectionPropertiesApiKeyAuthOutput
   extends InternalConnectionPropertiesOutputParent {
   /** Authentication type of the connection target */
   authType: "ApiKey";
-  /** Category of the connection */
-  category: ConnectionTypeOutput;
   /** Credentials will only be present for authType=ApiKey */
   credentials: CredentialsApiKeyAuthOutput;
-  /** The connection URL to be used for this service */
-  target: string;
 }
 
 /** The credentials needed for API key authentication */
@@ -1168,10 +1215,6 @@ export interface InternalConnectionPropertiesAADAuthOutput
   extends InternalConnectionPropertiesOutputParent {
   /** Authentication type of the connection target */
   authType: "AAD";
-  /** Category of the connection */
-  category: ConnectionTypeOutput;
-  /** The connection URL to be used for this service */
-  target: string;
 }
 
 /** Connection properties for connections with SAS authentication */
@@ -1179,12 +1222,8 @@ export interface InternalConnectionPropertiesSASAuthOutput
   extends InternalConnectionPropertiesOutputParent {
   /** Authentication type of the connection target */
   authType: "SAS";
-  /** Category of the connection */
-  category: ConnectionTypeOutput;
   /** Credentials will only be present for authType=ApiKey */
   credentials: CredentialsSASAuthOutput;
-  /** The connection URL to be used for this service */
-  target: string;
 }
 
 /** The credentials needed for Shared Access Signatures (SAS) authentication */
@@ -1289,12 +1328,14 @@ export interface EvaluationScheduleOutput {
   description?: string;
   /** Metadata containing createdBy and modifiedBy information. */
   readonly systemData?: SystemDataOutput;
-  /** Status of the evaluation. It is set by service and is read-only. */
-  readonly provisioningStatus?: string;
+  /** Provisioning State of the evaluation. It is set by service and is read-only. */
+  readonly provisioningState?: string;
   /** Evaluation's tags. Unlike properties, tags are fully mutable. */
   tags?: Record<string, string>;
   /** Evaluation's properties. Unlike tags, properties are add-only. Once added, a property cannot be removed. */
   properties?: Record<string, string>;
+  /** Enabled status of the evaluation. It is set by service and is read-only. */
+  readonly isEnabled?: string;
   /** Evaluators to be used for the evaluation. */
   evaluators: Record<string, EvaluatorConfigurationOutput>;
   /** Trigger for the evaluation. */
@@ -1409,6 +1450,8 @@ export type TriggerOutput =
   | TriggerOutputParent
   | RecurrenceTriggerOutput
   | CronTriggerOutput;
+/** Alias for VectorStoreDataSourceAssetTypeOutput */
+export type VectorStoreDataSourceAssetTypeOutput = "uri_asset" | "id_asset";
 /** Alias for AgentsApiResponseFormatModeOutput */
 export type AgentsApiResponseFormatModeOutput = string;
 /** Alias for ApiResponseFormatOutput */
