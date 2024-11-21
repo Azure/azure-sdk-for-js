@@ -4,7 +4,7 @@
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
-import type { AzureLoadTestingClient } from "./clientDefinitions";
+import type { AzureLoadTestingClient } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of the class AzureLoadTestingClient class.

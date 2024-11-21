@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { AzureLoadTestingClient } from "../../../src";
-import AzureLoadTesting from "../../../src";
+import type { AzureLoadTestingClient } from "../../../src/index.js";
+import AzureLoadTesting from "../../../src/index.js";
 import type { Context } from "mocha";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import "./env";
+import "./env.js";
 
 import type { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";

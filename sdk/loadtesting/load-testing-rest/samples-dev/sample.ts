@@ -10,7 +10,7 @@
 
 import AzureLoadTesting, { isUnexpected, getLongRunningPoller } from "@azure-rest/load-testing";
 import { DefaultAzureCredential } from "@azure/identity";
-import { createReadStream } from "fs";
+import { createReadStream } from "node:fs";
 import { v4 as uuidv4 } from "uuid";
 
 const readStream = createReadStream("./sample.jmx");

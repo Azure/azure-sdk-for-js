@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
-import type { AzureLoadTestingClient } from "../../src";
-import { isUnexpected } from "../../src";
+import type { AzureLoadTestingClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import * as fs from "fs";
+import * as fs from "node:fs";
 import { isNodeLike } from "@azure/core-util";
-import { getLongRunningPoller } from "../../src/pollingHelper";
+import { getLongRunningPoller } from "../../src/pollingHelper.js";
 
 describe("Test Creation", () => {
   let recorder: Recorder;
@@ -18,10 +18,10 @@ describe("Test Creation", () => {
   let readStreamTestFile: fs.ReadStream;
   let readStreamAdditionalFile: fs.ReadStream;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     if (!isNodeLike || isPlaybackMode()) {
-      this.skip();
+      ctx.skip();
     }
     client = createClient(recorder);
     readStreamTestFile = fs.createReadStream("./test/public/sample.jmx");
