@@ -63,7 +63,6 @@
     "integration-test:node": "echo skip",
     "lint": "eslint README.md package.json api-extractor.json src test",
     "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
-    "minify": "dev-tool run vendored uglifyjs -c -m --comments --source-map \"content='./dist/index.js.map'\" -o ./dist/index.min.js ./dist/index.js",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
