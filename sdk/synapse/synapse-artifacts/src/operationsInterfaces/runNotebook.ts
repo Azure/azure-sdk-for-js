@@ -6,8 +6,8 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   RunNotebookRequest,
   RunNotebookCreateRunOptionalParams,
   RunNotebookCreateRunResponse,
@@ -23,25 +23,22 @@ import {
 export interface RunNotebook {
   /**
    * Run notebook
-   * @param runId Notebook run id.
-   * @param runNotebookRequest Run notebook request payload.
-   * @param options The options parameters.
+   * @param runId - Notebook run id.
+   * @param runNotebookRequest - Run notebook request payload.
+   * @param options - The options parameters.
    */
   beginCreateRun(
     runId: string,
     runNotebookRequest: RunNotebookRequest,
     options?: RunNotebookCreateRunOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<RunNotebookCreateRunResponse>,
-      RunNotebookCreateRunResponse
-    >
+    SimplePollerLike<OperationState<RunNotebookCreateRunResponse>, RunNotebookCreateRunResponse>
   >;
   /**
    * Run notebook
-   * @param runId Notebook run id.
-   * @param runNotebookRequest Run notebook request payload.
-   * @param options The options parameters.
+   * @param runId - Notebook run id.
+   * @param runNotebookRequest - Run notebook request payload.
+   * @param options - The options parameters.
    */
   beginCreateRunAndWait(
     runId: string,
@@ -50,8 +47,8 @@ export interface RunNotebook {
   ): Promise<RunNotebookCreateRunResponse>;
   /**
    * Get RunNotebook Status for run id.
-   * @param runId Notebook run id.
-   * @param options The options parameters.
+   * @param runId - Notebook run id.
+   * @param options - The options parameters.
    */
   getStatus(
     runId: string,
@@ -59,8 +56,8 @@ export interface RunNotebook {
   ): Promise<RunNotebookGetStatusResponse>;
   /**
    * Cancel notebook run.
-   * @param runId Notebook run id.
-   * @param options The options parameters.
+   * @param runId - Notebook run id.
+   * @param options - The options parameters.
    */
   cancelRun(
     runId: string,
@@ -68,8 +65,8 @@ export interface RunNotebook {
   ): Promise<RunNotebookCancelRunResponse>;
   /**
    * Get RunNotebook Snapshot for run id.
-   * @param runId Notebook run id.
-   * @param options The options parameters.
+   * @param runId - Notebook run id.
+   * @param options - The options parameters.
    */
   getSnapshot(
     runId: string,

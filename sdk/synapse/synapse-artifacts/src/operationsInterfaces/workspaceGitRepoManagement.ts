@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   GitHubAccessTokenRequest,
   WorkspaceGitRepoManagementGetGitHubAccessTokenOptionalParams,
   WorkspaceGitRepoManagementGetGitHubAccessTokenResponse,
@@ -16,8 +16,8 @@ import {
 export interface WorkspaceGitRepoManagement {
   /**
    * Get the GitHub access token.
-   * @param gitHubAccessTokenRequest
-   * @param options The options parameters.
+   * @param gitHubAccessTokenRequest - The GitHub access token request
+   * @param options - The options parameters.
    */
   getGitHubAccessToken(
     gitHubAccessTokenRequest: GitHubAccessTokenRequest,
