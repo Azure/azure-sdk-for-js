@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   ManagedPrivateEndpoint,
   ManagedPrivateEndpointsListOptionalParams,
   ManagedPrivateEndpointsGetOptionalParams,
   ManagedPrivateEndpointsGetResponse,
   ManagedPrivateEndpointsCreateOptionalParams,
   ManagedPrivateEndpointsCreateResponse,
-  ManagedPrivateEndpointsDeleteOptionalParams
+  ManagedPrivateEndpointsDeleteOptionalParams,
 } from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
@@ -27,7 +27,7 @@ export interface ManagedPrivateEndpoints {
    */
   list(
     managedVirtualNetworkName: string,
-    options?: ManagedPrivateEndpointsListOptionalParams
+    options?: ManagedPrivateEndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<ManagedPrivateEndpoint>;
   /**
    * Get Managed Private Endpoints
@@ -38,7 +38,7 @@ export interface ManagedPrivateEndpoints {
   get(
     managedVirtualNetworkName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsGetOptionalParams
+    options?: ManagedPrivateEndpointsGetOptionalParams,
   ): Promise<ManagedPrivateEndpointsGetResponse>;
   /**
    * Create Managed Private Endpoints
@@ -51,7 +51,7 @@ export interface ManagedPrivateEndpoints {
     managedVirtualNetworkName: string,
     managedPrivateEndpointName: string,
     managedPrivateEndpoint: ManagedPrivateEndpoint,
-    options?: ManagedPrivateEndpointsCreateOptionalParams
+    options?: ManagedPrivateEndpointsCreateOptionalParams,
   ): Promise<ManagedPrivateEndpointsCreateResponse>;
   /**
    * Delete Managed Private Endpoints
@@ -62,6 +62,6 @@ export interface ManagedPrivateEndpoints {
   delete(
     managedVirtualNetworkName: string,
     managedPrivateEndpointName: string,
-    options?: ManagedPrivateEndpointsDeleteOptionalParams
+    options?: ManagedPrivateEndpointsDeleteOptionalParams,
   ): Promise<void>;
 }

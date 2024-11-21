@@ -13603,7 +13603,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-ydpilnTOvg+oXwo+mhmH0sgy18nc7f1Lc3bIERPjMXBquOusiTJ3RQzPdEMRlDMs4tHOX5kxLaQuMc6MTY3KyA==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-s7pcgXSyMJcxDuhA9Y7aavPBCQ5h/TowVP7Ni7LsaWMm55Dges6xYWeVwZ13VPtab99BVIc0/E5ZWrd+VXmj+Q==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
@@ -16094,7 +16094,7 @@ packages:
     dev: false
 
   file:projects/arm-netapp.tgz:
-    resolution: {integrity: sha512-x542tCXTk8RsRswHTLsg+A0Jd3cSTO3bX5WCc5HxXuH+OjtEiNmpvTGbQS781+zCEIJAJ86c3CP6VY5Btgq/Hg==, tarball: file:projects/arm-netapp.tgz}
+    resolution: {integrity: sha512-t+R19DeTmy9lenQFbaBgiJXx8vvRwsiQ+EtFLODfk/IWGP1ZodnrZdUu2AcsfAKE+PrKhLcvnLavSEDWmrZqSw==, tarball: file:projects/arm-netapp.tgz}
     name: '@rush-temp/arm-netapp'
     version: 0.0.0
     dependencies:
@@ -22932,7 +22932,7 @@ packages:
     dev: false
 
   file:projects/synapse-artifacts.tgz:
-    resolution: {integrity: sha512-VgOqK+FmSJ9y+Heaix3xq751wFJaNoSe4dWtR/lVhRb5zJflE8yTN/3GqYodDUuoArgU5pX9iwpDKsveTh6f+w==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-5rjggfXNlltSIRafPLODuubz9l0qMTDLyDbF9fMNGQxiCs+CQ9CHFxYu26bL3bC8FkqKbFzi9TntWrWX1F/TYw==, tarball: file:projects/synapse-artifacts.tgz}
     name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
@@ -22994,7 +22994,7 @@ packages:
     dev: false
 
   file:projects/synapse-managed-private-endpoints.tgz:
-    resolution: {integrity: sha512-M8Tqc7HZYLwzaffD0npPj+8au49x82iVNX3VkLArIkCzyUsL22HqOx5witrWIvRIW/iEqKJsMYnXs1m70jWVAw==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
+    resolution: {integrity: sha512-WImZHi+prbsdZqdct53gcn6YY5C9Dl5SGpe/EQXig3NKemwNkfd9DjR1U6iSj6lGi1aNKEUWl5Mmt5zAy3mGhw==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
     name: '@rush-temp/synapse-managed-private-endpoints'
     version: 0.0.0
     dependencies:
@@ -23004,6 +23004,8 @@ packages:
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
@@ -23020,17 +23022,31 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/synapse-monitoring.tgz:
