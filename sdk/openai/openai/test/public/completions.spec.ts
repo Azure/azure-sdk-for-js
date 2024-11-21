@@ -181,18 +181,18 @@ describe("Completions", function () {
         const chatCompletionDeployments: DeploymentInfo[] = [];
 
         describe("getChatCompletions", function () {
-          describe.runIf(apiVersion == APIVersion.Preview)("structured output", function () {
+          describe.runIf(apiVersion === APIVersion.Preview)("structured output", function () {
             it("structured output for chat completions", async function () {
               await withDeployments(
                 deployments,
                 (deploymentName) => {
-                  const Step = z.object({
+                  const step = z.object({
                     explanation: z.string(),
                     output: z.string(),
                   });
 
-                  const MathResponse = z.object({
-                    steps: z.array(Step),
+                  const mathResponse = z.object({
+                    steps: z.array(step),
                     final_answer: z.string(),
                   });
 
@@ -206,7 +206,7 @@ describe("Completions", function () {
                       },
                       { role: "user", content: "solve 8x + 3 = 21" },
                     ],
-                    response_format: zodResponseFormat(MathResponse, "mathResponse"),
+                    response_format: zodResponseFormat(mathResponse, "mathResponse"),
                   });
                 },
                 (result) => {
