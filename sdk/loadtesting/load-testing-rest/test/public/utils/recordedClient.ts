@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 import type { AzureLoadTestingClient } from "../../../src/index.js";
 import AzureLoadTesting from "../../../src/index.js";
-import type { Context } from "mocha";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import "./env.js";

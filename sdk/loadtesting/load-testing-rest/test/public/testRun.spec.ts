@@ -3,14 +3,13 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createRecorder, createClient } from "./utils/recordedClient.js";
-import type { Context } from "mocha";
 import * as fs from "node:fs";
 import type { AzureLoadTestingClient } from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
 import { getLongRunningPoller } from "../../src/pollingHelper.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Test Run Creation", () => {
   let recorder: Recorder;
