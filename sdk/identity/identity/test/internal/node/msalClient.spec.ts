@@ -1,27 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as msalClient from "../../../src/msal/nodeFlows/msalClient";
+import * as msalClient from "../../../src/msal/nodeFlows/msalClient.js";
 
+import type { AuthenticationResult } from "@azure/msal-node";
 import {
-  AuthenticationResult,
   ClientApplication,
   ConfidentialClientApplication,
   PublicClientApplication,
 } from "@azure/msal-node";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isLiveMode } from "@azure-tools/test-recorder";
 
 import { AbortError } from "@azure/abort-controller";
-import { AuthenticationRequiredError } from "../../../src/errors";
-import { Context } from "mocha";
-import { DeveloperSignOnClientId } from "../../../src/constants";
-import { IdentityClient } from "../../../src/client/identityClient";
-import { assert } from "@azure-tools/test-utils";
-import { credentialLogger } from "../../../src/util/logging";
-import { getUsernamePasswordStaticResources } from "../../msalTestUtils";
-import { msalPlugins } from "../../../src/msal/nodeFlows/msalPlugins";
-import sinon from "sinon";
+import { AuthenticationRequiredError } from "../../../src/errors.js";
+import { DeveloperSignOnClientId } from "../../../src/constants.js";
+import { IdentityClient } from "../../../src/client/identityClient.js";
+import { credentialLogger } from "../../../src/util/logging.js";
+import { getUsernamePasswordStaticResources } from "../../msalTestUtils.js";
+import { msalPlugins } from "../../../src/msal/nodeFlows/msalPlugins.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("MsalClient", function () {
   describe("recorded tests", function () {
@@ -32,14 +32,14 @@ describe("MsalClient", function () {
       await cleanup();
     });
 
-    beforeEach(async function () {
-      ({ cleanup, recorder } = await msalNodeTestSetup(this.currentTest));
+    beforeEach(async function (ctx) {
+      ({ cleanup, recorder } = await msalNodeTestSetup(ctx));
     });
 
-    it("supports getTokenByClientSecret", async function () {
+    it("supports getTokenByClientSecret", async function (ctx) {
       if (isLiveMode()) {
         // https://github.com/Azure/azure-sdk-for-js/issues/29929
-        this.skip();
+        ctx.skip();
       }
       const scopes = ["https://vault.azure.net/.default"];
       const clientSecret = env.IDENTITY_SP_CLIENT_SECRET || env.AZURE_CLIENT_SECRET!;
@@ -56,10 +56,10 @@ describe("MsalClient", function () {
       assert.isNotNaN(accessToken.expiresOnTimestamp);
     });
 
-    it("supports getTokenByDeviceCode", async function (this: Context) {
+    it("supports getTokenByDeviceCode", async function (ctx) {
       if (isLiveMode()) {
         // Skip in CI live tests since this credential requires user interaction.
-        this.skip();
+        ctx.skip();
       }
       const scopes = ["https://vault.azure.net/.default"];
       const clientId = DeveloperSignOnClientId;
@@ -107,7 +107,7 @@ describe("MsalClient", function () {
       const clientId = "client-id";
       const tenantId = "tenant-id";
       const logger = credentialLogger("test");
-      const logSpy = sinon.spy(logger.getToken, "info");
+      const logSpy = vi.spyOn(logger.getToken, "info");
 
       const client = msalClient.createMsalClient(clientId, tenantId, { logger });
       try {
@@ -116,7 +116,7 @@ describe("MsalClient", function () {
         // ignore errors
       }
 
-      assert.isAbove(logSpy.callCount, 0);
+      assert.isAbove(logSpy.mock.calls.length, 0);
     });
   });
 
@@ -159,7 +159,7 @@ describe("MsalClient", function () {
     const tenantId = "tenant-id";
 
     afterEach(async function () {
-      sinon.restore();
+      vi.restoreAllMocks();
     });
 
     describe("when CAE is enabled", function () {
@@ -167,15 +167,15 @@ describe("MsalClient", function () {
 
       it("uses the CAE cache", async function () {
         const cachePluginCae = {
-          afterCacheAccess: sinon.stub(),
-          beforeCacheAccess: sinon.stub(),
+          afterCacheAccess: vi.fn(),
+          beforeCacheAccess: vi.fn(),
         };
         const cachePlugin = {
-          afterCacheAccess: sinon.stub(),
-          beforeCacheAccess: sinon.stub(),
+          afterCacheAccess: vi.fn(),
+          beforeCacheAccess: vi.fn(),
         };
 
-        sinon.stub(msalPlugins, "generatePluginConfiguration").returns({
+        vi.spyOn(msalPlugins, "generatePluginConfiguration").mockReturnValue({
           broker: {
             isEnabled: false,
             enableMsaPassthrough: false,
@@ -202,8 +202,8 @@ describe("MsalClient", function () {
           // ignore errors
         }
 
-        assert.isAbove(cachePluginCae.beforeCacheAccess.callCount, 0);
-        assert.equal(cachePlugin.beforeCacheAccess.callCount, 0);
+        assert.isAbove(cachePluginCae.beforeCacheAccess.mock.calls.length, 0);
+        expect(cachePlugin.beforeCacheAccess).toHaveBeenCalledTimes(0);
       });
     });
 
@@ -211,15 +211,15 @@ describe("MsalClient", function () {
       const enableCae = false;
       it("initializes the default cache", async function () {
         const cachePluginCae = {
-          afterCacheAccess: sinon.stub(),
-          beforeCacheAccess: sinon.stub(),
+          afterCacheAccess: vi.fn(),
+          beforeCacheAccess: vi.fn(),
         };
         const cachePlugin = {
-          afterCacheAccess: sinon.stub(),
-          beforeCacheAccess: sinon.stub(),
+          afterCacheAccess: vi.fn(),
+          beforeCacheAccess: vi.fn(),
         };
 
-        sinon.stub(msalPlugins, "generatePluginConfiguration").returns({
+        vi.spyOn(msalPlugins, "generatePluginConfiguration").mockReturnValue({
           broker: {
             isEnabled: false,
             enableMsaPassthrough: false,
@@ -246,8 +246,8 @@ describe("MsalClient", function () {
           // ignore errors
         }
 
-        assert.isAbove(cachePlugin.beforeCacheAccess.callCount, 0);
-        assert.equal(cachePluginCae.beforeCacheAccess.callCount, 0);
+        assert.isAbove(cachePlugin.beforeCacheAccess.mock.calls.length, 0);
+        expect(cachePluginCae.beforeCacheAccess).toHaveBeenCalledTimes(0);
       });
     });
   });
@@ -269,25 +269,21 @@ describe("MsalClient", function () {
     const scopes = ["https://vault.azure.net/.default"];
 
     afterEach(async function () {
-      sinon.restore();
+      vi.restoreAllMocks();
     });
 
     describe("with clientSecret", function () {
       it("uses a confidentialClientApplication", async function () {
         const client = msalClient.createMsalClient(clientId, tenantId);
 
-        const publicClientStub = sinon.stub(
-          PublicClientApplication.prototype,
-          "acquireTokenByCode",
-        );
-        const confidentialClientStub = sinon
-          .stub(ConfidentialClientApplication.prototype, "acquireTokenByCode")
-          .resolves(fakeTokenResponse as AuthenticationResult);
-
+        const publicClientStub = vi.spyOn(PublicClientApplication.prototype, "acquireTokenByCode");
+        const confidentialClientStub = vi
+          .spyOn(ConfidentialClientApplication.prototype, "acquireTokenByCode")
+          .mockResolvedValue(fakeTokenResponse as AuthenticationResult);
         await client.getTokenByAuthorizationCode(scopes, "code", "redirectUri", "clientSecret");
 
-        assert.equal(publicClientStub.callCount, 0);
-        assert.equal(confidentialClientStub.callCount, 1);
+        expect(publicClientStub).toHaveBeenCalledTimes(0);
+        expect(confidentialClientStub).toHaveBeenCalledTimes(1);
       });
     });
 
@@ -295,10 +291,10 @@ describe("MsalClient", function () {
       it("uses a publicClientApplication", async function () {
         const client = msalClient.createMsalClient(clientId, tenantId);
 
-        const publicClientStub = sinon
-          .stub(PublicClientApplication.prototype, "acquireTokenByCode")
-          .resolves(fakeTokenResponse as AuthenticationResult);
-        const confidentialClientStub = sinon.stub(
+        const publicClientStub = vi
+          .spyOn(PublicClientApplication.prototype, "acquireTokenByCode")
+          .mockResolvedValue(fakeTokenResponse as AuthenticationResult);
+        const confidentialClientStub = vi.spyOn(
           ConfidentialClientApplication.prototype,
           "acquireTokenByCode",
         );
@@ -310,8 +306,8 @@ describe("MsalClient", function () {
           undefined /* clientSecret */,
         );
 
-        assert.equal(publicClientStub.callCount, 1);
-        assert.equal(confidentialClientStub.callCount, 0);
+        expect(publicClientStub).toHaveBeenCalledTimes(1);
+        expect(confidentialClientStub).toHaveBeenCalledTimes(0);
       });
     });
   });
@@ -324,7 +320,7 @@ describe("MsalClient", function () {
     };
 
     afterEach(async function () {
-      sinon.restore();
+      vi.restoreAllMocks();
     });
 
     describe("with silent authentication", function () {
@@ -341,19 +337,18 @@ describe("MsalClient", function () {
           authenticationRecord,
         });
 
-        const silentAuthSpy = sinon
-          .stub(ClientApplication.prototype, "acquireTokenSilent")
-          .resolves({
+        const silentAuthSpy = vi
+          .spyOn(ClientApplication.prototype, "acquireTokenSilent")
+          .mockResolvedValue({
             accessToken: "token",
             expiresOn: new Date(),
           } as AuthenticationResult);
-
         const scopes = ["https://vault.azure.net/.default"];
 
         await client.getTokenByDeviceCode(scopes, deviceCodeCallback);
 
-        assert.equal(silentAuthSpy.callCount, 1);
-        assert.deepEqual(silentAuthSpy.firstCall.firstArg.account, {
+        expect(silentAuthSpy).toHaveBeenCalledTimes(1);
+        assert.deepEqual(silentAuthSpy.mock.calls[0][0].account, {
           ...authenticationRecord,
           localAccountId: authenticationRecord.homeAccountId,
           environment: "login.microsoftonline.com",
@@ -361,16 +356,15 @@ describe("MsalClient", function () {
       });
 
       it("attempts silent authentication without AuthenticationRecord", async function () {
-        const silentAuthStub = sinon
-          .stub(ClientApplication.prototype, "acquireTokenSilent")
-          .resolves({
+        const silentAuthStub = vi
+          .spyOn(ClientApplication.prototype, "acquireTokenSilent")
+          .mockResolvedValue({
             accessToken: "token",
             expiresOn: new Date(),
           } as AuthenticationResult);
-
-        const clientCredentialAuthStub = sinon
-          .stub(PublicClientApplication.prototype, "acquireTokenByDeviceCode")
-          .resolves({
+        const clientCredentialAuthStub = vi
+          .spyOn(PublicClientApplication.prototype, "acquireTokenByDeviceCode")
+          .mockResolvedValue({
             accessToken: "token",
             expiresOn: new Date(Date.now() + 3600 * 1000),
             account: {
@@ -381,7 +375,6 @@ describe("MsalClient", function () {
               username: "username",
             },
           } as AuthenticationResult);
-
         const scopes = ["https://vault.azure.net/.default"];
 
         const client = msalClient.createMsalClient(clientId, tenantId);
@@ -390,12 +383,12 @@ describe("MsalClient", function () {
         await client.getTokenByDeviceCode(scopes, deviceCodeCallback);
 
         assert.equal(
-          clientCredentialAuthStub.callCount,
+          clientCredentialAuthStub.mock.calls.length,
           1,
           "expected acquireTokenByClientCredential to have been called once",
         );
         assert.equal(
-          silentAuthStub.callCount,
+          silentAuthStub.mock.calls.length,
           1,
           "expected acquireTokenSilent to have been called once",
         );
@@ -413,23 +406,22 @@ describe("MsalClient", function () {
           },
         });
 
-        sinon
-          .stub(ClientApplication.prototype, "acquireTokenSilent")
-          .rejects(new AbortError("operation has been aborted")); // AbortErrors should get re-thrown
+        vi.spyOn(ClientApplication.prototype, "acquireTokenSilent").mockRejectedValue(
+          new AbortError("operation has been aborted"),
+        ); // AbortErrors should get re-thrown
 
         const scopes = ["https://vault.azure.net/.default"];
 
-        await assert.isRejected(
-          client.getTokenByDeviceCode(scopes, deviceCodeCallback),
+        await expect(client.getTokenByDeviceCode(scopes, deviceCodeCallback)).rejects.toThrow(
           "operation has been aborted",
         );
       });
 
       it("throws when silentAuthentication fails and disableAutomaticAuthentication is true", async function () {
         const scopes = ["https://vault.azure.net/.default"];
-        sinon
-          .stub(ClientApplication.prototype, "acquireTokenSilent")
-          .rejects(new AuthenticationRequiredError({ scopes }));
+        vi.spyOn(ClientApplication.prototype, "acquireTokenSilent").mockRejectedValue(
+          new AuthenticationRequiredError({ scopes }),
+        );
 
         const client = msalClient.createMsalClient(clientId, tenantId, {
           // An authentication record will get us to try the silent flow
@@ -442,7 +434,7 @@ describe("MsalClient", function () {
           },
         });
 
-        await assert.isRejected(
+        await expect(
           client.getTokenByDeviceCode(
             scopes,
             () => {
@@ -450,12 +442,11 @@ describe("MsalClient", function () {
             },
             { disableAutomaticAuthentication: true },
           ),
-          /Automatic authentication has been disabled/,
-        );
+        ).rejects.toThrow(/Automatic authentication has been disabled/);
       });
     });
 
-    it("supports cancellation", async function (this: Context) {
+    it("supports cancellation", async function (ctx) {
       const client = msalClient.createMsalClient(clientId, tenantId);
 
       const scopes = ["https://vault.azure.net/.default"];
@@ -470,24 +461,23 @@ describe("MsalClient", function () {
           abortSignal,
         },
       );
-      await assert.isRejected(request, AbortError);
+      await expect(request).rejects.toThrow(AbortError);
     });
 
     describe("cross-tenant federation", function () {
-      it("allows passing an authority host", async function (this: Context) {
+      it("allows passing an authority host", async function (ctx) {
         const tenantIdOne = "tenantOne";
         const tenantIdTwo = "tenantTwo";
         const authorityHost = "https://custom.authority.com";
 
         const expectedAuthority = `${authorityHost}/${tenantIdTwo}`;
 
-        const clientCredentialAuthStub = sinon
-          .stub(PublicClientApplication.prototype, "acquireTokenByDeviceCode")
-          .resolves({
+        const clientCredentialAuthStub = vi
+          .spyOn(PublicClientApplication.prototype, "acquireTokenByDeviceCode")
+          .mockResolvedValue({
             accessToken: "token",
             expiresOn: new Date(Date.now() + 3600 * 1000),
           } as AuthenticationResult);
-
         const client = msalClient.createMsalClient(clientId, tenantIdOne, {
           authorityHost,
         });
@@ -496,33 +486,32 @@ describe("MsalClient", function () {
 
         await client.getTokenByDeviceCode(scopes, deviceCodeCallback, { tenantId: tenantIdTwo });
 
-        const { authority: requestAuthority } = clientCredentialAuthStub.firstCall.firstArg;
+        const { authority: requestAuthority } = clientCredentialAuthStub.mock.calls[0][0];
         assert.equal(requestAuthority, expectedAuthority);
       });
 
-      it("allows using the AZURE_AUTHORITY_HOST environment variable", async function (this: Context) {
+      it("allows using the AZURE_AUTHORITY_HOST environment variable", async function (ctx) {
         const tenantIdOne = "tenantOne";
         const tenantIdTwo = "tenantTwo";
         const authorityHost = "https://custom.authority.com";
 
         const expectedAuthority = `${authorityHost}/${tenantIdTwo}`;
 
-        sinon.stub(process, "env").value({ AZURE_AUTHORITY_HOST: authorityHost });
+        vi.stubEnv("AZURE_AUTHORITY_HOST", authorityHost);
 
-        const clientCredentialAuthStub = sinon
-          .stub(PublicClientApplication.prototype, "acquireTokenByDeviceCode")
-          .resolves({
+        const clientCredentialAuthStub = vi
+          .spyOn(PublicClientApplication.prototype, "acquireTokenByDeviceCode")
+          .mockResolvedValue({
             accessToken: "token",
             expiresOn: new Date(Date.now() + 3600 * 1000),
           } as AuthenticationResult);
-
         const client = msalClient.createMsalClient(clientId, tenantIdOne);
 
         const scopes = ["https://vault.azure.net/.default"];
 
         await client.getTokenByDeviceCode(scopes, deviceCodeCallback, { tenantId: tenantIdTwo });
 
-        const { authority: requestAuthority } = clientCredentialAuthStub.firstCall.firstArg;
+        const { authority: requestAuthority } = clientCredentialAuthStub.mock.calls[0][0];
         assert.equal(requestAuthority, expectedAuthority);
       });
     });

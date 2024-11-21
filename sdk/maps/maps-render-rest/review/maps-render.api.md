@@ -4,16 +4,16 @@
 
 ```ts
 
-import { AzureKeyCredential } from '@azure/core-auth';
-import { AzureSASCredential } from '@azure/core-auth';
+import type { AzureKeyCredential } from '@azure/core-auth';
+import type { AzureSASCredential } from '@azure/core-auth';
 import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import { LatLon } from '@azure/maps-common';
+import type { LatLon } from '@azure/maps-common';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface CircularPath {
@@ -31,15 +31,15 @@ export interface CircularPathOptions {
 
 // @public
 export interface CopyrightCaptionOutput {
-    copyrightsCaption: string;
-    formatVersion?: string;
+    readonly copyrightsCaption: string;
+    readonly formatVersion?: string;
 }
 
 // @public
 export interface CopyrightOutput {
-    formatVersion?: string;
-    generalCopyrights?: Array<string>;
-    regions?: Array<RegionCopyrightsOutput>;
+    readonly formatVersion?: string;
+    readonly generalCopyrights?: Array<string>;
+    readonly regions?: Array<RegionCopyrightsOutput>;
 }
 
 // @public
@@ -50,17 +50,17 @@ export function createPinsQuery(pinSets: PinSet[]): string;
 
 // @public
 export interface ErrorAdditionalInfoOutput {
-    info?: Record<string, unknown>;
-    type?: string;
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
 }
 
 // @public
 export interface ErrorDetailOutput {
-    additionalInfo?: Array<ErrorAdditionalInfoOutput>;
-    code?: string;
-    details?: Array<ErrorDetailOutput>;
-    message?: string;
-    target?: string;
+    readonly additionalInfo?: Array<ErrorAdditionalInfoOutput>;
+    readonly code?: string;
+    readonly details?: Array<ErrorDetailOutput>;
+    readonly message?: string;
+    readonly target?: string;
 }
 
 // @public
@@ -161,6 +161,11 @@ export type MapsRenderClient = Client & {
 };
 
 // @public
+export interface MapsRenderClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface MapTilesetOutput {
     attribution?: string;
     bounds?: Array<number>;
@@ -227,14 +232,14 @@ export function positionToTileXY(position: LatLon, zoom: number, tileSize: "512"
 
 // @public
 export interface RegionCopyrightsCountryOutput {
-    ISO3: string;
-    label: string;
+    readonly ISO3: string;
+    readonly label: string;
 }
 
 // @public (undocumented)
 export interface RegionCopyrightsOutput {
-    copyrights: Array<string>;
-    country: RegionCopyrightsCountryOutput;
+    readonly copyrights: Array<string>;
+    readonly country: RegionCopyrightsCountryOutput;
 }
 
 // @public

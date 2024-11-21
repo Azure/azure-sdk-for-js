@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { MessagingError, ServiceBusError, ServiceBusErrorCode } from "../../src/index.js";
+import type { ServiceBusErrorCode } from "../../src/index.js";
+import { MessagingError, ServiceBusError } from "../../src/index.js";
 import { describe, it } from "vitest";
 import { should } from "./utils/chai.js";
 

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzurePluginContext, IdentityPlugin } from "./provider";
+import type { AzurePluginContext, IdentityPlugin } from "./provider.js";
 import {
   msalNodeFlowCacheControl,
   msalNodeFlowNativeBrokerControl,
-} from "../msal/nodeFlows/msalPlugins";
+} from "../msal/nodeFlows/msalPlugins.js";
 
-import { vsCodeCredentialControl } from "../credentials/visualStudioCodeCredential";
+import { vsCodeCredentialControl } from "../credentials/visualStudioCodeCredential.js";
 
 /**
  * The context passed to an Identity plugin. This contains objects that

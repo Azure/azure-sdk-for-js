@@ -205,7 +205,7 @@ export const Constants = {
   AzureNamespace: "Azure.Cosmos",
   AzurePackageName: "@azure/cosmos",
   SDKName: "azure-cosmos-js",
-  SDKVersion: "4.1.2",
+  SDKVersion: "4.2.0",
 
   // Diagnostics
   CosmosDbDiagnosticLevelEnvVarName: "AZURE_COSMOSDB_DIAGNOSTICS_LEVEL",
@@ -492,6 +492,8 @@ export enum QueryFeature {
   MultipleAggregates = "MultipleAggregates",
   NonStreamingOrderBy = "NonStreamingOrderBy",
   ListAndSetAggregate = "ListAndSetAggregate",
+  CountIf = "CountIf",
+  HybridSearch = "HybridSearch",
 }
 
 export enum SDKSupportedCapabilities {

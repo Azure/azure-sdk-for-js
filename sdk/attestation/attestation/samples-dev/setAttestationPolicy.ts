@@ -39,8 +39,8 @@ import { DefaultAzureCredential } from "@azure/identity";
 
 // Load environment from a .env file if it exists.
 import * as dotenv from "dotenv";
-import { writeBanner } from "./utils/helpers";
-import { createRSAKey, createX509Certificate, generateSha256Hash } from "./utils/cryptoUtils";
+import { writeBanner } from "./utils/helpers.js";
+import { createRSAKey, createX509Certificate, generateSha256Hash } from "./utils/cryptoUtils.js";
 
 import { X509 } from "jsrsasign";
 

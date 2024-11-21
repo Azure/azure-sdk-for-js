@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PartitionKeyRange, Resource } from "../client";
-import { ClientContext } from "../ClientContext";
+import type { PartitionKeyRange, Resource } from "../client";
+import type { ClientContext } from "../ClientContext";
 import {
   Constants,
   getIdFromLink,
@@ -10,16 +10,15 @@ import {
   StatusCodes,
   SubStatusCodes,
 } from "../common";
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { FeedOptions } from "../request";
-import { Response } from "../request";
-import {
-  DefaultQueryExecutionContext,
-  FetchFunctionCallback,
-} from "./defaultQueryExecutionContext";
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type { FeedOptions } from "../request";
+import type { Response } from "../request";
+import type { FetchFunctionCallback } from "./defaultQueryExecutionContext";
+import { DefaultQueryExecutionContext } from "./defaultQueryExecutionContext";
 import { FetchResult, FetchResultType } from "./FetchResult";
-import { CosmosHeaders, getInitialHeader, mergeHeaders } from "./headerUtils";
-import { SqlQuerySpec } from "./index";
+import type { CosmosHeaders } from "./headerUtils";
+import { getInitialHeader, mergeHeaders } from "./headerUtils";
+import type { SqlQuerySpec } from "./index";
 
 /** @hidden */
 export class DocumentProducer {

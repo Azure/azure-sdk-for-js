@@ -2288,8 +2288,33 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-iotoperations",
+      "projectFolder": "sdk/iotoperations/arm-iotoperations",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-trustedsigning",
       "projectFolder": "sdk/trustedsigning/arm-trustedsigning",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databoundaries",
+      "projectFolder": "sdk/databoundaries/arm-databoundaries",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerorchestratorruntime",
+      "projectFolder": "sdk/kubernetesruntime/arm-containerorchestratorruntime",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-terraform",
+      "projectFolder": "sdk/terraform/arm-terraform",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-connectedcache",
+      "projectFolder": "sdk/connectedcache/arm-connectedcache",
       "versionPolicyName": "management"
     }
   ]

@@ -1,5 +1,4 @@
 parameters:
-  ArtifactName: ''
   Artifact: {}
   Registry: ''
   PathToArtifacts: ''
@@ -10,6 +9,22 @@ steps:
   - template: /eng/common/pipelines/templates/steps/set-default-branch.yml
 
   - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
+    - pwsh: |
+        $tarFile = (Get-ChildItem -Path "${{parameters.PathToArtifacts}}/*.tgz").FullName
+        $tempDir = "$(System.DefaultWorkingDirectory)/temp_decompress"
+        New-Item -ItemType Directory -Force -Path $tempDir
+        tar -xzf $tarFile -C $tempDir
+        $packageJsonDir = "$tempDir\package\package.json"
+        $pkg = Get-Content -Raw "$packageJsonDir" | ConvertFrom-Json
+        $packageName = $pkg.Name
+        $packageVersion = $pkg.Version
+        $packageProps = npm view $packageName -json | ConvertFrom-Json
+        $originalTags = $packageProps.'dist-tags' | ConvertTo-Json -Compress
+        echo "##vso[task.setvariable variable=PackageName]$packageName"
+        echo "##vso[task.setvariable variable=OriginalTags]$originalTags"
+        echo "##vso[task.setvariable variable=IntendedTagVersion]$packageVersion"
+      displayName: Get original tags
+
     - task: EsrpRelease@7
       inputs:
         displayName: 'Publish ${{parameters.Artifact.name}} to ESRP'
@@ -27,6 +42,14 @@ steps:
         MainPublisher: 'ESRPRELPACMANTEST'
         DomainTenantId: '72f988bf-86f1-41af-91ab-2d7cd011db47'
         productstate: ${{parameters.Tag}}
+
+    - task: Powershell@2
+      displayName: Verify package tags
+      inputs:
+        targetType: filePath
+        filePath: eng/scripts/verify-npm-tags.ps1
+        arguments: -originalDistTags '$(OriginalTags)' -intendedTag ${{parameters.Tag}} -intendedTagVersion '$(IntendedTagVersion)' -packageName $(PackageName) -npmToken '$(azure-sdk-npm-token)'
+        pwsh: true
 
     - ${{ if ne(parameters.AdditionalTag, '') }}:
       - task: PowerShell@2

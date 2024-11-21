@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PiiResult, TextDocumentBatchStatistics, TextDocumentInput } from "./generated/models";
+import type { PiiResult, TextDocumentBatchStatistics, TextDocumentInput } from "./generated/models";
+import type { RecognizePiiEntitiesResult } from "./recognizePiiEntitiesResult";
 import {
-  RecognizePiiEntitiesResult,
   makeRecognizePiiEntitiesErrorResult,
   makeRecognizePiiEntitiesResult,
 } from "./recognizePiiEntitiesResult";

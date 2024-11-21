@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { RestError, createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { DeleteCertificatePoller } from "../../src/lro/delete/poller.js";
 import { RecoverDeletedCertificatePoller } from "../../src/lro/recover/poller.js";
-import { KeyVaultClient } from "../../src/generated/index.js";
-import { FullOperationResponse } from "@azure/core-client";
+import type { KeyVaultClient } from "../../src/generated/index.js";
+import type { FullOperationResponse } from "@azure/core-client";
 import { describe, it, assert } from "vitest";
 
 describe("The LROs properly throw on unexpected errors", () => {

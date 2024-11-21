@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { ClientSecretCredential } from "../../../src";
-import { Context } from "mocha";
-import { assert } from "@azure-tools/test-utils";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
+import { ClientSecretCredential } from "../../../src/index.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("AuthorityValidation", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
-  beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(async function (ctx) {
+    const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
     recorder = setup.recorder;
   });

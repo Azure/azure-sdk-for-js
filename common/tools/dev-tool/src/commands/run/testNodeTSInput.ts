@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License
 
+import { resolve } from "node:path";
 import concurrently from "concurrently";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { isModuleProject } from "../../util/resolveProject";
@@ -20,6 +21,8 @@ export const commandInfo = makeCommandInfo(
   },
 );
 
+const CROSS_ENV_PATH = resolve(__dirname, "..", "..", "..", "node_modules", ".bin", "cross-env");
+
 export default leafCommand(commandInfo, async (options) => {
   const isModuleProj = await isModuleProject();
   const reporterArgs =
@@ -35,7 +38,7 @@ export default leafCommand(commandInfo, async (options) => {
     command: isModuleProj
       ? `mocha --loader=ts-node/esm ${defaultMochaArgs} ${mochaArgs}`
       : // eslint-disable-next-line no-useless-escape
-        `cross-env TS_NODE_COMPILER_OPTIONS="{\\\"module\\\":\\\"commonjs\\\"}" mocha -r ts-node/register ${defaultMochaArgs} ${mochaArgs}`,
+        `${CROSS_ENV_PATH} TS_NODE_COMPILER_OPTIONS="{\\\"module\\\":\\\"commonjs\\\"}" mocha -r ts-node/register ${defaultMochaArgs} ${mochaArgs}`,
     name: "node-tests",
   };
 

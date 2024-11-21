@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   CommunicationIdentifier,
   CommunicationUserIdentifier,
   MicrosoftTeamsUserIdentifier,
   MicrosoftTeamsAppIdentifier,
   PhoneNumberIdentifier,
 } from "@azure/communication-common";
-import { CallConnectionStateModel } from "../generated/src";
+import type { CallConnectionStateModel } from "../generated/src/index.js";
 
 export {
   CallConnectionStateModel,
@@ -29,7 +29,7 @@ export {
   SpeechResult,
   RecordingState,
   Tone,
-} from "../generated/src/models/index";
+} from "../generated/src/models/index.js";
 
 /** Properties of a call connection */
 export interface CallConnectionProperties {

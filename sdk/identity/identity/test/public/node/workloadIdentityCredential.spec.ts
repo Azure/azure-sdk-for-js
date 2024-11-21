@@ -3,27 +3,28 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import path, { join } from "path";
-import { tmpdir } from "os";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
-import { assert } from "@azure-tools/test-utils";
-import { createJWTTokenFromCertificate } from "./utils/utils";
-import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "fs";
+import path, { join } from "node:path";
+import { tmpdir } from "node:os";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
+import { createJWTTokenFromCertificate } from "./utils/utils.js";
+import { mkdtempSync, rmdirSync, unlinkSync, writeFileSync } from "node:fs";
+import type { WorkloadIdentityCredentialOptions } from "../../../src/index.js";
 import {
   DefaultAzureCredential,
   ManagedIdentityCredential,
   WorkloadIdentityCredential,
-  WorkloadIdentityCredentialOptions,
-} from "../../../src";
+} from "../../../src/index.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe.skip("WorkloadIdentityCredential", function () {
   let cleanup: MsalTestCleanup;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(async function (ctx) {
+    const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
     recorder = setup.recorder;
     await recorder.setMatcher("BodilessMatcher");
@@ -43,7 +44,7 @@ describe.skip("WorkloadIdentityCredential", function () {
     return jwtoken;
   }
 
-  it("authenticates with WorkloadIdentity Credential", async function (this: Context) {
+  it("authenticates with WorkloadIdentity Credential", async function (ctx) {
     const fileDir = await setupFileandEnv("workload-identity");
     const credential = new WorkloadIdentityCredential(
       recorder.configureClientOptions({
@@ -62,7 +63,7 @@ describe.skip("WorkloadIdentityCredential", function () {
     }
   });
 
-  it("authenticates with ManagedIdentity Credential", async function (this: Context) {
+  it("authenticates with ManagedIdentity Credential", async function (ctx) {
     const fileDir = await setupFileandEnv("token-exchange-msi");
     const credential = new ManagedIdentityCredential(clientId, recorder.configureClientOptions({}));
     try {
@@ -75,7 +76,7 @@ describe.skip("WorkloadIdentityCredential", function () {
     }
   });
 
-  it("authenticates with DefaultAzure Credential", async function (this: Context) {
+  it("authenticates with DefaultAzure Credential", async function (ctx) {
     const fileDir = await setupFileandEnv("token-exchange-msi");
     const credential = new DefaultAzureCredential(recorder.configureClientOptions({}));
     try {
@@ -89,7 +90,7 @@ describe.skip("WorkloadIdentityCredential", function () {
       rmdirSync(fileDir.tempDir);
     }
   });
-  it("authenticates with DefaultAzure Credential and client ID", async function (this: Context) {
+  it("authenticates with DefaultAzure Credential and client ID", async function (ctx) {
     const fileDir = await setupFileandEnv("token-exchange-msi");
     const credential = new DefaultAzureCredential(
       recorder.configureClientOptions({
