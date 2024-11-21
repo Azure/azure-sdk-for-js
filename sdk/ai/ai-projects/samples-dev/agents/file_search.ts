@@ -15,7 +15,7 @@ export async function main(): Promise<void> {
   const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
   // Upload file
-  const localFileStream = fs.createReadStream("local_file.txt");
+  const localFileStream = fs.createReadStream("sample_file_for_upload.txt");
   const file = await client.agents.uploadFile(localFileStream, "assistants", "sample_file_for_upload.txt");
   console.log(`Uploaded file, ID: ${file.id}`);
 
@@ -27,8 +27,8 @@ export async function main(): Promise<void> {
   const agent  = await client.agents.createAgent(
     "gpt-4o",
     {
-      name:"my-agent",
-      instructions:"You are helpful agent",
+      name:"SDK Test Agent - Retrieval",
+      instructions:"You are helpful agent that can help fetch data from files you know about.",
       tools: [{type: "file_search" }],
       tool_resources: {file_search: {vector_store_ids: [vectorStore.id]} }
     }
