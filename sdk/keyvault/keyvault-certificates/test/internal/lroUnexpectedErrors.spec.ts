@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PipelineRequest } from "@azure/core-rest-pipeline";
-import { RestError, createDefaultHttpClient, createHttpHeaders } from "@azure/core-rest-pipeline";
+import { RestError } from "@azure/core-rest-pipeline";
 import { DeleteCertificatePoller } from "../../src/lro/delete/poller.js";
 import { RecoverDeletedCertificatePoller } from "../../src/lro/recover/poller.js";
 import type { KeyVaultClient } from "../../src/generated/index.js";
-import type { FullOperationResponse } from "@azure-rest/core-client";
 import { describe, it, assert } from "vitest";
-import { createKeyVault } from "../../src/generated/api/keyVaultContext.js";
 
 describe("The LROs properly throw on unexpected errors", () => {
   const vaultUrl = `https://keyvaultname.vault.azure.net`;
@@ -96,15 +93,6 @@ describe("The LROs properly throw on unexpected errors", () => {
 
   describe("recover LRO", () => {
     it("403 doesn't throw", async function () {
-      const httpClient = createDefaultHttpClient();
-      httpClient.sendRequest = async (request) => {
-        return {
-          request,
-          status: 403,
-          headers: createHttpHeaders(),
-          bodyAsText: "",
-        };
-      };
       const code = 403;
 
       const fooClient: Partial<KeyVaultClient> = {
