@@ -259,6 +259,14 @@ export interface ConnectionsOperations {
 }
 
 // @public
+export enum connectionToolType {
+    AzureAISearch = "azure_ai_search",
+    BingGrounding = "bing_grounding",
+    MicrosoftFabric = "microsoft_fabric",
+    SharePointGrounding = "sharepoint_grounding"
+}
+
+// @public
 export type ConnectionType = "AzureOpenAI" | "Serverless" | "AzureBlob" | "AIServices" | "CognitiveSearch";
 
 // @public
@@ -498,6 +506,9 @@ export type Frequency = string;
 
 // @public
 export type FrequencyOutput = string;
+
+// @public
+export function fromConnectionIds(toolType: connectionToolType, connectionIds: string[]): ToolDefinitionParent;
 
 // @public
 export function fromFunctionDefinition(functionDefintion: FunctionDefinition): FunctionToolDefinition;

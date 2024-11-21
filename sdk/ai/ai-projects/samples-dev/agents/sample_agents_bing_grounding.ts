@@ -21,7 +21,7 @@
  *  BING_CONNECTION_NAME - the name of the connection with Bing search grounding
  */
 
-import { AIProjectsClient, BingGroundingToolDefinition } from "@azure/ai-projects"
+import { AIProjectsClient, fromConnectionIds, connectionToolType } from "@azure/ai-projects"
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -38,15 +38,15 @@ export async function main(): Promise<void> {
   const bingConnection = await client.connections.getConnection(process.env["BING_CONNECTION_NAME"] || "<connection-name>");
   const connectionId = bingConnection.id;
 
-  // Initialize agent bing tool and add the connection id
-  // const bing = BingGroundingTool(connection_id=conn_id)
+  // Initialize agent bing tool with the connection id
+  const bingTool = fromConnectionIds(connectionToolType.BingGrounding, [connectionId]);
 
   // Create agent with the bing tool and process assistant run
   const agent  = await client.agents.createAgent(
     "gpt-4-0125-preview", {
       name: "my-agent", 
       instructions: "You are a helpful agent",
-      tools: [{type: "bing_grounding", bing_grounding: {connections: [{connection_id: connectionId}]}} as BingGroundingToolDefinition]
+      tools: [bingTool]
     }, {
       headers: {"x-ms-enable-preview": "true"}
     });

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { FunctionDefinition, FunctionToolDefinition, RequiredActionOutput, RequiredToolCallOutput, ToolDefinitionOutputParent } from "./inputOutputs.js";
+import { FunctionDefinition, FunctionToolDefinition, RequiredActionOutput, RequiredToolCallOutput, ToolDefinitionOutputParent, ToolDefinitionParent } from "./inputOutputs.js";
 
 
 /**
@@ -27,4 +27,32 @@ export function fromFunctionDefinition(functionDefintion: FunctionDefinition): F
         type: "function",
         function: functionDefintion
     }
+}
+
+/** Types of connection tools sued to configure an agent */
+export enum connectionToolType {
+  /** Bing grounding search tool */
+  BingGrounding = "bing_grounding",
+  /** Microsoft Fabric tool */
+  MicrosoftFabric = "microsoft_fabric",
+  /** Sharepoint tool */
+  SharePointGrounding = "sharepoint_grounding",
+  /** Azure AI search tool */
+  AzureAISearch = "azure_ai_search",
+}
+
+/**
+ * Creates a tool definition for a connection tool with the given connection ids.
+ *
+ * @param toolType - The type of the connection tool.
+ * @param connectionIds - A list of the IDs of the connections to use.
+ * @returns The function tool definition.
+ */
+export function fromConnectionIds(toolType : connectionToolType, connectionIds: string[]) : ToolDefinitionParent {
+  return {
+    type: toolType,
+    [toolType]: {
+      connections: connectionIds.map(connectionId => ({connection_id: connectionId}))
+    }
+  }
 }
