@@ -125,8 +125,8 @@ function buildPipelineRequest(
     accept: options.accept ?? options.headers?.accept ?? "application/json",
     ...(hasContent &&
       requestContentType && {
-        "content-type": requestContentType,
-      }),
+      "content-type": requestContentType,
+    }),
   });
 
   return createPipelineRequest({
@@ -214,7 +214,6 @@ function getResponseBody(response: PipelineResponse): RequestBodyType | undefine
     if (firstType === "application/json") {
       throw createParseError(response, error);
     }
-
     // We are not sure how to handle the response so we return it as
     // plain text.
     return String(bodyToParse);

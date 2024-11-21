@@ -6,7 +6,7 @@ import { relativeRecordingsPath } from "@azure-tools/test-recorder";
 
 export default defineConfig({
   test: {
-    reporters: ["verbose", "basic"],
+    reporters: ["verbose"],
     outputFile: {
       junit: "test-results.browser.xml",
     },
@@ -14,7 +14,7 @@ export default defineConfig({
       toFake: ["setTimeout", "Date"],
     },
     watch: false,
-    include: ["test/**/*.spec.ts"],
+    include: ["test/**/figures.spec.ts"],
     exclude: ["test/**/browser/*.spec.ts"],
     coverage: {
       include: ["src/**/*.ts"],

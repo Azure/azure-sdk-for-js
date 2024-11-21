@@ -163,11 +163,15 @@ class HttpPipeline implements Pipeline {
 
   public sendRequest(httpClient: HttpClient, request: PipelineRequest): Promise<PipelineResponse> {
     const policies = this.getOrderedPolicies();
+    console.log(policies.map((p) => p.name));
 
     const pipeline = policies.reduceRight<SendRequest>(
       (next, policy) => {
-        return (req: PipelineRequest) => {
-          return policy.sendRequest(req, next);
+        return async (req: PipelineRequest) => {
+          const response = await policy.sendRequest(req, next);
+          console.log(`policy: ${policy.name}`);
+          console.log(`\tresponse: ${response}`);
+          return response;
         };
       },
       (req: PipelineRequest) => httpClient.sendRequest(req),
