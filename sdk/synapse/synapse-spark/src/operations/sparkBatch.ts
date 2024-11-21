@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -96,7 +93,6 @@ export class SparkBatchImpl implements SparkBatch {
    * Initialize a new instance of the class SparkBatch class.
    * @param client - Reference to the service client
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(client: SparkClient) {
     this.client = client;
   }
