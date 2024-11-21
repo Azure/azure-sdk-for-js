@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -6,16 +9,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   SparkBatchJobOptions as SparkBatchJobOptionsMapper,
   SparkSessionOptions as SparkSessionOptionsMapper,
-  SparkStatementOptions as SparkStatementOptionsMapper
-} from "../models/mappers";
+  SparkStatementOptions as SparkStatementOptionsMapper,
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",
@@ -24,9 +27,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const endpoint: OperationURLParameter = {
@@ -35,10 +38,10 @@ export const endpoint: OperationURLParameter = {
     serializedName: "endpoint",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const livyApiVersion: OperationURLParameter = {
@@ -47,10 +50,10 @@ export const livyApiVersion: OperationURLParameter = {
     serializedName: "livyApiVersion",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const sparkPoolName: OperationURLParameter = {
@@ -59,10 +62,10 @@ export const sparkPoolName: OperationURLParameter = {
     serializedName: "sparkPoolName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const fromParam: OperationQueryParameter = {
@@ -70,9 +73,9 @@ export const fromParam: OperationQueryParameter = {
   mapper: {
     serializedName: "from",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const size: OperationQueryParameter = {
@@ -80,9 +83,9 @@ export const size: OperationQueryParameter = {
   mapper: {
     serializedName: "size",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const detailed: OperationQueryParameter = {
@@ -90,9 +93,9 @@ export const detailed: OperationQueryParameter = {
   mapper: {
     serializedName: "detailed",
     type: {
-      name: "Boolean"
-    }
-  }
+      name: "Boolean",
+    },
+  },
 };
 
 export const contentType: OperationParameter = {
@@ -102,14 +105,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const sparkBatchJobOptions: OperationParameter = {
   parameterPath: "sparkBatchJobOptions",
-  mapper: SparkBatchJobOptionsMapper
+  mapper: SparkBatchJobOptionsMapper,
 };
 
 export const batchId: OperationURLParameter = {
@@ -118,14 +121,14 @@ export const batchId: OperationURLParameter = {
     serializedName: "batchId",
     required: true,
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const sparkSessionOptions: OperationParameter = {
   parameterPath: "sparkSessionOptions",
-  mapper: SparkSessionOptionsMapper
+  mapper: SparkSessionOptionsMapper,
 };
 
 export const sessionId: OperationURLParameter = {
@@ -134,14 +137,14 @@ export const sessionId: OperationURLParameter = {
     serializedName: "sessionId",
     required: true,
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const sparkStatementOptions: OperationParameter = {
   parameterPath: "sparkStatementOptions",
-  mapper: SparkStatementOptionsMapper
+  mapper: SparkStatementOptionsMapper,
 };
 
 export const statementId: OperationURLParameter = {
@@ -150,7 +153,7 @@ export const statementId: OperationURLParameter = {
     serializedName: "statementId",
     required: true,
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };

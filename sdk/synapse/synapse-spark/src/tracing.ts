@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -11,5 +14,5 @@ import { createTracingClient } from "@azure/core-tracing";
 export const tracingClient = createTracingClient({
   namespace: "Azure.Synapse.Spark",
   packageName: "@azure/synapse-spark",
-  packageVersion: "1.0.0-beta.6"
+  packageVersion: "1.0.0-beta.6",
 });
