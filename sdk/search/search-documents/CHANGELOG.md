@@ -1,10 +1,16 @@
 # Release History
 
+## 12.1.1 (Unreleased)
+
+### Bugs Fixed
+
+- Exposed missing configuration for page-based text splitting in `SplitTextSkill` [#31882](https://github.com/Azure/azure-sdk-for-js/pull/31882) 
+
 ## 12.1.0 (2024-07-24)
 
 ### Features Added
 
-- Added support for text queries against vector fields [#30494](https://github.com/Azure/azure-sdk-for-js/pull/29597) 
+- Added support for text queries against vector fields [#30494](https://github.com/Azure/azure-sdk-for-js/pull/30494) 
   - Create text queries against vector fields with the `VectorizedTextQuery` variant of `VectorQuery`. Such queries are supported by configuring the corresponding index field with a `VectorSearchVectorizer`. This configuration describes a delegate, which the service uses to generate vector embeddings for the query text. 
 - Added `AzureOpenAIEmbeddingSkill` to allow for `SearchIndexer`s to populate embedding fields at index-time.
 - Added index configuration for vector quantization through `VectorSearchCompression`
