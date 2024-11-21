@@ -3,7 +3,7 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { PollOperationState, PollOperation } from "@azure/core-lro";
-import type { OperationOptions } from "@azure/core-client";
+import type { OperationOptions } from "@azure-rest/core-client";
 import type { KeyVaultCertificate, CertificatePollerOptions } from "../../../../../src/index.js";
 
 /**
