@@ -4,7 +4,7 @@
 
 ### Features Added
 
-- Partition merge support: This feature adds support for Partition merge (preview) feature. Requests from JS SDK will not be blocked, when the feature is enabled. [docs](https://learn.microsoft.com/en-us/azure/cosmos-db/merge)
+- Partition merge support: This feature adds support for Partition merge (preview) feature. Requests from JS SDK will not be blocked, when the feature is enabled. [docs](https://learn.microsoft.com/azure/cosmos-db/merge)
 
 ## 4.2.0 (2024-11-19)
 
