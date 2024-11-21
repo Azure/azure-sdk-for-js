@@ -2,22 +2,20 @@
 // Licensed under the MIT License.
 
 import { assert } from "vitest";
-import { get, Metadata } from "./utils.js";
+import { get, type Metadata } from "./utils.js";
 import { getImageDimensionsFromResponse, getImageDimensionsFromString } from "./images.js";
-import {
+import type {
   AzureChatExtensionDataSourceResponseCitationOutput,
   AzureChatExtensionsMessageContextOutput,
-  ContentFilterBlocklistIdResultOutput,
   ContentFilterCitedDetectionResultOutput,
   ContentFilterDetectionResultOutput,
   ContentFilterResultOutput,
   ContentFilterResultDetailsForPromptOutput,
   ContentFilterResultsForChoiceOutput,
   ContentFilterResultsForPromptOutput,
-  ContentFilterDetailedResults,
-} from "../../../src/types/index.js";
-import { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
-import {
+} from "@azure/openai/types";
+import type { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
+import type {
   Batch,
   BatchError,
   BatchRequestCounts,
@@ -30,13 +28,13 @@ import {
   CreateEmbeddingResponse,
   ImagesResponse,
 } from "openai/resources/index";
-import { ErrorModel } from "@azure-rest/core-client";
-import {
+import type { ErrorModel } from "@azure-rest/core-client";
+import type {
   ChatCompletion,
   ChatCompletionMessageToolCall,
 } from "openai/resources/chat/completions.mjs";
-import { Transcription } from "openai/resources/audio/transcriptions.mjs";
-import { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
+import type { Transcription } from "openai/resources/audio/transcriptions.mjs";
+import type { AudioSegment, AudioResultVerboseJson, AudioResultFormat } from "./audioTypes.js";
 import {
   ParsedChatCompletion,
   ParsedChatCompletionMessage,
@@ -133,7 +131,7 @@ export function assertChatCompletions(
 
 function assertChatCompletionsNoUsage(
   completions: ChatCompletion,
-  { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions,
+  { allowEmptyChoices, ...opts }: ChatCompletionTestOptions,
 ): void {
   if (!allowEmptyChoices || completions.choices.length > 0) {
     assertNonEmptyArray(completions.choices, (choice) => assertChoice(choice, opts));
@@ -143,7 +141,7 @@ function assertChatCompletionsNoUsage(
 
 function assertChatCompletionsChunkNoUsage(
   completions: ChatCompletionChunk,
-  { allowEmptyChoices, allowEmptyId, ...opts }: ChatCompletionTestOptions,
+  { allowEmptyChoices, ...opts }: ChatCompletionTestOptions,
 ): void {
   if (!allowEmptyChoices || completions.choices.length > 0) {
     assertNonEmptyArray(completions.choices, (choice) => assertChoice(choice, opts));
@@ -205,7 +203,6 @@ function assertContentFilterResultsForChoice(cfr: ContentFilterResultsForChoiceO
     ifDefined(cfr.sexual, assertContentFilterResult);
     ifDefined(cfr.violence, assertContentFilterResult);
     ifDefined(cfr.profanity, assertContentFilterDetectionResult);
-    ifDefined(cfr.custom_blocklists, assertContentFilterDetailedResult);
     ifDefined(cfr.protected_material_code, assertContentFilterCitedDetectionResult);
     ifDefined(cfr.protected_material_text, assertContentFilterDetectionResult);
   }
@@ -244,7 +241,6 @@ function assertContentFilterResultDetailsForPrompt(
     ifDefined(cfr.violence, assertContentFilterResult);
     ifDefined(cfr.profanity, assertContentFilterDetectionResult);
     ifDefined(cfr.jailbreak, assertContentFilterDetectionResult);
-    ifDefined(cfr.custom_blocklists, assertContentFilterDetailedResult);
   }
 }
 
@@ -264,19 +260,6 @@ function assertContentFilterDetectionResult(val: ContentFilterDetectionResultOut
   assert.isBoolean(val.filtered);
 }
 
-function assertContentFilterDetailedResult(val: ContentFilterDetailedResults): void {
-  assert.isBoolean(val.filtered);
-  // TODO: Update the corresponding types once the Swagger is updated
-  ifDefined(val.details, (details) => {
-    assertNonEmptyArray(details, assertContentFilterBlocklistIdResult);
-  });
-}
-
-function assertContentFilterBlocklistIdResult(val: ContentFilterBlocklistIdResultOutput): void {
-  assert.isString(val.id);
-  assert.isBoolean(val.filtered);
-}
-
 function assertChoice(
   choice: ChatCompletion.Choice | ChatCompletionChunk.Choice,
   options: ChatCompletionTestOptions,
@@ -285,8 +268,8 @@ function assertChoice(
   if (stream) {
     const delta = (choice as ChatCompletionChunk.Choice).delta;
     // TODO: Relevant issue https://github.com/openai/openai-python/issues/1677
-    ifDefined(delta, (delta) => {
-      assertMessage(delta, options);
+    ifDefined(delta, (d) => {
+      assertMessage(d, options);
     });
     assert.isFalse("message" in choice);
   } else {
@@ -449,7 +432,7 @@ export function assertImagesWithJSON(image: ImagesResponse, height: number, widt
 export function assertEmbeddings(
   embeddings: CreateEmbeddingResponse,
   options?: EmbeddingTestOptions,
-) {
+): void {
   assert.isNotNull(embeddings.data);
   assert.equal(embeddings.data.length > 0, true);
   assert.isNotNull(embeddings.data[0].embedding);

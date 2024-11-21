@@ -17,6 +17,7 @@ import {
   VirtualMachinesCreateOrUpdateOptionalParams,
   VirtualMachinesCreateOrUpdateResponse,
   VirtualMachinesDeleteOptionalParams,
+  VirtualMachinesDeleteResponse,
   VirtualMachinesUpdateOptionalParams,
   VirtualMachinesUpdateResponse,
   VirtualMachinesPowerOffOptionalParams,
@@ -26,7 +27,7 @@ import {
   VirtualMachinesRestartOptionalParams,
   VirtualMachinesRestartResponse,
   VirtualMachinesStartOptionalParams,
-  VirtualMachinesStartResponse
+  VirtualMachinesStartResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -37,7 +38,7 @@ export interface VirtualMachines {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: VirtualMachinesListBySubscriptionOptionalParams
+    options?: VirtualMachinesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachine>;
   /**
    * Get a list of virtual machines in the provided resource group.
@@ -46,7 +47,7 @@ export interface VirtualMachines {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: VirtualMachinesListByResourceGroupOptionalParams
+    options?: VirtualMachinesListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<VirtualMachine>;
   /**
    * Get properties of the provided virtual machine.
@@ -57,7 +58,7 @@ export interface VirtualMachines {
   get(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesGetOptionalParams
+    options?: VirtualMachinesGetOptionalParams,
   ): Promise<VirtualMachinesGetResponse>;
   /**
    * Create a new virtual machine or update the properties of the existing virtual machine.
@@ -70,7 +71,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     virtualMachineName: string,
     virtualMachineParameters: VirtualMachine,
-    options?: VirtualMachinesCreateOrUpdateOptionalParams
+    options?: VirtualMachinesCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachinesCreateOrUpdateResponse>,
@@ -88,7 +89,7 @@ export interface VirtualMachines {
     resourceGroupName: string,
     virtualMachineName: string,
     virtualMachineParameters: VirtualMachine,
-    options?: VirtualMachinesCreateOrUpdateOptionalParams
+    options?: VirtualMachinesCreateOrUpdateOptionalParams,
   ): Promise<VirtualMachinesCreateOrUpdateResponse>;
   /**
    * Delete the provided virtual machine.
@@ -99,8 +100,13 @@ export interface VirtualMachines {
   beginDelete(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: VirtualMachinesDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<VirtualMachinesDeleteResponse>,
+      VirtualMachinesDeleteResponse
+    >
+  >;
   /**
    * Delete the provided virtual machine.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -110,8 +116,8 @@ export interface VirtualMachines {
   beginDeleteAndWait(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesDeleteOptionalParams
-  ): Promise<void>;
+    options?: VirtualMachinesDeleteOptionalParams,
+  ): Promise<VirtualMachinesDeleteResponse>;
   /**
    * Patch the properties of the provided virtual machine, or update the tags associated with the virtual
    * machine. Properties and tag updates can be done independently.
@@ -122,7 +128,7 @@ export interface VirtualMachines {
   beginUpdate(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesUpdateOptionalParams
+    options?: VirtualMachinesUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachinesUpdateResponse>,
@@ -139,7 +145,7 @@ export interface VirtualMachines {
   beginUpdateAndWait(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesUpdateOptionalParams
+    options?: VirtualMachinesUpdateOptionalParams,
   ): Promise<VirtualMachinesUpdateResponse>;
   /**
    * Power off the provided virtual machine.
@@ -150,7 +156,7 @@ export interface VirtualMachines {
   beginPowerOff(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesPowerOffOptionalParams
+    options?: VirtualMachinesPowerOffOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachinesPowerOffResponse>,
@@ -166,7 +172,7 @@ export interface VirtualMachines {
   beginPowerOffAndWait(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesPowerOffOptionalParams
+    options?: VirtualMachinesPowerOffOptionalParams,
   ): Promise<VirtualMachinesPowerOffResponse>;
   /**
    * Reimage the provided virtual machine.
@@ -177,7 +183,7 @@ export interface VirtualMachines {
   beginReimage(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesReimageOptionalParams
+    options?: VirtualMachinesReimageOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachinesReimageResponse>,
@@ -193,7 +199,7 @@ export interface VirtualMachines {
   beginReimageAndWait(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesReimageOptionalParams
+    options?: VirtualMachinesReimageOptionalParams,
   ): Promise<VirtualMachinesReimageResponse>;
   /**
    * Restart the provided virtual machine.
@@ -204,7 +210,7 @@ export interface VirtualMachines {
   beginRestart(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesRestartOptionalParams
+    options?: VirtualMachinesRestartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachinesRestartResponse>,
@@ -220,7 +226,7 @@ export interface VirtualMachines {
   beginRestartAndWait(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesRestartOptionalParams
+    options?: VirtualMachinesRestartOptionalParams,
   ): Promise<VirtualMachinesRestartResponse>;
   /**
    * Start the provided virtual machine.
@@ -231,7 +237,7 @@ export interface VirtualMachines {
   beginStart(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesStartOptionalParams
+    options?: VirtualMachinesStartOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<VirtualMachinesStartResponse>,
@@ -247,6 +253,6 @@ export interface VirtualMachines {
   beginStartAndWait(
     resourceGroupName: string,
     virtualMachineName: string,
-    options?: VirtualMachinesStartOptionalParams
+    options?: VirtualMachinesStartOptionalParams,
   ): Promise<VirtualMachinesStartResponse>;
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Transcription } from "openai/resources/audio/transcriptions.mjs";
+import type { Transcription } from "openai/resources/audio/transcriptions.mjs";
 
 export type AudioResultFormat = "json" | "verbose_json" | "text" | "srt" | "vtt";
 
