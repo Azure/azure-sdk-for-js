@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import "./env";
+import "./env.js";
 
 import {
   ManagedPrivateEndpointsClient,
   ManagedPrivateEndpointsClientOptionalParams,
-} from "../../../src";
+} from "../../../src/index.js";
 import {
   Recorder,
   RecorderStartOptions,

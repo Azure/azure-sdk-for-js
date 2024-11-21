@@ -11,7 +11,7 @@ import {
   OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-client";
-import { ManagedPrivateEndpoint as ManagedPrivateEndpointMapper } from "../models/mappers";
+import { ManagedPrivateEndpoint as ManagedPrivateEndpointMapper } from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

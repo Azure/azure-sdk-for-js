@@ -7,6 +7,6 @@
  */
 
 /// <reference lib="esnext.asynciterable" />
-export * from "./models";
-export { ManagedPrivateEndpointsClient } from "./managedPrivateEndpointsClient";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { ManagedPrivateEndpointsClient } from "./managedPrivateEndpointsClient.js";
+export * from "./operationsInterfaces/index.js";

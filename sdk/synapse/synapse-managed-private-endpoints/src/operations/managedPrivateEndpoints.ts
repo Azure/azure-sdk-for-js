@@ -6,13 +6,13 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
+import { tracingClient } from "../tracing.js";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { ManagedPrivateEndpoints } from "../operationsInterfaces";
+import { ManagedPrivateEndpoints } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { ManagedPrivateEndpointsClient } from "../managedPrivateEndpointsClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { ManagedPrivateEndpointsClient } from "../managedPrivateEndpointsClient.js";
 import {
   ManagedPrivateEndpoint,
   ManagedPrivateEndpointsListNextOptionalParams,
@@ -24,7 +24,7 @@ import {
   ManagedPrivateEndpointsDeleteOptionalParams,
   ManagedPrivateEndpointsListResponse,
   ManagedPrivateEndpointsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ManagedPrivateEndpoints operations. */

@@ -14,9 +14,9 @@ import {
   SendRequest
 } from "@azure/core-rest-pipeline";
 import * as coreAuth from "@azure/core-auth";
-import { ManagedPrivateEndpointsImpl } from "./operations";
-import { ManagedPrivateEndpoints } from "./operationsInterfaces";
-import { ManagedPrivateEndpointsClientOptionalParams } from "./models";
+import { ManagedPrivateEndpointsImpl } from "./operations/index.js";
+import { ManagedPrivateEndpoints } from "./operationsInterfaces/index.js";
+import { ManagedPrivateEndpointsClientOptionalParams } from "./models/index.js";
 
 export class ManagedPrivateEndpointsClient extends coreClient.ServiceClient {
   endpoint: string;
