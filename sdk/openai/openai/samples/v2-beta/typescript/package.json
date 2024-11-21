@@ -35,7 +35,8 @@
     "@azure/openai": "next",
     "dotenv": "latest",
     "openai": "^4.47.2",
-    "@azure/identity": "^4.2.0"
+    "@azure/identity": "^4.2.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/node": "^18.0.0",

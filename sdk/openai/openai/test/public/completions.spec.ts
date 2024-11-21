@@ -4,13 +4,14 @@
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { assert, describe, beforeEach, it, beforeAll } from "vitest";
 import { createClient } from "./utils/createClient.js";
-import { APIMatrix, type APIVersion, type DeploymentInfo } from "./utils/utils.js";
+import { APIMatrix, APIVersion, type DeploymentInfo } from "./utils/utils.js";
 import type { OpenAI, AzureOpenAI } from "openai";
 import {
   assertChatCompletions,
   assertChatCompletionsList,
   assertCompletions,
   assertCompletionsStream,
+  assertParsedChatCompletion,
 } from "./utils/asserts.js";
 import {
   bufferAsyncIterable,
@@ -22,7 +23,10 @@ import {
 } from "./utils/utils.js";
 import { type ChatCompletionMessageParam } from "openai/resources/chat/completions.mjs";
 import { completionsModelsToSkip, functionCallModelsToSkip } from "./utils/models.js";
+import { z } from "zod";
+import { zodResponseFormat } from "openai/helpers/zod";
 import "@azure/openai/types";
+import { assertMathResponseOutput, MathResponse } from "./utils/structuredOutputUtils.js";
 
 describe("Completions", function () {
   let deployments: DeploymentInfo[] = [];
@@ -177,6 +181,43 @@ describe("Completions", function () {
         const chatCompletionDeployments: DeploymentInfo[] = [];
 
         describe("getChatCompletions", function () {
+          describe.runIf(apiVersion === APIVersion.Preview)("structured output", function () {
+            it("structured output for chat completions", async function () {
+              await withDeployments(
+                deployments,
+                (deploymentName) => {
+                  const step = z.object({
+                    explanation: z.string(),
+                    output: z.string(),
+                  });
+
+                  const mathResponse = z.object({
+                    steps: z.array(step),
+                    final_answer: z.string(),
+                  });
+
+                  return client.beta.chat.completions.parse({
+                    model: deploymentName,
+                    messages: [
+                      {
+                        role: "system",
+                        content:
+                          "You are a helpful math tutor. Only use the schema for math responses.",
+                      },
+                      { role: "user", content: "solve 8x + 3 = 21" },
+                    ],
+                    response_format: zodResponseFormat(mathResponse, "mathResponse"),
+                  });
+                },
+                (result) => {
+                  assertParsedChatCompletion<MathResponse>(result, assertMathResponseOutput, {
+                    allowEmptyChoices: true,
+                  });
+                },
+              );
+            });
+          });
+
           it("returns completions across all models", async function () {
             updateWithSucceeded(
               await withDeployments(
@@ -388,103 +429,103 @@ describe("Completions", function () {
               chatCompletionDeployments,
             );
           });
-        });
 
-        describe("streamChatCompletions", function () {
-          it("returns completions across all models", async function () {
-            updateWithSucceeded(
-              await withDeployments(
-                getSucceeded(deployments, chatCompletionDeployments),
-                async (deploymentName) =>
-                  bufferAsyncIterable(
-                    await client.chat.completions.create({
-                      model: deploymentName,
-                      messages: pirateMessages,
-                      stream: true,
+          describe("streamChatCompletions", function () {
+            it("returns completions across all models", async function () {
+              updateWithSucceeded(
+                await withDeployments(
+                  getSucceeded(deployments, chatCompletionDeployments),
+                  async (deploymentName) =>
+                    bufferAsyncIterable(
+                      await client.chat.completions.create({
+                        model: deploymentName,
+                        messages: pirateMessages,
+                        stream: true,
+                      }),
+                    ),
+                  (res) =>
+                    assertChatCompletionsList(res, {
+                      // The API returns an empty choice in the first event for some
+                      // reason. This should be fixed in the API.
+                      allowEmptyChoices: true,
+                      // The API returns an empty ID in the first event for some
+                      // reason. This should be fixed in the API.
+                      allowEmptyId: true,
                     }),
-                  ),
-                (res) =>
-                  assertChatCompletionsList(res, {
-                    // The API returns an empty choice in the first event for some
-                    // reason. This should be fixed in the API.
-                    allowEmptyChoices: true,
-                    // The API returns an empty ID in the first event for some
-                    // reason. This should be fixed in the API.
-                    allowEmptyId: true,
-                  }),
-              ),
-              chatCompletionDeployments,
-            );
-          });
+                ),
+                chatCompletionDeployments,
+              );
+            });
 
-          it("calls functions", async function () {
-            updateWithSucceeded(
-              await withDeployments(
-                getSucceeded(deployments, chatCompletionDeployments),
-                async (deploymentName) =>
-                  bufferAsyncIterable(
-                    await client.chat.completions.create({
-                      model: deploymentName,
-                      messages: [{ role: "user", content: "What's the weather like in Boston?" }],
-                      stream: true,
-                      functions: [getCurrentWeather],
+            it("calls functions", async function () {
+              updateWithSucceeded(
+                await withDeployments(
+                  getSucceeded(deployments, chatCompletionDeployments),
+                  async (deploymentName) =>
+                    bufferAsyncIterable(
+                      await client.chat.completions.create({
+                        model: deploymentName,
+                        messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+                        stream: true,
+                        functions: [getCurrentWeather],
+                      }),
+                    ),
+                  (res) =>
+                    assertChatCompletionsList(res, {
+                      functions: true,
+                      // The API returns an empty choice in the first event for some
+                      // reason. This should be fixed in the API.
+                      allowEmptyChoices: true,
                     }),
-                  ),
-                (res) =>
-                  assertChatCompletionsList(res, {
-                    functions: true,
-                    // The API returns an empty choice in the first event for some
-                    // reason. This should be fixed in the API.
-                    allowEmptyChoices: true,
-                  }),
-              ),
-              chatCompletionDeployments,
-            );
-          });
+                ),
+                chatCompletionDeployments,
+              );
+            });
 
-          it("calls toolCalls", async function () {
-            updateWithSucceeded(
-              await withDeployments(
-                getSucceeded(deployments, chatCompletionDeployments),
-                async (deploymentName) =>
-                  bufferAsyncIterable(
-                    await client.chat.completions.create({
-                      model: deploymentName,
-                      messages: [{ role: "user", content: "What's the weather like in Boston?" }],
-                      stream: true,
-                      tools: [{ type: "function", function: getCurrentWeather }],
+            it("calls toolCalls", async function () {
+              updateWithSucceeded(
+                await withDeployments(
+                  getSucceeded(deployments, chatCompletionDeployments),
+                  async (deploymentName) =>
+                    bufferAsyncIterable(
+                      await client.chat.completions.create({
+                        model: deploymentName,
+                        messages: [{ role: "user", content: "What's the weather like in Boston?" }],
+                        stream: true,
+                        tools: [{ type: "function", function: getCurrentWeather }],
+                      }),
+                    ),
+                  (res) =>
+                    assertChatCompletionsList(res, {
+                      functions: true,
+                      // The API returns an empty choice in the first event for some
+                      // reason. This should be fixed in the API.
+                      allowEmptyChoices: true,
                     }),
-                  ),
-                (res) =>
-                  assertChatCompletionsList(res, {
-                    functions: true,
-                    // The API returns an empty choice in the first event for some
-                    // reason. This should be fixed in the API.
-                    allowEmptyChoices: true,
-                  }),
-              ),
-              chatCompletionDeployments,
-            );
-          });
+                ),
+                chatCompletionDeployments,
+              );
+            });
 
-          it("bring your own data", async function () {
-            const dataSources = { data_sources: [createAzureSearchExtension()] };
-            updateWithSucceeded(
-              await withDeployments(
-                getSucceeded(deployments, chatCompletionDeployments),
-                async (deploymentName) =>
-                  bufferAsyncIterable(
-                    await client.chat.completions.create({
-                      model: deploymentName,
-                      messages: byodMessages,
-                      stream: true,
-                      ...dataSources,
-                    }),
-                  ),
-                assertChatCompletionsList,
-              ),
-              chatCompletionDeployments,
-            );
+            it("bring your own data", async function () {
+              const dataSources = { data_sources: [createAzureSearchExtension()] };
+              updateWithSucceeded(
+                await withDeployments(
+                  getSucceeded(deployments, chatCompletionDeployments),
+                  async (deploymentName) =>
+                    bufferAsyncIterable(
+                      await client.chat.completions.create({
+                        model: deploymentName,
+                        messages: byodMessages,
+                        stream: true,
+                        ...dataSources,
+                      }),
+                    ),
+                  assertChatCompletionsList,
+                ),
+                chatCompletionDeployments,
+              );
+            });
           });
         });
       });
