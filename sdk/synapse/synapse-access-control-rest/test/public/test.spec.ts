@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessControlRestClient, isUnexpected } from "../../src";
+import { AccessControlRestClient, isUnexpected } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { RoleAssignmentDetailsOutput } from "../../src";
+import { RoleAssignmentDetailsOutput } from "../../src/index.js";
 import { assert } from "chai";
-import { createClient } from "./utils/recordedClient";
+import { createClient } from "./utils/recordedClient.js";
 import { isNode } from "@azure/core-util";
-import { paginate } from "../../src/paginateHelper";
+import { paginate } from "../../src/paginateHelper.js";
 
 describe("Access Control smoke", () => {
   let recorder: Recorder;
@@ -24,7 +24,7 @@ describe("Access Control smoke", () => {
   const roleId = "2a385764-43e8-416c-9825-7b18d05a2c4b";
 
   beforeEach(async function () {
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     client = await createClient(recorder);
   });
 

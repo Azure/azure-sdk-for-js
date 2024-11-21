@@ -19,7 +19,7 @@ import {
   RoleDefinitionsGetRoleDefinitionByIddefaultResponse,
   RoleDefinitionsListScopes200Response,
   RoleDefinitionsListScopesdefaultResponse
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /checkAccessSynapseRbac": ["200"],

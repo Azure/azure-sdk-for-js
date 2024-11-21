@@ -3,7 +3,7 @@
 
 import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import { RequestParameters } from "@azure-rest/core-client";
-import { CheckPrincipalAccessRequest, RoleAssignmentRequest } from "./models";
+import { CheckPrincipalAccessRequest, RoleAssignmentRequest } from "./models.js";
 
 export interface RoleAssignmentsCheckPrincipalAccessBodyParam {
   /** Details of scope, list of actions and principal. */

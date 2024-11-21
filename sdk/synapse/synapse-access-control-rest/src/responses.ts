@@ -9,7 +9,7 @@ import {
   RoleAssignmentDetailsListOutput,
   RoleAssignmentDetailsOutput,
   SynapseRoleDefinitionOutput
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Check if the given principalId has access to perform list of actions at a given scope. */
 export interface RoleAssignmentsCheckPrincipalAccess200Response

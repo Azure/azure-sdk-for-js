@@ -10,7 +10,7 @@ import {
   RoleDefinitionsListRoleDefinitionsParameters,
   RoleDefinitionsGetRoleDefinitionByIdParameters,
   RoleDefinitionsListScopesParameters
-} from "./parameters";
+} from "./parameters.js";
 import {
   RoleAssignmentsCheckPrincipalAccess200Response,
   RoleAssignmentsCheckPrincipalAccessdefaultResponse,
@@ -29,7 +29,7 @@ import {
   RoleDefinitionsGetRoleDefinitionByIddefaultResponse,
   RoleDefinitionsListScopes200Response,
   RoleDefinitionsListScopesdefaultResponse
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface RoleAssignmentsCheckPrincipalAccess {
