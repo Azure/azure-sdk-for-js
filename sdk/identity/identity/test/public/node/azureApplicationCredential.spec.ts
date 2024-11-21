@@ -1,11 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
-import { Context } from "mocha";
-import { assert } from "@azure-tools/test-utils";
-import { getError } from "../../authTestUtils";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
+import { getError } from "../../authTestUtils.js";
+import { describe, it, assert, expect, afterEach, beforeEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+
+expect.extend({ toSupportTracing });
 
 // TODO: Use the real one once we decide to re-enable this on the public API.
 class AzureApplicationCredential implements TokenCredential {
@@ -20,8 +23,8 @@ describe.skip("AzureApplicationCredential", function () {
   const environmentVariableNames = ["AZURE_TENANT_ID", "AZURE_CLIENT_ID", "AZURE_CLIENT_SECRET"];
   const cachedValues: Record<string, string | undefined> = {};
 
-  beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(async function (ctx) {
+    const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
     environmentVariableNames.forEach((name) => {
       cachedValues[name] = process.env[name];
@@ -52,24 +55,19 @@ describe.skip("AzureApplicationCredential", function () {
   });
 
   it("supports tracing with environment client secret", async () => {
-    await assert.supportsTracing(
-      async (tracingOptions) => {
-        // The following environment variables must be set for this to work.
-        // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
-        process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
-        process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
-        process.env.AZURE_CLIENT_SECRET = cachedValues.AZURE_CLIENT_SECRET;
-
-        const credential = new AzureApplicationCredential();
-
-        await credential.getToken(scope, tracingOptions);
-      },
-      [
-        "ChainedTokenCredential.getToken",
-        "EnvironmentCredential.getToken",
-        "ClientSecretCredential.getToken",
-      ],
-    );
+    await expect(async (tracingOptions: any) => {
+      // The following environment variables must be set for this to work.
+      // On TEST_MODE="playback", the recorder automatically fills them with stubbed values.
+      process.env.AZURE_TENANT_ID = cachedValues.AZURE_TENANT_ID;
+      process.env.AZURE_CLIENT_ID = cachedValues.AZURE_CLIENT_ID;
+      process.env.AZURE_CLIENT_SECRET = cachedValues.AZURE_CLIENT_SECRET;
+      const credential = new AzureApplicationCredential();
+      await credential.getToken(scope, tracingOptions);
+    }).toSupportTracing([
+      "ChainedTokenCredential.getToken",
+      "EnvironmentCredential.getToken",
+      "ClientSecretCredential.getToken",
+    ]);
   });
 
   it("throws an AggregateAuthenticationError when getToken is called and no credential was configured", async () => {

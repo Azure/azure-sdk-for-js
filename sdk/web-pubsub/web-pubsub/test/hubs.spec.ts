@@ -5,8 +5,9 @@ import { Recorder, isLiveMode, assertEnvironmentVariable } from "@azure-tools/te
 import { WebPubSubServiceClient, AzureKeyCredential } from "../src";
 import { assert } from "@azure-tools/test-utils";
 import recorderOptions from "./testEnv";
-import { FullOperationResponse } from "@azure/core-client";
+import type { FullOperationResponse } from "@azure/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { parseJwt } from "./testUtils";
 /* eslint-disable @typescript-eslint/no-invalid-this */
 
 describe("HubClient", function () {
@@ -301,9 +302,25 @@ describe("HubClient", function () {
         groups: ["group1"],
       });
       const url = new URL(res.url);
+      const tokenPayload = parseJwt(res.token!);
       assert.ok(url.searchParams.has("access_token"));
       assert.equal(url.host, new URL(client.endpoint).host);
       assert.equal(url.pathname, `/client/hubs/${client.hubName}`);
+      assert.equal(tokenPayload.aud, client.endpoint + `client/hubs/${client.hubName}`);
+    });
+
+    it("can generate default client tokens", async () => {
+      const res = await client.getClientAccessToken({
+        userId: "brian",
+        groups: ["group1"],
+        clientProtocol: "default",
+      });
+      const url = new URL(res.url);
+      const tokenPayload = parseJwt(res.token!);
+      assert.ok(url.searchParams.has("access_token"));
+      assert.equal(url.host, new URL(client.endpoint).host);
+      assert.equal(url.pathname, `/client/hubs/${client.hubName}`);
+      assert.equal(tokenPayload.aud, client.endpoint + `client/hubs/${client.hubName}`);
     });
 
     it("can generate client MQTT tokens", async () => {
@@ -313,9 +330,77 @@ describe("HubClient", function () {
         clientProtocol: "mqtt",
       });
       const url = new URL(res.url);
+      const tokenPayload = parseJwt(res.token!);
       assert.ok(url.searchParams.has("access_token"));
       assert.equal(url.host, new URL(client.endpoint).host);
       assert.equal(url.pathname, `/clients/mqtt/hubs/${client.hubName}`);
+      assert.equal(tokenPayload.aud, client.endpoint + `clients/mqtt/hubs/${client.hubName}`);
+    });
+
+    it("can generate default client tokens with DAC", async function () {
+      // Recording not generated properly, so only run in live mode
+      if (!isLiveMode()) this.skip();
+      const dacClient = new WebPubSubServiceClient(
+        assertEnvironmentVariable("WPS_ENDPOINT"),
+        credential,
+        "simplechat",
+        recorder.configureClientOptions({}),
+      );
+      const res = await dacClient.getClientAccessToken({
+        userId: "brian",
+        groups: ["group1"],
+        clientProtocol: "default",
+      });
+      const url = new URL(res.url);
+      const tokenPayload = parseJwt(res.token!);
+      assert.ok(url.searchParams.has("access_token"));
+      assert.equal(url.host, new URL(client.endpoint).host);
+      assert.equal(url.pathname, `/client/hubs/${client.hubName}`);
+      assert.equal(tokenPayload.aud, client.endpoint + `client/hubs/${client.hubName}`);
+    });
+
+    it("can generate client MQTT tokens with DAC", async function () {
+      // Recording not generated properly, so only run in live mode
+      if (!isLiveMode()) this.skip();
+      const dacClient = new WebPubSubServiceClient(
+        assertEnvironmentVariable("WPS_ENDPOINT"),
+        credential,
+        "simplechat",
+        recorder.configureClientOptions({}),
+      );
+      const res = await dacClient.getClientAccessToken({
+        userId: "brian",
+        groups: ["group1"],
+        clientProtocol: "mqtt",
+      });
+      const url = new URL(res.url);
+      const tokenPayload = parseJwt(res.token!);
+      assert.ok(url.searchParams.has("access_token"));
+      assert.equal(url.host, new URL(client.endpoint).host);
+      assert.equal(url.pathname, `/clients/mqtt/hubs/${client.hubName}`);
+      assert.equal(tokenPayload.aud, client.endpoint + `clients/mqtt/hubs/${client.hubName}`);
+    });
+
+    it("can generate client socketIO tokens with DAC", async function () {
+      // Recording not generated properly, so only run in live mode
+      if (!isLiveMode()) this.skip();
+      const dacClient = new WebPubSubServiceClient(
+        assertEnvironmentVariable("WPS_SOCKETIO_ENDPOINT"),
+        credential,
+        "simplechat",
+        recorder.configureClientOptions({}),
+      );
+      const res = await dacClient.getClientAccessToken({
+        userId: "brian",
+        groups: ["group1"],
+        clientProtocol: "socketio",
+      });
+      const url = new URL(res.url);
+      const tokenPayload = parseJwt(res.token!);
+      assert.ok(url.searchParams.has("access_token"));
+      assert.equal(url.host, new URL(client.endpoint).host);
+      assert.equal(url.pathname, `/clients/socketio/hubs/${client.hubName}`);
+      assert.equal(tokenPayload.aud, client.endpoint + `clients/socketio/hubs/${client.hubName}`);
     });
   });
 });

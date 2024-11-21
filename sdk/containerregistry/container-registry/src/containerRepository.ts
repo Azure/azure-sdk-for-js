@@ -3,18 +3,19 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import { OperationOptions } from "@azure/core-client";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { OperationOptions } from "@azure/core-client";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
-import { GeneratedClient, RepositoryWriteableProperties } from "./generated";
+import type { GeneratedClient, RepositoryWriteableProperties } from "./generated";
 import { tracingClient } from "./tracing";
-import {
+import type {
   ArtifactManifestOrder,
   ContainerRepositoryProperties,
   ArtifactManifestProperties,
   ManifestPageResponse,
 } from "./models";
-import { RegistryArtifact, RegistryArtifactImpl } from "./registryArtifact";
+import type { RegistryArtifact } from "./registryArtifact";
+import { RegistryArtifactImpl } from "./registryArtifact";
 import { toArtifactManifestProperties, toServiceManifestOrderBy } from "./transformations";
 import { extractNextLink } from "./utils/helpers";
 

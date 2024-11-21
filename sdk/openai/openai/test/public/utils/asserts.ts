@@ -1,27 +1,21 @@
 import { assert } from "vitest";
 import { get, Metadata } from "./utils.js";
-import { getImageDimensionsFromResponse } from "./images.js";
+import { getImageDimensionsFromResponse, getImageDimensionsFromString } from "./images.js";
 import {
   AzureChatExtensionDataSourceResponseCitationOutput,
   AzureChatExtensionsMessageContextOutput,
-  ContentFilterBlocklistIdResultOutput,
   ContentFilterCitedDetectionResultOutput,
   ContentFilterDetectionResultOutput,
   ContentFilterResultOutput,
   ContentFilterResultDetailsForPromptOutput,
   ContentFilterResultsForChoiceOutput,
   ContentFilterResultsForPromptOutput,
-  ChatFinishDetailsOutput,
-  StopFinishDetailsOutput,
-  AzureChatEnhancementsOutput,
-  AzureGroundingEnhancementOutput,
-  AzureGroundingEnhancementLineSpanOutput,
-  AzureGroundingEnhancementCoordinatePointOutput,
-  AzureGroundingEnhancementLineOutput,
-  ContentFilterDetailedResults,
 } from "../../../src/types/index.js";
 import { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 import {
+  Batch,
+  BatchError,
+  BatchRequestCounts,
   ChatCompletionChunk,
   ChatCompletionMessage,
   ChatCompletionTokenLogprob,
@@ -161,7 +155,6 @@ function assertContentFilterResultsForChoice(cfr: ContentFilterResultsForChoiceO
     ifDefined(cfr.sexual, assertContentFilterResult);
     ifDefined(cfr.violence, assertContentFilterResult);
     ifDefined(cfr.profanity, assertContentFilterDetectionResult);
-    ifDefined(cfr.custom_blocklists, assertContentFilterDetailedResult);
     ifDefined(cfr.protected_material_code, assertContentFilterCitedDetectionResult);
     ifDefined(cfr.protected_material_text, assertContentFilterDetectionResult);
   }
@@ -200,7 +193,6 @@ function assertContentFilterResultDetailsForPrompt(
     ifDefined(cfr.violence, assertContentFilterResult);
     ifDefined(cfr.profanity, assertContentFilterDetectionResult);
     ifDefined(cfr.jailbreak, assertContentFilterDetectionResult);
-    ifDefined(cfr.custom_blocklists, assertContentFilterDetailedResult);
   }
 }
 
@@ -220,23 +212,17 @@ function assertContentFilterDetectionResult(val: ContentFilterDetectionResultOut
   assert.isBoolean(val.filtered);
 }
 
-function assertContentFilterDetailedResult(val: ContentFilterDetailedResults): void {
-  assert.isBoolean(val.filtered);
-  assertNonEmptyArray(val.details, assertContentFilterBlocklistIdResult);
-}
-
-function assertContentFilterBlocklistIdResult(val: ContentFilterBlocklistIdResultOutput): void {
-  assert.isString(val.id);
-  assert.isBoolean(val.filtered);
-}
-
 function assertChoice(
   choice: ChatCompletion.Choice | ChatCompletionChunk.Choice,
   options: ChatCompletionTestOptions,
 ): void {
   const stream = options.stream;
   if (stream) {
-    assertMessage((choice as ChatCompletionChunk.Choice).delta, options);
+    const delta = (choice as ChatCompletionChunk.Choice).delta;
+    // TODO: Relevant issue https://github.com/openai/openai-python/issues/1677
+    ifDefined(delta, (delta) => {
+      assertMessage(delta, options);
+    });
     assert.isFalse("message" in choice);
   } else {
     assertMessage((choice as ChatCompletion.Choice).message, options);
@@ -244,8 +230,6 @@ function assertChoice(
   }
   assert.isNumber(choice.index);
   ifDefined(choice.content_filter_results, assertContentFilterResultsForChoice);
-  ifDefined(choice.enhancements, assertAzureChatEnhancements);
-  ifDefined(choice.finish_details, assertChatFinishDetails);
   ifDefined(choice.logprobs, assertLogProbability);
   ifDefined(choice.finish_reason, assert.isString);
 }
@@ -352,17 +336,6 @@ function assertToolCall(
   }
 }
 
-function assertChatFinishDetails(val: ChatFinishDetailsOutput): void {
-  switch (val.type) {
-    case "max_tokens":
-      break;
-    case "stop": {
-      assert.isString((val as StopFinishDetailsOutput).stop);
-      break;
-    }
-  }
-}
-
 export function assertNonEmptyArray<T>(val: T[], validate: (x: T) => void): void {
   assert.isNotEmpty(val);
   assertArray(val, validate);
@@ -401,12 +374,9 @@ export function assertImagesWithJSON(image: ImagesResponse, height: number, widt
     assert.isUndefined(img.url);
     ifDefined(img.b64_json, async (data) => {
       assert.isString(data);
-      // Width in PNG is byte 16 - 19
-      const actualWidth = Buffer.from(data, "base64").readUInt32BE(16);
-      assert.equal(actualWidth, width, "Width does not match");
-      // Height in PNG is byte 20 - 23
-      const actualHeight = Buffer.from(data, "base64").readUInt32BE(20);
-      assert.equal(actualHeight, height, "Height does not match");
+      const dimensions = getImageDimensionsFromString(data);
+      assert.equal(dimensions?.height, height, "Height does not match");
+      assert.equal(dimensions?.width, width, "Width does not match");
     });
   });
 }
@@ -426,13 +396,15 @@ export function assertEmbeddings(
 }
 
 function assertMessage(
-  message: ChatCompletionMessage | ChatCompletionChunk.Choice.Delta | undefined,
+  message: ChatCompletionMessage | ChatCompletionChunk.Choice.Delta,
   { functions, stream }: ChatCompletionTestOptions = {},
 ): void {
   assert.isDefined(message);
   const msg = message;
   if (!functions) {
-    assertIf(!stream, msg?.content, assert.isString);
+    assertIf(!stream, msg?.content, (content) => {
+      ifDefined(content, assert.isString);
+    });
   }
   assertIf(!stream, msg?.role, assert.isString);
   for (const item of msg?.tool_calls ?? []) {
@@ -444,34 +416,6 @@ function assertMessage(
 function assertContext(context: AzureChatExtensionsMessageContextOutput): void {
   ifDefined(context.intent, assert.isString);
   ifDefined(context.citations, (arr) => assertArray(arr, assertCitations));
-}
-
-function assertAzureChatEnhancements(val: AzureChatEnhancementsOutput): void {
-  ifDefined(val.grounding, assertAzureGroundingEnhancement);
-}
-
-function assertAzureGroundingEnhancementLine(val: AzureGroundingEnhancementLineOutput): void {
-  assertNonEmptyArray(val.spans, assertAzureGroundingEnhancementLineSpan);
-}
-
-function assertAzureGroundingEnhancement(val: AzureGroundingEnhancementOutput): void {
-  assertNonEmptyArray(val.lines, assertAzureGroundingEnhancementLine);
-}
-
-function assertAzureGroundingEnhancementLineSpan(
-  val: AzureGroundingEnhancementLineSpanOutput,
-): void {
-  assert.isNumber(val.length);
-  assert.isNumber(val.offset);
-  assert.isString(val.text);
-  assertNonEmptyArray(val.polygon, assertAzureGroundingEnhancementCoordinatePoint);
-}
-
-function assertAzureGroundingEnhancementCoordinatePoint(
-  val: AzureGroundingEnhancementCoordinatePointOutput,
-): void {
-  assert.isNumber(val.x);
-  assert.isNumber(val.y);
 }
 
 function assertCitations(citations: AzureChatExtensionDataSourceResponseCitationOutput): void {
@@ -495,6 +439,48 @@ export function assertAssistantEquality(
   assert.isNotNull(response.tools[0]);
   const tools = assistant.tools || [];
   assert.equal(response.tools[0].type, tools[0].type);
+}
+
+export function assertBatch(batch: Batch): void {
+  assert.isString(batch.id);
+  assert.equal(batch.completion_window, "24h");
+  assert.isNumber(batch.created_at);
+  assert.isString(batch.endpoint);
+  assert.isString(batch.input_file_id);
+  assert.equal(batch.object, "batch");
+  assert.isString(batch.status);
+  ifDefined(batch.cancelled_at, assert.isNumber);
+  ifDefined(batch.cancelling_at, assert.isNumber);
+  ifDefined(batch.completed_at, assert.isNumber);
+  ifDefined(batch.error_file_id, assert.isString);
+  ifDefined(batch.errors, assertBatchErrors);
+  ifDefined(batch.expired_at, assert.isNumber);
+  ifDefined(batch.expires_at, assert.isNumber);
+  ifDefined(batch.failed_at, assert.isNumber);
+  ifDefined(batch.finalizing_at, assert.isNumber);
+  ifDefined(batch.expired_at, assert.isNumber);
+  ifDefined(batch.in_progress_at, assert.isNumber);
+  ifDefined(batch.metadata, assert.isNotNull);
+  ifDefined(batch.output_file_id, assert.isString);
+  ifDefined(batch.request_counts, assertbatchRequestCounts);
+}
+
+function assertbatchRequestCounts(requestCounts: BatchRequestCounts): void {
+  assert.isNumber(requestCounts.completed);
+  assert.isNumber(requestCounts.failed);
+  assert.isNumber(requestCounts.total);
+}
+
+function assertBatchErrors(errors: Batch.Errors): void {
+  ifDefined(errors.object, (object) => assert.equal(object, "list"));
+  ifDefined(errors.data, (error) => assertNonEmptyArray(error, assertBatchErrorData));
+}
+
+function assertBatchErrorData(error: BatchError): void {
+  ifDefined(error.code, assert.isString);
+  ifDefined(error.message, assert.isString);
+  ifDefined(error.param, assert.isString);
+  ifDefined(error.line, assert.isNumber);
 }
 
 interface CompletionTestOptions {

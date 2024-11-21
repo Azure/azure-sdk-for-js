@@ -1,17 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  ImplementationName,
-  assertDivergentBehavior,
-  assertError,
-  createDoubleHeaders,
-  Result,
-} from "./utils/utils.js";
+import type { ImplementationName, Result } from "./utils/utils.js";
+import { assertDivergentBehavior, assertError, createDoubleHeaders } from "./utils/utils.js";
 import { describe, it, assert, expect } from "vitest";
 import { createRunLroWith, createTestPoller } from "./utils/router.js";
 import { delay } from "@azure/core-util";
-import { matrix } from "./matrix.js";
+import { matrix } from "@azure-tools/test-utils-vitest";
+
 matrix(
   [["createPoller"], [true, false]] as const,
   async function (implName: ImplementationName, throwOnNon2xxResponse: boolean) {

@@ -29,20 +29,21 @@
     "build": "tsc -p .",
     "build:samples": "echo Skipped.",
     "build:test": "tsc -p .",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
     "clean": "rimraf --glob dist/",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
-    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"./**/*.{ts,json,md}\"",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
-    "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
-    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "unit-test:node": "echo skipped",
-    "unit-test:browser": "echo skipped",
+    "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
-    "test": "npm run clean && npm run build:test && npm run unit-test"
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "echo skipped",
+    "update-snippets": "echo skipped"
   },
   "engines": {
     "node": ">=18.0.0"
@@ -56,7 +57,7 @@
     "eslint": "^9.9.0",
     "prettier": "^3.3.3",
     "rimraf": "^5.0.0",
-    "typescript-eslint": "~8.2.0",
-    "typescript": "~5.5.3"
+    "typescript": "~5.6.2",
+    "typescript-eslint": "~8.15.0"
   }
 }

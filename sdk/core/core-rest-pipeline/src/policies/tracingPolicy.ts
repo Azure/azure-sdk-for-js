@@ -54,7 +54,7 @@ export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolic
   return {
     name: tracingPolicyName,
     async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
-      if (!tracingClient || !request.tracingOptions?.tracingContext) {
+      if (!tracingClient) {
         return next(request);
       }
 

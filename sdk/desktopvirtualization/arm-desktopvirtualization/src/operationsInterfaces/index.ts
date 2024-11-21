@@ -21,4 +21,6 @@ export * from "./hostPools";
 export * from "./userSessions";
 export * from "./sessionHosts";
 export * from "./msixPackages";
+export * from "./appAttachPackageInfo";
 export * from "./msixImages";
+export * from "./appAttachPackageOperations";

@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { MsalPersistenceOptions, msalPersistencePlatforms } from "./platforms";
-import { IPersistence as Persistence, PersistenceCachePlugin } from "@azure/msal-node-extensions";
-import { ICachePlugin as CachePlugin } from "@azure/msal-node";
+import type { MsalPersistenceOptions } from "./platforms";
+import { msalPersistencePlatforms } from "./platforms";
+import type { IPersistence as Persistence } from "@azure/msal-node-extensions";
+import { PersistenceCachePlugin } from "@azure/msal-node-extensions";
+import type { ICachePlugin as CachePlugin } from "@azure/msal-node";
 
 /**
  * This is used to gain access to the underlying Persistence instance, which we use for testing

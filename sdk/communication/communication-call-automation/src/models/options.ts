@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
-import { OperationOptions } from "@azure/core-client";
-import {
+import type { PhoneNumberIdentifier, CommunicationIdentifier } from "@azure/communication-common";
+import type { OperationOptions } from "@azure/core-client";
+import type {
   MediaStreamingConfiguration,
   TranscriptionConfiguration,
   CallRejectReason,
@@ -20,7 +20,7 @@ import {
   ChannelAffinity,
   CallIntelligenceOptions,
   CustomCallingContext,
-} from "./models";
+} from "./models.js";
 
 /** Options to configure the recognize operation. */
 export interface CallMediaRecognizeOptions extends OperationOptions {

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { ClientContext } from "../../ClientContext";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { ClientContext } from "../../ClientContext";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getIdFromLink, getPathFromLink, isResourceValid, ResourceType } from "../../common";
-import { SqlQuerySpec } from "../../queryExecutionContext";
+import type { SqlQuerySpec } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions } from "../../request";
-import { Container } from "../Container";
-import { Resource } from "../Resource";
+import type { FeedOptions, RequestOptions } from "../../request";
+import type { Container } from "../Container";
+import type { Resource } from "../Resource";
 import { Trigger } from "./Trigger";
-import { TriggerDefinition } from "./TriggerDefinition";
+import type { TriggerDefinition } from "./TriggerDefinition";
 import { TriggerResponse } from "./TriggerResponse";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 

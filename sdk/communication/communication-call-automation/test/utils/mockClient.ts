@@ -1,16 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  HttpClient,
-  PipelineRequest,
-  PipelineResponse,
-  createHttpHeaders,
-} from "@azure/core-rest-pipeline";
-import { baseUri, CALL_CONNECTION_ID, generateToken } from "../utils/connectionUtils";
-import { CallMedia } from "../../src/callMedia";
-import { CallRecording } from "../../src/callRecording";
-import { CallAutomationEventProcessor } from "../../src/eventprocessor/callAutomationEventProcessor";
+import type { HttpClient, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { baseUri, CALL_CONNECTION_ID, generateToken } from "../utils/connectionUtils.js";
+import { CallMedia } from "../../src/callMedia.js";
+import { CallRecording } from "../../src/callRecording.js";
+import { CallAutomationEventProcessor } from "../../src/eventprocessor/callAutomationEventProcessor.js";
 
 export const generateHttpClient = (status: number, parsedBody?: unknown): HttpClient => {
   const mockHttpClient: HttpClient = {

@@ -12,9 +12,9 @@ import {
   PipelineResponse,
   SendRequest
 } from "@azure/core-rest-pipeline";
-import { EmailImpl } from "./operations";
-import { Email } from "./operationsInterfaces";
-import { EmailRestApiClientOptionalParams } from "./models";
+import { EmailImpl } from "./operations/index.js";
+import { Email } from "./operationsInterfaces/index.js";
+import { EmailRestApiClientOptionalParams } from "./models/index.js";
 
 export class EmailRestApiClient extends coreClient.ServiceClient {
   endpoint: string;
@@ -57,7 +57,7 @@ export class EmailRestApiClient extends coreClient.ServiceClient {
     this.endpoint = endpoint;
 
     // Assigning values to Constant parameters
-    this.apiVersion = options.apiVersion || "2023-03-31";
+    this.apiVersion = options.apiVersion || "2024-07-01-preview";
     this.email = new EmailImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }

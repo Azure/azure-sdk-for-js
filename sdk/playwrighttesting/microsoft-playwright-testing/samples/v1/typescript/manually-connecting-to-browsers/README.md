@@ -56,7 +56,7 @@ npm i --save-dev dotenv
 `.env` file
 
 ```sh
-PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/accounts/<workspace-id>/browsers
+PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/accounts/workspace-id/browsers
 ```
 
 ### Configure browsers to be launched on the service

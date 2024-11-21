@@ -3,8 +3,9 @@
 
 import * as assert from "assert";
 import * as sinon from "sinon";
-import { Attributes, SpanKind, SpanStatusCode } from "@opentelemetry/api";
-import { Histogram } from "@opentelemetry/sdk-metrics";
+import type { Attributes } from "@opentelemetry/api";
+import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
+import type { Histogram } from "@opentelemetry/sdk-metrics";
 import {
   SEMATTRS_HTTP_STATUS_CODE,
   SEMATTRS_NET_HOST_PORT,

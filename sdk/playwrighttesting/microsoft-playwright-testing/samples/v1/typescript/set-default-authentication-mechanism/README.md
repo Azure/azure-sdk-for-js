@@ -89,7 +89,7 @@ npm i --save-dev dotenv
 `.env` file
 ```
 PLAYWRIGHT_SERVICE_ACCESS_TOKEN=eyJh...
-PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/accounts/<workspace-id>/browsers
+PLAYWRIGHT_SERVICE_URL=wss://eastus.api.playwright.microsoft.com/accounts/workspace-id/browsers
 ```
 
 ### Run the tests

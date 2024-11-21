@@ -1,11 +1,36 @@
 # Release History
 
-## 1.7.1 ()
+## 1.8.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.8.0 (2024-10-23)
+
+### Features Added
+- Changed live metrics CPU/Memory perf counter metrics to emit normalized process CPU and process physical memory bytes.
+- Support for Live Metrics Filtering.
+- Support parsing AAD Audience from the connection string for live metrics.
+
+### Other Changes
+
+- Update to using the logRecordProcessors property.
+
+## 1.7.1 (2024-09-13)
+
+### Bugs Fixed
+- Live Metrics: Do not send documents from past time intervals.
 
 ### Other Changes
 
 - Update the relative path used in the OTel instrumentation patcher to work with webpack.
 - Update OTel dependencies.
+- Update enableTraceBasedSamplingForLogs config default value to false.
 
 ## 1.7.0 (2024-08-14)
 

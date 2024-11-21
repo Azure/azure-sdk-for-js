@@ -13,20 +13,25 @@ import type {
 import { exec } from "child_process";
 import { reporterLogger } from "../common/logger";
 import { createHash, randomUUID } from "crypto";
-import { IBackOffOptions } from "../common/types";
+import type { IBackOffOptions } from "../common/types";
 import fs from "fs";
 import os from "os";
 import path from "path";
 import { Constants } from "../common/constants";
-import { EnvironmentVariables } from "../common/environmentVariables";
-import { DedupedStep, RawTestStep } from "../common/types";
+import type { EnvironmentVariables } from "../common/environmentVariables";
+import type { DedupedStep, RawTestStep } from "../common/types";
 import { TokenType } from "../model/mptTokenDetails";
-import { Shard, TestRunStatus, UploadMetadata } from "../model/shard";
-import { TestResult as MPTTestResult, RawTestResult } from "../model/testResult";
-import { TestRun, TestRunConfig } from "../model/testRun";
-import { CIInfo, CI_PROVIDERS } from "./cIInfoProvider";
+import type { UploadMetadata } from "../model/shard";
+import { Shard, TestRunStatus } from "../model/shard";
+import type { RawTestResult } from "../model/testResult";
+import { TestResult as MPTTestResult } from "../model/testResult";
+import type { TestRunConfig } from "../model/testRun";
+import { TestRun } from "../model/testRun";
+import type { CIInfo } from "./cIInfoProvider";
+import { CI_PROVIDERS } from "./cIInfoProvider";
 import { CIInfoProvider } from "./cIInfoProvider";
-
+import type { StorageUri } from "../model/storageUri";
+import { getPackageVersion } from "./utils";
 class ReporterUtils {
   private envVariables: EnvironmentVariables;
 
@@ -53,16 +58,9 @@ class ReporterUtils {
 
   public async getTestRunObject(ciInfo: CIInfo): Promise<TestRun> {
     const testRun = new TestRun();
-    const runName = await this.getRunName(ciInfo);
-    if (ReporterUtils.isNullOrEmpty(this.envVariables.runId)) {
-      if (!ReporterUtils.isNullOrEmpty(runName)) {
-        this.envVariables.runId = runName;
-      } else {
-        this.envVariables.runId = randomUUID();
-      }
-    }
+    const runName = this.envVariables.runName || (await this.getRunName(ciInfo));
     testRun.testRunId = this.envVariables.runId;
-    testRun.displayName = ReporterUtils.isNullOrEmpty(runName) ? randomUUID() : runName;
+    testRun.displayName = ReporterUtils.isNullOrEmpty(runName) ? this.envVariables.runId : runName;
     testRun.creatorName = this.envVariables.userName;
     testRun.creatorId = this.envVariables.userId!;
     testRun.startTime = ReporterUtils.timestampToRFC3339(this.startTime);
@@ -157,7 +155,7 @@ class ReporterUtils {
     testResult.webTestConfig = {
       jobName: jobName,
       projectName: test.parent.project()!.name,
-      browserType: browserName!.toUpperCase(),
+      browserType: browserName ? browserName.toUpperCase() : "",
       os: this.getOsName(),
     };
     testResult.annotations = this.extractTestAnnotations(test.annotations);
@@ -274,6 +272,7 @@ class ReporterUtils {
 
       // Check if the payload has an 'aud' claim
       return "aud" in payloadObject;
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       return false;
     }
@@ -317,24 +316,41 @@ class ReporterUtils {
     },
   };
 
-  public static isTimeGreaterThanCurrentPlus10Minutes(isoString: string): boolean {
-    // Parse ISO 8601 string into a timestamp
-    const timestampFromIsoString: number = Date.parse(isoString);
-    // Calculate the current timestamp plus 10 minutes
-    const currentTimestampPlus10Minutes: number = Date.now() + 10 * 60 * 1000;
-    // Compare the timestamps
-    return timestampFromIsoString > currentTimestampPlus10Minutes;
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  public static isTimeGreaterThanCurrentPlus10Minutes(sasUri: StorageUri): boolean {
+    try {
+      const url = new URL(sasUri.uri);
+      const params = new URLSearchParams(url.search);
+      const expiryTime = params.get("se"); // 'se' is the query parameter for the expiry time
+      if (expiryTime) {
+        const timestampFromIsoString = new Date(expiryTime).getTime();
+        const currentTimestampPlus10Minutes = Date.now() + 10 * 60 * 1000;
+        const isSasValidityGreaterThanCurrentTimePlus10Minutes =
+          timestampFromIsoString > currentTimestampPlus10Minutes;
+        if (!isSasValidityGreaterThanCurrentTimePlus10Minutes) {
+          reporterLogger.info(
+            `Sas rotation required because close to expiry, SasUriValidTillTime: ${timestampFromIsoString}, CurrentTime: ${currentTimestampPlus10Minutes}`,
+          );
+        }
+        return isSasValidityGreaterThanCurrentTimePlus10Minutes;
+      }
+      reporterLogger.error(`Sas rotation required because expiry param not found.`);
+      return false;
+    } catch (error) {
+      reporterLogger.error(`Sas rotation required because of ${error}.`);
+      return false;
+    }
   }
 
   public static getFileSize(attachmentPath: string): number {
     try {
       const stats = fs.statSync(attachmentPath);
       return stats.size;
-    } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (error) {
       return 0;
     }
   }
-
   public redactAccessToken(info: string | undefined): string {
     if (!info || ReporterUtils.isNullOrEmpty(this.envVariables.accessToken)) {
       return "";
@@ -342,27 +358,6 @@ class ReporterUtils {
     const accessTokenRegex = new RegExp(this.envVariables.accessToken, "g");
     return info.replace(accessTokenRegex, Constants.DEFAULT_REDACTED_MESSAGE);
   }
-
-  public static populateValuesFromServiceUrl(): {
-    region: string;
-    accountId: string;
-  } | null {
-    // Service URL format: wss://<region>.api.playwright.microsoft.com/accounts/<workspace-id>/browsers
-    const url = process.env["PLAYWRIGHT_SERVICE_URL"]!;
-    if (!ReporterUtils.isNullOrEmpty(url)) {
-      const parts = url.split("/");
-
-      if (parts.length > 2) {
-        const subdomainParts = parts[2]!.split(".");
-        const region = subdomainParts.length > 0 ? subdomainParts[0] : null;
-        const accountId = parts[4];
-
-        return { region: region!, accountId: accountId! };
-      }
-    }
-    return null;
-  }
-
   public static getRegionFromAccountID(accountId: string): string | undefined {
     if (accountId.includes("_")) {
       return accountId.split("_")[0]!;
@@ -377,10 +372,12 @@ class ReporterUtils {
     const completed = Math.round(width * percent);
     const remaining = width - completed;
 
-    process.stdout.write("\r");
-    process.stdout.write(
-      `[${"=".repeat(completed)}${" ".repeat(remaining)}] ${Math.round(percent * 100)}%`,
-    );
+    if (current % Math.round(total / 5) === 0 || current === total) {
+      process.stdout.write("\r");
+      process.stdout.write(
+        `[${"=".repeat(completed)}${" ".repeat(remaining)}] ${Math.round(percent * 100)}%`,
+      );
+    }
   }
 
   private getTestRunConfig(): TestRunConfig {
@@ -398,7 +395,7 @@ class ReporterUtils {
       },
       testType: Constants.TEST_TYPE,
       testSdkLanguage: Constants.TEST_SDK_LANGUAGE,
-      reporterPackageVersion: Constants.REPORTER_PACKAGE_VERSION,
+      reporterPackageVersion: getPackageVersion(),
     };
     return testRunConfig;
   }
@@ -435,6 +432,7 @@ class ReporterUtils {
       if (obj.tag && Array.isArray(obj.tag)) {
         tags = tags.concat(obj.tag);
       }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (error) {
       // Ignore parsing errors
     }

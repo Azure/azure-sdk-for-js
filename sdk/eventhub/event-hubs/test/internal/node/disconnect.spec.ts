@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { latestEventPosition } from "../../../src/index.js";
-import { WritableReceiver } from "../../../src/partitionReceiver.js";
+import type { WritableReceiver } from "../../../src/partitionReceiver.js";
 import { EventHubSender } from "../../../src/eventHubSender.js";
 import { MessagingError } from "@azure/core-amqp";
 import { should } from "../../utils/chai.js";

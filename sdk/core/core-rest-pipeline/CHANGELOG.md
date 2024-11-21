@@ -1,10 +1,21 @@
 # Release History
 
-## 1.17.0 (Unreleased)
+## 1.18.0 (2024-11-12)
+
+### Features Added
+
+- `BearerTokenAuthenticationPolicy` will handle CAE claims challenge by default. [PR #31501](https://github.com/Azure/azure-sdk-for-js/pull/31501/)
+
+### Bugs Fixed
+
+- Fix an issue in `isStreamComplete` where the method never resolves if the stream is not readable.
+
+## 1.17.0 (2024-09-12)
 
 ### Features Added
 
 - The token cycler of `BearerTokenCredentialPolicy` now checks the `refreshAfterTimestamp` attribute in the `AccessToken` when determining if a token request should be made in the `shouldRefresh` method. #30402
+- Added support for automatic span propagation and HTTP tracing for consumers using Rest Level Clients. [#31019](https://github.com/Azure/azure-sdk-for-js/pull/31019)
 
 ## 1.16.3 (2024-08-01)
 

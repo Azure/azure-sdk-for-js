@@ -25,7 +25,7 @@ import {
   MsixPackagesDeleteOptionalParams,
   MsixPackagesUpdateOptionalParams,
   MsixPackagesUpdateResponse,
-  MsixPackagesListNextResponse
+  MsixPackagesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,7 +50,7 @@ export class MsixPackagesImpl implements MsixPackages {
   public list(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: MsixPackagesListOptionalParams
+    options?: MsixPackagesListOptionalParams,
   ): PagedAsyncIterableIterator<MsixPackage> {
     const iter = this.listPagingAll(resourceGroupName, hostPoolName, options);
     return {
@@ -68,9 +68,9 @@ export class MsixPackagesImpl implements MsixPackages {
           resourceGroupName,
           hostPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -78,7 +78,7 @@ export class MsixPackagesImpl implements MsixPackages {
     resourceGroupName: string,
     hostPoolName: string,
     options?: MsixPackagesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<MsixPackage[]> {
     let result: MsixPackagesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -94,7 +94,7 @@ export class MsixPackagesImpl implements MsixPackages {
         resourceGroupName,
         hostPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -106,12 +106,12 @@ export class MsixPackagesImpl implements MsixPackages {
   private async *listPagingAll(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: MsixPackagesListOptionalParams
+    options?: MsixPackagesListOptionalParams,
   ): AsyncIterableIterator<MsixPackage> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       hostPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -129,11 +129,11 @@ export class MsixPackagesImpl implements MsixPackages {
     resourceGroupName: string,
     hostPoolName: string,
     msixPackageFullName: string,
-    options?: MsixPackagesGetOptionalParams
+    options?: MsixPackagesGetOptionalParams,
   ): Promise<MsixPackagesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, msixPackageFullName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -151,7 +151,7 @@ export class MsixPackagesImpl implements MsixPackages {
     hostPoolName: string,
     msixPackageFullName: string,
     msixPackage: MsixPackage,
-    options?: MsixPackagesCreateOrUpdateOptionalParams
+    options?: MsixPackagesCreateOrUpdateOptionalParams,
   ): Promise<MsixPackagesCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -159,9 +159,9 @@ export class MsixPackagesImpl implements MsixPackages {
         hostPoolName,
         msixPackageFullName,
         msixPackage,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -177,11 +177,11 @@ export class MsixPackagesImpl implements MsixPackages {
     resourceGroupName: string,
     hostPoolName: string,
     msixPackageFullName: string,
-    options?: MsixPackagesDeleteOptionalParams
+    options?: MsixPackagesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, msixPackageFullName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -197,11 +197,11 @@ export class MsixPackagesImpl implements MsixPackages {
     resourceGroupName: string,
     hostPoolName: string,
     msixPackageFullName: string,
-    options?: MsixPackagesUpdateOptionalParams
+    options?: MsixPackagesUpdateOptionalParams,
   ): Promise<MsixPackagesUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, msixPackageFullName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -214,11 +214,11 @@ export class MsixPackagesImpl implements MsixPackages {
   private _list(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: MsixPackagesListOptionalParams
+    options?: MsixPackagesListOptionalParams,
   ): Promise<MsixPackagesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -233,11 +233,11 @@ export class MsixPackagesImpl implements MsixPackages {
     resourceGroupName: string,
     hostPoolName: string,
     nextLink: string,
-    options?: MsixPackagesListNextOptionalParams
+    options?: MsixPackagesListNextOptionalParams,
   ): Promise<MsixPackagesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -245,16 +245,15 @@ export class MsixPackagesImpl implements MsixPackages {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MsixPackage
+      bodyMapper: Mappers.MsixPackage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -262,25 +261,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hostPoolName,
-    Parameters.msixPackageFullName
+    Parameters.msixPackageFullName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.MsixPackage
+      bodyMapper: Mappers.MsixPackage,
     },
     201: {
-      bodyMapper: Mappers.MsixPackage
+      bodyMapper: Mappers.MsixPackage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.msixPackage,
   queryParameters: [Parameters.apiVersion],
@@ -289,22 +287,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hostPoolName,
-    Parameters.msixPackageFullName
+    Parameters.msixPackageFullName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -312,22 +309,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hostPoolName,
-    Parameters.msixPackageFullName
+    Parameters.msixPackageFullName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages/{msixPackageFullName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.MsixPackage
+      bodyMapper: Mappers.MsixPackage,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.msixPackage1,
   queryParameters: [Parameters.apiVersion],
@@ -336,57 +332,56 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.hostPoolName,
-    Parameters.msixPackageFullName
+    Parameters.msixPackageFullName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages",
+  path: "/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/msixPackages",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MsixPackageList
+      bodyMapper: Mappers.MsixPackageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.pageSize,
     Parameters.isDescending,
-    Parameters.initialSkip
+    Parameters.initialSkip,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName
+    Parameters.hostPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.MsixPackageList
+      bodyMapper: Mappers.MsixPackageList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName
+    Parameters.hostPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

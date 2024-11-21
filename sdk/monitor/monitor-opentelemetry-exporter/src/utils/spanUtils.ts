@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
+import type { ReadableSpan, TimedEvent } from "@opentelemetry/sdk-trace-base";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
-import { diag, SpanKind, SpanStatusCode, Link, Attributes } from "@opentelemetry/api";
+import type { Link, Attributes, SpanContext } from "@opentelemetry/api";
+import { diag, SpanKind, SpanStatusCode, isValidTraceId, isValidSpanId } from "@opentelemetry/api";
 import {
   DBSYSTEMVALUES_MONGODB,
   DBSYSTEMVALUES_MYSQL,
@@ -39,21 +40,26 @@ import {
   hrTimeToDate,
   isSqlDB,
   serializeAttribute,
-} from "./common";
-import { Tags, Properties, MSLink, Measurements } from "../types";
-import { parseEventHubSpan } from "./eventhub";
-import { AzureMonitorSampleRate, DependencyTypes, MS_LINKS } from "./constants/applicationinsights";
-import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
+} from "./common.js";
+import type { Tags, Properties, MSLink, Measurements } from "../types.js";
+import { MaxPropertyLengths } from "../types.js";
+import { parseEventHubSpan } from "./eventhub.js";
 import {
+  AzureMonitorSampleRate,
+  DependencyTypes,
+  MS_LINKS,
+} from "./constants/applicationinsights.js";
+import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes.js";
+import type {
   TelemetryExceptionData,
   MessageData,
   RemoteDependencyData,
   RequestData,
   TelemetryItem as Envelope,
-  KnownContextTagKeys,
   TelemetryExceptionDetails,
-} from "../generated";
-import { msToTimeSpan } from "./breezeUtils";
+} from "../generated/index.js";
+import { KnownContextTagKeys } from "../generated/index.js";
+import { msToTimeSpan } from "./breezeUtils.js";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const tags: Tags = createTagsFromResource(span.resource);
@@ -345,6 +351,34 @@ export function readableSpanToEnvelope(span: ReadableSpan, ikey: string): Envelo
     }
   }
 
+  // Truncate properties
+  if (baseData.id) {
+    baseData.id = baseData.id.substring(0, MaxPropertyLengths.NINE_BIT);
+  }
+  if (baseData.name) {
+    baseData.name = baseData.name.substring(0, MaxPropertyLengths.TEN_BIT);
+  }
+  if (baseData.resultCode) {
+    baseData.resultCode = String(baseData.resultCode).substring(0, MaxPropertyLengths.TEN_BIT);
+  }
+  if (baseData.data) {
+    baseData.data = String(baseData.data).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
+  }
+  if (baseData.type) {
+    baseData.type = String(baseData.type).substring(0, MaxPropertyLengths.TEN_BIT);
+  }
+  if (baseData.target) {
+    baseData.target = String(baseData.target).substring(0, MaxPropertyLengths.TEN_BIT);
+  }
+  if (baseData.properties) {
+    for (const key of Object.keys(baseData.properties)) {
+      baseData.properties[key] = baseData.properties[key].substring(
+        0,
+        MaxPropertyLengths.THIRTEEN_BIT,
+      );
+    }
+  }
+
   return {
     name,
     sampleRate,
@@ -386,7 +420,19 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
 
       // Only generate exception telemetry for incoming requests
       if (event.name === "exception") {
-        if (span.kind === SpanKind.SERVER) {
+        let isValidParent = false;
+        const parentSpanContext: SpanContext | undefined = span.parentSpanId
+          ? span.spanContext()
+          : undefined;
+        if (parentSpanContext) {
+          isValidParent =
+            isValidTraceId(parentSpanContext.traceId) && isValidSpanId(parentSpanContext.spanId);
+        }
+        /*
+         * Only generate exception telemetry for children of a remote span,
+         * internal spans, and top level spans. This is to avoid unresolvable exceptions from outgoing calls.
+         */
+        if (!isValidParent || parentSpanContext?.isRemote || span.kind === SpanKind.INTERNAL) {
           name = "Microsoft.ApplicationInsights.Exception";
           baseType = "ExceptionData";
           let typeName = "";
@@ -437,6 +483,18 @@ export function spanEventsToEnvelopes(span: ReadableSpan, ikey: string): Envelop
       let sampleRate = 100;
       if (span.attributes[AzureMonitorSampleRate]) {
         sampleRate = Number(span.attributes[AzureMonitorSampleRate]);
+      }
+      // Truncate properties
+      if (baseData.message) {
+        baseData.message = String(baseData.message).substring(0, MaxPropertyLengths.FIFTEEN_BIT);
+      }
+      if (baseData.properties) {
+        for (const key of Object.keys(baseData.properties)) {
+          baseData.properties[key] = baseData.properties[key].substring(
+            0,
+            MaxPropertyLengths.THIRTEEN_BIT,
+          );
+        }
       }
       const env: Envelope = {
         name: name,

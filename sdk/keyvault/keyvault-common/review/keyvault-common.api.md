@@ -4,15 +4,19 @@
 
 ```ts
 
-import { ChallengeCallbacks } from '@azure/core-rest-pipeline';
+import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface CreateChallengeCallbacksOptions {
+export function keyVaultAuthenticationPolicy(credential: TokenCredential, options?: KeyVaultAuthenticationPolicyOptions): PipelinePolicy;
+
+// @public
+export const keyVaultAuthenticationPolicyName = "keyVaultAuthenticationPolicy";
+
+// @public
+export interface KeyVaultAuthenticationPolicyOptions {
     disableChallengeResourceVerification?: boolean;
 }
-
-// @public
-export function createKeyVaultChallengeCallbacks(options?: CreateChallengeCallbacksOptions): ChallengeCallbacks;
 
 // @public
 export interface KeyVaultEntityIdentifier {
