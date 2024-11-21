@@ -2,8 +2,6 @@
 // Licensed under the MIT License.
 
 import "./env.js";
-
-import { Context } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AccessControlClient, AccessControlClientOptionalParams } from "../../../src/index.js";
 import {
