@@ -14,7 +14,7 @@ const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "
 const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
 // Upload file and wait for it to be processed
-const localFileStream = fs.createReadStream("nifty_500_quarterly_results.csv");
+const localFileStream = fs.createReadStream("samples-dev/agents/nifty_500_quarterly_results.csv");
 const localFile = await client.agents.uploadFile(localFileStream, "assistants", "my-local-file");
 
 console.log(`Uploaded local file, file ID : ${localFile.id}`);
@@ -70,17 +70,16 @@ if (assistantMessage) {
 }
 
 // Save the newly created file
-messages.data.forEach( m => {
-  m.content.forEach(async (content: MessageContentOutput) => {
-      if (isOutputOfType<MessageImageFileContentOutput>(content, "image_file")) {
-          const imageContent = content as MessageImageFileContentOutput;
-          const file = await client.agents.uploadFile(fs.createReadStream(imageContent.image_file.file_id), "assistants", "uploaded-image-file");
-          console.log(`Saved new file, file ID : ${file.id}`);
-      }
-  });
+console.log(`Saving new files...`);
+const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).image_file.file_id;
+console.log(`Image file ID : ${imageFile}`);
+const imageFileName = "samples-dev/agents/" + (await client.agents.getFile(imageFile)).filename + "_image_file_png";
+fs.createWriteStream(imageFileName).on('finish', async () => {
+  // TODO: File is empty, need to use getFileContent
 });
+console.log(`Saved image file to: ${imageFileName}`);
 
-// Iterate through file path annotations in messages and print details for each annotation
+// Iterate through messages and print details for each annotation
 console.log(`Message Details:`);
 messages.data.forEach((m) => {
   console.log(`File Paths:`);
