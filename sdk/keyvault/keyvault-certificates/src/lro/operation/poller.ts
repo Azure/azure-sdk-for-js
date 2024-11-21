@@ -17,14 +17,7 @@ export class CertificateOperationPoller extends KeyVaultCertificatePoller<
   KeyVaultCertificateWithPolicy
 > {
   constructor(options: CertificateOperationPollerOptions) {
-    const {
-      vaultUrl,
-      client,
-      certificateName,
-      operationOptions,
-      intervalInMs = 2000,
-      resumeFrom,
-    } = options;
+    const { client, certificateName, operationOptions, intervalInMs = 2000, resumeFrom } = options;
 
     let state: CertificateOperationState | undefined;
 
@@ -37,7 +30,6 @@ export class CertificateOperationPoller extends KeyVaultCertificatePoller<
         ...state,
         certificateName,
       },
-      vaultUrl,
       client,
       operationOptions,
     );

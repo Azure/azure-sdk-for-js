@@ -49,7 +49,10 @@ const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, "utf8"));
 // Remove dependency on @azure/core-client and add @azure-rest/core-client
 delete packageJson.dependencies["@azure/core-client"];
 packageJson.dependencies["@azure-rest/core-client"] = "^2.0.0";
-packageJson.dependencies.sort();
+// sort dependencies
+packageJson.dependencies = Object.fromEntries(
+  Object.entries(packageJson.dependencies).sort(([a], [b]) => a.localeCompare(b))
+);
 
 // Write updated package.json back to disk
 fs.writeFileSync(packageJsonPath, JSON.stringify(packageJson, null, 2), "utf8");
