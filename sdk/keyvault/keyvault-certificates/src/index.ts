@@ -125,6 +125,7 @@ import {
 import { KeyVaultCertificatePollOperationState } from "./lro/keyVaultCertificatePoller.js";
 import { tracingClient } from "./tracing.js";
 import { bearerTokenAuthenticationPolicyName } from "@azure/core-rest-pipeline";
+import { SDK_VERSION } from "./constants.js";
 
 export {
   CertificateClientOptions,
@@ -249,6 +250,9 @@ export class CertificateClient {
     const internalClientPipelineOptions: KeyVaultClientOptionalParams = {
       ...clientOptions,
       apiVersion: clientOptions.serviceVersion || LATEST_API_VERSION,
+      userAgentOptions: {
+        userAgentPrefix: `${clientOptions.userAgentOptions?.userAgentPrefix} azsdk-js-keyvault-certificates/${SDK_VERSION}`,
+      },
       loggingOptions: {
         logger: logger.info,
         additionalAllowedHeaderNames: [

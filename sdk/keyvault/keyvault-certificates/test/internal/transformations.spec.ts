@@ -17,21 +17,21 @@ import { describe, it, assert } from "vitest";
 describe("transformations", function () {
   describe("getCertificateOperationFromCoreOperation", function () {
     it("transforms null error to undefined", function () {
-      const input: CoreCertificateOperation = {
+      const input: any = {
         error: null,
       };
 
-      assert.isUndefined(getCertificateOperationFromCoreOperation("", "", input).error);
+      assert.isUndefined(getCertificateOperationFromCoreOperation("", input).error);
     });
 
     it("transforms null inner error to undefined", function () {
-      const input: CoreCertificateOperation = {
+      const input: any = {
         error: {
           innerError: null,
         },
       };
 
-      const output = getCertificateOperationFromCoreOperation("", "", input);
+      const output = getCertificateOperationFromCoreOperation("", input);
       assert.isDefined(output.error);
       assert.isUndefined(output.error!.innerError);
     });
@@ -49,7 +49,7 @@ describe("transformations", function () {
         },
       };
 
-      const output = getCertificateOperationFromCoreOperation("", "", input);
+      const output = getCertificateOperationFromCoreOperation("", input);
       assert.deepNestedInclude(output, input);
     });
   });

@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
-import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
+import { RestError, createDefaultHttpClient, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { DeleteCertificatePoller } from "../../src/lro/delete/poller.js";
 import { RecoverDeletedCertificatePoller } from "../../src/lro/recover/poller.js";
 import type { KeyVaultClient } from "../../src/generated/index.js";
-import type { FullOperationResponse } from "@azure/core-client";
+import type { FullOperationResponse } from "@azure-rest/core-client";
 import { describe, it, assert } from "vitest";
+import { createKeyVault } from "../../src/generated/api/keyVaultContext.js";
 
 describe("The LROs properly throw on unexpected errors", () => {
   const vaultUrl = `https://keyvaultname.vault.azure.net`;
@@ -95,35 +96,25 @@ describe("The LROs properly throw on unexpected errors", () => {
 
   describe("recover LRO", () => {
     it("403 doesn't throw", async function () {
+      const httpClient = createDefaultHttpClient();
+      httpClient.sendRequest = async (request) => {
+        return {
+          request,
+          status: 403,
+          headers: createHttpHeaders(),
+          bodyAsText: "",
+        };
+      };
       const code = 403;
 
       const fooClient: Partial<KeyVaultClient> = {
-        async recoverDeletedCertificate(_a, _b, c): Promise<any> {
-          const request: PipelineRequest = {
-            url: "",
-            method: "GET",
-            headers: createHttpHeaders(),
-            timeout: 100,
-            withCredentials: false,
-            requestId: "something",
-          };
-          const body = {
+        async recoverDeletedCertificate(_a, c) {
+          return {
             id: "https://keyvaultname.vault.azure.net/version/name/version",
-            recoveryId: "something",
           };
-          const response: FullOperationResponse = {
-            request: request,
-            bodyAsText: JSON.stringify(body),
-            status: code,
-            headers: createHttpHeaders(),
-            parsedBody: body,
-          };
-          if (c?.onResponse !== undefined) {
-            c.onResponse(response, response, {});
-          }
         },
 
-        async getCertificate(): Promise<any> {
+        async getCertificate() {
           throw new RestError(`${code}`, { statusCode: code });
         },
       };
@@ -143,29 +134,10 @@ describe("The LROs properly throw on unexpected errors", () => {
       const code = 404;
 
       const fooClient: Partial<KeyVaultClient> = {
-        async recoverDeletedCertificate(_a, _b, c): Promise<any> {
-          const request: PipelineRequest = {
-            url: "",
-            method: "GET",
-            headers: createHttpHeaders(),
-            timeout: 100,
-            withCredentials: false,
-            requestId: "something",
-          };
-          const body = {
+        async recoverDeletedCertificate(_a, c) {
+          return {
             id: "https://keyvaultname.vault.azure.net/version/name/version",
-            recoveryId: "something",
           };
-          const response: FullOperationResponse = {
-            request: request,
-            bodyAsText: JSON.stringify(body),
-            status: code,
-            headers: createHttpHeaders(),
-            parsedBody: body,
-          };
-          if (c?.onResponse !== undefined) {
-            c.onResponse(response, response, {});
-          }
         },
 
         async getCertificate(): Promise<any> {
@@ -189,29 +161,10 @@ describe("The LROs properly throw on unexpected errors", () => {
       const codes = [401, 402, 405, 500];
       for (const code of codes) {
         const fooClient: Partial<KeyVaultClient> = {
-          async recoverDeletedCertificate(_a, _b, c): Promise<any> {
-            const request: PipelineRequest = {
-              url: "",
-              method: "GET",
-              headers: createHttpHeaders(),
-              timeout: 100,
-              withCredentials: false,
-              requestId: "something",
-            };
-            const body = {
+          async recoverDeletedCertificate(_a, c) {
+            return {
               id: "https://keyvaultname.vault.azure.net/version/name/version",
-              recoveryId: "something",
             };
-            const response: FullOperationResponse = {
-              request: request,
-              bodyAsText: JSON.stringify(body),
-              status: code,
-              headers: createHttpHeaders(),
-              parsedBody: body,
-            };
-            if (c?.onResponse !== undefined) {
-              c.onResponse(response, response, {});
-            }
           },
 
           async getCertificate(): Promise<any> {
