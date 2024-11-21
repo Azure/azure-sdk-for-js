@@ -9,7 +9,7 @@ import type { AzureLoadTestingClient } from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
 import { getLongRunningPoller } from "../../src/pollingHelper.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Test Run Creation", () => {
   let recorder: Recorder;
@@ -17,8 +17,8 @@ describe("Test Run Creation", () => {
   const SUBSCRIPTION_ID = env["SUBSCRIPTION_ID"] || "";
   let readStreamTestFile: fs.ReadStream;
 
-  beforeEach(async function (ctx) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     if (!isNodeLike || isPlaybackMode()) {
       ctx.skip();
     }
@@ -26,7 +26,7 @@ describe("Test Run Creation", () => {
     readStreamTestFile = fs.createReadStream("./test/public/sample.jmx");
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

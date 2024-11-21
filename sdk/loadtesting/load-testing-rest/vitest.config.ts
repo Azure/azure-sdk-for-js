@@ -1,4 +1,3 @@
-
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
@@ -11,5 +10,7 @@ export default mergeConfig(
     test: {
       include: ["test/**/*.spec.ts"],
     },
+    hookTimeout: 500000,
+    testTimeout: 500000,
   }),
 );

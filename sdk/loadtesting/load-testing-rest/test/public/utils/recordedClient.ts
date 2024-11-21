@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { AzureLoadTestingClient } from "../../../src/index.js";
 import AzureLoadTesting from "../../../src/index.js";
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import "./env.js";
-
 import type { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -39,8 +39,8 @@ export function createClient(
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Context): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+export async function createRecorder(context: TestInfo): Promise<Recorder> {
+  const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   return recorder;
 }
