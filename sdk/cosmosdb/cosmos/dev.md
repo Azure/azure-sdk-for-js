@@ -30,7 +30,7 @@ available via `npm run-script`:
   clean
     rimraf lib
   lint
-    eslint package.json api-extractor.json src samples --ext .ts
+    eslint package.json api-extractor.json src samples
   format
     prettier --write --config .prettierrc.json "src/**/*.ts"
   check-format
