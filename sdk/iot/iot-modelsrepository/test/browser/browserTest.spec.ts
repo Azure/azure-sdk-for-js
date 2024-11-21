@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { ModelsRepositoryClient } from "../../src/index.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, expect } from "vitest";
 
 describe("resolver -  browser", () => {
   describe("single resolution (no pseudo-parsing)", () => {

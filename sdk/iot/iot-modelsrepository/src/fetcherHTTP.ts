@@ -23,6 +23,7 @@ export class HttpFetcher implements Fetcher {
   private _client: ServiceClient;
   private _baseURL: string;
 
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(baseURL: string, client: ServiceClient) {
     this._client = client;
     this._baseURL = baseURL;
