@@ -875,10 +875,7 @@ export class CertificateClient {
           certificateName,
           {
             base64EncodedCertificate,
-            // certificatePolicy: updatedOptions.policy, // TODO
-            certificateAttributes: toCoreAttributes(updatedOptions),
-            password: updatedOptions.password,
-            tags: updatedOptions.tags,
+            ...updatedOptions,
           },
           updatedOptions,
         );
