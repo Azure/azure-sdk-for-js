@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { EventEmitter } from "events";
-import type { CallAutomationEvent } from "../models/events";
-import { parseCallAutomationEvent } from "../callAutomationEventParser";
+import type { CallAutomationEvent } from "../models/events.js";
+import { parseCallAutomationEvent } from "../callAutomationEventParser.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 
 /**

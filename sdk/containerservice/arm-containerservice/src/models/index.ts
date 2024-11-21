@@ -182,6 +182,11 @@ export interface PowerState {
 
 /** Properties for the container service agent pool profile. */
 export interface ManagedClusterAgentPoolProfileProperties {
+  /**
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
   /** Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1. */
   count?: number;
   /** VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions */
@@ -589,6 +594,12 @@ export interface ManagedClusterOidcIssuerProfile {
   enabled?: boolean;
 }
 
+/** Node resource group lockdown profile for a managed cluster. */
+export interface ManagedClusterNodeResourceGroupProfile {
+  /** The restriction level applied to the cluster's node resource group. If not specified, the default is 'Unrestricted' */
+  restrictionLevel?: RestrictionLevel;
+}
+
 /** Profile of network configuration. */
 export interface ContainerServiceNetworkProfile {
   /** Network plugin used for building the Kubernetes network. */
@@ -601,6 +612,8 @@ export interface ContainerServiceNetworkProfile {
   networkMode?: NetworkMode;
   /** Network dataplane used in the Kubernetes cluster. */
   networkDataplane?: NetworkDataplane;
+  /** Advanced Networking profile for enabling observability and security feature suite on a cluster. For more information see aka.ms/aksadvancednetworking. */
+  advancedNetworking?: AdvancedNetworking;
   /** A CIDR notation IP range from which to assign pod IPs when kubenet is used. */
   podCidr?: string;
   /** A CIDR notation IP range from which to assign service cluster IPs. It must not overlap with any Subnet IP ranges. */
@@ -621,6 +634,28 @@ export interface ContainerServiceNetworkProfile {
   serviceCidrs?: string[];
   /** IP families are used to determine single-stack or dual-stack clusters. For single-stack, the expected value is IPv4. For dual-stack, the expected values are IPv4 and IPv6. */
   ipFamilies?: IpFamily[];
+}
+
+/** Advanced Networking profile for enabling observability and security feature suite on a cluster. For more information see aka.ms/aksadvancednetworking. */
+export interface AdvancedNetworking {
+  /** Indicates the enablement of Advanced Networking functionalities of observability and security on AKS clusters. When this is set to true, all observability and security features will be set to enabled unless explicitly disabled. If not specified, the default is false. */
+  enabled?: boolean;
+  /** Observability profile to enable advanced network metrics and flow logs with historical contexts. */
+  observability?: AdvancedNetworkingObservability;
+  /** Security profile to enable security features on cilium based cluster. */
+  security?: AdvancedNetworkingSecurity;
+}
+
+/** Observability profile to enable advanced network metrics and flow logs with historical contexts. */
+export interface AdvancedNetworkingObservability {
+  /** Indicates the enablement of Advanced Networking observability functionalities on clusters. */
+  enabled?: boolean;
+}
+
+/** Security profile to enable security features on cilium based cluster. */
+export interface AdvancedNetworkingSecurity {
+  /** This feature allows user to configure network policy based on DNS (FQDN) names. It can be enabled only on cilium based clusters. If not specified, the default is false. */
+  enabled?: boolean;
 }
 
 /** Profile of the managed cluster load balancer. */
@@ -1761,6 +1796,11 @@ export interface MaintenanceConfiguration extends SubResource {
 
 /** Agent Pool. */
 export interface AgentPool extends SubResource {
+  /**
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
   /** Number of agents (VMs) to host docker containers. Allowed values must be in the range of 0 to 1000 (inclusive) for user pools and in the range of 1 to 1000 (inclusive) for system pools. The default value is 1. */
   count?: number;
   /** VM size availability varies by region. If a node contains insufficient compute resources (memory, cpu, etc) pods might fail to run correctly. For more details on restricted VM sizes, see: https://docs.microsoft.com/azure/aks/quotas-skus-regions */
@@ -1876,6 +1916,11 @@ export interface MeshUpgradeProfileProperties extends MeshRevision {}
 
 /** Managed cluster. */
 export interface ManagedCluster extends TrackedResource {
+  /**
+   * Unique read-only string used to implement optimistic concurrency. The eTag value will change when the resource is updated. Specify an if-match or if-none-match header with the eTag value for a subsequent request to enable optimistic concurrency per the normal etag convention.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly eTag?: string;
   /** The managed cluster SKU. */
   sku?: ManagedClusterSKU;
   /** The extended location of the Virtual Machine. */
@@ -1939,6 +1984,8 @@ export interface ManagedCluster extends TrackedResource {
   oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
   /** The name of the resource group containing agent pool nodes. */
   nodeResourceGroup?: string;
+  /** Profile of the node resource group configuration. */
+  nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile;
   /** Whether to enable Kubernetes Role-Based Access Control. */
   enableRbac?: boolean;
   /** The support plan for the Managed Cluster. If unspecified, the default is 'KubernetesOfficial'. */
@@ -1959,7 +2006,7 @@ export interface ManagedCluster extends TrackedResource {
   apiServerAccessProfile?: ManagedClusterAPIServerAccessProfile;
   /** This is of the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{encryptionSetName}' */
   diskEncryptionSetID?: string;
-  /** Identities associated with the cluster. */
+  /** The user identity associated with the managed cluster. This identity will be used by the kubelet. Only one user assigned identity is allowed. The only accepted key is "kubeletidentity", with value of "resourceId": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}". */
   identityProfile?: { [propertyName: string]: UserAssignedIdentity };
   /** Private link resources associated with the cluster. */
   privateLinkResources?: PrivateLinkResource[];
@@ -2507,6 +2554,24 @@ export enum KnownManagedClusterPodIdentityProvisioningState {
  * **Updating**
  */
 export type ManagedClusterPodIdentityProvisioningState = string;
+
+/** Known values of {@link RestrictionLevel} that the service accepts. */
+export enum KnownRestrictionLevel {
+  /** All RBAC permissions are allowed on the managed node resource group */
+  Unrestricted = "Unrestricted",
+  /** Only *\/read RBAC permissions allowed on the managed node resource group */
+  ReadOnly = "ReadOnly",
+}
+
+/**
+ * Defines values for RestrictionLevel. \
+ * {@link KnownRestrictionLevel} can be used interchangeably with RestrictionLevel,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unrestricted**: All RBAC permissions are allowed on the managed node resource group \
+ * **ReadOnly**: Only *\/read RBAC permissions allowed on the managed node resource group
+ */
+export type RestrictionLevel = string;
 
 /** Known values of {@link NetworkPlugin} that the service accepts. */
 export enum KnownNetworkPlugin {
@@ -3117,6 +3182,10 @@ export type ManagedClustersGetResponse = ManagedCluster;
 /** Optional parameters. */
 export interface ManagedClustersCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The request should only proceed if no entity matches this string. */
+  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3129,6 +3198,8 @@ export type ManagedClustersCreateOrUpdateResponse = ManagedCluster;
 /** Optional parameters. */
 export interface ManagedClustersUpdateTagsOptionalParams
   extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3141,6 +3212,8 @@ export type ManagedClustersUpdateTagsResponse = ManagedCluster;
 /** Optional parameters. */
 export interface ManagedClustersDeleteOptionalParams
   extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3392,6 +3465,10 @@ export type AgentPoolsGetResponse = AgentPool;
 /** Optional parameters. */
 export interface AgentPoolsCreateOrUpdateOptionalParams
   extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
+  /** The request should only proceed if no entity matches this string. */
+  ifNoneMatch?: string;
   /** Delay to wait until next poll, in milliseconds. */
   updateIntervalInMs?: number;
   /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
@@ -3404,6 +3481,8 @@ export type AgentPoolsCreateOrUpdateResponse = AgentPool;
 /** Optional parameters. */
 export interface AgentPoolsDeleteOptionalParams
   extends coreClient.OperationOptions {
+  /** The request should only proceed if an entity matches this string. */
+  ifMatch?: string;
   /** ignore-pod-disruption-budget=true to delete those pods on a node without considering Pod Disruption Budget */
   ignorePodDisruptionBudget?: boolean;
   /** Delay to wait until next poll, in milliseconds. */

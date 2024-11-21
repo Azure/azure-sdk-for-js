@@ -1,5 +1,26 @@
 # Release History
 
+## 1.0.13-beta.1 (unreleased)
+
+### Features Added
+- Test Release Pipeline
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.12 (2021-06-15)
+
+### Features Added
+- Test Release Pipeline
+
+## 1.0.11 (2021-06-15)
+
+### Features Added
+- Test Release Pipeline
+
 ## 1.0.10-beta.1 (2020-11-16)
 
 ### Features Added

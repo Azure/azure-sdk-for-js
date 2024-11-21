@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the configuration stores for a given resource group.
  *
  * @summary Lists the configuration stores for a given resource group.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresListByResourceGroup.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresListByResourceGroup.json
  */
 async function configurationStoresListByResourceGroup() {
   const subscriptionId =
@@ -29,11 +29,11 @@ async function configurationStoresListByResourceGroup() {
   const credential = new DefaultAzureCredential();
   const client = new AppConfigurationManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.configurationStores.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

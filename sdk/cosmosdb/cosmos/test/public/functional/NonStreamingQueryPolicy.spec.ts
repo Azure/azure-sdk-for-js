@@ -65,6 +65,79 @@ describe("Vector search feature", async () => {
       assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[2].path === "/vector3");
     });
 
+    // skipping the test case for now. Will enable it once the changes are live on backend
+    it.skip("validate VectorEmbeddingPolicy", async function () {
+      const indexingPolicy: IndexingPolicy = {
+        vectorIndexes: [
+          { path: "/vector1", type: VectorIndexType.Flat },
+          {
+            path: "/vector2",
+            type: VectorIndexType.QuantizedFlat,
+            quantizationByteSize: 1,
+            vectorIndexShardKey: ["/Country"],
+          },
+          {
+            path: "/vector3",
+            type: VectorIndexType.DiskANN,
+            quantizationByteSize: 2,
+            indexingSearchListSize: 100,
+            vectorIndexShardKey: ["/ZipCode"],
+          },
+        ],
+      };
+      const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
+        vectorEmbeddings: [
+          {
+            path: "/vector1",
+            dataType: VectorEmbeddingDataType.Float32,
+            dimensions: 500,
+            distanceFunction: VectorEmbeddingDistanceFunction.Euclidean,
+          },
+          {
+            path: "/vector2",
+            dataType: VectorEmbeddingDataType.Int8,
+            dimensions: 200,
+            distanceFunction: VectorEmbeddingDistanceFunction.DotProduct,
+          },
+          {
+            path: "/vector3",
+            dataType: VectorEmbeddingDataType.UInt8,
+            dimensions: 400,
+            distanceFunction: VectorEmbeddingDistanceFunction.Cosine,
+          },
+        ],
+      };
+      const containerName = "JSApp-vector embedding container";
+      // create container
+      const { resource: containerdef } = await database.containers.createIfNotExists({
+        id: containerName,
+        vectorEmbeddingPolicy: vectorEmbeddingPolicy,
+        indexingPolicy: indexingPolicy,
+      });
+
+      assert(containerdef.indexingPolicy !== undefined);
+      assert(containerdef.vectorEmbeddingPolicy !== undefined);
+      assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings.length === 3);
+      assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[0].path === "/vector1");
+      assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[1].path === "/vector2");
+      assert(containerdef.vectorEmbeddingPolicy.vectorEmbeddings[2].path === "/vector3");
+
+      assert(containerdef.indexingPolicy.vectorIndexes.length === 3);
+      assert(containerdef.indexingPolicy.vectorIndexes[0].path === "/vector1");
+      assert(containerdef.indexingPolicy.vectorIndexes[1].path === "/vector2");
+      assert(containerdef.indexingPolicy.vectorIndexes[2].path === "/vector3");
+
+      assert(containerdef.indexingPolicy.vectorIndexes[0].type === VectorIndexType.Flat);
+      assert(containerdef.indexingPolicy.vectorIndexes[1].type === VectorIndexType.QuantizedFlat);
+      assert(containerdef.indexingPolicy.vectorIndexes[2].type === VectorIndexType.DiskANN);
+
+      assert(containerdef.indexingPolicy.vectorIndexes[1].quantizationByteSize === 1);
+      assert(containerdef.indexingPolicy.vectorIndexes[2].quantizationByteSize === 2);
+      assert(containerdef.indexingPolicy.vectorIndexes[2].indexingSearchListSize === 100);
+      assert(containerdef.indexingPolicy.vectorIndexes[1].vectorIndexShardKey[0] === "/Country");
+      assert(containerdef.indexingPolicy.vectorIndexes[2].vectorIndexShardKey[0] === "/ZipCode");
+    });
+
     it("should fail to create vector indexing policy", async function () {
       const vectorEmbeddingPolicy: VectorEmbeddingPolicy = {
         vectorEmbeddings: [
