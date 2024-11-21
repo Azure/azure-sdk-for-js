@@ -154,14 +154,14 @@ const remoteResolutionScenarios: RemoteResolutionScenario[] = [
 
 describe("resolver - node", function () {
   afterEach(function () {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   describe("remote URL resolution", function () {
     remoteResolutionScenarios.forEach((scenario: RemoteResolutionScenario) => {
       it(scenario.name, async function () {
         console.log(scenario.name);
-        const myStub = sinon.stub(ServiceClient.prototype, "sendRequest");
+        const myStub = vi.spyOn(ServiceClient.prototype, "sendRequest");
         for (let i = 0; i < scenario.dtmis.length; i++) {
           myStub.onCall(i).callsFake((request: PipelineRequest) => {
             expect(request.url, "URL not formatted for request correctly.").to.deep.equal(
