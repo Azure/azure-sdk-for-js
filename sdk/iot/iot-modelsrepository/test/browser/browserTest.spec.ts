@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { expect } from "chai";
-import { ModelsRepositoryClient } from "../../src";
+import { ModelsRepositoryClient } from "../../src/index.js";
 
 describe("resolver -  browser", () => {
   describe("single resolution (no pseudo-parsing)", () => {

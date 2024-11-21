@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as lib from "../../../src/dtmiConventions";
+import * as lib from "../../../src/dtmiConventions.js";
 
 import { assert, expect } from "chai";
 

@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 /* eslint-disable no-undef */
 
-import type { ModelsRepositoryClientOptions } from "../../../src";
-import { ModelsRepositoryClient } from "../../../src";
+import type { ModelsRepositoryClientOptions } from "../../../src/index.js";
+import { ModelsRepositoryClient } from "../../../src/index.js";
 
 import { assert, expect } from "chai";
 import * as sinon from "sinon";
 
-import type { dependencyResolutionType } from "../../../src/dependencyResolutionType";
+import type { dependencyResolutionType } from "../../../src/dependencyResolutionType.js";
 import { ServiceClient } from "@azure/core-client";
 import type { PipelineRequest } from "@azure/core-rest-pipeline";
 
