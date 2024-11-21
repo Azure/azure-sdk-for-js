@@ -1718,6 +1718,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-http",
+      "projectFolder": "sdk/core/core-http",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/arm-dnsresolver",
       "projectFolder": "sdk/dnsresolver/arm-dnsresolver",
       "versionPolicyName": "management"
