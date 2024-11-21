@@ -13,16 +13,13 @@ import {
   ReadReceiptReceivedEvent,
   // StreamingChatMessageChunkReceivedEvent, // TODO: from signaling once package available
   // StreamingChatMessageStartEvent,         // rush local packages broken
+  // StreamingMessageMetadata,               // 
   TypingIndicatorReceivedEvent,
 } from "@azure/communication-signaling";
 
 // TODO: Remove these once the signaling package is available
 export type StreamingContentType = "start" | "informative" | "streaming" | "final";
 export type StreamEndReason = "completed" | "expired" | "canceled";
-
-/**
- * Type definition for information on a streaming message
- */
 export interface StreamingMessageMetadata {
   streamingContentType?: StreamingContentType;
   streamingSequenceNumber?: number; // Only present on informative or streaming type messages

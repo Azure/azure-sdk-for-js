@@ -133,8 +133,7 @@ export interface ChatMessageReadReceipt {
 
 // @public (undocumented)
 export interface ChatMessageReceivedEvent extends ChatMessageReceivedEvent_2 {
-    // (undocumented)
-    streamingContentType?: "informative" | "streaming" | "final";
+    streamingMetadata?: StreamingMessageMetadata;
 }
 
 // @public
@@ -303,13 +302,27 @@ export interface SendTypingNotificationOptions extends OperationOptions {
 }
 
 // @public (undocumented)
+export type StreamEndReason = "completed" | "expired" | "canceled";
+
+// @public (undocumented)
 export interface StreamingChatMessageChunkReceivedEvent extends ChatMessageEditedEvent {
-    // (undocumented)
-    streamingSequenceNumber: number;
 }
 
 // @public (undocumented)
 export interface StreamingChatMessageStartEvent extends ChatMessageReceivedEvent {
+}
+
+// @public (undocumented)
+export type StreamingContentType = "start" | "informative" | "streaming" | "final";
+
+// @public (undocumented)
+export interface StreamingMessageMetadata {
+    // (undocumented)
+    streamEndReason?: StreamEndReason;
+    // (undocumented)
+    streamingContentType?: StreamingContentType;
+    // (undocumented)
+    streamingSequenceNumber?: number;
 }
 
 export { TypingIndicatorReceivedEvent }
