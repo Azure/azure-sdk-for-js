@@ -43,6 +43,8 @@ export interface ContentFilterResultsForChoiceOutput {
   protected_material_text?: ContentFilterDetectionResultOutput;
   /** Information about detection of protected code material. */
   protected_material_code?: ContentFilterCitedDetectionResultOutput;
+  /** Information about detection of ungrounded material. */
+  ungrounded_material?: ContentFilterCompletionTextSpanResultOutput;
 }
 
 /** Represents a structured collection of result details for content filtering. */
@@ -64,6 +66,28 @@ export interface ContentFilterCitedDetectionResultOutput {
   URL?: string;
   /** The license description associated with the detection. */
   license?: string;
+}
+
+/** Describes a span within generated completion text. */
+export interface ContentFilterCompletionTextSpanResultOutput {
+  /** A value indicating whether or not the content has been filtered. */
+  filtered: boolean;
+  /** A value indicating whether detection occurred, irrespective of severity or whether the content was filtered. */
+  detected: boolean;
+  /** The collection of completion text spans. */
+  details: ContentFilterCompletionTextSpan[];
+}
+
+/** Describes a span within generated completion text. Offset 0 is the first UTF32 code point of the completion text. */
+export interface ContentFilterCompletionTextSpan {
+  /** Offset of the UTF32 code point which begins the span. */
+  completion_start_offset: number;
+  /**
+   * Offset of the first UTF32 code point which is excluded from the span.
+   * This field is always equal to completion_start_offset for empty spans.
+   * This field is always larger than completion_start_offset for non-empty spans.
+   */
+  completion_end_offset: number;
 }
 
 /**

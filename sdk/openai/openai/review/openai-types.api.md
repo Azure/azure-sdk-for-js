@@ -68,7 +68,7 @@ export interface AzureCosmosDBChatExtensionConfiguration extends AzureChatExtens
 // @public
 export interface AzureCosmosDBChatExtensionParameters {
     allow_partial_result?: boolean;
-    authentication: OnYourDataAuthenticationOptions;
+    authentication: OnYourDataConnectionStringAuthenticationOptions;
     container_name: string;
     database_name: string;
     embedding_dependency: OnYourDataVectorizationSource;
@@ -77,7 +77,6 @@ export interface AzureCosmosDBChatExtensionParameters {
     include_contexts?: OnYourDataContextProperty[];
     index_name: string;
     max_search_queries?: number;
-    role_information?: string;
     strictness?: number;
     top_n_documents?: number;
 }
@@ -101,7 +100,7 @@ export interface AzureSearchChatExtensionConfiguration extends AzureChatExtensio
 // @public
 export interface AzureSearchChatExtensionParameters {
     allow_partial_result?: boolean;
-    authentication: OnYourDataAuthenticationOptions;
+    authentication: OnYourDataApiKeyAuthenticationOptions | OnYourDataSystemAssignedManagedIdentityAuthenticationOptions | OnYourDataUserAssignedManagedIdentityAuthenticationOptions | OnYourDataAccessTokenAuthenticationOptions;
     embedding_dependency?: OnYourDataVectorizationSource;
     endpoint: string;
     fields_mapping?: AzureSearchIndexFieldMappingOptions;
@@ -111,7 +110,6 @@ export interface AzureSearchChatExtensionParameters {
     index_name: string;
     max_search_queries?: number;
     query_type?: string;
-    role_information?: string;
     semantic_configuration?: string;
     strictness?: number;
     top_n_documents?: number;
@@ -159,6 +157,19 @@ export interface ContentFilterCitedDetectionResultOutput {
 }
 
 // @public
+export interface ContentFilterCompletionTextSpan {
+    completion_end_offset: number;
+    completion_start_offset: number;
+}
+
+// @public
+export interface ContentFilterCompletionTextSpanResultOutput {
+    details: ContentFilterCompletionTextSpan[];
+    detected: boolean;
+    filtered: boolean;
+}
+
+// @public
 export interface ContentFilterDetailedResults {
     details: ContentFilterBlocklistIdResultOutput[];
     filtered: boolean;
@@ -199,6 +210,7 @@ export interface ContentFilterResultsForChoiceOutput {
     protected_material_text?: ContentFilterDetectionResultOutput;
     self_harm?: ContentFilterResultOutput;
     sexual?: ContentFilterResultOutput;
+    ungrounded_material?: ContentFilterCompletionTextSpanResultOutput;
     violence?: ContentFilterResultOutput;
 }
 
@@ -217,7 +229,7 @@ export interface ElasticsearchChatExtensionConfiguration extends AzureChatExtens
 // @public
 export interface ElasticsearchChatExtensionParameters {
     allow_partial_result?: boolean;
-    authentication: OnYourDataAuthenticationOptions;
+    authentication: OnYourDataKeyAndKeyIdAuthenticationOptions | OnYourDataEncodedApiKeyAuthenticationOptions;
     embedding_dependency?: OnYourDataVectorizationSource;
     endpoint: string;
     fields_mapping?: ElasticsearchIndexFieldMappingOptions;
@@ -226,7 +238,6 @@ export interface ElasticsearchChatExtensionParameters {
     index_name: string;
     max_search_queries?: number;
     query_type?: string;
-    role_information?: string;
     strictness?: number;
     top_n_documents?: number;
 }
@@ -280,7 +291,6 @@ export interface MongoDBChatExtensionParameters {
     include_contexts?: OnYourDataContextProperty[];
     index_name: string;
     max_search_queries?: number;
-    role_information?: string;
     strictness?: number;
     top_n_documents?: number;
 }
@@ -339,7 +349,7 @@ export interface OnYourDataEncodedApiKeyAuthenticationOptions extends OnYourData
 
 // @public
 export interface OnYourDataEndpointVectorizationSource extends OnYourDataVectorizationSourceParent {
-    authentication: OnYourDataVectorSearchAuthenticationOptions;
+    authentication: OnYourDataVectorSearchApiKeyAuthenticationOptions | OnYourDataVectorSearchAccessTokenAuthenticationOptions;
     endpoint: string;
     type: "endpoint";
 }
@@ -414,7 +424,7 @@ export interface PineconeChatExtensionConfiguration extends AzureChatExtensionCo
 // @public
 export interface PineconeChatExtensionParameters {
     allow_partial_result?: boolean;
-    authentication: OnYourDataAuthenticationOptions;
+    authentication: OnYourDataApiKeyAuthenticationOptions;
     embedding_dependency: OnYourDataVectorizationSource;
     environment: string;
     fields_mapping: PineconeFieldMappingOptions;
@@ -422,7 +432,6 @@ export interface PineconeChatExtensionParameters {
     include_contexts?: OnYourDataContextProperty[];
     index_name: string;
     max_search_queries?: number;
-    role_information?: string;
     strictness?: number;
     top_n_documents?: number;
 }

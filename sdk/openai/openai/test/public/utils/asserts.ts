@@ -12,6 +12,8 @@ import {
   ContentFilterResultsForChoiceOutput,
   ContentFilterResultsForPromptOutput,
   ContentFilterDetailedResults,
+  ContentFilterCompletionTextSpanResultOutput,
+  ContentFilterCompletionTextSpan,
 } from "../../../src/types/index.js";
 import { Assistant, AssistantCreateParams } from "openai/resources/beta/assistants.mjs";
 import {
@@ -160,7 +162,23 @@ function assertContentFilterResultsForChoice(cfr: ContentFilterResultsForChoiceO
     ifDefined(cfr.custom_blocklists, assertContentFilterDetailedResult);
     ifDefined(cfr.protected_material_code, assertContentFilterCitedDetectionResult);
     ifDefined(cfr.protected_material_text, assertContentFilterDetectionResult);
+    ifDefined(cfr.ungrounded_material, assertContentFilterCompletionTextSpanResult);
   }
+}
+
+function assertContentFilterCompletionTextSpanResult(
+  cfr: ContentFilterCompletionTextSpanResultOutput,
+): void {
+  assertContentFilterDetectionResult(cfr);
+  assert.isBoolean(cfr.filtered);
+  for (const detail of cfr.details) {
+    assertContentFilterCompletionTextSpan(detail);
+  }
+}
+
+function assertContentFilterCompletionTextSpan(cfr: ContentFilterCompletionTextSpan): void {
+  assert.isNumber(cfr.completion_end_offset);
+  assert.isNumber(cfr.completion_start_offset);
 }
 
 function assertContentFilterResultsForPrompt(cfr: ContentFilterResultsForPromptOutput[]): void {
