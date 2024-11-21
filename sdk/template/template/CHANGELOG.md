@@ -11,6 +11,17 @@
 
 ### Other Changes
 
+## 1.0.11-beta.1 (unreleased)
+
+### Features Added
+- Test Release Pipeline
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 1.0.12 (2021-06-15)
 
 ### Features Added
