@@ -78,7 +78,8 @@ export async function main(): Promise<void> {
 
   // Fetch and log all messages
   const messages = await client.agents.listMessages(thread.id)
-  console.log(`Messages: ${messages.data.forEach((m) => console.log(m.content))}`);
+  console.log(`Messages:`);
+  messages.data.forEach((m) => console.log(m.content));
 }
 
 main().catch((err) => {
