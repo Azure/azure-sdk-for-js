@@ -3,11 +3,9 @@
 import type { PurviewScanningRestClient, DataSource } from "../../src/index.js";
 import { paginate } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-
-import { assert } from "chai";
 import { createClient } from "./utils/recordedClient.js";
-import type { Context } from "mocha";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("List data sources", () => {
   let recorder: Recorder;
