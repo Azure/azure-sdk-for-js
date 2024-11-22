@@ -6,12 +6,12 @@ import type {
   OperationResponseOutput,
   PurviewSharingClient,
   ReceivedShareListOutput,
-} from "../../src";
-import { getLongRunningPoller, isUnexpected } from "../../src";
+} from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
 
 describe("Received Shares Operations", () => {
@@ -21,7 +21,7 @@ describe("Received Shares Operations", () => {
   let receivedShareId = "206016dd-fd49-420c-9545-9663badda4e3";
   const pollingIntervalMs = isPlaybackMode() ? 0 : 30000;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = createClient(recorder);
   });

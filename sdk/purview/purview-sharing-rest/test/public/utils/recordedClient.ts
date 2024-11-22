@@ -5,8 +5,8 @@ import type { Context } from "mocha";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { PurviewSharingClient } from "../../../src";
-import PurviewSharing from "../../../src";
+import type { PurviewSharingClient } from "../../../src/index.js";
+import PurviewSharing from "../../../src/index.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 
 const envSetupForPlayback: Record<string, string> = {

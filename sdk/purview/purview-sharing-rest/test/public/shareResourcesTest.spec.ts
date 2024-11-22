@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PurviewSharingClient, ShareResourceOutput } from "../../src";
-import { isUnexpected, paginate } from "../../src";
+import type { PurviewSharingClient, ShareResourceOutput } from "../../src/index.js";
+import { isUnexpected, paginate } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
 
 describe("Share Resources Operations", () => {
   let recorder: Recorder;
   let client: PurviewSharingClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = createClient(recorder);
   });

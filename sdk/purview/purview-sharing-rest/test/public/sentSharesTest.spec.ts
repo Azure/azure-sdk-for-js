@@ -9,12 +9,12 @@ import type {
   SentShareListOutput,
   ServiceInvitationOutput,
   UserInvitationOutput,
-} from "../../src";
-import { getLongRunningPoller, isUnexpected } from "../../src";
+} from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
 
 describe("Sent Shares Operations", () => {
@@ -29,7 +29,7 @@ describe("Sent Shares Operations", () => {
   const targetObjectId = "6a9dd6e0-9a06-47bf-a9a2-0647130a7422";
   const targetEmail = "faisalaltell@microsoft.com";
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = createClient(recorder);
   });

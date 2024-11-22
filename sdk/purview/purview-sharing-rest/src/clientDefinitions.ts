@@ -19,7 +19,7 @@ import type {
   SentSharesDeleteSentShareInvitationParameters,
   SentSharesNotifyUserSentShareInvitationParameters,
   ShareResourcesGetAllShareResourcesParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   ReceivedSharesGetReceivedShare200Response,
   ReceivedSharesGetReceivedShareDefaultResponse,
@@ -57,7 +57,7 @@ import type {
   SentSharesNotifyUserSentShareInvitationDefaultResponse,
   ShareResourcesGetAllShareResources200Response,
   ShareResourcesGetAllShareResourcesDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ReceivedSharesGetReceivedShare {
