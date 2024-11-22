@@ -98,6 +98,7 @@ export type AgentsNamedToolChoiceTypeOutput = string;
 // @public (undocumented)
 export interface AgentsOperations {
     cancelRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
+    cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
     createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     createRun: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
@@ -106,10 +107,15 @@ export interface AgentsOperations {
     createThreadAndRun: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
     createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
     createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
+    // Warning: (ae-forgotten-export) The symbol "CreateVectorStoreFileOptions" needs to be exported by the entry point index.d.ts
+    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
+    // Warning: (ae-forgotten-export) The symbol "CreateVectorStoreFileBatchOptions" needs to be exported by the entry point index.d.ts
+    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
     deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadDeletionStatusOutput>;
     deleteVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreDeletionStatusOutput>;
+    deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput>;
     getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
     getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<string>;
@@ -117,11 +123,16 @@ export interface AgentsOperations {
     getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) => Promise<RunStepOutput>;
     getThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
     getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
+    getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
+    getVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
     listAgents: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfAgentOutput>;
     listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) => Promise<FileListResponseOutput>;
     listMessages: (threadId: string, runId?: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     listRuns: (threadId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadRunOutput>;
     listRunSteps: (threadId: string, runId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfRunStepOutput>;
+    listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
+    // Warning: (ae-forgotten-export) The symbol "FileStatusFilter" needs to be exported by the entry point index.d.ts
+    listVectorStoreFiles: (vectorStoreId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStores: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, stream?: boolean | null, options?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
