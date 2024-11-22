@@ -298,7 +298,7 @@ export interface CallTransferFailed
 export interface ParticipantsUpdated
   extends Omit<
     RestParticipantsUpdated,
-    "callConnectionId" | "serverCallId" | "correlationId" | "participants"
+    "callConnectionId" | "serverCallId" | "correlationId" | "participants" | "resultInformation"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -308,6 +308,8 @@ export interface ParticipantsUpdated
   correlationId: string;
   /** The list of participants in the call. */
   participants: CallParticipant[];
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "ParticipantsUpdated";
 }
@@ -316,6 +318,24 @@ export interface ParticipantsUpdated
 export interface RecordingStateChanged
   extends Omit<
     RestRecordingStateChanged,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "RecordingStateChanged";
+}
+
+/** Event when Media play was successfully started. */
+export interface PlayStarted
+  extends Omit<
+    RestPlayStarted,
     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
   > {
   /** Call connection ID. */
@@ -541,7 +561,7 @@ export interface SendDtmfTonesFailed
 export interface CancelAddParticipantSucceeded
   extends Omit<
     RestCancelAddParticipantSucceeded,
-    "callConnectionId" | "serverCallId" | "correlationId" | "invitationId"
+    "callConnectionId" | "serverCallId" | "correlationId" | "invitationId" | "resultInformation"
   > {
   /** Call connection ID. */
   callConnectionId: string;
@@ -551,6 +571,8 @@ export interface CancelAddParticipantSucceeded
   correlationId: string;
   /** Invitation ID used to cancel the add participant request. */
   invitationId: string;
+  /** Contains the resulting SIP code/sub-code and message from NGC services. */
+  resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "CancelAddParticipantSucceeded";
 }
