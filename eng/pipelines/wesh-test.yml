@@ -16,10 +16,12 @@ steps:
   displayName: list npm config
 
 - pwsh: |
+    get-content $HOME/.npmrc
+
     $NpmDevopsFeedRegistry = "https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js/npm/registry/"
     $apiviewParser = "@azure-tools/ts-genapi@2.0.3"
     Write-Host "Installing $($apiviewParser)"
     npm install $apiviewParser --registry $NpmDevopsFeedRegistry
 
-    dir $env:userprofile/.npm/_logs/*.log | % { $_; get-content $_ }
+    dir $HOME/.npm/_logs/*.log | % { $_; get-content $_ }
   displayName: 'install package'
