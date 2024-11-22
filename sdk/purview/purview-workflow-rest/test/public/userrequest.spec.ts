@@ -1,28 +1,27 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-// import { PurviewWorkflowClient } from "@azure-rest/purview-workflow";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createClient } from "./utils/recordedClient.js";
 import type { PurviewWorkflowClient } from "../../src/clientDefinitions.js";
 import type { SubmitUserRequestsParameters } from "../../src/parameters.js";
 import { isUnexpected } from "../../src/isUnexpected.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Submit a user request", () => {
   let recorder: Recorder;
   let client: PurviewWorkflowClient;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should submit a user request.", async function () {
+  it("should submit a user request.", async () => {
     const options: SubmitUserRequestsParameters = {
       body: {
         comment: "Thanks!",

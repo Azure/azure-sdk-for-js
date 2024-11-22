@@ -4,7 +4,6 @@
 import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import "./env.js";
-
 import type { ClientOptions } from "@azure-rest/core-client";
 import { UsernamePasswordCredential } from "@azure/identity";
 import { NoOpCredential } from "@azure-tools/test-credential";
