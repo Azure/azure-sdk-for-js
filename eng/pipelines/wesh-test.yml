@@ -20,8 +20,9 @@ steps:
     $NpmDevopsFeedRegistry = "https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js/npm/registry/"
     $apiviewParser = "@azure-tools/ts-genapi@2.0.3"
     Write-Host "Installing $($apiviewParser)"
-    npm install $apiviewParser --registry $NpmDevopsFeedRegistry --_auth ''
+    npm install $apiviewParser --registry $NpmDevopsFeedRegistry --always-auth=false
 
-    get-content /usr/local/etc/npmrc
+    if (Test-Path "/usr/local/etc/npmrc") { get-content /usr/local/etc/npmrc }
+    if (Test-Path "$HOME/.npmrc") { get-content $HOME/.npmrc }
     dir $HOME/.npm/_logs/*.log | % { $_; get-content $_ }
   displayName: 'install package'
