@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PurviewCatalogClient } from "../../src";
+import type { PurviewCatalogClient } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
-import { createClient } from "./utils/recordedClient";
+import { createClient } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
 
 describe("purview catalog tepedefs test", () => {
   let recorder: Recorder;
   let client: PurviewCatalogClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     client = await createClient(recorder);
   });
 

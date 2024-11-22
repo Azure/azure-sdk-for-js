@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PurviewCatalogClient } from "../../src";
-import { getLongRunningPoller } from "../../src";
+import type { PurviewCatalogClient } from "../../src/index.js";
+import { getLongRunningPoller } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
-import { createClient } from "./utils/recordedClient";
+import { createClient } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
 
 describe("purview catalog glossary test", () => {
@@ -14,8 +14,8 @@ describe("purview catalog glossary test", () => {
   let glossaryName: string;
   let glossaryGuid: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     client = await createClient(recorder);
     glossaryName = "jsLROTesting-2";
   });
