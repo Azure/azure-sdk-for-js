@@ -12,7 +12,7 @@ pool:
 steps:
 
 - pwsh: |
-    npm config list
+    npm config list -l
   displayName: list npm config
 
 - pwsh: |
@@ -20,8 +20,6 @@ steps:
     $apiviewParser = "@azure-tools/ts-genapi@2.0.3"
     Write-Host "Installing $($apiviewParser)"
     npm install $apiviewParser --registry $NpmDevopsFeedRegistry
-  displayName: 'install package'
 
-- pwsh: | 
-     dir $env:userprofile/.npm/_logs/*.log | % { $_; get-content $_ }
-  displayName: Dump logs
+    dir $env:userprofile/.npm/_logs/*.log | % { $_; get-content $_ }
+  displayName: 'install package'
