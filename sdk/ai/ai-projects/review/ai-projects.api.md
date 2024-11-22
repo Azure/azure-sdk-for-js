@@ -260,7 +260,6 @@ export interface ConnectionsOperations {
 
 // @public
 export enum connectionToolType {
-    AzureAISearch = "azure_ai_search",
     BingGrounding = "bing_grounding",
     MicrosoftFabric = "microsoft_fabric",
     SharePointGrounding = "sharepoint_grounding"
@@ -508,7 +507,7 @@ export type Frequency = string;
 export type FrequencyOutput = string;
 
 // @public
-export function fromConnectionIds(toolType: connectionToolType, connectionIds: string[]): ToolDefinitionParent;
+export function fromConnectionId(toolType: connectionToolType, connectionIds: string[]): ToolDefinitionParent;
 
 // @public
 export function fromFunctionDefinition(functionDefintion: FunctionDefinition): FunctionToolDefinition;

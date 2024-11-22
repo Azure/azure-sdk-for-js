@@ -3,14 +3,14 @@
 
 /**
  * 
- * FILE: sample_agents_bing_grounding.ts
+ * FILE: agents_bing_grounding.ts
  *
  * DESCRIPTION:
  *  This sample demonstrates how to use agent operations with the Grounding with Bing Search tool from
  *  the Azure Agents service using a asynchronous client.
  *
  * USAGE:
- *  npx ts-node sample_agents_bing_grounding.ts
+ *  npx ts-node agents_bing_grounding.ts
  *
  *  Before running the sample:
  *
@@ -21,7 +21,7 @@
  *  BING_CONNECTION_NAME - the name of the connection with Bing search grounding
  */
 
-import { AIProjectsClient, fromConnectionIds, connectionToolType } from "@azure/ai-projects"
+import { AIProjectsClient, fromConnectionId, connectionToolType } from "@azure/ai-projects"
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -39,7 +39,7 @@ export async function main(): Promise<void> {
   const connectionId = bingConnection.id;
 
   // Initialize agent bing tool with the connection id
-  const bingTool = fromConnectionIds(connectionToolType.BingGrounding, [connectionId]);
+  const bingTool = fromConnectionId(connectionToolType.BingGrounding, [connectionId]);
 
   // Create agent with the bing tool and process assistant run
   const agent  = await client.agents.createAgent(

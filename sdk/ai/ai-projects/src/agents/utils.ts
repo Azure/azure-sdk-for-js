@@ -37,8 +37,6 @@ export enum connectionToolType {
   MicrosoftFabric = "microsoft_fabric",
   /** Sharepoint tool */
   SharePointGrounding = "sharepoint_grounding",
-  /** Azure AI search tool */
-  AzureAISearch = "azure_ai_search",
 }
 
 /**
@@ -48,7 +46,7 @@ export enum connectionToolType {
  * @param connectionIds - A list of the IDs of the connections to use.
  * @returns The function tool definition.
  */
-export function fromConnectionIds(toolType : connectionToolType, connectionIds: string[]) : ToolDefinitionParent {
+export function fromConnectionId(toolType : connectionToolType, connectionIds: string[]) : ToolDefinitionParent {
   return {
     type: toolType,
     [toolType]: {
