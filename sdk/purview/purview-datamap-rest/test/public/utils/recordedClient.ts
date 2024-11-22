@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Context } from "mocha";
 import type { PurviewDataMapClient } from "../../../src/index.js";
 import PurviewDataMap from "../../../src/index.js";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";

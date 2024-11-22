@@ -2,12 +2,11 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient.js";
-import type { Context } from "mocha";
 import { createClient } from "./utils/recordedClient.js";
 import { createFile } from "../../src/index.js";
 import { isUnexpected } from "../../src/isUnexpected.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("purview datamap entity test", () => {
   let recorder: Recorder;
