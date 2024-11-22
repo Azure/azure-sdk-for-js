@@ -6,9 +6,9 @@
  * @packageDocumentation
  */
 
-import DocumentTranslator from "./documentTranslator";
-export * from "./documentTranslator";
-export * from "./models";
-export * from "./parameters";
-export * from "./responses";
+import DocumentTranslator from "./documentTranslator.js";
+export * from "./documentTranslator.js";
+export * from "./models.js";
+export * from "./parameters.js";
+export * from "./responses.js";
 export default DocumentTranslator;

@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 import type { Context } from "mocha";
-import type { DocumentTranslatorClient } from "../../src";
+import type { DocumentTranslatorClient } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createClient } from "./utils/recordedClient";
+import { createClient } from "./utils/recordedClient.js";
 
 describe("List Document Formats", () => {
   let recorder: Recorder;
   let client: DocumentTranslatorClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     client = await createClient(recorder);
   });
 
