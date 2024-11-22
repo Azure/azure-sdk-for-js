@@ -20926,7 +20926,7 @@ packages:
     dev: false
 
   file:projects/load-testing.tgz:
-    resolution: {integrity: sha512-U314GsbjjWSJHdmjAo6qwSwuCTTFiPUB9AWGKK/9tU33CqV9wIfTrez1uuFhzteWwfMPXgLh+RnJjrzYBYpOdA==, tarball: file:projects/load-testing.tgz}
+    resolution: {integrity: sha512-mWVb1m4MgOwmwvtCgw+GpN4BwujiAzXpm+2lWJdLgtH4EFCwkLQWaefkaSqlyXMEXqCy/lPJYAS4hXrIP7DkEg==, tarball: file:projects/load-testing.tgz}
     name: '@rush-temp/load-testing'
     version: 0.0.0
     dependencies:
@@ -20938,6 +20938,8 @@ packages:
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       autorest: 3.7.1
       chai: 4.3.10
       dotenv: 16.4.5
@@ -20954,19 +20956,33 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       uuid: 9.0.1
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/logger.tgz:
@@ -22088,7 +22104,7 @@ packages:
     dev: false
 
   file:projects/purview-administration.tgz:
-    resolution: {integrity: sha512-Y5Mo6j8mmZ1DMh3NkNQQiaXulUxRGBGQN6vHUY/hCM9wA5GBd1E9zRd+a92ZARBWbEUoUwuwiy28D53cNMdueA==, tarball: file:projects/purview-administration.tgz}
+    resolution: {integrity: sha512-sgg4tkB4l9zyjfabBh9sUFhifmfGF+ntAIAb2e9vsDSCi1ttSW6dQHrKx5IFCKwz3b0Cl0DaeRMwS8j4e8hecQ==, tarball: file:projects/purview-administration.tgz}
     name: '@rush-temp/purview-administration'
     version: 0.0.0
     dependencies:
@@ -22144,7 +22160,7 @@ packages:
     dev: false
 
   file:projects/purview-catalog.tgz:
-    resolution: {integrity: sha512-zK8O8Fyw7NWReudkBb/XkIr/J7Qh4z2DQKZqF99+iTOiBZF3gPkJKtzGlQ/pmSU1CIbkHRzZCLNyw4uq7euEGQ==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-P4T1DLaTzNfhCfRSS/tZTK6wVBW2sBDaf9tAw6qOqvlz3ZPkJ5vTGehSROpmF8eDPloYnN7IaDtM/Pdi3d2d/w==, tarball: file:projects/purview-catalog.tgz}
     name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
