@@ -58,19 +58,24 @@
     "@azure-rest/core-client": "^2.1.0",
     "@azure/core-auth": "^1.6.0",
     "@azure/core-rest-pipeline": "^1.5.0",
-    "@azure/core-util": "^1.9.0",
-    "@azure/logger": "^1.1.4",
-    "tslib": "^2.6.2",
     "@azure/core-paging": "^1.5.0",
-    "@azure/core-sse": "^2.1.3"
+    "@azure/logger": "^1.1.4",
+    "@azure/core-sse": "^2.1.3",
+    "@azure/core-tracing": "^1.2.0",
+    "@azure/core-util": "^1.9.0",
+    "tslib": "^2.6.2"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^4.3.0",
+    "@azure/opentelemetry-instrumentation-azure-sdk": "^1.0.0-beta.7",
     "@azure-tools/test-credential": "^2.0.0",
     "@azure-tools/test-recorder": "^4.1.0",
     "@microsoft/api-extractor": "^7.40.3",
+    "@opentelemetry/api": "^1.9.0",
+    "@opentelemetry/instrumentation": "0.53.0",
+    "@opentelemetry/sdk-trace-node": "^1.9.0",
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
     "@types/node": "^18.0.0",
@@ -112,18 +117,22 @@
     "./package.json": "./package.json",
     ".": {
       "browser": {
+        "source": "./src/index.ts",
         "types": "./dist/browser/index.d.ts",
         "default": "./dist/browser/index.js"
       },
       "react-native": {
+        "source": "./src/index.ts",
         "types": "./dist/react-native/index.d.ts",
         "default": "./dist/react-native/index.js"
       },
       "import": {
+        "source": "./src/index.ts",
         "types": "./dist/esm/index.d.ts",
         "default": "./dist/esm/index.js"
       },
       "require": {
+        "source": "./src/index.ts",
         "types": "./dist/commonjs/index.d.ts",
         "default": "./dist/commonjs/index.js"
       }
