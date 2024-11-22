@@ -24,7 +24,7 @@ export {
   MediaStreamingContentType,
   KnownMediaStreamingContentType,
   MediaStreamingTransportType,
-  KnownMediaStreamingTransportType ,
+  KnownMediaStreamingTransportType,
   MediaStreamingSubscription,
   TranscriptionOptions,
   TranscriptionTransportType,
