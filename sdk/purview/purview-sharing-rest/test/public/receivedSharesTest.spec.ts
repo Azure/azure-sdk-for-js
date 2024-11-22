@@ -10,9 +10,8 @@ import type {
 import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-import type { Context } from "mocha";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Received Shares Operations", () => {
   let recorder: Recorder;

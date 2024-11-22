@@ -4,9 +4,8 @@
 import type { PurviewSharingClient, ShareResourceOutput } from "../../src/index.js";
 import { isUnexpected, paginate } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-import type { Context } from "mocha";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Share Resources Operations", () => {
   let recorder: Recorder;
