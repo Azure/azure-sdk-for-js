@@ -3,18 +3,18 @@
 import type { PurviewAccount } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
 import { createAccountClient } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("List collections", () => {
   let recorder: Recorder;
   let client: PurviewAccount.Client.PurviewAccountRestClient;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     client = await createAccountClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
