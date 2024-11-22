@@ -4,13 +4,13 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createRecorder, createClient } from "./utils/recordedClient";
+import { createRecorder, createClient } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
-import type { ContentSafetyClient, TextBlocklistItemOutput } from "../../src";
-import { isUnexpected, paginate } from "../../src";
+import type { ContentSafetyClient, TextBlocklistItemOutput } from "../../src/index.js";
+import { isUnexpected, paginate } from "../../src/index.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 import { isBrowser } from "@azure/core-util";
 
 describe("Content Safety Client Test", () => {
@@ -32,7 +32,7 @@ describe("Content Safety Client Test", () => {
   const blockItemText3 = "image";
   let blockItemId: string;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = await createClient(recorder);
   });

@@ -3,12 +3,12 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createAADRecorder, createAADClient } from "./utils/recordedAADClient";
+import { createAADRecorder, createAADClient } from "./utils/recordedAADClient.js";
 import type { Context } from "mocha";
-import type { ContentSafetyClient } from "../../src";
-import { isUnexpected } from "../../src";
-import fs from "fs";
-import path from "path";
+import type { ContentSafetyClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import fs from "node:fs";
+import path from "node:path";
 import { isBrowser } from "@azure/core-util";
 
 describe("Content Safety AAD Client Test", () => {
@@ -23,7 +23,7 @@ describe("Content Safety AAD Client Test", () => {
     return self.btoa(binaryString);
   }
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createAADRecorder(this);
     client = await createAADClient(recorder);
   });

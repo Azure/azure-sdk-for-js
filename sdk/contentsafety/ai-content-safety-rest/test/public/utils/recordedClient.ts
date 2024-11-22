@@ -4,9 +4,9 @@
 import type { Context } from "mocha";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import "./env";
-import type { ContentSafetyClient } from "../../../src";
-import ContentSafety from "../../../src";
+import "./env.js";
+import type { ContentSafetyClient } from "../../../src/index.js";
+import ContentSafety from "../../../src/index.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 // import { ClientOptions } from "@azure-rest/core-client";
 

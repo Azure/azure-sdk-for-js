@@ -9,8 +9,8 @@ import ContentSafetyClient, {
   isUnexpected,
 } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
 
 // Load the .env file if it exists  
 import * as dotenv from "dotenv";
