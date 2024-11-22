@@ -5,8 +5,6 @@ import { createIdentifierFromRawId } from "@azure/communication-common";
 import {
   AudioData,
   AudioMetadata,
-  MediaKind,
-  OutStreamingData,
   StreamingDataKind,
   StreamingDataResult,
   TranscriptionData,
@@ -15,39 +13,13 @@ import {
 
 /** Class to handle the parsing of incoming streaming data. */
 export class StreamingData {
+  // Kind of the streaming data ex.AudioData, AudioMetadata, TranscriptionData, TranscriptionMetadata.
   private static streamingKind: StreamingDataKind;
 
-  /** Public static method to parse the incoming package. */
+  /** Parses a encoded json string or buffer into a StreamingData object,
+      which can be one of the following subtypes: AudioData, AudioMetadata, TranscriptionData, or TranscriptionMetadata. */
   static parse(data: string | ArrayBuffer): StreamingDataResult {
     return StreamingData.parseStreamingData(data);
-  }
-
-  /** Public static method to stringify the outbound audio data. */
-  static getStreamingDataForOutbound(data: string): string {
-    const outStreamingData: OutStreamingData = {
-      kind: MediaKind.AudioData,
-      audioData: {
-        data: data,
-        timestamp: undefined,
-        participant: undefined,
-        isSilent: false,
-      },
-      stopAudio: {},
-    };
-
-    const json = JSON.stringify(outStreamingData);
-    return json;
-  }
-
-  /** Public static method to stringify the stop audio data. */
-  static getStopAudioForOutbound(): string {
-    const outStreamingData: OutStreamingData = {
-      kind: MediaKind.StopAudio,
-      audioData: undefined,
-      stopAudio: {},
-    };
-    const json = JSON.stringify(outStreamingData);
-    return json;
   }
 
   // Get Streaming data Kind.
@@ -55,7 +27,8 @@ export class StreamingData {
     return StreamingData.streamingKind;
   }
 
-  /** Private static method to handle the specific parsing based on the data. */
+  /** Parses a encoded json string or buffer into a StreamingData object,
+      which can be one of the following subtypes: AudioData, AudioMetadata, TranscriptionData, or TranscriptionMetadata. */
   private static parseStreamingData(data: string | ArrayBuffer): StreamingDataResult {
     let stringJson: string;
 

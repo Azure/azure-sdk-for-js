@@ -2,18 +2,19 @@
 // Licensed under the MIT license.
 
 import { CommunicationIdentifier } from "@azure/communication-common";
-
 import { TranscriptionResultState } from "../generated/src";
 
 /**
  * Audio streaming data.
  */
 export interface AudioData {
-  /** Audio streaming data.*/
+  /** A unique identifier for the media subscription.*/
   data: string;
-  /** Audio streaming timestamp.*/
+  /** The timestamp indicating when the media content was received by the bot,
+      or if the bot is sending media, the timestamp of when the media was sourced.
+      The format is ISO 8601 (yyyy-mm-ddThh:mm).*/
   timestamp?: Date;
-  /** Audio streaming is silent.*/
+  /** Indicates whether the received audio buffer contains only silence..*/
   isSilent?: boolean;
   /** The identified speaker based on participant raw ID. */
   participant?: CommunicationIdentifier | undefined;
@@ -25,13 +26,14 @@ export interface AudioData {
 export interface AudioMetadata {
   /** Audio streaming subscription id.*/
   subscriptionId: string;
-  /** Audio streaming encoding.*/
+  /** The format used to encode the audio. Currently, only "pcm" (Pulse Code Modulation) is supported.*/
   encoding: string;
-  /** Audio streaming sample rate.*/
+  /** The number of samples per second in the audio. Supported values are 16kHz or 24kHz.*/
   sampleRate: number;
-  /** Audio streaming channels*/
-  channels: number;
-  /** Audio streaming length.*/
+  /** Specifies the number of audio channels in the audio configuration.
+      Currently, only "mono" (single channel) is supported.*/
+  channels: Channel;
+  /** The size of the audio data being sent, based on the sample rate and duration.*/
   length: number;
 }
 
@@ -42,16 +44,8 @@ export enum MediaKind {
   StopAudio = "stopAudio",
 }
 
+// Out streaming Stop Audio Data
 export interface StopAudio {}
-
-export interface OutStreamingData {
-  /** Out streaming data kind ex. StopAudio, AudioData*/
-  kind: MediaKind;
-  /** Out streaming Audio Data */
-  audioData?: AudioData;
-  /** Out streaming Stop Audio Data */
-  stopAudio?: StopAudio;
-}
 
 /**
  * The format of transcription text.
@@ -126,4 +120,52 @@ export enum StreamingDataKind {
   TranscriptionData = "TranscriptionData",
   // Transcription metadata type
   TranscriptionMetadata = "TranscriptionMetadata",
+}
+
+// Enum for channel.
+export enum Channel {
+  Unknown = 0,
+  Mono = 1,
+}
+
+// Base class for Out Streaming Data
+export class OutStreamingData {
+  /** Out streaming data kind ex. StopAudio, AudioData*/
+  kind: MediaKind;
+  /** Out streaming Audio Data */
+  audioData?: AudioData;
+  /** Out streaming Stop Audio Data */
+  stopAudio?: StopAudio;
+
+  constructor(kind: MediaKind) {
+    this.kind = kind;
+  }
+
+  /** Public static method to stringify the outbound audio data. */
+  static getStreamingDataForOutbound(data: string): string {
+    const outStreamingData: OutStreamingData = {
+      kind: MediaKind.AudioData,
+      audioData: {
+        data: data,
+        timestamp: undefined,
+        participant: undefined,
+        isSilent: false,
+      },
+      stopAudio: {},
+    };
+
+    const json = JSON.stringify(outStreamingData);
+    return json;
+  }
+
+  /** Public static method to stringify the stop audio data. */
+  static getStopAudioForOutbound(): string {
+    const outStreamingData: OutStreamingData = {
+      kind: MediaKind.StopAudio,
+      audioData: undefined,
+      stopAudio: {},
+    };
+    const json = JSON.stringify(outStreamingData);
+    return json;
+  }
 }
