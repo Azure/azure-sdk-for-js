@@ -107,9 +107,7 @@ export interface AgentsOperations {
     createThreadAndRun: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
     createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
     createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
-    // Warning: (ae-forgotten-export) The symbol "CreateVectorStoreFileOptions" needs to be exported by the entry point index.d.ts
     createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
-    // Warning: (ae-forgotten-export) The symbol "CreateVectorStoreFileBatchOptions" needs to be exported by the entry point index.d.ts
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
     deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput>;
@@ -131,7 +129,6 @@ export interface AgentsOperations {
     listRuns: (threadId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadRunOutput>;
     listRunSteps: (threadId: string, runId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfRunStepOutput>;
     listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
-    // Warning: (ae-forgotten-export) The symbol "FileStatusFilter" needs to be exported by the entry point index.d.ts
     listVectorStoreFiles: (vectorStoreId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStores: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
@@ -335,6 +332,20 @@ export interface CreateRunOptions {
 }
 
 // @public
+export interface CreateVectorStoreFileBatchOptions {
+    chunkingStrategy?: VectorStoreChunkingStrategyRequest;
+    dataSources?: VectorStoreDataSource[];
+    fileIds?: string[];
+}
+
+// @public
+export interface CreateVectorStoreFileOptions {
+    chunkingStrategy?: VectorStoreChunkingStrategyRequest;
+    dataSources?: Array<VectorStoreDataSource>;
+    fileId?: string;
+}
+
+// @public
 export interface CredentialsApiKeyAuthOutput {
     key: string;
 }
@@ -510,6 +521,11 @@ export interface FileSearchToolResourceOutput {
 
 // @public
 export type FileStateOutput = string;
+
+// @public
+export interface FileStatusFilter {
+    filter?: VectorStoreFileStatusFilter;
+}
 
 // @public
 export type Frequency = string;
