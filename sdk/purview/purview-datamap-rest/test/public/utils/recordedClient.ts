@@ -2,12 +2,12 @@
 // Licensed under the MIT License.
 
 import type { Context } from "mocha";
-import type { PurviewDataMapClient } from "../../../src";
-import PurviewDataMap from "../../../src";
+import type { PurviewDataMapClient } from "../../../src/index.js";
+import PurviewDataMap from "../../../src/index.js";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import "./env";
+import "./env.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 
 const envSetupForPlayback: Record<string, string> = {

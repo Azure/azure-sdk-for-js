@@ -3,16 +3,16 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createRecorder } from "./utils/recordedClient";
+import { createRecorder } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
-import { createClient } from "./utils/recordedClient";
-import { createFile } from "../../src/index";
-import { isUnexpected } from "../../src/isUnexpected";
+import { createClient } from "./utils/recordedClient.js";
+import { createFile } from "../../src/index.js";
+import { isUnexpected } from "../../src/isUnexpected.js";
 
 describe("purview datamap entity test", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
   });
 

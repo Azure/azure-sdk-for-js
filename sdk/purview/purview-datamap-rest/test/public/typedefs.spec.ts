@@ -3,15 +3,15 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
-import { createClient } from "./utils/recordedClient";
+import { createClient } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
-import { createRecorder } from "./utils/recordedClient";
-import { isUnexpected } from "../../src/isUnexpected";
+import { createRecorder } from "./utils/recordedClient.js";
+import { isUnexpected } from "../../src/isUnexpected.js";
 
 describe("purview datamap typedefs test", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
   });
 
