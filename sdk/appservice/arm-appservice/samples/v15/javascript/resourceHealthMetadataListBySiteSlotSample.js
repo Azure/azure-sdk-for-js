@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection
  *
  * @summary Description for Gets the category of ResourceHealthMetadata to use for the given site as a collection
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListResourceHealthMetadataBySite.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ListResourceHealthMetadataBySite.json
  */
 async function listResourceHealthMetadataForASite() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Deploys zipped content to a static site.
  *
  * @summary Description for Deploys zipped content to a static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/StaticSiteZipDeploy.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/StaticSiteZipDeploy.json
  */
 async function deployASiteFromAZippedPackage() {
   const subscriptionId =

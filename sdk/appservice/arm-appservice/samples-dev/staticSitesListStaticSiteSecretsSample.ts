@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Lists the secrets for an existing static site.
  *
  * @summary Description for Lists the secrets for an existing static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListStaticSiteSecrets.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ListStaticSiteSecrets.json
  */
 async function listSecretsForAStaticSite() {
   const subscriptionId =

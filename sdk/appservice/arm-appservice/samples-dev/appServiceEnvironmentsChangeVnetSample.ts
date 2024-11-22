@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Move an App Service Environment to a different VNET.
  *
  * @summary Description for Move an App Service Environment to a different VNET.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_ChangeVnet.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/AppServiceEnvironments_ChangeVnet.json
  */
 async function moveAnAppServiceEnvironmentToADifferentVnet() {
   const subscriptionId =

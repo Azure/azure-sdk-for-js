@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get the callback URL for a workflow trigger.
  *
  * @summary Get the callback URL for a workflow trigger.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowTriggers_ListCallbackUrl.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/WorkflowTriggers_ListCallbackUrl.json
  */
 async function getTheCallbackUrlForATrigger() {
   const subscriptionId =

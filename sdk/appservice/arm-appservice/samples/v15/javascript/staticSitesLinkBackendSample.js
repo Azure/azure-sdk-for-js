@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Link backend to a static site
  *
  * @summary Link backend to a static site
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/LinkBackendToStaticSite.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/LinkBackendToStaticSite.json
  */
 async function linkABackendToAStaticSite() {
   const subscriptionId =

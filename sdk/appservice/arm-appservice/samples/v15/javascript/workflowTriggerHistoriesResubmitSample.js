@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Resubmits a workflow run based on the trigger history.
  *
  * @summary Resubmits a workflow run based on the trigger history.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowTriggerHistories_Resubmit.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/WorkflowTriggerHistories_Resubmit.json
  */
 async function resubmitAWorkflowRunBasedOnTheTriggerHistory() {
   const subscriptionId =

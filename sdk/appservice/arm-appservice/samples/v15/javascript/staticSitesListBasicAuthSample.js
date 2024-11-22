@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Gets the basic auth properties for a static site as a collection.
  *
  * @summary Description for Gets the basic auth properties for a static site as a collection.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListStaticSiteBasicAuth.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ListStaticSiteBasicAuth.json
  */
 async function listsTheBasicAuthPropertiesForAStaticSite() {
   const subscriptionId =

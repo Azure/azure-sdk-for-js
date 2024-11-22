@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Resend certificate email.
  *
  * @summary Description for Resend certificate email.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/ResendAppServiceCertificateOrderEmail.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2024-04-01/examples/ResendAppServiceCertificateOrderEmail.json
  */
 async function resendAppServiceCertificateOrderEmail() {
   const subscriptionId =

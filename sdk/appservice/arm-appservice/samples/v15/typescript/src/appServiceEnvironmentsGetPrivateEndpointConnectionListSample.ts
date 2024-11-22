@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Gets the list of private endpoints associated with a hosting environment
  *
  * @summary Description for Gets the list of private endpoints associated with a hosting environment
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_GetPrivateEndpointConnectionList.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/AppServiceEnvironments_GetPrivateEndpointConnectionList.json
  */
 async function getsTheListOfPrivateEndpointsAssociatedWithAHostingEnvironment() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Create or update an App Service Environment.
  *
  * @summary Description for Create or update an App Service Environment.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_CreateOrUpdate.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/AppServiceEnvironments_CreateOrUpdate.json
  */
 async function createOrUpdateAnAppServiceEnvironment() {
   const subscriptionId =

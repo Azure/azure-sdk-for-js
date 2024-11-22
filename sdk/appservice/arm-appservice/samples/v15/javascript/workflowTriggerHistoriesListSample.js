@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of workflow trigger histories.
  *
  * @summary Gets a list of workflow trigger histories.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowTriggerHistories_List.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/WorkflowTriggerHistories_List.json
  */
 async function listAWorkflowTriggerHistory() {
   const subscriptionId =

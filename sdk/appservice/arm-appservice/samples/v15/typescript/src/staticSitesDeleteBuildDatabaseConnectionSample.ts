@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Delete a database connection for a static site build
  *
  * @summary Delete a database connection for a static site build
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/DeleteStaticSiteBuildDatabaseConnection.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/DeleteStaticSiteBuildDatabaseConnection.json
  */
 async function deleteADatabaseConnectionFromAStaticSiteBuild() {
   const subscriptionId =

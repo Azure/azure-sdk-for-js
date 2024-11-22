@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for List all certificates associated with a certificate order.
  *
  * @summary Description for List all certificates associated with a certificate order.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/ListCertificatesByAppServiceCertificateOrder.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2024-04-01/examples/ListCertificatesByAppServiceCertificateOrder.json
  */
 async function listCertificatesByAppServiceCertificate() {
   const subscriptionId =

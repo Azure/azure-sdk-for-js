@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Verify domain ownership for this certificate order.
  *
  * @summary Description for Verify domain ownership for this certificate order.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/VerifyDomainOwnership.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2024-04-01/examples/VerifyDomainOwnership.json
  */
 async function verifyDomainOwnership() {
   const subscriptionId =

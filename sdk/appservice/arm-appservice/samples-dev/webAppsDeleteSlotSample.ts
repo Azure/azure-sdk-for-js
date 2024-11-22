@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Deletes a web, mobile, or API app, or one of the deployment slots.
  *
  * @summary Description for Deletes a web, mobile, or API app, or one of the deployment slots.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/DeleteWebAppSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/DeleteWebAppSlot.json
  */
 async function deleteWebAppSlot() {
   const subscriptionId =

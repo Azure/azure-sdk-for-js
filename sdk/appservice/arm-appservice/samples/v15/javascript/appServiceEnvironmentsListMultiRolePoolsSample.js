@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Get all multi-role pools.
  *
  * @summary Description for Get all multi-role pools.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_ListMultiRolePools.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/AppServiceEnvironments_ListMultiRolePools.json
  */
 async function getAllMultiRolePools() {
   const subscriptionId =

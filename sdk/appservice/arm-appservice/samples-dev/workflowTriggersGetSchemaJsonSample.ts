@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get the trigger schema as JSON.
  *
  * @summary Get the trigger schema as JSON.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowTriggers_GetSchemaJson.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/WorkflowTriggers_GetSchemaJson.json
  */
 async function getTriggerSchema() {
   const subscriptionId =

@@ -13020,7 +13020,7 @@ packages:
     dev: false
 
   file:projects/arm-appservice-1.tgz:
-    resolution: {integrity: sha512-TsYCwAjLN6a5+K+UZWdbRugRvMpUUHJbPNa923RA4w01pjEzv3f4SXT3rhzgqCFyErmYhdIy1ljSIHVzeIlJmg==, tarball: file:projects/arm-appservice-1.tgz}
+    resolution: {integrity: sha512-vPf2DlwB5izJ/+oWAF2iOj4NT9GhkZQz2g5pZwV80HZ0K+3AecEnahjB6A5tmV89qq5XhThiURV2qSvxWbiePg==, tarball: file:projects/arm-appservice-1.tgz}
     name: '@rush-temp/arm-appservice-1'
     version: 0.0.0
     dependencies:
@@ -13028,16 +13028,19 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
+      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       chai: 4.3.10
+      cross-env: 7.0.3
       dotenv: 16.4.5
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
       typescript: 5.6.3
+      uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -21763,7 +21766,7 @@ packages:
     dev: false
 
   file:projects/maps-route.tgz:
-    resolution: {integrity: sha512-0ctRSAumdIjIYk2gsJWzoER0exI6GI4XYhIcuVJH1xNf19LCLOw0erfKvdgYnMscP447hOavv+t1DHahw6yUsw==, tarball: file:projects/maps-route.tgz}
+    resolution: {integrity: sha512-7CIlx59lH1iXpkFOrf1zQ6r986jREdZS9F+cKejJPIrbqqj0e9uO5Po1q9aUwQgEkQFlh8wQ55GrK36jhQG5jQ==, tarball: file:projects/maps-route.tgz}
     name: '@rush-temp/maps-route'
     version: 0.0.0
     dependencies:

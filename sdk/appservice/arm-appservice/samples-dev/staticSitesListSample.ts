@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Get all Static Sites for a subscription.
  *
  * @summary Description for Get all Static Sites for a subscription.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetAllStaticSites.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetAllStaticSites.json
  */
 async function getAllStaticSitesInASubscription() {
   const subscriptionId =

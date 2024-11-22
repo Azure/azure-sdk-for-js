@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Restores a specific backup to another app (or deployment slot, if specified).
  *
  * @summary Description for Restores a specific backup to another app (or deployment slot, if specified).
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/RestoreWebAppBackup.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/RestoreWebAppBackup.json
  */
 async function restoreWebAppFromBackup() {
   const subscriptionId =

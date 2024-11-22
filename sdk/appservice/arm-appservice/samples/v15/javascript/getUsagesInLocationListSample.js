@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List usages in cores for all skus used by a subscription in a given location, for a specific quota type.
  *
  * @summary List usages in cores for all skus used by a subscription in a given location, for a specific quota type.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetUsagesInLocation.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetUsagesInLocation.json
  */
 async function getUsagesInLocationForSubscription() {
   const subscriptionId =

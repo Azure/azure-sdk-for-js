@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deactivates a revision for a Container App
  *
  * @summary Deactivates a revision for a Container App
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/DeactivateRevision.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/DeactivateRevision.json
  */
 async function deactivateContainerAppRevision() {
   const subscriptionId =

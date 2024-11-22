@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Microsoft.CertificateRegistration call to get a detector response from App Lens.
  *
  * @summary Description for Microsoft.CertificateRegistration call to get a detector response from App Lens.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2023-12-01/examples/Diagnostics_GetAppServiceCertificateOrderDetectorResponse.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2024-04-01/examples/Diagnostics_GetAppServiceCertificateOrderDetectorResponse.json
  */
 async function getAppServiceCertificateOrderDetectorResponse() {
   const subscriptionId =

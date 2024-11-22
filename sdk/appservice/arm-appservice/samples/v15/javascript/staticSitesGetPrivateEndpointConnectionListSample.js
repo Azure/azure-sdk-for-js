@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Gets the list of private endpoint connections associated with a static site
  *
  * @summary Description for Gets the list of private endpoint connections associated with a static site
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetSitePrivateEndpointConnectionList.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetSitePrivateEndpointConnectionList.json
  */
 async function getAListOfPrivateEndpointConnectionsAssociatedWithASite() {
   const subscriptionId =

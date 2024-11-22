@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Get properties of a multi-role pool.
  *
  * @summary Description for Get properties of a multi-role pool.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_GetMultiRolePool.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/AppServiceEnvironments_GetMultiRolePool.json
  */
 async function getPropertiesOfAMultiRolePool() {
   const subscriptionId =

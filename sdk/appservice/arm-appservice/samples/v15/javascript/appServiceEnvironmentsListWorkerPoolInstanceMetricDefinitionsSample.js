@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
  *
  * @summary Description for Get metric definitions for a specific instance of a worker pool of an App Service Environment.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/AppServiceEnvironments_ListWorkerPoolInstanceMetricDefinitions.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/AppServiceEnvironments_ListWorkerPoolInstanceMetricDefinitions.json
  */
 async function getMetricDefinitionsForASpecificInstanceOfAWorkerPoolOfAnAppServiceEnvironment() {
   const subscriptionId =

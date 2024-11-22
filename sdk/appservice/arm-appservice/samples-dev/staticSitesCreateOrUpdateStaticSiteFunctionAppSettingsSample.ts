@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Creates or updates the function app settings of a static site.
  *
  * @summary Description for Creates or updates the function app settings of a static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/CreateOrUpdateStaticSiteFunctionAppSettings.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/CreateOrUpdateStaticSiteFunctionAppSettings.json
  */
 async function createsOrUpdatesTheFunctionAppSettingsOfAStaticSite() {
   const subscriptionId =
