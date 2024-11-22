@@ -198,10 +198,8 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       claims: options?.claims,
       forceRefresh: false,
       scopes,
+      account: publicToMsal(account),
     };
-    if (publicToMsal(account) !== null) {
-      parameters.account = publicToMsal(account);
-    }
 
     try {
       this.logger.info("Attempting to acquire token silently");

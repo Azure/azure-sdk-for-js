@@ -5,7 +5,7 @@ import type { AuthenticationRecord, MsalAccountInfo, MsalToken, ValidMsalToken }
 import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors.js";
 import type { CredentialLogger } from "../util/logging.js";
 import { credentialLogger, formatError } from "../util/logging.js";
-import { DefaultAuthorityHost, DefaultTenantId } from "../constants.js";
+import { DefaultAuthority, DefaultAuthorityHost, DefaultTenantId } from "../constants.js";
 import { randomUUID as coreRandomUUID, isNode, isNodeLike } from "@azure/core-util";
 
 import { AbortError } from "@azure/abort-controller";
@@ -224,16 +224,9 @@ export function handleMsalError(
 
 // transformations
 export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountInfo {
-  // Purpose is to convert the `authority host` to `enviroment` which is essentially the doamin + top-level domain
-  const matches = account.authority.match(/([a-z]+(\.[a-z]+)+)/);
-  // Ideally authority host should always be a valid url
-  // and it should never hit this case
-  if (matches == null) {
-    throw new Error(`Invalid authority ${account.authority}`);
-  }
   return {
     localAccountId: account.homeAccountId,
-    environment: matches[0],
+    environment: account.authority,
     username: account.username,
     homeAccountId: account.homeAccountId,
     tenantId: account.tenantId,
@@ -242,7 +235,7 @@ export function publicToMsal(account: AuthenticationRecord): msalCommon.AccountI
 
 export function msalToPublic(clientId: string, account: MsalAccountInfo): AuthenticationRecord {
   const record = {
-    authority: getAuthority(account.tenantId, account.environment),
+    authority: account.environment ?? DefaultAuthority,
     homeAccountId: account.homeAccountId,
     tenantId: account.tenantId || DefaultTenantId,
     username: account.username,
