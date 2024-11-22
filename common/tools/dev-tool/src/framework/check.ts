@@ -96,7 +96,7 @@ export class CheckFailedError extends Error {
 }
 
 export function isCheckFailedError(e: unknown): e is CheckFailedError {
-  return (e as any)?.name === "CheckFailedError";
+  return e instanceof Error && e.name === "CheckFailedError";
 }
 
 /**
