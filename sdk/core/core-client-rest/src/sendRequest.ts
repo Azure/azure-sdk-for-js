@@ -47,8 +47,8 @@ export async function sendRequest(
     const stream = response.readableStreamBody ?? response.browserStreamBody;
     const parsedBody =
       options.responseAsStream || stream !== undefined ? undefined : getResponseBody(response);
-    const body = stream ?? parsedBody;
-
+    let body = stream ?? parsedBody;
+    if (response.bodyAsBuffer) { body = response.bodyAsBuffer; }
     if (options?.onResponse) {
       options.onResponse({ ...response, request, rawHeaders: headers, parsedBody });
     }

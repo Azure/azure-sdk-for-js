@@ -169,8 +169,6 @@ class HttpPipeline implements Pipeline {
       (next, policy) => {
         return async (req: PipelineRequest) => {
           const response = await policy.sendRequest(req, next);
-          console.log(`policy: ${policy.name}`);
-          console.log(`\tresponse: ${response}`);
           return response;
         };
       },
