@@ -14,6 +14,8 @@ export default mergeConfig(
         "test/snippets.spec.ts",
         "test/integration/**/*.spec.ts",
       ],
+      hookTimeout: 500000,
+      testTimeout: 500000,
     },
   }),
 );

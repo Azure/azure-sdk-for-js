@@ -439,6 +439,13 @@ export const ManagedClusterAgentPoolProfileProperties: coreClient.CompositeMappe
       name: "Composite",
       className: "ManagedClusterAgentPoolProfileProperties",
       modelProperties: {
+        eTag: {
+          serializedName: "eTag",
+          readOnly: true,
+          type: {
+            name: "String",
+          },
+        },
         count: {
           serializedName: "count",
           type: {
@@ -1670,13 +1677,28 @@ export const ManagedClusterOidcIssuerProfile: coreClient.CompositeMapper = {
   },
 };
 
+export const ManagedClusterNodeResourceGroupProfile: coreClient.CompositeMapper =
+  {
+    type: {
+      name: "Composite",
+      className: "ManagedClusterNodeResourceGroupProfile",
+      modelProperties: {
+        restrictionLevel: {
+          serializedName: "restrictionLevel",
+          type: {
+            name: "String",
+          },
+        },
+      },
+    },
+  };
+
 export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
     className: "ContainerServiceNetworkProfile",
     modelProperties: {
       networkPlugin: {
-        defaultValue: "kubenet",
         serializedName: "networkPlugin",
         type: {
           name: "String",
@@ -1704,6 +1726,13 @@ export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
         serializedName: "networkDataplane",
         type: {
           name: "String",
+        },
+      },
+      advancedNetworking: {
+        serializedName: "advancedNetworking",
+        type: {
+          name: "Composite",
+          className: "AdvancedNetworking",
         },
       },
       podCidr: {
@@ -1800,6 +1829,65 @@ export const ContainerServiceNetworkProfile: coreClient.CompositeMapper = {
               name: "String",
             },
           },
+        },
+      },
+    },
+  },
+};
+
+export const AdvancedNetworking: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdvancedNetworking",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+      observability: {
+        serializedName: "observability",
+        type: {
+          name: "Composite",
+          className: "AdvancedNetworkingObservability",
+        },
+      },
+      security: {
+        serializedName: "security",
+        type: {
+          name: "Composite",
+          className: "AdvancedNetworkingSecurity",
+        },
+      },
+    },
+  },
+};
+
+export const AdvancedNetworkingObservability: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdvancedNetworkingObservability",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
+        },
+      },
+    },
+  },
+};
+
+export const AdvancedNetworkingSecurity: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AdvancedNetworkingSecurity",
+    modelProperties: {
+      enabled: {
+        serializedName: "enabled",
+        type: {
+          name: "Boolean",
         },
       },
     },
@@ -4873,6 +4961,13 @@ export const AgentPool: coreClient.CompositeMapper = {
     className: "AgentPool",
     modelProperties: {
       ...SubResource.type.modelProperties,
+      eTag: {
+        serializedName: "properties.eTag",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
       count: {
         serializedName: "properties.count",
         type: {
@@ -5211,6 +5306,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
     className: "ManagedCluster",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
+      eTag: {
+        serializedName: "eTag",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
       sku: {
         serializedName: "sku",
         type: {
@@ -5362,6 +5464,13 @@ export const ManagedCluster: coreClient.CompositeMapper = {
         serializedName: "properties.nodeResourceGroup",
         type: {
           name: "String",
+        },
+      },
+      nodeResourceGroupProfile: {
+        serializedName: "properties.nodeResourceGroupProfile",
+        type: {
+          name: "Composite",
+          className: "ManagedClusterNodeResourceGroupProfile",
         },
       },
       enableRbac: {
