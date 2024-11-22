@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/purview-datamap": [
-        "./src/index"
-      ]
+      "@azure-rest/purview-datamap": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
