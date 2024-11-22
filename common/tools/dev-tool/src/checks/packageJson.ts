@@ -84,15 +84,17 @@ export const filesEsm = packageJsonCheck({
 });
 
 export const keywords = packageJsonCheck({
-  description: "`keywords` field should contain at least 'azure' and 'cloud'",
+  description:
+    "`keywords` field should contain at least 'azure' and 'cloud'; all keywords must be lowercase",
   enable: enableForSdkType("client"),
   fix({ packageJson }) {
     packageJson.keywords ??= [];
-    if (!packageJson.keywords.some((x) => x.toLowerCase() === "azure")) {
+    packageJson.keywords = packageJson.keywords.map((x) => x.toLowerCase());
+    if (!packageJson.keywords.includes("azure")) {
       packageJson.keywords.push("azure");
     }
 
-    if (!packageJson.keywords.some((x) => x.toLowerCase() === "cloud")) {
+    if (!packageJson.keywords.includes("cloud")) {
       packageJson.keywords.push("cloud");
     }
 
