@@ -2,14 +2,13 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createAADRecorder, createAADClient } from "./utils/recordedAADClient.js";
-import type { Context } from "mocha";
 import type { ContentSafetyClient } from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
 import fs from "node:fs";
 import path from "node:path";
 import { isBrowser } from "@azure/core-util";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Content Safety AAD Client Test", () => {
   let recorder: Recorder;

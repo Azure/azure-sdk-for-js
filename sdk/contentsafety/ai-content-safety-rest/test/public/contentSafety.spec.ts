@@ -3,15 +3,14 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createRecorder, createClient } from "./utils/recordedClient.js";
-import type { Context } from "mocha";
 import type { ContentSafetyClient, TextBlocklistItemOutput } from "../../src/index.js";
 import { isUnexpected, paginate } from "../../src/index.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import fs from "node:fs";
 import path from "node:path";
 import { isBrowser } from "@azure/core-util";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Content Safety Client Test", () => {
   let recorder: Recorder;
