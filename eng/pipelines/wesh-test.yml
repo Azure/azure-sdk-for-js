@@ -6,6 +6,9 @@
 trigger:
 - main
 
+variables:
+  1ES.ImageVersionOverride: 185.0.0
+
 pool:
   name: azsdk-pool-mms-ubuntu-2004-general
 
