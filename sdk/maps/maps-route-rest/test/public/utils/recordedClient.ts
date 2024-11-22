@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "mocha";
-import { Recorder, RecorderStartOptions, env } from "@azure-tools/test-recorder";
+import type { Context } from "mocha";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 import "./env";
 import { createClientLogger } from "@azure/logger";
 import { createTestCredential } from "@azure-tools/test-credential";
 import MapsRoute from "../../../src/mapsRoute";
-import { ClientOptions } from "@azure-rest/core-client";
-import { MapsRouteClient } from "../../../src/generated";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { MapsRouteClient } from "../../../generated";
 
 const envSetupForPlayback: Record<string, string> = {
   MAPS_RESOURCE_CLIENT_ID: "azure_maps_client_id",

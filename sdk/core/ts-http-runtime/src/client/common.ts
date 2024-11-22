@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   HttpClient,
   PipelineRequest,
   PipelineResponse,
@@ -10,11 +10,11 @@ import {
   TransferProgressEvent,
   RawHttpHeadersInput,
 } from "../interfaces.js";
-import { Pipeline, PipelinePolicy } from "../pipeline.js";
-import { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
-import { OperationTracingOptions } from "../tracing/interfaces.js";
-import { PipelineOptions } from "../createPipelineFromOptions.js";
-import { LogPolicyOptions } from "../policies/logPolicy.js";
+import type { Pipeline, PipelinePolicy } from "../pipeline.js";
+import type { AbortSignalLike } from "../abort-controller/AbortSignalLike.js";
+import type { OperationTracingOptions } from "../tracing/interfaces.js";
+import type { PipelineOptions } from "../createPipelineFromOptions.js";
+import type { LogPolicyOptions } from "../policies/logPolicy.js";
 
 /**
  * Shape of the default request parameters, this may be overridden by the specific
@@ -194,9 +194,9 @@ export interface Client {
    * strong types. When used by the codegen this type gets overridden with the generated
    * types. For example:
    * ```typescript snippet:path_example
-   * import { Client, Routes } from "@typespec/ts-http-runtime";
+   * import { Client } from "@typespec/ts-http-runtime";
    *
-   * export type MyClient = Client & {
+   * type MyClient = Client & {
    *   path: Routes;
    * };
    * ```

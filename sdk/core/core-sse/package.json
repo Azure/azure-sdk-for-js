@@ -80,7 +80,6 @@
   },
   "devDependencies": {
     "@azure-rest/core-client": "^2.2.0",
-    "@azure-tools/test-utils": "^1.0.1",
     "@azure-tools/test-utils-vitest": "^1.0.0",
     "@azure-tools/vite-plugin-browser-test-map": "^1.0.0",
     "@azure/dev-tool": "^1.0.0",

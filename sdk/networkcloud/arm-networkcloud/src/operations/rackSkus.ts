@@ -20,7 +20,7 @@ import {
   RackSkusListBySubscriptionResponse,
   RackSkusGetOptionalParams,
   RackSkusGetResponse,
-  RackSkusListBySubscriptionNextResponse
+  RackSkusListBySubscriptionNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class RackSkusImpl implements RackSkus {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: RackSkusListBySubscriptionOptionalParams
+    options?: RackSkusListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<RackSku> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -56,13 +56,13 @@ export class RackSkusImpl implements RackSkus {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: RackSkusListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<RackSku[]> {
     let result: RackSkusListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -83,7 +83,7 @@ export class RackSkusImpl implements RackSkus {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: RackSkusListBySubscriptionOptionalParams
+    options?: RackSkusListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<RackSku> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -95,11 +95,11 @@ export class RackSkusImpl implements RackSkus {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: RackSkusListBySubscriptionOptionalParams
+    options?: RackSkusListBySubscriptionOptionalParams,
   ): Promise<RackSkusListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -110,11 +110,11 @@ export class RackSkusImpl implements RackSkus {
    */
   get(
     rackSkuName: string,
-    options?: RackSkusGetOptionalParams
+    options?: RackSkusGetOptionalParams,
   ): Promise<RackSkusGetResponse> {
     return this.client.sendOperationRequest(
       { rackSkuName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -125,11 +125,11 @@ export class RackSkusImpl implements RackSkus {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: RackSkusListBySubscriptionNextOptionalParams
+    options?: RackSkusListBySubscriptionNextOptionalParams,
   ): Promise<RackSkusListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 }
@@ -137,59 +137,57 @@ export class RackSkusImpl implements RackSkus {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/rackSkus",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/rackSkus",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RackSkuList
+      bodyMapper: Mappers.RackSkuList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/rackSkus/{rackSkuName}",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/rackSkus/{rackSkuName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RackSku
+      bodyMapper: Mappers.RackSku,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.rackSkuName
+    Parameters.rackSkuName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.RackSkuList
+      bodyMapper: Mappers.RackSkuList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

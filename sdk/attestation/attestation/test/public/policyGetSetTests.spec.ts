@@ -8,17 +8,14 @@ import * as jsrsasign from "jsrsasign";
 
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
 
+import type { EndpointType } from "../utils/recordedClient.js";
 import {
-  EndpointType,
   createRecordedAdminClient,
   getIsolatedSigningKey,
   recorderOptions,
 } from "../utils/recordedClient.js";
-import {
-  AttestationType,
-  KnownAttestationType,
-  createAttestationPolicyToken,
-} from "../../src/index.js";
+import type { AttestationType } from "../../src/index.js";
+import { KnownAttestationType, createAttestationPolicyToken } from "../../src/index.js";
 import { createRSAKey, createX509Certificate, generateSha256Hash } from "../utils/cryptoUtils.js";
 import { KnownPolicyModification } from "../../src/generated/index.js";
 import { verifyAttestationSigningKey } from "../../src/utils/helpers.js";

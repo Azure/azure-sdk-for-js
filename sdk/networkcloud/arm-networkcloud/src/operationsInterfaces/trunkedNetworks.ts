@@ -17,8 +17,9 @@ import {
   TrunkedNetworksCreateOrUpdateOptionalParams,
   TrunkedNetworksCreateOrUpdateResponse,
   TrunkedNetworksDeleteOptionalParams,
+  TrunkedNetworksDeleteResponse,
   TrunkedNetworksUpdateOptionalParams,
-  TrunkedNetworksUpdateResponse
+  TrunkedNetworksUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +30,7 @@ export interface TrunkedNetworks {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: TrunkedNetworksListBySubscriptionOptionalParams
+    options?: TrunkedNetworksListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<TrunkedNetwork>;
   /**
    * Get a list of trunked networks in the provided resource group.
@@ -38,7 +39,7 @@ export interface TrunkedNetworks {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: TrunkedNetworksListByResourceGroupOptionalParams
+    options?: TrunkedNetworksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<TrunkedNetwork>;
   /**
    * Get properties of the provided trunked network.
@@ -49,7 +50,7 @@ export interface TrunkedNetworks {
   get(
     resourceGroupName: string,
     trunkedNetworkName: string,
-    options?: TrunkedNetworksGetOptionalParams
+    options?: TrunkedNetworksGetOptionalParams,
   ): Promise<TrunkedNetworksGetResponse>;
   /**
    * Create a new trunked network or update the properties of the existing trunked network.
@@ -62,7 +63,7 @@ export interface TrunkedNetworks {
     resourceGroupName: string,
     trunkedNetworkName: string,
     trunkedNetworkParameters: TrunkedNetwork,
-    options?: TrunkedNetworksCreateOrUpdateOptionalParams
+    options?: TrunkedNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TrunkedNetworksCreateOrUpdateResponse>,
@@ -80,7 +81,7 @@ export interface TrunkedNetworks {
     resourceGroupName: string,
     trunkedNetworkName: string,
     trunkedNetworkParameters: TrunkedNetwork,
-    options?: TrunkedNetworksCreateOrUpdateOptionalParams
+    options?: TrunkedNetworksCreateOrUpdateOptionalParams,
   ): Promise<TrunkedNetworksCreateOrUpdateResponse>;
   /**
    * Delete the provided trunked network.
@@ -91,8 +92,13 @@ export interface TrunkedNetworks {
   beginDelete(
     resourceGroupName: string,
     trunkedNetworkName: string,
-    options?: TrunkedNetworksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: TrunkedNetworksDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TrunkedNetworksDeleteResponse>,
+      TrunkedNetworksDeleteResponse
+    >
+  >;
   /**
    * Delete the provided trunked network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -102,8 +108,8 @@ export interface TrunkedNetworks {
   beginDeleteAndWait(
     resourceGroupName: string,
     trunkedNetworkName: string,
-    options?: TrunkedNetworksDeleteOptionalParams
-  ): Promise<void>;
+    options?: TrunkedNetworksDeleteOptionalParams,
+  ): Promise<TrunkedNetworksDeleteResponse>;
   /**
    * Update tags associated with the provided trunked network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -113,6 +119,6 @@ export interface TrunkedNetworks {
   update(
     resourceGroupName: string,
     trunkedNetworkName: string,
-    options?: TrunkedNetworksUpdateOptionalParams
+    options?: TrunkedNetworksUpdateOptionalParams,
   ): Promise<TrunkedNetworksUpdateResponse>;
 }

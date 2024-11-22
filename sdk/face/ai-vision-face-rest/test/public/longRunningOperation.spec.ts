@@ -3,9 +3,10 @@
 
 import { createRecorder, createClient } from "./utils/recordedClient.js";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
-import { Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
 
-import { FaceClient, getLongRunningPoller, isUnexpected } from "../../src/index.js";
+import type { FaceClient } from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
 
 // The crypto module is not available in browser environment, so implement a simple randomUUID function.
 const randomUUID = (): string =>

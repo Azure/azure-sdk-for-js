@@ -1,16 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
-  PipelineRequest,
-  RestError,
-  SendRequest,
-  createHttpHeaders,
-} from "@azure/core-rest-pipeline";
+import type { PipelineRequest, SendRequest } from "@azure/core-rest-pipeline";
+import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
 
-import { MSIConfiguration } from "../../../../src/credentials/managedIdentityCredential/models";
-import { assert } from "@azure-tools/test-utils";
-import { imdsRetryPolicy } from "../../../../src/credentials/managedIdentityCredential/imdsRetryPolicy";
+import type { MSIConfiguration } from "../../../../src/credentials/managedIdentityCredential/models.js";
+import { imdsRetryPolicy } from "../../../../src/credentials/managedIdentityCredential/imdsRetryPolicy.js";
+import { describe, it, assert, expect } from "vitest";
 
 describe("imdsRetryPolicy", () => {
   const mockRetryConfig: MSIConfiguration["retryConfig"] = {
@@ -84,7 +80,7 @@ describe("imdsRetryPolicy", () => {
       throw new RestError("Not found", { statusCode: 404, request, response });
     };
 
-    await assert.isRejected(policy.sendRequest(pipelineRequest, sendRequest), "Not found");
+    await expect(policy.sendRequest(pipelineRequest, sendRequest)).rejects.toThrow("Not found");
     assert.strictEqual(sendRequestCount, mockRetryConfig.maxRetries + 1); // Should retry the maximum number of times
   });
 });

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as fs from "fs";
-import * as os from "os";
+import * as fs from "node:fs";
+import * as os from "node:os";
 import * as child_process from "child_process";
 import { diag } from "@opentelemetry/api";
 

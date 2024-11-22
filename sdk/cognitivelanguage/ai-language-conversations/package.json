@@ -43,7 +43,6 @@
     "@types/sinon": "^17.0.0",
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "karma": "^6.2.0",
@@ -61,8 +60,7 @@
     "sinon": "^17.0.0",
     "source-map-support": "^0.5.9",
     "ts-node": "^10.0.0",
-    "typescript": "~5.6.2",
-    "uglify-js": "^3.4.9"
+    "typescript": "~5.6.2"
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/cognitivelanguage/ai-language-conversations/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
@@ -87,7 +85,6 @@
     "types/*"
   ],
   "scripts": {
-    "audit": "node ../../../common/scripts/rush-audit.js && dev-tool run vendored rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build": "npm run clean && tsc -p . && dev-tool run bundle && dev-tool run extract-api",
     "build:browser": "tsc -p . && dev-tool run bundle",
     "build:debug": "tsc -p . && dev-tool run bundle && dev-tool run extract-api",

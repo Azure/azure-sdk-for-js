@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { PartitionKeyRange } from "../client/Container/PartitionKeyRange";
+import type { PartitionKeyRange } from "../client/Container/PartitionKeyRange";
 import { Constants } from "../common";
-import { QueryRange as ResponseQueryRange } from "../request/ErrorResponse";
+import type { QueryRange as ResponseQueryRange } from "../request/ErrorResponse";
 
 /** @hidden */
 export class QueryRange {

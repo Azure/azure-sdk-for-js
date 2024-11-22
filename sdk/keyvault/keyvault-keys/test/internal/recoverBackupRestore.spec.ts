@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { KeyClient } from "../../src/index.js";
+import type { KeyClient } from "../../src/index.js";
 import { testPollerProperties } from "../public/utils/recorderUtils.js";
 import { Recorder, env, isPlaybackMode, isRecordMode } from "@azure-tools/test-recorder";
 import { authenticate, envSetupForPlayback } from "../public/utils/testAuthentication.js";
-import TestClient from "../public/utils/testClient.js";
+import type TestClient from "../public/utils/testClient.js";
 import { RestoreKeyBackupPoller } from "../public/utils/lro/restore/poller.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
