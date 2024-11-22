@@ -11,6 +11,8 @@ if (!(Test-Path -Path $ArtifactPath))
   exit 1
 }
 
+npm install "@rushstack/node-core-library@5.9.0"
+npm install "@microsoft/api-extractor-model@7.29.8"
 $apiviewParser = "@azure-tools/ts-genapi@2.0.2"
 Write-Host "Installing $($apiviewParser)"
 npm install $apiviewParser --registry $NpmDevopsFeedRegistry
