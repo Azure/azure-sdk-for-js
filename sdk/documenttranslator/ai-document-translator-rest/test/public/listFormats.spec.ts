@@ -1,11 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Context } from "mocha";
 import type { DocumentTranslatorClient } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createClient } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("List Document Formats", () => {
   let recorder: Recorder;
