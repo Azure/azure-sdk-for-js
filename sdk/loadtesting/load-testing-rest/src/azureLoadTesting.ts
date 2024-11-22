@@ -8,8 +8,8 @@ import type { AzureLoadTestingClient } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of the class AzureLoadTestingClient class.
- * @param Endpoint type: string URL to perform data plane API operations on the resource.
- * @param credentials type: TokenCredential
+ * @param Endpoint - type: string URL to perform data plane API operations on the resource.
+ * @param credentials - type: TokenCredential
  */
 export default function createClient(
   Endpoint: string,
