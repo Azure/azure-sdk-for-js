@@ -10,7 +10,7 @@ import createPurviewWorkflowClient, {
   paginate,
 } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
-import { randomUUID } from "crypto";
+import { randomUUID } from "node:crypto";
 import * as dotenv from "dotenv";
 
 dotenv.config();

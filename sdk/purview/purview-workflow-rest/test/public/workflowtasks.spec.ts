@@ -3,15 +3,15 @@
 
 // import { PurviewWorkflowClient } from "@azure-rest/purview-workflow";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createClient } from "./utils/recordedClient";
+import { createClient } from "./utils/recordedClient.js";
 
 import type { Context } from "mocha";
-import type { PurviewWorkflowClient } from "../../src/clientDefinitions";
+import type { PurviewWorkflowClient } from "../../src/clientDefinitions.js";
 import type {
   ApproveApprovalTaskParameters,
   RejectApprovalTaskParameters,
-} from "../../src/parameters";
-import { isUnexpected } from "../../src/isUnexpected";
+} from "../../src/parameters.js";
+import { isUnexpected } from "../../src/isUnexpected.js";
 
 describe("Operate the workflow task.", () => {
   let recorder: Recorder;
@@ -19,8 +19,8 @@ describe("Operate the workflow task.", () => {
   let workflowtaskId1: string;
   let workflowtaskId2: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     client = await createClient(recorder);
     workflowtaskId1 = "721716fa-13b0-4613-beb5-87ffb5a3ce63";
     workflowtaskId2 = "f0d9bf80-9490-40f9-8bc4-ea70aef701de";

@@ -3,20 +3,20 @@
 
 // import { PurviewWorkflowClient } from "@azure-rest/purview-workflow";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createClient } from "./utils/recordedClient";
+import { createClient } from "./utils/recordedClient.js";
 
 import type { Context } from "mocha";
-import type { PurviewWorkflowClient } from "../../src/clientDefinitions";
-import type { SubmitUserRequestsParameters } from "../../src/parameters";
-import { isUnexpected } from "../../src/isUnexpected";
+import type { PurviewWorkflowClient } from "../../src/clientDefinitions.js";
+import type { SubmitUserRequestsParameters } from "../../src/parameters.js";
+import { isUnexpected } from "../../src/isUnexpected.js";
 import { assert } from "chai";
 
 describe("Submit a user request", () => {
   let recorder: Recorder;
   let client: PurviewWorkflowClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     client = await createClient(recorder);
   });
 
