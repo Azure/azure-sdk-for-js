@@ -1,6 +1,6 @@
 # Release History
 
-## 1.3.0-beta.2 (Unreleased)
+## 1.4.0 (2024-11-22)
 
 ### Features Added
 
@@ -9,10 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
 - Added CreateCallFailed event to signify when create call API fails to establish a call
 - Added AnswerFailed event to signify when answer call API fails to answer a call
 
 ## 1.3.0-beta.1 (2024-08-02)
+
 ### Features Added
 
 - Support multiple play sources for Play and Recognize
@@ -27,7 +29,7 @@
 ### Features Added
 
 - Support for Bring Your Own Storage recording option
-- Support for PauseOnStart recording option 
+- Support for PauseOnStart recording option
 - Support for Recording state change with new recording kind's
 
 ### Other Changes
