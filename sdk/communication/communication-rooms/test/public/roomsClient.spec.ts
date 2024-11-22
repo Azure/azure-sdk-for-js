@@ -469,7 +469,6 @@ describe("Participants Operations", () => {
   let client: RoomsClient;
   let testUser1: CommunicationUserIdentifier;
   let roomId = "";
-  const delayInMs = 1000;
 
   beforeEach(async (ctx) => {
     ({ client, recorder } = await createRecordedRoomsClient(ctx));
@@ -501,10 +500,8 @@ describe("Participants Operations", () => {
     assert.isDefined(createRoomResult);
     const curRoomId = createRoomResult.id;
 
-    await pause(delayInMs);
     // Patch participants
     await client.addOrUpdateParticipants(curRoomId, participants);
-    await pause(delayInMs);
 
     const addParticipantsResult = await listParticipants(curRoomId, client);
     verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
@@ -526,10 +523,8 @@ describe("Participants Operations", () => {
     assert.isDefined(createRoomResult);
     const curRoomId = createRoomResult.id;
 
-    await pause(delayInMs);
     // Patch Participants
     await client.addOrUpdateParticipants(curRoomId, participants as any);
-    await pause(delayInMs);
 
     const addParticipantsResult = await listParticipants(curRoomId, client);
     verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 0, 1, 0);
@@ -551,11 +546,8 @@ describe("Participants Operations", () => {
     assert.isDefined(createRoomResult);
     const curRoomId = createRoomResult.id;
 
-    await pause(delayInMs);
-
     // Patch Participants
     await client.addOrUpdateParticipants(curRoomId, participants);
-    await pause(delayInMs);
 
     const allParticipants = await listParticipants(curRoomId, client);
     verifyRoomsParticipantsAttributes(allParticipants, 1, 0, 1, 0);
@@ -571,12 +563,9 @@ describe("Participants Operations", () => {
     assert.isDefined(createRoomResult);
     const curRoomId = createRoomResult.id;
 
-    await pause(delayInMs);
     // Remove participants
     const participantIdentifiers = [testUser1];
     await client.removeParticipants(curRoomId, participantIdentifiers);
-
-    await pause(delayInMs);
 
     const participants = await listParticipants(curRoomId, client);
     verifyRoomsParticipantsAttributes(participants, 0, 0, 0, 0);
@@ -601,12 +590,9 @@ describe("Participants Operations", () => {
     assert.isDefined(createRoomResult);
     const curRoomId = createRoomResult.id;
 
-    await pause(delayInMs);
-
     // Remove participants
     const removeParticipants = [testUser1];
     await client.removeParticipants(curRoomId, removeParticipants);
-    await pause(delayInMs);
 
     const participants = await listParticipants(curRoomId, client);
     verifyRoomsParticipantsAttributes(participants, 0, 0, 0, 0);
