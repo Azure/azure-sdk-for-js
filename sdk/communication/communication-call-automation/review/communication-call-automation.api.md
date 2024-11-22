@@ -84,7 +84,7 @@ export type AudioFormat = string;
 
 // @public
 export interface AudioMetadata {
-    channels: number;
+    channels: Channel;
     encoding: string;
     length: number;
     sampleRate: number;
@@ -337,6 +337,14 @@ export interface CancelAddParticipantSucceeded extends Omit<RestCancelAddPartici
     invitationId: string;
     kind: "CancelAddParticipantSucceeded";
     serverCallId: string;
+}
+
+// @public (undocumented)
+export enum Channel {
+    // (undocumented)
+    Mono = 1,
+    // (undocumented)
+    Unknown = 0
 }
 
 // @public
@@ -605,10 +613,13 @@ export interface MuteParticipantResult {
 }
 
 // @public (undocumented)
-export interface OutStreamingData {
-    AudioData?: AudioData;
-    Kind: MediaKind;
-    StopAudio?: StopAudio;
+export class OutStreamingData {
+    constructor(kind: MediaKind);
+    audioData?: AudioData;
+    static getStopAudioForOutbound(): string;
+    static getStreamingDataForOutbound(data: string): string;
+    kind: MediaKind;
+    stopAudio?: StopAudio;
 }
 
 // @public
@@ -1273,7 +1284,26 @@ export interface StopTranscriptionOptions extends OperationOptions {
 }
 
 // @public
-export function streamingData(packetData: string | ArrayBuffer): TranscriptionMetadata | TranscriptionData | AudioData | AudioMetadata;
+export class StreamingData {
+    // (undocumented)
+    static getStreamingKind(): StreamingDataKind;
+    static parse(data: string | ArrayBuffer): StreamingDataResult;
+}
+
+// @public (undocumented)
+export enum StreamingDataKind {
+    // (undocumented)
+    AudioData = "AudioData",
+    // (undocumented)
+    AudioMetadata = "AudioMetadata",
+    // (undocumented)
+    TranscriptionData = "TranscriptionData",
+    // (undocumented)
+    TranscriptionMetadata = "TranscriptionMetadata"
+}
+
+// @public (undocumented)
+export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData | AudioMetadata;
 
 // @public
 export enum TextFormat {

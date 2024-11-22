@@ -1,9 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AudioData, AudioMetadata } from "../src/models/audio";
-import { TranscriptionData, TranscriptionMetadata } from "../src/models/transcription";
-import { streamingData } from "../src/streamingDataParser";
+import {
+  AudioData,
+  AudioMetadata,
+  TranscriptionData,
+  TranscriptionMetadata,
+} from "../src/models/streaming";
+import { StreamingData } from "../src/streamingData";
 import { assert } from "chai";
 
 describe("Stream data parser unit tests", function () {
@@ -19,14 +23,14 @@ describe("Stream data parser unit tests", function () {
     '{"kind":"AudioData","audioData":{"timestamp":"2024-05-30T06:25:02.948Z","data":"test","silent":false, "participantRawID":"28:6b45c5b6-1c34-47c0-8980-11e98d47d23f"}}';
   it("Successfully parse binary data to transcription meta data ", function () {
     const transcriptionMetaDataBinary = encoder.encode(transcriptionMetaDataJson);
-    const parsedData = streamingData(transcriptionMetaDataBinary);
+    const parsedData = StreamingData.parse(transcriptionMetaDataBinary);
     if ("locale" in parsedData) {
       validateTranscriptionMetadata(parsedData);
     }
   });
 
   it("Successfully parse json data to transcription meta data ", function () {
-    const parsedData = streamingData(transcriptionMetaDataJson);
+    const parsedData = StreamingData.parse(transcriptionMetaDataJson);
     if ("locale" in parsedData) {
       validateTranscriptionMetadata(parsedData);
     }
@@ -34,28 +38,28 @@ describe("Stream data parser unit tests", function () {
 
   it("Successfully parse binary data to transcription data ", function () {
     const transcriptionDataBinary = encoder.encode(transcriptionDataJson);
-    const parsedData = streamingData(transcriptionDataBinary);
+    const parsedData = StreamingData.parse(transcriptionDataBinary);
     if ("text" in parsedData) {
       validateTranscriptionData(parsedData);
     }
   });
 
   it("Successfully parse json data to transcription data ", function () {
-    const parsedData = streamingData(transcriptionDataJson);
+    const parsedData = StreamingData.parse(transcriptionDataJson);
     if ("text" in parsedData) {
       validateTranscriptionData(parsedData);
     }
   });
   it("Successfully parse binary data to audio meta data ", function () {
     const audioMetaDataBinary = encoder.encode(audioMetadataJson);
-    const parsedData = streamingData(audioMetaDataBinary);
+    const parsedData = StreamingData.parse(audioMetaDataBinary);
     if ("encoding" in parsedData) {
       validateAudioMetadata(parsedData);
     }
   });
 
   it("Successfully parse json data to audio meta data ", function () {
-    const parsedData = streamingData(audioMetadataJson);
+    const parsedData = StreamingData.parse(audioMetadataJson);
     if ("encoding" in parsedData) {
       validateAudioMetadata(parsedData);
     }
@@ -63,14 +67,14 @@ describe("Stream data parser unit tests", function () {
 
   it("Successfully parse binary data to audio data ", function () {
     const audioDataBinary = encoder.encode(audioDataJson);
-    const parsedData = streamingData(audioDataBinary);
+    const parsedData = StreamingData.parse(audioDataBinary);
     if ("isSilent" in parsedData) {
       validateAudioData(parsedData);
     }
   });
 
   it("Successfully parse json data to audio data ", function () {
-    const parsedData = streamingData(audioDataJson);
+    const parsedData = StreamingData.parse(audioDataJson);
     if ("isSilent" in parsedData) {
       validateAudioData(parsedData);
     }
