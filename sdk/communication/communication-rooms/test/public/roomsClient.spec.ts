@@ -59,7 +59,7 @@ describe("RoomsClient", () => {
       const createRoomResult = await client.createRoom(options);
       verifyRoomsAttributes(createRoomResult, options);
       roomId = createRoomResult.id;
-      const addParticipantsResult = await client.listParticipants(roomId);
+      const addParticipantsResult = await listParticipants(roomId, client);
       verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
     });
 
@@ -100,7 +100,7 @@ describe("RoomsClient", () => {
 
       verifyRoomsAttributes(createRoomResult, options);
       roomId = createRoomResult.id;
-      const addParticipantsResult = await client.listParticipants(roomId);
+      const addParticipantsResult = await listParticipants(roomId, client);
       verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0);
     });
 
@@ -156,7 +156,7 @@ describe("RoomsClient", () => {
       verifyRoomsAttributes(createRoomResult, options);
 
       roomId = createRoomResult.id;
-      const addParticipantsResult = await client.listParticipants(roomId);
+      const addParticipantsResult = await listParticipants(roomId, client);
       verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0);
     });
 
@@ -179,7 +179,7 @@ describe("RoomsClient", () => {
       verifyRoomsAttributes(createRoomResult, options);
 
       roomId = createRoomResult.id;
-      const addParticipantsResult = await client.listParticipants(roomId);
+      const addParticipantsResult = await listParticipants(roomId, client);
       verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0);
     });
 
@@ -207,7 +207,7 @@ describe("RoomsClient", () => {
       verifyRoomsAttributes(createRoomResult, options);
 
       roomId = createRoomResult.id;
-      const addParticipantsResult = await client.listParticipants(roomId);
+      const addParticipantsResult = await listParticipants(roomId, client);
       verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
     });
 
@@ -229,7 +229,7 @@ describe("RoomsClient", () => {
       const createRoomResult = await client.createRoom(options);
       verifyRoomsAttributes(createRoomResult, options);
       roomId = createRoomResult.id;
-      const addParticipantsResult = await client.listParticipants(roomId);
+      const addParticipantsResult = await listParticipants(roomId, client);
       verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
     });
 
@@ -506,7 +506,7 @@ describe("Participants Operations", () => {
     await client.addOrUpdateParticipants(curRoomId, participants);
     await pause(delayInMs);
 
-    const addParticipantsResult = await client.listParticipants(curRoomId);
+    const addParticipantsResult = await listParticipants(curRoomId, client);
     verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
 
     roomId = curRoomId;
@@ -531,7 +531,7 @@ describe("Participants Operations", () => {
     await client.addOrUpdateParticipants(curRoomId, participants as any);
     await pause(delayInMs);
 
-    const addParticipantsResult = await client.listParticipants(curRoomId);
+    const addParticipantsResult = await listParticipants(curRoomId, client);
     verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 0, 1, 0);
 
     roomId = curRoomId;
@@ -557,7 +557,7 @@ describe("Participants Operations", () => {
     await client.addOrUpdateParticipants(curRoomId, participants);
     await pause(delayInMs);
 
-    const allParticipants = await client.listParticipants(curRoomId);
+    const allParticipants = await listParticipants(curRoomId, client);
     verifyRoomsParticipantsAttributes(allParticipants, 1, 0, 1, 0);
 
     roomId = curRoomId;
@@ -578,7 +578,7 @@ describe("Participants Operations", () => {
 
     await pause(delayInMs);
 
-    const participants = await client.listParticipants(curRoomId);
+    const participants = await listParticipants(curRoomId, client);
     verifyRoomsParticipantsAttributes(participants, 0, 0, 0, 0);
 
     roomId = curRoomId;
@@ -608,12 +608,21 @@ describe("Participants Operations", () => {
     await client.removeParticipants(curRoomId, removeParticipants);
     await pause(delayInMs);
 
-    const participants = await client.listParticipants(curRoomId);
+    const participants = await listParticipants(curRoomId, client);
     verifyRoomsParticipantsAttributes(participants, 0, 0, 0, 0);
 
     roomId = curRoomId;
   });
 });
+
+async function listParticipants(roomId: string, client: RoomsClient) {
+    const roomParticipants = [];
+    const participantsList = await client.listParticipants(roomId);
+    for await (const participant of participantsList) {
+        roomParticipants.push(participant);
+    }
+    return roomParticipants;
+}
 
 async function pause(time: number): Promise<void> {
   if (!isPlaybackMode()) {
@@ -652,7 +661,7 @@ async function verifyRoomsParticipantsAttributes(
 ): Promise<void> {
   // Assert
   assert.isDefined(actualRoomParticipant);
-  assert.isNotEmpty(actualRoomParticipant);
+  //assert.isNotEmpty(actualRoomParticipant);
 
   let count = 0;
   let presenterCount = 0;
