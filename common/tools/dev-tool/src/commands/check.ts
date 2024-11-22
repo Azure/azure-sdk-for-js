@@ -72,7 +72,7 @@ export default leafCommand(commandInfo, async (options) => {
           await check.check({
             fix: !!check.hasFix && options.fix,
             verbose: options.verbose,
-            project: await resolveProject(),
+            project,
           });
           ++checksPassed;
           log(`  ✅ ${name}`);
