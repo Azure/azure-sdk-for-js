@@ -20,7 +20,7 @@ import type {
   ChannelAffinity,
   CallIntelligenceOptions,
   CustomCallingContext,
-} from "./models";
+} from "./models.js";
 
 /** Options to configure the recognize operation. */
 export interface CallMediaRecognizeOptions extends OperationOptions {

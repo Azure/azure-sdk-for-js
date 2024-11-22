@@ -8,6 +8,8 @@ The configuration is following the [RLC quick start guide](https://github.com/Az
 For the configuration property, please refer to [Index of AutoRestFlag](https://github.com/Azure/autorest/blob/main/docs/generate/flags.md).
 
 ```yaml
+flavor: azure
+openapi-type: data-plane
 package-name: "@azure-rest/maps-render"
 title: MapsRenderClient
 description: Azure Maps Render Client
@@ -20,7 +22,7 @@ generate-metadata: false
 generate-test: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
-source-code-folder-path: ./src/generated
+source-code-folder-path: ./generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/maps/data-plane/Render/stable/2024-04-01/render.json
 package-version: 2.0.0-beta.1
 rest-level-client: true
@@ -29,7 +31,7 @@ rest-level-client: true
 security: AzureKey
 security-header-name: subscription-key
 use-extension:
-  "@autorest/typescript": "6.0.0-rc.3"
+  "@autorest/typescript": "latest"
 ```
 
 ## Customization for Track 2 Generator

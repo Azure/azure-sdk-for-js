@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getBearerTokenProvider, TokenCredential } from "../../../src";
-import type { MsalTestCleanup } from "../../node/msalNodeTestSetup";
-import { msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import { TokenCredential, getBearerTokenProvider } from "../../../src/index.js";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
+import type { Recorder } from "@azure-tools/test-recorder";
 import { delay, isPlaybackMode } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
-import { assert } from "@azure-tools/test-utils";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("getBearerTokenProvider", function () {
+  let recorder: Recorder;
   let cleanup: MsalTestCleanup;
 
-  beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(async function (ctx) {
+    const setup = await msalNodeTestSetup(ctx);
+    recorder = setup.recorder;
     cleanup = setup.cleanup;
   });
   afterEach(async function () {
