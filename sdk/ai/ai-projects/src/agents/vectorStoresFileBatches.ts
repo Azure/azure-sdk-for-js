@@ -44,8 +44,8 @@ export async function cancelVectorStoreFileBatch(
   options?: CancelVectorStoreFileBatchParameters,
 ): Promise<VectorStoreFileBatchOutput> {
   const result = await context
-    .path("/vector_stores/{vectorStoreId}/file_batches/{batchId}", vectorStoreId, batchId)
-    .delete(options);
+    .path("/vector_stores/{vectorStoreId}/file_batches/{batchId}/cancel", vectorStoreId, batchId)
+    .post(options);
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
   }

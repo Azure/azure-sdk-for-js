@@ -240,7 +240,6 @@ export interface AgentsOperations {
   getVectorStoreFileBatch: (
     vectorStoreId: string,
     batchId: string,
-    requestParams?: OptionalRequestParameters,
   ) => Promise<VectorStoreFileBatchOutput>;
   /** Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible. */
   cancelVectorStoreFileBatch: (
@@ -358,7 +357,7 @@ function getAgents(context: Client): AgentsOperations {
       deleteVectorStore(context, vectorStoreId, requestParams),
 
     createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptions, requestParams?: OptionalRequestParameters) =>
-      createVectorStoreFile(context, vectorStoreId, { ...requestParams, body: options as Record<string, unknown> }),
+      createVectorStoreFile(context, vectorStoreId, { ...requestParams, body: {file_id: options?.fileId, data_sources: options?.dataSources, chunking_strategy: options?.chunkingStrategy} }),
     getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) =>
       getVectorStoreFile(context, vectorStoreId, fileId, requestParams),
     listVectorStoreFiles: (vectorStoreId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) =>
@@ -367,7 +366,7 @@ function getAgents(context: Client): AgentsOperations {
       deleteVectorStoreFile(context, vectorStoreId, fileId, requestParams),
 
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptions, requestParams?: OptionalRequestParameters) =>
-      createVectorStoreFileBatch(context, vectorStoreId, { ...requestParams, body: options as Record<string, unknown> }),
+      createVectorStoreFileBatch(context, vectorStoreId, { ...requestParams, body: { file_ids: options?.fileIds, data_sources: options?.dataSources, chunking_strategy: options?.chunkingStrategy } }),
     getVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) =>
       getVectorStoreFileBatch(context, vectorStoreId, batchId, requestParams),
     cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) =>

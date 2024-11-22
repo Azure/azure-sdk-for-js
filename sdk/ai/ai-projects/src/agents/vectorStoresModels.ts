@@ -6,13 +6,13 @@ import { VectorStoreChunkingStrategyRequest, VectorStoreDataSource, VectorStoreF
 /** Request object for creating a vector store file. */
 export interface CreateVectorStoreFileOptions {
   /** A File ID that the vector store should use. Useful for tools like `file_search` that can access files. */
-  file_ids?: string[];
+  fileId?: string;
 
   /** The data sources to be used. This option is mutually exclusive with fileId. */
-  data_sources?: Array<VectorStoreDataSource>;
+  dataSources?: Array<VectorStoreDataSource>;
 
   /** The chunking strategy used to chunk the file(s). If not set, will use the auto strategy. */
-  chunking_strategy?: VectorStoreChunkingStrategyRequest;
+  chunkingStrategy?: VectorStoreChunkingStrategyRequest;
 }
 
 /** Request object for creating a vector store file batch. */
