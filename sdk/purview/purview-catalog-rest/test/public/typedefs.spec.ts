@@ -2,10 +2,8 @@
 // Licensed under the MIT License.
 import type { PurviewCatalogClient } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-
-import { assert } from "chai";
 import { createClient } from "./utils/recordedClient.js";
-import type { Context } from "mocha";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("purview catalog tepedefs test", () => {
   let recorder: Recorder;
