@@ -35,9 +35,11 @@ export interface CheckOptions {
    * - "release": check is intended to be run before releasing the package
    * - "local": check is intended to be run locally before pushing commit
    *
-   * If no tags are specified the check will always be run.
+   * If `tags` is set to "*" then the check will be treated as if it has _every_ tag and will be always run.
+   *
+   * If no tags are specified the check will only be run if no tag is specified
    */
-  tags?: CheckTags[];
+  tags?: CheckTags[] | "*";
 
   /**
    * Severity of the check. Defaults to "error".
@@ -71,7 +73,7 @@ export interface CheckContext {
   verbose: boolean;
 }
 
-export type CheckFunction = (ctx: CheckContext) => Promise<void>;
+export type CheckFunction = (ctx: CheckContext) => void | Promise<void>;
 
 export interface Check extends CheckOptions {
   /**
@@ -103,7 +105,7 @@ export function isCheckFailedError(e: unknown): e is CheckFailedError {
  * @param message - short message to display
  * @param detail - more details to display about the failure; can be multiple lines
  */
-export function check(condition: boolean, message: string, detail?: string): void {
+export function assert(condition: unknown, message: string, detail?: string): asserts condition {
   if (!condition) {
     throw new CheckFailedError(message, detail);
   }
@@ -138,14 +140,14 @@ export function scriptCheck(options: ScriptCheckOptions): Check {
     hasFix: Boolean(options.fixCommand),
     async check({ fix, project, verbose }) {
       if (fix) {
-        check(options.fixCommand !== undefined, "fix command must be defined");
-        const { exitCode, output } = await run(options.fixCommand!, {
+        assert(options.fixCommand !== undefined, "fix command must be defined");
+        const { exitCode, output } = await run(options.fixCommand, {
           cwd: project.path,
           captureExitCode: true,
           stdio: verbose ? "inherit" : undefined,
           captureOutput: true,
         });
-        check(exitCode === 0, `Check output exit code ${exitCode}`, output);
+        assert(exitCode === 0, `Check output exit code ${exitCode}`, output);
       } else {
         const { exitCode, output } = await run(options.checkCommand, {
           cwd: project.path,
@@ -153,7 +155,7 @@ export function scriptCheck(options: ScriptCheckOptions): Check {
           stdio: verbose ? "inherit" : undefined,
           captureOutput: true,
         });
-        check(exitCode === 0, `Check output exit code ${exitCode}`, output);
+        assert(exitCode === 0, `Check output exit code ${exitCode}`, output);
       }
     },
   };
@@ -170,19 +172,31 @@ export interface PackageJsonCheckContext extends CheckContext {
   packageJson: PackageJson;
 }
 
-export interface PackageJsonCheckOptions extends CheckOptions {
+export interface PackageJsonCheckOptions extends Omit<CheckOptions, "hasFix"> {
   /**
    * Run the check. The package.json is provided as a JavaScript object at the top level of the context, `packageJson`.
-   * This object may be mutated to cause check failures if the mutation results in a change, or to fix the check if in fix mode.
    * @param context - context the check is running in
    */
-  check(context: PackageJsonCheckContext): Promise<void>;
+  check?: (context: PackageJsonCheckContext) => void | Promise<void>;
+
+  /**
+   * Fix the package.json. The package.json is provided as a JavaScript object at the top level of the context, `packageJson`.
+   * The fix function should return the updated package.json as a result of running the fix.
+   *
+   * If `check` is not specified, the `fix` function will be called also when not in fix mode; the check will fail if the
+   * updated package.json is not the same as the existing package.json
+   *
+   * @param context - context including the current package.json
+   * @returns the fixed package.json
+   */
+  fix?: (context: PackageJsonCheckContext) => PackageJson | Promise<PackageJson>;
 }
 
 /**
- * A check which validates properties of the package.json.
- * In addition to calling check(), the check function may mutate the input packageJson provided in the CheckContext. If it does this,
- * any material changes to the input packageJson will cause the check to fail, except if in fix mode (and the check has set allowFix to true). In
+ * A check which validates properties of the package.json. The check can define a check function, fix function, or both.
+ *
+ * The fix function may mutate the input packageJson provided in the CheckContext. If it does this, and the check function is undefined,
+ * any material changes to the input packageJson will cause the check to fail, except if in fix mode. In
  * that case, the check will be fixed by writing the updated package.json to disk.
  *
  * @param options options - options for the check
@@ -191,26 +205,32 @@ export interface PackageJsonCheckOptions extends CheckOptions {
 export function packageJsonCheck(options: PackageJsonCheckOptions): Check {
   return {
     ...options,
+    hasFix: Boolean(options.fix),
     async check({ fix, project, verbose }) {
       const { packageJson: originalPackageJson } = project;
 
-      // The check may mutate the package.json
-      const packageJsonClone = structuredClone(originalPackageJson);
-      await options.check({
-        verbose,
-        packageJson: packageJsonClone,
-        project: { ...project, packageJson: packageJsonClone },
-        fix,
-      });
+      if (fix || !options.check) {
+        assert(options.fix, "packageJsonCheck must define either `check` or `fix`");
+        // The check may mutate the package.json
+        const packageJsonClone = structuredClone(originalPackageJson);
+        const newPackageJson = await options.fix({
+          verbose,
+          packageJson: packageJsonClone,
+          project: { ...project, packageJson: packageJsonClone },
+          fix,
+        });
 
-      // Check if the cloned package JSON and original are different
-      if (JSON.stringify(originalPackageJson) !== JSON.stringify(packageJsonClone)) {
-        if (fix) {
-          const newPackageJsonContent = await format(JSON.stringify(packageJsonClone), "json");
-          await fs.writeFile(path.join(project.path, "package.json"), newPackageJsonContent);
-        } else {
-          check(false, options.description ?? "package.json changed unexpectedly");
+        // Check if the cloned package JSON and original are different
+        if (JSON.stringify(originalPackageJson) !== JSON.stringify(newPackageJson)) {
+          if (fix) {
+            const newPackageJsonContent = await format(JSON.stringify(newPackageJson), "json");
+            await fs.writeFile(path.join(project.path, "package.json"), newPackageJsonContent);
+          } else {
+            assert(false, options.description ?? "package.json changed unexpectedly");
+          }
         }
+      } else {
+        options.check({ verbose, packageJson: project.packageJson, project, fix: false });
       }
     },
   };
@@ -231,7 +251,7 @@ export function workingTreeUnchangedCheck(
         captureExitCode: true,
         cwd: ctx.project.path,
       });
-      check(exitCode === 0, `Command exited with exit code ${exitCode}`, output);
+      assert(exitCode === 0, `Command exited with exit code ${exitCode}`, output);
     });
 
   return {
@@ -274,7 +294,7 @@ latest commit, you can tidy up the mess by running
           captureOutput: true,
         });
 
-        check(exitCode === 0, "Check resulted in a diff", output);
+        assert(exitCode === 0, "Check resulted in a diff", output);
       } finally {
         // Undo changes to working tree
         await run("git checkout .", { cwd: project.path });

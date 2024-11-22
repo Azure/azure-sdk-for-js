@@ -1,5 +1,5 @@
 import path from "path";
-import { check, Check, scriptCheck } from "../framework/check";
+import { assert, Check, scriptCheck } from "../framework/check";
 import { run } from "../util/run";
 import fs from "fs/promises";
 
@@ -24,7 +24,7 @@ export const installable: Check = {
     });
     await fs.rm(packPath);
     await fs.rm(tmpDir, { recursive: true, force: true });
-    check(
+    assert(
       exitCode === 0,
       "The package could not be installed. Are all its dependencies released to npm?",
       output,
@@ -34,6 +34,6 @@ export const installable: Check = {
 
 export const areTheTypesWrong = scriptCheck({
   tags: ["release"],
-  description: "attw must not display any errors",
+  description: "are the types wrong must not display any errors",
   checkCommand: "dev-tool run vendored attw --pack .",
 });

@@ -19,7 +19,7 @@ export const commandInfo = makeCommandInfo("check", "run package checks", {
   },
   tag: {
     kind: "string",
-    description: "run checks with the given tag only. Available tags: 'release', 'ci'",
+    description: "run checks that match the given tag only. Available tags: 'release', 'ci'",
   },
   verbose: {
     kind: "boolean",
@@ -44,9 +44,23 @@ export default leafCommand(commandInfo, async (options) => {
     const checks = (await import(path.posix.join("../checks", checkFile))) as Record<string, Check>;
     log(checkFile);
     for (const [exportName, check] of Object.entries(checks)) {
-      if (check.tags && !check.tags.some((x) => x.toLowerCase() === options.tag?.toLowerCase())) {
-        // if --tag was specified, only run checks with no tag or checks with the specified tag
-        continue;
+      if (options.tag) {
+        // --tag specified, run checks which match that tag (including checks with wildcard "*")
+        if (!check.tags) {
+          continue;
+        }
+
+        if (
+          check.tags !== "*" &&
+          !check.tags.some((x) => x.toLowerCase() === options.tag?.toLowerCase())
+        ) {
+          continue;
+        }
+      } else {
+        // --tag not specified, only run checks which don't have a tag or have tag "*"
+        if (check.tags && check.tags !== "*") {
+          continue;
+        }
       }
 
       const name = check.name ?? exportName;
