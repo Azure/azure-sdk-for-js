@@ -271,7 +271,7 @@ export function workingTreeUnchangedCheck(
           "commit",
           "--allow-empty",
           "-m",
-          String.raw`dev-tool temp commit of your work
+          `dev-tool temp commit of your work
 
 If this commit is present in your history, dev-tool didn't
 clean up properly after running a check. If this is the
