@@ -2,10 +2,8 @@
 // Licensed under the MIT License.
 import type { PurviewAccount } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-
-import { assert } from "chai";
 import { createAccountClient } from "./utils/recordedClient.js";
-import type { Context } from "mocha";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Get account info", () => {
   let recorder: Recorder;
