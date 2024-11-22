@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createClient } from "./utils/recordedClient.js";
 import { createRecorder } from "./utils/recordedClient.js";
 import { isUnexpected } from "../../src/isUnexpected.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("purview datamap typedefs test", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -23,4 +24,4 @@ describe("purview datamap typedefs test", () => {
 
     assert.strictEqual(isUnexpected(result), false);
   });
-}).timeout(60000000000);
+});

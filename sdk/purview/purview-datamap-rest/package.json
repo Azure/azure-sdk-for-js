@@ -13,9 +13,9 @@
     "isomorphic"
   ],
   "license": "MIT",
-  "main": "dist/index.js",
-  "module": "./dist-esm/src/index.js",
-  "types": "./types/purview-datamap.d.ts",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -58,11 +58,11 @@
   "sideEffects": false,
   "autoPublish": false,
   "dependencies": {
-    "@azure-rest/core-client": "^1.2.0",
-    "@azure/core-auth": "^1.6.0",
-    "@azure/core-rest-pipeline": "^1.14.0",
-    "@azure/logger": "^1.0.0",
-    "tslib": "^2.2.0"
+    "@azure-rest/core-client": "^2.3.1",
+    "@azure/core-auth": "^1.9.0",
+    "@azure/core-rest-pipeline": "^1.18.0",
+    "@azure/logger": "^1.1.4",
+    "tslib": "^2.8.1"
   },
   "devDependencies": {
     "@azure-tools/test-credential": "^2.0.0",
@@ -77,7 +77,6 @@
     "autorest": "latest",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
-    "karma-source-map-support": "~1.4.0",
     "playwright": "^1.49.0",
     "typescript": "~5.6.2",
     "vitest": "^2.1.5"
@@ -107,5 +106,26 @@
       "react-native"
     ],
     "selfLink": false
+  },
+  "exports": {
+    "./package.json": "./package.json",
+    ".": {
+      "browser": {
+        "types": "./dist/browser/index.d.ts",
+        "default": "./dist/browser/index.js"
+      },
+      "react-native": {
+        "types": "./dist/react-native/index.d.ts",
+        "default": "./dist/react-native/index.js"
+      },
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/commonjs/index.d.ts",
+        "default": "./dist/commonjs/index.js"
+      }
+    }
   }
 }
