@@ -1,0 +1,19 @@
+# Node.js
+# Build a general Node.js project with npm.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  name: azsdk-pool-mms-ubuntu-2004-general
+
+steps:
+
+- pwsh: |
+    $NpmDevopsFeedRegistry = "https://pkgs.dev.azure.com/azure-sdk/public/_packaging/azure-sdk-for-js/npm/registry/"
+    $apiviewParser = "@azure-tools/ts-genapi@2.0.3"
+    Write-Host "Installing $($apiviewParser)"
+    npm install $apiviewParser --registry $NpmDevopsFeedRegistry
+  displayName: 'install package" 
