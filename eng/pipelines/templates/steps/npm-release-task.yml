@@ -21,7 +21,7 @@ steps:
         $packageVersion = $pkg.Version
         $packageProps = npm view $packageName -json -silent | ConvertFrom-Json
         $originalTags = "{}"
-        if (!$packageProps.error) {
+        if ($packageProps.error?.code -ne "E404") {
           $originalTags = $packageProps.'dist-tags' | ConvertTo-Json -Compress
         }
         echo "##vso[task.setvariable variable=PackageName]$packageName"

@@ -6,6 +6,11 @@ parameters:
   default: succeeded()
 
 steps:
-  - pwsh: |
-      write-host "temp removal"
-    displayName: Verify ChangelogEntry
+  - task: Powershell@2
+    inputs:
+      filePath: $(Build.SourcesDirectory)/eng/common/scripts/Verify-ChangeLogs.ps1
+      arguments: >
+        -PackagePropertiesFolder '${{ parameters.PackagePropertiesFolder }}'
+      pwsh: true
+    displayName: Verify ChangeLogEntries
+    condition: ${{ parameters.Condition }}
