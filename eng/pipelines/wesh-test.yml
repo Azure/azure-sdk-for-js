@@ -16,4 +16,4 @@ steps:
     $apiviewParser = "@azure-tools/ts-genapi@2.0.3"
     Write-Host "Installing $($apiviewParser)"
     npm install $apiviewParser --registry $NpmDevopsFeedRegistry
-  displayName: 'install package" 
+  displayName: 'install package'
