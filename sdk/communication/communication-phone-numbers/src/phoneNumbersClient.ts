@@ -13,7 +13,7 @@ import { isTokenCredential } from "@azure/core-auth";
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
 import type { PollOperationState, PollerLike } from "@azure/core-lro";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
+import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src/index.js";
 import type {
   OperatorInformationResult,
   PhoneNumberAreaCode,
@@ -23,7 +23,7 @@ import type {
   PhoneNumberOffering,
   PhoneNumberSearchResult,
   PurchasedPhoneNumber,
-} from "./generated/src/models/";
+} from "./generated/src/models/index.js";
 import type {
   GetPurchasedPhoneNumberOptions,
   ListAvailableCountriesOptions,
@@ -36,17 +36,17 @@ import type {
   ReleasePhoneNumberResult,
   SearchAvailablePhoneNumbersRequest,
   SearchOperatorInformationOptions,
-} from "./models";
+} from "./models.js";
 import type {
   BeginPurchasePhoneNumbersOptions,
   BeginReleasePhoneNumberOptions,
   BeginSearchAvailablePhoneNumbersOptions,
   BeginUpdatePhoneNumberCapabilitiesOptions,
-} from "./lroModels";
-import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
+} from "./lroModels.js";
+import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies.js";
 import type { CommonClientOptions } from "@azure/core-client";
-import { logger } from "./utils";
-import { tracingClient } from "./generated/src/tracing";
+import { logger } from "./utils/index.js";
+import { tracingClient } from "./generated/src/tracing.js";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.

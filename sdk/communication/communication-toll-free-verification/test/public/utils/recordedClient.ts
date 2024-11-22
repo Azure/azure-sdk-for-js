@@ -4,15 +4,14 @@ import * as dotenv from "dotenv";
 
 import type { TokenCredential } from "@azure/identity";
 import { ClientSecretCredential, DefaultAzureCredential } from "@azure/identity";
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import {
   Recorder,
   assertEnvironmentVariable,
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
-import { TollFreeVerificationClient } from "../../../src";
+import { TollFreeVerificationClient } from "../../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
 import { parseConnectionString } from "@azure/communication-common";
 
@@ -56,9 +55,9 @@ export const recorderOptions: RecorderStartOptions = {
 };
 
 export async function createRecordedClient(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<TollFreeVerificationClient>> {
-  const recorder = new Recorder(context.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   await recorder.setMatcher("CustomDefaultMatcher", {
     excludedHeaders: [
@@ -88,9 +87,9 @@ export function createMockToken(): {
 }
 
 export async function createRecordedClientWithToken(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<TollFreeVerificationClient> | undefined> {
-  const recorder = new Recorder(context.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
 
   let credential: TokenCredential;

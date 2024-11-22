@@ -3,8 +3,8 @@
 
 const { positionToTileXY } = require("@azure-rest/maps-render");
 const { DefaultAzureCredential } = require("@azure/identity");
-const { isUnexpected } = require("../src/generated");
-const MapsRender = require("../src/mapsRender").default;
+const MapsRender = require("@azure-rest/maps-render").default,
+  { isUnexpected } = require("@azure-rest/maps-render");
 
 /**
  * @summary How to get the copyright of a certain tile.
