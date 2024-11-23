@@ -64,9 +64,7 @@ async function fetchFigure(responseId: string, figureId: string): Promise<void |
   console.log(response);
   const { body } = response;
 
-  if (Buffer.isBuffer(body)) {
-    await fs.promises.writeFile(`./figures/${figureId}.png`, body);
-  }
+  await fs.promises.writeFile(`./figures/${figureId}.png`, Buffer.from(body, "binary"));
 }
 
 async function analyze(): Promise<void> {
