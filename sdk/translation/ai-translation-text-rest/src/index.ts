@@ -13,4 +13,5 @@ export * from "./generated/outputModels.js";
 export * from "./generated/serializeHelper.js";
 export { TranslatorCredential, TranslatorTokenCredential } from "./authentication.js";
 
+// eslint-disable-next-line @azure/azure-sdk/ts-modules-only-named
 export default TextTranslationClient;
