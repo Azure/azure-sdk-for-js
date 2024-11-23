@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createIdentifierFromRawId } from "@azure/communication-common";
 import {
@@ -23,7 +23,7 @@ export class StreamingData {
   }
 
   // Get Streaming data Kind.
-  static getStreamingKind() {
+  static getStreamingKind(): StreamingDataKind {
     return StreamingData.streamingKind;
   }
 
