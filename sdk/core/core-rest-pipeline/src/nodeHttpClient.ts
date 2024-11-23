@@ -173,7 +173,6 @@ class NodeHttpClient implements HttpClient {
       ) {
         response.readableStreamBody = responseStream;
       } else {
-        console.log("streamToBuffer being called.. content-type = ", response.headers.get("content-type"));
         if (response.headers.get("content-type") === "image/png") {
           response.bodyAsBuffer = await streamToBuffer(responseStream);
         }
