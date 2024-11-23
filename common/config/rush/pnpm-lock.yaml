@@ -1797,6 +1797,21 @@ packages:
       - supports-color
     dev: false
 
+  /@azure/template@1.0.13-beta.1:
+    resolution: {integrity: sha512-dn0mqAC4jPUbqAOUxdkVNihu1rV6Na7rX8xtwU2LI0JKlZJXOULxzDR4Zyc02s5aUdLpRkyxGoGStdkc+dJC4w==}
+    engines: {node: '>=18.0.0'}
+    dependencies:
+      '@azure/core-auth': 1.9.0
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-rest-pipeline': 1.18.0
+      '@azure/core-tracing': 1.2.0
+      '@azure/logger': 1.1.4
+      tslib: 2.8.1
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@azure/web-pubsub-client@1.0.0-beta.2:
     resolution: {integrity: sha512-6OUjadAauR3l9oIafFG3As3Fh3JDha4UAJVwVmakKtgHuDfHsWZkAtdivlSBChfc0hqEvw2BuozVnZeIUdCaPg==}
     engines: {node: '>=14.0.0'}
@@ -22171,11 +22186,12 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-uqa7OES3xzUZJ+VLuS4uvkzA8SlX8yFCU/6LiUqsAtirFxZ2ssZfRoCJMDT3/6uOZv+nK2Mp77qZqZkVveivjg==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-i6UEyKvgmn6FvOtrhdZkwnXMGsvbMgShf5YRJPf65eSnu8HDC3xx0eo0Cx86HwcjLohRuNa4GorVT7+b5h1BHA==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
       '@azure/app-configuration': 1.8.0
+      '@azure/template': 1.0.13-beta.1
       '@types/node': 18.19.64
       dotenv: 16.4.5
       eslint: 9.15.0
