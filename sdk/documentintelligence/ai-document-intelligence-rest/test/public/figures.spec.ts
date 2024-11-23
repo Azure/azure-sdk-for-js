@@ -74,9 +74,6 @@ async function analyze(): Promise<void> {
   await fs.promises.rm(`./figures`, { recursive: true }).catch(() => { });
   await fs.promises.mkdir(`./figures`);
 
-  await fs.promises.rm(`./figures-updated`, { recursive: true }).catch(() => { });
-  await fs.promises.mkdir(`./figures-updated`);
-
   const initialResponse = await client.path(`/documentModels/{modelId}:analyze`, MODEL_ID).post({
     contentType: 'application/json',
     body: { base64Source },
@@ -102,6 +99,4 @@ async function analyze(): Promise<void> {
       await fetchFigure(poller.getOperationId(), figure.id);
     }
   };
-
-  // await fetchFigure("98816098-c1b1-4b14-b001-c9433603c988", '3.2');
 }

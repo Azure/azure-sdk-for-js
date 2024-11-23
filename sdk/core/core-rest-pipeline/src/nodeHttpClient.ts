@@ -342,8 +342,10 @@ function getDecodedResponseStream(
   return stream;
 }
 
-function convertStream(stream: NodeJS.ReadableStream, outputType: "text" | "buffer"): Promise<string> {
-  return new Promise<string>((resolve, reject) => {
+function convertStream(stream: NodeJS.ReadableStream, outputType: "text"): Promise<string>;
+function convertStream(stream: NodeJS.ReadableStream, outputType: "buffer"): Promise<Buffer>;
+function convertStream(stream: NodeJS.ReadableStream, outputType: "text" | "buffer"): Promise<string | Buffer> {
+  return new Promise((resolve, reject) => {
     const buffer: Buffer[] = [];
 
     stream.on("data", (chunk) => {
