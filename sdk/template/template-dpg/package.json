@@ -1,6 +1,6 @@
 {
   "name": "@azure/template-dpg",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "Widget Service",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
