@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import type { TextTranslationClient } from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient.js";
-import type { Context } from "mocha";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("DictionaryExamples tests", () => {
   let recorder: Recorder;
