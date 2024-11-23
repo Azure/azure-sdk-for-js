@@ -3,16 +3,16 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import type { TextTranslationClient } from "../../src";
-import { isUnexpected } from "../../src";
-import { createTranslationClient, startRecorder } from "./utils/recordedClient";
+import type { TextTranslationClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createTranslationClient, startRecorder } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
 
 describe("BreakSentence tests", () => {
   let recorder: Recorder;
   let client: TextTranslationClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await startRecorder(this);
     client = await createTranslationClient({ recorder });
   });

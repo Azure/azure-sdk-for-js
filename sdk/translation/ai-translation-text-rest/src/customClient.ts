@@ -3,16 +3,16 @@
 
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
-import { logger } from "./generated/logger";
+import { logger } from "./generated/logger.js";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import type { TextTranslationClient } from "./generated/clientDefinitions";
-import type { TranslatorCredential, TranslatorTokenCredential } from "./authentication";
+import type { TextTranslationClient } from "./generated/clientDefinitions.js";
+import type { TranslatorCredential, TranslatorTokenCredential } from "./authentication.js";
 import {
   DEFAULT_SCOPE,
   TranslatorAuthenticationPolicy,
   TranslatorAzureKeyAuthenticationPolicy,
   TranslatorTokenCredentialAuthenticationPolicy,
-} from "./authentication";
+} from "./authentication.js";
 import type { AzureKeyCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 
 const DEFAULT_ENPOINT = "https://api.cognitive.microsofttranslator.com";

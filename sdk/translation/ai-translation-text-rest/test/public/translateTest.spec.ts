@@ -3,15 +3,15 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import type { TextTranslationClient } from "../../src";
-import { isUnexpected } from "../../src";
+import type { TextTranslationClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
 import {
   createCustomTranslationClient,
   createTranslationClient,
   createTokenTranslationClient,
   createAADAuthenticationTranslationClient,
   startRecorder,
-} from "./utils/recordedClient";
+} from "./utils/recordedClient.js";
 import type { Context } from "mocha";
 
 describe("Translate tests", () => {
@@ -19,7 +19,7 @@ describe("Translate tests", () => {
   let client: TextTranslationClient;
   let customClient: TextTranslationClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await startRecorder(this);
     client = await createTranslationClient({ recorder });
     customClient = await createCustomTranslationClient({ recorder });

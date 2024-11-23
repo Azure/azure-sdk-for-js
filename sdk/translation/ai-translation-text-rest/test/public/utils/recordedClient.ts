@@ -4,13 +4,13 @@
 import type { Context } from "mocha";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { StaticAccessTokenCredential } from "./StaticAccessTokenCredential";
+import { StaticAccessTokenCredential } from "./StaticAccessTokenCredential.js";
 import type {
   TranslatorCredential,
   TranslatorTokenCredential,
   TextTranslationClient,
-} from "../../../src";
-import createTextTranslationClient from "../../../src";
+} from "../../../src/index.js";
+import createTextTranslationClient from "../../../src/index.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
 import type { TokenCredential } from "@azure/core-auth";
