@@ -174,10 +174,10 @@ class NodeHttpClient implements HttpClient {
         response.readableStreamBody = responseStream;
       } else {
         if (response.headers.get("content-type") === "image/png") {
-          response.bodyAsBuffer = await streamToBuffer(responseStream);
+          response.bodyAsBuffer = await convertStream(responseStream, "buffer");
         }
         else {
-          response.bodyAsText = await streamToText(responseStream);
+          response.bodyAsText = await convertStream(responseStream, "text");
         }
       }
 
@@ -342,34 +342,7 @@ function getDecodedResponseStream(
   return stream;
 }
 
-function streamToBuffer(stream: NodeJS.ReadableStream): Promise<Buffer> {
-  return new Promise<Buffer>((resolve, reject) => {
-    const buffer: Buffer[] = [];
-
-    stream.on("data", (chunk) => {
-      if (Buffer.isBuffer(chunk)) {
-        buffer.push(chunk);
-      } else {
-        buffer.push(Buffer.from(chunk));
-      }
-    });
-    stream.on("end", () => {
-      resolve(Buffer.concat(buffer));
-    });
-    stream.on("error", (e) => {
-      if (e && e?.name === "AbortError") {
-        reject(e);
-      } else {
-        reject(
-          new RestError(`Error reading response as text: ${e.message}`, {
-            code: RestError.PARSE_ERROR,
-          }),
-        );
-      }
-    });
-  });
-}
-function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
+function convertStream(stream: NodeJS.ReadableStream, outputType: "text" | "buffer"): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const buffer: Buffer[] = [];
 
@@ -381,7 +354,8 @@ function streamToText(stream: NodeJS.ReadableStream): Promise<string> {
       }
     });
     stream.on("end", () => {
-      resolve(Buffer.concat(buffer).toString("utf8"));
+      const output = Buffer.concat(buffer)
+      resolve(outputType === "text" ? output.toString("utf8") : output);
     });
     stream.on("error", (e) => {
       if (e && e?.name === "AbortError") {
