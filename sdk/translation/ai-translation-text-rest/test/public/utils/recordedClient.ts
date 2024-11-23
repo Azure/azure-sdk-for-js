@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { StaticAccessTokenCredential } from "./StaticAccessTokenCredential.js";
 import type {
@@ -27,8 +28,8 @@ const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
 };
 
-export async function startRecorder(context: Context): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+export async function startRecorder(context: TestInfo): Promise<Recorder> {
+  const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   return recorder;
 }

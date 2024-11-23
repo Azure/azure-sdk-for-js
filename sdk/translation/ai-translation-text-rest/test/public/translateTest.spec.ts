@@ -11,20 +11,20 @@ import {
   createAADAuthenticationTranslationClient,
   startRecorder,
 } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Translate tests", () => {
   let recorder: Recorder;
   let client: TextTranslationClient;
   let customClient: TextTranslationClient;
 
-  beforeEach(async function (ctx) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createTranslationClient({ recorder });
     customClient = await createCustomTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

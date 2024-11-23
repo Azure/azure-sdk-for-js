@@ -6,18 +6,18 @@ import type { TextTranslationClient } from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
 import { createTranslationClient, startRecorder } from "./utils/recordedClient.js";
 import { editDistance } from "./utils/testHelper.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Transliterate tests", () => {
   let recorder: Recorder;
   let client: TextTranslationClient;
 
-  beforeEach(async function (ctx) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
