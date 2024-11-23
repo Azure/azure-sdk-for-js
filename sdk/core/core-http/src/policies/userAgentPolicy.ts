@@ -41,7 +41,7 @@ function getRuntimeInfo(): TelemetryInfo[] {
 function getUserAgentString(
   telemetryInfo: TelemetryInfo[],
   keySeparator = " ",
-  valueSeparator = "/"
+  valueSeparator = "/",
 ): string {
   return telemetryInfo
     .map((info) => {
@@ -94,7 +94,7 @@ export class UserAgentPolicy extends BaseRequestPolicy {
     readonly _nextPolicy: RequestPolicy,
     readonly _options: RequestPolicyOptions,
     protected headerKey: string,
-    protected headerValue: string
+    protected headerValue: string,
   ) {
     super(_nextPolicy, _options);
   }

@@ -56,7 +56,7 @@ export class KeepAlivePolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    private readonly keepAliveOptions: KeepAliveOptions
+    private readonly keepAliveOptions: KeepAliveOptions,
   ) {
     super(nextPolicy, options);
   }

@@ -24,7 +24,7 @@ export class RPRegistrationPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    readonly _retryTimeout = 30
+    readonly _retryTimeout = 30,
   ) {
     super(nextPolicy, options);
   }
@@ -39,7 +39,7 @@ export class RPRegistrationPolicy extends BaseRequestPolicy {
 function registerIfNeeded(
   policy: RPRegistrationPolicy,
   request: WebResourceLike,
-  response: HttpOperationResponse
+  response: HttpOperationResponse,
 ): Promise<HttpOperationResponse> {
   if (response.status === 409) {
     const rpName = checkRPNotRegisteredError(response.bodyAsText as string);
@@ -75,7 +75,7 @@ function registerIfNeeded(
  */
 function getRequestEssentials(
   originalRequest: WebResourceLike,
-  reuseUrlToo = false
+  reuseUrlToo = false,
 ): WebResourceLike {
   const reqOptions: WebResourceLike = originalRequest.clone();
   if (reuseUrlToo) {
@@ -151,7 +151,7 @@ async function registerRP(
   policy: RPRegistrationPolicy,
   urlPrefix: string,
   provider: string,
-  originalRequest: WebResourceLike
+  originalRequest: WebResourceLike,
 ): Promise<boolean> {
   const postUrl = `${urlPrefix}providers/${provider}/register?api-version=2016-02-01`;
   const getUrl = `${urlPrefix}providers/${provider}?api-version=2016-02-01`;
@@ -178,7 +178,7 @@ async function registerRP(
 async function getRegistrationStatus(
   policy: RPRegistrationPolicy,
   url: string,
-  originalRequest: WebResourceLike
+  originalRequest: WebResourceLike,
 ): Promise<boolean> {
   const reqOptions: any = getRequestEssentials(originalRequest);
   reqOptions.url = url;

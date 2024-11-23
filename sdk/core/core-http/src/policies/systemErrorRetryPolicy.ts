@@ -34,7 +34,7 @@ export function systemErrorRetryPolicy(
   retryCount?: number,
   retryInterval?: number,
   minRetryInterval?: number,
-  maxRetryInterval?: number
+  maxRetryInterval?: number,
 ): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
@@ -44,7 +44,7 @@ export function systemErrorRetryPolicy(
         retryCount,
         retryInterval,
         minRetryInterval,
-        maxRetryInterval
+        maxRetryInterval,
       );
     },
   };
@@ -69,7 +69,7 @@ export class SystemErrorRetryPolicy extends BaseRequestPolicy {
     retryCount?: number,
     retryInterval?: number,
     minRetryInterval?: number,
-    maxRetryInterval?: number
+    maxRetryInterval?: number,
   ) {
     super(nextPolicy, options);
     this.retryCount = isNumber(retryCount) ? retryCount : DEFAULT_CLIENT_RETRY_COUNT;
@@ -94,7 +94,7 @@ async function retry(
   request: WebResourceLike,
   operationResponse: HttpOperationResponse,
   err?: RetryError,
-  retryData?: RetryData
+  retryData?: RetryData,
 ): Promise<HttpOperationResponse> {
   retryData = updateRetryData(policy, retryData, err);
 

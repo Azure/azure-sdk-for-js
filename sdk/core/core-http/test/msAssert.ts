@@ -12,7 +12,7 @@ import { assert } from "chai";
  */
 export function throws(
   syncFunction: () => void,
-  expectedError?: ((error: Error) => void) | Error
+  expectedError?: ((error: Error) => void) | Error,
 ): Error {
   let thrownError: Error | undefined;
 
@@ -44,7 +44,7 @@ export function throws(
  */
 export async function throwsAsync<T>(
   asyncFunction: (() => Promise<T>) | Promise<T>,
-  expectedError?: ((error: Error) => void) | Error
+  expectedError?: ((error: Error) => void) | Error,
 ): Promise<Error> {
   let thrownError: Error | undefined;
 

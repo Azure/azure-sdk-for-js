@@ -13,7 +13,7 @@ describe("XML serializer", function () {
         error.message.indexOf("Document is empty") !== -1 || // Chrome
           (error.message.startsWith("XML Parsing Error: syntax error") &&
             error.message.indexOf("undefined") !== -1), // Firefox
-        `error.message ("${error.message}") should have contained "Document is empty" or "undefined"`
+        `error.message ("${error.message}") should have contained "Document is empty" or "undefined"`,
       );
     });
 
@@ -24,7 +24,7 @@ describe("XML serializer", function () {
         error.message.indexOf("Document is empty") !== -1 || // Chrome
           (error.message.startsWith("XML Parsing Error: syntax error") &&
             error.message.indexOf("null") !== -1), // Firefox
-        `error.message ("${error.message}") should have contained "Document is empty" or "null"`
+        `error.message ("${error.message}") should have contained "Document is empty" or "null"`,
       );
     });
 
@@ -259,11 +259,11 @@ describe("XML serializer", function () {
             },
           },
         },
-        { rootName: "fruits" }
+        { rootName: "fruits" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true"/></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true"/></fruits>`,
       );
     });
 
@@ -271,7 +271,7 @@ describe("XML serializer", function () {
       const xml: any = await stringifyXML({ fruit: `` }, { rootName: "fruits" });
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit/></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit/></fruits>`,
       );
     });
 
@@ -279,7 +279,7 @@ describe("XML serializer", function () {
       const xml: any = await stringifyXML({ fruit: `hurray` }, { rootName: "fruits" });
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit>hurray</fruit></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit>hurray</fruit></fruits>`,
       );
     });
 
@@ -292,11 +292,11 @@ describe("XML serializer", function () {
             },
           },
         },
-        { rootName: "fruits" }
+        { rootName: "fruits" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true"/></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true"/></fruits>`,
       );
     });
 
@@ -310,11 +310,11 @@ describe("XML serializer", function () {
             _: "yum",
           },
         },
-        { rootName: "fruits" }
+        { rootName: "fruits" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true">yum</fruit></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true">yum</fruit></fruits>`,
       );
     });
 
@@ -328,11 +328,11 @@ describe("XML serializer", function () {
             _: "yum",
           },
         },
-        { rootName: "fruits" }
+        { rootName: "fruits" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true">yum</fruit></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit healthy="true">yum</fruit></fruits>`,
       );
     });
 
@@ -343,11 +343,11 @@ describe("XML serializer", function () {
             apples: undefined,
           },
         },
-        { rootName: "fruits" }
+        { rootName: "fruits" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit><apples/></fruit></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><fruit><apples/></fruit></fruits>`,
       );
     });
 
@@ -360,11 +360,11 @@ describe("XML serializer", function () {
             },
           },
         },
-        { rootName: "fruits" }
+        { rootName: "fruits" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples tasty="true"/></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples tasty="true"/></fruits>`,
       );
     });
 
@@ -373,11 +373,11 @@ describe("XML serializer", function () {
         {
           apples: "yum",
         },
-        { rootName: "fruits" }
+        { rootName: "fruits" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples>yum</apples></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples>yum</apples></fruits>`,
       );
     });
 
@@ -391,11 +391,11 @@ describe("XML serializer", function () {
             _: "yum",
           },
         },
-        { rootName: "fruits" }
+        { rootName: "fruits" },
       );
       assert.deepStrictEqual(
         xml,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples tasty="true">yum</apples></fruits>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><fruits><apples tasty="true">yum</apples></fruits>`,
       );
     });
   });

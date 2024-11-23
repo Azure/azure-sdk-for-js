@@ -37,16 +37,16 @@ class MockSpan implements Span {
     private spanId: string,
     private flags: TraceFlags,
     private state: string,
-    options?: SpanOptions
+    options?: SpanOptions,
   ) {
     this._attributes = options?.attributes || {};
   }
-    addLink(_link: Link): this {
-        throw new Error("Method not implemented.");
-    }
-    addLinks(_links: Link[]): this {
-        throw new Error("Method not implemented.");
-    }
+  addLink(_link: Link): this {
+    throw new Error("Method not implemented.");
+  }
+  addLinks(_links: Link[]): this {
+    throw new Error("Method not implemented.");
+  }
 
   addEvent(): this {
     throw new Error("Method not implemented.");
@@ -138,7 +138,7 @@ class MockTracer implements Tracer {
     private traceId = "",
     private spanId = "",
     private flags = 0,
-    private state = ""
+    private state = "",
   ) {}
 
   startActiveSpan(): never {
@@ -224,7 +224,7 @@ describe.skip("tracingPolicy", function () {
     const request = new WebResource("https://bing.com/my/path", "POST");
     request.tracingContext = setSpan(context.active(), ROOT_SPAN).setValue(
       Symbol.for("az.namespace"),
-      "test"
+      "test",
     );
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());
@@ -260,7 +260,7 @@ describe.skip("tracingPolicy", function () {
 
     assert.equal(
       request.headers.get("traceparent"),
-      `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`
+      `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`,
     );
     assert.notExists(request.headers.get("tracestate"));
   });
@@ -289,7 +289,7 @@ describe.skip("tracingPolicy", function () {
 
     assert.equal(
       request.headers.get("traceparent"),
-      `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`
+      `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`,
     );
     assert.notExists(request.headers.get("tracestate"));
   });
@@ -317,7 +317,7 @@ describe.skip("tracingPolicy", function () {
 
     assert.equal(
       request.headers.get("traceparent"),
-      `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`
+      `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`,
     );
     assert.equal(request.headers.get("tracestate"), mockTraceState);
   });
@@ -342,7 +342,7 @@ describe.skip("tracingPolicy", function () {
           });
         },
       },
-      new RequestPolicyOptions()
+      new RequestPolicyOptions(),
     );
     try {
       await policy.sendRequest(request);
@@ -363,7 +363,7 @@ describe.skip("tracingPolicy", function () {
 
       assert.equal(
         request.headers.get("traceparent"),
-        `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`
+        `${TRACE_VERSION}-${mockTraceId}-${mockSpanId}-${expectedFlag}`,
       );
       assert.equal(request.headers.get("tracestate"), mockTraceState);
     }
@@ -436,7 +436,7 @@ describe.skip("tracingPolicy", function () {
     };
     request.tracingContext = setSpan(context.active(), ROOT_SPAN).setValue(
       Symbol.for("az.namespace"),
-      "value_from_context"
+      "value_from_context",
     );
 
     const policy = tracingPolicy().create(mockPolicy, new RequestPolicyOptions());

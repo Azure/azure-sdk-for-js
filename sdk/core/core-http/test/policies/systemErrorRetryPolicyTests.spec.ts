@@ -24,7 +24,10 @@ describe("SystemErrorRetryPolicy", () => {
   // throw error on first sendRequest()
   class FailFirstRequestPolicy {
     count = 0;
-    constructor(private _response: HttpOperationResponse, private errorCode: string) {}
+    constructor(
+      private _response: HttpOperationResponse,
+      private errorCode: string,
+    ) {}
     public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       if (this.count === 0) {
         this.count++;
@@ -52,7 +55,7 @@ describe("SystemErrorRetryPolicy", () => {
   };
 
   function createDefaultSystemErrorRetryPolicy(
-    response?: HttpOperationResponse
+    response?: HttpOperationResponse,
   ): SystemErrorRetryPolicy {
     if (!response) {
       response = defaultResponse;
@@ -107,7 +110,7 @@ describe("SystemErrorRetryPolicy", () => {
           3,
           10,
           10,
-          20
+          20,
         );
 
         const response = await policy.sendRequest(request);
@@ -126,7 +129,7 @@ describe("SystemErrorRetryPolicy", () => {
         3,
         10,
         10,
-        20
+        20,
       );
 
       try {
@@ -159,7 +162,7 @@ describe("SystemErrorRetryPolicy", () => {
           3,
           10,
           10,
-          20
+          20,
         );
 
         try {

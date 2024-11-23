@@ -63,7 +63,7 @@ export function getPathStringFromParameter(parameter: OperationParameter): strin
 
 export function getPathStringFromParameterPath(
   parameterPath: ParameterPath,
-  mapper: Mapper
+  mapper: Mapper,
 ): string {
   let result: string;
   if (typeof parameterPath === "string") {

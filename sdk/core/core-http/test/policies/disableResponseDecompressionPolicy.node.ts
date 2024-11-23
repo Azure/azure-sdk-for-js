@@ -33,7 +33,7 @@ describe("DisableResponseDecompressionPolicy (node)", function () {
       const factory = disableResponseDecompressionPolicy();
       const policy = factory.create(
         verifyDecompressionDisabledPolicy,
-        emptyPolicyOptions
+        emptyPolicyOptions,
       ) as DisableResponseDecompressionPolicy;
       const request = new WebResource();
       await policy.sendRequest(request);
@@ -41,7 +41,7 @@ describe("DisableResponseDecompressionPolicy (node)", function () {
     it("sets correct option through constructor", async function () {
       const policy = new DisableResponseDecompressionPolicy(
         verifyDecompressionDisabledPolicy,
-        emptyPolicyOptions
+        emptyPolicyOptions,
       );
       const request = new WebResource();
       await policy.sendRequest(request);
@@ -50,7 +50,7 @@ describe("DisableResponseDecompressionPolicy (node)", function () {
     it("should assign option to the web request", async () => {
       const policy = new DisableResponseDecompressionPolicy(
         verifyDecompressionDisabledPolicy,
-        emptyPolicyOptions
+        emptyPolicyOptions,
       );
       const request = new WebResource();
       await policy.sendRequest(request);

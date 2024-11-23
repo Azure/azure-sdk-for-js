@@ -38,7 +38,9 @@ describe("BearerTokenAuthenticationPolicy", function () {
   it("correctly adds an Authentication header with the Bearer token", async function () {
     const mockToken = "token";
     const tokenScopes = ["scope1", "scope2"];
-    const fakeGetToken = fake.returns(Promise.resolve({ token: mockToken, expiresOnTimestamp: new Date().getTime() }));
+    const fakeGetToken = fake.returns(
+      Promise.resolve({ token: mockToken, expiresOnTimestamp: new Date().getTime() }),
+    );
     const mockCredential: TokenCredential = {
       getToken: fakeGetToken,
     };
@@ -53,13 +55,13 @@ describe("BearerTokenAuthenticationPolicy", function () {
         match({
           abortSignal: undefined,
           tracingOptions: { spanOptions: undefined },
-        })
+        }),
       ),
-      "fakeGetToken called incorrectly."
+      "fakeGetToken called incorrectly.",
     );
     assert.strictEqual(
       request.headers.get(Constants.HeaderConstants.AUTHORIZATION),
-      `Bearer ${mockToken}`
+      `Bearer ${mockToken}`,
     );
   });
 
@@ -146,7 +148,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     assert.strictEqual(
       credential.authCount,
       1,
-      "The first authentication attempt should have happened"
+      "The first authentication attempt should have happened",
     );
   });
 
@@ -175,7 +177,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
     assert.strictEqual(
       credential.authCount,
       2,
-      "authCode should have been called once during the refresh time"
+      "authCode should have been called once during the refresh time",
     );
 
     const exceptionMessage =
@@ -198,13 +200,13 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
     assert.equal(
       error?.message,
-      "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs."
+      "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs.",
     );
   });
 
   function createRequest(
     operationSpec?: OperationSpec,
-    uri: string = "https://azure.com"
+    uri: string = "https://azure.com",
   ): WebResource {
     const request = new WebResource(uri);
     request.operationSpec = operationSpec;
@@ -213,7 +215,7 @@ describe("BearerTokenAuthenticationPolicy", function () {
 
   function createBearerTokenPolicy(
     scopes: string | string[],
-    credential: TokenCredential
+    credential: TokenCredential,
   ): RequestPolicy {
     const factory = bearerTokenAuthenticationPolicy(credential, scopes);
     return factory.create(mockPolicy, new RequestPolicyOptions());
@@ -227,7 +229,7 @@ class MockRefreshAzureCredential implements TokenCredential {
   constructor(
     public expiresOnTimestamp: number,
     public getTokenDelay?: number,
-    public clock?: sinon.SinonFakeTimers
+    public clock?: sinon.SinonFakeTimers,
   ) {}
 
   public async getToken(): Promise<AccessToken> {

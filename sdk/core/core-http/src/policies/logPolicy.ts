@@ -111,7 +111,7 @@ export class LogPolicy extends BaseRequestPolicy {
       logger = coreLogger.info,
       allowedHeaderNames = [],
       allowedQueryParameters = [],
-    }: LogPolicyOptions = {}
+    }: LogPolicyOptions = {},
   ) {
     super(nextPolicy, options);
     this.logger = logger;

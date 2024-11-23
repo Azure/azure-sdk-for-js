@@ -72,7 +72,7 @@ describe("defaultHttpClient", function () {
       undefined,
       true,
       undefined,
-      controller.signal
+      controller.signal,
     );
     const client = getMockedHttpClient();
 
@@ -104,7 +104,7 @@ describe("defaultHttpClient", function () {
       undefined,
       true,
       undefined,
-      controller.signal
+      controller.signal,
     );
     controller.abort();
     const client = getMockedHttpClient();
@@ -137,7 +137,7 @@ describe("defaultHttpClient", function () {
         undefined,
         true,
         undefined,
-        controller.signal
+        controller.signal,
       ),
       new WebResource(
         "/fileupload",
@@ -147,7 +147,7 @@ describe("defaultHttpClient", function () {
         undefined,
         true,
         undefined,
-        controller.signal
+        controller.signal,
       ),
     ];
     const client = getMockedHttpClient();
@@ -200,7 +200,7 @@ describe("defaultHttpClient", function () {
         undefined,
         0,
         (ev) => listener(upload, ev),
-        (ev) => listener(download, ev)
+        (ev) => listener(download, ev),
       );
 
       const client = getMockedHttpClient();
@@ -225,7 +225,7 @@ describe("defaultHttpClient", function () {
       false,
       false,
       undefined,
-      100
+      100,
     );
     const client = getMockedHttpClient();
 

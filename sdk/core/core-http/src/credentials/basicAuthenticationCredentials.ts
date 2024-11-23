@@ -40,7 +40,7 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
   constructor(
     userName: string,
     password: string,
-    authorizationScheme: string = DEFAULT_AUTHORIZATION_SCHEME
+    authorizationScheme: string = DEFAULT_AUTHORIZATION_SCHEME,
   ) {
     if (userName === null || userName === undefined || typeof userName.valueOf() !== "string") {
       throw new Error("userName cannot be null or undefined and must be of type string.");

@@ -46,7 +46,7 @@ describe("getDefaultProxySettings", () => {
           const proxySettings = getDefaultProxySettings(proxyUrl);
           should().not.exist(proxySettings);
         });
-      }
+      },
     );
   });
 });

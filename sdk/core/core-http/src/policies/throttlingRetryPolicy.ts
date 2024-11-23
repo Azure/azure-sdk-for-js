@@ -16,7 +16,7 @@ import { delay } from "@azure/core-util";
 
 type ResponseHandler = (
   httpRequest: WebResourceLike,
-  response: HttpOperationResponse
+  response: HttpOperationResponse,
 ) => Promise<HttpOperationResponse>;
 const StatusCodes = Constants.HttpConstants.StatusCodes;
 
@@ -56,7 +56,7 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    _handleResponse?: ResponseHandler
+    _handleResponse?: ResponseHandler,
   ) {
     super(nextPolicy, options);
     this._handleResponse = _handleResponse || this._defaultResponseHandler;
@@ -76,10 +76,10 @@ export class ThrottlingRetryPolicy extends BaseRequestPolicy {
 
   private async _defaultResponseHandler(
     httpRequest: WebResourceLike,
-    httpResponse: HttpOperationResponse
+    httpResponse: HttpOperationResponse,
   ): Promise<HttpOperationResponse> {
     const retryAfterHeader: string | undefined = httpResponse.headers.get(
-      Constants.HeaderConstants.RETRY_AFTER
+      Constants.HeaderConstants.RETRY_AFTER,
     );
 
     if (retryAfterHeader) {

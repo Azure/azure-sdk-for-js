@@ -46,7 +46,7 @@ export class RestError extends Error {
     code?: string,
     statusCode?: number,
     request?: WebResourceLike,
-    response?: HttpOperationResponse
+    response?: HttpOperationResponse,
   ) {
     super(message);
     this.name = "RestError";

@@ -51,7 +51,7 @@ describe("deserializationPolicy", function () {
       mockClient,
       new RequestPolicyOptions(),
       {},
-      { xmlCharKey: "#" }
+      { xmlCharKey: "#" },
     );
 
     const response = await deserializationPolicy.sendRequest(request);
@@ -184,7 +184,7 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(deserializedResponse.blobBody, undefined);
       assert.strictEqual(
         deserializedResponse.bodyAsText,
-        `<fruit><apples tasty="yes">3</apples></fruit>`
+        `<fruit><apples tasty="yes">3</apples></fruit>`,
       );
       assert.deepEqual(deserializedResponse.parsedBody, {
         apples: {
@@ -238,7 +238,7 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(deserializedResponse.blobBody, undefined);
       assert.strictEqual(
         deserializedResponse.bodyAsText,
-        `<fruit><apples tasty="yes">3</apples></fruit>`
+        `<fruit><apples tasty="yes">3</apples></fruit>`,
       );
       assert.deepEqual(deserializedResponse.parsedBody, { apples: "3" });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
@@ -285,7 +285,7 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(deserializedResponse.blobBody, undefined);
       assert.strictEqual(
         deserializedResponse.bodyAsText,
-        `<fruit><apples tasty="yes">3</apples></fruit>`
+        `<fruit><apples tasty="yes">3</apples></fruit>`,
       );
       assert.deepEqual(deserializedResponse.parsedBody, { apples: 3 });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
@@ -343,7 +343,7 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(deserializedResponse.blobBody, undefined);
       assert.strictEqual(
         deserializedResponse.bodyAsText,
-        `<fruit><apples tasty="yes">3</apples></fruit>`
+        `<fruit><apples tasty="yes">3</apples></fruit>`,
       );
       assert.deepEqual(deserializedResponse.parsedBody, { apples: { tasty: "yes" } });
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
@@ -386,7 +386,7 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(deserializedResponse.blobBody, undefined);
       assert.strictEqual(
         deserializedResponse.bodyAsText,
-        `<fruit><apples taste="good">3</apples></fruit>`
+        `<fruit><apples taste="good">3</apples></fruit>`,
       );
       assert.deepEqual(deserializedResponse.parsedBody, {
         apples: {
@@ -412,7 +412,7 @@ describe("deserializationPolicy", function () {
       const deserializedResponse: HttpOperationResponse = await deserializeResponseBody(
         [],
         ["my/weird-xml"],
-        response
+        response,
       );
 
       assert(deserializedResponse);
@@ -420,7 +420,7 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(deserializedResponse.blobBody, undefined);
       assert.strictEqual(
         deserializedResponse.bodyAsText,
-        `<fruit><apples taste="good">3</apples></fruit>`
+        `<fruit><apples taste="good">3</apples></fruit>`,
       );
       assert.deepEqual(deserializedResponse.parsedBody, {
         apples: {
@@ -449,7 +449,7 @@ describe("deserializationPolicy", function () {
         response,
         {
           xmlCharKey: "#",
-        }
+        },
       );
 
       assert(deserializedResponse);
@@ -479,13 +479,13 @@ describe("deserializationPolicy", function () {
         response,
         {
           xmlCharKey: "#",
-        }
+        },
       );
 
       assert(deserializedResponse);
       assert.strictEqual(
         deserializedResponse.bodyAsText,
-        `<Metadata><h>v</h><_>underscore</_></Metadata>`
+        `<Metadata><h>v</h><_>underscore</_></Metadata>`,
       );
       assert.deepEqual(deserializedResponse.parsedBody, {
         h: "v",
@@ -510,7 +510,7 @@ describe("deserializationPolicy", function () {
       assert.strictEqual(deserializedResponse.blobBody, undefined);
       assert.strictEqual(
         deserializedResponse.bodyAsText,
-        `<entry xmlns="http://www.w3.org/2005/Atom"><id>https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&amp;enrich=False</id><title type="text">testQueuePath</title><published>2018-10-09T19:56:34Z</published><updated>2018-10-09T19:56:35Z</updated><author><name>daschulttest1</name></author><link rel="self" href="https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&amp;enrich=False"/><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT1M</LockDuration><MaxSizeInMegabytes>1024</MaxSizeInMegabytes><RequiresDuplicateDetection>false</RequiresDuplicateDetection><RequiresSession>false</RequiresSession><DefaultMessageTimeToLive>P14D</DefaultMessageTimeToLive><DeadLetteringOnMessageExpiration>false</DeadLetteringOnMessageExpiration><DuplicateDetectionHistoryTimeWindow>PT10M</DuplicateDetectionHistoryTimeWindow><MaxDeliveryCount>10</MaxDeliveryCount><EnableBatchedOperations>true</EnableBatchedOperations><SizeInBytes>0</SizeInBytes><MessageCount>0</MessageCount><IsAnonymousAccessible>false</IsAnonymousAccessible><AuthorizationRules></AuthorizationRules><Status>Active</Status><CreatedAt>2018-10-09T19:56:34.903Z</CreatedAt><UpdatedAt>2018-10-09T19:56:35.013Z</UpdatedAt><AccessedAt>0001-01-01T00:00:00Z</AccessedAt><SupportOrdering>true</SupportOrdering><CountDetails xmlns:d2p1="http://schemas.microsoft.com/netservices/2011/06/servicebus"><d2p1:ActiveMessageCount>0</d2p1:ActiveMessageCount><d2p1:DeadLetterMessageCount>0</d2p1:DeadLetterMessageCount><d2p1:ScheduledMessageCount>0</d2p1:ScheduledMessageCount><d2p1:TransferMessageCount>0</d2p1:TransferMessageCount><d2p1:TransferDeadLetterMessageCount>0</d2p1:TransferDeadLetterMessageCount></CountDetails><AutoDeleteOnIdle>P10675199DT2H48M5.4775807S</AutoDeleteOnIdle><EnablePartitioning>false</EnablePartitioning><EntityAvailabilityStatus>Available</EntityAvailabilityStatus><EnableExpress>false</EnableExpress></QueueDescription></content></entry>`
+        `<entry xmlns="http://www.w3.org/2005/Atom"><id>https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&amp;enrich=False</id><title type="text">testQueuePath</title><published>2018-10-09T19:56:34Z</published><updated>2018-10-09T19:56:35Z</updated><author><name>daschulttest1</name></author><link rel="self" href="https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&amp;enrich=False"/><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT1M</LockDuration><MaxSizeInMegabytes>1024</MaxSizeInMegabytes><RequiresDuplicateDetection>false</RequiresDuplicateDetection><RequiresSession>false</RequiresSession><DefaultMessageTimeToLive>P14D</DefaultMessageTimeToLive><DeadLetteringOnMessageExpiration>false</DeadLetteringOnMessageExpiration><DuplicateDetectionHistoryTimeWindow>PT10M</DuplicateDetectionHistoryTimeWindow><MaxDeliveryCount>10</MaxDeliveryCount><EnableBatchedOperations>true</EnableBatchedOperations><SizeInBytes>0</SizeInBytes><MessageCount>0</MessageCount><IsAnonymousAccessible>false</IsAnonymousAccessible><AuthorizationRules></AuthorizationRules><Status>Active</Status><CreatedAt>2018-10-09T19:56:34.903Z</CreatedAt><UpdatedAt>2018-10-09T19:56:35.013Z</UpdatedAt><AccessedAt>0001-01-01T00:00:00Z</AccessedAt><SupportOrdering>true</SupportOrdering><CountDetails xmlns:d2p1="http://schemas.microsoft.com/netservices/2011/06/servicebus"><d2p1:ActiveMessageCount>0</d2p1:ActiveMessageCount><d2p1:DeadLetterMessageCount>0</d2p1:DeadLetterMessageCount><d2p1:ScheduledMessageCount>0</d2p1:ScheduledMessageCount><d2p1:TransferMessageCount>0</d2p1:TransferMessageCount><d2p1:TransferDeadLetterMessageCount>0</d2p1:TransferDeadLetterMessageCount></CountDetails><AutoDeleteOnIdle>P10675199DT2H48M5.4775807S</AutoDeleteOnIdle><EnablePartitioning>false</EnablePartitioning><EntityAvailabilityStatus>Available</EntityAvailabilityStatus><EnableExpress>false</EnableExpress></QueueDescription></content></entry>`,
       );
       assert.deepEqual(deserializedResponse.parsedBody, {
         $: {

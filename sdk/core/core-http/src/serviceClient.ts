@@ -193,7 +193,7 @@ export class ServiceClient {
   constructor(
     credentials?: TokenCredential | ServiceClientCredentials,
     /* eslint-disable-next-line @azure/azure-sdk/ts-naming-options */
-    options?: ServiceClientOptions
+    options?: ServiceClientOptions,
   ) {
     if (!options) {
       options = {};
@@ -211,7 +211,7 @@ export class ServiceClient {
       let authPolicyFactory: RequestPolicyFactory | undefined = undefined;
       if (isTokenCredential(credentials)) {
         logger.info(
-          "ServiceClient: creating bearer token authentication policy from provided credentials"
+          "ServiceClient: creating bearer token authentication policy from provided credentials",
         );
         // Create a wrapped RequestPolicyFactory here so that we can provide the
         // correct scope to the BearerTokenAuthenticationPolicy at the first time
@@ -228,19 +228,19 @@ export class ServiceClient {
             create(nextPolicy: RequestPolicy, createOptions: RequestPolicyOptions): RequestPolicy {
               const credentialScopes = getCredentialScopes(
                 serviceClientOptions,
-                serviceClient.baseUri
+                serviceClient.baseUri,
               );
 
               if (!credentialScopes) {
                 throw new Error(
-                  `When using credential, the ServiceClient must contain a baseUri or a credentialScopes in ServiceClientOptions. Unable to create a bearerTokenAuthenticationPolicy`
+                  `When using credential, the ServiceClient must contain a baseUri or a credentialScopes in ServiceClientOptions. Unable to create a bearerTokenAuthenticationPolicy`,
                 );
               }
 
               if (bearerTokenPolicyFactory === undefined || bearerTokenPolicyFactory === null) {
                 bearerTokenPolicyFactory = bearerTokenAuthenticationPolicy(
                   credentials,
-                  credentialScopes
+                  credentialScopes,
                 );
               }
 
@@ -298,7 +298,7 @@ export class ServiceClient {
       for (let i = this._requestPolicyFactories.length - 1; i >= 0; --i) {
         httpPipeline = this._requestPolicyFactories[i].create(
           httpPipeline,
-          this._requestPolicyOptions
+          this._requestPolicyOptions,
         );
       }
     }
@@ -314,7 +314,7 @@ export class ServiceClient {
   async sendOperationRequest(
     operationArguments: OperationArguments,
     operationSpec: OperationSpec,
-    callback?: ServiceCallback<any>
+    callback?: ServiceCallback<any>,
   ): Promise<RestResponse> {
     if (typeof operationArguments.options === "function") {
       callback = operationArguments.options;
@@ -329,7 +329,7 @@ export class ServiceClient {
       const baseUri: string | undefined = operationSpec.baseUrl || this.baseUri;
       if (!baseUri) {
         throw new Error(
-          "If operationSpec.baseUrl is not specified, then the ServiceClient must have a baseUri string property that contains the base URL to use."
+          "If operationSpec.baseUrl is not specified, then the ServiceClient must have a baseUri string property that contains the base URL to use.",
         );
       }
 
@@ -346,20 +346,20 @@ export class ServiceClient {
             this,
             operationArguments,
             urlParameter,
-            operationSpec.serializer
+            operationSpec.serializer,
           );
           urlParameterValue = operationSpec.serializer.serialize(
             urlParameter.mapper,
             urlParameterValue,
             getPathStringFromParameter(urlParameter),
-            serializerOptions
+            serializerOptions,
           );
           if (!urlParameter.skipEncoding) {
             urlParameterValue = encodeURIComponent(urlParameterValue);
           }
           requestUrl.replaceAll(
             `{${urlParameter.mapper.serializedName || getPathStringFromParameter(urlParameter)}}`,
-            urlParameterValue
+            urlParameterValue,
           );
         }
       }
@@ -369,14 +369,14 @@ export class ServiceClient {
             this,
             operationArguments,
             queryParameter,
-            operationSpec.serializer
+            operationSpec.serializer,
           );
           if (queryParameterValue !== undefined && queryParameterValue !== null) {
             queryParameterValue = operationSpec.serializer.serialize(
               queryParameter.mapper,
               queryParameterValue,
               getPathStringFromParameter(queryParameter),
-              serializerOptions
+              serializerOptions,
             );
             if (
               queryParameter.collectionFormat !== undefined &&
@@ -425,7 +425,7 @@ export class ServiceClient {
             }
             requestUrl.setQueryParameter(
               queryParameter.mapper.serializedName || getPathStringFromParameter(queryParameter),
-              queryParameterValue
+              queryParameterValue,
             );
           }
         }
@@ -443,14 +443,14 @@ export class ServiceClient {
             this,
             operationArguments,
             headerParameter,
-            operationSpec.serializer
+            operationSpec.serializer,
           );
           if (headerValue !== undefined && headerValue !== null) {
             headerValue = operationSpec.serializer.serialize(
               headerParameter.mapper,
               headerValue,
               getPathStringFromParameter(headerParameter),
-              serializerOptions
+              serializerOptions,
             );
             const headerCollectionPrefix = (headerParameter.mapper as DictionaryMapper)
               .headerCollectionPrefix;
@@ -462,7 +462,7 @@ export class ServiceClient {
               httpRequest.headers.set(
                 headerParameter.mapper.serializedName ||
                   getPathStringFromParameter(headerParameter),
-                headerValue
+                headerValue,
               );
             }
           }
@@ -527,13 +527,13 @@ export class ServiceClient {
           sendRequestError.details = flattenResponse(
             sendRequestError.response,
             operationSpec.responses[sendRequestError.statusCode] ||
-              operationSpec.responses["default"]
+              operationSpec.responses["default"],
           );
         }
         result = Promise.reject(sendRequestError);
       } else {
         result = Promise.resolve(
-          flattenResponse(rawResponse!, operationSpec.responses[rawResponse!.status])
+          flattenResponse(rawResponse!, operationSpec.responses[rawResponse!.status]),
         );
       }
     } catch (error: any) {
@@ -555,7 +555,7 @@ export function serializeRequestBody(
   serviceClient: ServiceClient,
   httpRequest: WebResourceLike,
   operationArguments: OperationArguments,
-  operationSpec: OperationSpec
+  operationSpec: OperationSpec,
 ): void {
   const serializerOptions = operationArguments.options?.serializerOptions ?? {};
   const updatedOptions: Required<SerializerOptions> = {
@@ -570,7 +570,7 @@ export function serializeRequestBody(
       serviceClient,
       operationArguments,
       operationSpec.requestBody,
-      operationSpec.serializer
+      operationSpec.serializer,
     );
 
     const bodyMapper = operationSpec.requestBody.mapper;
@@ -581,13 +581,13 @@ export function serializeRequestBody(
     try {
       if ((httpRequest.body !== undefined && httpRequest.body !== null) || required) {
         const requestBodyParameterPathString: string = getPathStringFromParameter(
-          operationSpec.requestBody
+          operationSpec.requestBody,
         );
         httpRequest.body = operationSpec.serializer.serialize(
           bodyMapper,
           httpRequest.body,
           requestBodyParameterPathString,
-          updatedOptions
+          updatedOptions,
         );
 
         const isStream = typeName === MapperType.Stream;
@@ -599,7 +599,7 @@ export function serializeRequestBody(
             xmlnsKey,
             typeName,
             httpRequest.body,
-            updatedOptions
+            updatedOptions,
           );
           if (typeName === MapperType.Sequence) {
             httpRequest.body = stringifyXML(
@@ -607,12 +607,12 @@ export function serializeRequestBody(
                 value,
                 xmlElementName || xmlName || serializedName!,
                 xmlnsKey,
-                xmlNamespace
+                xmlNamespace,
               ),
               {
                 rootName: xmlName || serializedName,
                 xmlCharKey,
-              }
+              },
             );
           } else if (!isStream) {
             httpRequest.body = stringifyXML(value, {
@@ -636,8 +636,8 @@ export function serializeRequestBody(
         `Error "${error.message}" occurred in serializing the payload - ${JSON.stringify(
           serializedName,
           undefined,
-          "  "
-        )}.`
+          "  ",
+        )}.`,
       );
     }
   } else if (operationSpec.formDataParameters && operationSpec.formDataParameters.length > 0) {
@@ -647,7 +647,7 @@ export function serializeRequestBody(
         serviceClient,
         operationArguments,
         formDataParameter,
-        operationSpec.serializer
+        operationSpec.serializer,
       );
       if (formDataParameterValue !== undefined && formDataParameterValue !== null) {
         const formDataParameterPropertyName: string =
@@ -656,7 +656,7 @@ export function serializeRequestBody(
           formDataParameter.mapper,
           formDataParameterValue,
           getPathStringFromParameter(formDataParameter),
-          updatedOptions
+          updatedOptions,
         );
       }
     }
@@ -671,7 +671,7 @@ function getXmlValueWithNamespace(
   xmlnsKey: string,
   typeName: string,
   serializedValue: any,
-  options: Required<SerializerOptions>
+  options: Required<SerializerOptions>,
 ): any {
   // Composite and Sequence schemas already got their root namespace set during serialization
   // We just need to add xmlns to the other schema types
@@ -687,7 +687,7 @@ function getXmlValueWithNamespace(
 
 function getValueOrFunctionResult(
   value: undefined | string | ((defaultValue: string) => string),
-  defaultValueCreator: () => string
+  defaultValueCreator: () => string,
 ): string {
   let result: string;
   if (typeof value === "string") {
@@ -703,7 +703,7 @@ function getValueOrFunctionResult(
 
 function createDefaultRequestPolicyFactories(
   authPolicyFactory: RequestPolicyFactory | undefined,
-  options: ServiceClientOptions
+  options: ServiceClientOptions,
 ): RequestPolicyFactory[] {
   const factories: RequestPolicyFactory[] = [];
 
@@ -717,11 +717,11 @@ function createDefaultRequestPolicyFactories(
 
   const userAgentHeaderName: string = getValueOrFunctionResult(
     options.userAgentHeaderName,
-    getDefaultUserAgentHeaderName
+    getDefaultUserAgentHeaderName,
   );
   const userAgentHeaderValue: string = getValueOrFunctionResult(
     options.userAgent,
-    getDefaultUserAgentValue
+    getDefaultUserAgentValue,
   );
   if (userAgentHeaderName && userAgentHeaderValue) {
     factories.push(userAgentPolicy({ key: userAgentHeaderName, value: userAgentHeaderValue }));
@@ -754,7 +754,7 @@ function createDefaultRequestPolicyFactories(
  */
 export function createPipelineFromOptions(
   pipelineOptions: InternalPipelineOptions,
-  authPolicyFactory?: RequestPolicyFactory
+  authPolicyFactory?: RequestPolicyFactory,
 ): ServiceClientOptions {
   const requestPolicyFactories: RequestPolicyFactory[] = [];
 
@@ -816,8 +816,8 @@ export function createPipelineFromOptions(
     exponentialRetryPolicy(
       retryOptions.maxRetries,
       retryOptions.retryDelayInMs,
-      retryOptions.maxRetryDelayInMs
-    )
+      retryOptions.maxRetryDelayInMs,
+    ),
   );
 
   if (redirectOptions.handleRedirects) {
@@ -864,14 +864,14 @@ function getOperationArgumentValueFromParameter(
   serviceClient: ServiceClient,
   operationArguments: OperationArguments,
   parameter: OperationParameter,
-  serializer: Serializer
+  serializer: Serializer,
 ): any {
   return getOperationArgumentValueFromParameterPath(
     serviceClient,
     operationArguments,
     parameter.parameterPath,
     parameter.mapper,
-    serializer
+    serializer,
   );
 }
 
@@ -880,7 +880,7 @@ export function getOperationArgumentValueFromParameterPath(
   operationArguments: OperationArguments,
   parameterPath: ParameterPath,
   parameterMapper: Mapper,
-  serializer: Serializer
+  serializer: Serializer,
 ): any {
   let value: any;
   if (typeof parameterPath === "string") {
@@ -894,7 +894,7 @@ export function getOperationArgumentValueFromParameterPath(
       } else {
         let propertySearchResult: PropertySearchResult = getPropertyFromParameterPath(
           operationArguments,
-          parameterPath
+          parameterPath,
         );
         if (!propertySearchResult.propertyFound) {
           propertySearchResult = getPropertyFromParameterPath(serviceClient, parameterPath);
@@ -912,7 +912,7 @@ export function getOperationArgumentValueFromParameterPath(
       // Serialize just for validation purposes.
       const parameterPathString: string = getPathStringFromParameterPath(
         parameterPath,
-        parameterMapper
+        parameterMapper,
       );
       serializer.serialize(parameterMapper, value, parameterPathString, serializerOptions);
     }
@@ -931,12 +931,12 @@ export function getOperationArgumentValueFromParameterPath(
         operationArguments,
         propertyPath,
         propertyMapper,
-        serializer
+        serializer,
       );
       // Serialize just for validation purposes.
       const propertyPathString: string = getPathStringFromParameterPath(
         propertyPath,
-        propertyMapper
+        propertyMapper,
       );
       serializer.serialize(propertyMapper, propertyValue, propertyPathString, serializerOptions);
       if (propertyValue !== undefined && propertyValue !== null) {
@@ -957,7 +957,7 @@ interface PropertySearchResult {
 
 function getPropertyFromParameterPath(
   parent: { [parameterName: string]: any },
-  parameterPath: string[]
+  parameterPath: string[],
 ): PropertySearchResult {
   const result: PropertySearchResult = { propertyFound: false };
   let i = 0;
@@ -985,13 +985,13 @@ function getPropertyFromParameterPath(
  */
 export function flattenResponse(
   _response: HttpOperationResponse,
-  responseSpec: OperationResponse | undefined
+  responseSpec: OperationResponse | undefined,
 ): RestResponse {
   const parsedHeaders = _response.parsedHeaders;
   const bodyMapper = responseSpec && responseSpec.bodyMapper;
 
   const addOperationResponse = <T extends Record<string, unknown>>(
-    obj: T
+    obj: T,
   ): T & {
     _response: HttpOperationResponse;
   } => {
@@ -1015,7 +1015,7 @@ export function flattenResponse(
     const modelProperties =
       (typeName === "Composite" && (bodyMapper as CompositeMapper).type.modelProperties) || {};
     const isPageableResponse = Object.keys(modelProperties).some(
-      (k) => modelProperties[k].serializedName === ""
+      (k) => modelProperties[k].serializedName === "",
     );
     if (typeName === "Sequence" || isPageableResponse) {
       const arrayResponse = [...(_response.parsedBody || [])] as RestResponse & any[];
@@ -1063,7 +1063,7 @@ export function flattenResponse(
 
 function getCredentialScopes(
   options?: ServiceClientOptions,
-  baseUri?: string
+  baseUri?: string,
 ): string | string[] | undefined {
   if (options?.credentialScopes) {
     return options.credentialScopes;

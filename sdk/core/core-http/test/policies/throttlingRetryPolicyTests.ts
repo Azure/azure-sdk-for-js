@@ -33,8 +33,8 @@ describe("ThrottlingRetryPolicy", () => {
     response?: HttpOperationResponse,
     actionHandler?: (
       httpRequest: WebResource,
-      response: HttpOperationResponse
-    ) => Promise<HttpOperationResponse>
+      response: HttpOperationResponse,
+    ) => Promise<HttpOperationResponse>,
   ): ThrottlingRetryPolicy {
     if (!response) {
       response = defaultResponse;
@@ -170,7 +170,7 @@ describe("ThrottlingRetryPolicy", () => {
             return responses.shift()!;
           },
         },
-        new RequestPolicyOptions()
+        new RequestPolicyOptions(),
       );
 
       const promise = policy.sendRequest(request);
@@ -216,7 +216,7 @@ describe("ThrottlingRetryPolicy", () => {
             return responses.shift()!;
           },
         },
-        new RequestPolicyOptions()
+        new RequestPolicyOptions(),
       );
 
       const promise = policy.sendRequest(request);
@@ -238,7 +238,7 @@ describe("ThrottlingRetryPolicy", () => {
         undefined,
         undefined,
         undefined,
-        AbortController.timeout(100)
+        AbortController.timeout(100),
       );
       const mockResponse = {
         headers: new HttpHeaders({
@@ -280,7 +280,7 @@ describe("ThrottlingRetryPolicy", () => {
     it("should return sleep interval value in milliseconds for full date format", function (done) {
       const clock = sinon.useFakeTimers(new Date("Fri, 31 Dec 1999 23:00:00 GMT").getTime());
       const retryAfter = ThrottlingRetryPolicy.parseRetryAfterHeader(
-        "Fri, 31 Dec 1999 23:02:00 GMT"
+        "Fri, 31 Dec 1999 23:02:00 GMT",
       );
 
       assert.equal(retryAfter, 2 * 60 * 1000);

@@ -67,7 +67,7 @@ export const DEFAULT_CYCLER_OPTIONS: TokenCyclerOptions = {
 async function beginRefresh(
   getAccessToken: () => Promise<AccessToken | null>,
   retryIntervalInMs: number,
-  timeoutInMs: number
+  timeoutInMs: number,
 ): Promise<AccessToken> {
   // This wrapper handles exceptions gracefully as long as we haven't exceeded
   // the timeout.
@@ -119,7 +119,7 @@ async function beginRefresh(
 function createTokenCycler(
   credential: TokenCredential,
   scopes: string | string[],
-  tokenCyclerOptions?: Partial<TokenCyclerOptions>
+  tokenCyclerOptions?: Partial<TokenCyclerOptions>,
 ): AccessTokenGetter {
   let refreshWorker: Promise<AccessToken> | null = null;
   let token: AccessToken | null = null;
@@ -177,7 +177,7 @@ function createTokenCycler(
         tryGetAccessToken,
         options.retryIntervalInMs,
         // If we don't have a token, then we should timeout immediately
-        token?.expiresOnTimestamp ?? Date.now()
+        token?.expiresOnTimestamp ?? Date.now(),
       )
         .then((_token) => {
           refreshWorker = null;
@@ -229,7 +229,7 @@ function createTokenCycler(
  */
 export function bearerTokenAuthenticationPolicy(
   credential: TokenCredential,
-  scopes: string | string[]
+  scopes: string | string[],
 ): RequestPolicyFactory {
   // This simple function encapsulates the entire process of reliably retrieving the token
   const getToken = createTokenCycler(credential, scopes /* , options */);
@@ -242,7 +242,7 @@ export function bearerTokenAuthenticationPolicy(
     public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
       if (!webResource.url.toLowerCase().startsWith("https://")) {
         throw new Error(
-          "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs."
+          "Bearer token authentication is not permitted for non-TLS protected (non-https) URLs.",
         );
       }
 

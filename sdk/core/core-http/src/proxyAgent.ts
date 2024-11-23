@@ -12,7 +12,7 @@ export type ProxyAgent = { isHttps: boolean; agent: http.Agent | https.Agent };
 export function createProxyAgent(
   requestUrl: string,
   proxySettings: ProxySettings,
-  headers?: HttpHeadersLike
+  headers?: HttpHeadersLike,
 ): ProxyAgent {
   const host = URLBuilder.parse(proxySettings.host).getHost() as string;
   if (!host) {
@@ -54,7 +54,7 @@ export function isUrlHttps(url: string): boolean {
 export function createTunnel(
   isRequestHttps: boolean,
   isProxyHttps: boolean,
-  tunnelOptions: tunnel.HttpsOverHttpsOptions
+  tunnelOptions: tunnel.HttpsOverHttpsOptions,
 ): http.Agent | https.Agent {
   if (isRequestHttps && isProxyHttps) {
     return tunnel.httpsOverHttps(tunnelOptions);
