@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { URLBuilder, URLQuery } from "../url";
 import { UnknownObject, isObject } from "./utils";

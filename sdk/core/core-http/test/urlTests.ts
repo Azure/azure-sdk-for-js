@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { URLBuilder, URLQuery, URLToken, URLTokenizer } from "../src/url";
 import { assert } from "chai";

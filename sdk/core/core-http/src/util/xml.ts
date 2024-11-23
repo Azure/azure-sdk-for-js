@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as xml2js from "xml2js";
 import { SerializerOptions, XML_ATTRKEY, XML_CHARKEY } from "./serializer.common";

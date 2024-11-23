@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as http from "http";
 import * as https from "https";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { AbortController, AbortError } from "@azure/abort-controller";
 import { HttpHeaders, HttpHeadersLike } from "./httpHeaders";
 import { ProxyAgent, createProxyAgent, isUrlHttps } from "./proxyAgent";
 import { Readable, Transform } from "stream";
 import { TransferProgressEvent, WebResourceLike } from "./webResource";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import FormData from "form-data";
 import { HttpClient } from "./httpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";

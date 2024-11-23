@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AssertionError, assert } from "chai";
 import { Constants, HttpHeaders, RequestPolicyOptions } from "../../src";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { AbortController } from "@azure/abort-controller";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
 import { ThrottlingRetryPolicy } from "../../src/policies/throttlingRetryPolicy";

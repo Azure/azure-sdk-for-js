@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable no-unused-expressions */
 
@@ -13,6 +13,7 @@ import { PassThrough, Readable } from "stream";
 import { ReadStream, createReadStream } from "fs";
 import { TransferProgressEvent, WebResource } from "../src/webResource";
 import { fakeTestPasswordPlaceholder, fakeTestSecretPlaceholder } from "@azure-tools/test-utils";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { AbortController } from "@azure/abort-controller";
 import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { OperationSpec } from "../src/operationSpec";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Constants } from "./constants";
 import { HttpOperationResponse } from "../httpOperationResponse";
@@ -130,12 +130,12 @@ export interface ServiceCallback<TResult> {
  * @returns A function that takes the callback `(cb: Function) => void`
  * @deprecated generated code should instead depend on responseToBody
  */
-// eslint-disable-next-line @typescript-eslint/ban-types
+// eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
 export function promiseToCallback(promise: Promise<any>): (cb: Function) => void {
   if (typeof promise.then !== "function") {
     throw new Error("The provided input is not a Promise.");
   }
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   return (cb: Function): void => {
     promise
       .then((data: any) => {

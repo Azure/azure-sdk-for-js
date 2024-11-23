@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureLogLevel, Debugger, getLogLevel, setLogLevel } from "@azure/logger";
 import { HttpHeaders, RawHttpHeaders } from "../src/httpHeaders";

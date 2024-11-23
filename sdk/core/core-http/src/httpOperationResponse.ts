@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { HttpHeadersLike } from "./httpHeaders";
 import { WebResourceLike } from "./webResource";

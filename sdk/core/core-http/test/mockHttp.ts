@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { HttpMethods, isNode } from "../src";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import fetchMock, * as fetch from "fetch-mock";
 import xhrMock, { proxy } from "xhr-mock";
 import { Readable } from "stream";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccessToken } from "../src";
 import { ExpiringAccessTokenCache } from "../src/credentials/accessTokenCache";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // BaseRequestPolicy has a protected constructor.
 /* eslint-disable @typescript-eslint/no-useless-constructor */

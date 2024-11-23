@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Sanitizer } from "../src/util/sanitizer";
 import { assert } from "chai";

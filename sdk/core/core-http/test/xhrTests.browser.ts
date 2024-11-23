@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { XhrHttpClient, parseHeaders } from "../src/xhrHttpClient";
 import { WebResource } from "../src/webResource";

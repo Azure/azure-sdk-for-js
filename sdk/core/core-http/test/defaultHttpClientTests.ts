@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable no-unused-expressions */
 
@@ -8,6 +8,7 @@ import * as sinon from "sinon";
 import { AssertionError, assert } from "chai";
 import { HttpMockFacade, getHttpMock } from "./mockHttp";
 import { TransferProgressEvent, WebResource } from "../src/webResource";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { AbortController } from "@azure/abort-controller";
 import { CommonResponse } from "../src/nodeFetchHttpClient";
 import { Context } from "mocha";

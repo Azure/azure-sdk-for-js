@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as msAssert from "./msAssert";
 import { parseXML, stringifyXML } from "../src/util/xml";

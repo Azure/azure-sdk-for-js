@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // NOTE: we've moved this code into core-tracing but these functions
 // were a part of the GA'd library and can't be removed until the next major
