@@ -305,8 +305,6 @@ export interface PipelineRequestOptions {
 // @public
 export interface PipelineResponse {
     blobBody?: Promise<Blob>;
-    // (undocumented)
-    bodyAsBuffer?: Buffer;
     bodyAsText?: string | null;
     browserStreamBody?: ReadableStream<Uint8Array>;
     headers: HttpHeaders;
