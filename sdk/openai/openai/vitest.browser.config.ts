@@ -18,8 +18,8 @@ export default mergeConfig(
         "dist-test/browser/test/**/*.spec.js",
       ],
       alias: {
-        "@azure/openai": resolve("./dist/browser/index.js"),
         "@azure/openai/types": resolve("./dist/browser/types/index.js"),
+        "@azure/openai": resolve("./dist/browser/index.js"),
         "../../dist/esm": resolve("./dist/browser"),
       },
     },
