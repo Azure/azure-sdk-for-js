@@ -1,15 +1,65 @@
 # Release History
-
-## 21.3.1 (Unreleased)
-
+    
+## 21.4.0-beta.1 (2024-11-18)
+Compared with version 21.3.0
+    
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
-
-### Other Changes
-
+  - Added operation Accounts.beginChangeKeyVault
+  - Added operation Accounts.beginChangeKeyVaultAndWait
+  - Added operation Accounts.beginGetChangeKeyVaultInformation
+  - Added operation Accounts.beginGetChangeKeyVaultInformationAndWait
+  - Added operation Accounts.beginTransitionToCmk
+  - Added operation Accounts.beginTransitionToCmkAndWait
+  - Added operation Volumes.beginListQuotaReport
+  - Added operation Volumes.beginListQuotaReportAndWait
+  - Added operation Volumes.beginSplitCloneFromParent
+  - Added operation Volumes.beginSplitCloneFromParentAndWait
+  - Added Interface AccountsChangeKeyVaultHeaders
+  - Added Interface AccountsChangeKeyVaultOptionalParams
+  - Added Interface AccountsGetChangeKeyVaultInformationHeaders
+  - Added Interface AccountsGetChangeKeyVaultInformationOptionalParams
+  - Added Interface AccountsTransitionToCmkHeaders
+  - Added Interface AccountsTransitionToCmkOptionalParams
+  - Added Interface ChangeKeyVault
+  - Added Interface DestinationReplication
+  - Added Interface EncryptionTransitionRequest
+  - Added Interface KeyVaultPrivateEndpoint
+  - Added Interface ListQuotaReportResponse
+  - Added Interface QuotaReport
+  - Added Interface VolumesListQuotaReportHeaders
+  - Added Interface VolumesListQuotaReportOptionalParams
+  - Added Interface VolumesSplitCloneFromParentHeaders
+  - Added Interface VolumesSplitCloneFromParentOptionalParams
+  - Added Type Alias AcceptGrowCapacityPoolForShortTermCloneSplit
+  - Added Type Alias AccountsChangeKeyVaultResponse
+  - Added Type Alias AccountsGetChangeKeyVaultInformationResponse
+  - Added Type Alias AccountsTransitionToCmkResponse
+  - Added Type Alias ReplicationType
+  - Added Type Alias VolumeLanguage
+  - Added Type Alias VolumesListQuotaReportResponse
+  - Added Type Alias VolumesSplitCloneFromParentResponse
+  - Interface Backup has a new optional parameter isLargeVolume
+  - Interface CapacityPool has a new optional parameter customThroughputMibps
+  - Interface CapacityPoolPatch has a new optional parameter customThroughputMibps
+  - Interface EncryptionIdentity has a new optional parameter federatedClientId
+  - Interface NetAppAccount has a new optional parameter isMultiAdEnabled
+  - Interface NetAppAccount has a new optional parameter nfsV4IDDomain
+  - Interface NetAppAccountPatch has a new optional parameter isMultiAdEnabled
+  - Interface NetAppAccountPatch has a new optional parameter nfsV4IDDomain
+  - Interface ReplicationObject has a new optional parameter destinationReplications
+  - Interface Volume has a new optional parameter acceptGrowCapacityPoolForShortTermCloneSplit
+  - Interface Volume has a new optional parameter inheritedSizeInBytes
+  - Interface Volume has a new optional parameter language
+  - Interface VolumeGroupVolumeProperties has a new optional parameter acceptGrowCapacityPoolForShortTermCloneSplit
+  - Interface VolumeGroupVolumeProperties has a new optional parameter inheritedSizeInBytes
+  - Interface VolumeGroupVolumeProperties has a new optional parameter language
+  - Added Enum KnownAcceptGrowCapacityPoolForShortTermCloneSplit
+  - Added Enum KnownReplicationType
+  - Added Enum KnownVolumeLanguage
+  - Enum KnownServiceLevel has a new value Flexible
+    
+    
 ## 21.3.0 (2024-10-24)
     
 ### Features Added
