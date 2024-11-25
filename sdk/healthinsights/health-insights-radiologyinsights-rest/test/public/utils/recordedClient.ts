@@ -5,7 +5,6 @@ import { createTestCredential } from "@azure-tools/test-credential";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { DefaultAzureCredential, logger } from "@azure/identity";
-import type { Context } from "mocha";
 import type { AzureHealthInsightsClient } from "../../../src/index.js";
 import AHIClient from "../../../src/index.js";
 import "./env.js";
