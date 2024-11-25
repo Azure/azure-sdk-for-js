@@ -1,4 +1,18 @@
 trigger: none
+
+parameters:
+- name: UpdateMain
+  displayName: |
+    Update main branch.
+  type: boolean
+  default: true
+
+- name: ForceDailyUpdate
+  displayName: |
+    Force the daily branch update (includes starting daily branch run).
+  type: boolean
+  default: false
+
 variables:
   - template: /eng/pipelines/templates/variables/globals.yml
 jobs:
@@ -65,7 +79,7 @@ jobs:
       # made. These updates include new libraries and CSV updates in azure-sdk which, depending
       # on the column(s) updated can cause anything from package deprecation to service level
       # readme or ToC updates.
-      - ${{ if or(eq(variables['Build.Reason'], 'Schedule'), ne(variables['Skip.MainUpdate'], 'true')) }}:
+      - ${{ if or(eq(variables['Build.Reason'], 'Schedule'), parameters.UpdateMain) }}:
         - task: Powershell@2
           inputs:
             pwsh: true
@@ -80,7 +94,6 @@ jobs:
             filePath: eng/common/scripts/Update-DocsMsPackageMonikers.ps1
             arguments: -DocRepoLocation $(DocRepoLocation)
           displayName: Move deprecated packages to legacy moniker
-          condition: succeeded()
 
         - task: Powershell@2
           inputs:
@@ -88,7 +101,6 @@ jobs:
             filePath: eng/common/scripts/Update-DocsMsPackages.ps1
             arguments: -DocRepoLocation $(DocRepoLocation)
           displayName: Update Docs Onboarding for main branch
-          condition: succeeded()
 
         - task: Powershell@2
           inputs:
@@ -96,7 +108,6 @@ jobs:
             filePath: eng/common/scripts/Service-Level-Readme-Automation.ps1
             arguments: -DocRepoLocation $(DocRepoLocation)
           displayName: Generate Service Level Readme for main branch
-          condition: succeeded()
 
         - task: Powershell@2
           inputs:
@@ -106,7 +117,6 @@ jobs:
               -DocRepoLocation $(DocRepoLocation)
               -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
           displayName: Generate ToC for main branch
-          condition: succeeded()
 
         # Push changes to docs repo
         - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
@@ -120,7 +130,7 @@ jobs:
 
       # The scenario for running a Manual build is normally only for the main updates. The daily build
       # should really only get kicked off for scheduled runs.
-      - ${{ if or(eq(variables['Build.Reason'], 'Schedule'), eq(variables['Force.DailyUpdate'], 'true')) }}:
+      - ${{ if or(eq(variables['Build.Reason'], 'Schedule'), parameters.ForceDailyUpdate) }}:
         # Prepare daily docs CI
         - template: /eng/common/pipelines/templates/steps/set-daily-docs-branch-name.yml
           parameters:
@@ -140,7 +150,6 @@ jobs:
             arguments: >-
               -DocRepoLocation $(DocRepoLocation)
           displayName: Verify Required Docs Json Members
-          condition: succeeded()
 
         - task: Powershell@2
           inputs:
@@ -148,7 +157,6 @@ jobs:
             filePath: eng/common/scripts/Update-DocsMsPackages.ps1
             arguments: -DocRepoLocation $(DocRepoLocation)
           displayName: Update Docs Onboarding for Daily docs
-          condition: succeeded()
 
         - task: Powershell@2
           inputs:
@@ -156,7 +164,6 @@ jobs:
             filePath: eng/common/scripts/Service-Level-Readme-Automation.ps1
             arguments: -DocRepoLocation $(DocRepoLocation)
           displayName: Generate Service Level Readme for Daily docs
-          condition: succeeded()
 
         - task: Powershell@2
           inputs:
@@ -166,7 +173,6 @@ jobs:
               -DocRepoLocation $(DocRepoLocation)
               -OutputLocation $(DocRepoLocation)/docs-ref-mapping/reference-unified.yml
           displayName: Generate ToC for Daily docs
-          condition: succeeded()
 
         - template: /eng/common/pipelines/templates/steps/git-push-changes.yml
           parameters:
@@ -194,4 +200,3 @@ jobs:
                 -DefinitionId 3452 `
                 -BuildParametersJson $buildParamJson `
                 -BearerToken $accessToken
-          condition: succeeded()
