@@ -21336,7 +21336,7 @@ packages:
     dev: false
 
   file:projects/maps-route.tgz:
-    resolution: {integrity: sha512-7CIlx59lH1iXpkFOrf1zQ6r986jREdZS9F+cKejJPIrbqqj0e9uO5Po1q9aUwQgEkQFlh8wQ55GrK36jhQG5jQ==, tarball: file:projects/maps-route.tgz}
+    resolution: {integrity: sha512-5+w6/ULXCxZtXZhoJ5l7+MKUKaQIx49viOcfYMVGjQw0vi0Tq59nx9Qrl6qWos6BC1kILM5uINp8W47dBpCNWA==, tarball: file:projects/maps-route.tgz}
     name: '@rush-temp/maps-route'
     version: 0.0.0
     dependencies:
@@ -21347,6 +21347,8 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.65
+      '@vitest/browser': 2.1.5(@types/node@18.19.65)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       autorest: 3.7.1
       chai: 4.3.10
       dotenv: 16.4.5
@@ -21363,18 +21365,32 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.65)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.65)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/maps-search.tgz:

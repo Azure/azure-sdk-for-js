@@ -14,7 +14,7 @@ import {
   RouteRequestRouteDirectionsBatchSync200Response,
   RouteRequestRouteDirectionsBatchSync408Response,
   RouteRequestRouteDirectionsBatchSyncDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /route/matrix/{format}": ["200", "202"],

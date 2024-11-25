@@ -6,16 +6,13 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
+import type { RouteRequestRouteDirectionsBatchSync200Response } from "@azure-rest/maps-route";
 import MapsRoute, {
   createRouteDirectionsBatchRequest,
   isUnexpected,
   toColonDelimitedLatLonString,
-  RouteRequestRouteDirectionsBatchSync200Response,
 } from "@azure-rest/maps-route";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 async function main(): Promise<void> {
   /**
