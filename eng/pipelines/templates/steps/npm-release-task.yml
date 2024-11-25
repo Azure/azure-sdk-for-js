@@ -10,13 +10,13 @@ steps:
 
   - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
     - pwsh: |
+        Set-PSDebug -Trace 1
         $tarFile = (Get-ChildItem -Path "${{parameters.PathToArtifacts}}/*.tgz").FullName
         $tempDir = "$(System.DefaultWorkingDirectory)/temp_decompress"
         New-Item -ItemType Directory -Force -Path $tempDir
         tar -xzf $tarFile -C $tempDir
-        $packageJsonDir = "$tempDir\package\package.json"
+        $packageJsonDir = "$tempDir/package/package.json"
         $pkg = Get-Content -Raw "$packageJsonDir" | ConvertFrom-Json
-        # $packageName = $pkg.Name
         $packageName = "testestestestetsetset"
         $packageVersion = $pkg.Version
         $ErrorActionPreference = 'Continue'
