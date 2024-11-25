@@ -9,7 +9,7 @@ import type {
   DocumentsStatus,
   SupportedFileFormats,
   SupportedStorageSources,
-} from "./models";
+} from "./models.js";
 import type { HttpResponse } from "@azure-rest/core-client";
 import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 

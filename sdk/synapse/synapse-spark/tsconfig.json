@@ -1,19 +1,21 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types"
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
+    "paths": {
+      "@azure/synapse-spark": ["./src/index.js"]
+    }
   },
   "include": [
     "src/**/*.ts",
-    "test/**/*.ts"
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
   ],
-  "exclude": [
-    "node_modules",
-    "types",
-    "temp",
-    "browser",
-    "dist*",
-    "./dom-shims.d.ts"
-  ]
+  "exclude": ["node_modules", "types", "temp", "browser", "dist*", "./dom-shims.d.ts"]
 }

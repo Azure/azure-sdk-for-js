@@ -1,10 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
-/**
- * Defines the utility methods.
- */
-
 const { KnownAnalyzerNames } = require("@azure/search-documents");
 const { env } = require("process");
 

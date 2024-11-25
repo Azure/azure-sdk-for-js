@@ -7,7 +7,7 @@ import type {
   MetadataPolicyListAllParameters,
   MetadataPolicyUpdateParameters,
   MetadataRolesListParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   MetadataPolicyGet200Response,
   MetadataPolicyGetdefaultResponse,
@@ -17,7 +17,7 @@ import type {
   MetadataPolicyUpdatedefaultResponse,
   MetadataRolesList200Response,
   MetadataRolesListdefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 export interface MetadataRolesList {
   /** Lists roles for Purview Account */
