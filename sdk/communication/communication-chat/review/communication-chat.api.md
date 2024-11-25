@@ -317,7 +317,7 @@ export interface StreamingMessageMetadata {
     // (undocumented)
     streamEndReason?: StreamEndReason;
     // (undocumented)
-    streamingContentType?: StreamingMessageType;
+    streamingMessageType?: StreamingMessageType;
     // (undocumented)
     streamingSequenceNumber?: number;
 }

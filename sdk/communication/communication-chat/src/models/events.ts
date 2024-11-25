@@ -21,7 +21,7 @@ import {
 export type StreamingMessageType = "start" | "informative" | "streaming" | "final";
 export type StreamEndReason = "completed" | "expired" | "canceled";
 export interface StreamingMessageMetadata {
-  streamingContentType?: StreamingMessageType;
+  streamingMessageType?: StreamingMessageType;
   streamingSequenceNumber?: number; // Only present on informative or streaming type messages
   streamEndReason?: StreamEndReason;  // Only present on final type messages
 }
