@@ -24,15 +24,20 @@ steps:
         if ($packageProps.error) {
           write-host $($packageProps.error)
           if ($packageProps.error.code -ne "E404") {
+            write-host "inside if"
             Write-Error $packageProps.error
             exit 1
           }
         }
         else {
+          write-host "inside else"
           $originalTags = $packageProps.'dist-tags' | ConvertTo-Json -Compress
         }
+        write-host "before vso"
         echo "##vso[task.setvariable variable=PackageName]$packageName"
+        write-host "vso 1"
         echo "##vso[task.setvariable variable=OriginalTags]$originalTags"
+        write-host "vso 2"
         echo "##vso[task.setvariable variable=IntendedTagVersion]$packageVersion"
       displayName: Get original tags
 
