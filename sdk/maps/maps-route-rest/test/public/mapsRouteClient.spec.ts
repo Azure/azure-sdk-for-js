@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import type { Context, Suite } from "mocha";
 import type { RouteDirectionParameters, RouteMatrixQuery } from "../../src/index.js";
 import { createRouteDirectionsBatchRequest, toColonDelimitedLatLonString } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createClient, createRecorder, testLogger } from "./utils/recordedClient.js";
 import type {
   MapsRouteClient,
@@ -16,6 +13,7 @@ import type {
 } from "../../generated/index.js";
 import { getLongRunningPoller, isUnexpected } from "../../generated/index.js";
 import type { LatLon } from "@azure/maps-common";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Endpoint can be overwritten", function (this: Suite) {
   let recorder: Recorder;
