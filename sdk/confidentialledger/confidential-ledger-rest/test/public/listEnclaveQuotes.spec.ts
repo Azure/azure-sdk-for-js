@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ConfidentialLedgerClient } from "../../src";
-import { isUnexpected } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import type { ConfidentialLedgerClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
@@ -12,7 +12,7 @@ describe("List Enclaves", function () {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = await createClient(recorder);
   });

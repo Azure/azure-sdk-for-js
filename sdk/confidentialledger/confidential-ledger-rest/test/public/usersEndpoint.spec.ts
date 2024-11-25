@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ConfidentialLedgerClient } from "../../src";
-import { isUnexpected } from "../../src";
+import type { ConfidentialLedgerClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 
 import type { Context } from "mocha";
 import { assert } from "chai";
@@ -13,7 +13,7 @@ describe("Get user", function () {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = await createClient(recorder);
   });
@@ -26,7 +26,7 @@ describe("Get user", function () {
     // If using a test app, it needs to be the oid.
     const userId = env.AZURE_CLIENT_OID;
     if (!userId) {
-      this.skip();
+      ctx.skip();
     }
     const result = await client.path("/app/users/{userId}", userId).get();
     assert.equal(result.status, "200");

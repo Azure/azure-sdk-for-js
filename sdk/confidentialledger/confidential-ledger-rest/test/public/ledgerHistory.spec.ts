@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ConfidentialLedgerClient } from "../../src";
-import { isUnexpected } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import type { ConfidentialLedgerClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 
 import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -13,7 +13,7 @@ describe("Get ledger history", function () {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = await createClient(recorder);
   });
@@ -24,7 +24,7 @@ describe("Get ledger history", function () {
 
   it("should obtain ledger entries from ledger", async function () {
     if (isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     const result = await client.path("/app/transactions").get();
