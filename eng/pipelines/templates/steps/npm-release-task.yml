@@ -17,13 +17,17 @@ steps:
         tar -xzf $tarFile -C $tempDir
         $packageJsonDir = "$tempDir/package/package.json"
         $pkg = Get-Content -Raw "$packageJsonDir" | ConvertFrom-Json
-        $packageName = "testestestestetsetset"
+        $packageName = "@azure/testestestestetsetset"
         $packageVersion = $pkg.Version
-        $ErrorActionPreference = 'Continue'
         $packageProps = npm view $packageName -json -silent | ConvertFrom-Json
-        $ErrorActionPreference = 'Stop'
         $originalTags = "{}"
-        if ($packageProps.error?.code -ne "E404") {
+        if ($packageProps.error) {
+          if ($packageProps.error.code -ne "E404") {
+            Write-Error $packageProps.error
+            exit 1
+          }
+        }
+        else {
           $originalTags = $packageProps.'dist-tags' | ConvertTo-Json -Compress
         }
         echo "##vso[task.setvariable variable=PackageName]$packageName"
