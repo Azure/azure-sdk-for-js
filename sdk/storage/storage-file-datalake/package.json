@@ -1,6 +1,6 @@
 {
   "name": "@azure/storage-file-datalake",
-  "version": "12.25.0-beta.1",
+  "version": "12.25.0",
   "description": "Microsoft Azure Storage SDK for JavaScript - DataLake",
   "sdk-type": "client",
   "main": "./dist/index.js",
@@ -125,7 +125,7 @@
     "@azure/core-util": "^1.1.1",
     "@azure/core-xml": "^1.4.3",
     "@azure/logger": "^1.0.0",
-    "@azure/storage-blob": "^12.26.0-beta.1",
+    "@azure/storage-blob": "^12.26.0",
     "events": "^3.0.0",
     "tslib": "^2.2.0"
   },

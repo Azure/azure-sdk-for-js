@@ -9,9 +9,9 @@ import type {
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest, RestError } from "@azure/core-rest-pipeline";
-import { logger } from "./logger";
-import type { Fetcher } from "./fetcherAbstract";
-import type { DTDL } from "./psuedoDtdl";
+import { logger } from "./logger.js";
+import type { Fetcher } from "./fetcherAbstract.js";
+import type { DTDL } from "./psuedoDtdl.js";
 
 /**
  * The HTTP Fetcher implements the Fetcher interface to
@@ -23,6 +23,7 @@ export class HttpFetcher implements Fetcher {
   private _client: ServiceClient;
   private _baseURL: string;
 
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   constructor(baseURL: string, client: ServiceClient) {
     this._client = client;
     this._baseURL = baseURL;

@@ -1,3 +1,4 @@
+/* eslint-disable tsdoc/syntax */
 /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
@@ -6,7 +7,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 /** Managed private endpoint */
 export interface ManagedPrivateEndpoint {
@@ -80,26 +81,22 @@ export interface ManagedPrivateEndpointListResponse {
 }
 
 /** Optional parameters. */
-export interface ManagedPrivateEndpointsGetOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedPrivateEndpointsGetOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the get operation. */
 export type ManagedPrivateEndpointsGetResponse = ManagedPrivateEndpoint;
 
 /** Optional parameters. */
-export interface ManagedPrivateEndpointsCreateOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedPrivateEndpointsCreateOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the create operation. */
 export type ManagedPrivateEndpointsCreateResponse = ManagedPrivateEndpoint;
 
 /** Optional parameters. */
-export interface ManagedPrivateEndpointsDeleteOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedPrivateEndpointsDeleteOptionalParams extends coreClient.OperationOptions {}
 
 /** Optional parameters. */
-export interface ManagedPrivateEndpointsListOptionalParams
-  extends coreClient.OperationOptions {}
+export interface ManagedPrivateEndpointsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
 export type ManagedPrivateEndpointsListResponse = ManagedPrivateEndpointListResponse;

@@ -8,7 +8,7 @@ import { env } from "@azure-tools/test-recorder";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "../../../src/credentials/clientSecretCredential.js";
 import { IdentityClient } from "../../../src/client/identityClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("MultiTenantAuthentication", function () {
   let cleanup: MsalTestCleanup;
@@ -24,7 +24,7 @@ describe("MultiTenantAuthentication", function () {
     await cleanup();
   });
 
-  it("supports calling graph with client secret", async function () {
+  it("supports calling graph with client secret", async function (ctx) {
     const [tenantId, clientId, clientSecret] = [
       env.AZURE_IDENTITY_MULTI_TENANT_TENANT_ID,
       env.AZURE_IDENTITY_MULTI_TENANT_CLIENT_ID,
