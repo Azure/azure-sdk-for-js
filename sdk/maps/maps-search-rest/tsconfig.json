@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/maps-search": [
-        "./src/index"
-      ]
+      "@azure-rest/maps-search": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
