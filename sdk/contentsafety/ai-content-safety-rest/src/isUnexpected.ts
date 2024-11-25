@@ -23,7 +23,7 @@ import type {
   GetTextBlocklistItemDefaultResponse,
   ListTextBlocklistItems200Response,
   ListTextBlocklistItemsDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /text:analyze": ["200"],
