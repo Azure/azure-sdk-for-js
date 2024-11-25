@@ -3,7 +3,7 @@
 
 import MapsRoute from "./mapsRoute.js";
 
-export * from "../generated/index.js";
+export * from "./generated/index.js";
 export * from "./helpers.js";
 
 export default MapsRoute;
