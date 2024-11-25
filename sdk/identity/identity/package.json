@@ -30,7 +30,7 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "echo skipped",
     "integration-test:managed-identity": "dev-tool run test:vitest -- --test-timeout 180000 --config ./vitest.managed-identity.config.ts",
-    "integration-test:node": "dev-tool run test:vitest -- --test-timeout 180000 'test/public/node/*.spec.ts' 'test/internal/node/*.spec.ts'",
+    "integration-test:node": "dev-tool run test:vitest",
     "lint": "eslint package.json api-extractor.json src test",
     "lint:fix": "eslint package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
@@ -40,7 +40,7 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser",
     "unit-test:node": "dev-tool run test:vitest",
-    "unit-test:node:no-timeouts": "dev-tool run test:node-ts-input -- --timeout Infinite --exclude 'test/snippets.spec.ts' --exclude 'test/**/browser/**/*.spec.ts' 'test/**/**/*.spec.ts'",
+    "unit-test:node:no-timeouts": "dev-tool run test:vitest -- --test-timeout=0",
     "update-snippets": "dev-tool run update-snippets"
   },
   "files": [
