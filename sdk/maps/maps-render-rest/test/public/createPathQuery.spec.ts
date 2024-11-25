@@ -3,11 +3,10 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { LatLon } from "@azure/maps-common";
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type { MapsRenderClient } from "../../src/index.js";
 import { isUnexpected, createPathQuery } from "../../src/index.js";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("create path query helper", () => {
   let recorder: Recorder;

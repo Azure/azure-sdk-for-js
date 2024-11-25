@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type { MapsRenderClient } from "../../src/index.js";
 import { isUnexpected, positionToTileXY } from "../../src/index.js";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("position to tile index helper", function () {
   let recorder: Recorder;
