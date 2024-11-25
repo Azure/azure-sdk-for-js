@@ -17,7 +17,7 @@ import CancerProfilingRestClient, {
     isUnexpected,
     OncoPhenotypeData,
     OncoPhenotypeResultOutput
-} from "../src";
+} from "../src/index.js";
 
 dotenv.config();
 

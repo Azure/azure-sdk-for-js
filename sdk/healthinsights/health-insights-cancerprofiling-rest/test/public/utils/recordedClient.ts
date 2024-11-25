@@ -5,9 +5,9 @@ import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
 import type { Context } from "mocha";
-import type { CancerProfilingRestClient } from "../../../src";
-import CancerProfiling from "../../../src";
-import "./env";
+import type { CancerProfilingRestClient } from "../../../src/index.js";
+import CancerProfiling from "../../../src/index.js";
+import "./env.js";
 
 const envSetupForPlayback: Record<string, string> = {
   HEALTH_INSIGHTS_ENDPOINT: "https://sanitized/",

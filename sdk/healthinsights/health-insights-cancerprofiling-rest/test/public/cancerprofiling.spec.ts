@@ -4,9 +4,9 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import type { Context } from "mocha";
-import type { CancerProfilingRestClient } from "../../src";
-import { getLongRunningPoller } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import type { CancerProfilingRestClient } from "../../src/index.js";
+import { getLongRunningPoller } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 
 const patientInfo = {
   sex: "FEMALE",
@@ -110,7 +110,7 @@ describe("My test", () => {
   let recorder: Recorder;
   let client: CancerProfilingRestClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = await createClient(recorder);
   });
