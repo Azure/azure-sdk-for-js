@@ -1,3 +1,4 @@
+
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
@@ -8,9 +9,9 @@ export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      include: ["dist-test/browser/test/**/*.spec.js"],
-      hookTimeout: 5000000,
-      testTimeout: 5000000,
+      include: [
+        "dist-test/browser/test/**/*.spec.js",
+      ],
     },
   }),
 );
