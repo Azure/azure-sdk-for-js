@@ -4,6 +4,7 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { ListVectorStoresParameters, CreateVectorStoreParameters, ModifyVectorStoreParameters, GetVectorStoreParameters, DeleteVectorStoreParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfVectorStoreOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
+import { delay } from "@azure/core-util";
 
 const expectedStatuses = ["200"];
 
@@ -79,4 +80,21 @@ export async function deleteVectorStore(
       throw createRestError(result);
   }
   return result.body; 
+}
+
+
+/**
+ * Creates a vector store and poll.
+ */
+export async function createVectorStoreAndPoll(
+  context: Client,
+  options?: CreateVectorStoreParameters,
+  sleepInterval: number = 1
+): Promise<VectorStoreOutput> {
+  let vectorStore = await createVectorStore(context, options);
+  while (vectorStore.status === "in_progress") {
+    await delay(sleepInterval * 1000);
+    vectorStore = await getVectorStore(context, vectorStore.id);
+  }
+  return vectorStore;
 }

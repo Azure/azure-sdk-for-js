@@ -4,6 +4,7 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { CreateVectorStoreFileBatchParameters, CancelVectorStoreFileBatchParameters, GetVectorStoreFileBatchParameters, ListVectorStoreFileBatchFilesParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfVectorStoreFileOutput, VectorStoreFileBatchOutput } from "../generated/src/outputModels.js";
+import { delay } from "@azure/core-util";
 
 const expectedStatuses = ["200"];
 
@@ -64,4 +65,19 @@ export async function listVectorStoreFileBatchFiles(
       throw createRestError(result);
   }
   return result.body;
+}
+
+/** Create a vector store file batch and poll. */
+export async function createVectorStoreFileBatchAndPoll(
+  context: Client,
+  vectorStoreId: string,
+  options?: CreateVectorStoreFileBatchParameters,
+  sleepInterval: number = 1,
+): Promise<VectorStoreFileBatchOutput> {
+  let vectorStoreFileBatch = await createVectorStoreFileBatch(context, vectorStoreId, options);
+  while (vectorStoreFileBatch.status === "in_progress") {
+    await delay(sleepInterval * 1000);
+    vectorStoreFileBatch = await getVectorStoreFileBatch(context, vectorStoreId, vectorStoreFileBatch.id);
+  }
+  return vectorStoreFileBatch;
 }

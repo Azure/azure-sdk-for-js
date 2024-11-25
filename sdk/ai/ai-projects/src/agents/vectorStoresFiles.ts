@@ -4,6 +4,7 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { ListVectorStoreFilesParameters, CreateVectorStoreFileParameters, GetVectorStoreFileParameters, DeleteVectorStoreFileParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfVectorStoreFileOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput } from "../generated/src/outputModels.js";
+import { delay } from "@azure/core-util";
 
 const expectedStatuses = ["200"];
 
@@ -66,4 +67,19 @@ export async function deleteVectorStoreFile(
       throw createRestError(result);
   }
   return result.body;
+}
+
+/** Create a vector store file by attaching a file to a vector store and poll. */
+export async function createVectorStoreFileAndPoll(
+  context: Client,
+  vectorStoreId: string,
+  options?: CreateVectorStoreFileParameters,
+  sleepInterval: number = 1,
+): Promise<VectorStoreFileOutput> {
+  let vectorStoreFile = await createVectorStoreFile(context, vectorStoreId, options);
+  while (vectorStoreFile.status === "in_progress") {
+    await delay(sleepInterval * 1000);
+    vectorStoreFile = await getVectorStoreFile(context, vectorStoreId, vectorStoreFile.id);
+  }
+  return vectorStoreFile;
 }
