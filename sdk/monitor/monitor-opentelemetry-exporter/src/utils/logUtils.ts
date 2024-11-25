@@ -132,6 +132,11 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
   if (log.spanContext?.spanId) {
     tags[KnownContextTagKeys.AiOperationParentId] = log.spanContext.spanId;
   }
+  if (log.attributes[KnownContextTagKeys.AiOperationName]) {
+    tags[KnownContextTagKeys.AiOperationName] = log.attributes[
+      KnownContextTagKeys.AiOperationName
+    ] as string;
+  }
   return tags;
 }
 
