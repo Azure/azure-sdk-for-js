@@ -5,15 +5,15 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import type { LatLon } from "@azure/maps-common";
 import { assert } from "chai";
 import type { Context } from "mocha";
-import type { MapsRenderClient } from "../../src";
-import { createPinsQuery, isUnexpected } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import type { MapsRenderClient } from "../../src/index.js";
+import { createPinsQuery, isUnexpected } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 
 describe("create pins query helper", () => {
   let recorder: Recorder;
   let client: MapsRenderClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
   });

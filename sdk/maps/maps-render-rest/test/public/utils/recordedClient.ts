@@ -4,9 +4,9 @@
 import type { Context } from "mocha";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { env, Recorder } from "@azure-tools/test-recorder";
-import "./env";
-import type { MapsRenderClient } from "../../../src";
-import MapsRender from "../../../src";
+import "./env.js";
+import type { MapsRenderClient } from "../../../src/index.js";
+import MapsRender from "../../../src/index.js";
 import type { ClientOptions } from "@azure-rest/core-client";
 import { createTestCredential } from "@azure-tools/test-credential";
 

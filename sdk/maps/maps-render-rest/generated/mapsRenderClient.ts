@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 import { KeyCredential } from "@azure/core-auth";
-import { MapsRenderClient } from "./clientDefinitions";
+import { MapsRenderClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface MapsRenderClientOptions extends ClientOptions {

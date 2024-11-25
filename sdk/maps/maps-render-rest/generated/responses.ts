@@ -9,7 +9,7 @@ import {
   MapAttributionOutput,
   CopyrightCaptionOutput,
   CopyrightOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 export interface RenderGetMapTile200Headers {
   /** The content-type for the response. */
