@@ -4,6 +4,7 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput } from "../generated/src/outputModels.js";
 import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListFilesParameters, UploadFileParameters } from "../generated/src/parameters.js";
+import { delay } from "@azure/core-util";
 
 const expectedStatuses = ["200"];
 
@@ -33,11 +34,13 @@ export async function uploadFile(
 
 /** Uploads a file for use by other operations. */
 export async function uploadFileAndPoll(
-context: Client, options: UploadFileParameters, sleepInterval: number,
+  context: Client, 
+  options: UploadFileParameters, 
+  intervalInMs: number = 1000, 
 ): Promise<OpenAIFileOutput> {
   let file = await uploadFile(context, options);
   while (file.status === "uploaded" || file.status === "pending" || file.status === "running") {
-    await new Promise(resolve => setTimeout(resolve, sleepInterval));
+    await delay(intervalInMs);
     file = await getFile(context, file.id);
   }
 

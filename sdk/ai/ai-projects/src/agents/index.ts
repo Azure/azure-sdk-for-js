@@ -157,7 +157,7 @@ export interface AgentsOperations {
   uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters
   ) => Promise<OpenAIFileOutput>
     /** Uploads a file for use by other operations. */
-  uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, sleepInterval: number, fileName?: string, requestParams?: OptionalRequestParameters
+  uploadFileAndPoll: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, ntervalInMs?: number, fileName?: string, requestParams?: OptionalRequestParameters
   ) => Promise<OpenAIFileOutput>
   /** Delete a previously uploaded file. */
   deleteFile: (
@@ -285,12 +285,12 @@ function getAgents(context: Client): AgentsOperations {
         ...(requestParams as { [key: string]: any; }),
         contentType: "multipart/form-data"
       }),
-    uploadFileAndPoll: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, sleepInterval: number, fileName?: string, requestParams?: OptionalRequestParameters) =>
+    uploadFileAndPoll: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, ntervalInMs?: number,  fileName?: string, requestParams?: OptionalRequestParameters) =>
       uploadFileAndPoll(context, {
         body: [{ name: "file" as const, body: content, filename: fileName }, { name: "purpose" as const, body: purpose }],
         ...(requestParams as { [key: string]: any; }),
         contentType: "multipart/form-data"
-      }, sleepInterval),
+      }, ntervalInMs),
     deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) =>
       deleteFile(context, fileId, requestParams),
     getFile: (fileId: string, requestParams?: OptionalRequestParameters) =>

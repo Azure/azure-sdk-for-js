@@ -49,7 +49,8 @@ describe("Agents - files", () => {
         controller.close();
       }
     });
-    const file = await agents.uploadFileAndPoll(fileContent, "assistants", 10, "fileName");
+    const file = await agents.uploadFileAndPoll(fileContent, "assistants", 1000, "fileName");
+    assert.notInclude(["uploaded","pending","running"], file.status);
     assert.isNotEmpty(file);
   });
 

@@ -19,7 +19,7 @@ export async function main(): Promise<void> {
     readable.push(fileContent);
     readable.push(null); // end the stream
 
-    const file = await client.agents.uploadFileAndPoll(readable, "assistants", 10, "my-polling-file");
+    const file = await client.agents.uploadFileAndPoll(readable, "assistants", 1000, "my-polling-file");
     console.log(`Uploaded file, file ID : ${file.id}`);
 
     // List uploaded file
