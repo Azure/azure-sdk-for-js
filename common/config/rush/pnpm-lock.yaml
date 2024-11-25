@@ -20553,7 +20553,7 @@ packages:
     dev: false
 
   file:projects/health-insights-cancerprofiling.tgz:
-    resolution: {integrity: sha512-fAdFqmdr0LMhpG7oC5nnvnll+JoRDQo2yfqWDwz/1CCo+jYW6TkCHUD5xBL573SCSwgHuiwnTBy8XrzkZPHRcw==, tarball: file:projects/health-insights-cancerprofiling.tgz}
+    resolution: {integrity: sha512-VbNwjG9FeYaNHVZ5ccHivYA5aMTBQaj9e/3S1qhujNHdW79W4w9R989l0SMtitK7WXcC7OfQunMVVA/v5BKPeA==, tarball: file:projects/health-insights-cancerprofiling.tgz}
     name: '@rush-temp/health-insights-cancerprofiling'
     version: 0.0.0
     dependencies:
@@ -21362,7 +21362,7 @@ packages:
     dev: false
 
   file:projects/maps-search.tgz:
-    resolution: {integrity: sha512-X/aBErvhTJe1CqpWhvb7NuzkbSSNzua6ZCpZj7zq43E9KiyvZPm47NcdNTZUXs0UCP+NnH2k+RXzU8ihSCSQqQ==, tarball: file:projects/maps-search.tgz}
+    resolution: {integrity: sha512-3L9N9SrTi+SdvxB/8TQWgZDIuBtS6ODj8qc+QNqdc5XyToQop38/Hh6GV+xVt+W28umT3ZufBQbz9dA5McL/6w==, tarball: file:projects/maps-search.tgz}
     name: '@rush-temp/maps-search'
     version: 0.0.0
     dependencies:
@@ -21374,6 +21374,8 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.65
+      '@vitest/browser': 2.1.5(@types/node@18.19.65)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       autorest: 3.7.1
       chai: 4.3.10
       dotenv: 16.4.5
@@ -21390,18 +21392,32 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.65)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.65)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/microsoft-playwright-testing.tgz:
