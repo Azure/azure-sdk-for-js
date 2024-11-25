@@ -6,18 +6,18 @@ import type { LatLon } from "@azure/maps-common";
 import type { MapsRenderClient } from "../../src/index.js";
 import { isUnexpected, createPathQuery } from "../../src/index.js";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("create path query helper", () => {
   let recorder: Recorder;
   let client: MapsRenderClient;
 
-  beforeEach(async function (ctx) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

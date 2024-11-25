@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { createMultiCollection } from "../../src/createMultiCollection.js";
 import { describe, it, assert } from "vitest";
 

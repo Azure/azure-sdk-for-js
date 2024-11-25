@@ -2,9 +2,13 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/maps-render": ["./src/index"]
+      "@azure-rest/maps-render": [
+        "./src/index"
+      ]
     },
-    "lib": ["DOM"],
+    "lib": [
+      "DOM"
+    ],
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
