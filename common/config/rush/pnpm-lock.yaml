@@ -3888,7 +3888,7 @@ packages:
   /@types/express-serve-static-core@4.19.6:
     resolution: {integrity: sha512-N4LZ2xG7DatVqhCZzOGb1Yi5lMbXSZcmdLDe9EzSndPV2HpWYWzRbaerl2n27irrm94EPpprqa8KpskPT085+A==}
     dependencies:
-      '@types/node': 18.19.65
+      '@types/node': 20.17.7
       '@types/qs': 6.9.17
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3907,7 +3907,7 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 18.19.65
+      '@types/node': 20.17.7
     dev: false
 
   /@types/fs-extra@8.1.5:
@@ -3947,7 +3947,7 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 18.19.65
+      '@types/node': 20.17.7
     dev: false
 
   /@types/jsonwebtoken@9.0.7:
@@ -4082,7 +4082,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 18.19.65
+      '@types/node': 20.17.7
     dev: false
 
   /@types/resolve@1.20.2:
@@ -12337,7 +12337,7 @@ packages:
     dev: false
 
   file:projects/ai-vision-image-analysis.tgz:
-    resolution: {integrity: sha512-S8X1xcgy30xsK50MXyZw4Sn8GBjkNUIaR80JvUdEWNPF/+qlf9wuwilUv8rDmQZ+7SZ3G9LkaWjSeIcPLJzaQw==, tarball: file:projects/ai-vision-image-analysis.tgz}
+    resolution: {integrity: sha512-wNM3J9/H4ST0bOPIsjtDoTIy6xu2fdb/fLJRuny5XVr+L0QPIsjzzhr9ZW6c8ngTrYlamlKDXhF9a0Tu0pNhGg==, tarball: file:projects/ai-vision-image-analysis.tgz}
     name: '@rush-temp/ai-vision-image-analysis'
     version: 0.0.0
     dependencies:
@@ -12346,7 +12346,9 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
-      '@types/node': 20.10.8
+      '@types/node': 18.19.65
+      '@vitest/browser': 2.1.5(@types/node@18.19.65)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       autorest: 3.7.1
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12363,18 +12365,32 @@ packages:
       karma-sourcemap-loader: 0.4.0
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@20.10.8)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.65)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/api-management-custom-widgets-scaffolder.tgz:
