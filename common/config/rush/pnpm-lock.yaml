@@ -1255,6 +1255,37 @@ packages:
       '@jridgewell/trace-mapping': 0.3.25
     dev: false
 
+  /@andrewbranch/untar.js@1.0.3:
+    resolution: {integrity: sha512-Jh15/qVmrLGhkKJBdXlK1+9tY4lZruYjsgkDFj08ZmDiWVBLJcqkok7Z0/R0In+i1rScBpJlSvrTS2Lm41Pbnw==}
+    dev: false
+
+  /@arethetypeswrong/cli@0.16.4:
+    resolution: {integrity: sha512-qMmdVlJon5FtA+ahn0c1oAVNxiq4xW5lqFiTZ21XHIeVwAVIQ+uRz4UEivqRMsjVV1grzRgJSKqaOrq1MvlVyQ==}
+    engines: {node: '>=18'}
+    hasBin: true
+    dependencies:
+      '@arethetypeswrong/core': 0.16.4
+      chalk: 4.1.2
+      cli-table3: 0.6.5
+      commander: 10.0.1
+      marked: 9.1.6
+      marked-terminal: 7.2.1(marked@9.1.6)
+      semver: 7.6.3
+    dev: false
+
+  /@arethetypeswrong/core@0.16.4:
+    resolution: {integrity: sha512-RI3HXgSuKTfcBf1hSEg1P9/cOvmI0flsMm6/QL3L3wju4AlHDqd55JFPfXs4pzgEAgy5L9pul4/HPPz99x2GvA==}
+    engines: {node: '>=18'}
+    dependencies:
+      '@andrewbranch/untar.js': 1.0.3
+      cjs-module-lexer: 1.4.1
+      fflate: 0.8.2
+      lru-cache: 10.4.3
+      semver: 7.6.3
+      typescript: 5.6.1-rc
+      validate-npm-package-name: 5.0.1
+    dev: false
+
   /@azure-rest/core-client@1.4.0:
     resolution: {integrity: sha512-ozTDPBVUDR5eOnMIwhggbnVmOrka4fXCs8n8mvUo4WLLc38kki6bAOByDoVZZPz/pZy2jMt2kwfpvy/UjALj6w==}
     engines: {node: '>=18.0.0'}
@@ -1474,11 +1505,6 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/core-asynciterator-polyfill@1.0.2:
-    resolution: {integrity: sha512-3rkP4LnnlWawl0LZptJOdXNrT/fHp2eQMadoasa6afspXdpGrtPZuAQc2PD0cpgyuoXtUWyC3tv7xfntjGS5Dw==}
-    engines: {node: '>=12.0.0'}
-    dev: false
-
   /@azure/core-auth@1.9.0:
     resolution: {integrity: sha512-FPwHpZywuyasDSLMqJ6fhbOK3TqUdviZNF8OqRGA4W5Ewib2lEEZ+pBsYcBa88B2NGO/SEnYPGhyBqNlE8ilSw==}
     engines: {node: '>=18.0.0'}
@@ -1512,30 +1538,6 @@ packages:
       '@azure/core-rest-pipeline': 1.18.0
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /@azure/core-http@1.2.6:
-    resolution: {integrity: sha512-odtH7UMKtekc5YQ86xg9GlVHNXR6pq2JgJ5FBo7/jbOjNGdBqcrIVrZx2bevXVJz/uUTSx6vUf62gzTXTfqYSQ==}
-    engines: {node: '>=8.0.0'}
-    deprecated: This package is no longer supported. Please migrate to use @azure/core-rest-pipeline
-    dependencies:
-      '@azure/abort-controller': 1.1.0
-      '@azure/core-asynciterator-polyfill': 1.0.2
-      '@azure/core-auth': 1.9.0
-      '@azure/core-tracing': 1.0.0-preview.11
-      '@azure/logger': 1.1.4
-      '@types/node-fetch': 2.6.12
-      '@types/tunnel': 0.0.1
-      form-data: 3.0.2
-      node-fetch: 2.7.0
-      process: 0.11.10
-      tough-cookie: 4.1.4
-      tslib: 2.8.1
-      tunnel: 0.0.6
-      uuid: 8.3.2
-      xml2js: 0.4.23
-    transitivePeerDependencies:
-      - encoding
     dev: false
 
   /@azure/core-lro@2.7.2:
@@ -1585,15 +1587,6 @@ packages:
     resolution: {integrity: sha512-KSSdIKy8kvWCpYr8Hzpu22j3wcXsVTYE0IlgmI1T/aHvBDsLgV91y90UTfVWnuiuApRLCCVC4gS09ApBGOmYQA==}
     engines: {node: '>=18.0.0'}
     dependencies:
-      tslib: 2.8.1
-    dev: false
-
-  /@azure/core-tracing@1.0.0-preview.11:
-    resolution: {integrity: sha512-frF0pJc9HTmKncVokhBxCqipjbql02DThQ1ZJ9wLi7SDMLdPAFyDI5xZNzX5guLz+/DtPkY+SGK2li9FIXqshQ==}
-    engines: {node: '>=8.0.0'}
-    dependencies:
-      '@opencensus/web-types': 0.0.7
-      '@opentelemetry/api': 1.0.0-rc.0
       tslib: 2.8.1
     dev: false
 
@@ -1804,17 +1797,19 @@ packages:
       - supports-color
     dev: false
 
-  /@azure/template@1.0.11:
-    resolution: {integrity: sha512-C3cRndvh39WU3zI1GrXxTzAsGXjMa9CvOtizT9/6HFwnHx6wLkByV4fBU4Y9k8pivwcw63/rV6eNpeGkUua3ag==}
-    engines: {node: '>=8.0.0'}
+  /@azure/template@1.0.13-beta.1:
+    resolution: {integrity: sha512-dn0mqAC4jPUbqAOUxdkVNihu1rV6Na7rX8xtwU2LI0JKlZJXOULxzDR4Zyc02s5aUdLpRkyxGoGStdkc+dJC4w==}
+    engines: {node: '>=18.0.0'}
     dependencies:
       '@azure/core-auth': 1.9.0
-      '@azure/core-http': 1.2.6
-      '@azure/core-tracing': 1.0.0-preview.11
+      '@azure/core-client': 1.9.2
+      '@azure/core-lro': 2.7.2
+      '@azure/core-rest-pipeline': 1.18.0
+      '@azure/core-tracing': 1.2.0
       '@azure/logger': 1.1.4
       tslib: 2.8.1
     transitivePeerDependencies:
-      - encoding
+      - supports-color
     dev: false
 
   /@azure/web-pubsub-client@1.0.0-beta.2:
@@ -2747,27 +2742,27 @@ packages:
       lodash: 4.17.21
     dev: false
 
-  /@microsoft/api-extractor-model@7.29.8(@types/node@18.19.64):
-    resolution: {integrity: sha512-t3Z/xcO6TRbMcnKGVMs4uMzv/gd5j0NhMiJIGjD4cJMeFJ1Hf8wnLSx37vxlRlL0GWlGJhnFgxvnaL6JlS+73g==}
+  /@microsoft/api-extractor-model@7.29.9(@types/node@18.19.64):
+    resolution: {integrity: sha512-/DaMfUjiswmrnLjHCorVzWGbW5rmeTGDo+H0QcvcarJ14SjNVmFWiRKzscN4B2y9AyllqeXMPgwbtSFAdAkpMQ==}
     dependencies:
       '@microsoft/tsdoc': 0.15.0
       '@microsoft/tsdoc-config': 0.17.0
-      '@rushstack/node-core-library': 5.9.0(@types/node@18.19.64)
+      '@rushstack/node-core-library': 5.10.0(@types/node@18.19.64)
     transitivePeerDependencies:
       - '@types/node'
     dev: false
 
-  /@microsoft/api-extractor@7.47.11(@types/node@18.19.64):
-    resolution: {integrity: sha512-lrudfbPub5wzBhymfFtgZKuBvXxoSIAdrvS2UbHjoMT2TjIEddq6Z13pcve7A03BAouw0x8sW8G4txdgfiSwpQ==}
+  /@microsoft/api-extractor@7.47.12(@types/node@18.19.64):
+    resolution: {integrity: sha512-YE/h4vE9T1i3oGtgEZC7pHupH/drtGAuQ36iJ1Ua0gQ8NXmPXNKNilkCqzWnX/QvMnr1xSgEjHppWMXEi5YZKQ==}
     hasBin: true
     dependencies:
-      '@microsoft/api-extractor-model': 7.29.8(@types/node@18.19.64)
+      '@microsoft/api-extractor-model': 7.29.9(@types/node@18.19.64)
       '@microsoft/tsdoc': 0.15.0
       '@microsoft/tsdoc-config': 0.17.0
-      '@rushstack/node-core-library': 5.9.0(@types/node@18.19.64)
+      '@rushstack/node-core-library': 5.10.0(@types/node@18.19.64)
       '@rushstack/rig-package': 0.5.3
-      '@rushstack/terminal': 0.14.2(@types/node@18.19.64)
-      '@rushstack/ts-command-line': 4.23.0(@types/node@18.19.64)
+      '@rushstack/terminal': 0.14.3(@types/node@18.19.64)
+      '@rushstack/ts-command-line': 4.23.1(@types/node@18.19.64)
       lodash: 4.17.21
       minimatch: 3.0.8
       resolve: 1.22.8
@@ -2856,11 +2851,6 @@ packages:
     resolution: {integrity: sha512-U69T3ItWHvLwGg5eJ0n3I62nWuE6ilHlmz7zM0npLBRvPRd7e6NYmg54vvRtP5mZG7kZqZCFVdsTWo7BPtBujg==}
     dev: false
 
-  /@opencensus/web-types@0.0.7:
-    resolution: {integrity: sha512-xB+w7ZDAu3YBzqH44rCmG9/RlrOmFuDPt/bpf17eJr8eZSrLt7nc7LnWdxM9Mmoj/YKMHpxRg28txu3TcpiL+g==}
-    engines: {node: '>=6.0'}
-    dev: false
-
   /@opentelemetry/api-logs@0.54.2:
     resolution: {integrity: sha512-4MTVwwmLgUh5QrJnZpYo6YRO5IBLAggf2h8gWDblwRagDStY13aEvt7gGk3jewrMaPlHiF83fENhIx0HO97/cQ==}
     engines: {node: '>=14'}
@@ -2873,11 +2863,6 @@ packages:
     engines: {node: '>=14'}
     dependencies:
       '@opentelemetry/api': 1.9.0
-    dev: false
-
-  /@opentelemetry/api@1.0.0-rc.0:
-    resolution: {integrity: sha512-iXKByCMfrlO5S6Oh97BuM56tM2cIBB0XsL/vWF/AtJrJEKx4MC/Xdu0xDsGXMGcNWpqF7ujMsjjnp0+UHBwnDQ==}
-    engines: {node: '>=8.0.0'}
     dev: false
 
   /@opentelemetry/api@1.9.0:
@@ -3042,7 +3027,7 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.55.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.27.0
+      '@opentelemetry/semantic-conventions': 1.28.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -3055,7 +3040,7 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.55.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.27.0
+      '@opentelemetry/semantic-conventions': 1.28.0
       '@types/mysql': 2.15.26
     transitivePeerDependencies:
       - supports-color
@@ -3087,7 +3072,7 @@ packages:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.55.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/redis-common': 0.36.2
-      '@opentelemetry/semantic-conventions': 1.27.0
+      '@opentelemetry/semantic-conventions': 1.28.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -3101,7 +3086,7 @@ packages:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/instrumentation': 0.55.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/redis-common': 0.36.2
-      '@opentelemetry/semantic-conventions': 1.27.0
+      '@opentelemetry/semantic-conventions': 1.28.0
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -3210,7 +3195,7 @@ packages:
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.28.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/resources': 1.28.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.27.0
+      '@opentelemetry/semantic-conventions': 1.28.0
     dev: false
 
   /@opentelemetry/resources@1.28.0(@opentelemetry/api@1.9.0):
@@ -3303,6 +3288,11 @@ packages:
 
   /@opentelemetry/semantic-conventions@1.27.0:
     resolution: {integrity: sha512-sAay1RrB+ONOem0OZanAR1ZI/k7yDpnOQSQmTMuGImUQb2y8EbSaCJ94FQluM74xoU03vlb2d2U90hZluL6nQg==}
+    engines: {node: '>=14'}
+    dev: false
+
+  /@opentelemetry/semantic-conventions@1.28.0:
+    resolution: {integrity: sha512-lp4qAiMTD4sNWW4DbKLBkfiMZ4jbAboJIGOQr5DvciMRI494OapieI9qiODpOt0XBr1LjIDy1xAGAnVs5supTA==}
     engines: {node: '>=14'}
     dev: false
 
@@ -3651,8 +3641,8 @@ packages:
     dev: false
     optional: true
 
-  /@rushstack/node-core-library@5.9.0(@types/node@18.19.64):
-    resolution: {integrity: sha512-MMsshEWkTbXqxqFxD4gcIUWQOCeBChlGczdZbHfqmNZQFLHB3yWxDFSMHFUdu2/OB9NUk7Awn5qRL+rws4HQNg==}
+  /@rushstack/node-core-library@5.10.0(@types/node@18.19.64):
+    resolution: {integrity: sha512-2pPLCuS/3x7DCd7liZkqOewGM0OzLyCacdvOe8j6Yrx9LkETGnxul1t7603bIaB8nUAooORcct9fFDOQMbWAgw==}
     peerDependencies:
       '@types/node': '*'
     peerDependenciesMeta:
@@ -3677,23 +3667,23 @@ packages:
       strip-json-comments: 3.1.1
     dev: false
 
-  /@rushstack/terminal@0.14.2(@types/node@18.19.64):
-    resolution: {integrity: sha512-2fC1wqu1VCExKC0/L+0noVcFQEXEnoBOtCIex1TOjBzEDWcw8KzJjjj7aTP6mLxepG0XIyn9OufeFb6SFsa+sg==}
+  /@rushstack/terminal@0.14.3(@types/node@18.19.64):
+    resolution: {integrity: sha512-csXbZsAdab/v8DbU1sz7WC2aNaKArcdS/FPmXMOXEj/JBBZMvDK0+1b4Qao0kkG0ciB1Qe86/Mb68GjH6/TnMw==}
     peerDependencies:
       '@types/node': '*'
     peerDependenciesMeta:
       '@types/node':
         optional: true
     dependencies:
-      '@rushstack/node-core-library': 5.9.0(@types/node@18.19.64)
+      '@rushstack/node-core-library': 5.10.0(@types/node@18.19.64)
       '@types/node': 18.19.64
       supports-color: 8.1.1
     dev: false
 
-  /@rushstack/ts-command-line@4.23.0(@types/node@18.19.64):
-    resolution: {integrity: sha512-jYREBtsxduPV6ptNq8jOKp9+yx0ld1Tb/Tkdnlj8gTjazl1sF3DwX2VbluyYrNd0meWIL0bNeer7WDf5tKFjaQ==}
+  /@rushstack/ts-command-line@4.23.1(@types/node@18.19.64):
+    resolution: {integrity: sha512-40jTmYoiu/xlIpkkRsVfENtBq4CW3R4azbL0Vmda+fMwHWqss6wwf/Cy/UJmMqIzpfYc2OTnjYP1ZLD3CmyeCA==}
     dependencies:
-      '@rushstack/terminal': 0.14.2(@types/node@18.19.64)
+      '@rushstack/terminal': 0.14.3(@types/node@18.19.64)
       '@types/argparse': 1.0.38
       argparse: 1.0.10
       string-argv: 0.3.2
@@ -3703,6 +3693,11 @@ packages:
 
   /@sinclair/typebox@0.27.8:
     resolution: {integrity: sha512-+Fj43pSMwJs4KRrH/938Uf+uAELIgVBmQzg/q1YG10djyfA3TnrU8N8XzqCh/okZdszqBQTZf96idMfE5lnwTA==}
+    dev: false
+
+  /@sindresorhus/is@4.6.0:
+    resolution: {integrity: sha512-t09vSN3MdfsyCHoFcTRCH/iUtG7OJ0CsjzB8cjAmKc/va/kIgeDI/TxsigdncE/4be734m0cvIYwNaV4i2XqAw==}
+    engines: {node: '>=10'}
     dev: false
 
   /@sinonjs/commons@3.0.1:
@@ -3802,13 +3797,13 @@ packages:
     resolution: {integrity: sha512-fB3Zu92ucau0iQ0JMCFQE7b/dv8Ot07NI3KaZIkIUNXq82k4eBAqUaneXfleGY9JWskeS9y+u0nXMyspcuQrCg==}
     dependencies:
       '@types/connect': 3.4.38
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/bunyan@1.8.9:
     resolution: {integrity: sha512-ZqS9JGpBxVOvsawzmVt30sP++gSQMTejCkIAQ3VdadOcRE8izTyW66hufvwLeH+YEGP6Js2AW7Gz+RMyvrEbmw==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/chai-as-promised@7.1.8:
@@ -3836,7 +3831,7 @@ packages:
   /@types/connect@3.4.38:
     resolution: {integrity: sha512-K6uROf1LD88uDQqJCktA4yzL1YYAK6NgfsI0v/mTgyPKWsX1CnJ0XPSDhViejru1GcRkLWb8RlzFYJRqGUbaug==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/cookie@0.4.1:
@@ -3850,7 +3845,7 @@ packages:
   /@types/cors@2.8.17:
     resolution: {integrity: sha512-8CGDvrBj1zgo2qE+oS3pOCyYNqCPryMWY2bGfwA0dcfopWGgxs+78df0Rs3rc9THP4JkOhLsAa+15VdpAqkcUA==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/debug@4.1.12:
@@ -3862,7 +3857,7 @@ packages:
   /@types/decompress@4.2.7:
     resolution: {integrity: sha512-9z+8yjKr5Wn73Pt17/ldnmQToaFHZxK0N1GHysuk/JIPT8RIdQeoInM01wWPgypRcvb6VH1drjuFpQ4zmY437g==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/deep-eql@4.0.2:
@@ -3893,7 +3888,7 @@ packages:
   /@types/express-serve-static-core@4.19.6:
     resolution: {integrity: sha512-N4LZ2xG7DatVqhCZzOGb1Yi5lMbXSZcmdLDe9EzSndPV2HpWYWzRbaerl2n27irrm94EPpprqa8KpskPT085+A==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
       '@types/qs': 6.9.17
       '@types/range-parser': 1.2.7
       '@types/send': 0.17.4
@@ -3912,7 +3907,20 @@ packages:
     resolution: {integrity: sha512-yTbItCNreRooED33qjunPthRcSjERP1r4MqCZc7wv0u2sUkzTFp45tgUfS5+r7FrZPdmCCNflLhVSP/o+SemsQ==}
     dependencies:
       '@types/jsonfile': 6.1.4
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
+    dev: false
+
+  /@types/fs-extra@8.1.5:
+    resolution: {integrity: sha512-0dzKcwO+S8s2kuF5Z9oUWatQJj5Uq/iqphEtE3GQJVRRYm/tD1LglU2UnXi2A8jLq5umkGouOXOR9y0n613ZwQ==}
+    dependencies:
+      '@types/node': 18.19.64
+    dev: false
+
+  /@types/glob@7.2.0:
+    resolution: {integrity: sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==}
+    dependencies:
+      '@types/minimatch': 5.1.2
+      '@types/node': 18.19.64
     dev: false
 
   /@types/http-errors@2.0.4:
@@ -3929,7 +3937,7 @@ packages:
   /@types/is-buffer@2.0.2:
     resolution: {integrity: sha512-G6OXy83Va+xEo8XgqAJYOuvOMxeey9xM5XKkvwJNmN8rVdcB+r15HvHsG86hl86JvU0y1aa7Z2ERkNFYWw9ySg==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/json-schema@7.0.15:
@@ -3939,19 +3947,19 @@ packages:
   /@types/jsonfile@6.1.4:
     resolution: {integrity: sha512-D5qGUYwjvnNNextdU59/+fI+spnwtTFmyQP0h+PfIOSkNfpU6AOICUOkm4i0OnSk+NyjdPJrxCDro0sJsWlRpQ==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/jsonwebtoken@9.0.7:
     resolution: {integrity: sha512-ugo316mmTYBl2g81zDFnZ7cfxlut3o+/EQdaP7J8QN2kY6lJ22hmQYCK5EHcJHbrW+dkCGSCPgbG8JtYj6qSrg==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/jws@3.2.10:
     resolution: {integrity: sha512-cOevhttJmssERB88/+XvZXvsq5m9JLKZNUiGfgjUb5lcPRdV2ZQciU6dU76D/qXXFYpSqkP3PrSg4hMTiafTZw==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/linkify-it@5.0.0:
@@ -3979,12 +3987,16 @@ packages:
     resolution: {integrity: sha512-/pyBZWSLD2n0dcHE3hq8s8ZvcETHtEuF+3E7XVt0Ig2nvsVQXdghHVcEkIWjy9A0wKfTn97a/PSDYohKIlnP/w==}
     dev: false
 
+  /@types/minimatch@5.1.2:
+    resolution: {integrity: sha512-K0VQKziLUWkVKiRVrx4a40iPaxTUefQmjtkQofBkYRcoaaL/8rhwDWww9qWbrgicNOgnpIsMxyNIUM4+n6dUIA==}
+    dev: false
+
   /@types/minimist@1.2.5:
     resolution: {integrity: sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==}
     dev: false
 
-  /@types/mocha@10.0.9:
-    resolution: {integrity: sha512-sicdRoWtYevwxjOHNMPTl3vSfJM6oyW8o1wXeI7uww6b6xHg8eBznQDNSGBCDJmsE8UMxP05JgZRtsKbTqt//Q==}
+  /@types/mocha@10.0.10:
+    resolution: {integrity: sha512-xPyYSz1cMPnJQhl0CLMH68j3gprKZaTjG3s5Vi+fDgx+uhG9NOXwbVt52eFS8ECyXhyKcjDLCBEqBExKuiZb7Q==}
     dev: false
 
   /@types/ms@0.7.34:
@@ -3998,13 +4010,13 @@ packages:
   /@types/mysql@2.15.26:
     resolution: {integrity: sha512-DSLCOXhkvfS5WNNPbfn2KdICAmk8lLc+/PNvnPnF7gOdMZCxopXduqv0OQ13y/yA/zXTSikZZqVgybUxOEg6YQ==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/node-fetch@2.6.12:
     resolution: {integrity: sha512-8nneRWKCg3rMtF69nLQJnOYUcbafYeFSjqkw3jCRLsqkWFlHaoQrr5mXmofFGOx3DKn7UfmBMyov8ySvLRVldA==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
       form-data: 4.0.1
     dev: false
 
@@ -4043,7 +4055,7 @@ packages:
   /@types/pg@8.6.1:
     resolution: {integrity: sha512-1Kc4oAGzAl7uqUStZCDvaLFqZrW9qWSjXOmBfdgyBP5La7Us6Mg4GBvRlSoaZMhQF/zSj1C8CtKMBkoiT8eL8w==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
       pg-protocol: 1.7.0
       pg-types: 2.2.0
     dev: false
@@ -4070,7 +4082,7 @@ packages:
   /@types/readdir-glob@1.1.5:
     resolution: {integrity: sha512-raiuEPUYqXu+nvtY2Pe8s8FEmZ3x5yAH4VkLdihcPdalvsHltomrRC9BzuStrJ9yk06470hS0Crw0f1pXqD+Hg==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/resolve@1.20.2:
@@ -4089,14 +4101,14 @@ packages:
     resolution: {integrity: sha512-x2EM6TJOybec7c52BX0ZspPodMsQUd5L6PRwOunVyVUhXiBSKf3AezDL8Dgvgt5o0UfKNfuA0eMLr2wLT4AiBA==}
     dependencies:
       '@types/mime': 1.3.5
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/serve-static@1.15.7:
     resolution: {integrity: sha512-W8Ym+h8nhuRwaKPaDw34QUkwsGi6Rc4yYqvKFo5rm2FUEhCFbzVWrxXUxuKK8TASjWsysJY0nsmNCGhCOIsrOw==}
     dependencies:
       '@types/http-errors': 2.0.4
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
       '@types/send': 0.17.4
     dev: false
 
@@ -4121,13 +4133,13 @@ packages:
   /@types/stoppable@1.1.3:
     resolution: {integrity: sha512-7wGKIBJGE4ZxFjk9NkjAxZMLlIXroETqP1FJCdoSvKmEznwmBxQFmTB1dsCkAvVcNemuSZM5qkkd9HE/NL2JTw==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/through@0.0.33:
     resolution: {integrity: sha512-HsJ+z3QuETzP3cswwtzt2vEIiHBk/dCcHGhbmG5X3ecnwFD/lPrMpliGXxSCg03L9AhrdwA4Oz/qfspkDW+xGQ==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/tough-cookie@4.0.5:
@@ -4140,12 +4152,6 @@ packages:
 
   /@types/trusted-types@2.0.7:
     resolution: {integrity: sha512-ScaPdn1dQczgbl0QFTeTOmVHFULt394XJgOQNoyVhZ6r2vLnMLJfBPd53SB52T/3G36VI1/g2MZaX0cwDuXsfw==}
-    dev: false
-
-  /@types/tunnel@0.0.1:
-    resolution: {integrity: sha512-AOqu6bQu5MSWwYvehMXLukFHnupHrpZ8nvgae5Ggie9UwzDR1CCwoXgSSWNZJuyOlCdfdsWMA5F2LlmvyoTv8A==}
-    dependencies:
-      '@types/node': 20.17.6
     dev: false
 
   /@types/underscore@1.13.0:
@@ -4163,13 +4169,13 @@ packages:
   /@types/ws@7.4.7:
     resolution: {integrity: sha512-JQbbmxZTZehdc2iszGKs5oC3NFnjeay7mtAWrdt7qNtAVK0g19muApzAy4bm9byz79xa2ZnO/BOBC2R8RC5Lww==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/ws@8.5.13:
     resolution: {integrity: sha512-osM/gWBTPKgHV8XkTunnegTRIsvF6owmf5w+JtAfOw472dptdm0dlGv4xCt6GwQRcC2XVOvvRE/0bAoQcL2QkA==}
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
 
   /@types/yargs-parser@21.0.3:
@@ -4186,7 +4192,7 @@ packages:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
     dependencies:
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
     dev: false
     optional: true
 
@@ -4382,10 +4388,10 @@ packages:
     dependencies:
       '@testing-library/dom': 10.4.0
       '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
-      '@vitest/mocker': 2.1.5(msw@2.6.5)
+      '@vitest/mocker': 2.1.5(msw@2.6.6)
       '@vitest/utils': 2.1.5
       magic-string: 0.30.13
-      msw: 2.6.5(@types/node@18.19.64)(typescript@5.6.3)
+      msw: 2.6.6(@types/node@18.19.64)(typescript@5.6.3)
       playwright: 1.49.0
       sirv: 3.0.0
       tinyrainbow: 1.2.0
@@ -4455,7 +4461,7 @@ packages:
       tinyrainbow: 1.2.0
     dev: false
 
-  /@vitest/mocker@2.1.5(msw@2.6.5):
+  /@vitest/mocker@2.1.5(msw@2.6.6):
     resolution: {integrity: sha512-XYW6l3UuBmitWqSUXTNXcVBUCRytDogBsWuNXQijc00dtnU/9OqpXWp4OJroVrad/gLIomAq9aW8yWDBtMthhQ==}
     peerDependencies:
       msw: ^2.4.9
@@ -4469,7 +4475,7 @@ packages:
       '@vitest/spy': 2.1.5
       estree-walker: 3.0.3
       magic-string: 0.30.13
-      msw: 2.6.5(@types/node@18.19.64)(typescript@5.6.3)
+      msw: 2.6.6(@types/node@18.19.64)(typescript@5.6.3)
     dev: false
 
   /@vitest/mocker@2.1.5(vite@5.4.11):
@@ -4696,6 +4702,13 @@ packages:
       type-fest: 0.21.3
     dev: false
 
+  /ansi-escapes@7.0.0:
+    resolution: {integrity: sha512-GdYO7a61mR0fOlAsvC9/rIHf7L96sBc6dEWzeOu+KAea5bZyQRPIpojrVoI4AXGJS/ycu/fBTdLrUkA4ODrvjw==}
+    engines: {node: '>=18'}
+    dependencies:
+      environment: 1.1.0
+    dev: false
+
   /ansi-regex@3.0.1:
     resolution: {integrity: sha512-+O9Jct8wf++lXxxFc4hc8LsjaSq0HFzzL7cVsw8pRDIPdjKD2mT4ytDZlLuSBZ4cLKZFXIrMGO7DbQCtMJJMKw==}
     engines: {node: '>=4'}
@@ -4733,6 +4746,10 @@ packages:
   /ansi-styles@6.2.1:
     resolution: {integrity: sha512-bN798gFfQX+viw3R7yrGWRqnrN2oRkEkUjjl4JNn4E8GxxbjtG3FbrEIIY3l8/hrwUwIeCZvi4QuOTP4MErVug==}
     engines: {node: '>=12'}
+    dev: false
+
+  /any-promise@1.3.0:
+    resolution: {integrity: sha512-7UvmKalWRt1wgjL1RrGxoSJW/0QZFIegpeGvZG9kjp8vrRu55XTHbwnqq2GpXm9uLbcuhxm3IqX9OB4MZR1b2A==}
     dev: false
 
   /anymatch@3.1.3:
@@ -4776,6 +4793,11 @@ packages:
 
   /array-flatten@1.1.1:
     resolution: {integrity: sha512-PCVAQswWemu6UdxsDFFX/+gVeYqKAod3D3UVm91jHwynguOwAvYPhx8nNlM++NqRcK6CxxpUafjmhIdKiHibqg==}
+    dev: false
+
+  /array-union@2.1.0:
+    resolution: {integrity: sha512-HGyxoOTYUyCM6stUe6EJgnd4EoewAI7zMdfqO+kGjnlZmBDz/cR5pf8r/cR4Wq60sL/p0IkcjUEEPwS3GFrIyw==}
+    engines: {node: '>=8'}
     dev: false
 
   /arrify@1.0.1:
@@ -4847,7 +4869,7 @@ packages:
     dependencies:
       bare-events: 2.5.0
       bare-path: 2.1.3
-      bare-stream: 2.3.2
+      bare-stream: 2.4.0
     dev: false
     optional: true
 
@@ -4865,8 +4887,8 @@ packages:
     dev: false
     optional: true
 
-  /bare-stream@2.3.2:
-    resolution: {integrity: sha512-EFZHSIBkDgSHIwj2l2QZfP4U5OcD4xFAOwhSb/vlr9PIqyGJGvB/nfClJbcnh3EY4jtPE4zsb5ztae96bVF79A==}
+  /bare-stream@2.4.0:
+    resolution: {integrity: sha512-sd96/aZ8LjF1uJbEHzIo1LrERPKRFPEy1nZ1eOILftBxrVsFDAQkimHIIq87xrHcubzjNeETsD9PwN0wp+vLiQ==}
     requiresBuild: true
     dependencies:
       streamx: 2.20.2
@@ -4958,8 +4980,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001680
-      electron-to-chromium: 1.5.63
+      caniuse-lite: 1.0.30001683
+      electron-to-chromium: 1.5.64
       node-releases: 2.0.18
       update-browserslist-db: 1.1.1(browserslist@4.24.2)
     dev: false
@@ -5073,8 +5095,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /caniuse-lite@1.0.30001680:
-    resolution: {integrity: sha512-rPQy70G6AGUMnbwS1z6Xg+RkHYPAi18ihs47GH0jcxIG7wArmPgY3XbS2sRdBbxJljp3thdT8BIqv9ccCypiPA==}
+  /caniuse-lite@1.0.30001683:
+    resolution: {integrity: sha512-iqmNnThZ0n70mNwvxpEC2nBJ037ZHZUoBI5Gorh1Mw6IlEAZujEoU1tXA628iZfzm7R9FvFzxbfdgml82a3k8Q==}
     dev: false
 
   /catharsis@0.9.0:
@@ -5175,6 +5197,11 @@ packages:
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
     dev: false
 
+  /char-regex@1.0.2:
+    resolution: {integrity: sha512-kWWXztvZ5SBQV+eRgKFeh8q5sLuZY2+8WUIzlxWVTg+oGwY14qylx1KbKzHd8P6ZYkAg0xyIDU9JMHhyJMZ1jw==}
+    engines: {node: '>=10'}
+    dev: false
+
   /character-entities-legacy@1.1.4:
     resolution: {integrity: sha512-3Xnr+7ZFS1uxeiUDvV02wQ+QDbc55o97tIV5zHScSPJpcLm/r0DFPcoY3tYRp+VZukxuMeKgXYmsXQHO05zQeA==}
     dev: false
@@ -5255,9 +5282,31 @@ packages:
       restore-cursor: 3.1.0
     dev: false
 
+  /cli-highlight@2.1.11:
+    resolution: {integrity: sha512-9KDcoEVwyUXrjcJNvHD0NFc/hiwe/WPVYIleQh2O1N2Zro5gWJZ/K+3DGn8w8P/F6FxOgzyC5bxDyHIgCSPhGg==}
+    engines: {node: '>=8.0.0', npm: '>=5.0.0'}
+    hasBin: true
+    dependencies:
+      chalk: 4.1.2
+      highlight.js: 10.7.3
+      mz: 2.7.0
+      parse5: 5.1.1
+      parse5-htmlparser2-tree-adapter: 6.0.1
+      yargs: 16.2.0
+    dev: false
+
   /cli-spinners@2.9.2:
     resolution: {integrity: sha512-ywqV+5MmyL4E7ybXgKys4DugZbX0FC6LnwrhjuykIjnK9k8OQacQ7axGKnjDXWNhns0xot3bZI5h55H8yo9cJg==}
     engines: {node: '>=6'}
+    dev: false
+
+  /cli-table3@0.6.5:
+    resolution: {integrity: sha512-+W/5efTR7y5HRD7gACw9yQjqMVvEMLBHmboM/kPWam+H+Hmyrgjh6YncVKK122YZkXrLudzTuAukUw9FnMf7IQ==}
+    engines: {node: 10.* || >= 12.*}
+    dependencies:
+      string-width: 4.2.3
+    optionalDependencies:
+      '@colors/colors': 1.5.0
     dev: false
 
   /cli-width@4.1.0:
@@ -5320,11 +5369,20 @@ packages:
     resolution: {integrity: sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA==}
     dev: false
 
+  /colorette@1.4.0:
+    resolution: {integrity: sha512-Y2oEozpomLn7Q3HFP7dpww7AtMJplbM9lGZP6RDfHqmbeRjiwRg4n6VM6j4KLmRke85uWEI7JqF17f3pqdRA0g==}
+    dev: false
+
   /combined-stream@1.0.8:
     resolution: {integrity: sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==}
     engines: {node: '>= 0.8'}
     dependencies:
       delayed-stream: 1.0.0
+    dev: false
+
+  /commander@10.0.1:
+    resolution: {integrity: sha512-y4Mg2tXshplEbSGzx7amzPwKKOCGuoSRP/CjEdwwk0FOGlUbq6lKuoyDZTNZkmxHdJtp54hdfY/JUrdL7Xfdug==}
+    engines: {node: '>=14'}
     dev: false
 
   /commander@2.20.3:
@@ -5502,8 +5560,8 @@ packages:
       which: 2.0.2
     dev: false
 
-  /csv-parse@5.5.6:
-    resolution: {integrity: sha512-uNpm30m/AGSkLxxy7d9yRXpJQFrZzVWLFBkS+6ngPcZkw/5k3L/jjFuj7tVnEpRn+QgmiXr21nDlhCiUK4ij2A==}
+  /csv-parse@5.6.0:
+    resolution: {integrity: sha512-l3nz3euub2QMg5ouu5U09Ew9Wf6/wQ8I++ch1loQ0ljmzhmfZYrH9fflS22i/PQEvsPvxCwxgz5q7UB8K1JO4Q==}
     dev: false
 
   /custom-event@1.0.1:
@@ -5803,16 +5861,12 @@ packages:
       safe-buffer: 5.2.1
     dev: false
 
-  /edge-launcher@1.2.2:
-    resolution: {integrity: sha512-JcD5WBi3BHZXXVSSeEhl6sYO8g5cuynk/hifBzds2Bp4JdzCGLNMHgMCKu5DvrO1yatMgF0goFsxXRGus0yh1g==}
-    dev: false
-
   /ee-first@1.1.1:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
-  /electron-to-chromium@1.5.63:
-    resolution: {integrity: sha512-ddeXKuY9BHo/mw145axlyWjlJ1UBt4WK3AlvkT7W2AbqfRQoacVoRUCF6wL3uIx/8wT9oLKXzI+rFqHHscByaA==}
+  /electron-to-chromium@1.5.64:
+    resolution: {integrity: sha512-IXEuxU+5ClW2IGEYFC2T7szbyVgehupCWQe5GNh+H065CD6U6IFN0s4KeAMFGNmQolRU4IV7zGBWSYMmZ8uuqQ==}
     dev: false
 
   /emoji-regex@8.0.0:
@@ -5821,6 +5875,10 @@ packages:
 
   /emoji-regex@9.2.2:
     resolution: {integrity: sha512-L18DaJsXSUk2+42pv8mLs5jJT2hqFkFE4j21wOmgbUqsZ2hL72NsUU785g9RXgo3s0ZNgVl42TiHp3ZtOv/Vyg==}
+    dev: false
+
+  /emojilib@2.4.0:
+    resolution: {integrity: sha512-5U0rVMU5Y2n2+ykNLQqMoqklN9ICBT/KsvC1Gz6vqHbz2AXXGkG+Pm5rMWk/8Vjrr/mY9985Hi8DYzn1F09Nyw==}
     dev: false
 
   /encodeurl@1.0.2:
@@ -5850,7 +5908,7 @@ packages:
     dependencies:
       '@types/cookie': 0.4.1
       '@types/cors': 2.8.17
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
       accepts: 1.3.8
       base64id: 2.0.0
       cookie: 0.7.2
@@ -5887,6 +5945,11 @@ packages:
   /env-paths@2.2.1:
     resolution: {integrity: sha512-+h1lkLKhZMTYjog1VEpJNG7NZJWcuc2DDk/qsqSTRRCOXiLjeQ1d1/udrUGhqMxUgAlwKNZ0cf2uqan5GLuS2A==}
     engines: {node: '>=6'}
+    dev: false
+
+  /environment@1.1.0:
+    resolution: {integrity: sha512-xUtoPkMggbz0MPyPiIWr1Kp4aeWJjDZ6SMvURhimjdZgsRuDplF5/s9hcgGhyXMhs+6vpnuoiZ2kFiu3FMnS8Q==}
+    engines: {node: '>=18'}
     dev: false
 
   /error-ex@1.3.2:
@@ -6079,8 +6142,8 @@ packages:
       - supports-color
     dev: false
 
-  /eslint-plugin-n@17.13.2(eslint@9.15.0):
-    resolution: {integrity: sha512-MhBAKkT01h8cOXcTBTlpuR7bxH5OBUNpUXefsvwSVEy46cY4m/Kzr2osUCQvA3zJFD6KuCeNNDv0+HDuWk/OcA==}
+  /eslint-plugin-n@17.14.0(eslint@9.15.0):
+    resolution: {integrity: sha512-maxPLMEA0rPmRpoOlxEclKng4UpDe+N5BJS4t24I3UKnN109Qcivnfs37KMy84G0af3bxjog5lKctP5ObsvcTA==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
     peerDependencies:
       eslint: '>=8.23.0'
@@ -6514,6 +6577,10 @@ packages:
     resolution: {integrity: sha512-OP2IUU6HeYKJi3i0z4A19kHMQoLVs4Hc+DPqqxI2h/DPZHTm/vjsfC6P0b4jCMy14XizLBqvndQ+UilD7707Jw==}
     dev: false
 
+  /fflate@0.8.2:
+    resolution: {integrity: sha512-cPJU47OaAoCbg0pBvzsgpTPhmhqI5eJjh/JIu8tPj5q+T7iLvW/JAYUqmE7KOB4R1ZyEhzBaIQpQpardBF5z8A==}
+    dev: false
+
   /file-entry-cache@6.0.1:
     resolution: {integrity: sha512-7Gps/XWymbLk2QLYK4NzpMOrYjMhdIxXuIvy2QBsLE6ljuodKvdkWs/cpyJJ3CVIVpH0Oi1Hvg1ovbMzLdFBBg==}
     engines: {node: ^10.12.0 || >=12.0.0}
@@ -6661,15 +6728,6 @@ packages:
 
   /form-data-encoder@1.7.2:
     resolution: {integrity: sha512-qfqtYan3rxrnCk1VYaA4H+Ms9xdpPqvLZa6xmMgFvhO32x7/3J/ExcTd6qpxM0vH2GdMI+poehyBZvqfMTto8A==}
-    dev: false
-
-  /form-data@3.0.2:
-    resolution: {integrity: sha512-sJe+TQb2vIaIyO783qN6BlMYWMw3WBOHA1Ay2qxsnjuafEOQFJ2JakedOQirT6D5XPRxDvS7AHYyem9fTpb4LQ==}
-    engines: {node: '>= 6'}
-    dependencies:
-      asynckit: 0.4.0
-      combined-stream: 1.0.8
-      mime-types: 2.1.35
     dev: false
 
   /form-data@4.0.1:
@@ -6911,6 +6969,20 @@ packages:
     engines: {node: '>=18'}
     dev: false
 
+  /globby@10.0.1:
+    resolution: {integrity: sha512-sSs4inE1FB2YQiymcmTv6NWENryABjUNPeWhOvmn4SjtKybglsyPZxFB3U1/+L1bYi0rNZDqCLlHyLYDl1Pq5A==}
+    engines: {node: '>=8'}
+    dependencies:
+      '@types/glob': 7.2.0
+      array-union: 2.1.0
+      dir-glob: 3.0.1
+      fast-glob: 3.3.2
+      glob: 7.2.3
+      ignore: 5.3.2
+      merge2: 1.4.1
+      slash: 3.0.0
+    dev: false
+
   /globby@13.2.2:
     resolution: {integrity: sha512-Y1zNGV+pzQdh7H39l9zgB4PJqjRNqydvdYCDG4HFXM4XuvSaQQlEc91IU1yALL8gUTDomgBAfz3XJdmUS+oo0w==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
@@ -7001,6 +7073,10 @@ packages:
 
   /headers-polyfill@4.0.3:
     resolution: {integrity: sha512-IScLbePpkvO846sIwOtOTDjutRMWdXdJmXdMvk6gCBHxFO8d+QKOQedyZSxFTTFYRSmlgSTDtXqqq4pcenBXLQ==}
+    dev: false
+
+  /highlight.js@10.7.3:
+    resolution: {integrity: sha512-tzcUFauisWKNHaRkN4Wjl/ZA07gENAjFl3J/c480dprkGTg5EQstgaNFqBfUqCq54kZRIEcreTsAgF/m2quD7A==}
     dev: false
 
   /hosted-git-info@4.1.0:
@@ -7320,6 +7396,11 @@ packages:
     engines: {node: '>=8'}
     dev: false
 
+  /is-plain-object@3.0.1:
+    resolution: {integrity: sha512-Xnpx182SBMrr/aBik8y+GuR4U1L9FqMSojwDQwPMmxyC6bvEqly9UBCxhauBF5vNh2gwWJNX6oDV7O+OM4z34g==}
+    engines: {node: '>=0.10.0'}
+    dev: false
+
   /is-reference@1.2.1:
     resolution: {integrity: sha512-U82MsXXiFIrjCK4otLT+o2NA2Cd2g5MLoOVXUZjIOhLurrRxpEXzI8O0KZHr3IjLvlAH1kTPYSuqer5T9ZVBKQ==}
     dependencies:
@@ -7498,8 +7579,8 @@ packages:
     resolution: {integrity: sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ==}
     dev: false
 
-  /js-tokens@9.0.0:
-    resolution: {integrity: sha512-WriZw1luRMlmV3LGJaR6QOJjWwgLUTf89OwT2lUOyjX2dJGBwgmIkbcz+7WFZjrZM635JOIR517++e/67CP9dQ==}
+  /js-tokens@9.0.1:
+    resolution: {integrity: sha512-mxa9E9ITFOt0ban3j6L5MpjwegGz6lBQmM1IJkWeBZGcMxto50+eWdjC/52xDbS2vy0k7vIMK0Fe2wfL9OQSpQ==}
     dev: false
 
   /js-yaml@3.14.1:
@@ -7689,16 +7770,6 @@ packages:
       minimatch: 3.1.2
     transitivePeerDependencies:
       - supports-color
-    dev: false
-
-  /karma-edge-launcher@0.4.2(karma@6.4.4):
-    resolution: {integrity: sha512-YAJZb1fmRcxNhMIWYsjLuxwODBjh2cSHgTW/jkVmdpGguJjLbs9ZgIK/tEJsMQcBLUkO+yO4LBbqYxqgGW2HIw==}
-    engines: {node: '>=4'}
-    peerDependencies:
-      karma: '>=0.9'
-    dependencies:
-      edge-launcher: 1.2.2
-      karma: 6.4.4
     dev: false
 
   /karma-env-preprocessor@0.1.1:
@@ -8105,9 +8176,31 @@ packages:
       uc.micro: 2.1.0
     dev: false
 
+  /marked-terminal@7.2.1(marked@9.1.6):
+    resolution: {integrity: sha512-rQ1MoMFXZICWNsKMiiHwP/Z+92PLKskTPXj+e7uwXmuMPkNn7iTqC+IvDekVm1MPeC9wYQeLxeFaOvudRR/XbQ==}
+    engines: {node: '>=16.0.0'}
+    peerDependencies:
+      marked: '>=1 <15'
+    dependencies:
+      ansi-escapes: 7.0.0
+      ansi-regex: 6.1.0
+      chalk: 5.3.0
+      cli-highlight: 2.1.11
+      cli-table3: 0.6.5
+      marked: 9.1.6
+      node-emoji: 2.1.3
+      supports-hyperlinks: 3.1.0
+    dev: false
+
   /marked@4.3.0:
     resolution: {integrity: sha512-PRsaiG84bK+AMvxziE/lCFss8juXjNaWzVbN5tXAm4XjeaS9NAHhop+PjQxz2A9h8Q4M/xGmzP8vqNwy6JeK0A==}
     engines: {node: '>= 12'}
+    hasBin: true
+    dev: false
+
+  /marked@9.1.6:
+    resolution: {integrity: sha512-jcByLnIFkd5gSXZmjNvS1TlmRhCXZjIzHYlaGkPlLIekG55JDR2Z4va9tZwCiP+/RDERiNhMOFu01xd6O5ct1Q==}
+    engines: {node: '>= 16'}
     hasBin: true
     dev: false
 
@@ -8405,8 +8498,8 @@ packages:
     resolution: {integrity: sha512-6FlzubTLZG3J2a/NVCAleEhjzq5oxgHyaCU9yYXvcLsvoVaHJq/s5xXI6/XXP6tz7R9xAOtHnSO/tXtF3WRTlA==}
     dev: false
 
-  /msw@2.6.5(@types/node@18.19.64)(typescript@5.6.3):
-    resolution: {integrity: sha512-PnlnTpUlOrj441kYQzzFhzMzMCGFT6a2jKUBG7zSpLkYS5oh8Arrbc0dL8/rNAtxaoBy0EVs2mFqj2qdmWK7lQ==}
+  /msw@2.6.6(@types/node@18.19.64)(typescript@5.6.3):
+    resolution: {integrity: sha512-npfIIVRHKQX3Lw4aLWX4wBh+lQwpqdZNyJYB5K/+ktK8NhtkdsTxGK7WDrgknozcVyRI7TOqY6yBS9j2FTR+YQ==}
     engines: {node: '>=18'}
     hasBin: true
     requiresBuild: true
@@ -8452,6 +8545,14 @@ packages:
   /mute-stream@2.0.0:
     resolution: {integrity: sha512-WWdIxpyjEn+FhQJQQv9aQAYlHoNVdzIzUySNV1gHUPDSdZJ3yZn7pAAbQcV7B56Mvu881q9FZV+0Vx2xC44VWA==}
     engines: {node: ^18.17.0 || >=20.5.0}
+    dev: false
+
+  /mz@2.7.0:
+    resolution: {integrity: sha512-z81GNO7nnYMEhrGh9LeymoE4+Yr0Wn5McHIZMK5cfQCl+NDX08sCZgUc9/6MHni9IWuFLm1Z3HTCXu2z9fN62Q==}
+    dependencies:
+      any-promise: 1.3.0
+      object-assign: 4.1.1
+      thenify-all: 1.6.0
     dev: false
 
   /nanoid@3.3.7:
@@ -8517,6 +8618,16 @@ packages:
   /node-domexception@1.0.0:
     resolution: {integrity: sha512-/jKZoMpw0F8GRwl4/eLROPA3cfcXtLApP0QzLmUT/HuPCZWyB7IY9ZrMeKw2O/nFIqPQB3PVM9aYm0F312AXDQ==}
     engines: {node: '>=10.5.0'}
+    dev: false
+
+  /node-emoji@2.1.3:
+    resolution: {integrity: sha512-E2WEOVsgs7O16zsURJ/eH8BqhF029wGpEOnv7Urwdo2wmQanOACwJQh0devF9D9RhoZru0+9JXIS0dBXIAz+lA==}
+    engines: {node: '>=18'}
+    dependencies:
+      '@sindresorhus/is': 4.6.0
+      char-regex: 1.0.2
+      emojilib: 2.4.0
+      skin-tone: 2.0.0
     dev: false
 
   /node-fetch@2.7.0:
@@ -8677,8 +8788,8 @@ packages:
       is-wsl: 2.2.0
     dev: false
 
-  /openai@4.72.0:
-    resolution: {integrity: sha512-hFqG9BWCs7L7ifrhJXw7mJXmUBr7d9N6If3J9563o0jfwVA4wFANFDDaOIWFdgDdwgCXg5emf0Q+LoLCGszQYA==}
+  /openai@4.73.0:
+    resolution: {integrity: sha512-NZstV77w3CEol9KQTRBRQ15+Sw6nxVTicAULSjYO4wn9E5gw72Mtp3fAVaBFXyyVPws4241YmFG6ya4L8v03tA==}
     hasBin: true
     peerDependencies:
       zod: ^3.23.8
@@ -8891,6 +9002,20 @@ packages:
       error-ex: 1.3.2
       json-parse-even-better-errors: 2.3.1
       lines-and-columns: 1.2.4
+    dev: false
+
+  /parse5-htmlparser2-tree-adapter@6.0.1:
+    resolution: {integrity: sha512-qPuWvbLgvDGilKc5BoicRovlT4MtYT6JfJyBOMDsKoiT+GiuP5qyrPCnR9HcPECIJJmZh5jRndyNThnhhb/vlA==}
+    dependencies:
+      parse5: 6.0.1
+    dev: false
+
+  /parse5@5.1.1:
+    resolution: {integrity: sha512-ugq4DFI0Ptb+WWjAdOK16+u/nHfiIrcE+sh8kZMaM0WllQKLI9rOUq6c2b7cwPkXdzfQESqvoqK6ug7U/Yyzug==}
+    dev: false
+
+  /parse5@6.0.1:
+    resolution: {integrity: sha512-Ofn/CTFzRGTTxwpNEs9PP93gXShHcTq255nzRYSKe8AkVpZY7e1fpmTfOyoIvjP5HG7Z2ZM7VS9PPhQGW2pOpw==}
     dev: false
 
   /parseurl@1.3.3:
@@ -9229,7 +9354,7 @@ packages:
       '@protobufjs/path': 1.1.2
       '@protobufjs/pool': 1.1.0
       '@protobufjs/utf8': 1.1.0
-      '@types/node': 20.17.6
+      '@types/node': 18.19.64
       long: 5.2.3
     dev: false
 
@@ -9261,8 +9386,8 @@ packages:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
     dev: false
 
-  /psl@1.10.0:
-    resolution: {integrity: sha512-KSKHEbjAnpUuAUserOq0FxGXCUrzC3WniuSJhvdbs102rL55266ZcHBqLWOsG30spQMlPdpy7icATiAQehg/iA==}
+  /psl@1.13.0:
+    resolution: {integrity: sha512-BFwmFXiJoFqlUpZ5Qssolv15DMyc84gTBds1BjsV1BfXEo1UyyD7GsmN67n7J77uRhoSNW1AXtXKPLcBFQn9Aw==}
     dependencies:
       punycode: 2.3.1
     dev: false
@@ -9288,8 +9413,8 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
-  /puppeteer-core@23.8.0:
-    resolution: {integrity: sha512-c2ymGN2M//We7pC+JhP2dE/g4+qnT89BO+EMSZyJmecN3DN6RNqErA7eH7DrWoNIcU75r2nP4VHa4pswAL6NVg==}
+  /puppeteer-core@23.9.0:
+    resolution: {integrity: sha512-hLVrav2HYMVdK0YILtfJwtnkBAwNOztUdR4aJ5YKDvgsbtagNr6urUJk9HyjRA9e+PaLI3jzJ0wM7A4jSZ7Qxw==}
     engines: {node: '>=18'}
     dependencies:
       '@puppeteer/browsers': 2.4.1
@@ -9304,8 +9429,8 @@ packages:
       - utf-8-validate
     dev: false
 
-  /puppeteer@23.8.0(typescript@5.6.3):
-    resolution: {integrity: sha512-MFWDMWoCcOpwNwQIjA9gPKWrEUbj8bLCzkK56w5lZPMUT6wK4FfpgOEPxKffVmXEMYMZzgcjxzqy15b/Q1ibaw==}
+  /puppeteer@23.9.0(typescript@5.6.3):
+    resolution: {integrity: sha512-WfB8jGwFV+qrD9dcJJVvWPFJBU6kxeu2wxJz9WooDGfM3vIiKLgzImEDBxUQnCBK/2cXB3d4dV6gs/LLpgfLDg==}
     engines: {node: '>=18'}
     hasBin: true
     requiresBuild: true
@@ -9314,7 +9439,7 @@ packages:
       chromium-bidi: 0.8.0(devtools-protocol@0.0.1367902)
       cosmiconfig: 9.0.0(typescript@5.6.3)
       devtools-protocol: 0.0.1367902
-      puppeteer-core: 23.8.0
+      puppeteer-core: 23.9.0
       typed-query-selector: 2.12.0
     transitivePeerDependencies:
       - bufferutil
@@ -9595,6 +9720,17 @@ packages:
       glob: 10.4.5
     dev: false
 
+  /rollup-plugin-copy@3.5.0:
+    resolution: {integrity: sha512-wI8D5dvYovRMx/YYKtUNt3Yxaw4ORC9xo6Gt9t22kveWz1enG9QrhVlagzwrxSC455xD1dHMKhIJkbsQ7d48BA==}
+    engines: {node: '>=8.3'}
+    dependencies:
+      '@types/fs-extra': 8.1.5
+      colorette: 1.4.0
+      fs-extra: 8.1.0
+      globby: 10.0.1
+      is-plain-object: 3.0.1
+    dev: false
+
   /rollup-plugin-polyfill-node@0.13.0(rollup@4.27.3):
     resolution: {integrity: sha512-FYEvpCaD5jGtyBuBFcQImEGmTxDTPbiHjJdrYIp+mFIwgXiXabxvKUK7ZT9P31ozu2Tqm9llYQMRWsfvTMTAOw==}
     peerDependencies:
@@ -9686,10 +9822,6 @@ packages:
 
   /safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
-    dev: false
-
-  /sax@1.4.1:
-    resolution: {integrity: sha512-+aWOz7yVScEGoKNd4PA10LZ8sk0A/z5+nXQG5giUO5rprX9jgYsTdov9qCchZiPIZezbZH+jRut8nPodFAX4Jg==}
     dev: false
 
   /seek-bzip@1.0.6:
@@ -9864,6 +9996,18 @@ packages:
 
   /sisteransi@1.0.5:
     resolution: {integrity: sha512-bLGGlR1QxBcynn2d5YmDX4MGjlZvy2MRBDRNHLJ8VI6l6+9FUiyTFNJ0IveOSP0bcXgVDPRcfGqA0pjaqUpfVg==}
+    dev: false
+
+  /skin-tone@2.0.0:
+    resolution: {integrity: sha512-kUMbT1oBJCpgrnKoSr0o6wPtvRWT9W9UKvGLwfJYO2WuahZRHOpEyL1ckyMGgMWh0UdpmaoFqKKD29WTomNEGA==}
+    engines: {node: '>=8'}
+    dependencies:
+      unicode-emoji-modifier-base: 1.0.0
+    dev: false
+
+  /slash@3.0.0:
+    resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
+    engines: {node: '>=8'}
     dev: false
 
   /slash@4.0.0:
@@ -10156,7 +10300,7 @@ packages:
   /strip-literal@2.1.0:
     resolution: {integrity: sha512-Op+UycaUt/8FbN/Z2TWPBLge3jWrP3xj10f3fnYxf052bKuS3EKs1ZQcVGjnEMdsNVAM+plXRdmjrZ/KgG3Skw==}
     dependencies:
-      js-tokens: 9.0.0
+      js-tokens: 9.0.1
     dev: false
 
   /strnum@1.0.5:
@@ -10182,6 +10326,14 @@ packages:
     engines: {node: '>=10'}
     dependencies:
       has-flag: 4.0.0
+    dev: false
+
+  /supports-hyperlinks@3.1.0:
+    resolution: {integrity: sha512-2rn0BZ+/f7puLOHZm1HOJfwBggfaHXUpPUSSG/SWM4TWp5KCfmNYwnC3hruy2rZlMnmWZ+QAGpZfchu3f3695A==}
+    engines: {node: '>=14.18'}
+    dependencies:
+      has-flag: 4.0.0
+      supports-color: 7.2.0
     dev: false
 
   /supports-preserve-symlinks-flag@1.0.0:
@@ -10290,6 +10442,19 @@ packages:
     resolution: {integrity: sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==}
     dev: false
 
+  /thenify-all@1.6.0:
+    resolution: {integrity: sha512-RNxQH/qI8/t3thXJDwcstUO4zeqo64+Uy/+sNVRBx4Xn2OX+OZ9oP+iJnNFqplFra2ZUVeKCSa2oVWi3T4uVmA==}
+    engines: {node: '>=0.8'}
+    dependencies:
+      thenify: 3.3.1
+    dev: false
+
+  /thenify@3.3.1:
+    resolution: {integrity: sha512-RVZSIV5IG10Hk3enotrhvz0T9em6cyHBLkH/YAZuKqd8hRkKhSfCGIcP2KUY0EPxndzANBmNllzWPwak+bheSw==}
+    dependencies:
+      any-promise: 1.3.0
+    dev: false
+
   /through2@2.0.5:
     resolution: {integrity: sha512-/mrRod8xqpA+IHSLyGCQ2s8SPHiCDEeQJSep1jqLYeEUClOFG2Qsh+4FU6G9VeqpZnGW/Su8LQGc4YKni5rYSQ==}
     dependencies:
@@ -10379,7 +10544,7 @@ packages:
     resolution: {integrity: sha512-Loo5UUvLD9ScZ6jh8beX1T6sO1w2/MpCRpEP7V280GKMVUQ0Jzar2U3UJPsrdbziLEMMhu3Ujnq//rhiFuIeag==}
     engines: {node: '>=6'}
     dependencies:
-      psl: 1.10.0
+      psl: 1.13.0
       punycode: 2.3.1
       universalify: 0.2.0
       url-parse: 1.5.10
@@ -10576,7 +10741,7 @@ packages:
       resolve-import: 1.4.6
       rimraf: 5.0.10
       sync-content: 1.0.2
-      typescript: 5.6.3
+      typescript: 5.7.2
       walk-up-path: 3.0.1
     dev: false
 
@@ -10599,11 +10764,6 @@ packages:
     resolution: {integrity: sha512-McnNiV1l8RYeY8tBgEpuodCC1mLUdbSN+CYBL7kJsJNInOP8UjDDEwdk6Mw60vdLLrr5NHKZhMAOSrR2NZuQ+w==}
     dependencies:
       safe-buffer: 5.2.1
-    dev: false
-
-  /tunnel@0.0.6:
-    resolution: {integrity: sha512-1h/Lnq9yajKY2PEbBadPXj3VxsDDu844OnaAo52UVmIzIvwwtBPIuNvkjuzBlTWpfJyUbG3ez0KSBibQkj4ojg==}
-    engines: {node: '>=0.6.11 <=0.7.0 || >=0.7.3'}
     dev: false
 
   /type-check@0.3.2:
@@ -10723,8 +10883,20 @@ packages:
     hasBin: true
     dev: false
 
+  /typescript@5.6.1-rc:
+    resolution: {integrity: sha512-E3b2+1zEFu84jB0YQi9BORDjz9+jGbwwy1Zi3G0LUNw7a7cePUrHMRNy8aPh53nXpkFGVHSxIZo5vKTfYaFiBQ==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
   /typescript@5.6.3:
     resolution: {integrity: sha512-hjcS1mhfuyi4WW8IWtjP7brDrG2cuDZukyrYrSauoXGNgx0S7zceP07adYkJycEr56BOUTNPzbInooiN3fn1qw==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+    dev: false
+
+  /typescript@5.7.2:
+    resolution: {integrity: sha512-i5t66RHxDvVN40HfDd1PsEThGNnlMCMT3jMUuoh9/0TaqWevNontacunWyN02LA9/fIbEWlcHZcgTKb9QoaLfg==}
     engines: {node: '>=14.17'}
     hasBin: true
     dev: false
@@ -10777,6 +10949,11 @@ packages:
   /undici@6.21.0:
     resolution: {integrity: sha512-BUgJXc752Kou3oOIuU1i+yZZypyZRqNPW0vqoMPl8VaoalSfeR0D8/t4iAS3yirs79SSMTxTag+ZC86uswv+Cw==}
     engines: {node: '>=18.17'}
+    dev: false
+
+  /unicode-emoji-modifier-base@1.0.0:
+    resolution: {integrity: sha512-yLSH4py7oFH3oG/9K+XWrz1pSi3dfUrWEnInbxMfArOfc1+33BlGPQtLsOYwvdMy11AwUBetYuaRxSPqgkq+8g==}
+    engines: {node: '>=4'}
     dev: false
 
   /unist-util-stringify-position@2.0.3:
@@ -10867,11 +11044,6 @@ packages:
     hasBin: true
     dev: false
 
-  /uuid@9.0.1:
-    resolution: {integrity: sha512-b+1eJOlsR9K8HJpow9Ok3fiWOWSIcIzXodvv0rQjVoOVNpWMpxf1wZNpt4y9h10odCNrqnYp1OBzRktckBe3sA==}
-    hasBin: true
-    dev: false
-
   /v8-compile-cache-lib@3.0.1:
     resolution: {integrity: sha512-wa7YjyUGfNZngI/vtK0UHAN+lgDCxBPCylVXGp0zu59Fz5aiGtNXaq3DhIov063MorB+VfufLh3JlF2KdTK3xg==}
     dev: false
@@ -10881,6 +11053,11 @@ packages:
     dependencies:
       spdx-correct: 3.2.0
       spdx-expression-parse: 3.0.1
+    dev: false
+
+  /validate-npm-package-name@5.0.1:
+    resolution: {integrity: sha512-OljLrQ9SQdOUqTaQxqL5dEfZWrXExyyWsozYlAWFawPVNuD83igl7uJD2RTkNMbniIYgt8l81eCJGIdQF7avLQ==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
     dev: false
 
   /vary@1.1.2:
@@ -11382,19 +11559,6 @@ packages:
         optional: true
     dev: false
 
-  /xml2js@0.4.23:
-    resolution: {integrity: sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==}
-    engines: {node: '>=4.0.0'}
-    dependencies:
-      sax: 1.4.1
-      xmlbuilder: 11.0.1
-    dev: false
-
-  /xmlbuilder@11.0.1:
-    resolution: {integrity: sha512-fDlsI/kFEx7gLvbecc0/ohLG50fugQp8ryHzMTuW9vSa1GJ0XYWKnhsUx7oie3G98+r56aTQIUB4kht42R3JvA==}
-    engines: {node: '>=4.0'}
-    dev: false
-
   /xmlbuilder@12.0.0:
     resolution: {integrity: sha512-lMo8DJ8u6JRWp0/Y4XLa/atVDr75H9litKlb2E5j3V3MesoL50EBgZDWoLT3F/LztVnG67GjPXLZpqcky/UMnQ==}
     engines: {node: '>=6.0'}
@@ -11579,7 +11743,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -11622,11 +11786,11 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       chai: 4.3.10
-      csv-parse: 5.5.6
+      csv-parse: 5.6.0
       dotenv: 16.4.5
       eslint: 9.15.0
       karma: 6.4.4
@@ -11656,44 +11820,41 @@ packages:
     dev: false
 
   file:projects/ai-content-safety.tgz:
-    resolution: {integrity: sha512-tGC3S8ycR2jDMB7rX2Bj0xaUAFQ+/cgzFP+H/C7vOHABTA/LtlbJ+S67zVPTNiqfN3WQCq2Gpur69JlLkipENQ==, tarball: file:projects/ai-content-safety.tgz}
+    resolution: {integrity: sha512-wYg56r/F6an8nPb6NlNYV4IkMT+vOk6QewQFK3Gef2DuAHLtxmq5feJG247k4z4jVkEE2pf9BOC3dLPGp/rPCQ==, tarball: file:projects/ai-content-safety.tgz}
     name: '@rush-temp/ai-content-safety'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       autorest: 3.7.1
-      chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 2.1.3
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.4.0
-      mocha: 10.8.2
-      nyc: 17.1.0
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      playwright: 1.49.0
+      rollup-plugin-copy: 3.5.0
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/ai-document-intelligence.tgz:
@@ -11734,45 +11895,39 @@ packages:
     dev: false
 
   file:projects/ai-document-translator.tgz:
-    resolution: {integrity: sha512-y7JZQ/Mi46HtLeR4IJQ8gtPpFbp1H+8s3XZniOxnhXzUkl/X2nwm5BjeHfi4v7HqIItJLwd1UZSEJHIY+a7RyA==, tarball: file:projects/ai-document-translator.tgz}
+    resolution: {integrity: sha512-MVtb7N/AgQW4ZKsGGYz5mXyBCy3FCBQfpi/IVVe4jGEUoQMkqInzp3Qr2czfYJF1Aw5m9mFu04z/qufBOc8mkA==, tarball: file:projects/ai-document-translator.tgz}
     name: '@rush-temp/ai-document-translator'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
-      chai: 4.3.10
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-json-preprocessor: 0.3.3(karma@6.4.4)
-      karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
@@ -11785,7 +11940,7 @@ packages:
       '@azure/core-lro': 2.7.2
       '@rollup/plugin-node-resolve': 15.3.0(rollup@4.27.3)
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       chai: 4.3.10
@@ -11871,7 +12026,7 @@ packages:
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       chai: 4.3.10
@@ -11916,7 +12071,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
       '@types/decompress': 4.2.7
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       chai: 4.3.10
@@ -11958,7 +12113,7 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@azure/core-lro': 2.7.2
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       dotenv: 16.4.5
@@ -11985,7 +12140,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       chai: 4.3.10
@@ -12028,7 +12183,7 @@ packages:
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       chai: 4.3.10
@@ -12070,7 +12225,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       chai: 4.3.10
@@ -12111,7 +12266,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       chai: 4.3.10
@@ -12190,7 +12345,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 20.10.8
       autorest: 3.7.1
       chai: 4.3.10
@@ -12348,7 +12503,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12372,7 +12527,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -12395,7 +12550,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -12418,7 +12573,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12442,7 +12597,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12466,7 +12621,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12489,9 +12644,9 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
+      '@microsoft/api-extractor': 7.47.12(@types/node@18.19.64)
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       cross-env: 7.0.3
@@ -12519,7 +12674,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12542,7 +12697,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -12565,7 +12720,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12589,7 +12744,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12614,7 +12769,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12638,7 +12793,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       chai: 4.3.10
@@ -12680,7 +12835,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12702,7 +12857,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -12723,7 +12878,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12747,7 +12902,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12769,7 +12924,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12793,7 +12948,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12817,7 +12972,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12842,7 +12997,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -12863,7 +13018,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -12886,7 +13041,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12911,7 +13066,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12934,7 +13089,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12958,7 +13113,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -12983,7 +13138,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -13006,7 +13161,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13030,7 +13185,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13052,7 +13207,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -13073,7 +13228,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -13097,7 +13252,7 @@ packages:
       '@azure/arm-cosmosdb': 16.0.0-beta.6
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13121,7 +13276,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13143,7 +13298,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13165,7 +13320,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -13186,7 +13341,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -13209,7 +13364,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13234,7 +13389,7 @@ packages:
       '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13259,7 +13414,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13284,7 +13439,7 @@ packages:
       '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       chai: 4.3.10
@@ -13397,7 +13552,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13422,7 +13577,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13441,7 +13596,7 @@ packages:
     name: '@rush-temp/arm-connectedcache'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
+      '@microsoft/api-extractor': 7.47.12(@types/node@18.19.64)
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
@@ -13483,7 +13638,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13505,7 +13660,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13528,7 +13683,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13588,7 +13743,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13603,26 +13758,24 @@ packages:
     dev: false
 
   file:projects/arm-containerservice-1.tgz:
-    resolution: {integrity: sha512-utGcUU8MbJLw0BBSCqXOAcfogm+NlZkn+iV2CzTCLnifBSaydocD7nnCyjChZMhHXIUs4vIp0cEHAM2dVA+vyw==, tarball: file:projects/arm-containerservice-1.tgz}
+    resolution: {integrity: sha512-s7pcgXSyMJcxDuhA9Y7aavPBCQ5h/TowVP7Ni7LsaWMm55Dges6xYWeVwZ13VPtab99BVIc0/E5ZWrd+VXmj+Q==, tarball: file:projects/arm-containerservice-1.tgz}
     name: '@rush-temp/arm-containerservice-1'
     version: 0.0.0
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
+      '@microsoft/api-extractor': 7.47.12(@types/node@18.19.64)
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
-      cross-env: 7.0.3
       dotenv: 16.4.5
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
       typescript: 5.6.3
-      uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -13639,7 +13792,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       chai: 4.3.10
@@ -13680,7 +13833,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13704,7 +13857,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13729,7 +13882,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13753,7 +13906,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13777,7 +13930,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -13800,7 +13953,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13821,9 +13974,9 @@ packages:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
+      '@microsoft/api-extractor': 7.47.12(@types/node@18.19.64)
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13850,7 +14003,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13874,7 +14027,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13898,7 +14051,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -13921,7 +14074,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13945,7 +14098,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -13968,7 +14121,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -13991,7 +14144,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14016,7 +14169,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -14039,7 +14192,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -14062,7 +14215,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14087,7 +14240,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14111,7 +14264,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -14132,7 +14285,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14156,7 +14309,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14179,7 +14332,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14203,7 +14356,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14227,7 +14380,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14252,7 +14405,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14276,7 +14429,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14301,7 +14454,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -14324,7 +14477,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -14347,7 +14500,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14371,7 +14524,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14394,7 +14547,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14418,7 +14571,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14443,7 +14596,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -14466,7 +14619,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14485,7 +14638,7 @@ packages:
     name: '@rush-temp/arm-edgezones'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
+      '@microsoft/api-extractor': 7.47.12(@types/node@18.19.64)
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
@@ -14526,7 +14679,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14549,7 +14702,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14573,7 +14726,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14598,7 +14751,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14622,7 +14775,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14647,7 +14800,7 @@ packages:
       '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14672,7 +14825,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14730,7 +14883,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -14751,7 +14904,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14775,7 +14928,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14799,7 +14952,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14821,7 +14974,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14846,7 +14999,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -14867,9 +15020,9 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
+      '@microsoft/api-extractor': 7.47.12(@types/node@18.19.64)
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       cross-env: 7.0.3
@@ -14898,7 +15051,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14922,7 +15075,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -14947,7 +15100,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -14970,7 +15123,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15029,9 +15182,9 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
+      '@microsoft/api-extractor': 7.47.12(@types/node@18.19.64)
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15054,7 +15207,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15078,7 +15231,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15102,7 +15255,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -15125,7 +15278,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15150,7 +15303,7 @@ packages:
       '@azure/arm-compute': 21.6.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15175,7 +15328,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15200,7 +15353,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -15221,7 +15374,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15245,7 +15398,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15269,7 +15422,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15328,7 +15481,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15352,7 +15505,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15376,7 +15529,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15400,7 +15553,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15424,7 +15577,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15448,7 +15601,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15470,7 +15623,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -15492,7 +15645,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15514,7 +15667,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15536,7 +15689,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -15559,7 +15712,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15583,7 +15736,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15608,7 +15761,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -15629,7 +15782,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15651,7 +15804,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15676,7 +15829,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15700,7 +15853,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15724,7 +15877,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -15745,7 +15898,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15767,7 +15920,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15791,7 +15944,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -15812,7 +15965,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15836,7 +15989,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15858,7 +16011,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15882,7 +16035,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15904,7 +16057,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -15927,7 +16080,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -15986,7 +16139,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16010,7 +16163,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16032,7 +16185,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16056,7 +16209,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16081,7 +16234,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -16102,19 +16255,17 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
+      '@microsoft/api-extractor': 7.47.12(@types/node@18.19.64)
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
-      cross-env: 7.0.3
       dotenv: 16.4.5
       mocha: 10.8.2
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       tsx: 4.19.2
       typescript: 5.6.3
-      uglify-js: 3.19.3
     transitivePeerDependencies:
       - '@swc/core'
       - '@swc/wasm'
@@ -16131,7 +16282,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16156,7 +16307,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16180,7 +16331,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       chai: 4.3.10
@@ -16222,7 +16373,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16243,11 +16394,10 @@ packages:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
-      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
+      '@microsoft/api-extractor': 7.47.12(@types/node@18.19.64)
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16272,7 +16422,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -16295,7 +16445,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16319,7 +16469,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16343,7 +16493,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16367,7 +16517,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -16390,7 +16540,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16414,7 +16564,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -16437,7 +16587,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16462,7 +16612,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16486,7 +16636,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16508,7 +16658,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -16531,7 +16681,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16553,7 +16703,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16575,7 +16725,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16599,7 +16749,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16621,7 +16771,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16645,7 +16795,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16669,7 +16819,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -16692,7 +16842,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16716,7 +16866,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -16738,7 +16888,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16763,7 +16913,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -16786,7 +16936,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16810,7 +16960,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16835,7 +16985,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16859,7 +17009,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16883,7 +17033,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16909,7 +17059,7 @@ packages:
       '@azure/arm-recoveryservices': 5.4.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16934,7 +17084,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16958,7 +17108,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -16984,7 +17134,7 @@ packages:
       '@azure/arm-network': 32.2.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17009,7 +17159,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17034,7 +17184,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17058,7 +17208,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17082,7 +17232,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17104,7 +17254,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -17125,7 +17275,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17149,7 +17299,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17173,7 +17323,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17195,7 +17345,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17219,7 +17369,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17243,7 +17393,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17268,7 +17418,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17293,7 +17443,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17318,7 +17468,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17343,7 +17493,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17367,7 +17517,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17391,7 +17541,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17414,7 +17564,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -17437,7 +17587,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17461,7 +17611,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17485,7 +17635,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       chai: 4.3.10
@@ -17526,7 +17676,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17549,7 +17699,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17572,7 +17722,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17595,7 +17745,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17619,7 +17769,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17643,7 +17793,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17667,7 +17817,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17691,7 +17841,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17714,7 +17864,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17739,7 +17889,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17798,7 +17948,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17821,7 +17971,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17846,7 +17996,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17870,7 +18020,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17893,7 +18043,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17917,7 +18067,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -17942,7 +18092,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -17965,7 +18115,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -17988,7 +18138,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -18011,7 +18161,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -18033,7 +18183,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -18057,7 +18207,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -18080,7 +18230,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -18104,7 +18254,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -18126,7 +18276,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -18144,7 +18294,7 @@ packages:
     name: '@rush-temp/arm-terraform'
     version: 0.0.0
     dependencies:
-      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
+      '@microsoft/api-extractor': 7.47.12(@types/node@18.19.64)
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
@@ -18186,7 +18336,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -18208,7 +18358,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -18267,7 +18417,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -18290,7 +18440,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -18314,7 +18464,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -18338,7 +18488,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -18362,7 +18512,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -18385,7 +18535,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -18409,7 +18559,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -18431,7 +18581,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       mocha: 10.8.2
@@ -19143,7 +19293,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -19169,7 +19319,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
@@ -19647,7 +19797,7 @@ packages:
       '@sinonjs/fake-timers': 11.3.1
       '@types/chai': 4.3.20
       '@types/debug': 4.1.12
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/priorityqueuejs': 1.0.4
       '@types/semaphore': 1.1.4
@@ -19716,7 +19866,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       chai: 4.3.10
@@ -19759,7 +19909,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -19793,16 +19943,17 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-wz8mIJHS/tb0/OqYSrSh0xZ9h3fDqINk78j9K+ObFAl+WK5mk4rKeI7ggpoY8CPC2+0NqQ01OO2YC8C5ic9e8A==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-gFcaLV9aqlL0j0i52cW/OzMd+iLXvQ8mvHL7XMNm44N+suDCmxNy+k2meuGq2b+J401lqgLkLB7+hfPqX9+Oqg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
-      '@_ts/max': /typescript@5.6.3
+      '@_ts/max': /typescript@5.7.2
       '@_ts/min': /typescript@4.2.4
+      '@arethetypeswrong/cli': 0.16.4
       '@azure/identity': 4.5.0
       '@eslint/js': 9.15.0
-      '@microsoft/api-extractor': 7.47.11(@types/node@18.19.64)
-      '@microsoft/api-extractor-model': 7.29.8(@types/node@18.19.64)
+      '@microsoft/api-extractor': 7.47.12(@types/node@18.19.64)
+      '@microsoft/api-extractor-model': 7.29.9(@types/node@18.19.64)
       '@rollup/plugin-commonjs': 25.0.8(rollup@4.27.3)
       '@rollup/plugin-inject': 5.0.5(rollup@4.27.3)
       '@rollup/plugin-json': 6.1.0(rollup@4.27.3)
@@ -19912,7 +20063,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
@@ -19969,7 +20120,7 @@ packages:
       eslint: 9.15.0
       eslint-config-prettier: 9.1.0(eslint@9.15.0)
       eslint-plugin-markdown: 5.1.0(eslint@9.15.0)
-      eslint-plugin-n: 17.13.2(eslint@9.15.0)
+      eslint-plugin-n: 17.14.0(eslint@9.15.0)
       eslint-plugin-no-only-tests: 3.3.0
       eslint-plugin-promise: 6.6.0(eslint@9.15.0)
       eslint-plugin-tsdoc: 0.2.17
@@ -20061,7 +20212,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
@@ -20105,7 +20256,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
@@ -20150,7 +20301,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
@@ -20287,7 +20438,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/functions': 3.5.1
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -20368,7 +20519,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       chai: 4.3.10
@@ -20411,7 +20562,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       chai: 4.3.10
@@ -20454,7 +20605,7 @@ packages:
       '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       chai: 4.3.10
@@ -20533,7 +20684,7 @@ packages:
       '@azure/msal-node': 2.15.0
       '@azure/msal-node-extensions': 1.3.0
       '@types/jws': 3.2.10
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/qs': 6.9.17
       '@types/sinon': 17.0.3
@@ -20542,7 +20693,7 @@ packages:
       inherits: 2.0.4
       keytar: 7.9.0
       mocha: 10.8.2
-      puppeteer: 23.8.0(typescript@5.6.3)
+      puppeteer: 23.9.0(typescript@5.6.3)
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
@@ -20564,7 +20715,7 @@ packages:
     dependencies:
       '@azure-tools/test-recorder': 3.5.2
       '@types/jws': 3.2.10
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/qs': 6.9.17
       '@types/sinon': 17.0.3
@@ -20574,7 +20725,7 @@ packages:
       inherits: 2.0.4
       keytar: 7.9.0
       mocha: 10.8.2
-      puppeteer: 23.8.0(typescript@5.6.3)
+      puppeteer: 23.9.0(typescript@5.6.3)
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
@@ -20650,7 +20801,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -20684,45 +20835,39 @@ packages:
     dev: false
 
   file:projects/iot-modelsrepository.tgz:
-    resolution: {integrity: sha512-DtswZtrDRCyoe5CyE4F1DZtXb+IMSydNxX2pueLyMJs45GDU0KAZQcS7eTUq+Vc+92AOcPrdDBYXpwTl4PgZnA==, tarball: file:projects/iot-modelsrepository.tgz}
+    resolution: {integrity: sha512-hJMVERfcQNl1arQVH2kNoM2in/mmJ4z6kwm2udCgcU8OnrJoJUVCFELh1hBxKpbIFkwb3DJLs8Racg2WNo8dBw==, tarball: file:projects/iot-modelsrepository.tgz}
     name: '@rush-temp/iot-modelsrepository'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
-      '@types/sinon': 17.0.3
-      chai: 4.3.10
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       eslint: 9.15.0
       events: 3.3.0
-      inherits: 2.0.4
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-json-preprocessor: 0.3.3(karma@6.4.4)
-      karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
-      sinon: 17.0.1
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      util: 0.12.5
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/keyvault-admin.tgz:
@@ -20905,47 +21050,41 @@ packages:
     dev: false
 
   file:projects/load-testing.tgz:
-    resolution: {integrity: sha512-U314GsbjjWSJHdmjAo6qwSwuCTTFiPUB9AWGKK/9tU33CqV9wIfTrez1uuFhzteWwfMPXgLh+RnJjrzYBYpOdA==, tarball: file:projects/load-testing.tgz}
+    resolution: {integrity: sha512-mWVb1m4MgOwmwvtCgw+GpN4BwujiAzXpm+2lWJdLgtH4EFCwkLQWaefkaSqlyXMEXqCy/lPJYAS4hXrIP7DkEg==, tarball: file:projects/load-testing.tgz}
     name: '@rush-temp/load-testing'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
-      '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       autorest: 3.7.1
-      chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      uuid: 9.0.1
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/logger.tgz:
@@ -21030,7 +21169,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/maps-common': 1.0.0-beta.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       chai: 4.3.10
@@ -21072,7 +21211,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/maps-common': 1.0.0-beta.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       chai: 4.3.10
@@ -21114,7 +21253,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/maps-common': 1.0.0-beta.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       chai: 4.3.10
@@ -21157,7 +21296,7 @@ packages:
       '@azure/core-lro': 2.7.2
       '@azure/maps-common': 1.0.0-beta.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       autorest: 3.7.1
       chai: 4.3.10
@@ -21196,7 +21335,7 @@ packages:
     dependencies:
       '@playwright/test': 1.49.0
       '@types/debug': 4.1.12
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 20.17.6
       '@types/sinon': 17.0.3
       eslint: 9.15.0
@@ -21218,7 +21357,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
@@ -21259,7 +21398,7 @@ packages:
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/uuid': 8.3.4
       chai: 4.3.10
@@ -21379,7 +21518,7 @@ packages:
       '@opentelemetry/sdk-metrics': 1.28.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 1.28.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 1.28.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.27.0
+      '@opentelemetry/semantic-conventions': 1.28.0
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
@@ -21439,9 +21578,9 @@ packages:
       '@opentelemetry/sdk-node': 0.55.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-base': 1.28.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 1.28.0(@opentelemetry/api@1.9.0)
-      '@opentelemetry/semantic-conventions': 1.27.0
+      '@opentelemetry/semantic-conventions': 1.28.0
       '@opentelemetry/winston-transport': 0.7.0
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       dotenv: 16.4.5
@@ -21544,7 +21683,7 @@ packages:
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       dotenv: 16.4.5
       eslint: 9.15.0
-      openai: 4.72.0
+      openai: 4.73.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
@@ -22048,268 +22187,241 @@ packages:
     dev: false
 
   file:projects/perf-template.tgz:
-    resolution: {integrity: sha512-kmbAc3bouxAlOjHvI8nrh8wa9dJShOSqRDKs84u6EZrIqLW0O/MO2ZLMMlMyIySWutUiiazwuYPvcGuczabYew==, tarball: file:projects/perf-template.tgz}
+    resolution: {integrity: sha512-i6UEyKvgmn6FvOtrhdZkwnXMGsvbMgShf5YRJPf65eSnu8HDC3xx0eo0Cx86HwcjLohRuNa4GorVT7+b5h1BHA==, tarball: file:projects/perf-template.tgz}
     name: '@rush-temp/perf-template'
     version: 0.0.0
     dependencies:
       '@azure/app-configuration': 1.8.0
-      '@azure/template': 1.0.11
+      '@azure/template': 1.0.13-beta.1
       '@types/node': 18.19.64
       dotenv: 16.4.5
       eslint: 9.15.0
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
     transitivePeerDependencies:
-      - encoding
       - jiti
       - supports-color
     dev: false
 
   file:projects/purview-administration.tgz:
-    resolution: {integrity: sha512-TSXTLbmzjVD0vT9WNatMO9fP3kPbxPz8j0tA15zV9Aro/jCxAnZI83RW/PBXF9sl331aoxlbxccx+wy0Hdy3Gg==, tarball: file:projects/purview-administration.tgz}
+    resolution: {integrity: sha512-sgg4tkB4l9zyjfabBh9sUFhifmfGF+ntAIAb2e9vsDSCi1ttSW6dQHrKx5IFCKwz3b0Cl0DaeRMwS8j4e8hecQ==, tarball: file:projects/purview-administration.tgz}
     name: '@rush-temp/purview-administration'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
-      chai: 4.3.10
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/purview-catalog.tgz:
-    resolution: {integrity: sha512-mpDALPQmS1Z/2Hfs1wggKivfldnUd+8+wUY3p1hnDoGbV6jnx+xxTkeIq+38xu6ZeRwFAaHYWlg2YK5q8zMjmA==, tarball: file:projects/purview-catalog.tgz}
+    resolution: {integrity: sha512-P4T1DLaTzNfhCfRSS/tZTK6wVBW2sBDaf9tAw6qOqvlz3ZPkJ5vTGehSROpmF8eDPloYnN7IaDtM/Pdi3d2d/w==, tarball: file:projects/purview-catalog.tgz}
     name: '@rush-temp/purview-catalog'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
-      chai: 4.3.10
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/purview-datamap.tgz:
-    resolution: {integrity: sha512-BQvuMAyKroJNxkBH2X6hn/6SBM8ecQoNOu9e7fjZWIPBosCExeU7XA2Wv0emr7bLMmhwG6yzaB9xjpvsHNv+Eg==, tarball: file:projects/purview-datamap.tgz}
+    resolution: {integrity: sha512-7oiGt2hH9ZkCV8TyJRw6R4MvjW1O2ULh5uJ+cg3GIx4BKR1bcZYk73h9m4k56lwo15yDon0raH0UmjfoNb7Rng==, tarball: file:projects/purview-datamap.tgz}
     name: '@rush-temp/purview-datamap'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       autorest: 3.7.1
-      chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 2.1.3
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.4.0
-      mocha: 10.8.2
-      nyc: 17.1.0
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/purview-scanning.tgz:
-    resolution: {integrity: sha512-wg5mFlbl2PbEKiyp4WBthQc+6gEWxE2G2HhlBFN3KbVeuxlqBnecCDBxTmZr5d4LPzOw7ImbD9I8emdRZpmN8g==, tarball: file:projects/purview-scanning.tgz}
+    resolution: {integrity: sha512-4060O8WtwjIXcuZEqtihG9mNZBUsaY5vEBCXdX/KgZdDyAdxaz+ly58sFqmPVhQrrsFcEAoiK3eM3d1aT02/LQ==, tarball: file:projects/purview-scanning.tgz}
     name: '@rush-temp/purview-scanning'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
-      chai: 4.3.10
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/purview-sharing.tgz:
-    resolution: {integrity: sha512-gPIgrn/dlEXISMEAYe+mLIICGr1dV6X3uC91w51TcJ87u5jwjOUDtlj5cxxlmjnySIPUARk4QNDvRl1aNUETjg==, tarball: file:projects/purview-sharing.tgz}
+    resolution: {integrity: sha512-7I95FPCB1deMsV/SaCRhORc5RRUsCrw5eHZLOvt2Ij5fF2cIOCv6nvAi0qlzyOwxZsbMSh21qJenVxLx25gVIQ==, tarball: file:projects/purview-sharing.tgz}
     name: '@rush-temp/purview-sharing'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@azure/abort-controller': 1.1.0
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       autorest: 3.7.1
-      chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/purview-workflow.tgz:
-    resolution: {integrity: sha512-mAgnXp2a4X6MCPz1WJR26h73cE3mUD4bvjB1jct7mqRWv0mCN0uaYZfqhhDYFVozgTiY+xIiBSyyrIDDbjJY8w==, tarball: file:projects/purview-workflow.tgz}
+    resolution: {integrity: sha512-cdYtC2hiHpniV2a3lK+YjL72OLtV5ekUtCffOgqU4O0DlyPAPhVKzEP5PU3jzfgsGtwzPwcL4r9AJFIUQIMB+w==, tarball: file:projects/purview-workflow.tgz}
     name: '@rush-temp/purview-workflow'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
+      '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       autorest: 3.7.1
-      chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
+      playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/quantum-jobs.tgz:
@@ -22320,7 +22432,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       chai: 4.3.10
@@ -22408,7 +22520,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@azure/schema-registry': 1.3.0
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       ajv: 8.17.1
       dotenv: 16.4.5
@@ -22447,7 +22559,7 @@ packages:
     dependencies:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       dotenv: 16.4.5
       eslint: 9.15.0
@@ -22485,7 +22597,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/openai': 1.0.0-beta.12
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       chai: 4.3.10
@@ -22587,7 +22699,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       chai: 4.3.10
@@ -22609,7 +22721,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
-      puppeteer: 23.8.0(typescript@5.6.3)
+      puppeteer: 23.9.0(typescript@5.6.3)
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
@@ -22635,7 +22747,7 @@ packages:
       '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -22654,7 +22766,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
-      puppeteer: 23.8.0(typescript@5.6.3)
+      puppeteer: 23.9.0(typescript@5.6.3)
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
@@ -22678,7 +22790,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       chai: 4.3.10
@@ -22700,7 +22812,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
-      puppeteer: 23.8.0(typescript@5.6.3)
+      puppeteer: 23.9.0(typescript@5.6.3)
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
@@ -22725,7 +22837,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       chai: 4.3.10
@@ -22745,7 +22857,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
-      puppeteer: 23.8.0(typescript@5.6.3)
+      puppeteer: 23.9.0(typescript@5.6.3)
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
@@ -22768,7 +22880,7 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -22786,7 +22898,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
-      puppeteer: 23.8.0(typescript@5.6.3)
+      puppeteer: 23.9.0(typescript@5.6.3)
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
@@ -22810,7 +22922,7 @@ packages:
       '@azure-tools/test-credential': 1.3.1
       '@azure-tools/test-recorder': 3.5.2
       '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       chai: 4.3.10
       dotenv: 16.4.5
@@ -22828,7 +22940,7 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
-      puppeteer: 23.8.0(typescript@5.6.3)
+      puppeteer: 23.9.0(typescript@5.6.3)
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
@@ -22845,275 +22957,219 @@ packages:
     dev: false
 
   file:projects/synapse-access-control-1.tgz:
-    resolution: {integrity: sha512-qlA5jXPaiKV9bQrlIn2U/vaLaPgSF/bpjVLxUwCCclLJqZVz1ehQeUue5bXKK+w56tHIIivYr3wvMi5l0Mdf0A==, tarball: file:projects/synapse-access-control-1.tgz}
+    resolution: {integrity: sha512-PsDI9ixsWoG5tbuoB6Wd2BVZZvqY2rHjdfrUQu8RK+vGxCFhm9sYPNZ/u7SCk7Twm/eZCi7FtlHClXTiWhKSAg==, tarball: file:projects/synapse-access-control-1.tgz}
     name: '@rush-temp/synapse-access-control-1'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
-      '@types/sinon': 17.0.3
       '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
-      chai: 4.3.10
-      chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
       playwright: 1.49.0
-      sinon: 17.0.1
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/synapse-access-control.tgz:
-    resolution: {integrity: sha512-Ygq8BhZRt1y5gIyWYIsWJsZ+mpMUg9vgh9hkhAjXVnLrecmqVNbn+YDw4DY88UB7y+afWW5WEcYAGUDyevPeYQ==, tarball: file:projects/synapse-access-control.tgz}
+    resolution: {integrity: sha512-9xdlw5x0quMLB/SC77TKuY4c9igb2+HFgbGAKlE/RoEe0xa9azz9mACQzrzEipqEkmcETcTuIyvGXzJHEi6KXw==, tarball: file:projects/synapse-access-control.tgz}
     name: '@rush-temp/synapse-access-control'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
-      '@types/sinon': 17.0.3
       '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
-      chai: 4.3.10
-      chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-json-preprocessor: 0.3.3(karma@6.4.4)
-      karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
       playwright: 1.49.0
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/synapse-artifacts.tgz:
-    resolution: {integrity: sha512-lT2WxvoGEfgc4Q6QE2r2DG+52BU5wFRdMPWmZTCkKCsJIOwBVmhV3ewHJlHEFEbhLxQuyqxYwoMaCSvChPKcgQ==, tarball: file:projects/synapse-artifacts.tgz}
+    resolution: {integrity: sha512-5rjggfXNlltSIRafPLODuubz9l0qMTDLyDbF9fMNGQxiCs+CQ9CHFxYu26bL3bC8FkqKbFzi9TntWrWX1F/TYw==, tarball: file:projects/synapse-artifacts.tgz}
     name: '@rush-temp/synapse-artifacts'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
-      '@types/sinon': 17.0.3
       '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
-      chai: 4.3.10
-      chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-json-preprocessor: 0.3.3(karma@6.4.4)
-      karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
       playwright: 1.49.0
-      sinon: 17.0.1
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/synapse-managed-private-endpoints.tgz:
-    resolution: {integrity: sha512-M8Tqc7HZYLwzaffD0npPj+8au49x82iVNX3VkLArIkCzyUsL22HqOx5witrWIvRIW/iEqKJsMYnXs1m70jWVAw==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
+    resolution: {integrity: sha512-Zpd22jZb08NobyWIJwBybVo2rLF1jcIPtcPosR7Gtuv286aRX2tdD1ki14DasDmhtox1Ey6EiUkx9gtq9+W5sw==, tarball: file:projects/synapse-managed-private-endpoints.tgz}
     name: '@rush-temp/synapse-managed-private-endpoints'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
-      chai: 4.3.10
-      chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
       playwright: 1.49.0
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/synapse-monitoring.tgz:
-    resolution: {integrity: sha512-ye5ZB6xij2A1rB7serjsWBPhjRxD80yGU/2zoQCTag6vG0M/BbvhAXu+x0ThaO6Bvvb5kMrDp5ghHIBqjFMbfw==, tarball: file:projects/synapse-monitoring.tgz}
+    resolution: {integrity: sha512-I5BQzGL2nrC0KkDbMwt6You5P/21te8gmwJkGNLZWeVLEQ2L8eZoRCwIbx8cDd45uTn6qLM6gKqRylQLnOBm0g==, tarball: file:projects/synapse-monitoring.tgz}
     name: '@rush-temp/synapse-monitoring'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
       playwright: 1.49.0
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/synapse-spark.tgz:
-    resolution: {integrity: sha512-mR+UC0KxnetVOrs2A2JtB9fOMljSDToc7UfLsrDTOcHFdZTUbbriZXtNJmudut/RXjJ9PloV9S4qMbQab3/e4w==, tarball: file:projects/synapse-spark.tgz}
+    resolution: {integrity: sha512-7VuuV5NynayhACA7upeM3teS3wfatr9zrVsViPOWaY9D2pg63KDr3duw0olTfwdDyIzFvraUWChLH1YGesC9Wg==, tarball: file:projects/synapse-spark.tgz}
     name: '@rush-temp/synapse-spark'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
-      chai: 4.3.10
-      chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
       playwright: 1.49.0
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/template-dpg.tgz:
@@ -23121,35 +23177,14 @@ packages:
     name: '@rush-temp/template-dpg'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
       '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
-      chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.15.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-edge-launcher: 0.4.2(karma@6.4.4)
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 2.1.3
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
       playwright: 1.49.0
-      puppeteer: 23.8.0(typescript@5.6.3)
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
-      util: 0.12.5
       vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -23340,7 +23375,7 @@ packages:
       '@opentelemetry/api': 1.9.0
       '@types/chai': 4.3.20
       '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       chai: 4.3.10
@@ -23470,7 +23505,7 @@ packages:
       '@types/express': 4.17.21
       '@types/express-serve-static-core': 4.19.6
       '@types/jsonwebtoken': 9.0.7
-      '@types/mocha': 10.0.9
+      '@types/mocha': 10.0.10
       '@types/node': 18.19.64
       '@types/sinon': 17.0.3
       '@types/ws': 7.4.7
@@ -23493,7 +23528,7 @@ packages:
       mocha: 10.8.2
       mock-socket: 9.3.1
       nyc: 17.1.0
-      puppeteer: 23.8.0(typescript@5.6.3)
+      puppeteer: 23.9.0(typescript@5.6.3)
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
@@ -23556,36 +23591,15 @@ packages:
     name: '@rush-temp/web-pubsub'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
       '@types/jsonwebtoken': 9.0.7
-      '@types/mocha': 10.0.9
       '@types/node': 18.19.64
-      '@types/sinon': 17.0.3
       '@types/ws': 8.5.13
       '@vitest/browser': 2.1.5(@types/node@18.19.64)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.5)
       '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
-      chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.15.0
       jsonwebtoken: 9.0.2
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
       playwright: 1.49.0
-      puppeteer: 23.8.0(typescript@5.6.3)
-      sinon: 17.0.1
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.64)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.64)(@vitest/browser@2.1.5)

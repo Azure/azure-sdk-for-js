@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as Models from "./models";
-import * as Pagination from "./paginateHelper";
-import * as Parameters from "./parameters";
-import * as Client from "./clientDefinitions";
-import * as Responses from "./responses";
+import * as Models from "./models.js";
+import * as Pagination from "./paginateHelper.js";
+import * as Parameters from "./parameters.js";
+import * as Client from "./clientDefinitions.js";
+import * as Responses from "./responses.js";
 export { Models, Pagination, Parameters, Client, Responses };
-export { PurviewAccountClient } from "./purviewAccount";
+export { PurviewAccountClient } from "./purviewAccount.js";
