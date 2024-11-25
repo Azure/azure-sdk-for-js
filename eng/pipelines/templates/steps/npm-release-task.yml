@@ -19,7 +19,9 @@ steps:
         # $packageName = $pkg.Name
         $packageName = "testestestestetsetset"
         $packageVersion = $pkg.Version
+        $ErrorActionPreference = 'Continue'
         $packageProps = npm view $packageName -json -silent | ConvertFrom-Json
+        $ErrorActionPreference = 'Stop'
         $originalTags = "{}"
         if ($packageProps.error?.code -ne "E404") {
           $originalTags = $packageProps.'dist-tags' | ConvertTo-Json -Compress
