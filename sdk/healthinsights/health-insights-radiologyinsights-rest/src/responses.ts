@@ -3,7 +3,10 @@
 
 import type { HttpResponse } from "@azure-rest/core-client";
 import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import type { HealthInsightsErrorResponseOutput, RadiologyInsightsJobOutput } from "./outputModels.js";
+import type {
+  HealthInsightsErrorResponseOutput,
+  RadiologyInsightsJobOutput,
+} from "./outputModels.js";
 
 /** Get the headers of the succeeded request */
 export interface GetJob200Headers {
