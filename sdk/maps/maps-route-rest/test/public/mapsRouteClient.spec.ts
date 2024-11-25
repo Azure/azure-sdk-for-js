@@ -66,7 +66,6 @@ describe("Endpoint can be overwritten", () => {
 describe("Get Route Directions", () => {
   let recorder: Recorder;
   let client: MapsRouteClient;
-  const fastTimeout = 10000;
 
   beforeEach(async (ctx) => {
     testLogger.verbose(`Recorder: starting...`);
