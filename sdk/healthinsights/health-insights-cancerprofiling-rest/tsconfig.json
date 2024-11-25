@@ -2,11 +2,21 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/health-insights-cancerprofiling": ["./src/index"]
+      "@azure-rest/health-insights-cancerprofiling": [
+        "./src/index"
+      ]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "samples-dev/**/*.ts", "test/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
+  ]
 }
