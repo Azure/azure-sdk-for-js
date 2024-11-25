@@ -5,7 +5,7 @@ import { RequestParameters } from "@azure-rest/core-client";
 import {
   GeocodingBatchRequestBody,
   ReverseGeocodingBatchRequestBody,
-} from "./models";
+} from "./models.js";
 
 export interface SearchGetGeocodingQueryParamProperties {
   /** Maximum number of responses that will be returned. Default: 5, minimum: 1 and maximum: 20. */

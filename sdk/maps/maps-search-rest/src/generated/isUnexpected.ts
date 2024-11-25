@@ -12,7 +12,7 @@ import {
   SearchGetReverseGeocodingDefaultResponse,
   SearchGetReverseGeocodingBatch200Response,
   SearchGetReverseGeocodingBatchDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /geocode": ["200"],

@@ -8,7 +8,7 @@ import {
   ErrorResponseOutput,
   GeocodingBatchResponseOutput,
   BoundaryOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 export interface SearchGetGeocoding200Headers {
   /** request id. */

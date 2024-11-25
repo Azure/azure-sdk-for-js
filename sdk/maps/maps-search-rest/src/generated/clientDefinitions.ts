@@ -7,7 +7,7 @@ import {
   SearchGetPolygonParameters,
   SearchGetReverseGeocodingParameters,
   SearchGetReverseGeocodingBatchParameters,
-} from "./parameters";
+} from "./parameters.js";
 import {
   SearchGetGeocoding200Response,
   SearchGetGeocodingDefaultResponse,
@@ -19,7 +19,7 @@ import {
   SearchGetReverseGeocodingDefaultResponse,
   SearchGetReverseGeocodingBatch200Response,
   SearchGetReverseGeocodingBatchDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetGeocoding {
