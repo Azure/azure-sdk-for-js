@@ -3,10 +3,8 @@
 import type { ConfidentialLedgerClient, CreateLedgerEntryParameters, LedgerEntry } from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
 import { createClient, createRecorder, getRecorderUniqueVariable } from "./utils/recordedClient.js";
-
-import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Post transaction", function () {
   let recorder: Recorder;

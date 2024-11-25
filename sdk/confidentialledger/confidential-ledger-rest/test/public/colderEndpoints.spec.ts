@@ -5,8 +5,7 @@ import { isUnexpected } from "../../src/index.js";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { Context } from "mocha";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Colder endpoints", function () {
   let recorder: Recorder;

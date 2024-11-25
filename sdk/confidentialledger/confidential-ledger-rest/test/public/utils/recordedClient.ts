@@ -10,8 +10,6 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import type { Context } from "mocha";
-
 const replaceableVariables: { [k: string]: string } = {
   LEDGER_URI: "https://test-ledger.confidential-ledger.azure.com",
   AZURE_CLIENT_OID: "azure_client_oid",

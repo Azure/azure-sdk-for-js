@@ -6,8 +6,7 @@ import { isUnexpected, paginate } from "../../src/index.js";
 import { createClient, createRecorder, getRecorderUniqueVariable } from "./utils/recordedClient.js";
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { Context } from "mocha";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Range query should be successful", function () {
   let recorder: Recorder;
