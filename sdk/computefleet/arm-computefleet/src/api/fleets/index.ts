@@ -23,11 +23,11 @@ import {
   _virtualMachineScaleSetListResultDeserializer,
   VirtualMachineScaleSet,
 } from "../../models/models.js";
-import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   PagedAsyncIterableIterator,
   buildPagedAsyncIterator,
 } from "../../static-helpers/pagingHelpers.js";
+import { getLongRunningPoller } from "../../static-helpers/pollingHelpers.js";
 import {
   StreamableMethod,
   PathUncheckedResponse,
@@ -53,7 +53,9 @@ export function _fleetsGetSend(
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _fleetsGetDeserialize(result: PathUncheckedResponse): Promise<Fleet> {
+export async function _fleetsGetDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Fleet> {
   const expectedStatuses = ["200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -121,20 +123,25 @@ export function fleetsCreateOrUpdate(
   resource: Fleet,
   options: FleetsCreateOrUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Fleet>, Fleet> {
-  return getLongRunningPoller(context, _fleetsCreateOrUpdateDeserialize, ["200", "201"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fleetsCreateOrUpdateSend(
-        context,
-        subscriptionId,
-        resourceGroupName,
-        fleetName,
-        resource,
-        options,
-      ),
-    resourceLocationConfig: "azure-async-operation",
-  }) as PollerLike<OperationState<Fleet>, Fleet>;
+  return getLongRunningPoller(
+    context,
+    _fleetsCreateOrUpdateDeserialize,
+    ["200", "201"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _fleetsCreateOrUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          fleetName,
+          resource,
+          options,
+        ),
+      resourceLocationConfig: "azure-async-operation",
+    },
+  ) as PollerLike<OperationState<Fleet>, Fleet>;
 }
 
 export function _fleetsUpdateSend(
@@ -158,7 +165,9 @@ export function _fleetsUpdateSend(
     });
 }
 
-export async function _fleetsUpdateDeserialize(result: PathUncheckedResponse): Promise<Fleet> {
+export async function _fleetsUpdateDeserialize(
+  result: PathUncheckedResponse,
+): Promise<Fleet> {
   const expectedStatuses = ["200", "202"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -176,13 +185,25 @@ export function fleetsUpdate(
   properties: FleetUpdate,
   options: FleetsUpdateOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<Fleet>, Fleet> {
-  return getLongRunningPoller(context, _fleetsUpdateDeserialize, ["200", "202"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fleetsUpdateSend(context, subscriptionId, resourceGroupName, fleetName, properties, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<Fleet>, Fleet>;
+  return getLongRunningPoller(
+    context,
+    _fleetsUpdateDeserialize,
+    ["200", "202"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _fleetsUpdateSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          fleetName,
+          properties,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<Fleet>, Fleet>;
 }
 
 export function _fleetsDeleteSend(
@@ -202,7 +223,9 @@ export function _fleetsDeleteSend(
     .delete({ ...operationOptionsToRequestParameters(options) });
 }
 
-export async function _fleetsDeleteDeserialize(result: PathUncheckedResponse): Promise<void> {
+export async function _fleetsDeleteDeserialize(
+  result: PathUncheckedResponse,
+): Promise<void> {
   const expectedStatuses = ["202", "204", "200"];
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
@@ -219,13 +242,24 @@ export function fleetsDelete(
   fleetName: string,
   options: FleetsDeleteOptionalParams = { requestOptions: {} },
 ): PollerLike<OperationState<void>, void> {
-  return getLongRunningPoller(context, _fleetsDeleteDeserialize, ["202", "204", "200"], {
-    updateIntervalInMs: options?.updateIntervalInMs,
-    abortSignal: options?.abortSignal,
-    getInitialResponse: () =>
-      _fleetsDeleteSend(context, subscriptionId, resourceGroupName, fleetName, options),
-    resourceLocationConfig: "location",
-  }) as PollerLike<OperationState<void>, void>;
+  return getLongRunningPoller(
+    context,
+    _fleetsDeleteDeserialize,
+    ["202", "204", "200"],
+    {
+      updateIntervalInMs: options?.updateIntervalInMs,
+      abortSignal: options?.abortSignal,
+      getInitialResponse: () =>
+        _fleetsDeleteSend(
+          context,
+          subscriptionId,
+          resourceGroupName,
+          fleetName,
+          options,
+        ),
+      resourceLocationConfig: "location",
+    },
+  ) as PollerLike<OperationState<void>, void>;
 }
 
 export function _fleetsListByResourceGroupSend(
@@ -263,7 +297,13 @@ export function fleetsListByResourceGroup(
 ): PagedAsyncIterableIterator<Fleet> {
   return buildPagedAsyncIterator(
     context,
-    () => _fleetsListByResourceGroupSend(context, subscriptionId, resourceGroupName, options),
+    () =>
+      _fleetsListByResourceGroupSend(
+        context,
+        subscriptionId,
+        resourceGroupName,
+        options,
+      ),
     _fleetsListByResourceGroupDeserialize,
     ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
@@ -276,7 +316,10 @@ export function _fleetsListBySubscriptionSend(
   options: FleetsListBySubscriptionOptionalParams = { requestOptions: {} },
 ): StreamableMethod {
   return context
-    .path("/subscriptions/{subscriptionId}/providers/Microsoft.AzureFleet/fleets", subscriptionId)
+    .path(
+      "/subscriptions/{subscriptionId}/providers/Microsoft.AzureFleet/fleets",
+      subscriptionId,
+    )
     .get({ ...operationOptionsToRequestParameters(options) });
 }
 
