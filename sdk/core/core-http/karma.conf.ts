@@ -42,19 +42,10 @@ module.exports = function(config: any) {
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher, for example:
     // browsers: ["Chrome", "Firefox", "Edge"],
     browsers: ["ChromeHeadlessNoSandbox"],
-
-    // Continuous Integration mode
-    // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false,
-
-    // Concurrency level
-    // how many browser should be started simultaneous
-    concurrency: Infinity,
-
     customLaunchers: {
-      ChromeNoSecurity: {
+      ChromeHeadlessNoSandbox: {
         base: "ChromeHeadless",
-        flags: ["--disable-web-security"]
+        flags: ["--no-sandbox", "--disable-web-security"],
       },
       ChromeDebugging: {
         base: "Chrome",
@@ -67,7 +58,15 @@ module.exports = function(config: any) {
       FirefoxDebugging: {
         base: "Firefox",
         flags: ["-url", `http://localhost:${defaults.port}/debug.html`, "-devtools"]
-      }
-    }
+      },
+    },
+
+    // Continuous Integration mode
+    // if true, Karma captures browsers, runs the tests and exits
+    singleRun: false,
+
+    // Concurrency level
+    // how many browser should be started simultaneous
+    concurrency: Infinity,
   });
 };
