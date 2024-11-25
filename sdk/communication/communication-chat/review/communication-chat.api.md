@@ -313,17 +313,17 @@ export interface StreamingChatMessageStartEvent extends ChatMessageReceivedEvent
 }
 
 // @public (undocumented)
-export type StreamingContentType = "start" | "informative" | "streaming" | "final";
-
-// @public (undocumented)
 export interface StreamingMessageMetadata {
     // (undocumented)
     streamEndReason?: StreamEndReason;
     // (undocumented)
-    streamingContentType?: StreamingContentType;
+    streamingContentType?: StreamingMessageType;
     // (undocumented)
     streamingSequenceNumber?: number;
 }
+
+// @public (undocumented)
+export type StreamingMessageType = "start" | "informative" | "streaming" | "final";
 
 export { TypingIndicatorReceivedEvent }
 

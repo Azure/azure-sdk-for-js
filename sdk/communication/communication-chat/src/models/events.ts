@@ -18,10 +18,10 @@ import {
 } from "@azure/communication-signaling";
 
 // TODO: Remove these once the signaling package is available
-export type StreamingContentType = "start" | "informative" | "streaming" | "final";
+export type StreamingMessageType = "start" | "informative" | "streaming" | "final";
 export type StreamEndReason = "completed" | "expired" | "canceled";
 export interface StreamingMessageMetadata {
-  streamingContentType?: StreamingContentType;
+  streamingContentType?: StreamingMessageType;
   streamingSequenceNumber?: number; // Only present on informative or streaming type messages
   streamEndReason?: StreamEndReason;  // Only present on final type messages
 }
