@@ -5,7 +5,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import type { ClinicalMatchingRestClient } from "../../src/index.js";
 import { getLongRunningPoller } from "../../src/index.js";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const clinicalInfoList = [
   {
@@ -105,16 +105,16 @@ describe("My test", () => {
   let recorder: Recorder;
   let client: ClinicalMatchingRestClient;
 
-  beforeEach(async function (ctx) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("clinical matching test", async function () {
+  it("clinical matching test", async () => {
     const result = await client.path("/trialmatcher/jobs").post(trialMatcherParameter);
     const poller = await getLongRunningPoller(client, result);
     const res = await poller.pollUntilDone();
