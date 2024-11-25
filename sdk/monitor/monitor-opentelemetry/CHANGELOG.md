@@ -1,8 +1,10 @@
 # Release History
 
-## 1.8.1 (Unreleased)
+## 1.9.0 (Unreleased)
 
 ### Features Added
+
+- Added support for operation name on dependencies and logs.
 
 ### Breaking Changes
 
@@ -19,7 +21,7 @@
 
 ### Other Changes
 
-- Update to using the logRecordProcessors property. 
+- Update to using the logRecordProcessors property.
 
 ## 1.7.1 (2024-09-13)
 
