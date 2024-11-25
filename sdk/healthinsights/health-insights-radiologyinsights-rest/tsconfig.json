@@ -2,13 +2,11 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/health-insights-radiologyinsights": [
-        "./src/index"
-      ]
+      "@azure-rest/health-insights-radiologyinsights": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
-    "rootDir": ".",
+    "rootDir": "."
   },
   "include": [
     "src/**/*.ts",
