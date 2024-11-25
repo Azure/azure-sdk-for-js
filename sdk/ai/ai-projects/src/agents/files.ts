@@ -35,17 +35,13 @@ export async function uploadFile(
 export async function uploadFileAndPoll(
 context: Client, options: UploadFileParameters, sleepInterval: number,
 ): Promise<OpenAIFileOutput> {
-  const result = await context.path("/files").post(options);
-  if (!expectedStatuses.includes(result.status)) {
-      throw createRestError(result);
-  }
-  while (result.body.status === "uploaded" || result.body.status === "pending" || result.body.status === "running") {
+  let file = await uploadFile(context, options);
+  while (file.status === "uploaded" || file.status === "pending" || file.status === "running") {
     await new Promise(resolve => setTimeout(resolve, sleepInterval));
-    const updatedResult = await context.path(`/files/${result.body.id}`, result.body.id).get(options);
-    result.body = updatedResult.body;
+    file = await getFile(context, file.id);
   }
 
-  return result.body; 
+  return file; 
 }
 
 /** Delete a previously uploaded file. */
