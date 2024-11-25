@@ -15,7 +15,7 @@ import ClinicalMatchingRestClient, {
   getLongRunningPoller,
   isUnexpected,
   TrialMatcherResultOutput
-} from "../src";
+} from "../src/index.js";
 
 dotenv.config();
 

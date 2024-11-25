@@ -4,9 +4,9 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import type { Context } from "mocha";
-import type { ClinicalMatchingRestClient } from "../../src";
-import { getLongRunningPoller } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import type { ClinicalMatchingRestClient } from "../../src/index.js";
+import { getLongRunningPoller } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 
 const clinicalInfoList = [
   {
@@ -106,7 +106,7 @@ describe("My test", () => {
   let recorder: Recorder;
   let client: ClinicalMatchingRestClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = await createClient(recorder);
   });
