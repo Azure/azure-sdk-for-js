@@ -9,7 +9,7 @@ import {
   RouteDirectionsOutput,
   RouteRangeResultOutput,
   RouteDirectionsBatchResultOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /**
  *

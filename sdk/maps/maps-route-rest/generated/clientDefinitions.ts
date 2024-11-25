@@ -11,7 +11,7 @@ import {
   RouteRequestRouteDirectionsBatchParameters,
   RouteGetRouteDirectionsBatchParameters,
   RouteRequestRouteDirectionsBatchSyncParameters,
-} from "./parameters";
+} from "./parameters.js";
 import {
   RouteRequestRouteMatrix200Response,
   RouteRequestRouteMatrix202Response,
@@ -33,7 +33,7 @@ import {
   RouteRequestRouteDirectionsBatchSync200Response,
   RouteRequestRouteDirectionsBatchSync408Response,
   RouteRequestRouteDirectionsBatchSyncDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface RequestRouteMatrix {

@@ -2,26 +2,26 @@
 // Licensed under the MIT License.
 
 import type { Context, Suite } from "mocha";
-import type { RouteDirectionParameters, RouteMatrixQuery } from "../../src";
-import { createRouteDirectionsBatchRequest, toColonDelimitedLatLonString } from "../../src";
+import type { RouteDirectionParameters, RouteMatrixQuery } from "../../src/index.js";
+import { createRouteDirectionsBatchRequest, toColonDelimitedLatLonString } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createClient, createRecorder, testLogger } from "./utils/recordedClient";
+import { createClient, createRecorder, testLogger } from "./utils/recordedClient.js";
 import type {
   MapsRouteClient,
   RouteGetRouteDirectionsBatch200Response,
   RouteGetRouteDirectionsQueryParamProperties,
   RouteGetRouteMatrix200Response,
-} from "../../generated";
-import { getLongRunningPoller, isUnexpected } from "../../generated";
+} from "../../generated/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../generated/index.js";
 import type { LatLon } from "@azure/maps-common";
 
 describe("Endpoint can be overwritten", function (this: Suite) {
   let recorder: Recorder;
   const fastTimeout = 10000;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     testLogger.verbose(`Recorder: starting...`);
     recorder = await createRecorder(this);
   });
@@ -31,7 +31,7 @@ describe("Endpoint can be overwritten", function (this: Suite) {
     await recorder.stop();
   });
 
-  before(function (this: Context) {
+  before(function (ctx) {
     this.timeout(fastTimeout);
   });
 
@@ -71,7 +71,7 @@ describe("Get Route Directions", function (this: Suite) {
   let client: MapsRouteClient;
   const fastTimeout = 10000;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     testLogger.verbose(`Recorder: starting...`);
     recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
@@ -82,7 +82,7 @@ describe("Get Route Directions", function (this: Suite) {
     await recorder.stop();
   });
 
-  before(function (this: Context) {
+  before(function (ctx) {
     this.timeout(fastTimeout);
   });
 
@@ -141,7 +141,7 @@ describe("Get Route Range", function () {
   let client: MapsRouteClient;
   const fastTimeout = 10000;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     testLogger.verbose(`Recorder: starting...`);
     recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
@@ -152,7 +152,7 @@ describe("Get Route Range", function () {
     await recorder.stop();
   });
 
-  before(function (this: Context) {
+  before(function (ctx) {
     this.timeout(fastTimeout);
   });
 
@@ -176,7 +176,7 @@ describe("LRO", function (this: Suite) {
   const CLITimeout = this.timeout();
   const fastTimeout = 10000;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
   });
@@ -187,7 +187,7 @@ describe("LRO", function (this: Suite) {
 
   const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-  before(function (this: Context) {
+  before(function (ctx) {
     this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
   });
 
