@@ -11,10 +11,10 @@ import type {
   ObjectsResultOutput,
   TagsResultOutput,
 } from "../../src/index.js";
-import { createRecorder } from "./utils/recordedClient";
+import { createRecorder } from "./utils/recordedClient.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { createClient } from "./utils/clientMethods";
+import { createClient } from "./utils/clientMethods.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 
@@ -32,7 +32,7 @@ describe("Analyze Tests", () => {
       let recorder: Recorder;
       let client: ImageAnalysisClient;
 
-      beforeEach(async function (this: Context) {
+      beforeEach(async function (ctx) {
         recorder = await createRecorder(this);
 
         recorder.addSanitizers({
