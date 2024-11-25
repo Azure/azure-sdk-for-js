@@ -1,31 +1,37 @@
-const fs = require("fs");
-const path = require("path");
-const process = require("process");
-const { spawnSync } = require("child_process");
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
 
+// @ts-check
+
+import * as fs from "node:fs";
+import * as path from "node:path";
+import * as process from "node:process";
+import { spawnSync } from "node:child_process";
+
+/** @type {Record<"core"|"test-utils"|"identity", string[]>} */
 const reducedDependencyTestMatrix = {
-  'core': [
-    '@azure-rest/synapse-access-control',
-    '@azure/arm-resources',
-    '@azure/identity',
-    '@azure/service-bus',
-    '@azure/template'
+  core: [
+    "@azure-rest/synapse-access-control",
+    "@azure/arm-resources",
+    "@azure/identity",
+    "@azure/service-bus",
+    "@azure/template",
   ],
-  'test-utils': [
-    '@azure-tests/perf-storage-blob',
-    '@azure/arm-eventgrid',
-    '@azure/ai-text-analytics',
-    '@azure/identity',
-    '@azure/template'
+  "test-utils": [
+    "@azure-tests/perf-storage-blob",
+    "@azure/arm-eventgrid",
+    "@azure/ai-text-analytics",
+    "@azure/identity",
+    "@azure/template",
   ],
-  'identity': [
-    '@azure-tests/perf-storage-blob',
-    '@azure/ai-text-analytics',
-    '@azure/arm-resources',
-    '@azure/identity-cache-persistence',
-    '@azure/identity-vscode',
-    '@azure/storage-blob',
-    '@azure/template',
+  identity: [
+    "@azure-tests/perf-storage-blob",
+    "@azure/ai-text-analytics",
+    "@azure/arm-resources",
+    "@azure/identity-cache-persistence",
+    "@azure/identity-vscode",
+    "@azure/storage-blob",
+    "@azure/template",
   ],
 };
 
@@ -34,8 +40,8 @@ const parseArgs = () => {
     process.argv.length < 3 ||
     process.argv.some((a) => ["-h", "--help"].includes(a.toLowerCase()))
   ) {
-    console.error("Usage: rush-runner.js <action> [<servicename>...] [args...]");
-    console.error("Example: rush-runner.js build keyvault storage --verbose");
+    console.error("Usage: rush-runner/index.js <action> [<servicename>...] [args...]");
+    console.error("Example: rush-runner/index.js build keyvault storage --verbose");
     process.exit(1);
   }
 
@@ -51,29 +57,26 @@ const parseArgs = () => {
     if (arg === "-packages") {
       isPackageFilter = true;
       continue;
-    }
-    else if (!inFlags && arg.startsWith("-")) {
+    } else if (!inFlags && arg.startsWith("-")) {
       inFlags = true;
     }
 
     if (inFlags) {
       flags.push(arg);
-    }
-    else if (isPackageFilter) {
+    } else if (isPackageFilter) {
       artifactNames = arg;
       isPackageFilter = false;
-    }
-    else {
+    } else {
       if (arg && arg !== "*") {
         // exclude empty value and special value "*" meaning all libraries
-        arg.split(" ").forEach(serviceDirectory => services.push(serviceDirectory));
+        arg.split(" ").forEach((serviceDirectory) => services.push(serviceDirectory));
       }
     }
   }
   return [baseDir, action, services, flags, artifactNames];
 };
 
-const getPackageJsons = (searchDir) => {
+const getPackageJSONs = (searchDir) => {
   // This gets all the directories with package.json at the `sdk/<service>/<service-sdk>` level excluding "arm-" packages
   const sdkDirectories = fs
     .readdirSync(searchDir)
@@ -92,6 +95,7 @@ const getPackageJsons = (searchDir) => {
   return sdkDirectories.concat(perfTestDirectories).filter((f) => fs.existsSync(f)); // only keep paths for files that actually exist
 };
 
+/** @type {string[]} */
 const restrictedToPackages = [
   "@azure/abort-controller",
   "@azure/core-amqp",
@@ -113,7 +117,7 @@ const restrictedToPackages = [
   "@azure-tools/test-perf",
   "@azure-tools/test-recorder",
   "@azure-tools/test-credential",
-  "@azure-tools/test-utils"
+  "@azure-tools/test-utils",
 ];
 
 /**
@@ -137,8 +141,7 @@ const getDirectionMappedPackages = (packageNames) => {
       // if this is one of our restricted packages with a ton of deps, make it targeted
       // as including all dependents will be too much
       rushCommandFlag = "--to";
-    }
-    else if (actionComponents.length == 1) {
+    } else if (actionComponents.length == 1) {
       // else we are building the project and its dependents
       rushCommandFlag = "--from";
     }
@@ -157,11 +160,14 @@ const getServicePackages = (baseDir, serviceDirs, artifactNames) => {
   const artifacts = artifactNames.split(",");
   for (const serviceDir of serviceDirs) {
     const searchDir = path.resolve(path.join(baseDir, "sdk", serviceDir));
-    const packageJsons = getPackageJsons(searchDir);
-    for (const filePath of packageJsons) {
+    const packageJSONs = getPackageJSONs(searchDir);
+    for (const filePath of packageJSONs) {
       const contents = JSON.parse(fs.readFileSync(filePath, "utf8"));
       const artifactName = contents.name.replace("@", "").replace("/", "-");
-      if (validSdkTypes.includes(contents["sdk-type"]) && (artifactNames.length === 0 || artifacts.includes(artifactName))) {
+      if (
+        validSdkTypes.includes(contents["sdk-type"]) &&
+        (artifactNames.length === 0 || artifacts.includes(artifactName))
+      ) {
         packageNames.push(contents.name);
         packageDirs.push(path.dirname(filePath));
       }
@@ -181,7 +187,7 @@ const spawnNode = (cwd, ...args) => {
     // should ever happen, but if it does it's safer to fail.
     process.exitCode = proc.status || 1;
   }
-  return proc.status
+  return proc.status;
 };
 
 const flatMap = (arr, f) => {
@@ -211,7 +217,10 @@ function rushRunAll(direction, packages) {
  * @param packagesWithDirection string[] Any array of strings containing ["direction packageName"...]
  */
 function rushRunAllWithDirection(packagesWithDirection) {
-  const invocation = packagesWithDirection.flatMap(([direction, packageName]) => [direction, packageName]);
+  const invocation = packagesWithDirection.flatMap(([direction, packageName]) => [
+    direction,
+    packageName,
+  ]);
   spawnNode(baseDir, "common/scripts/install-run-rush.js", action, ...invocation, ...rushParams);
 }
 
@@ -225,7 +234,9 @@ function rushRunAllWithDirection(packagesWithDirection) {
  */
 function tryGetPkgRelativePath(absolutePath) {
   const sdkDirectoryPathStartIndex = absolutePath.lastIndexOf("sdk");
-  return sdkDirectoryPathStartIndex === -1 ? absolutePath : absolutePath.substring(sdkDirectoryPathStartIndex);
+  return sdkDirectoryPathStartIndex === -1
+    ? absolutePath
+    : absolutePath.substring(sdkDirectoryPathStartIndex);
 }
 
 const isReducedTestScopeEnabled = reducedDependencyTestMatrix[serviceDirs];
@@ -265,7 +276,9 @@ if (serviceDirs.length === 0) {
     case "check-format":
       for (const packageDir of packageDirs) {
         if (spawnNode(packageDir, rushx_runner_path, action) !== 0) {
-          console.log(`\nInvoke "rushx format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`);
+          console.log(
+            `\nInvoke "rushx format" inside ${tryGetPkgRelativePath(packageDir)} to fix formatting\n`,
+          );
         }
       }
       break;

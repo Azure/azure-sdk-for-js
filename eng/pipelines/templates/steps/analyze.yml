@@ -71,7 +71,7 @@ steps:
     displayName: "Install dependencies"
 
   - script: |
-      node eng/tools/rush-runner.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
+      node eng/tools/rush-runner/index.js build $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose -p max
     displayName: "Build libraries"
 
   - template: /eng/pipelines/templates/steps/run-eslint.yml
@@ -79,7 +79,7 @@ steps:
       ServiceDirectories: $(ChangedServices)
 
   - pwsh: |
-      node eng/tools/rush-runner.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
+      node eng/tools/rush-runner/index.js check-format $(ChangedServices) -packages "$(ArtifactPackageNames)" --verbose
     displayName: "Check Format in Libraries"
 
   - template: /eng/common/pipelines/templates/steps/verify-changelogs.yml
@@ -95,7 +95,7 @@ steps:
     # Unlink node_modules folders to significantly improve performance of subsequent tasks
     # which need to walk the directory tree (and are hardcoded to follow symlinks).
   - script: |
-      node eng/tools/rush-runner.js unlink
+      node eng/tools/rush-runner/index.js unlink
     displayName: "Unlink dependencies"
 
     # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".

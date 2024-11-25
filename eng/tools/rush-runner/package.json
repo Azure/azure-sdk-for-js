@@ -1,0 +1,20 @@
+{
+  "name": "@azure-tools/rush-runner",
+  "type": "module",
+  "prettier": "../../../common/tools/eslint-plugin-azure-sdk/prettier.json",
+  "scripts": {
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore index.js \"test/**/*.js\"",
+    "typecheck": "tsc",
+    "lint": "eslint index.js test",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.9.0",
+    "@types/node": "^18.0.0",
+    "@vitest/coverage-istanbul": "^2.0.5",
+    "eslint": "^9.9.0",
+    "prettier": "3.3.3",
+    "vitest": "^2.0.5",
+    "typescript": "~5.7.2"
+  }
+}
