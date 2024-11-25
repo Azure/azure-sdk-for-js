@@ -16,10 +16,14 @@ steps:
         tar -xzf $tarFile -C $tempDir
         $packageJsonDir = "$tempDir\package\package.json"
         $pkg = Get-Content -Raw "$packageJsonDir" | ConvertFrom-Json
-        $packageName = $pkg.Name
+        # $packageName = $pkg.Name
+        $packageName = "testestestestetsetset"
         $packageVersion = $pkg.Version
-        $packageProps = npm view $packageName -json | ConvertFrom-Json
-        $originalTags = $packageProps.'dist-tags' | ConvertTo-Json -Compress
+        $packageProps = npm view $packageName -json -silent | ConvertFrom-Json
+        $originalTags = "{}"
+        if ($packageProps.error?.code -ne "E404") {
+          $originalTags = $packageProps.'dist-tags' | ConvertTo-Json -Compress
+        }
         echo "##vso[task.setvariable variable=PackageName]$packageName"
         echo "##vso[task.setvariable variable=OriginalTags]$originalTags"
         echo "##vso[task.setvariable variable=IntendedTagVersion]$packageVersion"
