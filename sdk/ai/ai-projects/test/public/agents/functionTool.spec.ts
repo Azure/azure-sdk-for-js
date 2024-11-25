@@ -24,15 +24,12 @@ describe("Agents - function tool", () => {
         await recorder.stop();
     });
 
-
 function getCurrentDateTime(): {} {
-    const current = Date.now();
-    return { "currentDateTime": current };
+    return { "currentDateTime": "2024-10-10 12:30:19" };
 }
 
 it("should create agent with function tool", async function () {
     // Create agent
-
     const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are a helpful agent", tools: [getCurrentDateTimeTool] })
     console.log(`Created agent, agent ID: ${agent.id}`);
     assert.isNotNull(agent);
@@ -47,7 +44,6 @@ it("should create agent with function tool", async function () {
 
 it("should create agent with run function tool", async function () {
     // Create agent
-
     const agent = await agents.createAgent("gpt-4o", { name: "my-agent", instructions: "You are a helpful agent", tools: [getCurrentDateTimeTool] })
     console.log(`Created agent, agent ID: ${agent.id}`);
     assert.isNotNull(agent);
@@ -109,8 +105,9 @@ it("should create agent with run function tool", async function () {
             }
         });
     });
+
     // Delete agent
-    agents.deleteAgent(agent.id);
+    await agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
 })
 });
