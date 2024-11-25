@@ -4,29 +4,28 @@ import type {
   ConfidentialLedgerClient,
   CreateLedgerEntryParameters,
   LedgerEntry,
+  TransactionStatusOutput,
 } from "../../src/index.js";
 import { isUnexpected, paginate } from "../../src/index.js";
-
 import { createClient, createRecorder, getRecorderUniqueVariable } from "./utils/recordedClient.js";
-
 import type { Recorder } from "@azure-tools/test-recorder";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Range query should be successful", function () {
+describe("Range query should be successful", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
-  beforeEach(async function (ctx) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should paginate queries", async function () {
-    async function getTransactionStatus(transactionId: string) {
+  it("should paginate queries", async () => {
+    async function getTransactionStatus(transactionId: string): Promise<TransactionStatusOutput> {
       const status = await client
         .path("/app/transactions/{transactionId}/status", transactionId)
         .get();
@@ -38,7 +37,7 @@ describe("Range query should be successful", function () {
       return status.body;
     }
 
-    async function waitForTransactionToCommit(transactionId: string) {
+    async function waitForTransactionToCommit(transactionId: string): Promise<void> {
       let status = await getTransactionStatus(transactionId);
       while (status.state !== "Committed") {
         status = await getTransactionStatus(transactionId);

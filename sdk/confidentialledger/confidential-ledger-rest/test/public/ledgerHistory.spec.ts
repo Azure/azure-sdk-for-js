@@ -5,26 +5,22 @@ import { isUnexpected } from "../../src/index.js";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode } from "@azure-tools/test-recorder";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Get ledger history", function () {
+describe("Get ledger history", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
-  beforeEach(async function (ctx) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should obtain ledger entries from ledger", async function () {
-    if (isLiveMode()) {
-      ctx.skip();
-    }
-
+  it("should obtain ledger entries from ledger", { skip: isLiveMode() }, async () => {
     const result = await client.path("/app/transactions").get();
 
     assert.equal(result.status, "200");

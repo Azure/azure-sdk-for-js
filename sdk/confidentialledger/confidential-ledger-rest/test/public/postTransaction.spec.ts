@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import type {
   ConfidentialLedgerClient,
   CreateLedgerEntryParameters,
@@ -8,24 +9,24 @@ import type {
 import { isUnexpected } from "../../src/index.js";
 import { createClient, createRecorder, getRecorderUniqueVariable } from "./utils/recordedClient.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Post transaction", function () {
+describe("Post transaction", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
   let contentBody: string;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     contentBody = "typescript post test";
-    recorder = await createRecorder(this);
+    recorder = await createRecorder(ctx);
     client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should post to default ledger", async function () {
+  it("should post to default ledger", async () => {
     const entry: LedgerEntry = {
       contents: contentBody,
     };
@@ -65,7 +66,7 @@ describe("Post transaction", function () {
     );
   });
 
-  it("should post to collection", async function () {
+  it("should post to collection", async () => {
     const entry: LedgerEntry = {
       contents: "post ledger entry test",
     };
