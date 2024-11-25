@@ -196,9 +196,9 @@ To work with multiple accounts for the same Client ID and Tenant ID, please prov
       authority: options?.authority || this.msalConfig.auth.authority!,
       correlationId: options?.correlationId,
       claims: options?.claims,
+      account: publicToMsal(account),
       forceRefresh: false,
       scopes,
-      account: publicToMsal(account),
     };
 
     try {
