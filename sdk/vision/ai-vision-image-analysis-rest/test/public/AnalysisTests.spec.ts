@@ -14,7 +14,7 @@ import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createClient } from "./utils/clientMethods.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const credentials = [
   {
@@ -30,8 +30,8 @@ describe("Analyze Tests", () => {
       let recorder: Recorder;
       let client: ImageAnalysisClient;
 
-      beforeEach(async function (ctx) {
-        recorder = await createRecorder(this);
+      beforeEach(async (ctx) => {
+        recorder = await createRecorder(ctx);
 
         recorder.addSanitizers({
           headerSanitizers: [{ key: "Ocp-Apim-Subscription-Key", value: "***********" }],
@@ -41,7 +41,7 @@ describe("Analyze Tests", () => {
         client = await createClient(recorder, credential.credential());
       });
 
-      afterEach(async function () {
+      afterEach(async () => {
         await recorder?.stop();
       });
 
