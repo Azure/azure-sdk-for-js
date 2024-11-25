@@ -1,30 +1,31 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessControlRestClient, isUnexpected } from "../../src";
+import type { AccessControlRestClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-import { RoleAssignmentDetailsOutput } from "../../src";
-import { assert } from "chai";
-import { createClient } from "./utils/recordedClient";
-import { isNode } from "@azure/core-util";
-import { paginate } from "../../src/paginateHelper";
+import type { RoleAssignmentDetailsOutput } from "../../src/index.js";
+import { createClient } from "./utils/recordedClient.js";
+import { isNodeLike } from "@azure/core-util";
+import { paginate } from "../../src/paginateHelper.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Access Control smoke", () => {
   let recorder: Recorder;
   let client: AccessControlRestClient;
   // When re-recording tests generate 4 new guids and replace roleAssignmentId and principalId
 
-  const roleAssignmentId = isNode
+  const roleAssignmentId = isNodeLike
     ? "cb9deb8e-6453-4145-9d82-14edf872ebe6"
     : "cc33aa88-5aa7-40e5-b9f5-dd11c471c7e8";
-  const principalId = isNode
+  const principalId = isNodeLike
     ? "cf28f607-5e8c-4d59-b341-f4e3422ec4b9"
     : "6c74c432-9103-435f-83a0-5a6ee264439a";
   const scope = "workspaces/joheredisyn";
   const roleId = "2a385764-43e8-416c-9825-7b18d05a2c4b";
 
-  beforeEach(async function () {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     client = await createClient(recorder);
   });
 

@@ -1,27 +1,26 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PurviewSharingClient, ShareResourceOutput } from "../../src";
-import { isUnexpected, paginate } from "../../src";
+import type { PurviewSharingClient, ShareResourceOutput } from "../../src/index.js";
+import { isUnexpected, paginate } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
-import type { Context } from "mocha";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Share Resources Operations", () => {
   let recorder: Recorder;
   let client: PurviewSharingClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("List all Share Resources", async function () {
+  it("List all Share Resources", async () => {
     const response = await client.path("/shareResources").get();
 
     assert.strictEqual(response.status, "200");
