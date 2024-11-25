@@ -164,9 +164,9 @@ export enum KnownLogonType {
 
 // @public
 export enum KnownManagedServiceIdentityType {
-    "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
     None = "None",
     SystemAssigned = "SystemAssigned",
+    SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
     UserAssigned = "UserAssigned"
 }
 
@@ -248,7 +248,7 @@ export enum KnownStorageAccountType {
 
 // @public
 export enum KnownVersions {
-    "2024-10-19" = "2024-10-19"
+    "V2024-10-19" = "2024-10-19"
 }
 
 // @public

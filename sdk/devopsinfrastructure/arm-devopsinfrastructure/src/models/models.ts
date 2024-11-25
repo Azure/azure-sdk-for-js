@@ -1632,7 +1632,7 @@ export enum KnownManagedServiceIdentityType {
   /** User assigned managed identity. */
   UserAssigned = "UserAssigned",
   /** System and user assigned managed identity. */
-  "SystemAssigned,UserAssigned" = "SystemAssigned,UserAssigned",
+  SystemAssignedUserAssigned = "SystemAssigned,UserAssigned",
 }
 
 /**
@@ -1839,13 +1839,13 @@ export function operationDisplayDeserializer(item: any): OperationDisplay {
   };
 }
 
-/** Known values of {@link Origin} that the service accepts. */
+/** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export enum KnownOrigin {
-  /** user */
+  /** Indicates the operation is initiated by a user. */
   User = "user",
-  /** system */
+  /** Indicates the operation is initiated by a system. */
   System = "system",
-  /** user,system */
+  /** Indicates the operation is initiated by a user or system. */
   UserSystem = "user,system",
 }
 
@@ -1854,9 +1854,9 @@ export enum KnownOrigin {
  * {@link KnownOrigin} can be used interchangeably with Origin,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **user** \
- * **system** \
- * **user,system**
+ * **user**: Indicates the operation is initiated by a user. \
+ * **system**: Indicates the operation is initiated by a system. \
+ * **user,system**: Indicates the operation is initiated by a user or system.
  */
 export type Origin = string;
 
@@ -1878,5 +1878,5 @@ export type ActionType = string;
 /** Api versions */
 export enum KnownVersions {
   /** 2024-10-19 version */
-  "2024-10-19" = "2024-10-19",
+  "V2024-10-19" = "2024-10-19",
 }
