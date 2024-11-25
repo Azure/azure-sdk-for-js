@@ -6,15 +6,15 @@ import { env } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
-import type { MapsGeolocationClient } from "../../src";
-import MapsGeolocation, { isUnexpected } from "../../src";
+import type { MapsGeolocationClient } from "../../src/index.js";
+import MapsGeolocation, { isUnexpected } from "../../src/index.js";
 
 describe("Authentication", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
   });
 
@@ -27,7 +27,7 @@ describe("Authentication", function () {
      * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
      * But it requires user's interaction, which is not testable in karma.
      * */
-    if (!isNodeLike) this.skip();
+    if (!isNodeLike) ctx.skip();
     /**
      * Use createTestCredential() instead of new DefaultAzureCredential(), else the playback mode won't work
      * Reference: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/test-quickstart.md#azuread-oauth2-authentication
@@ -49,7 +49,7 @@ describe("Authentication", function () {
 describe("Endpoint can be overwritten", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
   });
 
@@ -82,7 +82,7 @@ describe("MapsGeolocation", () => {
   let recorder: Recorder;
   let client: MapsGeolocationClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
   });

@@ -4,10 +4,10 @@
 import type { Context } from "mocha";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import "./env";
+import "./env.js";
 import type { ClientOptions } from "@azure-rest/core-client";
-import type { MapsGeolocationClient } from "../../../src/";
-import MapsGeolocation from "../../../src/";
+import type { MapsGeolocationClient } from "../../../src/index.js";
+import MapsGeolocation from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: Record<string, string> = {

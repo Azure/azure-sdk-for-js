@@ -4,7 +4,7 @@
 import {
   GeolocationGetLocation200Response,
   GeolocationGetLocationDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /geolocation/ip/{format}": ["200"],
