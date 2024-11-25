@@ -6,8 +6,8 @@
  */
 
 import * as dotenv from "dotenv";
-import createClient from "../src/documentTranslationClient";
-import { isUnexpected } from "../src/isUnexpected";
+import createClient from "../src/documentTranslationClient.js";
+import { isUnexpected } from "../src/isUnexpected.js";
 dotenv.config();
 
 const endpoint =

@@ -6,9 +6,9 @@
 
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 import type { TokenCredential, KeyCredential } from "@azure/core-auth";
-import type { DocumentTranslationClient } from "./clientDefinitions";
+import type { DocumentTranslationClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface DocumentTranslationClientOptions extends ClientOptions {

@@ -4,8 +4,8 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import type { ContainerClient } from "@azure/storage-blob";
 import { BlobServiceClient } from "@azure/storage-blob";
-import type { TestDocument } from "../utils/TestDocument";
-import { createTestDocument } from "../utils/TestDocument";
+import type { TestDocument } from "../utils/TestDocument.js";
+import { createTestDocument } from "../utils/TestDocument.js";
 import type { Pipeline } from "@azure/core-rest-pipeline";
 import { createTestCredential } from "@azure-tools/test-credential";
 

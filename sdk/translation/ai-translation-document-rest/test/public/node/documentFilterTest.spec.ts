@@ -4,10 +4,10 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import type { DocumentTranslationClient, StartTranslation202Response } from "../../../src";
-import { isUnexpected, getLongRunningPoller } from "../../../src";
-import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient";
-import { createSourceContainer, createTargetContainer } from "./containerHelper";
+import type { DocumentTranslationClient, StartTranslation202Response } from "../../../src/index.js";
+import { isUnexpected, getLongRunningPoller } from "../../../src/index.js";
+import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient.js";
+import { createSourceContainer, createTargetContainer } from "./containerHelper.js";
 import type { Context } from "mocha";
 import {
   createBatchRequest,
@@ -15,7 +15,7 @@ import {
   createSourceInput,
   createTargetInput,
   getTranslationOperationID,
-} from "../utils/testHelper";
+} from "../utils/testHelper.js";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -25,7 +25,7 @@ describe("DocumentFilter tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await startRecorder(this);
     client = await createDocumentTranslationClient({ recorder });
   });

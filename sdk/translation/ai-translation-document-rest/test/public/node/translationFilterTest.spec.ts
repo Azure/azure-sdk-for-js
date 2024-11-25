@@ -8,10 +8,10 @@ import type {
   DocumentTranslationClient,
   GetTranslationStatus200Response,
   TranslationStatusOutput,
-} from "../../../src";
-import { isUnexpected, getLongRunningPoller } from "../../../src";
-import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient";
-import { createSourceContainer, createTargetContainer } from "./containerHelper";
+} from "../../../src/index.js";
+import { isUnexpected, getLongRunningPoller } from "../../../src/index.js";
+import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient.js";
+import { createSourceContainer, createTargetContainer } from "./containerHelper.js";
 import type { Context } from "mocha";
 import {
   createBatchRequest,
@@ -20,7 +20,7 @@ import {
   createTargetInput,
   getTranslationOperationID,
   sleep,
-} from "../utils/testHelper";
+} from "../utils/testHelper.js";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -30,7 +30,7 @@ describe("TranslationFilter tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await startRecorder(this);
     client = await createDocumentTranslationClient({ recorder });
   });

@@ -3,27 +3,27 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import type { DocumentTranslationClient } from "../../../src";
-import { isUnexpected } from "../../../src";
-import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient";
+import type { DocumentTranslationClient } from "../../../src/index.js";
+import { isUnexpected } from "../../../src/index.js";
+import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient.js";
 import {
   ONE_TEST_DOCUMENTS,
   createSourceContainer,
   createTargetContainer,
-} from "./containerHelper";
+} from "./containerHelper.js";
 import type { Context } from "mocha";
 import {
   createBatchRequest,
   createSourceInput,
   createTargetInput,
   getTranslationOperationID,
-} from "../utils/testHelper";
+} from "../utils/testHelper.js";
 
 describe("CancelTranslation tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await startRecorder(this);
     client = await createDocumentTranslationClient({ recorder });
   });

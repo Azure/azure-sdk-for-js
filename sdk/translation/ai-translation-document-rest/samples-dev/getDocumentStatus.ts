@@ -6,20 +6,20 @@
  */
 
 import * as dotenv from "dotenv";
-import createClient from "../src/documentTranslationClient";
+import createClient from "../src/documentTranslationClient.js";
 import {
   ONE_TEST_DOCUMENTS,
   StartTranslationAndWait,
   createSourceContainer,
   createTargetContainer,
-} from "../test/public/utils/samplesHelper";
+} from "../test/public/utils/samplesHelper.js";
 import {
   createSourceInput,
   createTargetInput,
   createBatchRequest,
   getTranslationOperationID,
-} from "../test/public/utils/testHelper";
-import { isUnexpected } from "../src";
+} from "../test/public/utils/testHelper.js";
+import { isUnexpected } from "../src/index.js";
 dotenv.config();
 
 const endpoint =

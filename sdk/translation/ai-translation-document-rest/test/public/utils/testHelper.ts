@@ -10,9 +10,9 @@ import type {
   StorageInputType,
   StorageSource,
   TargetInput,
-} from "../../../src";
-import type { TestDocument } from "./TestDocument";
-import { createTestDocument } from "./TestDocument";
+} from "../../../src/index.js";
+import type { TestDocument } from "./TestDocument.js";
+import { createTestDocument } from "./TestDocument.js";
 
 export function createSourceInput(
   sourceUrl: string,

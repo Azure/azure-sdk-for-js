@@ -11,13 +11,13 @@ import type {
   GetTranslationStatus200Response,
   StartTranslationDefaultResponse,
   TranslationStatusOutput,
-} from "../../../src";
-import { getLongRunningPoller, isUnexpected } from "../../../src";
+} from "../../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../../src/index.js";
 import {
   createDocumentTranslationClient,
   createDocumentTranslationClientWithEndpointAndCredentials,
   startRecorder,
-} from "../utils/recordedClient";
+} from "../utils/recordedClient.js";
 
 import type { Context } from "mocha";
 import {
@@ -29,16 +29,16 @@ import {
   createTargetContainerWithInfo,
   downloadDocument,
   getUniqueName,
-} from "./containerHelper";
+} from "./containerHelper.js";
 import {
   createBatchRequest,
   createSourceInput,
   createTargetInput,
   getTranslationOperationID,
   sleep,
-} from "../utils/testHelper";
-import { createTestDocument } from "../utils/TestDocument";
-import type { BatchRequest } from "../../../src/models";
+} from "../utils/testHelper.js";
+import { createTestDocument } from "../utils/TestDocument.js";
+import type { BatchRequest } from "../../../src/models.js";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -49,7 +49,7 @@ describe("DocumentTranslation tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await startRecorder(this);
     client = await createDocumentTranslationClient({ recorder });
   });
