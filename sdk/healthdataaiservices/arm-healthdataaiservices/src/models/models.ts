@@ -776,5 +776,5 @@ export type ActionType = string;
 /** Supported API versions for the Microsoft.HealthDataAIServices resource provider. */
 export enum KnownVersions {
   /** The 2024-09-20 version. */
-  V20240920 = "2024-09-20",
+  V2024_09_20 = "2024-09-20",
 }
