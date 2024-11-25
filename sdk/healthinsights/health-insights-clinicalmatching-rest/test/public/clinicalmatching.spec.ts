@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type { ClinicalMatchingRestClient } from "../../src/index.js";
 import { getLongRunningPoller } from "../../src/index.js";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const clinicalInfoList = [
   {

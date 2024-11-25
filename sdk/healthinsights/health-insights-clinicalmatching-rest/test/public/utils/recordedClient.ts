@@ -4,7 +4,6 @@
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
-import type { Context } from "mocha";
 import type { ClinicalMatchingRestClient } from "../../../src/index.js";
 import ClinicalMatching from "../../../src/index.js";
 import "./env.js";
