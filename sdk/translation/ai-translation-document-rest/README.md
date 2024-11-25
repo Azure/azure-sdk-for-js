@@ -54,13 +54,15 @@ npm install @azure-rest/ai-translation-document
 You can create Translator resource following [Create a Translator resource][translator_resource_create].
 
 #### Setup Azure Blob Storage Account
-For more information about creating an Azure Blob Storage account see [here][azure_blob_storage_account]. For creating containers for your source and target files see [here][container]. Make sure to authorize your Translation resource storage access, more info [here][storage_container_authorization]. 
+
+For more information about creating an Azure Blob Storage account see [here][azure_blob_storage_account]. For creating containers for your source and target files see [here][container]. Make sure to authorize your Translation resource storage access, more info [here][storage_container_authorization].
 
 When "Allow Storage Account Key Access" is disabled on the storage account , Managed Identity is enabled on the Translator resource and it is assigned the role "Storage Blob Data Contributor" on the storage account, then you can use the container URLs directly and no SAS URIs will be need to be generated.
 
 ### Create a `DocumentTranslationClient` using an endpoint URL and API key `KeyCredential`
 
 Once you have the value for API key, create a credential
+
 ```typescript
 const credentials = { key: apiKey ?? "" };
 ```
@@ -101,10 +103,11 @@ const response = await client.path("/document:translate").post(options);
 if (isUnexpected(response)) {
   throw response.body;
 }
-console.log('Response code: ' + response.status + ', Response body: ' + response.body); 
+console.log("Response code: " + response.status + ", Response body: " + response.body);
 ```
 
 ### Batch Document Translation
+
 Used to execute an asynchronous batch translation request. The method requires an Azure Blob storage account with storage containers for your source and translated documents.
 
 ```typescript
@@ -118,15 +121,16 @@ const targetInput = createTargetInput(targetUrl, "fr");
 const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
 //Start translation
-const batchRequests = {inputs: [batchRequest]};
+const batchRequests = { inputs: [batchRequest] };
 const poller = await client.path("/document/batches").post({
-body: batchRequests
-}); 
+  body: batchRequests,
+});
 const id = getTranslationOperationID(poller.headers["operation-location"]);
-console.log('Translation started and the operationID is: ' + id);
+console.log("Translation started and the operationID is: " + id);
 ```
 
 ### Cancel Document Translation
+
 This cancels a translation job that is currently processing or queued (pending) as indicated in the request by the id query parameter. An operation isn't canceled if already completed, failed, or still canceling. In those instances, a bad request is returned. Completed translations can't be canceled and are charged.
 
 ```typescript
@@ -140,10 +144,10 @@ const targetInput = createTargetInput(targetUrl, "fr");
 const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
 //Start translation
-const batchRequests = {inputs: [batchRequest]};
+const batchRequests = { inputs: [batchRequest] };
 const poller = await client.path("/document/batches").post({
-body: batchRequests
-}); 
+  body: batchRequests,
+});
 const id = getTranslationOperationID(poller.headers["operation-location"]);
 
 //Cancel translation
@@ -158,6 +162,7 @@ console.log("The status after cancelling the batch operation is:" + response.bod
 ```
 
 ### Get Documents Status
+
 Used to request the status for all documents in a translation job.
 
 ```typescript
@@ -171,10 +176,10 @@ const targetInput = createTargetInput(targetUrl, "fr");
 const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
 //Start translation
-const batchRequests = {inputs: [batchRequest]};
-const response = await StartTranslationAndWait(client, batchRequests); 
+const batchRequests = { inputs: [batchRequest] };
+const response = await StartTranslationAndWait(client, batchRequests);
 
-const operationLocationUrl = response.headers["operation-location"]
+const operationLocationUrl = response.headers["operation-location"];
 const operationId = getTranslationOperationID(operationLocationUrl);
 
 //get Documents Status
@@ -185,13 +190,14 @@ if (isUnexpected(documentResponse)) {
 
 const responseBody = documentResponse.body;
 for (const documentStatus of responseBody.value) {
-    console.log("Document Status is: " + documentStatus.status);
-    console.log("Characters charged is: " + documentStatus.characterCharged);
-    break;          
+  console.log("Document Status is: " + documentStatus.status);
+  console.log("Characters charged is: " + documentStatus.characterCharged);
+  break;
 }
 ```
 
 ### Get Document Status
+
 This returns the status for a specific document in a job as indicated in the request by the id and documentId query parameters.
 
 ```typescript
@@ -205,9 +211,9 @@ const targetInput = createTargetInput(targetUrl, "fr");
 const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
 //Start translation
-const batchRequests = {inputs: [batchRequest]};
-const response = await StartTranslationAndWait(client, batchRequests); 
-const operationLocationUrl = response.headers["operation-location"]
+const batchRequests = { inputs: [batchRequest] };
+const response = await StartTranslationAndWait(client, batchRequests);
+const operationLocationUrl = response.headers["operation-location"];
 const operationId = getTranslationOperationID(operationLocationUrl);
 
 //get Documents Status
@@ -218,60 +224,64 @@ if (isUnexpected(documentResponse)) {
 
 const responseBody = documentResponse.body;
 for (const document of responseBody.value) {
-    //get document status
-    const documentStatus = await client.path("/document/batches/{id}/documents/{documentId}", operationId, document.id).get();
-    console.log("Document Status = " + documentStatus.status);
-    const documentStatusOutput = documentStatus.body as DocumentStatusOutput;
-    console.log("Document ID = " +documentStatusOutput.id);
-    console.log("Document source path = " + documentStatusOutput.sourcePath);
-    console.log("Document path = " + documentStatusOutput.path);
-    console.log("Target language = " + documentStatusOutput.to);
-    console.log("Document created dateTime = " + documentStatusOutput.createdDateTimeUtc);
-    console.log("Document last action date time = " + documentStatusOutput.lastActionDateTimeUtc);        
+  //get document status
+  const documentStatus = await client
+    .path("/document/batches/{id}/documents/{documentId}", operationId, document.id)
+    .get();
+  console.log("Document Status = " + documentStatus.status);
+  const documentStatusOutput = documentStatus.body as DocumentStatusOutput;
+  console.log("Document ID = " + documentStatusOutput.id);
+  console.log("Document source path = " + documentStatusOutput.sourcePath);
+  console.log("Document path = " + documentStatusOutput.path);
+  console.log("Target language = " + documentStatusOutput.to);
+  console.log("Document created dateTime = " + documentStatusOutput.createdDateTimeUtc);
+  console.log("Document last action date time = " + documentStatusOutput.lastActionDateTimeUtc);
 }
 ```
 
 ### Get Translations Status
+
 Used to request a list and the status of all translation jobs submitted by the user (associated with the resource).
 
 ```typescript
 console.log("== Get Translations Status ==");
-  const client = createClient(endpoint, credentials);
+const client = createClient(endpoint, credentials);
 
-  const sourceUrl = await createSourceContainer(ONE_TEST_DOCUMENTS);
-  const sourceInput = createSourceInput(sourceUrl);
-  const targetUrl = await createTargetContainer();
-  const targetInput = createTargetInput(targetUrl, "fr");
-  const batchRequest = createBatchRequest(sourceInput, [targetInput]);
-  
-  //Start translation
-  const batchRequests = {inputs: [batchRequest]};
-  const translationResponse = await StartTranslationAndWait(client, batchRequests); 
-  const operationLocationUrl = translationResponse.headers["operation-location"]
-  const operationId = getTranslationOperationID(operationLocationUrl);  
+const sourceUrl = await createSourceContainer(ONE_TEST_DOCUMENTS);
+const sourceInput = createSourceInput(sourceUrl);
+const targetUrl = await createTargetContainer();
+const targetInput = createTargetInput(targetUrl, "fr");
+const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-  //get Translation Statusby ID filter
-  const queryParams = {
-      ids: [operationId]
-    };    
-  const response = await client.path("/document/batches").get({
-      queryParameters: queryParams 
-    });
-  if (isUnexpected(response)) {
-    throw response.body;
-  }  
-  const responseBody = response.body;
-  for (const translationStatus of responseBody.value) {
-    console.log("Translation ID = " + translationStatus.id);
-    console.log("Translation Status = " + translationStatus.status);
-    console.log("Translation createdDateTimeUtc = " + translationStatus.createdDateTimeUtc);
-    console.log("Translation lastActionDateTimeUtc = " + translationStatus.lastActionDateTimeUtc);
-    console.log("Total documents submitted for translation = " + translationStatus.summary.total);
-    console.log("Total characters charged = " + translationStatus.summary.totalCharacterCharged);
-  }  
+//Start translation
+const batchRequests = { inputs: [batchRequest] };
+const translationResponse = await StartTranslationAndWait(client, batchRequests);
+const operationLocationUrl = translationResponse.headers["operation-location"];
+const operationId = getTranslationOperationID(operationLocationUrl);
+
+//get Translation Statusby ID filter
+const queryParams = {
+  ids: [operationId],
+};
+const response = await client.path("/document/batches").get({
+  queryParameters: queryParams,
+});
+if (isUnexpected(response)) {
+  throw response.body;
+}
+const responseBody = response.body;
+for (const translationStatus of responseBody.value) {
+  console.log("Translation ID = " + translationStatus.id);
+  console.log("Translation Status = " + translationStatus.status);
+  console.log("Translation createdDateTimeUtc = " + translationStatus.createdDateTimeUtc);
+  console.log("Translation lastActionDateTimeUtc = " + translationStatus.lastActionDateTimeUtc);
+  console.log("Total documents submitted for translation = " + translationStatus.summary.total);
+  console.log("Total characters charged = " + translationStatus.summary.totalCharacterCharged);
+}
 ```
 
 ### Get Translation Status
+
 Used to request the status of a specific translation job. The response includes the overall job status and the status for documents that are being translated as part of that job.
 
 ```typescript
@@ -285,16 +295,18 @@ const targetInput = createTargetInput(targetUrl, "fr");
 const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
 //Start translation
-const batchRequests = {inputs: [batchRequest]};
-const translationResponse = await StartTranslationAndWait(client, batchRequests); 
+const batchRequests = { inputs: [batchRequest] };
+const translationResponse = await StartTranslationAndWait(client, batchRequests);
 
-const operationLocationUrl = translationResponse.headers["operation-location"]
-const operationId = getTranslationOperationID(operationLocationUrl);  
+const operationLocationUrl = translationResponse.headers["operation-location"];
+const operationId = getTranslationOperationID(operationLocationUrl);
 
 //get Translation Status
-const response = await client.path("/document/batches/{id}",operationId).get() as GetTranslationStatus200Response;
+const response = (await client
+  .path("/document/batches/{id}", operationId)
+  .get()) as GetTranslationStatus200Response;
 if (isUnexpected(response)) {
-    throw response.body;
+  throw response.body;
 }
 
 console.log("Translation ID = " + response.body.id);
@@ -304,7 +316,6 @@ console.log("Translation lastActionDateTimeUtc = " + response.body.lastActionDat
 console.log("Total documents submitted for translation = " + response.body.summary.total);
 console.log("Total characters charged = " + response.body.summary.totalCharacterCharged);
 ```
-
 
 ### Get Supported Formats
 
@@ -317,11 +328,13 @@ const documentTranslationClient = DocumentTranslationClient(endpoint);
 const response = await documentTranslationClient.path("/document/formats").get();
 
 const fileFormatTypes = response.body;
-fileFormatTypes.value.forEach((fileFormatType: { format: any; contentTypes: any; fileExtensions: any; }) => {
-console.log(fileFormatType.format);
-console.log(fileFormatType.contentTypes);
-console.log(fileFormatType.fileExtensions);
-});
+fileFormatTypes.value.forEach(
+  (fileFormatType: { format: any; contentTypes: any; fileExtensions: any }) => {
+    console.log(fileFormatType.format);
+    console.log(fileFormatType.contentTypes);
+    console.log(fileFormatType.fileExtensions);
+  },
+);
 ```
 
 ## Troubleshooting
@@ -336,7 +349,7 @@ You can find the different error codes returned by the service in the [Service D
 
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
-```javascript
+```ts
 const { setLogLevel } = require("@azure/logger");
 
 setLogLevel("info");

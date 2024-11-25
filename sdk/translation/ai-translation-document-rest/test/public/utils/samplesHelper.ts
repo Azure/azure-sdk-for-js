@@ -3,14 +3,14 @@
 
 import type { ContainerClient } from "@azure/storage-blob";
 import { ContainerSASPermissions, BlobServiceClient } from "@azure/storage-blob";
-import type { TestDocument } from "../utils/TestDocument";
-import { createTestDocument } from "../utils/TestDocument";
+import type { TestDocument } from "../utils/TestDocument.js";
+import { createTestDocument } from "../utils/TestDocument.js";
 import type {
   BatchRequest,
   DocumentTranslationClient,
   StartTranslationDefaultResponse,
-} from "../../../src";
-import { getLongRunningPoller } from "../../../src";
+} from "../../../src/index.js";
+import { getLongRunningPoller } from "../../../src/index.js";
 
 const connectionString =
   process.env["DOCUMENT_TRANSLATION_CONNECTION_STRING"] || "ConnectionString";
@@ -92,7 +92,10 @@ export function getUniqueName(): string {
   return randomNumber.toString().padStart(10, "0");
 }
 
-async function uploadDocuments(containerClient: ContainerClient, documents: TestDocument[]) {
+async function uploadDocuments(
+  containerClient: ContainerClient,
+  documents: TestDocument[],
+): Promise<void> {
   for (const document of documents) {
     const blobClient = containerClient.getBlobClient(document.name);
     const blockBlobClient = blobClient.getBlockBlobClient();

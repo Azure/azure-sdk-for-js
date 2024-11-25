@@ -3,7 +3,6 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import type {
   DocumentStatusOutput,
   DocumentTranslationClient,
@@ -11,15 +10,13 @@ import type {
   GetTranslationStatus200Response,
   StartTranslationDefaultResponse,
   TranslationStatusOutput,
-} from "../../../src";
-import { getLongRunningPoller, isUnexpected } from "../../../src";
+} from "../../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../../src/index.js";
 import {
   createDocumentTranslationClient,
   createDocumentTranslationClientWithEndpointAndCredentials,
   startRecorder,
-} from "../utils/recordedClient";
-
-import type { Context } from "mocha";
+} from "../utils/recordedClient.js";
 import {
   ONE_TEST_DOCUMENTS,
   TWO_TEST_DOCUMENTS,
@@ -29,16 +26,17 @@ import {
   createTargetContainerWithInfo,
   downloadDocument,
   getUniqueName,
-} from "./containerHelper";
+} from "./containerHelper.js";
 import {
   createBatchRequest,
   createSourceInput,
   createTargetInput,
   getTranslationOperationID,
   sleep,
-} from "../utils/testHelper";
-import { createTestDocument } from "../utils/TestDocument";
-import type { BatchRequest } from "../../../src/models";
+} from "../utils/testHelper.js";
+import { createTestDocument } from "../utils/TestDocument.js";
+import type { BatchRequest } from "../../../src/models.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -49,12 +47,12 @@ describe("DocumentTranslation tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createDocumentTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -513,7 +511,7 @@ describe("DocumentTranslation tests", () => {
   async function validateTranslationStatus(
     translationResponse: StartTranslationDefaultResponse,
     translationCount: number,
-  ) {
+  ): Promise<void> {
     const operationLocationUrl = translationResponse.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
     assert.isNotNull(operationId);
@@ -538,7 +536,7 @@ describe("DocumentTranslation tests", () => {
   function validateDocumentStatus(
     documentStatus: GetDocumentStatus200Response,
     targetLanguage: string,
-  ) {
+  ): void {
     assert.equal(documentStatus.status, "200");
     const documentStatusOutput = documentStatus.body as DocumentStatusOutput;
     assert.isNotNull(documentStatusOutput.id);
