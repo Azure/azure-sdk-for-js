@@ -1259,12 +1259,12 @@ packages:
     resolution: {integrity: sha512-Jh15/qVmrLGhkKJBdXlK1+9tY4lZruYjsgkDFj08ZmDiWVBLJcqkok7Z0/R0In+i1rScBpJlSvrTS2Lm41Pbnw==}
     dev: false
 
-  /@arethetypeswrong/cli@0.16.4:
-    resolution: {integrity: sha512-qMmdVlJon5FtA+ahn0c1oAVNxiq4xW5lqFiTZ21XHIeVwAVIQ+uRz4UEivqRMsjVV1grzRgJSKqaOrq1MvlVyQ==}
+  /@arethetypeswrong/cli@0.17.0:
+    resolution: {integrity: sha512-xSMW7bfzVWpYw5JFgZqBXqr6PdR0/REmn3DkxCES5N0JTcB0CVgbIynJCvKBFmXaPc3hzmmTrb7+yPDRoOSZdA==}
     engines: {node: '>=18'}
     hasBin: true
     dependencies:
-      '@arethetypeswrong/core': 0.16.4
+      '@arethetypeswrong/core': 0.17.0
       chalk: 4.1.2
       cli-table3: 0.6.5
       commander: 10.0.1
@@ -1273,8 +1273,8 @@ packages:
       semver: 7.6.3
     dev: false
 
-  /@arethetypeswrong/core@0.16.4:
-    resolution: {integrity: sha512-RI3HXgSuKTfcBf1hSEg1P9/cOvmI0flsMm6/QL3L3wju4AlHDqd55JFPfXs4pzgEAgy5L9pul4/HPPz99x2GvA==}
+  /@arethetypeswrong/core@0.17.0:
+    resolution: {integrity: sha512-FHyhFizXNetigTVsIhqXKGYLpazPS5YNojEPpZEUcBPt9wVvoEbNIvG+hybuBR+pjlRcbyuqhukHZm1fr+bDgA==}
     engines: {node: '>=18'}
     dependencies:
       '@andrewbranch/untar.js': 1.0.3
@@ -2851,13 +2851,6 @@ packages:
     resolution: {integrity: sha512-U69T3ItWHvLwGg5eJ0n3I62nWuE6ilHlmz7zM0npLBRvPRd7e6NYmg54vvRtP5mZG7kZqZCFVdsTWo7BPtBujg==}
     dev: false
 
-  /@opentelemetry/api-logs@0.54.2:
-    resolution: {integrity: sha512-4MTVwwmLgUh5QrJnZpYo6YRO5IBLAggf2h8gWDblwRagDStY13aEvt7gGk3jewrMaPlHiF83fENhIx0HO97/cQ==}
-    engines: {node: '>=14'}
-    dependencies:
-      '@opentelemetry/api': 1.9.0
-    dev: false
-
   /@opentelemetry/api-logs@0.55.0:
     resolution: {integrity: sha512-3cpa+qI45VHYcA5c0bHM6VHo9gicv3p5mlLHNG3rLyjQU8b7e0st1rWtrUn3JbZ3DwwCfhKop4eQ9UuYlC6Pkg==}
     engines: {node: '>=14'}
@@ -3306,11 +3299,11 @@ packages:
       '@opentelemetry/core': 1.28.0(@opentelemetry/api@1.9.0)
     dev: false
 
-  /@opentelemetry/winston-transport@0.7.0:
-    resolution: {integrity: sha512-Q35p/glAOE6sl0ZgbddYsdjy23mzt89lFGhht4pJwrrJyInFIgdONFmMJb47kmXbFM3JHOcI0j+PL1BPPTPXBQ==}
+  /@opentelemetry/winston-transport@0.8.0:
+    resolution: {integrity: sha512-NIUToAei4nSoZdwwSw2oK75gmdIc5iwSPOWS5S9n1vTjK+v+leja0h+55vQDnJC0QeZtkckmpoCxgBG3wJLJ8w==}
     engines: {node: '>=14'}
     dependencies:
-      '@opentelemetry/api-logs': 0.54.2
+      '@opentelemetry/api-logs': 0.55.0
       winston-transport: 4.9.0
     dev: false
 
@@ -19879,13 +19872,13 @@ packages:
     dev: false
 
   file:projects/dev-tool.tgz:
-    resolution: {integrity: sha512-gFcaLV9aqlL0j0i52cW/OzMd+iLXvQ8mvHL7XMNm44N+suDCmxNy+k2meuGq2b+J401lqgLkLB7+hfPqX9+Oqg==, tarball: file:projects/dev-tool.tgz}
+    resolution: {integrity: sha512-XCBnKpGSW22BE7usDIwYyn3OCoVLKK7sItBOUvWEvQhqXgJcMP6zEL6NpUmN8WkCpuO2ZIfxEdfJamIhpb3XQg==, tarball: file:projects/dev-tool.tgz}
     name: '@rush-temp/dev-tool'
     version: 0.0.0
     dependencies:
       '@_ts/max': /typescript@5.7.2
       '@_ts/min': /typescript@4.2.4
-      '@arethetypeswrong/cli': 0.16.4
+      '@arethetypeswrong/cli': 0.17.0
       '@azure/identity': 4.5.0
       '@eslint/js': 9.15.0
       '@microsoft/api-extractor': 7.48.0(@types/node@18.19.66)
@@ -21458,7 +21451,7 @@ packages:
     dev: false
 
   file:projects/monitor-opentelemetry.tgz:
-    resolution: {integrity: sha512-V7bqVU6te2tWpkBRIQd0rI27Rt0TbVNwCRLdORAHzXIpdH9ixDw7nfWuhUwLOueiQEmJJckKFecsoKUYxIO44A==, tarball: file:projects/monitor-opentelemetry.tgz}
+    resolution: {integrity: sha512-SqkTFQ9XDW6780y/y4kwohv9eV+fi/f4jqDjPwOW1Y0+Uz1gQLssjbSPaTnRDiTa9i+tJLLUiTE/VeV9BCtDUA==, tarball: file:projects/monitor-opentelemetry.tgz}
     name: '@rush-temp/monitor-opentelemetry'
     version: 0.0.0
     dependencies:
@@ -21485,7 +21478,7 @@ packages:
       '@opentelemetry/sdk-trace-base': 1.28.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 1.28.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.28.0
-      '@opentelemetry/winston-transport': 0.7.0
+      '@opentelemetry/winston-transport': 0.8.0
       '@types/mocha': 10.0.10
       '@types/node': 18.19.66
       '@types/sinon': 17.0.3
