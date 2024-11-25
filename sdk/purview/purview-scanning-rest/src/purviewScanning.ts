@@ -37,7 +37,7 @@ import type {
   TriggersGetTriggerParameters,
   TriggersCreateTriggerParameters,
   TriggersDeleteTriggerParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   KeyVaultConnectionsGet200Response,
   KeyVaultConnectionsGetdefaultResponse,
@@ -121,7 +121,7 @@ import type {
   TriggersDeleteTrigger200Response,
   TriggersDeleteTrigger204Response,
   TriggersDeleteTriggerdefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { ClientOptions, Client } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";

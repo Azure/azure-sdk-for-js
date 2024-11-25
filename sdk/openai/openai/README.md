@@ -46,7 +46,7 @@ There are several ways to authenticate with the Azure OpenAI service and the rec
 
 2. Create a token provider by calling the `getBearerTokenProvider` with the desired credential type. For example, [DefaultAzureCredential][azure_identity_dac]:
 
-    ```js
+    ```ts
     import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
 
     const credential = new DefaultAzureCredential();
@@ -56,7 +56,7 @@ There are several ways to authenticate with the Azure OpenAI service and the rec
 
 3. Create the client by passing in the token provider:
 
-    ```js
+    ```ts
     import { AzureOpenAI } from "openai";
 
     const deployment = "Your deployment name";
