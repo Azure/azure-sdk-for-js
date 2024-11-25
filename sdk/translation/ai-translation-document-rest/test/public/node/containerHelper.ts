@@ -102,7 +102,10 @@ function configureBlobStorageClient(
   return;
 }
 
-async function uploadDocuments(containerClient: ContainerClient, documents: TestDocument[]) {
+async function uploadDocuments(
+  containerClient: ContainerClient,
+  documents: TestDocument[],
+): Promise<void> {
   for (const document of documents) {
     const blobClient = containerClient.getBlobClient(document.name);
     const blockBlobClient = blobClient.getBlockBlobClient();

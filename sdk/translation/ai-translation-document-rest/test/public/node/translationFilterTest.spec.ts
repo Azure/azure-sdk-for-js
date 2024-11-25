@@ -19,7 +19,7 @@ import {
   getTranslationOperationID,
   sleep,
 } from "../utils/testHelper.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -29,12 +29,12 @@ describe("TranslationFilter tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async function (ctx) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createDocumentTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -177,7 +177,7 @@ describe("TranslationFilter tests", () => {
     jobsCount: number,
     docsPerJob: number,
     jobTerminalStatus: string,
-  ) {
+  ): Promise<string[]> {
     // create source container
     if (jobTerminalStatus.includes("cancelled")) {
       docsPerJob = 20; // in order to avoid job completing before canceling

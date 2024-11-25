@@ -5,18 +5,18 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import type { DocumentTranslationClient } from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
 import { createDocumentTranslationClient, startRecorder } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("GetSupportedFormats tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async function (ctx) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createDocumentTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

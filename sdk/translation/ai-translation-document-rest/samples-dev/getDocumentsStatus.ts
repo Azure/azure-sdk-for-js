@@ -5,7 +5,6 @@
  * @summary This sample demonstrates how to get the Documents status of a batch translation operation initiated by a user
  */
 
-import * as dotenv from "dotenv";
 import createClient from "../src/documentTranslationClient.js";
 import {
   ONE_TEST_DOCUMENTS,
@@ -20,7 +19,7 @@ import {
   getTranslationOperationID,
 } from "../test/public/utils/testHelper.js";
 import { isUnexpected } from "../src/isUnexpected.js";
-dotenv.config();
+import "dotenv/config";
 
 const endpoint =
   process.env["ENDPOINT"] ||
@@ -28,7 +27,7 @@ const endpoint =
 const apiKey = process.env["DOCUMENT_TRANSLATION_API_KEY"] || "<API_Key>";
 const credentials = { key: apiKey ?? "" };
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Gets Documents Status ==");
   const client = createClient(endpoint, credentials);
 
@@ -38,13 +37,13 @@ export async function main() {
   const targetInput = createTargetInput(targetUrl, "fr");
   const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-  //Start translation
+  // Start translation
   const batchRequests = { inputs: [batchRequest] };
   const response = await StartTranslationAndWait(client, batchRequests);
   const operationLocationUrl = response.headers["operation-location"];
   const operationId = getTranslationOperationID(operationLocationUrl);
 
-  //get Documents Status
+  // Get Documents Status
   const documentResponse = await client.path("/document/batches/{id}/documents", operationId).get();
   if (isUnexpected(documentResponse)) {
     throw documentResponse.body;

@@ -16,4 +16,5 @@ export * from "./outputModels.js";
 export * from "./paginateHelper.js";
 export * from "./pollingHelper.js";
 
+// eslint-disable-next-line @azure/azure-sdk/ts-modules-only-named
 export default DocumentTranslationClient;

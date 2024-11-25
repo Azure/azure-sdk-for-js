@@ -16,18 +16,18 @@ import {
   createTargetInput,
   getTranslationOperationID,
 } from "../utils/testHelper.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("CancelTranslation tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async function (ctx) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createDocumentTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

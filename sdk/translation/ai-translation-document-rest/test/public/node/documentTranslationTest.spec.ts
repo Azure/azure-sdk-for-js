@@ -36,7 +36,7 @@ import {
 } from "../utils/testHelper.js";
 import { createTestDocument } from "../utils/TestDocument.js";
 import type { BatchRequest } from "../../../src/models.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
@@ -47,12 +47,12 @@ describe("DocumentTranslation tests", () => {
   let recorder: Recorder;
   let client: DocumentTranslationClient;
 
-  beforeEach(async function (ctx) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createDocumentTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -511,7 +511,7 @@ describe("DocumentTranslation tests", () => {
   async function validateTranslationStatus(
     translationResponse: StartTranslationDefaultResponse,
     translationCount: number,
-  ) {
+  ): Promise<void> {
     const operationLocationUrl = translationResponse.headers["operation-location"];
     const operationId = getTranslationOperationID(operationLocationUrl);
     assert.isNotNull(operationId);
@@ -536,7 +536,7 @@ describe("DocumentTranslation tests", () => {
   function validateDocumentStatus(
     documentStatus: GetDocumentStatus200Response,
     targetLanguage: string,
-  ) {
+  ): void {
     assert.equal(documentStatus.status, "200");
     const documentStatusOutput = documentStatus.body as DocumentStatusOutput;
     assert.isNotNull(documentStatusOutput.id);

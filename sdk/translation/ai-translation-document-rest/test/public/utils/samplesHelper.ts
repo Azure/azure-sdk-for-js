@@ -92,7 +92,10 @@ export function getUniqueName(): string {
   return randomNumber.toString().padStart(10, "0");
 }
 
-async function uploadDocuments(containerClient: ContainerClient, documents: TestDocument[]) {
+async function uploadDocuments(
+  containerClient: ContainerClient,
+  documents: TestDocument[],
+): Promise<void> {
   for (const document of documents) {
     const blobClient = containerClient.getBlobClient(document.name);
     const blockBlobClient = blobClient.getBlockBlobClient();

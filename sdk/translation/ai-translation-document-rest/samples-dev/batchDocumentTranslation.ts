@@ -5,7 +5,6 @@
  * @summary This sample demonstrates how to make a simple call to the Azure Document Translator service to start a batch translation
  */
 
-import * as dotenv from "dotenv";
 import createClient from "../src/documentTranslationClient.js";
 import {
   ONE_TEST_DOCUMENTS,
@@ -19,7 +18,7 @@ import {
   getTranslationOperationID,
 } from "../test/public/utils/testHelper.js";
 import { isUnexpected } from "../src/isUnexpected.js";
-dotenv.config();
+import "dotenv/config";
 
 const endpoint =
   process.env["ENDPOINT"] ||
@@ -27,7 +26,7 @@ const endpoint =
 const apiKey = process.env["DOCUMENT_TRANSLATION_API_KEY"] || "<API_Key>";
 const credentials = { key: apiKey ?? "" };
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Batch Document Translation ==");
   const client = createClient(endpoint, credentials);
 
@@ -37,7 +36,7 @@ export async function main() {
   const targetInput = createTargetInput(targetUrl, "fr");
   const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-  //Start translation
+  // Start translation
   const batchRequests = { inputs: [batchRequest] };
   const poller = await client.path("/document/batches").post({
     body: batchRequests,

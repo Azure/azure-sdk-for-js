@@ -5,7 +5,6 @@
  * @summary This sample demonstrates how to get the Translations Status of a batch translation operation initiated by a user
  */
 
-import * as dotenv from "dotenv";
 import createClient from "../src/documentTranslationClient.js";
 import {
   ONE_TEST_DOCUMENTS,
@@ -19,9 +18,9 @@ import {
   createBatchRequest,
   getTranslationOperationID,
 } from "../test/public/utils/testHelper.js";
-import { GetTranslationStatus200Response } from "../src/responses.js";
+import type { GetTranslationStatus200Response } from "../src/responses.js";
 import { isUnexpected } from "../src/index.js";
-dotenv.config();
+import "dotenv/config";
 
 const endpoint =
   process.env["ENDPOINT"] ||
@@ -29,7 +28,7 @@ const endpoint =
 const apiKey = process.env["DOCUMENT_TRANSLATION_API_KEY"] || "<API_Key>";
 const credentials = { key: apiKey ?? "" };
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Get Translation Status ==");
   const client = createClient(endpoint, credentials);
 
@@ -39,13 +38,13 @@ export async function main() {
   const targetInput = createTargetInput(targetUrl, "fr");
   const batchRequest = createBatchRequest(sourceInput, [targetInput]);
 
-  //Start translation
+  // Start translation
   const batchRequests = { inputs: [batchRequest] };
   const translationResponse = await StartTranslationAndWait(client, batchRequests);
   const operationLocationUrl = translationResponse.headers["operation-location"];
   const operationId = getTranslationOperationID(operationLocationUrl);
 
-  //get Translation Status
+  // Get Translation Status
   const response = (await client
     .path("/document/batches/{id}", operationId)
     .get()) as GetTranslationStatus200Response;
