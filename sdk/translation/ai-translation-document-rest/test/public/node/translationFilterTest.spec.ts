@@ -3,7 +3,6 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import type {
   DocumentTranslationClient,
   GetTranslationStatus200Response,
@@ -12,7 +11,6 @@ import type {
 import { isUnexpected, getLongRunningPoller } from "../../../src/index.js";
 import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient.js";
 import { createSourceContainer, createTargetContainer } from "./containerHelper.js";
-import type { Context } from "mocha";
 import {
   createBatchRequest,
   createDummyTestDocuments,
@@ -21,6 +19,7 @@ import {
   getTranslationOperationID,
   sleep,
 } from "../utils/testHelper.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,

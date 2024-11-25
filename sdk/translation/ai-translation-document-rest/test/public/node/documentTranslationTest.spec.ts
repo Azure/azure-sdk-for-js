@@ -3,7 +3,6 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isLiveMode, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import type {
   DocumentStatusOutput,
   DocumentTranslationClient,
@@ -18,8 +17,6 @@ import {
   createDocumentTranslationClientWithEndpointAndCredentials,
   startRecorder,
 } from "../utils/recordedClient.js";
-
-import type { Context } from "mocha";
 import {
   ONE_TEST_DOCUMENTS,
   TWO_TEST_DOCUMENTS,
@@ -39,6 +36,7 @@ import {
 } from "../utils/testHelper.js";
 import { createTestDocument } from "../utils/TestDocument.js";
 import type { BatchRequest } from "../../../src/models.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 export const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,
