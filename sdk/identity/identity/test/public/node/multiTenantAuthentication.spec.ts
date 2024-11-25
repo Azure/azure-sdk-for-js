@@ -6,7 +6,7 @@ import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { ClientSecretCredential } from "../../../dist/esm/credentials/clientSecretCredential.js";
+import { ClientSecretCredential } from "@azure/identity";
 import { IdentityClient } from "../../../dist/esm/client/identityClient.js";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
