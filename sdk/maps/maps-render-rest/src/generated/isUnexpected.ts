@@ -20,7 +20,7 @@ import {
   RenderGetCopyrightForTileDefaultResponse,
   RenderGetCopyrightForWorld200Response,
   RenderGetCopyrightForWorldDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /map/tile": ["200"],

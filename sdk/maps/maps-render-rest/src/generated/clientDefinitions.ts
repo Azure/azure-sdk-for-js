@@ -11,7 +11,7 @@ import {
   RenderGetCopyrightFromBoundingBoxParameters,
   RenderGetCopyrightForTileParameters,
   RenderGetCopyrightForWorldParameters,
-} from "./parameters";
+} from "./parameters.js";
 import {
   RenderGetMapTile200Response,
   RenderGetMapTileDefaultResponse,
@@ -31,7 +31,7 @@ import {
   RenderGetCopyrightForTileDefaultResponse,
   RenderGetCopyrightForWorld200Response,
   RenderGetCopyrightForWorldDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetMapTile {
