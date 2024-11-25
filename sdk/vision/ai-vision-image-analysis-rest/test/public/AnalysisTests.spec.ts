@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type {
   ImageAnalysisClient,
   CaptionResultOutput,
@@ -17,6 +14,7 @@ import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createClient } from "./utils/clientMethods.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const credentials = [
   {
