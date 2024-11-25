@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import type { RouteDirectionParameters, RouteMatrixQuery } from "../../src/index.js";
-import { createRouteDirectionsBatchRequest, toColonDelimitedLatLonString } from "../../src/index.js";
+import {
+  createRouteDirectionsBatchRequest,
+  toColonDelimitedLatLonString,
+} from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createClient, createRecorder, testLogger } from "./utils/recordedClient.js";

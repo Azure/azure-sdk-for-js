@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import type { BatchRequest, RouteGetRouteDirectionsQueryParamProperties } from "../../src/index.js";
-import { createRouteDirectionsBatchRequest, toColonDelimitedLatLonString } from "../../src/index.js";
+import {
+  createRouteDirectionsBatchRequest,
+  toColonDelimitedLatLonString,
+} from "../../src/index.js";
 import type { LatLon } from "@azure/maps-common";
 import { describe, it, assert } from "vitest";
 
