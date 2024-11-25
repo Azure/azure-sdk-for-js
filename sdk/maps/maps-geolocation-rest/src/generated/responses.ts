@@ -5,7 +5,7 @@ import { HttpResponse } from "@azure-rest/core-client";
 import {
   IpAddressToLocationResultOutput,
   ErrorResponseOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /**
  *

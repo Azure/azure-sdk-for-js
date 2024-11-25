@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { GeolocationGetLocationParameters } from "./parameters";
+import { GeolocationGetLocationParameters } from "./parameters.js";
 import {
   GeolocationGetLocation200Response,
   GeolocationGetLocationDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetLocation {
