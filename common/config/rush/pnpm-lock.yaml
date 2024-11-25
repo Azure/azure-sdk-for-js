@@ -19300,7 +19300,7 @@ packages:
     dev: false
 
   file:projects/confidential-ledger.tgz:
-    resolution: {integrity: sha512-Xw/enTER2UKhrjrxCL5XqD8wjKQkBNUpy58uQP9E3kofJVpBbnnwDOCeaQkTQAGxPQWJVqIm2Lnz1vBEhzvqLw==, tarball: file:projects/confidential-ledger.tgz}
+    resolution: {integrity: sha512-kz/gO0p1kTIesYPMsgME5Tc8BCXl3x6DQgBG9NDcR586apYrge1buEHANawGmE/uh44YKSsT5PjHgRCBIkz1Wg==, tarball: file:projects/confidential-ledger.tgz}
     name: '@rush-temp/confidential-ledger'
     version: 0.0.0
     dependencies:
@@ -19310,6 +19310,7 @@ packages:
       '@types/chai': 4.3.20
       '@types/mocha': 10.0.10
       '@types/node': 18.19.65
+      '@vitest/coverage-istanbul': 2.1.5(vitest@2.1.5)
       chai: 4.3.10
       dotenv: 16.4.5
       eslint: 9.15.0
@@ -19319,11 +19320,23 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.65)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.5(@types/node@18.19.65)(@vitest/browser@2.1.5)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/browser'
+      - '@vitest/ui'
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
     dev: false
 
   file:projects/container-registry.tgz:
