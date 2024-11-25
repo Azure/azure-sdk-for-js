@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import MapsSearch from "./MapsSearch";
+import MapsSearch from "./MapsSearch.js";
 
-export * from "../generated";
+export * from "../generated/index.js";
 export default MapsSearch;

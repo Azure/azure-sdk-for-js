@@ -7,14 +7,14 @@ import { env } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
-import type { MapsSearchClient } from "../../src";
-import MapsSearch, { isUnexpected } from "../../src";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import type { MapsSearchClient } from "../../src/index.js";
+import MapsSearch, { isUnexpected } from "../../src/index.js";
 
 describe("Authentication", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
   });
 
@@ -27,7 +27,7 @@ describe("Authentication", function () {
      * Skip this test in browser because we have to use InteractiveBrowserCredential in the browser.
      * But it requires user's interaction, which is not testable in karma.
      * */
-    if (!isNodeLike) this.skip();
+    if (!isNodeLike) ctx.skip();
     /**
      * Use createTestCredential() instead of new DefaultAzureCredential(), else the playback mode won't work
      * Reference: https://github.com/Azure/azure-sdk-for-js/blob/main/documentation/test-quickstart.md#azuread-oauth2-authentication
@@ -47,7 +47,7 @@ describe("Authentication", function () {
 describe("Endpoint can be overwritten", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
   });
 
@@ -74,7 +74,7 @@ describe("Get Search Polygon", function () {
   let recorder: Recorder;
   let client: MapsSearchClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
   });
@@ -102,7 +102,7 @@ describe("/geocode", function () {
   let recorder: Recorder;
   let client: MapsSearchClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
   });
@@ -126,7 +126,7 @@ describe("/geocode:batch", function () {
   let recorder: Recorder;
   let client: MapsSearchClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
   });
@@ -171,7 +171,7 @@ describe("/reverseGeocode", function () {
   let recorder: Recorder;
   let client: MapsSearchClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
   });
@@ -209,7 +209,7 @@ describe("/reverseGeocode:batch", function () {
   let recorder: Recorder;
   let client: MapsSearchClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
   });
