@@ -4,9 +4,9 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
 import type { Context } from "mocha";
-import type { AzureHealthInsightsClient } from "../../src";
-import { ClinicalDocumentTypeEnum, getLongRunningPoller } from "../../src";
-import { createRecorder, createTestClient } from "./utils/recordedClient";
+import type { AzureHealthInsightsClient } from "../../src/index.js";
+import { ClinicalDocumentTypeEnum, getLongRunningPoller } from "../../src/index.js";
+import { createRecorder, createTestClient } from "./utils/recordedClient.js";
 
 const codingData = {
   system: "http://www.nlm.nih.gov/research/umls",
@@ -144,7 +144,7 @@ describe("Radiology Insights Test", () => {
   let recorder: Recorder;
   let client: AzureHealthInsightsClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = await createTestClient(recorder);
   });

@@ -13,7 +13,7 @@ import AzureHealthInsightsClient, {
   RadiologyInsightsJobOutput,
   getLongRunningPoller,
   isUnexpected
-} from "../src";
+} from "../src/index.js";
 
 dotenv.config();
 
