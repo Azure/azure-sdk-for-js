@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Get ownership identifier for domain
  *
  * @summary Description for Get ownership identifier for domain
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/GetDomainOwnershipIdentifier.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2024-04-01/examples/GetDomainOwnershipIdentifier.json
  */
 async function getDomainOwnershipIdentifier() {
   const subscriptionId =

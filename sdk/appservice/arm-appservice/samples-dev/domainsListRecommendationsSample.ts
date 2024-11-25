@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Get domain name recommendations based on keywords.
  *
  * @summary Description for Get domain name recommendations based on keywords.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/ListDomainRecommendations.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2024-04-01/examples/ListDomainRecommendations.json
  */
 async function listDomainRecommendations() {
   const subscriptionId =

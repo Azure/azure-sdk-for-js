@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a workflow version.
  *
  * @summary Gets a workflow version.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowVersions_Get.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/WorkflowVersions_Get.json
  */
 async function getAWorkflowVersion() {
   const subscriptionId =

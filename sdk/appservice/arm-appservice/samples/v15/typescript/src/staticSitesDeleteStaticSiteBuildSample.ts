@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Deletes a static site build.
  *
  * @summary Description for Deletes a static site build.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/DeleteStaticSiteBuild.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/DeleteStaticSiteBuild.json
  */
 async function deleteAStaticSiteBuild() {
   const subscriptionId =

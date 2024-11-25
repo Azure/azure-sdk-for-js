@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Creates a new static site in an existing resource group, or updates an existing static site.
  *
  * @summary Description for Creates a new static site in an existing resource group, or updates an existing static site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/PatchStaticSite.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/PatchStaticSite.json
  */
 async function patchAStaticSite() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Approves or rejects a private endpoint connection
  *
  * @summary Description for Approves or rejects a private endpoint connection
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ApproveRejectSitePrivateEndpointConnectionSlot.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ApproveRejectSitePrivateEndpointConnectionSlot.json
  */
 async function approvesOrRejectsAPrivateEndpointConnectionForASite() {
   const subscriptionId =

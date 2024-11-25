@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Get Hosting Environment Detector Response
  *
  * @summary Description for Get Hosting Environment Detector Response
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/Diagnostics_GetHostingEnvironmentDetectorResponse.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/Diagnostics_GetHostingEnvironmentDetectorResponse.json
  */
 async function getAppServiceEnvironmentDetectorResponses() {
   const subscriptionId =

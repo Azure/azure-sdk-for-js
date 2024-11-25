@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Updates the Azure storage account configurations of an app.
  *
  * @summary Description for Updates the Azure storage account configurations of an app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/UpdateAzureStorageAccounts.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/UpdateAzureStorageAccounts.json
  */
 async function updateAzureStorageAccounts() {
   const subscriptionId =

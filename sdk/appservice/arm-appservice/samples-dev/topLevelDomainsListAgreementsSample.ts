@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Gets all legal agreements that user needs to accept before purchasing a domain.
  *
  * @summary Description for Gets all legal agreements that user needs to accept before purchasing a domain.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2023-12-01/examples/ListTopLevelDomainAgreements.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2024-04-01/examples/ListTopLevelDomainAgreements.json
  */
 async function listTopLevelDomainAgreements() {
   const subscriptionId =

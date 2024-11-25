@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Creates or updates a Kubernetes Environment.
  *
  * @summary Description for Creates or updates a Kubernetes Environment.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/KubeEnvironments_CreateOrUpdate.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/KubeEnvironments_CreateOrUpdate.json
  */
 async function createKubeEnvironments() {
   const subscriptionId =

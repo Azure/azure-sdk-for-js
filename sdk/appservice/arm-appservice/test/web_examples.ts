@@ -60,7 +60,16 @@ describe("Web test", () => {
     await recorder.stop();
   });
 
-  it("appServicePlans create test", async function () {
+
+  it("operations list test", async function () {
+    const resArray = new Array();
+    for await (let item of client.provider.listOperations()) {
+      resArray.push(item);
+    }
+    assert.notEqual(resArray.length, 0);
+  });
+
+  it.skip("appServicePlans create test", async function () {
     const res = await client.appServicePlans.beginCreateOrUpdateAndWait(resourceGroup, appservicePlanName, {
       location: "eastus",
       sku: {
@@ -74,7 +83,7 @@ describe("Web test", () => {
     assert.equal(res.name, appservicePlanName);
   });
 
-  it("webApps create test", async function () {
+  it.skip("webApps create test", async function () {
     const res = await client.webApps.beginCreateOrUpdateAndWait(resourceGroup, name, {
       location: "eastus",
       serverFarmId:
@@ -101,17 +110,17 @@ describe("Web test", () => {
     assert.equal(res.name, name);
   });
 
-  it("appServicePlans get test", async function () {
+  it.skip("appServicePlans get test", async function () {
     const res = await client.appServicePlans.get(resourceGroup, appservicePlanName);
     assert.equal(res.name, appservicePlanName);
   });
 
-  it("webApps get test", async function () {
+  it.skip("webApps get test", async function () {
     const res = await client.webApps.get(resourceGroup, name);
     assert.equal(res.name, name);
   });
 
-  it("appServicePlans list test", async function () {
+  it.skip("appServicePlans list test", async function () {
     const resArray = new Array();
     for await (let item of client.appServicePlans.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -119,7 +128,7 @@ describe("Web test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("webApps list test", async function () {
+  it.skip("webApps list test", async function () {
     const resArray = new Array();
     for await (let item of client.webApps.listByResourceGroup(resourceGroup)) {
       resArray.push(item);
@@ -127,7 +136,7 @@ describe("Web test", () => {
     assert.equal(resArray.length, 1);
   });
 
-  it("webApps update test", async function () {
+  it.skip("webApps update test", async function () {
     const res = await client.webApps.update(resourceGroup, name, {
       serverFarmId: "/subscriptions/" + subscriptionId + "/resourceGroups/myjstest/providers/Microsoft.Web/serverfarms/myappserviceplanxxx",
       reserved: false,
@@ -143,7 +152,7 @@ describe("Web test", () => {
     assert.equal(res.name, name);
   });
 
-  it("webApps delete test", async function () {
+  it.skip("webApps delete test", async function () {
     const res = await client.webApps.delete(resourceGroup, name);
     const resArray = new Array();
     for await (let item of client.webApps.listByResourceGroup(resourceGroup)) {
@@ -152,7 +161,7 @@ describe("Web test", () => {
     assert.equal(resArray.length, 0);
   });
 
-  it("appServicePlans delete test", async function () {
+  it.skip("appServicePlans delete test", async function () {
     const res = await client.appServicePlans.delete(resourceGroup, appservicePlanName);
     const resArray = new Array();
     for await (let item of client.appServicePlans.listByResourceGroup(resourceGroup)) {

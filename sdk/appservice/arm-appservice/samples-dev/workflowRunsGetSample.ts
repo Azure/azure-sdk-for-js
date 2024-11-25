@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a workflow run.
  *
  * @summary Gets a workflow run.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowRuns_Get.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/WorkflowRuns_Get.json
  */
 async function getARunForAWorkflow() {
   const subscriptionId =

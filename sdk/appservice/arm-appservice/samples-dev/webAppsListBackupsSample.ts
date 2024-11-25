@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Gets existing backups of an app.
  *
  * @summary Description for Gets existing backups of an app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListWebAppBackups.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ListWebAppBackups.json
  */
 async function listWebAppBackups() {
   const subscriptionId =

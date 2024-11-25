@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for get a list of available ASE regions and its supported Skus.
  *
  * @summary Description for get a list of available ASE regions and its supported Skus.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListAseRegions.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ListAseRegions.json
  */
 async function listAseregions() {
   const subscriptionId =

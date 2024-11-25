@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Get all deleted apps for a subscription.
  *
  * @summary Description for Get all deleted apps for a subscription.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetDeletedWebAppSnapshots.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetDeletedWebAppSnapshots.json
  */
 async function getDeletedWebAppSnapshots() {
   const subscriptionId =

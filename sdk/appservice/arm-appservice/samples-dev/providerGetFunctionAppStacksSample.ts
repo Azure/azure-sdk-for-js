@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Get available Function app frameworks and their versions
  *
  * @summary Description for Get available Function app frameworks and their versions
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetFunctionAppStacks.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetFunctionAppStacks.json
  */
 async function getFunctionAppStacks() {
   const credential = new DefaultAzureCredential();

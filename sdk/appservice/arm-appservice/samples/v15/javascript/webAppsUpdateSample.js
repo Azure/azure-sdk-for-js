@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
  *
  * @summary Description for Creates a new web, mobile, or API app in an existing resource group, or updates an existing app.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/UpdateWebApp.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/UpdateWebApp.json
  */
 async function updateWebApp() {
   const subscriptionId =

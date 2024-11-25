@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Activates a revision for a Container App
  *
  * @summary Activates a revision for a Container App
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ActivateRevision.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ActivateRevision.json
  */
 async function activateContainerAppRevision() {
   const subscriptionId =

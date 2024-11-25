@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Get deleted app for a subscription at location.
  *
  * @summary Description for Get deleted app for a subscription at location.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetDeletedWebAppByLocation.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetDeletedWebAppByLocation.json
  */
 async function getDeletedWebAppByLocation() {
   const subscriptionId =

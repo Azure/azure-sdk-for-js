@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Stop ongoing capturing network packets for the site.
  *
  * @summary Description for Stop ongoing capturing network packets for the site.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/StopWebSiteNetworkTrace.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/StopWebSiteNetworkTrace.json
  */
 async function stopACurrentlyRunningNetworkTraceOperationForASite() {
   const subscriptionId =

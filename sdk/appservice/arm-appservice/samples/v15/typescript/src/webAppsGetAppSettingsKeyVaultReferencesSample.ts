@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Gets the config reference app settings and status of an app
  *
  * @summary Description for Gets the config reference app settings and status of an app
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetKeyVaultReferencesForAppSettings.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetKeyVaultReferencesForAppSettings.json
  */
 async function getAzureKeyVaultReferencesForAppSettings() {
   const subscriptionId =

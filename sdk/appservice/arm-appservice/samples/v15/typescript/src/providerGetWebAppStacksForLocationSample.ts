@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Get available Web app frameworks and their versions for location
  *
  * @summary Description for Get available Web app frameworks and their versions for location
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetWebAppStacksForLocation.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetWebAppStacksForLocation.json
  */
 async function getLocationsWebAppStacks() {
   const location = "westus";

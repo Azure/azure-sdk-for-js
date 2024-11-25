@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Get the properties of a Kubernetes Environment.
  *
  * @summary Description for Get the properties of a Kubernetes Environment.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/KubeEnvironments_Get.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/KubeEnvironments_Get.json
  */
 async function getKubeEnvironmentsByName() {
   const subscriptionId =

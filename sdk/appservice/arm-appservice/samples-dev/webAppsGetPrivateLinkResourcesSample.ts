@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Description for Gets the private link resources
  *
  * @summary Description for Gets the private link resources
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetSitePrivateLinkResources.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetSitePrivateLinkResources.json
  */
 async function getPrivateLinkResourcesOfASite() {
   const subscriptionId =

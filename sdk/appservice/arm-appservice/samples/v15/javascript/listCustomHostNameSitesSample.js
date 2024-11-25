@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get custom hostnames under this subscription
  *
  * @summary Get custom hostnames under this subscription
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListCustomHostNameSites.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ListCustomHostNameSites.json
  */
 async function getCustomHostnamesUnderSubscription() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function getCustomHostnamesUnderSubscription() {
  * This sample demonstrates how to Get custom hostnames under this subscription
  *
  * @summary Get custom hostnames under this subscription
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/ListCustomSpecificHostNameSites.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/ListCustomSpecificHostNameSites.json
  */
 async function getSpecificCustomHostnameUnderSubscription() {
   const subscriptionId =

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Description for Gets an operation in a subscription and given region
  *
  * @summary Description for Gets an operation in a subscription and given region
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetSubscriptionOperationWithAsyncResponse.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetSubscriptionOperationWithAsyncResponse.json
  */
 async function getsAnOperationInASubscriptionAndGivenRegion() {
   const subscriptionId =

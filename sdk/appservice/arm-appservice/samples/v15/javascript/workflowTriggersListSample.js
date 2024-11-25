@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of workflow triggers.
  *
  * @summary Gets a list of workflow triggers.
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/WorkflowTriggers_List.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/WorkflowTriggers_List.json
  */
 async function listWorkflowTriggers() {
   const subscriptionId =

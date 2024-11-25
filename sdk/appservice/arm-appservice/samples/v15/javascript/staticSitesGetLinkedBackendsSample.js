@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Returns details of all backends linked to a static site
  *
  * @summary Returns details of all backends linked to a static site
- * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2023-12-01/examples/GetLinkedBackendsForStaticSite.json
+ * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2024-04-01/examples/GetLinkedBackendsForStaticSite.json
  */
 async function getDetailsOfTheLinkedBackendsRegisteredWithAStaticSite() {
   const subscriptionId =
