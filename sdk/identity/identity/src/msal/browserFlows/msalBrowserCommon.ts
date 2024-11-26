@@ -153,12 +153,12 @@ export abstract class MsalBrowser implements MsalBrowserFlow {
   /**
    * Attempts to retrieve a token from cache.
    */
-  public abstract getTokenSilent(scopes: string[]): Promise<AccessToken>;
+  public abstract getTokenSilent(scopes: string[], options?: CredentialFlowGetTokenOptions): Promise<AccessToken>;
 
   /**
    * Attempts to retrieve the token in the browser.
    */
-  protected abstract doGetToken(scopes: string[]): Promise<AccessToken>;
+  protected abstract doGetToken(scopes: string[], options?: CredentialFlowGetTokenOptions): Promise<AccessToken>;
 
   /**
    * Attempts to retrieve an authenticated token from MSAL.
@@ -181,7 +181,7 @@ export abstract class MsalBrowser implements MsalBrowserFlow {
     if (!(await this.getActiveAccount()) && !this.disableAutomaticAuthentication) {
       await this.login(scopes);
     }
-    return this.getTokenSilent(scopes).catch((err) => {
+    return this.getTokenSilent(scopes, options).catch((err) => {
       if (err.name !== "AuthenticationRequiredError") {
         throw err;
       }
@@ -196,7 +196,7 @@ export abstract class MsalBrowser implements MsalBrowserFlow {
       this.logger.info(
         `Silent authentication failed, falling back to interactive method ${this.loginStyle}`,
       );
-      return this.doGetToken(scopes);
+      return this.doGetToken(scopes, options);
     });
   }
 
