@@ -30,7 +30,9 @@ foreach ($propertiesFile in $packageProperties) {
         Write-Host "Skipping changelog verification for $($PackageProp.Name)"
         continue
   }
+
   $validChangeLog = Confirm-ChangeLogEntry -ChangeLogLocation $PackageProp.ChangeLogPath -VersionString $PackageProp.Version -ForRelease $false
+  
   if (-not $validChangeLog) {
     $allPassing = $false
   }
