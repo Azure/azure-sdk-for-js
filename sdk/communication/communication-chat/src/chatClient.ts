@@ -505,5 +505,13 @@ export class ChatClient {
     this.signalingClient.on("participantsRemoved", (payload) => {
       this.emitter.emit("participantsRemoved", payload);
     });
+
+    // this.signalingClient.on("streamingChatMessageStarted", (payload) => {
+    //   this.emitter.emit("streamingChatMessageStarted", payload);
+    // });
+
+    // this.signalingClient.on("streamingChatMessageChunkReceived", (payload) => {
+    //   this.emitter.emit("streamingChatMessageCompleted", payload);
+    // });
   }
 }

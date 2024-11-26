@@ -6,7 +6,7 @@
 
 import { ChatMessageDeletedEvent } from '@azure/communication-signaling';
 import { ChatMessageEditedEvent } from '@azure/communication-signaling';
-import { ChatMessageReceivedEvent } from '@azure/communication-signaling';
+import { ChatMessageReceivedEvent as ChatMessageReceivedEvent_2 } from '@azure/communication-signaling';
 import { ChatThreadCreatedEvent } from '@azure/communication-signaling';
 import { ChatThreadDeletedEvent } from '@azure/communication-signaling';
 import { ChatThreadPropertiesUpdatedEvent } from '@azure/communication-signaling';
@@ -94,7 +94,7 @@ export interface ChatError {
 }
 
 // @public (undocumented)
-export type ChatEventId = "chatMessageReceived" | "chatMessageEdited" | "chatMessageDeleted" | "typingIndicatorReceived" | "readReceiptReceived" | "chatThreadCreated" | "chatThreadDeleted" | "chatThreadPropertiesUpdated" | "participantsAdded" | "participantsRemoved" | "realTimeNotificationConnected" | "realTimeNotificationDisconnected";
+export type ChatEventId = "chatMessageReceived" | "chatMessageEdited" | "chatMessageDeleted" | "typingIndicatorReceived" | "readReceiptReceived" | "chatThreadCreated" | "chatThreadDeleted" | "chatThreadPropertiesUpdated" | "participantsAdded" | "participantsRemoved" | "streamingChatMessageStarted" | "streamingChatMessageChunkReceived" | "realTimeNotificationConnected" | "realTimeNotificationDisconnected";
 
 // @public
 export interface ChatMessage {
@@ -131,7 +131,10 @@ export interface ChatMessageReadReceipt {
     sender: CommunicationIdentifierKind;
 }
 
-export { ChatMessageReceivedEvent }
+// @public (undocumented)
+export interface ChatMessageReceivedEvent extends ChatMessageReceivedEvent_2 {
+    streamingMetadata?: StreamingMessageMetadata;
+}
 
 // @public
 export type ChatMessageType = "text" | "html" | "topicUpdated" | "participantAdded" | "participantRemoved";
@@ -297,6 +300,30 @@ export interface SendReadReceiptRequest {
 export interface SendTypingNotificationOptions extends OperationOptions {
     senderDisplayName?: string;
 }
+
+// @public (undocumented)
+export type StreamEndReason = "completed" | "expired" | "canceled";
+
+// @public (undocumented)
+export interface StreamingChatMessageChunkReceivedEvent extends ChatMessageEditedEvent {
+}
+
+// @public (undocumented)
+export interface StreamingChatMessageStartEvent extends ChatMessageReceivedEvent {
+}
+
+// @public (undocumented)
+export interface StreamingMessageMetadata {
+    // (undocumented)
+    streamEndReason?: StreamEndReason;
+    // (undocumented)
+    streamingMessageType?: StreamingMessageType;
+    // (undocumented)
+    streamingSequenceNumber?: number;
+}
+
+// @public (undocumented)
+export type StreamingMessageType = "start" | "informative" | "streaming" | "final";
 
 export { TypingIndicatorReceivedEvent }
 
