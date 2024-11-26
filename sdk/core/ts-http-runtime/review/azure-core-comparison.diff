@@ -1428,7 +1428,7 @@ index 55110a0..0000000
 -  };
 -}
 diff --git a/src/policies/bearerTokenAuthenticationPolicy.ts b/src/policies/bearerTokenAuthenticationPolicy.ts
-index 898e5a6..87e8f5e 100644
+index 4f12696..87e8f5e 100644
 --- a/src/policies/bearerTokenAuthenticationPolicy.ts
 +++ b/src/policies/bearerTokenAuthenticationPolicy.ts
 @@ -1,13 +1,12 @@
@@ -1551,10 +1551,14 @@ index 898e5a6..87e8f5e 100644
  }
  
  /**
-@@ -190,6 +142,8 @@ export function bearerTokenAuthenticationPolicy(
+@@ -188,8 +140,10 @@ export function bearerTokenAuthenticationPolicy(
+   const { credential, scopes, challengeCallbacks } = options;
+   const logger = options.logger || coreLogger;
    const callbacks = {
-     authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
-     authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
+-    authorizeRequest: challengeCallbacks?.authorizeRequest?.bind(challengeCallbacks) ?? defaultAuthorizeRequest,
+-    authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge?.bind(challengeCallbacks),
++    authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
++    authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
 +    // keep all other properties
 +    ...challengeCallbacks,
    };
