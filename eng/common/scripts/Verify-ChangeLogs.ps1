@@ -22,6 +22,7 @@ function ShouldVerifyChangeLog ($PkgArtifactDetails) {
 
 # find which packages we need to confirm the changelog for
 $packageProperties = Get-ChildItem -Recurse "$PackagePropertiesFolder" *.json
+
 # grab the json file, then confirm the changelog entry for it
 $allPassing = $true
 foreach($propertiesFile in $packageProperties) {
