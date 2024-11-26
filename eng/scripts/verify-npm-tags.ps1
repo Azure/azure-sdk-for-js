@@ -29,7 +29,6 @@ if ($packageDistTags."$intendedTag" -ne $intendedTagVersion) {
   Write-Warning "Tag not correctly set, current $intendedTag tag is version $($packageDistTags."$intendedTag") instead of $intendedTagVersion."
   $correctDistTags = $parsedOriginalDistTags
   $correctDistTags | Add-Member -MemberType NoteProperty -Name $intendedTag -Value $intendedTagVersion -Force
-  # $correctDistTags."$intendedTag" = $intendedTagVersion
 
   Write-Host "Setting AuthToken Deployment"
   $regAuth = "//registry.npmjs.org/"
