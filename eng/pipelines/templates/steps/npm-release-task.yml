@@ -21,7 +21,6 @@ steps:
         $packageProps = npm view $packageName -json -silent | ConvertFrom-Json
         $originalTags = "{}"
         if ($packageProps.error) {
-          write-host $($packageProps.error)
           $LASTEXITCODE = 0
           if ($packageProps.error.code -ne "E404") {
             Write-Error $packageProps.error
