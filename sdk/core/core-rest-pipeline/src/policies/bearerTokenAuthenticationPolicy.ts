@@ -7,7 +7,8 @@ import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfac
 import type { PipelinePolicy } from "../pipeline.js";
 import { createTokenCycler } from "../util/tokenCycler.js";
 import { logger as coreLogger } from "../log.js";
-import { isRestError, RestError } from "../restError.js";
+import type { RestError } from "../restError.js";
+import { isRestError } from "../restError.js";
 
 /**
  * The programmatic identifier of the bearerTokenAuthenticationPolicy.
@@ -188,8 +189,10 @@ export function bearerTokenAuthenticationPolicy(
   const { credential, scopes, challengeCallbacks } = options;
   const logger = options.logger || coreLogger;
   const callbacks = {
-    authorizeRequest: challengeCallbacks?.authorizeRequest?.bind(challengeCallbacks) ?? defaultAuthorizeRequest,
-    authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge?.bind(challengeCallbacks),
+    authorizeRequest:
+      challengeCallbacks?.authorizeRequest?.bind(challengeCallbacks) ?? defaultAuthorizeRequest,
+    authorizeRequestOnChallenge:
+      challengeCallbacks?.authorizeRequestOnChallenge?.bind(challengeCallbacks),
   };
 
   // This function encapsulates the entire process of reliably retrieving the token
