@@ -9,9 +9,9 @@ import type {
   AnomalyDetectorRestClient,
   TrainMultivariateModelParameters,
   DetectMultivariateBatchAnomalyParameters,
-} from "../../src";
-import { isUnexpected } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+} from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 
 describe("AnomalyDetectorClient", () => {
   let recorder: Recorder;
@@ -68,7 +68,7 @@ describe("AnomalyDetectorClient", () => {
     { timestamp: "2018-04-15T00:00:00.000Z", value: 26149060 },
     { timestamp: "2018-04-16T00:00:00.000Z", value: 35250105 },
   ];
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = await createClient(recorder);
   });

@@ -4,9 +4,9 @@
 import type { Context } from "mocha";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import "./env";
-import type { AnomalyDetectorRestClient } from "../../../src";
-import AnomalyDetector from "../../../src";
+import "./env.js";
+import type { AnomalyDetectorRestClient } from "../../../src/index.js";
+import AnomalyDetector from "../../../src/index.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 
 const envSetupForPlayback: Record<string, string> = {
