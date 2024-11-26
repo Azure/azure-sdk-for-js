@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { EOL } from "os";
-import { DocumentTypeDetails, DocumentModelDetails } from "../src";
-import { DocumentFieldSchema } from "../src/generated";
-import { DocumentField } from "../src/models";
-import { defaultResultFields, getFeatures } from "./defaultFields";
-import { camelCase, capitalize, uncapitalize, Field } from "./utils";
+import { EOL } from "node:os";
+import type { DocumentTypeDetails, DocumentModelDetails } from "../index.js";
+import type { DocumentFieldSchema } from "../generated/index.js";
+import type { DocumentField } from "../models/index.js";
+import { defaultResultFields, getFeatures } from "./defaultFields.js";
+import type { Field } from "./utils.js";
+import { camelCase, capitalize, uncapitalize } from "./utils.js";
 
 // NOTE: currently, this command is set up to generate sample files for the SDK itself. If we want to expose this
 // functionality outside of samples, then we'll need to change the way the headers are generated for external use.
@@ -287,7 +288,7 @@ function* writeFieldsInterfaces(docType: DocType): Iterable<string> {
     interfaceName: string,
     description: string | undefined,
     fields: Record<string, DocumentFieldSchema>,
-  ) {
+  ): Generator<string, void, any> {
     yield "/**";
     yield ` * Describes the fields of \`${interfaceName}\`.`;
     if (description) {

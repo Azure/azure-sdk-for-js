@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { matrix } from "@azure-tools/test-utils-vitest";
 
+import { matrix } from "@azure-tools/test-utils-vitest";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
-
 import {
   createRecorder,
   getRandomNumber,
@@ -17,7 +16,7 @@ import { DocumentAnalysisClient } from "../../../src/documentAnalysisClient.js";
 import path from "node:path";
 import fs from "node:fs";
 import { ASSET_PATH, makeTestUrl } from "../../utils/etc.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
 const containerSasUrl = (): string =>
@@ -34,7 +33,7 @@ matrix([[true, false]] as const, async (useAad) => {
     let recorder: Recorder;
     let client: DocumentAnalysisClient;
 
-    beforeEach(async function (ctx) {
+    beforeEach(async (ctx) => {
       recorder = await createRecorder(ctx);
       await recorder.setMatcher("BodilessMatcher");
       client = new DocumentAnalysisClient(
@@ -44,7 +43,7 @@ matrix([[true, false]] as const, async (useAad) => {
       );
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       await recorder.stop();
     });
 
@@ -95,7 +94,7 @@ matrix([[true, false]] as const, async (useAad) => {
       return _classifier;
     }
 
-    it("build classifier", async function (ctx) {
+    it("build classifier", async () => {
       const classifier = await requireClassifier();
 
       assert.containsAllKeys(classifier.docTypes, ["foo", "bar"]);
@@ -103,7 +102,7 @@ matrix([[true, false]] as const, async (useAad) => {
       assert.equal(classifier.description, customClassifierDescription);
     });
 
-    it("analyze from PNG file stream", async function (ctx) {
+    it("analyze from PNG file stream", async () => {
       const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
       const stream = fs.createReadStream(filePath);
 
@@ -125,7 +124,7 @@ matrix([[true, false]] as const, async (useAad) => {
       assert.ok(result.pages![0].unit);
     });
 
-    it("analyze from PNG file URL", async function (ctx) {
+    it("analyze from PNG file URL", async () => {
       const url = makeTestUrl("/Invoice_1.pdf");
 
       const { classifierId } = await requireClassifier();
@@ -141,13 +140,7 @@ matrix([[true, false]] as const, async (useAad) => {
       assert.oneOf(result.documents?.[0].docType, ["foo", "bar"]);
     });
 
-    it("get & delete classifiers from the account", async function () {
-      if (useAad) {
-        // TODO: AAD is not implemented for this operation in the service.
-        ctx.skip();
-        return;
-      }
-
+    it("get & delete classifiers from the account", { skip: useAad }, async () => {
       const trainingClient = new DocumentModelAdministrationClient(
         endpoint(),
         makeCredential(useAad),

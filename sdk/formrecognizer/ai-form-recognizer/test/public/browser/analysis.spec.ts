@@ -4,21 +4,17 @@ import { DocumentAnalysisClient } from "../../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createRecordedClient, testPollingOptions } from "../../utils/recordedClients.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("analysis (browser)", () => {
+describe("analysis (browser)", { timeout: 60000 }, () => {
   let client: DocumentAnalysisClient;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
-    ({ recorder, client } = await createRecordedClient(
-      this.currentTest,
-      DocumentAnalysisClient,
-      true,
-    ));
+  beforeEach(async (ctx) => {
+    ({ recorder, client } = await createRecordedClient(ctx, DocumentAnalysisClient, true));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     if (recorder) {
       await recorder.stop();
     }
@@ -45,4 +41,4 @@ describe("analysis (browser)", () => {
     const receipt = receipts![0];
     assert.equal(receipt.docType, "receipt.retailMeal");
   });
-}).timeout(60000);
+});

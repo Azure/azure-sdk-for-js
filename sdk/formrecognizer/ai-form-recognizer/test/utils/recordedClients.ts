@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import {
   Recorder,
   assertEnvironmentVariable,
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-
 import type { PollerOptions } from "../../src/index.js";
 import { AzureKeyCredential } from "../../src/index.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
@@ -101,14 +101,14 @@ export function makeCredential(useAad: boolean): TokenCredential | AzureKeyCrede
     : new AzureKeyCredential(assertEnvironmentVariable("FORM_RECOGNIZER_API_KEY"));
 }
 
-export async function createRecorder(currentTest?: Test): Promise<Recorder> {
+export async function createRecorder(currentTest?: TestInfo): Promise<Recorder> {
   const recorder = new Recorder(currentTest);
   await recorder.start(recorderOptions);
   return recorder;
 }
 
 export async function createRecordedClient<T>(
-  currentTest: Test | undefined,
+  currentTest: TestInfo | undefined,
   ctor: {
     new (
       endpoint: string,

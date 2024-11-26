@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import { lro } from "../../src/lro/util/poller.js";
-import type { PollOperationState } from "@azure/core-lro";
+import type { PollerLike, PollOperationState } from "@azure/core-lro";
 import { AbortError } from "@azure/abort-controller";
-import { describe, it, assert } from "vitest";
+import { describe, it, expect } from "vitest";
 
 describe("custom poller", function () {
   it("abort signal correctly cancels polling", async function () {
@@ -44,7 +45,9 @@ describe("custom poller", function () {
   });
 });
 
-function createOperation(abortController?: AbortController) {
+function createOperation(
+  abortController?: AbortController,
+): Promise<PollerLike<PollOperationState<number>, number>> {
   let counter = 0;
   return lro<number, PollOperationState<number>>(
     {

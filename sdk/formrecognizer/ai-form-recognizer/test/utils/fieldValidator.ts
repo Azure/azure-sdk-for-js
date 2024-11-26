@@ -17,7 +17,7 @@ import { assert } from "vitest";
  * @param arrays - the arrays to zip
  * @returns - an array that is "inverted" i.e. each result array contains an element from each input array in order.
  */
-const zip = (...arrays: unknown[][]) =>
+const zip = (...arrays: unknown[][]): unknown[][] =>
   arrays.length < 2 ? arrays : arrays[0].map((_, idx) => arrays.map((row) => row[idx]));
 
 /**
@@ -51,7 +51,7 @@ export type Validator = (document: AnalyzedDocument) => void;
  * @param field - the actual result field to validate
  * @returns void, throws if the field does not satisfy the spec
  */
-function validateSpec(spec: FieldSpec, field: DocumentField | undefined) {
+function validateSpec(spec: FieldSpec, field: DocumentField | undefined): void {
   if (field === undefined || spec === undefined) {
     assert.strictEqual((field as DocumentValueField<unknown>)?.value, spec as undefined);
   } else if (typeof spec === "function") {
