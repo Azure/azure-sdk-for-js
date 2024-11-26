@@ -19,7 +19,7 @@ export const ServiceErrorMessageConstants = {
   MULTIPLE_SETUP_FILE_PLAYWRIGHT_VERSION_ERROR: {
     key: "MultipleSetupFilePlaywrightVersionError",
     message:
-      "The Playwright version you are using does not support multiple setup files. Please update to Playwright version 1.49.0 or higher.",
+      "The Playwright version you are using does not support multiple setup/teardown files. Please update to Playwright version 1.49.0 or higher.",
   },
   WORKSPACE_MISMATCH_ERROR: {
     key: "InvalidAccessToken",
