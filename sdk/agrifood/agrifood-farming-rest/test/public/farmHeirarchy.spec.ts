@@ -4,9 +4,9 @@ import type {
   FarmBeatsClient,
   SatelliteDataIngestionJobOutput,
   SceneListResponseOutput,
-} from "../../src";
-import { getLongRunningPoller, isUnexpected } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+} from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 
 import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -30,7 +30,7 @@ describe("party Operations", () => {
   let recorder: Recorder;
   let client: FarmBeatsClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
     jobId = recorder.variable("jobId", `${suffix}-job-${Math.ceil(Math.random() * 1000)}`);

@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { FarmBeatsClient, Party, PartiesListParameters } from "../../src";
-import { paginate } from "../../src";
+import type { FarmBeatsClient, Party, PartiesListParameters } from "../../src/index.js";
+import { paginate } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 
 import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
 
 const partyId = "contoso-party-js";
@@ -14,7 +14,7 @@ describe("List parties", () => {
   let recorder: Recorder;
   let client: FarmBeatsClient;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
   });

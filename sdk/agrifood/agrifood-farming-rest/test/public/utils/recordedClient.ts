@@ -4,9 +4,9 @@
 import type { Context } from "mocha";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import "./env";
-import type { FarmBeatsClient } from "../../../src";
-import FarmBeats from "../../../src";
+import "./env.js";
+import type { FarmBeatsClient } from "../../../src/index.js";
+import FarmBeats from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { ClientOptions } from "@azure-rest/core-client";
 

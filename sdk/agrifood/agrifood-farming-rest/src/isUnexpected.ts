@@ -424,7 +424,7 @@ import type {
   ZonesGetCascadeDeleteJobDetailsDefaultResponse,
   ZonesCreateCascadeDeleteJob202Response,
   ZonesCreateCascadeDeleteJobDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /application-data": ["200"],
