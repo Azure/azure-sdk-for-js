@@ -35,7 +35,6 @@ foreach($propertiesFile in $packageProperties) {
 
   $validChangeLog =  Confirm-ChangeLogEntry -ChangeLogLocation $PackageProp.ChangeLogPath -VersionString $PackageProp.Version -ForRelease $false
 
-  
   if (-not $validChangeLog) {
     $allPassing = $false
   }
