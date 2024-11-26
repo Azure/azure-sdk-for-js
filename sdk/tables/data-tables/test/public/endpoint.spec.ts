@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TableClient } from "../../src/TableClient";
-import { TableServiceClient } from "../../src/TableServiceClient";
+import { TableClient } from "../../src/TableClient.js";
+import { TableServiceClient } from "../../src/TableServiceClient.js";
 import { assert } from "chai";
 import type { TokenCredential } from "@azure/core-auth";
-import { COSMOS_SCOPE } from "../../src/utils/constants";
+import { COSMOS_SCOPE } from "../../src/utils/constants.js";
 
 export class FakeCredential implements TokenCredential {
   public lastScopes?: string | string[];

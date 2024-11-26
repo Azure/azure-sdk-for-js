@@ -3,7 +3,7 @@
 
 import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import { createEmptyPipeline, createHttpHeaders } from "@azure/core-rest-pipeline";
-import { apiVersionPolicy } from "../../src/utils/apiVersionPolicy";
+import { apiVersionPolicy } from "../../src/utils/apiVersionPolicy.js";
 import { assert } from "chai";
 
 describe("apiVersionPolicy", function () {

@@ -4,9 +4,9 @@
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 
 import type { Context } from "mocha";
-import type { TableClient } from "../../src";
+import type { TableClient } from "../../src/index.js";
 import { assert } from "chai";
-import { createTableClient } from "./utils/recordedClient";
+import { createTableClient } from "./utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
 
 describe(`Access Policy operations`, function () {
@@ -15,8 +15,8 @@ describe(`Access Policy operations`, function () {
   let recorder: Recorder;
   const tableName = `AccessPolicy`;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     client = await createTableClient(tableName, "AccountKey", recorder);
   });
 
@@ -24,9 +24,9 @@ describe(`Access Policy operations`, function () {
     await recorder.stop();
   });
 
-  before(async function (this: Context) {
+  before(async function (ctx) {
     if (!isNodeLike) {
-      this.skip();
+      ctx.skip();
     }
 
     if (!isPlaybackMode()) {

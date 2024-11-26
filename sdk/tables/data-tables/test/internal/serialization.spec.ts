@@ -6,9 +6,9 @@ import {
   deserializeSignedIdentifier,
   serialize,
   serializeSignedIdentifiers,
-} from "../../src/serialization";
+} from "../../src/serialization.js";
 
-import type { Edm } from "../../src";
+import type { Edm } from "../../src/index.js";
 import { assert } from "chai";
 
 interface Entity {

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { odata } from "../../src";
+import { odata } from "../../src/index.js";
 
 describe("odata", function () {
   it("should handle empty string", function () {

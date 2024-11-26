@@ -6,9 +6,9 @@ import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipel
 import { AzureNamedKeyCredential } from "@azure/core-auth";
 import type { Context } from "mocha";
 import { assert } from "chai";
-import { expectedSharedKeyLiteHeader } from "./fakeTestSecrets";
+import { expectedSharedKeyLiteHeader } from "./fakeTestSecrets.js";
 import { isNodeLike } from "@azure/core-util";
-import { tablesNamedKeyCredentialPolicy } from "../../src/tablesNamedCredentialPolicy";
+import { tablesNamedKeyCredentialPolicy } from "../../src/tablesNamedCredentialPolicy.js";
 
 describe("TablesSharedKeyCredential", function () {
   let originalToUTCString: () => string;
@@ -21,10 +21,10 @@ describe("TablesSharedKeyCredential", function () {
     Date.prototype.toUTCString = originalToUTCString;
   });
 
-  it("It should sign", async function (this: Context) {
+  it("It should sign", async function (ctx) {
     if (!isNodeLike) {
       // AzureNamedKeyCredential auth is not supported in Browser
-      this.skip();
+      ctx.skip();
     }
     const url =
       "https://testaccount.table.core.windows.net/tablename(PartitionKey='p1',RowKey='r1')";

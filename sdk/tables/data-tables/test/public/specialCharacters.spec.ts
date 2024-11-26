@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TableClient, TableEntityResult, TransactionAction } from "../../src";
-import { odata } from "../../src";
+import type { TableClient, TableEntityResult, TransactionAction } from "../../src/index.js";
+import { odata } from "../../src/index.js";
 
 import type { Context } from "mocha";
 import { assert } from "chai";
-import { createTableClient } from "./utils/recordedClient";
+import { createTableClient } from "./utils/recordedClient.js";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 
 describe("SpecialCharacters", function () {
-  before(function (this: Context) {
+  before(function (ctx) {
     if (!isLiveMode()) {
       // Only run in live tests to avoid unecessary extra time in CI
-      this.skip();
+      ctx.skip();
     }
   });
   let client: TableClient;
@@ -45,7 +45,7 @@ describe("SpecialCharacters", function () {
   ];
 
   describe("Single operations", function () {
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       client = await createTableClient(tableName, "TokenCredential");
     });
 
@@ -126,7 +126,7 @@ describe("SpecialCharacters", function () {
   });
 
   describe("Batch", function () {
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       client = await createTableClient(`${tableName}Batch`, "TokenCredential");
     });
 

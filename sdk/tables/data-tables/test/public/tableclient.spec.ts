@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { Edm, TableClient, TableEntity, TableEntityResult } from "../../src";
-import { odata } from "../../src";
+import type { Edm, TableClient, TableEntity, TableEntityResult } from "../../src/index.js";
+import { odata } from "../../src/index.js";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import type { Context } from "mocha";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { assert } from "@azure-tools/test-utils";
-import { createTableClient } from "./utils/recordedClient";
+import { createTableClient } from "./utils/recordedClient.js";
 
 describe("special characters", function () {
   const tableName = `SpecialChars`;
   let recorder: Recorder;
   let client: TableClient;
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     client = await createTableClient(tableName, "SASConnectionString", recorder);
   });
 
@@ -23,7 +23,7 @@ describe("special characters", function () {
     await recorder.stop();
   });
 
-  it("should handle partition and row keys with special chars", async function (this: Context) {
+  it("should handle partition and row keys with special chars", async function (ctx) {
     await client.createTable();
 
     try {
@@ -55,8 +55,8 @@ describe(`TableClient`, function () {
   const tableName = `tableClientTest${suffix}`;
   const listPartitionKey = "listEntitiesTest";
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     client = await createTableClient(tableName, "SASConnectionString", recorder);
   });
 
@@ -80,7 +80,7 @@ describe(`TableClient`, function () {
 
   describe("listEntities", function () {
     // Create required entities for testing list operations
-    before(async function (this: Context) {
+    before(async function (ctx) {
       unRecordedClient = await createTableClient(tableName, "SASConnectionString");
       if (!isPlaybackMode()) {
         this.timeout(10000);

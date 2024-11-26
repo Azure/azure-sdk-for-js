@@ -3,8 +3,8 @@
 
 import type { HttpClient, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { TableTransaction, parseTransactionResponse } from "../../src/TableTransaction";
-import { TableClient } from "../../src/TableClient";
+import { TableTransaction, parseTransactionResponse } from "../../src/TableTransaction.js";
+import { TableClient } from "../../src/TableClient.js";
 import { assert } from "chai";
 
 describe("TableTransaction", function () {

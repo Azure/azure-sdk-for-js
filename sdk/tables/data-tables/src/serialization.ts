@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { EdmTypes, SignedIdentifier, TableEntityQueryOptions } from "./models";
+import type { EdmTypes, SignedIdentifier, TableEntityQueryOptions } from "./models.js";
 import type {
   QueryOptions as GeneratedQueryOptions,
   SignedIdentifier as GeneratedSignedIdentifier,
-} from "./generated/models";
-import { base64Decode, base64Encode } from "./utils/bufferSerializer";
-import { truncatedISO8061Date } from "./utils/truncateISO8061Date";
+} from "./generated/models/index.js";
+import { base64Decode, base64Encode } from "./utils/bufferSerializer.js";
+import { truncatedISO8061Date } from "./utils/truncateISO8061Date.js";
 
 const propertyCaseMap: Map<string, string> = new Map<string, string>([
   ["PartitionKey", "partitionKey"],

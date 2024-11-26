@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureNamedKeyCredential, generateTableSas } from "../../../src";
+import { AzureNamedKeyCredential, generateTableSas } from "../../../src/index.js";
 
 import { assert } from "chai";
 

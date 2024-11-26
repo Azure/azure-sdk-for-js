@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { tablesSecondaryEndpointPolicy } from "../../src/secondaryEndpointPolicy";
+import { tablesSecondaryEndpointPolicy } from "../../src/secondaryEndpointPolicy.js";
 
 describe("tablesSecondaryEndpointPolicy", function () {
   it("should send the request to the secondary endpoint ", async function () {

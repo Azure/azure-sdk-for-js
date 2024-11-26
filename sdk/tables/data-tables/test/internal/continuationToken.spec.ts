@@ -4,7 +4,7 @@
 import {
   decodeContinuationToken,
   encodeContinuationToken,
-} from "../../src/utils/continuationToken";
+} from "../../src/utils/continuationToken.js";
 
 import { assert } from "chai";
 

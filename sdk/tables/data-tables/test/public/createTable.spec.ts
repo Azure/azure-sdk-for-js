@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RestError, TableClient, TableServiceClient } from "../../src";
+import { RestError, TableClient, TableServiceClient } from "../../src/index.js";
 
-import type { TableServiceErrorResponse } from "../../src/utils/errorHelpers";
+import type { TableServiceErrorResponse } from "../../src/utils/errorHelpers.js";
 import { assert } from "chai";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 

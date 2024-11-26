@@ -3,12 +3,12 @@
 
 import * as sinon from "sinon";
 import { Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
-import type { TableClient, TransactionAction } from "../../src";
-import { TableTransaction, odata } from "../../src";
+import type { TableClient, TransactionAction } from "../../src/index.js";
+import { TableTransaction, odata } from "../../src/index.js";
 import type { Context } from "mocha";
-import { Uuid } from "../../src/utils/uuid";
+import { Uuid } from "../../src/utils/uuid.js";
 import { assert } from "chai";
-import { createTableClient } from "./utils/recordedClient";
+import { createTableClient } from "./utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
 
 const partitionKey = "batchTest";
@@ -35,7 +35,7 @@ describe("concurrent batch operations", function () {
       await unRecordedClient.deleteTable();
     }
   });
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     sinon.stub(Uuid, "generateUuid").returns("fakeId");
     unRecordedClient = await createTableClient(concurrentTableName, "SASConnectionString");
   });
@@ -47,7 +47,7 @@ describe("concurrent batch operations", function () {
   it("should send concurrent transactions", async function () {
     // Only run this in live mode. Enable playback when https://github.com/Azure/azure-sdk-for-js/issues/24189 is fixed
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     await Promise.all([
       unRecordedClient.submitTransaction([
@@ -72,9 +72,9 @@ describe(`batch operations`, function () {
   let recorder: Recorder;
   const tableName = `batchTableTest${suffix}`;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     sinon.stub(Uuid, "generateUuid").returns("fakeId");
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     client = await createTableClient(tableName, "SASConnectionString", recorder);
   });
 
@@ -293,9 +293,9 @@ describe("Handle suberror", function () {
   let recorder: Recorder;
   const tableName = "noExistingTableError";
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     sinon.stub(Uuid, "generateUuid").returns("fakeId");
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     client = await createTableClient(tableName, "SASConnectionString", recorder);
   });
 
