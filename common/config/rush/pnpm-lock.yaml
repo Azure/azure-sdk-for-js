@@ -7770,10 +7770,11 @@ packages:
     resolution: {integrity: sha512-3FAuA0B1lS4DXNyOpD1Y+BjteVmnfX0WXUpsZ19aYykTk/GPz0kqnjzdApDiEe4sapreVeVSme2qTALnbHJb/A==}
     dev: false
 
-  /karma-firefox-launcher@1.3.0:
-    resolution: {integrity: sha512-Fi7xPhwrRgr+94BnHX0F5dCl1miIW4RHnzjIGxF8GaIEp7rNqX7LSi7ok63VXs3PS/5MQaQMhGxw+bvD+pibBQ==}
+  /karma-firefox-launcher@2.1.3:
+    resolution: {integrity: sha512-LMM2bseebLbYjODBOVt7TCPP9OI2vZIXCavIXhkO9m+10Uj5l7u/SKoeRmYx8FYHTVGZSpk6peX+3BMHC1WwNw==}
     dependencies:
       is-wsl: 2.2.0
+      which: 3.0.1
     dev: false
 
   /karma-ie-launcher@1.0.0(karma@6.4.4):
@@ -11395,6 +11396,14 @@ packages:
       isexe: 2.0.0
     dev: false
 
+  /which@3.0.1:
+    resolution: {integrity: sha512-XA1b62dzQzLfaEOSQFTCOd5KFf/1VSzZo7/7TUjnya6u0vGGKzU96UQBZTAThCb2j4/xjBAyii1OhRLJEivHvg==}
+    engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+    hasBin: true
+    dependencies:
+      isexe: 2.0.0
+    dev: false
+
   /why-is-node-running@2.3.0:
     resolution: {integrity: sha512-hUrmaWBdVDcxvYqnyh09zunKzROWjbZTiNy8dBEjkS7ehEDQibXJ7XvlmtbwuTclUiIyN+CyXQD4Vmko8fNm8w==}
     engines: {node: '>=8'}
@@ -11676,7 +11685,7 @@ packages:
     dev: false
 
   file:projects/agrifood-farming.tgz:
-    resolution: {integrity: sha512-P1oxadoKIWON1x9m1i9h+1RyiSH2YeY8l2+8s7k2uGuZ/ylJa3PaI5o20zO2ed4wSYcdjy9Sdouct+ftanZ2lQ==, tarball: file:projects/agrifood-farming.tgz}
+    resolution: {integrity: sha512-T2u6/U1Taf+UQZFVKjbe4SUjxgjzsIZ2n95+WKn7yu+qPwj7vuEiHHRslAZQGPIZ4+2JTj8evtzBkNtzdc8xug==, tarball: file:projects/agrifood-farming.tgz}
     name: '@rush-temp/agrifood-farming'
     version: 0.0.0
     dependencies:
@@ -11694,7 +11703,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-json-preprocessor: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter: 1.0.1
       karma-junit-reporter: 2.0.1(karma@6.4.4)
@@ -11719,7 +11728,7 @@ packages:
     dev: false
 
   file:projects/ai-anomaly-detector.tgz:
-    resolution: {integrity: sha512-q7yKHSXex1EhjzFp0wJb5loAIJodmPwkV9HXkEH5441wUhf8yG6xpOqgAdhqUIWNAOnGg/AP+m3aFc5wJti8Rw==, tarball: file:projects/ai-anomaly-detector.tgz}
+    resolution: {integrity: sha512-Vg9Ig9UyZPqzWR18l8yeVOm7lvMJNOmGjQNv+faB+FnfTCeORBZ/xEyXBM/gIJyaB1pM9IIA6RoAJ2yp3NU6LA==, tarball: file:projects/ai-anomaly-detector.tgz}
     name: '@rush-temp/ai-anomaly-detector'
     version: 0.0.0
     dependencies:
@@ -11739,7 +11748,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -11873,7 +11882,7 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-vnGDhMuYikI6gI5jmqidEx/Lq2ZNWJXXSoDt0Uj+vdi19kr22NlzxAsoIqRScrzNdNfNxmLJ6L+syONfpB7F5g==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-EBXzinBP+gU+pPWHZxAyHwbHVnUEwNUtT5zKziC9PBpBJAhN+If2ydDfSzm60VgY0m6xVuiq68UZB8bF7+TE1Q==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
@@ -11893,7 +11902,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -11959,7 +11968,7 @@ packages:
     dev: false
 
   file:projects/ai-language-conversations.tgz:
-    resolution: {integrity: sha512-1wUiycseCzUZWknJVYMl8CcvWZv0wz2QM7TbfFIkgzF76cKLag/iQdcRlz2Fqrec1an2lmbJdoncbrqQ/iQt5A==, tarball: file:projects/ai-language-conversations.tgz}
+    resolution: {integrity: sha512-XI06FmsZFJNP5OI6JTMo5ugJrKcepGhXlyGY8VwVDYlQDKNN+DUR0eK+J6hif3QS0RWZnhCZURqICMFrxjFErw==, tarball: file:projects/ai-language-conversations.tgz}
     name: '@rush-temp/ai-language-conversations'
     version: 0.0.0
     dependencies:
@@ -11979,7 +11988,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -12003,7 +12012,7 @@ packages:
     dev: false
 
   file:projects/ai-language-text.tgz:
-    resolution: {integrity: sha512-6C3jjNxEgVBUU20JjosTiobhkOlbsaBeUq+OJ0mXgqnm/Y3L5EhJz6zvG8MgM9Mj2yQPfX9VWCy4+Pn9Nkhslw==, tarball: file:projects/ai-language-text.tgz}
+    resolution: {integrity: sha512-9X7PLNIh261De3RD0N8VbHh/u96Gc6j3eiQEzgLeakHXl1UJGx6p97Gpe/SOqxt75fdsXx6mA3BJwpoayTD1KQ==, tarball: file:projects/ai-language-text.tgz}
     name: '@rush-temp/ai-language-text'
     version: 0.0.0
     dependencies:
@@ -12025,7 +12034,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -12074,7 +12083,7 @@ packages:
     dev: false
 
   file:projects/ai-metrics-advisor.tgz:
-    resolution: {integrity: sha512-tMpocDPS0zFDGjw7GUHbdqcOPEMWd3KM6fyio19pGdgqOK/YbBxJqHo+jv1Ev+WmtY9dgEH0wFAQdhcgS8xL8A==, tarball: file:projects/ai-metrics-advisor.tgz}
+    resolution: {integrity: sha512-jn39f8RDR/vv7W3R88kr3FmheVJBS+lAdSmlatM6LyGIpm4/IgXKlb/IDE+DtHtkmntkXzGTngDWHhoTYn2l7A==, tarball: file:projects/ai-metrics-advisor.tgz}
     name: '@rush-temp/ai-metrics-advisor'
     version: 0.0.0
     dependencies:
@@ -12093,7 +12102,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -12116,7 +12125,7 @@ packages:
     dev: false
 
   file:projects/ai-text-analytics.tgz:
-    resolution: {integrity: sha512-OW/5GziDDHpKVqzCGt8geKm0PUIWynI32o8r7f5L3RMxiuJ0TvDzhGEVvBSc3pMpkAPhCgMudul+MH8dYgPQyw==, tarball: file:projects/ai-text-analytics.tgz}
+    resolution: {integrity: sha512-ZMOZvwcAG+Gg2dwnR+a/4y5KcuGWw3zdgs7whycUlFpTfLNRJ7i9rCEN2uo4oQZITtC1XGyWDigdkgLMZxJgEA==, tarball: file:projects/ai-text-analytics.tgz}
     name: '@rush-temp/ai-text-analytics'
     version: 0.0.0
     dependencies:
@@ -12136,7 +12145,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -12160,7 +12169,7 @@ packages:
     dev: false
 
   file:projects/ai-translation-document.tgz:
-    resolution: {integrity: sha512-Ab59rauKcO/H7u7fQJ0DmNlyMycKybpGa1Wsaw9GNLpNJxh+ibmPDS44TaOAcFwxOLIadyxaj7vsrmXXkM5Ocg==, tarball: file:projects/ai-translation-document.tgz}
+    resolution: {integrity: sha512-yoBCF7jU6tqs56zEWqmxSrQFUyANWDN6MON5uafyNkK1R7Qno9wGNpCSqMOJUZ//Tkc82O0PXW7RAuw7l8VpIw==, tarball: file:projects/ai-translation-document.tgz}
     name: '@rush-temp/ai-translation-document'
     version: 0.0.0
     dependencies:
@@ -12177,7 +12186,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -12718,7 +12727,7 @@ packages:
     dev: false
 
   file:projects/arm-appservice.tgz:
-    resolution: {integrity: sha512-/12+8M/wSTl1dLbitKDDZ5P8wc/AsIWYcxrBc32J4Q5CuJpuB/3HLZzcpwRxzVSA/cU42CkFJZCeqP2NLD8X8g==, tarball: file:projects/arm-appservice.tgz}
+    resolution: {integrity: sha512-6FXHqHZEpNPMprA7DzLLcvlAWLcY5v2GFnmHOLGkE9wxv/PPeFA8c17G9D1CUYkWSH/Ig6xWjIce/+uLNkGHqw==, tarball: file:projects/arm-appservice.tgz}
     name: '@rush-temp/arm-appservice'
     version: 0.0.0
     dependencies:
@@ -12737,7 +12746,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -13363,7 +13372,7 @@ packages:
     dev: false
 
   file:projects/arm-compute.tgz:
-    resolution: {integrity: sha512-3Hd7irUdOomCcq/NBcEtZ8W5Zs8bVTdyJRdHEQ8AtaWeeTDXmb53L23rv7FdO45wdCRcSV3Bj3hDUTmzyyu4cA==, tarball: file:projects/arm-compute.tgz}
+    resolution: {integrity: sha512-xO63sO30JAuGb4JrtytEiqFmCmFy9fbF1koz77ZZGIXKNT1xCz7ojfyx/bvw1BqQOn/TbTonibqI0BbGYDYAZw==, tarball: file:projects/arm-compute.tgz}
     name: '@rush-temp/arm-compute'
     version: 0.0.0
     dependencies:
@@ -13383,7 +13392,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -13717,7 +13726,7 @@ packages:
     dev: false
 
   file:projects/arm-containerservice.tgz:
-    resolution: {integrity: sha512-sLPyIdVuNXcomUciuzbT8SaouI2o62FklL4Bf88gE8WdfNJkp89eDdAhIF/jpuZ7HgC4nY40uHmIoEeLTg/EXA==, tarball: file:projects/arm-containerservice.tgz}
+    resolution: {integrity: sha512-jeP/daGRsku5ktfFyNC3UhrPtnr1i4xqLPMsKKSWMZhy0u1AQIoB8JNak9YDZScQM/+oE2XKtzirERGMdA35DQ==, tarball: file:projects/arm-containerservice.tgz}
     name: '@rush-temp/arm-containerservice'
     version: 0.0.0
     dependencies:
@@ -13736,7 +13745,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -16255,7 +16264,7 @@ packages:
     dev: false
 
   file:projects/arm-network.tgz:
-    resolution: {integrity: sha512-HAbH+qL9GhfjLjle/Jf0NFuI9VvGPOehZgKn6VayITQ/BsjzWdWsMyYmSHjfqMLM/nInvOJL86H7PhEHIStvtg==, tarball: file:projects/arm-network.tgz}
+    resolution: {integrity: sha512-DzevbMVu9wMnsaM3IFSPZuQqm0HCUTP11UdiXErwtAsFycgqEgZSpiKVUxPOk8t3Xlm3rv/jaIf/umzesPG65Q==, tarball: file:projects/arm-network.tgz}
     name: '@rush-temp/arm-network'
     version: 0.0.0
     dependencies:
@@ -16274,7 +16283,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -17559,7 +17568,7 @@ packages:
     dev: false
 
   file:projects/arm-servicefabric.tgz:
-    resolution: {integrity: sha512-WkLdDtmnnB4qqqMm831cxqT1g34J3OrDTC0nQaQoDp8yUyEvf/62dTwudEQKdQApUAtyiRwsMdwRszsCftPXfw==, tarball: file:projects/arm-servicefabric.tgz}
+    resolution: {integrity: sha512-x69+FIWBgiSxd9By3q2iZv5EkGuHY2Vnof4rjodYDYjVZor83Ibxia7WgdKM5iPUt4ytr99rbxTTq5HLZX321g==, tarball: file:projects/arm-servicefabric.tgz}
     name: '@rush-temp/arm-servicefabric'
     version: 0.0.0
     dependencies:
@@ -17578,7 +17587,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -19248,7 +19257,7 @@ packages:
     dev: false
 
   file:projects/container-registry.tgz:
-    resolution: {integrity: sha512-wOBy57ibPwVg9mLPVbRhYqksFdU1cGGBeb3wZBm0YituGMP7LnO8U2iE5SvVEiBXHv0ADfLOTmrxPj/sOIXbgg==, tarball: file:projects/container-registry.tgz}
+    resolution: {integrity: sha512-OqITO/TMWza3AeETuc9wVLLfZgTD3CWl58tQ+NejouMEUalv/t+TkNEaUlubfdN6v43Xc3n2CeB5VmIni8UnsA==, tarball: file:projects/container-registry.tgz}
     name: '@rush-temp/container-registry'
     version: 0.0.0
     dependencies:
@@ -19266,7 +19275,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -19795,7 +19804,7 @@ packages:
     dev: false
 
   file:projects/data-tables.tgz:
-    resolution: {integrity: sha512-TmGqXF7zuQBOCNfWiN/P3OSqqZ/eymS6FXPMS5dBhJOfWM1PhHc7lMqnx4rA7RaxBHYuihYNztnIPV7eOMZYQA==, tarball: file:projects/data-tables.tgz}
+    resolution: {integrity: sha512-xODK4A1N6ov1xlxMr1oXEnY990Di6baXNlSEnh7YRKMICl2TPAYZIkTxuyDA79UHJnQJtbfbgFSc0TsSfYnmJg==, tarball: file:projects/data-tables.tgz}
     name: '@rush-temp/data-tables'
     version: 0.0.0
     dependencies:
@@ -19813,7 +19822,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -19836,7 +19845,7 @@ packages:
     dev: false
 
   file:projects/defender-easm.tgz:
-    resolution: {integrity: sha512-XR4jDRwVwSWsus6hDjmyVFkc7JniD2iVjqeni/bYugekiusoIp7igRkJannzZnhriU2fGNOsQjov3caAz1+L5w==, tarball: file:projects/defender-easm.tgz}
+    resolution: {integrity: sha512-MLAU13wRdZyx1md95NqJXLQx7CVsNC90D0xQb1VaqHNDEcElaggArHAFWeVDcdfnw5Wlt+TFa1RcfEOuyY/Bgw==, tarball: file:projects/defender-easm.tgz}
     name: '@rush-temp/defender-easm'
     version: 0.0.0
     dependencies:
@@ -19854,7 +19863,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-json-preprocessor: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter: 1.0.1
       karma-junit-reporter: 2.0.1(karma@6.4.4)
@@ -19992,7 +20001,7 @@ packages:
     dev: false
 
   file:projects/digital-twins-core.tgz:
-    resolution: {integrity: sha512-aF3848VYS1qA+wZJs/NgB1X3UOd6UOgqksqEoHZwruijB5AaeqfvEhwN997Lmkp2kMjPSl7sH5ObQLiqveWRnA==, tarball: file:projects/digital-twins-core.tgz}
+    resolution: {integrity: sha512-nKRSIQm5cqW1j4RbzNJUFNN91ChO4tzpWvV5CiBvWS6XteK20Y+ogMxj66r6/3GmKiaxKMKLTFbXZaYXpjXc1A==, tarball: file:projects/digital-twins-core.tgz}
     name: '@rush-temp/digital-twins-core'
     version: 0.0.0
     dependencies:
@@ -20011,7 +20020,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -20139,7 +20148,7 @@ packages:
     dev: false
 
   file:projects/eventgrid-namespaces.tgz:
-    resolution: {integrity: sha512-vz4DlGvIjf5AnZOkX6nssvhXCyKtnCaEqSMK87AvUXV+82oZkHoBUYS+uGUyvbc41QpKDhAFvlfJ3075zeqeGQ==, tarball: file:projects/eventgrid-namespaces.tgz}
+    resolution: {integrity: sha512-Wd58Mi30gLxzNV/3UQRMv8/cQAtIuZ42VA26P+B9zOLq0yVN336r1POexl2IqHfQ4YzHfI6gh0my7v1jB4v/BA==, tarball: file:projects/eventgrid-namespaces.tgz}
     name: '@rush-temp/eventgrid-namespaces'
     version: 0.0.0
     dependencies:
@@ -20161,7 +20170,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -20184,7 +20193,7 @@ packages:
     dev: false
 
   file:projects/eventgrid-system-events.tgz:
-    resolution: {integrity: sha512-AvJTix3adOZu+3Om1/NTt8WrXM7AEvsCBISWBxA/G7DIsAt71Dd1wXfJ0VHTyN09XHBtnlilw8v91XeI+OYfLQ==, tarball: file:projects/eventgrid-system-events.tgz}
+    resolution: {integrity: sha512-Tw1HTrvyfyTsDkGoctasSt5CUXyDQcjYSpYZcU9Vpqw47tUDeMP1Vr5dOMMsJ53Y3VzHCXlALCDDxHP3lk6zXw==, tarball: file:projects/eventgrid-system-events.tgz}
     name: '@rush-temp/eventgrid-system-events'
     version: 0.0.0
     dependencies:
@@ -20205,7 +20214,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -20229,7 +20238,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-Wu3hnv9c3SJxmn0fd+aGRpKC9gBptmVSaCYW5tXssbfaUukCNhoa6X8DkHmPCk54BZis7V4B4Y2LlIwT6RfsBg==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-/TNBsgSdupaAAeAhkkutA9OWjS+w5lX5OBmIiHqeEMfaH1j4ZZ2TeykFw9KFRFVA6fsaNxWCJeJ1fRvz2ovkYQ==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -20249,7 +20258,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -20366,7 +20375,7 @@ packages:
     dev: false
 
   file:projects/functions-authentication-events.tgz:
-    resolution: {integrity: sha512-itJGbhq6oASDQOvzRN9Fu8x/cb0lAOVo+xXXmIGdODdRWFOPxUQ+jIM+fvh7o+5IrsVD8u5deTC1azb8/BOFhg==, tarball: file:projects/functions-authentication-events.tgz}
+    resolution: {integrity: sha512-oFukFmJk2iIPQauvOB5HqP7CTjE7CbaLyi+szryLRSCDHcBc+mphI5f+q1Jk4GXWgXjQJXDhmJHUZog2FRn8HQ==, tarball: file:projects/functions-authentication-events.tgz}
     name: '@rush-temp/functions-authentication-events'
     version: 0.0.0
     dependencies:
@@ -20384,7 +20393,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-json-preprocessor: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter: 1.0.1
       karma-junit-reporter: 2.0.1(karma@6.4.4)
@@ -20713,7 +20722,7 @@ packages:
     dev: false
 
   file:projects/iot-device-update.tgz:
-    resolution: {integrity: sha512-chcE5/PejYYJo8iEsz2ycDxv/ZVpecALpQYbrR2HQI1jidzV2YD2JwHanxClVqUBoWsh/9KtWBc59tjOcbB/IA==, tarball: file:projects/iot-device-update.tgz}
+    resolution: {integrity: sha512-j+/7pjRuxaNdX1fkGEa6LLEMmGp6LDV6z5RimV7GRnBRVlrYBgK3bfd4YdqYdNrg5Z4aksGwIcU+dt4Q+/yzRg==, tarball: file:projects/iot-device-update.tgz}
     name: '@rush-temp/iot-device-update'
     version: 0.0.0
     dependencies:
@@ -20731,7 +20740,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-json-preprocessor: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter: 1.0.1
       karma-junit-reporter: 2.0.1(karma@6.4.4)
@@ -21255,7 +21264,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-authentication.tgz:
-    resolution: {integrity: sha512-3oEtedYQWqsu6CcXIdRArmA/BDyKw0z7JJK2ZClXwsrrSChe21w33/rn0O1/5On5D6adAxHj/yVeNJpya+N1Cg==, tarball: file:projects/mixed-reality-authentication.tgz}
+    resolution: {integrity: sha512-hIZoFTkE8J6rHj93GQHuFB05PUPHWq+LiWgFIacamW2tTo1Ej1Q1+04Y4RUdZiaUTEPrrWgVM2hKKclbLO2pTA==, tarball: file:projects/mixed-reality-authentication.tgz}
     name: '@rush-temp/mixed-reality-authentication'
     version: 0.0.0
     dependencies:
@@ -21274,7 +21283,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -21296,7 +21305,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
-    resolution: {integrity: sha512-oRY18e2LnLfvlnwWYOKGsiDe6/Sd1XJl/IHWpJ8pAgywNe5S2/GGsP8LZDBVmN05YBjnZV89R0QUJFxSBul+lg==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-LR01bnuhUjLmqWd+4Ti/9Dywdu8VzgOZEi8mjK9OX0DQeXH9BItASAMtCrmzSwffCdEORSMg8jbFXb1wAjFO/w==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
@@ -21316,7 +21325,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-json-preprocessor: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter: 1.0.1
       karma-junit-reporter: 2.0.1(karma@6.4.4)
@@ -22331,7 +22340,7 @@ packages:
     dev: false
 
   file:projects/quantum-jobs.tgz:
-    resolution: {integrity: sha512-7t0BJaiAPuiDKNgRvOYijVm/Nd8OdjCrk2UhxSYDCVAaJkxRcbNExsrj1RLHv7LrmDbg3AcKymMM+dP9KPBAeA==, tarball: file:projects/quantum-jobs.tgz}
+    resolution: {integrity: sha512-1klhp8mezs4wRSJHc86lzMqH4vCtP8AEgdnPWyyQ54FhWw8xpHjBXDxNffumdJDlI+ZpOawvsczRsqMR7Wgw+w==, tarball: file:projects/quantum-jobs.tgz}
     name: '@rush-temp/quantum-jobs'
     version: 0.0.0
     dependencies:
@@ -22350,7 +22359,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -22419,7 +22428,7 @@ packages:
     dev: false
 
   file:projects/schema-registry-json.tgz:
-    resolution: {integrity: sha512-+04dC5VJEQCu+S7YYq/2j+f59MtvVfBy/tt38oeS6sqnce/k3GeXVOOvdHs9iAtghp33OK56GqXiSOnL3V6tPw==, tarball: file:projects/schema-registry-json.tgz}
+    resolution: {integrity: sha512-J/R0tUT5fzAYXoYtTWaKf37oo5dSMJhebBHhfdnMMAxkKfO78DVwIMadUE91wv2CZ4p56zPefORTsWErHNPNww==, tarball: file:projects/schema-registry-json.tgz}
     name: '@rush-temp/schema-registry-json'
     version: 0.0.0
     dependencies:
@@ -22435,7 +22444,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-json-preprocessor: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter: 1.0.1
       karma-junit-reporter: 2.0.1(karma@6.4.4)
@@ -22459,7 +22468,7 @@ packages:
     dev: false
 
   file:projects/schema-registry.tgz:
-    resolution: {integrity: sha512-FUgpf2fv08rxi0qzUB1wK4yoAbsAvcHJpxCsCteBgTIZCRS0AYot/AFJRksEMCVkJ8/TBj12aSg/NAYAUBGHzQ==, tarball: file:projects/schema-registry.tgz}
+    resolution: {integrity: sha512-cV1YfaW7G3fU0JPawhjZA5suunxV4Sc9ROHcGzFYcBG2MkVqltpKmLXGYPPwwTUEV7n+YV7p0HNnSL7B5qC/UQ==, tarball: file:projects/schema-registry.tgz}
     name: '@rush-temp/schema-registry'
     version: 0.0.0
     dependencies:
@@ -22473,7 +22482,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-json-preprocessor: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter: 1.0.1
       karma-junit-reporter: 2.0.1(karma@6.4.4)
@@ -22496,7 +22505,7 @@ packages:
     dev: false
 
   file:projects/search-documents.tgz:
-    resolution: {integrity: sha512-6DIKtC5IocI0eB9weBWdB447cdsRXbagOeSGpXWtpqThYzMmeagZw42XyGazuc+GvYVYnPMSZvbzV6QA4AwX7A==, tarball: file:projects/search-documents.tgz}
+    resolution: {integrity: sha512-8YCD+t6qJKJwWqQ/Naao8ExK2lQjxDtpDL4YUmK6k312+QN7zwxzDkRYEcnIjm3F2EvcGcY3yUiMbDIIl9QCkQ==, tarball: file:projects/search-documents.tgz}
     name: '@rush-temp/search-documents'
     version: 0.0.0
     dependencies:
@@ -22515,7 +22524,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-json-preprocessor: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter: 1.0.1
       karma-junit-reporter: 2.0.1(karma@6.4.4)
@@ -22598,7 +22607,7 @@ packages:
     dev: false
 
   file:projects/storage-blob-changefeed.tgz:
-    resolution: {integrity: sha512-ulb7cStYuBYLz5klWzekE1UG2EGSPjv5VqYpaBmA73FZHcjYXumEFAsnGOdUxJFL2/mJAUHJ2nutM3jWLwoH/g==, tarball: file:projects/storage-blob-changefeed.tgz}
+    resolution: {integrity: sha512-rChvDY+jZ3y66M9WZpo3RXw66M63Ke4wdaRyCgyYQ/xEWQv8SVzha5u/cAf/eEDzo+dqdz7Nit8voOAWS5Fo4A==, tarball: file:projects/storage-blob-changefeed.tgz}
     name: '@rush-temp/storage-blob-changefeed'
     version: 0.0.0
     dependencies:
@@ -22618,7 +22627,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-json-preprocessor: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter: 1.0.1
       karma-junit-reporter: 2.0.1(karma@6.4.4)
@@ -22645,7 +22654,7 @@ packages:
     dev: false
 
   file:projects/storage-blob.tgz:
-    resolution: {integrity: sha512-tLXMghK2zBAg2Xu7p8ZD7UWDt1+h72wfHikoECrSHNPY33/mEj3yHis8XgnsczYKdXKY0PaV5YD8/sfIDS8sUg==, tarball: file:projects/storage-blob.tgz}
+    resolution: {integrity: sha512-GM0+E284qr6AcJ08tcb2AcizAP6optptQOXpMpJxJVBsoFuYUVyghZtk6mEE992MJV8SRc+guWscppusRF6JfA==, tarball: file:projects/storage-blob.tgz}
     name: '@rush-temp/storage-blob'
     version: 0.0.0
     dependencies:
@@ -22665,7 +22674,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -22689,7 +22698,7 @@ packages:
     dev: false
 
   file:projects/storage-file-datalake.tgz:
-    resolution: {integrity: sha512-FVV+PJzMPt7z/pAYIE+3/XbfTv9nR1icrxKEnPtNjNiu1SIFzxoqsSfyzWEhM3OaDxw7cGkn5CVEb1dGo0yoRA==, tarball: file:projects/storage-file-datalake.tgz}
+    resolution: {integrity: sha512-yAoj31VtAud8gXiyicLgx/40rpFcpXg61eD88ARTkePcL6gGyqNAM8gtIaKA2/8rvHqSUpZWWvwL3ZDicjj1qA==, tarball: file:projects/storage-file-datalake.tgz}
     name: '@rush-temp/storage-file-datalake'
     version: 0.0.0
     dependencies:
@@ -22710,7 +22719,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-ie-launcher: 1.0.0(karma@6.4.4)
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
@@ -22736,7 +22745,7 @@ packages:
     dev: false
 
   file:projects/storage-file-share.tgz:
-    resolution: {integrity: sha512-UIGe6OIq8WYfDcVyTGSBN+NoU0a62Gp8CPRLfLLdhyewy7MtMfQeQeqsJA0UheHGE7KiVMdEJ1Y7CqVnVBT4+A==, tarball: file:projects/storage-file-share.tgz}
+    resolution: {integrity: sha512-3wsuOatFgt/+CNvfmLQqXyj27WiDouP9EBW18/ylo2g+6qsjma4e/vERPG7bHqjaP9aroE4o/s3/9SEZN/1mBQ==, tarball: file:projects/storage-file-share.tgz}
     name: '@rush-temp/storage-file-share'
     version: 0.0.0
     dependencies:
@@ -22756,7 +22765,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -22781,7 +22790,7 @@ packages:
     dev: false
 
   file:projects/storage-internal-avro.tgz:
-    resolution: {integrity: sha512-SglqrWttikVc/VLAUSYZRqf4RVhpgsPsdjOPva54swsUWeSIvWte7s/5WM3O6QgtrGA27RVFzXzYWwf9yzlAyg==, tarball: file:projects/storage-internal-avro.tgz}
+    resolution: {integrity: sha512-2/b7G0Iiufhu4j2foCdmSudSu8K2sJQXezR2aT5k/yaBAXNmwyWv0GRGIj2yTJwr6mevb4SzZxG7P5sSxboBbw==, tarball: file:projects/storage-internal-avro.tgz}
     name: '@rush-temp/storage-internal-avro'
     version: 0.0.0
     dependencies:
@@ -22797,7 +22806,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -22821,7 +22830,7 @@ packages:
     dev: false
 
   file:projects/storage-queue.tgz:
-    resolution: {integrity: sha512-5eSIt9TpDfdl5IHCDEjtBqAe+1Ipe/bEju6w4pdLRo7/j/dcOrewCOj+c96FLKsU334aj4qhvZ0/5TQqyxizpw==, tarball: file:projects/storage-queue.tgz}
+    resolution: {integrity: sha512-Bzntrsw6BeXydXyVg8GShcAqGlhTyIk41mXoir+ySY1FhNavDbHmfapDnw7zICn3OOLhL5fCeNRupxB174Giow==, tarball: file:projects/storage-queue.tgz}
     name: '@rush-temp/storage-queue'
     version: 0.0.0
     dependencies:
@@ -22839,7 +22848,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-junit-reporter: 2.0.1(karma@6.4.4)
       karma-mocha: 2.0.1
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
@@ -23402,7 +23411,7 @@ packages:
     dev: false
 
   file:projects/web-pubsub-client.tgz:
-    resolution: {integrity: sha512-LWe1BoHWv+zoZwWKDcUy0JZVANS0qXr6zb180RuXyo6jhcFEdVBAYyqN0GFb7WuMydN83bMv2h6Ws/bEqGXPzQ==, tarball: file:projects/web-pubsub-client.tgz}
+    resolution: {integrity: sha512-FHqP4W6QpMWigQ7+hjxfb44bM2fSiYx2KtnjvFgrafi5fYxefEN5jIZa/8sm0w1n5P9EUL6b7qi84ennhGMAhw==, tarball: file:projects/web-pubsub-client.tgz}
     name: '@rush-temp/web-pubsub-client'
     version: 0.0.0
     dependencies:
@@ -23424,7 +23433,7 @@ packages:
       karma-chrome-launcher: 3.2.0
       karma-coverage: 2.2.1
       karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 1.3.0
+      karma-firefox-launcher: 2.1.3
       karma-json-preprocessor: 0.3.3(karma@6.4.4)
       karma-json-to-file-reporter: 1.0.1
       karma-junit-reporter: 2.0.1(karma@6.4.4)
