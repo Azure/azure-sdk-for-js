@@ -33,12 +33,15 @@ describe("concurrent batch operations", function () {
     }
   });
   beforeEach(async function (ctx) {
-    sinon.stub(Uuid, "generateUuid").returns("fakeId");
+    
+                  vi.spyOn(Uuid, "generateUuid")
+                  .mockReturnValue("fakeId")
+                ;
     unRecordedClient = await createTableClient(concurrentTableName, "SASConnectionString");
   });
 
   afterEach(async function () {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("should send concurrent transactions", async function () {
@@ -70,13 +73,16 @@ describe(`batch operations`, function () {
   const tableName = `batchTableTest${suffix}`;
 
   beforeEach(async function (ctx) {
-    sinon.stub(Uuid, "generateUuid").returns("fakeId");
+    
+                  vi.spyOn(Uuid, "generateUuid")
+                  .mockReturnValue("fakeId")
+                ;
     recorder = new Recorder(ctx);
     client = await createTableClient(tableName, "SASConnectionString", recorder);
   });
 
   afterEach(async function () {
-    sinon.restore();
+    vi.restoreAllMocks();
     await recorder.stop();
   });
 
@@ -291,13 +297,16 @@ describe("Handle suberror", function () {
   const tableName = "noExistingTableError";
 
   beforeEach(async function (ctx) {
-    sinon.stub(Uuid, "generateUuid").returns("fakeId");
+    
+                  vi.spyOn(Uuid, "generateUuid")
+                  .mockReturnValue("fakeId")
+                ;
     recorder = new Recorder(ctx);
     client = await createTableClient(tableName, "SASConnectionString", recorder);
   });
 
   afterEach(async function () {
-    sinon.restore();
+    vi.restoreAllMocks();
     await recorder.stop();
   });
 
