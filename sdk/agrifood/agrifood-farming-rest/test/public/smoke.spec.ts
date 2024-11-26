@@ -3,10 +3,8 @@
 import type { FarmBeatsClient, Party, PartiesListParameters } from "../../src/index.js";
 import { paginate } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
-
-import { assert } from "chai";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-import type { Context } from "mocha";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const partyId = "contoso-party-js";
 const boundaryId = "test-boundary";
