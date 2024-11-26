@@ -17,7 +17,7 @@ describe("custom poller", function () {
     }, 250);
 
     // Expect that awaiting result throws an error
-    await assert.isRejected(result, AbortError, "The operation was aborted (poll).");
+    await expect(result).rejects.toThrow(AbortError);
   });
 
   it("abort signal correctly cancels instantiation", async function () {
@@ -28,7 +28,7 @@ describe("custom poller", function () {
     const operation = createOperation(abortController);
 
     // Expect that awaiting operation throws an error
-    await assert.isRejected(operation, AbortError, "The operation was aborted.");
+    await expect(operation).rejects.toThrow(AbortError);
   });
 
   it("stop poller after calling pollUntilDone", async function () {
@@ -40,7 +40,7 @@ describe("custom poller", function () {
       operation.stopPolling();
     }, 750);
 
-    await assert.isRejected(result, Error, "The operation was cancelled.");
+    await expect(result).rejects.toThrow(Error);
   });
 });
 

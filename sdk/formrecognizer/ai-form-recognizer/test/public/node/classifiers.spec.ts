@@ -161,11 +161,9 @@ matrix([[true, false]] as const, async (useAad) => {
       }
 
       // Try to get the classifier and assert that it's gone
-      await assert.isRejected(
-        (async function () {
-          await trainingClient.getDocumentClassifier(_classifierId);
-        })(),
-      );
+      await expect((async function () {
+    await trainingClient.getDocumentClassifier(_classifierId);
+})()).rejects.toThrow();
     });
   });
 });
