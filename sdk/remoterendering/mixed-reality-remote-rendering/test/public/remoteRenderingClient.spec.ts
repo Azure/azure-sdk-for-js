@@ -17,9 +17,8 @@ import { KnownAssetConversionStatus, RemoteRenderingClient } from "../../src/ind
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createClient, createRecorder, recorderStartOptions } from "../utils/recordedClient.js";
-
 import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 /// No need to wait when polling in playback mode.
 const pollerSettings = isPlaybackMode() ? { intervalInMs: 1 } : {};
@@ -103,13 +102,13 @@ describe("RemoteRendering functional tests", () => {
   let client: RemoteRenderingClient;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
-    recorder = createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = createRecorder(ctx);
     await recorder.start(recorderStartOptions);
     client = createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     // Stop the recording.
     await recorder.stop();
   });

@@ -2,9 +2,8 @@
 // Licensed under the MIT License.
 import type { AccessToken } from "@azure/core-auth";
 import { AzureKeyCredential } from "@azure/core-auth";
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
-
 import { RemoteRenderingClient } from "../../src/index.js";
 
 // When the recorder observes the values of these environment variables
@@ -69,6 +68,6 @@ export function createClient(recorder: Recorder): RemoteRenderingClient {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export function createRecorder(context: Context): Recorder {
-  return new Recorder(context.currentTest);
+export function createRecorder(context: TestInfo): Recorder {
+  return new Recorder(context);
 }
