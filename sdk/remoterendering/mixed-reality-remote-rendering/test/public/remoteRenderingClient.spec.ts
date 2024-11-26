@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { RestError } from "@azure/core-rest-pipeline";
 
@@ -22,6 +19,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import { createClient, createRecorder, recorderStartOptions } from "../utils/recordedClient.js";
 
 import { assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 /// No need to wait when polling in playback mode.
 const pollerSettings = isPlaybackMode() ? { intervalInMs: 1 } : {};
