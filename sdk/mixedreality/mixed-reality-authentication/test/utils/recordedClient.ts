@@ -4,7 +4,6 @@
 import "./env.js";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import type { Context } from "mocha";
 import type { MixedRealityStsClientOptions } from "../../src/index.js";
 import { AzureKeyCredential, MixedRealityStsClient } from "../../src/index.js";
 

@@ -3,10 +3,9 @@
 
 import { AzureKeyCredential, MixedRealityStsClient } from "../src/index.js";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createTokenCredentialFromMRKeyCredential } from "./utils/tokenCredentialHelper.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("MixedRealityStsClient", () => {
   const accountDomain = "mixedreality.azure.com";
