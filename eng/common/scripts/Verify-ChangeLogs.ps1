@@ -27,8 +27,8 @@ $allPassing = $true
 foreach ($propertiesFile in $packageProperties) {
   $PackageProp = Get-Content -Path $propertiesFile | ConvertFrom-Json
   if (-not (ShouldVerifyChangeLog $PackageProp.ArtifactDetails)) {
-    Write-Host "Skipping changelog verification for $($PackageProp.Name)"
-    continue
+        Write-Host "Skipping changelog verification for $($PackageProp.Name)"
+        continue
   }
   $validChangeLog = Confirm-ChangeLogEntry -ChangeLogLocation $PackageProp.ChangeLogPath -VersionString $PackageProp.Version -ForRelease $false
   if (-not $validChangeLog) {
