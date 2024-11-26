@@ -4204,7 +4204,7 @@ packages:
       graphemer: 1.4.0
       ignore: 5.3.2
       natural-compare: 1.4.0
-      ts-api-utils: 1.4.1(typescript@5.6.3)
+      ts-api-utils: 1.4.2(typescript@5.6.3)
       typescript: 5.6.3
     transitivePeerDependencies:
       - supports-color
@@ -4271,7 +4271,7 @@ packages:
       '@typescript-eslint/utils': 8.15.0(eslint@9.15.0)(typescript@5.6.3)
       debug: 4.3.7(supports-color@8.1.1)
       eslint: 9.15.0
-      ts-api-utils: 1.4.1(typescript@5.6.3)
+      ts-api-utils: 1.4.2(typescript@5.6.3)
       typescript: 5.6.3
     transitivePeerDependencies:
       - supports-color
@@ -4298,7 +4298,7 @@ packages:
       is-glob: 4.0.3
       minimatch: 9.0.5
       semver: 7.6.3
-      ts-api-utils: 1.4.1(typescript@5.6.3)
+      ts-api-utils: 1.4.2(typescript@5.6.3)
       typescript: 5.6.3
     transitivePeerDependencies:
       - supports-color
@@ -9231,8 +9231,8 @@ packages:
     hasBin: true
     dev: false
 
-  /prettier@3.3.3:
-    resolution: {integrity: sha512-i2tDNA0O5IrMO757lfrdQZCc2jPNDVntV0m/+4whiDfWaTKfMNgR7Qz0NAeGz/nRqF4m5/6CLzbP4/liHt12Ew==}
+  /prettier@3.4.0:
+    resolution: {integrity: sha512-/OXNZcLyWkfo13ofOW5M7SLh+k5pnIs07owXK2teFpnfaOEcycnSy7HQxldaVX1ZP/7Q8oO1eDuQJNwbomQq5Q==}
     engines: {node: '>=14'}
     hasBin: true
     dev: false
@@ -10543,8 +10543,8 @@ packages:
     engines: {node: '>= 14.0.0'}
     dev: false
 
-  /ts-api-utils@1.4.1(typescript@5.6.3):
-    resolution: {integrity: sha512-5RU2/lxTA3YUZxju61HO2U6EoZLvBLtmV2mbTvqyu4a/7s7RmJPT+1YekhMVsQhznRWk/czIwDUg+V8Q9ZuG4w==}
+  /ts-api-utils@1.4.2(typescript@5.6.3):
+    resolution: {integrity: sha512-ZF5gQIQa/UmzfvxbHZI3JXN0/Jt+vnAfAviNRAMc491laiK6YCLpCW9ft8oaCRFOTxCZtUTE6XB0ZQAe3olntw==}
     engines: {node: '>=16'}
     peerDependencies:
       typescript: '>=4.2.0'
@@ -11803,7 +11803,7 @@ packages:
       dotenv: 16.4.5
       eslint: 9.15.0
       playwright: 1.49.0
-      prettier: 3.3.3
+      prettier: 3.4.0
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.66)(@vitest/browser@2.1.5)
@@ -11894,7 +11894,7 @@ packages:
       magic-string: 0.30.13
       mocha: 10.8.2
       nyc: 17.1.0
-      prettier: 3.3.3
+      prettier: 3.4.0
       rollup: 4.27.4
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.66)(typescript@5.6.3)
@@ -12240,7 +12240,7 @@ packages:
       dotenv: 16.4.5
       eslint: 9.15.0
       playwright: 1.49.0
-      prettier: 3.3.3
+      prettier: 3.4.0
       tshy: 1.18.0
       tslib: 2.8.1
       typescript: 5.6.3
@@ -12322,7 +12322,7 @@ packages:
       inquirer: 9.3.7
       magic-string: 0.30.13
       mustache: 4.2.0
-      prettier: 3.3.3
+      prettier: 3.4.0
       rollup: 4.27.4
       tslib: 2.8.1
       typescript: 5.6.3
@@ -13444,7 +13444,7 @@ packages:
       dotenv: 16.4.5
       eslint: 8.57.1
       playwright: 1.49.0
-      prettier: 3.3.3
+      prettier: 3.4.0
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.66)(@vitest/browser@2.1.5)
@@ -14776,7 +14776,7 @@ packages:
       dotenv: 16.4.5
       eslint: 8.57.1
       playwright: 1.49.0
-      prettier: 3.3.3
+      prettier: 3.4.0
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.66)(@vitest/browser@2.1.5)
@@ -15074,7 +15074,7 @@ packages:
       dotenv: 16.4.5
       eslint: 9.15.0
       playwright: 1.49.0
-      prettier: 3.3.3
+      prettier: 3.4.0
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.66)(@vitest/browser@2.1.5)
@@ -16032,7 +16032,7 @@ packages:
       dotenv: 16.4.5
       eslint: 8.57.1
       playwright: 1.49.0
-      prettier: 3.3.3
+      prettier: 3.4.0
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.66)(@vitest/browser@2.1.5)
@@ -17840,7 +17840,7 @@ packages:
       dotenv: 16.4.5
       eslint: 8.57.1
       playwright: 1.49.0
-      prettier: 3.3.3
+      prettier: 3.4.0
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.5(@types/node@18.19.66)(@vitest/browser@2.1.5)
@@ -18576,7 +18576,7 @@ packages:
       loupe: 3.1.2
       moment: 2.30.1
       playwright: 1.49.0
-      prettier: 3.3.3
+      prettier: 3.4.0
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 1.6.0(@types/node@18.19.66)(@vitest/browser@1.6.0)
@@ -19910,7 +19910,7 @@ packages:
       fs-extra: 11.2.0
       minimist: 1.2.8
       mkdirp: 3.0.1
-      prettier: 3.3.3
+      prettier: 3.4.0
       rimraf: 5.0.10
       rollup: 4.27.4
       rollup-plugin-polyfill-node: 0.13.0(rollup@4.27.4)
@@ -20054,7 +20054,7 @@ packages:
       eslint-plugin-promise: 6.6.0(eslint@9.15.0)
       eslint-plugin-tsdoc: 0.2.17
       glob: 10.4.5
-      prettier: 3.3.3
+      prettier: 3.4.0
       rimraf: 5.0.10
       source-map-support: 0.5.21
       tslib: 2.8.1
@@ -23346,7 +23346,7 @@ packages:
       '@eslint/js': 9.15.0
       '@types/node': 18.19.66
       eslint: 9.15.0
-      prettier: 3.3.3
+      prettier: 3.4.0
       rimraf: 5.0.10
       tslib: 2.8.1
       typescript: 5.6.3
