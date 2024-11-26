@@ -10,18 +10,35 @@ steps:
 
   - ${{ if eq(parameters.Registry, 'https://registry.npmjs.org/') }}:
     - pwsh: |
+        Set-PSDebug -Trace 1
         $tarFile = (Get-ChildItem -Path "${{parameters.PathToArtifacts}}/*.tgz").FullName
         $tempDir = "$(System.DefaultWorkingDirectory)/temp_decompress"
         New-Item -ItemType Directory -Force -Path $tempDir
         tar -xzf $tarFile -C $tempDir
-        $packageJsonDir = "$tempDir\package\package.json"
+        $packageJsonDir = "$tempDir/package/package.json"
         $pkg = Get-Content -Raw "$packageJsonDir" | ConvertFrom-Json
-        $packageName = $pkg.Name
+        $packageName = "@azure/testestestestetsetset"
         $packageVersion = $pkg.Version
-        $packageProps = npm view $packageName -json | ConvertFrom-Json
-        $originalTags = $packageProps.'dist-tags' | ConvertTo-Json -Compress
+        $packageProps = npm view $packageName -json -silent | ConvertFrom-Json
+        $LASTEXITCODE = 0
+        $originalTags = "{}"
+        if ($packageProps.error) {
+          write-host $($packageProps.error)
+          if ($packageProps.error.code -ne "E404") {
+            write-host "inside if"
+            Write-Error $packageProps.error
+            exit 1
+          }
+        }
+        else {
+          write-host "inside else"
+          $originalTags = $packageProps.'dist-tags' | ConvertTo-Json -Compress
+        }
+        write-host "before vso"
         echo "##vso[task.setvariable variable=PackageName]$packageName"
+        write-host "vso 1"
         echo "##vso[task.setvariable variable=OriginalTags]$originalTags"
+        write-host "vso 2"
         echo "##vso[task.setvariable variable=IntendedTagVersion]$packageVersion"
       displayName: Get original tags
 
