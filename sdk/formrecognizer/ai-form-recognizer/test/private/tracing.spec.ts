@@ -9,6 +9,9 @@ import type { OperationTracingOptions } from "@azure/core-tracing";
 import type { CopyAuthorization } from "../../src/generated/index.js";
 import type { FormRecognizerRequestBody } from "../../src/lro/analysis.js";
 import { describe, it, assert } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+
+expect.extend({ toSupportTracing })
 
 // #region FakeClient
 
