@@ -271,16 +271,15 @@ class MPTReporter implements Reporter {
       this.testResultBatch.add(testResultObject);
       // Store test attachments in array
       const testAttachments: string[] = [];
-      const regionAndSessionIdAttachment: any[] = [];
+      const otherAttachments: any[] = [];
       for (const attachment of result.attachments) {
-        if (attachment.name === "Region" || attachment.name === "SessionId") {
-          regionAndSessionIdAttachment.push(attachment);
-          this.uploadMetadata.numTotalAttachments++;
-        }
         if (attachment.path !== undefined && attachment.path !== "") {
           testAttachments.push(attachment.path);
           this.uploadMetadata.numTotalAttachments++;
           this.uploadMetadata.sizeTotalAttachments += ReporterUtils.getFileSize(attachment.path);
+        } else if (attachment.body instanceof Buffer) {
+          otherAttachments.push(attachment);
+          this.uploadMetadata.numTotalAttachments++;
         }
       }
 
@@ -291,7 +290,7 @@ class MPTReporter implements Reporter {
         this._uploadTestResultAttachments(
           testResultObject.testExecutionId,
           testAttachments,
-          regionAndSessionIdAttachment,
+          otherAttachments,
         ),
       );
     } catch (err: any) {
@@ -322,7 +321,7 @@ class MPTReporter implements Reporter {
   private async _uploadTestResultAttachments(
     testExecutionId: string,
     testAttachments: string[],
-    regionAndSessionIdAttachment: any[],
+    otherAttachments: any[],
   ): Promise<void> {
     try {
       this.isTestRunStartSuccess = await this.promiseOnBegin;
@@ -330,45 +329,38 @@ class MPTReporter implements Reporter {
         this._addError(`\nUnable to initialize test run report.`);
         return;
       }
-      for (const attachmentPath of testAttachments) {
-        const fileRelativePath = `${testExecutionId}/${ReporterUtils.getFileRelativePath(
-          attachmentPath,
-        )}`;
+
+      const renewSasUriIfNeeded = async (): Promise<void> => {
         if (
           this.sasUri === undefined ||
           !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri)
         ) {
-          // Renew the sas uri
           this.sasUri = await this.serviceClient.createStorageUri();
           reporterLogger.info(
             `\nFetched SAS URI with validity: ${this.sasUri.expiresAt} and access: ${this.sasUri.accessLevel}.`,
           );
         }
-        await this.storageClient.uploadFile(this.sasUri.uri, attachmentPath, fileRelativePath);
+      };
+
+      for (const attachmentPath of testAttachments) {
+        const fileRelativePath = `${testExecutionId}/${ReporterUtils.getFileRelativePath(attachmentPath)}`;
+        await renewSasUriIfNeeded();
+        await this.storageClient.uploadFileAsync(this.sasUri.uri, attachmentPath, fileRelativePath);
       }
-      for (const regionAndSessionId of regionAndSessionIdAttachment) {
-        if (
-          this.sasUri === undefined ||
-          !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri)
-        ) {
-          // Renew the sas uri
-          this.sasUri = await this.serviceClient.createStorageUri();
-        }
-        await this.storageClient.uploadBuffer(
+
+      for (const otherAttachment of otherAttachments) {
+        await renewSasUriIfNeeded();
+        const charset = otherAttachment.contentType.match(/charset=(.*)/)?.[1];
+        await this.storageClient.uploadBufferAsync(
           this.sasUri.uri,
-          regionAndSessionId.body.toString("utf-8"),
-          `${testExecutionId}/${regionAndSessionId.name}.txt`,
+          otherAttachment.body.toString((charset as any) || "utf-8"),
+          `${testExecutionId}/${otherAttachment.name}.txt`,
         );
       }
+
       const rawTestResult = this.testRawResults.get(testExecutionId);
-      if (
-        this.sasUri === undefined ||
-        !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri)
-      ) {
-        // Renew the sas uri
-        this.sasUri = await this.serviceClient.createStorageUri();
-      }
-      await this.storageClient.uploadBuffer(
+      await renewSasUriIfNeeded();
+      await this.storageClient.uploadBufferAsync(
         this.sasUri.uri,
         rawTestResult[0]!,
         `${testExecutionId}/rawTestResult.json`,
