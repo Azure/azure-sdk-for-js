@@ -34,7 +34,7 @@ import type {
   AtlasTypesDefOutput,
   AtlasTypeDefHeaderOutput,
   TermTemplateDefOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface EntityCreateOrUpdate200Response extends HttpResponse {

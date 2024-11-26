@@ -2,17 +2,17 @@
 // Licensed under the MIT License.
 
 import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import type { AzureDeveloperCliCredentialOptions } from "./azureDeveloperCliCredentialOptions";
-import { CredentialUnavailableError } from "../errors";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging.js";
+import type { AzureDeveloperCliCredentialOptions } from "./azureDeveloperCliCredentialOptions.js";
+import { CredentialUnavailableError } from "../errors.js";
 import child_process from "child_process";
 import {
   checkTenantId,
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
-import { tracingClient } from "../util/tracing";
-import { ensureValidScopeForDevTimeCreds } from "../util/scopeUtils";
+} from "../util/tenantIdUtils.js";
+import { tracingClient } from "../util/tracing.js";
+import { ensureValidScopeForDevTimeCreds } from "../util/scopeUtils.js";
 
 /**
  * Mockable reference to the Developer CLI credential cliCredentialFunctions

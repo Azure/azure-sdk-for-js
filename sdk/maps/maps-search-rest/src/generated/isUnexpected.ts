@@ -11,37 +11,37 @@ import {
   SearchGetReverseGeocoding200Response,
   SearchGetReverseGeocodingDefaultResponse,
   SearchGetReverseGeocodingBatch200Response,
-  SearchGetReverseGeocodingBatchDefaultResponse
-} from "./responses";
+  SearchGetReverseGeocodingBatchDefaultResponse,
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /geocode": ["200"],
   "POST /geocode:batch": ["200"],
   "GET /search/polygon": ["200"],
   "GET /reverseGeocode": ["200"],
-  "POST /reverseGeocode:batch": ["200"]
+  "POST /reverseGeocode:batch": ["200"],
 };
 
 export function isUnexpected(
-  response: SearchGetGeocoding200Response | SearchGetGeocodingDefaultResponse
+  response: SearchGetGeocoding200Response | SearchGetGeocodingDefaultResponse,
 ): response is SearchGetGeocodingDefaultResponse;
 export function isUnexpected(
   response:
     | SearchGetGeocodingBatch200Response
-    | SearchGetGeocodingBatchDefaultResponse
+    | SearchGetGeocodingBatchDefaultResponse,
 ): response is SearchGetGeocodingBatchDefaultResponse;
 export function isUnexpected(
-  response: SearchGetPolygon200Response | SearchGetPolygonDefaultResponse
+  response: SearchGetPolygon200Response | SearchGetPolygonDefaultResponse,
 ): response is SearchGetPolygonDefaultResponse;
 export function isUnexpected(
   response:
     | SearchGetReverseGeocoding200Response
-    | SearchGetReverseGeocodingDefaultResponse
+    | SearchGetReverseGeocodingDefaultResponse,
 ): response is SearchGetReverseGeocodingDefaultResponse;
 export function isUnexpected(
   response:
     | SearchGetReverseGeocodingBatch200Response
-    | SearchGetReverseGeocodingBatchDefaultResponse
+    | SearchGetReverseGeocodingBatchDefaultResponse,
 ): response is SearchGetReverseGeocodingBatchDefaultResponse;
 export function isUnexpected(
   response:
@@ -54,7 +54,7 @@ export function isUnexpected(
     | SearchGetReverseGeocoding200Response
     | SearchGetReverseGeocodingDefaultResponse
     | SearchGetReverseGeocodingBatch200Response
-    | SearchGetReverseGeocodingBatchDefaultResponse
+    | SearchGetReverseGeocodingBatchDefaultResponse,
 ): response is
   | SearchGetGeocodingDefaultResponse
   | SearchGetGeocodingBatchDefaultResponse
@@ -109,7 +109,7 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
         // {guid} ==> $
         // {guid}:export ==> :export$
         const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`
+          `${candidateParts[i]?.slice(start, end)}`,
         ).test(pathParts[j] || "");
 
         if (!isMatched) {

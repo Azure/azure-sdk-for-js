@@ -68,8 +68,8 @@ export const getAndSetRunId = (): string => {
   return runId;
 };
 
-export const getServiceWSEndpoint = (runId: string, runName: string, os: string): string => {
-  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&runName=${encodeURIComponent(runName)}&os=${os}&api-version=${API_VERSION}`;
+export const getServiceWSEndpoint = (runId: string, os: string): string => {
+  return `${getServiceBaseURL()}?runId=${encodeURIComponent(runId)}&os=${os}&api-version=${API_VERSION}`;
 };
 
 export const validateServiceUrl = (): void => {
@@ -143,6 +143,16 @@ export const getPlaywrightVersion = (): string => {
   return process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION]!;
 };
 
+export const getPackageVersion = (): string => {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const version = require("../../package.json").version;
+    return version;
+  } catch (error) {
+    console.error("Error fetching package version:", error);
+    return "unknown version";
+  }
+};
 export const getVersionInfo = (version: string): VersionInfo => {
   const regex = /^(\d+)(?:\.(\d+))?(?:\.(\d+))?/;
   const match = version.match(regex);

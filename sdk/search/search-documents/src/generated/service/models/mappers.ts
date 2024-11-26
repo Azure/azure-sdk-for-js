@@ -638,6 +638,22 @@ export const IndexingParametersConfiguration: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      markdownParsingSubmode: {
+        defaultValue: "oneToMany",
+        serializedName: "markdownParsingSubmode",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+      markdownHeaderDepth: {
+        defaultValue: "h6",
+        serializedName: "markdownHeaderDepth",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
       documentRoot: {
         serializedName: "documentRoot",
         type: {
@@ -2651,11 +2667,49 @@ export const VectorSearchCompression: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      rescoringOptions: {
+        serializedName: "rescoringOptions",
+        type: {
+          name: "Composite",
+          className: "RescoringOptions",
+        },
+      },
       truncationDimension: {
         serializedName: "truncationDimension",
         nullable: true,
         type: {
           name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const RescoringOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RescoringOptions",
+    modelProperties: {
+      enableRescoring: {
+        defaultValue: true,
+        serializedName: "enableRescoring",
+        nullable: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      defaultOversampling: {
+        serializedName: "defaultOversampling",
+        nullable: true,
+        type: {
+          name: "Number",
+        },
+      },
+      rescoreStorageMethod: {
+        serializedName: "rescoreStorageMethod",
+        nullable: true,
+        type: {
+          name: "String",
         },
       },
     },
@@ -4309,6 +4363,35 @@ export const DocumentExtractionSkill: coreClient.CompositeMapper = {
   },
 };
 
+export const DocumentIntelligenceLayoutSkill: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill",
+  type: {
+    name: "Composite",
+    className: "DocumentIntelligenceLayoutSkill",
+    uberParent: "SearchIndexerSkill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SearchIndexerSkill.type.modelProperties,
+      outputMode: {
+        defaultValue: "oneToMany",
+        serializedName: "outputMode",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+      markdownHeaderDepth: {
+        defaultValue: "h6",
+        serializedName: "markdownHeaderDepth",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
 export const WebApiSkill: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Skills.Custom.WebApiSkill",
   type: {
@@ -4499,6 +4582,62 @@ export const CognitiveServicesAccountKey: coreClient.CompositeMapper = {
       ...CognitiveServicesAccount.type.modelProperties,
       key: {
         serializedName: "key",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AIServicesAccountKey: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Azure.Search.AIServicesByKey",
+  type: {
+    name: "Composite",
+    className: "AIServicesAccountKey",
+    uberParent: "CognitiveServicesAccount",
+    polymorphicDiscriminator:
+      CognitiveServicesAccount.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CognitiveServicesAccount.type.modelProperties,
+      key: {
+        serializedName: "key",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      subdomainUrl: {
+        serializedName: "subdomainUrl",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AIServicesAccountIdentity: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Azure.Search.AIServicesByIdentity",
+  type: {
+    name: "Composite",
+    className: "AIServicesAccountIdentity",
+    uberParent: "CognitiveServicesAccount",
+    polymorphicDiscriminator:
+      CognitiveServicesAccount.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CognitiveServicesAccount.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "SearchIndexerDataIdentity",
+        },
+      },
+      subdomainUrl: {
+        serializedName: "subdomainUrl",
         required: true,
         type: {
           name: "String",
@@ -6603,6 +6742,8 @@ export let discriminators = {
     TextTranslationSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Util.DocumentExtractionSkill":
     DocumentExtractionSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill":
+    DocumentIntelligenceLayoutSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Custom.WebApiSkill": WebApiSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Custom.AmlSkill":
     AzureMachineLearningSkill,
@@ -6614,6 +6755,10 @@ export let discriminators = {
     DefaultCognitiveServicesAccount,
   "CognitiveServicesAccount.#Microsoft.Azure.Search.CognitiveServicesByKey":
     CognitiveServicesAccountKey,
+  "CognitiveServicesAccount.#Microsoft.Azure.Search.AIServicesByKey":
+    AIServicesAccountKey,
+  "CognitiveServicesAccount.#Microsoft.Azure.Search.AIServicesByIdentity":
+    AIServicesAccountIdentity,
   "ScoringFunction.distance": DistanceScoringFunction,
   "ScoringFunction.freshness": FreshnessScoringFunction,
   "ScoringFunction.magnitude": MagnitudeScoringFunction,

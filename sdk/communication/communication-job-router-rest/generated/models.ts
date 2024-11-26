@@ -483,7 +483,7 @@ export interface SuspendMode extends JobMatchingModeParent {
 }
 
 /** Request payload for reclassifying jobs. */
-export interface ReclassifyJobOptions {}
+export interface ReclassifyJobOptions { }
 
 /** Request payload for cancelling a job. */
 export interface CancelJobOptions {

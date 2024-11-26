@@ -1,9 +1,9 @@
-function GetOnboardingFile($docRepoLocation, $moniker) { 
+function GetOnboardingFile($docRepoLocation, $moniker) {
   $packageOnboardingFile = "$docRepoLocation/ci-configs/packages-latest.json"
   if ("preview" -eq $moniker) {
     $packageOnboardingFile = "$docRepoLocation/ci-configs/packages-preview.json"
   }
-  elseif ("legacy" -eq $moniker) { 
+  elseif ("legacy" -eq $moniker) {
     $packageOnboardingFile = "$docRepoLocation/ci-configs/packages-legacy.json"
   }
 
@@ -36,7 +36,7 @@ function Get-javascript-OnboardedDocsMsPackagesForMoniker($DocRepoLocation, $mon
   $packageOnboardingFile = GetOnboardingFile `
     -docRepoLocation $DocRepoLocation `
     -moniker $moniker
-  
+
   $onboardedPackages = @{}
   $onboardingSpec = ConvertFrom-Json (Get-Content $packageOnboardingFile -Raw)
   foreach ($spec in $onboardingSpec.npm_package_sources) {
@@ -46,7 +46,7 @@ function Get-javascript-OnboardedDocsMsPackagesForMoniker($DocRepoLocation, $mon
       # Package has an '@' symbol deliminting the end of the package name
       $packageName = $packageName.Substring(0, $packageName.LastIndexOf('@'))
     }
-    
+
     $jsStylePkgName = $packageName.Replace("@", "").Replace("/", "-")
     $jsonFile = "$DocRepoLocation/metadata/$moniker/$jsStylePkgName.json"
     if (Test-Path $jsonFile) {
@@ -66,11 +66,11 @@ function GetPackageReadmeName($packageMetadata) {
   if ($packageMetadata.PSObject.Members.Name -contains "FileMetadata") {
     $readmeMetadata = &$GetDocsMsMetadataForPackageFn -PackageInfo $packageMetadata.FileMetadata
 
-    # Packages released outside of our EngSys will have an empty string for 
+    # Packages released outside of our EngSys will have an empty string for
     # DirectoryPath which will result in an empty string for DocsMsReadMeName.
     # In those cases, do not return the empty name and instead use the fallback
     # logic below.
-    if ($readmeMetadata.DocsMsReadMeName) { 
+    if ($readmeMetadata.DocsMsReadMeName) {
       return $readmeMetadata.DocsMsReadMeName
     }
   }
@@ -110,6 +110,8 @@ function Get-javascript-RepositoryLink ($packageInfo) {
   return "$PackageRepositoryUri/$($packageInfo.Package)"
 }
 
+# Defined in common.ps1 as:
+# $UpdateDocsMsTocFn = "Get-${Language}-UpdatedDocsMsToc"
 function Get-javascript-UpdatedDocsMsToc($toc) {
   $services = $toc[0].items
   for ($i = 0; $i -lt $services.Count; $i++) {
@@ -134,6 +136,22 @@ function Get-javascript-UpdatedDocsMsToc($toc) {
           }
         )
       }
+    }
+
+    if ($services[$i].name -eq 'Cognitive Services') {
+      # Add OpenAI to the ToC for Cognitive Services
+      $services[$i].items += [PSCustomObject]@{
+        name = "OpenAI";
+        href = "~/docs-ref-services/{moniker}/openai-readme.md";
+      }
+
+      # Sort the items in the Cognitive Services ToC so OpenAI ends up in the
+      # correct place. The "Management" item should always be at the end of the
+      # list.
+      $management = $services[$i].items | Where-Object { $_.name -eq 'Management' }
+      $sortedItems = $services[$i].items | Where-Object { $_.name -ne 'Management' } | Sort-Object -Property name
+
+      $services[$i].items = $sortedItems + $management
     }
   }
 

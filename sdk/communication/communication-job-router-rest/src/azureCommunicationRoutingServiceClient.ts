@@ -4,13 +4,13 @@
 import type { ClientOptions } from "@azure-rest/core-client";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import type { AzureCommunicationRoutingServiceClient } from "../generated/clientDefinitions";
+import type { AzureCommunicationRoutingServiceClient } from "../generated/clientDefinitions.js";
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import createGeneratedClient from "../generated/azureCommunicationRoutingServiceClient";
+import createGeneratedClient from "../generated/azureCommunicationRoutingServiceClient.js";
 
 /**
  * Initialize a new instance of `AzureCommunicationRoutingServiceClient`

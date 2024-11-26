@@ -130,14 +130,17 @@ describe("getServiceConfig", () => {
   it("should return service config with service connect options", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "token";
     const { getServiceConfig } = require("../../src/core/playwrightService");
-    const config = getServiceConfig(samplePlaywrightConfigInput);
     const playwrightServiceConfig = new PlaywrightServiceConfig();
+    const mockVersion = "1.0.0";
+    sandbox.stub(require("../../package.json"), "version").value(mockVersion);
+    const config = getServiceConfig(samplePlaywrightConfigInput);
     expect(config).to.deep.equal({
       use: {
         connectOptions: {
-          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&runName=${playwrightServiceConfig.runName}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
+          wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
           headers: {
             Authorization: "Bearer token",
+            "x-ms-package-version": `@azure/microsoft-playwright-testing/${encodeURIComponent(mockVersion)}`,
           },
           timeout: playwrightServiceConfig.timeout,
           exposeNetwork: playwrightServiceConfig.exposeNetwork,
@@ -198,20 +201,25 @@ describe("getConnectOptions", () => {
   });
 
   it("should set service connect options with fetched token", async () => {
+    const sandbox = sinon.createSandbox();
     const { getConnectOptions } = require("../../src/core/playwrightService");
+    const mockVersion = "1.0.0";
+    sandbox.stub(require("../../package.json"), "version").value(mockVersion);
     const connectOptions = await getConnectOptions({});
     const playwrightServiceConfig = new PlaywrightServiceConfig();
     expect(connectOptions).to.deep.equal({
-      wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&runName=${playwrightServiceConfig.runName}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
+      wsEndpoint: `wss://eastus.playwright.microsoft.com/accounts/1234/browsers?runId=${playwrightServiceConfig.runId}&os=${playwrightServiceConfig.serviceOs}&api-version=${API_VERSION}`,
       options: {
         headers: {
           Authorization: "Bearer token",
+          "x-ms-package-version": `@azure/microsoft-playwright-testing/${encodeURIComponent(mockVersion)}`,
         },
         timeout: new PlaywrightServiceConfig().timeout,
         exposeNetwork: new PlaywrightServiceConfig().exposeNetwork,
         slowMo: new PlaywrightServiceConfig().slowMo,
       },
     });
+    sandbox.restore();
   });
 
   it("should throw error if token is not set", async () => {

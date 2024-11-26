@@ -5,20 +5,15 @@
  * @summary This sample demonstrates how you can select whether the translated text is plain text or HTML text.
  * Any HTML needs to be a well-formed, complete element. Possible values are: plain (default) or html.
  */
-import TextTranslationClient, {
-  TranslatorCredential,
-  InputTextItem,
-  isUnexpected,
-} from "@azure-rest/ai-translation-text";
-
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { TranslatorCredential, InputTextItem } from "@azure-rest/ai-translation-text";
+import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
+import "dotenv/config";
 
 const endpoint = process.env["ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 const apiKey = process.env["TEXT_TRANSLATOR_API_KEY"] || "<api key>";
 const region = process.env["TEXT_TRANSLATOR_REGION"] || "<region>";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== HTML translation sample ==");
 
   const translateCedential: TranslatorCredential = {
