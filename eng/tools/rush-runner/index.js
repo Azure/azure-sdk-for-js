@@ -51,7 +51,7 @@ const parseArgs = () => {
   const services = [],
     flags = [];
   const [scriptPath, action, ...givenArgs] = process.argv.slice(1);
-  const baseDir = path.resolve(`${path.dirname(scriptPath)}/../..`);
+  const baseDir = path.resolve(`${path.dirname(scriptPath)}/../../..`);
 
   for (const arg of givenArgs) {
     if (arg === "-packages") {
