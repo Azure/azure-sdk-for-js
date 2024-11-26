@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/ai-anomaly-detector": [
-        "./src/index"
-      ]
+      "@azure-rest/ai-anomaly-detector": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
