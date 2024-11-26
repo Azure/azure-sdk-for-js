@@ -5,7 +5,7 @@ import { AzureKeyCredential, MixedRealityStsClient } from "../src/index.js";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { createTokenCredentialFromMRKeyCredential } from "./utils/tokenCredentialHelper.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("MixedRealityStsClient", () => {
   const accountDomain = "mixedreality.azure.com";
@@ -73,16 +73,16 @@ describe("MixedRealityStsClient", () => {
   });
 });
 
-describe("[AccountKey] MixedRealityStsClient functional tests", function () {
+describe("[AccountKey] MixedRealityStsClient functional tests", () => {
   let client: MixedRealityStsClient;
   let recorder: Recorder;
 
-  beforeEach(async function (ctx) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     // Stop the recording.
     await recorder.stop();
   });

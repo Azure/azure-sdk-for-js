@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import "./env.js";
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env } from "@azure-tools/test-recorder";
 import type { MixedRealityStsClientOptions } from "../../src/index.js";
 import { AzureKeyCredential, MixedRealityStsClient } from "../../src/index.js";
@@ -21,7 +21,7 @@ export function createClient(options?: MixedRealityStsClientOptions): MixedReali
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Context): Promise<Recorder> {
+export async function createRecorder(context: TestInfo): Promise<Recorder> {
   const recorderStartOptions: RecorderStartOptions = {
     envSetupForPlayback: {
       AZURE_CLIENT_ID: "azure_client_id",
@@ -31,8 +31,9 @@ export async function createRecorder(context: Context): Promise<Recorder> {
       MIXEDREALITY_ACCOUNT_ID: "68321d5a-7978-4ceb-b880-0f49751daae9",
       MIXEDREALITY_ACCOUNT_KEY: "NjgzMjFkNWEtNzk3OC00Y2ViLWI4ODAtMGY0OTc1MWRhYWU5",
     },
+    removeCentralSanitizers: ["AZSDK3419"],
   };
-  const recorder = new Recorder(context.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderStartOptions);
   await recorder.addSanitizers(
     {
