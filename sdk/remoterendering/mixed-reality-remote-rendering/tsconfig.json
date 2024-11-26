@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure/mixed-reality-remote-rendering": [
-        "./src/index"
-      ]
+      "@azure/mixed-reality-remote-rendering": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",

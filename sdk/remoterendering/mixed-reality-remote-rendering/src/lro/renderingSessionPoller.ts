@@ -3,7 +3,10 @@
 
 import type { PollOperationState, PollOperation, CancelOnProgress } from "@azure/core-lro";
 import { Poller } from "@azure/core-lro";
-import { KnownRenderingSessionStatus, KnownRenderingServerSize } from "../generated/models/index.js";
+import {
+  KnownRenderingSessionStatus,
+  KnownRenderingServerSize,
+} from "../generated/models/index.js";
 import { getSessionInternal, endSessionInternal } from "../internal/commonQueries.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { RemoteRendering } from "../generated/operationsInterfaces/index.js";
