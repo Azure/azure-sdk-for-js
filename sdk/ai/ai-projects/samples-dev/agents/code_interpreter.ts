@@ -71,12 +71,21 @@ if (assistantMessage) {
 
 // Save the newly created file
 console.log(`Saving new files...`);
-const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).image_file.file_id;
+const imageFile = (messages.data[0].content[0] as MessageImageFileContentOutput).image_file;
 console.log(`Image file ID : ${imageFile}`);
-const imageFileName = "samples-dev/agents/" + (await client.agents.getFile(imageFile)).filename + "_image_file_png";
-fs.createWriteStream(imageFileName).on('finish', async () => {
-  // TODO: File is empty, need to use getFileContent
-});
+const imageFileName = "samples-dev/agents/" + (await client.agents.getFile(imageFile.file_id)).filename + "_image_file.png";
+
+const fileContent = await (await client.agents.getFileContent(imageFile.file_id).asNodeStream()).body;
+if (fileContent) {
+    const chunks: Buffer[] = [];
+    for await (const chunk of fileContent) {
+        chunks.push(Buffer.from(chunk));
+    }
+    const buffer = Buffer.concat(chunks);
+    fs.writeFileSync(imageFileName, buffer);
+} else {
+    console.error("Failed to retrieve file content: fileContent is undefined");
+}
 console.log(`Saved image file to: ${imageFileName}`);
 
 // Iterate through messages and print details for each annotation

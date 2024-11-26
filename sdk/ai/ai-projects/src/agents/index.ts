@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client } from "@azure-rest/core-client";
+import { Client, StreamableMethod } from "@azure-rest/core-client";
 import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
 import { ListAgentsQueryParamProperties, ListMessagesQueryParamProperties, ListRunsQueryParamProperties, ListRunStepsQueryParamProperties, ListVectorStoresQueryParamProperties } from "../generated/src/parameters.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
@@ -166,7 +166,7 @@ export interface AgentsOperations {
   getFileContent: (
     fileId: string,
     requestParams?: OptionalRequestParameters
-  ) => Promise<string>;
+  ) => StreamableMethod<any>;
 
   /** Returns a list of vector stores. */
   listVectorStores: (

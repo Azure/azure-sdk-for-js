@@ -56,7 +56,7 @@ export async function main(): Promise<void> {
                       if (contentPart.type === "text") {
                           const textContent = contentPart as MessageDeltaTextContent
                           const textValue = textContent.text?.value || "No text"
-                          // console.log(`Text delta received:: ${textValue}`)
+                          console.log(`Text delta received:: ${textValue}`)
                       }
                   });
               }
@@ -97,14 +97,20 @@ export async function main(): Promise<void> {
   const imageFile = imageFileOutput.image_file.file_id; 
   const imageFileName = "samples-dev/agents/" + (await client.agents.getFile(imageFile)).filename + "_image_file.png";
   console.log(`Image file name : ${imageFileName}`);
-  const fileContent = await client.agents.getFileContent(imageFile);
-  const readable = new Readable();
-  readable.push(fileContent);
-  readable.push(null); // End the stream
-  const writeStream = fs.createWriteStream(imageFileName);
-  readable.pipe(writeStream).on('finish', async () => {
-    console.log(`Saved image file to: ${imageFileName}`);
-  });
+
+  const fileContent = await (await client.agents.getFileContent(imageFile).asNodeStream()).body;
+  if (fileContent) {
+      const chunks: Buffer[] = [];
+      for await (const chunk of fileContent) {
+          chunks.push(Buffer.from(chunk));
+      }
+      const buffer = Buffer.concat(chunks);
+      fs.writeFileSync(imageFileName, buffer);
+  } else {
+      console.error("Failed to retrieve file content: fileContent is undefined");
+  }
+  console.log(`Saved image file to: ${imageFileName}`);
+
 
   // Iterate through messages and print details for each annotation
   console.log(`Message Details:`);
