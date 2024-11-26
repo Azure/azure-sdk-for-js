@@ -27,6 +27,7 @@ $packageProperties = Get-ChildItem -Recurse "$PackagePropertiesFolder" *.json
 $allPassing = $true
 foreach($propertiesFile in $packageProperties) {
   $PackageProp = Get-Content -Path $propertiesFile | ConvertFrom-Json
+
   if (-not (ShouldVerifyChangeLog $PackageProp.ArtifactDetails)) {
         Write-Host "Skipping changelog verification for $($PackageProp.Name)"
         continue
