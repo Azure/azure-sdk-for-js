@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { getYieldedValue, matrix } from "@azure-tools/test-utils";
+import { getYieldedValue, matrix } from "@azure-tools/test-utils-vitest";
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
