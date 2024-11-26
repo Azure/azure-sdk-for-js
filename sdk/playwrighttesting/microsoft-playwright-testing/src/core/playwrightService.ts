@@ -76,7 +76,7 @@ const getServiceConfig = (
   // if global setup/teardown is array -
   // 1. if multiple global file is not supported, throw error
   // 2. append playwright-service global setup/teardown with customer provided global setup/teardown
-  if (config.globalSetup) {
+  if (config && config.globalSetup) {
     if (typeof config.globalSetup === "string") {
       if (isMultipleGlobalFileSupported) {
         customerConfig.globalSetup = [config.globalSetup];
@@ -93,7 +93,7 @@ const getServiceConfig = (
     }
   }
 
-  if (config.globalTeardown) {
+  if (config && config.globalTeardown) {
     if (typeof config.globalTeardown === "string") {
       if (isMultipleGlobalFileSupported) {
         customerConfig.globalTeardown = [config.globalTeardown];
@@ -121,16 +121,18 @@ const getServiceConfig = (
   } else {
     // If multiple global file is supported, append playwright-service global setup/teardown with customer provided global setup/teardown
     if (isMultipleGlobalFileSupported) {
-      globalFunctions.globalSetup = [require.resolve("./global/playwright-service-global-setup")];
-      globalFunctions.globalTeardown = [
-        require.resolve("./global/playwright-service-global-teardown"),
-      ];
+      globalFunctions.globalSetup = [] as string[];
+      globalFunctions.globalTeardown = [] as string[];
       if (customerConfig.globalSetup) {
         globalFunctions.globalSetup.push(...(customerConfig.globalSetup as string[]));
       }
       if (customerConfig.globalTeardown) {
         globalFunctions.globalTeardown.push(...(customerConfig.globalTeardown as string[]));
       }
+      globalFunctions.globalSetup.push(require.resolve("./global/playwright-service-global-setup"));
+      globalFunctions.globalTeardown.push(
+        require.resolve("./global/playwright-service-global-teardown"),
+      );
     } else {
       // If multiple global file is not supported, wrap playwright-service global setup/teardown with customer provided global setup/teardown
       globalFunctions.globalSetup = require.resolve("./global/playwright-service-global-setup");
