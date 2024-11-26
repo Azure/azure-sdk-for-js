@@ -188,8 +188,8 @@ export function bearerTokenAuthenticationPolicy(
   const { credential, scopes, challengeCallbacks } = options;
   const logger = options.logger || coreLogger;
   const callbacks = {
-    authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
-    authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
+    authorizeRequest: challengeCallbacks?.authorizeRequest?.bind(challengeCallbacks) ?? defaultAuthorizeRequest,
+    authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge?.bind(challengeCallbacks),
   };
 
   // This function encapsulates the entire process of reliably retrieving the token
