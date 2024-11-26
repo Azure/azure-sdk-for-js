@@ -5,7 +5,11 @@ import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createTracingClient } from "@azure/core-tracing";
 import type { TracingClient } from "@azure/core-tracing";
 import { FORM_RECOGNIZER_API_VERSION, SDK_VERSION } from "./constants.js";
-import type { AnalyzeDocumentRequest, AnalyzeResultOperation, GeneratedClient } from "./generated/index.js";
+import type {
+  AnalyzeDocumentRequest,
+  AnalyzeResultOperation,
+  GeneratedClient,
+} from "./generated/index.js";
 import { accept1 } from "./generated/models/parameters.js";
 import type {
   AnalysisOperationDefinition,
@@ -14,7 +18,10 @@ import type {
   DocumentAnalysisPollOperationState,
   FormRecognizerRequestBody,
 } from "./lro/analysis.js";
-import { toAnalyzeResultFromGenerated, toDocumentAnalysisPollOperationState } from "./lro/analysis.js";
+import {
+  toAnalyzeResultFromGenerated,
+  toDocumentAnalysisPollOperationState,
+} from "./lro/analysis.js";
 import type { OperationContext } from "./lro/util/poller.js";
 import { lro } from "./lro/util/poller.js";
 import type { AnalyzeDocumentOptions } from "./options/AnalyzeDocumentOptions.js";

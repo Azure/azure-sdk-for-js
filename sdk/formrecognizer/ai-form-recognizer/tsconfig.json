@@ -4,9 +4,7 @@
     "preserveConstEnums": true,
     "module": "NodeNext",
     "paths": {
-      "@azure/ai-form-recognizer": [
-        "./src/index"
-      ]
+      "@azure/ai-form-recognizer": ["./src/index"]
     },
     "skipLibCheck": true,
     "moduleResolution": "NodeNext",
