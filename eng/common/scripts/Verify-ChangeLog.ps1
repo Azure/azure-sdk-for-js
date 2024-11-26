@@ -22,7 +22,8 @@ else
   $validChangeLog = Confirm-ChangeLogEntry -ChangeLogLocation $PackageProp.ChangeLogPath -VersionString $PackageProp.Version -ForRelease $ForRelease
 }
 
-if (!$validChangeLog) {
+if (!$validChangeLog)
+{
   exit 1
 }
 exit 0
