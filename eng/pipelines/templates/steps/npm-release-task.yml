@@ -20,6 +20,7 @@ steps:
         $packageName = "@azure/testestestestetsetset"
         $packageVersion = $pkg.Version
         $packageProps = npm view $packageName -json -silent | ConvertFrom-Json
+        $LASTEXITCODE = 0
         $originalTags = "{}"
         if ($packageProps.error) {
           write-host $($packageProps.error)
