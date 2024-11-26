@@ -69,10 +69,5 @@ export function getFileContent(
 ): StreamableMethod<any> {
   return context
     .path("/files/{fileId}/content", fileId)
-    .get(options)
-  // if (!expectedStatuses.includes(result.status)) {
-  //     throw createRestError(result);
-  // }
-  // return result.body; 
-  // return result;
+    .get(options);
 }
