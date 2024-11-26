@@ -1,6 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { AzureNamedKeyCredential, generateAccountSas, generateTableSas } from "../../../src/index.js";
+import {
+  AzureNamedKeyCredential,
+  generateAccountSas,
+  generateTableSas,
+} from "../../../src/index.js";
 import {
   expectedSas1,
   expectedSas2,

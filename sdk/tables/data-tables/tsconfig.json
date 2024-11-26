@@ -1,28 +1,15 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "lib": [
-      "dom",
-      "esnext"
-    ],
+    "lib": ["dom", "esnext"],
     "paths": {
-      "@azure/data-tables": [
-        "./src/index"
-      ]
+      "@azure/data-tables": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "exclude": [
-    "node_modules",
-    "types",
-    "temp",
-    "browser",
-    "dist",
-    "dist-esm",
-    "./samples/**/*.ts"
-  ],
+  "exclude": ["node_modules", "types", "temp", "browser", "dist", "dist-esm", "./samples/**/*.ts"],
   "include": [
     "src/**/*.ts",
     "src/**/*.mts",

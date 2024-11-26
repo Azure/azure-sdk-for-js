@@ -2,7 +2,10 @@
 // Licensed under the MIT License.
 
 import type { ClientParamsFromConnectionString, ConnectionString } from "./internalModels.js";
-import { fromAccountConnectionString, getAccountConnectionString } from "./accountConnectionString.js";
+import {
+  fromAccountConnectionString,
+  getAccountConnectionString,
+} from "./accountConnectionString.js";
 
 import type { TableServiceClientOptions } from "../models.js";
 

@@ -16,7 +16,11 @@ import type {
   UpdateMode,
   UpdateTableEntityOptions,
 } from "../models.js";
-import type { DeleteTableEntityResponse, UpdateEntityResponse, UpsertEntityResponse } from "../index.js";
+import type {
+  DeleteTableEntityResponse,
+  UpdateEntityResponse,
+  UpsertEntityResponse,
+} from "../index.js";
 import type { Pipeline, PipelineRequest } from "@azure/core-rest-pipeline";
 import type { NamedKeyCredential } from "@azure/core-auth";
 import type { OperationOptions } from "@azure/core-client";
