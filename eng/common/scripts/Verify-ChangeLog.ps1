@@ -26,4 +26,5 @@ if (!$validChangeLog)
 {
   exit 1
 }
+
 exit 0
