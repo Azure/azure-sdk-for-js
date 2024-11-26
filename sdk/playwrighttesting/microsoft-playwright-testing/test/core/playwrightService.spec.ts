@@ -26,7 +26,7 @@ describe("getServiceConfig", () => {
   beforeEach(() => {
     sandbox = sinon.createSandbox();
     sandbox.stub(console, "error");
-    // sandbox.stub(console, "log");
+    sandbox.stub(console, "log");
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
       "wss://eastus.playwright.microsoft.com/accounts/1234/browsers";
     process.env[InternalEnvironmentVariables.MPT_PLAYWRIGHT_VERSION] = "1.47.0";
