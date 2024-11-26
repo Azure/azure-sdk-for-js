@@ -1,16 +1,10 @@
 # Release History
 
-## 1.18.1 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
+## 1.18.1 (2024-11-26)
 
 ### Bugs Fixed
 
 - Fix `this` not being bound correctly for `ChallengeCallbacks` implementations in `bearerTokenAuthenticationPolicy`. [PR #31961](https://github.com/Azure/azure-sdk-for-js/pull/31961)
-
-### Other Changes
 
 ## 1.18.0 (2024-11-12)
 
