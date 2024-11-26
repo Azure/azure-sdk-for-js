@@ -19,6 +19,24 @@ function ShouldVerifyChangeLog ($PkgArtifactDetails) {
 
   return $false
 }
-# todo: revert this temp change
+
+# find which packages we need to confirm the changelog for
+$packageProperties = Get-ChildItem -Recurse "$PackagePropertiesFolder" *.json
+# grab the json file, then confirm the changelog entry for it
+$allPassing = $true
+foreach ($propertiesFile in $packageProperties) {
+  $PackageProp = Get-Content -Path $propertiesFile | ConvertFrom-Json
+  if (-not (ShouldVerifyChangeLog $PackageProp.ArtifactDetails)) {
+    Write-Host "Skipping changelog verification for $($PackageProp.Name)"
+    continue
+  }
+  $validChangeLog = Confirm-ChangeLogEntry -ChangeLogLocation $PackageProp.ChangeLogPath -VersionString $PackageProp.Version -ForRelease $false
+  if (-not $validChangeLog) {
+    $allPassing = $false
+  }
+}
+if (!$allPassing) {
+  exit 1
+}
 
 exit 0
