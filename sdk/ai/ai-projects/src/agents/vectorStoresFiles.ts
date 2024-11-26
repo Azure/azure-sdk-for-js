@@ -4,7 +4,7 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { ListVectorStoreFilesParameters, CreateVectorStoreFileParameters, GetVectorStoreFileParameters, DeleteVectorStoreFileParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfVectorStoreFileOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput } from "../generated/src/outputModels.js";
-import { delay } from "@azure/core-util";
+import { AgentsPoller } from "./poller.js";
 
 const expectedStatuses = ["200"];
 
@@ -74,12 +74,39 @@ export async function createVectorStoreFileAndPoll(
   context: Client,
   vectorStoreId: string,
   options?: CreateVectorStoreFileParameters,
-  sleepInterval: number = 1,
+  sleepIntervalInMs?: number,
+  timeoutInMs: number = 10000,
 ): Promise<VectorStoreFileOutput> {
-  let vectorStoreFile = await createVectorStoreFile(context, vectorStoreId, options);
-  while (vectorStoreFile.status === "in_progress") {
-    await delay(sleepInterval * 1000);
-    vectorStoreFile = await getVectorStoreFile(context, vectorStoreId, vectorStoreFile.id);
+  async function updateCreateVectorStoreFilePoll(
+    currentResult?: VectorStoreFileOutput
+  ): Promise<{ result: VectorStoreFileOutput; completed: boolean }> {
+    let vectorStoreFile: VectorStoreFileOutput;
+    if (!currentResult) {
+      vectorStoreFile = await createVectorStoreFile(context, vectorStoreId, options);
+    } else {
+      vectorStoreFile = await getVectorStoreFile(context, vectorStoreId, currentResult.id);
+    }
+    return {
+      result: vectorStoreFile,
+      completed: vectorStoreFile.status !== "in_progress",
+    };
   }
-  return vectorStoreFile;
+
+  const poller = new AgentsPoller<VectorStoreFileOutput>(updateCreateVectorStoreFilePoll, sleepIntervalInMs);
+
+  if (timeoutInMs) {
+    const timeoutPromise = new Promise<never>((_resolve, reject) => 
+      setTimeout(() => {
+        poller.stopPolling();
+        reject(new Error("Polling operation exceeded timeout"));
+      }, timeoutInMs)
+    );
+    return Promise.race([poller.pollUntilDone(), timeoutPromise]);
+  }
+
+  const result = poller.getOperationState().result;
+  if (!result) {
+    throw new Error("Polling operation exceeded timeout");
+  }
+  return result;
 }

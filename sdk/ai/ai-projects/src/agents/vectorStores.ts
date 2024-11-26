@@ -4,7 +4,7 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { ListVectorStoresParameters, CreateVectorStoreParameters, ModifyVectorStoreParameters, GetVectorStoreParameters, DeleteVectorStoreParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfVectorStoreOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
-import { CreateVectorStorePoller } from "./pollingUtils/createVectorStorePoller.js";
+import { AgentsPoller } from "./poller.js";
 
 const expectedStatuses = ["200"];
 
@@ -92,8 +92,23 @@ export async function createVectorStoreAndPoll(
   sleepIntervalInMs?: number,
   timeoutInMs: number = 10000,
 ): Promise<VectorStoreOutput> {
-  const poller = new CreateVectorStorePoller(context, options, sleepIntervalInMs);
-  
+  async function updateCreateVectorStorePoll(
+    currentResult?: VectorStoreOutput
+  ): Promise<{ result: VectorStoreOutput; completed: boolean }> {
+    let vectorStore: VectorStoreOutput;
+    if (!currentResult) {
+      vectorStore = await createVectorStore(context, options);
+    } else {
+      vectorStore = await getVectorStore(context, currentResult.id);
+    }
+    return {
+      result: vectorStore,
+      completed: vectorStore.status !== "in_progress",
+    };
+  }
+
+  const poller = new AgentsPoller<VectorStoreOutput>(updateCreateVectorStorePoll, sleepIntervalInMs);
+
   if (timeoutInMs) {
     const timeoutPromise = new Promise<never>((_resolve, reject) => 
       setTimeout(() => {

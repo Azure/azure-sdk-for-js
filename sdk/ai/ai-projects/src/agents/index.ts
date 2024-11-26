@@ -240,8 +240,8 @@ export interface AgentsOperations {
   createVectorStoreFileAndPoll: (
     vectorStoreId: string,
     vectorStoreFileOptions?: CreateVectorStoreFileOptions,
-    /** Time to wait before polling for the status of the vector store in seconds. Default value is 1. */
-    sleepInterval?: number,
+    sleepIntervalInMs?: number,
+    timeoutInMs?: number,
     requestParams?: OptionalRequestParameters,
   ) => Promise<VectorStoreFileOutput>;
 
@@ -273,8 +273,8 @@ export interface AgentsOperations {
   createVectorStoreFileBatchAndPoll: (
     vectorStoreId: string,
     vectorStoreFileBatchOptions: CreateVectorStoreFileBatchOptions,
-    /** Time to wait before polling for the status of the vector store in seconds. Default value is 1. */
-    sleepInterval?: number,
+    sleepIntervalInMs?: number,
+    timeoutInMs?: number,
     requestParams?: OptionalRequestParameters,
   ) => Promise<VectorStoreFileBatchOutput>;
 
@@ -389,8 +389,8 @@ function getAgents(context: Client): AgentsOperations {
       listVectorStoreFiles(context, vectorStoreId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
     deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) =>
       deleteVectorStoreFile(context, vectorStoreId, fileId, requestParams),
-    createVectorStoreFileAndPoll: (vectorStoreId: string, vectorStoreFileOptions?: CreateVectorStoreFileOptions, sleepInterval?: number, requestParams?: OptionalRequestParameters) =>
-      createVectorStoreFileAndPoll(context, vectorStoreId, { ...requestParams, body: { file_id: vectorStoreFileOptions?.fileId, data_sources: vectorStoreFileOptions?.dataSources, chunking_strategy: vectorStoreFileOptions?.chunkingStrategy } }, sleepInterval),
+    createVectorStoreFileAndPoll: (vectorStoreId: string, vectorStoreFileOptions?: CreateVectorStoreFileOptions, sleepIntervalInMs?: number, timeoutInMs?: number, requestParams?: OptionalRequestParameters) =>
+      createVectorStoreFileAndPoll(context, vectorStoreId, { ...requestParams, body: { file_id: vectorStoreFileOptions?.fileId, data_sources: vectorStoreFileOptions?.dataSources, chunking_strategy: vectorStoreFileOptions?.chunkingStrategy } }, sleepIntervalInMs, timeoutInMs),
 
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptions, requestParams?: OptionalRequestParameters) =>
       createVectorStoreFileBatch(context, vectorStoreId, { ...requestParams, body: { file_ids: options?.fileIds, data_sources: options?.dataSources, chunking_strategy: options?.chunkingStrategy } }),
@@ -400,8 +400,8 @@ function getAgents(context: Client): AgentsOperations {
       cancelVectorStoreFileBatch(context, vectorStoreId, batchId, requestParams),
     listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) =>
       listVectorStoreFileBatchFiles(context, vectorStoreId, batchId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
-    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, vectorStoreFileBatchOptions: CreateVectorStoreFileBatchOptions, sleepInterval?: number, requestParams?: OptionalRequestParameters) =>
-      createVectorStoreFileBatchAndPoll(context, vectorStoreId, { ...requestParams, body: { file_ids: vectorStoreFileBatchOptions.fileIds, data_sources: vectorStoreFileBatchOptions.dataSources, chunking_strategy: vectorStoreFileBatchOptions.chunkingStrategy } }, sleepInterval),
+    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, vectorStoreFileBatchOptions: CreateVectorStoreFileBatchOptions, sleepIntervalInMs?: number, timeoutInMs?: number, requestParams?: OptionalRequestParameters) =>
+      createVectorStoreFileBatchAndPoll(context, vectorStoreId, { ...requestParams, body: { file_ids: vectorStoreFileBatchOptions.fileIds, data_sources: vectorStoreFileBatchOptions.dataSources, chunking_strategy: vectorStoreFileBatchOptions.chunkingStrategy } }, sleepIntervalInMs, timeoutInMs),
 
     getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) =>
       getRunStep(context, threadId, runId, stepId, { ...requestParams }),
