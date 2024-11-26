@@ -39,6 +39,7 @@ foreach($propertiesFile in $packageProperties) {
     $allPassing = $false
   }
 }
+
 if (!$allPassing)
 {
   exit 1
