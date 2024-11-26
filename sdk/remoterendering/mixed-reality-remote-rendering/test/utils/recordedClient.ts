@@ -8,7 +8,7 @@ import { AzureKeyCredential } from "@azure/core-auth";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder, assertEnvironmentVariable, isPlaybackMode } from "@azure-tools/test-recorder";
 
-import { RemoteRenderingClient } from "../../src";
+import { RemoteRenderingClient } from "../../src/index.js";
 
 // When the recorder observes the values of these environment variables
 // in any recorded HTTP request or response, it will replace them with

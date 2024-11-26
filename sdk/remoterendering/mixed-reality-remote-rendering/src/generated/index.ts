@@ -6,6 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./models";
-export { RemoteRenderingRestClient } from "./remoteRenderingRestClient";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { RemoteRenderingRestClient } from "./remoteRenderingRestClient.js";
+export * from "./operationsInterfaces/index.js";

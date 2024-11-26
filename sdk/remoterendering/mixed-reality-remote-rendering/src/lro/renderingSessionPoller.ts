@@ -3,12 +3,12 @@
 
 import type { PollOperationState, PollOperation, CancelOnProgress } from "@azure/core-lro";
 import { Poller } from "@azure/core-lro";
-import { KnownRenderingSessionStatus, KnownRenderingServerSize } from "../generated/models/index";
-import { getSessionInternal, endSessionInternal } from "../internal/commonQueries";
+import { KnownRenderingSessionStatus, KnownRenderingServerSize } from "../generated/models/index.js";
+import { getSessionInternal, endSessionInternal } from "../internal/commonQueries.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { RemoteRendering } from "../generated/operationsInterfaces";
+import type { RemoteRendering } from "../generated/operationsInterfaces/index.js";
 import { delay } from "@azure/core-util";
-import type { RenderingSession } from "../internal/renderingSession";
+import type { RenderingSession } from "../internal/renderingSession.js";
 
 /**
  * Abstract representation of a poller, intended to expose just the minimal API that the user needs to work with.
