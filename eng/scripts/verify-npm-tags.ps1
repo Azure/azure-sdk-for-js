@@ -28,20 +28,21 @@ Write-Host "Intend to add tag $intendedTag to version $intendedTagVersion"
 if ($packageDistTags."$intendedTag" -ne $intendedTagVersion) {
   Write-Warning "Tag not correctly set, current $intendedTag tag is version $($packageDistTags."$intendedTag") instead of $intendedTagVersion."
   $correctDistTags = $parsedOriginalDistTags
-  $correctDistTags."$intendedTag" = $intendedTagVersion
+  $correctDistTags | Add-Member -MemberType NoteProperty -Name $intendedTag -Value $intendedTagVersion -Force
 
   Write-Host "Setting AuthToken Deployment"
   $regAuth = "//registry.npmjs.org/"
-  $env:NPM_TOKEN=$npmToken
+  $env:NPM_TOKEN = $npmToken
   npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
 
-  foreach($tag in $correctDistTags.PSObject.Properties) {
+  foreach ($tag in $correctDistTags.PSObject.Properties) {
     Write-Host "npm dist-tag add $packageName@$($tag.value) $($tag.Name)"
     npm dist-tag add $packageName@$($tag.value) $($tag.Name)
   }
   $npmPkgProp = npm view $packageName --json | ConvertFrom-Json
   $packageDistTags = $npmPkgProp."dist-tags"
   Write-Host "Corrected dist tags to: $packageDistTags"
-} else {
+}
+else {
   Write-Host "Tag verified."
 }
