@@ -271,7 +271,12 @@ class MPTReporter implements Reporter {
       this.testResultBatch.add(testResultObject);
       // Store test attachments in array
       const testAttachments: string[] = [];
+      const regionAndSessionIdAttachment: any[] = [];
       for (const attachment of result.attachments) {
+        if (attachment.name === "Region" || attachment.name === "SessionId") {
+          regionAndSessionIdAttachment.push(attachment);
+          this.uploadMetadata.numTotalAttachments++;
+        }
         if (attachment.path !== undefined && attachment.path !== "") {
           testAttachments.push(attachment.path);
           this.uploadMetadata.numTotalAttachments++;
@@ -283,7 +288,11 @@ class MPTReporter implements Reporter {
       const rawTestResult: RawTestResult = this.reporterUtils.getRawTestResultObject(result);
       this.testRawResults.set(testResultObject.testExecutionId, JSON.stringify(rawTestResult));
       this._testEndPromises.push(
-        this._uploadTestResultAttachments(testResultObject.testExecutionId, testAttachments),
+        this._uploadTestResultAttachments(
+          testResultObject.testExecutionId,
+          testAttachments,
+          regionAndSessionIdAttachment,
+        ),
       );
     } catch (err: any) {
       this._addError(`Name: ${err.name}, Message: ${err.message}, Stack: ${err.stack}`);
@@ -313,6 +322,7 @@ class MPTReporter implements Reporter {
   private async _uploadTestResultAttachments(
     testExecutionId: string,
     testAttachments: string[],
+    regionAndSessionIdAttachment: any[],
   ): Promise<void> {
     try {
       this.isTestRunStartSuccess = await this.promiseOnBegin;
@@ -335,6 +345,20 @@ class MPTReporter implements Reporter {
           );
         }
         await this.storageClient.uploadFile(this.sasUri.uri, attachmentPath, fileRelativePath);
+      }
+      for (const regionAndSessionId of regionAndSessionIdAttachment) {
+        if (
+          this.sasUri === undefined ||
+          !ReporterUtils.isTimeGreaterThanCurrentPlus10Minutes(this.sasUri)
+        ) {
+          // Renew the sas uri
+          this.sasUri = await this.serviceClient.createStorageUri();
+        }
+        await this.storageClient.uploadBuffer(
+          this.sasUri.uri,
+          regionAndSessionId.body.toString("utf-8"),
+          `${testExecutionId}/${regionAndSessionId.name}.txt`,
+        );
       }
       const rawTestResult = this.testRawResults.get(testExecutionId);
       if (

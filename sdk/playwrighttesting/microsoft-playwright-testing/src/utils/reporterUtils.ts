@@ -471,6 +471,11 @@ class ReporterUtils {
           attachmentStatus += ",";
         }
         attachmentStatus += "trace";
+      } else if (attachment.contentType === "text/plain") {
+        if (attachmentStatus !== "") {
+          attachmentStatus += ",";
+        }
+        attachmentStatus += "txt";
       }
     }
     return attachmentStatus;
