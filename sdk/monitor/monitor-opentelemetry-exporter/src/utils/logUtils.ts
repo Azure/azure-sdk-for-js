@@ -45,6 +45,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   const sampleRate = 100;
   const instrumentationKey = ikey;
   const tags = createTagsFromLog(log);
+  // eslint-disable-next-line prefer-const
   let [properties, measurements] = createPropertiesFromLog(log);
   let name: string;
   let baseType: string;
