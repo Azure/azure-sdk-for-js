@@ -9,7 +9,7 @@ import {
 } from "../../src/serialization.js";
 
 import type { Edm } from "../../src/index.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 interface Entity {
   strProp?: string;

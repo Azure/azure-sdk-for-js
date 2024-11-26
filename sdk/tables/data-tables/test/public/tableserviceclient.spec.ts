@@ -4,11 +4,10 @@
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { TableItem, TableItemResultPage, TableServiceClient } from "../../src/index.js";
 import { odata } from "../../src/index.js";
-import type { Context } from "mocha";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { createTableServiceClient } from "./utils/recordedClient.js";
-import { assert } from "@azure-tools/test-utils";
 import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe(`TableServiceClient`, function () {
   let client: TableServiceClient;

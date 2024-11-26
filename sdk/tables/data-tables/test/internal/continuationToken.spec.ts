@@ -5,8 +5,7 @@ import {
   decodeContinuationToken,
   encodeContinuationToken,
 } from "../../src/utils/continuationToken.js";
-
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("continuation token utils", function () {
   it("should encode nextPartitionKey and nextRowKey", function () {

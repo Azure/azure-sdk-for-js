@@ -3,9 +3,9 @@
 
 import { TableClient } from "../../src/TableClient.js";
 import { TableServiceClient } from "../../src/TableServiceClient.js";
-import { assert } from "chai";
 import type { TokenCredential } from "@azure/core-auth";
 import { COSMOS_SCOPE } from "../../src/utils/constants.js";
+import { describe, it, assert } from "vitest";
 
 export class FakeCredential implements TokenCredential {
   public lastScopes?: string | string[];

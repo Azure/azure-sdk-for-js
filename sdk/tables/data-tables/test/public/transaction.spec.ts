@@ -1,15 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import * as sinon from "sinon";
 import { Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
 import type { TableClient, TransactionAction } from "../../src/index.js";
 import { TableTransaction, odata } from "../../src/index.js";
-import type { Context } from "mocha";
 import { Uuid } from "../../src/utils/uuid.js";
-import { assert } from "chai";
 import { createTableClient } from "./utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const partitionKey = "batchTest";
 const testEntities = [

@@ -2,12 +2,10 @@
 // Licensed under the MIT License.
 
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-
-import type { Context } from "mocha";
 import type { TableClient } from "../../src/index.js";
-import { assert } from "chai";
 import { createTableClient } from "./utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe(`Access Policy operations`, function () {
   let client: TableClient;

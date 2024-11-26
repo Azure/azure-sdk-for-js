@@ -4,7 +4,7 @@
 import type { HttpClient, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { TableClient, TableServiceClient } from "../../src/index.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("ErrorHandling", function () {
   describe("TableClient", function () {

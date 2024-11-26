@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { tablesSecondaryEndpointPolicy } from "../../src/secondaryEndpointPolicy.js";
+import { describe, it, assert } from "vitest";
 
 describe("tablesSecondaryEndpointPolicy", function () {
   it("should send the request to the secondary endpoint ", async function () {

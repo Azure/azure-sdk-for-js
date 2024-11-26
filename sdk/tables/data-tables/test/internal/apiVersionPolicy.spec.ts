@@ -4,7 +4,7 @@
 import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import { createEmptyPipeline, createHttpHeaders } from "@azure/core-rest-pipeline";
 import { apiVersionPolicy } from "../../src/utils/apiVersionPolicy.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("apiVersionPolicy", function () {
   it("should override the default api-version", async function () {

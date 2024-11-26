@@ -4,8 +4,8 @@
 import { RestError, TableClient, TableServiceClient } from "../../src/index.js";
 
 import type { TableServiceErrorResponse } from "../../src/utils/errorHelpers.js";
-import { assert } from "chai";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { describe, it, assert } from "vitest";
 
 describe("TableClient CreationHandling", function () {
   let unrecordedClient: TableClient;

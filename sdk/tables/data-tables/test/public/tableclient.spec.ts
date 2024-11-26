@@ -5,10 +5,9 @@ import type { Edm, TableClient, TableEntity, TableEntityResult } from "../../src
 import { odata } from "../../src/index.js";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
-import type { Context } from "mocha";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { assert } from "@azure-tools/test-utils";
 import { createTableClient } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("special characters", function () {
   const tableName = `SpecialChars`;

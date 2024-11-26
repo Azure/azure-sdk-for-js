@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
 import { odata } from "../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("odata", function () {
   it("should handle empty string", function () {

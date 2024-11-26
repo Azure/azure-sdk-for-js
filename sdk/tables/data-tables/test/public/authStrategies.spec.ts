@@ -2,15 +2,13 @@
 // Licensed under the MIT License.
 
 import { createTableClient, createTableServiceClient } from "./utils/recordedClient.js";
-
-import type { Context } from "mocha";
 import type { CreateClientMode } from "./utils/recordedClient.js";
 import type { TableClient } from "../../src/TableClient.js";
 import type { TableServiceClient } from "../../src/TableServiceClient.js";
-import { assert } from "chai";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
 import { odata } from "../../src/odata.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const platform = isNodeLike ? "node" : "browser";
 const authMethods: CreateClientMode[] = isNodeLike

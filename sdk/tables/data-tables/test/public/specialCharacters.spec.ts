@@ -3,12 +3,10 @@
 
 import type { TableClient, TableEntityResult, TransactionAction } from "../../src/index.js";
 import { odata } from "../../src/index.js";
-
-import type { Context } from "mocha";
-import { assert } from "chai";
 import { createTableClient } from "./utils/recordedClient.js";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("SpecialCharacters", function () {
   before(function (ctx) {

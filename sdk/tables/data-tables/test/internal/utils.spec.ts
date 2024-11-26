@@ -4,10 +4,9 @@
 import { base64Decode, base64Encode } from "../../src/utils/bufferSerializer.js";
 
 import type { ConnectionString } from "../../src/utils/internalModels.js";
-import type { Context } from "mocha";
-import { assert } from "chai";
 import { extractConnectionStringParts } from "../../src/utils/connectionString.js";
 import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert } from "vitest";
 
 describe("Utility Helpers", function () {
   describe("extractConnectionStringParts", function () {

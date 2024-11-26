@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import { AzureNamedKeyCredential, generateTableSas } from "../../../src/index.js";
-
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 // This file is empty as sas generation is not supported in browsers
 describe("generateSas Browser", function () {

@@ -4,11 +4,10 @@
 import type { PipelineRequest, PipelineResponse, SendRequest } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import { AzureNamedKeyCredential } from "@azure/core-auth";
-import type { Context } from "mocha";
-import { assert } from "chai";
 import { expectedSharedKeyLiteHeader } from "./fakeTestSecrets.js";
 import { isNodeLike } from "@azure/core-util";
 import { tablesNamedKeyCredentialPolicy } from "../../src/tablesNamedCredentialPolicy.js";
+import { describe, it, assert } from "vitest";
 
 describe("TablesSharedKeyCredential", function () {
   let originalToUTCString: () => string;
