@@ -200,7 +200,7 @@ async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void
 
 async function cleanupFiles(projectFolder: string): Promise<void> {
   // Remove the old test files
-  const filesToRemove = ["karma.conf.js", ".nycrc"];
+  const filesToRemove = ["karma.conf.js", "karma.conf.cjs", ".nycrc"];
   for (const file of filesToRemove) {
     try {
       await unlink(resolve(projectFolder, file));
@@ -223,6 +223,8 @@ async function upgradeTypeScriptConfig(tsconfigPath: string): Promise<void> {
     "src/**/*.cts",
     "samples-dev/**/*.ts", // TODO: Check if samples-dev is needed
     "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts",
   ];
 
   // Remove old options
@@ -245,7 +247,7 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
   await addNewPackages(packageJson);
 
   // Sort the devDependencies
-  sortDevDependencies(packageJson);
+  sortPackage(packageJson);
 
   // Add tshy
   addTypeScriptHybridizer(packageJson);
@@ -364,6 +366,7 @@ function removeLegacyPackages(packageJson: any): void {
     "karma-mocha",
     "karma-mocha-reporter",
     "karma-sourcemap-loader",
+    "karma-source-map-support",
     "nyc",
     "puppeteer",
     "source-map-support",
@@ -388,9 +391,18 @@ function sortObjectByKeys(unsortedObj: { [key: string]: string }): { [key: strin
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function sortDevDependencies(packageJson: any): void {
+function sortPackage(packageJson: any): void {
+  if (packageJson.dependencies) {
+    packageJson.dependencies = sortObjectByKeys(packageJson.dependencies);
+  }
   if (packageJson.devDependencies) {
     packageJson.devDependencies = sortObjectByKeys(packageJson.devDependencies);
+  }
+  if (packageJson.peerDependencies) {
+    packageJson.peerDependencies = sortObjectByKeys(packageJson.peerDependencies);
+  }
+  if (packageJson.scripts) {
+    packageJson.scripts = sortObjectByKeys(packageJson.scripts);
   }
 }
 

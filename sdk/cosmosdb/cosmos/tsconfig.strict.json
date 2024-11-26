@@ -182,6 +182,7 @@
     "test/internal/unit/utils/supportedQueryFeaturesBuilder.spec.ts",
     "test/internal/unit/partitionMerge.spec.ts",
     "test/internal/unit/common/TestParallelQueryExecutionContext.ts",
+    "test/internal/unit/getHeader.spec.ts",
     "test/public/common/BaselineTest.PathParser.ts",
     "test/public/common/TestData.ts",
     "test/public/common/setup.ts",
