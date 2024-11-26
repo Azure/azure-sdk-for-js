@@ -204,8 +204,8 @@ export interface AgentsOperations {
   /** Create vector store and poll. */
   createVectorStoreAndPoll: (
     vectorStoreOptions?: VectorStoreOptions,
-    /** Time to wait before polling for the status of the vector store in seconds. Default value is 1. */
-    sleepInterval?: number,
+    sleepIntervalInMs?: number,
+    timeoutInMs?: number,
     requestParams?: OptionalRequestParameters,
   ) => Promise<VectorStoreOutput>;
 
@@ -378,8 +378,8 @@ function getAgents(context: Client): AgentsOperations {
       modifyVectorStore(context, vectorStoreId, { ...requestParams, body: options as Record<string, unknown> }),
     deleteVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) =>
       deleteVectorStore(context, vectorStoreId, requestParams),
-    createVectorStoreAndPoll: (vectorStoreOptions?: VectorStoreOptions, sleepInterval?: number, requestParams?: OptionalRequestParameters) =>
-      createVectorStoreAndPoll(context, { ...requestParams, body: vectorStoreOptions as Record<string, unknown> }, sleepInterval),
+    createVectorStoreAndPoll: (vectorStoreOptions?: VectorStoreOptions, sleepInterval?: number, timeoutInMs?: number, requestParams?: OptionalRequestParameters) =>
+      createVectorStoreAndPoll(context, { ...requestParams, body: vectorStoreOptions as Record<string, unknown> }, sleepInterval, timeoutInMs),
 
     createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptions, requestParams?: OptionalRequestParameters) =>
       createVectorStoreFile(context, vectorStoreId, { ...requestParams, body: {file_id: options?.fileId, data_sources: options?.dataSources, chunking_strategy: options?.chunkingStrategy} }),

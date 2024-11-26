@@ -107,8 +107,7 @@ export interface AgentsOperations {
     createThreadAndRun: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
     createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
     createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
-    createVectorStoreAndPoll: (vectorStoreOptions?: VectorStoreOptions,
-    sleepInterval?: number, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
+    createVectorStoreAndPoll: (vectorStoreOptions?: VectorStoreOptions, sleepIntervalInMs?: number, timeoutInMs?: number, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
     createVectorStoreFileAndPoll: (vectorStoreId: string, vectorStoreFileOptions?: CreateVectorStoreFileOptions,
     sleepInterval?: number, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;

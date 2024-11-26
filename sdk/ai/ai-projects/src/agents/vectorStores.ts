@@ -4,7 +4,7 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { ListVectorStoresParameters, CreateVectorStoreParameters, ModifyVectorStoreParameters, GetVectorStoreParameters, DeleteVectorStoreParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfVectorStoreOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
-import { delay } from "@azure/core-util";
+import { CreateVectorStorePoller } from "./pollingUtils/createVectorStorePoller.js";
 
 const expectedStatuses = ["200"];
 
@@ -89,12 +89,24 @@ export async function deleteVectorStore(
 export async function createVectorStoreAndPoll(
   context: Client,
   options?: CreateVectorStoreParameters,
-  sleepInterval: number = 1
+  sleepIntervalInMs?: number,
+  timeoutInMs: number = 10000,
 ): Promise<VectorStoreOutput> {
-  let vectorStore = await createVectorStore(context, options);
-  while (vectorStore.status === "in_progress") {
-    await delay(sleepInterval * 1000);
-    vectorStore = await getVectorStore(context, vectorStore.id);
+  const poller = new CreateVectorStorePoller(context, options, sleepIntervalInMs);
+  
+  if (timeoutInMs) {
+    const timeoutPromise = new Promise<never>((_resolve, reject) => 
+      setTimeout(() => {
+        poller.stopPolling();
+        reject(new Error("Polling operation exceeded timeout"));
+      }, timeoutInMs)
+    );
+    return Promise.race([poller.pollUntilDone(), timeoutPromise]);
   }
-  return vectorStore;
+
+  const result = poller.getOperationState().result;
+  if (!result) {
+    throw new Error("Polling operation exceeded timeout");
+  }
+  return result;
 }
