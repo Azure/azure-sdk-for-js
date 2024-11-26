@@ -779,14 +779,14 @@ index 9e947e6..2f30ba0 100644
  
      throw e;
 diff --git a/src/constants.ts b/src/constants.ts
-index 266b63d..60da499 100644
+index 22bd2b6..60da499 100644
 --- a/src/constants.ts
 +++ b/src/constants.ts
 @@ -1,6 +1,6 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--export const SDK_VERSION: string = "1.18.0";
+-export const SDK_VERSION: string = "1.18.1";
 +export const SDK_VERSION: string = "1.0.0-beta.1";
  
  export const DEFAULT_RETRY_POLICY_COUNT = 3;
