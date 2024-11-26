@@ -8,6 +8,9 @@ import type { FullOperationResponse, OperationOptions } from "@azure/core-client
 import { createTableServiceClient } from "./utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+
+expect.extend({ toSupportTracing })
 
 describe(`TableServiceClient`, function () {
   let client: TableServiceClient;
@@ -177,30 +180,29 @@ describe(`TableServiceClient`, function () {
     it("should trace through the various operations", async function () {
       const tableName = `testTracing${suffix}`;
       await recorder.setMatcher("HeaderlessMatcher");
-      await assert.supportsTracing(
-        async (options: OperationOptions) => {
-          await client.createTable(tableName, options);
-          await client.getProperties(options);
-          try {
-            await client.setProperties({}, options);
-          } catch {
-            // ignore exceptions
-          }
-          try {
-            await client.getStatistics(options);
-          } catch {
-            // ignore exceptions
-          }
-          await client.deleteTable(tableName, options);
-        },
-        [
-          "TableServiceClient.createTable",
-          "TableServiceClient.getProperties",
-          "TableServiceClient.setProperties",
-          "TableServiceClient.getStatistics",
-          "TableServiceClient.deleteTable",
-        ],
-      );
+      await expect(async (options: OperationOptions) => {
+    await client.createTable(tableName, options);
+    await client.getProperties(options);
+    try {
+        await client.setProperties({}, options);
+    }
+    catch {
+        // ignore exceptions
+    }
+    try {
+        await client.getStatistics(options);
+    }
+    catch {
+        // ignore exceptions
+    }
+    await client.deleteTable(tableName, options);
+}).toSupportTracing([
+    "TableServiceClient.createTable",
+    "TableServiceClient.getProperties",
+    "TableServiceClient.setProperties",
+    "TableServiceClient.getStatistics",
+    "TableServiceClient.deleteTable",
+]);
     });
   });
 });

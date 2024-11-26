@@ -8,6 +8,9 @@ import { isNodeLike } from "@azure/core-util";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { createTableClient } from "./utils/recordedClient.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
+
+expect.extend({ toSupportTracing })
 
 describe("special characters", function () {
   const tableName = `SpecialChars`;
@@ -660,32 +663,29 @@ describe(`TableClient`, function () {
 
   describe("tracing", function () {
     it("should trace through the various operations", async function () {
-      await assert.supportsTracing(
-        async (options: OperationOptions) => {
-          await client.createTable(options);
-          const entity = {
-            partitionKey: "A'aaa_bbbb2\"",
-            rowKey: `"A'aaa_bbbb2`,
-          };
-          await client.createEntity(entity, options);
-          await client.upsertEntity(entity, "Replace", options);
-          await client.getEntity(entity.partitionKey, entity.rowKey, options);
-          await client.updateEntity(entity, "Replace", options);
-          await client.listEntities(options).byPage().next();
-          await client.deleteEntity(entity.partitionKey, entity.rowKey, options);
-          await client.deleteTable(options);
-        },
-        [
-          "TableClient.createTable",
-          "TableClient.createEntity",
-          "TableClient.upsertEntity",
-          "TableClient.getEntity",
-          "TableClient.updateEntity",
-          "TableClient.listEntitiesPage",
-          "TableClient.deleteEntity",
-          "TableClient.deleteTable",
-        ],
-      );
+      await expect(async (options: OperationOptions) => {
+    await client.createTable(options);
+    const entity = {
+        partitionKey: "A'aaa_bbbb2\"",
+        rowKey: `"A'aaa_bbbb2`,
+    };
+    await client.createEntity(entity, options);
+    await client.upsertEntity(entity, "Replace", options);
+    await client.getEntity(entity.partitionKey, entity.rowKey, options);
+    await client.updateEntity(entity, "Replace", options);
+    await client.listEntities(options).byPage().next();
+    await client.deleteEntity(entity.partitionKey, entity.rowKey, options);
+    await client.deleteTable(options);
+}).toSupportTracing([
+    "TableClient.createTable",
+    "TableClient.createEntity",
+    "TableClient.upsertEntity",
+    "TableClient.getEntity",
+    "TableClient.updateEntity",
+    "TableClient.listEntitiesPage",
+    "TableClient.deleteEntity",
+    "TableClient.deleteTable",
+]);
     });
   });
 });
