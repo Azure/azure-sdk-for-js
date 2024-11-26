@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import {
   getPagedAsyncIterator,
@@ -57,6 +57,9 @@ export type PaginateReturn<TResult> = TResult extends
     }
   | {
       body: { entries?: infer TPage };
+    }
+  | {
+      body: { ledgerUsers?: infer TPage };
     }
   ? GetArrayType<TPage>
   : Array<unknown>;
@@ -173,7 +176,13 @@ function getPaginationProperties(initialResponse: PathUncheckedResponse) {
   const nextLinkNames = new Set(["nextLink", "@nextLink"]);
 
   // Build a set with the passed custom set of itemNames
-  const itemNames = new Set(["value", "members", "collections", "entries"]);
+  const itemNames = new Set([
+    "value",
+    "members",
+    "collections",
+    "entries",
+    "ledgerUsers"
+  ]);
 
   let nextLinkName: string | undefined;
   let itemName: string | undefined;

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import {
   GetConstitution200Response,
@@ -22,13 +22,15 @@ import {
   GetTransactionStatusDefaultResponse,
   GetCurrentLedgerEntry200Response,
   GetCurrentLedgerEntryDefaultResponse,
+  ListUsers200Response,
+  ListUsersDefaultResponse,
   DeleteUser204Response,
   DeleteUserDefaultResponse,
   GetUser200Response,
   GetUserDefaultResponse,
   CreateOrUpdateUser200Response,
   CreateOrUpdateUserDefaultResponse
-} from "./responses.js";
+} from "./responses";
 
 const responseMap: Record<string, string[]> = {
   "GET /app/governance/constitution": ["200"],
@@ -41,6 +43,7 @@ const responseMap: Record<string, string[]> = {
   "GET /app/transactions/{transactionId}/receipt": ["200"],
   "GET /app/transactions/{transactionId}/status": ["200"],
   "GET /app/transactions/current": ["200"],
+  "GET /app/users": ["200"],
   "DELETE /app/users/{userId}": ["204"],
   "GET /app/users/{userId}": ["200"],
   "PATCH /app/users/{userId}": ["200"]
@@ -83,6 +86,9 @@ export function isUnexpected(
     | GetCurrentLedgerEntryDefaultResponse
 ): response is GetCurrentLedgerEntryDefaultResponse;
 export function isUnexpected(
+  response: ListUsers200Response | ListUsersDefaultResponse
+): response is ListUsersDefaultResponse;
+export function isUnexpected(
   response: DeleteUser204Response | DeleteUserDefaultResponse
 ): response is DeleteUserDefaultResponse;
 export function isUnexpected(
@@ -113,6 +119,8 @@ export function isUnexpected(
     | GetTransactionStatusDefaultResponse
     | GetCurrentLedgerEntry200Response
     | GetCurrentLedgerEntryDefaultResponse
+    | ListUsers200Response
+    | ListUsersDefaultResponse
     | DeleteUser204Response
     | DeleteUserDefaultResponse
     | GetUser200Response
@@ -130,6 +138,7 @@ export function isUnexpected(
   | GetReceiptDefaultResponse
   | GetTransactionStatusDefaultResponse
   | GetCurrentLedgerEntryDefaultResponse
+  | ListUsersDefaultResponse
   | DeleteUserDefaultResponse
   | GetUserDefaultResponse
   | CreateOrUpdateUserDefaultResponse {

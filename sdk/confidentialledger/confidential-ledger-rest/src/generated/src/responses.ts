@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse } from "@azure-rest/core-client";
@@ -15,8 +15,9 @@ import {
   TransactionReceiptOutput,
   TransactionStatusOutput,
   LedgerEntryOutput,
+  PagedUsersOutput,
   LedgerUserOutput
-} from "./outputModels.js";
+} from "./outputModels";
 
 /** The constitution is a script that assesses and applies proposals from consortium members. */
 export interface GetConstitution200Response extends HttpResponse {
@@ -140,6 +141,18 @@ export interface GetCurrentLedgerEntry200Response extends HttpResponse {
 
 /** A collection id may optionally be specified. */
 export interface GetCurrentLedgerEntryDefaultResponse extends HttpResponse {
+  status: string;
+  body: ConfidentialLedgerErrorOutput;
+}
+
+/** All users' object IDs and roles will be returned. */
+export interface ListUsers200Response extends HttpResponse {
+  status: "200";
+  body: PagedUsersOutput;
+}
+
+/** All users' object IDs and roles will be returned. */
+export interface ListUsersDefaultResponse extends HttpResponse {
   status: string;
   body: ConfidentialLedgerErrorOutput;
 }
