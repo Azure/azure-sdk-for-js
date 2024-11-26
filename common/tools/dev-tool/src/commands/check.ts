@@ -80,12 +80,13 @@ export default leafCommand(commandInfo, async (options) => {
           ++checksSkipped;
         }
       } catch (e: unknown) {
+        const errorMessage = e instanceof Error ? e.message : String(e);
         if (check.severity === "warning") {
           ++warnings;
-          log(`  ⚠️  ${name} - ${(e as any).message}`);
+          log(`  ⚠️  ${name} - ${errorMessage}`);
         } else {
           ++checksFailed;
-          log(`  ❌ ${name} - ${(e as any).message}`);
+          log(`  ❌ ${name} - ${errorMessage}`);
         }
         if (isCheckFailedError(e) && e.detail) {
           e.detail
