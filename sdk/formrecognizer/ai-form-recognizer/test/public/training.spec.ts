@@ -14,11 +14,11 @@ import {
   getRandomNumber,
   makeCredential,
   testPollingOptions,
-} from "../utils/recordedClients";
+} from "../utils/recordedClients.js";
 
-import type { DocumentModelDetails } from "../../src";
-import { DocumentAnalysisClient, DocumentModelAdministrationClient } from "../../src";
-import { DocumentModelBuildMode } from "../../src/options/BuildModelOptions";
+import type { DocumentModelDetails } from "../../src/index.js";
+import { DocumentAnalysisClient, DocumentModelAdministrationClient } from "../../src/index.js";
+import { DocumentModelBuildMode } from "../../src/options/BuildModelOptions.js";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
 const containerSasUrl = (): string =>
@@ -36,8 +36,8 @@ matrix(
     describe(`[${useAad ? "AAD" : "API Key"}] model management`, () => {
       let recorder: Recorder;
 
-      beforeEach(async function (this: Context) {
-        recorder = await createRecorder(this.currentTest);
+      beforeEach(async function (ctx) {
+        recorder = await createRecorder(ctx);
       });
 
       afterEach(async function () {

@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { DocumentSpan } from "../../src";
+import type { DocumentSpan } from "../../src/index.js";
 import {
   contains,
   fastGetChildren,
   iteratorFromFirstMatchBinarySearch,
-} from "../../src/lro/analysis";
+} from "../../src/lro/analysis.js";
 
 import { assert } from "chai";
 

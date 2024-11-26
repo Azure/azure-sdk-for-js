@@ -8,15 +8,15 @@
 
 import { assert } from "chai";
 
-import type { AnalyzedDocument } from "../../src/lro/analysis";
+import type { AnalyzedDocument } from "../../src/lro/analysis.js";
 import type {
   DocumentArrayField,
   DocumentDateField,
   DocumentField,
   DocumentObjectField,
   DocumentValueField,
-} from "../../src/models";
-import { logger } from "./recordedClients";
+} from "../../src/models/index.js";
+import { logger } from "./recordedClients.js";
 
 /**
  * Similar to python's built-in `zip` function.

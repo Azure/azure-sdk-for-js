@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { DocumentAnalysisClient } from "../../src/documentAnalysisClient";
-import { DocumentModelAdministrationClient } from "../../src/documentModelAdministrationClient";
+import { DocumentAnalysisClient } from "../../src/documentAnalysisClient.js";
+import { DocumentModelAdministrationClient } from "../../src/documentModelAdministrationClient.js";
 
 import { assert } from "@azure-tools/test-utils";
 import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import type { OperationTracingOptions } from "@azure/core-tracing";
-import type { CopyAuthorization } from "../../src/generated";
-import type { FormRecognizerRequestBody } from "../../src/lro/analysis";
+import type { CopyAuthorization } from "../../src/generated/index.js";
+import type { FormRecognizerRequestBody } from "../../src/lro/analysis.js";
 
 // #region FakeClient
 

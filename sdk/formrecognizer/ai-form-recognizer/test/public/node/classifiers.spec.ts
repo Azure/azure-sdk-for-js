@@ -14,13 +14,13 @@ import {
   getRandomNumber,
   makeCredential,
   testPollingOptions,
-} from "../../utils/recordedClients";
-import type { DocumentClassifierDetails } from "../../../src/generated";
-import { DocumentModelAdministrationClient } from "../../../src/documentModelAdministrationClient";
-import { DocumentAnalysisClient } from "../../../src/documentAnalysisClient";
-import path from "path";
-import fs from "fs";
-import { ASSET_PATH, makeTestUrl } from "../../utils/etc";
+} from "../../utils/recordedClients.js";
+import type { DocumentClassifierDetails } from "../../../src/generated/index.js";
+import { DocumentModelAdministrationClient } from "../../../src/documentModelAdministrationClient.js";
+import { DocumentAnalysisClient } from "../../../src/documentAnalysisClient.js";
+import path from "node:path";
+import fs from "node:fs";
+import { ASSET_PATH, makeTestUrl } from "../../utils/etc.js";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
 const containerSasUrl = (): string =>
@@ -37,8 +37,8 @@ matrix([[true, false]] as const, async (useAad) => {
     let recorder: Recorder;
     let client: DocumentAnalysisClient;
 
-    beforeEach(async function (this: Context) {
-      recorder = await createRecorder(this.currentTest);
+    beforeEach(async function (ctx) {
+      recorder = await createRecorder(ctx);
       await recorder.setMatcher("BodilessMatcher");
       client = new DocumentAnalysisClient(
         endpoint(),
@@ -98,7 +98,7 @@ matrix([[true, false]] as const, async (useAad) => {
       return _classifier;
     }
 
-    it("build classifier", async function (this: Context) {
+    it("build classifier", async function (ctx) {
       const classifier = await requireClassifier();
 
       assert.containsAllKeys(classifier.docTypes, ["foo", "bar"]);
@@ -106,7 +106,7 @@ matrix([[true, false]] as const, async (useAad) => {
       assert.equal(classifier.description, customClassifierDescription);
     });
 
-    it("analyze from PNG file stream", async function (this: Context) {
+    it("analyze from PNG file stream", async function (ctx) {
       const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
       const stream = fs.createReadStream(filePath);
 
@@ -128,7 +128,7 @@ matrix([[true, false]] as const, async (useAad) => {
       assert.ok(result.pages![0].unit);
     });
 
-    it("analyze from PNG file URL", async function (this: Context) {
+    it("analyze from PNG file URL", async function (ctx) {
       const url = makeTestUrl("/Invoice_1.pdf");
 
       const { classifierId } = await requireClassifier();
@@ -147,7 +147,7 @@ matrix([[true, false]] as const, async (useAad) => {
     it("get & delete classifiers from the account", async function () {
       if (useAad) {
         // TODO: AAD is not implemented for this operation in the service.
-        this.skip();
+        ctx.skip();
         return;
       }
 

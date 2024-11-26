@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "@azure-tools/test-utils";
-import { lro } from "../../src/lro/util/poller";
+import { lro } from "../../src/lro/util/poller.js";
 import type { PollOperationState } from "@azure/core-lro";
 import { AbortError } from "@azure/abort-controller";
 

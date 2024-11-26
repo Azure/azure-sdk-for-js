@@ -4,16 +4,16 @@
 import { assert } from "chai";
 import type { Context } from "mocha";
 
-import { DocumentAnalysisClient } from "../../../src";
+import { DocumentAnalysisClient } from "../../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { createRecordedClient, testPollingOptions } from "../../utils/recordedClients";
+import { createRecordedClient, testPollingOptions } from "../../utils/recordedClients.js";
 
 describe("analysis (browser)", () => {
   let client: DocumentAnalysisClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     ({ recorder, client } = await createRecordedClient(
       this.currentTest,
       DocumentAnalysisClient,

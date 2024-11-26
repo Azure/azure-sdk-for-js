@@ -11,8 +11,8 @@ import {
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
 
-import type { PollerOptions } from "../../src";
-import { AzureKeyCredential } from "../../src";
+import type { PollerOptions } from "../../src/index.js";
+import { AzureKeyCredential } from "../../src/index.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createClientLogger } from "@azure/logger";
 import { createTestCredential } from "@azure-tools/test-credential";

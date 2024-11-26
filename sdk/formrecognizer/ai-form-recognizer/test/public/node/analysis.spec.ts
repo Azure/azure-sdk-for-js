@@ -5,33 +5,33 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { matrix } from "@azure-tools/test-utils";
 import { assert } from "chai";
-import fs from "fs";
+import fs from "node:fs";
 import type { Context } from "mocha";
-import path from "path";
+import path from "node:path";
 import type {
   AnalyzedDocument,
   DocumentTable,
   DocumentModelDetails,
   DocumentBarcode,
-} from "../../../src";
+} from "../../../src/index.js";
 import {
   DocumentAnalysisClient,
   DocumentModelAdministrationClient,
   FormRecognizerFeature,
-} from "../../../src";
-import type { DocumentSelectionMarkField } from "../../../src/models/fields";
+} from "../../../src/index.js";
+import type { DocumentSelectionMarkField } from "../../../src/models/fields.js";
 import {
   createRecorder,
   getRandomNumber,
   makeCredential,
   testPollingOptions,
-} from "../../utils/recordedClients";
-import { DocumentModelBuildMode } from "../../../src/options/BuildModelOptions";
-import { createValidator } from "../../utils/fieldValidator";
+} from "../../utils/recordedClients.js";
+import { DocumentModelBuildMode } from "../../../src/options/BuildModelOptions.js";
+import { createValidator } from "../../utils/fieldValidator.js";
 
-import { PrebuiltModels } from "../../utils/prebuilts";
-import type { PrebuiltIdDocumentDocument } from "../../../samples-dev/prebuilt/prebuilt-idDocument";
-import { ASSET_PATH, makeTestUrl } from "../../utils/etc";
+import { PrebuiltModels } from "../../utils/prebuilts.js";
+import type { PrebuiltIdDocumentDocument } from "../../../samples-dev/prebuilt/prebuilt-idDocument.js";
+import { ASSET_PATH, makeTestUrl } from "../../utils/etc.js";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
 
@@ -44,8 +44,8 @@ matrix([[true, false]] as const, async (useAad) => {
     let client: DocumentAnalysisClient;
     let recorder: Recorder;
 
-    beforeEach(async function (this: Context) {
-      recorder = await createRecorder(this.currentTest);
+    beforeEach(async function (ctx) {
+      recorder = await createRecorder(ctx);
       await recorder.setMatcher("BodilessMatcher");
       client = new DocumentAnalysisClient(
         endpoint(),
