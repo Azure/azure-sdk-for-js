@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { constructAuthenticationEndpointFromDomain } from "../src/util/authenticationEndpoint";
+import { constructAuthenticationEndpointFromDomain } from "../src/util/authenticationEndpoint.js";
 
 describe("authenticationEndpoint", () => {
   it("construct with invalid argument", () => {

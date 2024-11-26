@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { base64decode } from "./base64";
+import { base64decode } from "./base64.js";
 
 /**
  * Retrieves the expiration value from the JWT.

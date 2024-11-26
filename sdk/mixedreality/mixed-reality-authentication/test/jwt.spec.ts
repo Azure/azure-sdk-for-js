@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { assert } from "chai";
-import { retrieveJwtExpirationTimestamp } from "../src/util/jwt";
+import { retrieveJwtExpirationTimestamp } from "../src/util/jwt.js";
 
 describe("jwt", () => {
   it("parse expiration", () => {

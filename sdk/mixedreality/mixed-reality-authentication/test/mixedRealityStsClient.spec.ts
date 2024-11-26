@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureKeyCredential, MixedRealityStsClient } from "../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import { AzureKeyCredential, MixedRealityStsClient } from "../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createTokenCredentialFromMRKeyCredential } from "./utils/tokenCredentialHelper";
+import { createTokenCredentialFromMRKeyCredential } from "./utils/tokenCredentialHelper.js";
 
 describe("MixedRealityStsClient", () => {
   const accountDomain = "mixedreality.azure.com";
@@ -78,7 +78,7 @@ describe("[AccountKey] MixedRealityStsClient functional tests", function () {
   let client: MixedRealityStsClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     client = createClient(recorder.configureClientOptions({}));
   });
