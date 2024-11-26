@@ -3,8 +3,6 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { Context } from "mocha";
 import type {
   AnomalyDetectorRestClient,
   TrainMultivariateModelParameters,
@@ -12,6 +10,7 @@ import type {
 } from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("AnomalyDetectorClient", () => {
   let recorder: Recorder;
