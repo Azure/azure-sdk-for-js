@@ -8,6 +8,8 @@
 
 ### Bugs Fixed
 
+- Fixed issue for incorrect `ParallelizeCrossPartitionQuery` header value. It was set to true if `maxDegreeOfParallelism` was set to 0 or 1 in `FeedOptions` while executing a query. [#31232](https://github.com/Azure/azure-sdk-for-js/issues/31232)
+
 ### Other Changes
 
 ## 4.2.0 (2024-11-19)
