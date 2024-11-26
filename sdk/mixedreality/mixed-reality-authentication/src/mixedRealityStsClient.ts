@@ -3,7 +3,10 @@
 
 import type { AccessToken, TokenCredential } from "@azure/core-auth";
 import { AzureKeyCredential } from "@azure/core-auth";
-import type { GetTokenOptionalParams, MixedRealityStsRestClientOptionalParams } from "./generated/index.js";
+import type {
+  GetTokenOptionalParams,
+  MixedRealityStsRestClientOptionalParams,
+} from "./generated/index.js";
 import { MixedRealityStsRestClient } from "./generated/index.js";
 import type { GetTokenOptions, MixedRealityStsClientOptions } from "./models/options.js";
 import type { InternalClientPipelineOptions } from "@azure/core-client";

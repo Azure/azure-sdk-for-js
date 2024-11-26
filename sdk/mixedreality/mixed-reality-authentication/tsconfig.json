@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure/mixed-reality-authentication": [
-        "./src/index"
-      ]
+      "@azure/mixed-reality-authentication": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
