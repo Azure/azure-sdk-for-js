@@ -10,7 +10,7 @@ import type {
 } from "../../src/index.js";
 import { isUnexpected } from "../../src/index.js";
 import { createClient, createRecorder } from "./utils/recordedClient.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("AnomalyDetectorClient", () => {
   let recorder: Recorder;
@@ -68,7 +68,7 @@ describe("AnomalyDetectorClient", () => {
     { timestamp: "2018-04-16T00:00:00.000Z", value: 35250105 },
   ];
   beforeEach(async function (ctx) {
-    recorder = await createRecorder(this);
+    recorder = await createRecorder(ctx);
     client = await createClient(recorder);
   });
 
