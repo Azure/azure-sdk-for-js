@@ -16,7 +16,7 @@ steps:
         tar -xzf $tarFile -C $tempDir
         $packageJsonDir = "$tempDir/package/package.json"
         $pkg = Get-Content -Raw "$packageJsonDir" | ConvertFrom-Json
-        $packageName = "@azure/tessssssst"#$pkg.Name
+        $packageName = $pkg.Name
         $packageVersion = $pkg.Version
         $packageProps = npm view $packageName -json -silent | ConvertFrom-Json
         $originalTags = "{}"
