@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-import type { Context } from "mocha";
-
 import { getYieldedValue, matrix } from "@azure-tools/test-utils";
 
 import type { Recorder } from "@azure-tools/test-recorder";
@@ -19,6 +15,7 @@ import {
 import type { DocumentModelDetails } from "../../src/index.js";
 import { DocumentAnalysisClient, DocumentModelAdministrationClient } from "../../src/index.js";
 import { DocumentModelBuildMode } from "../../src/options/BuildModelOptions.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
 const containerSasUrl = (): string =>

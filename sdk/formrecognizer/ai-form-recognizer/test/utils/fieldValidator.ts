@@ -1,13 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-/**
- * This is a utility module for validating the contents of objects returned by document analysis methods using a simple
- * declarative "spec" format.
- */
-
-import { assert } from "chai";
-
 import type { AnalyzedDocument } from "../../src/lro/analysis.js";
 import type {
   DocumentArrayField,
@@ -17,6 +9,7 @@ import type {
   DocumentValueField,
 } from "../../src/models/index.js";
 import { logger } from "./recordedClients.js";
+import { assert } from "vitest";
 
 /**
  * Similar to python's built-in `zip` function.

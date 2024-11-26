@@ -4,9 +4,7 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { matrix } from "@azure-tools/test-utils";
-import { assert } from "chai";
 import fs from "node:fs";
-import type { Context } from "mocha";
 import path from "node:path";
 import type {
   AnalyzedDocument,
@@ -32,6 +30,7 @@ import { createValidator } from "../../utils/fieldValidator.js";
 import { PrebuiltModels } from "../../utils/prebuilts.js";
 import type { PrebuiltIdDocumentDocument } from "../../../samples-dev/prebuilt/prebuilt-idDocument.js";
 import { ASSET_PATH, makeTestUrl } from "../../utils/etc.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const endpoint = (): string => assertEnvironmentVariable("FORM_RECOGNIZER_ENDPOINT");
 

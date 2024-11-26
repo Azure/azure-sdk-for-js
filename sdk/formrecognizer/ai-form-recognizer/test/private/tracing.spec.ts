@@ -4,12 +4,11 @@
 import { AzureKeyCredential } from "@azure/core-auth";
 import { DocumentAnalysisClient } from "../../src/documentAnalysisClient.js";
 import { DocumentModelAdministrationClient } from "../../src/documentModelAdministrationClient.js";
-
-import { assert } from "@azure-tools/test-utils";
 import type { HttpClient, PipelineRequest } from "@azure/core-rest-pipeline";
 import type { OperationTracingOptions } from "@azure/core-tracing";
 import type { CopyAuthorization } from "../../src/generated/index.js";
 import type { FormRecognizerRequestBody } from "../../src/lro/analysis.js";
+import { describe, it, assert } from "vitest";
 
 // #region FakeClient
 

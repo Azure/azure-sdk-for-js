@@ -7,8 +7,7 @@ import {
   fastGetChildren,
   iteratorFromFirstMatchBinarySearch,
 } from "../../src/lro/analysis.js";
-
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 interface TestData {
   id: number;
