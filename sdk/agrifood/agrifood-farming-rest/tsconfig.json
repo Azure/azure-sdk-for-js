@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/agrifood-farming": [
-        "./src/index"
-      ]
+      "@azure-rest/agrifood-farming": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
