@@ -3,12 +3,11 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { assert } from "chai";
 import { createRecorder } from "./utils/recordedClient.js";
-import type { Context } from "mocha";
 import type { EasmClient } from "../../src/index.js";
 import EasmDefender, { isUnexpected } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("Assets Test", () => {
   let recorder: Recorder;
