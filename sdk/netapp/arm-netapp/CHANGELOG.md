@@ -1,5 +1,15 @@
 # Release History
-    
+
+## 21.4.0-beta.2 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 21.4.0-beta.1 (2024-11-18)
 Compared with version 21.3.0
     
