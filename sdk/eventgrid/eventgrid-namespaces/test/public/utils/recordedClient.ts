@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 
 import { EventGridSenderClient, EventGridReceiverClient } from "../../../src/index.js";
@@ -28,7 +28,7 @@ export const recorderOptions: RecorderStartOptions = {
 };
 
 export async function createRecordedClient(
-  currentTest: Test | undefined,
+  currentTest: TestInfo | undefined,
   endpointEnv: string,
   topicName: string,
   subscriptionName: string,
