@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { Suite } from "mocha";
-
 import { isSystemEvent } from "../../src/index.js";
-import { assert } from "chai";
+import { describe, it, assert } from "vitest";
 
 describe("Events tests", function (this: Suite) {
   it("isSystemEvent test", async () => {
