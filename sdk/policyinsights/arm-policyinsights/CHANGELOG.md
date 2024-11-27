@@ -12,7 +12,7 @@
 
 ## 6.0.0-beta.3 (2023-01-30)
     
-**Features**
+### Features Added
 
   - Added operation group ComponentPolicyStates
   - Added operation PolicyRestrictions.checkAtManagementGroupScope
@@ -80,7 +80,7 @@
   - Interface RemediationsListForResourceNextOptionalParams no longer has parameter queryOptions
   - Interface RemediationsListForSubscriptionNextOptionalParams no longer has parameter queryOptions
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation PolicyEvents.listQueryResultsForManagementGroup has a new signature
   - Operation PolicyEvents.listQueryResultsForPolicyDefinition has a new signature
@@ -105,7 +105,7 @@
     
 ## 6.0.0-beta.2 (2022-10-19)
     
-**Features**
+### Features Added
 
   - Added operation PolicyRestrictions.checkAtManagementGroupScope
   - Added Interface Attestation
@@ -120,7 +120,7 @@
   - Added Enum KnownPolicyStatesSummaryResourceType
   - Added Enum KnownPolicyTrackedResourcesResourceType
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation PolicyEvents.listQueryResultsForManagementGroup has a new signature
   - Operation PolicyEvents.listQueryResultsForPolicyDefinition has a new signature
@@ -145,7 +145,7 @@
 
 ## 6.0.0-beta.1 (2022-03-31)
     
-**Features**
+### Features Added
 
   - Added operation PolicyRestrictions.checkAtManagementGroupScope
   - Added Interface CheckManagementGroupRestrictionsRequest
@@ -158,7 +158,7 @@
   - Added Enum KnownPolicyStatesSummaryResourceType
   - Added Enum KnownPolicyTrackedResourcesResourceType
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation PolicyEvents.listQueryResultsForManagementGroup has a new signature
   - Operation PolicyEvents.listQueryResultsForPolicyDefinition has a new signature

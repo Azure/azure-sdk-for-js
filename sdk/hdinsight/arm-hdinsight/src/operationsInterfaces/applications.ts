@@ -17,7 +17,7 @@ import {
   ApplicationsCreateResponse,
   ApplicationsDeleteOptionalParams,
   ApplicationsGetAzureAsyncOperationStatusOptionalParams,
-  ApplicationsGetAzureAsyncOperationStatusResponse
+  ApplicationsGetAzureAsyncOperationStatusResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface Applications {
   listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: ApplicationsListByClusterOptionalParams
+    options?: ApplicationsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<Application>;
   /**
    * Gets properties of the specified application.
@@ -45,7 +45,7 @@ export interface Applications {
     resourceGroupName: string,
     clusterName: string,
     applicationName: string,
-    options?: ApplicationsGetOptionalParams
+    options?: ApplicationsGetOptionalParams,
   ): Promise<ApplicationsGetResponse>;
   /**
    * Creates applications for the HDInsight cluster.
@@ -60,7 +60,7 @@ export interface Applications {
     clusterName: string,
     applicationName: string,
     parameters: Application,
-    options?: ApplicationsCreateOptionalParams
+    options?: ApplicationsCreateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ApplicationsCreateResponse>,
@@ -80,7 +80,7 @@ export interface Applications {
     clusterName: string,
     applicationName: string,
     parameters: Application,
-    options?: ApplicationsCreateOptionalParams
+    options?: ApplicationsCreateOptionalParams,
   ): Promise<ApplicationsCreateResponse>;
   /**
    * Deletes the specified application on the HDInsight cluster.
@@ -93,7 +93,7 @@ export interface Applications {
     resourceGroupName: string,
     clusterName: string,
     applicationName: string,
-    options?: ApplicationsDeleteOptionalParams
+    options?: ApplicationsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes the specified application on the HDInsight cluster.
@@ -106,7 +106,7 @@ export interface Applications {
     resourceGroupName: string,
     clusterName: string,
     applicationName: string,
-    options?: ApplicationsDeleteOptionalParams
+    options?: ApplicationsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets the async operation status.
@@ -121,6 +121,6 @@ export interface Applications {
     clusterName: string,
     applicationName: string,
     operationId: string,
-    options?: ApplicationsGetAzureAsyncOperationStatusOptionalParams
+    options?: ApplicationsGetAzureAsyncOperationStatusOptionalParams,
   ): Promise<ApplicationsGetAzureAsyncOperationStatusResponse>;
 }

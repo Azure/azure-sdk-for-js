@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CryptographyOptions, KeyVaultKey } from "./keysModels";
+import type { CryptographyOptions, KeyVaultKey } from "./keysModels.js";
 
+import type { JsonWebKey } from "./generated/models/index.js";
 import {
   JsonWebKeyEncryptionAlgorithm as EncryptionAlgorithm,
-  JsonWebKey,
   JsonWebKeyCurveName as KeyCurveName,
   KnownJsonWebKeyCurveName as KnownKeyCurveNames,
   KnownJsonWebKeySignatureAlgorithm as KnownSignatureAlgorithms,
   JsonWebKeySignatureAlgorithm as SignatureAlgorithm,
-} from "./generated/models";
+} from "./generated/models/index.js";
 
 export {
   KeyCurveName,

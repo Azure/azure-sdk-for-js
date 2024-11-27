@@ -375,7 +375,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AddonListResult,
+      bodyMapper: Mappers.AddonList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -474,7 +474,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AddonListResult,
+      bodyMapper: Mappers.AddonList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

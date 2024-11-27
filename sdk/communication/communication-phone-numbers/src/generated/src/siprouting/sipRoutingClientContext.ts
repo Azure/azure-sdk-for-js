@@ -7,7 +7,7 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import { SipRoutingClientOptionalParams } from "./models";
+import { SipRoutingClientOptionalParams } from "./models/index.js";
 
 export class SipRoutingClientContext extends coreClient.ServiceClient {
   endpoint: string;

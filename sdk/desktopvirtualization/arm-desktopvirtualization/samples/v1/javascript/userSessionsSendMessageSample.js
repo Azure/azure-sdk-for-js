@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Send a message to a user.
  *
  * @summary Send a message to a user.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/UserSession_SendMessage_Post.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/UserSession_SendMessage_Post.json
  */
 async function userSessionSendMessagePost() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function userSessionSendMessagePost() {
     hostPoolName,
     sessionHostName,
     userSessionId,
-    options
+    options,
   );
   console.log(result);
 }

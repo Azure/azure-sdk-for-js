@@ -6,92 +6,21 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { RoleDefinitions } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import type { RoleDefinitions } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { AccessControlClient } from "../accessControlClient";
-import {
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import type { AccessControlClient } from "../accessControlClient.js";
+import type {
   RoleDefinitionsListRoleDefinitionsOptionalParams,
   RoleDefinitionsListRoleDefinitionsResponse,
   RoleDefinitionsGetRoleDefinitionByIdOptionalParams,
   RoleDefinitionsGetRoleDefinitionByIdResponse,
   RoleDefinitionsListScopesOptionalParams,
-  RoleDefinitionsListScopesResponse
-} from "../models";
+  RoleDefinitionsListScopesResponse,
+} from "../models/index.js";
 
-/** Class containing RoleDefinitions operations. */
-export class RoleDefinitionsImpl implements RoleDefinitions {
-  private readonly client: AccessControlClient;
-
-  /**
-   * Initialize a new instance of the class RoleDefinitions class.
-   * @param client Reference to the service client
-   */
-  constructor(client: AccessControlClient) {
-    this.client = client;
-  }
-
-  /**
-   * List role definitions.
-   * @param options The options parameters.
-   */
-  async listRoleDefinitions(
-    options?: RoleDefinitionsListRoleDefinitionsOptionalParams
-  ): Promise<RoleDefinitionsListRoleDefinitionsResponse> {
-    return tracingClient.withSpan(
-      "AccessControlClient.listRoleDefinitions",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { options },
-          listRoleDefinitionsOperationSpec
-        ) as Promise<RoleDefinitionsListRoleDefinitionsResponse>;
-      }
-    );
-  }
-
-  /**
-   * Get role definition by role definition Id.
-   * @param roleDefinitionId Synapse Built-In Role Definition Id.
-   * @param options The options parameters.
-   */
-  async getRoleDefinitionById(
-    roleDefinitionId: string,
-    options?: RoleDefinitionsGetRoleDefinitionByIdOptionalParams
-  ): Promise<RoleDefinitionsGetRoleDefinitionByIdResponse> {
-    return tracingClient.withSpan(
-      "AccessControlClient.getRoleDefinitionById",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { roleDefinitionId, options },
-          getRoleDefinitionByIdOperationSpec
-        ) as Promise<RoleDefinitionsGetRoleDefinitionByIdResponse>;
-      }
-    );
-  }
-
-  /**
-   * List rbac scopes.
-   * @param options The options parameters.
-   */
-  async listScopes(
-    options?: RoleDefinitionsListScopesOptionalParams
-  ): Promise<RoleDefinitionsListScopesResponse> {
-    return tracingClient.withSpan(
-      "AccessControlClient.listScopes",
-      options ?? {},
-      async (options) => {
-        return this.client.sendOperationRequest(
-          { options },
-          listScopesOperationSpec
-        ) as Promise<RoleDefinitionsListScopesResponse>;
-      }
-    );
-  }
-}
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
@@ -104,39 +33,35 @@ const listRoleDefinitionsOperationSpec: coreClient.OperationSpec = {
         type: {
           name: "Sequence",
           element: {
-            type: { name: "Composite", className: "SynapseRoleDefinition" }
-          }
-        }
-      }
+            type: { name: "Composite", className: "SynapseRoleDefinition" },
+          },
+        },
+      },
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.scope1,
-    Parameters.isBuiltIn
-  ],
+  queryParameters: [Parameters.apiVersion, Parameters.scope1, Parameters.isBuiltIn],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getRoleDefinitionByIdOperationSpec: coreClient.OperationSpec = {
   path: "/roleDefinitions/{roleDefinitionId}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SynapseRoleDefinition
+      bodyMapper: Mappers.SynapseRoleDefinition,
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.roleDefinitionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listScopesOperationSpec: coreClient.OperationSpec = {
   path: "/rbacScopes",
@@ -144,15 +69,87 @@ const listScopesOperationSpec: coreClient.OperationSpec = {
   responses: {
     200: {
       bodyMapper: {
-        type: { name: "Sequence", element: { type: { name: "String" } } }
-      }
+        type: { name: "Sequence", element: { type: { name: "String" } } },
+      },
     },
     default: {
-      bodyMapper: Mappers.ErrorContract
-    }
+      bodyMapper: Mappers.ErrorContract,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
+
+/** Class containing RoleDefinitions operations. */
+export class RoleDefinitionsImpl implements RoleDefinitions {
+  private readonly client: AccessControlClient;
+
+  /**
+   * Initialize a new instance of the class RoleDefinitions class.
+   * @param client - Reference to the service client
+   */
+  constructor(client: AccessControlClient) {
+    this.client = client;
+  }
+
+  /**
+   * List role definitions.
+   * @param options - The options parameters.
+   */
+  async listRoleDefinitions(
+    options?: RoleDefinitionsListRoleDefinitionsOptionalParams,
+  ): Promise<RoleDefinitionsListRoleDefinitionsResponse> {
+    return tracingClient.withSpan(
+      "AccessControlClient.listRoleDefinitions",
+      options ?? {},
+      async (updatedOptions) => {
+        return this.client.sendOperationRequest(
+          { updatedOptions },
+          listRoleDefinitionsOperationSpec,
+        ) as Promise<RoleDefinitionsListRoleDefinitionsResponse>;
+      },
+    );
+  }
+
+  /**
+   * Get role definition by role definition Id.
+   * @param roleDefinitionId - Synapse Built-In Role Definition Id.
+   * @param options - The options parameters.
+   */
+  async getRoleDefinitionById(
+    roleDefinitionId: string,
+    options?: RoleDefinitionsGetRoleDefinitionByIdOptionalParams,
+  ): Promise<RoleDefinitionsGetRoleDefinitionByIdResponse> {
+    return tracingClient.withSpan(
+      "AccessControlClient.getRoleDefinitionById",
+      options ?? {},
+      async (updatedOptions) => {
+        return this.client.sendOperationRequest(
+          { roleDefinitionId, updatedOptions },
+          getRoleDefinitionByIdOperationSpec,
+        ) as Promise<RoleDefinitionsGetRoleDefinitionByIdResponse>;
+      },
+    );
+  }
+
+  /**
+   * List rbac scopes.
+   * @param options - The options parameters.
+   */
+  async listScopes(
+    options?: RoleDefinitionsListScopesOptionalParams,
+  ): Promise<RoleDefinitionsListScopesResponse> {
+    return tracingClient.withSpan(
+      "AccessControlClient.listScopes",
+      options ?? {},
+      async (updatedOptions) => {
+        return this.client.sendOperationRequest(
+          { updatedOptions },
+          listScopesOperationSpec,
+        ) as Promise<RoleDefinitionsListScopesResponse>;
+      },
+    );
+  }
+}

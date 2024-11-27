@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Approve or reject a private endpoint connection manually.
  *
  * @summary Approve or reject a private endpoint connection manually.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/ApprovePrivateEndpointConnection.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/ApprovePrivateEndpointConnection.json
  */
 async function approveAPrivateEndpointConnectionManually() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -36,7 +36,7 @@ async function approveAPrivateEndpointConnectionManually() {
     resourceGroupName,
     clusterName,
     privateEndpointConnectionName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

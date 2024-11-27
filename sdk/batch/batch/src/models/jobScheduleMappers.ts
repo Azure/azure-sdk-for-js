@@ -20,9 +20,9 @@ export {
   CIFSMountConfiguration,
   CloudJobSchedule,
   CloudJobScheduleListResult,
-  CloudServiceConfiguration,
   ComputeNodeIdentityReference,
   ContainerConfiguration,
+  ContainerHostBatchBindMountEntry,
   ContainerRegistry,
   DataDisk,
   DiffDiskSettings,
@@ -85,6 +85,7 @@ export {
   UserAccount,
   UserIdentity,
   VirtualMachineConfiguration,
+  VMDiskSecurityProfile,
   VMExtension,
   WindowsConfiguration,
   WindowsUserConfiguration

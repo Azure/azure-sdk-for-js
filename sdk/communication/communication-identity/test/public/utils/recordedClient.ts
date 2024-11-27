@@ -1,16 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { Context, Test } from "mocha";
-import {
-  Recorder,
-  RecorderStartOptions,
-  SanitizerOptions,
-  env,
-  isPlaybackMode,
-} from "@azure-tools/test-recorder";
-import { CommunicationIdentityClient } from "../../../src";
-import { TokenCredential } from "@azure/core-auth";
+// Licensed under the MIT License.
+import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { CommunicationIdentityClient } from "../../../src/index.js";
+import type { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { parseConnectionString } from "@azure/communication-common";
 
@@ -68,7 +61,7 @@ const recorderOptions: RecorderStartOptions = {
   sanitizerOptions: sanitizerOptions,
 };
 
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   await recorder.setMatcher("CustomDefaultMatcher", {
@@ -81,9 +74,9 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedCommunicationIdentityClient(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<CommunicationIdentityClient>> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   const client = new CommunicationIdentityClient(
     env.COMMUNICATION_LIVETEST_DYNAMIC_CONNECTION_STRING ?? "",
@@ -97,9 +90,9 @@ export async function createRecordedCommunicationIdentityClient(
 }
 
 export async function createRecordedCommunicationIdentityClientWithToken(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<CommunicationIdentityClient>> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(

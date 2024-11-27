@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { OperationType, ResourceType } from "../common";
+// Licensed under the MIT License.
+import type { OperationType, ResourceType } from "../common";
 
 /**
  * @hidden

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force adherence to SemVer guidelines.
@@ -14,7 +14,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force adherence to SemVer guidelines",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

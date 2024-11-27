@@ -1,23 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createPurviewWorkflowClient, {
-  SubmitUserRequestsParameters,
-  isUnexpected,
-} from "@azure-rest/purview-workflow";
-import { UsernamePasswordCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
 
-dotenv.config();
+import type { SubmitUserRequestsParameters } from "@azure-rest/purview-workflow";
+import createPurviewWorkflowClient, { isUnexpected } from "@azure-rest/purview-workflow";
+import { UsernamePasswordCredential } from "@azure/identity";
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Submit a user request for requestor, a user  request describes user ask to do operation(s) on Purview. If any workflow's trigger matches with an operation in request, a run of the workflow is created. Before user submit a user request, a workflow should be created.
  *
  * @summary Submit a user request for requestor, a user  request describes user ask to do operation(s) on Purview. If any workflow's trigger matches with an operation in request, a run of the workflow is created.
  */
-async function userRequestsSubmit() {
+async function userRequestsSubmit(): Promise<void> {
   // ================================================== Create client ==================================================
 
   const endpoint = process.env["ENDPOINT"] || "";
@@ -47,7 +41,7 @@ async function userRequestsSubmit() {
         },
       ],
     },
-  }; //This payload is an example payload, please replace the payload with real data.
+  }; // This payload is an example payload, please replace the payload with real data.
 
   const result = await client.path("/userrequests").post(userRequestPayload);
   if (isUnexpected(result)) {

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Remove an applicationGroup.
  *
  * @summary Remove an applicationGroup.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ApplicationGroup_Delete.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/ApplicationGroup_Delete.json
  */
 async function applicationGroupDelete() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function applicationGroupDelete() {
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const result = await client.applicationGroups.delete(
     resourceGroupName,
-    applicationGroupName
+    applicationGroupName,
   );
   console.log(result);
 }

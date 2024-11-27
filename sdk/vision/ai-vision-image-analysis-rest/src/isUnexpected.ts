@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   AnalyzeFromImageData200Response,
   AnalyzeFromImageDataDefaultResponse,
   AnalyzeFromUrl200Response,
   AnalyzeFromUrlDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /imageanalysis:analyze": ["200"],

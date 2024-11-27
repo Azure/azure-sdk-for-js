@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a ElasticSan.
  *
  * @summary Get a ElasticSan.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/ElasticSans_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Get_MaximumSet_Gen.json
  */
 async function elasticSansGetMaximumSetGen() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function elasticSansGetMaximumSetGen() {
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.elasticSans.get(
     resourceGroupName,
-    elasticSanName
+    elasticSanName,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function elasticSansGetMaximumSetGen() {
  * This sample demonstrates how to Get a ElasticSan.
  *
  * @summary Get a ElasticSan.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/ElasticSans_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Get_MinimumSet_Gen.json
  */
 async function elasticSansGetMinimumSetGen() {
   const subscriptionId =
@@ -51,7 +51,7 @@ async function elasticSansGetMinimumSetGen() {
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.elasticSans.get(
     resourceGroupName,
-    elasticSanName
+    elasticSanName,
   );
   console.log(result);
 }

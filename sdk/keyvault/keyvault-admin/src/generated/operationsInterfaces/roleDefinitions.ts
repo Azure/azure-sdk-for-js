@@ -17,7 +17,7 @@ import {
   RoleDefinitionsListResponse,
   RoleDefinitionsListNextOptionalParams,
   RoleDefinitionsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a RoleDefinitions. */
 export interface RoleDefinitions {

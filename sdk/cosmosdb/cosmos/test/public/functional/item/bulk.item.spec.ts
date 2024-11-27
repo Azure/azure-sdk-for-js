@@ -1,29 +1,29 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import assert from "assert";
-import {
-  Constants,
+import type {
   BulkOptions,
   Container,
   ContainerRequest,
-  CosmosClient,
   OperationResponse,
+  PluginConfig,
+} from "../../../../src";
+import {
+  Constants,
+  CosmosClient,
   PatchOperationType,
   CosmosDbDiagnosticLevel,
-  PluginConfig,
   PluginOn,
   StatusCodes,
   ErrorResponse,
 } from "../../../../src";
 import { addEntropy, getTestContainer, testForDiagnostics } from "../../common/TestHelpers";
-import { BulkOperationType, OperationInput } from "../../../../src";
+import type { OperationInput } from "../../../../src";
+import { BulkOperationType } from "../../../../src";
 import { generateOperationOfSize } from "../../../internal/unit/utils/batch.spec";
-import {
-  PartitionKey,
-  PartitionKeyDefinitionVersion,
-  PartitionKeyKind,
-} from "../../../../src/documents";
+import type { PartitionKey } from "../../../../src/documents";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents";
 import { endpoint } from "../../common/_testConfig";
 import { masterKey } from "../../common/_fakeTestSecrets";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time";
@@ -432,9 +432,7 @@ describe("test bulk operations", async function () {
       };
       const defaultBulkTestDataSet: BulkTestDataSet = {
         dbName: "bulkTestDB",
-        bulkOperationOptions: {
-          continueOnError: false,
-        },
+        bulkOperationOptions: {},
         containerRequest: {
           id: "patchContainer",
           partitionKey: {
@@ -937,11 +935,14 @@ describe("test bulk operations", async function () {
         };
         await runBulkTestDataSet(dataset);
       });
-      it("424 errors for operations after an error", async function () {
+      it("424 errors for operations after an error when continueOnError is set to false", async function () {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
           dbName: addEntropy("424 errors"),
           documentToCreate: [],
+          bulkOperationOptions: {
+            continueOnError: false,
+          },
           operations: [
             {
               description: "Operation should fail with invalid ttl.",
@@ -961,14 +962,11 @@ describe("test bulk operations", async function () {
         };
         await runBulkTestDataSet(dataset);
       });
-      it("Continues after errors with continueOnError true", async function () {
+      it("Continues after errors with default value of continueOnError true", async function () {
         const dataset: BulkTestDataSet = {
           ...defaultBulkTestDataSet,
           dbName: addEntropy("continueOnError"),
           documentToCreate: [],
-          bulkOperationOptions: {
-            continueOnError: true,
-          },
           operations: [
             {
               description: "Operation should fail with invalid ttl.",

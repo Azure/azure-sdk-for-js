@@ -1,43 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "@azure-tools/test-utils";
-import { Context } from "mocha";
-import {
+// Licensed under the MIT License.
+import type {
   AesCbcEncryptionAlgorithm,
-  CryptographyClient,
   JsonWebKey,
   KeyClient,
   KeyVaultKey,
-} from "../../src";
-import { getKey, stringToUint8Array, uint8ArrayToString } from "../public/utils/crypto";
-import { isNode } from "@azure/core-util";
-import { AesCryptographyProvider } from "../../src/cryptography/aesCryptographyProvider";
-import TestClient from "../public/utils/testClient";
-import { authenticate, envSetupForPlayback } from "../public/utils/testAuthentication";
+} from "../../src/index.js";
+import { CryptographyClient } from "../../src/index.js";
+import { getKey, stringToUint8Array, uint8ArrayToString } from "../public/utils/crypto.js";
+import TestClient from "../public/utils/testClient.js";
+import { authenticate, envSetupForPlayback } from "../public/utils/testAuthentication.js";
 import { Recorder, env, isLiveMode } from "@azure-tools/test-recorder";
-import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider";
-import { ClientSecretCredential } from "@azure/identity";
-import { getServiceVersion } from "../public/utils/common";
-
-describe("AesCryptographyProvider browser tests", function () {
-  it("uses the browser replacement when running in the browser", async function (this: Context) {
-    if (isNode) {
-      this.skip();
-    }
-
-    const aesProvider = new AesCryptographyProvider({});
-    assert.throws(
-      () =>
-        aesProvider.encrypt({
-          algorithm: "A256CBCPAD",
-          plaintext: stringToUint8Array("foo"),
-          iv: stringToUint8Array("foo"),
-        }),
-      /not supported in the browser/,
-    );
-  });
-});
+import { RemoteCryptographyProvider } from "../../src/cryptography/remoteCryptographyProvider.js";
+import type { ClientSecretCredential } from "@azure/identity";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 describe("AesCryptographyProvider internal tests", function () {
   for (const keySize of [128, 192, 256]) {
@@ -45,11 +21,7 @@ describe("AesCryptographyProvider internal tests", function () {
     const encryptionAlgorithm = `A${keySize}CBCPAD` as AesCbcEncryptionAlgorithm;
     let jwk: JsonWebKey;
 
-    beforeEach(function (this: Context) {
-      if (!isNode) {
-        this.skip();
-      }
-
+    beforeEach(function () {
       jwk = {
         keyOps: ["encrypt", "decrypt", "wrapKey", "unwrapKey"],
         k: getKey(keySize >> 3), // Generate a symmetric key for testing
@@ -61,8 +33,8 @@ describe("AesCryptographyProvider internal tests", function () {
 
     describe(`AES-CBC with PKCS padding (${keySize})`, () => {
       describe("local-only tests", async function () {
-        it("encrypts and decrypts locally", async function (this: Context) {
-          const text = this.test!.title;
+        it("encrypts and decrypts locally", async function (ctx) {
+          const text = ctx.task.name;
           const encryptResult = await cryptoClient.encrypt({
             algorithm: encryptionAlgorithm,
             plaintext: stringToUint8Array(text),
@@ -74,53 +46,49 @@ describe("AesCryptographyProvider internal tests", function () {
             ciphertext: encryptResult.result!,
             iv: encryptResult.iv!,
           });
-          assert.equal(uint8ArrayToString(decryptResult.result), text);
+          expect(uint8ArrayToString(decryptResult.result)).toEqual(text);
         });
 
-        it("validates the key type", async function (this: Context) {
-          const text = this.test!.title;
+        it("validates the key type", async function (ctx) {
+          const text = ctx.task.name;
           jwk.kty = "RSA";
 
-          await assert.isRejected(
+          await expect(
             cryptoClient.encrypt({
               algorithm: encryptionAlgorithm,
               plaintext: stringToUint8Array(text),
               iv: getKey(16),
             }),
-            /Key type does not match/,
-          );
+          ).rejects.toThrow(/Key type does not match/);
 
-          await assert.isRejected(
+          await expect(
             cryptoClient.decrypt({
               algorithm: encryptionAlgorithm,
               ciphertext: stringToUint8Array(text),
               iv: getKey(16),
             }),
-            /Key type does not match/,
-          );
+          ).rejects.toThrow(/Key type does not match/);
         });
 
-        it("validates the key length", async function (this: Context) {
-          const text = this.test!.title;
+        it("validates the key length", async function (ctx) {
+          const text = ctx.task.name;
           jwk.k = getKey((keySize >> 3) - 1);
 
-          await assert.isRejected(
+          await expect(
             cryptoClient.encrypt({
               algorithm: encryptionAlgorithm,
               plaintext: stringToUint8Array(text),
               iv: getKey(16),
             }),
-            /Key must be at least \d+ bits/,
-          );
+          ).rejects.toThrow(/Key must be at least \d+ bits/);
 
-          await assert.isRejected(
+          await expect(
             cryptoClient.decrypt({
               algorithm: encryptionAlgorithm,
               ciphertext: stringToUint8Array(text),
               iv: getKey(16),
             }),
-            /Key must be at least \d+ bits/,
-          );
+          ).rejects.toThrow(/Key must be at least \d+ bits/);
         });
       });
 
@@ -134,16 +102,16 @@ describe("AesCryptographyProvider internal tests", function () {
         let keyVaultKey: KeyVaultKey;
         let remoteProvider: RemoteCryptographyProvider;
 
-        beforeEach(async function (this: Context) {
-          recorder = new Recorder(this.currentTest);
+        beforeEach(async function (ctx) {
+          recorder = new Recorder(ctx);
           await recorder.start(envSetupForPlayback);
 
-          const authentication = await authenticate(getServiceVersion(), recorder);
+          const authentication = await authenticate(recorder);
 
           if (!authentication.hsmClient) {
             // Managed HSM is not deployed for this run due to service resource restrictions so we skip these tests.
             // This is only necessary while Managed HSM is in preview.
-            this.skip();
+            ctx.skip();
           }
 
           client = authentication.hsmClient;
@@ -156,8 +124,8 @@ describe("AesCryptographyProvider internal tests", function () {
           await recorder.stop();
         });
 
-        it("encrypts locally and decrypts remotely", async function (this: Context) {
-          const keyName = testClient.formatName(`${keyPrefix}-${this.test!.title}-${keySuffix}`);
+        it("encrypts locally and decrypts remotely", async function (ctx) {
+          const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
           keyVaultKey = await client.importKey(keyName, jwk, {});
           remoteProvider = new RemoteCryptographyProvider(
             keyVaultKey,
@@ -167,7 +135,7 @@ describe("AesCryptographyProvider internal tests", function () {
             }),
           );
 
-          const text = this.test!.title;
+          const text = ctx.task.name;
           const iv = getKey(16);
           const encryptResult = await cryptoClient.encrypt({
             algorithm: encryptionAlgorithm,
@@ -180,12 +148,12 @@ describe("AesCryptographyProvider internal tests", function () {
             ciphertext: encryptResult.result!,
             iv: encryptResult.iv!,
           });
-          assert.equal(uint8ArrayToString(decryptResult.result), text);
+          expect(uint8ArrayToString(decryptResult.result)).toEqual(text);
           await testClient.flushKey(keyName);
         });
 
-        it("encrypts remotely and decrypts locally", async function (this: Context) {
-          const keyName = testClient.formatName(`${keyPrefix}-${this.test!.title}-${keySuffix}`);
+        it("encrypts remotely and decrypts locally", async function (ctx) {
+          const keyName = testClient.formatName(`${keyPrefix}-${ctx.task.name}-${keySuffix}`);
           keyVaultKey = await client.importKey(keyName, jwk, {});
           remoteProvider = new RemoteCryptographyProvider(
             keyVaultKey,
@@ -195,7 +163,7 @@ describe("AesCryptographyProvider internal tests", function () {
             }),
           );
 
-          const text = this.test!.title;
+          const text = ctx.task.name;
           const iv = getKey(16);
           const encryptResult = await remoteProvider.encrypt({
             algorithm: encryptionAlgorithm,
@@ -208,7 +176,8 @@ describe("AesCryptographyProvider internal tests", function () {
             ciphertext: encryptResult.result!,
             iv: encryptResult.iv || iv,
           });
-          assert.equal(uint8ArrayToString(decryptResult.result), text);
+
+          expect(uint8ArrayToString(decryptResult.result)).toEqual(text);
           await testClient.flushKey(keyName);
         });
       });

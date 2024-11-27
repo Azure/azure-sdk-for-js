@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** The supported character encoding type */
 export type EncodingType = "utf-8" | "base64" | "base64url" | "hex";

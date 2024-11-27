@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   PrivateEndpointConnection,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Approve or reject a private endpoint connection.
  *
  * @summary Approve or reject a private endpoint connection.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/PrivateEndpointConnection_UpdateByWorkspace.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/PrivateEndpointConnection_UpdateByWorkspace.json
  */
 async function privateEndpointConnectionUpdateByWorkspace() {
   const subscriptionId =
@@ -36,8 +36,8 @@ async function privateEndpointConnectionUpdateByWorkspace() {
     privateLinkServiceConnectionState: {
       description: "Approved by admin@consoto.com",
       actionsRequired: "None",
-      status: "Approved"
-    }
+      status: "Approved",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
@@ -45,7 +45,7 @@ async function privateEndpointConnectionUpdateByWorkspace() {
     resourceGroupName,
     workspaceName,
     privateEndpointConnectionName,
-    connection
+    connection,
   );
   console.log(result);
 }

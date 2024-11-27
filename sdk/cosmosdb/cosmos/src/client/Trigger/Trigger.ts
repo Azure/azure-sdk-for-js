@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+// Licensed under the MIT License.
+import type { ClientContext } from "../../ClientContext";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   createTriggerUri,
   getIdFromLink,
@@ -9,9 +9,9 @@ import {
   isResourceValid,
   ResourceType,
 } from "../../common";
-import { RequestOptions } from "../../request";
-import { Container } from "../Container";
-import { TriggerDefinition } from "./TriggerDefinition";
+import type { RequestOptions } from "../../request";
+import type { Container } from "../Container";
+import type { TriggerDefinition } from "./TriggerDefinition";
 import { TriggerResponse } from "./TriggerResponse";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 

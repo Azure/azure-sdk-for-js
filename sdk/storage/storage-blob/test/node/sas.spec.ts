@@ -1,8 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 
+import type {
+  StorageSharedKeyCredential,
+  Tags,
+  UserDelegationKey,
+  BlobImmutabilityPolicyMode,
+} from "../../src";
 import {
   AccountSASPermissions,
   AccountSASResourceTypes,
@@ -15,20 +21,17 @@ import {
   generateBlobSASQueryParameters,
   PageBlobClient,
   BlobServiceClient,
-  StorageSharedKeyCredential,
   newPipeline,
   BlobClient,
-  Tags,
   SASProtocol,
-  UserDelegationKey,
   BlobBatch,
-  BlobImmutabilityPolicyMode,
 } from "../../src";
 import {
   configureBlobStorageClient,
   getBSU,
   getEncryptionScope_1,
   getImmutableContainerName,
+  getSignatureFromSasUrl,
   getTokenBSUWithDefaultCredential,
   getUniqueName,
   recorderEnvSetup,
@@ -36,7 +39,8 @@ import {
 } from "../utils";
 import { delay, isLiveMode, Recorder, env } from "@azure-tools/test-recorder";
 import { SERVICE_VERSION } from "../../src/utils/constants";
-import { Context } from "mocha";
+import type { Context } from "mocha";
+import { UserDelegationKeyCredential } from "../../src/credentials/UserDelegationKeyCredential";
 
 describe("Shared Access Signature (SAS) generation Node.js only", () => {
   let recorder: Recorder;
@@ -2721,6 +2725,7 @@ describe("Generation for user delegation SAS Node.js only", () => {
       await recorder.stop();
     }
   });
+
   it("user delegation SAS permission m, e for blob should work", async function () {
     const blobSAS = generateBlobSASQueryParameters(
       {
@@ -2982,5 +2987,475 @@ describe("Shared Access Signature (SAS) generation Node.js Only - ImmutabilityPo
       "unlocked" as BlobImmutabilityPolicyMode | undefined,
     );
     assert.ok(propertiesResult.legalHold);
+  });
+});
+
+describe("Generation for user delegation SAS against container Node.js only", () => {
+  let recorder: Recorder;
+
+  let blobServiceClient: BlobServiceClient;
+  let containerClient: ContainerClient;
+  let now: Date;
+  let tmr: Date;
+  let userDelegationKey: UserDelegationKey;
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    try {
+      blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      // Requires bearer token for this case which cannot be generated in the runtime
+      // Make sure this case passed in sanity test
+      this.skip();
+    }
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+
+    now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 1);
+    userDelegationKey = await blobServiceClient.getUserDelegationKey(now, tmr);
+  });
+
+  afterEach(async function () {
+    if (containerClient) {
+      await containerClient.delete();
+    }
+    await recorder.stop();
+  });
+
+  it("generateUserDelegationSasUrl should work with all configurations", async function (this: Context) {
+    const generateSASOptions = {
+      expiresOn: tmr,
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
+      permissions: ContainerSASPermissions.parse("racwdl"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now,
+      version: SERVICE_VERSION,
+    };
+
+    const containerSasUrl = await containerClient.generateUserDelegationSasUrl(
+      generateSASOptions,
+      userDelegationKey,
+    );
+
+    const containerClientWithSAS = new ContainerClient(
+      containerSasUrl,
+      newPipeline(new AnonymousCredential()),
+    );
+    configureBlobStorageClient(recorder, containerClientWithSAS);
+
+    const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.deepStrictEqual(result.continuationToken, "");
+
+    const stringToSign = containerClient.generateUserDelegationSasStringToSign(
+      generateSASOptions,
+      userDelegationKey,
+    );
+
+    const userDelegationKeyCredential = new UserDelegationKeyCredential(
+      blobServiceClient.accountName,
+      userDelegationKey,
+    );
+    const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+    assert.deepEqual(signature, getSignatureFromSasUrl(containerSasUrl));
+  });
+
+  it("generateUserDelegationSasUrl should work with minimum parameters", async function (this: Context) {
+    const generateSasOptions = {
+      expiresOn: tmr,
+      permissions: ContainerSASPermissions.parse("racwdl"),
+    };
+
+    const containerSasUrl = await containerClient.generateUserDelegationSasUrl(
+      generateSasOptions,
+      userDelegationKey,
+    );
+
+    const containerClientWithSAS = new ContainerClient(
+      containerSasUrl,
+      newPipeline(new AnonymousCredential()),
+    );
+    configureBlobStorageClient(recorder, containerClientWithSAS);
+
+    const result = (await containerClientWithSAS.listBlobsFlat().byPage().next()).value;
+    assert.ok(result.serviceEndpoint.length > 0);
+    assert.deepStrictEqual(result.continuationToken, "");
+
+    const stringToSign = containerClient.generateUserDelegationSasStringToSign(
+      generateSasOptions,
+      userDelegationKey,
+    );
+
+    const userDelegationKeyCredential = new UserDelegationKeyCredential(
+      blobServiceClient.accountName,
+      userDelegationKey,
+    );
+    const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+    assert.deepEqual(signature, getSignatureFromSasUrl(containerSasUrl));
+  });
+
+  it("SAS permission m, e for container should work", async function () {
+    const generateSasOptions = {
+      expiresOn: tmr,
+      permissions: ContainerSASPermissions.parse("racwdltxme"),
+      version: "2020-02-10",
+    };
+
+    const containerSasUrl = await containerClient.generateUserDelegationSasUrl(
+      generateSasOptions,
+      userDelegationKey,
+    );
+    const containerClientWithSAS = new ContainerClient(containerSasUrl);
+    configureBlobStorageClient(recorder, containerClientWithSAS);
+    await containerClientWithSAS.listBlobsFlat().byPage().next();
+
+    const stringToSign = containerClient.generateUserDelegationSasStringToSign(
+      generateSasOptions,
+      userDelegationKey,
+    );
+
+    const userDelegationKeyCredential = new UserDelegationKeyCredential(
+      blobServiceClient.accountName,
+      userDelegationKey,
+    );
+    const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+    assert.deepEqual(signature, getSignatureFromSasUrl(containerSasUrl));
+  });
+});
+
+describe("Generation for user delegation SAS against blob Node.js only", () => {
+  let recorder: Recorder;
+  let blobServiceClient: BlobServiceClient;
+  let userDelegationKey: UserDelegationKey;
+  let now: Date;
+  let tmr: Date;
+  let containerClient: ContainerClient;
+  let blobClient: BlobClient;
+
+  beforeEach(async function (this: Context) {
+    recorder = new Recorder(this.currentTest);
+    await recorder.start(recorderEnvSetup);
+    await recorder.addSanitizers({ uriSanitizers }, ["playback", "record"]);
+    try {
+      blobServiceClient = getTokenBSUWithDefaultCredential(recorder);
+    } catch {
+      this.skip();
+    }
+
+    now = new Date(recorder.variable("now", new Date().toISOString()));
+    now.setHours(now.getHours() - 1);
+    tmr = new Date(recorder.variable("tmr", new Date().toISOString()));
+    tmr.setDate(tmr.getDate() + 5);
+    userDelegationKey = await blobServiceClient.getUserDelegationKey(now, tmr);
+
+    const containerName = recorder.variable("container", getUniqueName("container"));
+    containerClient = blobServiceClient.getContainerClient(containerName);
+    await containerClient.create();
+    const content = "Hello World";
+    const blobName = recorder.variable("blob", getUniqueName("blob"));
+    blobClient = containerClient.getBlobClient(blobName);
+    const blockBlobClient = blobClient.getBlockBlobClient();
+    await blockBlobClient.upload(content, content.length);
+  });
+
+  afterEach(async function () {
+    if (containerClient) {
+      await containerClient.delete();
+    }
+    await recorder.stop();
+  });
+
+  it("generateUserDelegationSasUrl should work", async function (this: Context) {
+    const blobName = recorder.variable("pageBlob", getUniqueName("pageBlob"));
+    const pageBlobClient = containerClient.getPageBlobClient(blobName);
+    await pageBlobClient.create(1024, {
+      blobHTTPHeaders: {
+        blobContentType: "content-type-original",
+      },
+    });
+
+    const generateSasOptions = {
+      cacheControl: "cache-control-override",
+      contentDisposition: "content-disposition-override",
+      contentEncoding: "content-encoding-override",
+      contentLanguage: "content-language-override",
+      contentType: "content-type-override",
+      expiresOn: tmr,
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
+      permissions: BlobSASPermissions.parse("racwd"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now,
+    };
+
+    const sasUrl = await pageBlobClient.generateUserDelegationSasUrl(
+      generateSasOptions,
+      userDelegationKey,
+    );
+
+    const blobClientWithSAS = new PageBlobClient(sasUrl, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
+
+    const properties = await blobClientWithSAS.getProperties();
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+
+    const stringToSign = pageBlobClient.generateUserDelegationSasStringToSign(
+      generateSasOptions,
+      userDelegationKey,
+    );
+    const userDelegationKeyCredential = new UserDelegationKeyCredential(
+      blobServiceClient.accountName,
+      userDelegationKey,
+    );
+    const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+    assert.deepEqual(signature, getSignatureFromSasUrl(sasUrl));
+  });
+
+  it("generateUserDelegationSasUrl should work with permanentDelete permssion", async function (this: Context) {
+    const generateSasOptions = {
+      cacheControl: "cache-control-override",
+      contentDisposition: "content-disposition-override",
+      contentEncoding: "content-encoding-override",
+      contentLanguage: "content-language-override",
+      contentType: "content-type-override",
+      expiresOn: tmr,
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
+      permissions: BlobSASPermissions.parse("racwdy"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now,
+    };
+
+    const blobSasUrl = await blobClient.generateUserDelegationSasUrl(
+      generateSasOptions,
+      userDelegationKey,
+    );
+    const blobClientWithSAS = new BlobClient(blobSasUrl, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
+
+    const stringToSign = blobClient.generateUserDelegationSasStringToSign(
+      generateSasOptions,
+      userDelegationKey,
+    );
+    const userDelegationKeyCredential = new UserDelegationKeyCredential(
+      blobServiceClient.accountName,
+      userDelegationKey,
+    );
+    const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+    assert.deepEqual(signature, getSignatureFromSasUrl(blobSasUrl));
+
+    await blobClientWithSAS.delete();
+  });
+
+  it("generateUserDelegationSasUrl should work with encryption scope", async function (this: Context) {
+    let encryptionScopeName: string;
+    try {
+      encryptionScopeName = getEncryptionScope_1();
+    } catch {
+      this.skip();
+    }
+
+    const blobName = recorder.variable("pageBlob", getUniqueName("pageBlob"));
+    const pageBlobClient = containerClient.getPageBlobClient(blobName);
+
+    const generateSasOptions = {
+      cacheControl: "cache-control-override",
+      contentDisposition: "content-disposition-override",
+      contentEncoding: "content-encoding-override",
+      contentLanguage: "content-language-override",
+      contentType: "content-type-override",
+      expiresOn: tmr,
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
+      permissions: BlobSASPermissions.parse("racwdy"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now,
+      encryptionScope: encryptionScopeName,
+    };
+
+    const blobSasUrl = await pageBlobClient.generateUserDelegationSasUrl(
+      generateSasOptions,
+      userDelegationKey,
+    );
+    const blobClientWithSAS = new PageBlobClient(
+      blobSasUrl,
+      newPipeline(new AnonymousCredential()),
+    );
+    configureBlobStorageClient(recorder, blobClientWithSAS);
+    await blobClientWithSAS.create(1024, {
+      encryptionScope: encryptionScopeName,
+    });
+
+    const stringToSign = pageBlobClient.generateUserDelegationSasStringToSign(
+      generateSasOptions,
+      userDelegationKey,
+    );
+    const userDelegationKeyCredential = new UserDelegationKeyCredential(
+      blobServiceClient.accountName,
+      userDelegationKey,
+    );
+    const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+    assert.deepEqual(signature, getSignatureFromSasUrl(blobSasUrl));
+
+    await blobClientWithSAS.delete();
+  });
+
+  it("generateUserDelegationSasUrl should work for blob snapshot", async function (this: Context) {
+    const response = await blobClient.createSnapshot();
+    const blobClientWithSnapshot = blobClient.withSnapshot(response.snapshot!);
+
+    const generateSasOptions = {
+      cacheControl: "cache-control-override",
+      contentDisposition: "content-disposition-override",
+      contentEncoding: "content-encoding-override",
+      contentLanguage: "content-language-override",
+      contentType: "content-type-override",
+      expiresOn: tmr,
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
+      permissions: BlobSASPermissions.parse("racwd"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now,
+    };
+
+    const blobSasUrl = await blobClientWithSnapshot.generateUserDelegationSasUrl(
+      generateSasOptions,
+      userDelegationKey,
+    );
+
+    const blobClientWithSAS = new BlobClient(blobSasUrl, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
+
+    const properties = await blobClientWithSAS.getProperties();
+    assert.equal(properties.cacheControl, "cache-control-override");
+    assert.equal(properties.contentDisposition, "content-disposition-override");
+    assert.equal(properties.contentEncoding, "content-encoding-override");
+    assert.equal(properties.contentLanguage, "content-language-override");
+    assert.equal(properties.contentType, "content-type-override");
+
+    const stringToSign = blobClientWithSnapshot.generateUserDelegationSasStringToSign(
+      generateSasOptions,
+      userDelegationKey,
+    );
+    const userDelegationKeyCredential = new UserDelegationKeyCredential(
+      blobServiceClient.accountName,
+      userDelegationKey,
+    );
+    const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+    assert.deepEqual(signature, getSignatureFromSasUrl(blobSasUrl));
+  });
+
+  it("generateUserDelegationSasUrl should work with permanentDelete permission for blob snapshot", async function (this: Context) {
+    const response = await blobClient.createSnapshot();
+    const blobClientWithSnapshot = blobClient.withSnapshot(response.snapshot!);
+
+    const generateSasOptions = {
+      expiresOn: tmr,
+      // ipRange: {
+      //   start: "0000:0000:0000:0000:0000:000:000:0000",
+      //   end: "ffff:ffff:ffff:ffff:ffff:fff:fff:ffff",
+      // },
+      permissions: BlobSASPermissions.parse("racwdy"),
+      protocol: SASProtocol.HttpsAndHttp,
+      startsOn: now,
+      snapshotTime: response.snapshot,
+    };
+
+    const blobSasUrl = await blobClientWithSnapshot.generateUserDelegationSasUrl(
+      generateSasOptions,
+      userDelegationKey,
+    );
+    const blobClientWithSAS = new BlobClient(blobSasUrl, newPipeline(new AnonymousCredential()));
+    configureBlobStorageClient(recorder, blobClientWithSAS);
+    await blobClientWithSAS.delete();
+
+    const stringToSign = blobClientWithSnapshot.generateUserDelegationSasStringToSign(
+      generateSasOptions,
+      userDelegationKey,
+    );
+    const userDelegationKeyCredential = new UserDelegationKeyCredential(
+      blobServiceClient.accountName,
+      userDelegationKey,
+    );
+    const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+    assert.deepEqual(signature, getSignatureFromSasUrl(blobSasUrl));
+  });
+
+  it("generateUserDelegationSasUrl with permission m, e should work", async function () {
+    const generateSasOptions = {
+      expiresOn: tmr,
+      permissions: BlobSASPermissions.parse("racwdxtme"),
+      version: "2020-02-10",
+    };
+
+    const blobSasUrl = await blobClient.generateUserDelegationSasUrl(
+      generateSasOptions,
+      userDelegationKey,
+    );
+    const blobClientWithSAS = new BlobClient(blobSasUrl);
+    configureBlobStorageClient(recorder, blobClientWithSAS);
+    await blobClientWithSAS.getProperties();
+
+    const stringToSign = blobClient.generateUserDelegationSasStringToSign(
+      generateSasOptions,
+      userDelegationKey,
+    );
+    const userDelegationKeyCredential = new UserDelegationKeyCredential(
+      blobServiceClient.accountName,
+      userDelegationKey,
+    );
+    const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+    assert.deepEqual(signature, getSignatureFromSasUrl(blobSasUrl));
+  });
+
+  it("generateUserDelegationSasUrl with saoid and scid should work", async function () {
+    const guid = "b77d5205-ddb5-42e1-80ee-26c74a5e9333";
+    const authorizedGuid = "b77d5205-ddb5-42e1-80ee-26c74a5e9333";
+    const generateSasOptions = {
+      expiresOn: tmr,
+      permissions: BlobSASPermissions.parse("racwdxtme"),
+      version: "2020-02-10",
+      preauthorizedAgentObjectId: authorizedGuid,
+      correlationId: guid,
+    };
+
+    const blobSasUrl = await blobClient.generateUserDelegationSasUrl(
+      generateSasOptions,
+      userDelegationKey,
+    );
+    const blobClientWithSAS = new BlobClient(blobSasUrl);
+    configureBlobStorageClient(recorder, blobClientWithSAS);
+    await blobClientWithSAS.getProperties();
+
+    const stringToSign = blobClient.generateUserDelegationSasStringToSign(
+      generateSasOptions,
+      userDelegationKey,
+    );
+    const userDelegationKeyCredential = new UserDelegationKeyCredential(
+      blobServiceClient.accountName,
+      userDelegationKey,
+    );
+    const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
+    assert.deepEqual(signature, getSignatureFromSasUrl(blobSasUrl));
   });
 });

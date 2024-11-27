@@ -2,7 +2,7 @@
     
 ## 3.0.0 (2023-09-06)
     
-**Features**
+### Features Added
 
   - Added operation group JitRequests
   - Added operation ApplicationDefinitions.createOrUpdate
@@ -145,7 +145,7 @@
   - Added Enum KnownSubstatus
   - Enum KnownProvisioningState has a new value NotSpecified
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation ApplicationDefinitions.beginCreateOrUpdate
   - Removed operation ApplicationDefinitions.beginCreateOrUpdateAndWait
@@ -186,7 +186,7 @@
     
 ## 2.1.0 (2022-11-22)
     
-**Features**
+### Features Added
 
   - Added Interface Application
   - Added Interface ApplicationDefinition
@@ -195,7 +195,7 @@
     
 ## 2.0.1 (2022-04-18)
 
-**features**
+### Features Added
 
   - Bug fix
 

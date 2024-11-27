@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force package.json's name value to be set to @azure/<service>.
@@ -20,7 +20,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force package.json's name value to be set to @azure/<service>",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

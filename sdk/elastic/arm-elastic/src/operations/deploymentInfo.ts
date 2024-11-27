@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { MicrosoftElastic } from "../microsoftElastic";
 import {
   DeploymentInfoListOptionalParams,
-  DeploymentInfoListResponse
+  DeploymentInfoListResponse,
 } from "../models";
 
 /** Class containing DeploymentInfo operations. */
@@ -30,18 +30,18 @@ export class DeploymentInfoImpl implements DeploymentInfo {
 
   /**
    * Fetch information regarding Elastic cloud deployment corresponding to the Elastic monitor resource.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: DeploymentInfoListOptionalParams
+    options?: DeploymentInfoListOptionalParams,
   ): Promise<DeploymentInfoListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class DeploymentInfoImpl implements DeploymentInfo {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listDeploymentInfo",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listDeploymentInfo",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.DeploymentInfoResponse
+      bodyMapper: Mappers.DeploymentInfoResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

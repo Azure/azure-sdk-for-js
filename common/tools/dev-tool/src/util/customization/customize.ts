@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import { copyFile, stat, readFile, writeFile, readdir } from "node:fs/promises";
 import { ensureDir, copy } from "fs-extra";

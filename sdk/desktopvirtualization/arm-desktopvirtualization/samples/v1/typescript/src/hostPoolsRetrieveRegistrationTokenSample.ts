@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Registration token of the host pool.
  *
  * @summary Registration token of the host pool.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/HostPools_RetrieveRegistrationToken_Post.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/HostPools_RetrieveRegistrationToken_Post.json
  */
 async function hostPoolsRetrieveRegistrationTokenPost() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function hostPoolsRetrieveRegistrationTokenPost() {
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const result = await client.hostPools.retrieveRegistrationToken(
     resourceGroupName,
-    hostPoolName
+    hostPoolName,
   );
   console.log(result);
 }

@@ -9,12 +9,12 @@
 import {
   OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter
+  OperationQueryParameter,
 } from "@azure/core-client";
 import {
   PrivateZone as PrivateZoneMapper,
   VirtualNetworkLink as VirtualNetworkLinkMapper,
-  RecordSet as RecordSetMapper
+  RecordSet as RecordSetMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -24,14 +24,14 @@ export const contentType: OperationParameter = {
     isConstant: true,
     serializedName: "Content-Type",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
-  mapper: PrivateZoneMapper
+  mapper: PrivateZoneMapper,
 };
 
 export const accept: OperationParameter = {
@@ -41,9 +41,9 @@ export const accept: OperationParameter = {
     isConstant: true,
     serializedName: "Accept",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const $host: OperationURLParameter = {
@@ -52,10 +52,10 @@ export const $host: OperationURLParameter = {
     serializedName: "$host",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const resourceGroupName: OperationURLParameter = {
@@ -64,9 +64,9 @@ export const resourceGroupName: OperationURLParameter = {
     serializedName: "resourceGroupName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const privateZoneName: OperationURLParameter = {
@@ -75,9 +75,9 @@ export const privateZoneName: OperationURLParameter = {
     serializedName: "privateZoneName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ifMatch: OperationParameter = {
@@ -85,9 +85,9 @@ export const ifMatch: OperationParameter = {
   mapper: {
     serializedName: "If-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const ifNoneMatch: OperationParameter = {
@@ -95,21 +95,21 @@ export const ifNoneMatch: OperationParameter = {
   mapper: {
     serializedName: "If-None-Match",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2020-06-01",
+    defaultValue: "2024-06-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const subscriptionId: OperationURLParameter = {
@@ -118,9 +118,9 @@ export const subscriptionId: OperationURLParameter = {
     serializedName: "subscriptionId",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const top: OperationQueryParameter = {
@@ -128,9 +128,9 @@ export const top: OperationQueryParameter = {
   mapper: {
     serializedName: "$top",
     type: {
-      name: "Number"
-    }
-  }
+      name: "Number",
+    },
+  },
 };
 
 export const nextLink: OperationURLParameter = {
@@ -139,15 +139,15 @@ export const nextLink: OperationURLParameter = {
     serializedName: "nextLink",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
-  mapper: VirtualNetworkLinkMapper
+  mapper: VirtualNetworkLinkMapper,
 };
 
 export const virtualNetworkLinkName: OperationURLParameter = {
@@ -156,14 +156,14 @@ export const virtualNetworkLinkName: OperationURLParameter = {
     serializedName: "virtualNetworkLinkName",
     required: true,
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };
 
 export const parameters2: OperationParameter = {
   parameterPath: "parameters",
-  mapper: RecordSetMapper
+  mapper: RecordSetMapper,
 };
 
 export const recordType: OperationURLParameter = {
@@ -173,9 +173,9 @@ export const recordType: OperationURLParameter = {
     required: true,
     type: {
       name: "Enum",
-      allowedValues: ["A", "AAAA", "CNAME", "MX", "PTR", "SOA", "SRV", "TXT"]
-    }
-  }
+      allowedValues: ["A", "AAAA", "CNAME", "MX", "PTR", "SOA", "SRV", "TXT"],
+    },
+  },
 };
 
 export const relativeRecordSetName: OperationURLParameter = {
@@ -184,10 +184,10 @@ export const relativeRecordSetName: OperationURLParameter = {
     serializedName: "relativeRecordSetName",
     required: true,
     type: {
-      name: "String"
-    }
+      name: "String",
+    },
   },
-  skipEncoding: true
+  skipEncoding: true,
 };
 
 export const recordsetnamesuffix: OperationQueryParameter = {
@@ -195,7 +195,7 @@ export const recordsetnamesuffix: OperationQueryParameter = {
   mapper: {
     serializedName: "$recordsetnamesuffix",
     type: {
-      name: "String"
-    }
-  }
+      name: "String",
+    },
+  },
 };

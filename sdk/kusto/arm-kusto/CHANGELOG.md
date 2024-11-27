@@ -12,7 +12,7 @@
 
 ## 8.1.0 (2023-10-11)
     
-**Features**
+### Features Added
 
   - Added operation group SandboxCustomImages
   - Added Interface SandboxCustomImage
@@ -67,7 +67,7 @@
     
 ## 8.0.0 (2023-07-05)
     
-**Features**
+### Features Added
 
   - Added operation group DatabaseOperations
   - Added operation Clusters.beginMigrate
@@ -121,7 +121,7 @@
   - Added Enum KnownMigrationClusterRole
   - Enum KnownState has a new value Migrated
 
-**Breaking Changes**
+### Breaking Changes
 
   - Enum KnownLanguageExtensionImageName no longer has value Python3912
   - Enum KnownLanguageExtensionImageName no longer has value Python3912IncludeDeepLearning
@@ -129,7 +129,7 @@
     
 ## 7.3.0 (2023-02-07)
     
-**Features**
+### Features Added
 
   - Added operation group Skus
   - Added Interface CosmosDbDataConnection
@@ -150,17 +150,17 @@
     
 ## 7.2.1 (2023-01-11)
 
-**Features**
+### Features Added
 
   - Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
+### Bugs Fixed
 
   - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 7.2.0 (2022-09-15)
 
-**Features**
+### Features Added
 
   - Added Interface AttachedDatabaseConfiguration
   - Added Interface Cluster
@@ -210,19 +210,19 @@
     
 ## 7.1.2 (2022-06-17)
 
-**Features**
+### Features Added
 
   - Bug fix   
  
 ## 7.1.1 (2022-04-24)
 
-**Features**
+### Features Added
 
   - Bug fix   
 
 ## 7.1.0 (2022-02-23)
     
-**Features**
+### Features Added
 
   - Added operation group OperationsResultsLocation
   - Added Interface ClustersUpdateHeaders

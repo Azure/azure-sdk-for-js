@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a replication link.
  *
  * @summary Gets a replication link.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-02-01-preview/examples/ReplicationLinkGet.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ReplicationLinkGet.json
  */
 async function getsTheReplicationLink() {
   const subscriptionId =

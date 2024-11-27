@@ -12,14 +12,14 @@
 
 ## 2.1.0 (2022-11-25)
     
-**Features**
+### Features Added
 
   - Added Interface ConnectedCluster
   - Added Interface TrackedResource
     
 ## 2.0.1 (2022-04-26)
 
-**Features**
+### Features Added
 
   - Bug fix
     

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Defines the Hotel Interface.
@@ -8,7 +8,7 @@
  * @azsdk-util
  */
 
-import { GeographyPoint } from "@azure/search-documents";
+import type { GeographyPoint } from "@azure/search-documents";
 
 export interface Hotel {
   hotelId?: string;

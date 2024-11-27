@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   HttpHeaders,
   HttpMethods,
   PipelineRequest,
   PipelineResponse,
-  RestError,
-  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import {
+import { RestError, createPipelineRequest } from "@azure/core-rest-pipeline";
+import type {
   NotificationHubsMessageResponse,
   NotificationHubsResponse,
 } from "../../models/notificationDetails.js";
-import { NotificationHubsClientContext } from "../index.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { NotificationHubsClientContext } from "../index.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { isDefined } from "../../utils/utils.js";
 import { parseNotificationOutcome } from "../../serializers/notificationOutcomeSerializer.js";
 import { parseXMLError } from "../../utils/xmlUtils.js";

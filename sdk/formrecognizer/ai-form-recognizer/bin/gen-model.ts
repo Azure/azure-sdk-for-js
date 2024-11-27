@@ -1,7 +1,7 @@
 #!/bin/env node
 
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // This file is ignored by the linter because it is impossible to move the copyright header above the shebang line.
 

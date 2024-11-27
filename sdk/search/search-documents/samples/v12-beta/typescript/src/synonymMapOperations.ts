@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates the SynonymMap Operations.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SearchIndexClient, SynonymMap } from "@azure/search-documents";
+import type { SynonymMap } from "@azure/search-documents";
+import { SearchIndexClient } from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
 dotenv.config();

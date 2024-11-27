@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** Paged response contains list of requested objects and a URL link to get the next set of results. */
 export interface ApplicationDataListResponseOutput {

@@ -1,38 +1,34 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import Sinon, { createSandbox } from "sinon";
-import { AzureDeveloperCliCredential } from "../../../src/credentials/azureDeveloperCliCredential";
-import { GetTokenOptions } from "@azure/core-auth";
-import { assert } from "@azure-tools/test-utils";
-import child_process from "child_process";
+// Licensed under the MIT License.
+import { AzureDeveloperCliCredential } from "../../../src/credentials/azureDeveloperCliCredential.js";
+import type { GetTokenOptions } from "@azure/core-auth";
+import child_process, { type ChildProcess } from "node:child_process";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("AzureDeveloperCliCredential (internal)", function () {
-  let sandbox: Sinon.SinonSandbox | undefined;
   let stdout: string = "";
   let stderr: string = "";
   let azdArgs: string[][] = [];
   let azdOptions: { cwd: string }[] = [];
 
   beforeEach(async function () {
-    sandbox = createSandbox();
     azdArgs = [];
     azdOptions = [];
-    sandbox
-      .stub(child_process, "execFile")
-      .callsFake((_file, args, options, callback): child_process.ChildProcess => {
+    vi.spyOn(child_process, "execFile").mockImplementation(
+      (_file, args, options, callback): ChildProcess => {
         azdArgs.push(args as string[]);
         azdOptions.push(options as { cwd: string });
         if (callback) {
           callback(null, stdout, stderr);
         }
         // Bypassing the type check. We don't use this return value in our code.
-        return {} as child_process.ChildProcess;
-      });
+        return {} as ChildProcess;
+      },
+    );
   });
 
   afterEach(async function () {
-    sandbox?.restore();
+    vi.restoreAllMocks();
   });
 
   it("get access token without error", async function () {
@@ -183,12 +179,11 @@ describe("AzureDeveloperCliCredential (internal)", function () {
       tenantId === " " ? "whitespace" : tenantId === "\0" ? "null character" : `"${tenantId}"`;
     it(`rejects invalid tenant id of ${testCase} in getToken`, async function () {
       const credential = new AzureDeveloperCliCredential();
-      await assert.isRejected(
+      await expect(
         credential.getToken("https://service/.default", {
           tenantId: tenantId,
         }),
-        tenantIdErrorMessage,
-      );
+      ).rejects.toThrow(tenantIdErrorMessage);
     });
     it(`rejects invalid tenant id of ${testCase} in constructor`, function () {
       assert.throws(() => {
@@ -206,8 +201,7 @@ describe("AzureDeveloperCliCredential (internal)", function () {
           : `"${inputScope}"`;
     it(`rejects invalid scope of ${testCase}`, async function () {
       const credential = new AzureDeveloperCliCredential();
-      await assert.isRejected(
-        credential.getToken(inputScope),
+      await expect(credential.getToken(inputScope)).rejects.toThrow(
         "Invalid scope was specified by the user or calling client",
       );
     });

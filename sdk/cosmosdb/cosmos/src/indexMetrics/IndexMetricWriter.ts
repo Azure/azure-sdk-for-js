@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import Constants from "./Constants";
-import { CompositeIndexUtilizationEntity } from "./CompositeIndexUtilizationEntity";
-import { IndexUtilizationInfo } from "./IndexUtilizationInfo";
-import { SingleIndexUtilizationEntity } from "./SingleIndexUtilizationEntity";
+import type { CompositeIndexUtilizationEntity } from "./CompositeIndexUtilizationEntity";
+import type { IndexUtilizationInfo } from "./IndexUtilizationInfo";
+import type { SingleIndexUtilizationEntity } from "./SingleIndexUtilizationEntity";
 
 export class IndexMetricWriter {
   public writeIndexMetrics(indexUtilizationInfo: IndexUtilizationInfo): string {

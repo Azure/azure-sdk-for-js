@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-/* eslint-disable no-invalid-this */
+// Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
 import { CloudEventsDispatcher } from "../src/cloudEventsDispatcher.js";

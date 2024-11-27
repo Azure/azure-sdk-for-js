@@ -14,7 +14,7 @@ import {
   ConsumerGroupsCreateOrUpdateResponse,
   ConsumerGroupsDeleteOptionalParams,
   ConsumerGroupsGetOptionalParams,
-  ConsumerGroupsGetResponse
+  ConsumerGroupsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,7 +32,7 @@ export interface ConsumerGroups {
     resourceGroupName: string,
     namespaceName: string,
     eventHubName: string,
-    options?: ConsumerGroupsListByEventHubOptionalParams
+    options?: ConsumerGroupsListByEventHubOptionalParams,
   ): PagedAsyncIterableIterator<ConsumerGroup>;
   /**
    * Creates or updates an Event Hubs consumer group as a nested resource within a Namespace.
@@ -49,7 +49,7 @@ export interface ConsumerGroups {
     eventHubName: string,
     consumerGroupName: string,
     parameters: ConsumerGroup,
-    options?: ConsumerGroupsCreateOrUpdateOptionalParams
+    options?: ConsumerGroupsCreateOrUpdateOptionalParams,
   ): Promise<ConsumerGroupsCreateOrUpdateResponse>;
   /**
    * Deletes a consumer group from the specified Event Hub and resource group.
@@ -64,7 +64,7 @@ export interface ConsumerGroups {
     namespaceName: string,
     eventHubName: string,
     consumerGroupName: string,
-    options?: ConsumerGroupsDeleteOptionalParams
+    options?: ConsumerGroupsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets a description for the specified consumer group.
@@ -79,6 +79,6 @@ export interface ConsumerGroups {
     namespaceName: string,
     eventHubName: string,
     consumerGroupName: string,
-    options?: ConsumerGroupsGetOptionalParams
+    options?: ConsumerGroupsGetOptionalParams,
   ): Promise<ConsumerGroupsGetResponse>;
 }

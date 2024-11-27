@@ -210,7 +210,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptCmdletListResult,
+      bodyMapper: Mappers.ScriptCmdletsList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -255,7 +255,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScriptCmdletListResult,
+      bodyMapper: Mappers.ScriptCmdletsList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

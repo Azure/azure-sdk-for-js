@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { randomUUID } from "@azure/core-util";
 import { PerfOptionDictionary, drainStream } from "@azure-tools/test-perf";

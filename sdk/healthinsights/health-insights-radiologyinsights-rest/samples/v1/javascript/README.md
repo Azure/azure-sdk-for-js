@@ -47,7 +47,7 @@ node sample_critical_result_inference_async.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env HEALTH_INSIGHTS_KEY="<health insights key>" HEALTH_INSIGHTS_ENDPOINT="<health insights endpoint>" node sample_critical_result_inference_async.js
+npx dev-tool run vendored cross-env HEALTH_INSIGHTS_KEY="<health insights key>" HEALTH_INSIGHTS_ENDPOINT="<health insights endpoint>" node sample_critical_result_inference_async.js
 ```
 
 ## Next Steps

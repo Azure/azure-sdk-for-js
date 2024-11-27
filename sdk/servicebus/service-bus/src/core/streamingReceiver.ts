@@ -1,35 +1,32 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
-import { ConnectionContext } from "../connectionContext";
+import type { OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver.js";
+import { MessageReceiver } from "./messageReceiver.js";
+import type { ConnectionContext } from "../connectionContext.js";
 
-import { ReceiverHelper } from "./receiverHelper";
+import { ReceiverHelper } from "./receiverHelper.js";
 
-import { throwErrorIfConnectionClosed } from "../util/errors";
-import {
-  RetryOperationType,
-  MessagingError,
-  RetryOptions,
-  ConditionErrorNameMapper,
-} from "@azure/core-amqp";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { receiverLogger as logger } from "../log";
-import { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
-import { ServiceBusMessageImpl } from "../serviceBusMessage";
-import { translateServiceBusError } from "../serviceBusError";
-import { abandonMessage, completeMessage, retryForever } from "../receivers/receiverCommon";
-import { ReceiverHandlers } from "./shared";
-import {
+import { throwErrorIfConnectionClosed } from "../util/errors.js";
+import type { MessagingError, RetryOptions } from "@azure/core-amqp";
+import { RetryOperationType, ConditionErrorNameMapper } from "@azure/core-amqp";
+import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import { receiverLogger as logger } from "../log.js";
+import type { AmqpError, EventContext, OnAmqpEvent } from "rhea-promise";
+import { ServiceBusMessageImpl } from "../serviceBusMessage.js";
+import { translateServiceBusError } from "../serviceBusError.js";
+import { abandonMessage, completeMessage, retryForever } from "../receivers/receiverCommon.js";
+import type { ReceiverHandlers } from "./shared.js";
+import type {
   InternalMessageHandlers,
   InternalProcessErrorArgs,
   MessageHandlers,
   ProcessErrorArgs,
   SubscribeOptions,
-} from "../models";
-import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage";
+} from "../models.js";
+import { toProcessingSpanOptions } from "../diagnostics/instrumentServiceBusMessage.js";
 import { AbortError } from "@azure/abort-controller";
-import { tracingClient } from "../diagnostics/tracing";
+import { tracingClient } from "../diagnostics/tracing.js";
 
 /**
  * @internal

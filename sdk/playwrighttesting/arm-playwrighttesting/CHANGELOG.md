@@ -12,7 +12,7 @@
 
 ## 1.0.0-beta.2 (2024-01-31)
     
-**Features**
+### Features Added
 
   - Added Interface AccountProperties
   - Added Interface AccountUpdateProperties
@@ -21,7 +21,7 @@
   - Interface AccountUpdate has a new optional parameter properties
   - Interface Quota has a new optional parameter properties
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface Account no longer has parameter dashboardUri
   - Interface Account no longer has parameter provisioningState

@@ -1,16 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { MsalClient } from "../msal/nodeFlows/msalClient.js";
+import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
-import { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions";
-import { credentialLogger } from "../util/logging";
-import { ensureScopes } from "../util/scopeUtils";
-import { tracingClient } from "../util/tracing";
-import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
+} from "../util/tenantIdUtils.js";
+
+import { CredentialUnavailableError } from "../errors.js";
+import type { UsernamePasswordCredentialOptions } from "./usernamePasswordCredentialOptions.js";
+import { credentialLogger } from "../util/logging.js";
+import { ensureScopes } from "../util/scopeUtils.js";
+import { tracingClient } from "../util/tracing.js";
 
 const logger = credentialLogger("UsernamePasswordCredential");
 
@@ -45,9 +48,27 @@ export class UsernamePasswordCredential implements TokenCredential {
     password: string,
     options: UsernamePasswordCredentialOptions = {},
   ) {
-    if (!tenantId || !clientId || !username || !password) {
-      throw new Error(
-        "UsernamePasswordCredential: tenantId, clientId, username and password are required parameters. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.",
+    if (!tenantId) {
+      throw new CredentialUnavailableError(
+        "UsernamePasswordCredential: tenantId is a required parameter. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.",
+      );
+    }
+
+    if (!clientId) {
+      throw new CredentialUnavailableError(
+        "UsernamePasswordCredential: clientId is a required parameter. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.",
+      );
+    }
+
+    if (!username) {
+      throw new CredentialUnavailableError(
+        "UsernamePasswordCredential: username is a required parameter. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.",
+      );
+    }
+
+    if (!password) {
+      throw new CredentialUnavailableError(
+        "UsernamePasswordCredential: password is a required parameter. To troubleshoot, visit https://aka.ms/azsdk/js/identity/usernamepasswordcredential/troubleshoot.",
       );
     }
 

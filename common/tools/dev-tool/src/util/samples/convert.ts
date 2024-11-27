@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { EOL } from "node:os";
 import ts from "typescript";
@@ -14,7 +14,7 @@ const compilerOptions: ts.CompilerOptions = {
 };
 
 const NEWLINE_SIGIL = `${EOL}//@@TS-MAGIC-NEWLINE@@${EOL}`;
-const NEWLINE_SIGIL_SEARCH = /\r?\n\s*\/\/@@TS-MAGIC-NEWLINE@@\r?\n/;
+const NEWLINE_SIGIL_SEARCH = /(\r?\n)?\s*\/\/@@TS-MAGIC-NEWLINE@@\r?\n/;
 
 /**
  * A set of replacements to perform. Structured as an array of doubles:

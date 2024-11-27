@@ -44,25 +44,20 @@ An `AggregateAuthenticationError` will be raised by `ChainedTokenCredential` wit
 
 The `AuthenticationError` is used to indicate a failure to authenticate with Microsoft Entra ID. The `errorResponse` field contains more details about the specific failure.
 
-```ts
-import * from "@azure/identity";
-import * from "@azure/keyvault-secrets";
+```ts snippet:troubleshooting_authentication_error
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyClient } from "@azure/keyvault-keys";
 
-async function main() {
-  // Create a key client using the DefaultAzureCredential
-  const keyVaultUrl = "https://key-vault-name.vault.azure.net";
-  const credential = new DefaultAzureCredential();
-  const client = new KeyClient(keyVaultUrl, credential);
-
-  try {
-    // Retrieving the properties of the existing keys in that specific Key Vault.
-    console.log(await client.listPropertiesOfKeys().next());
-  } catch (error) {
-    console.log("Microsoft Entra ID service response with error", error.errorResponse);
-  }
+// Create a key client using the DefaultAzureCredential
+const keyVaultUrl = "https://key-vault-name.vault.azure.net";
+const credential = new DefaultAzureCredential();
+const client = new KeyClient(keyVaultUrl, credential);
+try {
+  // Retrieving the properties of the existing keys in that specific Key Vault.
+  console.log(await client.listPropertiesOfKeys().next());
+} catch (error) {
+  console.log("Microsoft Entra ID service response with error", error);
 }
-
-main();
 ```
 
 ### AuthenticationRequiredError
@@ -71,25 +66,20 @@ Errors arising from authentication issues can be thrown on any service client me
 
 To distinguish these failures from failures in the service client, Azure Identity classes throw the `AuthenticationRequiredError`. Details describing the source of the error are provided in the error message. Depending on the application, these errors may or may not be recoverable.
 
-```ts
-import * from "@azure/identity";
-import * from "@azure/keyvault-secrets";
+```ts snippet:troubleshooting_authentication_required_error
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyClient } from "@azure/keyvault-keys";
 
-async function main() {
-  // Create a key client using the DefaultAzureCredential
-  const keyVaultUrl = "https://key-vault-name.vault.azure.net";
-  const credential = new DefaultAzureCredential();
-  const client = new KeyClient(keyVaultUrl, credential);
-
-  try {
-    // Retrieving the properties of the existing keys in that specific Key Vault.
-    console.log(await client.listPropertiesOfKeys().next());
-  } catch (error) {
-    console.log("Authentication Failed", error.message);
-  }
+// Create a key client using the DefaultAzureCredential
+const keyVaultUrl = "https://key-vault-name.vault.azure.net";
+const credential = new DefaultAzureCredential();
+const client = new KeyClient(keyVaultUrl, credential);
+try {
+  // Retrieving the properties of the existing keys in that specific Key Vault.
+  console.log(await client.listPropertiesOfKeys().next());
+} catch (error) {
+  console.log("Authentication Failed", error);
 }
-
-main();
 ```
 
 ### CredentialUnavailableError
@@ -119,16 +109,16 @@ The Azure Identity library has the same [logging capabilities](https://github.co
 
 For help with debugging authentication issues or diagnosing errors in credentials that encompass multiple credentials, like `DefaultAzureCredential`, see [Logging](https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/identity/identity/README.md#logging).
 
-```ts
+```ts snippet:troubleshooting_logging
 import { setLogLevel } from "@azure/logger";
+
 // set up the log level to enable the logger
 setLogLevel("info");
 ```
 
 Alternatively, you can set the `AZURE_LOG_LEVEL` environment variable to `info`. You can read this environment variable from the _.env_ file by explicitly specifying a file path:
 
-```ts
-import dotenv from "dotenv";
+```ts snippet:troubleshooting_dotenv
 dotenv.config({ path: ".env" });
 ```
 
@@ -155,11 +145,11 @@ In cases where the authentication code might be running in an environment with m
 
 For example, using the `DefaultAzureCredential`:
 
-```ts
+```ts snippet:troubleshooting_logging_identifiers
 import { setLogLevel } from "@azure/logger";
+import { DefaultAzureCredential } from "@azure/identity";
 
 setLogLevel("info");
-
 const credential = new DefaultAzureCredential({
   loggingOptions: { allowLoggingAccountIdentifiers: true },
 });
@@ -177,11 +167,11 @@ In cases where the user's [Personally Identifiable Information](https://github.c
 
 For example, using the `DefaultAzureCredential`:
 
-```ts
+```ts snippet:troubleshooting_pii_logging
 import { setLogLevel } from "@azure/logger";
+import { DefaultAzureCredential } from "@azure/identity";
 
 setLogLevel("info");
-
 const credential = new DefaultAzureCredential({
   loggingOptions: { enableUnsafeSupportLogging: true },
 });
@@ -200,7 +190,7 @@ The `DefaultAzureCredential` attempts to retrieve an access token by sequentiall
 | Error                                                                                                                               | Description                                                                                                                                                                                                                                                                                        | Mitigation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | ----------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `CredentialUnavailableError` thrown with message `DefaultAzureCredential failed to retrieve a token from the included credentials.` | All credentials in the `DefaultAzureCredential` chain failed to retrieve a token, each throwing a `CredentialUnavailableError` themselves.                                                                                                                                                         | <ul><li>[Enable logging](#enable-and-configure-logging) to verify the credentials being tried, and get further diagnostic information.</li><li>Consult the troubleshooting guide for underlying credential types for more information.</li><ul><li>[EnvironmentCredential](#troubleshoot-environment-credential-authentication-issues)</li><li>[ManagedIdentityCredential](#troubleshoot-managed-identity-authentication-issues)</li><li>[VisualStudioCodeCredential](#troubleshoot-visual-studio-code-authentication-issues)</li><li>[AzureCLICredential](#troubleshoot-azure-cli-authentication-issues)</li><li>[AzurePowershellCredential](#troubleshoot-azure-powershell-authentication-issues)</li></ul> |
-| `RestError` raised from the client with a status code of 401 or 403.                                                                | Authentication succeeded but the authorizing Azure service responded with a 401 (Authenticate), or 403 (Forbidden) status code. This can often be caused by the `DefaultAzureCredential` authenticating an account other than the intended or that the required role assignment is not configured. | <ul><li>[Enable logging](#enable-and-configure-logging) to determine which credential in the chain returned the authenticating token.</li><li>In the case a credential other than the expected is returning a token, you may bypass this by signing out of the corresponding development tool.</li><li>Confirm that the correct RBAC role is assigned to the identity being used to authenticate. For example, the resource-specific role, rather than just the inherited "Owner" role.</li></ul>                                                                                                  |
+| `RestError` raised from the client with a status code of 401 or 403.                                                                | Authentication succeeded but the authorizing Azure service responded with a 401 (Authenticate), or 403 (Forbidden) status code. This can often be caused by the `DefaultAzureCredential` authenticating an account other than the intended or that the required role assignment is not configured. | <ul><li>[Enable logging](#enable-and-configure-logging) to determine which credential in the chain returned the authenticating token.</li><li>In the case a credential other than the expected is returning a token, you may bypass this by signing out of the corresponding development tool.</li><li>Confirm that the correct RBAC role is assigned to the identity being used to authenticate. For example, the resource-specific role, rather than just the inherited "Owner" role.</li></ul>                                                                                                                                                                                                             |
 
 > 📢 The Azure Identity library for JavaScript does _not_ support the `ExcludeXXXCredential` properties that exist for languages like .NET and Python. We recommend creating a custom [ChainedTokenCredential](https://github.com/Azure/azure-sdk-for-js/blob/f0ac28977d26172f79e5c5100148e7f767f4dbf9/sdk/identity/identity/README.md#define-a-custom-authentication-flow-with-the-chainedtokencredential) if you require a different set or ordering of credentials than those offered by `DefaultAzureCredential`.
 
@@ -208,8 +198,8 @@ The `DefaultAzureCredential` attempts to retrieve an access token by sequentiall
 
 ### CredentialUnavailableError
 
-| Error Message                                  | Description                                              | Mitigation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
-| ---------------------------------------------- | -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Error Message                                  | Description                                              | Mitigation                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           |
+| ---------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | Environment variables aren't fully configured. | A valid combination of environment variables wasn't set. | Ensure the appropriate environment variables are set **prior to application startup** for the intended authentication method.<p/> <ul><li>To authenticate a service principal using a client secret, ensure the variables `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, and `AZURE_CLIENT_SECRET` are properly set.</li><li>To authenticate a service principal using a certificate, ensure the variables `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_CERTIFICATE_PATH`, and optionally `AZURE_CLIENT_CERTIFICATE_PASSWORD` are properly set.</li><li>To authenticate a user using a password, ensure the variables `AZURE_USERNAME` and `AZURE_PASSWORD` are properly set.</li><ul> |
 
 ### Client authentication error
@@ -472,14 +462,15 @@ If the preceding command isn't working properly, follow the instructions to reso
 
 ## Troubleshoot `AzurePipelinesCredential` authentication issues
 
-| Error Message                                                                                                                                                                                                                                                                                                                                                            | Description                                                                                                                                                                       | Mitigation                                                                                                                                                                                                                                                                                                                                                                                                             |
-| --- | ---| --- |
-| AADSTS900023: Specified tenant identifier `<some tenant ID>` is neither a valid DNS name, nor a valid external domain.                                                                                                                                                                                                                                                   | The Microsoft Entra tenant ID passed to the credential is invalid.                                                                                                                | Verify the tenant ID is valid. If the service connection federated identity credential (FIC) was configured via a user-assigned managed identity, the tenant will be the one in which managed identity was registered. If the service connection FIC is configured via an app registration, the tenant should be the one in which the app registration is registered.                                                                                  |
-| No service connection found with identifier `<GUID>`                                                                                                                                                                                                                                                                                                                       | The service connection ID provided is incorrect.                                                                                                                                  | Verify the `<serviceConnectionId>` argument provided. This parameter refers to the `resourceId` of the Azure service connection. It can also be found in the query string of the respective service connection's configuration page in Azure Pipelines. More information about service connections can be found [here](https://learn.microsoft.com/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml).       |
-| AzurePipelinesCredential: Authentication Failed. oidcToken field not detected in the response. Response = Object moved to here. Status Code: 302.                                                                                                                                                                                                                        | The system access token seems to be malformed when passing in as a parameter to the credential.                                                                                   | `System.AccessToken` is a required system variable in the Azure Pipelines task and should be provided in the pipeline task, [as mentioned in the docs](https://learn.microsoft.com/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#systemaccesstoken). Verify that the system access token value provided is the predefined variable in Azure Pipelines and isn't malformed.                        |
-| AzurePipelinesCredential: Authentication Failed. oidcToken field not detected in the response. Response = {"$id":"1", "innerException":null, "message":"`<ACTUAL ERROR MESSAGE>`", "typeName":"Microsoft.VisualStudio.Services.WebApi.VssInvalidPreviewVersionException, Microsoft.VisualStudio.Services.WebApi", "typeKey":"VssInvalidPreviewVersionException", "errorCode":0} | When the OIDC token request fails, the OIDC token api throws an error. More details about the specific error are specified in the "message" field of the Response as shown above. | Mitigation will usually depend on the scenario based on what [error message](https://learn.microsoft.com/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#error-messages) is being thrown. Make sure you use the [recommended Azure Pipelines task](https://learn.microsoft.com/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#review-pipeline-tasks). |
-| CredentialUnavailableError: AzurePipelinesCredential: is unavailable. Ensure that you're running this task in an Azure Pipeline, so that following missing system variable(s) can be defined- "SYSTEM_OIDCREQUESTURI"                                                                                                                                                    | This code is not running inside of the Azure Pipelines environment. You may be running this code locally or on some other environment.                                            | This credential is only designed to run inside the Azure Pipelines environment for the federated identity to work.                                                                                                                                                                                                                                                                                                |
-| AuthenticationRequiredError: unauthorized_client: 700016 - AADSTS700016: Application with identifier 'clientId' was not found in the directory 'Microsoft'. This can happen if the application has not been installed by the administrator of the tenant or consented to by any user in the tenant. You may have sent your authentication request to the wrong tenant.   | The `<clientId>` provided is invalid.                                                                                                                                               | Verify the client ID argument is valid. If the service connection's federated identity was registered via a user-assigned managed identity, the client ID of the managed identity should be provided. If the service connection's federated identity is registered via an app registration, the Application (client) ID from your app registration should be provided.                                                 |
+| Error Message                                                                                                                                                                                                                                                                                                                                                                   | Description                                                                                                                                                                       | Mitigation                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| AADSTS900023: Specified tenant identifier `<some tenant ID>` is neither a valid DNS name, nor a valid external domain.                                                                                                                                                                                                                                                          | The Microsoft Entra tenant ID passed to the credential is invalid.                                                                                                                | Verify the tenant ID is valid. If the service connection federated identity credential (FIC) was configured via a user-assigned managed identity, the tenant will be the one in which managed identity was registered. If the service connection FIC is configured via an app registration, the tenant should be the one in which the app registration is registered.                                                             |
+| No service connection found with identifier `<GUID>`                                                                                                                                                                                                                                                                                                                            | The service connection ID provided is incorrect.                                                                                                                                  | Verify the `<serviceConnectionId>` argument provided. This parameter refers to the `resourceId` of the Azure service connection. It can also be found in the query string of the respective service connection's configuration page in Azure Pipelines. More information about service connections can be found [here](https://learn.microsoft.com/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml). |
+| AzurePipelinesCredential: Authentication Failed. oidcToken field not detected in the response. Status Code: 401.                                                                                                                                                                                                                                                                | The system access token seems to be malformed when passing in as a parameter to the credential.                                                                                   | `System.AccessToken` is a required system variable in the Azure Pipelines task and should be provided in the pipeline task, [as mentioned in the docs](https://learn.microsoft.com/azure/devops/pipelines/build/variables?view=azure-devops&tabs=yaml#systemaccesstoken). Verify that the system access token value provided is the predefined variable in Azure Pipelines and isn't malformed.                                   |
+| AzurePipelinesCredential: Authentication Failed. oidcToken field not detected in the response. Response = {"$id":"1", "innerException":null, "message":"`<ACTUAL ERROR MESSAGE>`", "typeName":"Microsoft.VisualStudio.Services.WebApi.VssInvalidPreviewVersionException, Microsoft.VisualStudio.Services.WebApi", "typeKey":"VssInvalidPreviewVersionException", "errorCode":0} | When the OIDC token request fails, the OIDC token api throws an error. More details about the specific error are specified in the "message" field of the Response as shown above. | Mitigation will usually depend on the scenario based on what [error message](https://learn.microsoft.com/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#error-messages) is being thrown. Make sure you use the [recommended Azure Pipelines task](https://learn.microsoft.com/azure/devops/pipelines/release/troubleshoot-workload-identity?view=azure-devops#review-pipeline-tasks).            |
+| CredentialUnavailableError: AzurePipelinesCredential: is unavailable. Ensure that you're running this task in an Azure Pipeline, so that following missing system variable(s) can be defined- "SYSTEM_OIDCREQUESTURI"                                                                                                                                                           | This code is not running inside of the Azure Pipelines environment. You may be running this code locally or on some other environment.                                            | This credential is only designed to run inside the Azure Pipelines environment for the federated identity to work.                                                                                                                                                                                                                                                                                                                |
+| AuthenticationRequiredError: unauthorized_client: 700016 - AADSTS700016: Application with identifier 'clientId' was not found in the directory 'Microsoft'. This can happen if the application has not been installed by the administrator of the tenant or consented to by any user in the tenant. You may have sent your authentication request to the wrong tenant.          | The `<clientId>` provided is invalid.                                                                                                                                             | Verify the client ID argument is valid. If the service connection's federated identity was registered via a user-assigned managed identity, the client ID of the managed identity should be provided. If the service connection's federated identity is registered via an app registration, the Application (client) ID from your app registration should be provided.                                                            |
+| AADSTS700213: No matching federated identity record found for presented assertion subject .\* Please note that the matching is done using a case-sensitive comparison. Check your federated identity credential Subject, Audience and Issuer against the presented assertion                                                                                                    | The service connection ID provided is incorrect.                                                                                                                                  | Verify the `<serviceConnectionId>` argument provided. This parameter refers to the `resourceId` of the Azure service connection. It can also be found in the query string of the respective service connection's configuration page in Azure Pipelines. More information about service connections can be found [here](https://learn.microsoft.com/azure/devops/pipelines/library/service-endpoints?view=azure-devops&tabs=yaml). |
 
 ## Troubleshoot multi-tenant authentication issues
 

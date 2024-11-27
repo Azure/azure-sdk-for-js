@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { Recorder, env } from "@azure-tools/test-recorder";
-import { ClientOptions } from "@azure-rest/core-client";
-import { DocumentTranslationClient } from "../../../src";
-import createClient from "../../../src/documentTranslationClient";
-import { KeyCredential, TokenCredential } from "@azure/core-auth";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { DocumentTranslationClient } from "../../../src";
+import { default as createClient } from "../../../src";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 export async function startRecorder(context: Context): Promise<Recorder> {

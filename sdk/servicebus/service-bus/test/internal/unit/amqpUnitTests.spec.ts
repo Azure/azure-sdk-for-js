@@ -1,28 +1,30 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import type {
+  ServiceBusMessage,
+  ServiceBusReceivedMessage,
+} from "../../../src/serviceBusMessage.js";
 import {
   isAmqpAnnotatedMessage,
   isServiceBusMessage,
-  ServiceBusMessage,
   ServiceBusMessageImpl,
-  ServiceBusReceivedMessage,
   toRheaMessage,
-} from "../../../src/serviceBusMessage";
-import * as chai from "chai";
-import { Delivery, Message } from "rhea-promise";
-import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
+} from "../../../src/serviceBusMessage.js";
+import type { Delivery, Message } from "rhea-promise";
+import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { Constants } from "@azure/core-amqp";
 import {
   dataSectionTypeCode,
   defaultDataTransformer,
   isRheaAmqpSection,
   valueSectionTypeCode,
-} from "../../../src/dataTransformer";
+} from "../../../src/dataTransformer.js";
 import {
   errorInvalidMessageTypeSingle,
   errorInvalidMessageTypeSingleOrArray,
-} from "../../../src/util/errors";
-const assert: typeof chai.assert = chai.assert;
+} from "../../../src/util/errors.js";
+import { assert, beforeEach, describe, it } from "vitest";
 
 describe("AMQP message encoding", () => {
   beforeEach(() => {

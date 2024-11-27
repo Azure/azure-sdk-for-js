@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   ListProjects200Response,
   ListProjectsDefaultResponse,
   GetProject200Response,

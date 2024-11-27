@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export const Constants = {
   associatedLinkName: "associated-link-name",
@@ -45,7 +45,6 @@ export const Constants = {
   attachEpoch: `com.microsoft:epoch`,
   receiverIdentifierName: `com.microsoft:receiver-name`,
   enableReceiverRuntimeMetricName: `com.microsoft:enable-receiver-runtime-metric`,
-  geoReplication: `com.microsoft:georeplication`,
   timespan: `com.microsoft:timespan`,
   uri: `com.microsoft:uri`,
   dateTimeOffset: `com.microsoft:datetime-offset`,

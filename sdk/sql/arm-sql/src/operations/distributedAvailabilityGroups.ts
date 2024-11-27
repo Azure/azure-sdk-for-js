@@ -31,12 +31,6 @@ import {
   DistributedAvailabilityGroupsDeleteOptionalParams,
   DistributedAvailabilityGroupsUpdateOptionalParams,
   DistributedAvailabilityGroupsUpdateResponse,
-  DistributedAvailabilityGroupsFailoverRequest,
-  DistributedAvailabilityGroupsFailoverOptionalParams,
-  DistributedAvailabilityGroupsFailoverResponse,
-  DistributedAvailabilityGroupSetRole,
-  DistributedAvailabilityGroupsSetRoleOptionalParams,
-  DistributedAvailabilityGroupsSetRoleResponse,
   DistributedAvailabilityGroupsListByInstanceNextResponse,
 } from "../models";
 
@@ -491,222 +485,6 @@ export class DistributedAvailabilityGroupsImpl
   }
 
   /**
-   * Performs requested failover type in this distributed availability group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param distributedAvailabilityGroupName The distributed availability group name.
-   * @param parameters The distributed availability group failover request parameters.
-   * @param options The options parameters.
-   */
-  async beginFailover(
-    resourceGroupName: string,
-    managedInstanceName: string,
-    distributedAvailabilityGroupName: string,
-    parameters: DistributedAvailabilityGroupsFailoverRequest,
-    options?: DistributedAvailabilityGroupsFailoverOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DistributedAvailabilityGroupsFailoverResponse>,
-      DistributedAvailabilityGroupsFailoverResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<DistributedAvailabilityGroupsFailoverResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        managedInstanceName,
-        distributedAvailabilityGroupName,
-        parameters,
-        options,
-      },
-      spec: failoverOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      DistributedAvailabilityGroupsFailoverResponse,
-      OperationState<DistributedAvailabilityGroupsFailoverResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Performs requested failover type in this distributed availability group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param distributedAvailabilityGroupName The distributed availability group name.
-   * @param parameters The distributed availability group failover request parameters.
-   * @param options The options parameters.
-   */
-  async beginFailoverAndWait(
-    resourceGroupName: string,
-    managedInstanceName: string,
-    distributedAvailabilityGroupName: string,
-    parameters: DistributedAvailabilityGroupsFailoverRequest,
-    options?: DistributedAvailabilityGroupsFailoverOptionalParams,
-  ): Promise<DistributedAvailabilityGroupsFailoverResponse> {
-    const poller = await this.beginFailover(
-      resourceGroupName,
-      managedInstanceName,
-      distributedAvailabilityGroupName,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
-   * Sets the role for managed instance in a distributed availability group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param distributedAvailabilityGroupName The distributed availability group name.
-   * @param parameters The distributed availability group set role request parameters.
-   * @param options The options parameters.
-   */
-  async beginSetRole(
-    resourceGroupName: string,
-    managedInstanceName: string,
-    distributedAvailabilityGroupName: string,
-    parameters: DistributedAvailabilityGroupSetRole,
-    options?: DistributedAvailabilityGroupsSetRoleOptionalParams,
-  ): Promise<
-    SimplePollerLike<
-      OperationState<DistributedAvailabilityGroupsSetRoleResponse>,
-      DistributedAvailabilityGroupsSetRoleResponse
-    >
-  > {
-    const directSendOperation = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ): Promise<DistributedAvailabilityGroupsSetRoleResponse> => {
-      return this.client.sendOperationRequest(args, spec);
-    };
-    const sendOperationFn = async (
-      args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec,
-    ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
-      const providedCallback = args.options?.onResponse;
-      const callback: coreClient.RawResponseCallback = (
-        rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown,
-      ) => {
-        currentRawResponse = rawResponse;
-        providedCallback?.(rawResponse, flatResponse);
-      };
-      const updatedArgs = {
-        ...args,
-        options: {
-          ...args.options,
-          onResponse: callback,
-        },
-      };
-      const flatResponse = await directSendOperation(updatedArgs, spec);
-      return {
-        flatResponse,
-        rawResponse: {
-          statusCode: currentRawResponse!.status,
-          body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON(),
-        },
-      };
-    };
-
-    const lro = createLroSpec({
-      sendOperationFn,
-      args: {
-        resourceGroupName,
-        managedInstanceName,
-        distributedAvailabilityGroupName,
-        parameters,
-        options,
-      },
-      spec: setRoleOperationSpec,
-    });
-    const poller = await createHttpPoller<
-      DistributedAvailabilityGroupsSetRoleResponse,
-      OperationState<DistributedAvailabilityGroupsSetRoleResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location",
-    });
-    await poller.poll();
-    return poller;
-  }
-
-  /**
-   * Sets the role for managed instance in a distributed availability group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
-   *                          this value from the Azure Resource Manager API or the portal.
-   * @param managedInstanceName The name of the managed instance.
-   * @param distributedAvailabilityGroupName The distributed availability group name.
-   * @param parameters The distributed availability group set role request parameters.
-   * @param options The options parameters.
-   */
-  async beginSetRoleAndWait(
-    resourceGroupName: string,
-    managedInstanceName: string,
-    distributedAvailabilityGroupName: string,
-    parameters: DistributedAvailabilityGroupSetRole,
-    options?: DistributedAvailabilityGroupsSetRoleOptionalParams,
-  ): Promise<DistributedAvailabilityGroupsSetRoleResponse> {
-    const poller = await this.beginSetRole(
-      resourceGroupName,
-      managedInstanceName,
-      distributedAvailabilityGroupName,
-      parameters,
-      options,
-    );
-    return poller.pollUntilDone();
-  }
-
-  /**
    * ListByInstanceNext
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -736,9 +514,7 @@ const listByInstanceOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.DistributedAvailabilityGroupsListResult,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {},
   },
   queryParameters: [Parameters.apiVersion8],
   urlParameters: [
@@ -757,9 +533,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.DistributedAvailabilityGroup,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {},
   },
   queryParameters: [Parameters.apiVersion8],
   urlParameters: [
@@ -788,9 +562,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.DistributedAvailabilityGroup,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {},
   },
   requestBody: Parameters.parameters63,
   queryParameters: [Parameters.apiVersion8],
@@ -808,15 +580,7 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
 const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}",
   httpMethod: "DELETE",
-  responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
+  responses: { 200: {}, 201: {}, 202: {}, 204: {}, default: {} },
   queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
@@ -825,7 +589,6 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.managedInstanceName,
     Parameters.distributedAvailabilityGroupName,
   ],
-  headerParameters: [Parameters.accept],
   serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
@@ -844,77 +607,9 @@ const updateOperationSpec: coreClient.OperationSpec = {
     204: {
       bodyMapper: Mappers.DistributedAvailabilityGroup,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {},
   },
   requestBody: Parameters.parameters63,
-  queryParameters: [Parameters.apiVersion8],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managedInstanceName,
-    Parameters.distributedAvailabilityGroupName,
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
-const failoverOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}/failover",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup,
-    },
-    201: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup,
-    },
-    202: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup,
-    },
-    204: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.parameters64,
-  queryParameters: [Parameters.apiVersion8],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.managedInstanceName1,
-    Parameters.distributedAvailabilityGroupName1,
-  ],
-  headerParameters: [Parameters.contentType, Parameters.accept],
-  mediaType: "json",
-  serializer,
-};
-const setRoleOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/distributedAvailabilityGroups/{distributedAvailabilityGroupName}/setRole",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup,
-    },
-    201: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup,
-    },
-    202: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup,
-    },
-    204: {
-      bodyMapper: Mappers.DistributedAvailabilityGroup,
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
-  },
-  requestBody: Parameters.parameters65,
   queryParameters: [Parameters.apiVersion8],
   urlParameters: [
     Parameters.$host,
@@ -934,9 +629,7 @@ const listByInstanceNextOperationSpec: coreClient.OperationSpec = {
     200: {
       bodyMapper: Mappers.DistributedAvailabilityGroupsListResult,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse,
-    },
+    default: {},
   },
   urlParameters: [
     Parameters.$host,

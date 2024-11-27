@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /*
  * Copyright (c) Microsoft Corporation.
@@ -9,7 +9,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 export type AnalyzeConversationTaskUnion = ConversationalTask;
 export type AnalyzeConversationTaskResultUnion = ConversationalTaskResult;

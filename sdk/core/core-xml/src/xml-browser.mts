@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /// <reference lib="dom"/>
-import { XML_ATTRKEY, XML_CHARKEY, XmlOptions } from "./xml.common.js";
+import type { XmlOptions } from "./xml.common.js";
+import { XML_ATTRKEY, XML_CHARKEY } from "./xml.common.js";
 
 if (!document || !DOMParser || !Node || !XMLSerializer) {
   throw new Error(
@@ -171,7 +172,8 @@ export function stringifyXML(content: unknown, opts: XmlOptions = {}): string {
   };
   const dom = buildNode(content, updatedOptions.rootName, updatedOptions)[0];
   return (
-    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' + serializer.serializeToString(dom)
+    '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>' +
+    serializer.serializeToString(dom).replace(/ xmlns=""/g, "")
   );
 }
 
@@ -205,7 +207,12 @@ function buildNode(obj: any, elementName: string, options: Required<XmlOptions>)
     }
     return result;
   } else if (typeof obj === "object") {
-    const elem = doc.createElement(elementName);
+    let elem: HTMLElement;
+    if (obj[XML_ATTRKEY]?.["xmlns"]) {
+      elem = doc.createElementNS(obj[XML_ATTRKEY]["xmlns"], elementName);
+    } else {
+      elem = doc.createElement(elementName);
+    }
     for (const key of Object.keys(obj)) {
       if (key === XML_ATTRKEY) {
         for (const attr of buildAttributes(obj[key])) {

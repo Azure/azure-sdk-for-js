@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
 import { buildBaseUrl, buildRequestUrl } from "../../src/client/urlHelpers.js";
@@ -107,7 +107,7 @@ describe("urlHelpers", () => {
 
     assert.equal(
       result,
-      `https://example.org/foo?existing=hey&arrayQuery=ArrayQuery1%2Cbegin%21*%27%28%29%3B%3A%40+%26%3D%2B%24%2C%2F%3F%23%5B%5Dend%2C%2C`,
+      `https://example.org/foo?existing=hey&arrayQuery=ArrayQuery1,begin!*%27()%3B%3A%40%20%26%3D%2B%24%2C%2F%3F%23%5B%5Dend,,`,
     );
     result = buildRequestUrl(mockBaseUrl, "/foo?existing=hey", [], {
       queryParameters: {
@@ -115,6 +115,12 @@ describe("urlHelpers", () => {
       },
     });
     assert.equal(result, `https://example.org/foo?existing=hey&arrayQuery=`);
+  });
+
+  it("should build url with dashes in path parameters", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{settings-name}", ["example"]);
+
+    assert.equal(result, `https://example.org/foo/example`);
   });
 
   it("should handle full urls as path", () => {
@@ -131,7 +137,7 @@ describe("urlHelpers", () => {
     const result = buildRequestUrl(mockBaseUrl, "/foo", [], {
       queryParameters: { foo: " aaaa", bar: "b= " },
     });
-    assert.equal(result, `https://example.org/foo?foo=+aaaa&bar=b%3D+`);
+    assert.equal(result, `https://example.org/foo?foo=%20aaaa&bar=b%3D%20`);
   });
 
   it("should encode url when skip encoding path parameter", () => {
@@ -167,5 +173,124 @@ describe("urlHelpers", () => {
       skipUrlEncoding: true,
     });
     assert.equal(result, "https://foo%bar.org");
+  });
+
+  it("allows for path parameters with metadata", () => {
+    const result = buildRequestUrl("https://example.org/", "{foo}/", [
+      {
+        value: "foo",
+      },
+    ]);
+
+    assert.equal(result, "https://example.org/foo/");
+  });
+
+  it("allowReserved in path parameter defaults to false", () => {
+    const result = buildRequestUrl("https://example.org/", "{foo}/", [
+      {
+        value: "foo/bar",
+      },
+    ]);
+
+    assert.equal(result, "https://example.org/foo%2Fbar/");
+  });
+
+  it("allowReserved in path parameter allows special characters in path parameters", () => {
+    const result = buildRequestUrl("https://example.org/", "{foo}/", [
+      {
+        value: "foo/bar",
+        allowReserved: true,
+      },
+    ]);
+
+    assert.equal(result, "https://example.org/foo/bar/");
+  });
+
+  it("allows for query parameters with metadata", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: "bar",
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar");
+  });
+
+  it("explode defaults to false; style defaults to `form`", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: ["bar", "baz"],
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar,baz");
+  });
+
+  it("style `pipeDelimited` works", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: ["bar", "baz"],
+          style: "pipeDelimited",
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar|baz");
+  });
+
+  it("style `spaceDelimited` works", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: ["bar", "baz"],
+          style: "spaceDelimited",
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar%20baz");
+  });
+
+  it("objects are handled by decomposing into array of key1,value1,key2,value2...", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: { bar: "aaa", baz: "bbb" },
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar,aaa,baz,bbb");
+  });
+
+  it("explode decomposes query parameter array into multiple query parameters", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: ["bar", "baz"],
+          explode: true,
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?foo=bar&foo=baz");
+  });
+
+  it("explode handles an object", () => {
+    const result = buildRequestUrl("https://example.org/", "", [], {
+      queryParameters: {
+        foo: {
+          value: { bar: "aaa", baz: "bbb" },
+          explode: true,
+        },
+      },
+    });
+
+    assert.equal(result, "https://example.org/?bar=aaa&baz=bbb");
   });
 });

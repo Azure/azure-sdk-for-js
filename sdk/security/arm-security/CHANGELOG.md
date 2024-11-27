@@ -13,7 +13,7 @@
 ## 6.0.0-beta.5 (2024-05-16)
 Compared with version 5.0.0
     
-**Features**
+### Features Added
 
   - Added operation group APICollections
   - Added operation group ApplicationOperations
@@ -593,7 +593,7 @@ Compared with version 5.0.0
   - Enum KnownSettingName has a new value Current
   - Added function getContinuationToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation group IngestionSettings
   - Removed operation Alerts.simulate
@@ -635,7 +635,7 @@ Compared with version 5.0.0
     
 ## 6.0.0-beta.4 (2023-04-11)
     
-**Features**
+### Features Added
 
   - Added operation group APICollection
   - Added operation group APICollectionOffboarding
@@ -989,7 +989,7 @@ Compared with version 5.0.0
   - Enum KnownSettingName has a new value WdatpUnifiedSolution
   - Added function getContinuationToken
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation Alerts.simulate
   - Removed operation SecurityContacts.update
@@ -1014,7 +1014,7 @@ Compared with version 5.0.0
     
 ## 6.0.0-beta.3 (2023-03-21)
     
-**Features**
+### Features Added
 
   - Added operation group APICollection
   - Added operation group APICollectionOffboarding
@@ -1349,7 +1349,7 @@ Compared with version 5.0.0
   - Interface TasksListByResourceGroupNextOptionalParams no longer has parameter filter
   - Interface TasksListNextOptionalParams no longer has parameter filter
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation Alerts.simulate
   - Removed operation SecurityContacts.update
@@ -1360,7 +1360,7 @@ Compared with version 5.0.0
 
 ## 6.0.0-beta.2 (2022-11-15)
     
-**Features**
+### Features Added
 
   - Added operation group APICollection
   - Added operation group APICollectionOffboarding
@@ -1687,7 +1687,7 @@ Compared with version 5.0.0
   - Enum KnownOfferingType has a new value DefenderForServersGcp
   - Enum KnownSettingName has a new value WdatpUnifiedSolution
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation Alerts.simulate
   - Removed operation SecurityContacts.update
@@ -1698,7 +1698,7 @@ Compared with version 5.0.0
 
 ## 6.0.0-beta.1 (2022-09-14)
     
-**Features**
+### Features Added
 
   - Added operation group ApplicationOperations
   - Added operation group Applications
@@ -1997,7 +1997,7 @@ Compared with version 5.0.0
   - Enum KnownOfferingType has a new value DefenderForServersGcp
   - Enum KnownSettingName has a new value WdatpUnifiedSolution
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation Alerts.simulate
   - Removed operation SecurityContacts.update
@@ -2007,7 +2007,7 @@ Compared with version 5.0.0
 
 ## 5.0.0 (2022-03-30)
     
-**Features**
+### Features Added
 
   - Added operation Alerts.simulate
   - Added Interface InformationProtectionAwsOfferingInformationProtection
@@ -2022,7 +2022,7 @@ Compared with version 5.0.0
   - Enum KnownOfferingType has a new value InformationProtectionAws
   - Enum KnownSupportedCloudEnum has a new value GCP
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation Alerts.beginSimulate
   - Removed operation Alerts.beginSimulateAndWait

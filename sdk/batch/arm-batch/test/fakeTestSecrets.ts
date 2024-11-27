@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Centralized location for test/fake secrets so that suppressions
 // are easier to maintain properly

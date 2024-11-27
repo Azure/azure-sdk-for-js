@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Converts an attestation input from Uint8Array/Buffer/Blob to Uint8Array.

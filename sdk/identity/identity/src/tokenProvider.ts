@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { TokenCredential, TracingContext } from "@azure/core-auth";
 import {
@@ -26,14 +26,14 @@ export interface GetBearerTokenProviderOptions {
 /**
  * Returns a callback that provides a bearer token.
  * For example, the bearer token can be used to authenticate a request as follows:
- * ```js
- * import { DefaultAzureCredential } from "@azure/identity";
+ * ```ts snippet:token_provider_example
+ * import { DefaultAzureCredential, getBearerTokenProvider } from "@azure/identity";
+ * import { createPipelineRequest } from "@azure/core-rest-pipeline";
  *
  * const credential = new DefaultAzureCredential();
  * const scope = "https://cognitiveservices.azure.com/.default";
  * const getAccessToken = getBearerTokenProvider(credential, scope);
  * const token = await getAccessToken();
- *
  * // usage
  * const request = createPipelineRequest({ url: "https://example.com" });
  * request.headers.set("Authorization", `Bearer ${token}`);

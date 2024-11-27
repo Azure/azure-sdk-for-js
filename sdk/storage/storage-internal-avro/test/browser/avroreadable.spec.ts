@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AvroReadableFromBlob } from "../../src/index.browser";
 import { arraysEqual } from "../../src/utils/utils.common";

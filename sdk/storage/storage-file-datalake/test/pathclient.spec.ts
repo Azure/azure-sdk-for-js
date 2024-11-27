@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isNodeLike } from "@azure/core-util";
 import { assert } from "@azure-tools/test-utils";
 import { isPlaybackMode, Recorder, delay } from "@azure-tools/test-recorder";
 
-import { DataLakeDirectoryClient, DataLakeFileClient, DataLakeFileSystemClient } from "../src";
+import type { DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src";
+import { DataLakeFileClient } from "../src";
 import { toPermissionsString } from "../src/transforms";
 import {
   bodyToString,
@@ -16,7 +17,7 @@ import {
   sleep,
   uriSanitizers,
 } from "./utils";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { Test_CPK_INFO } from "./utils/fakeTestSecrets";
 import { useFakeTimers } from "sinon";
 

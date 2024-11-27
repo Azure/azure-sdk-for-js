@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-export const SDK_VERSION: string = "1.2.4";
+export const SDK_VERSION: string = "2.0.1";
 
 export const JSON_CONTENT_TYPE = "application/json;charset=utf-8";
 export const XML_CONTENT_TYPE = "application/xml";

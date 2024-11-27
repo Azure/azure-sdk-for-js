@@ -1,45 +1,38 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Context, Suite } from "mocha";
+import type { RouteDirectionParameters, RouteMatrixQuery } from "../../src/index.js";
 import {
-  RouteDirectionParameters,
-  RouteMatrixQuery,
   createRouteDirectionsBatchRequest,
   toColonDelimitedLatLonString,
-} from "../../src";
-import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createClient, createRecorder, testLogger } from "./utils/recordedClient";
-import {
+} from "../../src/index.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
+import { createClient, createRecorder, testLogger } from "./utils/recordedClient.js";
+import type {
   MapsRouteClient,
   RouteGetRouteDirectionsBatch200Response,
   RouteGetRouteDirectionsQueryParamProperties,
   RouteGetRouteMatrix200Response,
-  getLongRunningPoller,
-  isUnexpected,
-} from "../../src/generated";
-import { LatLon } from "@azure/maps-common";
+} from "../../src/generated/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../src/generated/index.js";
+import type { LatLon } from "@azure/maps-common";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Endpoint can be overwritten", function (this: Suite) {
+describe("Endpoint can be overwritten", () => {
   let recorder: Recorder;
-  const fastTimeout = 10000;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async (ctx) => {
     testLogger.verbose(`Recorder: starting...`);
-    recorder = await createRecorder(this);
+    recorder = await createRecorder(ctx);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     testLogger.verbose(`Recorder: stopping...`);
     await recorder.stop();
   });
 
-  before(function (this: Context) {
-    this.timeout(fastTimeout);
-  });
-
-  it("should be executed without specifying baseUrl", async function () {
+  it("should be executed without specifying baseUrl", async () => {
     const client = createClient(recorder.configureClientOptions({}));
     const routeDirectionsResult = await client.path("/route/directions/{format}", "json").get({
       queryParameters: {
@@ -53,7 +46,7 @@ describe("Endpoint can be overwritten", function (this: Suite) {
     assert.isOk(!isUnexpected(routeDirectionsResult));
   });
 
-  it("should be executed with different baseUrl", async function () {
+  it("should be executed with different baseUrl", async () => {
     const client = createClient(
       recorder.configureClientOptions({ baseUrl: "https://us.atlas.microsoft.com/" }),
     );
@@ -70,27 +63,22 @@ describe("Endpoint can be overwritten", function (this: Suite) {
   });
 });
 
-describe("Get Route Directions", function (this: Suite) {
+describe("Get Route Directions", () => {
   let recorder: Recorder;
   let client: MapsRouteClient;
-  const fastTimeout = 10000;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async (ctx) => {
     testLogger.verbose(`Recorder: starting...`);
-    recorder = await createRecorder(this);
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     testLogger.verbose(`Recorder: stopping...`);
     await recorder.stop();
   });
 
-  before(function (this: Context) {
-    this.timeout(fastTimeout);
-  });
-
-  it("should accept LatLon[] and return route directions", async function () {
+  it("should accept LatLon[] and return route directions", async () => {
     const routePoints: LatLon[] = [
       [52.50931, 13.42936],
       [52.50274, 13.43872],
@@ -106,7 +94,7 @@ describe("Get Route Directions", function (this: Suite) {
     }
   });
 
-  it("should accept additional parameters and return route directions", async function () {
+  it("should accept additional parameters and return route directions", async () => {
     const routePoints: LatLon[] = [
       [47.6133869, -122.0235832],
       [47.5565375, -122.1411044],
@@ -140,27 +128,22 @@ describe("Get Route Directions", function (this: Suite) {
   });
 });
 
-describe("Get Route Range", function () {
+describe("Get Route Range", () => {
   let recorder: Recorder;
   let client: MapsRouteClient;
-  const fastTimeout = 10000;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async (ctx) => {
     testLogger.verbose(`Recorder: starting...`);
-    recorder = await createRecorder(this);
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     testLogger.verbose(`Recorder: stopping...`);
     await recorder.stop();
   });
 
-  before(function (this: Context) {
-    this.timeout(fastTimeout);
-  });
-
-  it("should accept LatLon and return reachable range", async function () {
+  it("should accept LatLon and return reachable range", async () => {
     const startCoordinates: LatLon = [50.97452, 5.86605];
 
     const routeRangeResult = await client
@@ -174,29 +157,23 @@ describe("Get Route Range", function () {
   });
 });
 
-describe("LRO", function (this: Suite) {
+describe("LRO", () => {
   let recorder: Recorder;
   let client: MapsRouteClient;
-  const CLITimeout = this.timeout();
-  const fastTimeout = 10000;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
   const pollingInterval = isPlaybackMode() ? 0 : 2000;
 
-  before(function (this: Context) {
-    this.timeout(isPlaybackMode() ? fastTimeout : CLITimeout);
-  });
-
-  describe("Begin Request Route Directions Batch", function () {
-    it("could take an array of route directions requests as input", async function () {
+  describe("Begin Request Route Directions Batch", () => {
+    it("could take an array of route directions requests as input", async () => {
       const batchRequests: RouteGetRouteDirectionsQueryParamProperties[] = [
         {
           query: toColonDelimitedLatLonString([
@@ -229,7 +206,7 @@ describe("LRO", function (this: Suite) {
       const initialResponse = await client.path("/route/directions/batch/{format}", "json").post({
         body: createRouteDirectionsBatchRequest(batchRequests),
       });
-      const poller = getLongRunningPoller(client, initialResponse, {
+      const poller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
       });
 
@@ -240,8 +217,8 @@ describe("LRO", function (this: Suite) {
     });
   });
 
-  describe("Resume Route Directions Batch Result", function () {
-    it("should be able to resume the previous request", async function () {
+  describe("Resume Route Directions Batch Result", () => {
+    it("should be able to resume the previous request", async () => {
       const batchRequests: RouteGetRouteDirectionsQueryParamProperties[] = [
         {
           query: toColonDelimitedLatLonString([
@@ -276,14 +253,14 @@ describe("LRO", function (this: Suite) {
       const initialResponse = await client.path("/route/directions/batch/{format}", "json").post({
         body: createRouteDirectionsBatchRequest(batchRequests),
       });
-      const originalPoller = getLongRunningPoller(client, initialResponse, {
+      const originalPoller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
       });
-      const serializedState = originalPoller.toString();
+      const serializedState = await originalPoller.serialize();
 
       // Use serialized state to retrieve the result
-      const rehydratedPoller = getLongRunningPoller(client, initialResponse, {
-        resumeFrom: serializedState,
+      const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
+        restoreFrom: serializedState,
         intervalInMs: pollingInterval,
       });
       const batchResult =
@@ -293,7 +270,7 @@ describe("LRO", function (this: Suite) {
       assert.equal(batchResult.body.batchItems.length, batchRequests.length);
     });
 
-    it("should obtain the same result from the rehydrated poller after the lro is finished", async function () {
+    it("should obtain the same result from the rehydrated poller after the lro is finished", async () => {
       const batchRequests: RouteGetRouteDirectionsQueryParamProperties[] = [
         {
           query: toColonDelimitedLatLonString([
@@ -328,15 +305,16 @@ describe("LRO", function (this: Suite) {
       const initialResponse = await client.path("/route/directions/batch/{format}", "json").post({
         body: createRouteDirectionsBatchRequest(batchRequests),
       });
-      const originalPoller = getLongRunningPoller(client, initialResponse, {
+      const originalPoller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
       });
       const originalResult = await originalPoller.pollUntilDone();
 
       // Use serialized state to retrieve the result
-      const serializedState = originalPoller.toString();
-      const rehydratedPoller = getLongRunningPoller(client, initialResponse, {
-        resumeFrom: serializedState,
+      const serializedState = await originalPoller.serialize();
+
+      const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
+        restoreFrom: serializedState,
         intervalInMs: pollingInterval,
       });
       const rehydratedResult = await rehydratedPoller.pollUntilDone();
@@ -345,8 +323,8 @@ describe("LRO", function (this: Suite) {
     });
   });
 
-  describe("Begin Request Route Matrix", function () {
-    it("should accept routeMatrixQuery as input", async function () {
+  describe("Begin Request Route Matrix", () => {
+    it("should accept routeMatrixQuery as input", async () => {
       const routeMatrixQuery: RouteMatrixQuery = {
         origins: {
           type: "MultiPoint",
@@ -367,7 +345,7 @@ describe("LRO", function (this: Suite) {
       const initialResponse = await client
         .path("/route/matrix/{format}", "json")
         .post({ body: routeMatrixQuery });
-      const poller = getLongRunningPoller(client, initialResponse, {
+      const poller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
       });
       const routeMatrixResult = (await poller.pollUntilDone()) as RouteGetRouteMatrix200Response;
@@ -378,8 +356,8 @@ describe("LRO", function (this: Suite) {
     });
   });
 
-  describe("Resume Get Route Matrix Result", function () {
-    it("should be able to resume the previous request", async function () {
+  describe("Resume Get Route Matrix Result", () => {
+    it("should be able to resume the previous request", async () => {
       const routeMatrixQuery: RouteMatrixQuery = {
         origins: {
           type: "MultiPoint",
@@ -401,15 +379,15 @@ describe("LRO", function (this: Suite) {
       const initialResponse = await client.path("/route/matrix/{format}", "json").post({
         body: routeMatrixQuery,
       });
-      const originalPoller = getLongRunningPoller(client, initialResponse, {
+      const originalPoller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
       });
-      const serializedState = originalPoller.toString();
+      const serializedState = await originalPoller.serialize();
 
       // Use saved batchId to retrieve the result
-      const rehydratedPoller = getLongRunningPoller(client, initialResponse, {
+      const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
-        resumeFrom: serializedState,
+        restoreFrom: serializedState,
       });
       const routeMatrixResult =
         (await rehydratedPoller.pollUntilDone()) as RouteGetRouteMatrix200Response;
@@ -419,7 +397,7 @@ describe("LRO", function (this: Suite) {
       assert.equal(routeMatrixResult.body.summary.totalRoutes, 4);
     });
 
-    it("should obtain the same result as beginRequestRouteMatrix ", async function () {
+    it("should obtain the same result as beginRequestRouteMatrix ", async () => {
       const routeMatrixQuery: RouteMatrixQuery = {
         origins: {
           type: "MultiPoint",
@@ -441,16 +419,17 @@ describe("LRO", function (this: Suite) {
       const initialResponse = await client.path("/route/matrix/{format}", "json").post({
         body: routeMatrixQuery,
       });
-      const originalPoller = getLongRunningPoller(client, initialResponse, {
+      const originalPoller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
       });
       const originalResult = await originalPoller.pollUntilDone();
 
       // Use serialized state to retrieve the result
-      const serializedState = originalPoller.toString();
-      const rehydratedPoller = getLongRunningPoller(client, initialResponse, {
+      const serializedState = await originalPoller.serialize();
+
+      const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
         intervalInMs: pollingInterval,
-        resumeFrom: serializedState,
+        restoreFrom: serializedState,
       });
       const rehydratedResult = await rehydratedPoller.pollUntilDone();
 

@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Readable } from "stream";
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { TransferProgressEvent } from "@azure/core-rest-pipeline";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { TransferProgressEvent } from "@azure/core-rest-pipeline";
 
 import { AvroReadableFromStream, AvroReader } from "../../../storage-internal-avro/src";
-import { BlobQueryError } from "../Clients";
+import type { BlobQueryError } from "../Clients";
 
 export interface BlobQuickQueryStreamOptions {
   /**

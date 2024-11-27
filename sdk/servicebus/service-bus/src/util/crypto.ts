@@ -1,10 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import crypto from "crypto";
+import crypto from "node:crypto";
 
 /**
  * @internal

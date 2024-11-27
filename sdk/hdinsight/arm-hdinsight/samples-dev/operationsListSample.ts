@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists all of the available HDInsight REST API operations.
  *
  * @summary Lists all of the available HDInsight REST API operations.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/ListHDInsightOperations.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/ListHDInsightOperations.json
  */
 async function listsAllOfTheAvailableOperations() {
   const subscriptionId =

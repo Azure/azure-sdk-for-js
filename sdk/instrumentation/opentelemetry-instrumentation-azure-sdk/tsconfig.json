@@ -1,11 +1,20 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": ".",
     "paths": {
       "@azure/opentelemetry-instrumentation-azure-sdk": ["./src/index"]
     }
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.cts",
+    "src/**/*.mts",
+    "test/**/*.ts",
+    "test/**/*.cts",
+    "test/**/*.mts",
+    "samples-dev/**/*.ts"
+  ]
 }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get an VolumeGroups.
  *
  * @summary Get an VolumeGroups.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeGroups_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeGroups_Get_MaximumSet_Gen.json
  */
 async function volumeGroupsGetMaximumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -33,7 +33,7 @@ async function volumeGroupsGetMaximumSetGen() {
  * This sample demonstrates how to Get an VolumeGroups.
  *
  * @summary Get an VolumeGroups.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeGroups_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeGroups_Get_MinimumSet_Gen.json
  */
 async function volumeGroupsGetMinimumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";

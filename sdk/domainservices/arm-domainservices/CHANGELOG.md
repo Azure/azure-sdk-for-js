@@ -12,14 +12,14 @@
 
 ## 4.1.0 (2022-11-22)
     
-**Features**
+### Features Added
 
   - Added Interface DomainService
   - Added Interface OuContainer
     
 ## 4.0.1 (2022-04-18)
 
-**features**
+### Features Added
 
   - Bug fix
 

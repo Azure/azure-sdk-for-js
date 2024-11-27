@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /** A container for the rules that govern how jobs are classified. */
 export interface ClassificationPolicy {

@@ -7,11 +7,11 @@
  */
 
 import * as coreClient from "@azure/core-client";
-import { RoleDefinitionsImpl, RoleAssignmentsImpl } from "./operations";
-import { RoleDefinitions, RoleAssignments } from "./operationsInterfaces";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
-import { KeyVaultClientContext } from "./keyVaultClientContext";
+import { RoleDefinitionsImpl, RoleAssignmentsImpl } from "./operations/index.js";
+import { RoleDefinitions, RoleAssignments } from "./operationsInterfaces/index.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
+import { KeyVaultClientContext } from "./keyVaultClientContext.js";
 import {
   KeyVaultClientOptionalParams,
   ApiVersion75,
@@ -31,7 +31,7 @@ import {
   GetSettingResponse,
   GetSettingsOptionalParams,
   GetSettingsResponse
-} from "./models";
+} from "./models/index.js";
 
 export class KeyVaultClient extends KeyVaultClientContext {
   /**

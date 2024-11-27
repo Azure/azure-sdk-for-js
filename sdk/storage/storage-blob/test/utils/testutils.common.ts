@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { padStart } from "../../src/utils/utils.common";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
-import { isPlaybackMode, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
-import { StorageClient } from "../../src/StorageClient";
-import { Pipeline } from "@azure/core-rest-pipeline";
-import {
+import type { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import type { StorageClient } from "../../src/StorageClient";
+import type { Pipeline } from "@azure/core-rest-pipeline";
+import type {
   FindReplaceSanitizer,
   RegexSanitizer,
 } from "@azure-tools/test-recorder/types/src/utils/utils";
@@ -40,7 +41,7 @@ const mockAccountKey = "aaaaa";
 const mockSas =
   "?sv=2015-04-05&ss=bfqt&srt=sco&sp=rwdlacup&se=2023-01-31T18%3A51%3A40.0000000Z&sig=foobar";
 
-const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv"];
+const sasParams = ["se", "sig", "sip", "sp", "spr", "srt", "ss", "sr", "st", "sv", "sktid"];
 if (isBrowser()) {
   sasParams.push("_");
 }

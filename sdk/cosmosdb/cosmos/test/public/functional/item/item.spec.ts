@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import assert from "assert";
-import { Suite } from "mocha";
-import {
+import type { Suite } from "mocha";
+import type {
   Container,
   ContainerDefinition,
   ContainerRequest,
@@ -12,7 +12,7 @@ import {
   RequestOptions,
   StatusCodes,
 } from "../../../../src";
-import { ItemDefinition } from "../../../../src";
+import type { ItemDefinition } from "../../../../src";
 import {
   bulkDeleteItems,
   bulkInsertItems,
@@ -29,12 +29,8 @@ import {
 } from "../../common/TestHelpers";
 import { endpoint } from "../../common/_testConfig";
 import { masterKey } from "../../common/_fakeTestSecrets";
-import {
-  PartitionKey,
-  PartitionKeyDefinition,
-  PartitionKeyDefinitionVersion,
-  PartitionKeyKind,
-} from "../../../../src/documents";
+import type { PartitionKey, PartitionKeyDefinition } from "../../../../src/documents";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../../src/documents";
 import { PriorityLevel } from "../../../../src/documents/PriorityLevel";
 import { getCurrentTimestampInMs } from "../../../../src/utils/time";
 

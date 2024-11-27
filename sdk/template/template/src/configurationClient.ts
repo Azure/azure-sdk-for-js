@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { GeneratedClient, ConfigurationSetting } from "./generated/index.js";
-import {
+import type {
   CommonClientOptions,
   OperationOptions,
   InternalClientPipelineOptions,
 } from "@azure/core-client";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
-import { TracingClient, createTracingClient } from "@azure/core-tracing";
+import type { TokenCredential } from "@azure/core-auth";
+import type { TracingClient } from "@azure/core-tracing";
+import { createTracingClient } from "@azure/core-tracing";
 import { SDK_VERSION } from "./constants.js";
 import { logger } from "./logger.js";
 import { quoteETag } from "./util.js";
@@ -50,13 +51,13 @@ export class ConfigurationClient {
    * Creates an instance of a ConfigurationClient.
    *
    * Example usage:
-   * ```ts
-   * import { ConfigurationClient} from "@azure/ai-text-analytics";
-   * import { DefaultAzureCredential} from "@azure/identity";
+   * ```ts snippet:new_configurationclient
+   * import { ConfigurationClient } from "@azure/template";
+   * import { DefaultAzureCredential } from "@azure/identity";
    *
    * const client = new ConfigurationClient(
-   *    "<app configuration endpoint>",
-   *    new DefaultAzureCredential()
+   *   process.env.ENDPOINT ?? "<app configuration endpoint>",
+   *   new DefaultAzureCredential(),
    * );
    * ```
    * @param endpointUrl - the URL to the App Configuration endpoint

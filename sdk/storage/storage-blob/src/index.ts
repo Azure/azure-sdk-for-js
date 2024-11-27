@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RestError } from "@azure/core-rest-pipeline";
 
@@ -11,12 +11,18 @@ export * from "./BlobLeaseClient";
 export * from "./sas/AccountSASPermissions";
 export * from "./sas/AccountSASResourceTypes";
 export * from "./sas/AccountSASServices";
-export * from "./sas/AccountSASSignatureValues";
+export {
+  AccountSASSignatureValues,
+  generateAccountSASQueryParameters,
+} from "./sas/AccountSASSignatureValues";
 export * from "./BlobBatch";
 export * from "./BlobBatchClient";
 export * from "./BatchResponse";
 export * from "./sas/BlobSASPermissions";
-export * from "./sas/BlobSASSignatureValues";
+export {
+  BlobSASSignatureValues,
+  generateBlobSASQueryParameters,
+} from "./sas/BlobSASSignatureValues";
 export * from "./StorageBrowserPolicyFactory";
 export * from "./sas/ContainerSASPermissions";
 export * from "./credentials/AnonymousCredential";

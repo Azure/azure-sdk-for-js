@@ -1,15 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CheckpointStore, SubscriptionEventHandlers } from "../../src/index.js";
-import { EventHubConsumerClient, isCheckpointStore } from "../../src/eventHubConsumerClient.js";
-import { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor.js";
-import { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy.js";
-import { ConnectionContext } from "../../src/connectionContext.js";
-import { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy.js";
+import type { CheckpointStore, SubscriptionEventHandlers } from "../../src/index.js";
+import type { EventHubConsumerClient } from "../../src/eventHubConsumerClient.js";
+import { isCheckpointStore } from "../../src/eventHubConsumerClient.js";
+import type { EventProcessor, FullEventProcessorOptions } from "../../src/eventProcessor.js";
+import type { BalancedLoadBalancingStrategy } from "../../src/loadBalancerStrategies/balancedStrategy.js";
+import type { ConnectionContext } from "../../src/connectionContext.js";
+import type { GreedyLoadBalancingStrategy } from "../../src/loadBalancerStrategies/greedyStrategy.js";
 import { InMemoryCheckpointStore } from "../../src/inMemoryCheckpointStore.js";
 import { should, expect } from "../utils/chai.js";
-import { describe, it, beforeEach, vi, MockInstance, afterEach } from "vitest";
+import type { MockInstance } from "vitest";
+import { describe, it, beforeEach, vi, afterEach } from "vitest";
 import { createConsumer } from "../utils/clients.js";
 import { PartitionGate } from "../../src/impl/partitionGate.js";
 

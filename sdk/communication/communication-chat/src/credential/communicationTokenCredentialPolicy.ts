@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CommunicationTokenCredential } from "@azure/communication-common";
-import {
+import type { CommunicationTokenCredential } from "@azure/communication-common";
+import type {
   BearerTokenAuthenticationPolicyOptions,
   PipelinePolicy,
-  bearerTokenAuthenticationPolicy,
 } from "@azure/core-rest-pipeline";
+import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 /**
  * Creates a new CommunicationTokenCredentialPolicy factory.

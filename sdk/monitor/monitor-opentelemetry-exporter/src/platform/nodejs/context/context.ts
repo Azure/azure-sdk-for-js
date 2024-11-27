@@ -1,13 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import * as os from "os";
+import * as os from "node:os";
 import { SDK_INFO } from "@opentelemetry/core";
-import { SemanticResourceAttributes } from "@opentelemetry/semantic-conventions";
-
-import { KnownContextTagKeys } from "../../../generated";
-import * as ai from "../../../utils/constants/applicationinsights";
-import { Tags } from "../../../types";
+import { ATTR_TELEMETRY_SDK_VERSION } from "@opentelemetry/semantic-conventions";
+import { KnownContextTagKeys } from "../../../generated/index.js";
+import * as ai from "../../../utils/constants/applicationinsights.js";
+import type { Tags } from "../../../types.js";
 
 let instance: Context | null = null;
 
@@ -37,7 +36,7 @@ export class Context {
   private _loadInternalContext(): void {
     const { node } = process.versions;
     [Context.nodeVersion] = node.split(".");
-    Context.opentelemetryVersion = SDK_INFO[SemanticResourceAttributes.TELEMETRY_SDK_VERSION];
+    Context.opentelemetryVersion = SDK_INFO[ATTR_TELEMETRY_SDK_VERSION];
     Context.sdkVersion = ai.packageVersion;
 
     const prefix = process.env["AZURE_MONITOR_PREFIX"] ? process.env["AZURE_MONITOR_PREFIX"] : "";

@@ -1,31 +1,26 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import chai, { assert } from "chai";
 import Long from "long";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import {
+import type {
   ServiceBusReceivedMessage,
-  delay,
   ProcessErrorArgs,
-  isServiceBusError,
   ServiceBusError,
-} from "../../src";
+} from "../../src/index.js";
+import { delay, isServiceBusError } from "../../src/index.js";
 
-import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
-import { ServiceBusSender } from "../../src";
-import { ServiceBusSessionReceiver } from "../../src";
+import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils.js";
+import type { ServiceBusSender } from "../../src/index.js";
+import type { ServiceBusSessionReceiver } from "../../src/index.js";
+import type { EntityName, ServiceBusClientForTests } from "./utils/testutils2.js";
 import {
-  EntityName,
-  ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
-} from "./utils/testutils2";
-import sinon from "sinon";
-import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
+} from "./utils/testutils2.js";
+import type { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver.js";
+import { describe, it, afterEach, afterAll, vi } from "vitest";
+import { expect, should } from "./utils/chai.js";
 
 let unexpectedError: Error | undefined;
 
@@ -66,7 +61,7 @@ describe("session tests", () => {
     // const peekedMsgs = await receiver.peekMessages();
     // const receiverEntityType = receiver.entityType;
     // if (peekedMsgs.length) {
-    //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
+    //   assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     // }
   }
 
@@ -305,6 +300,25 @@ describe("session tests", () => {
         err.name.should.equal("AbortError");
       }
     });
+
+    ["acceptSession", "acceptNextSession"].forEach((method) => {
+      it(`${method} on session id of empty string`, async () => {
+        serviceBusClient = createServiceBusClientForTests();
+        const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
+        const testMessage = TestMessage.getSessionSample();
+        testMessage.sessionId = "";
+        sender = serviceBusClient.test.addToCleanup(
+          serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
+        );
+        await sender.sendMessages(testMessage);
+        receiver =
+          method === "acceptSession"
+            ? await serviceBusClient.test.acceptSessionWithPeekLock(entityNames, "")
+            : await serviceBusClient.test.acceptNextSessionWithPeekLock(entityNames);
+        const msgs = await receiver.receiveMessages(10);
+        should.equal(msgs.length, 1, "Unexpected number of messages received");
+      });
+    });
   });
 });
 
@@ -320,7 +334,7 @@ describe.skip("SessionReceiver - disconnects - (if recovery is supported in futu
     return serviceBusClient.test.createTestEntities(testClientType);
   }
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -412,7 +426,7 @@ describe("SessionReceiver - disconnects", function (): void {
     return serviceBusClient.test.createTestEntities(testClientType);
   }
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -439,7 +453,7 @@ describe("SessionReceiver - disconnects", function (): void {
 
     const sender = serviceBusClient.createSender(entityName.queue!);
     should.equal(receiver.isClosed, false, "Receiver should not have been closed");
-    const isCloseCalledSpy = sinon.spy(
+    const isCloseCalledSpy = vi.spyOn(
       (receiver as ServiceBusSessionReceiverImpl)["_messageSession"],
       "close",
     );
@@ -473,8 +487,8 @@ describe("SessionReceiver - disconnects", function (): void {
     //
     // This is only an issue for this test because we're trying to do some timing dependent checks of our
     // internal state.
-    await checkWithTimeout(() => isCloseCalledSpy.called);
-    assert.isTrue(isCloseCalledSpy.called, "Close should have been called on the message session");
+    await checkWithTimeout(() => isCloseCalledSpy.mock.lastCall !== undefined);
+    expect(isCloseCalledSpy).toHaveBeenCalled(); // Close should have been called on the message session
 
     // send a second message to trigger the message handler again.
     await sender.sendMessages(TestMessage.getSessionSample());

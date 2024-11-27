@@ -163,12 +163,6 @@ export namespace UpstreamMessage {
         /** SendToGroupMessage noEcho. */
         public noEcho?: (boolean|null);
 
-        /** SendToGroupMessage _ackId. */
-        public _ackId?: "ackId";
-
-        /** SendToGroupMessage _noEcho. */
-        public _noEcho?: "noEcho";
-
         /**
          * Creates a new SendToGroupMessage instance using the specified properties.
          * @param [properties] Properties to set
@@ -278,9 +272,6 @@ export namespace UpstreamMessage {
         /** EventMessage ackId. */
         public ackId?: (number|Long|null);
 
-        /** EventMessage _ackId. */
-        public _ackId?: "ackId";
-
         /**
          * Creates a new EventMessage instance using the specified properties.
          * @param [properties] Properties to set
@@ -384,9 +375,6 @@ export namespace UpstreamMessage {
         /** JoinGroupMessage ackId. */
         public ackId?: (number|Long|null);
 
-        /** JoinGroupMessage _ackId. */
-        public _ackId?: "ackId";
-
         /**
          * Creates a new JoinGroupMessage instance using the specified properties.
          * @param [properties] Properties to set
@@ -489,9 +477,6 @@ export namespace UpstreamMessage {
 
         /** LeaveGroupMessage ackId. */
         public ackId?: (number|Long|null);
-
-        /** LeaveGroupMessage _ackId. */
-        public _ackId?: "ackId";
 
         /**
          * Creates a new LeaveGroupMessage instance using the specified properties.
@@ -814,9 +799,6 @@ export namespace DownstreamMessage {
         /** AckMessage error. */
         public error?: (DownstreamMessage.AckMessage.IErrorMessage|null);
 
-        /** AckMessage _error. */
-        public _error?: "error";
-
         /**
          * Creates a new AckMessage instance using the specified properties.
          * @param [properties] Properties to set
@@ -1037,12 +1019,6 @@ export namespace DownstreamMessage {
 
         /** DataMessage sequenceId. */
         public sequenceId?: (number|Long|null);
-
-        /** DataMessage _group. */
-        public _group?: "group";
-
-        /** DataMessage _sequenceId. */
-        public _sequenceId?: "sequenceId";
 
         /**
          * Creates a new DataMessage instance using the specified properties.

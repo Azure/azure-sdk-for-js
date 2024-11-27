@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-export * from "./communicationAccessKeyCredentialPolicy";
-export * from "./communicationAuthPolicy";
-export * from "./clientArguments";
-export * from "./connectionString";
+export * from "./communicationAccessKeyCredentialPolicy.js";
+export * from "./communicationAuthPolicy.js";
+export * from "./clientArguments.js";
+export * from "./connectionString.js";

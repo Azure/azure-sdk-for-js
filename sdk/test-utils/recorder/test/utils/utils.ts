@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createPipelineRequest, HttpMethods, PipelineResponse } from "@azure/core-rest-pipeline";
 import { expect } from "vitest";

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Rotate disk encryption key of the specified HDInsight cluster.
  *
  * @summary Rotate disk encryption key of the specified HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/RotateLinuxHadoopClusterDiskEncryptionKey.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/RotateLinuxHadoopClusterDiskEncryptionKey.json
  */
 async function rotateDiskEncryptionKeyOfTheSpecifiedHdInsightCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -32,7 +32,7 @@ async function rotateDiskEncryptionKeyOfTheSpecifiedHdInsightCluster() {
   const result = await client.clusters.beginRotateDiskEncryptionKeyAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

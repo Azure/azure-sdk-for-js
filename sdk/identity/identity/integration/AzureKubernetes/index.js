@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 const { BlobServiceClient } = require("@azure/storage-blob");
 const { ManagedIdentityCredential, WorkloadIdentityCredential } = require("@azure/identity");

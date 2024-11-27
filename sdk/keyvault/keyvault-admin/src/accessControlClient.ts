@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
-import {
+import type {
   AccessControlClientOptions,
   CreateRoleAssignmentOptions,
   DeleteRoleAssignmentOptions,
@@ -17,18 +17,17 @@ import {
   ListRoleDefinitionsOptions,
   ListRoleDefinitionsPageSettings,
   SetRoleDefinitionOptions,
-} from "./accessControlModels";
-import { KeyVaultClient } from "./generated/keyVaultClient";
-import { LATEST_API_VERSION } from "./constants";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { RoleAssignmentsListForScopeOptionalParams } from "./generated/models";
-import { TokenCredential } from "@azure/core-auth";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
-import { logger } from "./log";
-import { mappings } from "./mappings";
-import { tracingClient } from "./tracing";
-import { v4 as v4uuid } from "uuid";
+} from "./accessControlModels.js";
+import { KeyVaultClient } from "./generated/keyVaultClient.js";
+import { LATEST_API_VERSION } from "./constants.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { RoleAssignmentsListForScopeOptionalParams } from "./generated/models/index.js";
+import type { TokenCredential } from "@azure/core-auth";
+import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
+import { logger } from "./log.js";
+import { mappings } from "./mappings.js";
+import { tracingClient } from "./tracing.js";
+import { randomUUID } from "@azure/core-util";
 
 /**
  * The KeyVaultAccessControlClient provides methods to manage
@@ -66,6 +65,7 @@ export class KeyVaultAccessControlClient {
   constructor(
     vaultUrl: string,
     credential: TokenCredential,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: AccessControlClientOptions = {},
   ) {
     this.vaultUrl = vaultUrl;
@@ -86,15 +86,11 @@ export class KeyVaultAccessControlClient {
 
     this.client = new KeyVaultClient(serviceVersion, clientOptions);
 
-    this.client.pipeline.addPolicy(
-      bearerTokenAuthenticationPolicy({
-        credential,
-        // The scopes will be populated in the challenge callbacks based on the WWW-authenticate header
-        // returned by the challenge, so pass an empty array as a placeholder.
-        scopes: [],
-        challengeCallbacks: createKeyVaultChallengeCallbacks(options),
-      }),
-    );
+    // The authentication policy must come after the deserialization policy since the deserialization policy
+    // converts 401 responses to an Error, and we don't want to deal with that.
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions), {
+      afterPolicies: ["deserializationPolicy"],
+    });
   }
 
   /**
@@ -447,7 +443,7 @@ export class KeyVaultAccessControlClient {
         const response = await this.client.roleDefinitions.createOrUpdate(
           this.vaultUrl,
           roleScope,
-          options.roleDefinitionName || v4uuid(),
+          options.roleDefinitionName || randomUUID(),
           {
             properties: {
               description: options.description,

@@ -5,7 +5,6 @@ extends:
     parameters:
       PackageName: "@azure/eventhubs-checkpointstore-table"
       ServiceDirectory: eventhub
-      UseFederatedAuth: true
       MatrixFilters:
         - TestType=^(?!sample).*
         - DependencyVersion=^$

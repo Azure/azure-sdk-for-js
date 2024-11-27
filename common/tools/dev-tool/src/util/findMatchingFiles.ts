@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import fs from "fs-extra";
 import path from "node:path";
@@ -31,6 +31,10 @@ export interface FileInfo {
    * File stats from the `fs.stat` Node API
    */
   stat: fs.Stats;
+  /**
+   * Depth of this find.
+   */
+  depth: number;
 }
 
 /**
@@ -39,11 +43,13 @@ export interface FileInfo {
 export interface FindOptions {
   ignore: string[];
   skips: string[];
+  maxDepth: number;
 }
 
 const defaultFindOptions: FindOptions = {
   ignore: [],
   skips: [],
+  maxDepth: Number.MAX_SAFE_INTEGER,
 };
 
 /**
@@ -62,7 +68,7 @@ export async function* findMatchingFiles(
 
   const options: FindOptions = { ...defaultFindOptions, ...findOptions };
 
-  async function enqueueAll(dir: string) {
+  async function enqueueAll(dir: string, depth: number) {
     const files = await fs.readdir(dir);
     for (const file of files) {
       const fullPath = path.join(dir, file);
@@ -71,11 +77,14 @@ export async function* findMatchingFiles(
         fullPath,
         name: file,
         stat: await fs.stat(fullPath),
+        depth,
       });
     }
   }
 
-  await enqueueAll(dir);
+  if (options.maxDepth > 0) {
+    await enqueueAll(dir, 1);
+  }
 
   while (q.length) {
     const info = q.shift() as FileInfo;
@@ -86,7 +95,9 @@ export async function* findMatchingFiles(
     }
 
     if (info.stat.isDirectory()) {
-      await enqueueAll(info.fullPath);
+      if (info.depth < options.maxDepth) {
+        await enqueueAll(info.fullPath, info.depth + 1);
+      }
     } else if (shouldSkip(info, options.skips)) {
       logInfo(`Skipping ${info.fullPath} because it was configured to be skipped.`);
     } else if (matches(info.name, info.stat)) {

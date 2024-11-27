@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Lists the billingSpecs for the specified subscription and location.
  *
  * @summary Lists the billingSpecs for the specified subscription and location.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/HDI_Locations_ListBillingSpecs.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/HDI_Locations_ListBillingSpecs.json
  */
 async function getTheSubscriptionBillingSpecsForTheSpecifiedLocation() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";

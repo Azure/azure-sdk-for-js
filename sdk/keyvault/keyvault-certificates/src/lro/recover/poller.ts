@@ -1,15 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  RecoverDeletedCertificatePollOperation,
-  RecoverDeletedCertificateState,
-} from "./operation";
-import { KeyVaultCertificateWithPolicy } from "../../certificatesModels";
-import {
-  KeyVaultCertificatePoller,
-  KeyVaultCertificatePollerOptions,
-} from "../keyVaultCertificatePoller";
+import type { RecoverDeletedCertificateState } from "./operation.js";
+import { RecoverDeletedCertificatePollOperation } from "./operation.js";
+import type { KeyVaultCertificateWithPolicy } from "../../certificatesModels.js";
+import type { KeyVaultCertificatePollerOptions } from "../keyVaultCertificatePoller.js";
+import { KeyVaultCertificatePoller } from "../keyVaultCertificatePoller.js";
 
 export interface RecoverDeletedCertificatePollerOptions extends KeyVaultCertificatePollerOptions {}
 

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export interface CheckPrincipalAccessResponseOutput {
   /** To check if the current user, group, or service principal has permission to read artifacts in the specified workspace. */

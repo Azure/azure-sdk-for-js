@@ -18,7 +18,7 @@ import {
   ScalingPlansCreateResponse,
   ScalingPlansDeleteOptionalParams,
   ScalingPlansUpdateOptionalParams,
-  ScalingPlansUpdateResponse
+  ScalingPlansUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,14 +31,14 @@ export interface ScalingPlans {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ScalingPlansListByResourceGroupOptionalParams
+    options?: ScalingPlansListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ScalingPlan>;
   /**
    * List scaling plans in subscription.
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ScalingPlansListBySubscriptionOptionalParams
+    options?: ScalingPlansListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ScalingPlan>;
   /**
    * List scaling plan associated with hostpool.
@@ -49,7 +49,7 @@ export interface ScalingPlans {
   listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: ScalingPlansListByHostPoolOptionalParams
+    options?: ScalingPlansListByHostPoolOptionalParams,
   ): PagedAsyncIterableIterator<ScalingPlan>;
   /**
    * Get a scaling plan.
@@ -60,7 +60,7 @@ export interface ScalingPlans {
   get(
     resourceGroupName: string,
     scalingPlanName: string,
-    options?: ScalingPlansGetOptionalParams
+    options?: ScalingPlansGetOptionalParams,
   ): Promise<ScalingPlansGetResponse>;
   /**
    * Create or update a scaling plan.
@@ -73,7 +73,7 @@ export interface ScalingPlans {
     resourceGroupName: string,
     scalingPlanName: string,
     scalingPlan: ScalingPlan,
-    options?: ScalingPlansCreateOptionalParams
+    options?: ScalingPlansCreateOptionalParams,
   ): Promise<ScalingPlansCreateResponse>;
   /**
    * Remove a scaling plan.
@@ -84,7 +84,7 @@ export interface ScalingPlans {
   delete(
     resourceGroupName: string,
     scalingPlanName: string,
-    options?: ScalingPlansDeleteOptionalParams
+    options?: ScalingPlansDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update a scaling plan.
@@ -95,6 +95,6 @@ export interface ScalingPlans {
   update(
     resourceGroupName: string,
     scalingPlanName: string,
-    options?: ScalingPlansUpdateOptionalParams
+    options?: ScalingPlansUpdateOptionalParams,
   ): Promise<ScalingPlansUpdateResponse>;
 }

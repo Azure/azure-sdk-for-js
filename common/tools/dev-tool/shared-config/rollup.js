@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // This shim file simply loads ts-node and then requires the
 // TypeScript file corresponding to the rollup base config

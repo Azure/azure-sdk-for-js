@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isLiveMode, isRecordMode } from "@azure-tools/test-recorder";
 
-import { assert } from "@azure-tools/test-utils";
-import { Context } from "mocha";
-import { Recorder, env, isRecordMode, isLiveMode } from "@azure-tools/test-recorder";
-
-import { SecretClient } from "../../src";
-import { getServiceVersion } from "./utils/common";
-import { testPollerProperties } from "./utils/recorderUtils";
-import { authenticate } from "./utils/testAuthentication";
-import TestClient from "./utils/testClient";
+import { afterEach, assert, beforeEach, describe, it } from "vitest";
+import type { SecretClient } from "../../src/index.js";
+import { testPollerProperties } from "./utils/recorderUtils.js";
+import { authenticate } from "./utils/testAuthentication.js";
+import type TestClient from "./utils/testClient.js";
 
 describe("Secret client - list secrets in various ways", () => {
   const secretValue = "SECRET_VALUE";
@@ -19,8 +17,8 @@ describe("Secret client - list secrets in various ways", () => {
   let testClient: TestClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    const authentication = await authenticate(this, getServiceVersion());
+  beforeEach(async function (ctx) {
+    const authentication = await authenticate(ctx);
     secretSuffix = authentication.secretSuffix;
     client = authentication.client;
     testClient = authentication.testClient;
@@ -36,11 +34,8 @@ describe("Secret client - list secrets in various ways", () => {
   // Use this while recording to make sure the target keyvault is clean.
   // The next tests will produce a more consistent output.
   // This test is only useful while developing locally.
-  it("can purge all secrets", async function (this: Context): Promise<void> {
-    // WARNING: When TEST_MODE equals "record", all of the secrets in the indicated KEYVAULT_URI will be deleted as part of this test.
-    if (!isRecordMode()) {
-      return this.skip();
-    }
+  // WARNING: When TEST_MODE equals "record", all of the secrets in the indicated KEYVAULT_URI will be deleted as part of this test.
+  it.skipIf(!isRecordMode())("can purge all secrets", async function () {
     for await (const secretProperties of client.listPropertiesOfSecrets()) {
       try {
         await testClient.flushSecret(secretProperties.name);
@@ -57,10 +52,8 @@ describe("Secret client - list secrets in various ways", () => {
     }
   });
 
-  it("can list secret properties", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
-    );
+  it("can list secret properties", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
       await client.setSecret(name, "RSA");
@@ -76,10 +69,8 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(found, 2, "Unexpected number of secrets found by getSecrets.");
   });
 
-  it("can list deleted secrets", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
-    );
+  it("can list deleted secrets", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
       await client.setSecret(name, "RSA");
@@ -99,14 +90,8 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(found, 2, "Unexpected number of secrets found by getDeletedSecrets.");
   });
 
-  it("can retrieve all versions of a secret", async function (this: Context) {
-    if (!isLiveMode()) {
-      this.skip();
-    }
-
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
-    );
+  it.skipIf(!isLiveMode())("can retrieve all versions of a secret", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     const secretValues = [`${secretValue}0`, `${secretValue}1`, `${secretValue}2`];
     interface VersionValuePair {
       version: string;
@@ -133,10 +118,8 @@ describe("Secret client - list secrets in various ways", () => {
     assert.deepEqual(results, versions);
   });
 
-  it("can list secret versions (non existing)", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
-    );
+  it("can list secret versions (non existing)", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     let totalVersions = 0;
     for await (const secretProperties of client.listPropertiesOfSecretVersions(secretName)) {
       assert.equal(
@@ -149,10 +132,8 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(totalVersions, 0, `Unexpected total versions for secret ${secretName}`);
   });
 
-  it("can list secrets by page", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
-    );
+  it("can list secrets by page", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
       await client.setSecret(name, "RSA");
@@ -168,10 +149,8 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(found, 2, "Unexpected number of secrets found by getSecrets.");
   });
 
-  it("can list deleted secrets by page", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
-    );
+  it("can list deleted secrets by page", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     const secretNames = [`${secretName}0`, `${secretName}1`];
     for (const name of secretNames) {
       await client.setSecret(name, "RSA");
@@ -192,10 +171,8 @@ describe("Secret client - list secrets in various ways", () => {
     assert.equal(found, 2, "Unexpected number of secrets found by getDeletedSecrets.");
   });
 
-  it("can retrieve all versions of a secret by page", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
-    );
+  it("can retrieve all versions of a secret by page", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     const secretValues = [`${secretValue}0`, `${secretValue}1`, `${secretValue}2`];
     interface VersionValuePair {
       version: string;
@@ -226,10 +203,8 @@ describe("Secret client - list secrets in various ways", () => {
     assert.deepEqual(results, versions);
   });
 
-  it("can list secret versions by page (non existing)", async function (this: Context) {
-    const secretName = testClient.formatName(
-      `${secretPrefix}-${this!.test!.title}-${secretSuffix}`,
-    );
+  it("can list secret versions by page (non existing)", async function (ctx) {
+    const secretName = testClient.formatName(`${secretPrefix}-${ctx.task.name}-${secretSuffix}`);
     let totalVersions = 0;
     for await (const page of client
       .listPropertiesOfSecretVersions(secretName)

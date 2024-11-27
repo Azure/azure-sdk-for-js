@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { CancerProfilingRestClient, getLongRunningPoller } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { CancerProfilingRestClient } from "../../src/index.js";
+import { getLongRunningPoller } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const patientInfo = {
   sex: "FEMALE",
@@ -109,12 +109,12 @@ describe("My test", () => {
   let recorder: Recorder;
   let client: CancerProfilingRestClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

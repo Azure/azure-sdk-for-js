@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Create ElasticSan.
  *
  * @summary Create ElasticSan.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/ElasticSans_Create_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Create_MaximumSet_Gen.json
  */
 async function elasticSansCreateMaximumSetGen() {
   const subscriptionId =
@@ -33,16 +33,16 @@ async function elasticSansCreateMaximumSetGen() {
       baseSizeTiB: 5,
       extendedCapacitySizeTiB: 25,
       publicNetworkAccess: "Enabled",
-      sku: { name: "Premium_LRS", tier: "Premium" }
+      sku: { name: "Premium_LRS", tier: "Premium" },
     },
-    tags: { key9316: "ihndtieqibtob" }
+    tags: { key9316: "ihndtieqibtob" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.elasticSans.beginCreateAndWait(
     resourceGroupName,
     elasticSanName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -51,7 +51,7 @@ async function elasticSansCreateMaximumSetGen() {
  * This sample demonstrates how to Create ElasticSan.
  *
  * @summary Create ElasticSan.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/ElasticSans_Create_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Create_MinimumSet_Gen.json
  */
 async function elasticSansCreateMinimumSetGen() {
   const subscriptionId =
@@ -64,15 +64,15 @@ async function elasticSansCreateMinimumSetGen() {
     properties: {
       baseSizeTiB: 15,
       extendedCapacitySizeTiB: 27,
-      sku: { name: "Premium_LRS" }
-    }
+      sku: { name: "Premium_LRS" },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.elasticSans.beginCreateAndWait(
     resourceGroupName,
     elasticSanName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

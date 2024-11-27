@@ -1,14 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  isNamedKeyCredential,
-  isSASCredential,
-  isTokenCredential,
-  NamedKeyCredential,
-  SASCredential,
-  TokenCredential,
-} from "@azure/core-auth";
+import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
+import { isNamedKeyCredential, isSASCredential, isTokenCredential } from "@azure/core-auth";
 
 /**
  * Typeguard that checks if the input is a credential type the clients accept.

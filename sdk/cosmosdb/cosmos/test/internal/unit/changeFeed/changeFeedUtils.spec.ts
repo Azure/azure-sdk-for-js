@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import assert from "assert";
 import {
@@ -7,7 +7,8 @@ import {
   isNullOrEmpty,
   fetchStartTime,
 } from "../../../../src/client/ChangeFeed/changeFeedUtils";
-import { ChangeFeedStartFrom, PartitionKeyRange } from "../../../../src/";
+import type { PartitionKeyRange } from "../../../../src/";
+import { ChangeFeedStartFrom } from "../../../../src/";
 import { FeedRangeInternal } from "../../../../src/client/ChangeFeed/FeedRange";
 import { isEpkRange } from "../../../../src/client/ChangeFeed/changeFeedUtils";
 import { QueryRange } from "../../../../src/routing";

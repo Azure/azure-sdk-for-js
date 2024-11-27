@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ConnectionContext } from "../../../src/connectionContext";
-import {
+import type { ConnectionContext } from "../../../src/connectionContext.js";
+import type {
   AwaitableSender,
   Receiver as RheaPromiseReceiver,
-  ReceiverEvents,
   ReceiverOptions,
 } from "rhea-promise";
+import { ReceiverEvents } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
-import { AccessToken } from "@azure/core-auth";
+import type { AccessToken } from "@azure/core-auth";
 import { EventEmitter } from "events";
-import { getUniqueName } from "../../../src/util/utils";
-import { Link } from "rhea-promise/typings/lib/link";
-import { ReceiveOptions } from "../../../src/core/messageReceiver";
-import { StreamingReceiver } from "../../../src/core/streamingReceiver";
-import { ReceiveMode } from "../../../src/models";
+import { getUniqueName } from "../../../src/util/utils.js";
+import type { ReceiveOptions } from "../../../src/core/messageReceiver.js";
+import { StreamingReceiver } from "../../../src/core/streamingReceiver.js";
+import type { ReceiveMode } from "../../../src/models.js";
+import { afterEach } from "vitest";
 
 export interface CreateConnectionContextForTestsOptions {
   host?: string;
@@ -207,7 +207,7 @@ export function createRheaReceiverForTests(options?: ReceiverOptions): RheaPromi
   return receiver;
 }
 
-export function mockLinkProperties(link: Link): void {
+export function mockLinkProperties(link: RheaPromiseReceiver | AwaitableSender): void {
   let isOpen = true;
 
   link.close = async (): Promise<void> => {

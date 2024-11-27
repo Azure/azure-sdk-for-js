@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   TestOutput,
   ErrorResponseBodyOutput,
   TestsListOutput,
@@ -19,7 +19,7 @@ import {
   DimensionValueListOutput,
   TestRunAppComponentsOutput,
   TestRunServerMetricConfigOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Create a new test or update an existing test. */
 export interface TestCreateOrUpdate200Response extends HttpResponse {

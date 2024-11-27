@@ -12,7 +12,7 @@
 
 ## 3.0.0 (2024-04-16)
     
-**Features**
+### Features Added
 
   - Added operation group ChatTranscripts
   - Added operation group ChatTranscriptsNoSubscription
@@ -119,7 +119,7 @@
   - Added Enum KnownTranscriptContentType
   - Added Enum KnownUserConsent
 
-**Breaking Changes**
+### Breaking Changes
 
   - Class MicrosoftSupport has a new signature
   - Interface SupportTicketDetails has a new required parameter advancedDiagnosticConsent
@@ -135,7 +135,7 @@
     
 ## 2.1.0 (2023-02-02)
     
-**Features**
+### Features Added
 
   - Interface CommunicationsListNextOptionalParams no longer has parameter filter
   - Interface CommunicationsListNextOptionalParams no longer has parameter top
@@ -144,13 +144,13 @@
     
 ## 2.0.2 (2022-07-05)
 
-**Features**
+### Features Added
 
   - Bug fix
 
 ## 2.0.1 (2022-05-05)
 
-**Features**
+### Features Added
 
   - Bug fix
     

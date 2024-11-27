@@ -1,28 +1,25 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { PhoneNumbersClient } from "../../src";
-import { createRecordedClient } from "./utils/recordedClient";
-import { getPhoneNumber } from "./utils/testPhoneNumber";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { PhoneNumbersClient } from "../../src/index.js";
+import { createRecordedClient } from "./utils/recordedClient.js";
+import { getPhoneNumber } from "./utils/testPhoneNumber.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe(`PhoneNumbersClient - look up phone number`, function () {
+describe(`PhoneNumbersClient - look up phone number`, () => {
   let recorder: Recorder;
   let client: PhoneNumbersClient;
 
-  beforeEach(async function (this: Context) {
-    ({ client, recorder } = await createRecordedClient(this));
+  beforeEach(async (ctx) => {
+    ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
-      await recorder.stop();
-    }
+  afterEach(async () => {
+    await recorder.stop();
   });
 
-  it("can look up a phone number", async function (this: Context) {
+  it("can look up a phone number", { timeout: 60000 }, async () => {
     const phoneNumbers = [getPhoneNumber()];
     const operatorInformation = await client.searchOperatorInformation(phoneNumbers);
 
@@ -30,9 +27,9 @@ describe(`PhoneNumbersClient - look up phone number`, function () {
       ? operatorInformation.values[0].phoneNumber
       : "";
     assert.strictEqual(resultPhoneNumber, phoneNumbers[0]);
-  }).timeout(60000);
+  });
 
-  it("errors if multiple phone numbers are requested", async function () {
+  it("errors if multiple phone numbers are requested", { timeout: 60000 }, async () => {
     const phoneNumbers = [getPhoneNumber(), getPhoneNumber()];
     try {
       await client.searchOperatorInformation(phoneNumbers);
@@ -40,9 +37,9 @@ describe(`PhoneNumbersClient - look up phone number`, function () {
       assert.strictEqual(error.code, "BadRequest");
       assert.strictEqual(error.message, "Can only accept one phoneNumber");
     }
-  }).timeout(60000);
+  });
 
-  it("respects includeAdditionalOperatorDetails option", async function (this: Context) {
+  it("respects includeAdditionalOperatorDetails option", { timeout: 60000 }, async () => {
     const phoneNumbers = [getPhoneNumber()];
 
     let operatorInformation = await client.searchOperatorInformation(phoneNumbers, {
@@ -82,5 +79,5 @@ describe(`PhoneNumbersClient - look up phone number`, function () {
     assert.isNotNull(
       operatorInformation.values ? operatorInformation.values[0].operatorDetails : null,
     );
-  }).timeout(60000);
+  });
 });

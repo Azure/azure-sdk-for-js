@@ -2,7 +2,7 @@
     
 ## 2.0.0 (2023-08-15)
     
-**Features**
+### Features Added
 
   - Added operation Monitors.getMarketplaceSaaSResourceDetails
   - Added operation Monitors.getMetricStatus
@@ -15,7 +15,7 @@
   - Added Type Alias MonitorsGetMetricStatusResponse
   - Interface MetricRules has a new optional parameter sendingMetrics
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation Monitors.getAccountCredentials
   - Removed operation TagRules.update
@@ -31,11 +31,11 @@
     
 ## 1.0.1 (2023-01-09)
 
-**Features**
+### Features Added
 
   - Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
+### Bugs Fixed
 
   - A series of small bug fixs relevant to authentication and apiVersion policy
 

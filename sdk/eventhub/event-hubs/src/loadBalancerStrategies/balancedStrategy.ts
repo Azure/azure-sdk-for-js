@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { LoadBalancingStrategy, listAvailablePartitions } from "./loadBalancingStrategy.js";
-import { PartitionOwnership } from "../eventProcessor.js";
+import type { LoadBalancingStrategy } from "./loadBalancingStrategy.js";
+import { listAvailablePartitions } from "./loadBalancingStrategy.js";
+import type { PartitionOwnership } from "../eventProcessor.js";
 
 /**
  * The BalancedLoadBalancerStrategy is meant to be used when the user

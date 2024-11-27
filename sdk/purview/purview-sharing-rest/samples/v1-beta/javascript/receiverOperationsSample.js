@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 const createPurviewSharingClient = require("@azure-rest/purview-sharing").default,
   { getLongRunningPoller, paginate, isUnexpected } = require("@azure-rest/purview-sharing");

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the Elastic San
  *
  * @summary Deletes the specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/PrivateEndpointConnections_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/PrivateEndpointConnections_Delete_MaximumSet_Gen.json
  */
 async function privateEndpointConnectionsDeleteMaximumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -37,7 +37,7 @@ async function privateEndpointConnectionsDeleteMaximumSetGen() {
  * This sample demonstrates how to Deletes the specified private endpoint connection associated with the Elastic San
  *
  * @summary Deletes the specified private endpoint connection associated with the Elastic San
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/PrivateEndpointConnections_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/PrivateEndpointConnections_Delete_MinimumSet_Gen.json
  */
 async function privateEndpointConnectionsDeleteMinimumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";

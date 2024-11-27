@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/identity";
+import type { TokenCredential } from "@azure/identity";
 import { TableClient, TableServiceClient } from "@azure/data-tables";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";

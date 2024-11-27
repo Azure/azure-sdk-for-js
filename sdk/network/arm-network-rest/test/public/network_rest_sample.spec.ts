@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /*
  * Copyright (c) Microsoft Corporation.
@@ -9,11 +9,12 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions } from "@azure-tools/test-recorder";
+import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert } from "chai";
-import { Context } from "mocha";
-import {
+import type { Context } from "mocha";
+import type {
   IpGroupsCreateOrUpdateParameters,
   IpGroupsDeleteParameters,
   IpGroupsGetParameters,
@@ -28,10 +29,8 @@ import {
   VirtualNetworksGetParameters,
   VirtualNetworksListParameters,
   VirtualNetworksUpdateTagsParameters,
-  getLongRunningPoller,
-  isUnexpected,
-  paginate,
 } from "../../src";
+import { getLongRunningPoller, isUnexpected, paginate } from "../../src";
 import { createTestNetworkManagementClient } from "./utils/recordedClient";
 
 const replaceableVariables: Record<string, string> = {

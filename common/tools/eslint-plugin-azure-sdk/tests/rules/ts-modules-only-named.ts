@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Testing the ts-modules-only-named rule.
@@ -13,7 +13,7 @@ import rule from "../../src/rules/ts-modules-only-named";
 // Tests
 //------------------------------------------------------------------------------
 
-const ruleTester = createRuleTester({ settings: { main: "src/test.ts" } });
+const ruleTester = createRuleTester({ settings: { main: "tests/fixture/src/test.ts" } });
 
 ruleTester.run("ts-modules-only-named", rule, {
   valid: [

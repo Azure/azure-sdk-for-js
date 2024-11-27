@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable tsdoc/syntax */
 
 import * as path from "path";
+import type { IPersistence as Persistence } from "@azure/msal-node-extensions";
 import {
   DataProtectionScope,
   FilePersistence,
   FilePersistenceWithDataProtection,
   KeychainPersistence,
   LibSecretPersistence,
-  IPersistence as Persistence,
 } from "@azure/msal-node-extensions";
-import { TokenCachePersistenceOptions } from "@azure/identity";
+import type { TokenCachePersistenceOptions } from "@azure/identity";
 
 /**
  * Local application data folder

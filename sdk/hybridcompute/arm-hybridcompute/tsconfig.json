@@ -23,8 +23,8 @@
     }
   },
   "include": [
-    "./src/**/*.ts",
-    "./test/**/*.ts",
+    "src/**/*.ts",
+    "test/**/*.ts",
     "samples-dev/**/*.ts"
   ],
   "exclude": [

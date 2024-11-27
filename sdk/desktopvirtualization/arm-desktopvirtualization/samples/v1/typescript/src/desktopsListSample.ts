@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   DesktopsListOptionalParams,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List desktops.
  *
  * @summary List desktops.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/Desktop_List.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/Desktop_List.json
  */
 async function desktopList() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function desktopList() {
   const options: DesktopsListOptionalParams = {
     pageSize,
     isDescending,
-    initialSkip
+    initialSkip,
   };
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
@@ -44,7 +44,7 @@ async function desktopList() {
   for await (let item of client.desktops.list(
     resourceGroupName,
     applicationGroupName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

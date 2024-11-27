@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { WithResponse } from "./utils/utils.common";
-import {
+import type { WithResponse } from "./utils/utils.common";
+import type {
   ListQueuesSegmentResponse,
   MessageIdDeleteHeaders,
   MessageIdUpdateHeaders,

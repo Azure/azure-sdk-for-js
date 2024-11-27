@@ -14,7 +14,7 @@ import {
   SessionHostsGetResponse,
   SessionHostsDeleteOptionalParams,
   SessionHostsUpdateOptionalParams,
-  SessionHostsUpdateResponse
+  SessionHostsUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +29,7 @@ export interface SessionHosts {
   list(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: SessionHostsListOptionalParams
+    options?: SessionHostsListOptionalParams,
   ): PagedAsyncIterableIterator<SessionHost>;
   /**
    * Get a session host.
@@ -42,7 +42,7 @@ export interface SessionHosts {
     resourceGroupName: string,
     hostPoolName: string,
     sessionHostName: string,
-    options?: SessionHostsGetOptionalParams
+    options?: SessionHostsGetOptionalParams,
   ): Promise<SessionHostsGetResponse>;
   /**
    * Remove a SessionHost.
@@ -55,7 +55,7 @@ export interface SessionHosts {
     resourceGroupName: string,
     hostPoolName: string,
     sessionHostName: string,
-    options?: SessionHostsDeleteOptionalParams
+    options?: SessionHostsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update a session host.
@@ -68,6 +68,6 @@ export interface SessionHosts {
     resourceGroupName: string,
     hostPoolName: string,
     sessionHostName: string,
-    options?: SessionHostsUpdateOptionalParams
+    options?: SessionHostsUpdateOptionalParams,
   ): Promise<SessionHostsUpdateResponse>;
 }

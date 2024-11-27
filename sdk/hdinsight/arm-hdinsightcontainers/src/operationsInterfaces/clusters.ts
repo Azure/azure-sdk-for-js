@@ -18,6 +18,9 @@ import {
   ClusterUpgrade,
   ClustersUpgradeOptionalParams,
   ClustersUpgradeResponse,
+  ClusterUpgradeRollback,
+  ClustersUpgradeManualRollbackOptionalParams,
+  ClustersUpgradeManualRollbackResponse,
   ClusterResizeData,
   ClustersResizeOptionalParams,
   ClustersResizeResponse,
@@ -108,6 +111,41 @@ export interface Clusters {
     clusterUpgradeRequest: ClusterUpgrade,
     options?: ClustersUpgradeOptionalParams,
   ): Promise<ClustersUpgradeResponse>;
+  /**
+   * Manual rollback upgrade for a cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterPoolName The name of the cluster pool.
+   * @param clusterName The name of the HDInsight cluster.
+   * @param clusterRollbackUpgradeRequest Manual rollback upgrade for a cluster.
+   * @param options The options parameters.
+   */
+  beginUpgradeManualRollback(
+    resourceGroupName: string,
+    clusterPoolName: string,
+    clusterName: string,
+    clusterRollbackUpgradeRequest: ClusterUpgradeRollback,
+    options?: ClustersUpgradeManualRollbackOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClustersUpgradeManualRollbackResponse>,
+      ClustersUpgradeManualRollbackResponse
+    >
+  >;
+  /**
+   * Manual rollback upgrade for a cluster.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param clusterPoolName The name of the cluster pool.
+   * @param clusterName The name of the HDInsight cluster.
+   * @param clusterRollbackUpgradeRequest Manual rollback upgrade for a cluster.
+   * @param options The options parameters.
+   */
+  beginUpgradeManualRollbackAndWait(
+    resourceGroupName: string,
+    clusterPoolName: string,
+    clusterName: string,
+    clusterRollbackUpgradeRequest: ClusterUpgradeRollback,
+    options?: ClustersUpgradeManualRollbackOptionalParams,
+  ): Promise<ClustersUpgradeManualRollbackResponse>;
   /**
    * Resize an existing Cluster.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

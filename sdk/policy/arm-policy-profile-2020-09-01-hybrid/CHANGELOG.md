@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-12-22)
     
-**Features**
+### Features Added
 
   - Interface PolicyAssignmentsListForResourceGroupNextOptionalParams no longer has parameter filter
   - Interface PolicyAssignmentsListForResourceNextOptionalParams no longer has parameter filter

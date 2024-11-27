@@ -12,7 +12,7 @@
 
 ## 6.1.0 (2023-06-02)
     
-**Features**
+### Features Added
 
   - Added operation Profiles.checkTrafficManagerNameAvailabilityV2
   - Added Interface Endpoint
@@ -31,7 +31,7 @@
     
 ## 6.0.1 (2022-05-05)
 
-**Features**
+### Features Added
 
   - Bug fix
  

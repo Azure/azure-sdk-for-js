@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   GetConstitution200Response,
@@ -28,7 +28,7 @@ import {
   GetUserDefaultResponse,
   CreateOrUpdateUser200Response,
   CreateOrUpdateUserDefaultResponse
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /app/governance/constitution": ["200"],

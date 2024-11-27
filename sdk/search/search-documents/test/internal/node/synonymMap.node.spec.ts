@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import { createSynonymMapFromFile } from "../../../src";
-import { SynonymMap } from "../../../src/serviceModels";
+import type { SynonymMap } from "../../../src/serviceModels";
 
 describe("synonymmap", function () {
   it("create synonymmap from file(node)", async function () {

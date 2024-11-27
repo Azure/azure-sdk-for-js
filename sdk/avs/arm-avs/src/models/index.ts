@@ -27,10 +27,6 @@ export type WorkloadNetworkDhcpEntityUnion =
   | WorkloadNetworkDhcpEntity
   | WorkloadNetworkDhcpRelay
   | WorkloadNetworkDhcpServer;
-export type WorkloadNetworkDhcpEntityUpdateUnion =
-  | WorkloadNetworkDhcpEntityUpdate
-  | WorkloadNetworkDhcpRelayUpdate
-  | WorkloadNetworkDhcpServerUpdate;
 
 /** A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results. */
 export interface OperationListResult {
@@ -188,7 +184,7 @@ export interface Trial {
 }
 
 /** The response of a PrivateCloud list operation. */
-export interface PrivateCloudListResult {
+export interface PrivateCloudList {
   /** The PrivateCloud items on this page */
   value: PrivateCloud[];
   /** The link to the next page of items */
@@ -348,7 +344,7 @@ export interface Endpoints {
 }
 
 /** Managed service identity (either system assigned, or none) */
-export interface SystemAssignedServiceIdentity {
+export interface PrivateCloudIdentity {
   /**
    * The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -360,7 +356,7 @@ export interface SystemAssignedServiceIdentity {
    */
   readonly tenantId?: string;
   /** Type of managed service identity (either system assigned, or none). */
-  type: SystemAssignedServiceIdentityType;
+  type: ResourceIdentityType;
 }
 
 /** Common fields that are returned in the response for all Azure Resource Manager resources */
@@ -410,7 +406,7 @@ export interface PrivateCloudUpdate {
   /** The SKU (Stock Keeping Unit) assigned to this resource. */
   sku?: Sku;
   /** The managed service identities assigned to this resource. */
-  identity?: SystemAssignedServiceIdentity;
+  identity?: PrivateCloudIdentity;
   /** The default cluster used for management */
   managementCluster?: ManagementCluster;
   /** Connectivity to internet is enabled or disabled */
@@ -433,7 +429,7 @@ export interface PrivateCloudUpdate {
 }
 
 /** The response of a Addon list operation. */
-export interface AddonListResult {
+export interface AddonList {
   /** The Addon items on this page */
   value: Addon[];
   /** The link to the next page of items */
@@ -452,7 +448,7 @@ export interface AddonProperties {
 }
 
 /** The response of a ExpressRouteAuthorization list operation. */
-export interface ExpressRouteAuthorizationListResult {
+export interface ExpressRouteAuthorizationList {
   /** The ExpressRouteAuthorization items on this page */
   value: ExpressRouteAuthorization[];
   /** The link to the next page of items */
@@ -460,7 +456,7 @@ export interface ExpressRouteAuthorizationListResult {
 }
 
 /** The response of a CloudLink list operation. */
-export interface CloudLinkListResult {
+export interface CloudLinkList {
   /** The CloudLink items on this page */
   value: CloudLink[];
   /** The link to the next page of items */
@@ -468,7 +464,7 @@ export interface CloudLinkListResult {
 }
 
 /** The response of a Cluster list operation. */
-export interface ClusterListResult {
+export interface ClusterList {
   /** The Cluster items on this page */
   value: Cluster[];
   /** The link to the next page of items */
@@ -486,7 +482,7 @@ export interface ClusterUpdate {
 }
 
 /** The response of a Datastore list operation. */
-export interface DatastoreListResult {
+export interface DatastoreList {
   /** The Datastore items on this page */
   value: Datastore[];
   /** The link to the next page of items */
@@ -544,7 +540,7 @@ export interface ClusterZone {
 }
 
 /** The response of a PlacementPolicy list operation. */
-export interface PlacementPolicyListResult {
+export interface PlacementPoliciesList {
   /** The PlacementPolicy items on this page */
   value: PlacementPolicy[];
   /** The link to the next page of items */
@@ -581,7 +577,7 @@ export interface PlacementPolicyUpdate {
 }
 
 /** The response of a VirtualMachine list operation. */
-export interface VirtualMachineListResult {
+export interface VirtualMachinesList {
   /** The VirtualMachine items on this page */
   value: VirtualMachine[];
   /** The link to the next page of items */
@@ -595,7 +591,7 @@ export interface VirtualMachineRestrictMovement {
 }
 
 /** The response of a GlobalReachConnection list operation. */
-export interface GlobalReachConnectionListResult {
+export interface GlobalReachConnectionList {
   /** The GlobalReachConnection items on this page */
   value: GlobalReachConnection[];
   /** The link to the next page of items */
@@ -603,7 +599,7 @@ export interface GlobalReachConnectionListResult {
 }
 
 /** The response of a HcxEnterpriseSite list operation. */
-export interface HcxEnterpriseSiteListResult {
+export interface HcxEnterpriseSiteList {
   /** The HcxEnterpriseSite items on this page */
   value: HcxEnterpriseSite[];
   /** The link to the next page of items */
@@ -645,7 +641,7 @@ export interface AdminCredentials {
 }
 
 /** The response of a ScriptExecution list operation. */
-export interface ScriptExecutionListResult {
+export interface ScriptExecutionsList {
   /** The ScriptExecution items on this page */
   value: ScriptExecution[];
   /** The link to the next page of items */
@@ -661,7 +657,7 @@ export interface ScriptExecutionParameter {
 }
 
 /** The response of a ScriptPackage list operation. */
-export interface ScriptPackageListResult {
+export interface ScriptPackagesList {
   /** The ScriptPackage items on this page */
   value: ScriptPackage[];
   /** The link to the next page of items */
@@ -669,7 +665,7 @@ export interface ScriptPackageListResult {
 }
 
 /** The response of a ScriptCmdlet list operation. */
-export interface ScriptCmdletListResult {
+export interface ScriptCmdletsList {
   /** The ScriptCmdlet items on this page */
   value: ScriptCmdlet[];
   /** The link to the next page of items */
@@ -705,7 +701,7 @@ export interface ScriptParameter {
 }
 
 /** The response of a WorkloadNetwork list operation. */
-export interface WorkloadNetworkListResult {
+export interface WorkloadNetworkList {
   /** The WorkloadNetwork items on this page */
   value: WorkloadNetwork[];
   /** The link to the next page of items */
@@ -713,7 +709,7 @@ export interface WorkloadNetworkListResult {
 }
 
 /** The response of a WorkloadNetworkDhcp list operation. */
-export interface WorkloadNetworkDhcpListResult {
+export interface WorkloadNetworkDhcpList {
   /** The WorkloadNetworkDhcp items on this page */
   value: WorkloadNetworkDhcp[];
   /** The link to the next page of items */
@@ -743,90 +739,24 @@ export interface WorkloadNetworkDhcpEntity {
   revision?: number;
 }
 
-/** NSX DHCP update */
-export interface WorkloadNetworkDhcpUpdate {
-  /** The updatable properties of a DHCP update */
-  properties?: WorkloadNetworkDhcpEntityUpdateUnion;
-}
-
-/**
- * Base class for WorkloadNetworkDhcpServer and WorkloadNetworkDhcpRelay to
- * inherit from
- */
-export interface WorkloadNetworkDhcpEntityUpdate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  dhcpType: "RELAY" | "SERVER";
-  /** Display name of the DHCP entity. */
-  displayName?: string;
-  /** NSX revision number. */
-  revision?: number;
-}
-
 /** The response of a WorkloadNetworkDnsService list operation. */
-export interface WorkloadNetworkDnsServiceListResult {
+export interface WorkloadNetworkDnsServicesList {
   /** The WorkloadNetworkDnsService items on this page */
   value: WorkloadNetworkDnsService[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** NSX DNS Service update */
-export interface WorkloadNetworkDnsServiceUpdate {
-  /** Display name of the DNS Service. */
-  displayName?: string;
-  /** DNS service IP of the DNS Service. */
-  dnsServiceIp?: string;
-  /** Default DNS zone of the DNS Service. */
-  defaultDnsZone?: string;
-  /** FQDN zones of the DNS Service. */
-  fqdnZones?: string[];
-  /** DNS Service log level. */
-  logLevel?: DnsServiceLogLevelEnum;
-  /**
-   * DNS Service status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: DnsServiceStatusEnum;
-  /**
-   * The provisioning state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: WorkloadNetworkDnsServiceProvisioningState;
-  /** NSX revision number. */
-  revision?: number;
-}
-
 /** The response of a WorkloadNetworkDnsZone list operation. */
-export interface WorkloadNetworkDnsZoneListResult {
+export interface WorkloadNetworkDnsZonesList {
   /** The WorkloadNetworkDnsZone items on this page */
   value: WorkloadNetworkDnsZone[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** NSX DNS Zone update */
-export interface WorkloadNetworkDnsZoneUpdate {
-  /** Display name of the DNS Zone. */
-  displayName?: string;
-  /** Domain names of the DNS Zone. */
-  domain?: string[];
-  /** DNS Server IP array of the DNS Zone. */
-  dnsServerIps?: string[];
-  /** Source IP of the DNS Zone. */
-  sourceIp?: string;
-  /** Number of DNS Services using the DNS zone. */
-  dnsServices?: number;
-  /**
-   * The provisioning state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: WorkloadNetworkDnsZoneProvisioningState;
-  /** NSX revision number. */
-  revision?: number;
-}
-
 /** The response of a WorkloadNetworkGateway list operation. */
-export interface WorkloadNetworkGatewayListResult {
+export interface WorkloadNetworkGatewayList {
   /** The WorkloadNetworkGateway items on this page */
   value: WorkloadNetworkGateway[];
   /** The link to the next page of items */
@@ -834,39 +764,15 @@ export interface WorkloadNetworkGatewayListResult {
 }
 
 /** The response of a WorkloadNetworkPortMirroring list operation. */
-export interface WorkloadNetworkPortMirroringListResult {
+export interface WorkloadNetworkPortMirroringList {
   /** The WorkloadNetworkPortMirroring items on this page */
   value: WorkloadNetworkPortMirroring[];
   /** The link to the next page of items */
   nextLink?: string;
 }
 
-/** NSX Port Mirroring update */
-export interface WorkloadNetworkPortMirroringUpdate {
-  /** Display name of the port mirroring profile. */
-  displayName?: string;
-  /** Direction of port mirroring profile. */
-  direction?: PortMirroringDirectionEnum;
-  /** Source VM Group. */
-  source?: string;
-  /** Destination VM Group. */
-  destination?: string;
-  /**
-   * Port Mirroring Status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: PortMirroringStatusEnum;
-  /**
-   * The provisioning state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: WorkloadNetworkPortMirroringProvisioningState;
-  /** NSX revision number. */
-  revision?: number;
-}
-
 /** The response of a WorkloadNetworkPublicIP list operation. */
-export interface WorkloadNetworkPublicIPListResult {
+export interface WorkloadNetworkPublicIPsList {
   /** The WorkloadNetworkPublicIP items on this page */
   value: WorkloadNetworkPublicIP[];
   /** The link to the next page of items */
@@ -874,7 +780,7 @@ export interface WorkloadNetworkPublicIPListResult {
 }
 
 /** The response of a WorkloadNetworkSegment list operation. */
-export interface WorkloadNetworkSegmentListResult {
+export interface WorkloadNetworkSegmentsList {
   /** The WorkloadNetworkSegment items on this page */
   value: WorkloadNetworkSegment[];
   /** The link to the next page of items */
@@ -895,35 +801,8 @@ export interface WorkloadNetworkSegmentPortVif {
   portName?: string;
 }
 
-/** NSX Segment update */
-export interface WorkloadNetworkSegmentUpdate {
-  /** Display name of the segment. */
-  displayName?: string;
-  /** Gateway which to connect segment to. */
-  connectedGateway?: string;
-  /** Subnet which to connect segment to. */
-  subnet?: WorkloadNetworkSegmentSubnet;
-  /**
-   * Port Vif which segment is associated with.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly portVif?: WorkloadNetworkSegmentPortVif[];
-  /**
-   * Segment status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: SegmentStatusEnum;
-  /**
-   * The provisioning state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: WorkloadNetworkSegmentProvisioningState;
-  /** NSX revision number. */
-  revision?: number;
-}
-
 /** The response of a WorkloadNetworkVirtualMachine list operation. */
-export interface WorkloadNetworkVirtualMachineListResult {
+export interface WorkloadNetworkVirtualMachinesList {
   /** The WorkloadNetworkVirtualMachine items on this page */
   value: WorkloadNetworkVirtualMachine[];
   /** The link to the next page of items */
@@ -931,31 +810,11 @@ export interface WorkloadNetworkVirtualMachineListResult {
 }
 
 /** The response of a WorkloadNetworkVMGroup list operation. */
-export interface WorkloadNetworkVMGroupListResult {
+export interface WorkloadNetworkVMGroupsList {
   /** The WorkloadNetworkVMGroup items on this page */
   value: WorkloadNetworkVMGroup[];
   /** The link to the next page of items */
   nextLink?: string;
-}
-
-/** NSX VM Group update */
-export interface WorkloadNetworkVMGroupUpdate {
-  /** Display name of the VM group. */
-  displayName?: string;
-  /** Virtual machine members of this group. */
-  members?: string[];
-  /**
-   * VM Group status.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly status?: VMGroupStatusEnum;
-  /**
-   * The provisioning state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly provisioningState?: WorkloadNetworkVMGroupProvisioningState;
-  /** NSX revision number. */
-  revision?: number;
 }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
@@ -1081,32 +940,12 @@ export interface WorkloadNetworkDhcpServer extends WorkloadNetworkDhcpEntity {
   leaseTime?: number;
 }
 
-/** NSX DHCP Relay */
-export interface WorkloadNetworkDhcpRelayUpdate
-  extends WorkloadNetworkDhcpEntityUpdate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  dhcpType: "RELAY";
-  /** DHCP Relay Addresses. Max 3. */
-  serverAddresses?: string[];
-}
-
-/** NSX DHCP Server */
-export interface WorkloadNetworkDhcpServerUpdate
-  extends WorkloadNetworkDhcpEntityUpdate {
-  /** Polymorphic discriminator, which specifies the different types this object can be */
-  dhcpType: "SERVER";
-  /** DHCP Server Address. */
-  serverAddress?: string;
-  /** DHCP Server Lease Time. */
-  leaseTime?: number;
-}
-
 /** A private cloud resource */
 export interface PrivateCloud extends TrackedResource {
   /** The SKU (Stock Keeping Unit) assigned to this resource. */
   sku: Sku;
   /** The managed service identities assigned to this resource. */
-  identity?: SystemAssignedServiceIdentity;
+  identity?: PrivateCloudIdentity;
   /** The default cluster used for management */
   managementCluster?: ManagementCluster;
   /** Connectivity to internet is enabled or disabled */
@@ -2305,8 +2144,8 @@ export enum KnownDnsZoneType {
  */
 export type DnsZoneType = string;
 
-/** Known values of {@link SystemAssignedServiceIdentityType} that the service accepts. */
-export enum KnownSystemAssignedServiceIdentityType {
+/** Known values of {@link ResourceIdentityType} that the service accepts. */
+export enum KnownResourceIdentityType {
   /** None */
   None = "None",
   /** SystemAssigned */
@@ -2314,14 +2153,14 @@ export enum KnownSystemAssignedServiceIdentityType {
 }
 
 /**
- * Defines values for SystemAssignedServiceIdentityType. \
- * {@link KnownSystemAssignedServiceIdentityType} can be used interchangeably with SystemAssignedServiceIdentityType,
+ * Defines values for ResourceIdentityType. \
+ * {@link KnownResourceIdentityType} can be used interchangeably with ResourceIdentityType,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **None** \
  * **SystemAssigned**
  */
-export type SystemAssignedServiceIdentityType = string;
+export type ResourceIdentityType = string;
 
 /** Known values of {@link CreatedByType} that the service accepts. */
 export enum KnownCreatedByType {
@@ -3489,14 +3328,14 @@ export interface PrivateCloudsListInSubscriptionOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInSubscription operation. */
-export type PrivateCloudsListInSubscriptionResponse = PrivateCloudListResult;
+export type PrivateCloudsListInSubscriptionResponse = PrivateCloudList;
 
 /** Optional parameters. */
 export interface PrivateCloudsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateCloudsListResponse = PrivateCloudListResult;
+export type PrivateCloudsListResponse = PrivateCloudList;
 
 /** Optional parameters. */
 export interface PrivateCloudsGetOptionalParams
@@ -3576,21 +3415,20 @@ export interface PrivateCloudsListInSubscriptionNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listInSubscriptionNext operation. */
-export type PrivateCloudsListInSubscriptionNextResponse =
-  PrivateCloudListResult;
+export type PrivateCloudsListInSubscriptionNextResponse = PrivateCloudList;
 
 /** Optional parameters. */
 export interface PrivateCloudsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PrivateCloudsListNextResponse = PrivateCloudListResult;
+export type PrivateCloudsListNextResponse = PrivateCloudList;
 
 /** Optional parameters. */
 export interface AddonsListOptionalParams extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type AddonsListResponse = AddonListResult;
+export type AddonsListResponse = AddonList;
 
 /** Optional parameters. */
 export interface AddonsGetOptionalParams extends coreClient.OperationOptions {}
@@ -3624,14 +3462,14 @@ export interface AddonsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AddonsListNextResponse = AddonListResult;
+export type AddonsListNextResponse = AddonList;
 
 /** Optional parameters. */
 export interface AuthorizationsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type AuthorizationsListResponse = ExpressRouteAuthorizationListResult;
+export type AuthorizationsListResponse = ExpressRouteAuthorizationList;
 
 /** Optional parameters. */
 export interface AuthorizationsGetOptionalParams
@@ -3666,15 +3504,14 @@ export interface AuthorizationsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type AuthorizationsListNextResponse =
-  ExpressRouteAuthorizationListResult;
+export type AuthorizationsListNextResponse = ExpressRouteAuthorizationList;
 
 /** Optional parameters. */
 export interface CloudLinksListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type CloudLinksListResponse = CloudLinkListResult;
+export type CloudLinksListResponse = CloudLinkList;
 
 /** Optional parameters. */
 export interface CloudLinksGetOptionalParams
@@ -3709,14 +3546,14 @@ export interface CloudLinksListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type CloudLinksListNextResponse = CloudLinkListResult;
+export type CloudLinksListNextResponse = CloudLinkList;
 
 /** Optional parameters. */
 export interface ClustersListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ClustersListResponse = ClusterListResult;
+export type ClustersListResponse = ClusterList;
 
 /** Optional parameters. */
 export interface ClustersGetOptionalParams
@@ -3770,14 +3607,14 @@ export interface ClustersListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ClustersListNextResponse = ClusterListResult;
+export type ClustersListNextResponse = ClusterList;
 
 /** Optional parameters. */
 export interface DatastoresListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type DatastoresListResponse = DatastoreListResult;
+export type DatastoresListResponse = DatastoreList;
 
 /** Optional parameters. */
 export interface DatastoresGetOptionalParams
@@ -3812,14 +3649,14 @@ export interface DatastoresListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type DatastoresListNextResponse = DatastoreListResult;
+export type DatastoresListNextResponse = DatastoreList;
 
 /** Optional parameters. */
 export interface PlacementPoliciesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PlacementPoliciesListResponse = PlacementPolicyListResult;
+export type PlacementPoliciesListResponse = PlacementPoliciesList;
 
 /** Optional parameters. */
 export interface PlacementPoliciesGetOptionalParams
@@ -3866,14 +3703,14 @@ export interface PlacementPoliciesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type PlacementPoliciesListNextResponse = PlacementPolicyListResult;
+export type PlacementPoliciesListNextResponse = PlacementPoliciesList;
 
 /** Optional parameters. */
 export interface VirtualMachinesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type VirtualMachinesListResponse = VirtualMachineListResult;
+export type VirtualMachinesListResponse = VirtualMachinesList;
 
 /** Optional parameters. */
 export interface VirtualMachinesGetOptionalParams
@@ -3900,15 +3737,14 @@ export interface VirtualMachinesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type VirtualMachinesListNextResponse = VirtualMachineListResult;
+export type VirtualMachinesListNextResponse = VirtualMachinesList;
 
 /** Optional parameters. */
 export interface GlobalReachConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type GlobalReachConnectionsListResponse =
-  GlobalReachConnectionListResult;
+export type GlobalReachConnectionsListResponse = GlobalReachConnectionList;
 
 /** Optional parameters. */
 export interface GlobalReachConnectionsGetOptionalParams
@@ -3944,15 +3780,14 @@ export interface GlobalReachConnectionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type GlobalReachConnectionsListNextResponse =
-  GlobalReachConnectionListResult;
+export type GlobalReachConnectionsListNextResponse = GlobalReachConnectionList;
 
 /** Optional parameters. */
 export interface HcxEnterpriseSitesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type HcxEnterpriseSitesListResponse = HcxEnterpriseSiteListResult;
+export type HcxEnterpriseSitesListResponse = HcxEnterpriseSiteList;
 
 /** Optional parameters. */
 export interface HcxEnterpriseSitesGetOptionalParams
@@ -3977,7 +3812,7 @@ export interface HcxEnterpriseSitesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type HcxEnterpriseSitesListNextResponse = HcxEnterpriseSiteListResult;
+export type HcxEnterpriseSitesListNextResponse = HcxEnterpriseSiteList;
 
 /** Optional parameters. */
 export interface IscsiPathsListByPrivateCloudOptionalParams
@@ -4026,7 +3861,7 @@ export interface ScriptExecutionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ScriptExecutionsListResponse = ScriptExecutionListResult;
+export type ScriptExecutionsListResponse = ScriptExecutionsList;
 
 /** Optional parameters. */
 export interface ScriptExecutionsGetOptionalParams
@@ -4071,14 +3906,14 @@ export interface ScriptExecutionsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ScriptExecutionsListNextResponse = ScriptExecutionListResult;
+export type ScriptExecutionsListNextResponse = ScriptExecutionsList;
 
 /** Optional parameters. */
 export interface ScriptPackagesListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ScriptPackagesListResponse = ScriptPackageListResult;
+export type ScriptPackagesListResponse = ScriptPackagesList;
 
 /** Optional parameters. */
 export interface ScriptPackagesGetOptionalParams
@@ -4092,14 +3927,14 @@ export interface ScriptPackagesListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ScriptPackagesListNextResponse = ScriptPackageListResult;
+export type ScriptPackagesListNextResponse = ScriptPackagesList;
 
 /** Optional parameters. */
 export interface ScriptCmdletsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type ScriptCmdletsListResponse = ScriptCmdletListResult;
+export type ScriptCmdletsListResponse = ScriptCmdletsList;
 
 /** Optional parameters. */
 export interface ScriptCmdletsGetOptionalParams
@@ -4113,14 +3948,14 @@ export interface ScriptCmdletsListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type ScriptCmdletsListNextResponse = ScriptCmdletListResult;
+export type ScriptCmdletsListNextResponse = ScriptCmdletsList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type WorkloadNetworksListResponse = WorkloadNetworkListResult;
+export type WorkloadNetworksListResponse = WorkloadNetworkList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksGetOptionalParams
@@ -4134,7 +3969,7 @@ export interface WorkloadNetworksListDhcpOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDhcp operation. */
-export type WorkloadNetworksListDhcpResponse = WorkloadNetworkDhcpListResult;
+export type WorkloadNetworksListDhcpResponse = WorkloadNetworkDhcpList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksGetDhcpOptionalParams
@@ -4182,7 +4017,7 @@ export interface WorkloadNetworksListDnsServicesOptionalParams
 
 /** Contains response data for the listDnsServices operation. */
 export type WorkloadNetworksListDnsServicesResponse =
-  WorkloadNetworkDnsServiceListResult;
+  WorkloadNetworkDnsServicesList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksGetDnsServiceOptionalParams
@@ -4231,8 +4066,7 @@ export interface WorkloadNetworksListDnsZonesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDnsZones operation. */
-export type WorkloadNetworksListDnsZonesResponse =
-  WorkloadNetworkDnsZoneListResult;
+export type WorkloadNetworksListDnsZonesResponse = WorkloadNetworkDnsZonesList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksGetDnsZoneOptionalParams
@@ -4279,8 +4113,7 @@ export interface WorkloadNetworksListGatewaysOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listGateways operation. */
-export type WorkloadNetworksListGatewaysResponse =
-  WorkloadNetworkGatewayListResult;
+export type WorkloadNetworksListGatewaysResponse = WorkloadNetworkGatewayList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksGetGatewayOptionalParams
@@ -4295,7 +4128,7 @@ export interface WorkloadNetworksListPortMirroringOptionalParams
 
 /** Contains response data for the listPortMirroring operation. */
 export type WorkloadNetworksListPortMirroringResponse =
-  WorkloadNetworkPortMirroringListResult;
+  WorkloadNetworkPortMirroringList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksGetPortMirroringOptionalParams
@@ -4346,7 +4179,7 @@ export interface WorkloadNetworksListPublicIPsOptionalParams
 
 /** Contains response data for the listPublicIPs operation. */
 export type WorkloadNetworksListPublicIPsResponse =
-  WorkloadNetworkPublicIPListResult;
+  WorkloadNetworkPublicIPsList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksGetPublicIPOptionalParams
@@ -4381,8 +4214,7 @@ export interface WorkloadNetworksListSegmentsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listSegments operation. */
-export type WorkloadNetworksListSegmentsResponse =
-  WorkloadNetworkSegmentListResult;
+export type WorkloadNetworksListSegmentsResponse = WorkloadNetworkSegmentsList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksGetSegmentOptionalParams
@@ -4430,7 +4262,7 @@ export interface WorkloadNetworksListVirtualMachinesOptionalParams
 
 /** Contains response data for the listVirtualMachines operation. */
 export type WorkloadNetworksListVirtualMachinesResponse =
-  WorkloadNetworkVirtualMachineListResult;
+  WorkloadNetworkVirtualMachinesList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksGetVirtualMachineOptionalParams
@@ -4445,8 +4277,7 @@ export interface WorkloadNetworksListVMGroupsOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listVMGroups operation. */
-export type WorkloadNetworksListVMGroupsResponse =
-  WorkloadNetworkVMGroupListResult;
+export type WorkloadNetworksListVMGroupsResponse = WorkloadNetworkVMGroupsList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksGetVMGroupOptionalParams
@@ -4493,15 +4324,14 @@ export interface WorkloadNetworksListNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
-export type WorkloadNetworksListNextResponse = WorkloadNetworkListResult;
+export type WorkloadNetworksListNextResponse = WorkloadNetworkList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksListDhcpNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listDhcpNext operation. */
-export type WorkloadNetworksListDhcpNextResponse =
-  WorkloadNetworkDhcpListResult;
+export type WorkloadNetworksListDhcpNextResponse = WorkloadNetworkDhcpList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksListDnsServicesNextOptionalParams
@@ -4509,7 +4339,7 @@ export interface WorkloadNetworksListDnsServicesNextOptionalParams
 
 /** Contains response data for the listDnsServicesNext operation. */
 export type WorkloadNetworksListDnsServicesNextResponse =
-  WorkloadNetworkDnsServiceListResult;
+  WorkloadNetworkDnsServicesList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksListDnsZonesNextOptionalParams
@@ -4517,7 +4347,7 @@ export interface WorkloadNetworksListDnsZonesNextOptionalParams
 
 /** Contains response data for the listDnsZonesNext operation. */
 export type WorkloadNetworksListDnsZonesNextResponse =
-  WorkloadNetworkDnsZoneListResult;
+  WorkloadNetworkDnsZonesList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksListGatewaysNextOptionalParams
@@ -4525,7 +4355,7 @@ export interface WorkloadNetworksListGatewaysNextOptionalParams
 
 /** Contains response data for the listGatewaysNext operation. */
 export type WorkloadNetworksListGatewaysNextResponse =
-  WorkloadNetworkGatewayListResult;
+  WorkloadNetworkGatewayList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksListPortMirroringNextOptionalParams
@@ -4533,7 +4363,7 @@ export interface WorkloadNetworksListPortMirroringNextOptionalParams
 
 /** Contains response data for the listPortMirroringNext operation. */
 export type WorkloadNetworksListPortMirroringNextResponse =
-  WorkloadNetworkPortMirroringListResult;
+  WorkloadNetworkPortMirroringList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksListPublicIPsNextOptionalParams
@@ -4541,7 +4371,7 @@ export interface WorkloadNetworksListPublicIPsNextOptionalParams
 
 /** Contains response data for the listPublicIPsNext operation. */
 export type WorkloadNetworksListPublicIPsNextResponse =
-  WorkloadNetworkPublicIPListResult;
+  WorkloadNetworkPublicIPsList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksListSegmentsNextOptionalParams
@@ -4549,7 +4379,7 @@ export interface WorkloadNetworksListSegmentsNextOptionalParams
 
 /** Contains response data for the listSegmentsNext operation. */
 export type WorkloadNetworksListSegmentsNextResponse =
-  WorkloadNetworkSegmentListResult;
+  WorkloadNetworkSegmentsList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksListVirtualMachinesNextOptionalParams
@@ -4557,7 +4387,7 @@ export interface WorkloadNetworksListVirtualMachinesNextOptionalParams
 
 /** Contains response data for the listVirtualMachinesNext operation. */
 export type WorkloadNetworksListVirtualMachinesNextResponse =
-  WorkloadNetworkVirtualMachineListResult;
+  WorkloadNetworkVirtualMachinesList;
 
 /** Optional parameters. */
 export interface WorkloadNetworksListVMGroupsNextOptionalParams
@@ -4565,7 +4395,7 @@ export interface WorkloadNetworksListVMGroupsNextOptionalParams
 
 /** Contains response data for the listVMGroupsNext operation. */
 export type WorkloadNetworksListVMGroupsNextResponse =
-  WorkloadNetworkVMGroupListResult;
+  WorkloadNetworkVMGroupsList;
 
 /** Optional parameters. */
 export interface AzureVMwareSolutionAPIOptionalParams

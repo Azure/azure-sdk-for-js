@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Restarts the specified HDInsight cluster hosts.
  *
  * @summary Restarts the specified HDInsight cluster hosts.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/RestartVirtualMachinesOperation.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/RestartVirtualMachinesOperation.json
  */
 async function restartsTheSpecifiedHdInsightClusterHosts() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function restartsTheSpecifiedHdInsightClusterHosts() {
   const result = await client.virtualMachines.beginRestartHostsAndWait(
     resourceGroupName,
     clusterName,
-    hosts
+    hosts,
   );
   console.log(result);
 }

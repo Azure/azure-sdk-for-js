@@ -12,7 +12,7 @@
 
 ## 3.0.0 (2023-12-05)
     
-**Features**
+### Features Added
 
   - Added Interface ApplicationsListNextOptionalParams
   - Added Interface ApplicationTypesListNextOptionalParams
@@ -29,7 +29,7 @@
   - Added Type Alias ServicesListNextResponse
   - Added Enum KnownClusterVersionsEnvironment
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation ClusterVersions.getByEnvironment has a new signature
   - Operation ClusterVersions.listByEnvironment has a new signature
@@ -38,7 +38,7 @@
     
 ## 2.1.0 (2022-12-12)
     
-**Features**
+### Features Added
 
   - Added Interface ApplicationResource
   - Added Interface ApplicationResourceProperties
@@ -60,7 +60,7 @@
     
 ## 2.0.1 (2022-05-01)
 
-**Features**
+### Features Added
 
   - Bug fix
 

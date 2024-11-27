@@ -1,9 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert, describe, it, vi, beforeEach, afterEach } from "vitest";
 import { PassThrough, Writable } from "stream";
 import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { delay } from "@azure/core-util";
 import { createDefaultHttpClient, createPipelineRequest } from "../../src/index.js";
 
 vi.mock("https", async () => {
@@ -452,5 +454,50 @@ describe("NodeHttpClient", function () {
     } catch (e: any) {
       assert.strictEqual(e.name, "AbortError");
     }
+  });
+
+  it("should release abort listener when stream body ends already", async function () {
+    vi.useRealTimers();
+    const client = createDefaultHttpClient();
+    const writable = new Writable({
+      write: (_chunk, _, next) => {
+        next();
+      },
+    }) as unknown as ClientRequest;
+    vi.mocked(https.request).mockReturnValueOnce(writable);
+
+    const controller = new AbortController();
+    let listenerRemoved = false;
+    const abortSignal: AbortSignalLike = {
+      aborted: false,
+      addEventListener: function (
+        _type: "abort",
+        listener: (this: AbortSignalLike, ev: any) => any,
+        options?: any,
+      ): void {
+        controller.signal.addEventListener("abort", listener, options);
+      },
+      removeEventListener: function (
+        _type: "abort",
+        listener: (this: AbortSignalLike, ev: any) => any,
+        options?: any,
+      ): void {
+        listenerRemoved = true;
+        controller.signal.removeEventListener("abort", listener, options);
+      },
+    };
+
+    const stream = new PassThrough();
+    stream.end();
+    const body = stream;
+    const request = createPipelineRequest({
+      url: "https://example.com",
+      body,
+      abortSignal,
+    });
+    const promise = client.sendRequest(request);
+    yieldHttpsResponse(createResponse(200));
+    await Promise.all([promise, delay(10)]);
+    assert.equal(listenerRemoved, true);
   });
 });

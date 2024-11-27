@@ -249,6 +249,8 @@ export interface ElasticSanProperties {
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
   /** Allow or disallow public network access to ElasticSan. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
   publicNetworkAccess?: PublicNetworkAccess;
+  /** Auto Scale Properties for Elastic San Appliance. */
+  autoScaleProperties?: AutoScaleProperties;
 }
 
 /** The SKU name. Required for account creation; optional for update. */
@@ -333,6 +335,24 @@ export interface SystemData {
   lastModifiedAt?: Date;
 }
 
+/** The auto scale settings on Elastic San Appliance. */
+export interface AutoScaleProperties {
+  /** Scale up settings on Elastic San Appliance. */
+  scaleUpProperties?: ScaleUpProperties;
+}
+
+/** Scale up properties on Elastic San Appliance. */
+export interface ScaleUpProperties {
+  /** Unused size on Elastic San appliance in TiB. */
+  unusedSizeTiB?: number;
+  /** Unit to increase Capacity Unit on Elastic San appliance in TiB. */
+  increaseCapacityUnitByTiB?: number;
+  /** Maximum scale up size on Elastic San appliance in TiB. */
+  capacityUnitScaleUpLimitTiB?: number;
+  /** Enable or Disable scale up setting on Elastic San Appliance. */
+  autoScalePolicyEnforcement?: AutoScalePolicyEnforcement;
+}
+
 /** Response for ElasticSan update request. */
 export interface ElasticSanUpdate {
   /** Properties of ElasticSan. */
@@ -349,6 +369,8 @@ export interface ElasticSanUpdateProperties {
   extendedCapacitySizeTiB?: number;
   /** Allow or disallow public network access to ElasticSan Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. */
   publicNetworkAccess?: PublicNetworkAccess;
+  /** Auto Scale Properties for Elastic San Appliance. */
+  autoScaleProperties?: AutoScaleProperties;
 }
 
 /** List of Volume Groups */
@@ -414,6 +436,8 @@ export interface VolumeGroupProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly privateEndpointConnections?: PrivateEndpointConnection[];
+  /** A boolean indicating whether or not Data Integrity Check is enabled */
+  enforceDataIntegrityCheckForIscsi?: boolean;
 }
 
 /** The encryption settings on the volume group. */
@@ -487,6 +511,8 @@ export interface VolumeGroupUpdateProperties {
   encryptionProperties?: EncryptionProperties;
   /** A collection of rules governing the accessibility from specific network locations. */
   networkAcls?: NetworkRuleSet;
+  /** A boolean indicating whether or not Data Integrity Check is enabled */
+  enforceDataIntegrityCheckForIscsi?: boolean;
 }
 
 /** Volume response properties. */
@@ -751,7 +777,7 @@ export enum KnownOrigin {
   /** System */
   System = "system",
   /** UserSystem */
-  UserSystem = "user,system"
+  UserSystem = "user,system",
 }
 
 /**
@@ -768,7 +794,7 @@ export type Origin = string;
 /** Known values of {@link ActionType} that the service accepts. */
 export enum KnownActionType {
   /** Internal */
-  Internal = "Internal"
+  Internal = "Internal",
 }
 
 /**
@@ -785,7 +811,7 @@ export enum KnownSkuName {
   /** Premium locally redundant storage */
   PremiumLRS = "Premium_LRS",
   /** Premium zone redundant storage */
-  PremiumZRS = "Premium_ZRS"
+  PremiumZRS = "Premium_ZRS",
 }
 
 /**
@@ -801,7 +827,7 @@ export type SkuName = string;
 /** Known values of {@link SkuTier} that the service accepts. */
 export enum KnownSkuTier {
   /** Premium Tier */
-  Premium = "Premium"
+  Premium = "Premium",
 }
 
 /**
@@ -830,7 +856,7 @@ export enum KnownProvisioningStates {
   /** Updating */
   Updating = "Updating",
   /** Deleting */
-  Deleting = "Deleting"
+  Deleting = "Deleting",
 }
 
 /**
@@ -858,7 +884,7 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
   /** Failed */
   Failed = "Failed",
   /** Rejected */
-  Rejected = "Rejected"
+  Rejected = "Rejected",
 }
 
 /**
@@ -882,7 +908,7 @@ export enum KnownCreatedByType {
   /** ManagedIdentity */
   ManagedIdentity = "ManagedIdentity",
   /** Key */
-  Key = "Key"
+  Key = "Key",
 }
 
 /**
@@ -902,7 +928,7 @@ export enum KnownPublicNetworkAccess {
   /** Enabled */
   Enabled = "Enabled",
   /** Disabled */
-  Disabled = "Disabled"
+  Disabled = "Disabled",
 }
 
 /**
@@ -915,6 +941,27 @@ export enum KnownPublicNetworkAccess {
  */
 export type PublicNetworkAccess = string;
 
+/** Known values of {@link AutoScalePolicyEnforcement} that the service accepts. */
+export enum KnownAutoScalePolicyEnforcement {
+  /** None */
+  None = "None",
+  /** Enabled */
+  Enabled = "Enabled",
+  /** Disabled */
+  Disabled = "Disabled",
+}
+
+/**
+ * Defines values for AutoScalePolicyEnforcement. \
+ * {@link KnownAutoScalePolicyEnforcement} can be used interchangeably with AutoScalePolicyEnforcement,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **None** \
+ * **Enabled** \
+ * **Disabled**
+ */
+export type AutoScalePolicyEnforcement = string;
+
 /** Known values of {@link IdentityType} that the service accepts. */
 export enum KnownIdentityType {
   /** None */
@@ -922,7 +969,7 @@ export enum KnownIdentityType {
   /** SystemAssigned */
   SystemAssigned = "SystemAssigned",
   /** UserAssigned */
-  UserAssigned = "UserAssigned"
+  UserAssigned = "UserAssigned",
 }
 
 /**
@@ -941,7 +988,7 @@ export enum KnownStorageTargetType {
   /** Iscsi */
   Iscsi = "Iscsi",
   /** None */
-  None = "None"
+  None = "None",
 }
 
 /**
@@ -959,7 +1006,7 @@ export enum KnownEncryptionType {
   /** Volume is encrypted at rest with Platform managed key. It is the default encryption type. */
   EncryptionAtRestWithPlatformKey = "EncryptionAtRestWithPlatformKey",
   /** Volume is encrypted at rest with Customer managed key that can be changed and revoked by a customer. */
-  EncryptionAtRestWithCustomerManagedKey = "EncryptionAtRestWithCustomerManagedKey"
+  EncryptionAtRestWithCustomerManagedKey = "EncryptionAtRestWithCustomerManagedKey",
 }
 
 /**
@@ -975,7 +1022,7 @@ export type EncryptionType = string;
 /** Known values of {@link Action} that the service accepts. */
 export enum KnownAction {
   /** Allow */
-  Allow = "Allow"
+  Allow = "Allow",
 }
 
 /**
@@ -998,7 +1045,7 @@ export enum KnownVolumeCreateOption {
   /** Disk */
   Disk = "Disk",
   /** DiskRestorePoint */
-  DiskRestorePoint = "DiskRestorePoint"
+  DiskRestorePoint = "DiskRestorePoint",
 }
 
 /**
@@ -1031,7 +1078,7 @@ export enum KnownOperationalStatus {
   /** Stopped */
   Stopped = "Stopped",
   /** StoppedDeallocated */
-  StoppedDeallocated = "Stopped (deallocated)"
+  StoppedDeallocated = "Stopped (deallocated)",
 }
 
 /**
@@ -1055,7 +1102,7 @@ export enum KnownXMsDeleteSnapshots {
   /** True */
   True = "true",
   /** False */
-  False = "false"
+  False = "false",
 }
 
 /**
@@ -1073,7 +1120,7 @@ export enum KnownXMsForceDelete {
   /** True */
   True = "true",
   /** False */
-  False = "false"
+  False = "false",
 }
 
 /**
@@ -1291,7 +1338,8 @@ export interface PrivateEndpointConnectionsCreateOptionalParams
 }
 
 /** Contains response data for the create operation. */
-export type PrivateEndpointConnectionsCreateResponse = PrivateEndpointConnection;
+export type PrivateEndpointConnectionsCreateResponse =
+  PrivateEndpointConnection;
 
 /** Optional parameters. */
 export interface PrivateEndpointConnectionsGetOptionalParams
@@ -1314,14 +1362,16 @@ export interface PrivateEndpointConnectionsListOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the list operation. */
-export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult;
+export type PrivateEndpointConnectionsListResponse =
+  PrivateEndpointConnectionListResult;
 
 /** Optional parameters. */
 export interface PrivateLinkResourcesListByElasticSanOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByElasticSan operation. */
-export type PrivateLinkResourcesListByElasticSanResponse = PrivateLinkResourceListResult;
+export type PrivateLinkResourcesListByElasticSanResponse =
+  PrivateLinkResourceListResult;
 
 /** Optional parameters. */
 export interface VolumeSnapshotsListByVolumeGroupOptionalParams

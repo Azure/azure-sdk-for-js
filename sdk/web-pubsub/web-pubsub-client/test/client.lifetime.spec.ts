@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert, expect } from "chai";
 import sinon from "sinon";
-import {
+import type {
   JoinGroupMessage,
   JoinGroupOptions,
   LeaveGroupMessage,

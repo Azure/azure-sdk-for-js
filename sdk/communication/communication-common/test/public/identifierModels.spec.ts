@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   CommunicationIdentifier,
   CommunicationIdentifierKind,
   PhoneNumberIdentifier,
+} from "../../src/index.js";
+import {
   createIdentifierFromRawId,
   getIdentifierKind,
   getIdentifierRawId,
@@ -12,8 +14,8 @@ import {
   isMicrosoftTeamsUserIdentifier,
   isPhoneNumberIdentifier,
   isUnknownIdentifier,
-} from "../../src";
-import { assert } from "chai";
+} from "../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("Identifier models", function () {
   it("type guards", function () {
@@ -35,7 +37,7 @@ describe("Identifier models", function () {
   });
 
   it("get raw id of identifier", function () {
-    const assertRawId = (identifier: CommunicationIdentifier, expectedRawId: string) =>
+    const assertRawId = (identifier: CommunicationIdentifier, expectedRawId: string): void =>
       assert.strictEqual(getIdentifierRawId(identifier), expectedRawId);
 
     assertRawId(
@@ -159,8 +161,10 @@ describe("Identifier models", function () {
   });
 
   it("create identifier from raw id", function () {
-    const assertIdentifier = (rawId: string, expectedIdentifier: CommunicationIdentifierKind) =>
-      assert.deepStrictEqual(createIdentifierFromRawId(rawId), expectedIdentifier);
+    const assertIdentifier = (
+      rawId: string,
+      expectedIdentifier: CommunicationIdentifierKind,
+    ): void => assert.deepStrictEqual(createIdentifierFromRawId(rawId), expectedIdentifier);
 
     assertIdentifier(
       "8:acs:bbbcbc1e-9f06-482a-b5d8-20e3f26ef0cd_45ab2481-1c1c-4005-be24-0ffb879b1130",
@@ -302,7 +306,7 @@ describe("Identifier models", function () {
   });
 
   it("rawId stays the same after conversion to identifier and back", function () {
-    const assertRoundtrip = (rawId: string) =>
+    const assertRoundtrip = (rawId: string): void =>
       assert.strictEqual(getIdentifierRawId(createIdentifierFromRawId(rawId)), rawId);
 
     assertRoundtrip(

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import { makeCommandInfo, subCommand } from "../framework/command";
 
@@ -19,6 +19,7 @@ export const baseCommands = {
   run: () => import("./run"),
   migrate: () => import("./migrate"),
   customization: () => import("./customization"),
+  check: () => import("./check"),
 } as const;
 
 /**

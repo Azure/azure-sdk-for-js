@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.1 (Unreleased)
+## 3.1.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 3.1.0 (2024-09-12)
+
+### Features Added
+
+Add the `operation-location` support in resourceLocationConfig option.
 
 ## 3.0.0 (2024-06-27)
 

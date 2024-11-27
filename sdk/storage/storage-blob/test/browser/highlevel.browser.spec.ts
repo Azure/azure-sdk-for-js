@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 
@@ -15,8 +15,8 @@ import {
   uriSanitizers,
 } from "../utils/index.browser";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
-import { Context } from "mocha";
+import type { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
+import type { Context } from "mocha";
 
 describe("Highlevel", () => {
   let containerName: string;
@@ -123,7 +123,6 @@ describe("Highlevel", () => {
     let eventTriggered = false;
     const aborter = new AbortController();
 
-    /* eslint no-empty: ["error", { "allowEmptyCatch": true }] */
     try {
       await blockBlobClient.uploadBrowserData(tempFile2, {
         abortSignal: aborter.signal,

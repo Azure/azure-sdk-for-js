@@ -25,6 +25,7 @@ import {
   SnapshotsImpl,
   TrustedAccessRoleBindingsImpl,
   TrustedAccessRolesImpl,
+  MachinesImpl,
 } from "./operations";
 import {
   Operations,
@@ -37,6 +38,7 @@ import {
   Snapshots,
   TrustedAccessRoleBindings,
   TrustedAccessRoles,
+  Machines,
 } from "./operationsInterfaces";
 import { ContainerServiceClientOptionalParams } from "./models";
 
@@ -72,7 +74,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-containerservice/21.0.1`;
+    const packageDetails = `azsdk-js-arm-containerservice/21.3.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -126,7 +128,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-05-01";
+    this.apiVersion = options.apiVersion || "2024-09-01";
     this.operations = new OperationsImpl(this);
     this.managedClusters = new ManagedClustersImpl(this);
     this.maintenanceConfigurations = new MaintenanceConfigurationsImpl(this);
@@ -139,6 +141,7 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     this.snapshots = new SnapshotsImpl(this);
     this.trustedAccessRoleBindings = new TrustedAccessRoleBindingsImpl(this);
     this.trustedAccessRoles = new TrustedAccessRolesImpl(this);
+    this.machines = new MachinesImpl(this);
     this.addCustomApiVersionPolicy(options.apiVersion);
   }
 
@@ -180,4 +183,5 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
   snapshots: Snapshots;
   trustedAccessRoleBindings: TrustedAccessRoleBindings;
   trustedAccessRoles: TrustedAccessRoles;
+  machines: Machines;
 }

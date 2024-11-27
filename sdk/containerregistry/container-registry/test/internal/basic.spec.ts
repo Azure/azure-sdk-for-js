@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Chai is the Azure SDK Team's preferred assertion library, and it is included
 // as part of our template project.

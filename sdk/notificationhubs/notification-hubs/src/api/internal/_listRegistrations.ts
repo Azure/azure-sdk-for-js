@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createRequest, sendRequest } from "./_client.js";
-import { NotificationHubsClientContext } from "../index.js";
-import { RegistrationDescription } from "../../models/registration.js";
-import { RegistrationQueryOptions } from "../../models/options.js";
-import { RegistrationQueryResponse } from "../../models/response.js";
+import type { NotificationHubsClientContext } from "../index.js";
+import type { RegistrationDescription } from "../../models/registration.js";
+import type { RegistrationQueryOptions } from "../../models/options.js";
+import type { RegistrationQueryResponse } from "../../models/response.js";
 import { registrationDescriptionParser } from "../../serializers/registrationSerializer.js";
 
 export async function* listRegistrationsAll(

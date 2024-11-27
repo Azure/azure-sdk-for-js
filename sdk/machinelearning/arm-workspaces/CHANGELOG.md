@@ -12,13 +12,13 @@
 
 ## 1.1.0 (2022-11-28)
     
-**Features**
+### Features Added
 
   - Added Interface Workspace
     
 ## 1.0.1 (2022-04-24)
 
-**Features**
+### Features Added
 
   - Bug fix
     

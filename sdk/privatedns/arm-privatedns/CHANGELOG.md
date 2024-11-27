@@ -1,6 +1,6 @@
 # Release History
 
-## 3.2.1 (Unreleased)
+## 3.3.1 (Unreleased)
 
 ### Features Added
 
@@ -10,9 +10,18 @@
 
 ### Other Changes
 
+## 3.3.0 (2024-09-12)
+    
+### Features Added
+
+  - Added Type Alias ResolutionPolicy
+  - Interface VirtualNetworkLink has a new optional parameter resolutionPolicy
+  - Added Enum KnownResolutionPolicy
+    
+    
 ## 3.2.0 (2023-05-10)
     
-**Features**
+### Features Added
 
   - Interface PrivateZonesListByResourceGroupNextOptionalParams no longer has parameter top
   - Interface PrivateZonesListNextOptionalParams no longer has parameter top
@@ -25,7 +34,7 @@
     
 ## 3.1.0 (2022-12-02)
     
-**Features**
+### Features Added
 
   - Added Interface PrivateZone
   - Added Interface ProxyResource
@@ -36,7 +45,7 @@
     
 ## 3.0.1 (2022-04-28)
 
-**Features**
+### Features Added
 
   - Bug fix
   
@@ -48,4 +57,4 @@ To understand the detail of the change, please refer to [Changelog](https://aka.
 
 To migrate the existing applications to the latest version, please refer to [Migration Guide](https://aka.ms/js-track2-migration-guide).
 
-To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart ).
+To learn more, please refer to our documentation [Quick Start](https://aka.ms/azsdk/js/mgmt/quickstart).

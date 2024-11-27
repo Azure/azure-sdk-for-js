@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 export { Database } from "./Database";
 export { Databases } from "./Databases";
 export { DatabaseDefinition } from "./DatabaseDefinition";

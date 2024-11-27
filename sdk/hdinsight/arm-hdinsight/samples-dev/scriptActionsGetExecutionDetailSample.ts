@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the script execution detail for the given script execution ID.
  *
  * @summary Gets the script execution detail for the given script execution ID.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/GetScriptActionById.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetScriptActionById.json
  */
 async function getScriptExecutionHistoryByScriptId() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function getScriptExecutionHistoryByScriptId() {
   const result = await client.scriptActions.getExecutionDetail(
     resourceGroupName,
     clusterName,
-    scriptExecutionId
+    scriptExecutionId,
   );
   console.log(result);
 }

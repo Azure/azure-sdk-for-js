@@ -17,8 +17,9 @@ import {
   CloudServicesNetworksCreateOrUpdateOptionalParams,
   CloudServicesNetworksCreateOrUpdateResponse,
   CloudServicesNetworksDeleteOptionalParams,
+  CloudServicesNetworksDeleteResponse,
   CloudServicesNetworksUpdateOptionalParams,
-  CloudServicesNetworksUpdateResponse
+  CloudServicesNetworksUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +30,7 @@ export interface CloudServicesNetworks {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: CloudServicesNetworksListBySubscriptionOptionalParams
+    options?: CloudServicesNetworksListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<CloudServicesNetwork>;
   /**
    * Get a list of cloud services networks in the provided resource group.
@@ -38,7 +39,7 @@ export interface CloudServicesNetworks {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: CloudServicesNetworksListByResourceGroupOptionalParams
+    options?: CloudServicesNetworksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<CloudServicesNetwork>;
   /**
    * Get properties of the provided cloud services network.
@@ -49,7 +50,7 @@ export interface CloudServicesNetworks {
   get(
     resourceGroupName: string,
     cloudServicesNetworkName: string,
-    options?: CloudServicesNetworksGetOptionalParams
+    options?: CloudServicesNetworksGetOptionalParams,
   ): Promise<CloudServicesNetworksGetResponse>;
   /**
    * Create a new cloud services network or update the properties of the existing cloud services network.
@@ -62,7 +63,7 @@ export interface CloudServicesNetworks {
     resourceGroupName: string,
     cloudServicesNetworkName: string,
     cloudServicesNetworkParameters: CloudServicesNetwork,
-    options?: CloudServicesNetworksCreateOrUpdateOptionalParams
+    options?: CloudServicesNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CloudServicesNetworksCreateOrUpdateResponse>,
@@ -80,7 +81,7 @@ export interface CloudServicesNetworks {
     resourceGroupName: string,
     cloudServicesNetworkName: string,
     cloudServicesNetworkParameters: CloudServicesNetwork,
-    options?: CloudServicesNetworksCreateOrUpdateOptionalParams
+    options?: CloudServicesNetworksCreateOrUpdateOptionalParams,
   ): Promise<CloudServicesNetworksCreateOrUpdateResponse>;
   /**
    * Delete the provided cloud services network.
@@ -91,8 +92,13 @@ export interface CloudServicesNetworks {
   beginDelete(
     resourceGroupName: string,
     cloudServicesNetworkName: string,
-    options?: CloudServicesNetworksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: CloudServicesNetworksDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<CloudServicesNetworksDeleteResponse>,
+      CloudServicesNetworksDeleteResponse
+    >
+  >;
   /**
    * Delete the provided cloud services network.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -102,8 +108,8 @@ export interface CloudServicesNetworks {
   beginDeleteAndWait(
     resourceGroupName: string,
     cloudServicesNetworkName: string,
-    options?: CloudServicesNetworksDeleteOptionalParams
-  ): Promise<void>;
+    options?: CloudServicesNetworksDeleteOptionalParams,
+  ): Promise<CloudServicesNetworksDeleteResponse>;
   /**
    * Update properties of the provided cloud services network, or update the tags associated with it.
    * Properties and tag updates can be done independently.
@@ -114,7 +120,7 @@ export interface CloudServicesNetworks {
   beginUpdate(
     resourceGroupName: string,
     cloudServicesNetworkName: string,
-    options?: CloudServicesNetworksUpdateOptionalParams
+    options?: CloudServicesNetworksUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<CloudServicesNetworksUpdateResponse>,
@@ -131,6 +137,6 @@ export interface CloudServicesNetworks {
   beginUpdateAndWait(
     resourceGroupName: string,
     cloudServicesNetworkName: string,
-    options?: CloudServicesNetworksUpdateOptionalParams
+    options?: CloudServicesNetworksUpdateOptionalParams,
   ): Promise<CloudServicesNetworksUpdateResponse>;
 }

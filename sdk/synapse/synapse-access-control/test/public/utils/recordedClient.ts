@@ -1,19 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import "./env";
-
-import { Context } from "mocha";
+import "./env.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { AccessControlClient, AccessControlClientOptionalParams } from "../../../src";
-import {
-  Recorder,
-  RecorderStartOptions,
-  env,
-} from "@azure-tools/test-recorder";
+import type { AccessControlClientOptionalParams } from "../../../src/index.js";
+import { AccessControlClient } from "../../../src/index.js";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
 
 export function createClient(options?: AccessControlClientOptionalParams): AccessControlClient {
-  let credential = createTestCredential();
+  const credential = createTestCredential();
   return new AccessControlClient(credential, env.ENDPOINT as string, { ...options });
 }
 
@@ -22,16 +18,16 @@ export function createClient(options?: AccessControlClientOptionalParams): Acces
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Context): Promise<Recorder> {
+export async function createRecorder(context: TestInfo): Promise<Recorder> {
   const recorderStartOptions: RecorderStartOptions = {
     envSetupForPlayback: {
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       AZURE_TENANT_ID: "88888888-8888-8888-8888-888888888888",
-      ENDPOINT: "https://testaccount.dev.azuresynapse.net"
+      ENDPOINT: "https://testaccount.dev.azuresynapse.net",
     },
   };
-  const recorder = new Recorder(context.currentTest);
+  const recorder = new Recorder(context);
   await recorder.start(recorderStartOptions);
   return recorder;
 }

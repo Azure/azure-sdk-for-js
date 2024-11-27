@@ -1,24 +1,26 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import { readFileSync, unlinkSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { isNode } from "@azure/core-util";
 import { delay, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 
-import {
-  BlobClient,
+import type {
   BlobImmutabilityPolicyMode,
-  BlobSASPermissions,
   BlobServiceClient,
   BlockBlobClient,
   ContainerClient,
+  StorageSharedKeyCredential,
+} from "../../src";
+import {
+  BlobClient,
+  BlobSASPermissions,
   generateBlobSASQueryParameters,
   newPipeline,
-  StorageSharedKeyCredential,
 } from "../../src";
 import {
   bodyToString,
@@ -36,7 +38,7 @@ import {
 import { assertClientUsesTokenCredential } from "../utils/assert";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { streamToBuffer3 } from "../../src/utils/utils.node";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 import { Test_CPK_INFO } from "../utils/fakeTestSecrets";
 
 describe("BlobClient Node.js only", () => {

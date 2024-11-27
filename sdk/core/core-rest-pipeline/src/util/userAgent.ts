@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { getHeaderName, setPlatformSpecificData } from "./userAgentPlatform.js";
 import { SDK_VERSION } from "../constants.js";

@@ -1,12 +1,13 @@
-# Azure Communication Services - Email client library samples for JavaScript (Beta)
+# Azure Communication Services - Email client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Communication Services - Email in some common scenarios.
 
-| **File Name**                                                 | **Description**                           |
-| ------------------------------------------------------------- | ----------------------------------------- |
-| [sendEmailMultipleRecipients.js][sendemailmultiplerecipients] | Sends an email with multiple recipients   |
-| [sendEmailSingleRecipient.js][sendemailsinglerecipient]       | Sends an email with a single recipient    |
-| [sendEmailWithAttachments.js][sendemailwithattachments]       | Sends an email with a txt file attachment |
+| **File Name**                                                       | **Description**                                |
+| ------------------------------------------------------------------- | ---------------------------------------------- |
+| [sendEmailMultipleRecipients.js][sendemailmultiplerecipients]       | Sends an email with multiple recipients        |
+| [sendEmailSingleRecipient.js][sendemailsinglerecipient]             | Sends an email with a single recipient         |
+| [sendEmailWithAttachments.js][sendemailwithattachments]             | Sends an email with a txt file attachment      |
+| [sendEmailWithInlineAttachments.js][sendemailwithinlineattachments] | Sends an email with an inline image attachment |
 
 ## Prerequisites
 
@@ -42,7 +43,7 @@ node sendEmailMultipleRecipients.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" SENDER_ADDRESS="<sender address>" RECIPIENT_ADDRESS="<recipient address>" SECOND_RECIPIENT_ADDRESS="<second recipient address>" node sendEmailMultipleRecipients.js
+npx dev-tool run vendored cross-env COMMUNICATION_CONNECTION_STRING="<communication connection string>" SENDER_ADDRESS="<sender address>" RECIPIENT_ADDRESS="<recipient address>" SECOND_RECIPIENT_ADDRESS="<second recipient address>" node sendEmailMultipleRecipients.js
 ```
 
 ## Next Steps
@@ -52,6 +53,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sendemailmultiplerecipients]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/javascript/sendEmailMultipleRecipients.js
 [sendemailsinglerecipient]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/javascript/sendEmailSingleRecipient.js
 [sendemailwithattachments]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/javascript/sendEmailWithAttachments.js
+[sendemailwithinlineattachments]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/communication/communication-email/samples/v1-beta/javascript/sendEmailWithInlineAttachments.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/communication-email
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecommunicationservicesresource]: https://docs.microsoft.com/azure/communication-services/quickstarts/create-communication-resource

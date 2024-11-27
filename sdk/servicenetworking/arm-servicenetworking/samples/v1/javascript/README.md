@@ -53,7 +53,7 @@ node associationsInterfaceCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env SERVICENETWORKING_SUBSCRIPTION_ID="<servicenetworking subscription id>" SERVICENETWORKING_RESOURCE_GROUP="<servicenetworking resource group>" node associationsInterfaceCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env SERVICENETWORKING_SUBSCRIPTION_ID="<servicenetworking subscription id>" SERVICENETWORKING_RESOURCE_GROUP="<servicenetworking resource group>" node associationsInterfaceCreateOrUpdateSample.js
 ```
 
 ## Next Steps

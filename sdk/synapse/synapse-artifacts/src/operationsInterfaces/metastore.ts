@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import {
+import type {
   MetastoreRegisterObject,
   MetastoreRegisterOptionalParams,
   MetastoreRegisterResponse,
@@ -16,16 +16,16 @@ import {
   MetastoreUpdateOptionalParams,
   MetastoreUpdateResponse,
   MetastoreDeleteOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Metastore. */
 export interface Metastore {
   /**
    * Register files in Syms
-   * @param id The name of the database to be created. The name can contain only alphanumeric characters
+   * @param id - The name of the database to be created. The name can contain only alphanumeric characters
    *           and should not exceed 24 characters
-   * @param registerBody The body for the register request
-   * @param options The options parameters.
+   * @param registerBody - The body for the register request
+   * @param options - The options parameters.
    */
   register(
     id: string,
@@ -34,8 +34,8 @@ export interface Metastore {
   ): Promise<MetastoreRegisterResponse>;
   /**
    * Gets status of the database
-   * @param id
-   * @param options The options parameters.
+   * @param id - The name of the database to be fetched
+   * @param options - The options parameters.
    */
   getDatabaseOperations(
     id: string,
@@ -43,9 +43,9 @@ export interface Metastore {
   ): Promise<MetastoreGetDatabaseOperationsResponse>;
   /**
    * Update files in Syms
-   * @param id The name of the database to be updated
-   * @param updateBody The body for the update request
-   * @param options The options parameters.
+   * @param id - The name of the database to be updated
+   * @param updateBody - The body for the update request
+   * @param options - The options parameters.
    */
   update(
     id: string,
@@ -54,8 +54,8 @@ export interface Metastore {
   ): Promise<MetastoreUpdateResponse>;
   /**
    * Remove files in Syms
-   * @param id
-   * @param options The options parameters.
+   * @param id - The name of the database to be updated
+   * @param options - The options parameters.
    */
   delete(id: string, options?: MetastoreDeleteOptionalParams): Promise<void>;
 }

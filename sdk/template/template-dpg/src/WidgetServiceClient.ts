@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
@@ -9,9 +9,11 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { WidgetServiceClientOptions, createWidgetService } from "./api/WidgetServiceContext.js";
-import {
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { WidgetServiceClientOptions } from "./api/WidgetServiceContext.js";
+import { createWidgetService } from "./api/WidgetServiceContext.js";
+import type {
   AnalyzeResult,
   AnalyzeWidgetOptions,
   ColorType,
@@ -21,6 +23,8 @@ import {
   ListWidgetsOptions,
   UpdateWidgetOptions,
   Widget,
+} from "./api/index.js";
+import {
   analyzeWidget,
   createWidget,
   deleteWidget,
@@ -28,7 +32,7 @@ import {
   listWidgets,
   updateWidget,
 } from "./api/index.js";
-import { WidgetServiceContext } from "./rest/clientDefinitions.js";
+import type { WidgetServiceContext } from "./rest/clientDefinitions.js";
 
 export { WidgetServiceClientOptions } from "./api/WidgetServiceContext.js";
 

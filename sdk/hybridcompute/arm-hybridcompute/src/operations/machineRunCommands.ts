@@ -27,6 +27,7 @@ import {
   MachineRunCommandsCreateOrUpdateOptionalParams,
   MachineRunCommandsCreateOrUpdateResponse,
   MachineRunCommandsDeleteOptionalParams,
+  MachineRunCommandsDeleteResponse,
   MachineRunCommandsGetOptionalParams,
   MachineRunCommandsGetResponse,
   MachineRunCommandsListNextResponse,
@@ -239,11 +240,16 @@ export class MachineRunCommandsImpl implements MachineRunCommands {
     machineName: string,
     runCommandName: string,
     options?: MachineRunCommandsDeleteOptionalParams,
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+  ): Promise<
+    SimplePollerLike<
+      OperationState<MachineRunCommandsDeleteResponse>,
+      MachineRunCommandsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
-    ): Promise<void> => {
+    ): Promise<MachineRunCommandsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
@@ -283,7 +289,10 @@ export class MachineRunCommandsImpl implements MachineRunCommands {
       args: { resourceGroupName, machineName, runCommandName, options },
       spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      MachineRunCommandsDeleteResponse,
+      OperationState<MachineRunCommandsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
       resourceLocationConfig: "location",
@@ -304,7 +313,7 @@ export class MachineRunCommandsImpl implements MachineRunCommands {
     machineName: string,
     runCommandName: string,
     options?: MachineRunCommandsDeleteOptionalParams,
-  ): Promise<void> {
+  ): Promise<MachineRunCommandsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       machineName,
@@ -409,10 +418,18 @@ const deleteOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/runCommands/{runCommandName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      headersMapper: Mappers.MachineRunCommandsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.MachineRunCommandsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.MachineRunCommandsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.MachineRunCommandsDeleteHeaders,
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse,
     },
@@ -461,7 +478,7 @@ const listOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  queryParameters: [Parameters.apiVersion, Parameters.expand],
+  queryParameters: [Parameters.apiVersion, Parameters.expand1],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CosmosDiagnostics } from "../CosmosDiagnostics";
+import type { CosmosDiagnostics } from "../CosmosDiagnostics";
 
 export interface DiagnosticFormatter {
   format(cosmosDiagnostic: CosmosDiagnostics): string;

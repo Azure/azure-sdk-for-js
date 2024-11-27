@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RawHttpHeaders } from "@azure/core-rest-pipeline";
 import { HttpResponse } from "@azure-rest/core-client";
@@ -16,7 +16,7 @@ import {
   TransactionStatusOutput,
   LedgerEntryOutput,
   LedgerUserOutput
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** The constitution is a script that assesses and applies proposals from consortium members. */
 export interface GetConstitution200Response extends HttpResponse {

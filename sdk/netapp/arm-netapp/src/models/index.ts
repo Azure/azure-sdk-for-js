@@ -173,6 +173,8 @@ export interface FilePathAvailabilityRequest {
   name: string;
   /** The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes */
   subnetId: string;
+  /** The Azure Resource logical availability zone which is used within zone mapping lookup for the subscription and region. The lookup will retrieve the physical zone where volume is placed. */
+  availabilityZone?: string;
 }
 
 /** Quota availability request content. */
@@ -344,7 +346,7 @@ export interface ActiveDirectory {
   backupOperators?: string[];
   /** Users to be added to the Built-in Administrators active directory group. A list of unique usernames without domain specifier */
   administrators?: string[];
-  /** kdc server IP addresses for the active directory machine. This optional parameter is used only while creating kerberos volume. */
+  /** kdc server IP address for the active directory machine. This optional parameter is used only while creating kerberos volume. */
   kdcIP?: string;
   /** Name of the active directory machine. This optional parameter is used only while creating kerberos volume */
   adName?: string;
@@ -400,7 +402,7 @@ export interface KeyVaultProperties {
   /** The name of KeyVault key. */
   keyName: string;
   /** The resource ID of KeyVault. */
-  keyVaultResourceId: string;
+  keyVaultResourceId?: string;
   /**
    * Status of the KeyVault connection.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -417,6 +419,8 @@ export interface EncryptionIdentity {
   readonly principalId?: string;
   /** The ARM resource identifier of the user assigned identity used to authenticate with key vault. Applicable if identity.type has 'UserAssigned'. It should match key of identity.userAssignedIdentities. */
   userAssignedIdentity?: string;
+  /** ClientId of the multi-tenant AAD Application. Used to access cross-tenant KeyVaults. */
+  federatedClientId?: string;
 }
 
 /** Managed service identity (system assigned and/or user assigned identities) */
@@ -490,6 +494,41 @@ export interface NetAppAccountPatch {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly disableShowmount?: boolean;
+  /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
+  nfsV4IDDomain?: string;
+  /**
+   * This will have true value only if account is Multiple AD enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isMultiAdEnabled?: boolean;
+}
+
+/** Encryption transition request */
+export interface EncryptionTransitionRequest {
+  /** Identifier for the virtual network */
+  virtualNetworkId: string;
+  /** Identifier of the private endpoint to reach the Azure Key Vault */
+  privateEndpointId: string;
+}
+
+/** Change key vault request */
+export interface ChangeKeyVault {
+  /** The URI of the key vault/managed HSM that should be used for encryption. */
+  keyVaultUri: string;
+  /** The name of the key that should be used for encryption. */
+  keyName: string;
+  /** Azure resource ID of the key vault/managed HSM that should be used for encryption. */
+  keyVaultResourceId?: string;
+  /** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
+  keyVaultPrivateEndpoints: KeyVaultPrivateEndpoint[];
+}
+
+/** Pairs of virtual network ID and private endpoint ID. Every virtual network that has volumes encrypted with customer-managed keys needs its own key vault private endpoint. */
+export interface KeyVaultPrivateEndpoint {
+  /** Identifier for the virtual network id */
+  virtualNetworkId?: string;
+  /** Identifier of the private endpoint to reach the Azure Key Vault */
+  privateEndpointId?: string;
 }
 
 /** List of capacity pool resources */
@@ -521,12 +560,14 @@ export interface CapacityPoolPatch {
   readonly type?: string;
   /** Resource tags */
   tags?: { [propertyName: string]: string };
-  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiply of 1099511627776). */
+  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). */
   size?: number;
   /** The qos type of the pool */
   qosType?: QosType;
   /** If enabled (true) the pool can contain cool Access enabled volumes. */
   coolAccess?: boolean;
+  /** Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level */
+  customThroughputMibps?: number;
 }
 
 /** List of volume resources */
@@ -628,10 +669,39 @@ export interface ReplicationObject {
   endpointType?: EndpointType;
   /** Schedule */
   replicationSchedule?: ReplicationSchedule;
-  /** The resource ID of the remote volume. */
-  remoteVolumeResourceId: string;
+  /** The resource ID of the remote volume. Required for cross region and cross zone replication */
+  remoteVolumeResourceId?: string;
+  /** The full path to a volume that is to be migrated into ANF. Required for Migration volumes */
+  remotePath?: RemotePath;
   /** The remote region for the other end of the Volume Replication. */
   remoteVolumeRegion?: string;
+  /**
+   * A list of destination replications
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly destinationReplications?: DestinationReplication[];
+}
+
+/** The full path to a volume that is to be migrated into ANF. Required for Migration volumes */
+export interface RemotePath {
+  /** The Path to a ONTAP Host */
+  externalHostName: string;
+  /** The name of a server on the ONTAP Host */
+  serverName: string;
+  /** The name of a volume on the server */
+  volumeName: string;
+}
+
+/** Destination replication properties */
+export interface DestinationReplication {
+  /** The resource ID of the remote volume */
+  resourceId?: string;
+  /** Indicates whether the replication is cross zone or cross region. */
+  replicationType?: ReplicationType;
+  /** The remote region for the destination volume. */
+  region?: string;
+  /** The remote zone for the destination volume. */
+  zone?: string;
 }
 
 /** Volume Snapshot Properties */
@@ -682,7 +752,7 @@ export interface VolumePatch {
   tags?: { [propertyName: string]: string };
   /** The service level of the file system */
   serviceLevel?: ServiceLevel;
-  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB, 500Tib for LargeVolume or 2400Tib for LargeVolume on exceptional basis. Specified in bytes. */
+  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 1PiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
   usageThreshold?: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePatchPropertiesExportPolicy;
@@ -759,6 +829,30 @@ export interface GetGroupIdListForLdapUserResponse {
   groupIdsForLdapUser?: string[];
 }
 
+/** Quota Report for volume */
+export interface ListQuotaReportResponse {
+  /** List of volume quota report records */
+  value?: QuotaReport[];
+  /** URL to get the next set of results. */
+  nextLink?: string;
+}
+
+/** Quota report record properties */
+export interface QuotaReport {
+  /** Type of quota */
+  quotaType?: Type;
+  /** UserID/GroupID/SID based on the quota target type. UserID and groupID can be found by running ‘id’ or ‘getent’ command for the user or group and SID can be found by running <wmic useraccount where name='user-name' get sid> */
+  quotaTarget?: string;
+  /** Specifies the current usage in kibibytes for the user/group quota. */
+  quotaLimitUsedInKiBs?: number;
+  /** Specifies the total size limit in kibibytes for the user/group quota. */
+  quotaLimitTotalInKiBs?: number;
+  /** Percentage of used size compared to total size. */
+  percentageUsed?: number;
+  /** Flag to indicate whether the quota is derived from default quota. */
+  isDerivedQuota?: boolean;
+}
+
 /** Break replication request */
 export interface BreakReplicationRequest {
   /** If replication is in status transferring and you want to force break the replication, set to true */
@@ -793,6 +887,11 @@ export interface ListReplications {
 
 /** Replication properties */
 export interface Replication {
+  /**
+   * UUID v4 used to identify the replication.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationId?: string;
   /** Indicates whether the local volume is the source or destination for the Volume Replication */
   endpointType?: EndpointType;
   /** Schedule */
@@ -807,6 +906,24 @@ export interface Replication {
 export interface AuthorizeRequest {
   /** Resource id of the remote volume */
   remoteVolumeResourceId?: string;
+}
+
+/** Source Cluster properties for a cluster peer request */
+export interface PeerClusterForVolumeMigrationRequest {
+  /** A list of IC-LIF IPs that can be used to connect to the On-prem cluster */
+  peerIpAddresses: string[];
+}
+
+/** Information about cluster peering process */
+export interface ClusterPeerCommandResponse {
+  /** A command that needs to be run on the external ONTAP to accept cluster peering.  Will only be present if <code>clusterPeeringStatus</code> is <code>pending</code> */
+  peerAcceptCommand?: string;
+}
+
+/** Information about svm peering process */
+export interface SvmPeerCommandResponse {
+  /** A command that needs to be run on the external ONTAP to accept svm peering.  Will only be present if <code>svmPeeringStatus</code> is <code>pending</code> */
+  svmPeeringCommand?: string;
 }
 
 /** Pool change request */
@@ -1135,7 +1252,7 @@ export interface VolumeGroupVolumeProperties {
   creationToken: string;
   /** The service level of the file system */
   serviceLevel?: ServiceLevel;
-  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB, 500Tib for LargeVolume or 2400Tib for LargeVolume on exceptional basis. Specified in bytes. */
+  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 1PiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
   usageThreshold: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePropertiesExportPolicy;
@@ -1159,8 +1276,13 @@ export interface VolumeGroupVolumeProperties {
   readonly baremetalTenantId?: string;
   /** The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes */
   subnetId: string;
-  /** Network features available to the volume, or current state of update. */
+  /** The original value of the network features type available to the volume at the time it was created. */
   networkFeatures?: NetworkFeatures;
+  /**
+   * The effective value of the network features type available to the volume, or current effective state of update.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectiveNetworkFeatures?: NetworkFeatures;
   /**
    * Network Sibling Set ID for the the group of volumes sharing networking resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1176,10 +1298,12 @@ export interface VolumeGroupVolumeProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly mountTargets?: MountTargetProperties[];
-  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection */
+  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection. For creating clone volume, set type to ShortTermClone */
   volumeType?: string;
   /** DataProtection type volumes include an object containing details of the replication */
   dataProtection?: VolumePropertiesDataProtection;
+  /** While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. */
+  acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
   /** Restoring */
   isRestoring?: boolean;
   /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true). */
@@ -1220,7 +1344,7 @@ export interface VolumeGroupVolumeProperties {
    *  Never - No client-driven data is pulled from cool tier to standard storage.
    */
   coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
-  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
+  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users.  Avoid passing null value for unixPermissions in volume update operation, As per the behavior, If Null value is passed then user-visible unixPermissions value will became null, and user will not be able to get unixPermissions value. On safer side, actual unixPermissions value on volume will remain as its last saved value only. */
   unixPermissions?: string;
   /**
    * When a volume is being restored from another volume's snapshot, will show the percentage completion of this cloning process. When this value is empty/null there is no cloning process currently happening on this volume. This value will update every 5 minutes during cloning.
@@ -1287,6 +1411,13 @@ export interface VolumeGroupVolumeProperties {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly originatingResourceId?: string;
+  /**
+   * Space shared by short term clone volume with parent volume in bytes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inheritedSizeInBytes?: number;
+  /** Language supported for volume. */
+  language?: VolumeLanguage;
 }
 
 /** List of Subvolumes */
@@ -1577,7 +1708,7 @@ export interface CloudErrorBody {
 }
 
 /** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
-export interface ProxyResource extends Resource {}
+export interface ProxyResource extends Resource { }
 
 /** The resource model definition for an Azure Resource Manager tracked top level resource which has 'tags' and a 'location' */
 export interface TrackedResource extends Resource {
@@ -1690,6 +1821,11 @@ export interface Backup extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly backupPolicyResourceId?: string;
+  /**
+   * Specifies if the backup is for a large volume.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isLargeVolume?: boolean;
 }
 
 /** NetApp account resource */
@@ -1715,6 +1851,13 @@ export interface NetAppAccount extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly disableShowmount?: boolean;
+  /** Domain for NFSv4 user ID mapping. This property will be set for all NetApp accounts in the subscription and region and only affect non ldap NFSv4 volumes. */
+  nfsV4IDDomain?: string;
+  /**
+   * This will have true value only if account is Multiple AD enabled.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isMultiAdEnabled?: boolean;
 }
 
 /** Capacity pool resource */
@@ -1729,7 +1872,7 @@ export interface CapacityPool extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly poolId?: string;
-  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiply of 1099511627776). */
+  /** Provisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiple of 1099511627776). */
   size: number;
   /** The service level of the file system */
   serviceLevel: ServiceLevel;
@@ -1748,6 +1891,8 @@ export interface CapacityPool extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly utilizedThroughputMibps?: number;
+  /** Maximum throughput in MiB/s that can be achieved by this pool and this will be accepted as input only for manual qosType pool with Flexible service level */
+  customThroughputMibps?: number;
   /** The qos type of the pool */
   qosType?: QosType;
   /** If enabled (true) the pool can contain cool Access enabled volumes. */
@@ -1774,7 +1919,7 @@ export interface Volume extends TrackedResource {
   creationToken: string;
   /** The service level of the file system */
   serviceLevel?: ServiceLevel;
-  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB, 500Tib for LargeVolume or 2400Tib for LargeVolume on exceptional basis. Specified in bytes. */
+  /** Maximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. For regular volumes, valid values are in the range 50GiB to 100TiB. For large volumes, valid values are in the range 100TiB to 1PiB, and on an exceptional basis, from to 2400GiB to 2400TiB. Values expressed in bytes as multiples of 1 GiB. */
   usageThreshold: number;
   /** Set of export policy rules */
   exportPolicy?: VolumePropertiesExportPolicy;
@@ -1798,8 +1943,13 @@ export interface Volume extends TrackedResource {
   readonly baremetalTenantId?: string;
   /** The Azure Resource URI for a delegated subnet. Must have the delegation Microsoft.NetApp/volumes */
   subnetId: string;
-  /** Network features available to the volume, or current state of update. */
+  /** The original value of the network features type available to the volume at the time it was created. */
   networkFeatures?: NetworkFeatures;
+  /**
+   * The effective value of the network features type available to the volume, or current effective state of update.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly effectiveNetworkFeatures?: NetworkFeatures;
   /**
    * Network Sibling Set ID for the the group of volumes sharing networking resources.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1815,10 +1965,12 @@ export interface Volume extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly mountTargets?: MountTargetProperties[];
-  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection */
+  /** What type of volume is this. For destination volumes in Cross Region Replication, set type to DataProtection. For creating clone volume, set type to ShortTermClone */
   volumeType?: string;
   /** DataProtection type volumes include an object containing details of the replication */
   dataProtection?: VolumePropertiesDataProtection;
+  /** While auto splitting the short term clone volume, if the parent pool does not have enough space to accommodate the volume after split, it will be automatically resized, which will lead to increased billing. To accept capacity pool size auto grow and create a short term clone volume, set the property as accepted. */
+  acceptGrowCapacityPoolForShortTermCloneSplit?: AcceptGrowCapacityPoolForShortTermCloneSplit;
   /** Restoring */
   isRestoring?: boolean;
   /** If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (defaults to true). */
@@ -1859,7 +2011,7 @@ export interface Volume extends TrackedResource {
    *  Never - No client-driven data is pulled from cool tier to standard storage.
    */
   coolAccessRetrievalPolicy?: CoolAccessRetrievalPolicy;
-  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users. */
+  /** UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users.  Avoid passing null value for unixPermissions in volume update operation, As per the behavior, If Null value is passed then user-visible unixPermissions value will became null, and user will not be able to get unixPermissions value. On safer side, actual unixPermissions value on volume will remain as its last saved value only. */
   unixPermissions?: string;
   /**
    * When a volume is being restored from another volume's snapshot, will show the percentage completion of this cloning process. When this value is empty/null there is no cloning process currently happening on this volume. This value will update every 5 minutes during cloning.
@@ -1926,6 +2078,13 @@ export interface Volume extends TrackedResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly originatingResourceId?: string;
+  /**
+   * Space shared by short term clone volume with parent volume in bytes.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly inheritedSizeInBytes?: number;
+  /** Language supported for volume. */
+  language?: VolumeLanguage;
 }
 
 /** Snapshot policy information */
@@ -2018,6 +2177,21 @@ export interface NetAppResourceUpdateNetworkSiblingSetHeaders {
   location?: string;
 }
 
+/** Defines headers for Accounts_transitionToCmk operation. */
+export interface AccountsTransitionToCmkHeaders {
+  location?: string;
+}
+
+/** Defines headers for Accounts_getChangeKeyVaultInformation operation. */
+export interface AccountsGetChangeKeyVaultInformationHeaders {
+  location?: string;
+}
+
+/** Defines headers for Accounts_changeKeyVault operation. */
+export interface AccountsChangeKeyVaultHeaders {
+  location?: string;
+}
+
 /** Defines headers for Volumes_populateAvailabilityZone operation. */
 export interface VolumesPopulateAvailabilityZoneHeaders {
   location?: string;
@@ -2028,6 +2202,11 @@ export interface VolumesResetCifsPasswordHeaders {
   location?: string;
 }
 
+/** Defines headers for Volumes_splitCloneFromParent operation. */
+export interface VolumesSplitCloneFromParentHeaders {
+  location?: string;
+}
+
 /** Defines headers for Volumes_breakFileLocks operation. */
 export interface VolumesBreakFileLocksHeaders {
   location?: string;
@@ -2035,6 +2214,31 @@ export interface VolumesBreakFileLocksHeaders {
 
 /** Defines headers for Volumes_listGetGroupIdListForLdapUser operation. */
 export interface VolumesListGetGroupIdListForLdapUserHeaders {
+  location?: string;
+}
+
+/** Defines headers for Volumes_listQuotaReport operation. */
+export interface VolumesListQuotaReportHeaders {
+  location?: string;
+}
+
+/** Defines headers for Volumes_peerExternalCluster operation. */
+export interface VolumesPeerExternalClusterHeaders {
+  location?: string;
+}
+
+/** Defines headers for Volumes_authorizeExternalReplication operation. */
+export interface VolumesAuthorizeExternalReplicationHeaders {
+  location?: string;
+}
+
+/** Defines headers for Volumes_finalizeExternalReplication operation. */
+export interface VolumesFinalizeExternalReplicationHeaders {
+  location?: string;
+}
+
+/** Defines headers for Volumes_performReplicationTransfer operation. */
+export interface VolumesPerformReplicationTransferHeaders {
   location?: string;
 }
 
@@ -2368,6 +2572,8 @@ export enum KnownServiceLevel {
   Ultra = "Ultra",
   /** Zone redundant storage service level */
   StandardZRS = "StandardZRS",
+  /** Flexible service level */
+  Flexible = "Flexible",
 }
 
 /**
@@ -2378,7 +2584,8 @@ export enum KnownServiceLevel {
  * **Standard**: Standard service level \
  * **Premium**: Premium service level \
  * **Ultra**: Ultra service level \
- * **StandardZRS**: Zone redundant storage service level
+ * **StandardZRS**: Zone redundant storage service level \
+ * **Flexible**: Flexible service level
  */
 export type ServiceLevel = string;
 
@@ -2498,6 +2705,42 @@ export enum KnownReplicationSchedule {
  * **daily**
  */
 export type ReplicationSchedule = string;
+
+/** Known values of {@link ReplicationType} that the service accepts. */
+export enum KnownReplicationType {
+  /** Cross region replication */
+  CrossRegionReplication = "CrossRegionReplication",
+  /** Cross zone replication */
+  CrossZoneReplication = "CrossZoneReplication",
+}
+
+/**
+ * Defines values for ReplicationType. \
+ * {@link KnownReplicationType} can be used interchangeably with ReplicationType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **CrossRegionReplication**: Cross region replication \
+ * **CrossZoneReplication**: Cross zone replication
+ */
+export type ReplicationType = string;
+
+/** Known values of {@link AcceptGrowCapacityPoolForShortTermCloneSplit} that the service accepts. */
+export enum KnownAcceptGrowCapacityPoolForShortTermCloneSplit {
+  /** Auto grow capacity pool for short term clone split is accepted. */
+  Accepted = "Accepted",
+  /** Auto grow capacity pool for short term clone split is declined. Short term clone volume creation will not be allowed, to create short term clone volume accept auto grow capacity pool. */
+  Declined = "Declined",
+}
+
+/**
+ * Defines values for AcceptGrowCapacityPoolForShortTermCloneSplit. \
+ * {@link KnownAcceptGrowCapacityPoolForShortTermCloneSplit} can be used interchangeably with AcceptGrowCapacityPoolForShortTermCloneSplit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Accepted**: Auto grow capacity pool for short term clone split is accepted. \
+ * **Declined**: Auto grow capacity pool for short term clone split is declined. Short term clone volume creation will not be allowed, to create short term clone volume accept auto grow capacity pool.
+ */
+export type AcceptGrowCapacityPoolForShortTermCloneSplit = string;
 
 /** Known values of {@link SecurityStyle} that the service accepts. */
 export enum KnownSecurityStyle {
@@ -2646,6 +2889,249 @@ export enum KnownEnableSubvolumes {
  */
 export type EnableSubvolumes = string;
 
+/** Known values of {@link VolumeLanguage} that the service accepts. */
+export enum KnownVolumeLanguage {
+  /** Posix with UTF-8 */
+  CUtf8 = "c.utf-8",
+  /** UTF-8 with 4 byte character support */
+  Utf8Mb4 = "utf8mb4",
+  /** Arabic - Deprecated */
+  Ar = "ar",
+  /** Arabic with UTF-8 */
+  ArUtf8 = "ar.utf-8",
+  /** Croatian - Deprecated */
+  Hr = "hr",
+  /** Croatian with UTF-8 */
+  HrUtf8 = "hr.utf-8",
+  /** Czech - Deprecated */
+  Cs = "cs",
+  /** Czech with UTF-8 */
+  CsUtf8 = "cs.utf-8",
+  /** Danish - Deprecated */
+  Da = "da",
+  /** Danish with UTF-8 */
+  DaUtf8 = "da.utf-8",
+  /** Dutch - Deprecated */
+  Nl = "nl",
+  /** Dutch with UTF-8 */
+  NlUtf8 = "nl.utf-8",
+  /** English - Deprecated */
+  En = "en",
+  /** English with UTF-8 */
+  EnUtf8 = "en.utf-8",
+  /** Finnish - Deprecated */
+  Fi = "fi",
+  /** Finnish with UTF-8 */
+  FiUtf8 = "fi.utf-8",
+  /** French - Deprecated */
+  Fr = "fr",
+  /** French with UTF-8 */
+  FrUtf8 = "fr.utf-8",
+  /** German - Deprecated */
+  De = "de",
+  /** German with UTF-8 */
+  DeUtf8 = "de.utf-8",
+  /** Hebrew - Deprecated */
+  He = "he",
+  /** Hebrew with UTF-8 */
+  HeUtf8 = "he.utf-8",
+  /** Hungarian - Deprecated */
+  Hu = "hu",
+  /** Hungarian with UTF-8 */
+  HuUtf8 = "hu.utf-8",
+  /** Italian - Deprecated */
+  It = "it",
+  /** Italian with UTF-8 */
+  ItUtf8 = "it.utf-8",
+  /** Japanese euc-j - Deprecated */
+  Ja = "ja",
+  /** Japanese euc-j with UTF-8 */
+  JaUtf8 = "ja.utf-8",
+  /** Japanese euc-j - Deprecated */
+  JaV1 = "ja-v1",
+  /** Japanese euc-j with UTF-8 */
+  JaV1Utf8 = "ja-v1.utf-8",
+  /** Japanese pck */
+  JaJpPck = "ja-jp.pck",
+  /** Japanese pck with UTF-8 - Deprecated */
+  JaJpPckUtf8 = "ja-jp.pck.utf-8",
+  /** Japanese cp932 */
+  JaJp932 = "ja-jp.932",
+  /** Japanese cp932 with UTF-8 - Deprecated */
+  JaJp932Utf8 = "ja-jp.932.utf-8",
+  /** Japanese pck - sjis */
+  JaJpPckV2 = "ja-jp.pck-v2",
+  /** Japanese pck - sjis with UTF-8 - Deprecated */
+  JaJpPckV2Utf8 = "ja-jp.pck-v2.utf-8",
+  /** Korean - Deprecated */
+  Ko = "ko",
+  /** Korean with UTF-8 */
+  KoUtf8 = "ko.utf-8",
+  /** Norwegian - Deprecated */
+  No = "no",
+  /** Norwegian with UTF-8 */
+  NoUtf8 = "no.utf-8",
+  /** Polish - Deprecated */
+  Pl = "pl",
+  /** Polish with UTF-8 */
+  PlUtf8 = "pl.utf-8",
+  /** Portuguese - Deprecated */
+  Pt = "pt",
+  /** Portuguese with UTF-8 */
+  PtUtf8 = "pt.utf-8",
+  /** Posix - Deprecated */
+  C = "c",
+  /** Romanian - Deprecated */
+  Ro = "ro",
+  /** Romanian with UTF-8 */
+  RoUtf8 = "ro.utf-8",
+  /** Russian - Deprecated */
+  Ru = "ru",
+  /** Russian with UTF-8 */
+  RuUtf8 = "ru.utf-8",
+  /** Simplified Chinese - Deprecated */
+  Zh = "zh",
+  /** Simplified Chinese with UTF-8 */
+  ZhUtf8 = "zh.utf-8",
+  /** Simplified gbk Chinese */
+  ZhGbk = "zh.gbk",
+  /** Simplified gbk Chinese with UTF-8 - Deprecated */
+  ZhGbkUtf8 = "zh.gbk.utf-8",
+  /** Traditional Chinese BIG 5 */
+  ZhTwBig5 = "zh-tw.big5",
+  /** Traditional Chinese BIG 5 with UTF-8 - Deprecated */
+  ZhTwBig5Utf8 = "zh-tw.big5.utf-8",
+  /** Traditional Chinese EUC-TW */
+  ZhTw = "zh-tw",
+  /** Traditional Chinese EUC-TW with UTF-8 - Deprecated */
+  ZhTwUtf8 = "zh-tw.utf-8",
+  /** Slovak - Deprecated */
+  Sk = "sk",
+  /** Slovak with UTF-8 */
+  SkUtf8 = "sk.utf-8",
+  /** Slovenian - Deprecated */
+  Sl = "sl",
+  /** Slovenian with UTF-8 */
+  SlUtf8 = "sl.utf-8",
+  /** Spanish - Deprecated */
+  Es = "es",
+  /** Spanish with UTF-8 */
+  EsUtf8 = "es.utf-8",
+  /** Swedish - Deprecated */
+  Sv = "sv",
+  /** Swedish with UTF-8 */
+  SvUtf8 = "sv.utf-8",
+  /** Turkish - Deprecated */
+  Tr = "tr",
+  /** Turkish with UTF-8 */
+  TrUtf8 = "tr.utf-8",
+  /** US English - Deprecated */
+  EnUs = "en-us",
+  /** US English with UTF-8 */
+  EnUsUtf8 = "en-us.utf-8",
+}
+
+/**
+ * Defines values for VolumeLanguage. \
+ * {@link KnownVolumeLanguage} can be used interchangeably with VolumeLanguage,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **c.utf-8**: Posix with UTF-8 \
+ * **utf8mb4**: UTF-8 with 4 byte character support \
+ * **ar**: Arabic - Deprecated \
+ * **ar.utf-8**: Arabic with UTF-8 \
+ * **hr**: Croatian - Deprecated \
+ * **hr.utf-8**: Croatian with UTF-8 \
+ * **cs**: Czech - Deprecated \
+ * **cs.utf-8**: Czech with UTF-8 \
+ * **da**: Danish - Deprecated \
+ * **da.utf-8**: Danish with UTF-8 \
+ * **nl**: Dutch - Deprecated \
+ * **nl.utf-8**: Dutch with UTF-8 \
+ * **en**: English - Deprecated \
+ * **en.utf-8**: English with UTF-8 \
+ * **fi**: Finnish - Deprecated \
+ * **fi.utf-8**: Finnish with UTF-8 \
+ * **fr**: French - Deprecated \
+ * **fr.utf-8**: French with UTF-8 \
+ * **de**: German - Deprecated \
+ * **de.utf-8**: German with UTF-8 \
+ * **he**: Hebrew - Deprecated \
+ * **he.utf-8**: Hebrew with UTF-8 \
+ * **hu**: Hungarian - Deprecated \
+ * **hu.utf-8**: Hungarian with UTF-8 \
+ * **it**: Italian - Deprecated \
+ * **it.utf-8**: Italian with UTF-8 \
+ * **ja**: Japanese euc-j - Deprecated \
+ * **ja.utf-8**: Japanese euc-j with UTF-8 \
+ * **ja-v1**: Japanese euc-j - Deprecated \
+ * **ja-v1.utf-8**: Japanese euc-j with UTF-8 \
+ * **ja-jp.pck**: Japanese pck \
+ * **ja-jp.pck.utf-8**: Japanese pck with UTF-8 - Deprecated \
+ * **ja-jp.932**: Japanese cp932 \
+ * **ja-jp.932.utf-8**: Japanese cp932 with UTF-8 - Deprecated \
+ * **ja-jp.pck-v2**: Japanese pck - sjis \
+ * **ja-jp.pck-v2.utf-8**: Japanese pck - sjis with UTF-8 - Deprecated \
+ * **ko**: Korean - Deprecated \
+ * **ko.utf-8**: Korean with UTF-8 \
+ * **no**: Norwegian - Deprecated \
+ * **no.utf-8**: Norwegian with UTF-8 \
+ * **pl**: Polish - Deprecated \
+ * **pl.utf-8**: Polish with UTF-8 \
+ * **pt**: Portuguese - Deprecated \
+ * **pt.utf-8**: Portuguese with UTF-8 \
+ * **c**: Posix - Deprecated \
+ * **ro**: Romanian - Deprecated \
+ * **ro.utf-8**: Romanian with UTF-8 \
+ * **ru**: Russian - Deprecated \
+ * **ru.utf-8**: Russian with UTF-8 \
+ * **zh**: Simplified Chinese - Deprecated \
+ * **zh.utf-8**: Simplified Chinese with UTF-8 \
+ * **zh.gbk**: Simplified gbk Chinese \
+ * **zh.gbk.utf-8**: Simplified gbk Chinese with UTF-8 - Deprecated \
+ * **zh-tw.big5**: Traditional Chinese BIG 5 \
+ * **zh-tw.big5.utf-8**: Traditional Chinese BIG 5 with UTF-8 - Deprecated \
+ * **zh-tw**: Traditional Chinese EUC-TW \
+ * **zh-tw.utf-8**: Traditional Chinese EUC-TW with UTF-8 - Deprecated \
+ * **sk**: Slovak - Deprecated \
+ * **sk.utf-8**: Slovak with UTF-8 \
+ * **sl**: Slovenian - Deprecated \
+ * **sl.utf-8**: Slovenian with UTF-8 \
+ * **es**: Spanish - Deprecated \
+ * **es.utf-8**: Spanish with UTF-8 \
+ * **sv**: Swedish - Deprecated \
+ * **sv.utf-8**: Swedish with UTF-8 \
+ * **tr**: Turkish - Deprecated \
+ * **tr.utf-8**: Turkish with UTF-8 \
+ * **en-us**: US English - Deprecated \
+ * **en-us.utf-8**: US English with UTF-8
+ */
+export type VolumeLanguage = string;
+
+/** Known values of {@link Type} that the service accepts. */
+export enum KnownType {
+  /** Default user quota */
+  DefaultUserQuota = "DefaultUserQuota",
+  /** Default group quota */
+  DefaultGroupQuota = "DefaultGroupQuota",
+  /** Individual user quota */
+  IndividualUserQuota = "IndividualUserQuota",
+  /** Individual group quota */
+  IndividualGroupQuota = "IndividualGroupQuota",
+}
+
+/**
+ * Defines values for Type. \
+ * {@link KnownType} can be used interchangeably with Type,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **DefaultUserQuota**: Default user quota \
+ * **DefaultGroupQuota**: Default group quota \
+ * **IndividualUserQuota**: Individual user quota \
+ * **IndividualGroupQuota**: Individual group quota
+ */
+export type Type = string;
+
 /** Known values of {@link RelationshipStatus} that the service accepts. */
 export enum KnownRelationshipStatus {
   /** Idle */
@@ -2690,30 +3176,6 @@ export enum KnownMirrorState {
  * **Broken**
  */
 export type MirrorState = string;
-
-/** Known values of {@link Type} that the service accepts. */
-export enum KnownType {
-  /** Default user quota */
-  DefaultUserQuota = "DefaultUserQuota",
-  /** Default group quota */
-  DefaultGroupQuota = "DefaultGroupQuota",
-  /** Individual user quota */
-  IndividualUserQuota = "IndividualUserQuota",
-  /** Individual group quota */
-  IndividualGroupQuota = "IndividualGroupQuota",
-}
-
-/**
- * Defines values for Type. \
- * {@link KnownType} can be used interchangeably with Type,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **DefaultUserQuota**: Default user quota \
- * **DefaultGroupQuota**: Default group quota \
- * **IndividualUserQuota**: Individual user quota \
- * **IndividualGroupQuota**: Individual group quota
- */
-export type Type = string;
 
 /** Known values of {@link ApplicationType} that the service accepts. */
 export enum KnownApplicationType {
@@ -2762,14 +3224,14 @@ export type ProvisioningState =
 
 /** Optional parameters. */
 export interface OperationsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the list operation. */
 export type OperationsListResponse = OperationListResult;
 
 /** Optional parameters. */
 export interface NetAppResourceCheckNameAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the checkNameAvailability operation. */
 export type NetAppResourceCheckNameAvailabilityResponse =
@@ -2777,7 +3239,10 @@ export type NetAppResourceCheckNameAvailabilityResponse =
 
 /** Optional parameters. */
 export interface NetAppResourceCheckFilePathAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions {
+  /** The Azure Resource logical availability zone which is used within zone mapping lookup for the subscription and region. The lookup will retrieve the physical zone where volume is placed. */
+  availabilityZone?: string;
+}
 
 /** Contains response data for the checkFilePathAvailability operation. */
 export type NetAppResourceCheckFilePathAvailabilityResponse =
@@ -2785,7 +3250,7 @@ export type NetAppResourceCheckFilePathAvailabilityResponse =
 
 /** Optional parameters. */
 export interface NetAppResourceCheckQuotaAvailabilityOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the checkQuotaAvailability operation. */
 export type NetAppResourceCheckQuotaAvailabilityResponse =
@@ -2793,14 +3258,14 @@ export type NetAppResourceCheckQuotaAvailabilityResponse =
 
 /** Optional parameters. */
 export interface NetAppResourceQueryRegionInfoOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the queryRegionInfo operation. */
 export type NetAppResourceQueryRegionInfoResponse = RegionInfo;
 
 /** Optional parameters. */
 export interface NetAppResourceQueryNetworkSiblingSetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the queryNetworkSiblingSet operation. */
 export type NetAppResourceQueryNetworkSiblingSetResponse = NetworkSiblingSet;
@@ -2819,56 +3284,56 @@ export type NetAppResourceUpdateNetworkSiblingSetResponse = NetworkSiblingSet;
 
 /** Optional parameters. */
 export interface NetAppResourceQuotaLimitsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the list operation. */
 export type NetAppResourceQuotaLimitsListResponse = SubscriptionQuotaItemList;
 
 /** Optional parameters. */
 export interface NetAppResourceQuotaLimitsGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type NetAppResourceQuotaLimitsGetResponse = SubscriptionQuotaItem;
 
 /** Optional parameters. */
 export interface NetAppResourceRegionInfosListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the list operation. */
 export type NetAppResourceRegionInfosListResponse = RegionInfosList;
 
 /** Optional parameters. */
 export interface NetAppResourceRegionInfosGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type NetAppResourceRegionInfosGetResponse = RegionInfoResource;
 
 /** Optional parameters. */
 export interface NetAppResourceRegionInfosListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listNext operation. */
 export type NetAppResourceRegionInfosListNextResponse = RegionInfosList;
 
 /** Optional parameters. */
 export interface AccountsListBySubscriptionOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listBySubscription operation. */
 export type AccountsListBySubscriptionResponse = NetAppAccountList;
 
 /** Optional parameters. */
 export interface AccountsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the list operation. */
 export type AccountsListResponse = NetAppAccountList;
 
 /** Optional parameters. */
 export interface AccountsGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type AccountsGetResponse = NetAppAccount;
@@ -2916,27 +3381,68 @@ export interface AccountsRenewCredentialsOptionalParams
 }
 
 /** Optional parameters. */
+export interface AccountsTransitionToCmkOptionalParams
+  extends coreClient.OperationOptions {
+  /** The required parameters to perform encryption transition. */
+  body?: EncryptionTransitionRequest;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the transitionToCmk operation. */
+export type AccountsTransitionToCmkResponse = AccountsTransitionToCmkHeaders;
+
+/** Optional parameters. */
+export interface AccountsGetChangeKeyVaultInformationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the getChangeKeyVaultInformation operation. */
+export type AccountsGetChangeKeyVaultInformationResponse =
+  AccountsGetChangeKeyVaultInformationHeaders;
+
+/** Optional parameters. */
+export interface AccountsChangeKeyVaultOptionalParams
+  extends coreClient.OperationOptions {
+  /** The required parameters to perform encryption migration. */
+  body?: ChangeKeyVault;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the changeKeyVault operation. */
+export type AccountsChangeKeyVaultResponse = AccountsChangeKeyVaultHeaders;
+
+/** Optional parameters. */
 export interface AccountsListBySubscriptionNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listBySubscriptionNext operation. */
 export type AccountsListBySubscriptionNextResponse = NetAppAccountList;
 
 /** Optional parameters. */
 export interface AccountsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listNext operation. */
 export type AccountsListNextResponse = NetAppAccountList;
 
 /** Optional parameters. */
-export interface PoolsListOptionalParams extends coreClient.OperationOptions {}
+export interface PoolsListOptionalParams extends coreClient.OperationOptions { }
 
 /** Contains response data for the list operation. */
 export type PoolsListResponse = CapacityPoolList;
 
 /** Optional parameters. */
-export interface PoolsGetOptionalParams extends coreClient.OperationOptions {}
+export interface PoolsGetOptionalParams extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type PoolsGetResponse = CapacityPool;
@@ -2974,20 +3480,20 @@ export interface PoolsDeleteOptionalParams extends coreClient.OperationOptions {
 
 /** Optional parameters. */
 export interface PoolsListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listNext operation. */
 export type PoolsListNextResponse = CapacityPoolList;
 
 /** Optional parameters. */
 export interface VolumesListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the list operation. */
 export type VolumesListResponse = VolumeList;
 
 /** Optional parameters. */
-export interface VolumesGetOptionalParams extends coreClient.OperationOptions {}
+export interface VolumesGetOptionalParams extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type VolumesGetResponse = Volume;
@@ -3061,6 +3567,19 @@ export interface VolumesResetCifsPasswordOptionalParams
 export type VolumesResetCifsPasswordResponse = VolumesResetCifsPasswordHeaders;
 
 /** Optional parameters. */
+export interface VolumesSplitCloneFromParentOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the splitCloneFromParent operation. */
+export type VolumesSplitCloneFromParentResponse =
+  VolumesSplitCloneFromParentHeaders;
+
+/** Optional parameters. */
 export interface VolumesBreakFileLocksOptionalParams
   extends coreClient.OperationOptions {
   /** Optional body to provide the ability to clear file locks with selected options */
@@ -3085,6 +3604,18 @@ export type VolumesListGetGroupIdListForLdapUserResponse =
   GetGroupIdListForLdapUserResponse;
 
 /** Optional parameters. */
+export interface VolumesListQuotaReportOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the listQuotaReport operation. */
+export type VolumesListQuotaReportResponse = ListQuotaReportResponse;
+
+/** Optional parameters. */
 export interface VolumesBreakReplicationOptionalParams
   extends coreClient.OperationOptions {
   /** Optional body to force break the replication. */
@@ -3106,14 +3637,14 @@ export interface VolumesReestablishReplicationOptionalParams
 
 /** Optional parameters. */
 export interface VolumesReplicationStatusOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the replicationStatus operation. */
 export type VolumesReplicationStatusResponse = ReplicationStatus;
 
 /** Optional parameters. */
 export interface VolumesListReplicationsOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listReplications operation. */
 export type VolumesListReplicationsResponse = ListReplications;
@@ -3155,6 +3686,57 @@ export interface VolumesReInitializeReplicationOptionalParams
 }
 
 /** Optional parameters. */
+export interface VolumesPeerExternalClusterOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the peerExternalCluster operation. */
+export type VolumesPeerExternalClusterResponse = ClusterPeerCommandResponse;
+
+/** Optional parameters. */
+export interface VolumesAuthorizeExternalReplicationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the authorizeExternalReplication operation. */
+export type VolumesAuthorizeExternalReplicationResponse =
+  SvmPeerCommandResponse;
+
+/** Optional parameters. */
+export interface VolumesFinalizeExternalReplicationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the finalizeExternalReplication operation. */
+export type VolumesFinalizeExternalReplicationResponse =
+  VolumesFinalizeExternalReplicationHeaders;
+
+/** Optional parameters. */
+export interface VolumesPerformReplicationTransferOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the performReplicationTransfer operation. */
+export type VolumesPerformReplicationTransferResponse =
+  VolumesPerformReplicationTransferHeaders;
+
+/** Optional parameters. */
 export interface VolumesPoolChangeOptionalParams
   extends coreClient.OperationOptions {
   /** Delay to wait until next poll, in milliseconds. */
@@ -3194,21 +3776,21 @@ export interface VolumesRevertRelocationOptionalParams
 
 /** Optional parameters. */
 export interface VolumesListNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listNext operation. */
 export type VolumesListNextResponse = VolumeList;
 
 /** Optional parameters. */
 export interface SnapshotsListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the list operation. */
 export type SnapshotsListResponse = SnapshotsList;
 
 /** Optional parameters. */
 export interface SnapshotsGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type SnapshotsGetResponse = Snapshot;
@@ -3257,21 +3839,21 @@ export interface SnapshotsRestoreFilesOptionalParams
 
 /** Optional parameters. */
 export interface SnapshotPoliciesListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the list operation. */
 export type SnapshotPoliciesListResponse = SnapshotPoliciesList;
 
 /** Optional parameters. */
 export interface SnapshotPoliciesGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type SnapshotPoliciesGetResponse = SnapshotPolicy;
 
 /** Optional parameters. */
 export interface SnapshotPoliciesCreateOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the create operation. */
 export type SnapshotPoliciesCreateResponse = SnapshotPolicy;
@@ -3299,21 +3881,21 @@ export interface SnapshotPoliciesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface SnapshotPoliciesListVolumesOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listVolumes operation. */
 export type SnapshotPoliciesListVolumesResponse = SnapshotPolicyVolumeList;
 
 /** Optional parameters. */
 export interface BackupPoliciesListOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the list operation. */
 export type BackupPoliciesListResponse = BackupPoliciesList;
 
 /** Optional parameters. */
 export interface BackupPoliciesGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type BackupPoliciesGetResponse = BackupPolicy;
@@ -3353,14 +3935,14 @@ export interface BackupPoliciesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface VolumeQuotaRulesListByVolumeOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listByVolume operation. */
 export type VolumeQuotaRulesListByVolumeResponse = VolumeQuotaRulesList;
 
 /** Optional parameters. */
 export interface VolumeQuotaRulesGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type VolumeQuotaRulesGetResponse = VolumeQuotaRule;
@@ -3400,14 +3982,14 @@ export interface VolumeQuotaRulesDeleteOptionalParams
 
 /** Optional parameters. */
 export interface VolumeGroupsListByNetAppAccountOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listByNetAppAccount operation. */
 export type VolumeGroupsListByNetAppAccountResponse = VolumeGroupList;
 
 /** Optional parameters. */
 export interface VolumeGroupsGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type VolumeGroupsGetResponse = VolumeGroupDetails;
@@ -3435,14 +4017,14 @@ export interface VolumeGroupsDeleteOptionalParams
 
 /** Optional parameters. */
 export interface SubvolumesListByVolumeOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listByVolume operation. */
 export type SubvolumesListByVolumeResponse = SubvolumesList;
 
 /** Optional parameters. */
 export interface SubvolumesGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type SubvolumesGetResponse = SubvolumeInfo;
@@ -3494,21 +4076,21 @@ export type SubvolumesGetMetadataResponse = SubvolumeModel;
 
 /** Optional parameters. */
 export interface SubvolumesListByVolumeNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listByVolumeNext operation. */
 export type SubvolumesListByVolumeNextResponse = SubvolumesList;
 
 /** Optional parameters. */
 export interface BackupsGetLatestStatusOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getLatestStatus operation. */
 export type BackupsGetLatestStatusResponse = BackupStatus;
 
 /** Optional parameters. */
 export interface BackupsGetVolumeLatestRestoreStatusOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the getVolumeLatestRestoreStatus operation. */
 export type BackupsGetVolumeLatestRestoreStatusResponse = RestoreStatus;
@@ -3524,7 +4106,7 @@ export interface BackupsListByVaultOptionalParams
 export type BackupsListByVaultResponse = BackupsList;
 
 /** Optional parameters. */
-export interface BackupsGetOptionalParams extends coreClient.OperationOptions {}
+export interface BackupsGetOptionalParams extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type BackupsGetResponse = Backup;
@@ -3569,21 +4151,21 @@ export type BackupsDeleteResponse = BackupsDeleteHeaders;
 
 /** Optional parameters. */
 export interface BackupsListByVaultNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listByVaultNext operation. */
 export type BackupsListByVaultNextResponse = BackupsList;
 
 /** Optional parameters. */
 export interface BackupVaultsListByNetAppAccountOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listByNetAppAccount operation. */
 export type BackupVaultsListByNetAppAccountResponse = BackupVaultsList;
 
 /** Optional parameters. */
 export interface BackupVaultsGetOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the get operation. */
 export type BackupVaultsGetResponse = BackupVault;
@@ -3626,7 +4208,7 @@ export type BackupVaultsDeleteResponse = BackupVaultsDeleteHeaders;
 
 /** Optional parameters. */
 export interface BackupVaultsListByNetAppAccountNextOptionalParams
-  extends coreClient.OperationOptions {}
+  extends coreClient.OperationOptions { }
 
 /** Contains response data for the listByNetAppAccountNext operation. */
 export type BackupVaultsListByNetAppAccountNextResponse = BackupVaultsList;

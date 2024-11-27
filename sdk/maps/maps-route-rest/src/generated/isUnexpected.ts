@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   RouteRequestRouteMatrixSync200Response,
@@ -13,45 +13,45 @@ import {
   RouteGetRouteRangeDefaultResponse,
   RouteRequestRouteDirectionsBatchSync200Response,
   RouteRequestRouteDirectionsBatchSync408Response,
-  RouteRequestRouteDirectionsBatchSyncDefaultResponse
-} from "./responses";
+  RouteRequestRouteDirectionsBatchSyncDefaultResponse,
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
-  "POST /route/matrix/{format}": ["200", "202"],
   "GET /route/matrix/{format}": ["200", "202"],
+  "POST /route/matrix/{format}": ["200", "202"],
   "POST /route/matrix/sync/{format}": ["200"],
   "GET /route/directions/{format}": ["200"],
   "POST /route/directions/{format}": ["200"],
   "GET /route/range/{format}": ["200"],
-  "POST /route/directions/batch/{format}": ["200", "202"],
   "GET /route/directions/batch/{format}": ["200", "202"],
-  "POST /route/directions/batch/sync/{format}": ["200"]
+  "POST /route/directions/batch/{format}": ["200", "202"],
+  "POST /route/directions/batch/sync/{format}": ["200"],
 };
 
 export function isUnexpected(
   response:
     | RouteRequestRouteMatrixSync200Response
     | RouteRequestRouteMatrixSync408Response
-    | RouteRequestRouteMatrixSyncDefaultResponse
+    | RouteRequestRouteMatrixSyncDefaultResponse,
 ): response is RouteRequestRouteMatrixSync408Response;
 export function isUnexpected(
   response:
     | RouteGetRouteDirections200Response
-    | RouteGetRouteDirectionsDefaultResponse
+    | RouteGetRouteDirectionsDefaultResponse,
 ): response is RouteGetRouteDirectionsDefaultResponse;
 export function isUnexpected(
   response:
     | RouteGetRouteDirectionsWithAdditionalParameters200Response
-    | RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse
+    | RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse,
 ): response is RouteGetRouteDirectionsWithAdditionalParametersDefaultResponse;
 export function isUnexpected(
-  response: RouteGetRouteRange200Response | RouteGetRouteRangeDefaultResponse
+  response: RouteGetRouteRange200Response | RouteGetRouteRangeDefaultResponse,
 ): response is RouteGetRouteRangeDefaultResponse;
 export function isUnexpected(
   response:
     | RouteRequestRouteDirectionsBatchSync200Response
     | RouteRequestRouteDirectionsBatchSync408Response
-    | RouteRequestRouteDirectionsBatchSyncDefaultResponse
+    | RouteRequestRouteDirectionsBatchSyncDefaultResponse,
 ): response is RouteRequestRouteDirectionsBatchSync408Response;
 export function isUnexpected(
   response:
@@ -66,7 +66,7 @@ export function isUnexpected(
     | RouteGetRouteRangeDefaultResponse
     | RouteRequestRouteDirectionsBatchSync200Response
     | RouteRequestRouteDirectionsBatchSync408Response
-    | RouteRequestRouteDirectionsBatchSyncDefaultResponse
+    | RouteRequestRouteDirectionsBatchSyncDefaultResponse,
 ): response is
   | RouteRequestRouteMatrixSync408Response
   | RouteRequestRouteMatrixSyncDefaultResponse
@@ -80,13 +80,19 @@ export function isUnexpected(
   const method = response.request.method;
   let pathDetails = responseMap[`${method} ${url.pathname}`];
   if (!pathDetails) {
-    pathDetails = geParametrizedPathSuccess(method, url.pathname);
+    pathDetails = getParametrizedPathSuccess(method, url.pathname);
   }
   return !pathDetails.includes(response.status);
 }
 
-function geParametrizedPathSuccess(method: string, path: string): string[] {
+function getParametrizedPathSuccess(method: string, path: string): string[] {
   const pathParts = path.split("/");
+
+  // Traverse list to match the longest candidate
+  // matchedLen: the length of candidate path
+  // matchedValue: the matched status code array
+  let matchedLen = -1,
+    matchedValue: string[] = [];
 
   // Iterate the responseMap to find a match
   for (const [key, value] of Object.entries(responseMap)) {
@@ -99,49 +105,52 @@ function geParametrizedPathSuccess(method: string, path: string): string[] {
     // Get each part of the url path
     const candidateParts = candidatePath.split("/");
 
-    // If the candidate and actual paths don't match in size
-    // we move on to the next candidate path
-    if (
-      candidateParts.length === pathParts.length &&
-      hasParametrizedPath(key)
+    // track if we have found a match to return the values found.
+    let found = true;
+    for (
+      let i = candidateParts.length - 1, j = pathParts.length - 1;
+      i >= 1 && j >= 1;
+      i--, j--
     ) {
-      // track if we have found a match to return the values found.
-      let found = true;
-      for (let i = 0; i < candidateParts.length; i++) {
-        if (
-          candidateParts[i]?.startsWith("{") &&
-          candidateParts[i]?.endsWith("}")
-        ) {
-          // If the current part of the candidate is a "template" part
-          // it is a match with the actual path part on hand
-          // skip as the parameterized part can match anything
-          continue;
-        }
+      if (
+        candidateParts[i]?.startsWith("{") &&
+        candidateParts[i]?.indexOf("}") !== -1
+      ) {
+        const start = candidateParts[i]!.indexOf("}") + 1,
+          end = candidateParts[i]?.length;
+        // If the current part of the candidate is a "template" part
+        // Try to use the suffix of pattern to match the path
+        // {guid} ==> $
+        // {guid}:export ==> :export$
+        const isMatched = new RegExp(
+          `${candidateParts[i]?.slice(start, end)}`,
+        ).test(pathParts[j] || "");
 
-        // If the candidate part is not a template and
-        // the parts don't match mark the candidate as not found
-        // to move on with the next candidate path.
-        if (candidateParts[i] !== pathParts[i]) {
+        if (!isMatched) {
           found = false;
           break;
         }
+        continue;
       }
 
-      // We finished evaluating the current candidate parts
-      // if all parts matched we return the success values form
-      // the path mapping.
-      if (found) {
-        return value;
+      // If the candidate part is not a template and
+      // the parts don't match mark the candidate as not found
+      // to move on with the next candidate path.
+      if (candidateParts[i] !== pathParts[j]) {
+        found = false;
+        break;
       }
+    }
+
+    // We finished evaluating the current candidate parts
+    // Update the matched value if and only if we found the longer pattern
+    if (found && candidatePath.length > matchedLen) {
+      matchedLen = candidatePath.length;
+      matchedValue = value;
     }
   }
 
-  // No match was found, return an empty array.
-  return [];
-}
-
-function hasParametrizedPath(path: string): boolean {
-  return path.includes("/{");
+  return matchedValue;
 }
 
 function getPathFromMapKey(mapKey: string): string {

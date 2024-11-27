@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
-  CommunicationIdentifier,
-  CommunicationIdentifierKind,
+  type CommunicationIdentifier,
+  type CommunicationIdentifierKind,
   getIdentifierKind,
   getIdentifierRawId,
-} from "./identifierModels";
+} from "./identifierModels.js";
 
 /**
  * @hidden

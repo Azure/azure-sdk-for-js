@@ -7,6 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   ModelVersion,
   ModelVersionsListOptionalParams,
@@ -15,6 +16,8 @@ import {
   ModelVersionsGetResponse,
   ModelVersionsCreateOrUpdateOptionalParams,
   ModelVersionsCreateOrUpdateResponse,
+  DestinationAsset,
+  ModelVersionsPublishOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -80,4 +83,38 @@ export interface ModelVersions {
     body: ModelVersion,
     options?: ModelVersionsCreateOrUpdateOptionalParams,
   ): Promise<ModelVersionsCreateOrUpdateResponse>;
+  /**
+   * Publish version asset into registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param body Destination registry info
+   * @param options The options parameters.
+   */
+  beginPublish(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: ModelVersionsPublishOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+  /**
+   * Publish version asset into registry.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param name Container name.
+   * @param version Version identifier.
+   * @param body Destination registry info
+   * @param options The options parameters.
+   */
+  beginPublishAndWait(
+    resourceGroupName: string,
+    workspaceName: string,
+    name: string,
+    version: string,
+    body: DestinationAsset,
+    options?: ModelVersionsPublishOptionalParams,
+  ): Promise<void>;
 }

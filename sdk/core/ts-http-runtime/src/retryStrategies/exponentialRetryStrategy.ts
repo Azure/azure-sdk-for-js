@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { PipelineResponse } from "../interfaces.js";
-import { RestError } from "../restError.js";
-import { getRandomIntegerInclusive } from "../util/random.js";
-import { RetryStrategy } from "./retryStrategy.js";
+import type { PipelineResponse } from "../interfaces.js";
+import type { RestError } from "../restError.js";
+import { calculateRetryDelay } from "../util/delay.js";
+import type { RetryStrategy } from "./retryStrategy.js";
 import { isThrottlingRetryResponse } from "./throttlingRetryStrategy.js";
 
 // intervals are in milliseconds
@@ -45,8 +45,6 @@ export function exponentialRetryStrategy(
   const retryInterval = options.retryDelayInMs ?? DEFAULT_CLIENT_RETRY_INTERVAL;
   const maxRetryInterval = options.maxRetryDelayInMs ?? DEFAULT_CLIENT_MAX_RETRY_INTERVAL;
 
-  let retryAfterInMs = retryInterval;
-
   return {
     name: "exponentialRetryStrategy",
     retry({ retryCount, response, responseError }) {
@@ -65,15 +63,10 @@ export function exponentialRetryStrategy(
         return { errorToThrow: responseError };
       }
 
-      // Exponentially increase the delay each time
-      const exponentialDelay = retryAfterInMs * Math.pow(2, retryCount);
-      // Don't let the delay exceed the maximum
-      const clampedExponentialDelay = Math.min(maxRetryInterval, exponentialDelay);
-      // Allow the final value to have some "jitter" (within 50% of the delay size) so
-      // that retries across multiple clients don't occur simultaneously.
-      retryAfterInMs =
-        clampedExponentialDelay / 2 + getRandomIntegerInclusive(0, clampedExponentialDelay / 2);
-      return { retryAfterInMs };
+      return calculateRetryDelay(retryCount, {
+        retryDelayInMs: retryInterval,
+        maxRetryDelayInMs: maxRetryInterval,
+      });
     },
   };
 }

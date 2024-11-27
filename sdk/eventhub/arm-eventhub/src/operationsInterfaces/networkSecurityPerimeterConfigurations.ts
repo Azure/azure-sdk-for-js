@@ -22,7 +22,7 @@ export interface NetworkSecurityPerimeterConfigurations {
     resourceGroupName: string,
     namespaceName: string,
     resourceAssociationName: string,
-    options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Refreshes any information about the association.
@@ -35,6 +35,6 @@ export interface NetworkSecurityPerimeterConfigurations {
     resourceGroupName: string,
     namespaceName: string,
     resourceAssociationName: string,
-    options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams
+    options?: NetworkSecurityPerimeterConfigurationsCreateOrUpdateOptionalParams,
   ): Promise<void>;
 }

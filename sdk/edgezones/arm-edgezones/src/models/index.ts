@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export {
-  Resource,
-  SystemData,
-  KnownCreatedByType,
-  CreatedByType,
-  ProxyResource,
   ExtendedZone,
   ExtendedZoneProperties,
+  ProvisioningState,
   KnownResourceProvisioningState,
   ResourceProvisioningState,
   KnownRegistrationState,
   RegistrationState,
+  ProxyResource,
+  Resource,
+  SystemData,
+  KnownCreatedByType,
+  CreatedByType,
   ErrorResponse,
   ErrorDetail,
   ErrorAdditionalInfo,
@@ -22,13 +23,4 @@ export {
   Origin,
   KnownActionType,
   ActionType,
-  ProvisioningState,
 } from "./models.js";
-export {
-  OperationsListOptionalParams,
-  ExtendedZonesGetOptionalParams,
-  ExtendedZonesListBySubscriptionOptionalParams,
-  ExtendedZonesRegisterOptionalParams,
-  ExtendedZonesUnregisterOptionalParams,
-} from "./options.js";
-export { PageSettings, ContinuablePage, PagedAsyncIterableIterator } from "./pagingTypes.js";

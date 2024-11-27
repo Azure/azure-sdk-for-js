@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CommunicationIdentifier, CommunicationIdentifierKind } from "@azure/communication-common";
+import type {
+  CommunicationIdentifier,
+  CommunicationIdentifierKind,
+} from "@azure/communication-common";
 
 /** The meeting room. */
 export interface CommunicationRoom {

@@ -25,10 +25,7 @@ async function groupQuotasDeleteRequestForCompute() {
   const groupQuotaName = "groupquota1";
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
-  const result = await client.groupQuotas.beginDeleteAndWait(
-    managementGroupId,
-    groupQuotaName,
-  );
+  const result = await client.groupQuotas.beginDeleteAndWait(managementGroupId, groupQuotaName);
   console.log(result);
 }
 

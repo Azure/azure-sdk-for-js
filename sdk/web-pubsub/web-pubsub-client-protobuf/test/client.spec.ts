@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   AckMessage,
   ConnectedMessage,
   DisconnectedMessage,
@@ -14,8 +14,8 @@ import {
   ServerDataMessage,
   WebPubSubMessage,
 } from "@azure/web-pubsub-client";
-import { WebPubSubProtobufProtocol } from "../src/index";
-import { assert } from "chai";
+import { WebPubSubProtobufProtocol } from "../src/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("WebPubSubClient", function () {
   const protocol = WebPubSubProtobufProtocol();

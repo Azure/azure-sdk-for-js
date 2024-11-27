@@ -1,11 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortError } from "@azure/abort-controller";
-import { Receiver, ReceiverEvents } from "rhea-promise";
-import { receiverLogger as logger } from "../log";
-import { ServiceBusError } from "../serviceBusError";
-import { receiveDrainTimeoutInMs } from "../util/constants";
+import type { Receiver } from "rhea-promise";
+import { ReceiverEvents } from "rhea-promise";
+import { receiverLogger as logger } from "../log.js";
+import { ServiceBusError } from "../serviceBusError.js";
+import { receiveDrainTimeoutInMs } from "../util/constants.js";
 
 /**
  * Wraps the receiver with some higher level operations for managing state

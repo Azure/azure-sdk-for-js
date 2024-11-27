@@ -14,7 +14,7 @@ import {
   SchemaRegistryCreateOrUpdateResponse,
   SchemaRegistryDeleteOptionalParams,
   SchemaRegistryGetOptionalParams,
-  SchemaRegistryGetResponse
+  SchemaRegistryGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,9 +29,10 @@ export interface SchemaRegistry {
   listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: SchemaRegistryListByNamespaceOptionalParams
+    options?: SchemaRegistryListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<SchemaGroup>;
   /**
+   * Creates or Updates an EventHub schema group.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param schemaGroupName The Schema Group name
@@ -43,9 +44,10 @@ export interface SchemaRegistry {
     namespaceName: string,
     schemaGroupName: string,
     parameters: SchemaGroup,
-    options?: SchemaRegistryCreateOrUpdateOptionalParams
+    options?: SchemaRegistryCreateOrUpdateOptionalParams,
   ): Promise<SchemaRegistryCreateOrUpdateResponse>;
   /**
+   * Deletes an EventHub schema group.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param schemaGroupName The Schema Group name
@@ -55,9 +57,10 @@ export interface SchemaRegistry {
     resourceGroupName: string,
     namespaceName: string,
     schemaGroupName: string,
-    options?: SchemaRegistryDeleteOptionalParams
+    options?: SchemaRegistryDeleteOptionalParams,
   ): Promise<void>;
   /**
+   * Gets the details of an EventHub schema group.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param schemaGroupName The Schema Group name
@@ -67,6 +70,6 @@ export interface SchemaRegistry {
     resourceGroupName: string,
     namespaceName: string,
     schemaGroupName: string,
-    options?: SchemaRegistryGetOptionalParams
+    options?: SchemaRegistryGetOptionalParams,
   ): Promise<SchemaRegistryGetResponse>;
 }

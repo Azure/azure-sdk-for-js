@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates the use of a MapsRoute to retrieve a setting value.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import MapsRoute, { RouteGetRouteMatrix200Response, isUnexpected } from "@azure-rest/maps-route";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { RouteGetRouteMatrix200Response } from "@azure-rest/maps-route";
+import MapsRoute, { isUnexpected } from "@azure-rest/maps-route";
+import "dotenv/config";
 
 async function main(): Promise<void> {
   /**

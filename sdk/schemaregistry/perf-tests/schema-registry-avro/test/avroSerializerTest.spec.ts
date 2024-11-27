@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PerfTest, getEnvVar } from "@azure-tools/test-perf";
 import { AvroSerializer } from "@azure/schema-registry-avro";

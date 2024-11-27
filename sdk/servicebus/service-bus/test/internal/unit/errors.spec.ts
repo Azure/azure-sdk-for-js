@@ -1,60 +1,56 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import * as sinon from "sinon";
+// Licensed under the MIT License.
 import { MessagingError } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { createServiceBusLogger } from "../../../src/log";
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
+import { createServiceBusLogger } from "../../../src/log.js";
+import type { MockInstance } from "vitest";
+import { describe, it, vi, beforeEach, beforeAll } from "vitest";
+import { expect } from "../../public/utils/chai.js";
+import type { Debugger } from "@azure/logger";
 
 describe("errors", () => {
-  let verboseSpy: sinon.SinonSpy<any[], void>;
-  let warningSpy: sinon.SinonSpy<any[], void>;
-  let infoSpy: sinon.SinonSpy<any[], void>;
+  let verboseSpy: MockInstance<Debugger>;
+  let warningSpy: MockInstance<Debugger>;
+  let infoSpy: MockInstance<Debugger>;
   const logger = createServiceBusLogger("test");
 
-  before(() => {
-    verboseSpy = sinon.spy(logger, "verbose");
-    warningSpy = sinon.spy(logger, "warning");
-    infoSpy = sinon.spy(logger, "info");
+  beforeAll(() => {
+    verboseSpy = vi.spyOn(logger, "verbose");
+    warningSpy = vi.spyOn(logger, "warning");
+    infoSpy = vi.spyOn(logger, "info");
   });
 
   beforeEach(() => {
-    verboseSpy.resetHistory();
-    warningSpy.resetHistory();
-    infoSpy.resetHistory();
+    verboseSpy.mockReset();
+    warningSpy.mockReset();
+    infoSpy.mockReset();
   });
 
   [new Error(), new MessagingError("message")].forEach((err, i) => {
     it(`normal errors go to warning[${i}]`, () => {
       logger.logError(err, "this is a message");
 
-      assert.isTrue(warningSpy.calledOnce, "errors are logged to the .warning stream by default");
-      assert.isFalse(
-        infoSpy.calledOnce,
-        "info only gets used for AbortError, not for normal errors",
-      );
-      assert.isTrue(
-        verboseSpy.calledOnce,
-        "verbose is used for the stack trace when it's available",
-      );
+      // errors are logged to the .warning stream by default
+      expect(warningSpy).toHaveBeenCalledOnce();
+      // info only gets used for AbortError, not for normal errors
+      expect(infoSpy).not.toHaveBeenCalledOnce();
+      // verbose is used for the stack trace when it's available
+      expect(verboseSpy).toHaveBeenCalledOnce();
 
       // check that we call the stream with the proper args
-      assert.equal(warningSpy.args[0][0], "this is a message");
-      assert.equal(warningSpy.args[0][1], ":");
-      assert.equal(warningSpy.args[0][2].message, err.message);
+      expect(warningSpy).toHaveBeenCalledWith("this is a message", ":", err);
     });
   });
 
   it("abortErrors go to info", () => {
     logger.logError(new AbortError());
 
-    assert.isFalse(warningSpy.calledOnce, "AbortError's are not sent to warning");
-    assert.isTrue(infoSpy.calledOnce, "AbortError's are sent to info");
-    assert.isTrue(verboseSpy.calledOnce, "stack traces are logged to verbose");
+    // AbortError's are not sent to warning
+    expect(warningSpy).not.toHaveBeenCalledOnce();
+    // AbortError's are sent to info
+    expect(infoSpy).toHaveBeenCalledOnce();
+    // stack traces are logged to verbose
+    expect(verboseSpy).toHaveBeenCalledOnce();
   });
 
   const stacktraceLessError = (() => {
@@ -67,9 +63,12 @@ describe("errors", () => {
     it(`no stack trace available, skips verbose[${i}]`, () => {
       logger.logError(err);
 
-      assert.isTrue(warningSpy.calledOnce, "logs to warning");
-      assert.isFalse(infoSpy.calledOnce, "not logged to info.");
-      assert.isFalse(verboseSpy.calledOnce, "no stack trace so we don't log to verbose");
+      // logs to warning
+      expect(warningSpy).toHaveBeenCalledOnce();
+      // not logged to info.
+      expect(infoSpy).not.toHaveBeenCalled();
+      // no stack trace so we don't log to verbose
+      expect(verboseSpy).not.toHaveBeenCalled();
     });
   });
 });

@@ -1,28 +1,26 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 
-import { TokenCredential } from "@azure/core-auth";
-
-import { logger } from "./log";
+import { logger } from "./log.js";
 
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
 
+import type { GetKeysOptionalParams } from "./generated/models/index.js";
 import {
   DeletionRecoveryLevel,
-  GetKeysOptionalParams,
   KnownDeletionRecoveryLevel,
   KnownJsonWebKeyType,
-} from "./generated/models";
-import { KeyVaultClient } from "./generated/keyVaultClient";
-import { SDK_VERSION } from "./constants";
-import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
+} from "./generated/models/index.js";
+import { KeyVaultClient } from "./generated/keyVaultClient.js";
+import { SDK_VERSION } from "./constants.js";
+import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
 
-import { DeleteKeyPoller } from "./lro/delete/poller";
-import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
+import { DeleteKeyPoller } from "./lro/delete/poller.js";
+import { RecoverDeletedKeyPoller } from "./lro/recover/poller.js";
 
 import {
   BackupKeyOptions,
@@ -68,9 +66,9 @@ import {
   RotateKeyOptions,
   UpdateKeyPropertiesOptions,
   UpdateKeyRotationPolicyOptions,
-} from "./keysModels";
+} from "./keysModels.js";
 
-import { CryptographyClient } from "./cryptographyClient";
+import { CryptographyClient } from "./cryptographyClient.js";
 
 import {
   AesCbcDecryptParameters,
@@ -104,16 +102,16 @@ import {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-} from "./cryptographyClientModels";
+} from "./cryptographyClientModels.js";
 
-import { KeyVaultKeyIdentifier, parseKeyVaultKeyIdentifier } from "./identifier";
+import { KeyVaultKeyIdentifier, parseKeyVaultKeyIdentifier } from "./identifier.js";
 import {
   getDeletedKeyFromDeletedKeyItem,
   getKeyFromKeyBundle,
   getKeyPropertiesFromKeyItem,
   keyRotationTransformations,
-} from "./transformations";
-import { tracingClient } from "./tracing";
+} from "./transformations.js";
+import { tracingClient } from "./tracing.js";
 
 export {
   CryptographyClientOptions,
@@ -260,12 +258,6 @@ export class KeyClient {
           : libInfo,
     };
 
-    const authPolicy = bearerTokenAuthenticationPolicy({
-      credential,
-      scopes: [], // Scopes are going to be defined by the challenge callbacks.
-      challengeCallbacks: createKeyVaultChallengeCallbacks(pipelineOptions),
-    });
-
     const internalPipelineOptions = {
       ...pipelineOptions,
       loggingOptions: {
@@ -283,7 +275,12 @@ export class KeyClient {
       pipelineOptions.serviceVersion || LATEST_API_VERSION,
       internalPipelineOptions,
     );
-    this.client.pipeline.addPolicy(authPolicy);
+
+    // The authentication policy must come after the deserialization policy since the deserialization policy
+    // converts 401 responses to an Error, and we don't want to deal with that.
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, pipelineOptions), {
+      afterPolicies: ["deserializationPolicy"],
+    });
   }
 
   /**

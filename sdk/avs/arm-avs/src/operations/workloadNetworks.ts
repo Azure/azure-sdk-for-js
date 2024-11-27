@@ -66,7 +66,6 @@ import {
   WorkloadNetworksGetDhcpResponse,
   WorkloadNetworksCreateDhcpOptionalParams,
   WorkloadNetworksCreateDhcpResponse,
-  WorkloadNetworkDhcpUpdate,
   WorkloadNetworksUpdateDhcpOptionalParams,
   WorkloadNetworksUpdateDhcpResponse,
   WorkloadNetworksDeleteDhcpOptionalParams,
@@ -74,7 +73,6 @@ import {
   WorkloadNetworksGetDnsServiceResponse,
   WorkloadNetworksCreateDnsServiceOptionalParams,
   WorkloadNetworksCreateDnsServiceResponse,
-  WorkloadNetworkDnsServiceUpdate,
   WorkloadNetworksUpdateDnsServiceOptionalParams,
   WorkloadNetworksUpdateDnsServiceResponse,
   WorkloadNetworksDeleteDnsServiceOptionalParams,
@@ -82,7 +80,6 @@ import {
   WorkloadNetworksGetDnsZoneResponse,
   WorkloadNetworksCreateDnsZoneOptionalParams,
   WorkloadNetworksCreateDnsZoneResponse,
-  WorkloadNetworkDnsZoneUpdate,
   WorkloadNetworksUpdateDnsZoneOptionalParams,
   WorkloadNetworksUpdateDnsZoneResponse,
   WorkloadNetworksDeleteDnsZoneOptionalParams,
@@ -92,7 +89,6 @@ import {
   WorkloadNetworksGetPortMirroringResponse,
   WorkloadNetworksCreatePortMirroringOptionalParams,
   WorkloadNetworksCreatePortMirroringResponse,
-  WorkloadNetworkPortMirroringUpdate,
   WorkloadNetworksUpdatePortMirroringOptionalParams,
   WorkloadNetworksUpdatePortMirroringResponse,
   WorkloadNetworksDeletePortMirroringOptionalParams,
@@ -105,7 +101,6 @@ import {
   WorkloadNetworksGetSegmentResponse,
   WorkloadNetworksCreateSegmentsOptionalParams,
   WorkloadNetworksCreateSegmentsResponse,
-  WorkloadNetworkSegmentUpdate,
   WorkloadNetworksUpdateSegmentsOptionalParams,
   WorkloadNetworksUpdateSegmentsResponse,
   WorkloadNetworksDeleteSegmentOptionalParams,
@@ -115,7 +110,6 @@ import {
   WorkloadNetworksGetVMGroupResponse,
   WorkloadNetworksCreateVMGroupOptionalParams,
   WorkloadNetworksCreateVMGroupResponse,
-  WorkloadNetworkVMGroupUpdate,
   WorkloadNetworksUpdateVMGroupOptionalParams,
   WorkloadNetworksUpdateVMGroupResponse,
   WorkloadNetworksDeleteVMGroupOptionalParams,
@@ -1168,7 +1162,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     dhcpId: string,
-    workloadNetworkDhcp: WorkloadNetworkDhcpUpdate,
+    workloadNetworkDhcp: WorkloadNetworkDhcp,
     options?: WorkloadNetworksUpdateDhcpOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -1249,7 +1243,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     dhcpId: string,
-    workloadNetworkDhcp: WorkloadNetworkDhcpUpdate,
+    workloadNetworkDhcp: WorkloadNetworkDhcp,
     options?: WorkloadNetworksUpdateDhcpOptionalParams,
   ): Promise<WorkloadNetworksUpdateDhcpResponse> {
     const poller = await this.beginUpdateDhcp(
@@ -1503,7 +1497,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     dnsServiceId: string,
-    workloadNetworkDnsService: WorkloadNetworkDnsServiceUpdate,
+    workloadNetworkDnsService: WorkloadNetworkDnsService,
     options?: WorkloadNetworksUpdateDnsServiceOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -1584,7 +1578,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     dnsServiceId: string,
-    workloadNetworkDnsService: WorkloadNetworkDnsServiceUpdate,
+    workloadNetworkDnsService: WorkloadNetworkDnsService,
     options?: WorkloadNetworksUpdateDnsServiceOptionalParams,
   ): Promise<WorkloadNetworksUpdateDnsServiceResponse> {
     const poller = await this.beginUpdateDnsService(
@@ -1838,7 +1832,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     dnsZoneId: string,
-    workloadNetworkDnsZone: WorkloadNetworkDnsZoneUpdate,
+    workloadNetworkDnsZone: WorkloadNetworkDnsZone,
     options?: WorkloadNetworksUpdateDnsZoneOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -1919,7 +1913,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     dnsZoneId: string,
-    workloadNetworkDnsZone: WorkloadNetworkDnsZoneUpdate,
+    workloadNetworkDnsZone: WorkloadNetworkDnsZone,
     options?: WorkloadNetworksUpdateDnsZoneOptionalParams,
   ): Promise<WorkloadNetworksUpdateDnsZoneResponse> {
     const poller = await this.beginUpdateDnsZone(
@@ -2209,7 +2203,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     portMirroringId: string,
-    workloadNetworkPortMirroring: WorkloadNetworkPortMirroringUpdate,
+    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
     options?: WorkloadNetworksUpdatePortMirroringOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -2290,7 +2284,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     portMirroringId: string,
-    workloadNetworkPortMirroring: WorkloadNetworkPortMirroringUpdate,
+    workloadNetworkPortMirroring: WorkloadNetworkPortMirroring,
     options?: WorkloadNetworksUpdatePortMirroringOptionalParams,
   ): Promise<WorkloadNetworksUpdatePortMirroringResponse> {
     const poller = await this.beginUpdatePortMirroring(
@@ -2773,7 +2767,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     segmentId: string,
-    workloadNetworkSegment: WorkloadNetworkSegmentUpdate,
+    workloadNetworkSegment: WorkloadNetworkSegment,
     options?: WorkloadNetworksUpdateSegmentsOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -2854,7 +2848,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     segmentId: string,
-    workloadNetworkSegment: WorkloadNetworkSegmentUpdate,
+    workloadNetworkSegment: WorkloadNetworkSegment,
     options?: WorkloadNetworksUpdateSegmentsOptionalParams,
   ): Promise<WorkloadNetworksUpdateSegmentsResponse> {
     const poller = await this.beginUpdateSegments(
@@ -3144,7 +3138,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     vmGroupId: string,
-    workloadNetworkVMGroup: WorkloadNetworkVMGroupUpdate,
+    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
     options?: WorkloadNetworksUpdateVMGroupOptionalParams,
   ): Promise<
     SimplePollerLike<
@@ -3225,7 +3219,7 @@ export class WorkloadNetworksImpl implements WorkloadNetworks {
     resourceGroupName: string,
     privateCloudName: string,
     vmGroupId: string,
-    workloadNetworkVMGroup: WorkloadNetworkVMGroupUpdate,
+    workloadNetworkVMGroup: WorkloadNetworkVMGroup,
     options?: WorkloadNetworksUpdateVMGroupOptionalParams,
   ): Promise<WorkloadNetworksUpdateVMGroupResponse> {
     const poller = await this.beginUpdateVMGroup(
@@ -3523,7 +3517,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkListResult,
+      bodyMapper: Mappers.WorkloadNetworkList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -3565,7 +3559,7 @@ const listDhcpOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDhcpListResult,
+      bodyMapper: Mappers.WorkloadNetworkDhcpList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -3656,7 +3650,7 @@ const updateDhcpOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.workloadNetworkDhcp1,
+  requestBody: Parameters.workloadNetworkDhcp,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -3697,7 +3691,7 @@ const listDnsServicesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDnsServiceListResult,
+      bodyMapper: Mappers.WorkloadNetworkDnsServicesList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -3788,7 +3782,7 @@ const updateDnsServiceOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.workloadNetworkDnsService1,
+  requestBody: Parameters.workloadNetworkDnsService,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -3829,7 +3823,7 @@ const listDnsZonesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDnsZoneListResult,
+      bodyMapper: Mappers.WorkloadNetworkDnsZonesList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -3920,7 +3914,7 @@ const updateDnsZoneOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.workloadNetworkDnsZone1,
+  requestBody: Parameters.workloadNetworkDnsZone,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -3961,7 +3955,7 @@ const listGatewaysOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkGatewayListResult,
+      bodyMapper: Mappers.WorkloadNetworkGatewayList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4004,7 +3998,7 @@ const listPortMirroringOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkPortMirroringListResult,
+      bodyMapper: Mappers.WorkloadNetworkPortMirroringList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4095,7 +4089,7 @@ const updatePortMirroringOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.workloadNetworkPortMirroring1,
+  requestBody: Parameters.workloadNetworkPortMirroring,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -4136,7 +4130,7 @@ const listPublicIPsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkPublicIPListResult,
+      bodyMapper: Mappers.WorkloadNetworkPublicIPsList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4235,7 +4229,7 @@ const listSegmentsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkSegmentListResult,
+      bodyMapper: Mappers.WorkloadNetworkSegmentsList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4326,7 +4320,7 @@ const updateSegmentsOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.workloadNetworkSegment1,
+  requestBody: Parameters.workloadNetworkSegment,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -4367,7 +4361,7 @@ const listVirtualMachinesOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkVirtualMachineListResult,
+      bodyMapper: Mappers.WorkloadNetworkVirtualMachinesList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4410,7 +4404,7 @@ const listVMGroupsOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkVMGroupListResult,
+      bodyMapper: Mappers.WorkloadNetworkVMGroupsList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4501,7 +4495,7 @@ const updateVMGroupOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.workloadNetworkVMGroup1,
+  requestBody: Parameters.workloadNetworkVMGroup,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
@@ -4542,7 +4536,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkListResult,
+      bodyMapper: Mappers.WorkloadNetworkList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4563,7 +4557,7 @@ const listDhcpNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDhcpListResult,
+      bodyMapper: Mappers.WorkloadNetworkDhcpList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4584,7 +4578,7 @@ const listDnsServicesNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDnsServiceListResult,
+      bodyMapper: Mappers.WorkloadNetworkDnsServicesList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4605,7 +4599,7 @@ const listDnsZonesNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkDnsZoneListResult,
+      bodyMapper: Mappers.WorkloadNetworkDnsZonesList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4626,7 +4620,7 @@ const listGatewaysNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkGatewayListResult,
+      bodyMapper: Mappers.WorkloadNetworkGatewayList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4647,7 +4641,7 @@ const listPortMirroringNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkPortMirroringListResult,
+      bodyMapper: Mappers.WorkloadNetworkPortMirroringList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4668,7 +4662,7 @@ const listPublicIPsNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkPublicIPListResult,
+      bodyMapper: Mappers.WorkloadNetworkPublicIPsList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4689,7 +4683,7 @@ const listSegmentsNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkSegmentListResult,
+      bodyMapper: Mappers.WorkloadNetworkSegmentsList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4710,7 +4704,7 @@ const listVirtualMachinesNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkVirtualMachineListResult,
+      bodyMapper: Mappers.WorkloadNetworkVirtualMachinesList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -4731,7 +4725,7 @@ const listVMGroupsNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.WorkloadNetworkVMGroupListResult,
+      bodyMapper: Mappers.WorkloadNetworkVMGroupsList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

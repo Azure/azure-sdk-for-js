@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Creates applications for the HDInsight cluster.
  *
  * @summary Creates applications for the HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateApplication.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateApplication.json
  */
 async function createApplication() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -33,28 +33,28 @@ async function createApplication() {
           {
             name: "edgenode",
             hardwareProfile: { vmSize: "Standard_D12_v2" },
-            targetInstanceCount: 1
-          }
-        ]
+            targetInstanceCount: 1,
+          },
+        ],
       },
       errors: [],
       httpsEndpoints: [
         {
           accessModes: ["WebPage"],
           destinationPort: 20000,
-          subDomainSuffix: "dss"
-        }
+          subDomainSuffix: "dss",
+        },
       ],
       installScriptActions: [
         {
           name: "app-install-app1",
           parameters: "-version latest -port 20000",
           roles: ["edgenode"],
-          uri: "https://.../install.sh"
-        }
+          uri: "https://.../install.sh",
+        },
       ],
-      uninstallScriptActions: []
-    }
+      uninstallScriptActions: [],
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
@@ -62,7 +62,7 @@ async function createApplication() {
     resourceGroupName,
     clusterName,
     applicationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

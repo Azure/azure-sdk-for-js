@@ -12,17 +12,17 @@
 
 ## 3.1.1 (2023-02-01)
 
-**Features**
+### Features Added
 
   - Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
+### Bugs Fixed
 
   - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 3.1.0 (2022-07-08)
     
-**Features**
+### Features Added
 
   - Added Interface AuthorizationRule
   - Added Interface HybridConnection
@@ -34,7 +34,7 @@
     
 ## 3.0.1 (2022-04-29)
 
-**Features**
+### Features Added
 
   - Bug fix
 

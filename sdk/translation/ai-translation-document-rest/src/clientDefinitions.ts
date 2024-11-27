@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
+import type {
   DocumentTranslateParameters,
   StartTranslationParameters,
   GetTranslationsStatusParameters,
@@ -11,7 +14,7 @@ import {
   GetDocumentsStatusParameters,
   GetSupportedFormatsParameters,
 } from "./parameters.js";
-import {
+import type {
   DocumentTranslate200Response,
   DocumentTranslateDefaultResponse,
   StartTranslation202Response,
@@ -29,7 +32,7 @@ import {
   GetSupportedFormats200Response,
   GetSupportedFormatsDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface DocumentTranslate {
   /** Use this API to submit a single translation request to the Document Translation Service. */
@@ -61,7 +64,7 @@ export interface StartTranslation {
    * must be unique.
    */
   post(
-    options?: StartTranslationParameters,
+    options: StartTranslationParameters,
   ): StreamableMethod<StartTranslation202Response | StartTranslationDefaultResponse>;
   /**
    * Returns a list of batch requests submitted and the status for each

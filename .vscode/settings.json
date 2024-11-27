@@ -6,14 +6,11 @@
   "editor.insertSpaces": true,
   "editor.tabSize": 2,
   "eslint.workingDirectories": [{ "pattern": "./sdk/*/*/" }],
-  "eslint.options": {
-    "resolvePluginsRelativeTo": "../../../common/tools/eslint-plugin-azure-sdk-helper"
-  },
+  "eslint.useFlatConfig": true,
   "files.exclude": {
     "**/.git": true,
     "**/.svn": true,
-    "**/.DS_Store": true,
-    "**/node_modules": true
+    "**/.DS_Store": true
   },
   "files.insertFinalNewline": true,
   "files.trimFinalNewlines": true,
@@ -38,5 +35,9 @@
     "**/*.d.ts": true,
     "**/test-browser/*": true
   },
-  "typescript.tsdk": "./sdk/core/core-rest-pipeline/node_modules/typescript/lib"
+  "typescript.tsdk": "./sdk/core/core-rest-pipeline/node_modules/typescript/lib",
+  "vitest.vitestPackagePath": "common/tools/dev-tool/node_modules/vitest/package.json",
+  "vitest.experimentalStaticAstCollect": true,
+  "vitest.configSearchPatternExclude": "{**/node_modules/**,**/.*/**,**/*.d.ts,eng/**,samples/**}",
+  "vitest.nodeEnv": {}
 }

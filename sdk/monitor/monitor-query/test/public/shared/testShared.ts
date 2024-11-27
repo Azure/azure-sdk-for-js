@@ -1,17 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+
 import { createTestCredential } from "@azure-tools/test-credential";
-import {
-  Recorder,
-  RecorderStartOptions,
-  assertEnvironmentVariable,
-  env,
-} from "@azure-tools/test-recorder";
-import * as assert from "assert";
+import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, env } from "@azure-tools/test-recorder";
+import { assert } from "vitest";
 import { createClientLogger } from "@azure/logger";
-import { LogsQueryClient, LogsTable, MetricsQueryClient, MetricsClient } from "../../../src";
-import { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
+import type { LogsTable } from "../../../src/index.js";
+import { LogsQueryClient, MetricsQueryClient, MetricsClient } from "../../../src/index.js";
+import type { ExponentialRetryPolicyOptions } from "@azure/core-rest-pipeline";
 export const loggerForTest = createClientLogger("test");
+
 const replacementForLogsResourceId = env["LOGS_RESOURCE_ID"]?.startsWith("/")
   ? "/logs-arm-resource-id"
   : "logs-arm-resource-id";

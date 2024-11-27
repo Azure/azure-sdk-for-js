@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { Context, Test } from "mocha";
-import { Recorder, SanitizerOptions, env } from "@azure-tools/test-recorder";
-import { EmailClient } from "../../../src";
+// Licensed under the MIT License.
+import type { SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
+import { EmailClient } from "../../../src/index.js";
 
 export interface RecordedEmailClient {
   client: EmailClient;
@@ -22,14 +21,19 @@ const sanitizerOptions: SanitizerOptions = {
     { key: "x-ms-content-sha256", value: "Sanitized" },
     {
       key: "Operation-Location",
-      value: "https://someEndpoint/emails/operations/someId?api-version=2023-03-31",
+      value: "https://someEndpoint/emails/operations/someId?api-version=2024-07-01-preview",
     },
   ],
   uriSanitizers: [
     {
       regex: true,
-      target: `emails/operations/.*?api`,
-      value: "emails/operations/someId?api",
+      target: `https://[^/]+/emails/operations/.*?api`,
+      value: "https://someEndpoint/emails/operations/someId?api",
+    },
+    {
+      regex: true,
+      target: `https://[^/]+/emails:send\\?api`,
+      value: "https://someEndpoint/emails:send?api-version=2024-07-01-preview",
     },
   ],
   bodySanitizers: [
@@ -41,7 +45,7 @@ const sanitizerOptions: SanitizerOptions = {
   ],
 };
 
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start({ envSetupForPlayback });
   await recorder.addSanitizers(sanitizerOptions, ["record", "playback"]);
@@ -55,9 +59,9 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedEmailClientWithConnectionString(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedEmailClient> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   const client = new EmailClient(
     env.COMMUNICATION_CONNECTION_STRING_EMAIL ?? "",

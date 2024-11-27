@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortError } from "./abort-controller/AbortError.js";
-import {
+import type {
   HttpClient,
   HttpHeaders,
   PipelineRequest,

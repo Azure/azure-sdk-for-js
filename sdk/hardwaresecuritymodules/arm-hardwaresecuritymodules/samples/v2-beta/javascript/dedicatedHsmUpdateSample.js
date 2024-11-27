@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a dedicated HSM in the specified subscription.
  *
  * @summary Update a dedicated HSM in the specified subscription.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2021-11-30/examples/DedicatedHsm_Update.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/DedicatedHsm_Update.json
  */
 async function updateAnExistingDedicatedHsm() {
   const subscriptionId =
@@ -40,7 +40,7 @@ async function updateAnExistingDedicatedHsm() {
  * This sample demonstrates how to Update a dedicated HSM in the specified subscription.
  *
  * @summary Update a dedicated HSM in the specified subscription.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2021-11-30/examples/PaymentHsm_Update.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/PaymentHsm_Update.json
  */
 async function updateAnExistingPaymentHsm() {
   const subscriptionId =

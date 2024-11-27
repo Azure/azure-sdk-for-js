@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   UserSessionsListByHostPoolOptionalParams,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List userSessions.
  *
  * @summary List userSessions.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/UserSession_ListByHostPool.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/UserSession_ListByHostPool.json
  */
 async function userSessionListByHostPool() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function userSessionListByHostPool() {
     filter,
     pageSize,
     isDescending,
-    initialSkip
+    initialSkip,
   };
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
@@ -47,7 +47,7 @@ async function userSessionListByHostPool() {
   for await (let item of client.userSessions.listByHostPool(
     resourceGroupName,
     hostPoolName,
-    options
+    options,
   )) {
     resArray.push(item);
   }

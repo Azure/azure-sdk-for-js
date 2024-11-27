@@ -25,13 +25,14 @@ import {
   ScalingPlanPersonalSchedulesDeleteOptionalParams,
   ScalingPlanPersonalSchedulesUpdateOptionalParams,
   ScalingPlanPersonalSchedulesUpdateResponse,
-  ScalingPlanPersonalSchedulesListNextResponse
+  ScalingPlanPersonalSchedulesListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Class containing ScalingPlanPersonalSchedules operations. */
 export class ScalingPlanPersonalSchedulesImpl
-  implements ScalingPlanPersonalSchedules {
+  implements ScalingPlanPersonalSchedules
+{
   private readonly client: DesktopVirtualizationAPIClient;
 
   /**
@@ -51,12 +52,12 @@ export class ScalingPlanPersonalSchedulesImpl
   public list(
     resourceGroupName: string,
     scalingPlanName: string,
-    options?: ScalingPlanPersonalSchedulesListOptionalParams
+    options?: ScalingPlanPersonalSchedulesListOptionalParams,
   ): PagedAsyncIterableIterator<ScalingPlanPersonalSchedule> {
     const iter = this.listPagingAll(
       resourceGroupName,
       scalingPlanName,
-      options
+      options,
     );
     return {
       next() {
@@ -73,9 +74,9 @@ export class ScalingPlanPersonalSchedulesImpl
           resourceGroupName,
           scalingPlanName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -83,7 +84,7 @@ export class ScalingPlanPersonalSchedulesImpl
     resourceGroupName: string,
     scalingPlanName: string,
     options?: ScalingPlanPersonalSchedulesListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ScalingPlanPersonalSchedule[]> {
     let result: ScalingPlanPersonalSchedulesListResponse;
     let continuationToken = settings?.continuationToken;
@@ -99,7 +100,7 @@ export class ScalingPlanPersonalSchedulesImpl
         resourceGroupName,
         scalingPlanName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,12 +112,12 @@ export class ScalingPlanPersonalSchedulesImpl
   private async *listPagingAll(
     resourceGroupName: string,
     scalingPlanName: string,
-    options?: ScalingPlanPersonalSchedulesListOptionalParams
+    options?: ScalingPlanPersonalSchedulesListOptionalParams,
   ): AsyncIterableIterator<ScalingPlanPersonalSchedule> {
     for await (const page of this.listPagingPage(
       resourceGroupName,
       scalingPlanName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -133,11 +134,11 @@ export class ScalingPlanPersonalSchedulesImpl
     resourceGroupName: string,
     scalingPlanName: string,
     scalingPlanScheduleName: string,
-    options?: ScalingPlanPersonalSchedulesGetOptionalParams
+    options?: ScalingPlanPersonalSchedulesGetOptionalParams,
   ): Promise<ScalingPlanPersonalSchedulesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, scalingPlanName, scalingPlanScheduleName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -154,7 +155,7 @@ export class ScalingPlanPersonalSchedulesImpl
     scalingPlanName: string,
     scalingPlanScheduleName: string,
     scalingPlanSchedule: ScalingPlanPersonalSchedule,
-    options?: ScalingPlanPersonalSchedulesCreateOptionalParams
+    options?: ScalingPlanPersonalSchedulesCreateOptionalParams,
   ): Promise<ScalingPlanPersonalSchedulesCreateResponse> {
     return this.client.sendOperationRequest(
       {
@@ -162,9 +163,9 @@ export class ScalingPlanPersonalSchedulesImpl
         scalingPlanName,
         scalingPlanScheduleName,
         scalingPlanSchedule,
-        options
+        options,
       },
-      createOperationSpec
+      createOperationSpec,
     );
   }
 
@@ -179,11 +180,11 @@ export class ScalingPlanPersonalSchedulesImpl
     resourceGroupName: string,
     scalingPlanName: string,
     scalingPlanScheduleName: string,
-    options?: ScalingPlanPersonalSchedulesDeleteOptionalParams
+    options?: ScalingPlanPersonalSchedulesDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, scalingPlanName, scalingPlanScheduleName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -198,11 +199,11 @@ export class ScalingPlanPersonalSchedulesImpl
     resourceGroupName: string,
     scalingPlanName: string,
     scalingPlanScheduleName: string,
-    options?: ScalingPlanPersonalSchedulesUpdateOptionalParams
+    options?: ScalingPlanPersonalSchedulesUpdateOptionalParams,
   ): Promise<ScalingPlanPersonalSchedulesUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, scalingPlanName, scalingPlanScheduleName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -215,11 +216,11 @@ export class ScalingPlanPersonalSchedulesImpl
   private _list(
     resourceGroupName: string,
     scalingPlanName: string,
-    options?: ScalingPlanPersonalSchedulesListOptionalParams
+    options?: ScalingPlanPersonalSchedulesListOptionalParams,
   ): Promise<ScalingPlanPersonalSchedulesListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, scalingPlanName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -234,11 +235,11 @@ export class ScalingPlanPersonalSchedulesImpl
     resourceGroupName: string,
     scalingPlanName: string,
     nextLink: string,
-    options?: ScalingPlanPersonalSchedulesListNextOptionalParams
+    options?: ScalingPlanPersonalSchedulesListNextOptionalParams,
   ): Promise<ScalingPlanPersonalSchedulesListNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, scalingPlanName, nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -246,16 +247,15 @@ export class ScalingPlanPersonalSchedulesImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules/{scalingPlanScheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules/{scalingPlanScheduleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScalingPlanPersonalSchedule
+      bodyMapper: Mappers.ScalingPlanPersonalSchedule,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -263,25 +263,24 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.scalingPlanName,
-    Parameters.scalingPlanScheduleName
+    Parameters.scalingPlanScheduleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules/{scalingPlanScheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules/{scalingPlanScheduleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.ScalingPlanPersonalSchedule
+      bodyMapper: Mappers.ScalingPlanPersonalSchedule,
     },
     201: {
-      bodyMapper: Mappers.ScalingPlanPersonalSchedule
+      bodyMapper: Mappers.ScalingPlanPersonalSchedule,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.scalingPlanSchedule2,
   queryParameters: [Parameters.apiVersion],
@@ -290,22 +289,21 @@ const createOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.scalingPlanName,
-    Parameters.scalingPlanScheduleName
+    Parameters.scalingPlanScheduleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules/{scalingPlanScheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules/{scalingPlanScheduleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -313,22 +311,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.scalingPlanName,
-    Parameters.scalingPlanScheduleName
+    Parameters.scalingPlanScheduleName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules/{scalingPlanScheduleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules/{scalingPlanScheduleName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.ScalingPlanPersonalSchedule
+      bodyMapper: Mappers.ScalingPlanPersonalSchedule,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.scalingPlanSchedule3,
   queryParameters: [Parameters.apiVersion],
@@ -337,57 +334,56 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.scalingPlanName,
-    Parameters.scalingPlanScheduleName
+    Parameters.scalingPlanScheduleName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/scalingPlans/{scalingPlanName}/personalSchedules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScalingPlanPersonalScheduleList
+      bodyMapper: Mappers.ScalingPlanPersonalScheduleList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.pageSize,
     Parameters.isDescending,
-    Parameters.initialSkip
+    Parameters.initialSkip,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.scalingPlanName
+    Parameters.scalingPlanName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ScalingPlanPersonalScheduleList
+      bodyMapper: Mappers.ScalingPlanPersonalScheduleList,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.scalingPlanName
+    Parameters.scalingPlanName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

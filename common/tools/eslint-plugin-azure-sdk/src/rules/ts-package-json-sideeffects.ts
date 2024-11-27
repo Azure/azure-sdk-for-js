@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force package.json's sideEffects value to be set to false.
@@ -18,7 +18,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "force package.json's sideEffects value to be false",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

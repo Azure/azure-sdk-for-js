@@ -1,24 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert, use as chaiUse } from "chai";
-import { AvroSerializer } from "../../src";
-import { Context } from "mocha";
-import { SchemaRegistry } from "@azure/schema-registry";
-import { assertError } from "./utils/assertError";
-import chaiPromises from "chai-as-promised";
+// Licensed under the MIT License.
+import type { AvroSerializer } from "../../src/index.js";
+import type { SchemaRegistry } from "@azure/schema-registry";
+import { assertError } from "./utils/assertError.js";
 import {
   createPipelineWithCredential,
   createTestRegistry,
   removeSchemas,
-} from "./utils/mockedRegistryClient";
-import { createTestSerializer } from "./utils/mockedSerializer";
-import { testGroup, testSchemaName } from "./utils/dummies";
+} from "./utils/mockedRegistryClient.js";
+import { createTestSerializer } from "./utils/mockedSerializer.js";
+import { testGroup, testSchemaName } from "./utils/dummies.js";
 import { v4 as uuid } from "uuid";
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
-import { HttpClient, Pipeline, createDefaultHttpClient } from "@azure/core-rest-pipeline";
-
-chaiUse(chaiPromises);
+import type { HttpClient, Pipeline } from "@azure/core-rest-pipeline";
+import { createDefaultHttpClient } from "@azure/core-rest-pipeline";
+import { describe, it, assert, beforeEach, afterEach, afterAll, expect } from "vitest";
 
 describe("Error scenarios", function () {
   let serializer: AvroSerializer;
@@ -29,12 +25,10 @@ describe("Error scenarios", function () {
   let client: HttpClient;
   let pipeline: Pipeline;
 
-  before(async function (this: Context) {
+  beforeEach(async function (ctx) {
     client = createDefaultHttpClient();
     pipeline = createPipelineWithCredential();
-  });
-  beforeEach(async function () {
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     registry = createTestRegistry({ recorder });
     serializer = await createTestSerializer({
       registry,
@@ -48,7 +42,7 @@ describe("Error scenarios", function () {
 
   describe("Schema validation", function () {
     describe("Without auto register schema", function () {
-      before(async function () {
+      beforeEach(async function () {
         serializerNoAutoReg = await createTestSerializer({
           serializerOptions: {
             autoRegisterSchemas: false,
@@ -58,7 +52,7 @@ describe("Error scenarios", function () {
         });
       });
 
-      after(async function () {
+      afterAll(async function () {
         schemaList.push(testSchemaName);
         await removeSchemas(schemaList, pipeline, client);
       });
@@ -70,16 +64,17 @@ describe("Error scenarios", function () {
           namespace: "my.example",
           fields: [{ name: "count", type: "int" }],
         });
-        await assert.isRejected(serializerNoAutoReg.serialize({ count: 42 }, schema), /not found/);
+        await expect(serializerNoAutoReg.serialize({ count: 42 }, schema)).rejects.toThrow(
+          /not found/,
+        );
       });
       it("schema to deserialize with is not found", async function () {
-        await assert.isRejected(
+        await expect(
           serializerNoAutoReg.deserialize({
             data: Uint8Array.from([0]),
             contentType: `avro/binary+${uuid()}`,
           }),
-          /does not exist/,
-        );
+        ).rejects.toThrow(/does not exist/);
       });
     });
 
@@ -182,12 +177,12 @@ describe("Error scenarios", function () {
         );
         schemaList.push(`${writerSchema.namespace}.${writerSchema.name}`);
       });
-      it("invalid writer schema at time of deserializing", async function (this: Context) {
+      it("invalid writer schema at time of deserializing", async function ({ skip }) {
         /**
          * This test can not run in live mode because the service will validate the schema.
          */
         if (isLiveMode()) {
-          this.skip();
+          skip();
         }
         const { id } = await registry.registerSchema({
           definition: "",
@@ -286,24 +281,22 @@ describe("Error scenarios", function () {
 
     describe("Malformed schemas", function () {
       it("unrecognized content type", async function () {
-        await assert.isRejected(
+        await expect(
           serializer.deserialize({
             data: Buffer.alloc(1),
             contentType: "application/json+1234",
           }),
-          /application\/json.*avro\/binary/,
-        );
+        ).rejects.toThrow(/application\/json.*avro\/binary/);
       });
-      it("a schema with non-avro format", async function (this: Context) {
-        await assert.isRejected(
+      it("a schema with non-avro format", async function () {
+        await expect(
           registry.registerSchema({
             name: "_",
             definition: "_",
             format: "notavro",
             groupName: testGroup,
           }),
-          /Invalid schema type for PUT request.*notavro/,
-        );
+        ).rejects.toThrow(/Invalid schema type for PUT request.*notavro/);
       });
       it("not JSON schema", async function () {
         await assertError(serializer.serialize(null, ""), {
@@ -449,14 +442,14 @@ describe("Error scenarios", function () {
       await removeSchemas(schemaList, pipeline, client);
     });
 
-    it("schema is still registered if serialization fails", async function (this: Context) {
+    it("schema is still registered if serialization fails", async function ({ skip }) {
       /**
        * This test checks for service calls using the onResponse callback but
        * onResponse is not implemented in the mocked registry because it will
        * add very little value so the test is skipped in playback mode.
        */
       if (!isLiveMode()) {
-        this.skip();
+        skip();
       }
       let ran = false;
       const unusedRegistry = createTestRegistry({

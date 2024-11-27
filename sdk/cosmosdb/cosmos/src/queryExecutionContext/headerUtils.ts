@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Constants } from "../common";
 import { QueryMetrics } from "../queryMetrics/queryMetrics";
 

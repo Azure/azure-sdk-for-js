@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the properties of the specified replica.
  *
  * @summary Gets the properties of the specified replica.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresGetReplica.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresGetReplica.json
  */
 async function replicasGet() {
   const subscriptionId =

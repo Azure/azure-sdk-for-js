@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Update a Elastic San.
  *
  * @summary Update a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/ElasticSans_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Update_MaximumSet_Gen.json
  */
 async function elasticSansUpdateMaximumSetGen() {
   const subscriptionId =
@@ -30,16 +30,16 @@ async function elasticSansUpdateMaximumSetGen() {
     properties: {
       baseSizeTiB: 13,
       extendedCapacitySizeTiB: 29,
-      publicNetworkAccess: "Enabled"
+      publicNetworkAccess: "Enabled",
     },
-    tags: { key1931: "yhjwkgmrrwrcoxblgwgzjqusch" }
+    tags: { key1931: "yhjwkgmrrwrcoxblgwgzjqusch" },
   };
   const credential = new DefaultAzureCredential();
   const client = new ElasticSanManagement(credential, subscriptionId);
   const result = await client.elasticSans.beginUpdateAndWait(
     resourceGroupName,
     elasticSanName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -48,7 +48,7 @@ async function elasticSansUpdateMaximumSetGen() {
  * This sample demonstrates how to Update a Elastic San.
  *
  * @summary Update a Elastic San.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/ElasticSans_Update_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Update_MinimumSet_Gen.json
  */
 async function elasticSansUpdateMinimumSetGen() {
   const subscriptionId =
@@ -62,7 +62,7 @@ async function elasticSansUpdateMinimumSetGen() {
   const result = await client.elasticSans.beginUpdateAndWait(
     resourceGroupName,
     elasticSanName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

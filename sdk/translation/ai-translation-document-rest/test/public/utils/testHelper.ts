@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import {
+import type {
   BatchRequest,
   DocumentFilter,
   Glossary,
@@ -10,8 +10,9 @@ import {
   StorageInputType,
   StorageSource,
   TargetInput,
-} from "../../../src/models";
-import { TestDocument, createTestDocument } from "./TestDocument";
+} from "../../../src";
+import type { TestDocument } from "./TestDocument";
+import { createTestDocument } from "./TestDocument";
 
 export function createSourceInput(
   sourceUrl: string,

@@ -1,25 +1,27 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Suite } from "mocha";
+import type { Suite } from "mocha";
 import {
   addDignosticChild,
   getEmptyCosmosDiagnostics,
   withDiagnostics,
 } from "../../../src/utils/diagnostics";
 import { CosmosDbDiagnosticLevel } from "../../../src/diagnostics/CosmosDbDiagnosticLevel";
-import {
+import type {
   ClientConfigDiagnostic,
+  CosmosClientOptions,
+  RequestOptions,
+  Resource,
+} from "../../../src";
+import {
   ClientContext,
   ConsistencyLevel,
   Constants,
   CosmosClient,
-  CosmosClientOptions,
   ErrorResponse,
   GlobalEndpointManager,
   ItemResponse,
-  RequestOptions,
-  Resource,
 } from "../../../src";
 import { expect } from "chai";
 import { getCurrentTimestampInMs } from "../../../src/utils/time";

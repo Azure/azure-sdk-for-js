@@ -11,7 +11,7 @@
 import {
   ApplicationPatch,
   ApplicationsUpdateOptionalParams,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Update an application.
  *
  * @summary Update an application.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/Application_Update.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/Application_Update.json
  */
 async function applicationUpdate() {
   const subscriptionId =
@@ -43,7 +43,7 @@ async function applicationUpdate() {
     iconPath: "icon",
     msixPackageApplicationId: undefined,
     msixPackageFamilyName: undefined,
-    showInPortal: true
+    showInPortal: true,
   };
   const options: ApplicationsUpdateOptionalParams = { application };
   const credential = new DefaultAzureCredential();
@@ -52,7 +52,7 @@ async function applicationUpdate() {
     resourceGroupName,
     applicationGroupName,
     applicationName,
-    options
+    options,
   );
   console.log(result);
 }

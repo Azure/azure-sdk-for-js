@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /** Interface for setting unique keys on container creation */
 export interface UniqueKeyPolicy {
   uniqueKeys: UniqueKey[];

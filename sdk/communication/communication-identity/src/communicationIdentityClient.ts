@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   CommunicationAccessToken,
   CommunicationIdentityClientOptions,
   CommunicationUserToken,
@@ -9,18 +9,19 @@ import {
   CreateUserAndTokenOptions,
   GetTokenOptions,
   TokenScope,
-} from "./models";
+} from "./models.js";
+import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import {
-  CommunicationUserIdentifier,
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { IdentityRestClient } from "./generated/src/identityRestClient";
-import { logger } from "./common/logger";
-import { tracingClient } from "./generated/src/tracing";
+import type { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import { IdentityRestClient } from "./generated/src/identityRestClient.js";
+import { logger } from "./common/logger.js";
+import { tracingClient } from "./generated/src/tracing.js";
 
 const isCommunicationIdentityClientOptions = (
   options: any,
@@ -124,6 +125,7 @@ export class CommunicationIdentityClient {
    */
   public revokeTokens(
     user: CommunicationUserIdentifier,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(
@@ -143,6 +145,7 @@ export class CommunicationIdentityClient {
    *
    * @param options - Additional options for the request.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public createUser(options: OperationOptions = {}): Promise<CommunicationUserIdentifier> {
     return tracingClient.withSpan(
       "CommunicationIdentity-createUser",
@@ -194,6 +197,7 @@ export class CommunicationIdentityClient {
    */
   public deleteUser(
     user: CommunicationUserIdentifier,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: OperationOptions = {},
   ): Promise<void> {
     return tracingClient.withSpan(

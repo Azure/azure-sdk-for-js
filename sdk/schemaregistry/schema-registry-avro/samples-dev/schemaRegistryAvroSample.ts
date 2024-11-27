@@ -15,7 +15,7 @@ dotenv.config();
 
 // The fully qualified namespace for schema registry
 const schemaRegistryFullyQualifiedNamespace =
-  process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
+  process.env["SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE"] || "<endpoint>";
 
 // The schema group to use for schema registeration or lookup
 const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";

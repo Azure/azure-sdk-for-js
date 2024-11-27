@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export function isCosmosEndpoint(url: string): boolean {
   const parsedURL = new URL(url);

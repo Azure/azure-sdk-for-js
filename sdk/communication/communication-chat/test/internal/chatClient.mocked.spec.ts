@@ -1,42 +1,36 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import sinon from "sinon";
-import { assert, expect } from "chai";
-import { ChatClient, ChatClientOptions, CreateChatThreadRequest } from "../../src";
-import * as RestModel from "../../src/generated/src/models";
-import { apiVersion } from "../../src/generated/src/models/parameters";
-import { baseUri, generateToken } from "../public/utils/connectionUtils";
-import {
-  AzureCommunicationTokenCredential,
-  CommunicationUserIdentifier,
-} from "@azure/communication-common";
+import type { ChatClientOptions, CreateChatThreadRequest } from "../../src/index.js";
+import { ChatClient } from "../../src/index.js";
+import type * as RestModel from "../../src/generated/src/models/index.js";
+import { apiVersion } from "../../src/generated/src/models/parameters.js";
+import { baseUri, generateToken } from "../public/utils/connectionUtils.js";
+import type { CommunicationUserIdentifier } from "@azure/communication-common";
+import { AzureCommunicationTokenCredential } from "@azure/communication-common";
 import {
   createChatClient,
   generateHttpClient,
   mockCreateThreadResult,
   mockThread,
   mockThreadItem,
-} from "./utils/mockClient";
-import { isNode } from "@azure/core-util";
+} from "./utils/mockClient.js";
+import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert, expect, vi } from "vitest";
 
 const API_VERSION = apiVersion.mapper.defaultValue;
 
-describe("[Mocked] ChatClient", async function () {
+describe("[Mocked] ChatClient", async () => {
   let chatClient: ChatClient;
-  let listener: () => {
+  const listener = (): void => {
     // Intentionally empty listener for testing purposes
   };
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
-  it("can instantiate", async function () {
+  it("can instantiate", async () => {
     new ChatClient(baseUri, new AzureCommunicationTokenCredential(generateToken()));
   });
 
-  it("can instantiate with custom api version policy", async function () {
+  it("can instantiate with custom api version policy", async () => {
     const customizedVersion = `2021-03-07`;
     const mockHttpClient = generateHttpClient(201, mockCreateThreadResult);
     const options = { apiVersion: customizedVersion, httpClient: mockHttpClient };
@@ -46,17 +40,17 @@ describe("[Mocked] ChatClient", async function () {
       options as ChatClientOptions,
     );
 
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
     await chatClient.createChatThread({ topic: mockThread.topic });
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
     assert.equal(request.url, `${baseUri}/chat/threads?api-version=${customizedVersion}`);
   });
 
-  it("makes successful create thread request", async function () {
+  it("makes successful create thread request", async () => {
     const mockHttpClient = generateHttpClient(201, mockCreateThreadResult);
 
     chatClient = createChatClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const sendRequest: CreateChatThreadRequest = {
       topic: mockThread.topic!,
@@ -66,7 +60,7 @@ describe("[Mocked] ChatClient", async function () {
 
     const createThreadResult = await chatClient.createChatThread(sendRequest, sendOptions);
 
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
     assert.isDefined(createThreadResult.chatThread);
     assert.equal(createThreadResult.chatThread?.id, mockThread.id);
     assert.equal(createThreadResult.chatThread?.createdBy?.kind, "communicationUser");
@@ -75,7 +69,7 @@ describe("[Mocked] ChatClient", async function () {
       mockCreateThreadResult.chatThread?.createdByCommunicationIdentifier.communicationUser?.id,
     );
 
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
 
     assert.equal(request.url, `${baseUri}/chat/threads?api-version=${API_VERSION}`);
     assert.equal(request.method, "POST");
@@ -83,14 +77,14 @@ describe("[Mocked] ChatClient", async function () {
     assert.isNotEmpty(request.headers.get("repeatability-request-id"));
   });
 
-  it("makes successful list threads request", async function () {
+  it("makes successful list threads request", async () => {
     const mockResponse: RestModel.ChatThreadsItemCollection = {
       value: [mockThreadItem, mockThreadItem],
     };
 
     const mockHttpClient = generateHttpClient(200, mockResponse);
     chatClient = createChatClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     let count = 0;
     for await (const info of chatClient.listChatThreads()) {
@@ -99,22 +93,22 @@ describe("[Mocked] ChatClient", async function () {
       assert.deepEqual(info, mockThreadItem);
     }
 
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
     assert.equal(count, mockResponse.value?.length);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
 
     assert.equal(request.url, `${baseUri}/chat/threads?api-version=${API_VERSION}`);
     assert.equal(request.method, "GET");
   });
 
-  it("makes successful list threads request by page", async function () {
+  it("makes successful list threads request by page", async () => {
     const mockResponse: RestModel.ChatThreadsItemCollection = {
       value: [mockThreadItem, mockThreadItem, mockThreadItem, mockThreadItem, mockThreadItem],
     };
 
     const mockHttpClient = generateHttpClient(200, mockResponse);
     chatClient = createChatClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     const chatThreadsIterator = chatClient.listChatThreads({ maxPageSize: 2 });
     let count = 0;
@@ -128,23 +122,23 @@ describe("[Mocked] ChatClient", async function () {
       }
     }
 
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
     assert.equal(count, mockResponse.value?.length);
-    const request = spy.getCall(0).args[0];
+    const request = spy.mock.calls[0][0];
 
     assert.equal(request.url, `${baseUri}/chat/threads?maxPageSize=2&api-version=${API_VERSION}`);
     assert.equal(request.method, "GET");
   });
 
-  it("makes successful delete thread request", async function () {
+  it("makes successful delete thread request", async () => {
     const mockHttpClient = generateHttpClient(204);
     chatClient = createChatClient(mockHttpClient);
-    const spy = sinon.spy(mockHttpClient, "sendRequest");
+    const spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     await chatClient.deleteChatThread(mockThread.id!);
 
-    sinon.assert.calledOnce(spy);
-    const request = spy.getCall(0).args[0];
+    expect(spy).toHaveBeenCalledOnce();
+    const request = spy.mock.calls[0][0];
     assert.equal(
       request.url,
       `${baseUri}/chat/threads/${mockThread.id}?api-version=${API_VERSION}`,
@@ -152,9 +146,9 @@ describe("[Mocked] ChatClient", async function () {
     assert.equal(request.method, "DELETE");
   });
 
-  it("should throw an error to start real time notifications in node", async function () {
-    if (!isNode) {
-      this.skip();
+  it("should throw an error to start real time notifications in node", async function (ctx) {
+    if (!isNodeLike) {
+      ctx.skip();
     }
 
     try {
@@ -168,9 +162,9 @@ describe("[Mocked] ChatClient", async function () {
     }
   });
 
-  it("should throw an error to stop real time notifications in node", async function () {
-    if (!isNode) {
-      this.skip();
+  it("should throw an error to stop real time notifications in node", async function (ctx) {
+    if (!isNodeLike) {
+      ctx.skip();
     }
 
     try {
@@ -184,9 +178,9 @@ describe("[Mocked] ChatClient", async function () {
     }
   });
 
-  it("should throw an error to unsubscribe an event in node", function () {
-    if (!isNode) {
-      this.skip();
+  it("should throw an error to unsubscribe an event in node", function (ctx) {
+    if (!isNodeLike) {
+      ctx.skip();
     }
 
     try {
@@ -200,163 +194,163 @@ describe("[Mocked] ChatClient", async function () {
     }
   });
 
-  it("should throw an error to subscribe chatMessageReceived event in node", function () {
-    if (!isNode) {
-      this.skip();
-    }
+  it(
+    "should throw an error to subscribe chatMessageReceived event in node",
+    { skip: !isNodeLike },
+    () => {
+      try {
+        chatClient.on("chatMessageReceived", listener);
+        throw new Error("Error is expected.");
+      } catch (error) {
+        expect(error).to.be.an.instanceof(Error);
+        expect((error as Error).message).to.equal(
+          "Realtime notifications are only supported in the browser.",
+        );
+      }
+    },
+  );
 
-    try {
-      chatClient.on("chatMessageReceived", listener);
-      throw new Error("Error is expected.");
-    } catch (error) {
-      expect(error).to.be.an.instanceof(Error);
-      expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser.",
-      );
-    }
-  });
+  it(
+    "should throw an error to subscribe chatMessageEdited event in node",
+    { skip: !isNodeLike },
+    () => {
+      try {
+        chatClient.on("chatMessageEdited", listener);
+        throw new Error("Error is expected.");
+      } catch (error) {
+        expect(error).to.be.an.instanceof(Error);
+        expect((error as Error).message).to.equal(
+          "Realtime notifications are only supported in the browser.",
+        );
+      }
+    },
+  );
 
-  it("should throw an error to subscribe chatMessageEdited event in node", function () {
-    if (!isNode) {
-      this.skip();
-    }
+  it(
+    "should throw an error to subscribe chatMessageDeleted event in node",
+    { skip: !isNodeLike },
+    () => {
+      try {
+        chatClient.on("chatMessageDeleted", listener);
+        throw new Error("Error is expected.");
+      } catch (error) {
+        expect(error).to.be.an.instanceof(Error);
+        expect((error as Error).message).to.equal(
+          "Realtime notifications are only supported in the browser.",
+        );
+      }
+    },
+  );
 
-    try {
-      chatClient.on("chatMessageEdited", listener);
-      throw new Error("Error is expected.");
-    } catch (error) {
-      expect(error).to.be.an.instanceof(Error);
-      expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser.",
-      );
-    }
-  });
+  it(
+    "should throw an error to subscribe typingIndicatorReceived event in node",
+    { skip: !isNodeLike },
+    () => {
+      try {
+        chatClient.on("typingIndicatorReceived", listener);
+        throw new Error("Error is expected.");
+      } catch (error) {
+        expect(error).to.be.an.instanceof(Error);
+        expect((error as Error).message).to.equal(
+          "Realtime notifications are only supported in the browser.",
+        );
+      }
+    },
+  );
 
-  it("should throw an error to subscribe chatMessageDeleted event in node", function () {
-    if (!isNode) {
-      this.skip();
-    }
+  it(
+    "should throw an error to subscribe readReceiptReceived event in node",
+    { skip: !isNodeLike },
+    () => {
+      try {
+        chatClient.on("readReceiptReceived", listener);
+        throw new Error("Error is expected.");
+      } catch (error) {
+        expect(error).to.be.an.instanceof(Error);
+        expect((error as Error).message).to.equal(
+          "Realtime notifications are only supported in the browser.",
+        );
+      }
+    },
+  );
 
-    try {
-      chatClient.on("chatMessageDeleted", listener);
-      throw new Error("Error is expected.");
-    } catch (error) {
-      expect(error).to.be.an.instanceof(Error);
-      expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser.",
-      );
-    }
-  });
+  it(
+    "should throw an error to subscribe chatThreadCreated event in node",
+    { skip: !isNodeLike },
+    () => {
+      try {
+        chatClient.on("chatThreadCreated", listener);
+        throw new Error("Error is expected.");
+      } catch (error) {
+        expect(error).to.be.an.instanceof(Error);
+        expect((error as Error).message).to.equal(
+          "Realtime notifications are only supported in the browser.",
+        );
+      }
+    },
+  );
 
-  it("should throw an error to subscribe typingIndicatorReceived event in node", function () {
-    if (!isNode) {
-      this.skip();
-    }
+  it(
+    "should throw an error to subscribe chatThreadDeleted event in node",
+    { skip: !isNodeLike },
+    () => {
+      try {
+        chatClient.on("chatThreadDeleted", listener);
+        throw new Error("Error is expected.");
+      } catch (error) {
+        expect(error).to.be.an.instanceof(Error);
+        expect((error as Error).message).to.equal(
+          "Realtime notifications are only supported in the browser.",
+        );
+      }
+    },
+  );
 
-    try {
-      chatClient.on("typingIndicatorReceived", listener);
-      throw new Error("Error is expected.");
-    } catch (error) {
-      expect(error).to.be.an.instanceof(Error);
-      expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser.",
-      );
-    }
-  });
+  it(
+    "should throw an error to subscribe chatThreadPropertiesUpdated event in node",
+    { skip: !isNodeLike },
+    () => {
+      try {
+        chatClient.on("chatThreadPropertiesUpdated", listener);
+        throw new Error("Error is expected.");
+      } catch (error) {
+        expect(error).to.be.an.instanceof(Error);
+        expect((error as Error).message).to.equal(
+          "Realtime notifications are only supported in the browser.",
+        );
+      }
+    },
+  );
 
-  it("should throw an error to subscribe readReceiptReceived event in node", function () {
-    if (!isNode) {
-      this.skip();
-    }
+  it(
+    "should throw an error to subscribe participantsAdded event in node",
+    { skip: !isNodeLike },
+    () => {
+      try {
+        chatClient.on("participantsAdded", listener);
+        throw new Error("Error is expected.");
+      } catch (error) {
+        expect(error).to.be.an.instanceof(Error);
+        expect((error as Error).message).to.equal(
+          "Realtime notifications are only supported in the browser.",
+        );
+      }
+    },
+  );
 
-    try {
-      chatClient.on("readReceiptReceived", listener);
-      throw new Error("Error is expected.");
-    } catch (error) {
-      expect(error).to.be.an.instanceof(Error);
-      expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser.",
-      );
-    }
-  });
-
-  it("should throw an error to subscribe chatThreadCreated event in node", function () {
-    if (!isNode) {
-      this.skip();
-    }
-
-    try {
-      chatClient.on("chatThreadCreated", listener);
-      throw new Error("Error is expected.");
-    } catch (error) {
-      expect(error).to.be.an.instanceof(Error);
-      expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser.",
-      );
-    }
-  });
-
-  it("should throw an error to subscribe chatThreadDeleted event in node", function () {
-    if (!isNode) {
-      this.skip();
-    }
-
-    try {
-      chatClient.on("chatThreadDeleted", listener);
-      throw new Error("Error is expected.");
-    } catch (error) {
-      expect(error).to.be.an.instanceof(Error);
-      expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser.",
-      );
-    }
-  });
-
-  it("should throw an error to subscribe chatThreadPropertiesUpdated event in node", function () {
-    if (!isNode) {
-      this.skip();
-    }
-
-    try {
-      chatClient.on("chatThreadPropertiesUpdated", listener);
-      throw new Error("Error is expected.");
-    } catch (error) {
-      expect(error).to.be.an.instanceof(Error);
-      expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser.",
-      );
-    }
-  });
-
-  it("should throw an error to subscribe participantsAdded event in node", function () {
-    if (!isNode) {
-      this.skip();
-    }
-
-    try {
-      chatClient.on("participantsAdded", listener);
-      throw new Error("Error is expected.");
-    } catch (error) {
-      expect(error).to.be.an.instanceof(Error);
-      expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser.",
-      );
-    }
-  });
-
-  it("should throw an error to subscribe participantsRemoved event in node", function () {
-    if (!isNode) {
-      this.skip();
-    }
-
-    try {
-      chatClient.on("participantsRemoved", listener);
-      throw new Error("Error is expected.");
-    } catch (error) {
-      expect(error).to.be.an.instanceof(Error);
-      expect((error as Error).message).to.equal(
-        "Realtime notifications are only supported in the browser.",
-      );
-    }
-  });
+  it(
+    "should throw an error to subscribe participantsRemoved event in node",
+    { skip: !isNodeLike },
+    () => {
+      try {
+        chatClient.on("participantsRemoved", listener);
+        throw new Error("Error is expected.");
+      } catch (error) {
+        expect(error).to.be.an.instanceof(Error);
+        expect((error as Error).message).to.equal(
+          "Realtime notifications are only supported in the browser.",
+        );
+      }
+    },
+  );
 });

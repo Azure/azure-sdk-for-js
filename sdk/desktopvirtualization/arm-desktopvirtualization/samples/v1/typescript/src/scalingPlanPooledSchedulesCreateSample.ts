@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ScalingPlanPooledSchedule,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a ScalingPlanPooledSchedule.
  *
  * @summary Create or update a ScalingPlanPooledSchedule.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ScalingPlanPooledSchedule_Create.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/ScalingPlanPooledSchedule_Create.json
  */
 async function scalingPlanPooledSchedulesCreate() {
   const subscriptionId =
@@ -47,7 +47,7 @@ async function scalingPlanPooledSchedulesCreate() {
     rampUpCapacityThresholdPct: 80,
     rampUpLoadBalancingAlgorithm: "DepthFirst",
     rampUpMinimumHostsPct: 20,
-    rampUpStartTime: { hour: 6, minute: 0 }
+    rampUpStartTime: { hour: 6, minute: 0 },
   };
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
@@ -55,7 +55,7 @@ async function scalingPlanPooledSchedulesCreate() {
     resourceGroupName,
     scalingPlanName,
     scalingPlanScheduleName,
-    scalingPlanSchedule
+    scalingPlanSchedule,
   );
   console.log(result);
 }

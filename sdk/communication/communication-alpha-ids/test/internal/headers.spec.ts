@@ -1,17 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { Context } from "mocha";
-import { PipelineRequest } from "@azure/core-rest-pipeline";
-import { SDK_VERSION } from "../../src/utils/constants";
-import { AlphaIdsClient } from "../../src";
-import { TokenCredential } from "@azure/identity";
-import { assert } from "chai";
-import { createMockToken } from "../public/utils/recordedClient";
-import { configurationHttpClient } from "../public/utils/mockHttpClients";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import { SDK_VERSION } from "../../src/utils/constants.js";
+import { AlphaIdsClient } from "../../src/index.js";
+import type { TokenCredential } from "@azure/identity";
+import { createMockToken } from "../public/utils/recordedClient.js";
+import { configurationHttpClient } from "../public/utils/mockHttpClients.js";
 import { isNodeLike } from "@azure/core-util";
-import sinon from "sinon";
+import { describe, it, assert, expect, vi, afterEach } from "vitest";
 
 describe("AlphaIdsClient - headers", function () {
   const endpoint = "https://contoso.spool.azure.local";
@@ -22,20 +20,20 @@ describe("AlphaIdsClient - headers", function () {
   let request: PipelineRequest;
 
   afterEach(function () {
-    sinon.restore();
+    vi.restoreAllMocks();
   });
 
   it("calls the spy", async function () {
-    const spy = sinon.spy(configurationHttpClient, "sendRequest");
+    const spy = vi.spyOn(configurationHttpClient, "sendRequest");
     await client.getDynamicAlphaIdConfiguration();
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
 
-    request = spy.getCall(0).args[0];
+    request = spy.mock.calls[0][0];
   });
 
-  it("[node] sets correct host", function (this: Context) {
+  it("[node] sets correct host", function (ctx) {
     if (!isNodeLike) {
-      this.skip();
+      ctx.skip();
     }
     assert.equal(request.headers.get("host"), "contoso.spool.azure.local");
   });
@@ -66,11 +64,11 @@ describe("AlphaIdsClient - headers", function () {
       httpClient: configurationHttpClient,
     });
 
-    const spy = sinon.spy(configurationHttpClient, "sendRequest");
+    const spy = vi.spyOn(configurationHttpClient, "sendRequest");
     await client.getDynamicAlphaIdConfiguration();
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
 
-    request = spy.getCall(0).args[0];
+    request = spy.mock.calls[0][0];
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
@@ -78,18 +76,18 @@ describe("AlphaIdsClient - headers", function () {
     );
   });
 
-  it("sets bearer authorization header with TokenCredential", async function (this: Context) {
+  it("sets bearer authorization header with TokenCredential", async function () {
     const credential: TokenCredential = createMockToken();
 
     client = new AlphaIdsClient(endpoint, credential, {
       httpClient: configurationHttpClient,
     });
 
-    const spy = sinon.spy(configurationHttpClient, "sendRequest");
+    const spy = vi.spyOn(configurationHttpClient, "sendRequest");
     await client.getDynamicAlphaIdConfiguration();
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
 
-    request = spy.getCall(0).args[0];
+    request = spy.mock.calls[0][0];
     assert.isDefined(request.headers.get("authorization"));
     assert.match(request.headers.get("authorization") as string, /Bearer ./);
   });
@@ -102,11 +100,11 @@ describe("AlphaIdsClient - headers", function () {
       },
     });
 
-    const spy = sinon.spy(configurationHttpClient, "sendRequest");
+    const spy = vi.spyOn(configurationHttpClient, "sendRequest");
     await client.getDynamicAlphaIdConfiguration();
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
 
-    request = spy.getCall(0).args[0];
+    request = spy.mock.calls[0][0];
 
     const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
     assert.match(

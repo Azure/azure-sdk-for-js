@@ -16,12 +16,13 @@ import {
   BillingPropertyGetResponse,
   BillingProperty,
   BillingPropertyUpdateOptionalParams,
-  BillingPropertyUpdateResponse
+  BillingPropertyUpdateResponse,
 } from "../models";
 
 /** Class containing BillingPropertyOperations operations. */
 export class BillingPropertyOperationsImpl
-  implements BillingPropertyOperations {
+  implements BillingPropertyOperations
+{
   private readonly client: BillingManagementClient;
 
   /**
@@ -33,29 +34,29 @@ export class BillingPropertyOperationsImpl
   }
 
   /**
-   * Get the billing properties for a subscription. This operation is not supported for billing accounts
-   * with agreement type Enterprise Agreement.
+   * Gets the billing properties for a subscription
    * @param options The options parameters.
    */
   get(
-    options?: BillingPropertyGetOptionalParams
+    options?: BillingPropertyGetOptionalParams,
   ): Promise<BillingPropertyGetResponse> {
     return this.client.sendOperationRequest({ options }, getOperationSpec);
   }
 
   /**
-   * Updates the billing property of a subscription. Currently, cost center can be updated. The operation
-   * is supported only for billing accounts with agreement type Microsoft Customer Agreement.
-   * @param parameters Request parameters that are provided to the update billing property operation.
+   * Updates the billing property of a subscription. Currently, cost center can be updated for billing
+   * accounts with agreement type Microsoft Customer Agreement and subscription service usage address can
+   * be updated for billing accounts with agreement type Microsoft Online Service Program.
+   * @param parameters A billing property.
    * @param options The options parameters.
    */
   update(
     parameters: BillingProperty,
-    options?: BillingPropertyUpdateOptionalParams
+    options?: BillingPropertyUpdateOptionalParams,
   ): Promise<BillingPropertyUpdateResponse> {
     return this.client.sendOperationRequest(
       { parameters, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 }
@@ -63,38 +64,40 @@ export class BillingPropertyOperationsImpl
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingProperty/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingProperty/default",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingProperty
+      bodyMapper: Mappers.BillingProperty,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.includeBillingCountry,
+    Parameters.includeTransitionStatus,
+  ],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingProperty/default",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingProperty/default",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingProperty
+      bodyMapper: Mappers.BillingProperty,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters10,
+  requestBody: Parameters.parameters7,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };

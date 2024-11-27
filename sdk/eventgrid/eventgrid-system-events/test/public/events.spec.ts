@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { Suite } from "mocha";
+// Licensed under the MIT License.
+import type { Suite } from "mocha";
 
 import { isSystemEvent } from "../../src";
 import { assert } from "chai";

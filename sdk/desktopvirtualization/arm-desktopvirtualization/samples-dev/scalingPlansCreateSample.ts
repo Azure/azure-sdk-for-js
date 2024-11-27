@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ScalingPlan,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a scaling plan.
  *
  * @summary Create or update a scaling plan.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ScalingPlan_Create.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/ScalingPlan_Create.json
  */
 async function scalingPlansCreate() {
   const subscriptionId =
@@ -38,8 +38,8 @@ async function scalingPlansCreate() {
       {
         hostPoolArmPath:
           "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1",
-        scalingPlanEnabled: true
-      }
+        scalingPlanEnabled: true,
+      },
     ],
     hostPoolType: "Pooled",
     location: "centralus",
@@ -61,18 +61,18 @@ async function scalingPlansCreate() {
         rampUpCapacityThresholdPct: 80,
         rampUpLoadBalancingAlgorithm: "DepthFirst",
         rampUpMinimumHostsPct: 20,
-        rampUpStartTime: { hour: 6, minute: 0 }
-      }
+        rampUpStartTime: { hour: 6, minute: 0 },
+      },
     ],
     tags: { tag1: "value1", tag2: "value2" },
-    timeZone: "Central Standard Time"
+    timeZone: "Central Standard Time",
   };
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const result = await client.scalingPlans.create(
     resourceGroupName,
     scalingPlanName,
-    scalingPlan
+    scalingPlan,
   );
   console.log(result);
 }

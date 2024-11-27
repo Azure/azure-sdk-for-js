@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Installs patches on the VM.
  *
  * @summary Installs patches on the VM.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_InstallPatches.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_InstallPatches.json
  */
 async function installPatchStateOfAVirtualMachine() {
   const subscriptionId =

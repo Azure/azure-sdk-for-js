@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { fromRheaMessage, isAmqpAnnotatedMessage } from "../../src/eventData.js";
 import { Constants } from "@azure/core-amqp";

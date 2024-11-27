@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export * from "./clientContext.js";
 export * from "./beginSubmitNotificationHubJob.js";
@@ -19,7 +19,9 @@ export * from "./listNotificationHubJobs.js";
 export * from "./listRegistrations.js";
 export * from "./listRegistrationsByChannel.js";
 export * from "./listRegistrationsByTag.js";
+export * from "./scheduleBroadcastNotification.js";
 export * from "./scheduleNotification.js";
+export * from "./sendBroadcastNotification.js";
 export * from "./sendNotification.js";
 export * from "./submitNotificationHubJob.js";
 export * from "./updateInstallation.js";

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { ErrorResponse } from "../request";
-import { RetryContext } from "./RetryContext";
+// Licensed under the MIT License.
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type { ErrorResponse } from "../request";
+import type { RetryContext } from "./RetryContext";
 
 /**
  * @hidden

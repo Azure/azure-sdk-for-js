@@ -15,7 +15,7 @@ import {
   WebPubSubHubsGetResponse,
   WebPubSubHubsCreateOrUpdateOptionalParams,
   WebPubSubHubsCreateOrUpdateResponse,
-  WebPubSubHubsDeleteOptionalParams
+  WebPubSubHubsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface WebPubSubHubs {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubHubsListOptionalParams
+    options?: WebPubSubHubsListOptionalParams,
   ): PagedAsyncIterableIterator<WebPubSubHub>;
   /**
    * Get a hub setting.
@@ -43,7 +43,7 @@ export interface WebPubSubHubs {
     hubName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubHubsGetOptionalParams
+    options?: WebPubSubHubsGetOptionalParams,
   ): Promise<WebPubSubHubsGetResponse>;
   /**
    * Create or update a hub setting.
@@ -58,7 +58,7 @@ export interface WebPubSubHubs {
     resourceGroupName: string,
     resourceName: string,
     parameters: WebPubSubHub,
-    options?: WebPubSubHubsCreateOrUpdateOptionalParams
+    options?: WebPubSubHubsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubHubsCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface WebPubSubHubs {
     resourceGroupName: string,
     resourceName: string,
     parameters: WebPubSubHub,
-    options?: WebPubSubHubsCreateOrUpdateOptionalParams
+    options?: WebPubSubHubsCreateOrUpdateOptionalParams,
   ): Promise<WebPubSubHubsCreateOrUpdateResponse>;
   /**
    * Delete a hub setting.
@@ -91,7 +91,7 @@ export interface WebPubSubHubs {
     hubName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubHubsDeleteOptionalParams
+    options?: WebPubSubHubsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a hub setting.
@@ -104,6 +104,6 @@ export interface WebPubSubHubs {
     hubName: string,
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubHubsDeleteOptionalParams
+    options?: WebPubSubHubsDeleteOptionalParams,
   ): Promise<void>;
 }

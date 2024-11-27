@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ClusterCreateParametersExtended,
-  HDInsightManagementClient
+  HDInsightManagementClient,
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateHDInsightClusterWithAutoscaleConfig.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateHDInsightClusterWithAutoscaleConfig.json
  */
 async function createHdInsightClusterWithAutoscaleConfiguration() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -35,10 +35,10 @@ async function createHdInsightClusterWithAutoscaleConfiguration() {
           gateway: {
             "restAuthCredential.isEnabled": true,
             "restAuthCredential.password": "**********",
-            "restAuthCredential.username": "admin"
-          }
+            "restAuthCredential.username": "admin",
+          },
         },
-        kind: "hadoop"
+        kind: "hadoop",
       },
       clusterVersion: "3.6",
       computeProfile: {
@@ -55,13 +55,13 @@ async function createHdInsightClusterWithAutoscaleConfiguration() {
                       "Tuesday",
                       "Wednesday",
                       "Thursday",
-                      "Friday"
+                      "Friday",
                     ],
                     timeAndCapacity: {
                       maxInstanceCount: 3,
                       minInstanceCount: 3,
-                      time: "09:00"
-                    }
+                      time: "09:00",
+                    },
                   },
                   {
                     days: [
@@ -69,47 +69,47 @@ async function createHdInsightClusterWithAutoscaleConfiguration() {
                       "Tuesday",
                       "Wednesday",
                       "Thursday",
-                      "Friday"
+                      "Friday",
                     ],
                     timeAndCapacity: {
                       maxInstanceCount: 6,
                       minInstanceCount: 6,
-                      time: "18:00"
-                    }
+                      time: "18:00",
+                    },
                   },
                   {
                     days: ["Saturday", "Sunday"],
                     timeAndCapacity: {
                       maxInstanceCount: 2,
                       minInstanceCount: 2,
-                      time: "09:00"
-                    }
+                      time: "09:00",
+                    },
                   },
                   {
                     days: ["Saturday", "Sunday"],
                     timeAndCapacity: {
                       maxInstanceCount: 4,
                       minInstanceCount: 4,
-                      time: "18:00"
-                    }
-                  }
+                      time: "18:00",
+                    },
+                  },
                 ],
-                timeZone: "China Standard Time"
-              }
+                timeZone: "China Standard Time",
+              },
             },
             dataDisksGroups: [],
             hardwareProfile: { vmSize: "Standard_D4_V2" },
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
             scriptActions: [],
             targetInstanceCount: 4,
-            virtualNetworkProfile: {}
-          }
-        ]
+            virtualNetworkProfile: {},
+          },
+        ],
       },
       osType: "Linux",
       storageProfile: {
@@ -119,19 +119,19 @@ async function createHdInsightClusterWithAutoscaleConfiguration() {
             container: "hdinsight-autoscale-tes-2019-06-18t05-49-16-591z",
             enableSecureChannel: true,
             isDefault: true,
-            key: "storagekey"
-          }
-        ]
+            key: "storagekey",
+          },
+        ],
       },
-      tier: "Standard"
-    }
+      tier: "Standard",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -140,7 +140,7 @@ async function createHdInsightClusterWithAutoscaleConfiguration() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateLinuxHadoopAdlsGen2.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateLinuxHadoopAdlsGen2.json
  */
 async function createHadoopClusterWithAzureDataLakeStorageGen2() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -153,10 +153,10 @@ async function createHadoopClusterWithAzureDataLakeStorageGen2() {
           gateway: {
             "restAuthCredential.isEnabled": "true",
             "restAuthCredential.password": "**********",
-            "restAuthCredential.username": "admin"
-          }
+            "restAuthCredential.username": "admin",
+          },
         },
-        kind: "Hadoop"
+        kind: "Hadoop",
       },
       clusterVersion: "3.6",
       computeProfile: {
@@ -168,10 +168,10 @@ async function createHadoopClusterWithAzureDataLakeStorageGen2() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 2
+            targetInstanceCount: 2,
           },
           {
             name: "workernode",
@@ -180,10 +180,10 @@ async function createHadoopClusterWithAzureDataLakeStorageGen2() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 4
+            targetInstanceCount: 4,
           },
           {
             name: "zookeepernode",
@@ -192,12 +192,12 @@ async function createHadoopClusterWithAzureDataLakeStorageGen2() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 3
-          }
-        ]
+            targetInstanceCount: 3,
+          },
+        ],
       },
       osType: "Linux",
       storageProfile: {
@@ -207,20 +207,20 @@ async function createHadoopClusterWithAzureDataLakeStorageGen2() {
             enableSecureChannel: true,
             fileSystem: "default",
             isDefault: true,
-            key: "storagekey"
-          }
-        ]
+            key: "storagekey",
+          },
+        ],
       },
-      tier: "Standard"
+      tier: "Standard",
     },
-    tags: { key1: "val1" }
+    tags: { key1: "val1" },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -229,7 +229,7 @@ async function createHadoopClusterWithAzureDataLakeStorageGen2() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateLinuxHadoopSshPassword.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateLinuxHadoopSshPassword.json
  */
 async function createHadoopOnLinuxClusterWithSshPassword() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -242,10 +242,10 @@ async function createHadoopOnLinuxClusterWithSshPassword() {
           gateway: {
             "restAuthCredential.isEnabled": "true",
             "restAuthCredential.password": "**********",
-            "restAuthCredential.username": "admin"
-          }
+            "restAuthCredential.username": "admin",
+          },
         },
-        kind: "Hadoop"
+        kind: "Hadoop",
       },
       clusterVersion: "3.5",
       computeProfile: {
@@ -257,10 +257,10 @@ async function createHadoopOnLinuxClusterWithSshPassword() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 2
+            targetInstanceCount: 2,
           },
           {
             name: "workernode",
@@ -269,10 +269,10 @@ async function createHadoopOnLinuxClusterWithSshPassword() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 4
+            targetInstanceCount: 4,
           },
           {
             name: "zookeepernode",
@@ -281,12 +281,12 @@ async function createHadoopOnLinuxClusterWithSshPassword() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 3
-          }
-        ]
+            targetInstanceCount: 3,
+          },
+        ],
       },
       osType: "Linux",
       storageProfile: {
@@ -296,20 +296,20 @@ async function createHadoopOnLinuxClusterWithSshPassword() {
             container: "containername",
             enableSecureChannel: true,
             isDefault: true,
-            key: "storagekey"
-          }
-        ]
+            key: "storagekey",
+          },
+        ],
       },
-      tier: "Standard"
+      tier: "Standard",
     },
-    tags: { key1: "val1" }
+    tags: { key1: "val1" },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -318,7 +318,7 @@ async function createHadoopOnLinuxClusterWithSshPassword() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateLinuxHadoopSshPublicKey.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateLinuxHadoopSshPublicKey.json
  */
 async function createHadoopOnLinuxClusterWithSshPublicKey() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -331,10 +331,10 @@ async function createHadoopOnLinuxClusterWithSshPublicKey() {
           gateway: {
             "restAuthCredential.isEnabled": true,
             "restAuthCredential.password": "**********",
-            "restAuthCredential.username": "admin"
-          }
+            "restAuthCredential.username": "admin",
+          },
         },
-        kind: "Hadoop"
+        kind: "Hadoop",
       },
       clusterVersion: "3.5",
       computeProfile: {
@@ -346,10 +346,10 @@ async function createHadoopOnLinuxClusterWithSshPublicKey() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 sshProfile: { publicKeys: [{ certificateData: "**********" }] },
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 2
+            targetInstanceCount: 2,
           },
           {
             name: "workernode",
@@ -358,10 +358,10 @@ async function createHadoopOnLinuxClusterWithSshPublicKey() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 4
+            targetInstanceCount: 4,
           },
           {
             name: "zookeepernode",
@@ -370,12 +370,12 @@ async function createHadoopOnLinuxClusterWithSshPublicKey() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 3
-          }
-        ]
+            targetInstanceCount: 3,
+          },
+        ],
       },
       osType: "Linux",
       storageProfile: {
@@ -385,20 +385,20 @@ async function createHadoopOnLinuxClusterWithSshPublicKey() {
             container: "containername",
             enableSecureChannel: true,
             isDefault: true,
-            key: "storagekey"
-          }
-        ]
+            key: "storagekey",
+          },
+        ],
       },
-      tier: "Standard"
+      tier: "Standard",
     },
-    tags: { key1: "val1" }
+    tags: { key1: "val1" },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -407,7 +407,7 @@ async function createHadoopOnLinuxClusterWithSshPublicKey() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateKafkaClusterWithKafkaRestProxy.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateKafkaClusterWithKafkaRestProxy.json
  */
 async function createKafkaClusterWithKafkaRestProxy() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -421,10 +421,10 @@ async function createKafkaClusterWithKafkaRestProxy() {
           gateway: {
             "restAuthCredential.isEnabled": true,
             "restAuthCredential.password": "**********",
-            "restAuthCredential.username": "admin"
-          }
+            "restAuthCredential.username": "admin",
+          },
         },
-        kind: "kafka"
+        kind: "kafka",
       },
       clusterVersion: "4.0",
       computeProfile: {
@@ -435,10 +435,10 @@ async function createKafkaClusterWithKafkaRestProxy() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 2
+            targetInstanceCount: 2,
           },
           {
             name: "workernode",
@@ -447,10 +447,10 @@ async function createKafkaClusterWithKafkaRestProxy() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 3
+            targetInstanceCount: 3,
           },
           {
             name: "zookeepernode",
@@ -458,10 +458,10 @@ async function createKafkaClusterWithKafkaRestProxy() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 3
+            targetInstanceCount: 3,
           },
           {
             name: "kafkamanagementnode",
@@ -469,18 +469,18 @@ async function createKafkaClusterWithKafkaRestProxy() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "kafkauser"
-              }
+                username: "kafkauser",
+              },
             },
-            targetInstanceCount: 2
-          }
-        ]
+            targetInstanceCount: 2,
+          },
+        ],
       },
       kafkaRestProperties: {
         clientGroupInfo: {
           groupId: "00000000-0000-0000-0000-111111111111",
-          groupName: "Kafka security group name"
-        }
+          groupName: "Kafka security group name",
+        },
       },
       osType: "Linux",
       storageProfile: {
@@ -490,19 +490,19 @@ async function createKafkaClusterWithKafkaRestProxy() {
             container: "containername",
             enableSecureChannel: true,
             isDefault: true,
-            key: "storagekey"
-          }
-        ]
+            key: "storagekey",
+          },
+        ],
       },
-      tier: "Standard"
-    }
+      tier: "Standard",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -511,7 +511,7 @@ async function createKafkaClusterWithKafkaRestProxy() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateLinuxHadoopSecureHadoop.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateLinuxHadoopSecureHadoop.json
  */
 async function createSecureHadoopCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -524,10 +524,10 @@ async function createSecureHadoopCluster() {
           gateway: {
             "restAuthCredential.isEnabled": true,
             "restAuthCredential.password": "**********",
-            "restAuthCredential.username": "admin"
-          }
+            "restAuthCredential.username": "admin",
+          },
         },
-        kind: "Hadoop"
+        kind: "Hadoop",
       },
       clusterVersion: "3.5",
       computeProfile: {
@@ -540,17 +540,16 @@ async function createSecureHadoopCluster() {
               linuxOperatingSystemProfile: {
                 password: "**********",
                 sshProfile: { publicKeys: [{ certificateData: "**********" }] },
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
             scriptActions: [],
             targetInstanceCount: 2,
             virtualNetworkProfile: {
-              id:
-                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+              id: "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
               subnet:
-                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
-            }
+                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet",
+            },
           },
           {
             name: "workernode",
@@ -560,17 +559,16 @@ async function createSecureHadoopCluster() {
               linuxOperatingSystemProfile: {
                 password: "**********",
                 sshProfile: { publicKeys: [{ certificateData: "**********" }] },
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
             scriptActions: [],
             targetInstanceCount: 4,
             virtualNetworkProfile: {
-              id:
-                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+              id: "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
               subnet:
-                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
-            }
+                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet",
+            },
           },
           {
             name: "zookeepernode",
@@ -580,19 +578,18 @@ async function createSecureHadoopCluster() {
               linuxOperatingSystemProfile: {
                 password: "**********",
                 sshProfile: { publicKeys: [{ certificateData: "**********" }] },
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
             scriptActions: [],
             targetInstanceCount: 3,
             virtualNetworkProfile: {
-              id:
-                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+              id: "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
               subnet:
-                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
-            }
-          }
-        ]
+                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet",
+            },
+          },
+        ],
       },
       osType: "Linux",
       securityProfile: {
@@ -602,7 +599,7 @@ async function createSecureHadoopCluster() {
         domainUserPassword: "**********",
         domainUsername: "DomainUsername",
         ldapsUrls: ["ldaps://10.10.0.4:636"],
-        organizationalUnitDN: "OU=Hadoop,DC=hdinsight,DC=test"
+        organizationalUnitDN: "OU=Hadoop,DC=hdinsight,DC=test",
       },
       storageProfile: {
         storageaccounts: [
@@ -611,20 +608,20 @@ async function createSecureHadoopCluster() {
             container: "containername",
             enableSecureChannel: true,
             isDefault: true,
-            key: "storage account key"
-          }
-        ]
+            key: "storage account key",
+          },
+        ],
       },
-      tier: "Premium"
+      tier: "Premium",
     },
-    tags: { key1: "val1" }
+    tags: { key1: "val1" },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -633,7 +630,7 @@ async function createSecureHadoopCluster() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateLinuxSparkSshPassword.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateLinuxSparkSshPassword.json
  */
 async function createSparkOnLinuxClusterWithSshPassword() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -647,10 +644,10 @@ async function createSparkOnLinuxClusterWithSshPassword() {
           gateway: {
             "restAuthCredential.isEnabled": true,
             "restAuthCredential.password": "**********",
-            "restAuthCredential.username": "admin"
-          }
+            "restAuthCredential.username": "admin",
+          },
         },
-        kind: "Spark"
+        kind: "Spark",
       },
       clusterVersion: "3.5",
       computeProfile: {
@@ -662,10 +659,10 @@ async function createSparkOnLinuxClusterWithSshPassword() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 2
+            targetInstanceCount: 2,
           },
           {
             name: "workernode",
@@ -674,12 +671,12 @@ async function createSparkOnLinuxClusterWithSshPassword() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 4
-          }
-        ]
+            targetInstanceCount: 4,
+          },
+        ],
       },
       osType: "Linux",
       storageProfile: {
@@ -689,20 +686,20 @@ async function createSparkOnLinuxClusterWithSshPassword() {
             container: "containername",
             enableSecureChannel: true,
             isDefault: true,
-            key: "storageapikey*"
-          }
-        ]
+            key: "storageapikey*",
+          },
+        ],
       },
-      tier: "Standard"
+      tier: "Standard",
     },
-    tags: { key1: "val1" }
+    tags: { key1: "val1" },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -711,7 +708,7 @@ async function createSparkOnLinuxClusterWithSshPassword() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateHDInsightClusterWithTLS12.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateHDInsightClusterWithTLS12.json
  */
 async function createClusterWithTls12() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -724,10 +721,10 @@ async function createClusterWithTls12() {
           gateway: {
             "restAuthCredential.isEnabled": true,
             "restAuthCredential.password": "**********",
-            "restAuthCredential.username": "admin"
-          }
+            "restAuthCredential.username": "admin",
+          },
         },
-        kind: "Hadoop"
+        kind: "Hadoop",
       },
       clusterVersion: "3.6",
       computeProfile: {
@@ -738,10 +735,10 @@ async function createClusterWithTls12() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 2
+            targetInstanceCount: 2,
           },
           {
             name: "workernode",
@@ -749,10 +746,10 @@ async function createClusterWithTls12() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 3
+            targetInstanceCount: 3,
           },
           {
             name: "zookeepernode",
@@ -760,12 +757,12 @@ async function createClusterWithTls12() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 3
-          }
-        ]
+            targetInstanceCount: 3,
+          },
+        ],
       },
       minSupportedTlsVersion: "1.2",
       osType: "Linux",
@@ -776,19 +773,19 @@ async function createClusterWithTls12() {
             container: "default8525",
             enableSecureChannel: true,
             isDefault: true,
-            key: "storagekey"
-          }
-        ]
+            key: "storagekey",
+          },
+        ],
       },
-      tier: "Standard"
-    }
+      tier: "Standard",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -797,7 +794,7 @@ async function createClusterWithTls12() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateHDInsightClusterWithAvailabilityZones.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateHDInsightClusterWithAvailabilityZones.json
  */
 async function createClusterWithAvailabilityZones() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subId";
@@ -811,12 +808,12 @@ async function createClusterWithAvailabilityZones() {
             "database-name": "{ambari database name}",
             "database-server": "{sql server name}.database.windows.net",
             "database-user-name": "**********",
-            "database-user-password": "**********"
+            "database-user-password": "**********",
           },
           gateway: {
             "restAuthCredential.isEnabled": true,
             "restAuthCredential.password": "**********",
-            "restAuthCredential.username": "admin"
+            "restAuthCredential.username": "admin",
           },
           "hive-env": {
             hive_database:
@@ -826,7 +823,7 @@ async function createClusterWithAvailabilityZones() {
             hive_existing_mssql_server_database: "{hive metastore name}",
             hive_existing_mssql_server_host:
               "{sql server name}.database.windows.net",
-            hive_hostname: "{sql server name}.database.windows.net"
+            hive_hostname: "{sql server name}.database.windows.net",
           },
           "hive-site": {
             "javax.jdo.option.ConnectionDriverName":
@@ -834,7 +831,7 @@ async function createClusterWithAvailabilityZones() {
             "javax.jdo.option.ConnectionPassword": "**********!",
             "javax.jdo.option.ConnectionURL":
               "jdbc:sqlserver://{sql server name}.database.windows.net;database={hive metastore name};encrypt=true;trustServerCertificate=true;create=false;loginTimeout=300;sendStringParametersAsUnicode=true;prepareSQL=0",
-            "javax.jdo.option.ConnectionUserName": "**********"
+            "javax.jdo.option.ConnectionUserName": "**********",
           },
           "oozie-env": {
             oozie_database:
@@ -844,7 +841,7 @@ async function createClusterWithAvailabilityZones() {
             oozie_existing_mssql_server_database: "{oozie metastore name}",
             oozie_existing_mssql_server_host:
               "{sql server name}.database.windows.net",
-            oozie_hostname: "{sql server name}.database.windows.net"
+            oozie_hostname: "{sql server name}.database.windows.net",
           },
           "oozie-site": {
             "oozie.db.schema.name": "oozie",
@@ -853,10 +850,10 @@ async function createClusterWithAvailabilityZones() {
             "oozie.service.JPAService.jdbc.password": "**********",
             "oozie.service.JPAService.jdbc.url":
               "jdbc:sqlserver://{sql server name}.database.windows.net;database={oozie metastore name};encrypt=true;trustServerCertificate=true;create=false;loginTimeout=300;sendStringParametersAsUnicode=true;prepareSQL=0",
-            "oozie.service.JPAService.jdbc.username": "**********"
-          }
+            "oozie.service.JPAService.jdbc.username": "**********",
+          },
         },
-        kind: "hadoop"
+        kind: "hadoop",
       },
       clusterVersion: "3.6",
       computeProfile: {
@@ -868,16 +865,15 @@ async function createClusterWithAvailabilityZones() {
               linuxOperatingSystemProfile: {
                 password: "**********",
                 sshProfile: { publicKeys: [{ certificateData: "**********" }] },
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
             targetInstanceCount: 2,
             virtualNetworkProfile: {
-              id:
-                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+              id: "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
               subnet:
-                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
-            }
+                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet",
+            },
           },
           {
             name: "workernode",
@@ -886,18 +882,17 @@ async function createClusterWithAvailabilityZones() {
               linuxOperatingSystemProfile: {
                 password: "**********",
                 sshProfile: { publicKeys: [{ certificateData: "**********" }] },
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
             targetInstanceCount: 2,
             virtualNetworkProfile: {
-              id:
-                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+              id: "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
               subnet:
-                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
-            }
-          }
-        ]
+                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet",
+            },
+          },
+        ],
       },
       osType: "Linux",
       storageProfile: {
@@ -907,19 +902,19 @@ async function createClusterWithAvailabilityZones() {
             container: "containername",
             enableSecureChannel: true,
             isDefault: true,
-            key: "storage account key"
-          }
-        ]
-      }
+            key: "storage account key",
+          },
+        ],
+      },
     },
-    zones: ["1"]
+    zones: ["1"],
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -928,7 +923,7 @@ async function createClusterWithAvailabilityZones() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateHDInsightClusterWithComputeIsolationProperties.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateHDInsightClusterWithComputeIsolationProperties.json
  */
 async function createClusterWithComputeIsolationProperties() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subId";
@@ -941,15 +936,15 @@ async function createClusterWithComputeIsolationProperties() {
           gateway: {
             "restAuthCredential.isEnabled": true,
             "restAuthCredential.password": "**********",
-            "restAuthCredential.username": "admin"
-          }
+            "restAuthCredential.username": "admin",
+          },
         },
-        kind: "hadoop"
+        kind: "hadoop",
       },
       clusterVersion: "3.6",
       computeIsolationProperties: {
         enableComputeIsolation: true,
-        hostSku: undefined
+        hostSku: undefined,
       },
       computeProfile: {
         roles: [
@@ -960,10 +955,10 @@ async function createClusterWithComputeIsolationProperties() {
               linuxOperatingSystemProfile: {
                 password: "**********",
                 sshProfile: { publicKeys: [{ certificateData: "**********" }] },
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 2
+            targetInstanceCount: 2,
           },
           {
             name: "workernode",
@@ -972,12 +967,12 @@ async function createClusterWithComputeIsolationProperties() {
               linuxOperatingSystemProfile: {
                 password: "**********",
                 sshProfile: { publicKeys: [{ certificateData: "**********" }] },
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 2
-          }
-        ]
+            targetInstanceCount: 2,
+          },
+        ],
       },
       osType: "Linux",
       storageProfile: {
@@ -987,18 +982,18 @@ async function createClusterWithComputeIsolationProperties() {
             container: "containername",
             enableSecureChannel: true,
             isDefault: true,
-            key: "storage account key"
-          }
-        ]
-      }
-    }
+            key: "storage account key",
+          },
+        ],
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1007,7 +1002,7 @@ async function createClusterWithComputeIsolationProperties() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateHDInsightClusterWithEncryptionAtHost.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateHDInsightClusterWithEncryptionAtHost.json
  */
 async function createClusterWithEncryptionAtHost() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -1020,10 +1015,10 @@ async function createClusterWithEncryptionAtHost() {
           gateway: {
             "restAuthCredential.isEnabled": true,
             "restAuthCredential.password": "**********",
-            "restAuthCredential.username": "admin"
-          }
+            "restAuthCredential.username": "admin",
+          },
         },
-        kind: "Hadoop"
+        kind: "Hadoop",
       },
       clusterVersion: "3.6",
       computeProfile: {
@@ -1034,10 +1029,10 @@ async function createClusterWithEncryptionAtHost() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 2
+            targetInstanceCount: 2,
           },
           {
             name: "workernode",
@@ -1045,10 +1040,10 @@ async function createClusterWithEncryptionAtHost() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 3
+            targetInstanceCount: 3,
           },
           {
             name: "zookeepernode",
@@ -1056,12 +1051,12 @@ async function createClusterWithEncryptionAtHost() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 3
-          }
-        ]
+            targetInstanceCount: 3,
+          },
+        ],
       },
       diskEncryptionProperties: { encryptionAtHost: true },
       osType: "Linux",
@@ -1072,19 +1067,19 @@ async function createClusterWithEncryptionAtHost() {
             container: "default8525",
             enableSecureChannel: true,
             isDefault: true,
-            key: "storagekey"
-          }
-        ]
+            key: "storagekey",
+          },
+        ],
       },
-      tier: "Standard"
-    }
+      tier: "Standard",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1093,7 +1088,7 @@ async function createClusterWithEncryptionAtHost() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateHDInsightClusterWithEncryptionInTransit.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateHDInsightClusterWithEncryptionInTransit.json
  */
 async function createClusterWithEncryptionInTransit() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -1106,10 +1101,10 @@ async function createClusterWithEncryptionInTransit() {
           gateway: {
             "restAuthCredential.isEnabled": true,
             "restAuthCredential.password": "**********",
-            "restAuthCredential.username": "admin"
-          }
+            "restAuthCredential.username": "admin",
+          },
         },
-        kind: "Hadoop"
+        kind: "Hadoop",
       },
       clusterVersion: "3.6",
       computeProfile: {
@@ -1120,10 +1115,10 @@ async function createClusterWithEncryptionInTransit() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 2
+            targetInstanceCount: 2,
           },
           {
             name: "workernode",
@@ -1131,10 +1126,10 @@ async function createClusterWithEncryptionInTransit() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 3
+            targetInstanceCount: 3,
           },
           {
             name: "zookeepernode",
@@ -1142,12 +1137,12 @@ async function createClusterWithEncryptionInTransit() {
             osProfile: {
               linuxOperatingSystemProfile: {
                 password: "**********",
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
-            targetInstanceCount: 3
-          }
-        ]
+            targetInstanceCount: 3,
+          },
+        ],
       },
       encryptionInTransitProperties: { isEncryptionInTransitEnabled: true },
       osType: "Linux",
@@ -1158,19 +1153,19 @@ async function createClusterWithEncryptionInTransit() {
             container: "default8525",
             enableSecureChannel: true,
             isDefault: true,
-            key: "storagekey"
-          }
-        ]
+            key: "storagekey",
+          },
+        ],
       },
-      tier: "Standard"
-    }
+      tier: "Standard",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -1179,7 +1174,7 @@ async function createClusterWithEncryptionInTransit() {
  * This sample demonstrates how to Creates a new HDInsight cluster with the specified parameters.
  *
  * @summary Creates a new HDInsight cluster with the specified parameters.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/CreateHDInsightClusterWithCustomNetworkProperties.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/CreateHDInsightClusterWithCustomNetworkProperties.json
  */
 async function createClusterWithNetworkProperties() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subId";
@@ -1192,10 +1187,10 @@ async function createClusterWithNetworkProperties() {
           gateway: {
             "restAuthCredential.isEnabled": true,
             "restAuthCredential.password": "**********",
-            "restAuthCredential.username": "admin"
-          }
+            "restAuthCredential.username": "admin",
+          },
         },
-        kind: "hadoop"
+        kind: "hadoop",
       },
       clusterVersion: "3.6",
       computeProfile: {
@@ -1207,16 +1202,15 @@ async function createClusterWithNetworkProperties() {
               linuxOperatingSystemProfile: {
                 password: "**********",
                 sshProfile: { publicKeys: [{ certificateData: "**********" }] },
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
             targetInstanceCount: 2,
             virtualNetworkProfile: {
-              id:
-                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+              id: "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
               subnet:
-                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
-            }
+                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet",
+            },
           },
           {
             name: "workernode",
@@ -1225,22 +1219,22 @@ async function createClusterWithNetworkProperties() {
               linuxOperatingSystemProfile: {
                 password: "**********",
                 sshProfile: { publicKeys: [{ certificateData: "**********" }] },
-                username: "sshuser"
-              }
+                username: "sshuser",
+              },
             },
             targetInstanceCount: 2,
             virtualNetworkProfile: {
-              id:
-                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+              id: "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
               subnet:
-                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
-            }
-          }
-        ]
+                "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet",
+            },
+          },
+        ],
       },
       networkProperties: {
         privateLink: "Enabled",
-        resourceProviderConnection: "Outbound"
+        publicIpTag: { ipTagType: "FirstPartyUsage", tag: "/<TagName>" },
+        resourceProviderConnection: "Outbound",
       },
       osType: "Linux",
       storageProfile: {
@@ -1250,18 +1244,18 @@ async function createClusterWithNetworkProperties() {
             container: "containername",
             enableSecureChannel: true,
             isDefault: true,
-            key: "storage account key"
-          }
-        ]
-      }
-    }
+            key: "storage account key",
+          },
+        ],
+      },
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginCreateAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

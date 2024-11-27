@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import assert from "assert";
-import { Suite } from "mocha";
+import type { Suite } from "mocha";
+import type { ContainerResponse, PartitionKeyDefinition } from "../../../src";
 import {
   Constants,
-  ContainerResponse,
   OperationType,
-  PartitionKeyDefinition,
   PartitionKeyKind,
   ResourceType,
   StatusCodes,
 } from "../../../src";
-import { ContainerDefinition, Database, Container } from "../../../src";
-import { ContainerRequest } from "../../../src";
-import { DataType, IndexedPath, IndexingMode, IndexingPolicy, IndexKind } from "../../../src";
+import type { ContainerDefinition, Database, Container } from "../../../src";
+import type { ContainerRequest } from "../../../src";
+import type { IndexedPath, IndexingPolicy } from "../../../src";
+import { DataType, IndexingMode, IndexKind } from "../../../src";
 import {
   getTestDatabase,
   removeAllDatabases,

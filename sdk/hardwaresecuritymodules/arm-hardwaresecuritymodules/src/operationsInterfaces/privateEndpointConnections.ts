@@ -9,7 +9,7 @@
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import {
   PrivateEndpointConnection,
-  PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams
+  PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -20,12 +20,12 @@ export interface PrivateEndpointConnections {
    * HSM Cluster
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param cloudHsmClusterName The name of the Cloud HSM Cluster within the specified resource group.
-   *                            Cloud HSM Cluster names must be between 3 and 24 characters in length.
+   *                            Cloud HSM Cluster names must be between 3 and 23 characters in length.
    * @param options The options parameters.
    */
   listByCloudHsmCluster(
     resourceGroupName: string,
     cloudHsmClusterName: string,
-    options?: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams
+    options?: PrivateEndpointConnectionsListByCloudHsmClusterOptionalParams,
   ): PagedAsyncIterableIterator<PrivateEndpointConnection>;
 }

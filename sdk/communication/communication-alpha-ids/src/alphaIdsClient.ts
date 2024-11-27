@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
-import {
+import type {
   DynamicAlphaIdConfiguration,
   GetConfigurationOptions,
   UpsertConfigurationOptions,
@@ -10,16 +10,17 @@ import {
   GetPreRegisteredAlphaIdCountriesOptions,
   AlphaId,
   SupportedCountries,
-} from "./models";
+} from "./models.js";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
-import { AlphaIDsClient as AlphaIDsGeneratedClient } from "./generated/src";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
+import { AlphaIDsClient as AlphaIDsGeneratedClient } from "./generated/src/index.js";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
-import { logger } from "./utils";
-import { tracingClient } from "./generated/src/tracing";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { createAlphaIDsPagingPolicy } from "./utils/customPipelinePolicies";
+import { logger } from "./utils/index.js";
+import { tracingClient } from "./generated/src/tracing.js";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { createAlphaIDsPagingPolicy } from "./utils/customPipelinePolicies.js";
 
 /**
  * Client options used to configure the AlphaIdsClient API requests.
@@ -73,6 +74,7 @@ export class AlphaIdsClient {
   }
 
   public getDynamicAlphaIdConfiguration(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: GetConfigurationOptions = {},
   ): Promise<DynamicAlphaIdConfiguration> {
     return tracingClient.withSpan(
@@ -86,6 +88,7 @@ export class AlphaIdsClient {
 
   public upsertDynamicAlphaIdConfiguration(
     enabled: boolean,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: UpsertConfigurationOptions = {},
   ): Promise<DynamicAlphaIdConfiguration> {
     return tracingClient.withSpan(
@@ -97,6 +100,7 @@ export class AlphaIdsClient {
     );
   }
 
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public getAlphaIds(options: ListAlphaIdsOptions = {}): PagedAsyncIterableIterator<AlphaId> {
     const { span, updatedOptions } = tracingClient.startSpan(
       "AlphaIdsClient-listAlphaIds",

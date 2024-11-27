@@ -1,22 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import {
-  MockInstrumenter,
-  MockTracingSpan,
-  assert,
-  createMockTracingContext,
-} from "@azure-tools/test-utils";
+// Licensed under the MIT License.
+import type { MockTracingSpan } from "@azure-tools/test-utils-vitest";
+import { MockInstrumenter, createMockTracingContext } from "@azure-tools/test-utils-vitest";
 import {
   TRACEPARENT_PROPERTY,
   instrumentMessage,
   toProcessingSpanOptions,
-} from "../../../src/diagnostics/instrumentServiceBusMessage";
-import { toSpanOptions, tracingClient } from "../../../src/diagnostics/tracing";
-
-import Sinon from "sinon";
-import { TracingContext } from "@azure/core-tracing";
+} from "../../../src/diagnostics/instrumentServiceBusMessage.js";
+import { toSpanOptions, tracingClient } from "../../../src/diagnostics/tracing.js";
+import type { TracingContext } from "@azure/core-tracing";
 import Long from "long";
-import { ServiceBusReceivedMessage } from "../../../src/serviceBusMessage";
+import type { ServiceBusReceivedMessage } from "../../../src/serviceBusMessage.js";
+import { describe, it, vi, afterEach } from "vitest";
+import { assert, expect } from "../../public/utils/chai.js";
 
 describe("tracing", () => {
   describe("#getAdditionalSpanOptions", () => {
@@ -42,11 +38,11 @@ describe("tracing", () => {
 
   describe("#instrumentMessage", () => {
     afterEach(() => {
-      Sinon.restore();
+      vi.restoreAllMocks();
     });
 
     it("is idempotent", () => {
-      const tracingClientSpy = Sinon.spy(tracingClient, "startSpan");
+      const tracingClientSpy = vi.spyOn(tracingClient, "startSpan");
       const instrumentedMessage = {
         body: "test",
         applicationProperties: {
@@ -62,7 +58,7 @@ describe("tracing", () => {
       );
       assert.notExists(spanContext);
       assert.equal(message.applicationProperties?.[TRACEPARENT_PROPERTY], "exists");
-      assert.equal(tracingClientSpy.callCount, 0);
+      expect(tracingClientSpy).not.toHaveBeenCalled();
     });
 
     it("returns early if the span is not recording", () => {
@@ -70,7 +66,7 @@ describe("tracing", () => {
       const { span: nonRecordingSpan } = instrumenter.startSpan("test");
       (nonRecordingSpan as MockTracingSpan).setIsRecording(false);
       // Setup our tracingClient to ensure we reach the happy path.
-      Sinon.stub(tracingClient, "startSpan").returns({
+      vi.spyOn(tracingClient, "startSpan").mockReturnValue({
         span: nonRecordingSpan,
         updatedOptions: { tracingOptions: { tracingContext: createMockTracingContext() } },
       });
@@ -92,11 +88,11 @@ describe("tracing", () => {
         (recordingSpan as MockTracingSpan).setIsRecording(true);
 
         // Setup our tracingClient to ensure we reach the happy path.
-        Sinon.stub(tracingClient, "startSpan").returns({
+        vi.spyOn(tracingClient, "startSpan").mockReturnValue({
           span: recordingSpan,
           updatedOptions: { tracingOptions: { tracingContext: createMockTracingContext() } },
         });
-        Sinon.stub(tracingClient, "createRequestHeaders").returns({
+        vi.spyOn(tracingClient, "createRequestHeaders").mockReturnValue({
           traceparent: "fake-traceparent-header",
         });
 
@@ -152,7 +148,7 @@ describe("tracing", () => {
           },
         };
         const fakeContext = {} as TracingContext;
-        Sinon.stub(tracingClient, "parseTraceparentHeader").returns(fakeContext);
+        vi.spyOn(tracingClient, "parseTraceparentHeader").mockReturnValue(fakeContext);
 
         const processingSpanOptions = toProcessingSpanOptions(
           [requiredMessageProperties],

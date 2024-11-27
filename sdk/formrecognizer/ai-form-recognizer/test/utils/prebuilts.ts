@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PrebuiltBusinessCardModel } from "./schemas/prebuilt-businessCard";
 import { PrebuiltDocumentModel } from "./schemas/prebuilt-document";

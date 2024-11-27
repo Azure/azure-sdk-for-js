@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import assert from "assert";
-import { Context } from "mocha";
-import { Suite } from "mocha";
+import type { Context } from "mocha";
+import type { Suite } from "mocha";
 import { Constants } from "../../../src";
-import { Container, StoredProcedureDefinition } from "../../../src/";
+import type { Container, StoredProcedureDefinition } from "../../../src/";
 import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../../src/documents";
 import {
   bulkInsertItems,

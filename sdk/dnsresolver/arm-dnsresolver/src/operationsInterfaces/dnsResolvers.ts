@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   DnsResolver,
   DnsResolversListByResourceGroupOptionalParams,
@@ -21,7 +21,7 @@ import {
   DnsResolversUpdateResponse,
   DnsResolversDeleteOptionalParams,
   DnsResolversGetOptionalParams,
-  DnsResolversGetResponse
+  DnsResolversGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -34,14 +34,14 @@ export interface DnsResolvers {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: DnsResolversListByResourceGroupOptionalParams
+    options?: DnsResolversListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DnsResolver>;
   /**
    * Lists DNS resolvers in all resource groups of a subscription.
    * @param options The options parameters.
    */
   list(
-    options?: DnsResolversListOptionalParams
+    options?: DnsResolversListOptionalParams,
   ): PagedAsyncIterableIterator<DnsResolver>;
   /**
    * Lists DNS resolver resource IDs linked to a virtual network.
@@ -52,7 +52,7 @@ export interface DnsResolvers {
   listByVirtualNetwork(
     resourceGroupName: string,
     virtualNetworkName: string,
-    options?: DnsResolversListByVirtualNetworkOptionalParams
+    options?: DnsResolversListByVirtualNetworkOptionalParams,
   ): PagedAsyncIterableIterator<SubResource>;
   /**
    * Creates or updates a DNS resolver.
@@ -65,10 +65,10 @@ export interface DnsResolvers {
     resourceGroupName: string,
     dnsResolverName: string,
     parameters: DnsResolver,
-    options?: DnsResolversCreateOrUpdateOptionalParams
+    options?: DnsResolversCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DnsResolversCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DnsResolversCreateOrUpdateResponse>,
       DnsResolversCreateOrUpdateResponse
     >
   >;
@@ -83,7 +83,7 @@ export interface DnsResolvers {
     resourceGroupName: string,
     dnsResolverName: string,
     parameters: DnsResolver,
-    options?: DnsResolversCreateOrUpdateOptionalParams
+    options?: DnsResolversCreateOrUpdateOptionalParams,
   ): Promise<DnsResolversCreateOrUpdateResponse>;
   /**
    * Updates a DNS resolver.
@@ -96,10 +96,10 @@ export interface DnsResolvers {
     resourceGroupName: string,
     dnsResolverName: string,
     parameters: DnsResolverPatch,
-    options?: DnsResolversUpdateOptionalParams
+    options?: DnsResolversUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DnsResolversUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DnsResolversUpdateResponse>,
       DnsResolversUpdateResponse
     >
   >;
@@ -114,7 +114,7 @@ export interface DnsResolvers {
     resourceGroupName: string,
     dnsResolverName: string,
     parameters: DnsResolverPatch,
-    options?: DnsResolversUpdateOptionalParams
+    options?: DnsResolversUpdateOptionalParams,
   ): Promise<DnsResolversUpdateResponse>;
   /**
    * Deletes a DNS resolver. WARNING: This operation cannot be undone.
@@ -125,8 +125,8 @@ export interface DnsResolvers {
   beginDelete(
     resourceGroupName: string,
     dnsResolverName: string,
-    options?: DnsResolversDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: DnsResolversDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a DNS resolver. WARNING: This operation cannot be undone.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -136,7 +136,7 @@ export interface DnsResolvers {
   beginDeleteAndWait(
     resourceGroupName: string,
     dnsResolverName: string,
-    options?: DnsResolversDeleteOptionalParams
+    options?: DnsResolversDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets properties of a DNS resolver.
@@ -147,6 +147,6 @@ export interface DnsResolvers {
   get(
     resourceGroupName: string,
     dnsResolverName: string,
-    options?: DnsResolversGetOptionalParams
+    options?: DnsResolversGetOptionalParams,
   ): Promise<DnsResolversGetResponse>;
 }

@@ -13,6 +13,7 @@ import { AzureOpenAI } from "openai";
 import { getBearerTokenProvider, DefaultAzureCredential } from "@azure/identity";
 
 export async function main() {
+  const apiVersion = "2024-09-01-preview";
   // Create AzureOpenAI client with Microsoft Entra ID
   const credential = new DefaultAzureCredential();
   const scope = "https://cognitiveservices.azure.com/.default";
@@ -20,6 +21,7 @@ export async function main() {
 
   const client = new AzureOpenAI({
     azureADTokenProvider,
+    apiVersion,
   });
 
   // Create an assistant using code interpreter tool
@@ -62,6 +64,14 @@ export async function main() {
       switch (item.type) {
         case "text": {
           console.log(`${runMessageDatum.role}: ${item.text.value}`);
+          break;
+        }
+        case "image_file": {
+          console.log(`Received image: ${item.image_file.file_id}`);
+          break;
+        }
+        case "image_url": {
+          console.log(`Received image: ${item.image_url.url}`);
           break;
         }
         default: {

@@ -17,6 +17,23 @@ export interface AbsoluteMonthlySchedule {
 }
 
 // @public
+export interface AdvancedNetworking {
+    enabled?: boolean;
+    observability?: AdvancedNetworkingObservability;
+    security?: AdvancedNetworkingSecurity;
+}
+
+// @public
+export interface AdvancedNetworkingObservability {
+    enabled?: boolean;
+}
+
+// @public
+export interface AdvancedNetworkingSecurity {
+    enabled?: boolean;
+}
+
+// @public
 export interface AgentPool extends SubResource {
     availabilityZones?: string[];
     capacityReservationGroupID?: string;
@@ -28,6 +45,7 @@ export interface AgentPool extends SubResource {
     enableFips?: boolean;
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
+    readonly eTag?: string;
     gpuInstanceProfile?: GPUInstanceProfile;
     hostGroupID?: string;
     kubeletConfig?: KubeletConfig;
@@ -56,6 +74,7 @@ export interface AgentPool extends SubResource {
     scaleDownMode?: ScaleDownMode;
     scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
     scaleSetPriority?: ScaleSetPriority;
+    securityProfile?: AgentPoolSecurityProfile;
     spotMaxPrice?: number;
     tags?: {
         [propertyName: string]: string;
@@ -84,6 +103,11 @@ export interface AgentPoolAvailableVersionsPropertiesAgentPoolVersionsItem {
 }
 
 // @public
+export interface AgentPoolDeleteMachinesParameter {
+    machineNames: string[];
+}
+
+// @public
 export interface AgentPoolListResult {
     readonly nextLink?: string;
     value?: AgentPool[];
@@ -107,6 +131,8 @@ export interface AgentPools {
     beginCreateOrUpdateAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, parameters: AgentPool, options?: AgentPoolsCreateOrUpdateOptionalParams): Promise<AgentPoolsCreateOrUpdateResponse>;
     beginDelete(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteResponse>, AgentPoolsDeleteResponse>>;
     beginDeleteAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsDeleteOptionalParams): Promise<AgentPoolsDeleteResponse>;
+    beginDeleteMachines(resourceGroupName: string, resourceName: string, agentPoolName: string, machines: AgentPoolDeleteMachinesParameter, options?: AgentPoolsDeleteMachinesOptionalParams): Promise<SimplePollerLike<OperationState<AgentPoolsDeleteMachinesResponse>, AgentPoolsDeleteMachinesResponse>>;
+    beginDeleteMachinesAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, machines: AgentPoolDeleteMachinesParameter, options?: AgentPoolsDeleteMachinesOptionalParams): Promise<AgentPoolsDeleteMachinesResponse>;
     beginUpgradeNodeImageVersion(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsUpgradeNodeImageVersionOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginUpgradeNodeImageVersionAndWait(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsUpgradeNodeImageVersionOptionalParams): Promise<void>;
     get(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: AgentPoolsGetOptionalParams): Promise<AgentPoolsGetResponse>;
@@ -132,6 +158,8 @@ export type AgentPoolsAbortLatestOperationResponse = AgentPoolsAbortLatestOperat
 
 // @public
 export interface AgentPoolsCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -145,13 +173,35 @@ export interface AgentPoolsDeleteHeaders {
 }
 
 // @public
+export interface AgentPoolsDeleteMachinesHeaders {
+    location?: string;
+}
+
+// @public
+export interface AgentPoolsDeleteMachinesOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export type AgentPoolsDeleteMachinesResponse = AgentPoolsDeleteMachinesHeaders;
+
+// @public
 export interface AgentPoolsDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ignorePodDisruptionBudget?: boolean;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
 
 // @public
 export type AgentPoolsDeleteResponse = AgentPoolsDeleteHeaders;
+
+// @public
+export interface AgentPoolSecurityProfile {
+    enableSecureBoot?: boolean;
+    enableVtpm?: boolean;
+}
 
 // @public
 export interface AgentPoolsGetAvailableAgentPoolVersionsOptionalParams extends coreClient.OperationOptions {
@@ -282,6 +332,8 @@ export class ContainerServiceClient extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    machines: Machines;
+    // (undocumented)
     maintenanceConfigurations: MaintenanceConfigurations;
     // (undocumented)
     managedClusters: ManagedClusters;
@@ -318,6 +370,7 @@ export interface ContainerServiceLinuxProfile {
 
 // @public
 export interface ContainerServiceNetworkProfile {
+    advancedNetworking?: AdvancedNetworking;
     dnsServiceIP?: string;
     ipFamilies?: IpFamily[];
     loadBalancerProfile?: ManagedClusterLoadBalancerProfile;
@@ -714,6 +767,12 @@ export enum KnownPublicNetworkAccess {
 }
 
 // @public
+export enum KnownRestrictionLevel {
+    ReadOnly = "ReadOnly",
+    Unrestricted = "Unrestricted"
+}
+
+// @public
 export enum KnownScaleDownMode {
     Deallocate = "Deallocate",
     Delete = "Delete"
@@ -849,6 +908,61 @@ export interface LinuxOSConfig {
 export type LoadBalancerSku = string;
 
 // @public
+export interface Machine extends SubResource {
+    readonly properties?: MachineProperties;
+}
+
+// @public
+export interface MachineIpAddress {
+    readonly family?: IpFamily;
+    readonly ip?: string;
+}
+
+// @public
+export interface MachineListResult {
+    readonly nextLink?: string;
+    value?: Machine[];
+}
+
+// @public
+export interface MachineNetworkProperties {
+    readonly ipAddresses?: MachineIpAddress[];
+}
+
+// @public
+export interface MachineProperties {
+    readonly network?: MachineNetworkProperties;
+    readonly resourceId?: string;
+}
+
+// @public
+export interface Machines {
+    get(resourceGroupName: string, resourceName: string, agentPoolName: string, machineName: string, options?: MachinesGetOptionalParams): Promise<MachinesGetResponse>;
+    list(resourceGroupName: string, resourceName: string, agentPoolName: string, options?: MachinesListOptionalParams): PagedAsyncIterableIterator<Machine>;
+}
+
+// @public
+export interface MachinesGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MachinesGetResponse = Machine;
+
+// @public
+export interface MachinesListNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MachinesListNextResponse = MachineListResult;
+
+// @public
+export interface MachinesListOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type MachinesListResponse = MachineListResult;
+
+// @public
 export interface MaintenanceConfiguration extends SubResource {
     maintenanceWindow?: MaintenanceWindow;
     notAllowedTime?: TimeSpan[];
@@ -930,6 +1044,7 @@ export interface ManagedCluster extends TrackedResource {
     dnsPrefix?: string;
     enablePodSecurityPolicy?: boolean;
     enableRbac?: boolean;
+    readonly eTag?: string;
     extendedLocation?: ExtendedLocation;
     readonly fqdn?: string;
     fqdnSubdomain?: string;
@@ -945,6 +1060,7 @@ export interface ManagedCluster extends TrackedResource {
     metricsProfile?: ManagedClusterMetricsProfile;
     networkProfile?: ContainerServiceNetworkProfile;
     nodeResourceGroup?: string;
+    nodeResourceGroupProfile?: ManagedClusterNodeResourceGroupProfile;
     oidcIssuerProfile?: ManagedClusterOidcIssuerProfile;
     podIdentityProfile?: ManagedClusterPodIdentityProfile;
     readonly powerState?: PowerState;
@@ -1010,6 +1126,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     enableFips?: boolean;
     enableNodePublicIP?: boolean;
     enableUltraSSD?: boolean;
+    readonly eTag?: string;
     gpuInstanceProfile?: GPUInstanceProfile;
     hostGroupID?: string;
     kubeletConfig?: KubeletConfig;
@@ -1038,6 +1155,7 @@ export interface ManagedClusterAgentPoolProfileProperties {
     scaleDownMode?: ScaleDownMode;
     scaleSetEvictionPolicy?: ScaleSetEvictionPolicy;
     scaleSetPriority?: ScaleSetPriority;
+    securityProfile?: AgentPoolSecurityProfile;
     spotMaxPrice?: number;
     tags?: {
         [propertyName: string]: string;
@@ -1169,6 +1287,11 @@ export interface ManagedClusterNATGatewayProfile {
     effectiveOutboundIPs?: ResourceReference[];
     idleTimeoutInMinutes?: number;
     managedOutboundIPProfile?: ManagedClusterManagedOutboundIPProfile;
+}
+
+// @public
+export interface ManagedClusterNodeResourceGroupProfile {
+    restrictionLevel?: RestrictionLevel;
 }
 
 // @public
@@ -1321,6 +1444,8 @@ export type ManagedClustersAbortLatestOperationResponse = ManagedClustersAbortLa
 
 // @public
 export interface ManagedClustersCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1335,6 +1460,7 @@ export interface ManagedClustersDeleteHeaders {
 
 // @public
 export interface ManagedClustersDeleteOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1662,6 +1788,7 @@ export interface ManagedClusterStorageProfileSnapshotController {
 
 // @public
 export interface ManagedClustersUpdateTagsOptionalParams extends coreClient.OperationOptions {
+    ifMatch?: string;
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -1965,6 +2092,9 @@ export type ResourceIdentityType = "SystemAssigned" | "UserAssigned" | "None";
 export interface ResourceReference {
     id?: string;
 }
+
+// @public
+export type RestrictionLevel = string;
 
 // @public
 export interface RunCommandRequest {

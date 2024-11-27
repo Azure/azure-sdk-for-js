@@ -12,6 +12,8 @@ import {
   License,
   LicensesListByResourceGroupOptionalParams,
   LicensesListBySubscriptionOptionalParams,
+  LicensesValidateLicenseOptionalParams,
+  LicensesValidateLicenseResponse,
   LicensesCreateOrUpdateOptionalParams,
   LicensesCreateOrUpdateResponse,
   LicenseUpdate,
@@ -41,6 +43,29 @@ export interface Licenses {
   listBySubscription(
     options?: LicensesListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<License>;
+  /**
+   * The operation to validate a license.
+   * @param parameters Parameters supplied to the license validation operation.
+   * @param options The options parameters.
+   */
+  beginValidateLicense(
+    parameters: License,
+    options?: LicensesValidateLicenseOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<LicensesValidateLicenseResponse>,
+      LicensesValidateLicenseResponse
+    >
+  >;
+  /**
+   * The operation to validate a license.
+   * @param parameters Parameters supplied to the license validation operation.
+   * @param options The options parameters.
+   */
+  beginValidateLicenseAndWait(
+    parameters: License,
+    options?: LicensesValidateLicenseOptionalParams,
+  ): Promise<LicensesValidateLicenseResponse>;
   /**
    * The operation to create or update a license.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.

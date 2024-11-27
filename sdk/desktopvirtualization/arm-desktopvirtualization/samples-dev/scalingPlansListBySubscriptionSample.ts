@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ScalingPlansListBySubscriptionOptionalParams,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List scaling plans in subscription.
  *
  * @summary List scaling plans in subscription.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ScalingPlan_ListBySubscription.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/ScalingPlan_ListBySubscription.json
  */
 async function scalingPlansListBySubscription() {
   const subscriptionId =
@@ -33,7 +33,7 @@ async function scalingPlansListBySubscription() {
   const options: ScalingPlansListBySubscriptionOptionalParams = {
     pageSize,
     isDescending,
-    initialSkip
+    initialSkip,
   };
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);

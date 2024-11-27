@@ -1,22 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createPurviewWorkflowClient, {
+
+import type {
   ApproveApprovalTaskParameters,
   ListWorkflowTasksParameters,
-  paginate,
   UpdateTaskStatusParameters,
   RejectApprovalTaskParameters,
   ReassignWorkflowTaskParameters,
   PurviewWorkflowClient,
-  isUnexpected,
 } from "@azure-rest/purview-workflow";
+import createPurviewWorkflowClient, { paginate, isUnexpected } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to Get all workflow tasks.
@@ -28,7 +23,7 @@ dotenv.config();
 async function workflowTasksList(
   client: PurviewWorkflowClient,
   queryParameters: ListWorkflowTasksParameters,
-) {
+): Promise<void> {
   const initialResponse = await client.path("/workflowtasks").get(queryParameters);
   if (isUnexpected(initialResponse)) {
     throw initialResponse.body.error;
@@ -50,7 +45,7 @@ async function workflowTasksList(
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/GetWorkflowTask.json
  */
 
-async function workTaskGet(client: PurviewWorkflowClient, taskId: string) {
+async function workTaskGet(client: PurviewWorkflowClient, taskId: string): Promise<void> {
   const result = await client.path("/workflowtasks/{taskId}", taskId).get();
   if (isUnexpected(result)) {
     throw result.body.error;
@@ -69,7 +64,7 @@ async function approveWorkflowTask(
   client: PurviewWorkflowClient,
   taskId: string,
   approvePayload: ApproveApprovalTaskParameters,
-) {
+): Promise<void> {
   const result = await client
     .path("/workflowtasks/{taskId}/approve-approval", taskId)
     .post(approvePayload);
@@ -90,7 +85,7 @@ async function rejectWorkflowTask(
   client: PurviewWorkflowClient,
   taskId: string,
   rejectPayload: RejectApprovalTaskParameters,
-) {
+): Promise<void> {
   const result = await client
     .path("/workflowtasks/{taskId}/reject-approval", taskId)
     .post(rejectPayload);
@@ -111,7 +106,7 @@ async function updateWorkflowTaskStatus(
   client: PurviewWorkflowClient,
   taskId: string,
   updateStatusPayload: UpdateTaskStatusParameters,
-) {
+): Promise<void> {
   const result = await client
     .path("/workflowtasks/{taskId}/change-task-status", taskId)
     .post(updateStatusPayload);
@@ -131,7 +126,7 @@ async function workflowTaskReassign(
   client: PurviewWorkflowClient,
   taskId: string,
   reassignPayload: ReassignWorkflowTaskParameters,
-) {
+): Promise<void> {
   const result = await client
     .path("/workflowtasks/{taskId}/reassign", taskId)
     .post(reassignPayload);
@@ -141,7 +136,7 @@ async function workflowTaskReassign(
   console.log(`Reassign workflow task ${taskId} successfully.`);
 }
 
-async function main() {
+async function main(): Promise<void> {
   // ================================================== Create client ==================================================
 
   const endpoint = process.env["ENDPOINT"] || "";
@@ -184,7 +179,7 @@ async function main() {
 
   const approvePayload: ApproveApprovalTaskParameters = {
     body: { comment: "Thanks for raising this!" },
-  }; //This payload is an example payload, please replace the payload with real data.
+  }; // This payload is an example payload, please replace the payload with real data.
   approveWorkflowTask(client, taskId2, approvePayload);
 
   // ================================================== Reject a workflow task ==================================================
@@ -193,7 +188,7 @@ async function main() {
 
   const rejectPayload: RejectApprovalTaskParameters = {
     body: { comment: "Thanks for raising this!" },
-  }; //This payload is an example payload, please replace the payload with real data.
+  }; // This payload is an example payload, please replace the payload with real data.
 
   rejectWorkflowTask(client, taskId3, rejectPayload);
 
@@ -203,7 +198,7 @@ async function main() {
 
   const updateStatusPayload: UpdateTaskStatusParameters = {
     body: { comment: "Thanks!", newStatus: "InProgress" },
-  }; //This payload is an example payload, please replace the payload with real data.
+  }; // This payload is an example payload, please replace the payload with real data.
   updateWorkflowTaskStatus(client, taskId4, updateStatusPayload);
 
   // ================================================== Reassign a workflow task ==================================================
@@ -219,7 +214,7 @@ async function main() {
         },
       ],
     },
-  }; //This payload is an example payload, please replace the payload with real data.
+  }; // This payload is an example payload, please replace the payload with real data.
   workflowTaskReassign(client, taskId5, reassignPayload);
 }
 

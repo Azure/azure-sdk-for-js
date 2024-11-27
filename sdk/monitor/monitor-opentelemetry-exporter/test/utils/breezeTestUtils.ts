@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { BreezeResponse } from "../../src/utils/breezeUtils";
+import type { BreezeResponse } from "../../src/utils/breezeUtils.js";
 
 export function successfulBreezeResponse(count: number): BreezeResponse {
   return {

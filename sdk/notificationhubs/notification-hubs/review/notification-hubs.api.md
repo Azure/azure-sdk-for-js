@@ -4,11 +4,11 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export interface AdmInstallation extends DeviceTokenInstallation {
@@ -247,6 +247,11 @@ export interface BaiduTemplateRegistrationDescription extends BaiduTemplateRegis
 
 // @public
 export interface BaiduTemplateRegistrationDescriptionCommon extends BaiduRegistrationDescriptionCommon, TemplateRegistrationDescription {
+}
+
+// @public
+export interface BroadcastSendNotificationOptions extends OperationOptions {
+    enableTestSend?: boolean;
 }
 
 // @public
@@ -726,6 +731,8 @@ export interface InstallationCommon {
     readonly expirationTime?: string;
     installationId: string;
     readonly lastUpdate?: string;
+    readonly pushChannelExpired?: boolean;
+    pushVariables?: Record<string, string>;
     tags?: string[];
     templates?: Record<string, InstallationTemplate>;
     userId?: string;
@@ -834,7 +841,7 @@ export interface NotificationHubJob {
 }
 
 // @public
-export type NotificationHubJobPoller = SimplePollerLike<OperationState<NotificationHubJob>, NotificationHubJob>;
+export type NotificationHubJobPoller = PollerLike<OperationState<NotificationHubJob>, NotificationHubJob>;
 
 // @public
 export type NotificationHubJobStatus =
@@ -900,8 +907,10 @@ export class NotificationHubsClient {
     listRegistrations(options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     listRegistrationsByChannel(channel: RegistrationChannel, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
     listRegistrationsByTag(tag: string, options?: RegistrationQueryLimitOptions): PagedAsyncIterableIterator<RegistrationDescription>;
-    scheduleNotification(scheduledTime: Date, notification: Notification, options?: ScheduleNotificationOptions): Promise<NotificationHubsMessageResponse>;
-    sendNotification(notification: Notification, options?: DirectSendNotificationOptions | SendNotificationOptions): Promise<NotificationHubsMessageResponse>;
+    scheduleBroadcastNotification(scheduledTime: Date, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
+    scheduleNotification(scheduledTime: Date, notification: Notification, options: ScheduleNotificationOptions): Promise<NotificationHubsMessageResponse>;
+    sendBroadcastNotification(notification: Notification, options?: BroadcastSendNotificationOptions): Promise<NotificationHubsMessageResponse>;
+    sendNotification(notification: Notification, options: DirectSendNotificationOptions | SendNotificationOptions): Promise<NotificationHubsMessageResponse>;
     submitNotificationHubJob(job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;
     updateInstallation(installationId: string, patches: JsonPatch[], options?: OperationOptions): Promise<NotificationHubsResponse>;
     updateRegistration(registration: RegistrationDescription, options?: OperationOptions): Promise<RegistrationDescription>;
@@ -988,13 +997,12 @@ export type RegistrationType = "Adm" | "AdmTemplate" | "Apple" | "AppleTemplate"
 
 // @public
 export interface ScheduleNotificationOptions extends OperationOptions {
-    tagExpression?: string;
+    tagExpression: string;
 }
 
 // @public
-export interface SendNotificationOptions extends OperationOptions {
-    enableTestSend?: boolean;
-    tagExpression?: string;
+export interface SendNotificationOptions extends BroadcastSendNotificationOptions {
+    tagExpression: string;
 }
 
 // @public

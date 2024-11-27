@@ -12,24 +12,24 @@
 
 ## 4.0.1 (2023-01-31)
 
-**Features**
+### Features Added
 
   - Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
+### Bugs Fixed
 
   - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 4.0.0 (2022-07-07)
     
-**Features**
+### Features Added
 
   - Added Interface AutoScaleVCore
   - Added Interface AutoScaleVCoreProperties
   - Added Interface DedicatedCapacity
   - Added Interface DedicatedCapacityProperties
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface CapacitySku no longer has parameter capacity
   - Interface DedicatedCapacityMutableProperties no longer has parameter friendlyName
@@ -43,7 +43,7 @@
     
 ## 3.0.1 (2022-04-28)
 
-**Features**
+### Features Added
 
   - Bug fix
     

@@ -12,7 +12,7 @@
 
 ## 14.2.0-beta.4 (2024-04-29)
     
-**Features**
+### Features Added
 
   - Added operation group CaCertificates
   - Added operation group ClientGroups
@@ -387,7 +387,7 @@
     
 ## 14.2.0-beta.3 (2023-12-04)
     
-**Features**
+### Features Added
 
   - Added operation group CaCertificates
   - Added operation group ClientGroups
@@ -742,7 +742,7 @@
 
 ## 14.2.0-beta.2 (2023-11-08)
     
-**Features**
+### Features Added
 
   - Added operation group CaCertificates
   - Added operation group ClientGroups
@@ -1095,7 +1095,7 @@
 
 ## 14.2.0-beta.1 (2023-05-18)
     
-**Features**
+### Features Added
 
   - Added operation group CaCertificates
   - Added operation group ClientGroups
@@ -1411,7 +1411,7 @@
     
 ## 14.1.0 (2023-01-10)
     
-**Features**
+### Features Added
 
   - Added Interface AzureFunctionEventSubscriptionDestination
   - Added Interface BoolEqualsAdvancedFilter
@@ -1530,7 +1530,7 @@
     
 ## 14.0.0 (2022-06-17)
     
-**Features**
+### Features Added
 
   - Added operation group Channels
   - Added operation group DomainEventSubscriptions
@@ -1772,7 +1772,7 @@
   - Enum KnownAdvancedFilterOperatorType has a new value StringNotContains
   - Enum KnownAdvancedFilterOperatorType has a new value StringNotEndsWith
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation PrivateEndpointConnections.beginDelete has a new signature
   - Operation PrivateEndpointConnections.beginDeleteAndWait has a new signature

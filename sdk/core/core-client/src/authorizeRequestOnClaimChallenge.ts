@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
+import type { AuthorizeRequestOnChallengeOptions } from "@azure/core-rest-pipeline";
 import { logger as coreClientLogger } from "./log.js";
 import { decodeStringToString } from "./base64.js";
 
@@ -37,12 +37,15 @@ export interface CAEChallenge {
  *
  * Call the `bearerTokenAuthenticationPolicy` with the following options:
  *
- * ```ts
+ * ```ts snippet:authorize_request_on_claim_challenge
  * import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
  * import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
  *
- * const bearerTokenAuthenticationPolicy = bearerTokenAuthenticationPolicy({
- *   authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge
+ * const policy = bearerTokenAuthenticationPolicy({
+ *   challengeCallbacks: {
+ *     authorizeRequestOnChallenge: authorizeRequestOnClaimChallenge,
+ *   },
+ *   scopes: ["https://service/.default"],
  * });
  * ```
  *
@@ -91,6 +94,9 @@ export async function authorizeRequestOnClaimChallenge(
     return false;
   }
 
-  onChallengeOptions.request.headers.set("Authorization", `Bearer ${accessToken.token}`);
+  onChallengeOptions.request.headers.set(
+    "Authorization",
+    `${accessToken.tokenType ?? "Bearer"} ${accessToken.token}`,
+  );
   return true;
 }

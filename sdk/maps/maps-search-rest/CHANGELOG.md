@@ -1,16 +1,14 @@
 # Release History
 
-## 2.0.0-beta.2 (Unreleased)
-
-### Features Added
+## 2.0.0-beta.2 (2024-12-10)
 
 ### Breaking Changes
+
+- Marked fields in various interfaces as readonly, which may impact code that previously modified these properties.
 
 ### Bugs Fixed
 
 - Fix the Microsoft Entra ID authentication when providing `baseUrl`.
-
-### Other Changes
 
 ## 2.0.0-beta.1 (2024-01-09)
 

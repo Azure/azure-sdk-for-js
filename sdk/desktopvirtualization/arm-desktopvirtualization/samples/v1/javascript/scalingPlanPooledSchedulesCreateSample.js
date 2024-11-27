@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create or update a ScalingPlanPooledSchedule.
  *
  * @summary Create or update a ScalingPlanPooledSchedule.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ScalingPlanPooledSchedule_Create.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/ScalingPlanPooledSchedule_Create.json
  */
 async function scalingPlanPooledSchedulesCreate() {
   const subscriptionId =
@@ -48,7 +48,7 @@ async function scalingPlanPooledSchedulesCreate() {
     resourceGroupName,
     scalingPlanName,
     scalingPlanScheduleName,
-    scalingPlanSchedule
+    scalingPlanSchedule,
   );
   console.log(result);
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "../auth/tokenCredential.js";
 import { delay } from "./helpers.js";
 
 /**
@@ -133,10 +133,14 @@ export function createTokenCycler(
      * window and not already refreshing)
      */
     get shouldRefresh(): boolean {
-      return (
-        !cycler.isRefreshing &&
-        (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now()
-      );
+      if (cycler.isRefreshing) {
+        return false;
+      }
+      if (token?.refreshAfterTimestamp && token.refreshAfterTimestamp < Date.now()) {
+        return true;
+      }
+
+      return (token?.expiresOnTimestamp ?? 0) - options.refreshWindowInMs < Date.now();
     },
     /**
      * Produces true if the cycler MUST refresh (null or nearly-expired

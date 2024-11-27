@@ -1,9 +1,13 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types"
+    "paths": {
+      "@azure/synapse-artifacts": ["./src/index.js"]
+    },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
-  "include": ["src/**/*.ts", "test/**/*.ts"],
+  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "samples-dev/**/*.ts", "test/**/*.ts"],
   "exclude": ["node_modules", "types", "temp", "browser", "dist*", "./dom-shims.d.ts"]
 }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { LatLon } from "@azure/maps-common";
+import type { LatLon } from "@azure/maps-common";
 
 function clip(n: number, minValue: number, maxValue: number): number {
   return Math.min(Math.max(n, minValue), maxValue);

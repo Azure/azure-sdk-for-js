@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  getLongRunningPoller,
+import type {
   InPlaceSentShareOutput,
-  isUnexpected,
   OperationResponseOutput,
   PurviewSharingClient,
   SentShareInvitationListOutput,
   SentShareListOutput,
   ServiceInvitationOutput,
   UserInvitationOutput,
-} from "../../src";
-import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
+} from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Sent Shares Operations", () => {
   let recorder: Recorder;
@@ -29,16 +28,16 @@ describe("Sent Shares Operations", () => {
   const targetObjectId = "6a9dd6e0-9a06-47bf-a9a2-0647130a7422";
   const targetEmail = "faisalaltell@microsoft.com";
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("Create a new Sent Share", async function () {
+  it("Create a new Sent Share", async () => {
     const displayName = "JS-SDK-Sent-Share";
     const response = await client.path("/sentShares/{sentShareId}", sentShareId).put({
       body: {
@@ -79,7 +78,7 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(sentShareResponse.properties.artifact.properties.paths.length, 1);
   });
 
-  it("Get a Sent Share", async function () {
+  it("Get a Sent Share", async () => {
     const response = await client.path("/sentShares/{sentShareId}", sentShareId).get();
 
     assert.strictEqual(response.status, "200");
@@ -97,7 +96,7 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(sentShareResponse.properties.artifact.properties.paths.length, 1);
   });
 
-  it("Update an existing Sent Share", async function () {
+  it("Update an existing Sent Share", async () => {
     const displayName = "JS-SDK-Sent-Share-Updated";
     const initialResponse = await client.path("/sentShares/{sentShareId}", sentShareId).put({
       body: {
@@ -146,7 +145,7 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(sentShareResponse.properties.artifact.properties.paths.length, 1);
   });
 
-  it("List all Sent Shares", async function () {
+  it("List all Sent Shares", async () => {
     console.log(env.STORAGE_ACCOUNT_RESOURCE_ID);
     const response = await client
       .path("/sentShares")
@@ -168,7 +167,7 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(sentshare.properties.artifact.properties.paths.length, 1);
   });
 
-  it("Create a new User Invitation", async function () {
+  it("Create a new User Invitation", async () => {
     const response = await client
       .path(
         "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
@@ -205,7 +204,7 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(invitationResponse.properties.targetEmail, targetEmail);
   });
 
-  it("Notify an invited User", async function () {
+  it("Notify an invited User", async () => {
     const response = await client
       .path(
         "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}:notify",
@@ -231,7 +230,7 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(invitationResponse.properties.targetEmail, targetEmail);
   });
 
-  it("Create a new Service Invitation", async function () {
+  it("Create a new Service Invitation", async () => {
     const response = await client
       .path(
         "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
@@ -272,7 +271,7 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(invitationResponse.properties.targetObjectId, targetObjectId);
   });
 
-  it("Get a Sent Share Invitation", async function () {
+  it("Get a Sent Share Invitation", async () => {
     const response = await client
       .path(
         "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
@@ -302,7 +301,7 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(invitationResponse.properties.targetObjectId, targetObjectId);
   });
 
-  it("List all Sent Share Invitations", async function () {
+  it("List all Sent Share Invitations", async () => {
     const response = await client
       .path("/sentShares/{sentShareId}/sentShareInvitations", sentShareId)
       .get();
@@ -330,7 +329,7 @@ describe("Sent Shares Operations", () => {
     assert.strictEqual(sentshareInvitation.properties.targetObjectId, targetObjectId);
   });
 
-  it("Delete a Sent Share Invitation", async function () {
+  it("Delete a Sent Share Invitation", async () => {
     const initialResponse = await client
       .path(
         "/sentShares/{sentShareId}/sentShareInvitations/{sentShareInvitationId}",
@@ -364,7 +363,7 @@ describe("Sent Shares Operations", () => {
     console.log(`Sent Share Invitation ${sentShareId} deleted.`);
   });
 
-  it("Delete a Sent Share", async function () {
+  it("Delete a Sent Share", async () => {
     const initialResponse = await client.path("/sentShares/{sentShareId}", sentShareId).delete();
 
     assert.strictEqual(initialResponse.status, "202");

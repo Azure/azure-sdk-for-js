@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import debug, { type Debugger } from "./debug.js";
 export type { Debugger } from "./debug.js";

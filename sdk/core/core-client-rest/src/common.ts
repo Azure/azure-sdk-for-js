@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   HttpClient,
   LogPolicyOptions,
   Pipeline,
@@ -13,12 +13,12 @@ import {
   RequestBodyType,
   TransferProgressEvent,
 } from "@azure/core-rest-pipeline";
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationTracingOptions } from "@azure/core-tracing";
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationTracingOptions } from "@azure/core-tracing";
 
 /**
- * Shape of the default request parameters, this may be overriden by the specific
+ * Shape of the default request parameters, this may be overridden by the specific
  * request types to provide strong types
  */
 export type RequestParameters = {
@@ -199,15 +199,17 @@ export interface Client {
   pipeline: Pipeline;
   /**
    * This method will be used to send request that would check the path to provide
-   * strong types. When used by the codegen this type gets overriden with the generated
+   * strong types. When used by the codegen this type gets overridden with the generated
    * types. For example:
-   * ```typescript
-   * export type MyClient = Client & {
-   *    path: Routes;
-   * }
+   * ```typescript snippet:path_example
+   * import { Client } from "@azure-rest/core-client";
+   *
+   * type MyClient = Client & {
+   *   path: Routes;
+   * };
    * ```
    */
-  // eslint-disable-next-line @typescript-eslint/ban-types
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
   path: Function;
   /**
    * This method allows arbitrary paths and doesn't provide strong types
@@ -396,7 +398,10 @@ export type PathParameters<
     // additional parameters we can call RouteParameters recursively on the Tail to match the remaining parts,
     // in case the Tail has more parameters, it will return a tuple with the parameters found in tail.
     // We spread the second path params to end up with a single dimension tuple at the end.
-    [pathParameter: string, ...pathParameters: PathParameters<Tail>]
+    [
+      pathParameter: string | number | PathParameterWithOptions,
+      ...pathParameters: PathParameters<Tail>,
+    ]
   : // When the path doesn't match the template, it means that we have no path parameters so we return
     // an empty tuple.
     [];
@@ -427,4 +432,20 @@ export interface InnerError {
   code: string;
   /** Inner error. */
   innererror?: InnerError;
+}
+
+/**
+ * An object that can be passed as a path parameter, allowing for additional options to be set relating to how the parameter is encoded.
+ */
+export interface PathParameterWithOptions {
+  /**
+   * The value of the parameter.
+   */
+  value: string | number;
+
+  /**
+   * Whether to allow for reserved characters in the value. If set to true, special characters such as '/' in the parameter's value will not be URL encoded.
+   * Defaults to false.
+   */
+  allowReserved?: boolean;
 }

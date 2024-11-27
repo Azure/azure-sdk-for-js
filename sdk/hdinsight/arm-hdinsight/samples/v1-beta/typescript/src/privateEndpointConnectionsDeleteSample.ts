@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes the specific private endpoint connection.
  *
  * @summary Deletes the specific private endpoint connection.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/DeletePrivateEndpointConnection.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/DeletePrivateEndpointConnection.json
  */
 async function deleteSpecificPrivateEndpointConnectionForASpecificHdInsightCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -31,7 +31,7 @@ async function deleteSpecificPrivateEndpointConnectionForASpecificHdInsightClust
   const result = await client.privateEndpointConnections.beginDeleteAndWait(
     resourceGroupName,
     clusterName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { ServiceBusSender, ServiceBusReceiver } from "../../src";
-import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
-chai.should();
-chai.use(chaiAsPromised);
+// Licensed under the MIT License.
+import type { ServiceBusSender, ServiceBusReceiver } from "../../src/index.js";
+import { TestClientType, TestMessage } from "./utils/testUtils.js";
+import type { ServiceBusClientForTests } from "./utils/testutils2.js";
+import { createServiceBusClientForTests } from "./utils/testutils2.js";
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
 
 describe("ManagementClient - disconnects", function (): void {
   let serviceBusClient: ServiceBusClientForTests;
@@ -22,11 +19,11 @@ describe("ManagementClient - disconnects", function (): void {
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!),
     );
   }
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 

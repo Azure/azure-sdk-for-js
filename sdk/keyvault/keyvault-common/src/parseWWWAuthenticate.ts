@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Parameters parsed out of the WWW-Authenticate header value by the parseWWWAuthenticate function.
@@ -29,6 +29,16 @@ export interface WWWAuthenticate {
    * The tenantId parameter, if present.
    */
   tenantId?: string;
+
+  /**
+   * The claims parameter, if present.
+   */
+  claims?: string;
+
+  /**
+   * The error parameter, if present.
+   */
+  error?: string;
 }
 
 const validWWWAuthenticateProperties: readonly (keyof WWWAuthenticate)[] = [
@@ -37,6 +47,8 @@ const validWWWAuthenticateProperties: readonly (keyof WWWAuthenticate)[] = [
   "resource",
   "scope",
   "tenantId",
+  "claims",
+  "error",
 ] as const;
 
 /**
@@ -52,10 +64,10 @@ export function parseWWWAuthenticateHeader(headerValue: string): WWWAuthenticate
   const parsed = headerValue.split(pairDelimiter).reduce<WWWAuthenticate>((kvPairs, p) => {
     if (p.match(/\w="/)) {
       // 'sampleKey="sample_value"' -> [sampleKey, "sample_value"] -> { sampleKey: sample_value }
-      const [key, value] = p.split("=");
+      const [key, ...value] = p.split("=");
       if (validWWWAuthenticateProperties.includes(key as keyof WWWAuthenticate)) {
         // The values will be wrapped in quotes, which need to be stripped out.
-        return { ...kvPairs, [key]: value.slice(1, -1) };
+        return { ...kvPairs, [key]: value.join("=").slice(1, -1) };
       }
     }
     return kvPairs;

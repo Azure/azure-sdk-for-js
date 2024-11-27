@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List start menu items in the given application group.
  *
  * @summary List start menu items in the given application group.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/StartMenuItem_List.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/StartMenuItem_List.json
  */
 async function startMenuItemList() {
   const subscriptionId =

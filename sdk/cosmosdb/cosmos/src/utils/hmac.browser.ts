@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { encodeUTF8, encodeBase64 } from "./encode";
 import atob from "./atob";

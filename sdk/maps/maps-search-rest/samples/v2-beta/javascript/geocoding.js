@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 const MapsSearch = require("@azure-rest/maps-search").default,
   { isUnexpected } = require("@azure-rest/maps-search");

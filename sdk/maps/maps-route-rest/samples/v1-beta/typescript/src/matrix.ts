@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates the use of a MapsRoute to retrieve a setting value.
@@ -73,7 +73,7 @@ async function main(): Promise<void> {
   );
   matrix.forEach((row) => {
     row.forEach((cell) => {
-      if(cell.response) console.dir(cell.response.routeSummary);
+      if (cell.response) console.dir(cell.response.routeSummary);
     });
   });
 }

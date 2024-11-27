@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-export * from "./models/options";
-export * from "./models/models";
-export * from "./roomsClient";
+export * from "./models/options.js";
+export * from "./models/models.js";
+export * from "./roomsClient.js";

@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ManagementClient } from "../../src/core/managementClient";
-import { createConnectionContextForTests } from "./unit/unittestUtils";
+import { ManagementClient } from "../../src/core/managementClient.js";
+import { createConnectionContextForTests } from "./unit/unittestUtils.js";
 import { delay } from "rhea-promise";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
+import { describe, it } from "vitest";
+import { assert } from "../public/utils/chai.js";
 
 describe("ManagementClient unit tests", () => {
   it("actionAfterTimeout throws error that can be caught on timeout", async () => {
@@ -27,9 +26,9 @@ describe("ManagementClient unit tests", () => {
         timeoutInMs: 5,
       });
 
-      chai.assert.fail("_makeManagementRequest should have failed");
+      assert.fail("_makeManagementRequest should have failed");
     } catch (error: any) {
-      chai.assert.equal(
+      assert.equal(
         error.message,
         "The initialization of management client timed out. Please try again later.",
       );

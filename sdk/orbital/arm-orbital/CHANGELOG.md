@@ -12,7 +12,7 @@
 
 ## 2.0.0 (2023-03-08)
     
-**Features**
+### Features Added
 
   - Added Interface ContactProfileThirdPartyConfiguration
   - Added Interface ErrorAdditionalInfo
@@ -27,7 +27,7 @@
   - Added Enum KnownContactsStatus
   - Added Enum KnownStatus
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation AvailableGroundStations.get
   - Operation ContactProfiles.beginCreateOrUpdate has a new signature
@@ -62,7 +62,7 @@
     
 ## 1.2.0 (2023-01-30)
     
-**Features**
+### Features Added
 
   - Interface ContactProfilesListBySubscriptionNextOptionalParams no longer has parameter skiptoken
   - Interface ContactProfilesListNextOptionalParams no longer has parameter skiptoken
@@ -73,7 +73,7 @@
     
 ## 1.1.0 (2022-07-11)
     
-**Features**
+### Features Added
 
   - Added Interface AvailableContactsProperties
   - Added Interface AvailableContactsSpacecraft

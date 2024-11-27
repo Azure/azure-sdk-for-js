@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Attach and detach data disks to/from the virtual machine.
  *
  * @summary Attach and detach data disks to/from the virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MaximumSet_Gen.json
  */
 async function virtualMachineAttachDetachDataDisksMaximumSetGen() {
   const subscriptionId =
@@ -81,7 +81,7 @@ async function virtualMachineAttachDetachDataDisksMaximumSetGen() {
  * This sample demonstrates how to Attach and detach data disks to/from the virtual machine.
  *
  * @summary Attach and detach data disks to/from the virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_AttachDetachDataDisks_MinimumSet_Gen.json
  */
 async function virtualMachineAttachDetachDataDisksMinimumSetGen() {
   const subscriptionId =

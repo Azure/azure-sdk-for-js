@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets the specific private link resource.
  *
  * @summary Gets the specific private link resource.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/GetPrivateLinkResource.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetPrivateLinkResource.json
  */
 async function getSpecificPrivateLinkResourceInASpecificHdInsightCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function getSpecificPrivateLinkResourceInASpecificHdInsightCluster() {
   const result = await client.privateLinkResources.get(
     resourceGroupName,
     clusterName,
-    privateLinkResourceName
+    privateLinkResourceName,
   );
   console.log(result);
 }

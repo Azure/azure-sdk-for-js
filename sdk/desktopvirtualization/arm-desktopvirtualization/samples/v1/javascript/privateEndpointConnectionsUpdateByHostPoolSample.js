@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Approve or reject a private endpoint connection.
  *
  * @summary Approve or reject a private endpoint connection.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/PrivateEndpointConnection_UpdateByHostPool.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/PrivateEndpointConnection_UpdateByHostPool.json
  */
 async function privateEndpointConnectionUpdateByHostPool() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function privateEndpointConnectionUpdateByHostPool() {
     resourceGroupName,
     hostPoolName,
     privateEndpointConnectionName,
-    connection
+    connection,
   );
   console.log(result);
 }

@@ -4,7 +4,7 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
+import type { AbortSignalLike } from '@azure/abort-controller';
 
 // @public
 export type CancelOnProgress = () => void;
@@ -85,7 +85,7 @@ export interface RawResponse<TRequest extends RawRequest = RawRequest> {
 }
 
 // @public
-export type ResourceLocationConfig = "azure-async-operation" | "location" | "original-uri";
+export type ResourceLocationConfig = "azure-async-operation" | "location" | "original-uri" | "operation-location";
 
 // @public
 export type RestorableOperationState<TResult, T extends OperationState<TResult>> = T & {

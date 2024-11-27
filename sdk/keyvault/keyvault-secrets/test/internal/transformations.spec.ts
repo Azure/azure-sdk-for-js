@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "@azure-tools/test-utils";
-import { DeletedSecret, KeyVaultSecret } from "../../src";
-import { DeletedSecretBundle, SecretBundle } from "../../src/generated";
-import { getSecretFromSecretBundle } from "../../src/transformations";
+// Licensed under the MIT License.
+import type { DeletedSecret, KeyVaultSecret } from "../../src/index.js";
+import type { DeletedSecretBundle, SecretBundle } from "../../src/generated/index.js";
+import { getSecretFromSecretBundle } from "../../src/transformations.js";
+import { describe, it, assert } from "vitest";
 
 describe("Transformations", () => {
   it("correctly assigns all properties for a secret", () => {

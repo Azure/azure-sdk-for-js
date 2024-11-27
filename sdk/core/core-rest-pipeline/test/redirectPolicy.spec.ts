@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, expect, vi } from "vitest";
 import { redirectPolicy } from "../src/policies/redirectPolicy.js";
@@ -26,7 +26,7 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(redirectResponse);
     next.mockResolvedValueOnce(successResponse);
     const result = await policy.sendRequest(request, next);
@@ -50,7 +50,7 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(redirectResponse);
     next.mockResolvedValueOnce(successResponse);
     const result = await policy.sendRequest(request, next);
@@ -74,7 +74,7 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(redirectResponse);
     next.mockResolvedValueOnce(successResponse);
     const result = await policy.sendRequest(request, next);
@@ -97,7 +97,7 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(redirectResponse);
     next.mockResolvedValueOnce(successResponse);
     const result = await policy.sendRequest(request, next);
@@ -120,7 +120,7 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(redirectResponse);
     next.mockResolvedValueOnce(successResponse);
     const result = await policy.sendRequest(request, next);
@@ -144,7 +144,7 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(redirectResponse);
     next.mockResolvedValueOnce(successResponse);
 
@@ -168,7 +168,7 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(redirectResponse);
     next.mockResolvedValueOnce(successResponse);
 
@@ -192,7 +192,7 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(redirectResponse);
     next.mockResolvedValueOnce(successResponse);
 
@@ -218,7 +218,7 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(redirectResponse);
     next.mockResolvedValueOnce(successResponse);
 
@@ -242,7 +242,7 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(redirectResponse);
     next.mockResolvedValueOnce(successResponse);
 
@@ -266,7 +266,7 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(redirectResponse);
     next.mockResolvedValueOnce(successResponse);
 
@@ -291,7 +291,7 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy({ maxRetries });
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(redirectResponse);
     next.mockResolvedValueOnce(redirectResponse);
     next.mockResolvedValueOnce(successResponse);
@@ -310,7 +310,7 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(redirectResponse);
 
     const result = await policy.sendRequest(request, next);
@@ -340,7 +340,7 @@ describe("RedirectPolicy", () => {
     };
 
     const policy = redirectPolicy();
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValueOnce(redirectResponse);
     next.mockResolvedValueOnce(successResponse);
 

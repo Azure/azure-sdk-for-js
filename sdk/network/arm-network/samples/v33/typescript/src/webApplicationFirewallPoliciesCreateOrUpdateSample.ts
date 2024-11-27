@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or update policy with specified rule set name within a resource group.
  *
  * @summary Creates or update policy with specified rule set name within a resource group.
- * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-01-01/examples/WafPolicyCreateOrUpdate.json
+ * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2024-03-01/examples/WafPolicyCreateOrUpdate.json
  */
 async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
   const subscriptionId = process.env["NETWORK_SUBSCRIPTION_ID"] || "subid";
@@ -179,6 +179,63 @@ async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
           ],
           ruleSetType: "Microsoft_BotManagerRuleSet",
           ruleSetVersion: "1.0",
+        },
+        {
+          ruleGroupOverrides: [
+            {
+              ruleGroupName: "ExcessiveRequests",
+              rules: [
+                {
+                  action: "Block",
+                  ruleId: "500100",
+                  sensitivity: "High",
+                  state: "Enabled",
+                },
+              ],
+            },
+          ],
+          ruleSetType: "Microsoft_HTTPDDoSRuleSet",
+          ruleSetVersion: "1.0",
+        },
+      ],
+      exceptions: [
+        {
+          exceptionManagedRuleSets: [
+            { ruleSetType: "OWASP", ruleSetVersion: "3.2" },
+          ],
+          matchVariable: "RequestURI",
+          valueMatchOperator: "Contains",
+          values: ["health", "account/images", "default.aspx"],
+        },
+        {
+          exceptionManagedRuleSets: [
+            {
+              ruleGroups: [
+                { ruleGroupName: "REQUEST-932-APPLICATION-ATTACK-RCE" },
+              ],
+              ruleSetType: "OWASP",
+              ruleSetVersion: "3.2",
+            },
+          ],
+          matchVariable: "RequestHeader",
+          selector: "User-Agent",
+          selectorMatchOperator: "StartsWith",
+          valueMatchOperator: "Contains",
+          values: ["Mozilla/5.0", "Chrome/122.0.0.0"],
+        },
+        {
+          exceptionManagedRuleSets: [
+            {
+              ruleGroups: [
+                { ruleGroupName: "BadBots", rules: [{ ruleId: "100100" }] },
+              ],
+              ruleSetType: "Microsoft_BotManagerRuleSet",
+              ruleSetVersion: "1.0",
+            },
+          ],
+          matchVariable: "RemoteAddr",
+          valueMatchOperator: "IPMatch",
+          values: ["1.2.3.4", "10.0.0.1/6"],
         },
       ],
     },

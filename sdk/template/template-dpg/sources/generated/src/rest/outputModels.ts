@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export interface WidgetOutput {
   /** The UUID of this widget. This is generated automatically by the service. */

@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { PartDescriptor, buildBodyPart } from "../src/multipart.js";
+import type { PartDescriptor } from "../src/multipart.js";
+import { buildBodyPart } from "../src/multipart.js";
 import { stringToUint8Array } from "@azure/core-util";
 
 describe("multipart buildBodyPart", () => {

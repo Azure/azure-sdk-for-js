@@ -15,7 +15,7 @@ import {
   ChatDeleteChatThreadOptionalParams,
   ChatListChatThreadsNextOptionalParams,
   ChatListChatThreadsNextResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Chat. */
 export interface Chat {

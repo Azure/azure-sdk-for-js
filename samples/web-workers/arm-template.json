@@ -56,9 +56,7 @@
           "type": "blobServices",
           "apiVersion": "2019-06-01",
           "name": "default",
-          "dependsOn": [
-            "[variables('storageAccountName')]"
-          ],
+          "dependsOn": ["[variables('storageAccountName')]"],
           "properties": {
             "cors": {
               "corsRules": [
@@ -88,9 +86,9 @@
     }
   ],
   "outputs": {
-    "azure_storage_blob_connection_string": {
+    "azure_storage_blob_sas_url": {
       "type": "string",
-      "value": "[concat('BlobEndpoint=https://',variables('storageAccountName'),'.blob.core.windows.net/','blobs',';SharedAccessSignature=', listAccountSas(variables('storageAccountName'), '2019-06-01', variables('accountSasProperties')).accountSasToken)]"
+      "value": "[concat('https://',variables('storageAccountName'),'.blob.core.windows.net/','blobs','?', listAccountSas(variables('storageAccountName'), '2019-06-01', variables('accountSasProperties')).accountSasToken)]"
     },
     "azure_storage_blob_container_name": {
       "type": "string",

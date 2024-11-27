@@ -1,10 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { IdentityTestContextInterface, createResponse } from "../../httpRequestsCommon";
-import { ClientSecretCredential } from "../../../src";
-import { IdentityTestContext } from "../../httpRequests";
-import { assertClientCredentials } from "../../authTestUtils";
+import type { IdentityTestContextInterface } from "../../httpRequestsCommon.js";
+import { createResponse } from "../../httpRequestsCommon.js";
+import { ClientSecretCredential } from "../../../src/index.js";
+import { IdentityTestContext } from "../../httpRequests.js";
+import { assertClientCredentials } from "../../authTestUtils.js";
+import { describe, it, beforeEach, afterEach } from "vitest";
 
 describe("ClientSecretCredential", function () {
   let testContext: IdentityTestContextInterface;

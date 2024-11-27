@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a deleted Azure app configuration store.
  *
  * @summary Gets a deleted Azure app configuration store.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/DeletedConfigurationStoresGet.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/DeletedConfigurationStoresGet.json
  */
 async function deletedConfigurationStoresGet() {
   const subscriptionId =
@@ -29,11 +29,11 @@ async function deletedConfigurationStoresGet() {
   const credential = new DefaultAzureCredential();
   const client = new AppConfigurationManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.configurationStores.getDeleted(
     location,
-    configStoreName
+    configStoreName,
   );
   console.log(result);
 }

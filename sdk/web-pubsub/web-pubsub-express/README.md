@@ -102,6 +102,171 @@ app.listen(3000, () =>
 );
 ```
 
+### Handle the `connect` request and reject the connection if auth failed
+```js
+const express = require("express");
+
+const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
+const handler = new WebPubSubEventHandler("chat", {
+  handleConnect: (req, res) => {
+    // auth the connection and reject the connection if auth failed
+    res.fail(401, "Unauthorized");
+    // the following method is also a valid approach
+    // res.failWith({ code: 401, detail: "Unauthorized" });
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+);
+```
+
+### Handle the `connected` request
+
+```js
+const express = require("express");
+
+const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
+const handler = new WebPubSubEventHandler("chat", {
+  onConnected: (connectedRequest) => {
+    // Your onConnected logic goes here
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+);
+```
+
+### Handle the `onDisconnected` request
+
+```js
+const express = require("express");
+
+const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
+const handler = new WebPubSubEventHandler("chat", {
+  onDisconnected: (disconnectedRequest) => {
+    // Your onDisconnected logic goes here
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+);
+```
+
+### Handle the `connect` request for mqtt and assign `<userId>` and `<mqtt>` properties
+```js
+const express = require("express");
+
+const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
+const handler = new WebPubSubEventHandler("chat", {
+  handleConnect: (req, res) => {
+    if (req.context.clientProtocol === "mqtt") { // return mqtt response when request is of MQTT kind
+    // get connect request as mqtt request and print it
+      const mqttRequest = req as MqttConnectRequest;
+      console.log(mqttRequest);
+
+      // auth the connection and return mqtt response
+      res.success({
+        userId: "user1",
+        mqtt: { userProperties: [{ name: "a", value: "b" }] },
+      });
+    } else {
+      res.success({
+        userId: "user1",
+      });
+    }
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+);
+```
+
+### Handle the `connect` request for mqtt and reject the connection if auth failed
+```js
+const express = require("express");
+
+const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
+const handler = new WebPubSubEventHandler("chat", {
+  handleConnect: (req, res) => {
+    // auth the connection and reject the connection if auth failed
+    if (req.context.clientProtocol === "mqtt") { // return mqtt error response when request is of MQTT kind
+      // get connect request as mqtt request and print it
+      const mqttRequest = req as MqttConnectRequest;
+      console.log(mqttRequest);
+
+      // auth the connection and return mqtt failure response
+      res.fail(401, "Not Authorized");
+
+      // Or use below method for more fine-grained control over the MQTT return code
+      // res.failWith({ mqtt: { code: MqttV500ConnectReasonCode.NotAuthorized } });
+    } else res.success();
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+);
+```
+
+### Handle the `onDisconnected` for mqtt request
+
+```js
+const express = require("express");
+
+const { WebPubSubEventHandler } = require("@azure/web-pubsub-express");
+const handler = new WebPubSubEventHandler("chat", {
+  onDisconnected: (disconnectedRequest) => {
+    if (disconnectedRequest.context.clientProtocol === "mqtt") {
+      // get disconnect request as mqtt request and print it
+      const mqttRequest = disconnectedRequest as MqttDisconnectedRequest;
+      console.log(mqttRequest.mqtt);
+      // Your onDisconnected logic goes here
+    } else {
+      console.log(disconnectedRequest);
+      // Your onDisconnected logic goes here
+    }
+  },
+  allowedEndpoints: ["https://<yourAllowedService>.webpubsub.azure.com"]
+});
+
+const app = express();
+
+app.use(handler.getMiddleware());
+
+app.listen(3000, () =>
+  console.log(`Azure WebPubSub Upstream ready at http://localhost:3000${handler.path}`)
+);
+```
+
 ### Only allow specified endpoints
 
 ```js
@@ -158,7 +323,7 @@ const handler = new WebPubSubEventHandler("chat", {
     res.success();
   },
   handleUserEvent(req, res) {
-    var calledTime = req.context.states.calledTime++;
+    const calledTime = req.context.states.calledTime++;
     console.log(calledTime);
     // You can also set the state here
     res.setState("calledTime", calledTime);

@@ -8,7 +8,7 @@ import { Client } from '@azure-rest/core-client';
 import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
+import type { KeyCredential } from '@azure/core-auth';
 import { Paged } from '@azure/core-paging';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
@@ -16,11 +16,19 @@ import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
 import { RequestParameters } from '@azure-rest/core-client';
 import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
-export interface ClientRequestIdHeaderOutput {
+export interface AudioNotificationContent extends NotificationContentParent {
+    kind: "audio";
+    mediaUri: string;
 }
+
+// @public
+export type CommunicationMessageKind = string;
+
+// @public
+export type CommunicationMessagesChannelOutput = string;
 
 // @public
 function createClient(connectionString: string, options?: ClientOptions): MessagesServiceClient;
@@ -28,6 +36,14 @@ function createClient(connectionString: string, options?: ClientOptions): Messag
 // @public
 function createClient(endpoint: string, credential: KeyCredential | TokenCredential, options?: ClientOptions): MessagesServiceClient;
 export default createClient;
+
+// @public
+export interface DocumentNotificationContent extends NotificationContentParent {
+    caption?: string;
+    fileName?: string;
+    kind: "document";
+    mediaUri: string;
+}
 
 // @public
 export type GetArrayType<T> = T extends Array<infer TData> ? TData : never;
@@ -39,6 +55,7 @@ export interface GetMedia {
 
 // @public (undocumented)
 export interface GetMedia200Headers {
+    "content-type": "application/octet-stream";
     "x-ms-client-request-id"?: string;
 }
 
@@ -85,6 +102,13 @@ export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise
     page: TPage;
     nextPageLink?: string;
 }>;
+
+// @public
+export interface ImageNotificationContent extends NotificationContentParent {
+    caption?: string;
+    kind: "image";
+    mediaUri: string;
+}
 
 // @public (undocumented)
 export function isUnexpected(response: GetMedia200Response | GetMediaDefaultResponse): response is GetMediaDefaultResponse;
@@ -155,10 +179,10 @@ export interface ListTemplatesQueryParamProperties {
     maxpagesize?: number;
 }
 
-// @public
+// @public @deprecated (undocumented)
 export interface MediaNotificationContent extends NotificationContentParent {
     content?: string;
-    kind: "image";
+    kind: "image_v0";
     mediaUri: string;
 }
 
@@ -174,6 +198,11 @@ export type MessagesServiceClient = Client & {
 };
 
 // @public
+export interface MessagesServiceClientOptions extends ClientOptions {
+    apiVersion?: string;
+}
+
+// @public
 export interface MessageTemplate {
     bindings?: MessageTemplateBindings;
     language: string;
@@ -185,9 +214,12 @@ export interface MessageTemplate {
 export type MessageTemplateBindings = MessageTemplateBindingsParent | WhatsAppMessageTemplateBindings;
 
 // @public
+export type MessageTemplateBindingsKind = string;
+
+// @public
 export interface MessageTemplateBindingsParent {
     // (undocumented)
-    kind: string;
+    kind: MessageTemplateBindingsKind;
 }
 
 // @public
@@ -212,10 +244,10 @@ export type MessageTemplateItemOutput = MessageTemplateItemOutputParent | WhatsA
 // @public
 export interface MessageTemplateItemOutputParent {
     // (undocumented)
-    kind: string;
+    kind: CommunicationMessagesChannelOutput;
     language: string;
     readonly name: string;
-    status: string;
+    status: MessageTemplateStatusOutput;
 }
 
 // @public
@@ -235,6 +267,9 @@ export interface MessageTemplateQuickAction extends MessageTemplateValueParent {
 }
 
 // @public
+export type MessageTemplateStatusOutput = string;
+
+// @public
 export interface MessageTemplateText extends MessageTemplateValueParent {
     kind: "text";
     text: string;
@@ -244,9 +279,12 @@ export interface MessageTemplateText extends MessageTemplateValueParent {
 export type MessageTemplateValue = MessageTemplateValueParent | MessageTemplateText | MessageTemplateImage | MessageTemplateDocument | MessageTemplateVideo | MessageTemplateLocation | MessageTemplateQuickAction;
 
 // @public
+export type MessageTemplateValueKind = string;
+
+// @public
 export interface MessageTemplateValueParent {
     // (undocumented)
-    kind: string;
+    kind: MessageTemplateValueKind;
     name: string;
 }
 
@@ -259,13 +297,13 @@ export interface MessageTemplateVideo extends MessageTemplateValueParent {
 }
 
 // @public
-export type NotificationContent = NotificationContentParent | TextNotificationContent | MediaNotificationContent | TemplateNotificationContent;
+export type NotificationContent = NotificationContentParent | TextNotificationContent | MediaNotificationContent | ImageNotificationContent | DocumentNotificationContent | VideoNotificationContent | AudioNotificationContent | TemplateNotificationContent;
 
 // @public
 export interface NotificationContentParent {
     channelRegistrationId: string;
     // (undocumented)
-    kind: string;
+    kind: CommunicationMessageKind;
     to: string[];
 }
 
@@ -288,14 +326,6 @@ export interface PagingOptions<TResponse> {
 }
 
 // @public
-export interface RepeatabilityRequestHeadersOutput {
-}
-
-// @public
-export interface RepeatabilityResponseHeadersOutput {
-}
-
-// @public
 export type RepeatabilityResultOutput = "accepted" | "rejected";
 
 // @public (undocumented)
@@ -307,7 +337,7 @@ export interface Routes {
 
 // @public (undocumented)
 export interface Send {
-    post(options?: SendParameters): StreamableMethod<Send202Response | SendDefaultResponse>;
+    post(options: SendParameters): StreamableMethod<Send202Response | SendDefaultResponse>;
 }
 
 // @public (undocumented)
@@ -328,8 +358,7 @@ export interface Send202Response extends HttpResponse {
 
 // @public (undocumented)
 export interface SendBodyParam {
-    // (undocumented)
-    body?: NotificationContent;
+    body: NotificationContent;
 }
 
 // @public (undocumented)
@@ -381,6 +410,16 @@ export interface TextNotificationContent extends NotificationContentParent {
 }
 
 // @public
+export interface VideoNotificationContent extends NotificationContentParent {
+    caption?: string;
+    kind: "video";
+    mediaUri: string;
+}
+
+// @public
+export type WhatsAppMessageButtonSubType = string;
+
+// @public
 export interface WhatsAppMessageTemplateBindings extends MessageTemplateBindingsParent {
     body?: Array<WhatsAppMessageTemplateBindingsComponent>;
     buttons?: Array<WhatsAppMessageTemplateBindingsButton>;
@@ -392,7 +431,7 @@ export interface WhatsAppMessageTemplateBindings extends MessageTemplateBindings
 // @public
 export interface WhatsAppMessageTemplateBindingsButton {
     refValue: string;
-    subType: string;
+    subType: WhatsAppMessageButtonSubType;
 }
 
 // @public

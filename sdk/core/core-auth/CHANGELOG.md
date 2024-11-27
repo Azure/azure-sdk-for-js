@@ -1,6 +1,6 @@
 # Release History
 
-## 1.7.3 (Unreleased)
+## 1.9.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,18 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.9.0 (2024-10-15)
+
+### Features Added
+
+- Added Proof-of-Possession via Signed HTTP Request (SHR) support to `AccessToken` and `GetTokenOptions` for `TokenCredential`. #30961
+
+## 1.8.0 (2024-09-12)
+
+### Features Added
+
+- `AccessToken` now has an optional `refreshAfterTimestamp` attribute that can be used to specify when the token should be refreshed. #30402
 
 ## 1.7.2 (2024-04-09)
 

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { hashPartitionKey } from "../../../src/impl/partitionKeyToIdMapper.js";
 import expectations from "./partitionKeyHashMap.json";
@@ -12,7 +12,7 @@ import { describe, it } from "vitest";
  */
 describe("hashPartitionKey", function () {
   it("Generated hashes match the ones the service would have generated", async function () {
-    (expectations as { Key: string; Hash: number }[]).map(({ Key, Hash }) =>
+    (expectations as unknown as { Key: string; Hash: number }[]).map(({ Key, Hash }) =>
       assert.equal(hashPartitionKey(Key), Hash),
     );
   });

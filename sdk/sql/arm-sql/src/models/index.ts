@@ -2795,189 +2795,6 @@ export interface DistributedAvailabilityGroupsListResult {
   readonly nextLink?: string;
 }
 
-/** Database specific information */
-export interface DistributedAvailabilityGroupDatabase {
-  /** The name of the database in link */
-  databaseName?: string;
-  /**
-   * Managed instance replica id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceReplicaId?: string;
-  /**
-   * SQL server replica id
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly partnerReplicaId?: string;
-  /**
-   * Current link state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicaState?: string;
-  /**
-   * Seeding progress
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly seedingProgress?: string;
-  /**
-   * Link health state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly synchronizationHealth?: ReplicaSynchronizationHealth;
-  /**
-   * Link connected state
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly connectedState?: ReplicaConnectedState;
-  /**
-   * Last received LSN
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastReceivedLsn?: string;
-  /**
-   * Last received LSN time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastReceivedTime?: Date;
-  /**
-   * Last sent LSN
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastSentLsn?: string;
-  /**
-   * Last sent LSN time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastSentTime?: Date;
-  /**
-   * Last commit LSN
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastCommitLsn?: string;
-  /**
-   * Last commit LSN time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastCommitTime?: Date;
-  /**
-   * Last hardened LSN
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastHardenedLsn?: string;
-  /**
-   * Last hardened LSN time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastHardenedTime?: Date;
-  /**
-   * Last backup LSN
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastBackupLsn?: string;
-  /**
-   * Last backup LSN time
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly lastBackupTime?: Date;
-  /**
-   * The most recent link connection error description
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly mostRecentLinkError?: string;
-  /**
-   * SQL server certificate validity
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly partnerAuthCertValidity?: CertificateInfo;
-  /**
-   * Replication lag when Managed Instance link side is primary
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceSendReplicationLagSeconds?: number;
-  /**
-   * Redo lag when Managed Instance link side is primary
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly instanceRedoReplicationLagSeconds?: number;
-}
-
-/** Certificate information */
-export interface CertificateInfo {
-  /**
-   * The certificate name
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly certificateName?: string;
-  /**
-   * The certificate expiry date
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly expiryDate?: Date;
-}
-
-/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-export interface ErrorResponse {
-  /** The error object. */
-  error?: ErrorDetail;
-}
-
-/** The error detail. */
-export interface ErrorDetail {
-  /**
-   * The error code.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly details?: ErrorDetail[];
-  /**
-   * The error additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/** The resource management error additional info. */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly info?: Record<string, unknown>;
-}
-
-/** Distributed availability group failover. */
-export interface DistributedAvailabilityGroupsFailoverRequest {
-  /** The failover type, can be ForcedAllowDataLoss or Planned. */
-  failoverType: FailoverType;
-}
-
-/** Distributed availability group failover request. */
-export interface DistributedAvailabilityGroupSetRole {
-  /** New role of managed instance in a distributed availability group, can be Primary or Secondary. */
-  instanceRole: InstanceRole;
-  /** The type of the role change, can be Planned or Forced. */
-  roleChangeType: RoleChangeType;
-}
-
 /** A list of server trust certificates in instance. */
 export interface ServerTrustCertificatesListResult {
   /**
@@ -3161,20 +2978,6 @@ export interface ManagedInstanceAdvancedThreatProtectionListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly value?: ManagedInstanceAdvancedThreatProtection[];
-  /**
-   * Link to retrieve next page of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly nextLink?: string;
-}
-
-/** A list of replication links. */
-export interface ReplicationLinkListResult {
-  /**
-   * Array of results.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly value?: ReplicationLink[];
   /**
    * Link to retrieve next page of results.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -4267,6 +4070,8 @@ export interface FailoverGroupUpdate {
   databases?: string[];
   /** List of partner server information for the failover group. */
   partnerServers?: PartnerInfo[];
+  /** Databases secondary type on partner server. */
+  secondaryType?: FailoverGroupDatabasesSecondaryType;
 }
 
 /** A list of Azure SQL instance pools. */
@@ -4316,6 +4121,55 @@ export interface LongTermRetentionBackupListResult {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly nextLink?: string;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
 }
 
 /** Contains the information necessary to change long term retention backup access tier and related operation mode. */
@@ -4892,6 +4746,20 @@ export interface ImportNewDatabaseDefinition {
   authenticationType?: string;
   /** Optional resource information to enable network isolation for request. */
   networkIsolation?: NetworkIsolationSettings;
+}
+
+/** A list of replication links. */
+export interface ReplicationLinkListResult {
+  /**
+   * Array of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly value?: ReplicationLink[];
+  /**
+   * Link to retrieve next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
 }
 
 /** A Slo Usage Metric. */
@@ -6925,37 +6793,41 @@ export interface ServerConnectionPolicy extends ProxyResource {
 
 /** Distributed availability group between box and Sql Managed Instance. */
 export interface DistributedAvailabilityGroup extends ProxyResource {
+  /** The name of the target database */
+  targetDatabase?: string;
+  /** The source endpoint */
+  sourceEndpoint?: string;
+  /** The primary availability group name */
+  primaryAvailabilityGroupName?: string;
+  /** The secondary availability group name */
+  secondaryAvailabilityGroupName?: string;
+  /** The replication mode of a distributed availability group. Parameter will be ignored during link creation. */
+  replicationMode?: ReplicationMode;
   /**
-   * Name of the distributed availability group
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly distributedAvailabilityGroupName?: string;
-  /**
-   * ID of the distributed availability group
+   * The distributed availability group id
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly distributedAvailabilityGroupId?: string;
-  /** Replication mode of the link */
-  replicationMode?: ReplicationModeType;
   /**
-   * SQL server side link role
+   * The source replica id
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
-  readonly partnerLinkRole?: LinkRole;
-  /** SQL server side availability group name */
-  partnerAvailabilityGroupName?: string;
-  /** SQL server side endpoint - IP or DNS resolvable name */
-  partnerEndpoint?: string;
-  /** Managed instance side link role */
-  instanceLinkRole?: LinkRole;
-  /** Managed instance side availability group name */
-  instanceAvailabilityGroupName?: string;
-  /** The link failover mode - can be Manual if intended to be used for two-way failover with a supported SQL Server, or None for one-way failover to Azure. */
-  failoverMode?: FailoverModeType;
-  /** Database seeding mode – can be Automatic (default), or Manual for supported scenarios. */
-  seedingMode?: SeedingModeType;
-  /** Databases in the distributed availability group */
-  databases?: DistributedAvailabilityGroupDatabase[];
+  readonly sourceReplicaId?: string;
+  /**
+   * The target replica id
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly targetReplicaId?: string;
+  /**
+   * The link state
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly linkState?: string;
+  /**
+   * The last hardened lsn
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly lastHardenedLsn?: string;
 }
 
 /** Server trust certificate imported from box to enable connection between box and Sql Managed Instance. */
@@ -7591,65 +7463,6 @@ export interface ManagedInstanceAdvancedThreatProtection extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly creationTime?: Date;
-}
-
-/** A replication link. */
-export interface ReplicationLink extends ProxyResource {
-  /**
-   * Resource partner server.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly partnerServer?: string;
-  /**
-   * Resource partner database.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly partnerDatabase?: string;
-  /**
-   * Resource partner location.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly partnerLocation?: string;
-  /**
-   * Local replication role.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly role?: ReplicationRole;
-  /**
-   * Partner replication role.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly partnerRole?: ReplicationRole;
-  /**
-   * Replication mode.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicationMode?: string;
-  /**
-   * Time at which the link was created.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly startTime?: Date;
-  /**
-   * Seeding completion percentage for the link.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly percentComplete?: number;
-  /**
-   * Replication state (PENDING, SEEDING, CATCHUP, SUSPENDED).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly replicationState?: ReplicationState;
-  /**
-   * Whether the user is currently allowed to terminate the link.
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly isTerminationAllowed?: boolean;
-  /**
-   * Link type (GEO, NAMED, STANDBY).
-   * NOTE: This property will not be serialized. It can only be populated by the server.
-   */
-  readonly linkType?: ReplicationLinkType;
 }
 
 /** A managed database move operation. */
@@ -8396,6 +8209,8 @@ export interface FailoverGroup extends ProxyResource {
   partnerServers?: PartnerInfo[];
   /** List of databases in the failover group. */
   databases?: string[];
+  /** Databases secondary type on partner server. */
+  secondaryType?: FailoverGroupDatabasesSecondaryType;
 }
 
 /** A long term retention backup. */
@@ -8569,6 +8384,73 @@ export interface RefreshExternalGovernanceStatusOperationResult
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly errorMessage?: string;
+}
+
+/** A replication link. */
+export interface ReplicationLink extends ProxyResource {
+  /**
+   * Resource partner server.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerServer?: string;
+  /**
+   * Resource partner database.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerDatabase?: string;
+  /**
+   * Resource partner database Id.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerDatabaseId?: string;
+  /**
+   * Resource partner location.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerLocation?: string;
+  /**
+   * Local replication role.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly role?: ReplicationRole;
+  /**
+   * Partner replication role.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly partnerRole?: ReplicationRole;
+  /**
+   * Replication mode.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationMode?: string;
+  /**
+   * Time at which the link was created.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly startTime?: Date;
+  /**
+   * Seeding completion percentage for the link.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly percentComplete?: number;
+  /**
+   * Replication state (PENDING, SEEDING, CATCHUP, SUSPENDED).
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly replicationState?: ReplicationState;
+  /**
+   * Whether the user is currently allowed to terminate the link.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly isTerminationAllowed?: boolean;
+  /** Link type (GEO, NAMED, STANDBY). Update operation does not support NAMED. */
+  linkType?: ReplicationLinkType;
+}
+
+/** A replication link update request. */
+export interface ReplicationLinkUpdate extends ProxyResource {
+  /** Link type (GEO, NAMED, STANDBY). Update operation does not support NAMED. */
+  linkType?: ReplicationLinkType;
 }
 
 /** An Azure SQL job agent. */
@@ -9180,11 +9062,6 @@ export interface IPv6FirewallRule extends ProxyResourceWithWritableName {
   startIPv6Address?: string;
   /** The end IP address of the firewall rule. Must be IPv6 format. Must be greater than or equal to startIpv6Address. */
   endIPv6Address?: string;
-}
-
-/** Defines headers for DistributedAvailabilityGroups_failover operation. */
-export interface DistributedAvailabilityGroupsFailoverHeaders {
-  location?: string;
 }
 
 /** Defines headers for FailoverGroups_tryPlannedBeforeForcedFailover operation. */
@@ -10716,8 +10593,8 @@ export enum KnownServerConnectionType {
  */
 export type ServerConnectionType = string;
 
-/** Known values of {@link ReplicationModeType} that the service accepts. */
-export enum KnownReplicationModeType {
+/** Known values of {@link ReplicationMode} that the service accepts. */
+export enum KnownReplicationMode {
   /** Async */
   Async = "Async",
   /** Sync */
@@ -10725,161 +10602,14 @@ export enum KnownReplicationModeType {
 }
 
 /**
- * Defines values for ReplicationModeType. \
- * {@link KnownReplicationModeType} can be used interchangeably with ReplicationModeType,
+ * Defines values for ReplicationMode. \
+ * {@link KnownReplicationMode} can be used interchangeably with ReplicationMode,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **Async** \
  * **Sync**
  */
-export type ReplicationModeType = string;
-
-/** Known values of {@link LinkRole} that the service accepts. */
-export enum KnownLinkRole {
-  /** Primary */
-  Primary = "Primary",
-  /** Secondary */
-  Secondary = "Secondary",
-}
-
-/**
- * Defines values for LinkRole. \
- * {@link KnownLinkRole} can be used interchangeably with LinkRole,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Primary** \
- * **Secondary**
- */
-export type LinkRole = string;
-
-/** Known values of {@link FailoverModeType} that the service accepts. */
-export enum KnownFailoverModeType {
-  /** None */
-  None = "None",
-  /** Manual */
-  Manual = "Manual",
-}
-
-/**
- * Defines values for FailoverModeType. \
- * {@link KnownFailoverModeType} can be used interchangeably with FailoverModeType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **None** \
- * **Manual**
- */
-export type FailoverModeType = string;
-
-/** Known values of {@link SeedingModeType} that the service accepts. */
-export enum KnownSeedingModeType {
-  /** Automatic */
-  Automatic = "Automatic",
-  /** Manual */
-  Manual = "Manual",
-}
-
-/**
- * Defines values for SeedingModeType. \
- * {@link KnownSeedingModeType} can be used interchangeably with SeedingModeType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Automatic** \
- * **Manual**
- */
-export type SeedingModeType = string;
-
-/** Known values of {@link ReplicaSynchronizationHealth} that the service accepts. */
-export enum KnownReplicaSynchronizationHealth {
-  /** NOTHealthy */
-  NOTHealthy = "NOT_HEALTHY",
-  /** PartiallyHealthy */
-  PartiallyHealthy = "PARTIALLY_HEALTHY",
-  /** Healthy */
-  Healthy = "HEALTHY",
-}
-
-/**
- * Defines values for ReplicaSynchronizationHealth. \
- * {@link KnownReplicaSynchronizationHealth} can be used interchangeably with ReplicaSynchronizationHealth,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **NOT_HEALTHY** \
- * **PARTIALLY_HEALTHY** \
- * **HEALTHY**
- */
-export type ReplicaSynchronizationHealth = string;
-
-/** Known values of {@link ReplicaConnectedState} that the service accepts. */
-export enum KnownReplicaConnectedState {
-  /** Disconnected */
-  Disconnected = "DISCONNECTED",
-  /** Connected */
-  Connected = "CONNECTED",
-}
-
-/**
- * Defines values for ReplicaConnectedState. \
- * {@link KnownReplicaConnectedState} can be used interchangeably with ReplicaConnectedState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **DISCONNECTED** \
- * **CONNECTED**
- */
-export type ReplicaConnectedState = string;
-
-/** Known values of {@link FailoverType} that the service accepts. */
-export enum KnownFailoverType {
-  /** ForcedAllowDataLoss */
-  ForcedAllowDataLoss = "ForcedAllowDataLoss",
-  /** Planned */
-  Planned = "Planned",
-}
-
-/**
- * Defines values for FailoverType. \
- * {@link KnownFailoverType} can be used interchangeably with FailoverType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **ForcedAllowDataLoss** \
- * **Planned**
- */
-export type FailoverType = string;
-
-/** Known values of {@link InstanceRole} that the service accepts. */
-export enum KnownInstanceRole {
-  /** Primary */
-  Primary = "Primary",
-  /** Secondary */
-  Secondary = "Secondary",
-}
-
-/**
- * Defines values for InstanceRole. \
- * {@link KnownInstanceRole} can be used interchangeably with InstanceRole,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Primary** \
- * **Secondary**
- */
-export type InstanceRole = string;
-
-/** Known values of {@link RoleChangeType} that the service accepts. */
-export enum KnownRoleChangeType {
-  /** Forced */
-  Forced = "Forced",
-  /** Planned */
-  Planned = "Planned",
-}
-
-/**
- * Defines values for RoleChangeType. \
- * {@link KnownRoleChangeType} can be used interchangeably with RoleChangeType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **Forced** \
- * **Planned**
- */
-export type RoleChangeType = string;
+export type ReplicationMode = string;
 
 /** Known values of {@link AdvancedThreatProtectionName} that the service accepts. */
 export enum KnownAdvancedThreatProtectionName {
@@ -10895,51 +10625,6 @@ export enum KnownAdvancedThreatProtectionName {
  * **Default**
  */
 export type AdvancedThreatProtectionName = string;
-
-/** Known values of {@link ReplicationState} that the service accepts. */
-export enum KnownReplicationState {
-  /** Pending */
-  Pending = "PENDING",
-  /** Seeding */
-  Seeding = "SEEDING",
-  /** CatchUP */
-  CatchUP = "CATCH_UP",
-  /** Suspended */
-  Suspended = "SUSPENDED",
-}
-
-/**
- * Defines values for ReplicationState. \
- * {@link KnownReplicationState} can be used interchangeably with ReplicationState,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **PENDING** \
- * **SEEDING** \
- * **CATCH_UP** \
- * **SUSPENDED**
- */
-export type ReplicationState = string;
-
-/** Known values of {@link ReplicationLinkType} that the service accepts. */
-export enum KnownReplicationLinkType {
-  /** GEO */
-  GEO = "GEO",
-  /** Named */
-  Named = "NAMED",
-  /** Standby */
-  Standby = "STANDBY",
-}
-
-/**
- * Defines values for ReplicationLinkType. \
- * {@link KnownReplicationLinkType} can be used interchangeably with ReplicationLinkType,
- *  this enum contains the known values that the service supports.
- * ### Known values supported by the service
- * **GEO** \
- * **NAMED** \
- * **STANDBY**
- */
-export type ReplicationLinkType = string;
 
 /** Known values of {@link MoveOperationMode} that the service accepts. */
 export enum KnownMoveOperationMode {
@@ -11751,6 +11436,24 @@ export enum KnownFailoverGroupReplicationRole {
  */
 export type FailoverGroupReplicationRole = string;
 
+/** Known values of {@link FailoverGroupDatabasesSecondaryType} that the service accepts. */
+export enum KnownFailoverGroupDatabasesSecondaryType {
+  /** Geo */
+  Geo = "Geo",
+  /** Standby */
+  Standby = "Standby",
+}
+
+/**
+ * Defines values for FailoverGroupDatabasesSecondaryType. \
+ * {@link KnownFailoverGroupDatabasesSecondaryType} can be used interchangeably with FailoverGroupDatabasesSecondaryType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Geo** \
+ * **Standby**
+ */
+export type FailoverGroupDatabasesSecondaryType = string;
+
 /** Known values of {@link InstancePoolLicenseType} that the service accepts. */
 export enum KnownInstancePoolLicenseType {
   /** LicenseIncluded */
@@ -12171,6 +11874,51 @@ export enum KnownServerNetworkAccessFlag {
  */
 export type ServerNetworkAccessFlag = string;
 
+/** Known values of {@link ReplicationState} that the service accepts. */
+export enum KnownReplicationState {
+  /** Pending */
+  Pending = "PENDING",
+  /** Seeding */
+  Seeding = "SEEDING",
+  /** CatchUP */
+  CatchUP = "CATCH_UP",
+  /** Suspended */
+  Suspended = "SUSPENDED",
+}
+
+/**
+ * Defines values for ReplicationState. \
+ * {@link KnownReplicationState} can be used interchangeably with ReplicationState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **PENDING** \
+ * **SEEDING** \
+ * **CATCH_UP** \
+ * **SUSPENDED**
+ */
+export type ReplicationState = string;
+
+/** Known values of {@link ReplicationLinkType} that the service accepts. */
+export enum KnownReplicationLinkType {
+  /** GEO */
+  GEO = "GEO",
+  /** Named */
+  Named = "NAMED",
+  /** Standby */
+  Standby = "STANDBY",
+}
+
+/**
+ * Defines values for ReplicationLinkType. \
+ * {@link KnownReplicationLinkType} can be used interchangeably with ReplicationLinkType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **GEO** \
+ * **NAMED** \
+ * **STANDBY**
+ */
+export type ReplicationLinkType = string;
+
 /** Known values of {@link ServiceObjectiveName} that the service accepts. */
 export enum KnownServiceObjectiveName {
   /** System */
@@ -12474,6 +12222,10 @@ export type SensitivityLabelUpdateKind = "set" | "remove";
 export type RecommendedSensitivityLabelUpdateKind = "enable" | "disable";
 /** Defines values for AdvancedThreatProtectionState. */
 export type AdvancedThreatProtectionState = "New" | "Enabled" | "Disabled";
+/** Defines values for SqlVulnerabilityAssessmentState. */
+export type SqlVulnerabilityAssessmentState = "Enabled" | "Disabled";
+/** Defines values for CheckNameAvailabilityReason. */
+export type CheckNameAvailabilityReason = "Invalid" | "AlreadyExists";
 /** Defines values for ReplicationRole. */
 export type ReplicationRole =
   | "Primary"
@@ -12481,10 +12233,6 @@ export type ReplicationRole =
   | "NonReadableSecondary"
   | "Source"
   | "Copy";
-/** Defines values for SqlVulnerabilityAssessmentState. */
-export type SqlVulnerabilityAssessmentState = "Enabled" | "Disabled";
-/** Defines values for CheckNameAvailabilityReason. */
-export type CheckNameAvailabilityReason = "Invalid" | "AlreadyExists";
 
 /** Optional parameters. */
 export interface DataMaskingPoliciesCreateOrUpdateOptionalParams
@@ -16122,32 +15870,6 @@ export type DistributedAvailabilityGroupsUpdateResponse =
   DistributedAvailabilityGroup;
 
 /** Optional parameters. */
-export interface DistributedAvailabilityGroupsFailoverOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the failover operation. */
-export type DistributedAvailabilityGroupsFailoverResponse =
-  DistributedAvailabilityGroup;
-
-/** Optional parameters. */
-export interface DistributedAvailabilityGroupsSetRoleOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the setRole operation. */
-export type DistributedAvailabilityGroupsSetRoleResponse =
-  DistributedAvailabilityGroup;
-
-/** Optional parameters. */
 export interface DistributedAvailabilityGroupsListByInstanceNextOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -16709,76 +16431,6 @@ export interface ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceNe
 /** Contains response data for the listByInstanceNext operation. */
 export type ManagedInstanceAdvancedThreatProtectionSettingsListByInstanceNextResponse =
   ManagedInstanceAdvancedThreatProtectionListResult;
-
-/** Optional parameters. */
-export interface ReplicationLinksListByDatabaseOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByDatabase operation. */
-export type ReplicationLinksListByDatabaseResponse = ReplicationLinkListResult;
-
-/** Optional parameters. */
-export interface ReplicationLinksGetOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the get operation. */
-export type ReplicationLinksGetResponse = ReplicationLink;
-
-/** Optional parameters. */
-export interface ReplicationLinksDeleteOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Optional parameters. */
-export interface ReplicationLinksFailoverOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the failover operation. */
-export type ReplicationLinksFailoverResponse = ReplicationLink;
-
-/** Optional parameters. */
-export interface ReplicationLinksFailoverAllowDataLossOptionalParams
-  extends coreClient.OperationOptions {
-  /** Delay to wait until next poll, in milliseconds. */
-  updateIntervalInMs?: number;
-  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
-  resumeFrom?: string;
-}
-
-/** Contains response data for the failoverAllowDataLoss operation. */
-export type ReplicationLinksFailoverAllowDataLossResponse = ReplicationLink;
-
-/** Optional parameters. */
-export interface ReplicationLinksListByServerOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByServer operation. */
-export type ReplicationLinksListByServerResponse = ReplicationLinkListResult;
-
-/** Optional parameters. */
-export interface ReplicationLinksListByDatabaseNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByDatabaseNext operation. */
-export type ReplicationLinksListByDatabaseNextResponse =
-  ReplicationLinkListResult;
-
-/** Optional parameters. */
-export interface ReplicationLinksListByServerNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listByServerNext operation. */
-export type ReplicationLinksListByServerNextResponse =
-  ReplicationLinkListResult;
 
 /** Optional parameters. */
 export interface ManagedDatabaseMoveOperationsListByLocationOptionalParams
@@ -18444,6 +18096,100 @@ export interface ServersListByResourceGroupNextOptionalParams
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ServersListByResourceGroupNextResponse = ServerListResult;
+
+/** Optional parameters. */
+export interface ReplicationLinksListByDatabaseOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDatabase operation. */
+export type ReplicationLinksListByDatabaseResponse = ReplicationLinkListResult;
+
+/** Optional parameters. */
+export interface ReplicationLinksGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type ReplicationLinksGetResponse = ReplicationLink;
+
+/** Optional parameters. */
+export interface ReplicationLinksCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type ReplicationLinksCreateOrUpdateResponse = ReplicationLink;
+
+/** Optional parameters. */
+export interface ReplicationLinksDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface ReplicationLinksUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the update operation. */
+export type ReplicationLinksUpdateResponse = ReplicationLink;
+
+/** Optional parameters. */
+export interface ReplicationLinksFailoverOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the failover operation. */
+export type ReplicationLinksFailoverResponse = ReplicationLink;
+
+/** Optional parameters. */
+export interface ReplicationLinksFailoverAllowDataLossOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the failoverAllowDataLoss operation. */
+export type ReplicationLinksFailoverAllowDataLossResponse = ReplicationLink;
+
+/** Optional parameters. */
+export interface ReplicationLinksListByServerOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServer operation. */
+export type ReplicationLinksListByServerResponse = ReplicationLinkListResult;
+
+/** Optional parameters. */
+export interface ReplicationLinksListByDatabaseNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDatabaseNext operation. */
+export type ReplicationLinksListByDatabaseNextResponse =
+  ReplicationLinkListResult;
+
+/** Optional parameters. */
+export interface ReplicationLinksListByServerNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByServerNext operation. */
+export type ReplicationLinksListByServerNextResponse =
+  ReplicationLinkListResult;
 
 /** Optional parameters. */
 export interface SqlManagementClientOptionalParams

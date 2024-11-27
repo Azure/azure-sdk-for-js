@@ -1,11 +1,36 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AzurePluginContext } from "../../identity/src/plugins/provider";
-import { IdentityPlugin } from "@azure/identity";
+import type { IdentityPlugin } from "@azure/identity";
 import keytar from "keytar";
 
 const VSCodeServiceName = "VS Code Azure";
+
+/**
+ * A function that searches for credentials in the Visual Studio Code credential store.
+ *
+ * @returns an array of credentials (username and password)
+ */
+type VSCodeCredentialFinder = () => Promise<Array<{ account: string; password: string }>>;
+
+/**
+ * Plugin context entries for controlling VisualStudioCodeCredential.
+ */
+interface VisualStudioCodeCredentialControl {
+  setVsCodeCredentialFinder(finder: VSCodeCredentialFinder): void;
+}
+
+/**
+ * Context options passed to a plugin during initialization.
+ *
+ * Plugin authors are responsible for casting their plugin context values
+ * to this type.
+ *
+ * @internal
+ */
+interface AzurePluginContext {
+  vsCodeCredentialControl: VisualStudioCodeCredentialControl;
+}
 
 /**
  * A plugin that provides the dependencies of `VisualStudioCodeCredential`

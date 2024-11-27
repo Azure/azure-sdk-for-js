@@ -7,7 +7,7 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   OutboundEndpoint,
   OutboundEndpointsListOptionalParams,
@@ -18,7 +18,7 @@ import {
   OutboundEndpointsUpdateResponse,
   OutboundEndpointsDeleteOptionalParams,
   OutboundEndpointsGetOptionalParams,
-  OutboundEndpointsGetResponse
+  OutboundEndpointsGetResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -33,7 +33,7 @@ export interface OutboundEndpoints {
   list(
     resourceGroupName: string,
     dnsResolverName: string,
-    options?: OutboundEndpointsListOptionalParams
+    options?: OutboundEndpointsListOptionalParams,
   ): PagedAsyncIterableIterator<OutboundEndpoint>;
   /**
    * Creates or updates an outbound endpoint for a DNS resolver.
@@ -48,10 +48,10 @@ export interface OutboundEndpoints {
     dnsResolverName: string,
     outboundEndpointName: string,
     parameters: OutboundEndpoint,
-    options?: OutboundEndpointsCreateOrUpdateOptionalParams
+    options?: OutboundEndpointsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<OutboundEndpointsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OutboundEndpointsCreateOrUpdateResponse>,
       OutboundEndpointsCreateOrUpdateResponse
     >
   >;
@@ -68,7 +68,7 @@ export interface OutboundEndpoints {
     dnsResolverName: string,
     outboundEndpointName: string,
     parameters: OutboundEndpoint,
-    options?: OutboundEndpointsCreateOrUpdateOptionalParams
+    options?: OutboundEndpointsCreateOrUpdateOptionalParams,
   ): Promise<OutboundEndpointsCreateOrUpdateResponse>;
   /**
    * Updates an outbound endpoint for a DNS resolver.
@@ -83,10 +83,10 @@ export interface OutboundEndpoints {
     dnsResolverName: string,
     outboundEndpointName: string,
     parameters: OutboundEndpointPatch,
-    options?: OutboundEndpointsUpdateOptionalParams
+    options?: OutboundEndpointsUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<OutboundEndpointsUpdateResponse>,
+    SimplePollerLike<
+      OperationState<OutboundEndpointsUpdateResponse>,
       OutboundEndpointsUpdateResponse
     >
   >;
@@ -103,7 +103,7 @@ export interface OutboundEndpoints {
     dnsResolverName: string,
     outboundEndpointName: string,
     parameters: OutboundEndpointPatch,
-    options?: OutboundEndpointsUpdateOptionalParams
+    options?: OutboundEndpointsUpdateOptionalParams,
   ): Promise<OutboundEndpointsUpdateResponse>;
   /**
    * Deletes an outbound endpoint for a DNS resolver. WARNING: This operation cannot be undone.
@@ -116,8 +116,8 @@ export interface OutboundEndpoints {
     resourceGroupName: string,
     dnsResolverName: string,
     outboundEndpointName: string,
-    options?: OutboundEndpointsDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>>;
+    options?: OutboundEndpointsDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes an outbound endpoint for a DNS resolver. WARNING: This operation cannot be undone.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -129,7 +129,7 @@ export interface OutboundEndpoints {
     resourceGroupName: string,
     dnsResolverName: string,
     outboundEndpointName: string,
-    options?: OutboundEndpointsDeleteOptionalParams
+    options?: OutboundEndpointsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Gets properties of an outbound endpoint for a DNS resolver.
@@ -142,6 +142,6 @@ export interface OutboundEndpoints {
     resourceGroupName: string,
     dnsResolverName: string,
     outboundEndpointName: string,
-    options?: OutboundEndpointsGetOptionalParams
+    options?: OutboundEndpointsGetOptionalParams,
   ): Promise<OutboundEndpointsGetResponse>;
 }

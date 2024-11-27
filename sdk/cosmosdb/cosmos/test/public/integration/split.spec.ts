@@ -1,9 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /* eslint-disable no-unused-expressions */
-import { Container } from "../../../src";
+import type { Container } from "../../../src";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
-import { Constants, CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../../src";
+import type { CosmosClientOptions, PluginConfig } from "../../../src";
+import { Constants, CosmosClient, PluginOn } from "../../../src";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";
 import { SubStatusCodes } from "../../../src/common";
@@ -122,7 +123,7 @@ describe("Partition Splits", () => {
         .container(container.id)
         .items.query("SELECT * FROM root r", {
           maxItemCount: 2,
-          maxDegreeOfParallelism: 1,
+          maxDegreeOfParallelism: 2,
         })
         .fetchAll();
       assert.fail("Expected query to fail");
@@ -137,7 +138,7 @@ describe("Partition Splits", () => {
         .container(container.id)
         .items.query("SELECT * FROM root r", {
           maxItemCount: 2,
-          maxDegreeOfParallelism: 1,
+          maxDegreeOfParallelism: 2,
         })
         .fetchNext();
       assert.fail("Expected query to fail");
@@ -152,7 +153,7 @@ describe("Partition Splits", () => {
         .container(container.id)
         .items.query("SELECT * FROM root r", {
           maxItemCount: 2,
-          maxDegreeOfParallelism: 1,
+          maxDegreeOfParallelism: 2,
         })
         .getAsyncIterator();
       const results = [];

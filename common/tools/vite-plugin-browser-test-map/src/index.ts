@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 function hasPackageCache<T extends Record<string, unknown>>(
   obj: T,
@@ -29,7 +29,8 @@ export default function browserTestMap(): {
     configResolved: (config: Record<string, unknown>) => {
       if (hasPackageCache(config)) {
         for (const { data } of config.packageCache.values()) {
-          if (data.browser) {
+          // Ensure that it isn't just a top level string
+          if (data.browser && typeof data.browser === "object") {
             for (const [key, value] of Object.entries<string>(data.browser)) {
               data.browser[rewriteDistPath(key)] = rewriteDistPath(value);
             }

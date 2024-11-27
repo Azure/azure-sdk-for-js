@@ -12,7 +12,7 @@
 
 ## 10.0.0-beta.1 (2023-07-04)
     
-**Features**
+### Features Added
 
   - Added operation group AccessReviewDefaultSettingsOperations
   - Added operation group AccessReviewHistoryDefinitionInstance
@@ -306,7 +306,7 @@
   - Added Enum KnownSeverityLevel
   - Class AuthorizationManagementClient has a new signature
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface RoleManagementPolicyAssignment no longer has parameter effectiveRules
     

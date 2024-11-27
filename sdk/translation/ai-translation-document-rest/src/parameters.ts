@@ -1,9 +1,16 @@
 // Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import { DocumentTranslateContent, StartTranslationDetails, FileFormatType } from "./models.js";
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
+  DocumentTranslateContent,
+  StartTranslationDetails,
+  FileFormatType,
+} from "./models.js";
 
 export interface DocumentTranslateHeaders {
   /** An opaque, globally-unique, client-generated string identifier for the request. */
@@ -11,7 +18,8 @@ export interface DocumentTranslateHeaders {
 }
 
 export interface DocumentTranslateBodyParam {
-  body?: DocumentTranslateContent;
+  /** Document Translate Request Content */
+  body: DocumentTranslateContent;
 }
 
 export interface DocumentTranslateQueryParamProperties {
@@ -60,7 +68,8 @@ export type DocumentTranslateParameters = DocumentTranslateQueryParam &
   RequestParameters;
 
 export interface StartTranslationBodyParam {
-  body?: StartTranslationDetails;
+  /** Translation job submission batch request */
+  body: StartTranslationDetails;
 }
 
 export type StartTranslationParameters = StartTranslationBodyParam & RequestParameters;
@@ -191,7 +200,11 @@ export interface GetDocumentsStatusQueryParam {
 export type GetDocumentsStatusParameters = GetDocumentsStatusQueryParam & RequestParameters;
 
 export interface GetSupportedFormatsQueryParamProperties {
-  /** the type of format like document or glossary */
+  /**
+   * the type of format like document or glossary
+   *
+   * Possible values: "document", "glossary"
+   */
   type?: FileFormatType;
 }
 

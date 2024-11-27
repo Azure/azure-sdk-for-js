@@ -12,11 +12,11 @@
 
 ## 1.0.0-beta.2 (2023-02-03)
 
-**Features**
+### Features Added
 
   - Exposes `getContinuationToken` helper function to extract continuation token
   
-**Bugs Fixed**
+### Bugs Fixed
   
   - A series of small bug fixs relevant to authentication and apiVersion policy
 

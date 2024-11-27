@@ -1,28 +1,25 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { delay, ServiceBusMessage, ServiceBusSender } from "../../src";
-import { TestClientType, TestMessage } from "../public/utils/testUtils";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+// Licensed under the MIT License.
+import type { ServiceBusMessage, ServiceBusSender } from "../../src/index.js";
+import { delay } from "../../src/index.js";
+import type { TestClientType } from "../public/utils/testUtils.js";
+import { TestMessage } from "../public/utils/testUtils.js";
+import type { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
+import type { EntityName, ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import {
-  EntityName,
-  ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
   //   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
-} from "../public/utils/testutils2";
-import {
-  DispositionType,
+} from "../public/utils/testutils2.js";
+import type {
   ServiceBusMessageImpl,
   ServiceBusReceivedMessage,
-} from "../../src/serviceBusMessage";
-import { testLogger } from "./utils/misc";
-
-const should = chai.should();
-chai.use(chaiAsPromised);
+} from "../../src/serviceBusMessage.js";
+import { DispositionType } from "../../src/serviceBusMessage.js";
+import { testLogger } from "./utils/misc.js";
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 // const withSessionTestClientType = getRandomTestClientTypeWithSessions();
@@ -35,11 +32,11 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
   let deadLetterReceiver: ServiceBusReceiver;
   let entityNames: EntityName;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 

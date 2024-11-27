@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The List operation gets information about the dedicated hsms associated with the subscription and within the specified resource group.
  *
  * @summary The List operation gets information about the dedicated hsms associated with the subscription and within the specified resource group.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2021-11-30/examples/DedicatedHsm_ListByResourceGroup.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/DedicatedHsm_ListByResourceGroup.json
  */
 async function listDedicatedHsmDevicesInAResourceGroup() {
   const subscriptionId =
@@ -36,7 +36,7 @@ async function listDedicatedHsmDevicesInAResourceGroup() {
  * This sample demonstrates how to The List operation gets information about the dedicated hsms associated with the subscription and within the specified resource group.
  *
  * @summary The List operation gets information about the dedicated hsms associated with the subscription and within the specified resource group.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/stable/2021-11-30/examples/PaymentHsm_ListByResourceGroup.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/PaymentHsm_ListByResourceGroup.json
  */
 async function listDedicatedHsmDevicesInAResourceGroupIncludingPaymentHsm() {
   const subscriptionId =

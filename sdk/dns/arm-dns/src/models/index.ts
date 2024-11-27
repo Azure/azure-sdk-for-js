@@ -8,6 +8,140 @@
 
 import * as coreClient from "@azure/core-client";
 
+/** Represents the DNSSEC configuration. */
+export interface DnssecConfig {
+  /**
+   * The ID of the DNSSEC configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the DNSSEC configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the DNSSEC configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /** The etag of the DNSSEC configuration. */
+  etag?: string;
+  /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
+   * Provisioning State of the DNSSEC configuration.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: string;
+  /**
+   * The list of signing keys.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly signingKeys?: SigningKey[];
+}
+
+/** Represents the signing key. */
+export interface SigningKey {
+  /**
+   * The delegation signer information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly delegationSignerInfo?: DelegationSignerInfo[];
+  /**
+   * The flags specifies how the key is used.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly flags?: number;
+  /**
+   * The key tag value of the DNSKEY Resource Record.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly keyTag?: number;
+  /**
+   * The protocol value. The value is always 3.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly protocol?: number;
+  /**
+   * The public key, represented as a Base64 encoding.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly publicKey?: string;
+  /**
+   * The security algorithm type represents the standard security algorithm number of the DNSKEY Resource Record. See: https://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec-alg-numbers.xhtml
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly securityAlgorithmType?: number;
+}
+
+/** The delegation signer information. */
+export interface DelegationSignerInfo {
+  /**
+   * The digest algorithm type represents the standard digest algorithm number used to construct the digest. See: https://www.iana.org/assignments/ds-rr-types/ds-rr-types.xhtml
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly digestAlgorithmType?: number;
+  /**
+   * The digest value is a cryptographic hash value of the referenced DNSKEY Resource Record.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly digestValue?: string;
+  /**
+   * The record represents a delegation signer (DS) record.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly record?: string;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** An error response from the service. */
+export interface CloudError {
+  /** Cloud error body. */
+  error?: CloudErrorBody;
+}
+
+/** An error response from the service. */
+export interface CloudErrorBody {
+  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
+  code?: string;
+  /** A message describing the error, intended to be suitable for display in a user interface. */
+  message?: string;
+  /** The target of the particular error. For example, the name of the property in error. */
+  target?: string;
+  /** A list of additional details about the error. */
+  details?: CloudErrorBody[];
+}
+
+/** The response to a List DNSSEC configurations operation. */
+export interface DnssecConfigListResult {
+  /** Information about the DNSSEC configurations in the response. */
+  value?: DnssecConfig[];
+  /**
+   * The continuation token for the next page of results.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly nextLink?: string;
+}
+
 /** Describes a DNS record set (a collection of DNS records with the same name and type). */
 export interface RecordSet {
   /**
@@ -43,6 +177,8 @@ export interface RecordSet {
   readonly provisioningState?: string;
   /** A reference to an azure resource from where the dns resource value is taken. */
   targetResource?: SubResource;
+  /** A reference to an azure traffic manager profile resource from where the dns resource value is taken. */
+  trafficManagementProfile?: SubResource;
   /** The list of A records in the record set. */
   aRecords?: ARecord[];
   /** The list of AAAA records in the record set. */
@@ -63,6 +199,12 @@ export interface RecordSet {
   soaRecord?: SoaRecord;
   /** The list of CAA records in the record set. */
   caaRecords?: CaaRecord[];
+  /** The list of DS records in the record set. */
+  dsRecords?: DsRecord[];
+  /** The list of TLSA records in the record set. */
+  tlsaRecords?: TlsaRecord[];
+  /** The list of NAPTR records in the record set. */
+  naptrRecords?: NaptrRecord[];
 }
 
 /** A reference to a another resource */
@@ -155,22 +297,50 @@ export interface CaaRecord {
   value?: string;
 }
 
-/** An error response from the service. */
-export interface CloudError {
-  /** Cloud error body. */
-  error?: CloudErrorBody;
+/** A DS record. For more information about the DS record format, see RFC 4034: https://www.rfc-editor.org/rfc/rfc4034 */
+export interface DsRecord {
+  /** The key tag value is used to determine which DNSKEY Resource Record is used for signature verification. */
+  keyTag?: number;
+  /** The security algorithm type represents the standard security algorithm number of the DNSKEY Resource Record. See: https://www.iana.org/assignments/dns-sec-alg-numbers/dns-sec-alg-numbers.xhtml */
+  algorithm?: number;
+  /** The digest entity. */
+  digest?: Digest;
 }
 
-/** An error response from the service. */
-export interface CloudErrorBody {
-  /** An identifier for the error. Codes are invariant and are intended to be consumed programmatically. */
-  code?: string;
-  /** A message describing the error, intended to be suitable for display in a user interface. */
-  message?: string;
-  /** The target of the particular error. For example, the name of the property in error. */
-  target?: string;
-  /** A list of additional details about the error. */
-  details?: CloudErrorBody[];
+/** A digest. */
+export interface Digest {
+  /** The digest algorithm type represents the standard digest algorithm number used to construct the digest. See: https://www.iana.org/assignments/ds-rr-types/ds-rr-types.xhtml */
+  algorithmType?: number;
+  /** The digest value is a cryptographic hash value of the referenced DNSKEY Resource Record. */
+  value?: string;
+}
+
+/** A TLSA record. For more information about the TLSA record format, see RFC 6698: https://www.rfc-editor.org/rfc/rfc6698 */
+export interface TlsaRecord {
+  /** The usage specifies the provided association that will be used to match the certificate presented in the TLS handshake. */
+  usage?: number;
+  /** The selector specifies which part of the TLS certificate presented by the server will be matched against the association data. */
+  selector?: number;
+  /** The matching type specifies how the certificate association is presented. */
+  matchingType?: number;
+  /** This specifies the certificate association data to be matched. */
+  certAssociationData?: string;
+}
+
+/** A NAPTR record. For more information about the NAPTR record format, see RFC 3403: https://www.rfc-editor.org/rfc/rfc3403 */
+export interface NaptrRecord {
+  /** The order in which the NAPTR records MUST be processed in order to accurately represent the ordered list of rules. The ordering is from lowest to highest. Valid values: 0-65535. */
+  order?: number;
+  /** The preference specifies the order in which NAPTR records with equal 'order' values should be processed, low numbers being processed before high numbers. Valid values: 0-65535. */
+  preference?: number;
+  /** The flags specific to DDDS applications. Values currently defined in RFC 3404 are uppercase and lowercase letters "A", "P", "S", and "U", and the empty string, "". Enclose Flags in quotation marks. */
+  flags?: string;
+  /** The services specific to DDDS applications. Enclose Services in quotation marks. */
+  services?: string;
+  /** The regular expression that the DDDS application uses to convert an input value into an output value. For example: an IP phone system might use a regular expression to convert a phone number that is entered by a user into a SIP URI. Enclose the regular expression in quotation marks. Specify either a value for 'regexp' or a value for 'replacement'. */
+  regexp?: string;
+  /** The replacement is a fully qualified domain name (FQDN) of the next domain name that you want the DDDS application to submit a DNS query for. The DDDS application replaces the input value with the value specified for replacement. Specify either a value for 'regexp' or a value for 'replacement'. If you specify a value for 'regexp', specify a dot (.) for 'replacement'. */
+  replacement?: string;
 }
 
 /** The response to a record set List operation. */
@@ -255,6 +425,11 @@ export interface Zone extends Resource {
   /** The etag of the zone. */
   etag?: string;
   /**
+   * Metadata pertaining to creation and last modification of the resource.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+  /**
    * The maximum number of record sets that can be created in this DNS zone.  This is a read-only property and any attempt to set this value will be ignored.
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
@@ -280,8 +455,48 @@ export interface Zone extends Resource {
   registrationVirtualNetworks?: SubResource[];
   /** A list of references to virtual networks that resolve records in this DNS zone. This is a only when ZoneType is Private. */
   resolutionVirtualNetworks?: SubResource[];
+  /**
+   * The list of signing keys.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly signingKeys?: SigningKey[];
 }
 
+/** Defines headers for DnssecConfigs_delete operation. */
+export interface DnssecConfigsDeleteHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+}
+
+/** Defines headers for Zones_delete operation. */
+export interface ZonesDeleteHeaders {
+  /** Location URI to poll for result */
+  location?: string;
+}
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 /** Defines values for RecordType. */
 export type RecordType =
   | "A"
@@ -293,9 +508,60 @@ export type RecordType =
   | "PTR"
   | "SOA"
   | "SRV"
-  | "TXT";
+  | "TXT"
+  | "TLSA"
+  | "DS"
+  | "NAPTR";
 /** Defines values for ZoneType. */
 export type ZoneType = "Public" | "Private";
+
+/** Optional parameters. */
+export interface DnssecConfigsCreateOrUpdateOptionalParams
+  extends coreClient.OperationOptions {
+  /** The etag of the DNSSEC configuration. Omit this value to always overwrite the DNSSEC configuration. Specify the last-seen etag value to prevent accidentally overwriting any concurrent changes. */
+  ifMatch?: string;
+  /** Set to '*' to allow this DNSSEC configuration to be created, but to prevent updating existing DNSSEC configuration. Other values will be ignored. */
+  ifNoneMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the createOrUpdate operation. */
+export type DnssecConfigsCreateOrUpdateResponse = DnssecConfig;
+
+/** Optional parameters. */
+export interface DnssecConfigsDeleteOptionalParams
+  extends coreClient.OperationOptions {
+  /** The etag of this DNSSEC configuration. Omit this value to always delete the DNSSEC configuration. Specify the last-seen etag value to prevent accidentally deleting any concurrent changes. */
+  ifMatch?: string;
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Optional parameters. */
+export interface DnssecConfigsGetOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the get operation. */
+export type DnssecConfigsGetResponse = DnssecConfig;
+
+/** Optional parameters. */
+export interface DnssecConfigsListByDnsZoneOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDnsZone operation. */
+export type DnssecConfigsListByDnsZoneResponse = DnssecConfigListResult;
+
+/** Optional parameters. */
+export interface DnssecConfigsListByDnsZoneNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listByDnsZoneNext operation. */
+export type DnssecConfigsListByDnsZoneNextResponse = DnssecConfigListResult;
 
 /** Optional parameters. */
 export interface RecordSetsUpdateOptionalParams
@@ -371,36 +637,21 @@ export type RecordSetsListAllByDnsZoneResponse = RecordSetListResult;
 
 /** Optional parameters. */
 export interface RecordSetsListByTypeNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-  /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
-  recordsetnamesuffix?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByTypeNext operation. */
 export type RecordSetsListByTypeNextResponse = RecordSetListResult;
 
 /** Optional parameters. */
 export interface RecordSetsListByDnsZoneNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-  /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
-  recordsetnamesuffix?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByDnsZoneNext operation. */
 export type RecordSetsListByDnsZoneNextResponse = RecordSetListResult;
 
 /** Optional parameters. */
 export interface RecordSetsListAllByDnsZoneNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-  /** The suffix label of the record set name that has to be used to filter the record set enumerations. If this parameter is specified, Enumeration will return only records that end with .<recordSetNameSuffix> */
-  recordSetNameSuffix?: string;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listAllByDnsZoneNext operation. */
 export type RecordSetsListAllByDnsZoneNextResponse = RecordSetListResult;
@@ -463,20 +714,14 @@ export type ZonesListResponse = ZoneListResult;
 
 /** Optional parameters. */
 export interface ZonesListByResourceGroupNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of record sets to return. If not specified, returns up to 100 record sets. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listByResourceGroupNext operation. */
 export type ZonesListByResourceGroupNextResponse = ZoneListResult;
 
 /** Optional parameters. */
 export interface ZonesListNextOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of DNS zones to return. If not specified, returns up to 100 zones. */
-  top?: number;
-}
+  extends coreClient.OperationOptions {}
 
 /** Contains response data for the listNext operation. */
 export type ZonesListNextResponse = ZoneListResult;
@@ -486,7 +731,8 @@ export interface DnsResourceReferenceGetByTargetResourcesOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getByTargetResources operation. */
-export type DnsResourceReferenceGetByTargetResourcesResponse = DnsResourceReferenceResult;
+export type DnsResourceReferenceGetByTargetResourcesResponse =
+  DnsResourceReferenceResult;
 
 /** Optional parameters. */
 export interface DnsManagementClientOptionalParams

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Permanently deletes the specified configuration store.
  *
  * @summary Permanently deletes the specified configuration store.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/DeletedConfigurationStoresPurge.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/DeletedConfigurationStoresPurge.json
  */
 async function purgeADeletedConfigurationStore() {
   const subscriptionId =
@@ -29,11 +29,11 @@ async function purgeADeletedConfigurationStore() {
   const credential = new DefaultAzureCredential();
   const client = new AppConfigurationManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.configurationStores.beginPurgeDeletedAndWait(
     location,
-    configStoreName
+    configStoreName,
   );
   console.log(result);
 }

@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VolumeSnapshotsListByVolumeGroupOptionalParams,
-  ElasticSanManagement
+  ElasticSanManagement,
 } from "@azure/arm-elasticsan";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to List Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
  *
  * @summary List Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeSnapshots_ListByVolumeGroup_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeSnapshots_ListByVolumeGroup_MaximumSet_Gen.json
  */
 async function volumeSnapshotsListByVolumeGroupMaximumSetGen() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function volumeSnapshotsListByVolumeGroupMaximumSetGen() {
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    options
+    options,
   )) {
     resArray.push(item);
   }
@@ -50,7 +50,7 @@ async function volumeSnapshotsListByVolumeGroupMaximumSetGen() {
  * This sample demonstrates how to List Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
  *
  * @summary List Snapshots in a VolumeGroup or List Snapshots by Volume (name) in a VolumeGroup using filter
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeSnapshots_ListByVolumeGroup_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeSnapshots_ListByVolumeGroup_MinimumSet_Gen.json
  */
 async function volumeSnapshotsListByVolumeGroupMinimumSetGen() {
   const subscriptionId =
@@ -65,7 +65,7 @@ async function volumeSnapshotsListByVolumeGroupMinimumSetGen() {
   for await (let item of client.volumeSnapshots.listByVolumeGroup(
     resourceGroupName,
     elasticSanName,
-    volumeGroupName
+    volumeGroupName,
   )) {
     resArray.push(item);
   }

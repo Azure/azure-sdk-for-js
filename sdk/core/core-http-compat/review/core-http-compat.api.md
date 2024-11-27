@@ -4,18 +4,18 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { CommonClientOptions } from '@azure/core-client';
-import { FullOperationResponse } from '@azure/core-client';
-import { HttpClient } from '@azure/core-rest-pipeline';
-import { HttpHeaders } from '@azure/core-rest-pipeline';
-import { HttpMethods } from '@azure/core-rest-pipeline';
-import { OperationArguments } from '@azure/core-client';
-import { OperationSpec } from '@azure/core-client';
-import { PipelinePolicy } from '@azure/core-rest-pipeline';
-import { ProxySettings } from '@azure/core-rest-pipeline';
+import type { AbortSignalLike } from '@azure/abort-controller';
+import type { CommonClientOptions } from '@azure/core-client';
+import type { FullOperationResponse } from '@azure/core-client';
+import type { HttpClient } from '@azure/core-rest-pipeline';
+import type { HttpHeaders } from '@azure/core-rest-pipeline';
+import type { HttpMethods } from '@azure/core-rest-pipeline';
+import type { OperationArguments } from '@azure/core-client';
+import type { OperationSpec } from '@azure/core-client';
+import type { PipelinePolicy } from '@azure/core-rest-pipeline';
+import type { ProxySettings } from '@azure/core-rest-pipeline';
 import { ServiceClient } from '@azure/core-client';
-import { ServiceClientOptions } from '@azure/core-client';
+import type { ServiceClientOptions } from '@azure/core-client';
 
 // @public
 export interface CompatResponse extends Omit<FullOperationResponse, "request" | "headers"> {

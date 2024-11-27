@@ -3,7 +3,7 @@ import path from "path";
 
 // Define license header and generated code notice
 const licenseHeader = `// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.`;
+// Licensed under the MIT License.`;
 
 const generatedCodeNotice = `
 /**

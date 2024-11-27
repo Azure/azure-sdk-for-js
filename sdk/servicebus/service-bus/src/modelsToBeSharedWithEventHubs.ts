@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // TODO: this code is a straight-copy from EventHubs. Need to merge.
 
-import { OperationTracingOptions } from "@azure/core-tracing";
-import { OperationOptions } from "@azure/core-client";
+import type { OperationTracingOptions } from "@azure/core-tracing";
+import type { OperationOptions } from "@azure/core-client";
 
 /**
  * NOTE: This type is intended to mirror the relevant fields and structure from `@azure/core-client` OperationOptions

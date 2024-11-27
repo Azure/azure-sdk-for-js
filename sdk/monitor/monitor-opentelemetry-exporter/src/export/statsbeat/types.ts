@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export class NetworkStatsbeat {
   public time: number | undefined;
@@ -15,6 +15,10 @@ export class NetworkStatsbeat {
   public lastRequestCount: number;
 
   public totalSuccesfulRequestCount: number;
+
+  public totalReadFailureCount: number;
+
+  public totalWriteFailureCount: number;
 
   public totalFailedRequestCount: { statusCode: number; count: number }[];
 
@@ -35,6 +39,8 @@ export class NetworkStatsbeat {
     this.host = host;
     this.totalRequestCount = 0;
     this.totalSuccesfulRequestCount = 0;
+    this.totalReadFailureCount = 0;
+    this.totalWriteFailureCount = 0;
     this.totalFailedRequestCount = [];
     this.retryCount = [];
     this.exceptionCount = [];
@@ -66,6 +72,8 @@ export enum StatsbeatCounter {
   THROTTLE_COUNT = "Throttle_Count",
   EXCEPTION_COUNT = "Exception_Count",
   AVERAGE_DURATION = "Request_Duration",
+  READ_FAILURE_COUNT = "Read_Failure_Count",
+  WRITE_FAILURE_COUNT = "Write_Failure_Count",
   ATTACH = "Attach",
   FEATURE = "Feature",
 }
@@ -129,4 +137,16 @@ export interface VirtualMachineInfo {
 export enum StatsbeatFeatureType {
   FEATURE = 0,
   INSTRUMENTATION = 1,
+}
+
+/**
+ * Status codes indicating that we should shutdown statsbeat
+ * @internal
+ */
+export function isStatsbeatShutdownStatus(statusCode: number): boolean {
+  return (
+    statusCode === 401 || // Unauthorized
+    statusCode === 403 || // Forbidden
+    statusCode === 503 // Server Unavailable
+  );
 }

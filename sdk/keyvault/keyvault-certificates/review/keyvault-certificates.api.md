@@ -4,15 +4,15 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
+import type { AbortSignalLike } from '@azure/abort-controller';
 import { AzureLogger } from '@azure/logger';
-import { CancelOnProgress } from '@azure/core-lro';
-import * as coreClient from '@azure/core-client';
-import { ExtendedCommonClientOptions } from '@azure/core-http-compat';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { CancelOnProgress } from '@azure/core-lro';
+import type * as coreClient from '@azure/core-client';
+import type { ExtendedCommonClientOptions } from '@azure/core-http-compat';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PollerLike } from '@azure/core-lro';
-import { PollOperationState } from '@azure/core-lro';
-import { TokenCredential } from '@azure/core-auth';
+import type { PollOperationState } from '@azure/core-lro';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export type ActionType = "EmailContacts" | "AutoRenew";

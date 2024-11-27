@@ -1,14 +1,40 @@
 # Release History
 
-## 1.0.0-beta.3 (Unreleased)
+## 1.0.0-beta.3 (2024-08-20)
 
 ### Features Added
 
-### Breaking Changes
-
-### Bugs Fixed
+- Added support for the Analyze Batch Documents API with the long-running operations, `/documentModels/{modelId}:analyzeBatch`.
+- Added support for method `/documentModels/{modelId}/analyzeResults/{resultId}/pdf`.
+- Added support for method `/documentModels/{modelId}/analyzeResults/{resultId}/figures/{figureId}`.
+- Added support for the analysis method to specify other kinds of output through `AnalyzeDocumentFromStreamBodyParam#output` param : can be `pdf` and `figures`.
+- Added property `id` to `Output` model.
+- Added support for the Copy Classifier API with method `/documentClassifiers:authorizeCopy`.
+- Added method `/documentClassifiers/{classifierId}:copyTo`.
+- Added new enum type to `DocumentBuildMode`: `generative`.
+- Added property `warnings` to `AnalyzeResultOutput ` model.
+- Added properties `classifierId`, `split`, and `trainingHours` to `DocumentModelDetailsOutput` model.
+- Added properties `confidenceThreshold`, `features`, `maxDocumentsToAnalyze`, `modelId`, and `queryFields` to `DocumentTypeDetailsOutput` model.
+- Added properties `allowOverwrite` and `maxTrainingHours` to `BuildDocumentModelRequest` model.
+- Added parameter `pages` to `ClassifyDocument` overloads.
+- Added properties `classifierId`, `docTypes`, and `split` to `ComposeDocumentModelRequest`.
+- Added property `allowOverwrite` to `BuildDocumentClassifierRequest`.
+- Added property `getOperationId()` method to the pollers.
 
 ### Other Changes
+
+- The `@azure-rest/ai-document-intelligence` Rest Level Client Library, now targets the Azure AI Document Intelligence service API version `2024-07-31-preview`. Support for `2024-02-29-preview` has been removed.
+- Removed support for extracting lists from analyzed documents:
+  - Removed models `DocumentListOutput` and `DocumentListItemOutput`.
+  - Removed property `lists` from `AnalyzeResultOutput`.
+- Changes to the Compose Document API:
+  - Removed model `ComponentDocumentModelDetails`.
+  - Removed property `componentModels` from `ComposeDocumentModelRequest`.
+  - `ComposeDocumentModelRequest` now requires a map of `DocumentTypeDetails` and a classifier ID.
+- Removed model `QuotaDetailsOutput`.
+- Removed property `customNeuralDocumentModelBuilds` from `ResourceDetailsOutput`.
+- Removed required property `fieldSchema` and from `DocumentTypeDetailsOuput`.
+- `DocumentFieldType` is now a required property of `DocumentFieldSchema`.
 
 ## 1.0.0-beta.2 (2024-03-06)
 

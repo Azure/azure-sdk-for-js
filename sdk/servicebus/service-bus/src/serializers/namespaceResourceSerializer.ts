@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { FullOperationResponse } from "@azure/core-client";
-import {
-  AtomXmlSerializer,
-  deserializeAtomXmlResponse,
-  serializeToAtomXmlRequest,
-} from "../util/atomXmlHelper";
-import { getInteger, getString, getDate } from "../util/utils";
+import type { FullOperationResponse } from "@azure/core-client";
+import type { AtomXmlSerializer } from "../util/atomXmlHelper.js";
+import { deserializeAtomXmlResponse, serializeToAtomXmlRequest } from "../util/atomXmlHelper.js";
+import { getInteger, getString, getDate } from "../util/utils.js";
 
 /**
  * Represents the metadata related to a service bus namespace.

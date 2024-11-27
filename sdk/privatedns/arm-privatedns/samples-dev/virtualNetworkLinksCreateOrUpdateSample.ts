@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   VirtualNetworkLink,
-  PrivateDnsManagementClient
+  PrivateDnsManagementClient,
 } from "@azure/arm-privatedns";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Creates or updates a virtual network link to the specified Private DNS zone.
  *
  * @summary Creates or updates a virtual network link to the specified Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/VirtualNetworkLinkPut.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/VirtualNetworkLinkPut.json
  */
 async function putPrivateDnsZoneVirtualNetworkLink() {
   const subscriptionId =
@@ -35,9 +35,8 @@ async function putPrivateDnsZoneVirtualNetworkLink() {
     registrationEnabled: false,
     tags: { key1: "value1" },
     virtualNetwork: {
-      id:
-        "/subscriptions/virtualNetworkSubscriptionId/resourceGroups/virtualNetworkResourceGroup/providers/Microsoft.Network/virtualNetworks/virtualNetworkName"
-    }
+      id: "/subscriptions/virtualNetworkSubscriptionId/resourceGroups/virtualNetworkResourceGroup/providers/Microsoft.Network/virtualNetworks/virtualNetworkName",
+    },
   };
   const credential = new DefaultAzureCredential();
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
@@ -45,7 +44,7 @@ async function putPrivateDnsZoneVirtualNetworkLink() {
     resourceGroupName,
     privateZoneName,
     virtualNetworkLinkName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

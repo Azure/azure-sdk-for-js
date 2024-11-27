@@ -638,6 +638,22 @@ export const IndexingParametersConfiguration: coreClient.CompositeMapper = {
           name: "Boolean",
         },
       },
+      markdownParsingSubmode: {
+        defaultValue: "oneToMany",
+        serializedName: "markdownParsingSubmode",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+      markdownHeaderDepth: {
+        defaultValue: "h6",
+        serializedName: "markdownHeaderDepth",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
       documentRoot: {
         serializedName: "documentRoot",
         type: {
@@ -1194,11 +1210,11 @@ export const SearchIndexerSkillset: coreClient.CompositeMapper = {
           className: "SearchIndexerKnowledgeStore",
         },
       },
-      indexProjections: {
+      indexProjection: {
         serializedName: "indexProjections",
         type: {
           name: "Composite",
-          className: "SearchIndexerIndexProjections",
+          className: "SearchIndexerIndexProjection",
         },
       },
       etag: {
@@ -1526,10 +1542,10 @@ export const SearchIndexerKnowledgeStoreParameters: coreClient.CompositeMapper =
     },
   };
 
-export const SearchIndexerIndexProjections: coreClient.CompositeMapper = {
+export const SearchIndexerIndexProjection: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SearchIndexerIndexProjections",
+    className: "SearchIndexerIndexProjection",
     modelProperties: {
       selectors: {
         serializedName: "selectors",
@@ -1548,7 +1564,7 @@ export const SearchIndexerIndexProjections: coreClient.CompositeMapper = {
         serializedName: "parameters",
         type: {
           name: "Composite",
-          className: "SearchIndexerIndexProjectionsParameters",
+          className: "SearchIndexerIndexProjectionParameters",
         },
       },
     },
@@ -1599,11 +1615,11 @@ export const SearchIndexerIndexProjectionSelector: coreClient.CompositeMapper =
     },
   };
 
-export const SearchIndexerIndexProjectionsParameters: coreClient.CompositeMapper =
+export const SearchIndexerIndexProjectionParameters: coreClient.CompositeMapper =
   {
     type: {
       name: "Composite",
-      className: "SearchIndexerIndexProjectionsParameters",
+      className: "SearchIndexerIndexProjectionParameters",
       additionalProperties: { type: { name: "Object" } },
       modelProperties: {
         projectionMode: {
@@ -2513,7 +2529,7 @@ export const VectorSearch: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "BaseVectorSearchCompressionConfiguration",
+              className: "VectorSearchCompression",
             },
           },
         },
@@ -2541,13 +2557,13 @@ export const VectorSearchProfile: coreClient.CompositeMapper = {
           name: "String",
         },
       },
-      vectorizer: {
+      vectorizerName: {
         serializedName: "vectorizer",
         type: {
           name: "String",
         },
       },
-      compressionConfigurationName: {
+      compressionName: {
         serializedName: "compression",
         type: {
           name: "String",
@@ -2595,7 +2611,7 @@ export const VectorSearchVectorizer: coreClient.CompositeMapper = {
       clientName: "kind",
     },
     modelProperties: {
-      name: {
+      vectorizerName: {
         serializedName: "name",
         required: true,
         type: {
@@ -2613,48 +2629,92 @@ export const VectorSearchVectorizer: coreClient.CompositeMapper = {
   },
 };
 
-export const BaseVectorSearchCompressionConfiguration: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "BaseVectorSearchCompressionConfiguration",
-      uberParent: "BaseVectorSearchCompressionConfiguration",
-      polymorphicDiscriminator: {
-        serializedName: "kind",
-        clientName: "kind",
+export const VectorSearchCompression: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "VectorSearchCompression",
+    uberParent: "VectorSearchCompression",
+    polymorphicDiscriminator: {
+      serializedName: "kind",
+      clientName: "kind",
+    },
+    modelProperties: {
+      compressionName: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String",
+        },
       },
-      modelProperties: {
-        name: {
-          serializedName: "name",
-          required: true,
-          type: {
-            name: "String",
-          },
+      kind: {
+        serializedName: "kind",
+        required: true,
+        type: {
+          name: "String",
         },
-        kind: {
-          serializedName: "kind",
-          required: true,
-          type: {
-            name: "String",
-          },
+      },
+      rerankWithOriginalVectors: {
+        defaultValue: true,
+        serializedName: "rerankWithOriginalVectors",
+        type: {
+          name: "Boolean",
         },
-        rerankWithOriginalVectors: {
-          defaultValue: true,
-          serializedName: "rerankWithOriginalVectors",
-          type: {
-            name: "Boolean",
-          },
+      },
+      defaultOversampling: {
+        serializedName: "defaultOversampling",
+        nullable: true,
+        type: {
+          name: "Number",
         },
-        defaultOversampling: {
-          serializedName: "defaultOversampling",
-          nullable: true,
-          type: {
-            name: "Number",
-          },
+      },
+      rescoringOptions: {
+        serializedName: "rescoringOptions",
+        type: {
+          name: "Composite",
+          className: "RescoringOptions",
+        },
+      },
+      truncationDimension: {
+        serializedName: "truncationDimension",
+        nullable: true,
+        type: {
+          name: "Number",
         },
       },
     },
-  };
+  },
+};
+
+export const RescoringOptions: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "RescoringOptions",
+    modelProperties: {
+      enableRescoring: {
+        defaultValue: true,
+        serializedName: "enableRescoring",
+        nullable: true,
+        type: {
+          name: "Boolean",
+        },
+      },
+      defaultOversampling: {
+        serializedName: "defaultOversampling",
+        nullable: true,
+        type: {
+          name: "Number",
+        },
+      },
+      rescoreStorageMethod: {
+        serializedName: "rescoreStorageMethod",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
 
 export const ListIndexesResult: coreClient.CompositeMapper = {
   type: {
@@ -3039,7 +3099,7 @@ export const ServiceLimits: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
-      maxStoragePerIndex: {
+      maxStoragePerIndexInBytes: {
         serializedName: "maxStoragePerIndex",
         nullable: true,
         type: {
@@ -3139,7 +3199,7 @@ export const AzureOpenAIParameters: coreClient.CompositeMapper = {
     name: "Composite",
     className: "AzureOpenAIParameters",
     modelProperties: {
-      resourceUri: {
+      resourceUrl: {
         serializedName: "resourceUri",
         type: {
           name: "String",
@@ -3174,10 +3234,10 @@ export const AzureOpenAIParameters: coreClient.CompositeMapper = {
   },
 };
 
-export const CustomWebApiParameters: coreClient.CompositeMapper = {
+export const WebApiParameters: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CustomWebApiParameters",
+    className: "WebApiParameters",
     modelProperties: {
       uri: {
         serializedName: "uri",
@@ -3530,6 +3590,33 @@ export const CustomEntityAlias: coreClient.CompositeMapper = {
   },
 };
 
+export const AzureOpenAITokenizerParameters: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AzureOpenAITokenizerParameters",
+    modelProperties: {
+      encoderModelName: {
+        serializedName: "encoderModelName",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+      allowedSpecialTokens: {
+        serializedName: "allowedSpecialTokens",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
 export const SearchIndexerDataNoneIdentity: coreClient.CompositeMapper = {
   serializedName: "#Microsoft.Azure.Search.DataNoneIdentity",
   type: {
@@ -3555,7 +3642,7 @@ export const SearchIndexerDataUserAssignedIdentity: coreClient.CompositeMapper =
         SearchIndexerDataIdentity.type.polymorphicDiscriminator,
       modelProperties: {
         ...SearchIndexerDataIdentity.type.modelProperties,
-        userAssignedIdentity: {
+        resourceId: {
           serializedName: "userAssignedIdentity",
           required: true,
           type: {
@@ -4129,6 +4216,20 @@ export const SplitSkill: coreClient.CompositeMapper = {
           name: "Number",
         },
       },
+      unit: {
+        serializedName: "unit",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+      azureOpenAITokenizerParameters: {
+        serializedName: "azureOpenAITokenizerParameters",
+        type: {
+          name: "Composite",
+          className: "AzureOpenAITokenizerParameters",
+        },
+      },
     },
   },
 };
@@ -4256,6 +4357,35 @@ export const DocumentExtractionSkill: coreClient.CompositeMapper = {
         type: {
           name: "Dictionary",
           value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
+};
+
+export const DocumentIntelligenceLayoutSkill: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill",
+  type: {
+    name: "Composite",
+    className: "DocumentIntelligenceLayoutSkill",
+    uberParent: "SearchIndexerSkill",
+    polymorphicDiscriminator: SearchIndexerSkill.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...SearchIndexerSkill.type.modelProperties,
+      outputMode: {
+        defaultValue: "oneToMany",
+        serializedName: "outputMode",
+        nullable: true,
+        type: {
+          name: "String",
+        },
+      },
+      markdownHeaderDepth: {
+        defaultValue: "h6",
+        serializedName: "markdownHeaderDepth",
+        nullable: true,
+        type: {
+          name: "String",
         },
       },
     },
@@ -4452,6 +4582,62 @@ export const CognitiveServicesAccountKey: coreClient.CompositeMapper = {
       ...CognitiveServicesAccount.type.modelProperties,
       key: {
         serializedName: "key",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AIServicesAccountKey: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Azure.Search.AIServicesByKey",
+  type: {
+    name: "Composite",
+    className: "AIServicesAccountKey",
+    uberParent: "CognitiveServicesAccount",
+    polymorphicDiscriminator:
+      CognitiveServicesAccount.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CognitiveServicesAccount.type.modelProperties,
+      key: {
+        serializedName: "key",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+      subdomainUrl: {
+        serializedName: "subdomainUrl",
+        required: true,
+        type: {
+          name: "String",
+        },
+      },
+    },
+  },
+};
+
+export const AIServicesAccountIdentity: coreClient.CompositeMapper = {
+  serializedName: "#Microsoft.Azure.Search.AIServicesByIdentity",
+  type: {
+    name: "Composite",
+    className: "AIServicesAccountIdentity",
+    uberParent: "CognitiveServicesAccount",
+    polymorphicDiscriminator:
+      CognitiveServicesAccount.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...CognitiveServicesAccount.type.modelProperties,
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "SearchIndexerDataIdentity",
+        },
+      },
+      subdomainUrl: {
+        serializedName: "subdomainUrl",
         required: true,
         type: {
           name: "String",
@@ -6366,7 +6552,7 @@ export const AzureOpenAIVectorizer: coreClient.CompositeMapper = {
       VectorSearchVectorizer.type.polymorphicDiscriminator,
     modelProperties: {
       ...VectorSearchVectorizer.type.modelProperties,
-      azureOpenAIParameters: {
+      parameters: {
         serializedName: "azureOpenAIParameters",
         type: {
           name: "Composite",
@@ -6377,21 +6563,21 @@ export const AzureOpenAIVectorizer: coreClient.CompositeMapper = {
   },
 };
 
-export const CustomVectorizer: coreClient.CompositeMapper = {
+export const WebApiVectorizer: coreClient.CompositeMapper = {
   serializedName: "customWebApi",
   type: {
     name: "Composite",
-    className: "CustomVectorizer",
+    className: "WebApiVectorizer",
     uberParent: "VectorSearchVectorizer",
     polymorphicDiscriminator:
       VectorSearchVectorizer.type.polymorphicDiscriminator,
     modelProperties: {
       ...VectorSearchVectorizer.type.modelProperties,
-      customWebApiParameters: {
+      parameters: {
         serializedName: "customWebApiParameters",
         type: {
           name: "Composite",
-          className: "CustomWebApiParameters",
+          className: "WebApiParameters",
         },
       },
     },
@@ -6440,27 +6626,40 @@ export const AMLVectorizer: coreClient.CompositeMapper = {
   },
 };
 
-export const ScalarQuantizationCompressionConfiguration: coreClient.CompositeMapper =
-  {
-    serializedName: "scalarQuantization",
-    type: {
-      name: "Composite",
-      className: "ScalarQuantizationCompressionConfiguration",
-      uberParent: "BaseVectorSearchCompressionConfiguration",
-      polymorphicDiscriminator:
-        BaseVectorSearchCompressionConfiguration.type.polymorphicDiscriminator,
-      modelProperties: {
-        ...BaseVectorSearchCompressionConfiguration.type.modelProperties,
-        parameters: {
-          serializedName: "scalarQuantizationParameters",
-          type: {
-            name: "Composite",
-            className: "ScalarQuantizationParameters",
-          },
+export const ScalarQuantizationCompression: coreClient.CompositeMapper = {
+  serializedName: "scalarQuantization",
+  type: {
+    name: "Composite",
+    className: "ScalarQuantizationCompression",
+    uberParent: "VectorSearchCompression",
+    polymorphicDiscriminator:
+      VectorSearchCompression.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...VectorSearchCompression.type.modelProperties,
+      parameters: {
+        serializedName: "scalarQuantizationParameters",
+        type: {
+          name: "Composite",
+          className: "ScalarQuantizationParameters",
         },
       },
     },
-  };
+  },
+};
+
+export const BinaryQuantizationCompression: coreClient.CompositeMapper = {
+  serializedName: "binaryQuantization",
+  type: {
+    name: "Composite",
+    className: "BinaryQuantizationCompression",
+    uberParent: "VectorSearchCompression",
+    polymorphicDiscriminator:
+      VectorSearchCompression.type.polymorphicDiscriminator,
+    modelProperties: {
+      ...VectorSearchCompression.type.modelProperties,
+    },
+  },
+};
 
 export const SearchIndexerKnowledgeStoreObjectProjectionSelector: coreClient.CompositeMapper =
   {
@@ -6501,8 +6700,7 @@ export let discriminators = {
   Similarity: Similarity,
   VectorSearchAlgorithmConfiguration: VectorSearchAlgorithmConfiguration,
   VectorSearchVectorizer: VectorSearchVectorizer,
-  BaseVectorSearchCompressionConfiguration:
-    BaseVectorSearchCompressionConfiguration,
+  VectorSearchCompression: VectorSearchCompression,
   "SearchIndexerDataIdentity.#Microsoft.Azure.Search.DataNoneIdentity":
     SearchIndexerDataNoneIdentity,
   "SearchIndexerDataIdentity.#Microsoft.Azure.Search.DataUserAssignedIdentity":
@@ -6544,6 +6742,8 @@ export let discriminators = {
     TextTranslationSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Util.DocumentExtractionSkill":
     DocumentExtractionSkill,
+  "SearchIndexerSkill.#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill":
+    DocumentIntelligenceLayoutSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Custom.WebApiSkill": WebApiSkill,
   "SearchIndexerSkill.#Microsoft.Skills.Custom.AmlSkill":
     AzureMachineLearningSkill,
@@ -6555,6 +6755,10 @@ export let discriminators = {
     DefaultCognitiveServicesAccount,
   "CognitiveServicesAccount.#Microsoft.Azure.Search.CognitiveServicesByKey":
     CognitiveServicesAccountKey,
+  "CognitiveServicesAccount.#Microsoft.Azure.Search.AIServicesByKey":
+    AIServicesAccountKey,
+  "CognitiveServicesAccount.#Microsoft.Azure.Search.AIServicesByIdentity":
+    AIServicesAccountIdentity,
   "ScoringFunction.distance": DistanceScoringFunction,
   "ScoringFunction.freshness": FreshnessScoringFunction,
   "ScoringFunction.magnitude": MagnitudeScoringFunction,
@@ -6635,9 +6839,9 @@ export let discriminators = {
   "VectorSearchAlgorithmConfiguration.exhaustiveKnn":
     ExhaustiveKnnAlgorithmConfiguration,
   "VectorSearchVectorizer.azureOpenAI": AzureOpenAIVectorizer,
-  "VectorSearchVectorizer.customWebApi": CustomVectorizer,
+  "VectorSearchVectorizer.customWebApi": WebApiVectorizer,
   "VectorSearchVectorizer.aiServicesVision": AIServicesVisionVectorizer,
   "VectorSearchVectorizer.aml": AMLVectorizer,
-  "BaseVectorSearchCompressionConfiguration.scalarQuantization":
-    ScalarQuantizationCompressionConfiguration,
+  "VectorSearchCompression.scalarQuantization": ScalarQuantizationCompression,
+  "VectorSearchCompression.binaryQuantization": BinaryQuantizationCompression,
 };

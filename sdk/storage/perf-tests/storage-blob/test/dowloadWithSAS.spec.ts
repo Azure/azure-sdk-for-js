@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PerfOptionDictionary, getEnvVar, drainStream } from "@azure-tools/test-perf";
 import { StorageBlobTest } from "./storageTest.spec";

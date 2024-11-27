@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { BlobSASPermissions } from "./BlobSASPermissions";
-import { UserDelegationKey } from "../BlobServiceClient";
+import type { UserDelegationKey } from "../BlobServiceClient";
 import { ContainerSASPermissions } from "./ContainerSASPermissions";
 import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
 import { UserDelegationKeyCredential } from "../credentials/UserDelegationKeyCredential";
-import { ipRangeToString, SasIPRange } from "./SasIPRange";
-import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
+import type { SasIPRange } from "./SasIPRange";
+import { ipRangeToString } from "./SasIPRange";
+import type { SASProtocol } from "./SASQueryParameters";
+import { SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "../utils/constants";
 import { truncatedISO8061Date } from "../utils/utils.common";
 
@@ -249,6 +251,18 @@ export function generateBlobSASQueryParameters(
   sharedKeyCredentialOrUserDelegationKey: StorageSharedKeyCredential | UserDelegationKey,
   accountName?: string,
 ): SASQueryParameters {
+  return generateBlobSASQueryParametersInternal(
+    blobSASSignatureValues,
+    sharedKeyCredentialOrUserDelegationKey,
+    accountName,
+  ).sasQueryParameters;
+}
+
+export function generateBlobSASQueryParametersInternal(
+  blobSASSignatureValues: BlobSASSignatureValues,
+  sharedKeyCredentialOrUserDelegationKey: StorageSharedKeyCredential | UserDelegationKey,
+  accountName?: string,
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
   const version = blobSASSignatureValues.version ? blobSASSignatureValues.version : SERVICE_VERSION;
 
   const sharedKeyCredential =
@@ -334,7 +348,7 @@ export function generateBlobSASQueryParameters(
 function generateBlobSASQueryParameters20150405(
   blobSASSignatureValues: BlobSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential,
-): SASQueryParameters {
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
   blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
 
   if (
@@ -392,24 +406,27 @@ function generateBlobSASQueryParameters20150405(
 
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
 
-  return new SASQueryParameters(
-    blobSASSignatureValues.version!,
-    signature,
-    verifiedPermissions,
-    undefined,
-    undefined,
-    blobSASSignatureValues.protocol,
-    blobSASSignatureValues.startsOn,
-    blobSASSignatureValues.expiresOn,
-    blobSASSignatureValues.ipRange,
-    blobSASSignatureValues.identifier,
-    resource,
-    blobSASSignatureValues.cacheControl,
-    blobSASSignatureValues.contentDisposition,
-    blobSASSignatureValues.contentEncoding,
-    blobSASSignatureValues.contentLanguage,
-    blobSASSignatureValues.contentType,
-  );
+  return {
+    sasQueryParameters: new SASQueryParameters(
+      blobSASSignatureValues.version!,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      blobSASSignatureValues.protocol,
+      blobSASSignatureValues.startsOn,
+      blobSASSignatureValues.expiresOn,
+      blobSASSignatureValues.ipRange,
+      blobSASSignatureValues.identifier,
+      resource,
+      blobSASSignatureValues.cacheControl,
+      blobSASSignatureValues.contentDisposition,
+      blobSASSignatureValues.contentEncoding,
+      blobSASSignatureValues.contentLanguage,
+      blobSASSignatureValues.contentType,
+    ),
+    stringToSign: stringToSign,
+  };
 }
 
 /**
@@ -431,7 +448,7 @@ function generateBlobSASQueryParameters20150405(
 function generateBlobSASQueryParameters20181109(
   blobSASSignatureValues: BlobSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential,
-): SASQueryParameters {
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
   blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
 
   if (
@@ -498,24 +515,27 @@ function generateBlobSASQueryParameters20181109(
 
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
 
-  return new SASQueryParameters(
-    blobSASSignatureValues.version!,
-    signature,
-    verifiedPermissions,
-    undefined,
-    undefined,
-    blobSASSignatureValues.protocol,
-    blobSASSignatureValues.startsOn,
-    blobSASSignatureValues.expiresOn,
-    blobSASSignatureValues.ipRange,
-    blobSASSignatureValues.identifier,
-    resource,
-    blobSASSignatureValues.cacheControl,
-    blobSASSignatureValues.contentDisposition,
-    blobSASSignatureValues.contentEncoding,
-    blobSASSignatureValues.contentLanguage,
-    blobSASSignatureValues.contentType,
-  );
+  return {
+    sasQueryParameters: new SASQueryParameters(
+      blobSASSignatureValues.version!,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      blobSASSignatureValues.protocol,
+      blobSASSignatureValues.startsOn,
+      blobSASSignatureValues.expiresOn,
+      blobSASSignatureValues.ipRange,
+      blobSASSignatureValues.identifier,
+      resource,
+      blobSASSignatureValues.cacheControl,
+      blobSASSignatureValues.contentDisposition,
+      blobSASSignatureValues.contentEncoding,
+      blobSASSignatureValues.contentLanguage,
+      blobSASSignatureValues.contentType,
+    ),
+    stringToSign: stringToSign,
+  };
 }
 
 /**
@@ -537,7 +557,7 @@ function generateBlobSASQueryParameters20181109(
 function generateBlobSASQueryParameters20201206(
   blobSASSignatureValues: BlobSASSignatureValues,
   sharedKeyCredential: StorageSharedKeyCredential,
-): SASQueryParameters {
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
   blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
 
   if (
@@ -605,28 +625,31 @@ function generateBlobSASQueryParameters20201206(
 
   const signature = sharedKeyCredential.computeHMACSHA256(stringToSign);
 
-  return new SASQueryParameters(
-    blobSASSignatureValues.version!,
-    signature,
-    verifiedPermissions,
-    undefined,
-    undefined,
-    blobSASSignatureValues.protocol,
-    blobSASSignatureValues.startsOn,
-    blobSASSignatureValues.expiresOn,
-    blobSASSignatureValues.ipRange,
-    blobSASSignatureValues.identifier,
-    resource,
-    blobSASSignatureValues.cacheControl,
-    blobSASSignatureValues.contentDisposition,
-    blobSASSignatureValues.contentEncoding,
-    blobSASSignatureValues.contentLanguage,
-    blobSASSignatureValues.contentType,
-    undefined,
-    undefined,
-    undefined,
-    blobSASSignatureValues.encryptionScope,
-  );
+  return {
+    sasQueryParameters: new SASQueryParameters(
+      blobSASSignatureValues.version!,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      blobSASSignatureValues.protocol,
+      blobSASSignatureValues.startsOn,
+      blobSASSignatureValues.expiresOn,
+      blobSASSignatureValues.ipRange,
+      blobSASSignatureValues.identifier,
+      resource,
+      blobSASSignatureValues.cacheControl,
+      blobSASSignatureValues.contentDisposition,
+      blobSASSignatureValues.contentEncoding,
+      blobSASSignatureValues.contentLanguage,
+      blobSASSignatureValues.contentType,
+      undefined,
+      undefined,
+      undefined,
+      blobSASSignatureValues.encryptionScope,
+    ),
+    stringToSign: stringToSign,
+  };
 }
 
 /**
@@ -646,7 +669,7 @@ function generateBlobSASQueryParameters20201206(
 function generateBlobSASQueryParametersUDK20181109(
   blobSASSignatureValues: BlobSASSignatureValues,
   userDelegationKeyCredential: UserDelegationKeyCredential,
-): SASQueryParameters {
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
   blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
 
   // Stored access policies are not supported for a user delegation SAS.
@@ -719,25 +742,28 @@ function generateBlobSASQueryParametersUDK20181109(
   ].join("\n");
 
   const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
-  return new SASQueryParameters(
-    blobSASSignatureValues.version!,
-    signature,
-    verifiedPermissions,
-    undefined,
-    undefined,
-    blobSASSignatureValues.protocol,
-    blobSASSignatureValues.startsOn,
-    blobSASSignatureValues.expiresOn,
-    blobSASSignatureValues.ipRange,
-    blobSASSignatureValues.identifier,
-    resource,
-    blobSASSignatureValues.cacheControl,
-    blobSASSignatureValues.contentDisposition,
-    blobSASSignatureValues.contentEncoding,
-    blobSASSignatureValues.contentLanguage,
-    blobSASSignatureValues.contentType,
-    userDelegationKeyCredential.userDelegationKey,
-  );
+  return {
+    sasQueryParameters: new SASQueryParameters(
+      blobSASSignatureValues.version!,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      blobSASSignatureValues.protocol,
+      blobSASSignatureValues.startsOn,
+      blobSASSignatureValues.expiresOn,
+      blobSASSignatureValues.ipRange,
+      blobSASSignatureValues.identifier,
+      resource,
+      blobSASSignatureValues.cacheControl,
+      blobSASSignatureValues.contentDisposition,
+      blobSASSignatureValues.contentEncoding,
+      blobSASSignatureValues.contentLanguage,
+      blobSASSignatureValues.contentType,
+      userDelegationKeyCredential.userDelegationKey,
+    ),
+    stringToSign: stringToSign,
+  };
 }
 
 /**
@@ -757,7 +783,7 @@ function generateBlobSASQueryParametersUDK20181109(
 function generateBlobSASQueryParametersUDK20200210(
   blobSASSignatureValues: BlobSASSignatureValues,
   userDelegationKeyCredential: UserDelegationKeyCredential,
-): SASQueryParameters {
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
   blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
 
   // Stored access policies are not supported for a user delegation SAS.
@@ -833,27 +859,30 @@ function generateBlobSASQueryParametersUDK20200210(
   ].join("\n");
 
   const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
-  return new SASQueryParameters(
-    blobSASSignatureValues.version!,
-    signature,
-    verifiedPermissions,
-    undefined,
-    undefined,
-    blobSASSignatureValues.protocol,
-    blobSASSignatureValues.startsOn,
-    blobSASSignatureValues.expiresOn,
-    blobSASSignatureValues.ipRange,
-    blobSASSignatureValues.identifier,
-    resource,
-    blobSASSignatureValues.cacheControl,
-    blobSASSignatureValues.contentDisposition,
-    blobSASSignatureValues.contentEncoding,
-    blobSASSignatureValues.contentLanguage,
-    blobSASSignatureValues.contentType,
-    userDelegationKeyCredential.userDelegationKey,
-    blobSASSignatureValues.preauthorizedAgentObjectId,
-    blobSASSignatureValues.correlationId,
-  );
+  return {
+    sasQueryParameters: new SASQueryParameters(
+      blobSASSignatureValues.version!,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      blobSASSignatureValues.protocol,
+      blobSASSignatureValues.startsOn,
+      blobSASSignatureValues.expiresOn,
+      blobSASSignatureValues.ipRange,
+      blobSASSignatureValues.identifier,
+      resource,
+      blobSASSignatureValues.cacheControl,
+      blobSASSignatureValues.contentDisposition,
+      blobSASSignatureValues.contentEncoding,
+      blobSASSignatureValues.contentLanguage,
+      blobSASSignatureValues.contentType,
+      userDelegationKeyCredential.userDelegationKey,
+      blobSASSignatureValues.preauthorizedAgentObjectId,
+      blobSASSignatureValues.correlationId,
+    ),
+    stringToSign: stringToSign,
+  };
 }
 
 /**
@@ -873,7 +902,7 @@ function generateBlobSASQueryParametersUDK20200210(
 function generateBlobSASQueryParametersUDK20201206(
   blobSASSignatureValues: BlobSASSignatureValues,
   userDelegationKeyCredential: UserDelegationKeyCredential,
-): SASQueryParameters {
+): { sasQueryParameters: SASQueryParameters; stringToSign: string } {
   blobSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(blobSASSignatureValues);
 
   // Stored access policies are not supported for a user delegation SAS.
@@ -950,28 +979,31 @@ function generateBlobSASQueryParametersUDK20201206(
   ].join("\n");
 
   const signature = userDelegationKeyCredential.computeHMACSHA256(stringToSign);
-  return new SASQueryParameters(
-    blobSASSignatureValues.version!,
-    signature,
-    verifiedPermissions,
-    undefined,
-    undefined,
-    blobSASSignatureValues.protocol,
-    blobSASSignatureValues.startsOn,
-    blobSASSignatureValues.expiresOn,
-    blobSASSignatureValues.ipRange,
-    blobSASSignatureValues.identifier,
-    resource,
-    blobSASSignatureValues.cacheControl,
-    blobSASSignatureValues.contentDisposition,
-    blobSASSignatureValues.contentEncoding,
-    blobSASSignatureValues.contentLanguage,
-    blobSASSignatureValues.contentType,
-    userDelegationKeyCredential.userDelegationKey,
-    blobSASSignatureValues.preauthorizedAgentObjectId,
-    blobSASSignatureValues.correlationId,
-    blobSASSignatureValues.encryptionScope,
-  );
+  return {
+    sasQueryParameters: new SASQueryParameters(
+      blobSASSignatureValues.version!,
+      signature,
+      verifiedPermissions,
+      undefined,
+      undefined,
+      blobSASSignatureValues.protocol,
+      blobSASSignatureValues.startsOn,
+      blobSASSignatureValues.expiresOn,
+      blobSASSignatureValues.ipRange,
+      blobSASSignatureValues.identifier,
+      resource,
+      blobSASSignatureValues.cacheControl,
+      blobSASSignatureValues.contentDisposition,
+      blobSASSignatureValues.contentEncoding,
+      blobSASSignatureValues.contentLanguage,
+      blobSASSignatureValues.contentType,
+      userDelegationKeyCredential.userDelegationKey,
+      blobSASSignatureValues.preauthorizedAgentObjectId,
+      blobSASSignatureValues.correlationId,
+      blobSASSignatureValues.encryptionScope,
+    ),
+    stringToSign: stringToSign,
+  };
 }
 
 function getCanonicalName(accountName: string, containerName: string, blobName?: string): string {

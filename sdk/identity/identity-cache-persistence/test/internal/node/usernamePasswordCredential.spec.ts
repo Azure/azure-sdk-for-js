@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable sort-imports */
 
-import {
-  MsalTestCleanup,
-  msalNodeTestSetup,
-} from "../../../../identity/test/node/msalNodeTestSetup";
-import { Recorder, env } from "@azure-tools/test-recorder";
-import { TokenCachePersistenceOptions, UsernamePasswordCredential } from "../../../../identity/src";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
+import type { TokenCachePersistenceOptions } from "@azure/identity";
+import { UsernamePasswordCredential } from "@azure/identity";
 
 import { PublicClientApplication } from "@azure/msal-node";
-import Sinon from "sinon";
+import type Sinon from "sinon";
 import assert from "assert";
 import { createPersistence } from "./setup.spec";
+import type { MsalTestCleanup } from "./msalNodeTestSetup";
+import { msalNodeTestSetup } from "./msalNodeTestSetup";
 
 describe("UsernamePasswordCredential (internal)", function (this: Mocha.Suite) {
   let cleanup: MsalTestCleanup;

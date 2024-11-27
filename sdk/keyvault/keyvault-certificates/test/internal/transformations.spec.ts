@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "@azure-tools/test-utils";
-import {
+// Licensed under the MIT License.
+import type {
   CertificateBundle,
   CertificateOperation as CoreCertificateOperation,
   DeletedCertificateItem,
-} from "../../src/generated/models";
+} from "../../src/generated/models/index.js";
 import {
   getCertificateFromCertificateBundle,
   getCertificateOperationFromCoreOperation,
   getCertificateWithPolicyFromCertificateBundle,
   getDeletedCertificateFromItem,
   getPropertiesFromCertificateBundle,
-} from "../../src/transformations";
+} from "../../src/transformations.js";
+import { describe, it, assert } from "vitest";
 
 describe("transformations", function () {
   describe("getCertificateOperationFromCoreOperation", function () {

@@ -14,7 +14,7 @@ import {
 import {
   AddToGroupsRequest as AddToGroupsRequestMapper,
   RemoveFromGroupsRequest as RemoveFromGroupsRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",

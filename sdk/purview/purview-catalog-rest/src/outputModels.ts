@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export interface AtlasEntityWithExtInfoOutput extends AtlasEntityExtInfoOutput {
   /** An instance of an entity - like hive_table, hive_database. */

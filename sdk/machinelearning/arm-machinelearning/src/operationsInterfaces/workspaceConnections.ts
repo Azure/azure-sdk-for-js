@@ -15,6 +15,8 @@ import {
   WorkspaceConnectionsGetOptionalParams,
   WorkspaceConnectionsGetResponse,
   WorkspaceConnectionsDeleteOptionalParams,
+  WorkspaceConnectionsListSecretsOptionalParams,
+  WorkspaceConnectionsListSecretsResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -68,4 +70,17 @@ export interface WorkspaceConnections {
     connectionName: string,
     options?: WorkspaceConnectionsDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * List all the secrets of a machine learning workspaces connections.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName Name of Azure Machine Learning workspace.
+   * @param connectionName Friendly name of the workspace connection
+   * @param options The options parameters.
+   */
+  listSecrets(
+    resourceGroupName: string,
+    workspaceName: string,
+    connectionName: string,
+    options?: WorkspaceConnectionsListSecretsOptionalParams,
+  ): Promise<WorkspaceConnectionsListSecretsResponse>;
 }

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, vi } from "vitest";
 import {
@@ -27,7 +27,7 @@ export async function performRequest(formData: FormDataMap): Promise<PipelineRes
     request,
     status: 200,
   };
-  const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+  const next = vi.fn<SendRequest>();
   next.mockResolvedValue(successResponse);
 
   const policy = formDataPolicy();
@@ -52,7 +52,7 @@ describe("formDataPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const policy = formDataPolicy();
@@ -79,7 +79,7 @@ describe("formDataPolicy", function () {
       request,
       status: 200,
     };
-    const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+    const next = vi.fn<SendRequest>();
     next.mockResolvedValue(successResponse);
 
     const policy = formDataPolicy();
@@ -320,7 +320,7 @@ describe("formDataPolicy", function () {
         request,
         status: 200,
       };
-      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      const next = vi.fn<SendRequest>();
       next.mockResolvedValue(successResponse);
 
       const policy = formDataPolicy();
@@ -351,7 +351,7 @@ describe("formDataPolicy", function () {
         request,
         status: 200,
       };
-      const next = vi.fn<Parameters<SendRequest>, ReturnType<SendRequest>>();
+      const next = vi.fn<SendRequest>();
       next.mockResolvedValue(successResponse);
 
       const policy = formDataPolicy();

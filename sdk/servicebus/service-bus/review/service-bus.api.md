@@ -4,29 +4,29 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
+import type { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpAnnotatedMessage } from '@azure/core-amqp';
 import { Buffer as Buffer_2 } from 'buffer';
-import { CommonClientOptions } from '@azure/core-client';
+import type { CommonClientOptions } from '@azure/core-client';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
-import { HttpMethods } from '@azure/core-rest-pipeline';
+import type { HttpMethods } from '@azure/core-rest-pipeline';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
-import { NamedKeyCredential } from '@azure/core-auth';
+import type { NamedKeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-client';
-import { OperationTracingOptions } from '@azure/core-tracing';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PageSettings } from '@azure/core-paging';
-import { ProxySettings } from '@azure/core-rest-pipeline';
+import type { OperationTracingOptions } from '@azure/core-tracing';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PageSettings } from '@azure/core-paging';
+import type { ProxySettings } from '@azure/core-rest-pipeline';
 import { RetryMode } from '@azure/core-amqp';
 import { RetryOptions } from '@azure/core-amqp';
-import { SASCredential } from '@azure/core-auth';
+import type { SASCredential } from '@azure/core-auth';
 import { ServiceClient } from '@azure/core-client';
 import { TokenCredential } from '@azure/core-auth';
 import { TokenType } from '@azure/core-amqp';
-import { TracingContext } from '@azure/core-tracing';
-import { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
+import type { TracingContext } from '@azure/core-tracing';
+import type { UserAgentPolicyOptions } from '@azure/core-rest-pipeline';
 import { WebSocketImpl } from 'rhea-promise';
 import { WebSocketOptions } from '@azure/core-amqp';
 
@@ -211,8 +211,6 @@ export function parseServiceBusConnectionString(connectionString: string): Servi
 // @public
 export interface PeekMessagesOptions extends OperationOptionsBase {
     fromSequenceNumber?: Long;
-    // @beta
-    omitMessageBody?: boolean;
 }
 
 // @public

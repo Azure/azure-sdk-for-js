@@ -9,7 +9,7 @@
 import {
   NumberAllotmentGetAcquiredNumberLimitsOptionalParams,
   NumberAllotmentGetAcquiredNumberLimitsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a NumberAllotment. */
 export interface NumberAllotment {

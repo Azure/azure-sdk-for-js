@@ -6,15 +6,15 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { MetricNamespaces } from "../operationsInterfaces";
+import { MetricNamespaces } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { MonitorManagementClientContext } from "../monitorManagementClientContext";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { MonitorManagementClientContext } from "../monitorManagementClientContext.js";
 import {
   MetricNamespacesListOptionalParams,
   MetricNamespacesListResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing MetricNamespaces operations. */
 export class MetricNamespacesImpl implements MetricNamespaces {

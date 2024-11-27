@@ -739,12 +739,14 @@ export interface AzureDataLakeStoreWriteSettings extends StoreWriteSettings {
 export interface AzureFileStorageLinkedService extends LinkedService {
     accountKey?: AzureKeyVaultSecretReference;
     connectionString?: any;
+    credential?: CredentialReference;
     encryptedCredential?: string;
     fileShare?: any;
     host?: any;
     password?: SecretBaseUnion;
     sasToken?: AzureKeyVaultSecretReference;
     sasUri?: any;
+    serviceEndpoint?: any;
     snapshot?: any;
     type: "AzureFileStorage";
     userId?: any;
@@ -1218,6 +1220,15 @@ export interface AzureStorageLinkedService extends LinkedService {
 }
 
 // @public
+export interface AzureStorageLinkedServiceTypeProperties {
+    accountKey?: AzureKeyVaultSecretReference;
+    connectionString?: any;
+    encryptedCredential?: string;
+    sasToken?: AzureKeyVaultSecretReference;
+    sasUri?: any;
+}
+
+// @public
 export interface AzureSynapseArtifactsLinkedService extends LinkedService {
     authentication?: any;
     endpoint: any;
@@ -1251,10 +1262,18 @@ export interface AzureTableSource extends TabularSource {
 export interface AzureTableStorageLinkedService extends LinkedService {
     accountKey?: AzureKeyVaultSecretReference;
     connectionString?: any;
+    credential?: CredentialReference;
     encryptedCredential?: string;
     sasToken?: AzureKeyVaultSecretReference;
     sasUri?: any;
+    serviceEndpoint?: any;
     type: "AzureTableStorage";
+}
+
+// @public
+export interface AzureTableStorageLinkedServiceTypeProperties extends AzureStorageLinkedServiceTypeProperties {
+    credential?: CredentialReference;
+    serviceEndpoint?: any;
 }
 
 // @public
@@ -1483,6 +1502,7 @@ export interface CommonDataServiceForAppsEntityDataset extends Dataset {
 export interface CommonDataServiceForAppsLinkedService extends LinkedService {
     authenticationType: any;
     deploymentType: any;
+    domain?: any;
     encryptedCredential?: string;
     hostName?: any;
     organizationName?: any;
@@ -1567,6 +1587,13 @@ export interface ConnectionStateProperties {
 
 // @public
 export type ConnectionType = string;
+
+// @public
+export interface ContinuationSettingsReference {
+    continuationTtlInMinutes?: any;
+    customizedCheckpointKey?: any;
+    idleCondition?: any;
+}
 
 // @public
 export interface ControlActivity extends Activity {
@@ -2606,6 +2633,7 @@ export interface DynamicsCrmLinkedService extends LinkedService {
     authenticationType: any;
     credential?: CredentialReference;
     deploymentType: any;
+    domain?: any;
     encryptedCredential?: string;
     hostName?: any;
     organizationName?: any;
@@ -2648,6 +2676,7 @@ export interface DynamicsLinkedService extends LinkedService {
     authenticationType: any;
     credential?: CredentialReference;
     deploymentType: any;
+    domain?: any;
     encryptedCredential?: string;
     hostName?: any;
     organizationName?: any;
@@ -2749,6 +2778,7 @@ export interface ExcelSource extends CopySource {
 // @public
 export interface ExecuteDataFlowActivity extends ExecutionActivity {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
+    continuationSettings?: ContinuationSettingsReference;
     continueOnError?: any;
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
@@ -2762,6 +2792,7 @@ export interface ExecuteDataFlowActivity extends ExecutionActivity {
 // @public
 export interface ExecuteDataFlowActivityTypeProperties {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
+    continuationSettings?: ContinuationSettingsReference;
     continueOnError?: any;
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
@@ -2836,6 +2867,7 @@ export interface ExecuteSsisPackageActivity extends ExecutionActivity {
 // @public
 export interface ExecuteWranglingDataflowActivity extends Activity {
     compute?: ExecuteDataFlowActivityTypePropertiesCompute;
+    continuationSettings?: ContinuationSettingsReference;
     continueOnError?: any;
     dataFlow: DataFlowReference;
     integrationRuntime?: IntegrationRuntimeReference;
@@ -3667,7 +3699,7 @@ export interface HDInsightOnDemandLinkedService extends LinkedService {
     tenant: any;
     timeToLive: any;
     type: "HDInsightOnDemand";
-    version: any;
+    versionTypePropertiesVersion: any;
     virtualNetworkId?: any;
     yarnConfiguration?: any;
     zookeeperNodeSize?: any;
@@ -4622,6 +4654,7 @@ export enum KnownDependencyCondition {
 // @public
 export enum KnownDynamicsAuthenticationType {
     AADServicePrincipal = "AADServicePrincipal",
+    ActiveDirectory = "Active Directory",
     Ifd = "Ifd",
     Office365 = "Office365"
 }
@@ -5200,6 +5233,7 @@ export enum KnownSqlPartitionOption {
 // @public
 export enum KnownSqlServerAuthenticationType {
     SQL = "SQL",
+    UserAssignedManagedIdentity = "UserAssignedManagedIdentity",
     Windows = "Windows"
 }
 
@@ -5436,6 +5470,7 @@ export interface LinkedService {
         [propertyName: string]: ParameterSpecification;
     };
     type: "AzureStorage" | "AzureBlobStorage" | "AzureTableStorage" | "AzureSqlDW" | "SqlServer" | "AmazonRdsForSqlServer" | "AzureSqlDatabase" | "AzureSqlMI" | "AzureBatch" | "AzureKeyVault" | "CosmosDb" | "Dynamics" | "DynamicsCrm" | "CommonDataServiceForApps" | "HDInsight" | "FileServer" | "AzureFileStorage" | "AmazonS3Compatible" | "OracleCloudStorage" | "GoogleCloudStorage" | "Oracle" | "AmazonRdsForOracle" | "AzureMySql" | "MySql" | "PostgreSql" | "PostgreSqlV2" | "Sybase" | "Db2" | "Teradata" | "AzureML" | "AzureMLService" | "Odbc" | "Informix" | "MicrosoftAccess" | "Hdfs" | "OData" | "Web" | "Cassandra" | "MongoDb" | "MongoDbAtlas" | "MongoDbV2" | "CosmosDbMongoDbApi" | "AzureDataLakeStore" | "AzureBlobFS" | "Office365" | "Salesforce" | "SalesforceServiceCloud" | "SapCloudForCustomer" | "SapEcc" | "SapOpenHub" | "SapOdp" | "RestService" | "TeamDesk" | "Quickbase" | "Smartsheet" | "Zendesk" | "Dataworld" | "AppFigures" | "Asana" | "Twilio" | "GoogleSheets" | "AmazonS3" | "AmazonRedshift" | "CustomDataSource" | "AzureSearch" | "HttpServer" | "FtpServer" | "Sftp" | "SapBW" | "SapHana" | "AmazonMWS" | "AzurePostgreSql" | "Concur" | "Couchbase" | "Drill" | "Eloqua" | "GoogleBigQuery" | "GoogleBigQueryV2" | "Greenplum" | "HBase" | "Hive" | "Hubspot" | "Impala" | "Jira" | "Magento" | "MariaDB" | "AzureMariaDB" | "Marketo" | "Paypal" | "Phoenix" | "Presto" | "QuickBooks" | "ServiceNow" | "Shopify" | "Spark" | "Square" | "Xero" | "Zoho" | "Vertica" | "Netezza" | "SalesforceMarketingCloud" | "HDInsightOnDemand" | "AzureDataLakeAnalytics" | "AzureDatabricks" | "AzureDatabricksDeltaLake" | "Responsys" | "DynamicsAX" | "OracleServiceCloud" | "GoogleAdWords" | "SapTable" | "AzureDataExplorer" | "AzureFunction" | "Snowflake" | "SnowflakeV2" | "SharePointOnlineList" | "AzureSynapseArtifacts" | "LakeHouse" | "SalesforceV2" | "SalesforceServiceCloudV2" | "Warehouse" | "ServiceNowV2";
+    version?: string;
 }
 
 // @public
@@ -7121,6 +7156,9 @@ export interface RestServiceLinkedService extends LinkedService {
     password?: SecretBaseUnion;
     resource?: any;
     scope?: any;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalEmbeddedCert?: SecretBaseUnion;
+    servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
     servicePrincipalId?: any;
     servicePrincipalKey?: SecretBaseUnion;
     tenant?: any;
@@ -7878,8 +7916,11 @@ export interface SftpWriteSettings extends StoreWriteSettings {
 // @public
 export interface SharePointOnlineListLinkedService extends LinkedService {
     encryptedCredential?: string;
+    servicePrincipalCredentialType?: any;
+    servicePrincipalEmbeddedCert?: SecretBaseUnion;
+    servicePrincipalEmbeddedCertPassword?: SecretBaseUnion;
     servicePrincipalId: any;
-    servicePrincipalKey: SecretBaseUnion;
+    servicePrincipalKey?: SecretBaseUnion;
     siteUrl: any;
     tenantId: any;
     type: "SharePointOnlineList";
@@ -7952,6 +7993,7 @@ export interface SnowflakeExportCopyCommand extends ExportSettings {
     additionalFormatOptions?: {
         [propertyName: string]: any;
     };
+    storageIntegration?: any;
     type: "SnowflakeExportCopyCommand";
 }
 
@@ -7963,6 +8005,7 @@ export interface SnowflakeImportCopyCommand extends ImportSettings {
     additionalFormatOptions?: {
         [propertyName: string]: any;
     };
+    storageIntegration?: any;
     type: "SnowflakeImportCopyCommand";
 }
 
@@ -8198,6 +8241,7 @@ export interface SqlServerLinkedService extends LinkedService {
     connectRetryCount?: any;
     connectRetryInterval?: any;
     connectTimeout?: any;
+    credential?: CredentialReference;
     database?: any;
     encrypt?: any;
     encryptedCredential?: string;
@@ -8223,6 +8267,7 @@ export interface SqlServerLinkedServiceTypeProperties extends SqlServerBaseLinke
     alwaysEncryptedSettings?: SqlAlwaysEncryptedProperties;
     authenticationType?: SqlServerAuthenticationType;
     connectionString?: any;
+    credential?: CredentialReference;
     encryptedCredential?: string;
     password?: SecretBaseUnion;
     userName?: any;
@@ -9063,9 +9108,13 @@ export type VariableType = string;
 // @public
 export interface VerticaLinkedService extends LinkedService {
     connectionString?: any;
+    database?: any;
     encryptedCredential?: string;
+    port?: any;
     pwd?: AzureKeyVaultSecretReference;
+    server?: any;
     type: "Vertica";
+    uid?: any;
 }
 
 // @public

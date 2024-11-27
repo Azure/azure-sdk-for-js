@@ -12,7 +12,7 @@
 
 ## 2.0.2 (2022-12-05)
 
-**Features**
+### Features Added
 
   - Exposes `getContinuationToken` helper function to extract continuation token
 
@@ -22,7 +22,7 @@
 
 ## 2.0.1 (2022-04-24)
 
-**Features**
+### Features Added
 
   - Bug fix
 

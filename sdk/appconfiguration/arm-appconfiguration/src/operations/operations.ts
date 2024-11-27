@@ -23,7 +23,7 @@ import {
   OperationsCheckNameAvailabilityResponse,
   OperationsRegionalCheckNameAvailabilityOptionalParams,
   OperationsRegionalCheckNameAvailabilityResponse,
-  OperationsListNextResponse
+  OperationsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -44,7 +44,7 @@ export class OperationsImpl implements Operations {
    * @param options The options parameters.
    */
   public list(
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): PagedAsyncIterableIterator<OperationDefinition> {
     const iter = this.listPagingAll(options);
     return {
@@ -59,13 +59,13 @@ export class OperationsImpl implements Operations {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: OperationsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<OperationDefinition[]> {
     let result: OperationsListResponse;
     let continuationToken = settings?.continuationToken;
@@ -86,7 +86,7 @@ export class OperationsImpl implements Operations {
   }
 
   private async *listPagingAll(
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): AsyncIterableIterator<OperationDefinition> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -101,11 +101,11 @@ export class OperationsImpl implements Operations {
    */
   checkNameAvailability(
     checkNameAvailabilityParameters: CheckNameAvailabilityParameters,
-    options?: OperationsCheckNameAvailabilityOptionalParams
+    options?: OperationsCheckNameAvailabilityOptionalParams,
   ): Promise<OperationsCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { checkNameAvailabilityParameters, options },
-      checkNameAvailabilityOperationSpec
+      checkNameAvailabilityOperationSpec,
     );
   }
 
@@ -114,7 +114,7 @@ export class OperationsImpl implements Operations {
    * @param options The options parameters.
    */
   private _list(
-    options?: OperationsListOptionalParams
+    options?: OperationsListOptionalParams,
   ): Promise<OperationsListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -129,11 +129,11 @@ export class OperationsImpl implements Operations {
   regionalCheckNameAvailability(
     location: string,
     checkNameAvailabilityParameters: CheckNameAvailabilityParameters,
-    options?: OperationsRegionalCheckNameAvailabilityOptionalParams
+    options?: OperationsRegionalCheckNameAvailabilityOptionalParams,
   ): Promise<OperationsRegionalCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       { location, checkNameAvailabilityParameters, options },
-      regionalCheckNameAvailabilityOperationSpec
+      regionalCheckNameAvailabilityOperationSpec,
     );
   }
 
@@ -144,11 +144,11 @@ export class OperationsImpl implements Operations {
    */
   private _listNext(
     nextLink: string,
-    options?: OperationsListNextOptionalParams
+    options?: OperationsListNextOptionalParams,
   ): Promise<OperationsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -156,75 +156,73 @@ export class OperationsImpl implements Operations {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NameAvailabilityStatus
+      bodyMapper: Mappers.NameAvailabilityStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.checkNameAvailabilityParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
   path: "/providers/Microsoft.AppConfiguration/operations",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationDefinitionListResult
+      bodyMapper: Mappers.OperationDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skipToken],
   urlParameters: [Parameters.$host],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regionalCheckNameAvailabilityOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/locations/{location}/checkNameAvailability",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/locations/{location}/checkNameAvailability",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.NameAvailabilityStatus
+      bodyMapper: Mappers.NameAvailabilityStatus,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.checkNameAvailabilityParameters,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.location
+    Parameters.location,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.OperationDefinitionListResult
+      bodyMapper: Mappers.OperationDefinitionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [Parameters.$host, Parameters.nextLink],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

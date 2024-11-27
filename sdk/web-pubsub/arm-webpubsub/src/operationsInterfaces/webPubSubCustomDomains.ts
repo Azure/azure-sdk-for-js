@@ -15,7 +15,7 @@ import {
   WebPubSubCustomDomainsGetResponse,
   WebPubSubCustomDomainsCreateOrUpdateOptionalParams,
   WebPubSubCustomDomainsCreateOrUpdateResponse,
-  WebPubSubCustomDomainsDeleteOptionalParams
+  WebPubSubCustomDomainsDeleteOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface WebPubSubCustomDomains {
   list(
     resourceGroupName: string,
     resourceName: string,
-    options?: WebPubSubCustomDomainsListOptionalParams
+    options?: WebPubSubCustomDomainsListOptionalParams,
   ): PagedAsyncIterableIterator<CustomDomain>;
   /**
    * Get a custom domain.
@@ -43,7 +43,7 @@ export interface WebPubSubCustomDomains {
     resourceGroupName: string,
     resourceName: string,
     name: string,
-    options?: WebPubSubCustomDomainsGetOptionalParams
+    options?: WebPubSubCustomDomainsGetOptionalParams,
   ): Promise<WebPubSubCustomDomainsGetResponse>;
   /**
    * Create or update a custom domain.
@@ -58,7 +58,7 @@ export interface WebPubSubCustomDomains {
     resourceName: string,
     name: string,
     parameters: CustomDomain,
-    options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams
+    options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<WebPubSubCustomDomainsCreateOrUpdateResponse>,
@@ -78,7 +78,7 @@ export interface WebPubSubCustomDomains {
     resourceName: string,
     name: string,
     parameters: CustomDomain,
-    options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams
+    options?: WebPubSubCustomDomainsCreateOrUpdateOptionalParams,
   ): Promise<WebPubSubCustomDomainsCreateOrUpdateResponse>;
   /**
    * Delete a custom domain.
@@ -91,7 +91,7 @@ export interface WebPubSubCustomDomains {
     resourceGroupName: string,
     resourceName: string,
     name: string,
-    options?: WebPubSubCustomDomainsDeleteOptionalParams
+    options?: WebPubSubCustomDomainsDeleteOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Delete a custom domain.
@@ -104,6 +104,6 @@ export interface WebPubSubCustomDomains {
     resourceGroupName: string,
     resourceName: string,
     name: string,
-    options?: WebPubSubCustomDomainsDeleteOptionalParams
+    options?: WebPubSubCustomDomainsDeleteOptionalParams,
   ): Promise<void>;
 }

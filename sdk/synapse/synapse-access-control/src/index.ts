@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-/// <reference lib="esnext.asynciterable" />
-export * from "./models";
-export { AccessControlClient } from "./accessControlClient";
-export * from "./operationsInterfaces";
+export * from "./models/index.js";
+export { AccessControlClient } from "./accessControlClient.js";
+export * from "./operationsInterfaces/index.js";

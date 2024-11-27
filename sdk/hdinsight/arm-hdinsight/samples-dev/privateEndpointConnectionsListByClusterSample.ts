@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the private endpoint connections for a HDInsight cluster.
  *
  * @summary Lists the private endpoint connections for a HDInsight cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/GetAllPrivateEndpointConnectionsInCluster.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetAllPrivateEndpointConnectionsInCluster.json
  */
 async function getAllPrivateEndpointConnectionsForASpecificHdInsightCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -29,7 +29,7 @@ async function getAllPrivateEndpointConnectionsForASpecificHdInsightCluster() {
   const resArray = new Array();
   for await (let item of client.privateEndpointConnections.listByCluster(
     resourceGroupName,
-    clusterName
+    clusterName,
   )) {
     resArray.push(item);
   }

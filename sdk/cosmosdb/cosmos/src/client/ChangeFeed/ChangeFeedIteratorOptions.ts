@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
-import { ChangeFeedMode } from "./ChangeFeedMode";
+import type { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
+import type { ChangeFeedMode } from "./ChangeFeedMode";
 /**
  * Specifies options for the change feed
  *

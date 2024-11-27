@@ -12,7 +12,7 @@ import {
   ConfigurationsListResponse,
   ConfigurationsUpdateOptionalParams,
   ConfigurationsGetOptionalParams,
-  ConfigurationsGetResponse
+  ConfigurationsGetResponse,
 } from "../models";
 
 /** Interface representing a Configurations. */
@@ -26,7 +26,7 @@ export interface Configurations {
   list(
     resourceGroupName: string,
     clusterName: string,
-    options?: ConfigurationsListOptionalParams
+    options?: ConfigurationsListOptionalParams,
   ): Promise<ConfigurationsListResponse>;
   /**
    * Configures the HTTP settings on the specified cluster. This API is deprecated, please use
@@ -42,7 +42,7 @@ export interface Configurations {
     clusterName: string,
     configurationName: string,
     parameters: { [propertyName: string]: string },
-    options?: ConfigurationsUpdateOptionalParams
+    options?: ConfigurationsUpdateOptionalParams,
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Configures the HTTP settings on the specified cluster. This API is deprecated, please use
@@ -58,7 +58,7 @@ export interface Configurations {
     clusterName: string,
     configurationName: string,
     parameters: { [propertyName: string]: string },
-    options?: ConfigurationsUpdateOptionalParams
+    options?: ConfigurationsUpdateOptionalParams,
   ): Promise<void>;
   /**
    * The configuration object for the specified cluster. This API is not recommended and might be removed
@@ -72,6 +72,6 @@ export interface Configurations {
     resourceGroupName: string,
     clusterName: string,
     configurationName: string,
-    options?: ConfigurationsGetOptionalParams
+    options?: ConfigurationsGetOptionalParams,
   ): Promise<ConfigurationsGetResponse>;
 }

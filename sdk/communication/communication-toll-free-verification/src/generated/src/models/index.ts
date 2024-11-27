@@ -283,7 +283,8 @@ export type AttachmentType =
   | "optInPointOfSale"
   | "optInWebsite"
   | "optInPaperForm"
-  | "optInOther";
+  | "optInOther"
+  | "optInDescription";
 /** Defines values for Type. */
 export type Type =
   | "keywordSMS"
@@ -333,7 +334,8 @@ export interface TollFreeVerificationGetAllCampaignBriefsByCountryCodeOptionalPa
 }
 
 /** Contains response data for the getAllCampaignBriefsByCountryCode operation. */
-export type TollFreeVerificationGetAllCampaignBriefsByCountryCodeResponse = CampaignBriefs;
+export type TollFreeVerificationGetAllCampaignBriefsByCountryCodeResponse =
+  CampaignBriefs;
 
 /** Optional parameters. */
 export interface TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams
@@ -345,7 +347,8 @@ export interface TollFreeVerificationGetAllCampaignBriefSummariesOptionalParams
 }
 
 /** Contains response data for the getAllCampaignBriefSummaries operation. */
-export type TollFreeVerificationGetAllCampaignBriefSummariesResponse = CampaignBriefSummaries;
+export type TollFreeVerificationGetAllCampaignBriefSummariesResponse =
+  CampaignBriefSummaries;
 
 /** Optional parameters. */
 export interface TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptionalParams
@@ -355,7 +358,8 @@ export interface TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentOptio
 }
 
 /** Contains response data for the createOrReplaceCampaignBriefAttachment operation. */
-export type TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse = CampaignBriefAttachment;
+export type TollFreeVerificationCreateOrReplaceCampaignBriefAttachmentResponse =
+  CampaignBriefAttachment;
 
 /** Optional parameters. */
 export interface TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams
@@ -366,7 +370,8 @@ export interface TollFreeVerificationGetCampaignBriefAttachmentOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCampaignBriefAttachment operation. */
-export type TollFreeVerificationGetCampaignBriefAttachmentResponse = CampaignBriefAttachment;
+export type TollFreeVerificationGetCampaignBriefAttachmentResponse =
+  CampaignBriefAttachment;
 
 /** Optional parameters. */
 export interface TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams
@@ -378,28 +383,32 @@ export interface TollFreeVerificationGetCampaignBriefAttachmentsOptionalParams
 }
 
 /** Contains response data for the getCampaignBriefAttachments operation. */
-export type TollFreeVerificationGetCampaignBriefAttachmentsResponse = CampaignBriefAttachments;
+export type TollFreeVerificationGetCampaignBriefAttachmentsResponse =
+  CampaignBriefAttachments;
 
 /** Optional parameters. */
 export interface TollFreeVerificationGetAllCampaignBriefsByCountryCodeNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAllCampaignBriefsByCountryCodeNext operation. */
-export type TollFreeVerificationGetAllCampaignBriefsByCountryCodeNextResponse = CampaignBriefs;
+export type TollFreeVerificationGetAllCampaignBriefsByCountryCodeNextResponse =
+  CampaignBriefs;
 
 /** Optional parameters. */
 export interface TollFreeVerificationGetAllCampaignBriefSummariesNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getAllCampaignBriefSummariesNext operation. */
-export type TollFreeVerificationGetAllCampaignBriefSummariesNextResponse = CampaignBriefSummaries;
+export type TollFreeVerificationGetAllCampaignBriefSummariesNextResponse =
+  CampaignBriefSummaries;
 
 /** Optional parameters. */
 export interface TollFreeVerificationGetCampaignBriefAttachmentsNextOptionalParams
   extends coreClient.OperationOptions {}
 
 /** Contains response data for the getCampaignBriefAttachmentsNext operation. */
-export type TollFreeVerificationGetCampaignBriefAttachmentsNextResponse = CampaignBriefAttachments;
+export type TollFreeVerificationGetCampaignBriefAttachmentsNextResponse =
+  CampaignBriefAttachments;
 
 /** Optional parameters. */
 export interface TollFreeVerificationClientOptionalParams

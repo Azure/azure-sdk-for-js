@@ -1,37 +1,36 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { senderLogger as logger } from "../log";
-import {
+import { senderLogger as logger } from "../log.js";
+import type {
   AmqpError,
   AwaitableSender,
   AwaitableSenderOptions,
   EventContext,
   OnAmqpEvent,
-  message as RheaMessageUtil,
 } from "rhea-promise";
-import {
-  Constants,
-  ErrorNameConditionMapper,
+import { message as RheaMessageUtil } from "rhea-promise";
+import type {
   MessagingError,
   RetryConfig,
-  RetryOperationType,
   RetryOptions,
-  retry,
   AmqpAnnotatedMessage,
 } from "@azure/core-amqp";
-import { ServiceBusMessage, toRheaMessage } from "../serviceBusMessage";
-import { ConnectionContext } from "../connectionContext";
-import { LinkEntity } from "./linkEntity";
-import { getUniqueName, waitForSendable, waitForTimeoutOrAbortOrResolve } from "../util/utils";
-import { throwErrorIfConnectionClosed } from "../util/errors";
-import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
-import { CreateMessageBatchOptions } from "../models";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusError, translateServiceBusError } from "../serviceBusError";
+import { Constants, ErrorNameConditionMapper, RetryOperationType, retry } from "@azure/core-amqp";
+import type { ServiceBusMessage } from "../serviceBusMessage.js";
+import { toRheaMessage } from "../serviceBusMessage.js";
+import type { ConnectionContext } from "../connectionContext.js";
+import { LinkEntity } from "./linkEntity.js";
+import { getUniqueName, waitForSendable, waitForTimeoutOrAbortOrResolve } from "../util/utils.js";
+import { throwErrorIfConnectionClosed } from "../util/errors.js";
+import type { ServiceBusMessageBatch } from "../serviceBusMessageBatch.js";
+import { ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch.js";
+import type { CreateMessageBatchOptions } from "../models.js";
+import type { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { ServiceBusError, translateServiceBusError } from "../serviceBusError.js";
 import { isDefined } from "@azure/core-util";
-import { defaultDataTransformer } from "../dataTransformer";
+import { defaultDataTransformer } from "../dataTransformer.js";
 
 /**
  * @internal

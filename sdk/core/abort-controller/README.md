@@ -39,17 +39,28 @@ of the abort signal.
 
 ### Example 1 - basic usage
 
-```js
+```ts snippet:basic_usage
+async function doAsyncWork(options: { abortSignal: AbortSignal }): Promise<void> {
+  if (options.abortSignal.aborted) {
+    return;
+  }
+  // do async work
+}
 const controller = new AbortController();
 doAsyncWork({ abortSignal: controller.signal });
-
 // at some point later
 controller.abort();
 ```
 
 ### Example 2 - Aborting with timeout
 
-```js
+```ts snippet:basic_timeout
+async function doAsyncWork(options: { abortSignal: AbortSignal }): Promise<void> {
+  if (options.abortSignal.aborted) {
+    return;
+  }
+  // do async work
+}
 const signal = AbortSignal.timeout(1000);
 doAsyncWork({ abortSignal: signal });
 ```

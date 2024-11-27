@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Operations on jobs of HDInsight on AKS cluster.
  *
  * @summary Operations on jobs of HDInsight on AKS cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/RunClusterJob.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/RunClusterJob.json
  */
 async function runClusterJob() {
   const subscriptionId =

@@ -1,28 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { isNode } from "@azure/core-util";
-import { JsonWebKey } from "../../../src";
+import type { JsonWebKey } from "../../../src/index.js";
 
 export function stringToUint8Array(str: string): Uint8Array {
-  if (isNode) {
-    return new Uint8Array(Buffer.from(str));
-  } else {
-    const bytes = new Uint8Array(str.length);
-    for (let i = 0; i < str.length; i++) {
-      bytes[i] = str.charCodeAt(i);
-    }
-    return bytes;
-  }
+  return new Uint8Array(Buffer.from(str));
 }
 
 export function uint8ArrayToString(ab: Uint8Array): string {
-  if (isNode) {
-    return Buffer.from(ab).toString("utf-8");
-  } else {
-    const decoder = new TextDecoder("utf-8");
-    return decoder.decode(ab);
-  }
+  return Buffer.from(ab).toString("utf-8");
 }
 
 export function getKey(size: number): Uint8Array {
@@ -34,11 +20,7 @@ function toBytes(hex: string): Uint8Array {
   if (hex.length % 2) {
     hex = `0${hex}`;
   }
-  if (isNode) {
-    return Buffer.from(hex, "hex");
-  } else {
-    return new Uint8Array(hex.match(/.{1,2}/g)!.map((byte) => parseInt(byte, 16)));
-  }
+  return Buffer.from(hex, "hex");
 }
 
 export function createRsaKey(): JsonWebKey {

@@ -7,8 +7,3 @@ extends:
       ServiceDirectory: keyvault
       TimeoutInMinutes: 59
       SupportedClouds: 'Public,UsGov,China'
-      AdditionalMatrixConfigs:
-        - Name: Keyvault_live_test_base
-          Path: sdk/keyvault/keyvault-secrets/platform-matrix.json
-          Selection: sparse
-          GenerateVMJobs: true

@@ -79,7 +79,7 @@ export interface ImageReference {
    * version is not specified in the imageId, the latest version will be used. For information
    * about the firewall settings for the Batch Compute Node agent to communicate with the Batch
    * service see
-   * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
+   * https://docs.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration.
    */
   virtualMachineImageId?: string;
   /**
@@ -89,6 +89,16 @@ export interface ImageReference {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly exactVersion?: string;
+  /**
+   * The shared gallery image unique identifier. This property is mutually exclusive with other
+   * properties and can be fetched from shared gallery image GET call.
+   */
+  sharedGalleryImageId?: string;
+  /**
+   * The community gallery image unique identifier. This property is mutually exclusive with other
+   * properties and can be fetched from community gallery image GET call.
+   */
+  communityGalleryImageId?: string;
 }
 
 /**
@@ -612,25 +622,31 @@ export interface JobConstraints {
 export interface JobNetworkConfiguration {
   /**
    * The ARM resource identifier of the virtual network subnet which Compute Nodes running Tasks
-   * from the Job will join for the duration of the Task. This will only work with a
-   * VirtualMachineConfiguration Pool. The virtual network must be in the same region and
-   * subscription as the Azure Batch Account. The specified subnet should have enough free IP
-   * addresses to accommodate the number of Compute Nodes which will run Tasks from the Job. This
-   * can be up to the number of Compute Nodes in the Pool. The 'MicrosoftAzureBatch' service
-   * principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC)
-   * role for the specified VNet so that Azure Batch service can schedule Tasks on the Nodes. This
-   * can be verified by checking if the specified VNet has any associated Network Security Groups
-   * (NSG). If communication to the Nodes in the specified subnet is denied by an NSG, then the
-   * Batch service will set the state of the Compute Nodes to unusable. This is of the form
+   * from the Job will join for the duration of the Task. The virtual network must be in the same
+   * region and subscription as the Azure Batch Account. The specified subnet should have enough
+   * free IP addresses to accommodate the number of Compute Nodes which will run Tasks from the
+   * Job. This can be up to the number of Compute Nodes in the Pool. The 'MicrosoftAzureBatch'
+   * service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access
+   * Control (RBAC) role for the specified VNet so that Azure Batch service can schedule Tasks on
+   * the Nodes. This can be verified by checking if the specified VNet has any associated Network
+   * Security Groups (NSG). If communication to the Nodes in the specified subnet is denied by an
+   * NSG, then the Batch service will set the state of the Compute Nodes to unusable. This is of
+   * the form
    * /subscriptions/{subscription}/resourceGroups/{group}/providers/{provider}/virtualNetworks/{network}/subnets/{subnet}.
    * If the specified VNet has any associated Network Security Groups (NSG), then a few reserved
    * system ports must be enabled for inbound communication from the Azure Batch service. For Pools
    * created with a Virtual Machine configuration, enable ports 29876 and 29877, as well as port 22
    * for Linux and port 3389 for Windows. Port 443 is also required to be open for outbound
    * connections for communications to Azure Storage. For more details see:
-   * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
+   * https://docs.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
    */
   subnetId: string;
+  /**
+   * Whether to withdraw Compute Nodes from the virtual network to DNC when the job is terminated
+   * or deleted. If true, nodes will remain joined to the virtual network to DNC. If false, nodes
+   * will automatically withdraw when the job ends. Defaults to false.
+   */
+  skipWithdrawFromVNet?: boolean;
 }
 
 /**
@@ -669,6 +685,26 @@ export interface ContainerRegistry {
 }
 
 /**
+ * An interface representing ContainerHostBatchBindMountEntry.
+ * @summary The entry of path and mount mode you want to mount into task container.
+ */
+export interface ContainerHostBatchBindMountEntry {
+  /**
+   * The path which be mounted to container customer can select. Possible values include: 'Shared',
+   * 'Startup', 'VfsMounts', 'Task', 'JobPrep', 'Applications'
+   */
+  source?: ContainerHostDataPath;
+  /**
+   * Mount this source path as read-only mode or not. Default value is false (read/write mode). For
+   * Linux, if you mount this path as a read/write mode, this does not mean that all users in
+   * container have the read/write access for the path, it depends on the access in host VM. If
+   * this path is mounted read-only, all users within the container will not be able to modify the
+   * path.
+   */
+  isReadOnly?: boolean;
+}
+
+/**
  * An interface representing TaskContainerSettings.
  * @summary The container settings for a Task.
  */
@@ -695,6 +731,12 @@ export interface TaskContainerSettings {
    * Possible values include: 'taskWorkingDirectory', 'containerImageDefault'
    */
   workingDirectory?: ContainerWorkingDirectory;
+  /**
+   * The paths you want to mounted to container task. If this array is null or be not present,
+   * container task will mount entire temporary disk drive in windows (or AZ_BATCH_NODE_ROOT_DIR in
+   * Linux). It won't' mount any data paths into container if this array is set as empty.
+   */
+  containerHostBatchBindMounts?: ContainerHostBatchBindMountEntry[];
 }
 
 /**
@@ -951,9 +993,8 @@ export interface LinuxUserConfiguration {
  */
 export interface WindowsUserConfiguration {
   /**
-   * The login mode for the user. The default value for VirtualMachineConfiguration Pools is
-   * 'batch' and for CloudServiceConfiguration Pools is 'interactive'. Possible values include:
-   * 'batch', 'interactive'
+   * The login mode for the user. The default is 'batch'. Possible values include: 'batch',
+   * 'interactive'
    */
   loginMode?: LoginMode;
 }
@@ -1050,7 +1091,7 @@ export interface OutputFileBlobContainerDestination {
    * A list of name-value pairs for headers to be used in uploading output files. These headers
    * will be specified when uploading files to Azure Storage. Official document on allowed headers
    * when uploading blobs:
-   * https://docs.microsoft.com/en-us/rest/api/storageservices/put-blob#request-headers-all-blob-types
+   * https://docs.microsoft.com/rest/api/storageservices/put-blob#request-headers-all-blob-types
    */
   uploadHeaders?: HttpHeader[];
 }
@@ -1155,7 +1196,7 @@ export interface JobManagerTask {
    * for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the
    * command line refers to file paths, it should use a relative path (relative to the Task working
    * directory), or use the Batch provided environment variable
-   * (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables).
+   * (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables).
    */
   commandLine: string;
   /**
@@ -1291,7 +1332,7 @@ export interface JobPreparationTask {
    * for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the
    * command line refers to file paths, it should use a relative path (relative to the Task working
    * directory), or use the Batch provided environment variable
-   * (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables).
+   * (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables).
    */
   commandLine: string;
   /**
@@ -1383,7 +1424,7 @@ export interface JobReleaseTask {
    * for example using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the
    * command line refers to file paths, it should use a relative path (relative to the Task working
    * directory), or use the Batch provided environment variable
-   * (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables).
+   * (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables).
    */
   commandLine: string;
   /**
@@ -1465,7 +1506,7 @@ export interface StartTask {
    * using "cmd /c MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line
    * refers to file paths, it should use a relative path (relative to the Task working directory),
    * or use the Batch provided environment variable
-   * (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables).
+   * (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables).
    */
   commandLine: string;
   /**
@@ -1537,22 +1578,19 @@ export interface CertificateReference {
   /**
    * The location of the Certificate store on the Compute Node into which to install the
    * Certificate. The default value is currentuser. This property is applicable only for Pools
-   * configured with Windows Compute Nodes (that is, created with cloudServiceConfiguration, or
-   * with virtualMachineConfiguration using a Windows Image reference). For Linux Compute Nodes,
-   * the Certificates are stored in a directory inside the Task working directory and an
-   * environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the Task to query for this
-   * location. For Certificates with visibility of 'remoteUser', a 'certs' directory is created in
-   * the user's home directory (e.g., /home/{user-name}/certs) and Certificates are placed in that
-   * directory. Possible values include: 'currentUser', 'localMachine'
+   * configured with Windows Compute Nodes. For Linux Compute Nodes, the Certificates are stored in
+   * a directory inside the Task working directory and an environment variable
+   * AZ_BATCH_CERTIFICATES_DIR is supplied to the Task to query for this location. For Certificates
+   * with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory
+   * (e.g., /home/{user-name}/certs) and Certificates are placed in that directory. Possible values
+   * include: 'currentUser', 'localMachine'
    */
   storeLocation?: CertificateStoreLocation;
   /**
    * The name of the Certificate store on the Compute Node into which to install the Certificate.
-   * This property is applicable only for Pools configured with Windows Compute Nodes (that is,
-   * created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows
-   * Image reference). Common store names include: My, Root, CA, Trust, Disallowed, TrustedPeople,
-   * TrustedPublisher, AuthRoot, AddressBook, but any custom store name can also be used. The
-   * default value is My.
+   * This property is applicable only for Pools configured with Windows Compute Nodes. Common store
+   * names include: My, Root, CA, Trust, Disallowed, TrustedPeople, TrustedPublisher, AuthRoot,
+   * AddressBook, but any custom store name can also be used. The default value is My.
    */
   storeName?: string;
   /**
@@ -1577,31 +1615,6 @@ export interface MetadataItem {
    * The value of the metadata item.
    */
   value: string;
-}
-
-/**
- * An interface representing CloudServiceConfiguration.
- * @summary The configuration for Compute Nodes in a Pool based on the Azure Cloud Services
- * platform.
- */
-export interface CloudServiceConfiguration {
-  /**
-   * The Azure Guest OS family to be installed on the virtual machines in the Pool. Possible values
-   * are:
-   * 2 - OS Family 2, equivalent to Windows Server 2008 R2 SP1.
-   * 3 - OS Family 3, equivalent to Windows Server 2012.
-   * 4 - OS Family 4, equivalent to Windows Server 2012 R2.
-   * 5 - OS Family 5, equivalent to Windows Server 2016.
-   * 6 - OS Family 6, equivalent to Windows Server 2019. For more information, see Azure Guest OS
-   * Releases
-   * (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases).
-   */
-  osFamily: string;
-  /**
-   * The Azure Guest OS version to be installed on the virtual machines in the Pool. The default
-   * value is * which specifies the latest operating system version for the specified OS family.
-   */
-  osVersion?: string;
 }
 
 /**
@@ -1677,9 +1690,8 @@ export interface ContainerConfiguration {
  */
 export interface DiskEncryptionConfiguration {
   /**
-   * The list of disk targets Batch Service will encrypt on the compute node. If omitted, no disks
-   * on the compute nodes in the pool will be encrypted. On Linux pool, only "TemporaryDisk" is
-   * supported; on Windows pool, "OsDisk" and "TemporaryDisk" must be specified.
+   * The list of disk targets Batch Service will encrypt on the compute node. The list of disk
+   * targets Batch Service will encrypt on the compute node.
    */
   targets?: DiskEncryptionTarget[];
 }
@@ -1757,12 +1769,26 @@ export interface DiffDiskSettings {
    * property can be used by user in the request to choose the location e.g., cache disk space for
    * Ephemeral OS disk provisioning. For more information on Ephemeral OS disk size requirements,
    * please refer to Ephemeral OS disk size requirements for Windows VMs at
-   * https://docs.microsoft.com/en-us/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements
+   * https://docs.microsoft.com/azure/virtual-machines/windows/ephemeral-os-disks#size-requirements
    * and Linux VMs at
-   * https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
+   * https://docs.microsoft.com/azure/virtual-machines/linux/ephemeral-os-disks#size-requirements.
    * Possible values include: 'CacheDisk'
    */
   placement?: DiffDiskPlacement;
+}
+
+/**
+ * Specifies the security profile settings for the managed disk. **Note**: It can only be set for
+ * Confidential VMs and required when using Confidential VMs.
+ */
+export interface VMDiskSecurityProfile {
+  /**
+   * Specifies the EncryptionType of the managed disk. It is set to VMGuestStateOnly for encryption
+   * of just the VMGuestState blob, and NonPersistedTPM for not persisting firmware state in the
+   * VMGuestState blob. **Note**: It can be set for only Confidential VMs and is required when
+   * using Confidential VMs. Possible values include: 'NonPersistedTPM', 'VMGuestStateOnly'
+   */
+  securityEncryptionType?: SecurityEncryptionTypes;
 }
 
 /**
@@ -1774,6 +1800,10 @@ export interface ManagedDisk {
    * 'PremiumLRS', 'StandardSSDLRS'
    */
   storageAccountType?: StorageAccountType;
+  /**
+   * Specifies the security profile settings for the managed disk.
+   */
+  securityProfile?: VMDiskSecurityProfile;
 }
 
 /**
@@ -1827,13 +1857,15 @@ export interface UefiSettings {
 export interface SecurityProfile {
   /**
    * Specifies the SecurityType of the virtual machine. It has to be set to any specified value to
-   * enable UefiSettings. Possible values include: 'trustedLaunch'
+   * enable UefiSettings. Possible values include: 'trustedLaunch', 'confidentialVM'
    */
   securityType?: SecurityTypes;
   /**
    * This property can be used by user in the request to enable or disable the Host Encryption for
    * the virtual machine or virtual machine scale set. This will enable the encryption for all the
-   * disks including Resource/Temp disk at host itself.
+   * disks including Resource/Temp disk at host itself. For more information on encryption at host
+   * requirements, please refer to
+   * https://learn.microsoft.com/azure/virtual-machines/disk-encryption#supported-vm-sizes.
    */
   encryptionAtHost?: boolean;
   /**
@@ -1890,9 +1922,9 @@ export interface VirtualMachineConfiguration {
    * Existing disks cannot be attached, each attached disk is empty. When the Compute Node is
    * removed from the Pool, the disk and all data associated with it is also deleted. The disk is
    * not formatted after being attached, it must be formatted before use - for more information see
-   * https://docs.microsoft.com/en-us/azure/virtual-machines/linux/classic/attach-disk#initialize-a-new-data-disk-in-linux
+   * https://docs.microsoft.com/azure/virtual-machines/linux/classic/attach-disk#initialize-a-new-data-disk-in-linux
    * and
-   * https://docs.microsoft.com/en-us/azure/virtual-machines/windows/attach-disk-ps#add-an-empty-data-disk-to-a-virtual-machine.
+   * https://docs.microsoft.com/azure/virtual-machines/windows/attach-disk-ps#add-an-empty-data-disk-to-a-virtual-machine.
    */
   dataDisks?: DataDisk[];
   /**
@@ -2079,15 +2111,12 @@ export interface NetworkConfiguration {
    * Batch service to be able to schedule Tasks on the Nodes. This can be verified by checking if
    * the specified VNet has any associated Network Security Groups (NSG). If communication to the
    * Nodes in the specified subnet is denied by an NSG, then the Batch service will set the state
-   * of the Compute Nodes to unusable. For Pools created with virtualMachineConfiguration only ARM
-   * virtual networks ('Microsoft.Network/virtualNetworks') are supported, but for Pools created
-   * with cloudServiceConfiguration both ARM and classic virtual networks are supported. If the
-   * specified VNet has any associated Network Security Groups (NSG), then a few reserved system
-   * ports must be enabled for inbound communication. For Pools created with a virtual machine
-   * configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for
-   * Windows. For Pools created with a cloud service configuration, enable ports 10100, 20100, and
-   * 30100. Also enable outbound connections to Azure Storage on port 443. For more details see:
-   * https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
+   * of the Compute Nodes to unusable. Only ARM virtual networks
+   * ('Microsoft.Network/virtualNetworks') are supported. If the specified VNet has any associated
+   * Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound
+   * communication. Enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for
+   * Windows. Also enable outbound connections to Azure Storage on port 443. For more details see:
+   * https://docs.microsoft.com/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration
    */
   subnetId?: string;
   /**
@@ -2095,14 +2124,11 @@ export interface NetworkConfiguration {
    */
   dynamicVNetAssignmentScope?: DynamicVNetAssignmentScope;
   /**
-   * The configuration for endpoints on Compute Nodes in the Batch Pool. Pool endpoint
-   * configuration is only supported on Pools with the virtualMachineConfiguration property.
+   * The configuration for endpoints on Compute Nodes in the Batch Pool.
    */
   endpointConfiguration?: PoolEndpointConfiguration;
   /**
-   * The Public IPAddress configuration for Compute Nodes in the Batch Pool. Public IP
-   * configuration property is only supported on Pools with the virtualMachineConfiguration
-   * property.
+   * The Public IPAddress configuration for Compute Nodes in the Batch Pool.
    */
   publicIPAddressConfiguration?: PublicIPAddressConfiguration;
   /**
@@ -2276,7 +2302,7 @@ export interface AutomaticOSUpgradePolicy {
    * Indicates whether OS upgrades should automatically be applied to scale set instances in a
    * rolling fashion when a newer version of the OS image becomes available. <br /><br /> If this
    * is set to true for Windows based pools,
-   * [WindowsConfiguration.enableAutomaticUpdates](https://learn.microsoft.com/en-us/rest/api/batchservice/pool/add?tabs=HTTP#windowsconfiguration)
+   * [WindowsConfiguration.enableAutomaticUpdates](https://learn.microsoft.com/rest/api/batchservice/pool/add?tabs=HTTP#windowsconfiguration)
    * cannot be set to true.
    */
   enableAutomaticOSUpgrade?: boolean;
@@ -2361,8 +2387,7 @@ export interface UpgradePolicy {
    */
   automaticOSUpgradePolicy?: AutomaticOSUpgradePolicy;
   /**
-   * The configuration parameters used while performing a rolling upgrade. This property is only
-   * supported on Pools with the virtualMachineConfiguration property.
+   * The configuration parameters used while performing a rolling upgrade.
    */
   rollingUpgradePolicy?: RollingUpgradePolicy;
 }
@@ -2385,20 +2410,7 @@ export interface PoolSpecification {
    */
   vmSize: string;
   /**
-   * The cloud service configuration for the Pool. This property must be specified if the Pool
-   * needs to be created with Azure PaaS VMs. This property and virtualMachineConfiguration are
-   * mutually exclusive and one of the properties must be specified. If neither is specified then
-   * the Batch service returns an error; if you are calling the REST API directly, the HTTP status
-   * code is 400 (Bad Request). This property cannot be specified if the Batch Account was created
-   * with its poolAllocationMode property set to 'UserSubscription'.
-   */
-  cloudServiceConfiguration?: CloudServiceConfiguration;
-  /**
-   * The virtual machine configuration for the Pool. This property must be specified if the Pool
-   * needs to be created with Azure IaaS VMs. This property and cloudServiceConfiguration are
-   * mutually exclusive and one of the properties must be specified. If neither is specified then
-   * the Batch service returns an error; if you are calling the REST API directly, the HTTP status
-   * code is 400 (Bad Request).
+   * The virtual machine configuration for the Pool. This property must be specified.
    */
   virtualMachineConfiguration?: VirtualMachineConfiguration;
   /**
@@ -2493,14 +2505,6 @@ export interface PoolSpecification {
    * 10 Package references on any given Pool.
    */
   applicationPackageReferences?: ApplicationPackageReference[];
-  /**
-   * The list of application licenses the Batch service will make available on each Compute Node in
-   * the Pool. The list of application licenses must be a subset of available Batch service
-   * application licenses. If a license is requested which is not supported, Pool creation will
-   * fail. The permitted licenses available on the Pool are 'maya', 'vray', '3dsmax', 'arnold'. An
-   * additional charge applies for each application license added to the Pool.
-   */
-  applicationLicenses?: string[];
   /**
    * The list of user Accounts to be created on each Compute Node in the Pool.
    */
@@ -3752,15 +3756,7 @@ export interface CloudPool {
    */
   vmSize?: string;
   /**
-   * The cloud service configuration for the Pool. This property and virtualMachineConfiguration
-   * are mutually exclusive and one of the properties must be specified. This property cannot be
-   * specified if the Batch Account was created with its poolAllocationMode property set to
-   * 'UserSubscription'.
-   */
-  cloudServiceConfiguration?: CloudServiceConfiguration;
-  /**
-   * The virtual machine configuration for the Pool. This property and cloudServiceConfiguration
-   * are mutually exclusive and one of the properties must be specified.
+   * The virtual machine configuration for the Pool. This property must be specified.
    */
   virtualMachineConfiguration?: VirtualMachineConfiguration;
   /**
@@ -3851,13 +3847,6 @@ export interface CloudPool {
    */
   applicationPackageReferences?: ApplicationPackageReference[];
   /**
-   * The list of application licenses the Batch service will make available on each Compute Node in
-   * the Pool. The list of application licenses must be a subset of available Batch service
-   * application licenses. If a license is requested which is not supported, Pool creation will
-   * fail.
-   */
-  applicationLicenses?: string[];
-  /**
    * The number of task slots that can be used to run concurrent tasks on a single compute node in
    * the pool. The default value is 1. The maximum value is the smaller of 4 times the number of
    * cores of the vmSize of the pool or 256.
@@ -3937,12 +3926,7 @@ export interface PoolAddParameter {
   displayName?: string;
   /**
    * The size of virtual machines in the Pool. All virtual machines in a Pool are the same size.
-   * For information about available sizes of virtual machines for Cloud Services Pools (pools
-   * created with cloudServiceConfiguration), see Sizes for Cloud Services
-   * (https://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch
-   * supports all Cloud Services VM sizes except ExtraSmall, A1V2 and A2V2. For information about
-   * available VM sizes for Pools using Images from the Virtual Machines Marketplace (pools created
-   * with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux)
+   * For information about available VM sizes, see Sizes for Virtual Machines (Linux)
    * (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes
    * for Virtual Machines (Windows)
    * (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch
@@ -3951,15 +3935,7 @@ export interface PoolAddParameter {
    */
   vmSize: string;
   /**
-   * The cloud service configuration for the Pool. This property and virtualMachineConfiguration
-   * are mutually exclusive and one of the properties must be specified. This property cannot be
-   * specified if the Batch Account was created with its poolAllocationMode property set to
-   * 'UserSubscription'.
-   */
-  cloudServiceConfiguration?: CloudServiceConfiguration;
-  /**
-   * The virtual machine configuration for the Pool. This property and cloudServiceConfiguration
-   * are mutually exclusive and one of the properties must be specified.
+   * The virtual machine configuration for the Pool. This property must be specified.
    */
   virtualMachineConfiguration?: VirtualMachineConfiguration;
   /**
@@ -4045,13 +4021,6 @@ export interface PoolAddParameter {
    * 10 Package references on any given Pool.
    */
   applicationPackageReferences?: ApplicationPackageReference[];
-  /**
-   * The list of application licenses the Batch service will make available on each Compute Node in
-   * the Pool. The list of application licenses must be a subset of available Batch service
-   * application licenses. If a license is requested which is not supported, Pool creation will
-   * fail.
-   */
-  applicationLicenses?: string[];
   /**
    * The number of task slots that can be used to run concurrent tasks on a single compute node in
    * the pool. The default value is 1. The maximum value is the smaller of 4 times the number of
@@ -4435,7 +4404,7 @@ export interface CloudTask {
    * MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file
    * paths, it should use a relative path (relative to the Task working directory), or use the
    * Batch provided environment variable
-   * (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables).
+   * (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables).
    */
   commandLine?: string;
   /**
@@ -4565,7 +4534,7 @@ export interface TaskAddParameter {
    * MyCommand" in Windows or "/bin/sh -c MyCommand" in Linux. If the command line refers to file
    * paths, it should use a relative path (relative to the Task working directory), or use the
    * Batch provided environment variable
-   * (https://docs.microsoft.com/en-us/azure/batch/batch-compute-node-environment-variables).
+   * (https://docs.microsoft.com/azure/batch/batch-compute-node-environment-variables).
    */
   commandLine: string;
   /**
@@ -5042,7 +5011,8 @@ export interface ComputeNode {
    * Tasks which were running on the Compute Node when it was preempted will be rescheduled when
    * another Compute Node becomes available. Possible values include: 'idle', 'rebooting',
    * 'reimaging', 'running', 'unusable', 'creating', 'starting', 'waitingForStartTask',
-   * 'startTaskFailed', 'unknown', 'leavingPool', 'offline', 'preempted', 'upgradingOS'
+   * 'startTaskFailed', 'unknown', 'leavingPool', 'offline', 'preempted', 'upgradingOS',
+   * 'deallocated', 'deallocating'
    */
   state?: ComputeNodeState;
   /**
@@ -5177,10 +5147,8 @@ export interface ComputeNodeUser {
    */
   expiryTime?: Date;
   /**
-   * The password of the Account. The password is required for Windows Compute Nodes (those created
-   * with 'cloudServiceConfiguration', or created with 'virtualMachineConfiguration' using a
-   * Windows Image reference). For Linux Compute Nodes, the password can optionally be specified
-   * along with the sshPublicKey property.
+   * The password of the Account. The password is required for Windows Compute Nodes. For Linux
+   * Compute Nodes, the password can optionally be specified along with the sshPublicKey property.
    */
   password?: string;
   /**
@@ -5330,6 +5298,10 @@ export interface JobPatchParameter {
    */
   poolInfo?: PoolInformation;
   /**
+   * The network configuration for the Job.
+   */
+  networkConfiguration?: JobNetworkConfiguration;
+  /**
    * A list of name-value pairs associated with the Job as metadata. If omitted, the existing Job
    * metadata is left unchanged.
    */
@@ -5404,7 +5376,7 @@ export interface PoolEnableAutoScaleParameter {
    * validity before it is applied to the Pool. If the formula is not valid, the Batch service
    * rejects the request with detailed error information. For more information about specifying
    * this formula, see Automatically scale Compute Nodes in an Azure Batch Pool
-   * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
+   * (https://azure.microsoft.com/documentation/articles/batch-automatic-scaling).
    */
   autoScaleFormula?: string;
   /**
@@ -5429,7 +5401,7 @@ export interface PoolEvaluateAutoScaleParameter {
    * its results calculated, but it is not applied to the Pool. To apply the formula to the Pool,
    * 'Enable automatic scaling on a Pool'. For more information about specifying this formula, see
    * Automatically scale Compute Nodes in an Azure Batch Pool
-   * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
+   * (https://azure.microsoft.com/documentation/articles/batch-automatic-scaling).
    */
   autoScaleFormula: string;
 }
@@ -5562,6 +5534,71 @@ export interface PoolPatchParameter {
    * is left unchanged. Possible values include: 'default', 'classic', 'simplified'
    */
   targetNodeCommunicationMode?: NodeCommunicationMode;
+  /**
+   * The display name for the Pool. The display name need not be unique and can contain any Unicode
+   * characters up to a maximum length of 1024.<br /><br />This field can be updated only when the
+   * pool is empty.
+   */
+  displayName?: string;
+  /**
+   * The size of virtual machines in the Pool. All VMs in a Pool are the same size. For information
+   * about available sizes of virtual machines in Pools, see Choose a VM size for Compute Nodes in
+   * an Azure Batch Pool (https://docs.microsoft.com/azure/batch/batch-pool-vm-sizes).<br /><br
+   * />This field can be updated only when the pool is empty.
+   */
+  vmSize?: string;
+  /**
+   * The number of task slots that can be used to run concurrent tasks on a single compute node in
+   * the pool. The default value is 1. The maximum value is the smaller of 4 times the number of
+   * cores of the vmSize of the pool or 256.<br /><br />This field can be updated only when the
+   * pool is empty.
+   */
+  taskSlotsPerNode?: number;
+  /**
+   * How Tasks are distributed across Compute Nodes in a Pool. If not specified, the default is
+   * spread.<br /><br />This field can be updated only when the pool is empty.
+   */
+  taskSchedulingPolicy?: TaskSchedulingPolicy;
+  /**
+   * Whether the Pool permits direct communication between Compute Nodes. Enabling inter-node
+   * communication limits the maximum size of the Pool due to deployment restrictions on the
+   * Compute Nodes of the Pool. This may result in the Pool not reaching its desired size. The
+   * default value is false.<br /><br />This field can be updated only when the pool is empty.
+   */
+  enableInterNodeCommunication?: boolean;
+  /**
+   * The virtual machine configuration for the Pool. This property must be specified.<br /><br
+   * />This field can be updated only when the pool is empty.
+   */
+  virtualMachineConfiguration?: VirtualMachineConfiguration;
+  /**
+   * The network configuration for the Pool. This field can be updated only when the pool is empty.
+   */
+  networkConfiguration?: NetworkConfiguration;
+  /**
+   * The list of user Accounts to be created on each Compute Node in the Pool. This field can be
+   * updated only when the pool is empty.
+   */
+  userAccounts?: UserAccount[];
+  /**
+   * Mount storage using specified file system for the entire lifetime of the pool. Mount the
+   * storage using Azure fileshare, NFS, CIFS or Blobfuse based file system.<br /><br />This field
+   * can be updated only when the pool is empty.
+   */
+  mountConfiguration?: MountConfiguration[];
+  /**
+   * The upgrade policy for the Pool. Describes an upgrade policy - automatic, manual, or
+   * rolling.<br /><br />This field can be updated only when the pool is empty.
+   */
+  upgradePolicy?: UpgradePolicy;
+  /**
+   * The user-specified tags associated with the pool. The user-defined tags to be associated with
+   * the Azure Batch Pool. When specified, these tags are propagated to the backing Azure resources
+   * associated with the pool. This property can only be specified when the Batch account was
+   * created with the poolAllocationMode property set to 'UserSubscription'.<br /><br />This field
+   * can be updated only when the pool is empty.
+   */
+  resourceTags?: { [propertyName: string]: string };
 }
 
 /**
@@ -5583,10 +5620,9 @@ export interface TaskUpdateParameter {
  */
 export interface NodeUpdateUserParameter {
   /**
-   * The password of the Account. The password is required for Windows Compute Nodes (those created
-   * with 'cloudServiceConfiguration', or created with 'virtualMachineConfiguration' using a
-   * Windows Image reference). For Linux Compute Nodes, the password can optionally be specified
-   * along with the sshPublicKey property. If omitted, any existing password is removed.
+   * The password of the Account. The password is required for Windows Compute Nodes. For Linux
+   * Compute Nodes, the password can optionally be specified along with the sshPublicKey property.
+   * If omitted, any existing password is removed.
    */
   password?: string;
   /**
@@ -5640,6 +5676,19 @@ export interface NodeDisableSchedulingParameter {
    * 'taskCompletion'
    */
   nodeDisableSchedulingOption?: DisableComputeNodeSchedulingOption;
+}
+
+/**
+ * An interface representing NodeDeallocateParameter.
+ * @summary Options for deallocating a Compute Node.
+ */
+export interface NodeDeallocateParameter {
+  /**
+   * When to deallocate the Compute Node and what to do with currently running Tasks. The default
+   * value is requeue. Possible values include: 'requeue', 'terminate', 'taskCompletion',
+   * 'retainedData'
+   */
+  nodeDeallocateOption?: ComputeNodeDeallocateOption;
 }
 
 /**
@@ -5781,6 +5830,14 @@ export interface NodeCounts {
    */
   upgradingOS: number;
   /**
+   * The number of Compute Nodes in the deallocated state.
+   */
+  deallocated: number;
+  /**
+   * The number of Compute Nodes in the deallocating state.
+   */
+  deallocating: number;
+  /**
    * The total number of Compute Nodes.
    */
   total: number;
@@ -5880,7 +5937,7 @@ export interface PoolListUsageMetricsOptions {
   endTime?: Date;
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-account-usage-metrics.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-account-usage-metrics.
    */
   filter?: string;
   /**
@@ -5942,7 +5999,7 @@ export interface PoolAddOptions {
 export interface PoolListOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-pools.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-pools.
    */
   filter?: string;
   /**
@@ -6472,7 +6529,7 @@ export interface PoolRemoveNodesOptions {
 export interface AccountListSupportedImagesOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-support-images.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-support-images.
    */
   filter?: string;
   /**
@@ -6508,7 +6565,7 @@ export interface AccountListSupportedImagesOptions {
 export interface AccountListPoolNodeCountsOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch.
    */
   filter?: string;
   /**
@@ -6569,7 +6626,7 @@ export interface CertificateAddOptions {
 export interface CertificateListOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-certificates.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-certificates.
    */
   filter?: string;
   /**
@@ -6905,7 +6962,7 @@ export interface FileGetPropertiesFromComputeNodeOptions {
 export interface FileListFromTaskOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-task-files.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-task-files.
    */
   filter?: string;
   /**
@@ -6941,7 +6998,7 @@ export interface FileListFromTaskOptions {
 export interface FileListFromComputeNodeOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-compute-node-files.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-compute-node-files.
    */
   filter?: string;
   /**
@@ -7069,6 +7126,11 @@ export interface JobScheduleDeleteMethodOptions {
    * the specified time.
    */
   ifUnmodifiedSince?: Date;
+  /**
+   * If true, the server will delete the JobSchedule even if the corresponding nodes have not fully
+   * processed the deletion. The default value is false. Default value: false.
+   */
+  force?: boolean;
 }
 
 /**
@@ -7377,6 +7439,11 @@ export interface JobScheduleTerminateOptions {
    * the specified time.
    */
   ifUnmodifiedSince?: Date;
+  /**
+   * If true, the server will terminate the JobSchedule even if the corresponding nodes have not
+   * fully processed the termination. The default value is false. Default value: false.
+   */
+  force?: boolean;
 }
 
 /**
@@ -7411,7 +7478,7 @@ export interface JobScheduleAddOptions {
 export interface JobScheduleListOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-job-schedules.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-job-schedules.
    */
   filter?: string;
   /**
@@ -7497,6 +7564,11 @@ export interface JobDeleteMethodOptions {
    * the specified time.
    */
   ifUnmodifiedSince?: Date;
+  /**
+   * If true, the server will delete the Job even if the corresponding nodes have not fully
+   * processed the deletion. The default value is false. Default value: false.
+   */
+  force?: boolean;
 }
 
 /**
@@ -7805,6 +7877,11 @@ export interface JobTerminateOptions {
    * the specified time.
    */
   ifUnmodifiedSince?: Date;
+  /**
+   * If true, the server will terminate the Job even if the corresponding nodes have not fully
+   * processed the termination. The default value is false. Default value: false.
+   */
+  force?: boolean;
 }
 
 /**
@@ -7839,7 +7916,7 @@ export interface JobAddOptions {
 export interface JobListOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-jobs.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-jobs.
    */
   filter?: string;
   /**
@@ -7883,7 +7960,7 @@ export interface JobListOptions {
 export interface JobListFromJobScheduleOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-jobs-in-a-job-schedule.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-jobs-in-a-job-schedule.
    */
   filter?: string;
   /**
@@ -7927,7 +8004,7 @@ export interface JobListFromJobScheduleOptions {
 export interface JobListPreparationAndReleaseTaskStatusOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-job-preparation-and-release-status.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-job-preparation-and-release-status.
    */
   filter?: string;
   /**
@@ -8019,7 +8096,7 @@ export interface TaskAddOptions {
 export interface TaskListOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-tasks.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-tasks.
    */
   filter?: string;
   /**
@@ -8584,9 +8661,9 @@ export interface ComputeNodeEnableSchedulingOptions {
 }
 
 /**
- * Additional parameters for getRemoteLoginSettings operation.
+ * Additional parameters for start operation.
  */
-export interface ComputeNodeGetRemoteLoginSettingsOptions {
+export interface ComputeNodeStartOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
    * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
@@ -8610,9 +8687,35 @@ export interface ComputeNodeGetRemoteLoginSettingsOptions {
 }
 
 /**
- * Additional parameters for getRemoteDesktop operation.
+ * Additional parameters for deallocate operation.
  */
-export interface ComputeNodeGetRemoteDesktopOptions {
+export interface ComputeNodeDeallocateOptions {
+  /**
+   * The maximum time that the server can spend processing the request, in seconds. The default is
+   * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
+   * 30.
+   */
+  timeout?: number;
+  /**
+   * The caller-generated request identity, in the form of a GUID with no decoration such as curly
+   * braces, e.g. 9C4D50EE-2D56-4CD3-8152-34347DC9F2B0.
+   */
+  clientRequestId?: string;
+  /**
+   * Whether the server should return the client-request-id in the response. Default value: false.
+   */
+  returnClientRequestId?: boolean;
+  /**
+   * The time the request was issued. Client libraries typically set this to the current system
+   * clock time; set it explicitly if you are calling the REST API directly.
+   */
+  ocpDate?: Date;
+}
+
+/**
+ * Additional parameters for getRemoteLoginSettings operation.
+ */
+export interface ComputeNodeGetRemoteLoginSettingsOptions {
   /**
    * The maximum time that the server can spend processing the request, in seconds. The default is
    * 30 seconds. If the value is larger than 30, the default will be used instead. Default value:
@@ -8667,7 +8770,7 @@ export interface ComputeNodeUploadBatchServiceLogsOptions {
 export interface ComputeNodeListOptions {
   /**
    * An OData $filter clause. For more information on constructing this filter, see
-   * https://docs.microsoft.com/en-us/rest/api/batchservice/odata-filters-in-batch#list-nodes-in-a-pool.
+   * https://docs.microsoft.com/rest/api/batchservice/odata-filters-in-batch#list-nodes-in-a-pool.
    */
   filter?: string;
   /**
@@ -9958,21 +10061,37 @@ export interface ComputeNodeEnableSchedulingOptionalParams extends msRest.Reques
 /**
  * Optional Parameters.
  */
-export interface ComputeNodeGetRemoteLoginSettingsOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputeNodeStartOptionalParams extends msRest.RequestOptionsBase {
   /**
    * Additional parameters for the operation
    */
-  computeNodeGetRemoteLoginSettingsOptions?: ComputeNodeGetRemoteLoginSettingsOptions;
+  computeNodeStartOptions?: ComputeNodeStartOptions;
 }
 
 /**
  * Optional Parameters.
  */
-export interface ComputeNodeGetRemoteDesktopOptionalParams extends msRest.RequestOptionsBase {
+export interface ComputeNodeDeallocateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * When to deallocate the Compute Node and what to do with currently running Tasks. The default
+   * value is requeue. Possible values include: 'requeue', 'terminate', 'taskCompletion',
+   * 'retainedData'
+   */
+  nodeDeallocateOption?: ComputeNodeDeallocateOption;
   /**
    * Additional parameters for the operation
    */
-  computeNodeGetRemoteDesktopOptions?: ComputeNodeGetRemoteDesktopOptions;
+  computeNodeDeallocateOptions?: ComputeNodeDeallocateOptions;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface ComputeNodeGetRemoteLoginSettingsOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Additional parameters for the operation
+   */
+  computeNodeGetRemoteLoginSettingsOptions?: ComputeNodeGetRemoteLoginSettingsOptions;
 }
 
 /**
@@ -12198,9 +12317,9 @@ export interface ComputeNodeEnableSchedulingHeaders {
 }
 
 /**
- * Defines headers for GetRemoteLoginSettings operation.
+ * Defines headers for Start operation.
  */
-export interface ComputeNodeGetRemoteLoginSettingsHeaders {
+export interface ComputeNodeStartHeaders {
   /**
    * The client-request-id provided by the client during the request. This will be returned only if
    * the return-client-request-id parameter was set to true.
@@ -12224,12 +12343,49 @@ export interface ComputeNodeGetRemoteLoginSettingsHeaders {
    * The time at which the resource was last modified.
    */
   lastModified: Date;
+  /**
+   * The OData ID of the resource to which the request applied.
+   */
+  dataServiceId: string;
 }
 
 /**
- * Defines headers for GetRemoteDesktop operation.
+ * Defines headers for Deallocate operation.
  */
-export interface ComputeNodeGetRemoteDesktopHeaders {
+export interface ComputeNodeDeallocateHeaders {
+  /**
+   * The client-request-id provided by the client during the request. This will be returned only if
+   * the return-client-request-id parameter was set to true.
+   */
+  clientRequestId: string;
+  /**
+   * A unique identifier for the request that was made to the Batch service. If a request is
+   * consistently failing and you have verified that the request is properly formulated, you may
+   * use this value to report the error to Microsoft. In your report, include the value of this
+   * request ID, the approximate time that the request was made, the Batch Account against which
+   * the request was made, and the region that Account resides in.
+   */
+  requestId: string;
+  /**
+   * The ETag HTTP response header. This is an opaque string. You can use it to detect whether the
+   * resource has changed between requests. In particular, you can pass the ETag to one of the
+   * If-Modified-Since, If-Unmodified-Since, If-Match or If-None-Match headers.
+   */
+  eTag: string;
+  /**
+   * The time at which the resource was last modified.
+   */
+  lastModified: Date;
+  /**
+   * The OData ID of the resource to which the request applied.
+   */
+  dataServiceId: string;
+}
+
+/**
+ * Defines headers for GetRemoteLoginSettings operation.
+ */
+export interface ComputeNodeGetRemoteLoginSettingsHeaders {
   /**
    * The client-request-id provided by the client during the request. This will be returned only if
    * the return-client-request-id parameter was set to true.
@@ -12542,6 +12698,14 @@ export type CertificateFormat = 'pfx' | 'cer';
 export type ContainerWorkingDirectory = 'taskWorkingDirectory' | 'containerImageDefault';
 
 /**
+ * Defines values for ContainerHostDataPath.
+ * Possible values include: 'Shared', 'Startup', 'VfsMounts', 'Task', 'JobPrep', 'Applications'
+ * @readonly
+ * @enum {string}
+ */
+export type ContainerHostDataPath = 'Shared' | 'Startup' | 'VfsMounts' | 'Task' | 'JobPrep' | 'Applications';
+
+/**
  * Defines values for JobAction.
  * Possible values include: 'none', 'disable', 'terminate'
  * @readonly
@@ -12662,12 +12826,20 @@ export type NodePlacementPolicyType = 'regional' | 'zonal';
 export type DiffDiskPlacement = 'CacheDisk';
 
 /**
- * Defines values for SecurityTypes.
- * Possible values include: 'trustedLaunch'
+ * Defines values for SecurityEncryptionTypes.
+ * Possible values include: 'NonPersistedTPM', 'VMGuestStateOnly'
  * @readonly
  * @enum {string}
  */
-export type SecurityTypes = 'trustedLaunch';
+export type SecurityEncryptionTypes = 'NonPersistedTPM' | 'VMGuestStateOnly';
+
+/**
+ * Defines values for SecurityTypes.
+ * Possible values include: 'trustedLaunch', 'confidentialVM'
+ * @readonly
+ * @enum {string}
+ */
+export type SecurityTypes = 'trustedLaunch' | 'confidentialVM';
 
 /**
  * Defines values for DynamicVNetAssignmentScope.
@@ -12858,11 +13030,11 @@ export type StartTaskState = 'running' | 'completed';
  * Defines values for ComputeNodeState.
  * Possible values include: 'idle', 'rebooting', 'reimaging', 'running', 'unusable', 'creating',
  * 'starting', 'waitingForStartTask', 'startTaskFailed', 'unknown', 'leavingPool', 'offline',
- * 'preempted', 'upgradingOS'
+ * 'preempted', 'upgradingOS', 'deallocated', 'deallocating'
  * @readonly
  * @enum {string}
  */
-export type ComputeNodeState = 'idle' | 'rebooting' | 'reimaging' | 'running' | 'unusable' | 'creating' | 'starting' | 'waitingforstarttask' | 'starttaskfailed' | 'unknown' | 'leavingpool' | 'offline' | 'preempted' | 'upgradingos';
+export type ComputeNodeState = 'idle' | 'rebooting' | 'reimaging' | 'running' | 'unusable' | 'creating' | 'starting' | 'waitingforstarttask' | 'starttaskfailed' | 'unknown' | 'leavingpool' | 'offline' | 'preempted' | 'upgradingos' | 'deallocated' | 'deallocating';
 
 /**
  * Defines values for SchedulingState.
@@ -12911,6 +13083,14 @@ export type ComputeNodeReimageOption = 'requeue' | 'terminate' | 'taskcompletion
  * @enum {string}
  */
 export type DisableComputeNodeSchedulingOption = 'requeue' | 'terminate' | 'taskcompletion';
+
+/**
+ * Defines values for ComputeNodeDeallocateOption.
+ * Possible values include: 'requeue', 'terminate', 'taskCompletion', 'retainedData'
+ * @readonly
+ * @enum {string}
+ */
+export type ComputeNodeDeallocateOption = 'requeue' | 'terminate' | 'taskcompletion' | 'retaineddata';
 
 /**
  * Contains response data for the list operation.
@@ -14265,6 +14445,36 @@ export type ComputeNodeEnableSchedulingResponse = ComputeNodeEnableSchedulingHea
 };
 
 /**
+ * Contains response data for the start operation.
+ */
+export type ComputeNodeStartResponse = ComputeNodeStartHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ComputeNodeStartHeaders;
+    };
+};
+
+/**
+ * Contains response data for the deallocate operation.
+ */
+export type ComputeNodeDeallocateResponse = ComputeNodeDeallocateHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: ComputeNodeDeallocateHeaders;
+    };
+};
+
+/**
  * Contains response data for the getRemoteLoginSettings operation.
  */
 export type ComputeNodeGetRemoteLoginSettingsResponse = ComputeNodeGetRemoteLoginSettingsResult & ComputeNodeGetRemoteLoginSettingsHeaders & {
@@ -14286,37 +14496,6 @@ export type ComputeNodeGetRemoteLoginSettingsResponse = ComputeNodeGetRemoteLogi
        * The response body as parsed JSON or XML
        */
       parsedBody: ComputeNodeGetRemoteLoginSettingsResult;
-    };
-};
-
-/**
- * Contains response data for the getRemoteDesktop operation.
- */
-export type ComputeNodeGetRemoteDesktopResponse = ComputeNodeGetRemoteDesktopHeaders & {
-  /**
-   * BROWSER ONLY
-   *
-   * The response body as a browser Blob.
-   * Always undefined in node.js.
-   */
-  blobBody?: Promise<Blob>;
-
-  /**
-   * NODEJS ONLY
-   *
-   * The response body as a node.js Readable stream.
-   * Always undefined in the browser.
-   */
-  readableStreamBody?: NodeJS.ReadableStream;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ComputeNodeGetRemoteDesktopHeaders;
     };
 };
 

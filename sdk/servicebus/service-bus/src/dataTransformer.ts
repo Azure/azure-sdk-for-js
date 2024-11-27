@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { message } from "rhea-promise";
 import isBuffer from "is-buffer";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
-import { logErrorStackTrace, logger } from "./log";
+import { logErrorStackTrace, logger } from "./log.js";
 
 /** @internal */
 export const dataSectionTypeCode = 0x75 as const;

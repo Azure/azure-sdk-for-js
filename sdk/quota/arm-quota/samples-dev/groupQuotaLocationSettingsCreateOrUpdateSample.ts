@@ -45,14 +45,13 @@ async function groupQuotaLocationSettingsCreateOrUpdate() {
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
-  const result =
-    await client.groupQuotaLocationSettings.beginCreateOrUpdateAndWait(
-      managementGroupId,
-      groupQuotaName,
-      resourceProviderName,
-      location,
-      options,
-    );
+  const result = await client.groupQuotaLocationSettings.beginCreateOrUpdateAndWait(
+    managementGroupId,
+    groupQuotaName,
+    resourceProviderName,
+    location,
+    options,
+  );
   console.log(result);
 }
 
@@ -83,14 +82,13 @@ async function groupQuotaLocationSettingsCreateOrUpdateFailed() {
   };
   const credential = new DefaultAzureCredential();
   const client = new AzureQuotaExtensionAPI(credential);
-  const result =
-    await client.groupQuotaLocationSettings.beginCreateOrUpdateAndWait(
-      managementGroupId,
-      groupQuotaName,
-      resourceProviderName,
-      location,
-      options,
-    );
+  const result = await client.groupQuotaLocationSettings.beginCreateOrUpdateAndWait(
+    managementGroupId,
+    groupQuotaName,
+    resourceProviderName,
+    location,
+    options,
+  );
   console.log(result);
 }
 

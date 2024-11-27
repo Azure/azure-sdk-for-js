@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import assert from "assert";
-import { Context } from "mocha";
-import { Suite } from "mocha";
+import type { Context } from "mocha";
+import type { Suite } from "mocha";
 import { CosmosClient, OperationType } from "../../../src";
 import { endpoint } from "../common/_testConfig";
 import { masterKey } from "../common/_fakeTestSecrets";

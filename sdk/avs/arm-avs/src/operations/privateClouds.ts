@@ -733,7 +733,7 @@ const listInSubscriptionOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateCloudListResult,
+      bodyMapper: Mappers.PrivateCloudList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -749,7 +749,7 @@ const listOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateCloudListResult,
+      bodyMapper: Mappers.PrivateCloudList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -957,7 +957,7 @@ const listInSubscriptionNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateCloudListResult,
+      bodyMapper: Mappers.PrivateCloudList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,
@@ -976,7 +976,7 @@ const listNextOperationSpec: coreClient.OperationSpec = {
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateCloudListResult,
+      bodyMapper: Mappers.PrivateCloudList,
     },
     default: {
       bodyMapper: Mappers.ErrorResponse,

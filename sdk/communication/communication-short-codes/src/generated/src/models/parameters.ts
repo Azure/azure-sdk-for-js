@@ -14,7 +14,7 @@ import {
 import {
   USProgramBrief as USProgramBriefMapper,
   ProgramBriefAttachment as ProgramBriefAttachmentMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
-import {
+import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import type {
   ContainerItem,
   CpkInfo as BlobCpkInfo,
   PublicAccessType as ContainerPublicAccessType,
 } from "@azure/storage-blob";
 
-import { AclFailedEntry, CpkInfo } from "./generated/src/models";
-import {
+import type { AclFailedEntry, CpkInfo } from "./generated/src/models";
+import type {
   AccessControlChangeError,
   FileSystemItem,
   Metadata,

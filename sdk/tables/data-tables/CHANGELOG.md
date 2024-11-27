@@ -1,6 +1,6 @@
 # Release History
 
-## 13.2.3 (Unreleased)
+## 13.3.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 13.3.0 (2024-11-18)
+
+### Features Added
+
+- Added support for Entra ID credentials when targeting a Cosmos endpoint.
 
 ## 13.2.2 (2023-04-10)
 

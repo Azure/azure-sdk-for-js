@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
+import type { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
 import { getDataLakeServiceClient, getUniqueName, recorderEnvSetup, uriSanitizers } from "../utils";
 import {
   blobToString,
@@ -13,7 +13,7 @@ import {
   arrayBufferEqual,
 } from "../utils/index.browser";
 import { MB } from "../../src/utils/constants";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("Highlevel browser only", () => {
   let fileSystemName: string;

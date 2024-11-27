@@ -1,18 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OpenTelemetryInstrumenter, propagator } from "../../src/instrumenter";
+import { describe, it, assert, expect, beforeEach, afterEach, vi } from "vitest";
+import { OpenTelemetryInstrumenter, propagator } from "../../src/instrumenter.js";
 import { SpanKind, context, trace } from "@opentelemetry/api";
-import { TracingSpan, TracingSpanKind } from "@azure/core-tracing";
-
-import { Context } from "mocha";
-import { OpenTelemetrySpanWrapper } from "../../src/spanWrapper";
-import { Span } from "@opentelemetry/sdk-trace-base";
-import { assert } from "chai";
-import { environmentCache } from "../../src/configuration";
-import { inMemoryExporter } from "./util/setup";
+import type { TracingSpan, TracingSpanKind } from "@azure/core-tracing";
+import type { OpenTelemetrySpanWrapper } from "../../src/spanWrapper.js";
+import type { Span } from "@opentelemetry/sdk-trace-base";
+import { environmentCache } from "../../src/configuration.js";
+import { inMemoryExporter } from "./util/setup.js";
 import { isTracingSuppressed } from "@opentelemetry/core";
-import sinon from "sinon";
 
 function unwrap(span: TracingSpan): Span {
   return (span as OpenTelemetrySpanWrapper).unwrap() as Span;
@@ -23,22 +20,32 @@ describe("OpenTelemetryInstrumenter", () => {
 
   describe("#createRequestHeaders", () => {
     afterEach(() => {
-      sinon.restore();
+      vi.restoreAllMocks();
     });
 
     it("uses the passed in context if it exists", () => {
-      const propagationSpy = sinon.spy(propagator);
+      const propagationSpy = vi.spyOn(propagator, "inject");
       const span = trace.getTracer("test").startSpan("test");
       const tracingContext = trace.setSpan(context.active(), span);
       instrumenter.createRequestHeaders(tracingContext);
-      assert.isTrue(propagationSpy.inject.calledWith(tracingContext));
+
+      expect(propagationSpy).toHaveBeenCalledWith(
+        tracingContext,
+        expect.anything(),
+        expect.anything(),
+      );
     });
 
     it("uses the active context if no context was provided", () => {
-      const propagationSpy = sinon.spy(propagator);
+      const propagationSpy = vi.spyOn(propagator, "inject");
       instrumenter.createRequestHeaders();
       const activeContext = context.active();
-      assert.isTrue(propagationSpy.inject.calledWith(activeContext));
+
+      expect(propagationSpy).toHaveBeenCalledWith(
+        activeContext,
+        expect.anything(),
+        expect.anything(),
+      );
     });
   });
 
@@ -60,10 +67,10 @@ describe("OpenTelemetryInstrumenter", () => {
     });
 
     it("passes package information to the tracer", () => {
-      const getTracerSpy = sinon.spy(trace, "getTracer");
+      const getTracerSpy = vi.spyOn(trace, "getTracer");
       instrumenter.startSpan("test", { packageName, packageVersion });
 
-      assert.isTrue(getTracerSpy.calledWith(packageName, packageVersion));
+      expect(getTracerSpy).toHaveBeenCalledWith(packageName, packageVersion);
     });
 
     describe("with an existing context", () => {
@@ -92,11 +99,11 @@ describe("OpenTelemetryInstrumenter", () => {
 
     describe("when a context is not provided", () => {
       it("uses the active context", () => {
-        const contextSpy = sinon.spy(context, "active");
+        const contextSpy = vi.spyOn(context, "active");
 
         instrumenter.startSpan("test", { packageName, packageVersion });
 
-        assert.isTrue(contextSpy.called);
+        expect(contextSpy).toHaveBeenCalled();
       });
 
       it("sets span on the context", () => {
@@ -253,15 +260,15 @@ describe("OpenTelemetryInstrumenter", () => {
   });
 
   describe("#withContext", () => {
-    it("passes the correct arguments to OpenTelemetry", function (this: Context) {
-      const contextSpy = sinon.spy(context, "with");
+    it("passes the correct arguments to OpenTelemetry", function () {
+      const contextSpy = vi.spyOn(context, "with");
       // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
       const callback = (arg1: number) => arg1 + 42;
       const callbackArg = 37;
       const activeContext = context.active();
       instrumenter.withContext(activeContext, callback, callbackArg);
 
-      assert.isTrue(contextSpy.calledWith(activeContext, callback, undefined, callbackArg));
+      expect(contextSpy).toHaveBeenCalledWith(activeContext, callback, undefined, callbackArg);
     });
 
     it("Returns the value of the callback", () => {

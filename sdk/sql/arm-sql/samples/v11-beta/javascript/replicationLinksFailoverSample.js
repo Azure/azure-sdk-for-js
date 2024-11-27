@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Fails over from the current primary server to this server.
  *
  * @summary Fails over from the current primary server to this server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2022-02-01-preview/examples/ReplicationLinkFailover.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/ReplicationLinkFailover.json
  */
 async function plannedFailoverOfAReplicationLink() {
   const subscriptionId =

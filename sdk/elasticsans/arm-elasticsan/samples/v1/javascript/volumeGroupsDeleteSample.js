@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Delete an VolumeGroup.
  *
  * @summary Delete an VolumeGroup.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeGroups_Delete_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeGroups_Delete_MaximumSet_Gen.json
  */
 async function volumeGroupsDeleteMaximumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -37,7 +37,7 @@ async function volumeGroupsDeleteMaximumSetGen() {
  * This sample demonstrates how to Delete an VolumeGroup.
  *
  * @summary Delete an VolumeGroup.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeGroups_Delete_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeGroups_Delete_MinimumSet_Gen.json
  */
 async function volumeGroupsDeleteMinimumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";

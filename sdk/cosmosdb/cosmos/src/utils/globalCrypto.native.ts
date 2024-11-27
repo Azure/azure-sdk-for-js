@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // isomorphic-webcrypto is not listed as a dependency in package.json because
 // doing so requires adding a bunch of react packages as peer dependencies. So,

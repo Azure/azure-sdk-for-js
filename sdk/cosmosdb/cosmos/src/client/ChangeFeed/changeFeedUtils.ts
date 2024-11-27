@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
+// Licensed under the MIT License.
+import type { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
 import { ErrorResponse } from "../../request";
-import { PartitionKeyRange } from "../Container";
-import { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
+import type { PartitionKeyRange } from "../Container";
+import type { InternalChangeFeedIteratorOptions } from "./InternalChangeFeedOptions";
 import { isPrimitivePartitionKeyValue } from "../../utils/typeChecks";
-import { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
+import type { ChangeFeedStartFrom } from "./ChangeFeedStartFrom";
 import { ChangeFeedStartFromBeginning } from "./ChangeFeedStartFromBeginning";
 import { Constants } from "../../common";
 import { ChangeFeedStartFromTime } from "./ChangeFeedStartFromTime";
-import { QueryRange } from "../../routing";
+import type { QueryRange } from "../../routing";
 import { FeedRangeInternal } from "./FeedRange";
 
 /**

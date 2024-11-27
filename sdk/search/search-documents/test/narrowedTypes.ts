@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable no-unused-expressions */
 /* eslint-disable no-constant-condition */
@@ -7,8 +7,9 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { SearchClient, SelectFields } from "../src/index";
-import {
+import type { SelectFields } from "../src/index";
+import { SearchClient } from "../src/index";
+import type {
   NarrowedModel as GenericNarrowedModel,
   SearchFieldArray,
   SearchPick,

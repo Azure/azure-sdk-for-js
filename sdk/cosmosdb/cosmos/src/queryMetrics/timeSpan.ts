@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Ported this implementation to javascript:
 // https://referencesource.microsoft.com/#mscorlib/system/timespan.cs,83e476c1ae112117
 /** @hidden */
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 const ticksPerMillisecond = 10000;
 /** @hidden */
 const millisecondsPerTick = 1.0 / ticksPerMillisecond;

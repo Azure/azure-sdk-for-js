@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a host pool.
  *
  * @summary Update a host pool.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/HostPool_Update.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/HostPool_Update.json
  */
 async function hostPoolUpdate() {
   const subscriptionId =

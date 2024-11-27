@@ -11,7 +11,7 @@ import {
   SipRoutingGetResponse,
   SipRoutingUpdateOptionalParams,
   SipRoutingUpdateResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a SipRouting. */
 export interface SipRouting {

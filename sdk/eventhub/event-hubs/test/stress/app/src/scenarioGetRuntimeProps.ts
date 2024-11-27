@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createEventHubsConsumerClient, createEventHubsProducerClient } from "./utils";
 import parsedArgs from "minimist";

@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-// import { PurviewWorkflowClient } from "@azure-rest/purview-workflow";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createClient } from "./utils/recordedClient";
-
-import { Context } from "mocha";
-import { PurviewWorkflowClient } from "../../src/clientDefinitions";
-import { ApproveApprovalTaskParameters, RejectApprovalTaskParameters } from "../../src/parameters";
-import { isUnexpected } from "../../src/isUnexpected";
+import { createClient } from "./utils/recordedClient.js";
+import type { PurviewWorkflowClient } from "../../src/clientDefinitions.js";
+import type {
+  ApproveApprovalTaskParameters,
+  RejectApprovalTaskParameters,
+} from "../../src/parameters.js";
+import { isUnexpected } from "../../src/isUnexpected.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Operate the workflow task.", () => {
   let recorder: Recorder;
@@ -16,18 +17,18 @@ describe("Operate the workflow task.", () => {
   let workflowtaskId1: string;
   let workflowtaskId2: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     client = await createClient(recorder);
     workflowtaskId1 = "721716fa-13b0-4613-beb5-87ffb5a3ce63";
     workflowtaskId2 = "f0d9bf80-9490-40f9-8bc4-ea70aef701de";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should approve a workflow task.", async function () {
+  it("should approve a workflow task.", async () => {
     const options: ApproveApprovalTaskParameters = {
       body: { comment: "Thanks for raising this!" },
     };
@@ -36,11 +37,11 @@ describe("Operate the workflow task.", () => {
       .post(options);
 
     if (isUnexpected(result1)) {
-      throw result1.body.error;
+      assert.isDefined(result1.body.error);
     }
   });
 
-  it("should reject a workflow task.", async function () {
+  it("should reject a workflow task.", async () => {
     const options: RejectApprovalTaskParameters = {
       body: { comment: "Thanks for raising this!" },
     };
@@ -49,7 +50,7 @@ describe("Operate the workflow task.", () => {
       .post(options);
 
     if (isUnexpected(result2)) {
-      throw result2.body.error;
+      assert.isDefined(result2.body.error);
     }
   });
 });

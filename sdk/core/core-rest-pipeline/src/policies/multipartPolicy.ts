@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { randomUUID, stringToUint8Array } from "@azure/core-util";
 import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces.js";

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { GetTokenOptions } from "@azure/core-auth";
+import type { GetTokenOptions } from "@azure/core-auth";
 
 /**
  * See the official documentation for more details:
@@ -103,7 +103,6 @@ export class AuthenticationError extends Error {
    */
   public readonly errorResponse: ErrorResponse;
 
-  // eslint-disable-next-line @typescript-eslint/ban-types
   constructor(
     statusCode: number,
     errorBody: object | string | undefined | null,

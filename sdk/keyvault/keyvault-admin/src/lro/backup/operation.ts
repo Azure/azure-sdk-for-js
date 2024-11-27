@@ -1,20 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   FullBackupOperation,
   FullBackupOptionalParams,
   FullBackupResponse,
   FullBackupStatusResponse,
-} from "../../generated/models";
-import {
-  KeyVaultAdminPollOperation,
-  KeyVaultAdminPollOperationState,
-} from "../keyVaultAdminPoller";
-import { KeyVaultBackupResult, KeyVaultBeginBackupOptions } from "../../backupClientModels";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { tracingClient } from "../../tracing";
+} from "../../generated/models/index.js";
+import type { KeyVaultAdminPollOperationState } from "../keyVaultAdminPoller.js";
+import { KeyVaultAdminPollOperation } from "../keyVaultAdminPoller.js";
+import type { KeyVaultBackupResult, KeyVaultBeginBackupOptions } from "../../backupClientModels.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { KeyVaultClient } from "../../generated/keyVaultClient.js";
+import { tracingClient } from "../../tracing.js";
 
 /**
  * An interface representing the publicly available properties of the state of a backup Key Vault's poll operation.

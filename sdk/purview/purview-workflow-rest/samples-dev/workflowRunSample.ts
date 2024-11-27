@@ -1,19 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import createPurviewWorkflowClient, {
+
+import type {
   CancelWorkflowRunParameters,
   ListWorkflowRunsParameters,
   PurviewWorkflowClient,
-  isUnexpected,
-  paginate,
 } from "@azure-rest/purview-workflow";
+import createPurviewWorkflowClient, { isUnexpected, paginate } from "@azure-rest/purview-workflow";
 import { UsernamePasswordCredential } from "@azure/identity";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * This sample demonstrates how to List workflow runs.
@@ -24,7 +19,7 @@ dotenv.config();
 async function workflowRunsList(
   client: PurviewWorkflowClient,
   queryParameter: ListWorkflowRunsParameters,
-) {
+): Promise<void> {
   const initialResponse = await client.path("/workflowruns").get(queryParameter);
 
   if (isUnexpected(initialResponse)) {
@@ -46,7 +41,7 @@ async function workflowRunsList(
  * @summary Get a workflow run.
  * x-ms-original-file: specification/purview/data-plane/Azure.Analytics.Purview.Workflow/preview/2022-05-01-preview/examples/GetWorkflowRun.json
  */
-async function workflowRunGet(client: PurviewWorkflowClient, workflowRunId: string) {
+async function workflowRunGet(client: PurviewWorkflowClient, workflowRunId: string): Promise<void> {
   const result = await client.path("/workflowruns/{workflowRunId}", workflowRunId).get();
   if (isUnexpected(result)) {
     throw result.body.error;
@@ -64,7 +59,7 @@ async function workflowRunCancel(
   client: PurviewWorkflowClient,
   workflowRunId: string,
   cancelReply: CancelWorkflowRunParameters,
-) {
+): Promise<void> {
   const result = await client
     .path("/workflowruns/{workflowRunId}/cancel", workflowRunId)
     .post(cancelReply);
@@ -74,7 +69,7 @@ async function workflowRunCancel(
   console.log(`Cancel workflow run ${workflowRunId} successfully.`);
 }
 
-async function main() {
+async function main(): Promise<void> {
   // ================================================== Create client ==================================================
 
   const endpoint = process.env["ENDPOINT"] || "";
@@ -108,7 +103,7 @@ async function main() {
   // ================================================== Cancel a workflow run ==================================================
 
   const workflowRunId2 = "57f9d6d2-b41b-11ed-afa1-0242ac120002"; // This is an example workflow run id, user could get workflow run id from the response of list workflow runs api.
-  const cancelReply: CancelWorkflowRunParameters = { body: { comment: "Thanks!" } }; //This payload is an example payload, please replace the payload with real data.
+  const cancelReply: CancelWorkflowRunParameters = { body: { comment: "Thanks!" } }; // This payload is an example payload, please replace the payload with real data.
 
   workflowRunCancel(client, workflowRunId2, cancelReply);
 }

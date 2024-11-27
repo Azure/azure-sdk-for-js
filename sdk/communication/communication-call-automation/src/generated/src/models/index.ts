@@ -27,6 +27,8 @@ export interface CreateCallRequest {
   sourceDisplayName?: string;
   /** The identifier of the source of the call */
   source?: CommunicationUserIdentifierModel;
+  /** The identifier of the source in an OPS call */
+  opsSource?: MicrosoftTeamsAppIdentifierModel;
   /** A customer set value used to track the answering of a call. */
   operationContext?: string;
   /** The callback URI. */
@@ -194,6 +196,8 @@ export interface AnswerCallRequest {
   incomingCallContext: string;
   /** The callback uri. */
   callbackUri: string;
+  /** Used by customer to send custom calling context to targets when answering On-Behalf-Of call */
+  customCallingContext?: CustomCallingContextInternal;
   /** A customer set value used to track the answering of a call. */
   operationContext?: string;
   /** Media Streaming Configuration. */
@@ -711,7 +715,7 @@ export interface StartCallRecordingRequest {
   pauseOnStart?: boolean;
 }
 
-/** The locator used for joining or taking action on a call. */
+/** The locator used for joining or taking action on a call */
 export interface CallLocator {
   /** The group call id */
   groupCallId?: string;
@@ -3064,7 +3068,6 @@ export type CallDialogStartDialogResponse = DialogStateResponse;
 /** Optional parameters. */
 export interface CallDialogStopDialogOptionalParams
   extends coreClient.OperationOptions {
-  /** Operation callback URI. */
   operationCallbackUri?: string;
 }
 

@@ -1,6 +1,17 @@
 # Release History
 
-## 1.0.0-beta.1 (2023-05-26)
+## 1.0.0-beta.2 (unreleased)
 
 ### Features Added
-- Introducing the Azure SDK for JavaScript Template DPG project
+- Test Release Pipeline
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.0.0-beta.1 (2023-08-11)
+
+### Features Added
+- Test Release Pipeline

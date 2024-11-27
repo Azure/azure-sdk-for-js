@@ -22,7 +22,7 @@ import {
   CertificateOperationUpdateParameter as CertificateOperationUpdateParameterMapper,
   CertificateMergeParameters as CertificateMergeParametersMapper,
   CertificateRestoreParameters as CertificateRestoreParametersMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

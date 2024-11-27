@@ -118,7 +118,7 @@ The [`@azure/identity`][azure_identity] package provides a variety of credential
 import { DefaultAzureCredential } from "@azure/identity";
 import { PhoneNumbersClient } from "@azure/communication-phone-numbers";
 
-let credential = new DefaultAzureCredential();
+const credential = new DefaultAzureCredential();
 const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
 ```
 
@@ -126,7 +126,7 @@ const client = new PhoneNumbersClient("<endpoint-from-resource>", credential);
 import { DefaultAzureCredential } from "@azure/identity";
 import { SipRoutingClient } from "@azure/communication-phone-numbers";
 
-let credential = new DefaultAzureCredential();
+const credential = new DefaultAzureCredential();
 const client = new SipRoutingClient("<endpoint-from-resource>", credential);
 ```
 

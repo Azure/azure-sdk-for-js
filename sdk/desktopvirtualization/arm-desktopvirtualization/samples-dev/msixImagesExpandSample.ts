@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   MsixImageURI,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Expands and Lists MSIX packages in an Image, given the Image Path.
  *
  * @summary Expands and Lists MSIX packages in an Image, given the Image Path.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/MsixImage_Expand_Post.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/MsixImage_Expand_Post.json
  */
 async function msixImageExpand() {
   const subscriptionId =
@@ -37,7 +37,7 @@ async function msixImageExpand() {
   for await (let item of client.msixImages.listExpand(
     resourceGroupName,
     hostPoolName,
-    msixImageURI
+    msixImageURI,
   )) {
     resArray.push(item);
   }

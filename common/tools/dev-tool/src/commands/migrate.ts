@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import { METADATA_KEY, ProjectInfo, resolveProject, resolveRoot } from "../util/resolveProject";
 import { createPrinter } from "../util/printer";
@@ -360,7 +360,9 @@ async function onMigrationSuccess(
 
   await git.commitAll(`${project.name}: applied migration '${migration.id}'`);
 
-  !quiet && log.success(`Migration '${migration.id}' applied successfully.`);
+  if (!quiet) {
+    log.success(`Migration '${migration.id}' applied successfully.`);
+  }
 }
 
 /**
@@ -376,7 +378,9 @@ async function onMigrationSkipped(
 
   await git.commitAll(`${project.name}: skipped migration '${migration.id}'`);
 
-  !quiet && log.info(`Skipped migration '${migration.id}'. This package is not eligible.`);
+  if (!quiet) {
+    log.info(`Skipped migration '${migration.id}'. This package is not eligible.`);
+  }
 }
 
 /**
@@ -456,10 +460,11 @@ async function abortMigration(
 
   await removeMigrationStateFile();
 
-  !quiet &&
+  if (!quiet) {
     log.warn(
       `Suspended migration '${suspendedMigration.id}' was aborted. The working tree may be dirty.`,
     );
+  }
 
   return true;
 }

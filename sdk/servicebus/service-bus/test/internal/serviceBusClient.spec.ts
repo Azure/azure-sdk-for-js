@@ -1,39 +1,35 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createTestCredential } from "@azure-tools/test-credential";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
 import { Constants as CoreAmqpConstants } from "@azure/core-amqp";
 import { isObjectWithProperties } from "@azure/core-util";
 import Long from "long";
-import {
-  isServiceBusError,
+import type {
   ProcessErrorArgs,
-  ServiceBusClient,
   ServiceBusError,
   ServiceBusSessionReceiver,
   ServiceBusSender,
   ServiceBusReceiverOptions,
-} from "../../src";
-import { DispositionType, ServiceBusReceivedMessage } from "../../src/serviceBusMessage";
-import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors";
-import { getEnvVars } from "../public/utils/envVarUtils";
+} from "../../src/index.js";
+import { isServiceBusError, ServiceBusClient } from "../../src/index.js";
+import type { ServiceBusReceivedMessage } from "../../src/serviceBusMessage.js";
+import { DispositionType } from "../../src/serviceBusMessage.js";
+import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../../src/util/errors.js";
+import { getEnvVars } from "../public/utils/envVarUtils.js";
 import { isNode } from "@azure/core-util";
-import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils";
+import { checkWithTimeout, TestClientType, TestMessage } from "../public/utils/testUtils.js";
+import type { EntityName, ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import {
   createServiceBusClientForTests,
-  EntityName,
-  ServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
   getFullyQualifiedNamespace,
-} from "../public/utils/testutils2";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
-
-const should = chai.should();
-chai.use(chaiAsPromised);
+} from "../public/utils/testutils2.js";
+import type { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, it } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
@@ -637,13 +633,12 @@ describe("ServiceBusClient live tests", () => {
       it(
         noSessionTestClientType + ": sends a message to the ServiceBus entity",
         async function (): Promise<void> {
-          const tokenCreds = createTestCredential();
-
+          const tokenCredential = createTestCredential();
           const serviceBusClient = createServiceBusClientForTests();
           const entities = await serviceBusClient.test.createTestEntities(noSessionTestClientType);
           await serviceBusClient.close();
 
-          const sbClient = new ServiceBusClient(sbFullQualifiedNamespace, tokenCreds);
+          const sbClient = new ServiceBusClient(sbFullQualifiedNamespace, tokenCredential);
           try {
             const sender = sbClient.createSender(entities.queue || entities.topic!);
             const receiver = entities.queue
@@ -1017,14 +1012,14 @@ describe("ServiceBusClient live tests", () => {
   describe("entityPath on sender and receiver", async () => {
     let sbClient: ServiceBusClientForTests;
 
-    before(() => {
+    beforeAll(() => {
       sbClient = createServiceBusClientForTests();
     });
 
     afterEach(async () => {
       await sbClient.test.afterEach();
     });
-    after(async () => {
+    afterAll(async () => {
       await sbClient.test.after();
     });
 

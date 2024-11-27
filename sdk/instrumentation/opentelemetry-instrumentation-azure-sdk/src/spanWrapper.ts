@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Span, AttributeValue, SpanStatusCode } from "@opentelemetry/api";
-import { SpanStatus, TracingSpan } from "@azure/core-tracing";
+import type { Span } from "@opentelemetry/api";
+import { SpanStatusCode } from "@opentelemetry/api";
+import type { SpanStatus, TracingSpan, AddEventOptions } from "@azure/core-tracing";
+import { isAttributeValue, sanitizeAttributes } from "@opentelemetry/core";
 
 export class OpenTelemetrySpanWrapper implements TracingSpan {
   private _span: Span;
@@ -25,8 +27,8 @@ export class OpenTelemetrySpanWrapper implements TracingSpan {
   }
 
   setAttribute(name: string, value: unknown): void {
-    if (value !== null && value !== undefined) {
-      this._span.setAttribute(name, value as AttributeValue);
+    if (value !== null && value !== undefined && isAttributeValue(value)) {
+      this._span.setAttribute(name, value);
     }
   }
 
@@ -40,6 +42,10 @@ export class OpenTelemetrySpanWrapper implements TracingSpan {
 
   isRecording(): boolean {
     return this._span.isRecording();
+  }
+
+  addEvent(name: string, options: AddEventOptions = {}): void {
+    this._span.addEvent(name, sanitizeAttributes(options.attributes), options.startTime);
   }
 
   /**

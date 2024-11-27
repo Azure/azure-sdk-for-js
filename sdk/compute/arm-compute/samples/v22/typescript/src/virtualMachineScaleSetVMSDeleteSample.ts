@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Deletes a virtual machine from a VM scale set.
  *
  * @summary Deletes a virtual machine from a VM scale set.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Delete_Force.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Delete_Force.json
  */
 async function forceDeleteAVirtualMachineFromAVMScaleSet() {
   const subscriptionId =

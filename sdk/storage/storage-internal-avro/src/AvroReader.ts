@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // TODO: Do a review of non-interfaces
 /* eslint-disable @azure/azure-sdk/ts-use-interface-parameters */
@@ -11,8 +11,8 @@ import {
   AVRO_SYNC_MARKER_SIZE,
 } from "./AvroConstants";
 import { AvroParser, AvroType } from "./AvroParser";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { AvroReadable } from "./AvroReadable";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { AvroReadable } from "./AvroReadable";
 import { arraysEqual } from "./utils/utils.common";
 
 /**
@@ -162,7 +162,7 @@ export class AvroReader {
           this._itemsRemainingInBlock = await AvroParser.readLong(this._dataStream, {
             abortSignal: options.abortSignal,
           });
-        } catch (err: any) {
+        } catch {
           // We hit the end of the stream.
           this._itemsRemainingInBlock = 0;
         }

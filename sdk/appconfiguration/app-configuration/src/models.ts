@@ -1,21 +1,28 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CompatResponse } from "@azure/core-http-compat";
-import { FeatureFlagValue } from "./featureFlag";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { SecretReferenceValue } from "./secretReference";
-import {
+import type { CompatResponse } from "@azure/core-http-compat";
+import type { FeatureFlagValue } from "./featureFlag.js";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { SecretReferenceValue } from "./secretReference.js";
+import type {
   SnapshotComposition,
   ConfigurationSettingsFilter,
   ConfigurationSnapshot,
   ConfigurationSnapshotStatus,
-} from "./generated/src";
+  SettingLabel,
+} from "./generated/src/index.js";
 
 /**
  * Provides configuration options for AppConfigurationClient.
  */
-export interface AppConfigurationClientOptions extends CommonClientOptions {}
+export interface AppConfigurationClientOptions extends CommonClientOptions {
+  /**
+   * The API version to use when interacting with the service. The default value is `2023-11-01`.
+   * Note that overriding this default value may result in unsupported behavior.
+   */
+  apiVersion?: string;
+}
 
 /**
  * Fields that uniquely identify a configuration setting
@@ -177,6 +184,15 @@ export interface OptionalSnapshotFields {
 }
 
 /**
+ * Used when the API supports selectively returning labels fields.
+ */
+export interface OptionalLabelsFields {
+  /**
+   * Which fields to return for each ConfigurationSetting
+   */
+  fields?: (keyof SettingLabel)[];
+}
+/**
  * Sync token header field
  */
 export interface SyncTokenHeaderField {
@@ -303,6 +319,9 @@ export interface ListSettingsOptions extends OptionalFields {
    * Reference: https://learn.microsoft.com/azure/azure-app-configuration/rest-api-key-value
    */
   labelFilter?: string;
+
+  /** A filter used to query by tags. Syntax reference: https://aka.ms/azconfig/docs/keyvaluefiltering */
+  tagsFilter?: string[];
 }
 
 /**
@@ -320,9 +339,22 @@ export interface ListConfigurationSettingsForSnapshotOptions
  */
 export interface ListConfigurationSettingsOptions extends OperationOptions, ListSettingsOptions {
   /**
-   * etag
+   * Etags list for page
    */
   pageEtags?: string[];
+}
+
+/**
+ * Options for listLabels
+ */
+export interface ListLabelsOptions extends OperationOptions, OptionalLabelsFields {
+  /** A filter for the name of the returned labels. */
+  nameFilter?: string;
+
+  /**
+   * Requests the server to respond with the state of the resource at the specified time.
+   */
+  acceptDateTime?: Date;
 }
 
 /**
@@ -380,6 +412,19 @@ export interface ListConfigurationSettingPage
    * The configuration settings for this page of results.
    */
   items: ConfigurationSetting[];
+}
+
+/**
+ * A page of configuration settings and the corresponding HTTP response
+ */
+export interface ListLabelsPage
+  extends HttpResponseField<SyncTokenHeaderField>,
+    PageSettings,
+    EtagEntity {
+  /**
+   * The collection of labels
+   */
+  items: SettingLabel[];
 }
 
 /**
@@ -504,4 +549,5 @@ export {
   KnownSnapshotComposition,
   KnownConfigurationSnapshotStatus,
   ConfigurationSnapshotStatus,
-} from "./generated/src";
+  SettingLabel,
+} from "./generated/src/index.js";

@@ -302,10 +302,10 @@ export const Trial: coreClient.CompositeMapper = {
   },
 };
 
-export const PrivateCloudListResult: coreClient.CompositeMapper = {
+export const PrivateCloudList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PrivateCloudListResult",
+    className: "PrivateCloudList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -630,10 +630,10 @@ export const Endpoints: coreClient.CompositeMapper = {
   },
 };
 
-export const SystemAssignedServiceIdentity: coreClient.CompositeMapper = {
+export const PrivateCloudIdentity: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SystemAssignedServiceIdentity",
+    className: "PrivateCloudIdentity",
     modelProperties: {
       principalId: {
         serializedName: "principalId",
@@ -765,7 +765,7 @@ export const PrivateCloudUpdate: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "SystemAssignedServiceIdentity",
+          className: "PrivateCloudIdentity",
         },
       },
       managementCluster: {
@@ -828,10 +828,10 @@ export const PrivateCloudUpdate: coreClient.CompositeMapper = {
   },
 };
 
-export const AddonListResult: coreClient.CompositeMapper = {
+export const AddonList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "AddonListResult",
+    className: "AddonList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -884,10 +884,10 @@ export const AddonProperties: coreClient.CompositeMapper = {
   },
 };
 
-export const ExpressRouteAuthorizationListResult: coreClient.CompositeMapper = {
+export const ExpressRouteAuthorizationList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ExpressRouteAuthorizationListResult",
+    className: "ExpressRouteAuthorizationList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -912,10 +912,10 @@ export const ExpressRouteAuthorizationListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const CloudLinkListResult: coreClient.CompositeMapper = {
+export const CloudLinkList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "CloudLinkListResult",
+    className: "CloudLinkList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -940,10 +940,10 @@ export const CloudLinkListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const ClusterListResult: coreClient.CompositeMapper = {
+export const ClusterList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ClusterListResult",
+    className: "ClusterList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1001,10 +1001,10 @@ export const ClusterUpdate: coreClient.CompositeMapper = {
   },
 };
 
-export const DatastoreListResult: coreClient.CompositeMapper = {
+export const DatastoreList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "DatastoreListResult",
+    className: "DatastoreList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1147,10 +1147,10 @@ export const ClusterZone: coreClient.CompositeMapper = {
   },
 };
 
-export const PlacementPolicyListResult: coreClient.CompositeMapper = {
+export const PlacementPoliciesList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "PlacementPolicyListResult",
+    className: "PlacementPoliciesList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1264,10 +1264,10 @@ export const PlacementPolicyUpdate: coreClient.CompositeMapper = {
   },
 };
 
-export const VirtualMachineListResult: coreClient.CompositeMapper = {
+export const VirtualMachinesList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "VirtualMachineListResult",
+    className: "VirtualMachinesList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1307,10 +1307,10 @@ export const VirtualMachineRestrictMovement: coreClient.CompositeMapper = {
   },
 };
 
-export const GlobalReachConnectionListResult: coreClient.CompositeMapper = {
+export const GlobalReachConnectionList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "GlobalReachConnectionListResult",
+    className: "GlobalReachConnectionList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1335,10 +1335,10 @@ export const GlobalReachConnectionListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const HcxEnterpriseSiteListResult: coreClient.CompositeMapper = {
+export const HcxEnterpriseSiteList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "HcxEnterpriseSiteListResult",
+    className: "HcxEnterpriseSiteList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1428,10 +1428,10 @@ export const AdminCredentials: coreClient.CompositeMapper = {
   },
 };
 
-export const ScriptExecutionListResult: coreClient.CompositeMapper = {
+export const ScriptExecutionsList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ScriptExecutionListResult",
+    className: "ScriptExecutionsList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1484,10 +1484,10 @@ export const ScriptExecutionParameter: coreClient.CompositeMapper = {
   },
 };
 
-export const ScriptPackageListResult: coreClient.CompositeMapper = {
+export const ScriptPackagesList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ScriptPackageListResult",
+    className: "ScriptPackagesList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1512,10 +1512,10 @@ export const ScriptPackageListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const ScriptCmdletListResult: coreClient.CompositeMapper = {
+export const ScriptCmdletsList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ScriptCmdletListResult",
+    className: "ScriptCmdletsList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1583,10 +1583,10 @@ export const ScriptParameter: coreClient.CompositeMapper = {
   },
 };
 
-export const WorkloadNetworkListResult: coreClient.CompositeMapper = {
+export const WorkloadNetworkList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WorkloadNetworkListResult",
+    className: "WorkloadNetworkList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1611,10 +1611,10 @@ export const WorkloadNetworkListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const WorkloadNetworkDhcpListResult: coreClient.CompositeMapper = {
+export const WorkloadNetworkDhcpList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WorkloadNetworkDhcpListResult",
+    className: "WorkloadNetworkDhcpList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1691,59 +1691,10 @@ export const WorkloadNetworkDhcpEntity: coreClient.CompositeMapper = {
   },
 };
 
-export const WorkloadNetworkDhcpUpdate: coreClient.CompositeMapper = {
+export const WorkloadNetworkDnsServicesList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WorkloadNetworkDhcpUpdate",
-    modelProperties: {
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "WorkloadNetworkDhcpEntityUpdate",
-        },
-      },
-    },
-  },
-};
-
-export const WorkloadNetworkDhcpEntityUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WorkloadNetworkDhcpEntityUpdate",
-    uberParent: "WorkloadNetworkDhcpEntityUpdate",
-    polymorphicDiscriminator: {
-      serializedName: "dhcpType",
-      clientName: "dhcpType",
-    },
-    modelProperties: {
-      dhcpType: {
-        serializedName: "dhcpType",
-        required: true,
-        type: {
-          name: "String",
-        },
-      },
-      displayName: {
-        serializedName: "displayName",
-        type: {
-          name: "String",
-        },
-      },
-      revision: {
-        serializedName: "revision",
-        type: {
-          name: "Number",
-        },
-      },
-    },
-  },
-};
-
-export const WorkloadNetworkDnsServiceListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WorkloadNetworkDnsServiceListResult",
+    className: "WorkloadNetworkDnsServicesList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1768,74 +1719,10 @@ export const WorkloadNetworkDnsServiceListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const WorkloadNetworkDnsServiceUpdate: coreClient.CompositeMapper = {
+export const WorkloadNetworkDnsZonesList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WorkloadNetworkDnsServiceUpdate",
-    modelProperties: {
-      displayName: {
-        serializedName: "properties.displayName",
-        type: {
-          name: "String",
-        },
-      },
-      dnsServiceIp: {
-        serializedName: "properties.dnsServiceIp",
-        type: {
-          name: "String",
-        },
-      },
-      defaultDnsZone: {
-        serializedName: "properties.defaultDnsZone",
-        type: {
-          name: "String",
-        },
-      },
-      fqdnZones: {
-        serializedName: "properties.fqdnZones",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
-            },
-          },
-        },
-      },
-      logLevel: {
-        serializedName: "properties.logLevel",
-        type: {
-          name: "String",
-        },
-      },
-      status: {
-        serializedName: "properties.status",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      revision: {
-        serializedName: "properties.revision",
-        type: {
-          name: "Number",
-        },
-      },
-    },
-  },
-};
-
-export const WorkloadNetworkDnsZoneListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WorkloadNetworkDnsZoneListResult",
+    className: "WorkloadNetworkDnsZonesList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1860,72 +1747,10 @@ export const WorkloadNetworkDnsZoneListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const WorkloadNetworkDnsZoneUpdate: coreClient.CompositeMapper = {
+export const WorkloadNetworkGatewayList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WorkloadNetworkDnsZoneUpdate",
-    modelProperties: {
-      displayName: {
-        serializedName: "properties.displayName",
-        type: {
-          name: "String",
-        },
-      },
-      domain: {
-        serializedName: "properties.domain",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
-            },
-          },
-        },
-      },
-      dnsServerIps: {
-        serializedName: "properties.dnsServerIps",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
-            },
-          },
-        },
-      },
-      sourceIp: {
-        serializedName: "properties.sourceIp",
-        type: {
-          name: "String",
-        },
-      },
-      dnsServices: {
-        serializedName: "properties.dnsServices",
-        type: {
-          name: "Number",
-        },
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      revision: {
-        serializedName: "properties.revision",
-        type: {
-          name: "Number",
-        },
-      },
-    },
-  },
-};
-
-export const WorkloadNetworkGatewayListResult: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WorkloadNetworkGatewayListResult",
+    className: "WorkloadNetworkGatewayList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -1950,92 +1775,38 @@ export const WorkloadNetworkGatewayListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const WorkloadNetworkPortMirroringListResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "WorkloadNetworkPortMirroringListResult",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          required: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "WorkloadNetworkPortMirroring",
-              },
+export const WorkloadNetworkPortMirroringList: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "WorkloadNetworkPortMirroringList",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "WorkloadNetworkPortMirroring",
             },
           },
         },
-        nextLink: {
-          serializedName: "nextLink",
-          type: {
-            name: "String",
-          },
-        },
       },
-    },
-  };
-
-export const WorkloadNetworkPortMirroringUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WorkloadNetworkPortMirroringUpdate",
-    modelProperties: {
-      displayName: {
-        serializedName: "properties.displayName",
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String",
-        },
-      },
-      direction: {
-        serializedName: "properties.direction",
-        type: {
-          name: "String",
-        },
-      },
-      source: {
-        serializedName: "properties.source",
-        type: {
-          name: "String",
-        },
-      },
-      destination: {
-        serializedName: "properties.destination",
-        type: {
-          name: "String",
-        },
-      },
-      status: {
-        serializedName: "properties.status",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      revision: {
-        serializedName: "properties.revision",
-        type: {
-          name: "Number",
         },
       },
     },
   },
 };
 
-export const WorkloadNetworkPublicIPListResult: coreClient.CompositeMapper = {
+export const WorkloadNetworkPublicIPsList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WorkloadNetworkPublicIPListResult",
+    className: "WorkloadNetworkPublicIPsList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -2060,10 +1831,10 @@ export const WorkloadNetworkPublicIPListResult: coreClient.CompositeMapper = {
   },
 };
 
-export const WorkloadNetworkSegmentListResult: coreClient.CompositeMapper = {
+export const WorkloadNetworkSegmentsList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WorkloadNetworkSegmentListResult",
+    className: "WorkloadNetworkSegmentsList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -2129,100 +1900,38 @@ export const WorkloadNetworkSegmentPortVif: coreClient.CompositeMapper = {
   },
 };
 
-export const WorkloadNetworkSegmentUpdate: coreClient.CompositeMapper = {
+export const WorkloadNetworkVirtualMachinesList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WorkloadNetworkSegmentUpdate",
+    className: "WorkloadNetworkVirtualMachinesList",
     modelProperties: {
-      displayName: {
-        serializedName: "properties.displayName",
-        type: {
-          name: "String",
-        },
-      },
-      connectedGateway: {
-        serializedName: "properties.connectedGateway",
-        type: {
-          name: "String",
-        },
-      },
-      subnet: {
-        serializedName: "properties.subnet",
-        type: {
-          name: "Composite",
-          className: "WorkloadNetworkSegmentSubnet",
-        },
-      },
-      portVif: {
-        serializedName: "properties.portVif",
-        readOnly: true,
+      value: {
+        serializedName: "value",
+        required: true,
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "WorkloadNetworkSegmentPortVif",
+              className: "WorkloadNetworkVirtualMachine",
             },
           },
         },
       },
-      status: {
-        serializedName: "properties.status",
-        readOnly: true,
+      nextLink: {
+        serializedName: "nextLink",
         type: {
           name: "String",
-        },
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      revision: {
-        serializedName: "properties.revision",
-        type: {
-          name: "Number",
         },
       },
     },
   },
 };
 
-export const WorkloadNetworkVirtualMachineListResult: coreClient.CompositeMapper =
-  {
-    type: {
-      name: "Composite",
-      className: "WorkloadNetworkVirtualMachineListResult",
-      modelProperties: {
-        value: {
-          serializedName: "value",
-          required: true,
-          type: {
-            name: "Sequence",
-            element: {
-              type: {
-                name: "Composite",
-                className: "WorkloadNetworkVirtualMachine",
-              },
-            },
-          },
-        },
-        nextLink: {
-          serializedName: "nextLink",
-          type: {
-            name: "String",
-          },
-        },
-      },
-    },
-  };
-
-export const WorkloadNetworkVMGroupListResult: coreClient.CompositeMapper = {
+export const WorkloadNetworkVMGroupsList: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "WorkloadNetworkVMGroupListResult",
+    className: "WorkloadNetworkVMGroupsList",
     modelProperties: {
       value: {
         serializedName: "value",
@@ -2241,52 +1950,6 @@ export const WorkloadNetworkVMGroupListResult: coreClient.CompositeMapper = {
         serializedName: "nextLink",
         type: {
           name: "String",
-        },
-      },
-    },
-  },
-};
-
-export const WorkloadNetworkVMGroupUpdate: coreClient.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "WorkloadNetworkVMGroupUpdate",
-    modelProperties: {
-      displayName: {
-        serializedName: "properties.displayName",
-        type: {
-          name: "String",
-        },
-      },
-      members: {
-        serializedName: "properties.members",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
-            },
-          },
-        },
-      },
-      status: {
-        serializedName: "properties.status",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      provisioningState: {
-        serializedName: "properties.provisioningState",
-        readOnly: true,
-        type: {
-          name: "String",
-        },
-      },
-      revision: {
-        serializedName: "properties.revision",
-        type: {
-          name: "Number",
         },
       },
     },
@@ -2617,61 +2280,6 @@ export const WorkloadNetworkDhcpServer: coreClient.CompositeMapper = {
   },
 };
 
-export const WorkloadNetworkDhcpRelayUpdate: coreClient.CompositeMapper = {
-  serializedName: "RELAY",
-  type: {
-    name: "Composite",
-    className: "WorkloadNetworkDhcpRelayUpdate",
-    uberParent: "WorkloadNetworkDhcpEntityUpdate",
-    polymorphicDiscriminator:
-      WorkloadNetworkDhcpEntityUpdate.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...WorkloadNetworkDhcpEntityUpdate.type.modelProperties,
-      serverAddresses: {
-        constraints: {
-          MinItems: 1,
-          MaxItems: 3,
-        },
-        serializedName: "serverAddresses",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "String",
-            },
-          },
-        },
-      },
-    },
-  },
-};
-
-export const WorkloadNetworkDhcpServerUpdate: coreClient.CompositeMapper = {
-  serializedName: "SERVER",
-  type: {
-    name: "Composite",
-    className: "WorkloadNetworkDhcpServerUpdate",
-    uberParent: "WorkloadNetworkDhcpEntityUpdate",
-    polymorphicDiscriminator:
-      WorkloadNetworkDhcpEntityUpdate.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...WorkloadNetworkDhcpEntityUpdate.type.modelProperties,
-      serverAddress: {
-        serializedName: "serverAddress",
-        type: {
-          name: "String",
-        },
-      },
-      leaseTime: {
-        serializedName: "leaseTime",
-        type: {
-          name: "Number",
-        },
-      },
-    },
-  },
-};
-
 export const PrivateCloud: coreClient.CompositeMapper = {
   type: {
     name: "Composite",
@@ -2689,7 +2297,7 @@ export const PrivateCloud: coreClient.CompositeMapper = {
         serializedName: "identity",
         type: {
           name: "Composite",
-          className: "SystemAssignedServiceIdentity",
+          className: "PrivateCloudIdentity",
         },
       },
       managementCluster: {
@@ -4757,7 +4365,6 @@ export let discriminators = {
   PlacementPolicyProperties: PlacementPolicyProperties,
   ScriptExecutionParameter: ScriptExecutionParameter,
   WorkloadNetworkDhcpEntity: WorkloadNetworkDhcpEntity,
-  WorkloadNetworkDhcpEntityUpdate: WorkloadNetworkDhcpEntityUpdate,
   "AddonProperties.Arc": AddonArcProperties,
   "AddonProperties.HCX": AddonHcxProperties,
   "AddonProperties.SRM": AddonSrmProperties,
@@ -4769,6 +4376,4 @@ export let discriminators = {
   "ScriptExecutionParameter.Value": ScriptStringExecutionParameter,
   "WorkloadNetworkDhcpEntity.RELAY": WorkloadNetworkDhcpRelay,
   "WorkloadNetworkDhcpEntity.SERVER": WorkloadNetworkDhcpServer,
-  "WorkloadNetworkDhcpEntityUpdate.RELAY": WorkloadNetworkDhcpRelayUpdate,
-  "WorkloadNetworkDhcpEntityUpdate.SERVER": WorkloadNetworkDhcpServerUpdate,
 };

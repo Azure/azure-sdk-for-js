@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { logErrorStackTrace, logger } from "./logger.js";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { CloseReason } from "./models/public.js";
-import { CommonEventProcessorOptions } from "./models/private.js";
-import { ConnectionContext } from "./connectionContext.js";
-import { EventPosition } from "./eventPosition.js";
-import { PartitionProcessor } from "./partitionProcessor.js";
+import type { CommonEventProcessorOptions } from "./models/private.js";
+import type { ConnectionContext } from "./connectionContext.js";
+import type { EventPosition } from "./eventPosition.js";
+import type { PartitionProcessor } from "./partitionProcessor.js";
 import { PartitionPump } from "./partitionPump.js";
 
 /**

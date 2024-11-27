@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @internal
@@ -10,7 +10,7 @@ export const SDK_VERSION: string = "1.3.1";
  * Known values for Monitor Audience
  *
  * **NOTE**: This is applicable only to `MetricsClient` in the `@azure/monitor-query` data plane package.
- * The name `KnownMonitorAudience` is added for backward compatibilty.
+ * The name `KnownMonitorAudience` is added for backward compatibility.
  */
 export enum KnownMonitorAudience {
   /**

@@ -17,7 +17,7 @@ import {
   RoleAssignmentsListForScopeResponse,
   RoleAssignmentsListForScopeNextOptionalParams,
   RoleAssignmentsListForScopeNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a RoleAssignments. */
 export interface RoleAssignments {

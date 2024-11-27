@@ -1,23 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 /* eslint-disable sort-imports */
 
 import * as path from "path";
 
-import {
-  ClientCertificateCredential,
-  TokenCachePersistenceOptions,
-} from "../../../../identity/src";
-import {
-  MsalTestCleanup,
-  msalNodeTestSetup,
-} from "../../../../identity/test/node/msalNodeTestSetup";
-import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { TokenCachePersistenceOptions } from "@azure/identity";
+import { ClientCertificateCredential } from "@azure/identity";
+import type { MsalTestCleanup } from "./msalNodeTestSetup";
+import { msalNodeTestSetup } from "./msalNodeTestSetup";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 
 import { ConfidentialClientApplication } from "@azure/msal-node";
-import Sinon from "sinon";
+import type Sinon from "sinon";
 import assert from "assert";
 import { createPersistence } from "./setup.spec";
 

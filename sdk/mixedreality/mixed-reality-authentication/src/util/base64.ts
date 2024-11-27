@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 const isNode =
   typeof process !== "undefined" && Boolean(process.version) && Boolean(process.versions?.node);

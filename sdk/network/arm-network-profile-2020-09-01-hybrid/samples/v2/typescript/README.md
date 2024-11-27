@@ -160,7 +160,7 @@ node dist/defaultSecurityRulesGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env NETWORK_SUBSCRIPTION_ID="<network subscription id>" NETWORK_RESOURCE_GROUP="<network resource group>" node dist/defaultSecurityRulesGetSample.js
+npx dev-tool run vendored cross-env NETWORK_SUBSCRIPTION_ID="<network subscription id>" NETWORK_RESOURCE_GROUP="<network resource group>" node dist/defaultSecurityRulesGetSample.js
 ```
 
 ## Next Steps

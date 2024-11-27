@@ -1,15 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
-import { CommonClientOptions } from "@azure/core-client";
-import { GeneratedMonitorIngestionClient } from "./generated";
-import { AggregateLogsUploadError, LogsUploadFailure, LogsUploadOptions } from "./models";
-import { GZippingPolicy } from "./gZippingPolicy";
-import { concurrentRun } from "./utils/concurrentPoolHelper";
-import { splitDataToChunks } from "./utils/splitDataToChunksHelper";
+import type { TokenCredential } from "@azure/core-auth";
+import type { CommonClientOptions } from "@azure/core-client";
+import { GeneratedMonitorIngestionClient } from "./generated/index.js";
+import type { LogsUploadFailure, LogsUploadOptions } from "./models.js";
+import { AggregateLogsUploadError } from "./models.js";
+import { GZippingPolicy } from "./gZippingPolicy.js";
+import { concurrentRun } from "./utils/concurrentPoolHelper.js";
+import { splitDataToChunks } from "./utils/splitDataToChunksHelper.js";
 import { isError } from "@azure/core-util";
-import { KnownMonitorAudience } from "./constants";
+import { KnownMonitorAudience } from "./constants.js";
 /**
  * Options for Monitor Logs Ingestion Client
  */
@@ -71,7 +72,7 @@ export class LogsIngestionClient {
     ruleId: string,
     streamName: string,
     logs: Record<string, unknown>[],
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+
     options?: LogsUploadOptions,
   ): Promise<void> {
     // TODO: Do we need to worry about memory issues when loading data for 100GB ?? JS max allocation is 1 or 2GB
@@ -90,12 +91,15 @@ export class LogsIngestionClient {
             contentEncoding: "gzip",
             abortSignal: options?.abortSignal,
           });
-        } catch (e: any) {
+        } catch (e: unknown) {
           if (options?.onError) {
-            options.onError({ failedLogs: eachChunk, cause: isError(e) ? e : new Error(e) });
+            options.onError({
+              failedLogs: eachChunk,
+              cause: isError(e) ? e : new Error(e as string),
+            });
           }
           uploadResultErrors.push({
-            cause: isError(e) ? e : new Error(e),
+            cause: isError(e) ? e : new Error(e as string),
             failedLogs: eachChunk,
           });
         }

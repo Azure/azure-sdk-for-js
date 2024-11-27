@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-/* eslint-disable no-invalid-this */
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { WebPubSubServiceClient, WebPubSubGroup } from "../src";
-import { assert } from "chai";
-import recorderOptions from "./testEnv";
-import { FullOperationResponse } from "@azure/core-client";
-import { RestError } from "@azure/core-rest-pipeline";
-/* eslint-disable @typescript-eslint/no-invalid-this */
+// Licensed under the MIT License.
 
-describe("Group client working with a group", function () {
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import type { WebPubSubGroup } from "../src/index.js";
+import { WebPubSubServiceClient } from "../src/index.js";
+import recorderOptions from "./testEnv.js";
+import type { FullOperationResponse } from "@azure/core-client";
+import type { RestError } from "@azure/core-rest-pipeline";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+
+describe("Group client working with a group", () => {
   let recorder: Recorder;
   let client: WebPubSubGroup;
   let lastResponse: FullOperationResponse | undefined;
   function onResponse(response: FullOperationResponse): void {
     lastResponse = response;
   }
-  beforeEach(async function () {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     const hubClient = new WebPubSubServiceClient(
       assertEnvironmentVariable("WPS_CONNECTION_STRING"),
@@ -99,20 +99,20 @@ describe("Group client working with a group", function () {
     await client.removeUser("brian");
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 });
 
-describe("client working with multiple groups", function () {
+describe("client working with multiple groups", () => {
   let recorder: Recorder;
   let lastResponse: FullOperationResponse | undefined;
   let hubClient: WebPubSubServiceClient;
   function onResponse(response: FullOperationResponse): void {
     lastResponse = response;
   }
-  beforeEach(async function () {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
     hubClient = new WebPubSubServiceClient(
       assertEnvironmentVariable("WPS_CONNECTION_STRING"),
@@ -121,7 +121,7 @@ describe("client working with multiple groups", function () {
     );
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

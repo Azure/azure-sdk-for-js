@@ -1,25 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   checkAndRegisterWithAbortSignal,
   waitForTimeoutOrAbortOrResolve,
-} from "../../../src/util/utils";
+} from "../../../src/util/utils.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import type { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "rhea-promise";
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
 import {
   extractSpanContextFromServiceBusMessage,
   TRACEPARENT_PROPERTY,
-} from "../../../src/diagnostics/instrumentServiceBusMessage";
-import { ServiceBusReceivedMessage } from "../../../src";
-import Sinon from "sinon";
-import { tracingClient } from "../../../src/diagnostics/tracing";
-
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
+} from "../../../src/diagnostics/instrumentServiceBusMessage.js";
+import type { ServiceBusReceivedMessage } from "../../../src/index.js";
+import { tracingClient } from "../../../src/diagnostics/tracing.js";
+import { describe, it, vi, beforeEach } from "vitest";
+import { assert, expect } from "../../public/utils/chai.js";
 
 describe("utils", () => {
   describe("waitForTimeoutAbortOrResolve", () => {
@@ -328,7 +324,7 @@ describe("utils", () => {
 
   describe("extractSpanContextFromServiceBusMessage", function () {
     it("should use diagnostic id from a properly instrumented ServiceBusMessage", function () {
-      const tracingClientSpy = Sinon.spy(tracingClient, "parseTraceparentHeader");
+      const tracingClientSpy = vi.spyOn(tracingClient, "parseTraceparentHeader");
       const traceparent = `00-11111111111111111111111111111111-2222222222222222-00`;
       const receivedMessage: ServiceBusReceivedMessage = {
         body: "This is a test.",
@@ -341,7 +337,7 @@ describe("utils", () => {
       };
 
       extractSpanContextFromServiceBusMessage(receivedMessage);
-      assert.isTrue(tracingClientSpy.calledWith(traceparent));
+      expect(tracingClientSpy).toHaveBeenCalledWith(traceparent);
     });
 
     it("should return undefined when ServiceBusMessage is not instrumented", function () {

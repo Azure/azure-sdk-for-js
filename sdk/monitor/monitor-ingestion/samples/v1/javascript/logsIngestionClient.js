@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates how to upload logs to a Monitor Resource (Log Analytics workspace).
@@ -46,7 +46,7 @@ function getObjects(logsCount) {
 
   for (let i = 0; i < logsCount; i++) {
     const logData = {
-      Time: new Date(1655957386799),
+      Time: new Date(1655957386799), // Wed Jun 22 2022 21:09:46 GMT-0700 (Pacific Daylight Time)
       AdditionalContext: `additional logs context`,
     };
     logs.push(logData);

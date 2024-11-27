@@ -18,16 +18,12 @@ import {
   LocationListSupportedVirtualMachineSkusNextOptionalParams,
   LocationListSupportedVirtualMachineSkusOptionalParams,
   LocationListSupportedVirtualMachineSkusResponse,
-  LocationListSupportedCloudServiceSkusNextOptionalParams,
-  LocationListSupportedCloudServiceSkusOptionalParams,
-  LocationListSupportedCloudServiceSkusResponse,
   LocationGetQuotasOptionalParams,
   LocationGetQuotasResponse,
   CheckNameAvailabilityParameters,
   LocationCheckNameAvailabilityOptionalParams,
   LocationCheckNameAvailabilityResponse,
   LocationListSupportedVirtualMachineSkusNextResponse,
-  LocationListSupportedCloudServiceSkusNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -119,78 +115,6 @@ export class LocationImpl implements Location {
   }
 
   /**
-   * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
-   * @param locationName The region for which to retrieve Batch service supported SKUs.
-   * @param options The options parameters.
-   */
-  public listSupportedCloudServiceSkus(
-    locationName: string,
-    options?: LocationListSupportedCloudServiceSkusOptionalParams,
-  ): PagedAsyncIterableIterator<SupportedSku> {
-    const iter = this.listSupportedCloudServiceSkusPagingAll(
-      locationName,
-      options,
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listSupportedCloudServiceSkusPagingPage(
-          locationName,
-          options,
-          settings,
-        );
-      },
-    };
-  }
-
-  private async *listSupportedCloudServiceSkusPagingPage(
-    locationName: string,
-    options?: LocationListSupportedCloudServiceSkusOptionalParams,
-    settings?: PageSettings,
-  ): AsyncIterableIterator<SupportedSku[]> {
-    let result: LocationListSupportedCloudServiceSkusResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listSupportedCloudServiceSkus(locationName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listSupportedCloudServiceSkusNext(
-        locationName,
-        continuationToken,
-        options,
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listSupportedCloudServiceSkusPagingAll(
-    locationName: string,
-    options?: LocationListSupportedCloudServiceSkusOptionalParams,
-  ): AsyncIterableIterator<SupportedSku> {
-    for await (const page of this.listSupportedCloudServiceSkusPagingPage(
-      locationName,
-      options,
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Gets the Batch service quotas for the specified subscription at the given location.
    * @param locationName The region for which to retrieve Batch service quotas.
    * @param options The options parameters.
@@ -217,21 +141,6 @@ export class LocationImpl implements Location {
     return this.client.sendOperationRequest(
       { locationName, options },
       listSupportedVirtualMachineSkusOperationSpec,
-    );
-  }
-
-  /**
-   * Gets the list of Batch supported Cloud Service VM sizes available at the given location.
-   * @param locationName The region for which to retrieve Batch service supported SKUs.
-   * @param options The options parameters.
-   */
-  private _listSupportedCloudServiceSkus(
-    locationName: string,
-    options?: LocationListSupportedCloudServiceSkusOptionalParams,
-  ): Promise<LocationListSupportedCloudServiceSkusResponse> {
-    return this.client.sendOperationRequest(
-      { locationName, options },
-      listSupportedCloudServiceSkusOperationSpec,
     );
   }
 
@@ -267,24 +176,6 @@ export class LocationImpl implements Location {
     return this.client.sendOperationRequest(
       { locationName, nextLink, options },
       listSupportedVirtualMachineSkusNextOperationSpec,
-    );
-  }
-
-  /**
-   * ListSupportedCloudServiceSkusNext
-   * @param locationName The region for which to retrieve Batch service supported SKUs.
-   * @param nextLink The nextLink from the previous successful call to the ListSupportedCloudServiceSkus
-   *                 method.
-   * @param options The options parameters.
-   */
-  private _listSupportedCloudServiceSkusNext(
-    locationName: string,
-    nextLink: string,
-    options?: LocationListSupportedCloudServiceSkusNextOptionalParams,
-  ): Promise<LocationListSupportedCloudServiceSkusNextResponse> {
-    return this.client.sendOperationRequest(
-      { locationName, nextLink, options },
-      listSupportedCloudServiceSkusNextOperationSpec,
     );
   }
 }
@@ -335,30 +226,6 @@ const listSupportedVirtualMachineSkusOperationSpec: coreClient.OperationSpec = {
   headerParameters: [Parameters.accept],
   serializer,
 };
-const listSupportedCloudServiceSkusOperationSpec: coreClient.OperationSpec = {
-  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/cloudServiceSkus",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.SupportedSkusResult,
-    },
-    default: {
-      bodyMapper: Mappers.CloudError,
-    },
-  },
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.maxresults,
-    Parameters.filter,
-  ],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.locationName,
-  ],
-  headerParameters: [Parameters.accept],
-  serializer,
-};
 const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   path: "/subscriptions/{subscriptionId}/providers/Microsoft.Batch/locations/{locationName}/checkNameAvailability",
   httpMethod: "POST",
@@ -382,27 +249,6 @@ const checkNameAvailabilityOperationSpec: coreClient.OperationSpec = {
   serializer,
 };
 const listSupportedVirtualMachineSkusNextOperationSpec: coreClient.OperationSpec =
-  {
-    path: "{nextLink}",
-    httpMethod: "GET",
-    responses: {
-      200: {
-        bodyMapper: Mappers.SupportedSkusResult,
-      },
-      default: {
-        bodyMapper: Mappers.CloudError,
-      },
-    },
-    urlParameters: [
-      Parameters.$host,
-      Parameters.subscriptionId,
-      Parameters.nextLink,
-      Parameters.locationName,
-    ],
-    headerParameters: [Parameters.accept],
-    serializer,
-  };
-const listSupportedCloudServiceSkusNextOperationSpec: coreClient.OperationSpec =
   {
     path: "{nextLink}",
     httpMethod: "GET",

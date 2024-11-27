@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   ScalingPlanPersonalSchedule,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Create or update a ScalingPlanPersonalSchedule.
  *
  * @summary Create or update a ScalingPlanPersonalSchedule.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ScalingPlanPersonalSchedule_Create.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/ScalingPlanPersonalSchedule_Create.json
  */
 async function scalingPlanPersonalSchedulesCreate() {
   const subscriptionId =
@@ -57,7 +57,7 @@ async function scalingPlanPersonalSchedulesCreate() {
     rampUpMinutesToWaitOnDisconnect: 10,
     rampUpMinutesToWaitOnLogoff: 10,
     rampUpStartTime: { hour: 6, minute: 0 },
-    rampUpStartVMOnConnect: "Enable"
+    rampUpStartVMOnConnect: "Enable",
   };
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
@@ -65,7 +65,7 @@ async function scalingPlanPersonalSchedulesCreate() {
     resourceGroupName,
     scalingPlanName,
     scalingPlanScheduleName,
-    scalingPlanSchedule
+    scalingPlanSchedule,
   );
   console.log(result);
 }

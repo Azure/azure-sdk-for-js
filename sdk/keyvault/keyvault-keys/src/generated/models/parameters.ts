@@ -22,7 +22,7 @@ import {
   KeyReleaseParameters as KeyReleaseParametersMapper,
   KeyRotationPolicy as KeyRotationPolicyMapper,
   GetRandomBytesRequest as GetRandomBytesRequestMapper
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

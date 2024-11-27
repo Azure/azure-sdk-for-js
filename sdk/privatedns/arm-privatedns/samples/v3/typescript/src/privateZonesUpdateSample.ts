@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates a Private DNS zone. Does not modify virtual network links or DNS records within the zone.
  *
  * @summary Updates a Private DNS zone. Does not modify virtual network links or DNS records within the zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/PrivateZonePatch.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/PrivateZonePatch.json
  */
 async function patchPrivateDnsZone() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function patchPrivateDnsZone() {
   const result = await client.privateZones.beginUpdateAndWait(
     resourceGroupName,
     privateZoneName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

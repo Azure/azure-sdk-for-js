@@ -1,21 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { env, isLiveMode, Recorder } from "@azure-tools/test-recorder";
 import { delay } from "@azure/core-util";
 import { assert } from "chai";
-import { Context, Suite } from "mocha";
-import {
-  AzureKeyCredential,
+import type { Context, Suite } from "mocha";
+import type {
   AzureOpenAIVectorizer,
   SearchIndex,
-  SearchIndexClient,
   SynonymMap,
   VectorSearchAlgorithmConfiguration,
   VectorSearchProfile,
 } from "../../../src";
+import { AzureKeyCredential, SearchIndexClient } from "../../../src";
 import { defaultServiceVersion } from "../../../src/serviceUtils";
-import { Hotel } from "../utils/interfaces";
+import type { Hotel } from "../utils/interfaces";
 import { createClients } from "../utils/recordedClient";
 import {
   createRandomIndexName,
@@ -267,33 +266,6 @@ describe("SearchIndexClient", function (this: Suite) {
         assert.equal(index.fields.length, 6);
       });
     });
-  });
-
-  describe("preview", function () {
-    let recorder: Recorder;
-    let indexClient: SearchIndexClient;
-    let TEST_INDEX_NAME: string;
-
-    beforeEach(async function (this: Context) {
-      recorder = new Recorder(this.currentTest);
-      TEST_INDEX_NAME = createRandomIndexName();
-      ({ indexClient, indexName: TEST_INDEX_NAME } = await createClients<Hotel>(
-        defaultServiceVersion,
-        recorder,
-        TEST_INDEX_NAME,
-      ));
-
-      await createSynonymMaps(indexClient);
-      await createSimpleIndex(indexClient, TEST_INDEX_NAME);
-      await delay(WAIT_TIME);
-    });
-
-    afterEach(async function () {
-      await indexClient.deleteIndex(TEST_INDEX_NAME);
-      await delay(WAIT_TIME);
-      await deleteSynonymMaps(indexClient);
-      await recorder?.stop();
-    });
 
     it("creates the index object vector fields", async function () {
       const indexName: string = isLiveMode() ? createRandomIndexName() : "hotel-live-test4";
@@ -305,17 +277,17 @@ describe("SearchIndexClient", function (this: Suite) {
       };
       const vectorizer: AzureOpenAIVectorizer = {
         kind: "azureOpenAI",
-        name: "vectorizer",
-        azureOpenAIParameters: {
+        vectorizerName: "vectorizer",
+        parameters: {
           deploymentId: env.AZURE_OPENAI_DEPLOYMENT_NAME,
-          resourceUri: env.AZURE_OPENAI_ENDPOINT,
+          resourceUrl: env.AZURE_OPENAI_ENDPOINT,
           modelName: "text-embedding-ada-002",
         },
       };
       const profile: VectorSearchProfile = {
         name: "profile",
         algorithmConfigurationName: algorithm.name,
-        vectorizer: vectorizer.name,
+        vectorizerName: vectorizer.vectorizerName,
       };
 
       let index: SearchIndex = {
@@ -344,7 +316,10 @@ describe("SearchIndexClient", function (this: Suite) {
         await indexClient.createOrUpdateIndex(index);
         index = await indexClient.getIndex(indexName);
         assert.deepEqual(index.vectorSearch?.algorithms?.[0].name, algorithm.name);
-        assert.deepEqual(index.vectorSearch?.vectorizers?.[0].name, vectorizer.name);
+        assert.deepEqual(
+          index.vectorSearch?.vectorizers?.[0].vectorizerName,
+          vectorizer.vectorizerName,
+        );
         assert.deepEqual(index.vectorSearch?.profiles?.[0].name, profile.name);
       } finally {
         await indexClient.deleteIndex(index);

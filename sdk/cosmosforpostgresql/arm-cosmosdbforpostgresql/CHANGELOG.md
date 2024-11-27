@@ -12,7 +12,7 @@
 
 ## 1.1.0-beta.1 (2024-03-11)
     
-**Features**
+### Features Added
 
   - Added Interface AuthConfig
   - Added Interface PromoteRequest

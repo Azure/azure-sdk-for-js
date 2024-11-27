@@ -155,7 +155,7 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 /** A definition of an Azure resource. */
-export interface ProxyResource {
+export interface AzureProxyResource {
   /**
    * The ID of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -176,6 +176,8 @@ export interface ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly etag?: string;
+  /** The tags of the resource. */
+  tags?: { [propertyName: string]: string };
 }
 
 /** A VM Family and its associated core quota for the Batch account. */
@@ -193,7 +195,7 @@ export interface VirtualMachineFamilyCoreQuota {
 }
 
 /** A definition of an Azure resource. */
-export interface Resource {
+export interface AzureResource {
   /**
    * The ID of the resource.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -495,18 +497,8 @@ export interface ListPoolsResult {
 
 /** Deployment configuration properties. */
 export interface DeploymentConfiguration {
-  /** This property and virtualMachineConfiguration are mutually exclusive and one of the properties must be specified. This property cannot be specified if the Batch account was created with its poolAllocationMode property set to 'UserSubscription'. */
-  cloudServiceConfiguration?: CloudServiceConfiguration;
-  /** This property and cloudServiceConfiguration are mutually exclusive and one of the properties must be specified. */
+  /** The configuration for compute nodes in a pool based on the Azure Virtual Machines infrastructure. */
   virtualMachineConfiguration?: VirtualMachineConfiguration;
-}
-
-/** The configuration for nodes in a pool based on the Azure Cloud Services platform. */
-export interface CloudServiceConfiguration {
-  /** Possible values are: 2 - OS Family 2, equivalent to Windows Server 2008 R2 SP1. 3 - OS Family 3, equivalent to Windows Server 2012. 4 - OS Family 4, equivalent to Windows Server 2012 R2. 5 - OS Family 5, equivalent to Windows Server 2016. 6 - OS Family 6, equivalent to Windows Server 2019. For more information, see Azure Guest OS Releases (https://azure.microsoft.com/documentation/articles/cloud-services-guestos-update-matrix/#releases). */
-  osFamily: string;
-  /** The default value is * which specifies the latest operating system version for the specified OS family. */
-  osVersion?: string;
 }
 
 /** The configuration for compute nodes in a pool based on the Azure Virtual Machines infrastructure. */
@@ -555,6 +547,10 @@ export interface ImageReference {
   version?: string;
   /** This property is mutually exclusive with other properties. The Azure Compute Gallery Image must have replicas in the same region as the Azure Batch account. For information about the firewall settings for the Batch node agent to communicate with the Batch service see https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration. */
   id?: string;
+  /** This property is mutually exclusive with other properties and can be fetched from shared gallery image GET call. */
+  sharedGalleryImageId?: string;
+  /** This property is mutually exclusive with other properties and can be fetched from community gallery image GET call. */
+  communityGalleryImageId?: string;
 }
 
 /** Windows operating system settings to apply to the virtual machine. */
@@ -666,12 +662,20 @@ export interface DiffDiskSettings {
 export interface ManagedDisk {
   /** The storage account type for use in creating data disks or OS disk. */
   storageAccountType?: StorageAccountType;
+  /** Specifies the security profile settings for the managed disk. **Note**: It can only be set for Confidential VMs and is required when using Confidential VMs. */
+  securityProfile?: VMDiskSecurityProfile;
+}
+
+/** Specifies the security profile settings for the managed disk. **Note**: It can only be set for Confidential VMs and is required when using Confidential VMs. */
+export interface VMDiskSecurityProfile {
+  /** Specifies the EncryptionType of the managed disk. It is set to VMGuestStateOnly for encryption of just the VMGuestState blob, and NonPersistedTPM for not persisting firmware state in the VMGuestState blob. **Note**: It can be set for only Confidential VMs and required when using Confidential VMs. */
+  securityEncryptionType?: SecurityEncryptionTypes;
 }
 
 /** Specifies the security profile settings for the virtual machine or virtual machine scale set. */
 export interface SecurityProfile {
   /** Specifies the SecurityType of the virtual machine. It has to be set to any specified value to enable UefiSettings. */
-  securityType?: "trustedLaunch";
+  securityType?: SecurityTypes;
   /** This property can be used by user in the request to enable or disable the Host Encryption for the virtual machine or virtual machine scale set. This will enable the encryption for all the disks including Resource/Temp disk at host itself. */
   encryptionAtHost?: boolean;
   /** Specifies the security settings like secure boot and vTPM used while creating the virtual machine. */
@@ -742,13 +746,13 @@ export interface AutoScaleRunError {
 
 /** The network configuration for a pool. */
 export interface NetworkConfiguration {
-  /** The virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. For pools created with a virtual machine configuration, enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. For pools created with a cloud service configuration, enable ports 10100, 20100, and 30100. Also enable outbound connections to Azure Storage on port 443. For cloudServiceConfiguration pools, only 'classic' VNETs are supported. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration */
+  /** The virtual network must be in the same region and subscription as the Azure Batch account. The specified subnet should have enough free IP addresses to accommodate the number of nodes in the pool. If the subnet doesn't have enough free IP addresses, the pool will partially allocate compute nodes and a resize error will occur. The 'MicrosoftAzureBatch' service principal must have the 'Classic Virtual Machine Contributor' Role-Based Access Control (RBAC) role for the specified VNet. The specified subnet must allow communication from the Azure Batch service to be able to schedule tasks on the compute nodes. This can be verified by checking if the specified VNet has any associated Network Security Groups (NSG). If communication to the compute nodes in the specified subnet is denied by an NSG, then the Batch service will set the state of the compute nodes to unusable. If the specified VNet has any associated Network Security Groups (NSG), then a few reserved system ports must be enabled for inbound communication. Enable ports 29876 and 29877, as well as port 22 for Linux and port 3389 for Windows. Also enable outbound connections to Azure Storage on port 443. For more details see: https://docs.microsoft.com/en-us/azure/batch/batch-api-basics#virtual-network-vnet-and-firewall-configuration */
   subnetId?: string;
   /** The scope of dynamic vnet assignment. */
   dynamicVnetAssignmentScope?: DynamicVNetAssignmentScope;
-  /** Pool endpoint configuration is only supported on pools with the virtualMachineConfiguration property. */
+  /** The endpoint configuration for a pool. */
   endpointConfiguration?: PoolEndpointConfiguration;
-  /** This property is only supported on Pools with the virtualMachineConfiguration property. */
+  /** The public IP Address configuration of the networking configuration of a Pool. */
   publicIPAddressConfiguration?: PublicIPAddressConfiguration;
   /** Accelerated networking enables single root I/O virtualization (SR-IOV) to a VM, which may lead to improved networking performance. For more details, see: https://learn.microsoft.com/azure/virtual-network/accelerated-networking-overview. */
   enableAcceleratedNetworking?: boolean;
@@ -828,7 +832,7 @@ export interface LinuxUserConfiguration {
 
 /** Properties used to create a user account on a Windows node. */
 export interface WindowsUserConfiguration {
-  /** Specifies login mode for the user. The default value for VirtualMachineConfiguration pools is interactive mode and for CloudServiceConfiguration pools is batch mode. */
+  /** Specifies login mode for the user. The default value is Interactive. */
   loginMode?: LoginMode;
 }
 
@@ -910,15 +914,25 @@ export interface TaskContainerSettings {
   registry?: ContainerRegistry;
   /** A flag to indicate where the container task working directory is. The default is 'taskWorkingDirectory'. */
   workingDirectory?: ContainerWorkingDirectory;
+  /** If this array is null or be not present, container task will mount entire temporary disk drive in windows (or AZ_BATCH_NODE_ROOT_DIR in Linux). It won't' mount any data paths into container if this array is set as empty. */
+  containerHostBatchBindMounts?: ContainerHostBatchBindMountEntry[];
+}
+
+/** The entry of path and mount mode you want to mount into task container. */
+export interface ContainerHostBatchBindMountEntry {
+  /** The paths which will be mounted to container task's container. */
+  source?: ContainerHostDataPath;
+  /** For Linux, if you mount this path as a read/write mode, this does not mean that all users in container have the read/write access for the path, it depends on the access in host VM. If this path is mounted read-only, all users within the container will not be able to modify the path. */
+  isReadOnly?: boolean;
 }
 
 /** Warning: This object is deprecated and will be removed after February, 2024. Please use the [Azure KeyVault Extension](https://learn.microsoft.com/azure/batch/batch-certificate-migration-guide) instead. */
 export interface CertificateReference {
   /** The fully qualified ID of the certificate to install on the pool. This must be inside the same batch account as the pool. */
   id: string;
-  /** The default value is currentUser. This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory. */
+  /** The default value is currentUser. This property is applicable only for pools configured with Windows compute nodes. For Linux compute nodes, the certificates are stored in a directory inside the task working directory and an environment variable AZ_BATCH_CERTIFICATES_DIR is supplied to the task to query for this location. For certificates with visibility of 'remoteUser', a 'certs' directory is created in the user's home directory (e.g., /home/{user-name}/certs) and certificates are placed in that directory. */
   storeLocation?: CertificateStoreLocation;
-  /** This property is applicable only for pools configured with Windows nodes (that is, created with cloudServiceConfiguration, or with virtualMachineConfiguration using a Windows image reference). Common store names include: My, Root, CA, Trust, Disallowed, TrustedPeople, TrustedPublisher, AuthRoot, AddressBook, but any custom store name can also be used. The default value is My. */
+  /** This property is applicable only for pools configured with Windows compute nodes. Common store names include: My, Root, CA, Trust, Disallowed, TrustedPeople, TrustedPublisher, AuthRoot, AddressBook, but any custom store name can also be used. The default value is My. */
   storeName?: string;
   /** Which user accounts on the compute node should have access to the private data of the certificate. */
   visibility?: CertificateVisibility[];
@@ -1032,7 +1046,7 @@ export interface UpgradePolicy {
   mode: UpgradeMode;
   /** The configuration parameters used for performing automatic OS upgrade. */
   automaticOSUpgradePolicy?: AutomaticOSUpgradePolicy;
-  /** This property is only supported on Pools with the virtualMachineConfiguration property. */
+  /** The configuration parameters used while performing a rolling upgrade. */
   rollingUpgradePolicy?: RollingUpgradePolicy;
 }
 
@@ -1127,6 +1141,230 @@ export interface EndpointDetail {
   readonly port?: number;
 }
 
+/** Result of a list NSP (network security perimeter) configurations request. */
+export interface NetworkSecurityPerimeterConfigurationListResult {
+  /** Array of network security perimeter results. */
+  value?: NetworkSecurityPerimeterConfiguration[];
+  /** The link used to get the next page of results. */
+  nextLink?: string;
+}
+
+/** Network security configuration properties. */
+export interface NetworkSecurityPerimeterConfigurationProperties {
+  /**
+   * Provisioning state of a network security perimeter configuration that is being created or updated.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
+  /**
+   * List of provisioning issues, if any
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly provisioningIssues?: ProvisioningIssue[];
+  /** Information about a network security perimeter (NSP) */
+  networkSecurityPerimeter?: NetworkSecurityPerimeter;
+  /** Information about resource association */
+  resourceAssociation?: ResourceAssociation;
+  /** Network security perimeter configuration profile */
+  profile?: NetworkSecurityProfile;
+}
+
+/** Describes a provisioning issue for a network security perimeter configuration */
+export interface ProvisioningIssue {
+  /**
+   * Name of the issue
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * Details of a provisioning issue for a network security perimeter (NSP) configuration. Resource providers should generate separate provisioning issue elements for each separate issue detected, and include a meaningful and distinctive description, as well as any appropriate suggestedResourceIds and suggestedAccessRules
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly properties?: ProvisioningIssueProperties;
+}
+
+/** Details of a provisioning issue for a network security perimeter (NSP) configuration. Resource providers should generate separate provisioning issue elements for each separate issue detected, and include a meaningful and distinctive description, as well as any appropriate suggestedResourceIds and suggestedAccessRules */
+export interface ProvisioningIssueProperties {
+  /**
+   * Type of issue
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly issueType?: IssueType;
+  /**
+   * Severity of the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly severity?: Severity;
+  /**
+   * Description of the issue
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly description?: string;
+  /**
+   * Fully qualified resource IDs of suggested resources that can be associated to the network security perimeter (NSP) to remediate the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suggestedResourceIds?: string[];
+  /**
+   * Access rules that can be added to the network security profile (NSP) to remediate the issue.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly suggestedAccessRules?: AccessRule[];
+}
+
+/** Access rule in a network security perimeter configuration profile */
+export interface AccessRule {
+  /** Name of the access rule */
+  name?: string;
+  /** Properties of Access Rule */
+  properties?: AccessRuleProperties;
+}
+
+/** Properties of Access Rule */
+export interface AccessRuleProperties {
+  /** Direction of Access Rule */
+  direction?: AccessRuleDirection;
+  /** Address prefixes in the CIDR format for inbound rules */
+  addressPrefixes?: string[];
+  /** Subscriptions for inbound rules */
+  subscriptions?: AccessRulePropertiesSubscriptionsItem[];
+  /** Network security perimeters for inbound rules */
+  networkSecurityPerimeters?: NetworkSecurityPerimeter[];
+  /** Fully qualified domain names (FQDN) for outbound rules */
+  fullyQualifiedDomainNames?: string[];
+  /** Email addresses for outbound rules */
+  emailAddresses?: string[];
+  /** Phone numbers for outbound rules */
+  phoneNumbers?: string[];
+}
+
+/** Subscription identifiers */
+export interface AccessRulePropertiesSubscriptionsItem {
+  /** The fully qualified Azure resource ID of the subscription e.g. ('/subscriptions/00000000-0000-0000-0000-000000000000') */
+  id?: string;
+}
+
+/** Information about a network security perimeter (NSP) */
+export interface NetworkSecurityPerimeter {
+  /** Fully qualified Azure resource ID of the NSP resource */
+  id?: string;
+  /** Universal unique ID (UUID) of the network security perimeter */
+  perimeterGuid?: string;
+  /** Location of the network security perimeter */
+  location?: string;
+}
+
+/** Information about resource association */
+export interface ResourceAssociation {
+  /** Name of the resource association */
+  name?: string;
+  /** Access mode of the resource association */
+  accessMode?: ResourceAssociationAccessMode;
+}
+
+/** Network security perimeter configuration profile */
+export interface NetworkSecurityProfile {
+  /** Name of the profile */
+  name?: string;
+  /** Current access rules version */
+  accessRulesVersion?: number;
+  /** List of Access Rules */
+  accessRules?: AccessRule[];
+  /** Current diagnostic settings version */
+  diagnosticSettingsVersion?: number;
+  /** List of log categories that are enabled */
+  enabledLogCategories?: string[];
+}
+
+/** Common fields that are returned in the response for all Azure Resource Manager resources */
+export interface Resource {
+  /**
+   * Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly id?: string;
+  /**
+   * The name of the resource
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly name?: string;
+  /**
+   * The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * Azure Resource Manager metadata containing createdBy and modifiedBy information.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly systemData?: SystemData;
+}
+
+/** Metadata pertaining to creation and last modification of the resource. */
+export interface SystemData {
+  /** The identity that created the resource. */
+  createdBy?: string;
+  /** The type of identity that created the resource. */
+  createdByType?: CreatedByType;
+  /** The timestamp of resource creation (UTC). */
+  createdAt?: Date;
+  /** The identity that last modified the resource. */
+  lastModifiedBy?: string;
+  /** The type of identity that last modified the resource. */
+  lastModifiedByType?: CreatedByType;
+  /** The timestamp of resource last modification (UTC) */
+  lastModifiedAt?: Date;
+}
+
+/** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
+export interface ErrorResponse {
+  /** The error object. */
+  error?: ErrorDetail;
+}
+
+/** The error detail. */
+export interface ErrorDetail {
+  /**
+   * The error code.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly details?: ErrorDetail[];
+  /**
+   * The error additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/** The resource management error additional info. */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * NOTE: This property will not be serialized. It can only be populated by the server.
+   */
+  readonly info?: Record<string, unknown>;
+}
+
 /** Contains information about the auto-storage account associated with a Batch account. */
 export interface AutoStorageProperties extends AutoStorageBaseProperties {
   /** The UTC time at which storage keys were last synchronized with the Batch account. */
@@ -1134,7 +1372,7 @@ export interface AutoStorageProperties extends AutoStorageBaseProperties {
 }
 
 /** Contains information about a private link resource. */
-export interface PrivateEndpointConnection extends ProxyResource {
+export interface PrivateEndpointConnection extends AzureProxyResource {
   /**
    * The provisioning state of the private endpoint connection.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1155,7 +1393,7 @@ export interface PrivateEndpointConnection extends ProxyResource {
 }
 
 /** An application package which represents a particular version of an application. */
-export interface ApplicationPackage extends ProxyResource {
+export interface ApplicationPackage extends AzureProxyResource {
   /**
    * The current state of the application package.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1184,7 +1422,7 @@ export interface ApplicationPackage extends ProxyResource {
 }
 
 /** Contains information about an application in a Batch account. */
-export interface Application extends ProxyResource {
+export interface Application extends AzureProxyResource {
   /** The display name for the application. */
   displayName?: string;
   /** A value indicating whether packages within the application may be overwritten using the same version string. */
@@ -1194,7 +1432,7 @@ export interface Application extends ProxyResource {
 }
 
 /** Contains information about a certificate. */
-export interface Certificate extends ProxyResource {
+export interface Certificate extends AzureProxyResource {
   /** This must match the first portion of the certificate name. Currently required to be 'SHA1'. */
   thumbprintAlgorithm?: string;
   /** This must match the thumbprint from the name. */
@@ -1231,7 +1469,8 @@ export interface Certificate extends ProxyResource {
 }
 
 /** Contains information about a certificate. */
-export interface CertificateCreateOrUpdateParameters extends ProxyResource {
+export interface CertificateCreateOrUpdateParameters
+  extends AzureProxyResource {
   /** This must match the first portion of the certificate name. Currently required to be 'SHA1'. */
   thumbprintAlgorithm?: string;
   /** This must match the thumbprint from the name. */
@@ -1245,13 +1484,13 @@ export interface CertificateCreateOrUpdateParameters extends ProxyResource {
 }
 
 /** Contains the information for a detector. */
-export interface DetectorResponse extends ProxyResource {
+export interface DetectorResponse extends AzureProxyResource {
   /** A base64 encoded string that represents the content of a detector. */
   value?: string;
 }
 
 /** Contains information about a private link resource. */
-export interface PrivateLinkResource extends ProxyResource {
+export interface PrivateLinkResource extends AzureProxyResource {
   /**
    * The group id is used to establish the private link connection.
    * NOTE: This property will not be serialized. It can only be populated by the server.
@@ -1270,7 +1509,7 @@ export interface PrivateLinkResource extends ProxyResource {
 }
 
 /** Contains information about a pool. */
-export interface Pool extends ProxyResource {
+export interface Pool extends AzureProxyResource {
   /** The type of identity used for the Batch Pool. */
   identity?: BatchPoolIdentity;
   /** The display name need not be unique and can contain any Unicode characters up to a maximum length of 1024. */
@@ -1305,9 +1544,9 @@ export interface Pool extends ProxyResource {
    * NOTE: This property will not be serialized. It can only be populated by the server.
    */
   readonly allocationStateTransitionTime?: Date;
-  /** For information about available sizes of virtual machines for Cloud Services pools (pools created with cloudServiceConfiguration), see Sizes for Cloud Services (https://azure.microsoft.com/documentation/articles/cloud-services-sizes-specs/). Batch supports all Cloud Services VM sizes except ExtraSmall. For information about available VM sizes for pools using images from the Virtual Machines Marketplace (pools created with virtualMachineConfiguration) see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
+  /** For information about available VM sizes, see Sizes for Virtual Machines (Linux) (https://azure.microsoft.com/documentation/articles/virtual-machines-linux-sizes/) or Sizes for Virtual Machines (Windows) (https://azure.microsoft.com/documentation/articles/virtual-machines-windows-sizes/). Batch supports all Azure VM sizes except STANDARD_A0 and those with premium storage (STANDARD_GS, STANDARD_DS, and STANDARD_DSV2 series). */
   vmSize?: string;
-  /** Using CloudServiceConfiguration specifies that the nodes should be creating using Azure Cloud Services (PaaS), while VirtualMachineConfiguration uses Azure Virtual Machines (IaaS). */
+  /** Deployment configuration properties. */
   deploymentConfiguration?: DeploymentConfiguration;
   /**
    * The number of dedicated compute nodes currently in the pool.
@@ -1371,7 +1610,7 @@ export interface Pool extends ProxyResource {
 }
 
 /** Contains information about an Azure Batch account. */
-export interface BatchAccount extends Resource {
+export interface BatchAccount extends AzureResource {
   /** The identity of the Batch account. */
   identity?: BatchAccountIdentity;
   /**
@@ -1495,6 +1734,15 @@ export interface CertificateCreateOrUpdateProperties
   password?: string;
 }
 
+/** The resource model definition for a Azure Resource Manager proxy resource. It will not have tags and a location */
+export interface ProxyResource extends Resource {}
+
+/** Network security perimeter (NSP) configuration resource */
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+  /** Network security configuration properties. */
+  properties?: NetworkSecurityPerimeterConfigurationProperties;
+}
+
 /** Defines headers for BatchAccount_create operation. */
 export interface BatchAccountCreateHeaders {
   /** The URL of the resource used to check the status of the asynchronous operation. */
@@ -1597,6 +1845,14 @@ export interface PoolStopResizeHeaders {
   eTag?: string;
 }
 
+/** Defines headers for NetworkSecurityPerimeter_reconcileConfiguration operation. */
+export interface NetworkSecurityPerimeterReconcileConfigurationHeaders {
+  /** The URL of the resource used to check the status of the asynchronous operation. */
+  location?: string;
+  /** Suggested delay to check the status of the asynchronous operation. The value is an integer that specifies the delay in seconds. */
+  retryAfter?: number;
+}
+
 /** Known values of {@link ContainerType} that the service accepts. */
 export enum KnownContainerType {
   /** A Docker compatible container technology will be used to launch the containers. */
@@ -1614,6 +1870,192 @@ export enum KnownContainerType {
  * **CriCompatible**: A CRI based technology will be used to launch the containers.
  */
 export type ContainerType = string;
+
+/** Known values of {@link SecurityEncryptionTypes} that the service accepts. */
+export enum KnownSecurityEncryptionTypes {
+  /** NonPersistedTPM */
+  NonPersistedTPM = "NonPersistedTPM",
+  /** VMGuestStateOnly */
+  VMGuestStateOnly = "VMGuestStateOnly",
+}
+
+/**
+ * Defines values for SecurityEncryptionTypes. \
+ * {@link KnownSecurityEncryptionTypes} can be used interchangeably with SecurityEncryptionTypes,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **NonPersistedTPM** \
+ * **VMGuestStateOnly**
+ */
+export type SecurityEncryptionTypes = string;
+
+/** Known values of {@link ContainerHostDataPath} that the service accepts. */
+export enum KnownContainerHostDataPath {
+  /** The path for multi-instances task to shared their files. */
+  Shared = "Shared",
+  /** The path for start task. */
+  Startup = "Startup",
+  /** The path contains all virtual file systems are mounted on this node. */
+  VfsMounts = "VfsMounts",
+  /** The task path. */
+  Task = "Task",
+  /** The job-prep task path. */
+  JobPrep = "JobPrep",
+  /** The applications path. */
+  Applications = "Applications",
+}
+
+/**
+ * Defines values for ContainerHostDataPath. \
+ * {@link KnownContainerHostDataPath} can be used interchangeably with ContainerHostDataPath,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Shared**: The path for multi-instances task to shared their files. \
+ * **Startup**: The path for start task. \
+ * **VfsMounts**: The path contains all virtual file systems are mounted on this node. \
+ * **Task**: The task path. \
+ * **JobPrep**: The job-prep task path. \
+ * **Applications**: The applications path.
+ */
+export type ContainerHostDataPath = string;
+
+/** Known values of {@link NetworkSecurityPerimeterConfigurationProvisioningState} that the service accepts. */
+export enum KnownNetworkSecurityPerimeterConfigurationProvisioningState {
+  /** Succeeded */
+  Succeeded = "Succeeded",
+  /** Creating */
+  Creating = "Creating",
+  /** Updating */
+  Updating = "Updating",
+  /** Deleting */
+  Deleting = "Deleting",
+  /** Accepted */
+  Accepted = "Accepted",
+  /** Failed */
+  Failed = "Failed",
+  /** Canceled */
+  Canceled = "Canceled",
+}
+
+/**
+ * Defines values for NetworkSecurityPerimeterConfigurationProvisioningState. \
+ * {@link KnownNetworkSecurityPerimeterConfigurationProvisioningState} can be used interchangeably with NetworkSecurityPerimeterConfigurationProvisioningState,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Succeeded** \
+ * **Creating** \
+ * **Updating** \
+ * **Deleting** \
+ * **Accepted** \
+ * **Failed** \
+ * **Canceled**
+ */
+export type NetworkSecurityPerimeterConfigurationProvisioningState = string;
+
+/** Known values of {@link IssueType} that the service accepts. */
+export enum KnownIssueType {
+  /** Unknown issue type */
+  Unknown = "Unknown",
+  /** An error occurred while applying the network security perimeter (NSP) configuration. */
+  ConfigurationPropagationFailure = "ConfigurationPropagationFailure",
+  /** A network connectivity issue is happening on the resource which could be addressed either by adding new resources to the network security perimeter (NSP) or by modifying access rules. */
+  MissingPerimeterConfiguration = "MissingPerimeterConfiguration",
+  /** An managed identity hasn't been associated with the resource. The resource will still be able to validate inbound traffic from the network security perimeter (NSP) or matching inbound access rules, but it won't be able to perform outbound access as a member of the NSP. */
+  MissingIdentityConfiguration = "MissingIdentityConfiguration",
+}
+
+/**
+ * Defines values for IssueType. \
+ * {@link KnownIssueType} can be used interchangeably with IssueType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Unknown**: Unknown issue type \
+ * **ConfigurationPropagationFailure**: An error occurred while applying the network security perimeter (NSP) configuration. \
+ * **MissingPerimeterConfiguration**: A network connectivity issue is happening on the resource which could be addressed either by adding new resources to the network security perimeter (NSP) or by modifying access rules. \
+ * **MissingIdentityConfiguration**: An managed identity hasn't been associated with the resource. The resource will still be able to validate inbound traffic from the network security perimeter (NSP) or matching inbound access rules, but it won't be able to perform outbound access as a member of the NSP.
+ */
+export type IssueType = string;
+
+/** Known values of {@link Severity} that the service accepts. */
+export enum KnownSeverity {
+  /** Warning */
+  Warning = "Warning",
+  /** Error */
+  Error = "Error",
+}
+
+/**
+ * Defines values for Severity. \
+ * {@link KnownSeverity} can be used interchangeably with Severity,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Warning** \
+ * **Error**
+ */
+export type Severity = string;
+
+/** Known values of {@link AccessRuleDirection} that the service accepts. */
+export enum KnownAccessRuleDirection {
+  /** Applies to inbound network traffic to the secured resources. */
+  Inbound = "Inbound",
+  /** Applies to outbound network traffic from the secured resources */
+  Outbound = "Outbound",
+}
+
+/**
+ * Defines values for AccessRuleDirection. \
+ * {@link KnownAccessRuleDirection} can be used interchangeably with AccessRuleDirection,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Inbound**: Applies to inbound network traffic to the secured resources. \
+ * **Outbound**: Applies to outbound network traffic from the secured resources
+ */
+export type AccessRuleDirection = string;
+
+/** Known values of {@link ResourceAssociationAccessMode} that the service accepts. */
+export enum KnownResourceAssociationAccessMode {
+  /** Enforced access mode - traffic to the resource that failed access checks is blocked */
+  Enforced = "Enforced",
+  /** Learning access mode - traffic to the resource is enabled for analysis but not blocked */
+  Learning = "Learning",
+  /** Audit access mode - traffic to the resource that fails access checks is logged but not blocked */
+  Audit = "Audit",
+}
+
+/**
+ * Defines values for ResourceAssociationAccessMode. \
+ * {@link KnownResourceAssociationAccessMode} can be used interchangeably with ResourceAssociationAccessMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **Enforced**: Enforced access mode - traffic to the resource that failed access checks is blocked \
+ * **Learning**: Learning access mode - traffic to the resource is enabled for analysis but not blocked \
+ * **Audit**: Audit access mode - traffic to the resource that fails access checks is logged but not blocked
+ */
+export type ResourceAssociationAccessMode = string;
+
+/** Known values of {@link CreatedByType} that the service accepts. */
+export enum KnownCreatedByType {
+  /** User */
+  User = "User",
+  /** Application */
+  Application = "Application",
+  /** ManagedIdentity */
+  ManagedIdentity = "ManagedIdentity",
+  /** Key */
+  Key = "Key",
+}
+
+/**
+ * Defines values for CreatedByType. \
+ * {@link KnownCreatedByType} can be used interchangeably with CreatedByType,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **User** \
+ * **Application** \
+ * **ManagedIdentity** \
+ * **Key**
+ */
+export type CreatedByType = string;
 /** Defines values for AutoStorageAuthenticationMode. */
 export type AutoStorageAuthenticationMode =
   | "StorageKeys"
@@ -1621,7 +2063,10 @@ export type AutoStorageAuthenticationMode =
 /** Defines values for PoolAllocationMode. */
 export type PoolAllocationMode = "BatchService" | "UserSubscription";
 /** Defines values for PublicNetworkAccessType. */
-export type PublicNetworkAccessType = "Enabled" | "Disabled";
+export type PublicNetworkAccessType =
+  | "Enabled"
+  | "Disabled"
+  | "SecuredByPerimeter";
 /** Defines values for EndpointAccessDefaultAction. */
 export type EndpointAccessDefaultAction = "Allow" | "Deny";
 /** Defines values for KeySource. */
@@ -1680,6 +2125,8 @@ export type StorageAccountType =
 export type DiskEncryptionTarget = "OsDisk" | "TemporaryDisk";
 /** Defines values for NodePlacementPolicyType. */
 export type NodePlacementPolicyType = "Regional" | "Zonal";
+/** Defines values for SecurityTypes. */
+export type SecurityTypes = "trustedLaunch" | "confidentialVM";
 /** Defines values for ComputeNodeDeallocationOption. */
 export type ComputeNodeDeallocationOption =
   | "Requeue"
@@ -1952,18 +2399,6 @@ export type LocationListSupportedVirtualMachineSkusResponse =
   SupportedSkusResult;
 
 /** Optional parameters. */
-export interface LocationListSupportedCloudServiceSkusOptionalParams
-  extends coreClient.OperationOptions {
-  /** The maximum number of items to return in the response. */
-  maxresults?: number;
-  /** OData filter expression. Valid properties for filtering are "familyName". */
-  filter?: string;
-}
-
-/** Contains response data for the listSupportedCloudServiceSkus operation. */
-export type LocationListSupportedCloudServiceSkusResponse = SupportedSkusResult;
-
-/** Optional parameters. */
 export interface LocationCheckNameAvailabilityOptionalParams
   extends coreClient.OperationOptions {}
 
@@ -1976,14 +2411,6 @@ export interface LocationListSupportedVirtualMachineSkusNextOptionalParams
 
 /** Contains response data for the listSupportedVirtualMachineSkusNext operation. */
 export type LocationListSupportedVirtualMachineSkusNextResponse =
-  SupportedSkusResult;
-
-/** Optional parameters. */
-export interface LocationListSupportedCloudServiceSkusNextOptionalParams
-  extends coreClient.OperationOptions {}
-
-/** Contains response data for the listSupportedCloudServiceSkusNext operation. */
-export type LocationListSupportedCloudServiceSkusNextResponse =
   SupportedSkusResult;
 
 /** Optional parameters. */
@@ -2228,6 +2655,43 @@ export interface PoolListByBatchAccountNextOptionalParams
 
 /** Contains response data for the listByBatchAccountNext operation. */
 export type PoolListByBatchAccountNextResponse = ListPoolsResult;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterListConfigurationsOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listConfigurations operation. */
+export type NetworkSecurityPerimeterListConfigurationsResponse =
+  NetworkSecurityPerimeterConfigurationListResult;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterGetConfigurationOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the getConfiguration operation. */
+export type NetworkSecurityPerimeterGetConfigurationResponse =
+  NetworkSecurityPerimeterConfiguration;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterReconcileConfigurationOptionalParams
+  extends coreClient.OperationOptions {
+  /** Delay to wait until next poll, in milliseconds. */
+  updateIntervalInMs?: number;
+  /** A serialized poller which can be used to resume an existing paused Long-Running-Operation. */
+  resumeFrom?: string;
+}
+
+/** Contains response data for the reconcileConfiguration operation. */
+export type NetworkSecurityPerimeterReconcileConfigurationResponse =
+  NetworkSecurityPerimeterReconcileConfigurationHeaders;
+
+/** Optional parameters. */
+export interface NetworkSecurityPerimeterListConfigurationsNextOptionalParams
+  extends coreClient.OperationOptions {}
+
+/** Contains response data for the listConfigurationsNext operation. */
+export type NetworkSecurityPerimeterListConfigurationsNextResponse =
+  NetworkSecurityPerimeterConfigurationListResult;
 
 /** Optional parameters. */
 export interface BatchManagementClientOptionalParams

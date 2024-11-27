@@ -12,3 +12,4 @@ export * from "./privateEndpointConnections";
 export * from "./privateLinkResources";
 export * from "./keyValues";
 export * from "./replicas";
+export * from "./snapshots";

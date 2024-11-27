@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "@azure-tools/test-utils";
-import { SinonSandbox, SinonSpy, createSandbox } from "sinon";
-import { SecretClient } from "../../src";
-import { LATEST_API_VERSION } from "../../src/secretsModels";
-import {
+// Licensed under the MIT License.
+import type {
   HttpClient,
   PipelineRequest,
   PipelineResponse,
-  createHttpHeaders,
+  SendRequest,
 } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { ClientSecretCredential } from "@azure/identity";
+import type { MockInstance } from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { SecretClient } from "../../src/index.js";
+import { LATEST_API_VERSION } from "../../src/secretsModels.js";
 
 describe("The Secrets client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
@@ -30,18 +30,16 @@ describe("The Secrets client should set the serviceVersion", () => {
     },
   };
 
-  let sandbox: SinonSandbox;
-  let spy: SinonSpy<[PipelineRequest], Promise<PipelineResponse>>;
+  let spy: MockInstance<SendRequest>;
   let credential: ClientSecretCredential;
   beforeEach(async () => {
-    sandbox = createSandbox();
-    spy = sandbox.spy(mockHttpClient, "sendRequest");
+    spy = vi.spyOn(mockHttpClient, "sendRequest");
 
     credential = new ClientSecretCredential("tenant", "client", "secret");
   });
 
   afterEach(() => {
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   it("it should default to the latest API version", async function () {
@@ -50,10 +48,10 @@ describe("The Secrets client should set the serviceVersion", () => {
     });
     await client.setSecret("secretName", "value");
 
-    const calls = spy.getCalls();
-    assert.equal(
-      calls[0].args[0].url,
-      `https://keyvaultname.vault.azure.net/secrets/secretName?api-version=${LATEST_API_VERSION}`,
+    expect(spy).toHaveBeenCalledWith(
+      expect.objectContaining({
+        url: `https://keyvaultname.vault.azure.net/secrets/secretName?api-version=${LATEST_API_VERSION}`,
+      }),
     );
   });
 
@@ -69,11 +67,10 @@ describe("The Secrets client should set the serviceVersion", () => {
       });
       await client.setSecret("secretName", "value");
 
-      const calls = spy.getCalls();
-      const lastCall = calls[calls.length - 1];
-      assert.equal(
-        lastCall.args[0].url,
-        `https://keyvaultname.vault.azure.net/secrets/secretName?api-version=${serviceVersion}`,
+      expect(spy).toHaveBeenCalledWith(
+        expect.objectContaining({
+          url: `https://keyvaultname.vault.azure.net/secrets/secretName?api-version=${serviceVersion}`,
+        }),
       );
     }
   });

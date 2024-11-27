@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { QuantumJobClient } from "../../src";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { getSanitizers } from "./recorderUtils";
-import { Test } from "mocha";
+import type { Test } from "mocha";
 
 export async function authenticate(testContext: Test | undefined): Promise<any> {
   const recorder = new Recorder(testContext);

@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import assert from "assert";
-import { Suite } from "mocha";
-import { Database, DataType, IndexKind } from "../../../src";
+import type { Suite } from "mocha";
+import type { Database } from "../../../src";
+import { DataType, IndexKind } from "../../../src";
 import { createOrUpsertItem, getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
 
 describe("Spatial Indexes", function (this: Suite) {

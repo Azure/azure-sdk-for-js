@@ -1,17 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import url from "url";
-import { RestError, redirectPolicyName } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { RestError } from "@azure/core-rest-pipeline";
+import { redirectPolicyName } from "@azure/core-rest-pipeline";
+import type { TokenCredential } from "@azure/core-auth";
 import { diag } from "@opentelemetry/api";
-import {
+import type {
   IsSubscribedOptionalParams,
   IsSubscribedResponse,
   PublishOptionalParams,
   PublishResponse,
-  QuickpulseClient,
   QuickpulseClientOptionalParams,
 } from "../../../generated";
+import { QuickpulseClient } from "../../../generated";
 
 const applicationInsightsResource = "https://monitor.azure.com//.default";
 
@@ -29,7 +30,7 @@ export class QuickpulseSender {
     endpointUrl: string;
     instrumentationKey: string;
     credential?: TokenCredential;
-    aadAudience?: string;
+    credentialScopes?: string | string[];
   }) {
     // Build endpoint using provided configuration or default values
     this.endpointUrl = options.endpointUrl;
@@ -42,8 +43,8 @@ export class QuickpulseSender {
     if (options.credential) {
       this.quickpulseClientOptions.credential = options.credential;
       // Add credentialScopes
-      if (options.aadAudience) {
-        this.quickpulseClientOptions.credentialScopes = [options.aadAudience];
+      if (options.credentialScopes) {
+        this.quickpulseClientOptions.credentialScopes = options.credentialScopes;
       } else {
         // Default
         this.quickpulseClientOptions.credentialScopes = [applicationInsightsResource];
@@ -63,7 +64,7 @@ export class QuickpulseSender {
     optionalParams: IsSubscribedOptionalParams,
   ): Promise<IsSubscribedResponse | undefined> {
     try {
-      let response = await this.quickpulseClient.isSubscribed(
+      const response = await this.quickpulseClient.isSubscribed(
         this.endpointUrl,
         this.instrumentationKey,
         optionalParams,
@@ -82,7 +83,7 @@ export class QuickpulseSender {
    */
   async publish(optionalParams: PublishOptionalParams): Promise<PublishResponse | undefined> {
     try {
-      let response = await this.quickpulseClient.publish(
+      const response = await this.quickpulseClient.publish(
         this.endpointUrl,
         this.instrumentationKey,
         optionalParams,
@@ -95,7 +96,7 @@ export class QuickpulseSender {
     return;
   }
 
-  handlePermanentRedirect(location: string | undefined) {
+  handlePermanentRedirect(location: string | undefined): void {
     if (location) {
       const locUrl = new url.URL(location);
       if (locUrl && locUrl.host) {

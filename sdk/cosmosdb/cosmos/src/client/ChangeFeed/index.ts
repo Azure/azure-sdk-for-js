@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 export { ChangeFeedForEpkRange } from "./ChangeFeedForEpkRange";
 export { ChangeFeedIteratorOptions } from "./ChangeFeedIteratorOptions";
 export { ChangeFeedForPartitionKey } from "./ChangeFeedForPartitionKey";

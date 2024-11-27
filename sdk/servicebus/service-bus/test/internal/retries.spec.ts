@@ -1,24 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-const should = chai.should();
-import { TestClientType, TestMessage } from "../public/utils/testUtils";
-import {
-  ServiceBusClientForTests,
-  createServiceBusClientForTests,
-} from "../public/utils/testutils2";
-import { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender";
+import { TestClientType, TestMessage } from "../public/utils/testUtils.js";
+import type { ServiceBusClientForTests } from "../public/utils/testutils2.js";
+import { createServiceBusClientForTests } from "../public/utils/testutils2.js";
+import type { ServiceBusSender, ServiceBusSenderImpl } from "../../src/sender.js";
 import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
-import { BatchingReceiver } from "../../src/core/batchingReceiver";
-import {
-  ServiceBusSessionReceiverImpl,
-  ServiceBusSessionReceiver,
-} from "../../src/receivers/sessionReceiver";
-import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver";
+import { BatchingReceiver } from "../../src/core/batchingReceiver.js";
+import type { ServiceBusSessionReceiver } from "../../src/receivers/sessionReceiver.js";
+import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver.js";
+import type { ServiceBusReceiver, ServiceBusReceiverImpl } from "../../src/receivers/receiver.js";
+import { afterAll, afterEach, beforeAll, beforeEach, describe, it } from "vitest";
+import { should } from "../public/utils/chai.js";
 
 describe("Retries - ManagementClient", () => {
   let sender: ServiceBusSender;
@@ -27,7 +21,7 @@ describe("Retries - ManagementClient", () => {
   const defaultMaxRetries = 2;
   let numberOfTimesManagementClientInvoked: number;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests({
       retryOptions: {
         // Defaults
@@ -38,7 +32,7 @@ describe("Retries - ManagementClient", () => {
     });
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -205,7 +199,7 @@ describe("Retries - MessageSender", () => {
   const defaultMaxRetries = 2;
   let numberOfTimesInitInvoked: number;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests({
       retryOptions: {
         timeoutInMs: 10000,
@@ -215,7 +209,7 @@ describe("Retries - MessageSender", () => {
     });
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -330,7 +324,7 @@ describe("Retries - Receive methods", () => {
   const defaultMaxRetries = 2;
   let numberOfTimesTried: number;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests({
       retryOptions: {
         // Defaults
@@ -341,7 +335,7 @@ describe("Retries - Receive methods", () => {
     });
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 

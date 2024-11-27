@@ -147,9 +147,7 @@ export const resourceProviderName: OperationURLParameter = {
   parameterPath: "resourceProviderName",
   mapper: {
     constraints: {
-      Pattern: new RegExp(
-        "^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\\.)+[a-zA-Z]{2,63}$",
-      ),
+      Pattern: new RegExp("^((?!-)[a-zA-Z0-9-]{1,63}(?<!-)\\.)+[a-zA-Z]{2,63}$"),
     },
     serializedName: "resourceProviderName",
     required: true,

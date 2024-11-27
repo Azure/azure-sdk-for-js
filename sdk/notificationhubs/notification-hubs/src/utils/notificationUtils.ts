@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Notification } from "../models/notification.js";
+import type { Notification } from "../models/notification.js";
 
 /**
  * @internal

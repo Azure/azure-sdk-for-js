@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import type { Span } from "@opentelemetry/api";
 import {
   INVALID_SPAN_CONTEXT,
-  Span,
   context,
   defaultTextMapGetter,
   defaultTextMapSetter,
   trace,
 } from "@opentelemetry/api";
-import {
+import type {
   Instrumenter,
   InstrumenterSpanOptions,
   TracingContext,
@@ -17,9 +17,9 @@ import {
 } from "@azure/core-tracing";
 import { W3CTraceContextPropagator, suppressTracing } from "@opentelemetry/core";
 
-import { OpenTelemetrySpanWrapper } from "./spanWrapper";
-import { envVarToBoolean } from "./configuration";
-import { toSpanOptions } from "./transformations";
+import { OpenTelemetrySpanWrapper } from "./spanWrapper.js";
+import { envVarToBoolean } from "./configuration.js";
+import { toSpanOptions } from "./transformations.js";
 
 // While default propagation is user-configurable, Azure services always use the W3C implementation.
 export const propagator = new W3CTraceContextPropagator();

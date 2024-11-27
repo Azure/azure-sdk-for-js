@@ -30,7 +30,7 @@ import {
   ShortCodesGetUSProgramBriefAttachmentOptionalParams,
   ShortCodesGetUSProgramBriefAttachmentResponse,
   ShortCodesDeleteUSProgramBriefAttachmentOptionalParams
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a ShortCodes. */

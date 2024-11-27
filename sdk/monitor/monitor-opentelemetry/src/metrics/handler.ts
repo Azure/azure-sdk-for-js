@@ -1,16 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureMonitorMetricExporter } from "@azure/monitor-opentelemetry-exporter";
-import {
-  PeriodicExportingMetricReader,
-  PeriodicExportingMetricReaderOptions,
-  View,
-} from "@opentelemetry/sdk-metrics";
-import { InternalConfig } from "../shared/config";
+import type { PeriodicExportingMetricReaderOptions } from "@opentelemetry/sdk-metrics";
+import { PeriodicExportingMetricReader, View } from "@opentelemetry/sdk-metrics";
+import type { InternalConfig } from "../shared/config";
 import { StandardMetrics } from "./standardMetrics";
-import { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
-import { LogRecord } from "@opentelemetry/sdk-logs";
+import type { ReadableSpan, Span } from "@opentelemetry/sdk-trace-base";
+import type { LogRecord } from "@opentelemetry/sdk-logs";
 import { APPLICATION_INSIGHTS_NO_STANDARD_METRICS } from "./types";
 import { LiveMetrics } from "./quickpulse/liveMetrics";
 
@@ -57,7 +54,7 @@ export class MetricHandler {
       this._views.push(new View({ meterName: "@azure/opentelemetry-instrumentation-redis" }));
     }
     this._azureExporter = new AzureMonitorMetricExporter(this._config.azureMonitorExporterOptions);
-    let metricReaderOptions: PeriodicExportingMetricReaderOptions = {
+    const metricReaderOptions: PeriodicExportingMetricReaderOptions = {
       exporter: this._azureExporter as any,
       exportIntervalMillis: options?.collectionInterval || this._collectionInterval,
     };
@@ -99,6 +96,7 @@ export class MetricHandler {
   /**
    * Shutdown handler
    */
+  // eslint-disable-next-line @typescript-eslint/require-await
   public async shutdown(): Promise<void> {
     this._standardMetrics?.shutdown();
     this._liveMetrics?.shutdown();

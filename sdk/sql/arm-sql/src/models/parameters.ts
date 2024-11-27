@@ -76,8 +76,6 @@ import {
   OutboundFirewallRule as OutboundFirewallRuleMapper,
   ServerConnectionPolicy as ServerConnectionPolicyMapper,
   DistributedAvailabilityGroup as DistributedAvailabilityGroupMapper,
-  DistributedAvailabilityGroupsFailoverRequest as DistributedAvailabilityGroupsFailoverRequestMapper,
-  DistributedAvailabilityGroupSetRole as DistributedAvailabilityGroupSetRoleMapper,
   ServerTrustCertificate as ServerTrustCertificateMapper,
   SensitivityLabel as SensitivityLabelMapper,
   SensitivityLabelUpdateList as SensitivityLabelUpdateListMapper,
@@ -122,6 +120,8 @@ import {
   Server as ServerMapper,
   ServerUpdate as ServerUpdateMapper,
   ImportNewDatabaseDefinition as ImportNewDatabaseDefinitionMapper,
+  ReplicationLink as ReplicationLinkMapper,
+  ReplicationLinkUpdate as ReplicationLinkUpdateMapper,
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -1644,7 +1644,7 @@ export const parameters62: OperationParameter = {
 export const apiVersion8: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2023-08-01-preview",
+    defaultValue: "2021-11-01-preview",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -1669,60 +1669,6 @@ export const parameters63: OperationParameter = {
   mapper: DistributedAvailabilityGroupMapper,
 };
 
-export const parameters64: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DistributedAvailabilityGroupsFailoverRequestMapper,
-};
-
-export const managedInstanceName1: OperationURLParameter = {
-  parameterPath: "managedInstanceName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[a-z0-9]+(?:-[a-z0-9]+)*$"),
-      MaxLength: 63,
-      MinLength: 1,
-    },
-    serializedName: "managedInstanceName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const distributedAvailabilityGroupName1: OperationURLParameter = {
-  parameterPath: "distributedAvailabilityGroupName",
-  mapper: {
-    constraints: {
-      Pattern: new RegExp("^[#a-zA-Z_][\\w@#$]*$"),
-      MaxLength: 128,
-      MinLength: 1,
-    },
-    serializedName: "distributedAvailabilityGroupName",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const parameters65: OperationParameter = {
-  parameterPath: "parameters",
-  mapper: DistributedAvailabilityGroupSetRoleMapper,
-};
-
-export const apiVersion9: OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    defaultValue: "2021-11-01-preview",
-    isConstant: true,
-    serializedName: "api-version",
-    type: {
-      name: "String",
-    },
-  },
-};
-
 export const certificateName: OperationURLParameter = {
   parameterPath: "certificateName",
   mapper: {
@@ -1734,7 +1680,7 @@ export const certificateName: OperationURLParameter = {
   },
 };
 
-export const parameters66: OperationParameter = {
+export const parameters64: OperationParameter = {
   parameterPath: "parameters",
   mapper: ServerTrustCertificateMapper,
 };
@@ -1762,7 +1708,7 @@ export const sensitivityLabelSource: OperationURLParameter = {
   },
 };
 
-export const parameters67: OperationParameter = {
+export const parameters65: OperationParameter = {
   parameterPath: "parameters",
   mapper: SensitivityLabelMapper,
 };
@@ -1801,7 +1747,7 @@ export const count: OperationQueryParameter = {
   },
 };
 
-export const parameters68: OperationParameter = {
+export const parameters66: OperationParameter = {
   parameterPath: "parameters",
   mapper: SensitivityLabelUpdateListMapper,
 };
@@ -1816,7 +1762,7 @@ export const includeDisabledRecommendations: OperationQueryParameter = {
   },
 };
 
-export const parameters69: OperationParameter = {
+export const parameters67: OperationParameter = {
   parameterPath: "parameters",
   mapper: RecommendedSensitivityLabelUpdateListMapper,
 };
@@ -1833,22 +1779,22 @@ export const blobAuditingPolicyName: OperationURLParameter = {
   },
 };
 
-export const parameters70: OperationParameter = {
+export const parameters68: OperationParameter = {
   parameterPath: "parameters",
   mapper: ServerBlobAuditingPolicyMapper,
 };
 
-export const parameters71: OperationParameter = {
+export const parameters69: OperationParameter = {
   parameterPath: "parameters",
   mapper: DatabaseBlobAuditingPolicyMapper,
 };
 
-export const parameters72: OperationParameter = {
+export const parameters70: OperationParameter = {
   parameterPath: "parameters",
   mapper: ExtendedDatabaseBlobAuditingPolicyMapper,
 };
 
-export const parameters73: OperationParameter = {
+export const parameters71: OperationParameter = {
   parameterPath: "parameters",
   mapper: ExtendedServerBlobAuditingPolicyMapper,
 };
@@ -1864,48 +1810,37 @@ export const advancedThreatProtectionName: OperationURLParameter = {
   },
 };
 
-export const parameters74: OperationParameter = {
+export const parameters72: OperationParameter = {
   parameterPath: "parameters",
   mapper: DatabaseAdvancedThreatProtectionMapper,
 };
 
-export const parameters75: OperationParameter = {
+export const parameters73: OperationParameter = {
   parameterPath: "parameters",
   mapper: ServerAdvancedThreatProtectionMapper,
 };
 
-export const parameters76: OperationParameter = {
+export const parameters74: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedServerDnsAliasCreationMapper,
 };
 
-export const parameters77: OperationParameter = {
+export const parameters75: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedServerDnsAliasAcquisitionMapper,
 };
 
-export const parameters78: OperationParameter = {
+export const parameters76: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedDatabaseAdvancedThreatProtectionMapper,
 };
 
-export const parameters79: OperationParameter = {
+export const parameters77: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedInstanceAdvancedThreatProtectionMapper,
 };
 
-export const linkId: OperationURLParameter = {
-  parameterPath: "linkId",
-  mapper: {
-    serializedName: "linkId",
-    required: true,
-    type: {
-      name: "String",
-    },
-  },
-};
-
-export const apiVersion10: OperationQueryParameter = {
+export const apiVersion9: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-05-01-preview",
@@ -1928,7 +1863,7 @@ export const dtcName: OperationURLParameter = {
   },
 };
 
-export const parameters80: OperationParameter = {
+export const parameters78: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedInstanceDtcMapper,
 };
@@ -1944,7 +1879,7 @@ export const virtualClusterName: OperationURLParameter = {
   },
 };
 
-export const parameters81: OperationParameter = {
+export const parameters79: OperationParameter = {
   parameterPath: "parameters",
   mapper: VirtualClusterUpdateMapper,
 };
@@ -1960,7 +1895,7 @@ export const failoverGroupName: OperationURLParameter = {
   },
 };
 
-export const parameters82: OperationParameter = {
+export const parameters80: OperationParameter = {
   parameterPath: "parameters",
   mapper: InstanceFailoverGroupMapper,
 };
@@ -1976,27 +1911,27 @@ export const restoreDetailsName: OperationURLParameter = {
   },
 };
 
-export const parameters83: OperationParameter = {
+export const parameters81: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedDatabaseMapper,
 };
 
-export const parameters84: OperationParameter = {
+export const parameters82: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedDatabaseUpdateMapper,
 };
 
-export const parameters85: OperationParameter = {
+export const parameters83: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedDatabaseMoveDefinitionMapper,
 };
 
-export const parameters86: OperationParameter = {
+export const parameters84: OperationParameter = {
   parameterPath: "parameters",
   mapper: CompleteDatabaseRestoreDefinitionMapper,
 };
 
-export const parameters87: OperationParameter = {
+export const parameters85: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedDatabaseStartMoveDefinitionMapper,
 };
@@ -2012,7 +1947,7 @@ export const ledgerDigestUploads1: OperationURLParameter = {
   },
 };
 
-export const parameters88: OperationParameter = {
+export const parameters86: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedLedgerDigestUploadsMapper,
 };
@@ -2028,7 +1963,7 @@ export const serverConfigurationOptionName: OperationURLParameter = {
   },
 };
 
-export const parameters89: OperationParameter = {
+export const parameters87: OperationParameter = {
   parameterPath: "parameters",
   mapper: ServerConfigurationOptionMapper,
 };
@@ -2044,17 +1979,17 @@ export const startStopScheduleName: OperationURLParameter = {
   },
 };
 
-export const parameters90: OperationParameter = {
+export const parameters88: OperationParameter = {
   parameterPath: "parameters",
   mapper: StartStopManagedInstanceScheduleMapper,
 };
 
-export const parameters91: OperationParameter = {
+export const parameters89: OperationParameter = {
   parameterPath: "parameters",
   mapper: LogicalDatabaseTransparentDataEncryptionMapper,
 };
 
-export const apiVersion11: OperationQueryParameter = {
+export const apiVersion10: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     defaultValue: "2022-11-01-preview",
@@ -2066,7 +2001,7 @@ export const apiVersion11: OperationQueryParameter = {
   },
 };
 
-export const parameters92: OperationParameter = {
+export const parameters90: OperationParameter = {
   parameterPath: "parameters",
   mapper: IPv6FirewallRuleMapper,
 };
@@ -2094,12 +2029,12 @@ export const baselineName1: OperationURLParameter = {
   },
 };
 
-export const parameters93: OperationParameter = {
+export const parameters91: OperationParameter = {
   parameterPath: "parameters",
   mapper: DatabaseSqlVulnerabilityAssessmentRuleBaselineListInputMapper,
 };
 
-export const parameters94: OperationParameter = {
+export const parameters92: OperationParameter = {
   parameterPath: "parameters",
   mapper: DatabaseSqlVulnerabilityAssessmentRuleBaselineInputMapper,
 };
@@ -2137,27 +2072,27 @@ export const vulnerabilityAssessmentName2: OperationURLParameter = {
   },
 };
 
-export const parameters95: OperationParameter = {
+export const parameters93: OperationParameter = {
   parameterPath: "parameters",
   mapper: SqlVulnerabilityAssessmentMapper,
 };
 
-export const parameters96: OperationParameter = {
+export const parameters94: OperationParameter = {
   parameterPath: "parameters",
   mapper: FailoverGroupMapper,
 };
 
-export const parameters97: OperationParameter = {
+export const parameters95: OperationParameter = {
   parameterPath: "parameters",
   mapper: FailoverGroupUpdateMapper,
 };
 
-export const parameters98: OperationParameter = {
+export const parameters96: OperationParameter = {
   parameterPath: "parameters",
   mapper: InstancePoolMapper,
 };
 
-export const parameters99: OperationParameter = {
+export const parameters97: OperationParameter = {
   parameterPath: "parameters",
   mapper: InstancePoolUpdateMapper,
 };
@@ -2184,17 +2119,17 @@ export const longTermRetentionDatabaseName: OperationURLParameter = {
   },
 };
 
-export const parameters100: OperationParameter = {
+export const parameters98: OperationParameter = {
   parameterPath: "parameters",
   mapper: ChangeLongTermRetentionBackupAccessTierParametersMapper,
 };
 
-export const parameters101: OperationParameter = {
+export const parameters99: OperationParameter = {
   parameterPath: "parameters",
   mapper: CopyLongTermRetentionBackupParametersMapper,
 };
 
-export const parameters102: OperationParameter = {
+export const parameters100: OperationParameter = {
   parameterPath: "parameters",
   mapper: UpdateLongTermRetentionBackupParametersMapper,
 };
@@ -2210,17 +2145,17 @@ export const policyName3: OperationURLParameter = {
   },
 };
 
-export const parameters103: OperationParameter = {
+export const parameters101: OperationParameter = {
   parameterPath: "parameters",
   mapper: LongTermRetentionPolicyMapper,
 };
 
-export const parameters104: OperationParameter = {
+export const parameters102: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedInstanceMapper,
 };
 
-export const parameters105: OperationParameter = {
+export const parameters103: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedInstanceUpdateMapper,
 };
@@ -2265,22 +2200,43 @@ export const observationMetric: OperationQueryParameter = {
   },
 };
 
-export const parameters106: OperationParameter = {
+export const parameters104: OperationParameter = {
   parameterPath: "parameters",
   mapper: CheckNameAvailabilityRequestMapper,
 };
 
-export const parameters107: OperationParameter = {
+export const parameters105: OperationParameter = {
   parameterPath: "parameters",
   mapper: ServerMapper,
 };
 
-export const parameters108: OperationParameter = {
+export const parameters106: OperationParameter = {
   parameterPath: "parameters",
   mapper: ServerUpdateMapper,
 };
 
-export const parameters109: OperationParameter = {
+export const parameters107: OperationParameter = {
   parameterPath: "parameters",
   mapper: ImportNewDatabaseDefinitionMapper,
+};
+
+export const linkId: OperationURLParameter = {
+  parameterPath: "linkId",
+  mapper: {
+    serializedName: "linkId",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const parameters108: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ReplicationLinkMapper,
+};
+
+export const parameters109: OperationParameter = {
+  parameterPath: "parameters",
+  mapper: ReplicationLinkUpdateMapper,
 };

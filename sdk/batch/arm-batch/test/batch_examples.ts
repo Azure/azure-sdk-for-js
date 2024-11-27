@@ -217,14 +217,6 @@ describe("Batch test", () => {
     assert.equal(res.accountQuota, 3)
   });
 
-  it("location listSupportedCloudServiceSkus test", async function () {
-    const resArray = new Array();
-    for await (let item of client.location.listSupportedCloudServiceSkus(location)) {
-      resArray.push(item);
-    }
-    assert.notEqual(resArray.length, 0);
-  });
-
   it("location listSupportedVirtualMachineSkus test", async function () {
     const resArray = new Array();
     for await (let item of client.location.listSupportedVirtualMachineSkus(location)) {

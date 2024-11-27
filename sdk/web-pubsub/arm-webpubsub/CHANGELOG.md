@@ -1,8 +1,76 @@
 # Release History
+
+## 1.2.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
+## 1.2.0 (2024-09-11)
+    
+### Features Added
+
+  - Added operation group WebPubSubReplicas
+  - Added operation group WebPubSubReplicaSharedPrivateLinkResources
+  - Added operation WebPubSub.listReplicaSkus
+  - Added Interface IPRule
+  - Added Interface Replica
+  - Added Interface ReplicaList
+  - Added Interface WebPubSubListReplicaSkusOptionalParams
+  - Added Interface WebPubSubRegenerateKeyHeaders
+  - Added Interface WebPubSubReplicasCreateOrUpdateOptionalParams
+  - Added Interface WebPubSubReplicasDeleteOptionalParams
+  - Added Interface WebPubSubReplicasGetOptionalParams
+  - Added Interface WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateOptionalParams
+  - Added Interface WebPubSubReplicaSharedPrivateLinkResourcesGetOptionalParams
+  - Added Interface WebPubSubReplicaSharedPrivateLinkResourcesListNextOptionalParams
+  - Added Interface WebPubSubReplicaSharedPrivateLinkResourcesListOptionalParams
+  - Added Interface WebPubSubReplicasListNextOptionalParams
+  - Added Interface WebPubSubReplicasListOptionalParams
+  - Added Interface WebPubSubReplicasRestartHeaders
+  - Added Interface WebPubSubReplicasRestartOptionalParams
+  - Added Interface WebPubSubReplicasUpdateHeaders
+  - Added Interface WebPubSubReplicasUpdateOptionalParams
+  - Added Interface WebPubSubRestartHeaders
+  - Added Interface WebPubSubSocketIOSettings
+  - Added Interface WebPubSubUpdateHeaders
+  - Added Type Alias ServiceKind
+  - Added Type Alias WebPubSubListReplicaSkusResponse
+  - Added Type Alias WebPubSubReplicasCreateOrUpdateResponse
+  - Added Type Alias WebPubSubReplicasGetResponse
+  - Added Type Alias WebPubSubReplicaSharedPrivateLinkResourcesCreateOrUpdateResponse
+  - Added Type Alias WebPubSubReplicaSharedPrivateLinkResourcesGetResponse
+  - Added Type Alias WebPubSubReplicaSharedPrivateLinkResourcesListNextResponse
+  - Added Type Alias WebPubSubReplicaSharedPrivateLinkResourcesListResponse
+  - Added Type Alias WebPubSubReplicasListNextResponse
+  - Added Type Alias WebPubSubReplicasListResponse
+  - Added Type Alias WebPubSubReplicasRestartResponse
+  - Added Type Alias WebPubSubReplicasUpdateResponse
+  - Added Type Alias WebPubSubRestartResponse
+  - Interface Resource has a new optional parameter systemData
+  - Interface WebPubSubHubProperties has a new optional parameter webSocketKeepAliveIntervalInSeconds
+  - Interface WebPubSubNetworkACLs has a new optional parameter ipRules
+  - Interface WebPubSubResource has a new optional parameter kind
+  - Interface WebPubSubResource has a new optional parameter regionEndpointEnabled
+  - Interface WebPubSubResource has a new optional parameter resourceStopped
+  - Interface WebPubSubResource has a new optional parameter socketIO
+  - Added Enum KnownServiceKind
+  - Interface CustomCertificate no longer has parameter systemData
+  - Interface CustomDomain no longer has parameter systemData
+  - Interface PrivateEndpointConnection no longer has parameter systemData
+  - Interface SharedPrivateLinkResource no longer has parameter systemData
+  - Interface WebPubSubHub no longer has parameter systemData
+  - Interface WebPubSubResource no longer has parameter systemData
+  - Parameter location of interface TrackedResource is now required
+    
     
 ## 2.0.0-beta.2 (2023-10-10)
     
-**Features**
+### Features Added
 
   - Added operation group WebPubSubReplicas
   - Added operation WebPubSub.listReplicaSkus
@@ -38,14 +106,14 @@
   - Interface WebPubSubResource has a new optional parameter resourceStopped
   - Added Enum KnownServiceKind
 
-**Breaking Changes**
+### Breaking Changes
 
   - Parameter location of interface TrackedResource is now required
     
     
 ## 2.0.0-beta.1 (2023-07-11)
     
-**Features**
+### Features Added
 
   - Added operation group WebPubSubReplicas
   - Added operation WebPubSub.listReplicaSkus
@@ -83,14 +151,14 @@
   - Interface WebPubSubHub no longer has parameter systemData
   - Interface WebPubSubResource no longer has parameter systemData
 
-**Breaking Changes**
+### Breaking Changes
 
   - Parameter location of interface TrackedResource is now required
     
  
 ## 1.1.0 (2023-03-09)
     
-**Features**
+### Features Added
 
   - Added operation group WebPubSubCustomCertificates
   - Added operation group WebPubSubCustomDomains

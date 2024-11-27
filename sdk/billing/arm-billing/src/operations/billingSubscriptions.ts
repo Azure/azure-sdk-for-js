@@ -13,35 +13,61 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   BillingSubscription,
-  BillingSubscriptionsListByCustomerNextOptionalParams,
-  BillingSubscriptionsListByCustomerOptionalParams,
-  BillingSubscriptionsListByCustomerResponse,
-  BillingSubscriptionsListByBillingAccountNextOptionalParams,
-  BillingSubscriptionsListByBillingAccountOptionalParams,
-  BillingSubscriptionsListByBillingAccountResponse,
   BillingSubscriptionsListByBillingProfileNextOptionalParams,
   BillingSubscriptionsListByBillingProfileOptionalParams,
   BillingSubscriptionsListByBillingProfileResponse,
+  BillingSubscriptionsListByCustomerNextOptionalParams,
+  BillingSubscriptionsListByCustomerOptionalParams,
+  BillingSubscriptionsListByCustomerResponse,
   BillingSubscriptionsListByInvoiceSectionNextOptionalParams,
   BillingSubscriptionsListByInvoiceSectionOptionalParams,
   BillingSubscriptionsListByInvoiceSectionResponse,
-  BillingSubscriptionsGetOptionalParams,
-  BillingSubscriptionsGetResponse,
-  BillingSubscriptionsUpdateOptionalParams,
-  BillingSubscriptionsUpdateResponse,
-  TransferBillingSubscriptionRequestProperties,
+  BillingSubscriptionsListByBillingAccountNextOptionalParams,
+  BillingSubscriptionsListByBillingAccountOptionalParams,
+  BillingSubscriptionsListByBillingAccountResponse,
+  BillingSubscriptionsListByCustomerAtBillingAccountNextOptionalParams,
+  BillingSubscriptionsListByCustomerAtBillingAccountOptionalParams,
+  BillingSubscriptionsListByCustomerAtBillingAccountResponse,
+  BillingSubscriptionsListByEnrollmentAccountNextOptionalParams,
+  BillingSubscriptionsListByEnrollmentAccountOptionalParams,
+  BillingSubscriptionsListByEnrollmentAccountResponse,
+  BillingSubscriptionsGetByBillingProfileOptionalParams,
+  BillingSubscriptionsGetByBillingProfileResponse,
+  CancelSubscriptionRequest,
+  BillingSubscriptionsCancelOptionalParams,
+  BillingSubscriptionsCancelResponse,
+  BillingSubscriptionMergeRequest,
+  BillingSubscriptionsMergeOptionalParams,
+  BillingSubscriptionsMergeResponse,
+  MoveBillingSubscriptionRequest,
   BillingSubscriptionsMoveOptionalParams,
   BillingSubscriptionsMoveResponse,
-  BillingSubscriptionsValidateMoveOptionalParams,
-  BillingSubscriptionsValidateMoveResponse,
-  BillingSubscriptionsListByCustomerNextResponse,
-  BillingSubscriptionsListByBillingAccountNextResponse,
+  BillingSubscriptionSplitRequest,
+  BillingSubscriptionsSplitOptionalParams,
+  BillingSubscriptionsSplitResponse,
+  BillingSubscriptionsValidateMoveEligibilityOptionalParams,
+  BillingSubscriptionsValidateMoveEligibilityResponse,
+  BillingSubscriptionsDeleteOptionalParams,
+  BillingSubscriptionsDeleteResponse,
+  BillingSubscriptionsGetOptionalParams,
+  BillingSubscriptionsGetResponse,
+  BillingSubscriptionPatch,
+  BillingSubscriptionsUpdateOptionalParams,
+  BillingSubscriptionsUpdateResponse,
   BillingSubscriptionsListByBillingProfileNextResponse,
-  BillingSubscriptionsListByInvoiceSectionNextResponse
+  BillingSubscriptionsListByCustomerNextResponse,
+  BillingSubscriptionsListByInvoiceSectionNextResponse,
+  BillingSubscriptionsListByBillingAccountNextResponse,
+  BillingSubscriptionsListByCustomerAtBillingAccountNextResponse,
+  BillingSubscriptionsListByEnrollmentAccountNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -58,164 +84,6 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
   }
 
   /**
-   * Lists the subscriptions for a customer. The operation is supported only for billing accounts with
-   * agreement type Microsoft Partner Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param customerName The ID that uniquely identifies a customer.
-   * @param options The options parameters.
-   */
-  public listByCustomer(
-    billingAccountName: string,
-    customerName: string,
-    options?: BillingSubscriptionsListByCustomerOptionalParams
-  ): PagedAsyncIterableIterator<BillingSubscription> {
-    const iter = this.listByCustomerPagingAll(
-      billingAccountName,
-      customerName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByCustomerPagingPage(
-          billingAccountName,
-          customerName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByCustomerPagingPage(
-    billingAccountName: string,
-    customerName: string,
-    options?: BillingSubscriptionsListByCustomerOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<BillingSubscription[]> {
-    let result: BillingSubscriptionsListByCustomerResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByCustomer(
-        billingAccountName,
-        customerName,
-        options
-      );
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByCustomerNext(
-        billingAccountName,
-        customerName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByCustomerPagingAll(
-    billingAccountName: string,
-    customerName: string,
-    options?: BillingSubscriptionsListByCustomerOptionalParams
-  ): AsyncIterableIterator<BillingSubscription> {
-    for await (const page of this.listByCustomerPagingPage(
-      billingAccountName,
-      customerName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
-   * Lists the subscriptions for a billing account. The operation is supported for billing accounts with
-   * agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param options The options parameters.
-   */
-  public listByBillingAccount(
-    billingAccountName: string,
-    options?: BillingSubscriptionsListByBillingAccountOptionalParams
-  ): PagedAsyncIterableIterator<BillingSubscription> {
-    const iter = this.listByBillingAccountPagingAll(
-      billingAccountName,
-      options
-    );
-    return {
-      next() {
-        return iter.next();
-      },
-      [Symbol.asyncIterator]() {
-        return this;
-      },
-      byPage: (settings?: PageSettings) => {
-        if (settings?.maxPageSize) {
-          throw new Error("maxPageSize is not supported by this operation.");
-        }
-        return this.listByBillingAccountPagingPage(
-          billingAccountName,
-          options,
-          settings
-        );
-      }
-    };
-  }
-
-  private async *listByBillingAccountPagingPage(
-    billingAccountName: string,
-    options?: BillingSubscriptionsListByBillingAccountOptionalParams,
-    settings?: PageSettings
-  ): AsyncIterableIterator<BillingSubscription[]> {
-    let result: BillingSubscriptionsListByBillingAccountResponse;
-    let continuationToken = settings?.continuationToken;
-    if (!continuationToken) {
-      result = await this._listByBillingAccount(billingAccountName, options);
-      let page = result.value || [];
-      continuationToken = result.nextLink;
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-    while (continuationToken) {
-      result = await this._listByBillingAccountNext(
-        billingAccountName,
-        continuationToken,
-        options
-      );
-      continuationToken = result.nextLink;
-      let page = result.value || [];
-      setContinuationToken(page, continuationToken);
-      yield page;
-    }
-  }
-
-  private async *listByBillingAccountPagingAll(
-    billingAccountName: string,
-    options?: BillingSubscriptionsListByBillingAccountOptionalParams
-  ): AsyncIterableIterator<BillingSubscription> {
-    for await (const page of this.listByBillingAccountPagingPage(
-      billingAccountName,
-      options
-    )) {
-      yield* page;
-    }
-  }
-
-  /**
    * Lists the subscriptions that are billed to a billing profile. The operation is supported for billing
    * accounts with agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
@@ -225,12 +93,12 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
   public listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingSubscriptionsListByBillingProfileOptionalParams
+    options?: BillingSubscriptionsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<BillingSubscription> {
     const iter = this.listByBillingProfilePagingAll(
       billingAccountName,
       billingProfileName,
-      options
+      options,
     );
     return {
       next() {
@@ -247,9 +115,9 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
           billingAccountName,
           billingProfileName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -257,7 +125,7 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
     billingAccountName: string,
     billingProfileName: string,
     options?: BillingSubscriptionsListByBillingProfileOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BillingSubscription[]> {
     let result: BillingSubscriptionsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
@@ -265,7 +133,7 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
       result = await this._listByBillingProfile(
         billingAccountName,
         billingProfileName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -277,7 +145,7 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
         billingAccountName,
         billingProfileName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -289,12 +157,106 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
   private async *listByBillingProfilePagingAll(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingSubscriptionsListByBillingProfileOptionalParams
+    options?: BillingSubscriptionsListByBillingProfileOptionalParams,
   ): AsyncIterableIterator<BillingSubscription> {
     for await (const page of this.listByBillingProfilePagingPage(
       billingAccountName,
       billingProfileName,
-      options
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the subscriptions for a customer. The operation is supported only for billing accounts with
+   * agreement type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  public listByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: BillingSubscriptionsListByCustomerOptionalParams,
+  ): PagedAsyncIterableIterator<BillingSubscription> {
+    const iter = this.listByCustomerPagingAll(
+      billingAccountName,
+      billingProfileName,
+      customerName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByCustomerPagingPage(
+          billingAccountName,
+          billingProfileName,
+          customerName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByCustomerPagingPage(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: BillingSubscriptionsListByCustomerOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<BillingSubscription[]> {
+    let result: BillingSubscriptionsListByCustomerResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByCustomer(
+        billingAccountName,
+        billingProfileName,
+        customerName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByCustomerNext(
+        billingAccountName,
+        billingProfileName,
+        customerName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByCustomerPagingAll(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: BillingSubscriptionsListByCustomerOptionalParams,
+  ): AsyncIterableIterator<BillingSubscription> {
+    for await (const page of this.listByCustomerPagingPage(
+      billingAccountName,
+      billingProfileName,
+      customerName,
+      options,
     )) {
       yield* page;
     }
@@ -312,13 +274,13 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: BillingSubscriptionsListByInvoiceSectionOptionalParams
+    options?: BillingSubscriptionsListByInvoiceSectionOptionalParams,
   ): PagedAsyncIterableIterator<BillingSubscription> {
     const iter = this.listByInvoiceSectionPagingAll(
       billingAccountName,
       billingProfileName,
       invoiceSectionName,
-      options
+      options,
     );
     return {
       next() {
@@ -336,9 +298,9 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
           billingProfileName,
           invoiceSectionName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -347,7 +309,7 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
     billingProfileName: string,
     invoiceSectionName: string,
     options?: BillingSubscriptionsListByInvoiceSectionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BillingSubscription[]> {
     let result: BillingSubscriptionsListByInvoiceSectionResponse;
     let continuationToken = settings?.continuationToken;
@@ -356,7 +318,7 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
         billingAccountName,
         billingProfileName,
         invoiceSectionName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -369,7 +331,7 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
         billingProfileName,
         invoiceSectionName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -382,49 +344,282 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: BillingSubscriptionsListByInvoiceSectionOptionalParams
+    options?: BillingSubscriptionsListByInvoiceSectionOptionalParams,
   ): AsyncIterableIterator<BillingSubscription> {
     for await (const page of this.listByInvoiceSectionPagingPage(
       billingAccountName,
       billingProfileName,
       invoiceSectionName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Lists the subscriptions for a customer. The operation is supported only for billing accounts with
-   * agreement type Microsoft Partner Agreement.
+   * Lists the subscriptions for a billing account.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  public listByBillingAccount(
+    billingAccountName: string,
+    options?: BillingSubscriptionsListByBillingAccountOptionalParams,
+  ): PagedAsyncIterableIterator<BillingSubscription> {
+    const iter = this.listByBillingAccountPagingAll(
+      billingAccountName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByBillingAccountPagingPage(
+          billingAccountName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByBillingAccountPagingPage(
+    billingAccountName: string,
+    options?: BillingSubscriptionsListByBillingAccountOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<BillingSubscription[]> {
+    let result: BillingSubscriptionsListByBillingAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByBillingAccount(billingAccountName, options);
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByBillingAccountNext(
+        billingAccountName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByBillingAccountPagingAll(
+    billingAccountName: string,
+    options?: BillingSubscriptionsListByBillingAccountOptionalParams,
+  ): AsyncIterableIterator<BillingSubscription> {
+    for await (const page of this.listByBillingAccountPagingPage(
+      billingAccountName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Lists the subscriptions for a customer at billing account level. The operation is supported only for
+   * billing accounts with agreement type Microsoft Partner Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param customerName The ID that uniquely identifies a customer.
    * @param options The options parameters.
    */
-  private _listByCustomer(
+  public listByCustomerAtBillingAccount(
     billingAccountName: string,
     customerName: string,
-    options?: BillingSubscriptionsListByCustomerOptionalParams
-  ): Promise<BillingSubscriptionsListByCustomerResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, customerName, options },
-      listByCustomerOperationSpec
+    options?: BillingSubscriptionsListByCustomerAtBillingAccountOptionalParams,
+  ): PagedAsyncIterableIterator<BillingSubscription> {
+    const iter = this.listByCustomerAtBillingAccountPagingAll(
+      billingAccountName,
+      customerName,
+      options,
     );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByCustomerAtBillingAccountPagingPage(
+          billingAccountName,
+          customerName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByCustomerAtBillingAccountPagingPage(
+    billingAccountName: string,
+    customerName: string,
+    options?: BillingSubscriptionsListByCustomerAtBillingAccountOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<BillingSubscription[]> {
+    let result: BillingSubscriptionsListByCustomerAtBillingAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByCustomerAtBillingAccount(
+        billingAccountName,
+        customerName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByCustomerAtBillingAccountNext(
+        billingAccountName,
+        customerName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByCustomerAtBillingAccountPagingAll(
+    billingAccountName: string,
+    customerName: string,
+    options?: BillingSubscriptionsListByCustomerAtBillingAccountOptionalParams,
+  ): AsyncIterableIterator<BillingSubscription> {
+    for await (const page of this.listByCustomerAtBillingAccountPagingPage(
+      billingAccountName,
+      customerName,
+      options,
+    )) {
+      yield* page;
+    }
   }
 
   /**
-   * Lists the subscriptions for a billing account. The operation is supported for billing accounts with
-   * agreement type Microsoft Customer Agreement or Microsoft Partner Agreement.
+   * Lists the subscriptions for an enrollment account. The operation is supported for billing accounts
+   * with agreement type Enterprise Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The name of the enrollment account.
    * @param options The options parameters.
    */
-  private _listByBillingAccount(
+  public listByEnrollmentAccount(
     billingAccountName: string,
-    options?: BillingSubscriptionsListByBillingAccountOptionalParams
-  ): Promise<BillingSubscriptionsListByBillingAccountResponse> {
+    enrollmentAccountName: string,
+    options?: BillingSubscriptionsListByEnrollmentAccountOptionalParams,
+  ): PagedAsyncIterableIterator<BillingSubscription> {
+    const iter = this.listByEnrollmentAccountPagingAll(
+      billingAccountName,
+      enrollmentAccountName,
+      options,
+    );
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings?: PageSettings) => {
+        if (settings?.maxPageSize) {
+          throw new Error("maxPageSize is not supported by this operation.");
+        }
+        return this.listByEnrollmentAccountPagingPage(
+          billingAccountName,
+          enrollmentAccountName,
+          options,
+          settings,
+        );
+      },
+    };
+  }
+
+  private async *listByEnrollmentAccountPagingPage(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    options?: BillingSubscriptionsListByEnrollmentAccountOptionalParams,
+    settings?: PageSettings,
+  ): AsyncIterableIterator<BillingSubscription[]> {
+    let result: BillingSubscriptionsListByEnrollmentAccountResponse;
+    let continuationToken = settings?.continuationToken;
+    if (!continuationToken) {
+      result = await this._listByEnrollmentAccount(
+        billingAccountName,
+        enrollmentAccountName,
+        options,
+      );
+      let page = result.value || [];
+      continuationToken = result.nextLink;
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+    while (continuationToken) {
+      result = await this._listByEnrollmentAccountNext(
+        billingAccountName,
+        enrollmentAccountName,
+        continuationToken,
+        options,
+      );
+      continuationToken = result.nextLink;
+      let page = result.value || [];
+      setContinuationToken(page, continuationToken);
+      yield page;
+    }
+  }
+
+  private async *listByEnrollmentAccountPagingAll(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    options?: BillingSubscriptionsListByEnrollmentAccountOptionalParams,
+  ): AsyncIterableIterator<BillingSubscription> {
+    for await (const page of this.listByEnrollmentAccountPagingPage(
+      billingAccountName,
+      enrollmentAccountName,
+      options,
+    )) {
+      yield* page;
+    }
+  }
+
+  /**
+   * Gets a subscription by its billing profile and ID. The operation is supported for billing accounts
+   * with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param options The options parameters.
+   */
+  getByBillingProfile(
+    billingAccountName: string,
+    billingProfileName: string,
+    billingSubscriptionName: string,
+    options?: BillingSubscriptionsGetByBillingProfileOptionalParams,
+  ): Promise<BillingSubscriptionsGetByBillingProfileResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, options },
-      listByBillingAccountOperationSpec
+      {
+        billingAccountName,
+        billingProfileName,
+        billingSubscriptionName,
+        options,
+      },
+      getByBillingProfileOperationSpec,
     );
   }
 
@@ -438,11 +633,31 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
   private _listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingSubscriptionsListByBillingProfileOptionalParams
+    options?: BillingSubscriptionsListByBillingProfileOptionalParams,
   ): Promise<BillingSubscriptionsListByBillingProfileResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, options },
-      listByBillingProfileOperationSpec
+      listByBillingProfileOperationSpec,
+    );
+  }
+
+  /**
+   * Lists the subscriptions for a customer. The operation is supported only for billing accounts with
+   * agreement type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  private _listByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: BillingSubscriptionsListByCustomerOptionalParams,
+  ): Promise<BillingSubscriptionsListByCustomerResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, customerName, options },
+      listByCustomerOperationSpec,
     );
   }
 
@@ -458,83 +673,49 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: BillingSubscriptionsListByInvoiceSectionOptionalParams
+    options?: BillingSubscriptionsListByInvoiceSectionOptionalParams,
   ): Promise<BillingSubscriptionsListByInvoiceSectionResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, invoiceSectionName, options },
-      listByInvoiceSectionOperationSpec
+      listByInvoiceSectionOperationSpec,
     );
   }
 
   /**
-   * Gets a subscription by its ID. The operation is supported for billing accounts with agreement type
-   * Microsoft Customer Agreement and Microsoft Partner Agreement.
+   * Cancels a usage-based subscription. This operation is supported only for billing accounts of type
+   * Microsoft Partner Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param parameters Request parameters for cancel customer subscription.
    * @param options The options parameters.
    */
-  get(
+  async beginCancel(
     billingAccountName: string,
-    options?: BillingSubscriptionsGetOptionalParams
-  ): Promise<BillingSubscriptionsGetResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, options },
-      getOperationSpec
-    );
-  }
-
-  /**
-   * Updates the properties of a billing subscription. Currently, cost center can be updated. The
-   * operation is supported only for billing accounts with agreement type Microsoft Customer Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param parameters Request parameters that are provided to the update billing subscription operation.
-   * @param options The options parameters.
-   */
-  update(
-    billingAccountName: string,
-    parameters: BillingSubscription,
-    options?: BillingSubscriptionsUpdateOptionalParams
-  ): Promise<BillingSubscriptionsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      { billingAccountName, parameters, options },
-      updateOperationSpec
-    );
-  }
-
-  /**
-   * Moves a subscription's charges to a new invoice section. The new invoice section must belong to the
-   * same billing profile as the existing invoice section. This operation is supported for billing
-   * accounts with agreement type Microsoft Customer Agreement.
-   * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param parameters Request parameters that are provided to the move subscription operation.
-   * @param options The options parameters.
-   */
-  async beginMove(
-    billingAccountName: string,
-    parameters: TransferBillingSubscriptionRequestProperties,
-    options?: BillingSubscriptionsMoveOptionalParams
+    billingSubscriptionName: string,
+    parameters: CancelSubscriptionRequest,
+    options?: BillingSubscriptionsCancelOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<BillingSubscriptionsMoveResponse>,
-      BillingSubscriptionsMoveResponse
+    SimplePollerLike<
+      OperationState<BillingSubscriptionsCancelResponse>,
+      BillingSubscriptionsCancelResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<BillingSubscriptionsMoveResponse> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<BillingSubscriptionsCancelResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -543,8 +724,8 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -552,96 +733,640 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { billingAccountName, parameters, options },
-      moveOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        billingAccountName,
+        billingSubscriptionName,
+        parameters,
+        options,
+      },
+      spec: cancelOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BillingSubscriptionsCancelResponse,
+      OperationState<BillingSubscriptionsCancelResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
   }
 
   /**
-   * Moves a subscription's charges to a new invoice section. The new invoice section must belong to the
-   * same billing profile as the existing invoice section. This operation is supported for billing
-   * accounts with agreement type Microsoft Customer Agreement.
+   * Cancels a usage-based subscription. This operation is supported only for billing accounts of type
+   * Microsoft Partner Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param parameters Request parameters that are provided to the move subscription operation.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param parameters Request parameters for cancel customer subscription.
    * @param options The options parameters.
    */
-  async beginMoveAndWait(
+  async beginCancelAndWait(
     billingAccountName: string,
-    parameters: TransferBillingSubscriptionRequestProperties,
-    options?: BillingSubscriptionsMoveOptionalParams
-  ): Promise<BillingSubscriptionsMoveResponse> {
-    const poller = await this.beginMove(
+    billingSubscriptionName: string,
+    parameters: CancelSubscriptionRequest,
+    options?: BillingSubscriptionsCancelOptionalParams,
+  ): Promise<BillingSubscriptionsCancelResponse> {
+    const poller = await this.beginCancel(
       billingAccountName,
+      billingSubscriptionName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
 
   /**
-   * Validates if a subscription's charges can be moved to a new invoice section. This operation is
+   * Merges the billing subscription provided in the request with a target billing subscription.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param parameters Request parameters that are provided to merge the two billing subscriptions.
+   * @param options The options parameters.
+   */
+  async beginMerge(
+    billingAccountName: string,
+    billingSubscriptionName: string,
+    parameters: BillingSubscriptionMergeRequest,
+    options?: BillingSubscriptionsMergeOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingSubscriptionsMergeResponse>,
+      BillingSubscriptionsMergeResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<BillingSubscriptionsMergeResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        billingAccountName,
+        billingSubscriptionName,
+        parameters,
+        options,
+      },
+      spec: mergeOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BillingSubscriptionsMergeResponse,
+      OperationState<BillingSubscriptionsMergeResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Merges the billing subscription provided in the request with a target billing subscription.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param parameters Request parameters that are provided to merge the two billing subscriptions.
+   * @param options The options parameters.
+   */
+  async beginMergeAndWait(
+    billingAccountName: string,
+    billingSubscriptionName: string,
+    parameters: BillingSubscriptionMergeRequest,
+    options?: BillingSubscriptionsMergeOptionalParams,
+  ): Promise<BillingSubscriptionsMergeResponse> {
+    const poller = await this.beginMerge(
+      billingAccountName,
+      billingSubscriptionName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Moves charges for a subscription to a new invoice section. The new invoice section must belong to
+   * the same billing profile as the existing invoice section. This operation is supported for billing
+   * accounts with agreement type Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param parameters Request parameters to transfer billing subscription.
+   * @param options The options parameters.
+   */
+  async beginMove(
+    billingAccountName: string,
+    billingSubscriptionName: string,
+    parameters: MoveBillingSubscriptionRequest,
+    options?: BillingSubscriptionsMoveOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingSubscriptionsMoveResponse>,
+      BillingSubscriptionsMoveResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<BillingSubscriptionsMoveResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        billingAccountName,
+        billingSubscriptionName,
+        parameters,
+        options,
+      },
+      spec: moveOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BillingSubscriptionsMoveResponse,
+      OperationState<BillingSubscriptionsMoveResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Moves charges for a subscription to a new invoice section. The new invoice section must belong to
+   * the same billing profile as the existing invoice section. This operation is supported for billing
+   * accounts with agreement type Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param parameters Request parameters to transfer billing subscription.
+   * @param options The options parameters.
+   */
+  async beginMoveAndWait(
+    billingAccountName: string,
+    billingSubscriptionName: string,
+    parameters: MoveBillingSubscriptionRequest,
+    options?: BillingSubscriptionsMoveOptionalParams,
+  ): Promise<BillingSubscriptionsMoveResponse> {
+    const poller = await this.beginMove(
+      billingAccountName,
+      billingSubscriptionName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Splits a subscription into a new subscription with quantity less than current subscription quantity
+   * and not equal to 0.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param parameters Request parameters that are provided to split the billing subscription.
+   * @param options The options parameters.
+   */
+  async beginSplit(
+    billingAccountName: string,
+    billingSubscriptionName: string,
+    parameters: BillingSubscriptionSplitRequest,
+    options?: BillingSubscriptionsSplitOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingSubscriptionsSplitResponse>,
+      BillingSubscriptionsSplitResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<BillingSubscriptionsSplitResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        billingAccountName,
+        billingSubscriptionName,
+        parameters,
+        options,
+      },
+      spec: splitOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BillingSubscriptionsSplitResponse,
+      OperationState<BillingSubscriptionsSplitResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Splits a subscription into a new subscription with quantity less than current subscription quantity
+   * and not equal to 0.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param parameters Request parameters that are provided to split the billing subscription.
+   * @param options The options parameters.
+   */
+  async beginSplitAndWait(
+    billingAccountName: string,
+    billingSubscriptionName: string,
+    parameters: BillingSubscriptionSplitRequest,
+    options?: BillingSubscriptionsSplitOptionalParams,
+  ): Promise<BillingSubscriptionsSplitResponse> {
+    const poller = await this.beginSplit(
+      billingAccountName,
+      billingSubscriptionName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Validates if charges for a subscription can be moved to a new invoice section. This operation is
    * supported for billing accounts with agreement type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param parameters Request parameters that are provided to the validate move eligibility operation.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param parameters Request parameters to transfer billing subscription.
    * @param options The options parameters.
    */
-  validateMove(
+  validateMoveEligibility(
     billingAccountName: string,
-    parameters: TransferBillingSubscriptionRequestProperties,
-    options?: BillingSubscriptionsValidateMoveOptionalParams
-  ): Promise<BillingSubscriptionsValidateMoveResponse> {
+    billingSubscriptionName: string,
+    parameters: MoveBillingSubscriptionRequest,
+    options?: BillingSubscriptionsValidateMoveEligibilityOptionalParams,
+  ): Promise<BillingSubscriptionsValidateMoveEligibilityResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, parameters, options },
-      validateMoveOperationSpec
+      { billingAccountName, billingSubscriptionName, parameters, options },
+      validateMoveEligibilityOperationSpec,
     );
   }
 
   /**
-   * ListByCustomerNext
+   * Cancels a billing subscription. This operation is supported only for billing accounts of type
+   * Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    billingAccountName: string,
+    billingSubscriptionName: string,
+    options?: BillingSubscriptionsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingSubscriptionsDeleteResponse>,
+      BillingSubscriptionsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<BillingSubscriptionsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { billingAccountName, billingSubscriptionName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BillingSubscriptionsDeleteResponse,
+      OperationState<BillingSubscriptionsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Cancels a billing subscription. This operation is supported only for billing accounts of type
+   * Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    billingAccountName: string,
+    billingSubscriptionName: string,
+    options?: BillingSubscriptionsDeleteOptionalParams,
+  ): Promise<BillingSubscriptionsDeleteResponse> {
+    const poller = await this.beginDelete(
+      billingAccountName,
+      billingSubscriptionName,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Gets a subscription by its ID. The operation is supported for billing accounts with agreement type
+   * Microsoft Customer Agreement,  Microsoft Partner Agreement, and Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param options The options parameters.
+   */
+  get(
+    billingAccountName: string,
+    billingSubscriptionName: string,
+    options?: BillingSubscriptionsGetOptionalParams,
+  ): Promise<BillingSubscriptionsGetResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingSubscriptionName, options },
+      getOperationSpec,
+    );
+  }
+
+  /**
+   * Updates the properties of a billing subscription.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param parameters The billing properties of a subscription.
+   * @param options The options parameters.
+   */
+  async beginUpdate(
+    billingAccountName: string,
+    billingSubscriptionName: string,
+    parameters: BillingSubscriptionPatch,
+    options?: BillingSubscriptionsUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingSubscriptionsUpdateResponse>,
+      BillingSubscriptionsUpdateResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<BillingSubscriptionsUpdateResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        billingAccountName,
+        billingSubscriptionName,
+        parameters,
+        options,
+      },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      BillingSubscriptionsUpdateResponse,
+      OperationState<BillingSubscriptionsUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Updates the properties of a billing subscription.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingSubscriptionName The ID that uniquely identifies a subscription.
+   * @param parameters The billing properties of a subscription.
+   * @param options The options parameters.
+   */
+  async beginUpdateAndWait(
+    billingAccountName: string,
+    billingSubscriptionName: string,
+    parameters: BillingSubscriptionPatch,
+    options?: BillingSubscriptionsUpdateOptionalParams,
+  ): Promise<BillingSubscriptionsUpdateResponse> {
+    const poller = await this.beginUpdate(
+      billingAccountName,
+      billingSubscriptionName,
+      parameters,
+      options,
+    );
+    return poller.pollUntilDone();
+  }
+
+  /**
+   * Lists the subscriptions for a billing account.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  private _listByBillingAccount(
+    billingAccountName: string,
+    options?: BillingSubscriptionsListByBillingAccountOptionalParams,
+  ): Promise<BillingSubscriptionsListByBillingAccountResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, options },
+      listByBillingAccountOperationSpec,
+    );
+  }
+
+  /**
+   * Lists the subscriptions for a customer at billing account level. The operation is supported only for
+   * billing accounts with agreement type Microsoft Partner Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param customerName The ID that uniquely identifies a customer.
-   * @param nextLink The nextLink from the previous successful call to the ListByCustomer method.
    * @param options The options parameters.
    */
-  private _listByCustomerNext(
+  private _listByCustomerAtBillingAccount(
     billingAccountName: string,
     customerName: string,
-    nextLink: string,
-    options?: BillingSubscriptionsListByCustomerNextOptionalParams
-  ): Promise<BillingSubscriptionsListByCustomerNextResponse> {
+    options?: BillingSubscriptionsListByCustomerAtBillingAccountOptionalParams,
+  ): Promise<BillingSubscriptionsListByCustomerAtBillingAccountResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, customerName, nextLink, options },
-      listByCustomerNextOperationSpec
+      { billingAccountName, customerName, options },
+      listByCustomerAtBillingAccountOperationSpec,
     );
   }
 
   /**
-   * ListByBillingAccountNext
+   * Lists the subscriptions for an enrollment account. The operation is supported for billing accounts
+   * with agreement type Enterprise Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param nextLink The nextLink from the previous successful call to the ListByBillingAccount method.
+   * @param enrollmentAccountName The name of the enrollment account.
    * @param options The options parameters.
    */
-  private _listByBillingAccountNext(
+  private _listByEnrollmentAccount(
     billingAccountName: string,
-    nextLink: string,
-    options?: BillingSubscriptionsListByBillingAccountNextOptionalParams
-  ): Promise<BillingSubscriptionsListByBillingAccountNextResponse> {
+    enrollmentAccountName: string,
+    options?: BillingSubscriptionsListByEnrollmentAccountOptionalParams,
+  ): Promise<BillingSubscriptionsListByEnrollmentAccountResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, nextLink, options },
-      listByBillingAccountNextOperationSpec
+      { billingAccountName, enrollmentAccountName, options },
+      listByEnrollmentAccountOperationSpec,
     );
   }
 
@@ -656,11 +1381,38 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
     billingAccountName: string,
     billingProfileName: string,
     nextLink: string,
-    options?: BillingSubscriptionsListByBillingProfileNextOptionalParams
+    options?: BillingSubscriptionsListByBillingProfileNextOptionalParams,
   ): Promise<BillingSubscriptionsListByBillingProfileNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, nextLink, options },
-      listByBillingProfileNextOperationSpec
+      listByBillingProfileNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByCustomerNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param nextLink The nextLink from the previous successful call to the ListByCustomer method.
+   * @param options The options parameters.
+   */
+  private _listByCustomerNext(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    nextLink: string,
+    options?: BillingSubscriptionsListByCustomerNextOptionalParams,
+  ): Promise<BillingSubscriptionsListByCustomerNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        billingAccountName,
+        billingProfileName,
+        customerName,
+        nextLink,
+        options,
+      },
+      listByCustomerNextOperationSpec,
     );
   }
 
@@ -677,7 +1429,7 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
     billingProfileName: string,
     invoiceSectionName: string,
     nextLink: string,
-    options?: BillingSubscriptionsListByInvoiceSectionNextOptionalParams
+    options?: BillingSubscriptionsListByInvoiceSectionNextOptionalParams,
   ): Promise<BillingSubscriptionsListByInvoiceSectionNextResponse> {
     return this.client.sendOperationRequest(
       {
@@ -685,276 +1437,616 @@ export class BillingSubscriptionsImpl implements BillingSubscriptions {
         billingProfileName,
         invoiceSectionName,
         nextLink,
-        options
+        options,
       },
-      listByInvoiceSectionNextOperationSpec
+      listByInvoiceSectionNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByBillingAccountNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param nextLink The nextLink from the previous successful call to the ListByBillingAccount method.
+   * @param options The options parameters.
+   */
+  private _listByBillingAccountNext(
+    billingAccountName: string,
+    nextLink: string,
+    options?: BillingSubscriptionsListByBillingAccountNextOptionalParams,
+  ): Promise<BillingSubscriptionsListByBillingAccountNextResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, nextLink, options },
+      listByBillingAccountNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByCustomerAtBillingAccountNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param nextLink The nextLink from the previous successful call to the ListByCustomerAtBillingAccount
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listByCustomerAtBillingAccountNext(
+    billingAccountName: string,
+    customerName: string,
+    nextLink: string,
+    options?: BillingSubscriptionsListByCustomerAtBillingAccountNextOptionalParams,
+  ): Promise<BillingSubscriptionsListByCustomerAtBillingAccountNextResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, customerName, nextLink, options },
+      listByCustomerAtBillingAccountNextOperationSpec,
+    );
+  }
+
+  /**
+   * ListByEnrollmentAccountNext
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The name of the enrollment account.
+   * @param nextLink The nextLink from the previous successful call to the ListByEnrollmentAccount
+   *                 method.
+   * @param options The options parameters.
+   */
+  private _listByEnrollmentAccountNext(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    nextLink: string,
+    options?: BillingSubscriptionsListByEnrollmentAccountNextOptionalParams,
+  ): Promise<BillingSubscriptionsListByEnrollmentAccountNextResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, enrollmentAccountName, nextLink, options },
+      listByEnrollmentAccountNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByCustomerOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/billingSubscriptions",
+const getByBillingProfileOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingSubscriptions/{billingSubscriptionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingSubscriptionsListResult
+      bodyMapper: Mappers.BillingSubscription,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.customerName
+    Parameters.billingAccountName1,
+    Parameters.billingProfileName1,
+    Parameters.billingSubscriptionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
-};
-const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BillingSubscriptionsListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.$host, Parameters.billingAccountName],
-  headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingSubscriptions",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/billingSubscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingSubscriptionsListResult
+      bodyMapper: Mappers.BillingSubscriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.expand,
+    Parameters.filter,
+    Parameters.orderBy,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.count,
+    Parameters.search,
+    Parameters.includeDeleted,
+  ],
   urlParameters: [
     Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName
+    Parameters.billingAccountName1,
+    Parameters.billingProfileName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByCustomerOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/customers/{customerName}/billingSubscriptions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingSubscriptionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.expand,
+    Parameters.filter,
+    Parameters.orderBy,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.count,
+    Parameters.search,
+    Parameters.includeDeleted,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName1,
+    Parameters.billingProfileName1,
+    Parameters.customerName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByInvoiceSectionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingSubscriptions",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/billingSubscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingSubscriptionsListResult
+      bodyMapper: Mappers.BillingSubscriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.expand,
+    Parameters.filter,
+    Parameters.orderBy,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.count,
+    Parameters.search,
+    Parameters.includeDeleted,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName1,
+    Parameters.billingProfileName1,
+    Parameters.invoiceSectionName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const cancelOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}/cancel",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      headersMapper: Mappers.BillingSubscriptionsCancelHeaders,
+    },
+    201: {
+      headersMapper: Mappers.BillingSubscriptionsCancelHeaders,
+    },
+    202: {
+      headersMapper: Mappers.BillingSubscriptionsCancelHeaders,
+    },
+    204: {
+      headersMapper: Mappers.BillingSubscriptionsCancelHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters11,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName1,
+    Parameters.billingSubscriptionName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const mergeOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}/merge",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingSubscription,
+    },
+    201: {
+      bodyMapper: Mappers.BillingSubscription,
+    },
+    202: {
+      bodyMapper: Mappers.BillingSubscription,
+    },
+    204: {
+      bodyMapper: Mappers.BillingSubscription,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters12,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName1,
+    Parameters.billingSubscriptionName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const moveOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}/move",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingSubscription,
+    },
+    201: {
+      bodyMapper: Mappers.BillingSubscription,
+    },
+    202: {
+      bodyMapper: Mappers.BillingSubscription,
+    },
+    204: {
+      bodyMapper: Mappers.BillingSubscription,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters13,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName1,
+    Parameters.billingSubscriptionName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const splitOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}/split",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingSubscription,
+    },
+    201: {
+      bodyMapper: Mappers.BillingSubscription,
+    },
+    202: {
+      bodyMapper: Mappers.BillingSubscription,
+    },
+    204: {
+      bodyMapper: Mappers.BillingSubscription,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters14,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName1,
+    Parameters.billingSubscriptionName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const validateMoveEligibilityOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}/validateMoveEligibility",
+  httpMethod: "POST",
+  responses: {
+    200: {
+      bodyMapper: Mappers.MoveBillingSubscriptionEligibilityResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  requestBody: Parameters.parameters13,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName1,
+    Parameters.billingSubscriptionName,
+  ],
+  headerParameters: [Parameters.accept, Parameters.contentType],
+  mediaType: "json",
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.BillingSubscriptionsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.BillingSubscriptionsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.BillingSubscriptionsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.BillingSubscriptionsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName,
-    Parameters.invoiceSectionName
+    Parameters.billingAccountName1,
+    Parameters.billingSubscriptionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{subscriptionId}",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingSubscription
+      bodyMapper: Mappers.BillingSubscription,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [Parameters.apiVersion, Parameters.expand],
   urlParameters: [
     Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.subscriptionId
+    Parameters.billingAccountName1,
+    Parameters.billingSubscriptionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{subscriptionId}",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{billingSubscriptionName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingSubscription
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters4,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const moveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{subscriptionId}/move",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BillingSubscription
+      bodyMapper: Mappers.BillingSubscription,
     },
     201: {
-      bodyMapper: Mappers.BillingSubscription
+      bodyMapper: Mappers.BillingSubscription,
     },
     202: {
-      bodyMapper: Mappers.BillingSubscription
+      bodyMapper: Mappers.BillingSubscription,
     },
     204: {
-      bodyMapper: Mappers.BillingSubscription
+      bodyMapper: Mappers.BillingSubscription,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters5,
+  requestBody: Parameters.parameters15,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.subscriptionId
+    Parameters.billingAccountName1,
+    Parameters.billingSubscriptionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
-const validateMoveOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions/{subscriptionId}/validateMoveEligibility",
-  httpMethod: "POST",
-  responses: {
-    200: {
-      bodyMapper: Mappers.ValidateSubscriptionTransferEligibilityResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  requestBody: Parameters.parameters5,
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.subscriptionId
-  ],
-  headerParameters: [Parameters.accept, Parameters.contentType],
-  mediaType: "json",
-  serializer
-};
-const listByCustomerNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const listByBillingAccountOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingSubscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingSubscriptionsListResult
+      bodyMapper: Mappers.BillingSubscriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink,
-    Parameters.customerName
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.expand,
+    Parameters.filter,
+    Parameters.orderBy,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.count,
+    Parameters.search,
+    Parameters.includeDeleted,
+    Parameters.includeTenantSubscriptions,
+    Parameters.includeFailed,
   ],
+  urlParameters: [Parameters.$host, Parameters.billingAccountName1],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
-const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
-  path: "{nextLink}",
+const listByCustomerAtBillingAccountOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/customers/{customerName}/billingSubscriptions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingSubscriptionsListResult
+      bodyMapper: Mappers.BillingSubscriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.expand,
+    Parameters.filter,
+    Parameters.orderBy,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.count,
+    Parameters.search,
+    Parameters.includeDeleted,
+  ],
   urlParameters: [
     Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.nextLink
+    Parameters.billingAccountName1,
+    Parameters.customerName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByEnrollmentAccountOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/enrollmentAccounts/{enrollmentAccountName}/billingSubscriptions",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingSubscriptionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.orderBy,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.count,
+    Parameters.search,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.enrollmentAccountName,
+    Parameters.billingAccountName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingSubscriptionsListResult
+      bodyMapper: Mappers.BillingSubscriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.billingAccountName,
     Parameters.nextLink,
-    Parameters.billingProfileName
+    Parameters.billingAccountName1,
+    Parameters.billingProfileName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByCustomerNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingSubscriptionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.billingAccountName1,
+    Parameters.billingProfileName1,
+    Parameters.customerName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByInvoiceSectionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BillingSubscriptionsListResult
+      bodyMapper: Mappers.BillingSubscriptionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
-    Parameters.billingAccountName,
     Parameters.nextLink,
-    Parameters.billingProfileName,
-    Parameters.invoiceSectionName
+    Parameters.billingAccountName1,
+    Parameters.billingProfileName1,
+    Parameters.invoiceSectionName1,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const listByBillingAccountNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingSubscriptionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.billingAccountName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const listByCustomerAtBillingAccountNextOperationSpec: coreClient.OperationSpec =
+  {
+    path: "{nextLink}",
+    httpMethod: "GET",
+    responses: {
+      200: {
+        bodyMapper: Mappers.BillingSubscriptionListResult,
+      },
+      default: {
+        bodyMapper: Mappers.ErrorResponse,
+      },
+    },
+    urlParameters: [
+      Parameters.$host,
+      Parameters.nextLink,
+      Parameters.billingAccountName1,
+      Parameters.customerName1,
+    ],
+    headerParameters: [Parameters.accept],
+    serializer,
+  };
+const listByEnrollmentAccountNextOperationSpec: coreClient.OperationSpec = {
+  path: "{nextLink}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BillingSubscriptionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  urlParameters: [
+    Parameters.$host,
+    Parameters.nextLink,
+    Parameters.enrollmentAccountName,
+    Parameters.billingAccountName1,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };

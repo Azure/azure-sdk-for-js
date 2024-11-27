@@ -4,7 +4,7 @@
 
 ```ts
 
-import { InteractiveBrowserCredentialNodeOptions } from '@azure/identity';
+import type { InteractiveBrowserCredentialNodeOptions } from '@azure/identity';
 
 // @public
 export const APIM_ASK_FOR_SECRETS_MESSAGE_KEY = "askForSecretsMSAPIM";

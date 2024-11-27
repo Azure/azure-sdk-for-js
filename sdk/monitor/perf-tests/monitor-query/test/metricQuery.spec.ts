@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { PerfOptionDictionary, getEnvVar } from "@azure-tools/test-perf";
 import { AggregationType } from "@azure/monitor-query";
 import { MonitorQueryMetrics } from "./monitorQueryMetrics.spec";

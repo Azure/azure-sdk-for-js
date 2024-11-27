@@ -1,6 +1,6 @@
 # Release History
 
-## 4.8.1 (Unreleased)
+## 4.9.1 (Unreleased)
 
 ### Features Added
 
@@ -10,11 +10,22 @@
 
 ### Other Changes
 
+## 4.9.0 (2024-10-16)
+
+### Features Added
+
+- Add support for Continuous Access Evaluation (CAE). [#31140](https://github.com/Azure/azure-sdk-for-js/pull/31140)
+
+### Other Changes
+
+- Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#31332](https://github.com/Azure/azure-sdk-for-js/pull/31332)
+
 ## 4.8.0 (2024-02-14)
 
 ### Features Added
 
 Since 4.7.2:
+
 - Added `hsmPlatform` property to `KeyProperties`.
 
 ### Other Changes

@@ -1,54 +1,47 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   AmqpError,
   AwaitableSender,
   AwaitableSenderOptions,
   EventContext,
   OnAmqpEvent,
   Message as RheaMessage,
-  message,
-  types,
 } from "rhea-promise";
+import { message, types } from "rhea-promise";
+import type { RetryConfig, RetryOptions } from "@azure/core-amqp";
 import {
-  Constants,
   ErrorNameConditionMapper,
-  RetryConfig,
   RetryOperationType,
-  RetryOptions,
   defaultCancellableLock,
   delay,
   retry,
   translate,
 } from "@azure/core-amqp";
-import {
-  EventData,
-  EventDataInternal,
-  populateIdempotentMessageAnnotations,
-  toRheaMessage,
-} from "./eventData.js";
-import { EventDataBatch, EventDataBatchImpl, isEventDataBatch } from "./eventDataBatch.js";
-import {
-  logErrorStackTrace,
-  createSimpleLogger,
-  logger,
-  SimpleLogger,
-  createSenderLogPrefix,
-} from "./logger.js";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { ConnectionContext } from "./connectionContext.js";
-import { EventHubProducerOptions, IdempotentLinkProperties } from "./models/private.js";
-import { SendOptions } from "./models/public.js";
-import { PartitionPublishingOptions, PartitionPublishingProperties } from "./models/private.js";
+import type { EventData, EventDataInternal } from "./eventData.js";
+import { populateIdempotentMessageAnnotations, toRheaMessage } from "./eventData.js";
+import type { EventDataBatch, EventDataBatchImpl } from "./eventDataBatch.js";
+import { isEventDataBatch } from "./eventDataBatch.js";
+import type { SimpleLogger } from "./logger.js";
+import { logErrorStackTrace, createSimpleLogger, logger, createSenderLogPrefix } from "./logger.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { ConnectionContext } from "./connectionContext.js";
+import type { EventHubProducerOptions, IdempotentLinkProperties } from "./models/private.js";
+import type { SendOptions } from "./models/public.js";
+import type {
+  PartitionPublishingOptions,
+  PartitionPublishingProperties,
+} from "./models/private.js";
 import { getRetryAttemptTimeoutInMs } from "./util/retries.js";
 import {
   idempotentProducerAmqpPropertyNames,
   PENDING_PUBLISH_SEQ_NUM_SYMBOL,
+  geoReplication,
 } from "./util/constants.js";
 import { isDefined } from "@azure/core-util";
 import { translateError } from "./util/error.js";
-import { TimerLoop } from "./util/timerLoop.js";
+import type { TimerLoop } from "./util/timerLoop.js";
 import { withAuth } from "./withAuth.js";
 import { getRandomName } from "./util/utils.js";
 
@@ -429,7 +422,7 @@ export class EventHubSender {
       onSessionClose: this._onSessionClose,
     };
 
-    srOptions.desired_capabilities = [Constants.geoReplication];
+    srOptions.desired_capabilities = [geoReplication];
     if (this._isIdempotentProducer) {
       srOptions.desired_capabilities.push(idempotentProducerAmqpPropertyNames.capability);
       const idempotentProperties = generateIdempotentLinkProperties(

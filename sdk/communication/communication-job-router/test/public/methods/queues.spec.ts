@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { RouterQueue, JobRouterAdministrationClient } from "../../../src";
-import { Context } from "mocha";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { RouterQueue, JobRouterAdministrationClient } from "../../../src/index.js";
 import {
   getDistributionPolicyRequest,
   getExceptionPolicyRequest,
   getQueueRequest,
-} from "../utils/testData";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { timeoutMs } from "../utils/constants";
+} from "../utils/testData.js";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { timeoutMs } from "../utils/constants.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("JobRouterClient", function () {
+describe("JobRouterClient", () => {
   let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
 
@@ -24,10 +23,10 @@ describe("JobRouterClient", function () {
   const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(testRunId);
   const { queueId, queueRequest } = getQueueRequest(testRunId);
 
-  describe("Queue Operations", function () {
-    this.beforeEach(async function (this: Context) {
+  describe("Queue Operations", () => {
+    beforeEach(async (ctx) => {
       ({ administrationClient, recorder } =
-        await createRecordedRouterClientWithConnectionString(this));
+        await createRecordedRouterClientWithConnectionString(ctx));
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyId,
@@ -37,32 +36,32 @@ describe("JobRouterClient", function () {
       await administrationClient.createQueue(queueId, queueRequest);
     });
 
-    this.afterEach(async function (this: Context) {
+    afterEach(async (ctx) => {
       await administrationClient.deleteQueue(queueId);
       await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
       await administrationClient.deleteDistributionPolicy(distributionPolicyId);
 
-      if (!this.currentTest?.isPending() && recorder) {
+      if (!ctx.task.pending && recorder) {
         await recorder.stop();
       }
     });
 
-    it("should create a queue", async function () {
+    it("should create a queue", { timeout: timeoutMs }, async () => {
       const result = await administrationClient.createQueue(queueId, queueRequest);
 
       assert.isDefined(result);
       assert.isDefined(result?.id);
       assert.equal(result.name, queueRequest.name);
-    }).timeout(timeoutMs);
+    });
 
-    it("should get a queue", async function () {
+    it("should get a queue", { timeout: timeoutMs }, async () => {
       const result = await administrationClient.getQueue(queueId);
 
       assert.equal(result.id, queueId);
       assert.equal(result.name, queueRequest.name);
-    }).timeout(timeoutMs);
+    });
 
-    it("should update a queue", async function () {
+    it("should update a queue", { timeout: timeoutMs }, async () => {
       const updatePatch = { ...queueRequest, name: "new-name" };
       const updateResult = await administrationClient.updateQueue(queueId, updatePatch);
 
@@ -75,21 +74,21 @@ describe("JobRouterClient", function () {
       assert.isDefined(removeResult.id);
       assert.equal(updateResult.name, updatePatch.name);
       assert.isUndefined(removeResult.name);
-    }).timeout(timeoutMs);
+    });
 
-    it("should list queues", async function () {
+    it("should list queues", { timeout: timeoutMs }, async () => {
       const result: RouterQueue[] = [];
       for await (const queue of administrationClient.listQueues({ maxPageSize: 20 })) {
         result.push(queue.queue!);
       }
 
       assert.isNotEmpty(result);
-    }).timeout(timeoutMs);
+    });
 
-    it("should delete a queue", async function () {
+    it("should delete a queue", { timeout: timeoutMs }, async () => {
       const result = await administrationClient.deleteQueue(queueId);
 
       assert.isDefined(result);
-    }).timeout(timeoutMs);
+    });
   });
 });

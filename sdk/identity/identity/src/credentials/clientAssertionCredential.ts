@@ -1,16 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { MsalClient, createMsalClient } from "../msal/nodeFlows/msalClient";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { MsalClient } from "../msal/nodeFlows/msalClient.js";
+import { createMsalClient } from "../msal/nodeFlows/msalClient.js";
 import {
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
+} from "../util/tenantIdUtils.js";
 
-import { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions";
-import { credentialLogger } from "../util/logging";
-import { tracingClient } from "../util/tracing";
+import type { ClientAssertionCredentialOptions } from "./clientAssertionCredentialOptions.js";
+import { CredentialUnavailableError } from "../errors.js";
+import { credentialLogger } from "../util/logging.js";
+import { tracingClient } from "../util/tracing.js";
 
 const logger = credentialLogger("ClientAssertionCredential");
 
@@ -40,9 +42,21 @@ export class ClientAssertionCredential implements TokenCredential {
     getAssertion: () => Promise<string>,
     options: ClientAssertionCredentialOptions = {},
   ) {
-    if (!tenantId || !clientId || !getAssertion) {
-      throw new Error(
-        "ClientAssertionCredential: tenantId, clientId, and clientAssertion are required parameters.",
+    if (!tenantId) {
+      throw new CredentialUnavailableError(
+        "ClientAssertionCredential: tenantId is a required parameter.",
+      );
+    }
+
+    if (!clientId) {
+      throw new CredentialUnavailableError(
+        "ClientAssertionCredential: clientId is a required parameter.",
+      );
+    }
+
+    if (!getAssertion) {
+      throw new CredentialUnavailableError(
+        "ClientAssertionCredential: clientAssertion is a required parameter.",
       );
     }
     this.tenantId = tenantId;

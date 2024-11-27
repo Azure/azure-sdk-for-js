@@ -1,6 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import type {
+  KeepAliveOptions,
+  ExtendedServiceClientOptions,
+  HttpPipelineLogLevel,
+} from "@azure/core-http-compat";
 import {
   CompatResponse as HttpOperationResponse,
   RequestPolicy as IHttpClient,
@@ -9,31 +14,29 @@ import {
   RequestPolicyFactory,
   RequestPolicyOptionsLike as RequestPolicyOptions,
   WebResourceLike as WebResource,
-  KeepAliveOptions,
-  ExtendedServiceClientOptions,
   convertHttpClient,
   createRequestPolicyFactoryPolicy,
-  HttpPipelineLogLevel,
 } from "@azure/core-http-compat";
-import {
-  RequestBodyType as HttpRequestBody,
+import type {
   ProxySettings as ProxyOptions,
   UserAgentPolicyOptions as UserAgentOptions,
-  bearerTokenAuthenticationPolicy,
   Pipeline as CorePipeline,
-  decompressResponsePolicyName,
   PipelinePolicy,
   HttpClient,
 } from "@azure/core-rest-pipeline";
+import {
+  RequestBodyType as HttpRequestBody,
+  bearerTokenAuthenticationPolicy,
+  decompressResponsePolicyName,
+} from "@azure/core-rest-pipeline";
 import { authorizeRequestOnTenantChallenge, createClientPipeline } from "@azure/core-client";
 import { parseXML, stringifyXML } from "@azure/core-xml";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
 
 import { logger } from "./log";
-import {
-  StorageRetryOptions,
-  StorageRetryPolicyFactory,
-} from "../../storage-blob/src/StorageRetryPolicyFactory";
+import type { StorageRetryOptions } from "../../storage-blob/src/StorageRetryPolicyFactory";
+import { StorageRetryPolicyFactory } from "../../storage-blob/src/StorageRetryPolicyFactory";
 import { StorageSharedKeyCredential } from "../../storage-blob/src/credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "../../storage-blob/src/credentials/AnonymousCredential";
 import {

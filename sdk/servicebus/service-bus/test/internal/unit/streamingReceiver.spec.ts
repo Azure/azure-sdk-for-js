@@ -1,19 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { addTestStreamingReceiver } from "./unittestUtils";
-import { ProcessErrorArgs, ServiceBusReceivedMessage } from "../../../src";
-import { StreamingReceiver } from "../../../src/core/streamingReceiver";
-import sinon from "sinon";
-import { EventContext } from "rhea-promise";
+// Licensed under the MIT License.
+import { addTestStreamingReceiver } from "./unittestUtils.js";
+import type { ProcessErrorArgs, ServiceBusReceivedMessage } from "../../../src/index.js";
+import type { EventContext } from "rhea-promise";
 import { Constants } from "@azure/core-amqp";
 import { AbortError } from "@azure/abort-controller";
-import { assertThrows } from "../../public/utils/testUtils";
-
-chai.use(chaiAsPromised);
-const assert: typeof chai.assert = chai.assert;
+import { assertThrows } from "../../public/utils/testUtils.js";
+import { describe, it, vi } from "vitest";
+import { assert, expect } from "../../public/utils/chai.js";
 
 describe("StreamingReceiver unit tests", () => {
   const createTestStreamingReceiver = addTestStreamingReceiver();
@@ -124,31 +118,23 @@ describe("StreamingReceiver unit tests", () => {
     });
   });
 
-  describe("forever loop", () => {
-    let streamingReceiver: StreamingReceiver | undefined;
-
-    afterEach(() => {
-      return streamingReceiver?.close();
-    });
-  });
-
   it("onDetach calls through to init", async () => {
     const streamingReceiver = createTestStreamingReceiver("fakeEntityPath");
 
-    const subscribeImplMock = sinon.mock();
+    const subscribeImplMock = vi.fn();
 
     streamingReceiver["_subscribeImpl"] = subscribeImplMock;
     await streamingReceiver.onDetached(new Error("let's detach"));
-    assert.isTrue(subscribeImplMock.calledOnce);
+    expect(subscribeImplMock).toHaveBeenCalledOnce();
 
     // simulate simultaneous detaches
     streamingReceiver["_isDetaching"] = true;
-    subscribeImplMock.resetHistory();
+    subscribeImplMock.mockReset();
 
     await streamingReceiver.onDetached(
       new Error("let's detach but it won't because there's already a onDetached running."),
     );
-    assert.isFalse(subscribeImplMock.called); // we don't do parallel detaches - subsequent ones are just stopped
+    expect(subscribeImplMock).not.toHaveBeenCalled(); // we don't do parallel detaches - subsequent ones are just stopped
     streamingReceiver["_isDetaching"] = false;
   });
 
@@ -177,7 +163,7 @@ describe("StreamingReceiver unit tests", () => {
         {},
       );
 
-      const closeLinkSpy = sinon.spy(
+      const closeLinkSpy = vi.spyOn(
         streamingReceiver as any as { closeLink(): Promise<void> },
         "closeLink",
       );
@@ -190,7 +176,7 @@ describe("StreamingReceiver unit tests", () => {
 
       // closeLink is called on cleanup when we fail to add credits (which we would because our receiver
       // was suspended, which will cause us to fail to add credits)
-      assert.isTrue(closeLinkSpy.called);
+      expect(closeLinkSpy).toHaveBeenCalled();
     });
 
     it("subscription.stop() happens after pre-init() should trigger an AbortError since the receiver is suspended", async () => {
@@ -217,7 +203,7 @@ describe("StreamingReceiver unit tests", () => {
         {},
       );
 
-      const closeLinkSpy = sinon.spy(
+      const closeLinkSpy = vi.spyOn(
         streamingReceiver as any as { closeLink(): Promise<void> },
         "closeLink",
       );
@@ -227,7 +213,8 @@ describe("StreamingReceiver unit tests", () => {
         message: "Error 0: AbortError: Receiver was suspended during initialization.",
       });
 
-      assert.isTrue(!closeLinkSpy.called, "closeLink should not be called if no link was created");
+      // closeLink should not be called if no link was created
+      expect(closeLinkSpy).not.toHaveBeenCalled();
 
       assert.deepEqual(errors, [
         {
@@ -259,7 +246,7 @@ describe("StreamingReceiver unit tests", () => {
         processError: async (args) => {
           processErrorMessages.push(args.error.message);
           // these errors are logged and there's no programatic way to detect them.
-          // this reduces the possiblity of a user ending up in an infinite set of `processError` calls.
+          // this reduces the possibility of a user ending up in an infinite set of `processError` calls.
           throw new Error("processError");
         },
         processMessage: async (msg) => {

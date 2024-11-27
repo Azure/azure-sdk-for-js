@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
 import { createHttpHeaders } from "../../src/httpHeaders.js";
-import { MultipartRequestBody } from "../../src/interfaces.js";
+import type { MultipartRequestBody } from "../../src/interfaces.js";
 import { isBlob } from "../../src/util/typeGuards.js";
 import { Readable } from "node:stream";
 import { performRequest } from "../formDataPolicy.spec.js";

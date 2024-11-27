@@ -12,9 +12,9 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { RoomsImpl, ParticipantsImpl } from "./operations";
-import { Rooms, Participants } from "./operationsInterfaces";
-import { RoomsRestClientOptionalParams } from "./models";
+import { RoomsImpl, ParticipantsImpl } from "./operations/index.js";
+import { Rooms, Participants } from "./operationsInterfaces/index.js";
+import { RoomsRestClientOptionalParams } from "./models/index.js";
 
 export class RoomsRestClient extends coreClient.ServiceClient {
   endpoint: string;

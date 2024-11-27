@@ -1,18 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { randomUUID } from "@azure/core-util";
-import { ContainerBreakLeaseOptionalParams } from "./generatedModels";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { Blob as StorageBlob, Container } from "./generated/src/operationsInterfaces";
-import { ModifiedAccessConditions } from "./models";
-import { CommonOptions } from "./StorageClient";
+import type { ContainerBreakLeaseOptionalParams } from "./generatedModels";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { Blob as StorageBlob, Container } from "./generated/src/operationsInterfaces";
+import type { ModifiedAccessConditions } from "./models";
+import type { CommonOptions } from "./StorageClient";
 import { ETagNone } from "./utils/constants";
 import { tracingClient } from "./utils/tracing";
-import { BlobClient } from "./Clients";
-import { ContainerClient } from "./ContainerClient";
-import { assertResponse, WithResponse } from "./utils/utils.common";
-import {
+import type { BlobClient } from "./Clients";
+import type { ContainerClient } from "./ContainerClient";
+import type { WithResponse } from "./utils/utils.common";
+import { assertResponse } from "./utils/utils.common";
+import type {
   ContainerAcquireLeaseHeaders,
   ContainerBreakLeaseHeaders,
   ContainerReleaseLeaseHeaders,

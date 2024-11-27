@@ -5,27 +5,13 @@ extends:
     parameters:
       PackageName: "@azure/event-hubs"
       ServiceDirectory: eventhub
-      MatrixFilters:
-        - TestType=^(?!sample).*
-        - DependencyVersion=^$
-      UseFederatedAuth: true
-      Clouds: 'Public,Canary'
       TimeoutInMinutes: 90
       SupportedClouds: 'Public,UsGov,China'
       CloudConfig:
         Public:
-          ServiceConnection: azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzurePublicMsft.json
         UsGov:
-          ServiceConnection: usgov_azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzureUsGovMsft.json
           Location: 'usgovarizona'
         China:
-          ServiceConnection: china_azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzureChinaMsft.json
           Location: 'chinaeast'
       EnvVars:
         AZURE_LOG_LEVEL: info

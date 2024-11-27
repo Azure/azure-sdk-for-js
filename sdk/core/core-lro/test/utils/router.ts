@@ -1,25 +1,24 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   HttpClient,
   HttpMethods,
   PipelineRequest,
   PipelineResponse,
-  RestError,
-  createHttpHeaders,
 } from "@azure/core-rest-pipeline";
-import {
+import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
+import type {
   ImplementationName,
   LroResponseSpec,
   Result,
   RouteProcessor,
   State,
-  createProcessor,
-  generate,
 } from "./utils.js";
-import { PollerLike, createHttpPoller } from "../../src/index.js";
-import {
+import { createProcessor, generate } from "./utils.js";
+import type { PollerLike } from "../../src/index.js";
+import { createHttpPoller } from "../../src/index.js";
+import type {
   OperationResponse,
   RawResponse,
   ResourceLocationConfig,
@@ -27,7 +26,7 @@ import {
 } from "../../src/http/models.js";
 import { AbortError } from "@azure/abort-controller";
 import { createCoreRestPipelineLro } from "./coreRestPipelineLro.js";
-import { getYieldedValue } from "../getYieldedValue.js";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 
 /**
  * Dummy value for the path of the initial request

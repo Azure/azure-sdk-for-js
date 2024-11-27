@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   createDefaultHttpClient,
@@ -27,6 +27,7 @@ export class CoreRestPipelineTest extends BaseHttpTest {
 
   async run(): Promise<void> {
     const response = await this.client.sendRequest(this.request);
+    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     response.bodyAsText; // Hello World!
   }
 }

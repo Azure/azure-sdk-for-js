@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import Long from "long";
-import { MessageSender } from "./core/messageSender";
-import { ServiceBusMessage } from "./serviceBusMessage";
-import { ConnectionContext } from "./connectionContext";
+import type Long from "long";
+import { MessageSender } from "./core/messageSender.js";
+import type { ServiceBusMessage } from "./serviceBusMessage.js";
+import type { ConnectionContext } from "./connectionContext.js";
 import {
   errorInvalidMessageTypeSingleOrArray,
   getSenderClosedErrorMsg,
@@ -13,23 +13,18 @@ import {
   throwTypeErrorIfNotInstanceOfParameterType,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-} from "./util/errors";
-import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-import { CreateMessageBatchOptions } from "./models";
-import {
-  RetryConfig,
-  RetryOperationType,
-  RetryOptions,
-  retry,
-  AmqpAnnotatedMessage,
-} from "@azure/core-amqp";
-import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
-import { TracingSpanLink } from "@azure/core-tracing";
-import { senderLogger as logger } from "./log";
-import { toSpanOptions, tracingClient } from "./diagnostics/tracing";
-import { ensureValidIdentifier } from "./util/utils";
-import { ServiceBusError } from "./serviceBusError";
-import { instrumentMessage } from "./diagnostics/instrumentServiceBusMessage";
+} from "./util/errors.js";
+import type { ServiceBusMessageBatch } from "./serviceBusMessageBatch.js";
+import type { CreateMessageBatchOptions } from "./models.js";
+import type { RetryConfig, RetryOptions, AmqpAnnotatedMessage } from "@azure/core-amqp";
+import { RetryOperationType, retry } from "@azure/core-amqp";
+import type { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs.js";
+import type { TracingSpanLink } from "@azure/core-tracing";
+import { senderLogger as logger } from "./log.js";
+import { toSpanOptions, tracingClient } from "./diagnostics/tracing.js";
+import { ensureValidIdentifier } from "./util/utils.js";
+import { ServiceBusError } from "./serviceBusError.js";
+import { instrumentMessage } from "./diagnostics/instrumentServiceBusMessage.js";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time

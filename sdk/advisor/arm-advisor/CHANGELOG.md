@@ -2,7 +2,7 @@
 
 ## 3.2.0 (2023-08-03)
 
-**Features**
+### Features Added
 
 - Class AdvisorManagementClient has a new signature
 - Interface RecommendationsListNextOptionalParams no longer has parameter filter
@@ -13,7 +13,7 @@
 
 ## 3.1.0 (2022-11-14)
 
-**Features**
+### Features Added
 
 - Added Interface ConfigData
 - Added Interface ResourceRecommendationBase
@@ -21,19 +21,19 @@
 
 ## 3.0.3 (2022-10-08)
 
-**Bugs Fixed**
+### Bugs Fixed
 
 - revert credential scopes
 
 ## 3.0.2 (2022-09-30)
 
-**Bugs Fixed**
+### Bugs Fixed
 
 - fix better user experience of credential scopes in government cloud
 
 ## 3.0.1 (2022-03-22)
 
-**features**
+### Features Added
 
 - bug fix
 

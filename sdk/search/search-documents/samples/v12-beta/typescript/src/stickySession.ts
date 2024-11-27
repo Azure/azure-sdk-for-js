@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates user sticky sessions, a way to reduce inconsistent behavior by targeting a
@@ -7,8 +7,9 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { odata, SearchClient, SearchIndexClient } from "@azure/search-documents";
-import { Hotel } from "./interfaces";
+import type { SearchClient } from "@azure/search-documents";
+import { odata, SearchIndexClient } from "@azure/search-documents";
+import type { Hotel } from "./interfaces";
 import { createIndex, delay, WAIT_TIME } from "./setup";
 
 import * as dotenv from "dotenv";

@@ -28,9 +28,15 @@ export default [
       // left to the cosmos team make this rule error again
       "@azure/azure-sdk/ts-package-json-module": "warn",
       "@azure/azure-sdk/ts-doc-internal": "warn",
-
-      // https://github.com/benmosher/eslint-plugin-import/issues/1816
-      "import/no-extraneous-dependencies": "off",
+    },
+  },
+  {
+    files: ["test/**/*.ts"],
+    rules: {
+      "no-console": "off",
+      "space-before-function-paren": "off",
+      "no-unused-expressions": "off",
+      "@typescript-eslint/no-unused-expressions": "off",
     },
   },
 ];

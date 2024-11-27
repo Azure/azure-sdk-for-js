@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { TestTracer, setTracer, resetTracer } from "@azure-tools/test-utils";
+import { TestTracer, setTracer, resetTracer } from "@azure-tools/test-utils-vitest";
 
 // some functions useful as we transition between interfaces and classes.
 export function setTracerForTest<T extends TestTracer>(

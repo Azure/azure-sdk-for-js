@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
-import { ChangeFeedOptions } from "./ChangeFeedOptions";
+import type { ChangeFeedOptions } from "./ChangeFeedOptions";
 import { ChangeFeedResponse } from "./ChangeFeedResponse";
-import { Resource } from "./client";
-import { ClientContext } from "./ClientContext";
+import type { Resource } from "./client";
+import type { ClientContext } from "./ClientContext";
 import { Constants, ResourceType, StatusCodes } from "./common";
-import { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
-import { PartitionKey } from "./documents";
-import { FeedOptions } from "./request";
-import { Response } from "./request";
+import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
+import type { PartitionKey } from "./documents";
+import type { FeedOptions } from "./request";
+import type { Response } from "./request";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics";
 
 /**

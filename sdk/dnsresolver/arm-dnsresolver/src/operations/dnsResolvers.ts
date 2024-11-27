@@ -13,8 +13,12 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { DnsResolverManagementClient } from "../dnsResolverManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   DnsResolver,
   DnsResolversListByResourceGroupNextOptionalParams,
@@ -37,7 +41,7 @@ import {
   DnsResolversGetResponse,
   DnsResolversListByResourceGroupNextResponse,
   DnsResolversListNextResponse,
-  DnsResolversListByVirtualNetworkNextResponse
+  DnsResolversListByVirtualNetworkNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -60,7 +64,7 @@ export class DnsResolversImpl implements DnsResolvers {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: DnsResolversListByResourceGroupOptionalParams
+    options?: DnsResolversListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<DnsResolver> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -77,16 +81,16 @@ export class DnsResolversImpl implements DnsResolvers {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: DnsResolversListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DnsResolver[]> {
     let result: DnsResolversListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -101,7 +105,7 @@ export class DnsResolversImpl implements DnsResolvers {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -112,11 +116,11 @@ export class DnsResolversImpl implements DnsResolvers {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: DnsResolversListByResourceGroupOptionalParams
+    options?: DnsResolversListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<DnsResolver> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -127,7 +131,7 @@ export class DnsResolversImpl implements DnsResolvers {
    * @param options The options parameters.
    */
   public list(
-    options?: DnsResolversListOptionalParams
+    options?: DnsResolversListOptionalParams,
   ): PagedAsyncIterableIterator<DnsResolver> {
     const iter = this.listPagingAll(options);
     return {
@@ -142,13 +146,13 @@ export class DnsResolversImpl implements DnsResolvers {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     options?: DnsResolversListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<DnsResolver[]> {
     let result: DnsResolversListResponse;
     let continuationToken = settings?.continuationToken;
@@ -169,7 +173,7 @@ export class DnsResolversImpl implements DnsResolvers {
   }
 
   private async *listPagingAll(
-    options?: DnsResolversListOptionalParams
+    options?: DnsResolversListOptionalParams,
   ): AsyncIterableIterator<DnsResolver> {
     for await (const page of this.listPagingPage(options)) {
       yield* page;
@@ -185,12 +189,12 @@ export class DnsResolversImpl implements DnsResolvers {
   public listByVirtualNetwork(
     resourceGroupName: string,
     virtualNetworkName: string,
-    options?: DnsResolversListByVirtualNetworkOptionalParams
+    options?: DnsResolversListByVirtualNetworkOptionalParams,
   ): PagedAsyncIterableIterator<SubResource> {
     const iter = this.listByVirtualNetworkPagingAll(
       resourceGroupName,
       virtualNetworkName,
-      options
+      options,
     );
     return {
       next() {
@@ -207,9 +211,9 @@ export class DnsResolversImpl implements DnsResolvers {
           resourceGroupName,
           virtualNetworkName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -217,7 +221,7 @@ export class DnsResolversImpl implements DnsResolvers {
     resourceGroupName: string,
     virtualNetworkName: string,
     options?: DnsResolversListByVirtualNetworkOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<SubResource[]> {
     let result: DnsResolversListByVirtualNetworkResponse;
     let continuationToken = settings?.continuationToken;
@@ -225,7 +229,7 @@ export class DnsResolversImpl implements DnsResolvers {
       result = await this._listByVirtualNetwork(
         resourceGroupName,
         virtualNetworkName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -237,7 +241,7 @@ export class DnsResolversImpl implements DnsResolvers {
         resourceGroupName,
         virtualNetworkName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -249,12 +253,12 @@ export class DnsResolversImpl implements DnsResolvers {
   private async *listByVirtualNetworkPagingAll(
     resourceGroupName: string,
     virtualNetworkName: string,
-    options?: DnsResolversListByVirtualNetworkOptionalParams
+    options?: DnsResolversListByVirtualNetworkOptionalParams,
   ): AsyncIterableIterator<SubResource> {
     for await (const page of this.listByVirtualNetworkPagingPage(
       resourceGroupName,
       virtualNetworkName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -271,30 +275,29 @@ export class DnsResolversImpl implements DnsResolvers {
     resourceGroupName: string,
     dnsResolverName: string,
     parameters: DnsResolver,
-    options?: DnsResolversCreateOrUpdateOptionalParams
+    options?: DnsResolversCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DnsResolversCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DnsResolversCreateOrUpdateResponse>,
       DnsResolversCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DnsResolversCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -303,8 +306,8 @@ export class DnsResolversImpl implements DnsResolvers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -312,19 +315,22 @@ export class DnsResolversImpl implements DnsResolvers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dnsResolverName, parameters, options },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, dnsResolverName, parameters, options },
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DnsResolversCreateOrUpdateResponse,
+      OperationState<DnsResolversCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -341,13 +347,13 @@ export class DnsResolversImpl implements DnsResolvers {
     resourceGroupName: string,
     dnsResolverName: string,
     parameters: DnsResolver,
-    options?: DnsResolversCreateOrUpdateOptionalParams
+    options?: DnsResolversCreateOrUpdateOptionalParams,
   ): Promise<DnsResolversCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       dnsResolverName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -363,30 +369,29 @@ export class DnsResolversImpl implements DnsResolvers {
     resourceGroupName: string,
     dnsResolverName: string,
     parameters: DnsResolverPatch,
-    options?: DnsResolversUpdateOptionalParams
+    options?: DnsResolversUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<DnsResolversUpdateResponse>,
+    SimplePollerLike<
+      OperationState<DnsResolversUpdateResponse>,
       DnsResolversUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<DnsResolversUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -395,8 +400,8 @@ export class DnsResolversImpl implements DnsResolvers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -404,19 +409,22 @@ export class DnsResolversImpl implements DnsResolvers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dnsResolverName, parameters, options },
-      updateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, dnsResolverName, parameters, options },
+      spec: updateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      DnsResolversUpdateResponse,
+      OperationState<DnsResolversUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -433,13 +441,13 @@ export class DnsResolversImpl implements DnsResolvers {
     resourceGroupName: string,
     dnsResolverName: string,
     parameters: DnsResolverPatch,
-    options?: DnsResolversUpdateOptionalParams
+    options?: DnsResolversUpdateOptionalParams,
   ): Promise<DnsResolversUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       dnsResolverName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -453,25 +461,24 @@ export class DnsResolversImpl implements DnsResolvers {
   async beginDelete(
     resourceGroupName: string,
     dnsResolverName: string,
-    options?: DnsResolversDeleteOptionalParams
-  ): Promise<PollerLike<PollOperationState<void>, void>> {
+    options?: DnsResolversDeleteOptionalParams,
+  ): Promise<SimplePollerLike<OperationState<void>, void>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<void> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -480,8 +487,8 @@ export class DnsResolversImpl implements DnsResolvers {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -489,19 +496,19 @@ export class DnsResolversImpl implements DnsResolvers {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      { resourceGroupName, dnsResolverName, options },
-      deleteOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: { resourceGroupName, dnsResolverName, options },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
     });
     await poller.poll();
     return poller;
@@ -516,12 +523,12 @@ export class DnsResolversImpl implements DnsResolvers {
   async beginDeleteAndWait(
     resourceGroupName: string,
     dnsResolverName: string,
-    options?: DnsResolversDeleteOptionalParams
+    options?: DnsResolversDeleteOptionalParams,
   ): Promise<void> {
     const poller = await this.beginDelete(
       resourceGroupName,
       dnsResolverName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -535,11 +542,11 @@ export class DnsResolversImpl implements DnsResolvers {
   get(
     resourceGroupName: string,
     dnsResolverName: string,
-    options?: DnsResolversGetOptionalParams
+    options?: DnsResolversGetOptionalParams,
   ): Promise<DnsResolversGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, dnsResolverName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -550,11 +557,11 @@ export class DnsResolversImpl implements DnsResolvers {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: DnsResolversListByResourceGroupOptionalParams
+    options?: DnsResolversListByResourceGroupOptionalParams,
   ): Promise<DnsResolversListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -563,7 +570,7 @@ export class DnsResolversImpl implements DnsResolvers {
    * @param options The options parameters.
    */
   private _list(
-    options?: DnsResolversListOptionalParams
+    options?: DnsResolversListOptionalParams,
   ): Promise<DnsResolversListResponse> {
     return this.client.sendOperationRequest({ options }, listOperationSpec);
   }
@@ -577,11 +584,11 @@ export class DnsResolversImpl implements DnsResolvers {
   private _listByVirtualNetwork(
     resourceGroupName: string,
     virtualNetworkName: string,
-    options?: DnsResolversListByVirtualNetworkOptionalParams
+    options?: DnsResolversListByVirtualNetworkOptionalParams,
   ): Promise<DnsResolversListByVirtualNetworkResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualNetworkName, options },
-      listByVirtualNetworkOperationSpec
+      listByVirtualNetworkOperationSpec,
     );
   }
 
@@ -594,11 +601,11 @@ export class DnsResolversImpl implements DnsResolvers {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: DnsResolversListByResourceGroupNextOptionalParams
+    options?: DnsResolversListByResourceGroupNextOptionalParams,
   ): Promise<DnsResolversListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 
@@ -609,11 +616,11 @@ export class DnsResolversImpl implements DnsResolvers {
    */
   private _listNext(
     nextLink: string,
-    options?: DnsResolversListNextOptionalParams
+    options?: DnsResolversListNextOptionalParams,
   ): Promise<DnsResolversListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 
@@ -628,11 +635,11 @@ export class DnsResolversImpl implements DnsResolvers {
     resourceGroupName: string,
     virtualNetworkName: string,
     nextLink: string,
-    options?: DnsResolversListByVirtualNetworkNextOptionalParams
+    options?: DnsResolversListByVirtualNetworkNextOptionalParams,
   ): Promise<DnsResolversListByVirtualNetworkNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, virtualNetworkName, nextLink, options },
-      listByVirtualNetworkNextOperationSpec
+      listByVirtualNetworkNextOperationSpec,
     );
   }
 }
@@ -640,25 +647,24 @@ export class DnsResolversImpl implements DnsResolvers {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.DnsResolver
+      bodyMapper: Mappers.DnsResolver,
     },
     201: {
-      bodyMapper: Mappers.DnsResolver
+      bodyMapper: Mappers.DnsResolver,
     },
     202: {
-      bodyMapper: Mappers.DnsResolver
+      bodyMapper: Mappers.DnsResolver,
     },
     204: {
-      bodyMapper: Mappers.DnsResolver
+      bodyMapper: Mappers.DnsResolver,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters,
   queryParameters: [Parameters.apiVersion],
@@ -666,37 +672,36 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dnsResolverName
+    Parameters.dnsResolverName,
   ],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.DnsResolver
+      bodyMapper: Mappers.DnsResolver,
     },
     201: {
-      bodyMapper: Mappers.DnsResolver
+      bodyMapper: Mappers.DnsResolver,
     },
     202: {
-      bodyMapper: Mappers.DnsResolver
+      bodyMapper: Mappers.DnsResolver,
     },
     204: {
-      bodyMapper: Mappers.DnsResolver
+      bodyMapper: Mappers.DnsResolver,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   requestBody: Parameters.parameters1,
   queryParameters: [Parameters.apiVersion],
@@ -704,19 +709,18 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dnsResolverName
+    Parameters.dnsResolverName,
   ],
   headerParameters: [
     Parameters.contentType,
     Parameters.accept,
-    Parameters.ifMatch
+    Parameters.ifMatch,
   ],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
@@ -724,158 +728,154 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dnsResolverName
+    Parameters.dnsResolverName,
   ],
   headerParameters: [Parameters.accept, Parameters.ifMatch],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DnsResolver
+      bodyMapper: Mappers.DnsResolver,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.dnsResolverName
+    Parameters.dnsResolverName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DnsResolverListResult
+      bodyMapper: Mappers.DnsResolverListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Network/dnsResolvers",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Network/dnsResolvers",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DnsResolverListResult
+      bodyMapper: Mappers.DnsResolverListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByVirtualNetworkOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listDnsResolvers",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listDnsResolvers",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.SubResourceListResult
+      bodyMapper: Mappers.SubResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.virtualNetworkName
+    Parameters.virtualNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DnsResolverListResult
+      bodyMapper: Mappers.DnsResolverListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.DnsResolverListResult
+      bodyMapper: Mappers.DnsResolverListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByVirtualNetworkNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.SubResourceListResult
+      bodyMapper: Mappers.SubResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.virtualNetworkName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

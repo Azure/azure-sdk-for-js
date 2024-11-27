@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Get a private endpoint connection.
  *
  * @summary Get a private endpoint connection.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/PrivateEndpointConnection_GetByWorkspace.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/PrivateEndpointConnection_GetByWorkspace.json
  */
 async function privateEndpointConnectionGetByWorkspace() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function privateEndpointConnectionGetByWorkspace() {
   const result = await client.privateEndpointConnections.getByWorkspace(
     resourceGroupName,
     workspaceName,
-    privateEndpointConnectionName
+    privateEndpointConnectionName,
   );
   console.log(result);
 }

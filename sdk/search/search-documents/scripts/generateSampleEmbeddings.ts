@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 const { OpenAIClient, AzureKeyCredential } = require("@azure/openai");
 const { createWriteStream } = require("fs");
@@ -38,7 +38,7 @@ async function main() {
   writeStream.cork();
 
   writeStream.write(
-    "// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT license.\n\n"
+    "// Copyright (c) Microsoft Corporation.\n// Licensed under the MIT License.\n\n"
   );
 
   const expressions = await Promise.all(

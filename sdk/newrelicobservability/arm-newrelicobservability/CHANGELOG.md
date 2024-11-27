@@ -12,7 +12,7 @@
 
 ## 1.1.0 (2024-03-08)
     
-**Features**
+### Features Added
 
   - Added operation group BillingInfo
   - Added operation group ConnectedPartnerResources

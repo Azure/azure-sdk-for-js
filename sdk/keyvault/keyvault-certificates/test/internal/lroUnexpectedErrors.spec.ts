@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "@azure-tools/test-utils";
-import { RestError, createHttpHeaders, PipelineRequest } from "@azure/core-rest-pipeline";
-import { DeleteCertificatePoller } from "../../src/lro/delete/poller";
-import { RecoverDeletedCertificatePoller } from "../../src/lro/recover/poller";
-import { KeyVaultClient } from "../../src/generated";
-import { FullOperationResponse } from "@azure/core-client";
+// Licensed under the MIT License.
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import { RestError, createHttpHeaders } from "@azure/core-rest-pipeline";
+import { DeleteCertificatePoller } from "../../src/lro/delete/poller.js";
+import { RecoverDeletedCertificatePoller } from "../../src/lro/recover/poller.js";
+import type { KeyVaultClient } from "../../src/generated/index.js";
+import type { FullOperationResponse } from "@azure/core-client";
+import { describe, it, assert } from "vitest";
 
 describe("The LROs properly throw on unexpected errors", () => {
   const vaultUrl = `https://keyvaultname.vault.azure.net`;

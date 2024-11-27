@@ -1,19 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AmqpAnnotatedMessage, Constants } from "@azure/core-amqp";
-import { BodyTypes, defaultDataTransformer } from "./dataTransformer.js";
-import {
-  DeliveryAnnotations,
-  MessageAnnotations,
-  Message as RheaMessage,
-  types,
-} from "rhea-promise";
+import type { BodyTypes } from "./dataTransformer.js";
+import { defaultDataTransformer } from "./dataTransformer.js";
+import type { DeliveryAnnotations, MessageAnnotations, Message as RheaMessage } from "rhea-promise";
+import { types } from "rhea-promise";
 import { isDefined, isObjectWithProperties, objectHasProperty } from "@azure/core-util";
-import {
-  idempotentProducerAmqpPropertyNames,
-  PENDING_PUBLISH_SEQ_NUM_SYMBOL,
-} from "./util/constants.js";
+import type { PENDING_PUBLISH_SEQ_NUM_SYMBOL } from "./util/constants.js";
+import { idempotentProducerAmqpPropertyNames } from "./util/constants.js";
+import isBuffer from "is-buffer";
 
 /**
  * Describes the delivery annotations.
@@ -288,7 +284,7 @@ export function toRheaMessage(
       body: defaultDataTransformer.encode(data.body, bodyType),
     };
     // As per the AMQP 1.0 spec If the message-annotations or delivery-annotations section is omitted,
-    // it is equivalent to a message-annotations section containing anempty map of annotations.
+    // it is equivalent to a message-annotations section containing empty map of annotations.
     rheaMessage.message_annotations = {};
 
     if (data.properties) {
@@ -378,9 +374,60 @@ export interface EventData {
 }
 
 /**
+ * Asserts that the provided data conforms to the `EventData` interface.
+ *
+ * This function performs runtime checks on the `data` object to ensure it matches the expected
+ * structure and types defined in the `EventData` interface. If any of the checks fail, it throws
+ * an error with a descriptive message indicating the mismatch.
+ *
+ * @param data - The data object to validate as `EventData`.
+ * @throws \{Error\} Throws an error if the data does not conform to the `EventData` interface.
+ */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export function assertIsEventData(data: any): asserts data is EventData {
+  if (data.contentType != null && typeof data.contentType !== "string") {
+    throw new Error(
+      `Invalid 'contentType': expected 'string' or 'undefined', but received '${typeof data.contentType}'.`,
+    );
+  }
+
+  if (
+    data.correlationId != null &&
+    typeof data.correlationId !== "string" &&
+    typeof data.correlationId !== "number" &&
+    !isBuffer(data.correlationId)
+  ) {
+    throw new Error(
+      `Invalid 'correlationId': expected 'string', 'number', 'Buffer', or 'undefined', but received '${typeof data.correlationId}'.`,
+    );
+  }
+
+  if (
+    data.messageId != null &&
+    typeof data.messageId !== "string" &&
+    typeof data.messageId !== "number" &&
+    !isBuffer(data.messageId)
+  ) {
+    throw new Error(
+      `Invalid 'messageId': expected 'string', 'number', 'Buffer', or 'undefined', but received '${typeof data.messageId}'.`,
+    );
+  }
+
+  if (
+    data.properties !== undefined &&
+    (typeof data.properties !== "object" || Array.isArray(data.properties))
+  ) {
+    const actualType = Array.isArray(data.properties) ? "array" : typeof data.properties;
+    throw new Error(
+      `Invalid 'properties': expected an object or 'undefined', but received '${actualType}'.`,
+    );
+  }
+}
+
+/**
  * The interface that describes the structure of the event received from Event Hub.
  * Use this as a reference when creating the `processEvents` function to process the events
- * recieved from an Event Hub when using the `EventHubConsumerClient`.
+ * received from an Event Hub when using the `EventHubConsumerClient`.
  */
 export interface ReceivedEventData {
   /**

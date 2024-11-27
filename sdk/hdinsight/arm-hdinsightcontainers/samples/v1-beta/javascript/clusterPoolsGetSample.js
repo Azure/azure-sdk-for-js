@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a cluster pool.
  *
  * @summary Gets a cluster pool.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2023-11-01-preview/examples/GetClusterPool.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/HDInsightOnAks/preview/2024-05-01-preview/examples/GetClusterPool.json
  */
 async function clusterPoolGet() {
   const subscriptionId =

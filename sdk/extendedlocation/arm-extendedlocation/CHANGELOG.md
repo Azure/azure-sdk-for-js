@@ -12,17 +12,17 @@
 
 ## 1.0.0-beta.3 (2023-01-10)
 
-**Features**
+### Features Added
 
 - Exposes `getContinuationToken` helper function to extract continuation token
 
-**Bugs Fixed**
+### Bugs Fixed
 
 - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 1.0.0-beta.2 (2022-07-20)
     
-**Features**
+### Features Added
 
   - Added operation group ResourceSyncRules
   - Added operation CustomLocations.findTargetResourceGroup
@@ -55,7 +55,7 @@
   - Class CustomLocationsManagementClient has a new parameter resourceSyncRules
   - Class CustomLocationsManagementClient has a new parameter subscriptionId
 
-**Breaking Changes**
+### Breaking Changes
 
   - Deleted Class CustomLocationsManagementClientContext
     

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 
@@ -17,8 +17,8 @@ import {
 } from "./utils";
 import { delay, Recorder, isLiveMode } from "@azure-tools/test-recorder";
 import { getYieldedValue } from "@azure-tools/test-utils";
-import { Tags } from "../src/models";
-import { Context } from "mocha";
+import type { Tags } from "../src/models";
+import type { Context } from "mocha";
 
 describe("BlobServiceClient", () => {
   let recorder: Recorder;

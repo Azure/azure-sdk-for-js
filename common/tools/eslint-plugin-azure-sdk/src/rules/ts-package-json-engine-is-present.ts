@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force Node support for all LTS versions.
@@ -35,7 +35,6 @@ export default createRule<Options, VerifierMessageIds>({
     type: "suggestion",
     docs: {
       description: "Check engines field is set to current Node LTS",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

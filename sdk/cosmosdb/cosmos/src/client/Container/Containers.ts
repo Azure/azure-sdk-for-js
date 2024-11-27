@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+// Licensed under the MIT License.
+import type { ClientContext } from "../../ClientContext";
 import {
   Constants,
   getIdFromLink,
@@ -10,17 +10,18 @@ import {
   StatusCodes,
 } from "../../common";
 import { DEFAULT_PARTITION_KEY_PATH } from "../../common/partitionKeys";
-import { mergeHeaders, SqlQuerySpec } from "../../queryExecutionContext";
+import type { SqlQuerySpec } from "../../queryExecutionContext";
+import { mergeHeaders } from "../../queryExecutionContext";
 import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions } from "../../request";
-import { Database } from "../Database";
-import { Resource } from "../Resource";
+import type { FeedOptions, RequestOptions } from "../../request";
+import type { Database } from "../Database";
+import type { Resource } from "../Resource";
 import { Container } from "./Container";
-import { ContainerDefinition } from "./ContainerDefinition";
-import { ContainerRequest } from "./ContainerRequest";
+import type { ContainerDefinition } from "./ContainerDefinition";
+import type { ContainerRequest } from "./ContainerRequest";
 import { ContainerResponse } from "./ContainerResponse";
 import { validateOffer } from "../../utils/offers";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "../../utils/diagnostics";
 
 /**

@@ -6,9 +6,9 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { SimplePollerLike, OperationState } from "@azure/core-lro";
-import {
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type { SimplePollerLike, OperationState } from "@azure/core-lro";
+import type {
   PipelineResource,
   PipelineGetPipelinesByWorkspaceOptionalParams,
   PipelineCreateOrUpdatePipelineOptionalParams,
@@ -20,23 +20,22 @@ import {
   PipelineRenamePipelineOptionalParams,
   PipelineCreatePipelineRunOptionalParams,
   PipelineCreatePipelineRunResponse,
-} from "../models";
+} from "../models/index.js";
 
-/// <reference lib="esnext.asynciterable" />
 /** Interface representing a PipelineOperations. */
 export interface PipelineOperations {
   /**
    * Lists pipelines.
-   * @param options The options parameters.
+   * @param options - The options parameters.
    */
   listPipelinesByWorkspace(
     options?: PipelineGetPipelinesByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<PipelineResource>;
   /**
    * Creates or updates a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param pipeline Pipeline resource definition.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param pipeline - Pipeline resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdatePipeline(
     pipelineName: string,
@@ -50,9 +49,9 @@ export interface PipelineOperations {
   >;
   /**
    * Creates or updates a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param pipeline Pipeline resource definition.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param pipeline - Pipeline resource definition.
+   * @param options - The options parameters.
    */
   beginCreateOrUpdatePipelineAndWait(
     pipelineName: string,
@@ -61,8 +60,8 @@ export interface PipelineOperations {
   ): Promise<PipelineCreateOrUpdatePipelineResponse>;
   /**
    * Gets a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param options - The options parameters.
    */
   getPipeline(
     pipelineName: string,
@@ -70,8 +69,8 @@ export interface PipelineOperations {
   ): Promise<PipelineGetPipelineResponse>;
   /**
    * Deletes a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param options - The options parameters.
    */
   beginDeletePipeline(
     pipelineName: string,
@@ -79,8 +78,8 @@ export interface PipelineOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Deletes a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param options - The options parameters.
    */
   beginDeletePipelineAndWait(
     pipelineName: string,
@@ -88,9 +87,9 @@ export interface PipelineOperations {
   ): Promise<void>;
   /**
    * Renames a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenamePipeline(
     pipelineName: string,
@@ -99,9 +98,9 @@ export interface PipelineOperations {
   ): Promise<SimplePollerLike<OperationState<void>, void>>;
   /**
    * Renames a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param request proposed new name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param request - proposed new name.
+   * @param options - The options parameters.
    */
   beginRenamePipelineAndWait(
     pipelineName: string,
@@ -110,8 +109,8 @@ export interface PipelineOperations {
   ): Promise<void>;
   /**
    * Creates a run of a pipeline.
-   * @param pipelineName The pipeline name.
-   * @param options The options parameters.
+   * @param pipelineName - The pipeline name.
+   * @param options - The options parameters.
    */
   createPipelineRun(
     pipelineName: string,

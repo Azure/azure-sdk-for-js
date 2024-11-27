@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export function editDistance(s1: string, s2: string): number {
   const n1 = s1.length;

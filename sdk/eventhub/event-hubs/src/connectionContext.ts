@@ -1,39 +1,33 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /* eslint-disable @typescript-eslint/no-namespace */
 /* eslint-disable no-inner-declarations */
 
-import { Connection, ConnectionEvents, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
+import type { Connection, Dictionary, EventContext, OnAmqpEvent } from "rhea-promise";
+import { ConnectionEvents } from "rhea-promise";
+import type { CreateConnectionContextBaseParameters, SasTokenProvider } from "@azure/core-amqp";
 import {
   ConnectionConfig,
   ConnectionContextBase,
   Constants,
-  CreateConnectionContextBaseParameters,
-  SasTokenProvider,
   createSasTokenProvider,
 } from "@azure/core-amqp";
-import {
-  EventHubConnectionStringProperties,
-  parseEventHubConnectionString,
-} from "./util/connectionStringUtils.js";
-import { ManagementClient, ManagementClientOptions } from "./managementClient.js";
-import {
-  NamedKeyCredential,
-  SASCredential,
-  TokenCredential,
-  isNamedKeyCredential,
-  isSASCredential,
-} from "@azure/core-auth";
+import type { EventHubConnectionStringProperties } from "./util/connectionStringUtils.js";
+import { parseEventHubConnectionString } from "./util/connectionStringUtils.js";
+import type { ManagementClientOptions } from "./managementClient.js";
+import { ManagementClient } from "./managementClient.js";
+import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
+import { isNamedKeyCredential, isSASCredential } from "@azure/core-auth";
 import { logErrorStackTrace, logger } from "./logger.js";
-import { EventHubClientOptions } from "./models/public.js";
+import type { EventHubClientOptions } from "./models/public.js";
 import { EventHubConnectionConfig } from "./eventhubConnectionConfig.js";
-import { PartitionReceiver } from "./partitionReceiver.js";
-import { EventHubSender } from "./eventHubSender.js";
+import type { PartitionReceiver } from "./partitionReceiver.js";
+import type { EventHubSender } from "./eventHubSender.js";
 import { getRuntimeInfo } from "./util/runtimeInfo.js";
 import { isCredential } from "./util/typeGuards.js";
 import { packageJsonInfo } from "./util/constants.js";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { createAbortablePromise } from "@azure/core-util";
 
 /**
@@ -121,7 +115,7 @@ export interface ConnectionContextOptions extends EventHubClientOptions {
 /**
  * Helper type to get the names of all the functions on an object.
  */
-type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]; // eslint-disable-line @typescript-eslint/ban-types
+type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T]; // eslint-disable-line @typescript-eslint/no-unsafe-function-type
 /**
  * Helper type to get the types of all the functions on an object.
  */

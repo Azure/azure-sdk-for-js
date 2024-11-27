@@ -12,7 +12,7 @@
 
 ## 1.0.0-beta.3 (2023-05-29)
     
-**Features**
+### Features Added
 
   - Added Interface ArtifactGenerationProperties
   - Added Interface GeneratePreviewArtifactsOptionalParams
@@ -45,7 +45,7 @@
   - Added Enum KnownManifestGenerationMode
   - Added Enum KnownWorkflowRunStatus
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface Workflow no longer has parameter namespace
   - Type of parameter authStatus of interface Workflow is changed from ManifestType to AuthorizationStatus
@@ -53,7 +53,7 @@
     
 ## 1.0.0-beta.2 (2023-01-04)
     
-**Features**
+### Features Added
 
   - Interface WorkflowListByResourceGroupNextOptionalParams no longer has parameter managedClusterResource
     

@@ -1,30 +1,31 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   AddConfigurationSettingResponse,
   AppConfigurationClient,
   ConfigurationSetting,
   SecretReferenceValue,
+} from "../../src/index.js";
+import {
   isSecretReference,
   parseSecretReference,
   secretReferenceContentType,
-} from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
-import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers";
-import { Context } from "mocha";
-import { assert } from "chai";
+} from "../../src/index.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { createAppConfigurationClientForTests, startRecorder } from "./utils/testHelpers.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("AppConfigurationClient - SecretReference", () => {
   let client: AppConfigurationClient;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async function (ctx) {
+    recorder = await startRecorder(ctx);
     client = createAppConfigurationClientForTests(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function () {
     await recorder.stop();
   });
 

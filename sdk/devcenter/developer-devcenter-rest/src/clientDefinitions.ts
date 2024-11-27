@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   ListProjectsParameters,
   GetProjectParameters,
   GetParameters,
@@ -36,7 +36,7 @@ import {
   GetEnvironmentDefinitionParameters,
   ListEnvironmentTypesParameters,
 } from "./parameters.js";
-import {
+import type {
   ListProjects200Response,
   ListProjectsDefaultResponse,
   GetProject200Response,
@@ -107,7 +107,7 @@ import {
   ListEnvironmentTypes200Response,
   ListEnvironmentTypesDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListProjects {
   /** Lists all projects. */

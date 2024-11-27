@@ -1,17 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ClientOptions } from "@azure-rest/core-client";
-import {
-  AzureKeyCredential,
-  AzureSASCredential,
-  TokenCredential,
-  isSASCredential,
-  isTokenCredential,
-} from "@azure/core-auth";
+import type { ClientOptions } from "@azure-rest/core-client";
+import type { AzureKeyCredential, AzureSASCredential, TokenCredential } from "@azure/core-auth";
+import { isSASCredential, isTokenCredential } from "@azure/core-auth";
 import { createMapsClientIdPolicy } from "@azure/maps-common";
-import { MapsGeolocationClient } from "./generated";
-import createClient from "./generated";
+import type { MapsGeolocationClient } from "./generated/index.js";
+import createClient from "./generated/index.js";
 import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
 
 /**

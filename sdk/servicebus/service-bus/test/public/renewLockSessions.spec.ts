@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import { ServiceBusMessage, delay, ProcessErrorArgs, isServiceBusError } from "../../src";
-import { TestClientType, TestMessage } from "./utils/testUtils";
+import type { ServiceBusMessage, ProcessErrorArgs } from "../../src/index.js";
+import { delay, isServiceBusError } from "../../src/index.js";
+import type { TestClientType } from "./utils/testUtils.js";
+import { TestMessage } from "./utils/testUtils.js";
+import type { ServiceBusClientForTests } from "./utils/testutils2.js";
 import {
-  ServiceBusClientForTests,
   createServiceBusClientForTests,
   getRandomTestClientTypeWithSessions,
-} from "./utils/testutils2";
-import { ServiceBusSender } from "../../src";
-import { ServiceBusSessionReceiver } from "../../src";
-import { ServiceBusReceivedMessage } from "../../src";
+} from "./utils/testutils2.js";
+import type { ServiceBusSender } from "../../src/index.js";
+import type { ServiceBusSessionReceiver } from "../../src/index.js";
+import type { ServiceBusReceivedMessage } from "../../src/index.js";
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
+import { assert, should } from "./utils/chai.js";
 
 describe("Session Lock Renewal", () => {
   let sender: ServiceBusSender;
@@ -25,11 +25,11 @@ describe("Session Lock Renewal", () => {
 
   const testClientType = getRandomTestClientTypeWithSessions();
 
-  before(async () => {
+  beforeAll(async () => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.test.after();
   });
 
@@ -59,7 +59,7 @@ describe("Session Lock Renewal", () => {
     // const peekedMsgs = await receiver.peekMessages();
     // const receiverEntityType = receiver.entityType;
     // if (peekedMsgs.length) {
-    //   chai.assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
+    //   assert.fail(`Please use an empty ${receiverEntityType} for integration testing`);
     // }
   }
 
@@ -274,7 +274,7 @@ describe("Session Lock Renewal", () => {
     await receiver.close();
 
     if (uncaughtErrorFromHandlers) {
-      chai.assert.fail(uncaughtErrorFromHandlers.message);
+      assert.fail(uncaughtErrorFromHandlers.message);
     }
 
     should.equal(numOfMessagesReceived, 1, "Unexpected number of messages");
@@ -361,7 +361,7 @@ describe("Session Lock Renewal", () => {
     await receiver.close();
 
     if (uncaughtErrorFromHandlers) {
-      chai.assert.fail(uncaughtErrorFromHandlers.message);
+      assert.fail(uncaughtErrorFromHandlers.message);
     }
   }
 

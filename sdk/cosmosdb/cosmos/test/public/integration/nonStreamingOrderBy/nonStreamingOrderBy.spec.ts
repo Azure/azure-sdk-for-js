@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import assert from "assert";
-import { Container, CosmosClient } from "../../../../src";
+import type { Container } from "../../../../src";
+import { CosmosClient } from "../../../../src";
 import { endpoint } from "../../common/_testConfig";
 import { masterKey } from "../../common/_fakeTestSecrets";
 import { getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
-import { IndexingPolicy, VectorEmbeddingPolicy } from "../../../../src";
+import type { IndexingPolicy, VectorEmbeddingPolicy } from "../../../../src";
 import {
   VectorEmbeddingDataType,
   VectorEmbeddingDistanceFunction,
@@ -507,7 +508,7 @@ describe("Test nonStreaming Queries", function () {
     } catch (err) {
       assert.equal(
         err.message,
-        "Executing a vector search query without TOP or LIMIT can consume a large number of RUs very fast and have long runtimes. Please ensure you are using one of the above two filters with your vector search query.",
+        "Executing a non-streaming search query without TOP or LIMIT can consume a large number of RUs very fast and have long runtimes. Please ensure you are using one of the above two filters with your vector search query.",
       );
     }
   });

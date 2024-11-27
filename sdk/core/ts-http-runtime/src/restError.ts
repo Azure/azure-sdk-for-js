@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isError } from "./util/error.js";
-import { PipelineRequest, PipelineResponse } from "./interfaces.js";
+import type { PipelineRequest, PipelineResponse } from "./interfaces.js";
 import { custom } from "./util/inspect.js";
 import { Sanitizer } from "./util/sanitizer.js";
 

@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Test } from "mocha";
-
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import {
   Recorder,
-  RecorderStartOptions,
   assertEnvironmentVariable,
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { ChatClient } from "../../../src";
+import { ChatClient } from "../../../src/index.js";
+import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import {
   AzureCommunicationTokenCredential,
-  CommunicationUserIdentifier,
   parseClientArguments,
 } from "@azure/communication-common";
-import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";
-import { generateToken } from "./connectionUtils";
+import type { CommunicationUserToken } from "@azure/communication-identity";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
+import { generateToken } from "./connectionUtils.js";
 import { NoOpCredential } from "@azure-tools/test-credential";
 
 export interface RecordedClient {
@@ -66,7 +65,7 @@ export async function deleteTestUser(testUser: CommunicationUserIdentifier): Pro
   }
 }
 
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   return recorder;

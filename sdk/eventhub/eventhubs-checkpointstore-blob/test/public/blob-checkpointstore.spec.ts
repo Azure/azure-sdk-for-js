@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import debugModule from "debug";
 const debug = debugModule("azure:event-hubs:partitionPump");
 import { addToOffset } from "../util/testUtils.js";
 import { BlobCheckpointStore } from "../../src/index.js";
-import { ContainerClient } from "@azure/storage-blob";
-import { PartitionOwnership, Checkpoint, EventHubConsumerClient } from "@azure/event-hubs";
+import type { ContainerClient } from "@azure/storage-blob";
+import type { PartitionOwnership, Checkpoint } from "@azure/event-hubs";
+import { EventHubConsumerClient } from "@azure/event-hubs";
 import { parseIntOrThrow } from "../../src/blobCheckpointStore.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
 import { assert, expect, should } from "../util/chai.js";

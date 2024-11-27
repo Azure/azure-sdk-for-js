@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Configures the HTTP settings on the specified cluster. This API is deprecated, please use UpdateGatewaySettings in cluster endpoint instead.
  *
  * @summary Configures the HTTP settings on the specified cluster. This API is deprecated, please use UpdateGatewaySettings in cluster endpoint instead.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/ChangeHttpConnectivityDisable.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/ChangeHttpConnectivityDisable.json
  */
 async function disableHttpConnectivity() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -26,7 +26,7 @@ async function disableHttpConnectivity() {
   const clusterName = "cluster1";
   const configurationName = "gateway";
   const parameters: { [propertyName: string]: string } = {
-    restAuthCredentialIsEnabled: "false"
+    restAuthCredentialIsEnabled: "false",
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
@@ -34,7 +34,7 @@ async function disableHttpConnectivity() {
     resourceGroupName,
     clusterName,
     configurationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }
@@ -43,7 +43,7 @@ async function disableHttpConnectivity() {
  * This sample demonstrates how to Configures the HTTP settings on the specified cluster. This API is deprecated, please use UpdateGatewaySettings in cluster endpoint instead.
  *
  * @summary Configures the HTTP settings on the specified cluster. This API is deprecated, please use UpdateGatewaySettings in cluster endpoint instead.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/ChangeHttpConnectivityEnable.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/ChangeHttpConnectivityEnable.json
  */
 async function enableHttpConnectivity() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -53,7 +53,7 @@ async function enableHttpConnectivity() {
   const parameters: { [propertyName: string]: string } = {
     restAuthCredentialIsEnabled: "true",
     restAuthCredentialPassword: "**********",
-    restAuthCredentialUsername: "hadoop"
+    restAuthCredentialUsername: "hadoop",
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
@@ -61,7 +61,7 @@ async function enableHttpConnectivity() {
     resourceGroupName,
     clusterName,
     configurationName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

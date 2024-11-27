@@ -170,7 +170,7 @@ const restoreFilesOperationSpec: coreClient.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse,
     },
   },
-  requestBody: Parameters.body35,
+  requestBody: Parameters.body38,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,

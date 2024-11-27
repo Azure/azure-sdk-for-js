@@ -59,7 +59,7 @@ node dist/imageVersionsListByImageSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env DEVOPSINFRASTRUCTURE_SUBSCRIPTION_ID="<devopsinfrastructure subscription id>" DEVOPSINFRASTRUCTURE_RESOURCE_GROUP="<devopsinfrastructure resource group>" node dist/imageVersionsListByImageSample.js
+npx dev-tool run vendored cross-env DEVOPSINFRASTRUCTURE_SUBSCRIPTION_ID="<devopsinfrastructure subscription id>" DEVOPSINFRASTRUCTURE_RESOURCE_GROUP="<devopsinfrastructure resource group>" node dist/imageVersionsListByImageSample.js
 ```
 
 ## Next Steps

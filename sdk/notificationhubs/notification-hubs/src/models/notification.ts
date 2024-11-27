@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as Constants from "../utils/constants.js";
-import {
+import type {
   AdmNativeMessage,
   AppleNativeMessage,
   FirebaseLegacyNativeMessage,
   FirebaseV1NativeMessage,
 } from "./notificationBodyBuilder.js";
-import { AppleHeaders, WindowsHeaders } from "./notificationHeaderBuilder.js";
+import type { AppleHeaders, WindowsHeaders } from "./notificationHeaderBuilder.js";
 
 function isString(value: unknown): value is string {
   return typeof value === "string" || value instanceof String;

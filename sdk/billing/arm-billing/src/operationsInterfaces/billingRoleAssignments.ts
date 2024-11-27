@@ -7,37 +7,86 @@
  */
 
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { SimplePollerLike, OperationState } from "@azure/core-lro";
 import {
   BillingRoleAssignment,
-  BillingRoleAssignmentsListByBillingAccountOptionalParams,
-  BillingRoleAssignmentsListByInvoiceSectionOptionalParams,
   BillingRoleAssignmentsListByBillingProfileOptionalParams,
-  BillingRoleAssignmentsGetByBillingAccountOptionalParams,
-  BillingRoleAssignmentsGetByBillingAccountResponse,
-  BillingRoleAssignmentsDeleteByBillingAccountOptionalParams,
-  BillingRoleAssignmentsDeleteByBillingAccountResponse,
-  BillingRoleAssignmentsGetByInvoiceSectionOptionalParams,
-  BillingRoleAssignmentsGetByInvoiceSectionResponse,
-  BillingRoleAssignmentsDeleteByInvoiceSectionOptionalParams,
-  BillingRoleAssignmentsDeleteByInvoiceSectionResponse,
+  BillingRoleAssignmentsListByCustomerOptionalParams,
+  BillingRoleAssignmentsListByInvoiceSectionOptionalParams,
+  BillingRoleAssignmentsListByBillingAccountOptionalParams,
+  BillingRoleAssignmentsListByDepartmentOptionalParams,
+  BillingRoleAssignmentsListByEnrollmentAccountOptionalParams,
+  BillingRoleAssignmentsDeleteByBillingProfileOptionalParams,
   BillingRoleAssignmentsGetByBillingProfileOptionalParams,
   BillingRoleAssignmentsGetByBillingProfileResponse,
-  BillingRoleAssignmentsDeleteByBillingProfileOptionalParams,
-  BillingRoleAssignmentsDeleteByBillingProfileResponse
+  BillingRoleAssignmentProperties,
+  BillingRoleAssignmentsCreateByBillingProfileOptionalParams,
+  BillingRoleAssignmentsCreateByBillingProfileResponse,
+  BillingRoleAssignmentsDeleteByCustomerOptionalParams,
+  BillingRoleAssignmentsGetByCustomerOptionalParams,
+  BillingRoleAssignmentsGetByCustomerResponse,
+  BillingRoleAssignmentsCreateByCustomerOptionalParams,
+  BillingRoleAssignmentsCreateByCustomerResponse,
+  BillingRoleAssignmentsResolveByCustomerOptionalParams,
+  BillingRoleAssignmentsResolveByCustomerResponse,
+  BillingRoleAssignmentsDeleteByInvoiceSectionOptionalParams,
+  BillingRoleAssignmentsGetByInvoiceSectionOptionalParams,
+  BillingRoleAssignmentsGetByInvoiceSectionResponse,
+  BillingRoleAssignmentsCreateByInvoiceSectionOptionalParams,
+  BillingRoleAssignmentsCreateByInvoiceSectionResponse,
+  BillingRoleAssignmentsResolveByInvoiceSectionOptionalParams,
+  BillingRoleAssignmentsResolveByInvoiceSectionResponse,
+  BillingRoleAssignmentsResolveByBillingProfileOptionalParams,
+  BillingRoleAssignmentsResolveByBillingProfileResponse,
+  BillingRoleAssignmentsDeleteByBillingAccountOptionalParams,
+  BillingRoleAssignmentsGetByBillingAccountOptionalParams,
+  BillingRoleAssignmentsGetByBillingAccountResponse,
+  BillingRoleAssignmentsCreateOrUpdateByBillingAccountOptionalParams,
+  BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponse,
+  BillingRoleAssignmentsCreateByBillingAccountOptionalParams,
+  BillingRoleAssignmentsCreateByBillingAccountResponse,
+  BillingRoleAssignmentsDeleteByDepartmentOptionalParams,
+  BillingRoleAssignmentsGetByDepartmentOptionalParams,
+  BillingRoleAssignmentsGetByDepartmentResponse,
+  BillingRoleAssignmentsCreateOrUpdateByDepartmentOptionalParams,
+  BillingRoleAssignmentsCreateOrUpdateByDepartmentResponse,
+  BillingRoleAssignmentsDeleteByEnrollmentAccountOptionalParams,
+  BillingRoleAssignmentsGetByEnrollmentAccountOptionalParams,
+  BillingRoleAssignmentsGetByEnrollmentAccountResponse,
+  BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountOptionalParams,
+  BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponse,
+  BillingRoleAssignmentsResolveByBillingAccountOptionalParams,
+  BillingRoleAssignmentsResolveByBillingAccountResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a BillingRoleAssignments. */
 export interface BillingRoleAssignments {
   /**
-   * Lists the role assignments for the caller on a billing account. The operation is supported for
+   * Lists the role assignments for the caller on a billing profile. The operation is supported for
    * billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param options The options parameters.
    */
-  listByBillingAccount(
+  listByBillingProfile(
     billingAccountName: string,
-    options?: BillingRoleAssignmentsListByBillingAccountOptionalParams
+    billingProfileName: string,
+    options?: BillingRoleAssignmentsListByBillingProfileOptionalParams,
+  ): PagedAsyncIterableIterator<BillingRoleAssignment>;
+  /**
+   * Lists the role assignments for the caller on customer. The operation is supported for billing
+   * accounts with agreement type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  listByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: BillingRoleAssignmentsListByCustomerOptionalParams,
   ): PagedAsyncIterableIterator<BillingRoleAssignment>;
   /**
    * Lists the role assignments for the caller on an invoice section. The operation is supported for
@@ -51,44 +100,224 @@ export interface BillingRoleAssignments {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: BillingRoleAssignmentsListByInvoiceSectionOptionalParams
+    options?: BillingRoleAssignmentsListByInvoiceSectionOptionalParams,
   ): PagedAsyncIterableIterator<BillingRoleAssignment>;
   /**
-   * Lists the role assignments for the caller on a billing profile. The operation is supported for
-   * billing accounts with agreement type Microsoft Customer Agreement.
+   * Lists the role assignments for the caller on a billing account. The operation is supported for
+   * billing accounts with agreement type Microsoft Partner Agreement, Microsoft Customer Agreement or
+   * Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  listByBillingAccount(
+    billingAccountName: string,
+    options?: BillingRoleAssignmentsListByBillingAccountOptionalParams,
+  ): PagedAsyncIterableIterator<BillingRoleAssignment>;
+  /**
+   * Lists the role assignments for the caller on a department. The operation is supported for billing
+   * accounts of type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param departmentName The name of the department.
+   * @param options The options parameters.
+   */
+  listByDepartment(
+    billingAccountName: string,
+    departmentName: string,
+    options?: BillingRoleAssignmentsListByDepartmentOptionalParams,
+  ): PagedAsyncIterableIterator<BillingRoleAssignment>;
+  /**
+   * Lists the role assignments for the caller on a enrollment account. The operation is supported for
+   * billing accounts of type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The name of the enrollment account.
+   * @param options The options parameters.
+   */
+  listByEnrollmentAccount(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    options?: BillingRoleAssignmentsListByEnrollmentAccountOptionalParams,
+  ): PagedAsyncIterableIterator<BillingRoleAssignment>;
+  /**
+   * Deletes a role assignment on a billing profile. The operation is supported for billing accounts with
+   * agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
    * @param options The options parameters.
    */
-  listByBillingProfile(
+  deleteByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: BillingRoleAssignmentsListByBillingProfileOptionalParams
-  ): PagedAsyncIterableIterator<BillingRoleAssignment>;
+    billingRoleAssignmentName: string,
+    options?: BillingRoleAssignmentsDeleteByBillingProfileOptionalParams,
+  ): Promise<void>;
   /**
-   * Gets a role assignment for the caller on a billing account. The operation is supported for billing
+   * Gets a role assignment for the caller on a billing profile. The operation is supported for billing
    * accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
    * @param options The options parameters.
    */
-  getByBillingAccount(
+  getByBillingProfile(
     billingAccountName: string,
+    billingProfileName: string,
     billingRoleAssignmentName: string,
-    options?: BillingRoleAssignmentsGetByBillingAccountOptionalParams
-  ): Promise<BillingRoleAssignmentsGetByBillingAccountResponse>;
+    options?: BillingRoleAssignmentsGetByBillingProfileOptionalParams,
+  ): Promise<BillingRoleAssignmentsGetByBillingProfileResponse>;
   /**
-   * Deletes a role assignment for the caller on a billing account. The operation is supported for
-   * billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * Adds a role assignment on a billing profile. The operation is supported for billing accounts with
+   * agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param parameters The properties of the billing role assignment.
+   * @param options The options parameters.
+   */
+  beginCreateByBillingProfile(
+    billingAccountName: string,
+    billingProfileName: string,
+    parameters: BillingRoleAssignmentProperties,
+    options?: BillingRoleAssignmentsCreateByBillingProfileOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingRoleAssignmentsCreateByBillingProfileResponse>,
+      BillingRoleAssignmentsCreateByBillingProfileResponse
+    >
+  >;
+  /**
+   * Adds a role assignment on a billing profile. The operation is supported for billing accounts with
+   * agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param parameters The properties of the billing role assignment.
+   * @param options The options parameters.
+   */
+  beginCreateByBillingProfileAndWait(
+    billingAccountName: string,
+    billingProfileName: string,
+    parameters: BillingRoleAssignmentProperties,
+    options?: BillingRoleAssignmentsCreateByBillingProfileOptionalParams,
+  ): Promise<BillingRoleAssignmentsCreateByBillingProfileResponse>;
+  /**
+   * Deletes a role assignment on a customer. The operation is supported for billing accounts with
+   * agreement type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
    * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
    * @param options The options parameters.
    */
-  deleteByBillingAccount(
+  deleteByCustomer(
     billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
     billingRoleAssignmentName: string,
-    options?: BillingRoleAssignmentsDeleteByBillingAccountOptionalParams
-  ): Promise<BillingRoleAssignmentsDeleteByBillingAccountResponse>;
+    options?: BillingRoleAssignmentsDeleteByCustomerOptionalParams,
+  ): Promise<void>;
+  /**
+   * Gets a role assignment for the caller on a customer. The operation is supported for billing accounts
+   * with agreement type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
+   * @param options The options parameters.
+   */
+  getByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    billingRoleAssignmentName: string,
+    options?: BillingRoleAssignmentsGetByCustomerOptionalParams,
+  ): Promise<BillingRoleAssignmentsGetByCustomerResponse>;
+  /**
+   * Adds a role assignment on a customer. The operation is supported for billing accounts with agreement
+   * type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param parameters The properties of the billing role assignment.
+   * @param options The options parameters.
+   */
+  beginCreateByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    parameters: BillingRoleAssignmentProperties,
+    options?: BillingRoleAssignmentsCreateByCustomerOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingRoleAssignmentsCreateByCustomerResponse>,
+      BillingRoleAssignmentsCreateByCustomerResponse
+    >
+  >;
+  /**
+   * Adds a role assignment on a customer. The operation is supported for billing accounts with agreement
+   * type Microsoft Partner Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param parameters The properties of the billing role assignment.
+   * @param options The options parameters.
+   */
+  beginCreateByCustomerAndWait(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    parameters: BillingRoleAssignmentProperties,
+    options?: BillingRoleAssignmentsCreateByCustomerOptionalParams,
+  ): Promise<BillingRoleAssignmentsCreateByCustomerResponse>;
+  /**
+   * Lists the role assignments for the caller on a customer while fetching user info for each role
+   * assignment. The operation is supported for billing accounts with agreement type Microsoft Partner
+   * Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  beginResolveByCustomer(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: BillingRoleAssignmentsResolveByCustomerOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingRoleAssignmentsResolveByCustomerResponse>,
+      BillingRoleAssignmentsResolveByCustomerResponse
+    >
+  >;
+  /**
+   * Lists the role assignments for the caller on a customer while fetching user info for each role
+   * assignment. The operation is supported for billing accounts with agreement type Microsoft Partner
+   * Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param customerName The ID that uniquely identifies a customer.
+   * @param options The options parameters.
+   */
+  beginResolveByCustomerAndWait(
+    billingAccountName: string,
+    billingProfileName: string,
+    customerName: string,
+    options?: BillingRoleAssignmentsResolveByCustomerOptionalParams,
+  ): Promise<BillingRoleAssignmentsResolveByCustomerResponse>;
+  /**
+   * Deletes a role assignment on an invoice section. The operation is supported for billing accounts
+   * with agreement type Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
+   * @param options The options parameters.
+   */
+  deleteByInvoiceSection(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    billingRoleAssignmentName: string,
+    options?: BillingRoleAssignmentsDeleteByInvoiceSectionOptionalParams,
+  ): Promise<void>;
   /**
    * Gets a role assignment for the caller on an invoice section. The operation is supported for billing
    * accounts with agreement type Microsoft Customer Agreement.
@@ -103,50 +332,353 @@ export interface BillingRoleAssignments {
     billingProfileName: string,
     invoiceSectionName: string,
     billingRoleAssignmentName: string,
-    options?: BillingRoleAssignmentsGetByInvoiceSectionOptionalParams
+    options?: BillingRoleAssignmentsGetByInvoiceSectionOptionalParams,
   ): Promise<BillingRoleAssignmentsGetByInvoiceSectionResponse>;
   /**
-   * Deletes a role assignment for the caller on an invoice section. The operation is supported for
-   * billing accounts with agreement type Microsoft Customer Agreement.
+   * Adds a role assignment on an invoice section. The operation is supported for billing accounts with
+   * agreement type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param invoiceSectionName The ID that uniquely identifies an invoice section.
-   * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
+   * @param parameters The properties of the billing role assignment.
    * @param options The options parameters.
    */
-  deleteByInvoiceSection(
+  beginCreateByInvoiceSection(
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    billingRoleAssignmentName: string,
-    options?: BillingRoleAssignmentsDeleteByInvoiceSectionOptionalParams
-  ): Promise<BillingRoleAssignmentsDeleteByInvoiceSectionResponse>;
+    parameters: BillingRoleAssignmentProperties,
+    options?: BillingRoleAssignmentsCreateByInvoiceSectionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingRoleAssignmentsCreateByInvoiceSectionResponse>,
+      BillingRoleAssignmentsCreateByInvoiceSectionResponse
+    >
+  >;
   /**
-   * Gets a role assignment for the caller on a billing profile. The operation is supported for billing
-   * accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * Adds a role assignment on an invoice section. The operation is supported for billing accounts with
+   * agreement type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param parameters The properties of the billing role assignment.
+   * @param options The options parameters.
+   */
+  beginCreateByInvoiceSectionAndWait(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    parameters: BillingRoleAssignmentProperties,
+    options?: BillingRoleAssignmentsCreateByInvoiceSectionOptionalParams,
+  ): Promise<BillingRoleAssignmentsCreateByInvoiceSectionResponse>;
+  /**
+   * Lists the role assignments for the caller on an invoice section while fetching user info for each
+   * role assignment. The operation is supported for billing accounts with agreement type Microsoft
+   * Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param options The options parameters.
+   */
+  beginResolveByInvoiceSection(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    options?: BillingRoleAssignmentsResolveByInvoiceSectionOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingRoleAssignmentsResolveByInvoiceSectionResponse>,
+      BillingRoleAssignmentsResolveByInvoiceSectionResponse
+    >
+  >;
+  /**
+   * Lists the role assignments for the caller on an invoice section while fetching user info for each
+   * role assignment. The operation is supported for billing accounts with agreement type Microsoft
+   * Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param options The options parameters.
+   */
+  beginResolveByInvoiceSectionAndWait(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    options?: BillingRoleAssignmentsResolveByInvoiceSectionOptionalParams,
+  ): Promise<BillingRoleAssignmentsResolveByInvoiceSectionResponse>;
+  /**
+   * Lists the role assignments for the caller on an billing profile while fetching user info for each
+   * role assignment. The operation is supported for billing accounts with agreement type Microsoft
+   * Partner Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param options The options parameters.
+   */
+  beginResolveByBillingProfile(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: BillingRoleAssignmentsResolveByBillingProfileOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingRoleAssignmentsResolveByBillingProfileResponse>,
+      BillingRoleAssignmentsResolveByBillingProfileResponse
+    >
+  >;
+  /**
+   * Lists the role assignments for the caller on an billing profile while fetching user info for each
+   * role assignment. The operation is supported for billing accounts with agreement type Microsoft
+   * Partner Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param options The options parameters.
+   */
+  beginResolveByBillingProfileAndWait(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: BillingRoleAssignmentsResolveByBillingProfileOptionalParams,
+  ): Promise<BillingRoleAssignmentsResolveByBillingProfileResponse>;
+  /**
+   * Deletes a role assignment on a billing account. The operation is supported for billing accounts with
+   * agreement type Microsoft Partner Agreement, Microsoft Customer Agreement or Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
    * @param options The options parameters.
    */
-  getByBillingProfile(
+  deleteByBillingAccount(
     billingAccountName: string,
-    billingProfileName: string,
     billingRoleAssignmentName: string,
-    options?: BillingRoleAssignmentsGetByBillingProfileOptionalParams
-  ): Promise<BillingRoleAssignmentsGetByBillingProfileResponse>;
+    options?: BillingRoleAssignmentsDeleteByBillingAccountOptionalParams,
+  ): Promise<void>;
   /**
-   * Deletes a role assignment for the caller on a billing profile. The operation is supported for
-   * billing accounts with agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * Gets a role assignment for the caller on a billing account. The operation is supported for billing
+   * accounts with agreement type Microsoft Partner Agreement, Microsoft Customer Agreement or Enterprise
+   * Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
-   * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
    * @param options The options parameters.
    */
-  deleteByBillingProfile(
+  getByBillingAccount(
     billingAccountName: string,
-    billingProfileName: string,
     billingRoleAssignmentName: string,
-    options?: BillingRoleAssignmentsDeleteByBillingProfileOptionalParams
-  ): Promise<BillingRoleAssignmentsDeleteByBillingProfileResponse>;
+    options?: BillingRoleAssignmentsGetByBillingAccountOptionalParams,
+  ): Promise<BillingRoleAssignmentsGetByBillingAccountResponse>;
+  /**
+   * Create or update a billing role assignment. The operation is supported only for billing accounts
+   * with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
+   * @param parameters The properties of the billing role assignment.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateByBillingAccount(
+    billingAccountName: string,
+    billingRoleAssignmentName: string,
+    parameters: BillingRoleAssignment,
+    options?: BillingRoleAssignmentsCreateOrUpdateByBillingAccountOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponse>,
+      BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponse
+    >
+  >;
+  /**
+   * Create or update a billing role assignment. The operation is supported only for billing accounts
+   * with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
+   * @param parameters The properties of the billing role assignment.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateByBillingAccountAndWait(
+    billingAccountName: string,
+    billingRoleAssignmentName: string,
+    parameters: BillingRoleAssignment,
+    options?: BillingRoleAssignmentsCreateOrUpdateByBillingAccountOptionalParams,
+  ): Promise<BillingRoleAssignmentsCreateOrUpdateByBillingAccountResponse>;
+  /**
+   * Adds a role assignment on a billing account. The operation is supported for billing accounts with
+   * agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param parameters The properties of the billing role assignment.
+   * @param options The options parameters.
+   */
+  beginCreateByBillingAccount(
+    billingAccountName: string,
+    parameters: BillingRoleAssignmentProperties,
+    options?: BillingRoleAssignmentsCreateByBillingAccountOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingRoleAssignmentsCreateByBillingAccountResponse>,
+      BillingRoleAssignmentsCreateByBillingAccountResponse
+    >
+  >;
+  /**
+   * Adds a role assignment on a billing account. The operation is supported for billing accounts with
+   * agreement type Microsoft Partner Agreement or Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param parameters The properties of the billing role assignment.
+   * @param options The options parameters.
+   */
+  beginCreateByBillingAccountAndWait(
+    billingAccountName: string,
+    parameters: BillingRoleAssignmentProperties,
+    options?: BillingRoleAssignmentsCreateByBillingAccountOptionalParams,
+  ): Promise<BillingRoleAssignmentsCreateByBillingAccountResponse>;
+  /**
+   * Deletes a role assignment on a department. The operation is supported only for billing accounts with
+   * agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param departmentName The name of the department.
+   * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
+   * @param options The options parameters.
+   */
+  deleteByDepartment(
+    billingAccountName: string,
+    departmentName: string,
+    billingRoleAssignmentName: string,
+    options?: BillingRoleAssignmentsDeleteByDepartmentOptionalParams,
+  ): Promise<void>;
+  /**
+   * Gets a role assignment for the caller on a department. The operation is supported only for billing
+   * accounts with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param departmentName The name of the department.
+   * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
+   * @param options The options parameters.
+   */
+  getByDepartment(
+    billingAccountName: string,
+    departmentName: string,
+    billingRoleAssignmentName: string,
+    options?: BillingRoleAssignmentsGetByDepartmentOptionalParams,
+  ): Promise<BillingRoleAssignmentsGetByDepartmentResponse>;
+  /**
+   * Create or update a billing role assignment. The operation is supported only for billing accounts
+   * with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param departmentName The name of the department.
+   * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
+   * @param parameters The properties of the billing role assignment.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateByDepartment(
+    billingAccountName: string,
+    departmentName: string,
+    billingRoleAssignmentName: string,
+    parameters: BillingRoleAssignment,
+    options?: BillingRoleAssignmentsCreateOrUpdateByDepartmentOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingRoleAssignmentsCreateOrUpdateByDepartmentResponse>,
+      BillingRoleAssignmentsCreateOrUpdateByDepartmentResponse
+    >
+  >;
+  /**
+   * Create or update a billing role assignment. The operation is supported only for billing accounts
+   * with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param departmentName The name of the department.
+   * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
+   * @param parameters The properties of the billing role assignment.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateByDepartmentAndWait(
+    billingAccountName: string,
+    departmentName: string,
+    billingRoleAssignmentName: string,
+    parameters: BillingRoleAssignment,
+    options?: BillingRoleAssignmentsCreateOrUpdateByDepartmentOptionalParams,
+  ): Promise<BillingRoleAssignmentsCreateOrUpdateByDepartmentResponse>;
+  /**
+   * Deletes a role assignment on a enrollment Account. The operation is supported only for billing
+   * accounts with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The name of the enrollment account.
+   * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
+   * @param options The options parameters.
+   */
+  deleteByEnrollmentAccount(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    billingRoleAssignmentName: string,
+    options?: BillingRoleAssignmentsDeleteByEnrollmentAccountOptionalParams,
+  ): Promise<void>;
+  /**
+   * Gets a role assignment for the caller on a enrollment Account. The operation is supported only for
+   * billing accounts with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The name of the enrollment account.
+   * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
+   * @param options The options parameters.
+   */
+  getByEnrollmentAccount(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    billingRoleAssignmentName: string,
+    options?: BillingRoleAssignmentsGetByEnrollmentAccountOptionalParams,
+  ): Promise<BillingRoleAssignmentsGetByEnrollmentAccountResponse>;
+  /**
+   * Create or update a billing role assignment. The operation is supported only for billing accounts
+   * with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The name of the enrollment account.
+   * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
+   * @param parameters The properties of the billing role assignment.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateByEnrollmentAccount(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    billingRoleAssignmentName: string,
+    parameters: BillingRoleAssignment,
+    options?: BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponse>,
+      BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponse
+    >
+  >;
+  /**
+   * Create or update a billing role assignment. The operation is supported only for billing accounts
+   * with agreement type Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param enrollmentAccountName The name of the enrollment account.
+   * @param billingRoleAssignmentName The ID that uniquely identifies a role assignment.
+   * @param parameters The properties of the billing role assignment.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateByEnrollmentAccountAndWait(
+    billingAccountName: string,
+    enrollmentAccountName: string,
+    billingRoleAssignmentName: string,
+    parameters: BillingRoleAssignment,
+    options?: BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountOptionalParams,
+  ): Promise<BillingRoleAssignmentsCreateOrUpdateByEnrollmentAccountResponse>;
+  /**
+   * Lists the role assignments for the caller on a billing account while fetching user info for each
+   * role assignment. The operation is supported for billing accounts with agreement type Microsoft
+   * Partner Agreement, Microsoft Customer Agreement or Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  beginResolveByBillingAccount(
+    billingAccountName: string,
+    options?: BillingRoleAssignmentsResolveByBillingAccountOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BillingRoleAssignmentsResolveByBillingAccountResponse>,
+      BillingRoleAssignmentsResolveByBillingAccountResponse
+    >
+  >;
+  /**
+   * Lists the role assignments for the caller on a billing account while fetching user info for each
+   * role assignment. The operation is supported for billing accounts with agreement type Microsoft
+   * Partner Agreement, Microsoft Customer Agreement or Enterprise Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param options The options parameters.
+   */
+  beginResolveByBillingAccountAndWait(
+    billingAccountName: string,
+    options?: BillingRoleAssignmentsResolveByBillingAccountOptionalParams,
+  ): Promise<BillingRoleAssignmentsResolveByBillingAccountResponse>;
 }

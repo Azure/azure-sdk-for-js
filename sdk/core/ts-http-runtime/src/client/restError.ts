@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { PipelineResponse } from "../interfaces.js";
+import type { PipelineResponse } from "../interfaces.js";
 import { RestError } from "../restError.js";
 import { createHttpHeaders } from "../httpHeaders.js";
-import { PathUncheckedResponse } from "./common.js";
+import type { PathUncheckedResponse } from "./common.js";
 
 /**
  * Creates a rest error from a PathUnchecked response

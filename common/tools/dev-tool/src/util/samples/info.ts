@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This module contains some types and helper values related to information

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as assert from "assert";
 import { DiagLogLevel } from "@opentelemetry/api";
@@ -9,10 +9,10 @@ import sinon from "sinon";
 describe("#Logger", () => {
   describe("#SetLogLevel", () => {
     let sinonSandbox: sinon.SinonSandbox;
-    let originalEnv: NodeJS.ProcessEnv = process.env;
+    const originalEnv: NodeJS.ProcessEnv = process.env;
     beforeEach(() => {
       sinonSandbox = sinon.createSandbox();
-      // @ts-ignore Need to set the static Looger instance to undefined to reset the singleton
+      // @ts-expect-error Need to set the static Looger instance to undefined to reset the singleton
       Logger["instance"] = undefined;
     });
 

@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortOptions, createAbortablePromise } from "@azure/core-util";
+import type { AbortOptions } from "@azure/core-util";
+import { createAbortablePromise } from "@azure/core-util";
 
 /**
  * `AwaitableQueue` stores items in the order that they are received.

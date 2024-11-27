@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import * as buffer from "buffer";
@@ -13,11 +13,11 @@ import {
   recorderEnvSetup,
   uriSanitizers,
 } from "../utils";
-import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
-import { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
+import type { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
+import type { ShareClient, ShareDirectoryClient, ShareFileClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
+import type { Context } from "mocha";
 
 describe("Highlevel Node.js only", () => {
   let shareName: string;

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   DirectoryCreateHeaders,
   DirectoryDeleteHeaders,
   DirectoryGetPropertiesHeaders,
@@ -241,6 +241,7 @@ export {
   FileCreateHeaders,
   FileDeleteHeaders,
   FileGetPropertiesHeaders,
+  FilePermissionFormat,
   FileProperty,
   FileListHandlesHeaders,
   FileRenameHeaders,
@@ -286,8 +287,8 @@ export {
   FileDownloadResponse as RawFileDownloadResponse,
 } from "./generated/src/models";
 
-import { ShareSetPropertiesHeaders } from "./generated/src/models";
-import { WithResponse } from "./utils/utils.common";
+import type { ShareSetPropertiesHeaders } from "./generated/src/models";
+import type { WithResponse } from "./utils/utils.common";
 
 /** Known values of {@link ShareTokenIntent} that the service accepts. */
 export enum KnownShareTokenIntent {

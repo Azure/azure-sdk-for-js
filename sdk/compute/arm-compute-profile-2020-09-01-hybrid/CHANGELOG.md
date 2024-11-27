@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-12-19)
     
-**Features**
+### Features Added
 
   - Added Interface AvailabilitySet
   - Added Interface AvailabilitySetUpdate

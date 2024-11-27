@@ -1,8 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { InstrumenterSpanOptions, TracingSpanKind, TracingSpanLink } from "@azure/core-tracing";
-import { Attributes, AttributeValue, Link, SpanKind, SpanOptions, trace } from "@opentelemetry/api";
+import type {
+  InstrumenterSpanOptions,
+  TracingSpanKind,
+  TracingSpanLink,
+} from "@azure/core-tracing";
+import type { Link, SpanOptions } from "@opentelemetry/api";
+import { SpanKind, trace } from "@opentelemetry/api";
+import { sanitizeAttributes } from "@opentelemetry/core";
 
 /**
  * Converts our TracingSpanKind to the corresponding OpenTelemetry SpanKind.
@@ -41,30 +47,11 @@ function toOpenTelemetryLinks(spanLinks: TracingSpanLink[] = []): Link[] {
     if (spanContext) {
       acc.push({
         context: spanContext,
-        attributes: toOpenTelemetrySpanAttributes(tracingSpanLink.attributes),
+        attributes: sanitizeAttributes(tracingSpanLink.attributes),
       });
     }
     return acc;
   }, [] as Link[]);
-}
-
-/**
- * Converts core-tracing's span attributes to OpenTelemetry attributes.
- *
- * @param spanAttributes - The set of attributes to convert.
- * @returns An {@link SpanAttributes} to set on a span.
- */
-function toOpenTelemetrySpanAttributes(
-  spanAttributes: { [key: string]: unknown } | undefined,
-): Attributes {
-  const attributes: ReturnType<typeof toOpenTelemetrySpanAttributes> = {};
-  for (const key in spanAttributes) {
-    // Any non-nullish value is allowed.
-    if (spanAttributes[key] !== null && spanAttributes[key] !== undefined) {
-      attributes[key] = spanAttributes[key] as AttributeValue;
-    }
-  }
-  return attributes;
 }
 
 /**
@@ -76,7 +63,7 @@ function toOpenTelemetrySpanAttributes(
 export function toSpanOptions(spanOptions?: InstrumenterSpanOptions): SpanOptions {
   const { spanAttributes, spanLinks, spanKind } = spanOptions || {};
 
-  const attributes: Attributes = toOpenTelemetrySpanAttributes(spanAttributes);
+  const attributes = sanitizeAttributes(spanAttributes);
   const kind = toOpenTelemetrySpanKind(spanKind);
   const links = toOpenTelemetryLinks(spanLinks);
 

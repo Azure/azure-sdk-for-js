@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This is the ModelsRepositoryClient Library for JavaScript.
@@ -36,9 +36,9 @@
  * @packageDocumentation
  */
 
-export { ModelsRepositoryClient } from "./modelsRepositoryClient";
-export { GetModelsOptions } from "./interfaces/getModelsOptions";
-export { ModelsRepositoryClientOptions } from "./interfaces/modelsRepositoryClientOptions";
-export { dependencyResolutionType } from "./dependencyResolutionType";
-export { ModelError } from "./exceptions";
-export { getModelUri, isValidDtmi } from "./dtmiConventions";
+export { ModelsRepositoryClient } from "./modelsRepositoryClient.js";
+export { GetModelsOptions } from "./interfaces/getModelsOptions.js";
+export { ModelsRepositoryClientOptions } from "./interfaces/modelsRepositoryClientOptions.js";
+export { dependencyResolutionType } from "./dependencyResolutionType.js";
+export { ModelError } from "./exceptions.js";
+export { getModelUri, isValidDtmi } from "./dtmiConventions.js";

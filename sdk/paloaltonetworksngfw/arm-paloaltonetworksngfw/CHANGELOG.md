@@ -12,7 +12,7 @@
 
 ## 1.1.0 (2023-11-15)
     
-**Features**
+### Features Added
 
   - Interface NetworkProfile has a new optional parameter trustedRanges
     

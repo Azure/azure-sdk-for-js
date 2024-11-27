@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import path from "node:path";
 import YAML from "yaml";
@@ -232,7 +232,7 @@ ${fence(
 
 Alternatively, run a single sample with the correct environment variables set (setting up the \`.env\` file is not required if you do this), for example (cross-platform):
 
-${fence("bash", `npx cross-env ${exampleNodeInvocation(info)}`)}
+${fence("bash", `npx dev-tool run vendored cross-env ${exampleNodeInvocation(info)}`)}
 
 ## Next Steps
 

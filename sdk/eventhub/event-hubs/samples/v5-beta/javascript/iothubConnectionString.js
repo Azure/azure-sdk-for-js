@@ -18,13 +18,18 @@ const { Connection, ReceiverEvents, parseConnectionString } = require("rhea-prom
 const rheaPromise = require("rhea-promise");
 const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
 const { ErrorNameConditionMapper: AMQPError } = require("@azure/core-amqp");
+const { SecretClient } = require("@azure/keyvault-secrets");
+const { DefaultAzureCredential } = require("@azure/identity");
 
 // Load the .env file if it exists
 require("dotenv/config");
 
 const consumerGroup = process.env["EVENTHUB_CONSUMER_GROUP_NAME"] || "<your consumer group name>";
-const iotHubConnectionString =
-  process.env["IOTHUB_CONNECTION_STRING"] || "<your iot hub connection string>";
+// IoT Hub connection string is stored in Key Vault.
+const keyvaultUri = process.env["KEYVAULT_URI"] || "<your keyvault uri>";
+// IoT Hub connection string name in Key Vault.
+const iotHubConnectionStringName =
+  process.env["IOTHUB_CONNECTION_STRING_SECRET_NAME"] || "<your iot hub connection string name>";
 
 /**
  * Type guard for AmqpError.
@@ -127,6 +132,12 @@ async function convertIotHubToEventHubsConnectionString(connectionString) {
 
 async function main() {
   console.log(`Running iothubConnectionString sample`);
+
+  const kvClient = new SecretClient(keyvaultUri, new DefaultAzureCredential());
+  const { value: iotHubConnectionString } = await kvClient.getSecret(iotHubConnectionStringName);
+  if (!iotHubConnectionString) {
+    throw new Error(`Failed to retrieve the IotHub connection string from Key Vault.`);
+  }
 
   const eventHubsConnectionString =
     await convertIotHubToEventHubsConnectionString(iotHubConnectionString);

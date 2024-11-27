@@ -6,20 +6,15 @@
  * service to get translation for a multiple text fields and each input text
  * is in different language.
  */
-import TextTranslationClient, {
-  TranslatorCredential,
-  InputTextItem,
-  isUnexpected,
-} from "@azure-rest/ai-translation-text";
-
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { TranslatorCredential, InputTextItem } from "@azure-rest/ai-translation-text";
+import TextTranslationClient, { isUnexpected } from "@azure-rest/ai-translation-text";
+import "dotenv/config";
 
 const endpoint = process.env["ENDPOINT"] || "https://api.cognitive.microsofttranslator.com";
 const apiKey = process.env["TEXT_TRANSLATOR_API_KEY"] || "<api key>";
 const region = process.env["TEXT_TRANSLATOR_REGION"] || "<region>";
 
-export async function main() {
+export async function main(): Promise<void> {
   console.log("== Multiple input texts ==");
 
   const translateCedential: TranslatorCredential = {

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Create ElasticSan.
  *
  * @summary Create ElasticSan.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/ElasticSans_Create_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Create_MaximumSet_Gen.json
  */
 async function elasticSansCreateMaximumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -47,7 +47,7 @@ async function elasticSansCreateMaximumSetGen() {
  * This sample demonstrates how to Create ElasticSan.
  *
  * @summary Create ElasticSan.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/ElasticSans_Create_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/ElasticSans_Create_MinimumSet_Gen.json
  */
 async function elasticSansCreateMinimumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";

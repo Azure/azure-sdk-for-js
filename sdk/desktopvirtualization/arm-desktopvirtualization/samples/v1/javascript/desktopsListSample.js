@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List desktops.
  *
  * @summary List desktops.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/Desktop_List.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/Desktop_List.json
  */
 async function desktopList() {
   const subscriptionId =

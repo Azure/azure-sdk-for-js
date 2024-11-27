@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.0-beta.1 (Unreleased)
+## 2.0.1 (Unreleased)
 
 ### Features Added
 
@@ -10,7 +10,19 @@
 
 ### Other Changes
 
-- Fix the test recording
+## 2.0.0 (2024-10-23)
+
+### Features Added
+
+- Added ImageNotificationContent to send image messgae.
+- Added DocumentNotificationContent to send document message.
+- Added VideoNotificationContent to send video message.
+- Added AudioNotificationContent to  send audio message.
+- Deprecated MediaNotificationContent.
+
+### Breaking Changes
+
+- MediaNotificationContent interface kind field is update with value "image_v0" from "image".
 
 ## 1.0.1 (2024-03-07)
 

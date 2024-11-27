@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates a replica with the specified parameters.
  *
  * @summary Creates a replica with the specified parameters.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresCreateReplica.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresCreateReplica.json
  */
 async function replicasCreate() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function replicasCreate() {
     resourceGroupName,
     configStoreName,
     replicaName,
-    replicaCreationParameters
+    replicaCreationParameters,
   );
   console.log(result);
 }

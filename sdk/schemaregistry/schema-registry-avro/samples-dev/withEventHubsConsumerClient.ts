@@ -20,19 +20,20 @@ dotenv.config();
 
 // The fully qualified namespace for schema registry
 const schemaRegistryFullyQualifiedNamespace =
-  process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
+  process.env["SCHEMAREGISTRY_AVRO_FULLY_QUALIFIED_NAMESPACE"] || "<endpoint>";
 
 // The schema group to use for schema registeration or lookup
 const groupName = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 
 // The connection string for Event Hubs
-const eventHubsConnectionString = process.env["EVENTHUB_CONNECTION_STRING"] || "";
+const eventHubAvroHostName = process.env["EVENTHUB_AVRO_HOST_NAME"] || "";
 
 // The name of Event Hub the client will connect to
 const eventHubName = process.env["EVENTHUB_NAME"] || "";
 
 // The name of the Event Hub consumer group from which you want to process events
-const consumerGroup = process.env["CONSUMER_GROUP_NAME"] || "";
+const consumerGroup =
+  process.env["CONSUMER_GROUP_NAME"] || EventHubConsumerClient.defaultConsumerGroupName;
 
 // Sample Avro Schema for user with first and last names
 const schemaObject = {
@@ -62,10 +63,13 @@ const schemaDescription: SchemaDescription = {
 };
 
 export async function main() {
+  // Create a credential
+  const credential = new DefaultAzureCredential();
+
   // Create a new client
   const schemaRegistryClient = new SchemaRegistryClient(
     schemaRegistryFullyQualifiedNamespace,
-    new DefaultAzureCredential(),
+    credential,
   );
 
   // Register the schema. This would generally have been done somewhere else.
@@ -81,8 +85,9 @@ export async function main() {
 
   const eventHubConsumerClient = new EventHubConsumerClient(
     consumerGroup,
-    eventHubsConnectionString,
+    eventHubAvroHostName,
     eventHubName,
+    credential,
   );
 
   const subscription = eventHubConsumerClient.subscribe(

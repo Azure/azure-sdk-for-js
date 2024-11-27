@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * A narrower version of TypeScript 4.5's Awaited type which Recursively
@@ -26,8 +26,23 @@ export interface TracingClient {
    *
    * Example:
    *
-   * ```ts
-   * const myOperationResult = await tracingClient.withSpan("myClassName.myOperationName", options, (updatedOptions) => myOperation(updatedOptions));
+   * ```ts snippet:with_span_example
+   * import { createTracingClient } from "@azure/core-tracing";
+   *
+   * const tracingClient = createTracingClient({
+   *   namespace: "test.namespace",
+   *   packageName: "test-package",
+   *   packageVersion: "1.0.0",
+   * });
+   * const options = {};
+   * const myOperationResult = await tracingClient.withSpan(
+   *   "myClassName.myOperationName",
+   *   options,
+   *   (updatedOptions) => {
+   *     // Do something with the updated options.
+   *     return "myOperationResult";
+   *   },
+   * );
    * ```
    * @param name - The name of the span. By convention this should be `${className}.${methodName}`.
    * @param operationOptions - The original options passed to the method. The callback will receive these options with the newly created {@link TracingContext}.
@@ -209,6 +224,20 @@ export type SpanStatusError = { status: "error"; error?: Error | string };
 export type SpanStatus = SpanStatusSuccess | SpanStatusError;
 
 /**
+ * Represents options you can pass to {@link TracingSpan.addEvent}.
+ */
+export interface AddEventOptions {
+  /**
+   * A set of attributes to attach to the event.
+   */
+  attributes?: Record<string, unknown>;
+  /**
+   * The start time of the event.
+   */
+  startTime?: Date;
+}
+
+/**
  * Represents an implementation agnostic tracing span.
  */
 export interface TracingSpan {
@@ -248,6 +277,11 @@ export interface TracingSpan {
    * Depending on the span implementation, this may return false if the span is not being sampled.
    */
   isRecording(): boolean;
+
+  /**
+   * Adds an event to the span.
+   */
+  addEvent?(name: string, options?: AddEventOptions): void;
 }
 
 /** An immutable context bag of tracing values for the current operation. */

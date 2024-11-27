@@ -384,6 +384,7 @@ export interface ClusterMonitoringResponse {
 
 // @public
 export interface ClusterPatchParameters {
+    identity?: ClusterIdentity;
     tags?: {
         [propertyName: string]: string;
     };
@@ -664,15 +665,20 @@ export interface Extensions {
     beginDelete(resourceGroupName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDeleteAndWait(resourceGroupName: string, clusterName: string, extensionName: string, options?: ExtensionsDeleteOptionalParams): Promise<void>;
     beginDisableAzureMonitor(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDisableAzureMonitorAgent(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorAgentOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginDisableAzureMonitorAgentAndWait(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorAgentOptionalParams): Promise<void>;
     beginDisableAzureMonitorAndWait(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableAzureMonitorOptionalParams): Promise<void>;
     beginDisableMonitoring(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableMonitoringOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginDisableMonitoringAndWait(resourceGroupName: string, clusterName: string, options?: ExtensionsDisableMonitoringOptionalParams): Promise<void>;
     beginEnableAzureMonitor(resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginEnableAzureMonitorAgent(resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorAgentOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
+    beginEnableAzureMonitorAgentAndWait(resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorAgentOptionalParams): Promise<void>;
     beginEnableAzureMonitorAndWait(resourceGroupName: string, clusterName: string, parameters: AzureMonitorRequest, options?: ExtensionsEnableAzureMonitorOptionalParams): Promise<void>;
     beginEnableMonitoring(resourceGroupName: string, clusterName: string, parameters: ClusterMonitoringRequest, options?: ExtensionsEnableMonitoringOptionalParams): Promise<SimplePollerLike<OperationState<void>, void>>;
     beginEnableMonitoringAndWait(resourceGroupName: string, clusterName: string, parameters: ClusterMonitoringRequest, options?: ExtensionsEnableMonitoringOptionalParams): Promise<void>;
     get(resourceGroupName: string, clusterName: string, extensionName: string, options?: ExtensionsGetOptionalParams): Promise<ExtensionsGetResponse>;
     getAzureAsyncOperationStatus(resourceGroupName: string, clusterName: string, extensionName: string, operationId: string, options?: ExtensionsGetAzureAsyncOperationStatusOptionalParams): Promise<ExtensionsGetAzureAsyncOperationStatusResponse>;
+    getAzureMonitorAgentStatus(resourceGroupName: string, clusterName: string, options?: ExtensionsGetAzureMonitorAgentStatusOptionalParams): Promise<ExtensionsGetAzureMonitorAgentStatusResponse>;
     getAzureMonitorStatus(resourceGroupName: string, clusterName: string, options?: ExtensionsGetAzureMonitorStatusOptionalParams): Promise<ExtensionsGetAzureMonitorStatusResponse>;
     getMonitoringStatus(resourceGroupName: string, clusterName: string, options?: ExtensionsGetMonitoringStatusOptionalParams): Promise<ExtensionsGetMonitoringStatusResponse>;
 }
@@ -690,6 +696,12 @@ export interface ExtensionsDeleteOptionalParams extends coreClient.OperationOpti
 }
 
 // @public
+export interface ExtensionsDisableAzureMonitorAgentOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
 export interface ExtensionsDisableAzureMonitorOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
@@ -697,6 +709,12 @@ export interface ExtensionsDisableAzureMonitorOptionalParams extends coreClient.
 
 // @public
 export interface ExtensionsDisableMonitoringOptionalParams extends coreClient.OperationOptions {
+    resumeFrom?: string;
+    updateIntervalInMs?: number;
+}
+
+// @public
+export interface ExtensionsEnableAzureMonitorAgentOptionalParams extends coreClient.OperationOptions {
     resumeFrom?: string;
     updateIntervalInMs?: number;
 }
@@ -719,6 +737,13 @@ export interface ExtensionsGetAzureAsyncOperationStatusOptionalParams extends co
 
 // @public
 export type ExtensionsGetAzureAsyncOperationStatusResponse = AsyncOperationResult;
+
+// @public
+export interface ExtensionsGetAzureMonitorAgentStatusOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type ExtensionsGetAzureMonitorAgentStatusResponse = AzureMonitorResponse;
 
 // @public
 export interface ExtensionsGetAzureMonitorStatusOptionalParams extends coreClient.OperationOptions {
@@ -822,6 +847,12 @@ export interface IPConfiguration {
 }
 
 // @public
+export interface IpTag {
+    ipTagType: string;
+    tag: string;
+}
+
+// @public
 export type JsonWebKeyEncryptionAlgorithm = string;
 
 // @public
@@ -891,6 +922,12 @@ export enum KnownJsonWebKeyEncryptionAlgorithm {
 export enum KnownOSType {
     Linux = "Linux",
     Windows = "Windows"
+}
+
+// @public
+export enum KnownOutboundDependenciesManagedType {
+    External = "External",
+    Managed = "Managed"
 }
 
 // @public
@@ -1058,7 +1095,9 @@ export interface NameAvailabilityCheckResult {
 
 // @public
 export interface NetworkProperties {
+    outboundDependenciesManagedType?: OutboundDependenciesManagedType;
     privateLink?: PrivateLink;
+    publicIpTag?: IpTag;
     resourceProviderConnection?: ResourceProviderConnection;
 }
 
@@ -1114,6 +1153,9 @@ export interface OsProfile {
 
 // @public
 export type OSType = string;
+
+// @public
+export type OutboundDependenciesManagedType = string;
 
 // @public
 export interface PrivateEndpoint {

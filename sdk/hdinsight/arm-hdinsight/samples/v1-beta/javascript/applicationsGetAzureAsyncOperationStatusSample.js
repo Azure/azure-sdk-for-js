@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the async operation status.
  *
  * @summary Gets the async operation status.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/GetApplicationCreationAsyncOperationStatus.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetApplicationCreationAsyncOperationStatus.json
  */
 async function getTheAzureAsyncOperationStatus() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function getTheAzureAsyncOperationStatus() {
     resourceGroupName,
     clusterName,
     applicationName,
-    operationId
+    operationId,
   );
   console.log(result);
 }

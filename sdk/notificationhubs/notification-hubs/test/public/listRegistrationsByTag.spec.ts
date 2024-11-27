@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import type { AppleRegistrationDescription } from "../../src/models/index.js";
+import { createAppleRegistrationDescription } from "../../src/models/index.js";
+import type { NotificationHubsClientContext } from "../../src/api/index.js";
 import {
-  AppleRegistrationDescription,
-  createAppleRegistrationDescription,
-} from "../../src/models/index.js";
-import {
-  NotificationHubsClientContext,
   createRegistration,
   deleteRegistration,
   listRegistrationsByTag,

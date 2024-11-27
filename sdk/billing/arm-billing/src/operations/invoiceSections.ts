@@ -13,18 +13,26 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { BillingManagementClient } from "../billingManagementClient";
-import { PollerLike, PollOperationState, LroEngine } from "@azure/core-lro";
-import { LroImpl } from "../lroImpl";
+import {
+  SimplePollerLike,
+  OperationState,
+  createHttpPoller,
+} from "@azure/core-lro";
+import { createLroSpec } from "../lroImpl";
 import {
   InvoiceSection,
   InvoiceSectionsListByBillingProfileNextOptionalParams,
   InvoiceSectionsListByBillingProfileOptionalParams,
   InvoiceSectionsListByBillingProfileResponse,
+  InvoiceSectionsValidateDeleteEligibilityOptionalParams,
+  InvoiceSectionsValidateDeleteEligibilityResponse,
+  InvoiceSectionsDeleteOptionalParams,
+  InvoiceSectionsDeleteResponse,
   InvoiceSectionsGetOptionalParams,
   InvoiceSectionsGetResponse,
   InvoiceSectionsCreateOrUpdateOptionalParams,
   InvoiceSectionsCreateOrUpdateResponse,
-  InvoiceSectionsListByBillingProfileNextResponse
+  InvoiceSectionsListByBillingProfileNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -50,12 +58,12 @@ export class InvoiceSectionsImpl implements InvoiceSections {
   public listByBillingProfile(
     billingAccountName: string,
     billingProfileName: string,
-    options?: InvoiceSectionsListByBillingProfileOptionalParams
+    options?: InvoiceSectionsListByBillingProfileOptionalParams,
   ): PagedAsyncIterableIterator<InvoiceSection> {
     const iter = this.listByBillingProfilePagingAll(
       billingAccountName,
       billingProfileName,
-      options
+      options,
     );
     return {
       next() {
@@ -72,9 +80,9 @@ export class InvoiceSectionsImpl implements InvoiceSections {
           billingAccountName,
           billingProfileName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -82,7 +90,7 @@ export class InvoiceSectionsImpl implements InvoiceSections {
     billingAccountName: string,
     billingProfileName: string,
     options?: InvoiceSectionsListByBillingProfileOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<InvoiceSection[]> {
     let result: InvoiceSectionsListByBillingProfileResponse;
     let continuationToken = settings?.continuationToken;
@@ -90,7 +98,7 @@ export class InvoiceSectionsImpl implements InvoiceSections {
       result = await this._listByBillingProfile(
         billingAccountName,
         billingProfileName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -102,7 +110,7 @@ export class InvoiceSectionsImpl implements InvoiceSections {
         billingAccountName,
         billingProfileName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -114,33 +122,137 @@ export class InvoiceSectionsImpl implements InvoiceSections {
   private async *listByBillingProfilePagingAll(
     billingAccountName: string,
     billingProfileName: string,
-    options?: InvoiceSectionsListByBillingProfileOptionalParams
+    options?: InvoiceSectionsListByBillingProfileOptionalParams,
   ): AsyncIterableIterator<InvoiceSection> {
     for await (const page of this.listByBillingProfilePagingPage(
       billingAccountName,
       billingProfileName,
-      options
+      options,
     )) {
       yield* page;
     }
   }
 
   /**
-   * Lists the invoice sections that a user has access to. The operation is supported only for billing
-   * accounts with agreement type Microsoft Customer Agreement.
+   * Validates if the invoice section can be deleted. The operation is supported for billing accounts
+   * with agreement type Microsoft Customer Agreement.
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
    * @param options The options parameters.
    */
-  private _listByBillingProfile(
+  validateDeleteEligibility(
     billingAccountName: string,
     billingProfileName: string,
-    options?: InvoiceSectionsListByBillingProfileOptionalParams
-  ): Promise<InvoiceSectionsListByBillingProfileResponse> {
+    invoiceSectionName: string,
+    options?: InvoiceSectionsValidateDeleteEligibilityOptionalParams,
+  ): Promise<InvoiceSectionsValidateDeleteEligibilityResponse> {
     return this.client.sendOperationRequest(
-      { billingAccountName, billingProfileName, options },
-      listByBillingProfileOperationSpec
+      { billingAccountName, billingProfileName, invoiceSectionName, options },
+      validateDeleteEligibilityOperationSpec,
     );
+  }
+
+  /**
+   * Deletes an invoice section. The operation is supported for billing accounts with agreement type
+   * Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param options The options parameters.
+   */
+  async beginDelete(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    options?: InvoiceSectionsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<InvoiceSectionsDeleteResponse>,
+      InvoiceSectionsDeleteResponse
+    >
+  > {
+    const directSendOperation = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ): Promise<InvoiceSectionsDeleteResponse> => {
+      return this.client.sendOperationRequest(args, spec);
+    };
+    const sendOperationFn = async (
+      args: coreClient.OperationArguments,
+      spec: coreClient.OperationSpec,
+    ) => {
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
+      const providedCallback = args.options?.onResponse;
+      const callback: coreClient.RawResponseCallback = (
+        rawResponse: coreClient.FullOperationResponse,
+        flatResponse: unknown,
+      ) => {
+        currentRawResponse = rawResponse;
+        providedCallback?.(rawResponse, flatResponse);
+      };
+      const updatedArgs = {
+        ...args,
+        options: {
+          ...args.options,
+          onResponse: callback,
+        },
+      };
+      const flatResponse = await directSendOperation(updatedArgs, spec);
+      return {
+        flatResponse,
+        rawResponse: {
+          statusCode: currentRawResponse!.status,
+          body: currentRawResponse!.parsedBody,
+          headers: currentRawResponse!.headers.toJSON(),
+        },
+      };
+    };
+
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
+        billingAccountName,
+        billingProfileName,
+        invoiceSectionName,
+        options,
+      },
+      spec: deleteOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      InvoiceSectionsDeleteResponse,
+      OperationState<InvoiceSectionsDeleteResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
+    });
+    await poller.poll();
+    return poller;
+  }
+
+  /**
+   * Deletes an invoice section. The operation is supported for billing accounts with agreement type
+   * Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param invoiceSectionName The ID that uniquely identifies an invoice section.
+   * @param options The options parameters.
+   */
+  async beginDeleteAndWait(
+    billingAccountName: string,
+    billingProfileName: string,
+    invoiceSectionName: string,
+    options?: InvoiceSectionsDeleteOptionalParams,
+  ): Promise<InvoiceSectionsDeleteResponse> {
+    const poller = await this.beginDelete(
+      billingAccountName,
+      billingProfileName,
+      invoiceSectionName,
+      options,
+    );
+    return poller.pollUntilDone();
   }
 
   /**
@@ -155,11 +267,11 @@ export class InvoiceSectionsImpl implements InvoiceSections {
     billingAccountName: string,
     billingProfileName: string,
     invoiceSectionName: string,
-    options?: InvoiceSectionsGetOptionalParams
+    options?: InvoiceSectionsGetOptionalParams,
   ): Promise<InvoiceSectionsGetResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, invoiceSectionName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -169,7 +281,7 @@ export class InvoiceSectionsImpl implements InvoiceSections {
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param invoiceSectionName The ID that uniquely identifies an invoice section.
-   * @param parameters The new or updated invoice section.
+   * @param parameters An invoice section.
    * @param options The options parameters.
    */
   async beginCreateOrUpdate(
@@ -177,30 +289,29 @@ export class InvoiceSectionsImpl implements InvoiceSections {
     billingProfileName: string,
     invoiceSectionName: string,
     parameters: InvoiceSection,
-    options?: InvoiceSectionsCreateOrUpdateOptionalParams
+    options?: InvoiceSectionsCreateOrUpdateOptionalParams,
   ): Promise<
-    PollerLike<
-      PollOperationState<InvoiceSectionsCreateOrUpdateResponse>,
+    SimplePollerLike<
+      OperationState<InvoiceSectionsCreateOrUpdateResponse>,
       InvoiceSectionsCreateOrUpdateResponse
     >
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<InvoiceSectionsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
-    const sendOperation = async (
+    const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -209,8 +320,8 @@ export class InvoiceSectionsImpl implements InvoiceSections {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -218,25 +329,29 @@ export class InvoiceSectionsImpl implements InvoiceSections {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
-    const lro = new LroImpl(
-      sendOperation,
-      {
+    const lro = createLroSpec({
+      sendOperationFn,
+      args: {
         billingAccountName,
         billingProfileName,
         invoiceSectionName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateOperationSpec
-    );
-    const poller = new LroEngine(lro, {
-      resumeFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs
+      spec: createOrUpdateOperationSpec,
+    });
+    const poller = await createHttpPoller<
+      InvoiceSectionsCreateOrUpdateResponse,
+      OperationState<InvoiceSectionsCreateOrUpdateResponse>
+    >(lro, {
+      restoreFrom: options?.resumeFrom,
+      intervalInMs: options?.updateIntervalInMs,
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -248,7 +363,7 @@ export class InvoiceSectionsImpl implements InvoiceSections {
    * @param billingAccountName The ID that uniquely identifies a billing account.
    * @param billingProfileName The ID that uniquely identifies a billing profile.
    * @param invoiceSectionName The ID that uniquely identifies an invoice section.
-   * @param parameters The new or updated invoice section.
+   * @param parameters An invoice section.
    * @param options The options parameters.
    */
   async beginCreateOrUpdateAndWait(
@@ -256,16 +371,34 @@ export class InvoiceSectionsImpl implements InvoiceSections {
     billingProfileName: string,
     invoiceSectionName: string,
     parameters: InvoiceSection,
-    options?: InvoiceSectionsCreateOrUpdateOptionalParams
+    options?: InvoiceSectionsCreateOrUpdateOptionalParams,
   ): Promise<InvoiceSectionsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       billingAccountName,
       billingProfileName,
       invoiceSectionName,
       parameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
+  }
+
+  /**
+   * Lists the invoice sections that a user has access to. The operation is supported only for billing
+   * accounts with agreement type Microsoft Customer Agreement.
+   * @param billingAccountName The ID that uniquely identifies a billing account.
+   * @param billingProfileName The ID that uniquely identifies a billing profile.
+   * @param options The options parameters.
+   */
+  private _listByBillingProfile(
+    billingAccountName: string,
+    billingProfileName: string,
+    options?: InvoiceSectionsListByBillingProfileOptionalParams,
+  ): Promise<InvoiceSectionsListByBillingProfileResponse> {
+    return this.client.sendOperationRequest(
+      { billingAccountName, billingProfileName, options },
+      listByBillingProfileOperationSpec,
+    );
   }
 
   /**
@@ -279,111 +412,167 @@ export class InvoiceSectionsImpl implements InvoiceSections {
     billingAccountName: string,
     billingProfileName: string,
     nextLink: string,
-    options?: InvoiceSectionsListByBillingProfileNextOptionalParams
+    options?: InvoiceSectionsListByBillingProfileNextOptionalParams,
   ): Promise<InvoiceSectionsListByBillingProfileNextResponse> {
     return this.client.sendOperationRequest(
       { billingAccountName, billingProfileName, nextLink, options },
-      listByBillingProfileNextOperationSpec
+      listByBillingProfileNextOperationSpec,
     );
   }
 }
 // Operation Specifications
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
-const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections",
-  httpMethod: "GET",
+const validateDeleteEligibilityOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/validateDeleteEligibility",
+  httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.InvoiceSectionListResult
+      bodyMapper: Mappers.DeleteInvoiceSectionEligibilityResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.billingAccountName,
-    Parameters.billingProfileName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.InvoiceSection
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.billingProfileName,
-    Parameters.invoiceSectionName
+    Parameters.invoiceSectionName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const deleteOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      headersMapper: Mappers.InvoiceSectionsDeleteHeaders,
+    },
+    201: {
+      headersMapper: Mappers.InvoiceSectionsDeleteHeaders,
+    },
+    202: {
+      headersMapper: Mappers.InvoiceSectionsDeleteHeaders,
+    },
+    204: {
+      headersMapper: Mappers.InvoiceSectionsDeleteHeaders,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+    Parameters.invoiceSectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.InvoiceSection,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+    Parameters.invoiceSectionName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}",
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.InvoiceSection
+      bodyMapper: Mappers.InvoiceSection,
     },
     201: {
-      bodyMapper: Mappers.InvoiceSection
+      bodyMapper: Mappers.InvoiceSection,
     },
     202: {
-      bodyMapper: Mappers.InvoiceSection
+      bodyMapper: Mappers.InvoiceSection,
     },
     204: {
-      bodyMapper: Mappers.InvoiceSection
+      bodyMapper: Mappers.InvoiceSection,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  requestBody: Parameters.parameters3,
+  requestBody: Parameters.parameters18,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.billingProfileName,
-    Parameters.invoiceSectionName
+    Parameters.invoiceSectionName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
+};
+const listByBillingProfileOperationSpec: coreClient.OperationSpec = {
+  path: "/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.InvoiceSectionListResult,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.orderBy,
+    Parameters.top,
+    Parameters.skip,
+    Parameters.count,
+    Parameters.search,
+    Parameters.includeDeleted,
+  ],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.billingAccountName,
+    Parameters.billingProfileName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByBillingProfileNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.InvoiceSectionListResult
+      bodyMapper: Mappers.InvoiceSectionListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
-  queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.billingAccountName,
     Parameters.nextLink,
-    Parameters.billingProfileName
+    Parameters.billingProfileName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

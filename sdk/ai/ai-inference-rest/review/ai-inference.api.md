@@ -4,16 +4,16 @@
 
 ```ts
 
-import { Client } from '@azure-rest/core-client';
-import { ClientOptions } from '@azure-rest/core-client';
-import { ErrorResponse } from '@azure-rest/core-client';
-import { HttpResponse } from '@azure-rest/core-client';
-import { KeyCredential } from '@azure/core-auth';
-import { RawHttpHeaders } from '@azure/core-rest-pipeline';
-import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
-import { RequestParameters } from '@azure-rest/core-client';
-import { StreamableMethod } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { Client } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { ErrorResponse } from '@azure-rest/core-client';
+import type { HttpResponse } from '@azure-rest/core-client';
+import type { KeyCredential } from '@azure/core-auth';
+import type { RawHttpHeaders } from '@azure/core-rest-pipeline';
+import type { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
+import type { RequestParameters } from '@azure-rest/core-client';
+import type { StreamableMethod } from '@azure-rest/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface ChatChoiceOutput {
@@ -23,41 +23,14 @@ export interface ChatChoiceOutput {
 }
 
 // @public
-export interface ChatCompletionsFunctionToolCall extends ChatCompletionsToolCallParent {
-    function: FunctionCall;
-    type: "function";
-}
-
-// @public
-export interface ChatCompletionsFunctionToolCallOutput extends ChatCompletionsToolCallOutputParent {
-    function: FunctionCallOutput;
-    type: "function";
-}
-
-// @public
-export interface ChatCompletionsFunctionToolDefinition extends ChatCompletionsToolDefinitionParent {
-    function: FunctionDefinition;
-    type: "function";
-}
-
-// @public
 export interface ChatCompletionsFunctionToolSelection {
     name: string;
 }
 
 // @public
-export interface ChatCompletionsNamedFunctionToolSelection extends ChatCompletionsNamedToolSelectionParent {
+export interface ChatCompletionsNamedToolSelection {
     function: ChatCompletionsFunctionToolSelection;
     type: "function";
-}
-
-// @public
-export type ChatCompletionsNamedToolSelection = ChatCompletionsNamedToolSelectionParent | ChatCompletionsNamedFunctionToolSelection;
-
-// @public
-export interface ChatCompletionsNamedToolSelectionParent {
-    // (undocumented)
-    type: string;
 }
 
 // @public
@@ -70,39 +43,46 @@ export interface ChatCompletionsOutput {
 }
 
 // @public
-export type ChatCompletionsResponseFormat = string;
+export type ChatCompletionsResponseFormat = ChatCompletionsResponseFormatParent | ChatCompletionsResponseFormatText | ChatCompletionsResponseFormatJSON;
 
 // @public
-export type ChatCompletionsToolCall = ChatCompletionsToolCallParent | ChatCompletionsFunctionToolCall;
+export interface ChatCompletionsResponseFormatJSON extends ChatCompletionsResponseFormatParent {
+    type: "json_object";
+}
 
 // @public
-export type ChatCompletionsToolCallOutput = ChatCompletionsToolCallOutputParent | ChatCompletionsFunctionToolCallOutput;
+export interface ChatCompletionsResponseFormatParent {
+    // (undocumented)
+    type: string;
+}
 
 // @public
-export interface ChatCompletionsToolCallOutputParent {
+export interface ChatCompletionsResponseFormatText extends ChatCompletionsResponseFormatParent {
+    type: "text";
+}
+
+// @public
+export interface ChatCompletionsToolCall {
+    function: FunctionCall;
     id: string;
-    // (undocumented)
-    type: string;
+    type: "function";
 }
 
 // @public
-export interface ChatCompletionsToolCallParent {
+export interface ChatCompletionsToolCallOutput {
+    function: FunctionCallOutput;
     id: string;
-    // (undocumented)
-    type: string;
+    type: "function";
 }
 
 // @public
-export type ChatCompletionsToolDefinition = ChatCompletionsToolDefinitionParent | ChatCompletionsFunctionToolDefinition;
-
-// @public
-export interface ChatCompletionsToolDefinitionParent {
-    // (undocumented)
-    type: string;
+export interface ChatCompletionsToolDefinition {
+    function: FunctionDefinition;
+    type: "function";
 }
 
 // @public
-export type ChatCompletionsToolSelectionPreset = string | "auto" | "none" | "required";
+export type ChatCompletionsToolSelectionPreset = string;
 
 // @public
 export type ChatMessageContentItem = ChatMessageContentItemParent | ChatMessageTextContentItem | ChatMessageImageContentItem;
@@ -204,14 +184,13 @@ export type EmbeddingInputType = string;
 
 // @public
 export interface EmbeddingItemOutput {
-    embedding: number[];
+    embedding: string | number[];
     index: number;
 }
 
 // @public
 export interface EmbeddingsResultOutput {
     data: Array<EmbeddingItemOutput>;
-    id: string;
     model: string;
     usage: EmbeddingsUsageOutput;
 }

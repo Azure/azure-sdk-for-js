@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { diag } from "@opentelemetry/api";
-import { ConnectionStringParser } from "../utils/connectionStringParser";
-import { AzureMonitorExporterOptions } from "../config";
+import { ConnectionStringParser } from "../utils/connectionStringParser.js";
+import type { AzureMonitorExporterOptions } from "../config.js";
 import {
   DEFAULT_BREEZE_ENDPOINT,
   ENV_CONNECTION_STRING,
-  ENV_DISABLE_STATSBEAT,
-} from "../Declarations/Constants";
+  LEGACY_ENV_DISABLE_STATSBEAT,
+} from "../Declarations/Constants.js";
 
 /**
  * Azure Monitor OpenTelemetry Trace Exporter.
@@ -72,7 +72,7 @@ export abstract class AzureMonitorBaseExporter {
       diag.error(message);
       throw new Error(message);
     }
-    this.trackStatsbeat = !this.isStatsbeatExporter && !process.env[ENV_DISABLE_STATSBEAT];
+    this.trackStatsbeat = !this.isStatsbeatExporter && !process.env[LEGACY_ENV_DISABLE_STATSBEAT];
 
     diag.debug("AzureMonitorExporter was successfully setup");
   }

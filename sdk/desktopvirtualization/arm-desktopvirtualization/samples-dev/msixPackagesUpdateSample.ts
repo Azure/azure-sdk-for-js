@@ -11,7 +11,7 @@
 import {
   MsixPackagePatch,
   MsixPackagesUpdateOptionalParams,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Update an  MSIX Package.
  *
  * @summary Update an  MSIX Package.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/MsixPackage_Update.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/MsixPackage_Update.json
  */
 async function msixPackageUpdate() {
   const subscriptionId =
@@ -35,7 +35,7 @@ async function msixPackageUpdate() {
   const msixPackage: MsixPackagePatch = {
     displayName: "displayname",
     isActive: true,
-    isRegularRegistration: false
+    isRegularRegistration: false,
   };
   const options: MsixPackagesUpdateOptionalParams = { msixPackage };
   const credential = new DefaultAzureCredential();
@@ -44,7 +44,7 @@ async function msixPackageUpdate() {
     resourceGroupName,
     hostPoolName,
     msixPackageFullName,
-    options
+    options,
   );
   console.log(result);
 }

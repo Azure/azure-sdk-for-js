@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * This sample demonstrates how the sendBroadcastNotification() method can be used to send a broadcast
@@ -14,12 +14,12 @@
  * @azsdk-weight 100
  */
 
-import * as dotenv from "dotenv";
+import "dotenv/config";
 import {
   NotificationHubsClientContext,
   createClientContext,
   getNotificationOutcomeDetails,
-  sendNotification,
+  sendBroadcastNotification,
 } from "@azure/notification-hubs/api";
 import {
   createAppleNotification,
@@ -27,9 +27,6 @@ import {
   NotificationOutcomeState,
 } from "@azure/notification-hubs/models";
 import { delay } from "@azure/core-util";
-
-// Load the .env file if it exists
-dotenv.config();
 
 // Define connection string and hub name
 const connectionString = process.env.NOTIFICATIONHUBS_CONNECTION_STRING || "<connection string>";
@@ -49,14 +46,14 @@ async function main(): Promise<void> {
   });
 
   // Can set enableTestSend to true for debugging purposes
-  const result = await sendNotification(context, notification, { enableTestSend: false });
+  const result = await sendBroadcastNotification(context, notification, { enableTestSend: false });
 
-  console.log(`Tag List send Tracking ID: ${result.trackingId}`);
-  console.log(`Tag List Correlation ID: ${result.correlationId}`);
+  console.log(`Broadcast send Tracking ID: ${result.trackingId}`);
+  console.log(`Broadcast send Correlation ID: ${result.correlationId}`);
 
   // Only available in Standard SKU and above
   if (result.notificationId) {
-    console.log(`Tag List send Notification ID: ${result.notificationId}`);
+    console.log(`roadcast send Notification ID: ${result.notificationId}`);
 
     const results = await getNotificationDetails(context, result.notificationId);
     if (results) {
@@ -76,7 +73,7 @@ async function getNotificationDetails(
     try {
       result = await getNotificationOutcomeDetails(context, notificationId);
       state = result.state!;
-    } catch (e) {
+    } catch {
       // Possible to get 404 for when it doesn't exist yet.
     }
 

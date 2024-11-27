@@ -2,7 +2,7 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure BillingManagement client.
 
-Billing client provides access to billing resources for Azure subscriptions.
+Billing Client
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/billing/arm-billing) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-billing) |

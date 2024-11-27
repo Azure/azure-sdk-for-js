@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the Private DNS zones within a resource group.
  *
  * @summary Lists the Private DNS zones within a resource group.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/PrivateZoneListInResourceGroup.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/PrivateZoneListInResourceGroup.json
  */
 async function getPrivateDnsZoneByResourceGroup() {
   const subscriptionId =
@@ -29,7 +29,7 @@ async function getPrivateDnsZoneByResourceGroup() {
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.privateZones.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

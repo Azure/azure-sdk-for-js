@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { createHttpHeaders, HttpHeaders } from "@azure/core-rest-pipeline";
+// Licensed under the MIT License.
+import type { HttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
 import { isNode } from "@azure/core-util";
-import { ContainerEncryptionScope, WithResponse } from "@azure/storage-blob";
-import {
+import type { ContainerEncryptionScope, WithResponse } from "@azure/storage-blob";
+import type {
   CpkInfo,
   FileSystemEncryptionScope,
   PathAccessControlItem,
@@ -17,8 +18,8 @@ import {
   PathStylePorts,
   UrlConstants,
 } from "./constants";
-import { HttpResponse } from "@azure/storage-blob";
-import { HttpHeadersLike } from "@azure/core-http-compat";
+import type { HttpResponse } from "@azure/storage-blob";
+import type { HttpHeadersLike } from "@azure/core-http-compat";
 import { toAcl, toPermissions } from "../transforms";
 
 /**
@@ -221,6 +222,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
  *
  * @param text -
  */
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 function escape(text: string): string {
   return encodeURIComponent(text)
     .replace(/%2F/g, "/") // Don't escape for "/"

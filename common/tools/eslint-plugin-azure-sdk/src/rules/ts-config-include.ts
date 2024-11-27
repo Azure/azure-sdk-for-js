@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to force tsconfig.json's "include" value to at least contain "src/**\/*.ts", "test/**\/*.ts", and "samples-dev/**\/*.ts"
@@ -20,7 +20,6 @@ export default createRule({
     docs: {
       description:
         "force tsconfig.json's 'include' value to at least contain 'src/**/*.ts', 'test/**/*.ts', and 'samples-dev/**/*.ts'",
-      recommended: "recommended",
     },
     messages: {
       ...VerifierMessages,

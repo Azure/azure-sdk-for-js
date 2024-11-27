@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import * as coreClient from "@azure/core-client";
-import { ExtendedCommonClientOptions } from "@azure/core-http-compat";
+import type * as coreClient from "@azure/core-client";
+import type { ExtendedCommonClientOptions } from "@azure/core-http-compat";
 
+import type { DeletionRecoveryLevel } from "./generated/models/index.js";
 import {
-  DeletionRecoveryLevel,
   JsonWebKeyOperation as KeyOperation,
   JsonWebKeyType as KeyType,
   KnownJsonWebKeyType as KnownKeyTypes,
-} from "./generated/models";
+} from "./generated/models/index.js";
 
-import { KeyCurveName } from "./cryptographyClientModels";
+import type { KeyCurveName } from "./cryptographyClientModels.js";
 
 export { KeyType, KnownKeyTypes, KeyOperation };
 

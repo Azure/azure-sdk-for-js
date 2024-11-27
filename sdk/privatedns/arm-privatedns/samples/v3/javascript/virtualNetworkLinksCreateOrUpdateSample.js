@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Creates or updates a virtual network link to the specified Private DNS zone.
  *
  * @summary Creates or updates a virtual network link to the specified Private DNS zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/VirtualNetworkLinkPut.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/VirtualNetworkLinkPut.json
  */
 async function putPrivateDnsZoneVirtualNetworkLink() {
   const subscriptionId = process.env["PRIVATEDNS_SUBSCRIPTION_ID"] || "subscriptionId";
@@ -37,7 +37,7 @@ async function putPrivateDnsZoneVirtualNetworkLink() {
     resourceGroupName,
     privateZoneName,
     virtualNetworkLinkName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

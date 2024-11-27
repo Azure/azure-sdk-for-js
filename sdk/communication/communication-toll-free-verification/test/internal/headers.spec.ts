@@ -1,19 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { Context } from "mocha";
-import { PipelineRequest } from "@azure/core-rest-pipeline";
-import { SDK_VERSION } from "../../src/utils/constants";
-import { TokenCredential } from "@azure/identity";
-import { TollFreeVerificationClient } from "../../src";
-import { assert } from "chai";
-import { configurationHttpClient } from "../public/utils/mockHttpClients";
-import { createMockToken } from "../public/utils/recordedClient";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import { SDK_VERSION } from "../../src/utils/constants.js";
+import type { TokenCredential } from "@azure/identity";
+import { TollFreeVerificationClient } from "../../src/index.js";
+import { configurationHttpClient } from "../public/utils/mockHttpClients.js";
+import { createMockToken } from "../public/utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
-import sinon from "sinon";
+import { describe, it, assert, expect, vi, afterEach } from "vitest";
 
-describe("TollFreeVerificationClient - headers", function () {
+describe("TollFreeVerificationClient - headers", () => {
   const endpoint = "https://contoso.spool.azure.local";
   const accessKey = "banana";
   const campaignBriefId = "63215741-b596-4eb4-a9c0-b2905ce22cb0";
@@ -22,26 +20,26 @@ describe("TollFreeVerificationClient - headers", function () {
   });
   let request: PipelineRequest;
 
-  afterEach(function () {
-    sinon.restore();
+  afterEach(() => {
+    vi.restoreAllMocks();
   });
 
-  it("calls the spy", async function () {
-    const spy = sinon.spy(configurationHttpClient, "sendRequest");
+  it("calls the spy", async () => {
+    const spy = vi.spyOn(configurationHttpClient, "sendRequest");
     await client.getCampaignBrief(campaignBriefId, "US");
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
 
-    request = spy.getCall(0).args[0];
+    request = spy.mock.calls[0][0];
   });
 
-  it("[node] sets correct host", function (this: Context) {
+  it("[node] sets correct host", (ctx) => {
     if (!isNodeLike) {
-      this.skip();
+      ctx.skip();
     }
     assert.equal(request.headers.get("host"), "contoso.spool.azure.local");
   });
 
-  it("sets correct default user-agent", function () {
+  it("sets correct default user-agent", async () => {
     const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
@@ -49,12 +47,12 @@ describe("TollFreeVerificationClient - headers", function () {
     );
   });
 
-  it("sets date header", function () {
+  it("sets date header", async () => {
     const dateHeader = "x-ms-date";
     assert.typeOf(request.headers.get(dateHeader), "string");
   });
 
-  it("sets signed authorization header with KeyCredential", function () {
+  it("sets signed authorization header with KeyCredential", async () => {
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
@@ -62,16 +60,16 @@ describe("TollFreeVerificationClient - headers", function () {
     );
   });
 
-  it("sets signed authorization header with connection string", async function () {
+  it("sets signed authorization header with connection string", async () => {
     client = new TollFreeVerificationClient(`endpoint=${endpoint};accessKey=${accessKey}`, {
       httpClient: configurationHttpClient,
     });
 
-    const spy = sinon.spy(configurationHttpClient, "sendRequest");
+    const spy = vi.spyOn(configurationHttpClient, "sendRequest");
     await client.getCampaignBrief(campaignBriefId, "US");
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
 
-    request = spy.getCall(0).args[0];
+    request = spy.mock.calls[0][0];
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
@@ -79,23 +77,23 @@ describe("TollFreeVerificationClient - headers", function () {
     );
   });
 
-  it("sets bearer authorization header with TokenCredential", async function (this: Context) {
+  it("sets bearer authorization header with TokenCredential", async () => {
     const credential: TokenCredential = createMockToken();
 
     client = new TollFreeVerificationClient(endpoint, credential, {
       httpClient: configurationHttpClient,
     });
 
-    const spy = sinon.spy(configurationHttpClient, "sendRequest");
+    const spy = vi.spyOn(configurationHttpClient, "sendRequest");
     await client.getCampaignBrief(campaignBriefId, "US");
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
 
-    request = spy.getCall(0).args[0];
+    request = spy.mock.calls[0][0];
     assert.isDefined(request.headers.get("authorization"));
     assert.match(request.headers.get("authorization") as string, /Bearer ./);
   });
 
-  it("can set custom user-agent prefix", async function () {
+  it("can set custom user-agent prefix", async () => {
     client = new TollFreeVerificationClient(`endpoint=${endpoint};accessKey=${accessKey}`, {
       httpClient: configurationHttpClient,
       userAgentOptions: {
@@ -103,11 +101,11 @@ describe("TollFreeVerificationClient - headers", function () {
       },
     });
 
-    const spy = sinon.spy(configurationHttpClient, "sendRequest");
+    const spy = vi.spyOn(configurationHttpClient, "sendRequest");
     await client.getCampaignBrief(campaignBriefId, "US");
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
 
-    request = spy.getCall(0).args[0];
+    request = spy.mock.calls[0][0];
 
     const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
     assert.match(

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import assert from "assert";
-import { Suite } from "mocha";
+import type { Suite } from "mocha";
 import { IndexMetricWriter, IndexUtilizationInfo } from "../../src/indexMetrics";
 describe("Test Index Metrics Writer", function (this: Suite) {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);

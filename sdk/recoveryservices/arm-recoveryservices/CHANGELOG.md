@@ -12,7 +12,7 @@
 
 ## 6.0.0 (2024-04-17)
     
-**Features**
+### Features Added
 
   - Added operation Vaults.beginDelete
   - Added operation Vaults.beginDeleteAndWait
@@ -36,14 +36,14 @@
   - Added Enum KnownEnhancedSecurityState
   - Enum KnownStandardTierStorageRedundancy has a new value Invalid
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation Vaults.delete
     
     
 ## 5.4.0 (2023-08-29)
     
-**Features**
+### Features Added
 
   - Added Interface SoftDeleteSettings
   - Added Type Alias MultiUserAuthorization
@@ -59,7 +59,7 @@
     
 ## 5.3.0 (2023-05-31)
     
-**Features**
+### Features Added
 
   - Added Interface CrossSubscriptionRestoreSettings
   - Added Interface RestoreSettings
@@ -70,7 +70,7 @@
     
 ## 5.2.0 (2023-02-07)
     
-**Features**
+### Features Added
 
   - Added operation RecoveryServices.capabilities
   - Added Interface CapabilitiesProperties
@@ -97,17 +97,17 @@
     
 ## 5.1.1 (2023-01-31)
 
-**Features**
+### Features Added
 
   - Exposes `getContinuationToken` helper function to extract continuation token
   
-**Bugs Fixed**
+### Bugs Fixed
 
   - A series of small bug fixs relevant to authentication and apiVersion policy
 
 ## 5.1.0 (2022-07-22)
     
-**Features**
+### Features Added
 
   - Added Interface AzureMonitorAlertSettings
   - Added Interface ClassicAlertSettings
@@ -134,7 +134,7 @@
     
 ## 5.0.1 (2022-04-29)
 
-**Features**
+### Features Added
 
   - Bug fix
 

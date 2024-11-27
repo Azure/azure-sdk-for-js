@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Get a Volume Snapshot.
  *
  * @summary Get a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeSnapshots_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeSnapshots_Get_MaximumSet_Gen.json
  */
 async function volumeSnapshotsGetMaximumSetGen() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function volumeSnapshotsGetMaximumSetGen() {
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    snapshotName
+    snapshotName,
   );
   console.log(result);
 }
@@ -43,7 +43,7 @@ async function volumeSnapshotsGetMaximumSetGen() {
  * This sample demonstrates how to Get a Volume Snapshot.
  *
  * @summary Get a Volume Snapshot.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/VolumeSnapshots_Get_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/VolumeSnapshots_Get_MinimumSet_Gen.json
  */
 async function volumeSnapshotsGetMinimumSetGen() {
   const subscriptionId =
@@ -59,7 +59,7 @@ async function volumeSnapshotsGetMinimumSetGen() {
     resourceGroupName,
     elasticSanName,
     volumeGroupName,
-    snapshotName
+    snapshotName,
   );
   console.log(result);
 }

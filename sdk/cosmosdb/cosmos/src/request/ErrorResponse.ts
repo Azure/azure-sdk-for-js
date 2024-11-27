@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { CosmosDiagnostics, CosmosHeaders } from "../index";
+// Licensed under the MIT License.
+import type { CosmosDiagnostics, CosmosHeaders } from "../index";
 
 export interface ErrorBody {
   code: string;
@@ -16,7 +16,11 @@ export interface ErrorBody {
  */
 export interface PartitionedQueryExecutionInfo {
   partitionedQueryExecutionInfoVersion: number;
-  queryInfo: QueryInfo;
+  queryInfo?: QueryInfo;
+  /**
+   * Represents hybrid query information.
+   */
+  hybridSearchQueryInfo?: HybridSearchQueryInfo;
   queryRanges: QueryRange[];
 }
 
@@ -49,6 +53,33 @@ export interface QueryInfo {
    * determines whether the query is of non streaming orderby type.
    */
   hasNonStreamingOrderBy: boolean;
+}
+
+/**
+ * @hidden
+ * Represents the hybrid search query information
+ */
+export interface HybridSearchQueryInfo {
+  /**
+   * The query to be used for fetching global statistics
+   */
+  globalStatisticsQuery: string;
+  /**
+   * Query information for the subsequent queries
+   */
+  componentQueryInfos: QueryInfo[];
+  /**
+   * The number of results in the final result set
+   */
+  take: number;
+  /**
+   * The number of results to skip in the final result set
+   */
+  skip: number;
+  /**
+   * Whether the query requires global statistics
+   */
+  requiresGlobalStatistics: boolean;
 }
 
 export type GroupByExpressions = string[];

@@ -1,26 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import chai from "chai";
 import Long from "long";
-const should = chai.should();
-const expect = chai.expect;
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import { ServiceBusMessage, delay } from "../../src";
-import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ServiceBusReceiver } from "../../src";
+import type { ServiceBusMessage } from "../../src/index.js";
+import { delay } from "../../src/index.js";
+import { TestClientType, TestMessage } from "./utils/testUtils.js";
+import type { ServiceBusReceiver } from "../../src/index.js";
+import type { ServiceBusClientForTests, EntityName } from "./utils/testutils2.js";
 import {
-  ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithNoSessions,
   getRandomTestClientTypeWithSessions,
-  EntityName,
   getRandomTestClientType,
-} from "./utils/testutils2";
-import { ServiceBusSender } from "../../src";
+} from "./utils/testutils2.js";
+import type { ServiceBusSender } from "../../src/index.js";
 import { StandardAbortMessage } from "@azure/core-amqp";
+import { afterAll, afterEach, beforeAll, describe, expect, it } from "vitest";
+import { should } from "./utils/chai.js";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
@@ -33,11 +30,11 @@ describe("Sender Tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let entityName: EntityName;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 
@@ -488,13 +485,13 @@ describe("ServiceBusMessage validations", function (): void {
   let sbClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
 
-  before(async () => {
+  beforeAll(async () => {
     sbClient = createServiceBusClientForTests();
     const entityName = await sbClient.test.createTestEntities(TestClientType.UnpartitionedQueue);
     sender = sbClient.createSender(entityName.queue!);
   });
 
-  after(async () => {
+  afterAll(async () => {
     await sbClient.close();
   });
 

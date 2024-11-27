@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /* eslint-disable eqeqeq */
 
-import { AmqpError, AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
+import type { AmqpError } from "rhea-promise";
+import { AmqpResponseStatusCode, isAmqpError as rheaIsAmqpError } from "rhea-promise";
 import { isDefined, isError, isNodeLike, isObjectWithProperties } from "@azure/core-util";
 import { isNumber, isString } from "./util/utils.js";
 

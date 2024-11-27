@@ -14,7 +14,12 @@ import {
   ReplicationLinksListByServerOptionalParams,
   ReplicationLinksGetOptionalParams,
   ReplicationLinksGetResponse,
+  ReplicationLinksCreateOrUpdateOptionalParams,
+  ReplicationLinksCreateOrUpdateResponse,
   ReplicationLinksDeleteOptionalParams,
+  ReplicationLinkUpdate,
+  ReplicationLinksUpdateOptionalParams,
+  ReplicationLinksUpdateResponse,
   ReplicationLinksFailoverOptionalParams,
   ReplicationLinksFailoverResponse,
   ReplicationLinksFailoverAllowDataLossOptionalParams,
@@ -67,6 +72,47 @@ export interface ReplicationLinks {
     options?: ReplicationLinksGetOptionalParams,
   ): Promise<ReplicationLinksGetResponse>;
   /**
+   * Updates the replication link type.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param linkId
+   * @param parameters A replication link.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    parameters: ReplicationLink,
+    options?: ReplicationLinksCreateOrUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReplicationLinksCreateOrUpdateResponse>,
+      ReplicationLinksCreateOrUpdateResponse
+    >
+  >;
+  /**
+   * Updates the replication link type.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param linkId
+   * @param parameters A replication link.
+   * @param options The options parameters.
+   */
+  beginCreateOrUpdateAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    parameters: ReplicationLink,
+    options?: ReplicationLinksCreateOrUpdateOptionalParams,
+  ): Promise<ReplicationLinksCreateOrUpdateResponse>;
+  /**
    * Deletes the replication link.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
    *                          this value from the Azure Resource Manager API or the portal.
@@ -98,6 +144,47 @@ export interface ReplicationLinks {
     linkId: string,
     options?: ReplicationLinksDeleteOptionalParams,
   ): Promise<void>;
+  /**
+   * Updates the replication link type.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param linkId
+   * @param parameters A replication link update request.
+   * @param options The options parameters.
+   */
+  beginUpdate(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    parameters: ReplicationLinkUpdate,
+    options?: ReplicationLinksUpdateOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ReplicationLinksUpdateResponse>,
+      ReplicationLinksUpdateResponse
+    >
+  >;
+  /**
+   * Updates the replication link type.
+   * @param resourceGroupName The name of the resource group that contains the resource. You can obtain
+   *                          this value from the Azure Resource Manager API or the portal.
+   * @param serverName The name of the server.
+   * @param databaseName The name of the database.
+   * @param linkId
+   * @param parameters A replication link update request.
+   * @param options The options parameters.
+   */
+  beginUpdateAndWait(
+    resourceGroupName: string,
+    serverName: string,
+    databaseName: string,
+    linkId: string,
+    parameters: ReplicationLinkUpdate,
+    options?: ReplicationLinksUpdateOptionalParams,
+  ): Promise<ReplicationLinksUpdateResponse>;
   /**
    * Fails over from the current primary server to this server.
    * @param resourceGroupName The name of the resource group that contains the resource. You can obtain

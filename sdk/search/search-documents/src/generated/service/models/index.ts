@@ -40,6 +40,7 @@ export type SearchIndexerSkillUnion =
   | CustomEntityLookupSkill
   | TextTranslationSkill
   | DocumentExtractionSkill
+  | DocumentIntelligenceLayoutSkill
   | WebApiSkill
   | AzureMachineLearningSkill
   | AzureOpenAIEmbeddingSkill
@@ -47,7 +48,9 @@ export type SearchIndexerSkillUnion =
 export type CognitiveServicesAccountUnion =
   | CognitiveServicesAccount
   | DefaultCognitiveServicesAccount
-  | CognitiveServicesAccountKey;
+  | CognitiveServicesAccountKey
+  | AIServicesAccountKey
+  | AIServicesAccountIdentity;
 export type ScoringFunctionUnion =
   | ScoringFunction
   | DistanceScoringFunction
@@ -114,12 +117,13 @@ export type VectorSearchAlgorithmConfigurationUnion =
 export type VectorSearchVectorizerUnion =
   | VectorSearchVectorizer
   | AzureOpenAIVectorizer
-  | CustomVectorizer
+  | WebApiVectorizer
   | AIServicesVisionVectorizer
   | AMLVectorizer;
-export type BaseVectorSearchCompressionConfigurationUnion =
-  | BaseVectorSearchCompressionConfiguration
-  | ScalarQuantizationCompressionConfiguration;
+export type VectorSearchCompressionUnion =
+  | VectorSearchCompression
+  | ScalarQuantizationCompression
+  | BinaryQuantizationCompression;
 
 /** Represents a datasource definition, which can be used to configure an indexer. */
 export interface SearchIndexerDataSource {
@@ -334,7 +338,7 @@ export interface IndexingParametersConfiguration {
   failOnUnsupportedContentType?: boolean;
   /** For Azure blobs, set to false if you want to continue indexing if a document fails indexing. */
   failOnUnprocessableDocument?: boolean;
-  /** For Azure blobs, set this property to true to still index storage metadata for blob content that is too large to process. Oversized blobs are treated as errors by default. For limits on blob size, see https://docs.microsoft.com/azure/search/search-limits-quotas-capacity. */
+  /** For Azure blobs, set this property to true to still index storage metadata for blob content that is too large to process. Oversized blobs are treated as errors by default. For limits on blob size, see https://learn.microsoft.com/azure/search/search-limits-quotas-capacity. */
   indexStorageMetadataOnlyForOversizedDocuments?: boolean;
   /** For CSV blobs, specifies a comma-delimited list of column headers, useful for mapping source fields to destination fields in an index. */
   delimitedTextHeaders?: string;
@@ -342,6 +346,10 @@ export interface IndexingParametersConfiguration {
   delimitedTextDelimiter?: string;
   /** For CSV blobs, indicates that the first (non-blank) line of each blob contains headers. */
   firstLineContainsHeaders?: boolean;
+  /** Specifies the submode that will determine whether a markdown file will be parsed into exactly one search document or multiple search documents. Default is `oneToMany`. */
+  markdownParsingSubmode?: MarkdownParsingSubmode;
+  /** Specifies the max header depth that will be considered while grouping markdown content. Default is `h6`. */
+  markdownHeaderDepth?: MarkdownHeaderDepth;
   /** For JSON arrays, given a structured or semi-structured document, you can specify a path to the array using this property. */
   documentRoot?: string;
   /** Specifies the data to extract from Azure blob storage and tells the indexer which data to extract from image content when "imageAction" is set to a value other than "none".  This applies to embedded image content in a .PDF or other application, or image files such as .jpg and .png, in Azure blobs. */
@@ -615,7 +623,7 @@ export interface SearchIndexerSkillset {
   /** Definition of additional projections to Azure blob, table, or files, of enriched data. */
   knowledgeStore?: SearchIndexerKnowledgeStore;
   /** Definition of additional projections to secondary search index(es). */
-  indexProjections?: SearchIndexerIndexProjections;
+  indexProjection?: SearchIndexerIndexProjection;
   /** The ETag of the skillset. */
   etag?: string;
   /** A description of an encryption key that you create in Azure Key Vault. This key is used to provide an additional level of encryption-at-rest for your skillset definition when you want full assurance that no one, not even Microsoft, can decrypt your skillset definition. Once you have encrypted your skillset definition, it will always remain encrypted. The search service will ignore attempts to set this property to null. You can change this property as needed if you want to rotate your encryption key; Your skillset definition will be unaffected. Encryption with customer-managed keys is not available for free search services, and is only available for paid services created on or after January 1, 2019. */
@@ -643,6 +651,7 @@ export interface SearchIndexerSkill {
     | "#Microsoft.Skills.Text.CustomEntityLookupSkill"
     | "#Microsoft.Skills.Text.TranslationSkill"
     | "#Microsoft.Skills.Util.DocumentExtractionSkill"
+    | "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill"
     | "#Microsoft.Skills.Custom.WebApiSkill"
     | "#Microsoft.Skills.Custom.AmlSkill"
     | "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill"
@@ -684,7 +693,9 @@ export interface CognitiveServicesAccount {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype:
     | "#Microsoft.Azure.Search.DefaultCognitiveServices"
-    | "#Microsoft.Azure.Search.CognitiveServicesByKey";
+    | "#Microsoft.Azure.Search.CognitiveServicesByKey"
+    | "#Microsoft.Azure.Search.AIServicesByKey"
+    | "#Microsoft.Azure.Search.AIServicesByIdentity";
   /** Description of the Azure AI service resource attached to a skillset. */
   description?: string;
 }
@@ -734,11 +745,11 @@ export interface SearchIndexerKnowledgeStoreParameters {
 }
 
 /** Definition of additional projections to secondary search indexes. */
-export interface SearchIndexerIndexProjections {
+export interface SearchIndexerIndexProjection {
   /** A list of projections to be performed to secondary search indexes. */
   selectors: SearchIndexerIndexProjectionSelector[];
   /** A dictionary of index projection-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
-  parameters?: SearchIndexerIndexProjectionsParameters;
+  parameters?: SearchIndexerIndexProjectionParameters;
 }
 
 /** Description for what data to store in the designated search index. */
@@ -754,7 +765,7 @@ export interface SearchIndexerIndexProjectionSelector {
 }
 
 /** A dictionary of index projection-specific configuration properties. Each name is the name of a specific property. Each value must be of a primitive type. */
-export interface SearchIndexerIndexProjectionsParameters {
+export interface SearchIndexerIndexProjectionParameters {
   /** Describes unknown properties. The value of an unknown property can be of "any" type. */
   [property: string]: any;
   /** Defines behavior of the index projections in relation to the rest of the indexer. */
@@ -1053,7 +1064,7 @@ export interface VectorSearch {
   /** Contains configuration options on how to vectorize text vector queries. */
   vectorizers?: VectorSearchVectorizerUnion[];
   /** Contains configuration options specific to the compression method used during indexing or querying. */
-  compressions?: BaseVectorSearchCompressionConfigurationUnion[];
+  compressions?: VectorSearchCompressionUnion[];
 }
 
 /** Defines a combination of configurations to use with vector search. */
@@ -1062,10 +1073,10 @@ export interface VectorSearchProfile {
   name: string;
   /** The name of the vector search algorithm configuration that specifies the algorithm and optional parameters. */
   algorithmConfigurationName: string;
-  /** The name of the kind of vectorization method being configured for use with vector search. */
-  vectorizer?: string;
+  /** The name of the vectorization being configured for use with vector search. */
+  vectorizerName?: string;
   /** The name of the compression method configuration that specifies the compression method and optional parameters. */
-  compressionConfigurationName?: string;
+  compressionName?: string;
 }
 
 /** Contains configuration options specific to the algorithm used during indexing or querying. */
@@ -1081,19 +1092,33 @@ export interface VectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "azureOpenAI" | "customWebApi" | "aiServicesVision" | "aml";
   /** The name to associate with this particular vectorization method. */
-  name: string;
+  vectorizerName: string;
 }
 
 /** Contains configuration options specific to the compression method used during indexing or querying. */
-export interface BaseVectorSearchCompressionConfiguration {
+export interface VectorSearchCompression {
   /** Polymorphic discriminator, which specifies the different types this object can be */
-  kind: "scalarQuantization";
+  kind: "scalarQuantization" | "binaryQuantization";
   /** The name to associate with this particular configuration. */
-  name: string;
+  compressionName: string;
   /** If set to true, once the ordered set of results calculated using compressed vectors are obtained, they will be reranked again by recalculating the full-precision similarity scores. This will improve recall at the expense of latency. */
   rerankWithOriginalVectors?: boolean;
   /** Default oversampling factor. Oversampling will internally request more documents (specified by this multiplier) in the initial search. This increases the set of results that will be reranked using recomputed similarity scores from full-precision vectors. Minimum value is 1, meaning no oversampling (1x). This parameter can only be set when rerankWithOriginalVectors is true. Higher values improve recall at the expense of latency. */
   defaultOversampling?: number;
+  /** Contains the options for rescoring. */
+  rescoringOptions?: RescoringOptions;
+  /** The number of dimensions to truncate the vectors to. Truncating the vectors reduces the size of the vectors and the amount of data that needs to be transferred during search. This can save storage cost and improve search performance at the expense of recall. It should be only used for embeddings trained with Matryoshka Representation Learning (MRL) such as OpenAI text-embedding-3-large (small). The default value is null, which means no truncation. */
+  truncationDimension?: number;
+}
+
+/** Contains the options for rescoring. */
+export interface RescoringOptions {
+  /** If set to true, after the initial search on the compressed vectors, the similarity scores are recalculated using the full-precision vectors. This will improve recall at the expense of latency. */
+  enableRescoring?: boolean;
+  /** Default oversampling factor. Oversampling retrieves a greater set of potential documents to offset the resolution loss due to quantization. This increases the set of results that will be rescored on full-precision vectors. Minimum value is 1, meaning no oversampling (1x). This parameter can only be set when 'enableRescoring' is true. Higher values improve recall at the expense of latency. */
+  defaultOversampling?: number;
+  /** Controls the storage method for original vectors. This setting is immutable. */
+  rescoreStorageMethod?: VectorSearchCompressionRescoreStorageMethod;
 }
 
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
@@ -1128,15 +1153,15 @@ export interface GetIndexStatisticsResult {
 export interface AnalyzeRequest {
   /** The text to break into tokens. */
   text: string;
-  /** The name of the analyzer to use to break the given text. KnownAnalyzerNames is an enum containing known values. */
+  /** The name of the analyzer to use to break the given text. If this parameter is not specified, you must specify a tokenizer instead. The tokenizer and analyzer parameters are mutually exclusive. KnownAnalyzerNames is an enum containing known values. */
   analyzer?: string;
-  /** The name of the tokenizer to use to break the given text. KnownTokenizerNames is an enum containing known values. */
+  /** The name of the tokenizer to use to break the given text. If this parameter is not specified, you must specify an analyzer instead. The tokenizer and analyzer parameters are mutually exclusive. KnownTokenizerNames is an enum containing known values. */
   tokenizer?: string;
   /** The name of the normalizer to use to normalize the given text. */
   normalizer?: LexicalNormalizerName;
-  /** An optional list of token filters to use when breaking the given text. */
+  /** An optional list of token filters to use when breaking the given text. This parameter can only be set when using the tokenizer parameter. */
   tokenFilters?: string[];
-  /** An optional list of character filters to use when breaking the given text. */
+  /** An optional list of character filters to use when breaking the given text. This parameter can only be set when using the tokenizer parameter. */
   charFilters?: string[];
 }
 
@@ -1238,7 +1263,7 @@ export interface ServiceLimits {
   /** The maximum number of objects in complex collections allowed per document. */
   maxComplexObjectsInCollectionsPerDocument?: number;
   /** The maximum amount of storage in bytes allowed per index. */
-  maxStoragePerIndex?: number;
+  maxStoragePerIndexInBytes?: number;
 }
 
 /** Contains the parameters specific to the HNSW algorithm. */
@@ -1262,13 +1287,13 @@ export interface ExhaustiveKnnParameters {
 /** Contains the parameters specific to Scalar Quantization. */
 export interface ScalarQuantizationParameters {
   /** The quantized data type of compressed vector values. */
-  quantizedDataType?: VectorSearchCompressionTargetDataType;
+  quantizedDataType?: VectorSearchCompressionTarget;
 }
 
 /** Specifies the parameters for connecting to the Azure OpenAI resource. */
 export interface AzureOpenAIParameters {
   /** The resource URI of the Azure OpenAI resource. */
-  resourceUri?: string;
+  resourceUrl?: string;
   /** ID of the Azure OpenAI model deployment on the designated resource. */
   deploymentId?: string;
   /** API key of the designated Azure OpenAI resource. */
@@ -1280,7 +1305,7 @@ export interface AzureOpenAIParameters {
 }
 
 /** Specifies the properties for connecting to a user-defined vectorizer. */
-export interface CustomWebApiParameters {
+export interface WebApiParameters {
   /** The URI of the Web API providing the vectorizer. */
   uri?: string;
   /** The headers required to make the HTTP request. */
@@ -1393,6 +1418,13 @@ export interface CustomEntityAlias {
   fuzzyEditDistance?: number;
 }
 
+export interface AzureOpenAITokenizerParameters {
+  /** Only applies if the unit is set to azureOpenAITokens. Options include 'R50k_base', 'P50k_base', 'P50k_edit' and 'CL100k_base'. The default value is 'CL100k_base'. */
+  encoderModelName?: SplitSkillEncoderModelName;
+  /** (Optional) Only applies if the unit is set to azureOpenAITokens. This parameter defines a collection of special tokens that are permitted within the tokenization process. */
+  allowedSpecialTokens?: string[];
+}
+
 /** Clears the identity property of a datasource. */
 export interface SearchIndexerDataNoneIdentity
   extends SearchIndexerDataIdentity {
@@ -1406,7 +1438,7 @@ export interface SearchIndexerDataUserAssignedIdentity
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype: "#Microsoft.Azure.Search.DataUserAssignedIdentity";
   /** The fully qualified Azure resource Id of a user assigned managed identity typically in the form "/subscriptions/12345678-1234-1234-1234-1234567890ab/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId" that should have been assigned to the search service. */
-  userAssignedIdentity: string;
+  resourceId: string;
 }
 
 /** Defines a data change detection policy that captures changes based on the value of a high water mark column. */
@@ -1470,7 +1502,7 @@ export interface OcrSkill extends SearchIndexerSkill {
   /** A value indicating to turn orientation detection on or not. Default is false. */
   shouldDetectOrientation?: boolean;
   /** Defines the sequence of characters to use between the lines of text recognized by the OCR skill. The default value is "space". */
-  lineEnding?: LineEnding;
+  lineEnding?: OcrLineEnding;
 }
 
 /** A skill that analyzes image files. It extracts a rich set of visual features based on the image content. */
@@ -1613,6 +1645,10 @@ export interface SplitSkill extends SearchIndexerSkill {
   pageOverlapLength?: number;
   /** Only applicable when textSplitMode is set to 'pages'. If specified, the SplitSkill will discontinue splitting after processing the first 'maximumPagesToTake' pages, in order to improve performance when only a few initial pages are needed from each document. */
   maximumPagesToTake?: number;
+  /** Only applies if textSplitMode is set to pages. There are two possible values. The choice of the values will decide the length (maximumPageLength and pageOverlapLength) measurement. The default is 'characters', which means the length will be measured by character. */
+  unit?: SplitSkillUnit;
+  /** Only applies if the unit is set to azureOpenAITokens. If specified, the splitSkill will use these parameters when performing the tokenization. The parameters are a valid 'encoderModelName' and an optional 'allowedSpecialTokens' property. */
+  azureOpenAITokenizerParameters?: AzureOpenAITokenizerParameters;
 }
 
 /** A skill looks for text from a custom, user-defined list of words and phrases. */
@@ -1655,6 +1691,16 @@ export interface DocumentExtractionSkill extends SearchIndexerSkill {
   dataToExtract?: string;
   /** A dictionary of configurations for the skill. */
   configuration?: { [propertyName: string]: any };
+}
+
+/** A skill that extracts content and layout information (as markdown), via Azure AI Services, from files within the enrichment pipeline. */
+export interface DocumentIntelligenceLayoutSkill extends SearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill";
+  /** Controls the cardinality of the output produced by the skill. Default is 'oneToMany'. */
+  outputMode?: DocumentIntelligenceLayoutSkillOutputMode;
+  /** The depth of headers in the markdown output. Default is h6. */
+  markdownHeaderDepth?: DocumentIntelligenceLayoutSkillMarkdownHeaderDepth;
 }
 
 /** A skill that can call a Web API endpoint, allowing you to extend a skillset by having it call your custom code. */
@@ -1728,6 +1774,26 @@ export interface CognitiveServicesAccountKey extends CognitiveServicesAccount {
   odatatype: "#Microsoft.Azure.Search.CognitiveServicesByKey";
   /** The key used to provision the Azure AI service resource attached to a skillset. */
   key: string;
+}
+
+/** The account key of an Azure AI service resource that's attached to a skillset, to be used with the resource's subdomain. */
+export interface AIServicesAccountKey extends CognitiveServicesAccount {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Azure.Search.AIServicesByKey";
+  /** The key used to provision the Azure AI service resource attached to a skillset. */
+  key: string;
+  /** The subdomain url for the corresponding AI Service. */
+  subdomainUrl: string;
+}
+
+/** The multi-region account of an Azure AI service resource that's attached to a skillset. */
+export interface AIServicesAccountIdentity extends CognitiveServicesAccount {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Azure.Search.AIServicesByIdentity";
+  /** The user-assigned managed identity used for connections to AI Service. If not specified, the system-assigned managed identity is used. On updates to the skillset, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
+  identity: SearchIndexerDataIdentityUnion | null;
+  /** The subdomain url for the corresponding AI Service. */
+  subdomainUrl: string;
 }
 
 /** Description for what data to store in Azure Tables. */
@@ -2289,15 +2355,15 @@ export interface AzureOpenAIVectorizer extends VectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "azureOpenAI";
   /** Contains the parameters specific to Azure OpenAI embedding vectorization. */
-  azureOpenAIParameters?: AzureOpenAIParameters;
+  parameters?: AzureOpenAIParameters;
 }
 
 /** Specifies a user-defined vectorizer for generating the vector embedding of a query string. Integration of an external vectorizer is achieved using the custom Web API interface of a skillset. */
-export interface CustomVectorizer extends VectorSearchVectorizer {
+export interface WebApiVectorizer extends VectorSearchVectorizer {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "customWebApi";
   /** Specifies the properties of the user-defined vectorizer. */
-  customWebApiParameters?: CustomWebApiParameters;
+  parameters?: WebApiParameters;
 }
 
 /** Specifies the AI Services Vision parameters for vectorizing a query image or text. */
@@ -2317,12 +2383,17 @@ export interface AMLVectorizer extends VectorSearchVectorizer {
 }
 
 /** Contains configuration options specific to the scalar quantization compression method used during indexing and querying. */
-export interface ScalarQuantizationCompressionConfiguration
-  extends BaseVectorSearchCompressionConfiguration {
+export interface ScalarQuantizationCompression extends VectorSearchCompression {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   kind: "scalarQuantization";
   /** Contains the parameters specific to Scalar Quantization. */
   parameters?: ScalarQuantizationParameters;
+}
+
+/** Contains configuration options specific to the binary quantization compression method used during indexing and querying. */
+export interface BinaryQuantizationCompression extends VectorSearchCompression {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  kind: "binaryQuantization";
 }
 
 /** Projection definition for what data to store in Azure Blob. */
@@ -2333,20 +2404,20 @@ export interface SearchIndexerKnowledgeStoreObjectProjectionSelector
 export interface SearchIndexerKnowledgeStoreFileProjectionSelector
   extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
 
-/** Known values of {@link ApiVersion20240501Preview} that the service accepts. */
-export enum KnownApiVersion20240501Preview {
-  /** Api Version '2024-05-01-preview' */
-  TwoThousandTwentyFour0501Preview = "2024-05-01-preview",
+/** Known values of {@link ApiVersion20241101Preview} that the service accepts. */
+export enum KnownApiVersion20241101Preview {
+  /** Api Version '2024-11-01-preview' */
+  TwoThousandTwentyFour1101Preview = "2024-11-01-preview",
 }
 
 /**
- * Defines values for ApiVersion20240501Preview. \
- * {@link KnownApiVersion20240501Preview} can be used interchangeably with ApiVersion20240501Preview,
+ * Defines values for ApiVersion20241101Preview. \
+ * {@link KnownApiVersion20241101Preview} can be used interchangeably with ApiVersion20241101Preview,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2024-05-01-preview**: Api Version '2024-05-01-preview'
+ * **2024-11-01-preview**: Api Version '2024-11-01-preview'
  */
-export type ApiVersion20240501Preview = string;
+export type ApiVersion20241101Preview = string;
 
 /** Known values of {@link SearchIndexerDataSourceType} that the service accepts. */
 export enum KnownSearchIndexerDataSourceType {
@@ -2395,6 +2466,8 @@ export enum KnownBlobIndexerParsingMode {
   JsonArray = "jsonArray",
   /** Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. */
   JsonLines = "jsonLines",
+  /** Set to markdown to extract content from markdown files. */
+  Markdown = "markdown",
 }
 
 /**
@@ -2407,9 +2480,58 @@ export enum KnownBlobIndexerParsingMode {
  * **delimitedText**: Set to delimitedText when blobs are plain CSV files. \
  * **json**: Set to json to extract structured content from JSON files. \
  * **jsonArray**: Set to jsonArray to extract individual elements of a JSON array as separate documents. \
- * **jsonLines**: Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents.
+ * **jsonLines**: Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. \
+ * **markdown**: Set to markdown to extract content from markdown files.
  */
 export type BlobIndexerParsingMode = string;
+
+/** Known values of {@link MarkdownParsingSubmode} that the service accepts. */
+export enum KnownMarkdownParsingSubmode {
+  /** Indicates that each section of the markdown file (up to a specified depth) will be parsed into individual search documents. This can result in a single markdown file producing multiple search documents. This is the default sub-mode. */
+  OneToMany = "oneToMany",
+  /** Indicates that each markdown file will be parsed into a single search document. */
+  OneToOne = "oneToOne",
+}
+
+/**
+ * Defines values for MarkdownParsingSubmode. \
+ * {@link KnownMarkdownParsingSubmode} can be used interchangeably with MarkdownParsingSubmode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **oneToMany**: Indicates that each section of the markdown file (up to a specified depth) will be parsed into individual search documents. This can result in a single markdown file producing multiple search documents. This is the default sub-mode. \
+ * **oneToOne**: Indicates that each markdown file will be parsed into a single search document.
+ */
+export type MarkdownParsingSubmode = string;
+
+/** Known values of {@link MarkdownHeaderDepth} that the service accepts. */
+export enum KnownMarkdownHeaderDepth {
+  /** Indicates that headers up to a level of h1 will be considered while grouping markdown content. */
+  H1 = "h1",
+  /** Indicates that headers up to a level of h2 will be considered while grouping markdown content. */
+  H2 = "h2",
+  /** Indicates that headers up to a level of h3 will be considered while grouping markdown content. */
+  H3 = "h3",
+  /** Indicates that headers up to a level of h4 will be considered while grouping markdown content. */
+  H4 = "h4",
+  /** Indicates that headers up to a level of h5 will be considered while grouping markdown content. */
+  H5 = "h5",
+  /** Indicates that headers up to a level of h6 will be considered while grouping markdown content. This is the default. */
+  H6 = "h6",
+}
+
+/**
+ * Defines values for MarkdownHeaderDepth. \
+ * {@link KnownMarkdownHeaderDepth} can be used interchangeably with MarkdownHeaderDepth,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **h1**: Indicates that headers up to a level of h1 will be considered while grouping markdown content. \
+ * **h2**: Indicates that headers up to a level of h2 will be considered while grouping markdown content. \
+ * **h3**: Indicates that headers up to a level of h3 will be considered while grouping markdown content. \
+ * **h4**: Indicates that headers up to a level of h4 will be considered while grouping markdown content. \
+ * **h5**: Indicates that headers up to a level of h5 will be considered while grouping markdown content. \
+ * **h6**: Indicates that headers up to a level of h6 will be considered while grouping markdown content. This is the default.
+ */
+export type MarkdownHeaderDepth = string;
 
 /** Known values of {@link BlobIndexerDataToExtract} that the service accepts. */
 export enum KnownBlobIndexerDataToExtract {
@@ -2767,7 +2889,7 @@ export enum KnownLexicalAnalyzerName {
   ViMicrosoft = "vi.microsoft",
   /** Standard Lucene analyzer. */
   StandardLucene = "standard.lucene",
-  /** Standard ASCII Folding Lucene analyzer. See https:\//docs.microsoft.com\/rest\/api\/searchservice\/Custom-analyzers-in-Azure-Search#Analyzers */
+  /** Standard ASCII Folding Lucene analyzer. See https:\//learn.microsoft.com\/rest\/api\/searchservice\/Custom-analyzers-in-Azure-Search#Analyzers */
   StandardAsciiFoldingLucene = "standardasciifolding.lucene",
   /** Treats the entire content of a field as a single token. This is useful for data like zip codes, ids, and some product names. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/KeywordAnalyzer.html */
   Keyword = "keyword",
@@ -2873,7 +2995,7 @@ export enum KnownLexicalAnalyzerName {
  * **ur.microsoft**: Microsoft analyzer for Urdu. \
  * **vi.microsoft**: Microsoft analyzer for Vietnamese. \
  * **standard.lucene**: Standard Lucene analyzer. \
- * **standardasciifolding.lucene**: Standard ASCII Folding Lucene analyzer. See https:\/\/docs.microsoft.com\/rest\/api\/searchservice\/Custom-analyzers-in-Azure-Search#Analyzers \
+ * **standardasciifolding.lucene**: Standard ASCII Folding Lucene analyzer. See https:\/\/learn.microsoft.com\/rest\/api\/searchservice\/Custom-analyzers-in-Azure-Search#Analyzers \
  * **keyword**: Treats the entire content of a field as a single token. This is useful for data like zip codes, ids, and some product names. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/KeywordAnalyzer.html \
  * **pattern**: Flexibly separates text into terms via a regular expression pattern. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/PatternAnalyzer.html \
  * **simple**: Divides text at non-letters and converts them to lower case. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/SimpleAnalyzer.html \
@@ -2970,6 +3092,8 @@ export type VectorSearchVectorizerKind = string;
 export enum KnownVectorSearchCompressionKind {
   /** Scalar Quantization, a type of compression method. In scalar quantization, the original vectors values are compressed to a narrower type by discretizing and representing each component of a vector using a reduced set of quantized values, thereby reducing the overall data size. */
   ScalarQuantization = "scalarQuantization",
+  /** Binary Quantization, a type of compression method. In binary quantization, the original vectors values are compressed to the narrower binary type by discretizing and representing each component of a vector using binary values, thereby reducing the overall data size. */
+  BinaryQuantization = "binaryQuantization",
 }
 
 /**
@@ -2977,9 +3101,28 @@ export enum KnownVectorSearchCompressionKind {
  * {@link KnownVectorSearchCompressionKind} can be used interchangeably with VectorSearchCompressionKind,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **scalarQuantization**: Scalar Quantization, a type of compression method. In scalar quantization, the original vectors values are compressed to a narrower type by discretizing and representing each component of a vector using a reduced set of quantized values, thereby reducing the overall data size.
+ * **scalarQuantization**: Scalar Quantization, a type of compression method. In scalar quantization, the original vectors values are compressed to a narrower type by discretizing and representing each component of a vector using a reduced set of quantized values, thereby reducing the overall data size. \
+ * **binaryQuantization**: Binary Quantization, a type of compression method. In binary quantization, the original vectors values are compressed to the narrower binary type by discretizing and representing each component of a vector using binary values, thereby reducing the overall data size.
  */
 export type VectorSearchCompressionKind = string;
+
+/** Known values of {@link VectorSearchCompressionRescoreStorageMethod} that the service accepts. */
+export enum KnownVectorSearchCompressionRescoreStorageMethod {
+  /** This option preserves the original full-precision vectors. Choose this option for maximum flexibility and highest quality of compressed search results. This consumes more storage but allows for rescoring and oversampling. */
+  PreserveOriginals = "preserveOriginals",
+  /** This option discards the original full-precision vectors. Choose this option for maximum storage savings. Since this option does not allow for rescoring and oversampling, it will often cause slight to moderate reductions in quality. */
+  DiscardOriginals = "discardOriginals",
+}
+
+/**
+ * Defines values for VectorSearchCompressionRescoreStorageMethod. \
+ * {@link KnownVectorSearchCompressionRescoreStorageMethod} can be used interchangeably with VectorSearchCompressionRescoreStorageMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **preserveOriginals**: This option preserves the original full-precision vectors. Choose this option for maximum flexibility and highest quality of compressed search results. This consumes more storage but allows for rescoring and oversampling. \
+ * **discardOriginals**: This option discards the original full-precision vectors. Choose this option for maximum storage savings. Since this option does not allow for rescoring and oversampling, it will often cause slight to moderate reductions in quality.
+ */
+export type VectorSearchCompressionRescoreStorageMethod = string;
 
 /** Known values of {@link TokenFilterName} that the service accepts. */
 export enum KnownTokenFilterName {
@@ -3037,7 +3180,7 @@ export enum KnownTokenFilterName {
   Snowball = "snowball",
   /** Normalizes the Unicode representation of Sorani text. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ckb\/SoraniNormalizationFilter.html */
   SoraniNormalization = "sorani_normalization",
-  /** Language specific stemming filter. See https:\//docs.microsoft.com\/rest\/api\/searchservice\/Custom-analyzers-in-Azure-Search#TokenFilters */
+  /** Language specific stemming filter. See https:\//learn.microsoft.com\/rest\/api\/searchservice\/Custom-analyzers-in-Azure-Search#TokenFilters */
   Stemmer = "stemmer",
   /** Removes stop words from a token stream. See http:\//lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/StopFilter.html */
   Stopwords = "stopwords",
@@ -3085,7 +3228,7 @@ export enum KnownTokenFilterName {
  * **shingle**: Creates combinations of tokens as a single token. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/shingle\/ShingleFilter.html \
  * **snowball**: A filter that stems words using a Snowball-generated stemmer. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/snowball\/SnowballFilter.html \
  * **sorani_normalization**: Normalizes the Unicode representation of Sorani text. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/ckb\/SoraniNormalizationFilter.html \
- * **stemmer**: Language specific stemming filter. See https:\/\/docs.microsoft.com\/rest\/api\/searchservice\/Custom-analyzers-in-Azure-Search#TokenFilters \
+ * **stemmer**: Language specific stemming filter. See https:\/\/learn.microsoft.com\/rest\/api\/searchservice\/Custom-analyzers-in-Azure-Search#TokenFilters \
  * **stopwords**: Removes stop words from a token stream. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/core\/StopFilter.html \
  * **trim**: Trims leading and trailing whitespace from tokens. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/TrimFilter.html \
  * **truncate**: Truncates the terms to a specific length. See http:\/\/lucene.apache.org\/core\/4_10_3\/analyzers-common\/org\/apache\/lucene\/analysis\/miscellaneous\/TruncateTokenFilter.html \
@@ -3134,20 +3277,20 @@ export enum KnownVectorSearchAlgorithmMetric {
  */
 export type VectorSearchAlgorithmMetric = string;
 
-/** Known values of {@link VectorSearchCompressionTargetDataType} that the service accepts. */
-export enum KnownVectorSearchCompressionTargetDataType {
+/** Known values of {@link VectorSearchCompressionTarget} that the service accepts. */
+export enum KnownVectorSearchCompressionTarget {
   /** Int8 */
   Int8 = "int8",
 }
 
 /**
- * Defines values for VectorSearchCompressionTargetDataType. \
- * {@link KnownVectorSearchCompressionTargetDataType} can be used interchangeably with VectorSearchCompressionTargetDataType,
+ * Defines values for VectorSearchCompressionTarget. \
+ * {@link KnownVectorSearchCompressionTarget} can be used interchangeably with VectorSearchCompressionTarget,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **int8**
  */
-export type VectorSearchCompressionTargetDataType = string;
+export type VectorSearchCompressionTarget = string;
 
 /** Known values of {@link AzureOpenAIModelName} that the service accepts. */
 export enum KnownAzureOpenAIModelName {
@@ -3157,8 +3300,6 @@ export enum KnownAzureOpenAIModelName {
   TextEmbedding3Large = "text-embedding-3-large",
   /** TextEmbedding3Small */
   TextEmbedding3Small = "text-embedding-3-small",
-  /** Experimental */
-  Experimental = "experimental",
 }
 
 /**
@@ -3168,8 +3309,7 @@ export enum KnownAzureOpenAIModelName {
  * ### Known values supported by the service
  * **text-embedding-ada-002** \
  * **text-embedding-3-large** \
- * **text-embedding-3-small** \
- * **experimental**
+ * **text-embedding-3-small**
  */
 export type AzureOpenAIModelName = string;
 
@@ -3785,8 +3925,8 @@ export enum KnownOcrSkillLanguage {
  */
 export type OcrSkillLanguage = string;
 
-/** Known values of {@link LineEnding} that the service accepts. */
-export enum KnownLineEnding {
+/** Known values of {@link OcrLineEnding} that the service accepts. */
+export enum KnownOcrLineEnding {
   /** Lines are separated by a single space character. */
   Space = "space",
   /** Lines are separated by a carriage return ('\r') character. */
@@ -3798,8 +3938,8 @@ export enum KnownLineEnding {
 }
 
 /**
- * Defines values for LineEnding. \
- * {@link KnownLineEnding} can be used interchangeably with LineEnding,
+ * Defines values for OcrLineEnding. \
+ * {@link KnownOcrLineEnding} can be used interchangeably with OcrLineEnding,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
  * **space**: Lines are separated by a single space character. \
@@ -3807,7 +3947,7 @@ export enum KnownLineEnding {
  * **lineFeed**: Lines are separated by a single line feed ('\n') character. \
  * **carriageReturnLineFeed**: Lines are separated by a carriage return and a line feed ('\r\n') character.
  */
-export type LineEnding = string;
+export type OcrLineEnding = string;
 
 /** Known values of {@link ImageAnalysisSkillLanguage} that the service accepts. */
 export enum KnownImageAnalysisSkillLanguage {
@@ -4346,6 +4486,48 @@ export enum KnownTextSplitMode {
  */
 export type TextSplitMode = string;
 
+/** Known values of {@link SplitSkillUnit} that the service accepts. */
+export enum KnownSplitSkillUnit {
+  /** The length will be measured by character. */
+  Characters = "characters",
+  /** The length will be measured by an AzureOpenAI tokenizer from the tiktoken library. */
+  AzureOpenAITokens = "azureOpenAITokens",
+}
+
+/**
+ * Defines values for SplitSkillUnit. \
+ * {@link KnownSplitSkillUnit} can be used interchangeably with SplitSkillUnit,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **characters**: The length will be measured by character. \
+ * **azureOpenAITokens**: The length will be measured by an AzureOpenAI tokenizer from the tiktoken library.
+ */
+export type SplitSkillUnit = string;
+
+/** Known values of {@link SplitSkillEncoderModelName} that the service accepts. */
+export enum KnownSplitSkillEncoderModelName {
+  /** Refers to a base model trained with a 50,000 token vocabulary, often used in general natural language processing tasks. */
+  R50KBase = "r50k_base",
+  /** A base model with a 50,000 token vocabulary, optimized for prompt-based tasks. */
+  P50KBase = "p50k_base",
+  /** Similar to p50k_base but fine-tuned for editing or rephrasing tasks with a 50,000 token vocabulary. */
+  P50KEdit = "p50k_edit",
+  /** A base model with a 100,000 token vocabulary. */
+  CL100KBase = "cl100k_base",
+}
+
+/**
+ * Defines values for SplitSkillEncoderModelName. \
+ * {@link KnownSplitSkillEncoderModelName} can be used interchangeably with SplitSkillEncoderModelName,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **r50k_base**: Refers to a base model trained with a 50,000 token vocabulary, often used in general natural language processing tasks. \
+ * **p50k_base**: A base model with a 50,000 token vocabulary, optimized for prompt-based tasks. \
+ * **p50k_edit**: Similar to p50k_base but fine-tuned for editing or rephrasing tasks with a 50,000 token vocabulary. \
+ * **cl100k_base**: A base model with a 100,000 token vocabulary.
+ */
+export type SplitSkillEncoderModelName = string;
+
 /** Known values of {@link CustomEntityLookupSkillLanguage} that the service accepts. */
 export enum KnownCustomEntityLookupSkillLanguage {
   /** Danish */
@@ -4612,6 +4794,51 @@ export enum KnownTextTranslationSkillLanguage {
  * **pa**: Punjabi
  */
 export type TextTranslationSkillLanguage = string;
+
+/** Known values of {@link DocumentIntelligenceLayoutSkillOutputMode} that the service accepts. */
+export enum KnownDocumentIntelligenceLayoutSkillOutputMode {
+  /** Specify the deepest markdown header section to parse. */
+  OneToMany = "oneToMany",
+}
+
+/**
+ * Defines values for DocumentIntelligenceLayoutSkillOutputMode. \
+ * {@link KnownDocumentIntelligenceLayoutSkillOutputMode} can be used interchangeably with DocumentIntelligenceLayoutSkillOutputMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **oneToMany**: Specify the deepest markdown header section to parse.
+ */
+export type DocumentIntelligenceLayoutSkillOutputMode = string;
+
+/** Known values of {@link DocumentIntelligenceLayoutSkillMarkdownHeaderDepth} that the service accepts. */
+export enum KnownDocumentIntelligenceLayoutSkillMarkdownHeaderDepth {
+  /** Header level 1. */
+  H1 = "h1",
+  /** Header level 2. */
+  H2 = "h2",
+  /** Header level 3. */
+  H3 = "h3",
+  /** Header level 4. */
+  H4 = "h4",
+  /** Header level 5. */
+  H5 = "h5",
+  /** Header level 6. */
+  H6 = "h6",
+}
+
+/**
+ * Defines values for DocumentIntelligenceLayoutSkillMarkdownHeaderDepth. \
+ * {@link KnownDocumentIntelligenceLayoutSkillMarkdownHeaderDepth} can be used interchangeably with DocumentIntelligenceLayoutSkillMarkdownHeaderDepth,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **h1**: Header level 1. \
+ * **h2**: Header level 2. \
+ * **h3**: Header level 3. \
+ * **h4**: Header level 4. \
+ * **h5**: Header level 5. \
+ * **h6**: Header level 6.
+ */
+export type DocumentIntelligenceLayoutSkillMarkdownHeaderDepth = string;
 
 /** Known values of {@link LexicalTokenizerName} that the service accepts. */
 export enum KnownLexicalTokenizerName {

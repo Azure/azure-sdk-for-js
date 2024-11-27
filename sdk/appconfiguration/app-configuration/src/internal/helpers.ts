@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   ConfigurationSetting,
   ConfigurationSettingParam,
   HttpOnlyIfChangedField,
@@ -14,21 +14,21 @@ import {
   ConfigurationSnapshot,
   SnapshotResponse,
   EtagEntity,
-} from "../models";
-import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
-import {
+  ListLabelsOptions,
+} from "../models.js";
+import type { FeatureFlagValue } from "../featureFlag.js";
+import { FeatureFlagHelper, featureFlagContentType } from "../featureFlag.js";
+import type {
   GetKeyValuesOptionalParams,
+  GetLabelsOptionalParams,
   GetSnapshotsOptionalParams,
   KeyValue,
-} from "../generated/src/models";
-import {
-  SecretReferenceHelper,
-  SecretReferenceValue,
-  secretReferenceContentType,
-} from "../secretReference";
+} from "../generated/src/models/index.js";
+import type { SecretReferenceValue } from "../secretReference.js";
+import { SecretReferenceHelper, secretReferenceContentType } from "../secretReference.js";
 import { isDefined } from "@azure/core-util";
-import { logger } from "../logger";
-import { OperationOptions } from "@azure/core-client";
+import { logger } from "../logger.js";
+import type { OperationOptions } from "@azure/core-client";
 
 /**
  * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
@@ -44,6 +44,13 @@ export interface SendConfigurationSettingsOptions
    */
   snapshotName?: string;
 }
+
+/**
+ * Options for listLabels that allow for filtering based on keys, labels and other fields.
+ * Also provides `fields` which allows you to selectively choose which fields are populated in the
+ * result.
+ */
+export interface SendLabelsRequestOptions extends ListLabelsOptions {}
 
 /**
  * Formats the etag so it can be used with a If-Match/If-None-Match header
@@ -113,7 +120,7 @@ export function checkAndFormatIfAndIfNoneMatch(
  */
 export function formatFiltersAndSelect(
   listConfigOptions: ListRevisionsOptions,
-): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime"> {
+): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime" | "tags"> {
   let acceptDatetime: string | undefined = undefined;
 
   if (listConfigOptions.acceptDateTime) {
@@ -122,6 +129,7 @@ export function formatFiltersAndSelect(
   return {
     key: listConfigOptions.keyFilter,
     label: listConfigOptions.labelFilter,
+    tags: listConfigOptions.tagsFilter,
     acceptDatetime,
     select: formatFieldsForSelect(listConfigOptions.fields),
   };
@@ -138,7 +146,10 @@ export function formatFiltersAndSelect(
  */
 export function formatConfigurationSettingsFiltersAndSelect(
   listConfigOptions: SendConfigurationSettingsOptions,
-): Pick<GetKeyValuesOptionalParams, "key" | "label" | "select" | "acceptDatetime" | "snapshot"> {
+): Pick<
+  GetKeyValuesOptionalParams,
+  "key" | "label" | "select" | "acceptDatetime" | "snapshot" | "tags"
+> {
   const { snapshotName: snapshot, ...options } = listConfigOptions;
   return {
     ...formatFiltersAndSelect(options),
@@ -160,6 +171,23 @@ export function formatSnapshotFiltersAndSelect(
     name: listSnapshotOptions.nameFilter,
     status: listSnapshotOptions.statusFilter,
     select: listSnapshotOptions.fields,
+  };
+}
+
+/**
+ * Transforms some of the key fields in ListLabelsOptions
+ * so they can be added to a request using AppConfigurationGetLabelsOptionalParams.
+ * - `select` is populated with the proper field names from `options.fields`
+ * - `nameFilter` are moved to name
+ *
+ * @internal
+ */
+export function formatLabelsFiltersAndSelect(
+  listLabelsOptions: ListLabelsOptions,
+): Pick<GetLabelsOptionalParams, "name" | "select"> {
+  return {
+    name: listLabelsOptions.nameFilter,
+    select: listLabelsOptions.fields,
   };
 }
 /**
@@ -414,7 +442,6 @@ export function errorMessageForUnexpectedSetting(
   return `Setting with key ${key} is not a valid ${expectedType}, make sure to have the correct content-type and a valid non-null value.`;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function assertResponse<T extends object>(
   result: T,
 ): asserts result is T & HttpResponseField<any> {
@@ -427,7 +454,6 @@ export function assertResponse<T extends object>(
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function hasUnderscoreResponse<T extends object>(
   result: T,
 ): result is T & HttpResponseField<any> {

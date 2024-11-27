@@ -1,28 +1,29 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import type { RequestResponseLink } from "@azure/core-amqp";
 import {
   Constants,
   TokenType,
   defaultCancellableLock,
-  RequestResponseLink,
   StandardAbortMessage,
   isSasTokenProvider,
 } from "@azure/core-amqp";
-import { AccessToken } from "@azure/core-auth";
-import { ConnectionContext } from "../connectionContext";
-import {
+import type { AccessToken } from "@azure/core-auth";
+import type { ConnectionContext } from "../connectionContext.js";
+import type {
   AwaitableSender,
   AwaitableSenderOptions,
-  generate_uuid,
   Receiver,
   ReceiverOptions,
   SenderOptions,
 } from "rhea-promise";
-import { getUniqueName } from "../util/utils";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusLogger } from "../log";
-import { ServiceBusError } from "../serviceBusError";
+import { generate_uuid } from "rhea-promise";
+import { getUniqueName } from "../util/utils.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
+import type { ServiceBusLogger } from "../log.js";
+import { ServiceBusError } from "../serviceBusError.js";
 
 /**
  * @internal

@@ -37,7 +37,7 @@ npm install @azure/iot-modelsrepository
 // When no URI is provided for instantiation, the Azure IoT Models Repository global endpoint
 // https://devicemodels.azure.com/ is used and the model dependency resolution
 // configuration is set to TryFromExpanded.
-const { ModelsRepositoryClient } = require("@azure/iot-modelsrepository");
+import { ModelsRepositoryClient } from "@azure/iot-modelsrepository";
 
 const client = new ModelsRepositoryClient();
 console.log(`Initialized client point to global endpoint: ${client.repositoryLocation}`);

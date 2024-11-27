@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Update a scaling plan.
  *
  * @summary Update a scaling plan.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ScalingPlan_Update.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/ScalingPlan_Update.json
  */
 async function scalingPlansUpdate() {
   const subscriptionId =
@@ -31,7 +31,7 @@ async function scalingPlansUpdate() {
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
   const result = await client.scalingPlans.update(
     resourceGroupName,
-    scalingPlanName
+    scalingPlanName,
   );
   console.log(result);
 }

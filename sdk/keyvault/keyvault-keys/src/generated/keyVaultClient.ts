@@ -9,8 +9,8 @@
 import * as coreClient from "@azure/core-client";
 import * as coreHttpCompat from "@azure/core-http-compat";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   ApiVersion75,
   KeyVaultClientOptionalParams,
@@ -72,7 +72,7 @@ import {
   GetKeysNextResponse,
   GetDeletedKeysNextOptionalParams,
   GetDeletedKeysNextResponse
-} from "./models";
+} from "./models/index.js";
 
 export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
   apiVersion: ApiVersion75;
@@ -98,7 +98,7 @@ export class KeyVaultClient extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8"
     };
 
-    const packageDetails = `azsdk-js-keyvault-keys/4.8.1`;
+    const packageDetails = `azsdk-js-keyvault-keys/4.9.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

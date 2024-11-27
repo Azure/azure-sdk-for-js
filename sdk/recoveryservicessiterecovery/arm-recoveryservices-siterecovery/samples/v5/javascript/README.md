@@ -174,7 +174,7 @@ node migrationRecoveryPointsGetSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID="<recoveryservicessiterecovery subscription id>" RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP="<recoveryservicessiterecovery resource group>" node migrationRecoveryPointsGetSample.js
+npx dev-tool run vendored cross-env RECOVERYSERVICESSITERECOVERY_SUBSCRIPTION_ID="<recoveryservicessiterecovery subscription id>" RECOVERYSERVICESSITERECOVERY_RESOURCE_GROUP="<recoveryservicessiterecovery resource group>" node migrationRecoveryPointsGetSample.js
 ```
 
 ## Next Steps

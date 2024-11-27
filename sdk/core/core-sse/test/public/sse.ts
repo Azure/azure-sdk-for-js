@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { EventMessage } from "../../src/index.js";
 import {
@@ -19,7 +19,7 @@ import {
   createRetry,
 } from "./util.js";
 import { describe, it, assert, SuiteCollector } from "vitest";
-import { matrix } from "../matrix.js";
+import { matrix } from "@azure-tools/test-utils-vitest";
 
 export function buildSseTests(
   rtName: string,

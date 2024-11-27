@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-11-25)
     
-**Features**
+### Features Added
 
   - Added Interface HealthBot
   - Added Interface TrackedResource

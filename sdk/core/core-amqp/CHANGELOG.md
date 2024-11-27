@@ -1,6 +1,6 @@
 # Release History
 
-## 4.4.0-beta.2 (Unreleased)
+## 4.3.4 (Unreleased)
 
 ### Features Added
 
@@ -8,9 +8,24 @@
 
 ### Bugs Fixed
 
-- Address React-Native regression after ESM migration [Issue #30065](https://github.com/Azure/azure-sdk-for-js/issues/30065)
+### Other Changes
+
+## 4.3.3 (2024-11-07)
 
 ### Other Changes
+
+- Move the constant for the geographic replication feature to Event Hubs.
+- Remove request from `RequestResponseLink` logging.
+
+## 4.3.2 (2024-08-01)
+
+- Adding React-Native support at top level [PR #30521](https://github.com/Azure/azure-sdk-for-js/pull/30521)
+
+## 4.3.1 (2024-07-18)
+
+### Bugs Fixed
+
+- Address React-Native regression after ESM migration [Issue #30065](https://github.com/Azure/azure-sdk-for-js/issues/30065)
 
 ## 4.4.0-beta.1 (2024-06-06)
 

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { getAuthorizationTokenUsingResourceTokens } from "../../../src/auth";
-import { Suite } from "mocha";
+import type { Suite } from "mocha";
 import assert from "assert";
 
 describe("NodeJS CRUD Tests", function (this: Suite) {

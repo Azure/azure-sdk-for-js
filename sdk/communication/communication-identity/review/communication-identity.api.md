@@ -4,11 +4,11 @@
 
 ```ts
 
-import { CommonClientOptions } from '@azure/core-client';
-import { CommunicationUserIdentifier } from '@azure/communication-common';
-import { KeyCredential } from '@azure/core-auth';
-import { OperationOptions } from '@azure/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { CommonClientOptions } from '@azure/core-client';
+import type { CommunicationUserIdentifier } from '@azure/communication-common';
+import type { KeyCredential } from '@azure/core-auth';
+import type { OperationOptions } from '@azure/core-client';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface CommunicationAccessToken {

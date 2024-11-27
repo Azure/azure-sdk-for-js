@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
 import { FileInfo } from "../../src/util/findMatchingFiles";
@@ -18,6 +18,7 @@ export async function toFileInfo(fullPath: string): Promise<FileInfo> {
     dir: path.dirname(fullPath),
     name: path.basename(fullPath),
     stat: {} as Stats,
+    depth: Number.MAX_SAFE_INTEGER,
   };
 }
 

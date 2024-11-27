@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createRequest, parseNotificationResponse, sendRequest } from "./internal/_client.js";
-import { EntityOperationOptions } from "../models/options.js";
-import { NotificationHubsClientContext } from "./index.js";
-import { NotificationHubsResponse } from "../models/notificationDetails.js";
+import type { EntityOperationOptions } from "../models/options.js";
+import type { NotificationHubsClientContext } from "./index.js";
+import type { NotificationHubsResponse } from "../models/notificationDetails.js";
 import { isDefined } from "../utils/utils.js";
 import { tracingClient } from "../utils/tracing.js";
 

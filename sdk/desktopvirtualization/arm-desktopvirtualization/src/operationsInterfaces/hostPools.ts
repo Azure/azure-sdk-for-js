@@ -19,7 +19,9 @@ import {
   HostPoolsUpdateOptionalParams,
   HostPoolsUpdateResponse,
   HostPoolsRetrieveRegistrationTokenOptionalParams,
-  HostPoolsRetrieveRegistrationTokenResponse
+  HostPoolsRetrieveRegistrationTokenResponse,
+  HostPoolsListRegistrationTokensOptionalParams,
+  HostPoolsListRegistrationTokensResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -32,14 +34,14 @@ export interface HostPools {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: HostPoolsListByResourceGroupOptionalParams
+    options?: HostPoolsListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<HostPool>;
   /**
    * List hostPools in subscription.
    * @param options The options parameters.
    */
   list(
-    options?: HostPoolsListOptionalParams
+    options?: HostPoolsListOptionalParams,
   ): PagedAsyncIterableIterator<HostPool>;
   /**
    * Get a host pool.
@@ -50,7 +52,7 @@ export interface HostPools {
   get(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: HostPoolsGetOptionalParams
+    options?: HostPoolsGetOptionalParams,
   ): Promise<HostPoolsGetResponse>;
   /**
    * Create or update a host pool.
@@ -63,7 +65,7 @@ export interface HostPools {
     resourceGroupName: string,
     hostPoolName: string,
     hostPool: HostPool,
-    options?: HostPoolsCreateOrUpdateOptionalParams
+    options?: HostPoolsCreateOrUpdateOptionalParams,
   ): Promise<HostPoolsCreateOrUpdateResponse>;
   /**
    * Remove a host pool.
@@ -74,7 +76,7 @@ export interface HostPools {
   delete(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: HostPoolsDeleteOptionalParams
+    options?: HostPoolsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update a host pool.
@@ -85,7 +87,7 @@ export interface HostPools {
   update(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: HostPoolsUpdateOptionalParams
+    options?: HostPoolsUpdateOptionalParams,
   ): Promise<HostPoolsUpdateResponse>;
   /**
    * Registration token of the host pool.
@@ -96,6 +98,17 @@ export interface HostPools {
   retrieveRegistrationToken(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: HostPoolsRetrieveRegistrationTokenOptionalParams
+    options?: HostPoolsRetrieveRegistrationTokenOptionalParams,
   ): Promise<HostPoolsRetrieveRegistrationTokenResponse>;
+  /**
+   * Operation to list the RegistrationTokens associated with the HostPool
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param hostPoolName The name of the host pool within the specified resource group
+   * @param options The options parameters.
+   */
+  listRegistrationTokens(
+    resourceGroupName: string,
+    hostPoolName: string,
+    options?: HostPoolsListRegistrationTokensOptionalParams,
+  ): Promise<HostPoolsListRegistrationTokensResponse>;
 }

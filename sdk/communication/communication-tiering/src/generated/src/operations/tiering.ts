@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { Tiering } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import { Tiering } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { TieringClient } from "../tieringClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { TieringClient } from "../tieringClient.js";
 import {
   TieringGetByResourceIdOptionalParams,
   TieringGetByResourceIdResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing Tiering operations. */
 export class TieringImpl implements Tiering {

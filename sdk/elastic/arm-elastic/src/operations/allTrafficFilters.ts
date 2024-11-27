@@ -13,7 +13,7 @@ import * as Parameters from "../models/parameters";
 import { MicrosoftElastic } from "../microsoftElastic";
 import {
   AllTrafficFiltersListOptionalParams,
-  AllTrafficFiltersListResponse
+  AllTrafficFiltersListResponse,
 } from "../models";
 
 /** Class containing AllTrafficFilters operations. */
@@ -30,18 +30,18 @@ export class AllTrafficFiltersImpl implements AllTrafficFilters {
 
   /**
    * Get the list of all traffic filters for the account.
-   * @param resourceGroupName The name of the resource group to which the Elastic resource belongs.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param monitorName Monitor resource name
    * @param options The options parameters.
    */
   list(
     resourceGroupName: string,
     monitorName: string,
-    options?: AllTrafficFiltersListOptionalParams
+    options?: AllTrafficFiltersListOptionalParams,
   ): Promise<AllTrafficFiltersListResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, monitorName, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 }
@@ -49,24 +49,23 @@ export class AllTrafficFiltersImpl implements AllTrafficFilters {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listAllTrafficFilters",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Elastic/monitors/{monitorName}/listAllTrafficFilters",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticTrafficFilterResponse
+      bodyMapper: Mappers.ElasticTrafficFilterResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.monitorName
+    Parameters.monitorName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

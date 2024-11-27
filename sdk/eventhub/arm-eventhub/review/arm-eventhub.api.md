@@ -139,6 +139,15 @@ export interface CaptureDescription {
 }
 
 // @public
+export interface CaptureIdentity {
+    type?: CaptureIdentityType;
+    userAssignedIdentity?: string;
+}
+
+// @public
+export type CaptureIdentityType = "SystemAssigned" | "UserAssigned";
+
+// @public
 export interface CheckNameAvailabilityParameter {
     name: string;
 }
@@ -157,6 +166,7 @@ export type CleanupPolicyRetentionDescription = string;
 export interface Cluster extends TrackedResource {
     readonly createdAt?: string;
     readonly metricId?: string;
+    readonly provisioningState?: ProvisioningState;
     sku?: ClusterSku;
     readonly status?: string;
     supportsScaling?: boolean;
@@ -369,6 +379,7 @@ export interface Destination {
     dataLakeAccountName?: string;
     dataLakeFolderPath?: string;
     dataLakeSubscriptionId?: string;
+    identity?: CaptureIdentity;
     name?: string;
     storageAccountResourceId?: string;
 }
@@ -549,6 +560,7 @@ export interface Eventhub extends ProxyResource {
     status?: EntityStatus;
     readonly systemData?: SystemData;
     readonly updatedAt?: Date;
+    userMetadata?: string;
 }
 
 // @public
@@ -735,7 +747,7 @@ export enum KnownApplicationGroupPolicyType {
 
 // @public
 export enum KnownCleanupPolicyRetentionDescription {
-    Compaction = "Compaction",
+    Compact = "Compact",
     Delete = "Delete"
 }
 
@@ -814,6 +826,18 @@ export enum KnownPrivateLinkConnectionStatus {
     Disconnected = "Disconnected",
     Pending = "Pending",
     Rejected = "Rejected"
+}
+
+// @public
+export enum KnownProvisioningState {
+    Active = "Active",
+    Canceled = "Canceled",
+    Creating = "Creating",
+    Deleting = "Deleting",
+    Failed = "Failed",
+    Scaling = "Scaling",
+    Succeeded = "Succeeded",
+    Unknown = "Unknown"
 }
 
 // @public
@@ -1059,12 +1083,16 @@ export interface NetworkSecurityPerimeter {
 }
 
 // @public
-export interface NetworkSecurityPerimeterConfiguration extends Resource {
+export interface NetworkSecurityPerimeterConfiguration extends ProxyResource {
+    readonly applicableFeatures?: string[];
+    readonly isBackingResource?: boolean;
     readonly networkSecurityPerimeter?: NetworkSecurityPerimeter;
+    readonly parentAssociationName?: string;
     readonly profile?: NetworkSecurityPerimeterConfigurationPropertiesProfile;
     provisioningIssues?: ProvisioningIssue[];
     provisioningState?: NetworkSecurityPerimeterConfigurationProvisioningState;
     readonly resourceAssociation?: NetworkSecurityPerimeterConfigurationPropertiesResourceAssociation;
+    readonly sourceResourceId?: string;
 }
 
 // @public
@@ -1297,6 +1325,9 @@ export interface ProvisioningIssueProperties {
 }
 
 // @public
+export type ProvisioningState = string;
+
+// @public
 export type ProvisioningStateDR = "Accepted" | "Succeeded" | "Failed";
 
 // @public
@@ -1365,11 +1396,8 @@ export interface SchemaGroupListResult {
 
 // @public
 export interface SchemaRegistry {
-    // (undocumented)
     createOrUpdate(resourceGroupName: string, namespaceName: string, schemaGroupName: string, parameters: SchemaGroup, options?: SchemaRegistryCreateOrUpdateOptionalParams): Promise<SchemaRegistryCreateOrUpdateResponse>;
-    // (undocumented)
     delete(resourceGroupName: string, namespaceName: string, schemaGroupName: string, options?: SchemaRegistryDeleteOptionalParams): Promise<void>;
-    // (undocumented)
     get(resourceGroupName: string, namespaceName: string, schemaGroupName: string, options?: SchemaRegistryGetOptionalParams): Promise<SchemaRegistryGetResponse>;
     listByNamespace(resourceGroupName: string, namespaceName: string, options?: SchemaRegistryListByNamespaceOptionalParams): PagedAsyncIterableIterator<SchemaGroup>;
 }

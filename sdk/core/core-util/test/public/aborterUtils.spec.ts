@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { describe, it, assert, expect, afterEach, vi } from "vitest";

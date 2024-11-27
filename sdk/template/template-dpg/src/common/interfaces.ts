@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
@@ -9,7 +9,7 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 
 export interface RequestOptions {
   requestOptions?: {

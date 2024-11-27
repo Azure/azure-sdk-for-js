@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { parseEndpoint } from "../../src/util/parseEndpoint.js";
 import { describe, it } from "vitest";

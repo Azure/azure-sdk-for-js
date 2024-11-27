@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import type { OperationTracingOptions } from "@azure/core-tracing";
+import type { HttpMethods } from "@azure/core-util";
 
 /**
  * A HttpHeaders collection represented as a simple JSON object.
@@ -313,19 +314,6 @@ export type TransferProgressEvent = {
    */
   loadedBytes: number;
 };
-
-/**
- * Supported HTTP methods to use when making requests.
- */
-export type HttpMethods =
-  | "GET"
-  | "PUT"
-  | "POST"
-  | "DELETE"
-  | "PATCH"
-  | "HEAD"
-  | "OPTIONS"
-  | "TRACE";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).

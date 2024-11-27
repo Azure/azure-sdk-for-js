@@ -25,7 +25,7 @@ npm install @azure/web-pubsub-client-protobuf
 ### 2. Use Protobuf protocols
 
 ```javascript
-let client = new WebPubSubClient("client-access-url", { protocol: WebPubSubProtobufReliableProtocol() });
+const client = new WebPubSubClient("client-access-url", { protocol: WebPubSubProtobufReliableProtocol() });
 ```
 
 ## Troubleshooting

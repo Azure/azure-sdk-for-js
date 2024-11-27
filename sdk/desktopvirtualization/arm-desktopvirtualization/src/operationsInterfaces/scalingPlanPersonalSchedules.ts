@@ -16,7 +16,7 @@ import {
   ScalingPlanPersonalSchedulesCreateResponse,
   ScalingPlanPersonalSchedulesDeleteOptionalParams,
   ScalingPlanPersonalSchedulesUpdateOptionalParams,
-  ScalingPlanPersonalSchedulesUpdateResponse
+  ScalingPlanPersonalSchedulesUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -31,7 +31,7 @@ export interface ScalingPlanPersonalSchedules {
   list(
     resourceGroupName: string,
     scalingPlanName: string,
-    options?: ScalingPlanPersonalSchedulesListOptionalParams
+    options?: ScalingPlanPersonalSchedulesListOptionalParams,
   ): PagedAsyncIterableIterator<ScalingPlanPersonalSchedule>;
   /**
    * Get a ScalingPlanPersonalSchedule.
@@ -44,7 +44,7 @@ export interface ScalingPlanPersonalSchedules {
     resourceGroupName: string,
     scalingPlanName: string,
     scalingPlanScheduleName: string,
-    options?: ScalingPlanPersonalSchedulesGetOptionalParams
+    options?: ScalingPlanPersonalSchedulesGetOptionalParams,
   ): Promise<ScalingPlanPersonalSchedulesGetResponse>;
   /**
    * Create or update a ScalingPlanPersonalSchedule.
@@ -59,7 +59,7 @@ export interface ScalingPlanPersonalSchedules {
     scalingPlanName: string,
     scalingPlanScheduleName: string,
     scalingPlanSchedule: ScalingPlanPersonalSchedule,
-    options?: ScalingPlanPersonalSchedulesCreateOptionalParams
+    options?: ScalingPlanPersonalSchedulesCreateOptionalParams,
   ): Promise<ScalingPlanPersonalSchedulesCreateResponse>;
   /**
    * Remove a ScalingPlanPersonalSchedule.
@@ -72,7 +72,7 @@ export interface ScalingPlanPersonalSchedules {
     resourceGroupName: string,
     scalingPlanName: string,
     scalingPlanScheduleName: string,
-    options?: ScalingPlanPersonalSchedulesDeleteOptionalParams
+    options?: ScalingPlanPersonalSchedulesDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Update a ScalingPlanPersonalSchedule.
@@ -85,6 +85,6 @@ export interface ScalingPlanPersonalSchedules {
     resourceGroupName: string,
     scalingPlanName: string,
     scalingPlanScheduleName: string,
-    options?: ScalingPlanPersonalSchedulesUpdateOptionalParams
+    options?: ScalingPlanPersonalSchedulesUpdateOptionalParams,
   ): Promise<ScalingPlanPersonalSchedulesUpdateResponse>;
 }

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 export {
   NumberAllotmentGetAcquiredNumberLimitsOptionalParams,
@@ -25,4 +25,4 @@ export {
   TrialPhoneNumberUsageSmsBounds,
   TrialPhoneNumberUsageCallingBounds,
   Paths190FnhrAdministrationResourcesResourceidTelephoneNumberSummaryGetResponses200ContentApplicationJsonSchema as AssetDetailsModel,
-} from "./generated/src/models";
+} from "./generated/src/models/index.js";

@@ -149,7 +149,6 @@ finally {
 }
 
 $EnvironmentVariables["ATTESTATION_LOCATION_SHORT_NAME"] = $shortLocation
-$templateFileParameters.locationShortName = $shortLocation
 
 Log 'Creating 3 X509 certificates which can be used to sign policies.'
 $wrappingFiles = foreach ($i in 0..2) {

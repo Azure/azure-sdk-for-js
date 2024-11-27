@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Fails over from the current primary server to this server.
  *
  * @summary Fails over from the current primary server to this server.
- * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-02-01-preview/examples/FailoverGroupFailover.json
+ * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2023-05-01-preview/examples/FailoverGroupFailover.json
  */
 async function plannedFailoverOfAFailoverGroup() {
   const subscriptionId =

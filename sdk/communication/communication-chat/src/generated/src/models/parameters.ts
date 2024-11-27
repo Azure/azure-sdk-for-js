@@ -20,7 +20,7 @@ import {
   UpdateChatThreadRequest as UpdateChatThreadRequestMapper,
   SendTypingNotificationRequest as SendTypingNotificationRequestMapper,
   CreateChatThreadRequest as CreateChatThreadRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const accept: OperationParameter = {
   parameterPath: "accept",

@@ -102,7 +102,7 @@ node autonomousDatabaseBackupsCreateOrUpdateSample.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ORACLEDATABASE_SUBSCRIPTION_ID="<oracledatabase subscription id>" ORACLEDATABASE_RESOURCE_GROUP="<oracledatabase resource group>" node autonomousDatabaseBackupsCreateOrUpdateSample.js
+npx dev-tool run vendored cross-env ORACLEDATABASE_SUBSCRIPTION_ID="<oracledatabase subscription id>" ORACLEDATABASE_RESOURCE_GROUP="<oracledatabase resource group>" node autonomousDatabaseBackupsCreateOrUpdateSample.js
 ```
 
 ## Next Steps

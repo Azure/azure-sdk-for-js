@@ -12,6 +12,7 @@
 
 - Depends on the latest stable version of the @azure/core-tracing library.
 - Duplicate action are no longer eagerly checked by the client before sending a batch request.
+- Remove utils/url*.ts as `URL` and `URLSearchParams` are available in global scope on our supported platforms.
 
 ## 5.1.0 (2021-07-07)
 

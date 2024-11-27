@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @internal
  */
 export const packageJsonInfo = {
   name: "@azure/event-hubs",
-  version: "5.13.0-beta.3",
+  version: "5.13.0",
 };
 
 /**
@@ -21,6 +21,9 @@ export const idempotentProducerAmqpPropertyNames = {
 
 /** @internal */
 export const receiverIdPropertyName = "com.microsoft:receiver-name";
+
+/** @internal */
+export const geoReplication = "com.microsoft:georeplication";
 
 /**
  * @internal

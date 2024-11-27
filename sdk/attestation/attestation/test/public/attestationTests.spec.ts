@@ -1,28 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert, use as chaiUse, expect } from "chai";
-import { Context } from "mocha";
-import chaiPromises from "chai-as-promised";
-chaiUse(chaiPromises);
-
+// Licensed under the MIT License.
 import { Recorder } from "@azure-tools/test-recorder";
 
+import type { EndpointType } from "../utils/recordedClient.js";
 import {
-  EndpointType,
   createRecordedAdminClient,
   createRecordedClient,
   recorderOptions,
-} from "../utils/recordedClient";
-import * as base64url from "../utils/base64url";
+} from "../utils/recordedClient.js";
+import * as base64url from "../utils/base64url.js";
 
-import { KnownAttestationType } from "../../src";
+import { KnownAttestationType } from "../../src/index.js";
+import { describe, it, assert, expect, beforeEach, afterEach } from "vitest";
 
 describe("[AAD] Attestation Client", function () {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await recorder.start(recorderOptions);
   });
 
@@ -198,14 +193,12 @@ describe("[AAD] Attestation Client", function () {
     const client = createRecordedClient(recorder, endpointType);
 
     // You can't specify both runtimeData and runtimeJson.
-    await assert.isRejected(
+    await expect(
       client.attestOpenEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
         runTimeData: binaryRuntimeData,
         runTimeJson: binaryRuntimeData,
       }),
-      "Cannot provide both runTimeData and runTimeJson.",
-      "Expected to throw since you can't specify both runtimeData and runtimeJson",
-    );
+    ).rejects.toThrow("Cannot provide both runTimeData and runTimeJson.");
 
     {
       const attestationResult = await client.attestOpenEnclave(
@@ -251,14 +244,12 @@ describe("[AAD] Attestation Client", function () {
 
     const binaryRuntimeData = base64url.decodeString(_runtimeData);
 
-    await assert.isRejected(
+    await expect(
       client.attestSgxEnclave(base64url.decodeString(_openEnclaveReport).subarray(0x10), {
         runTimeData: binaryRuntimeData,
         runTimeJson: binaryRuntimeData,
       }),
-      "Cannot provide both runTimeData and runTimeJson.",
-      "Expected to throw since you can't specify both runtimeData and runtimeJson",
-    );
+    ).rejects.toThrow("Cannot provide both runTimeData and runTimeJson.");
 
     {
       // An OpenEnclave report has a 16 byte header prepended to an SGX quote.

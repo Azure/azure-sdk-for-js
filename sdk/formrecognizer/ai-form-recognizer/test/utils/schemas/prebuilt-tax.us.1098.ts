@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // Model:       prebuilt-tax.us.1098
 // Description: Extract key information from United States Internal Revenue Service Form 1098 (2021-current).

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreClient from "@azure/core-client";
+import type * as coreClient from "@azure/core-client";
 
 export const CheckPrincipalAccessRequest: coreClient.CompositeMapper = {
   type: {
@@ -17,8 +17,8 @@ export const CheckPrincipalAccessRequest: coreClient.CompositeMapper = {
         serializedName: "subject",
         type: {
           name: "Composite",
-          className: "SubjectInfo"
-        }
+          className: "SubjectInfo",
+        },
       },
       actions: {
         serializedName: "actions",
@@ -28,20 +28,20 @@ export const CheckPrincipalAccessRequest: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "RequiredAction"
-            }
-          }
-        }
+              className: "RequiredAction",
+            },
+          },
+        },
       },
       scope: {
         serializedName: "scope",
         required: true,
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SubjectInfo: coreClient.CompositeMapper = {
@@ -53,8 +53,8 @@ export const SubjectInfo: coreClient.CompositeMapper = {
         serializedName: "principalId",
         required: true,
         type: {
-          name: "Uuid"
-        }
+          name: "Uuid",
+        },
       },
       groupIds: {
         serializedName: "groupIds",
@@ -62,13 +62,13 @@ export const SubjectInfo: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "Uuid"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "Uuid",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const RequiredAction: coreClient.CompositeMapper = {
@@ -80,18 +80,18 @@ export const RequiredAction: coreClient.CompositeMapper = {
         serializedName: "id",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isDataAction: {
         serializedName: "isDataAction",
         required: true,
         type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
+          name: "Boolean",
+        },
+      },
+    },
+  },
 };
 
 export const CheckPrincipalAccessResponse: coreClient.CompositeMapper = {
@@ -106,13 +106,13 @@ export const CheckPrincipalAccessResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "CheckAccessDecision"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "CheckAccessDecision",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const CheckAccessDecision: coreClient.CompositeMapper = {
@@ -123,24 +123,24 @@ export const CheckAccessDecision: coreClient.CompositeMapper = {
       accessDecision: {
         serializedName: "accessDecision",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       actionId: {
         serializedName: "actionId",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       roleAssignment: {
         serializedName: "roleAssignment",
         type: {
           name: "Composite",
-          className: "RoleAssignmentDetails"
-        }
-      }
-    }
-  }
+          className: "RoleAssignmentDetails",
+        },
+      },
+    },
+  },
 };
 
 export const RoleAssignmentDetails: coreClient.CompositeMapper = {
@@ -151,35 +151,35 @@ export const RoleAssignmentDetails: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       roleDefinitionId: {
         serializedName: "roleDefinitionId",
         type: {
-          name: "Uuid"
-        }
+          name: "Uuid",
+        },
       },
       principalId: {
         serializedName: "principalId",
         type: {
-          name: "Uuid"
-        }
+          name: "Uuid",
+        },
       },
       scope: {
         serializedName: "scope",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       principalType: {
         serializedName: "principalType",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorContract: coreClient.CompositeMapper = {
@@ -191,11 +191,11 @@ export const ErrorContract: coreClient.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorResponse"
-        }
-      }
-    }
-  }
+          className: "ErrorResponse",
+        },
+      },
+    },
+  },
 };
 
 export const ErrorResponse: coreClient.CompositeMapper = {
@@ -207,22 +207,22 @@ export const ErrorResponse: coreClient.CompositeMapper = {
         serializedName: "code",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       message: {
         serializedName: "message",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       target: {
         serializedName: "target",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       details: {
         serializedName: "details",
@@ -232,10 +232,10 @@ export const ErrorResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorResponse"
-            }
-          }
-        }
+              className: "ErrorResponse",
+            },
+          },
+        },
       },
       additionalInfo: {
         serializedName: "additionalInfo",
@@ -245,13 +245,13 @@ export const ErrorResponse: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorAdditionalInfo"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "ErrorAdditionalInfo",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
@@ -263,19 +263,19 @@ export const ErrorAdditionalInfo: coreClient.CompositeMapper = {
         serializedName: "type",
         readOnly: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       info: {
         serializedName: "info",
         readOnly: true,
         type: {
           name: "Dictionary",
-          value: { type: { name: "any" } }
-        }
-      }
-    }
-  }
+          value: { type: { name: "any" } },
+        },
+      },
+    },
+  },
 };
 
 export const RoleAssignmentDetailsList: coreClient.CompositeMapper = {
@@ -286,8 +286,8 @@ export const RoleAssignmentDetailsList: coreClient.CompositeMapper = {
       count: {
         serializedName: "count",
         type: {
-          name: "Number"
-        }
+          name: "Number",
+        },
       },
       value: {
         serializedName: "value",
@@ -296,13 +296,13 @@ export const RoleAssignmentDetailsList: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "RoleAssignmentDetails"
-            }
-          }
-        }
-      }
-    }
-  }
+              className: "RoleAssignmentDetails",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const RoleAssignmentRequest: coreClient.CompositeMapper = {
@@ -314,31 +314,31 @@ export const RoleAssignmentRequest: coreClient.CompositeMapper = {
         serializedName: "roleId",
         required: true,
         type: {
-          name: "Uuid"
-        }
+          name: "Uuid",
+        },
       },
       principalId: {
         serializedName: "principalId",
         required: true,
         type: {
-          name: "Uuid"
-        }
+          name: "Uuid",
+        },
       },
       scope: {
         serializedName: "scope",
         required: true,
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       principalType: {
         serializedName: "principalType",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SynapseRoleDefinition: coreClient.CompositeMapper = {
@@ -349,26 +349,26 @@ export const SynapseRoleDefinition: coreClient.CompositeMapper = {
       id: {
         serializedName: "id",
         type: {
-          name: "Uuid"
-        }
+          name: "Uuid",
+        },
       },
       name: {
         serializedName: "name",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       isBuiltIn: {
         serializedName: "isBuiltIn",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean",
+        },
       },
       description: {
         serializedName: "description",
         type: {
-          name: "String"
-        }
+          name: "String",
+        },
       },
       permissions: {
         serializedName: "permissions",
@@ -377,10 +377,10 @@ export const SynapseRoleDefinition: coreClient.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "SynapseRbacPermission"
-            }
-          }
-        }
+              className: "SynapseRbacPermission",
+            },
+          },
+        },
       },
       scopes: {
         serializedName: "scopes",
@@ -388,19 +388,19 @@ export const SynapseRoleDefinition: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       availabilityStatus: {
         serializedName: "availabilityStatus",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };
 
 export const SynapseRbacPermission: coreClient.CompositeMapper = {
@@ -414,10 +414,10 @@ export const SynapseRbacPermission: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       notActions: {
         serializedName: "notActions",
@@ -425,10 +425,10 @@ export const SynapseRbacPermission: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       dataActions: {
         serializedName: "dataActions",
@@ -436,10 +436,10 @@ export const SynapseRbacPermission: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
+              name: "String",
+            },
+          },
+        },
       },
       notDataActions: {
         serializedName: "notDataActions",
@@ -447,13 +447,13 @@ export const SynapseRbacPermission: coreClient.CompositeMapper = {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
-            }
-          }
-        }
-      }
-    }
-  }
+              name: "String",
+            },
+          },
+        },
+      },
+    },
+  },
 };
 
 export const RoleAssignmentsListRoleAssignmentsHeaders: coreClient.CompositeMapper = {
@@ -464,9 +464,9 @@ export const RoleAssignmentsListRoleAssignmentsHeaders: coreClient.CompositeMapp
       xMsContinuation: {
         serializedName: "x-ms-continuation",
         type: {
-          name: "String"
-        }
-      }
-    }
-  }
+          name: "String",
+        },
+      },
+    },
+  },
 };

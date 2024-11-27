@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-12-19)
     
-**Features**
+### Features Added
 
   - Interface ProviderOperationsMetadataListNextOptionalParams no longer has parameter expand
   - Interface RoleAssignmentsListForResourceGroupNextOptionalParams no longer has parameter filter

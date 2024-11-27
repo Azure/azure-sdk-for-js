@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
+import type { RetryConfig } from "../src/index.js";
 import {
   Constants,
   MessagingError,
-  RetryConfig,
   RetryMode,
   RetryOperationType,
   delay,

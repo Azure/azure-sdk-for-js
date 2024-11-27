@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to List the private link resources available for this hostpool.
  *
  * @summary List the private link resources available for this hostpool.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/PrivateLinkResources_ListByHostPool.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/PrivateLinkResources_ListByHostPool.json
  */
 async function privateLinkResourcesListByHostPool() {
   const subscriptionId =
@@ -32,7 +32,7 @@ async function privateLinkResourcesListByHostPool() {
   const resArray = new Array();
   for await (let item of client.privateLinkResources.listByHostPool(
     resourceGroupName,
-    hostPoolName
+    hostPoolName,
   )) {
     resArray.push(item);
   }

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to List Volumes in a VolumeGroup.
  *
  * @summary List Volumes in a VolumeGroup.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/Volumes_ListByVolumeGroup_MaximumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/Volumes_ListByVolumeGroup_MaximumSet_Gen.json
  */
 async function volumesListByVolumeGroupMaximumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";
@@ -40,7 +40,7 @@ async function volumesListByVolumeGroupMaximumSetGen() {
  * This sample demonstrates how to List Volumes in a VolumeGroup.
  *
  * @summary List Volumes in a VolumeGroup.
- * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2023-01-01/examples/Volumes_ListByVolumeGroup_MinimumSet_Gen.json
+ * x-ms-original-file: specification/elasticsan/resource-manager/Microsoft.ElasticSan/stable/2024-05-01/examples/Volumes_ListByVolumeGroup_MinimumSet_Gen.json
  */
 async function volumesListByVolumeGroupMinimumSetGen() {
   const subscriptionId = process.env["ELASTICSANS_SUBSCRIPTION_ID"] || "subscriptionid";

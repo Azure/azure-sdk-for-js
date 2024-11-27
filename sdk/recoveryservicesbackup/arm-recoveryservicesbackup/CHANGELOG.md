@@ -12,7 +12,7 @@
 
 ## 13.1.0 (2024-05-08)
     
-**Features**
+### Features Added
 
   - Added Type Alias IaasVMSnapshotConsistencyType
   - Interface AzureIaaSVMProtectionPolicy has a new optional parameter snapshotConsistencyType
@@ -28,18 +28,18 @@
 
 ## 13.0.0 (2023-12-13)
     
-**Features**
+### Features Added
 
   - Added Interface UserAssignedIdentityProperties
 
-**Breaking Changes**
+### Breaking Changes
 
   - Type of parameter userAssignedIdentityProperties of interface UserAssignedManagedIdentityDetails is changed from UserAssignedIdentity to UserAssignedIdentityProperties
     
     
 ## 12.0.0 (2023-11-09)
     
-**Features**
+### Features Added
 
   - Added operation group FetchTieringCost
   - Added operation group GetTieringCostOperationResult
@@ -84,7 +84,7 @@
   - Enum KnownRecoveryMode has a new value SnapshotAttach
   - Enum KnownRecoveryMode has a new value SnapshotAttachAndRecover
 
-**Breaking Changes**
+### Breaking Changes
 
   - Removed operation ProtectionContainers.register
   - Operation Operation.validate has a new signature
@@ -95,7 +95,7 @@
     
 ## 11.0.0 (2023-09-01)
     
-**Features**
+### Features Added
 
   - Added Interface AzureVmWorkloadSAPHanaHSRProtectableItem
   - Added Type Alias VaultSubResourceType
@@ -111,7 +111,7 @@
   - Added Enum KnownVaultSubResourceType
   - Enum KnownSoftDeleteFeatureState has a new value AlwaysON
 
-**Breaking Changes**
+### Breaking Changes
 
   - Interface PrivateLinkServiceConnectionState no longer has parameter actionRequired
   - Interface ProtectedItem no longer has parameter softDeleteRetentionPeriod
@@ -121,7 +121,7 @@
     
 ## 10.1.0 (2023-03-10)
     
-**Features**
+### Features Added
 
   - Added Interface ExtendedLocation
   - Added Interface SecuredVMDetails
@@ -138,7 +138,7 @@
     
 ## 10.0.0 (2023-01-18)
     
-**Features**
+### Features Added
 
   - Added operation group DeletedProtectionContainers
   - Added Interface AzureBackupGoalFeatureSupportRequest
@@ -338,7 +338,7 @@
   - Type of parameter protectedItemType of interface ProtectedItem is changed from "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem" to "AzureFileShareProtectedItem" | "AzureIaaSVMProtectedItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "Microsoft.Sql/servers/databases" | "AzureVmWorkloadProtectedItem" | "AzureVmWorkloadSAPAseDatabase" | "AzureVmWorkloadSAPHanaDatabase" | "AzureVmWorkloadSAPHanaDBInstance" | "AzureVmWorkloadSQLDatabase" | "DPMProtectedItem" | "GenericProtectedItem" | "MabFileFolderProtectedItem"
   - Type of parameter protectableItemType of interface WorkloadProtectableItem is changed from "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance" to "AzureFileShare" | "IaaSVMProtectableItem" | "Microsoft.ClassicCompute/virtualMachines" | "Microsoft.Compute/virtualMachines" | "AzureVmWorkloadProtectableItem" | "SAPAseSystem" | "SAPHanaDatabase" | "SAPHanaSystem" | "SAPHanaDBInstance" | "SAPHanaHSR" | "SQLAvailabilityGroupContainer" | "SQLDataBase" | "SQLInstance"
 
-**Breaking Changes**
+### Breaking Changes
 
   - Operation ResourceGuardProxy.put has a new signature
   - Enum KnownContainerType no longer has value AzureWorkloadContainer
@@ -348,7 +348,7 @@
     
 ## 9.0.0 (2022-05-16)
     
-**Breaking Changes**
+### Breaking Changes
 
   - Interface AzureIaaSVMProtectedItemExtendedInfo no longer has parameter newestRecoveryPointInArchive
   - Interface AzureIaaSVMProtectedItemExtendedInfo no longer has parameter oldestRecoveryPointInArchive
@@ -362,7 +362,7 @@
     
 ## 8.2.0 (2022-05-11)
     
-**Features**
+### Features Added
 
   - Added Interface TieringPolicy
   - Added Type Alias TieringMode
@@ -377,13 +377,13 @@
     
 ## 8.1.1 (2022-04-29)
 
-**Features**
+### Features Added
 
   - Bug fix
     
 ## 8.1.0 (2022-02-14)
     
-**Features**
+### Features Added
 
   - Added Interface DailySchedule
   - Added Interface WeeklySchedule

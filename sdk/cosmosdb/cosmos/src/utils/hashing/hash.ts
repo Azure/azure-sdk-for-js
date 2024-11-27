@@ -1,12 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  PartitionKeyDefinition,
-  PartitionKeyDefinitionVersion,
-  PartitionKeyKind,
-  PrimitivePartitionKeyValue,
-} from "../../documents";
+import type { PartitionKeyDefinition, PrimitivePartitionKeyValue } from "../../documents";
+import { PartitionKeyDefinitionVersion, PartitionKeyKind } from "../../documents";
 import { hashMultiHashPartitionKey } from "./multiHash";
 import { hashV1PartitionKey } from "./v1";
 import { hashV2PartitionKey } from "./v2";

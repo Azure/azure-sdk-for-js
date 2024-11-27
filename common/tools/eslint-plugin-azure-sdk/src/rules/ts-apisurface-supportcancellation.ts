@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to require async client methods to accept an AbortSignalLike parameter.
@@ -100,7 +100,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "require async client methods to accept an AbortSignalLike parameter",
-      recommended: "recommended",
     },
     messages: {
       MethodShouldAcceptAbortSignal:

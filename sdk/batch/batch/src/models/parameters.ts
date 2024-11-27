@@ -1120,7 +1120,7 @@ export const clientRequestId82: msRest.OperationParameter = {
 export const clientRequestId83: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteLoginSettingsOptions",
+    "computeNodeStartOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1133,7 +1133,7 @@ export const clientRequestId83: msRest.OperationParameter = {
 export const clientRequestId84: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteDesktopOptions",
+    "computeNodeDeallocateOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1146,7 +1146,7 @@ export const clientRequestId84: msRest.OperationParameter = {
 export const clientRequestId85: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeUploadBatchServiceLogsOptions",
+    "computeNodeGetRemoteLoginSettingsOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1159,7 +1159,7 @@ export const clientRequestId85: msRest.OperationParameter = {
 export const clientRequestId86: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeListOptions",
+    "computeNodeUploadBatchServiceLogsOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1172,7 +1172,7 @@ export const clientRequestId86: msRest.OperationParameter = {
 export const clientRequestId87: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeListNextOptions",
+    "computeNodeListOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1185,7 +1185,7 @@ export const clientRequestId87: msRest.OperationParameter = {
 export const clientRequestId88: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeExtensionGetOptions",
+    "computeNodeListNextOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1198,7 +1198,7 @@ export const clientRequestId88: msRest.OperationParameter = {
 export const clientRequestId89: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeExtensionListOptions",
+    "computeNodeExtensionGetOptions",
     "clientRequestId"
   ],
   mapper: {
@@ -1222,6 +1222,19 @@ export const clientRequestId9: msRest.OperationParameter = {
   }
 };
 export const clientRequestId90: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "computeNodeExtensionListOptions",
+    "clientRequestId"
+  ],
+  mapper: {
+    serializedName: "client-request-id",
+    type: {
+      name: "Uuid"
+    }
+  }
+};
+export const clientRequestId91: msRest.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeExtensionListNextOptions",
@@ -1550,6 +1563,62 @@ export const filter9: msRest.OperationQueryParameter = {
     serializedName: "$filter",
     type: {
       name: "String"
+    }
+  }
+};
+export const force0: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "jobScheduleDeleteMethodOptions",
+    "force"
+  ],
+  mapper: {
+    serializedName: "force",
+    defaultValue: false,
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+export const force1: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "jobScheduleTerminateOptions",
+    "force"
+  ],
+  mapper: {
+    serializedName: "force",
+    defaultValue: false,
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+export const force2: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "jobDeleteMethodOptions",
+    "force"
+  ],
+  mapper: {
+    serializedName: "force",
+    defaultValue: false,
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+export const force3: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "jobTerminateOptions",
+    "force"
+  ],
+  mapper: {
+    serializedName: "force",
+    defaultValue: false,
+    type: {
+      name: "Boolean"
     }
   }
 };
@@ -4493,7 +4562,7 @@ export const ocpDate82: msRest.OperationParameter = {
 export const ocpDate83: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteLoginSettingsOptions",
+    "computeNodeStartOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4506,7 +4575,7 @@ export const ocpDate83: msRest.OperationParameter = {
 export const ocpDate84: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteDesktopOptions",
+    "computeNodeDeallocateOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4519,7 +4588,7 @@ export const ocpDate84: msRest.OperationParameter = {
 export const ocpDate85: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeUploadBatchServiceLogsOptions",
+    "computeNodeGetRemoteLoginSettingsOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4532,7 +4601,7 @@ export const ocpDate85: msRest.OperationParameter = {
 export const ocpDate86: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeListOptions",
+    "computeNodeUploadBatchServiceLogsOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4545,7 +4614,7 @@ export const ocpDate86: msRest.OperationParameter = {
 export const ocpDate87: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeListNextOptions",
+    "computeNodeListOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4558,7 +4627,7 @@ export const ocpDate87: msRest.OperationParameter = {
 export const ocpDate88: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeExtensionGetOptions",
+    "computeNodeListNextOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4571,7 +4640,7 @@ export const ocpDate88: msRest.OperationParameter = {
 export const ocpDate89: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeExtensionListOptions",
+    "computeNodeExtensionGetOptions",
     "ocpDate"
   ],
   mapper: {
@@ -4595,6 +4664,19 @@ export const ocpDate9: msRest.OperationParameter = {
   }
 };
 export const ocpDate90: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "computeNodeExtensionListOptions",
+    "ocpDate"
+  ],
+  mapper: {
+    serializedName: "ocp-date",
+    type: {
+      name: "DateTimeRfc1123"
+    }
+  }
+};
+export const ocpDate91: msRest.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeExtensionListNextOptions",
@@ -5806,7 +5888,7 @@ export const returnClientRequestId82: msRest.OperationParameter = {
 export const returnClientRequestId83: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteLoginSettingsOptions",
+    "computeNodeStartOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5820,7 +5902,7 @@ export const returnClientRequestId83: msRest.OperationParameter = {
 export const returnClientRequestId84: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteDesktopOptions",
+    "computeNodeDeallocateOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5834,7 +5916,7 @@ export const returnClientRequestId84: msRest.OperationParameter = {
 export const returnClientRequestId85: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeUploadBatchServiceLogsOptions",
+    "computeNodeGetRemoteLoginSettingsOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5848,7 +5930,7 @@ export const returnClientRequestId85: msRest.OperationParameter = {
 export const returnClientRequestId86: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeListOptions",
+    "computeNodeUploadBatchServiceLogsOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5862,7 +5944,7 @@ export const returnClientRequestId86: msRest.OperationParameter = {
 export const returnClientRequestId87: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeListNextOptions",
+    "computeNodeListOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5876,7 +5958,7 @@ export const returnClientRequestId87: msRest.OperationParameter = {
 export const returnClientRequestId88: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeExtensionGetOptions",
+    "computeNodeListNextOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5890,7 +5972,7 @@ export const returnClientRequestId88: msRest.OperationParameter = {
 export const returnClientRequestId89: msRest.OperationParameter = {
   parameterPath: [
     "options",
-    "computeNodeExtensionListOptions",
+    "computeNodeExtensionGetOptions",
     "returnClientRequestId"
   ],
   mapper: {
@@ -5916,6 +5998,20 @@ export const returnClientRequestId9: msRest.OperationParameter = {
   }
 };
 export const returnClientRequestId90: msRest.OperationParameter = {
+  parameterPath: [
+    "options",
+    "computeNodeExtensionListOptions",
+    "returnClientRequestId"
+  ],
+  mapper: {
+    serializedName: "return-client-request-id",
+    defaultValue: false,
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+export const returnClientRequestId91: msRest.OperationParameter = {
   parameterPath: [
     "options",
     "computeNodeExtensionListNextOptions",
@@ -7148,7 +7244,7 @@ export const timeout7: msRest.OperationQueryParameter = {
 export const timeout70: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteLoginSettingsOptions",
+    "computeNodeStartOptions",
     "timeout"
   ],
   mapper: {
@@ -7162,7 +7258,7 @@ export const timeout70: msRest.OperationQueryParameter = {
 export const timeout71: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeGetRemoteDesktopOptions",
+    "computeNodeDeallocateOptions",
     "timeout"
   ],
   mapper: {
@@ -7176,7 +7272,7 @@ export const timeout71: msRest.OperationQueryParameter = {
 export const timeout72: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeUploadBatchServiceLogsOptions",
+    "computeNodeGetRemoteLoginSettingsOptions",
     "timeout"
   ],
   mapper: {
@@ -7190,7 +7286,7 @@ export const timeout72: msRest.OperationQueryParameter = {
 export const timeout73: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeListOptions",
+    "computeNodeUploadBatchServiceLogsOptions",
     "timeout"
   ],
   mapper: {
@@ -7204,7 +7300,7 @@ export const timeout73: msRest.OperationQueryParameter = {
 export const timeout74: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "computeNodeExtensionGetOptions",
+    "computeNodeListOptions",
     "timeout"
   ],
   mapper: {
@@ -7216,6 +7312,20 @@ export const timeout74: msRest.OperationQueryParameter = {
   }
 };
 export const timeout75: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "computeNodeExtensionGetOptions",
+    "timeout"
+  ],
+  mapper: {
+    serializedName: "timeout",
+    defaultValue: 30,
+    type: {
+      name: "Number"
+    }
+  }
+};
+export const timeout76: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "computeNodeExtensionListOptions",

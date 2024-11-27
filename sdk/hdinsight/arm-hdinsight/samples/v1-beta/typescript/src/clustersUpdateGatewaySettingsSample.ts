@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   UpdateGatewaySettingsParameters,
-  HDInsightManagementClient
+  HDInsightManagementClient,
 } from "@azure/arm-hdinsight";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Configures the gateway settings on the specified cluster.
  *
  * @summary Configures the gateway settings on the specified cluster.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/HDI_Clusters_UpdateGatewaySettings_Enable.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/HDI_Clusters_UpdateGatewaySettings_Enable.json
  */
 async function enableHttpConnectivity() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -30,14 +30,14 @@ async function enableHttpConnectivity() {
   const parameters: UpdateGatewaySettingsParameters = {
     isCredentialEnabled: true,
     password: "**********",
-    userName: "hadoop"
+    userName: "hadoop",
   };
   const credential = new DefaultAzureCredential();
   const client = new HDInsightManagementClient(credential, subscriptionId);
   const result = await client.clusters.beginUpdateGatewaySettingsAndWait(
     resourceGroupName,
     clusterName,
-    parameters
+    parameters,
   );
   console.log(result);
 }

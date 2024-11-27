@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { uint8ArrayToString } from "@azure/core-util";
-import {
+import type {
   ArrayOneOrMore,
   CertificateContentType,
   CertificateOperation,
@@ -15,8 +15,8 @@ import {
   SubjectAlternativeNames,
   CertificateContact,
   CertificateOperationError,
-} from "./certificatesModels";
-import {
+} from "./certificatesModels.js";
+import type {
   CertificateAttributes,
   CertificateBundle,
   CertificatePolicy as CoreCertificatePolicy,
@@ -30,8 +30,8 @@ import {
   Contacts as CoreContacts,
   JsonWebKeyType as CertificateKeyType,
   ErrorModel,
-} from "./generated/models";
-import { parseKeyVaultCertificateIdentifier } from "./identifier";
+} from "./generated/models/index.js";
+import { parseKeyVaultCertificateIdentifier } from "./identifier.js";
 
 export function toCoreAttributes(properties: CertificateProperties): CertificateAttributes {
   return {

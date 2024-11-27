@@ -1,26 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  CreateTestSerializerOptions,
-  createTestSerializer,
-  registerTestSchema,
-} from "./utils/mockedSerializer";
-import { assert, use as chaiUse } from "chai";
-import { testAvroType, testGroup, testSchema, testValue, testSchemaName } from "./utils/dummies";
-import { Context } from "mocha";
-import { AvroSerializer, MessageContent } from "../../src/";
-import chaiPromises from "chai-as-promised";
+import type { CreateTestSerializerOptions } from "./utils/mockedSerializer.js";
+import { createTestSerializer, registerTestSchema } from "./utils/mockedSerializer.js";
+import { testAvroType, testGroup, testSchema, testValue, testSchemaName } from "./utils/dummies.js";
+import type { MessageContent } from "../../src/index.js";
+import { AvroSerializer } from "../../src/index.js";
 import {
   createPipelineWithCredential,
   createTestRegistry,
   removeSchemas,
-} from "./utils/mockedRegistryClient";
+} from "./utils/mockedRegistryClient.js";
 import { v4 as uuid } from "uuid";
 import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { SchemaRegistry } from "@azure/schema-registry";
-import { HttpClient, Pipeline, createDefaultHttpClient } from "@azure/core-rest-pipeline";
-chaiUse(chaiPromises);
+import type { SchemaRegistry } from "@azure/schema-registry";
+import type { HttpClient, Pipeline } from "@azure/core-rest-pipeline";
+import { createDefaultHttpClient } from "@azure/core-rest-pipeline";
+import { describe, it, assert, beforeEach, afterEach, expect } from "vitest";
 
 describe("AvroSerializer", async function () {
   let noAutoRegisterOptions: CreateTestSerializerOptions<any>;
@@ -30,13 +26,10 @@ describe("AvroSerializer", async function () {
   let client: HttpClient;
   let pipeline: Pipeline;
 
-  before(async function (this: Context) {
+  beforeEach(async function (ctx) {
     client = createDefaultHttpClient();
     pipeline = createPipelineWithCredential();
-  });
-
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
     registry = createTestRegistry({ recorder });
     noAutoRegisterOptions = {
       serializerOptions: { autoRegisterSchemas: false, groupName: testGroup },
@@ -46,7 +39,7 @@ describe("AvroSerializer", async function () {
     schemaNamesList.push(testSchemaName);
   });
 
-  afterEach(async function (this: Context) {
+  afterEach(async function () {
     await removeSchemas(schemaNamesList, pipeline, client);
   });
 
@@ -195,23 +188,22 @@ describe("AvroSerializer", async function () {
 
     data.write(schemaId, 4, 32, "utf-8");
     payload.copy(data, 36);
-    await assert.isRejected(
+    await expect(
       serializer.deserialize({
         data,
         contentType: `avro/binary+${uuid()}`,
       }),
-      /Schema id .* does not exist/,
-    );
+    ).rejects.toThrow(/Schema id .* does not exist/);
   });
 
   /** TODO: unskip when we can access internal cache */
-  it.skip("cache size growth is bounded", async function (this: Context) {
+  it.skip("cache size growth is bounded", async function ({ skip }) {
     /**
      * This test is very expensive to run in live because it registers too many
      * schemas but the standard-tier resource allows for up to 25 schemas only
      */
     if (isLiveMode()) {
-      this.skip();
+      skip();
     }
     function makeRndStr(length: number): string {
       let result = "";

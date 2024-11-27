@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { AverageAggregator } from "./AverageAggregator";
 import { CountAggregator } from "./CountAggregator";
 import { MaxAggregator } from "./MaxAggregator";
 import { MinAggregator } from "./MinAggregator";
 import { SumAggregator } from "./SumAggregator";
 import { StaticValueAggregator } from "./StaticValueAggregator";
-import { AggregateType } from "../../request/ErrorResponse";
+import type { AggregateType } from "../../request/ErrorResponse";
 import { MakeListAggregator } from "./MakeListAggregator";
 import { MakeSetAggregator } from "./MakeSetAggregator";
 

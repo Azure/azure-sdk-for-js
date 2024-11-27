@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // A helper method used to read a Node.js readable stream into a Buffer
 export function streamToBuffer(stream: NodeJS.ReadableStream): Promise<Buffer> {

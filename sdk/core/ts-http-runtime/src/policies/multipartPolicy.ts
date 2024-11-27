@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import type { BodyPart, HttpHeaders, PipelineRequest } from "../interfaces.js";
-import { PipelinePolicy } from "../pipeline.js";
+import type { BodyPart, HttpHeaders, PipelineRequest, PipelineResponse } from "../interfaces.js";
+import type { PipelinePolicy } from "../pipeline.js";
 import { stringToUint8Array } from "../util/bytesEncoding.js";
 import { isBlob } from "../util/typeGuards.js";
 import { randomUUID } from "../util/uuidUtils.js";
@@ -112,7 +112,7 @@ function assertValidBoundary(boundary: string): void {
 export function multipartPolicy(): PipelinePolicy {
   return {
     name: multipartPolicyName,
-    async sendRequest(request, next) {
+    async sendRequest(request, next): Promise<PipelineResponse> {
       if (!request.multipartBody) {
         return next(request);
       }

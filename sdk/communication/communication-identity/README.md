@@ -93,13 +93,13 @@ Use the `getToken` method to issue or refresh a token for an existing user. The 
 - `voip.join` (Access to Calling APIs but without the authorization to start new calls)
 
 ```typescript
-let { token } = await client.getToken(user, ["chat"]);
+const { token } = await client.getToken(user, ["chat"]);
 ```
 
 To refresh the user token, issue another token with the same user.
 
 ```typescript
-let { token } = await client.getToken(user, ["chat"]);
+const { token } = await client.getToken(user, ["chat"]);
 ```
 
 ### Creating a user token with custom expiration
@@ -108,7 +108,7 @@ It's also possible to create a Communication Identity access token by customizin
 
 ```typescript
 const tokenOptions: GetTokenOptions = { tokenExpiresInMinutes: 60 };
-let { token } = await client.getToken(user, ["chat"], tokenOptions);
+const { token } = await client.getToken(user, ["chat"], tokenOptions);
 ```
 
 ### Creating a user and a token in a single request
@@ -116,7 +116,7 @@ let { token } = await client.getToken(user, ["chat"], tokenOptions);
 For convenience, use `createUserAndToken` to create a new user and issue a token with one function call. This translates into a single web request as opposed to creating a user first and then issuing a token.
 
 ```typescript
-let { user, token } = await client.createUserAndToken(["chat"]);
+const { user, token } = await client.createUserAndToken(["chat"]);
 ```
 
 ### Creating a user and a token with custom expiration in a single request
@@ -125,7 +125,7 @@ It's also possible to create a Communication Identity access token by customizin
 
 ```typescript
 const userAndTokenOptions: CreateUserAndTokenOptions = { tokenExpiresInMinutes: 60 };
-let { user, token } = await client.createUserAndToken(["chat"], userAndTokenOptions);
+const { user, token } = await client.createUserAndToken(["chat"], userAndTokenOptions);
 ```
 
 ### Revoking tokens for a user

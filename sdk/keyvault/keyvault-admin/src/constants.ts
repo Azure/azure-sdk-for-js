@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * Current version of the Key Vault Admin SDK.
  */
-export const SDK_VERSION: string = "4.5.1";
+export const SDK_VERSION: string = "4.6.1";
 
 /**
  * The latest supported Key Vault service API version.

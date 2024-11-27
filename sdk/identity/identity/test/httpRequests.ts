@@ -1,22 +1,40 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import http from "http";
-import https from "https";
-import { AccessToken, GetTokenOptions, TokenCredential } from "../src";
-import { AzureLogLevel, AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
-import { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "http";
-import {
+import * as https from "node:https";
+import * as http from "node:http";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "../src/index.js";
+import type { AzureLogLevel } from "@azure/logger";
+import { AzureLogger, getLogLevel, setLogLevel } from "@azure/logger";
+import type { ClientRequest, IncomingHttpHeaders, IncomingMessage } from "node:http";
+import type {
   IdentityTestContextInterface,
   RawTestResponse,
   TestResponse,
-  createResponse,
-} from "./httpRequestsCommon";
-import Sinon, * as sinon from "sinon";
-import { PassThrough } from "stream";
-import { RestError } from "@azure/core-rest-pipeline";
-import { getError } from "./authTestUtils";
-import { openIdConfigurationResponse } from "./msalTestUtils";
+} from "./httpRequestsCommon.js";
+import { createResponse } from "./httpRequestsCommon.js";
+import { PassThrough } from "node:stream";
+import type { RestError } from "@azure/core-rest-pipeline";
+import { getError } from "./authTestUtils.js";
+import { openIdConfigurationResponse } from "./msalTestUtils.js";
+
+import type { MockInstance } from "vitest";
+import { vi } from "vitest";
+
+vi.mock("node:https", async () => {
+  const actual = await vi.importActual("node:https");
+  return {
+    ...actual,
+    request: vi.fn(),
+  };
+});
+vi.mock("node:http", async () => {
+  const actual = await vi.importActual("node:http");
+  return {
+    ...actual,
+    request: vi.fn(),
+  };
+});
 
 /**
  * Helps write responses that extend the PassThrough class.
@@ -96,15 +114,12 @@ export function prepareMSALResponses(): RawTestResponse[] {
  * @internal
  */
 export class IdentityTestContext implements IdentityTestContextInterface {
-  public sandbox: Sinon.SinonSandbox;
-  public clock: Sinon.SinonFakeTimers;
   public oldLogLevel: AzureLogLevel | undefined;
   public oldLogger: any;
   public logMessages: string[];
 
   constructor({ replaceLogger, logLevel }: { replaceLogger?: boolean; logLevel?: AzureLogLevel }) {
-    this.sandbox = sinon.createSandbox();
-    this.clock = this.sandbox.useFakeTimers();
+    vi.useFakeTimers();
     this.oldLogLevel = getLogLevel();
     this.oldLogger = AzureLogger.log;
     this.logMessages = [];
@@ -121,7 +136,9 @@ export class IdentityTestContext implements IdentityTestContextInterface {
   }
 
   async restore(): Promise<void> {
-    this.sandbox.restore();
+    vi.useRealTimers();
+    vi.restoreAllMocks();
+    vi.unstubAllEnvs();
     AzureLogger.log = this.oldLogger;
     setLogLevel(this.oldLogLevel);
   }
@@ -134,15 +151,13 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     { response }: { response: TestResponse },
   ): Promise<T | null> {
     const request = createRequest();
-    this.sandbox.replace(
-      https,
-      "request",
+    vi.mocked(https.request).mockImplementation(
       (_options: string | URL | http.RequestOptions, resolve: any) => {
         resolve(responseToIncomingMessage(response));
         return request;
       },
     );
-    this.clock.runAllAsync();
+    await vi.runAllTimersAsync();
     return sendPromise();
   }
 
@@ -162,7 +177,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
   public registerResponses(
     provider: "http" | "https",
     responses: { response?: TestResponse; error?: RestError }[],
-    spies: sinon.SinonSpy[],
+    spies: MockInstance[],
   ): http.RequestOptions[] {
     const providerObject = provider === "http" ? http : https;
     const totalOptions: http.RequestOptions[] = [];
@@ -185,11 +200,11 @@ export class IdentityTestContext implements IdentityTestContextInterface {
           resolve(responseToIncomingMessage(response!));
         }
         const request = createRequest();
-        spies.push(this.sandbox.spy(request, "end"));
+        spies.push(vi.spyOn(request, "end"));
         return request;
       };
-      this.sandbox.replace(providerObject, "request", fakeRequest);
-      this.sandbox.replace(providerObject.Agent.prototype as any, "request", fakeRequest);
+
+      vi.mocked(providerObject.request).mockImplementation(fakeRequest);
     } catch (e: any) {
       console.debug(
         "Failed to replace the request. This might be expected if you're running multiple sendCredentialRequests() calls.",
@@ -208,7 +223,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
    */
   extractRequests(
     options: http.RequestOptions[],
-    spies: sinon.SinonSpy[],
+    spies: MockInstance[],
     protocol: "http" | "https",
   ): {
     url: string;
@@ -216,7 +231,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     method: string;
     headers: Record<string, string>;
   }[] {
-    return spies.reduce((accumulator: any, spy: sinon.SinonSpy, index: number) => {
+    return spies.reduce((accumulator: any, spy: MockInstance, index: number) => {
       if (!options[index]) {
         return accumulator;
       }
@@ -225,7 +240,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
         ...accumulator,
         {
           url: `${protocol}://${requestOptions.hostname}${requestOptions.path}`,
-          body: (spy.args[0] && spy.args[0][0]) || "",
+          body: (spy.mock.calls[0] && spy.mock.calls[0][0]) || "",
           method: requestOptions.method,
           headers: requestOptions.headers,
         },
@@ -266,10 +281,10 @@ export class IdentityTestContext implements IdentityTestContextInterface {
     // Generally, there should be no insecure requests, but in practice, some authentication methods require
     // requests to go out to insecure endpoints, specially at the beginning of the authentication flow.
     // An example would be the IMDS endpoint.
-    const insecureSpies: sinon.SinonSpy[] = [];
+    const insecureSpies: MockInstance[] = [];
     const insecureOptions = this.registerResponses("http", insecureResponses, insecureSpies);
 
-    const secureSpies: sinon.SinonSpy[] = [];
+    const secureSpies: MockInstance[] = [];
     const secureOptions = this.registerResponses("https", secureResponses, secureSpies);
 
     let result: AccessToken | null = null;
@@ -280,7 +295,7 @@ export class IdentityTestContext implements IdentityTestContextInterface {
       // So loosely tell Sinon's clock to advance the time,
       // and then we trigger our main getToken request, and wait for it.
       // All the errors will be safely be caught by the try surrounding the getToken request.
-      this.clock.runAllAsync();
+      await vi.runAllTimersAsync();
       result = await credential.getToken(scopes, getTokenOptions);
     } catch (e: any) {
       error = e;

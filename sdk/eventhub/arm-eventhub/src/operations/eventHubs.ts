@@ -38,7 +38,7 @@ import {
   EventHubsGetOptionalParams,
   EventHubsGetResponse,
   EventHubsListAuthorizationRulesNextResponse,
-  EventHubsListByNamespaceNextResponse
+  EventHubsListByNamespaceNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -65,13 +65,13 @@ export class EventHubsImpl implements EventHubs {
     resourceGroupName: string,
     namespaceName: string,
     eventHubName: string,
-    options?: EventHubsListAuthorizationRulesOptionalParams
+    options?: EventHubsListAuthorizationRulesOptionalParams,
   ): PagedAsyncIterableIterator<AuthorizationRule> {
     const iter = this.listAuthorizationRulesPagingAll(
       resourceGroupName,
       namespaceName,
       eventHubName,
-      options
+      options,
     );
     return {
       next() {
@@ -89,9 +89,9 @@ export class EventHubsImpl implements EventHubs {
           namespaceName,
           eventHubName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -100,7 +100,7 @@ export class EventHubsImpl implements EventHubs {
     namespaceName: string,
     eventHubName: string,
     options?: EventHubsListAuthorizationRulesOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<AuthorizationRule[]> {
     let result: EventHubsListAuthorizationRulesResponse;
     let continuationToken = settings?.continuationToken;
@@ -109,7 +109,7 @@ export class EventHubsImpl implements EventHubs {
         resourceGroupName,
         namespaceName,
         eventHubName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -122,7 +122,7 @@ export class EventHubsImpl implements EventHubs {
         namespaceName,
         eventHubName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -135,13 +135,13 @@ export class EventHubsImpl implements EventHubs {
     resourceGroupName: string,
     namespaceName: string,
     eventHubName: string,
-    options?: EventHubsListAuthorizationRulesOptionalParams
+    options?: EventHubsListAuthorizationRulesOptionalParams,
   ): AsyncIterableIterator<AuthorizationRule> {
     for await (const page of this.listAuthorizationRulesPagingPage(
       resourceGroupName,
       namespaceName,
       eventHubName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -156,12 +156,12 @@ export class EventHubsImpl implements EventHubs {
   public listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: EventHubsListByNamespaceOptionalParams
+    options?: EventHubsListByNamespaceOptionalParams,
   ): PagedAsyncIterableIterator<Eventhub> {
     const iter = this.listByNamespacePagingAll(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -178,9 +178,9 @@ export class EventHubsImpl implements EventHubs {
           resourceGroupName,
           namespaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -188,7 +188,7 @@ export class EventHubsImpl implements EventHubs {
     resourceGroupName: string,
     namespaceName: string,
     options?: EventHubsListByNamespaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<Eventhub[]> {
     let result: EventHubsListByNamespaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -196,7 +196,7 @@ export class EventHubsImpl implements EventHubs {
       result = await this._listByNamespace(
         resourceGroupName,
         namespaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -208,7 +208,7 @@ export class EventHubsImpl implements EventHubs {
         resourceGroupName,
         namespaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -220,12 +220,12 @@ export class EventHubsImpl implements EventHubs {
   private async *listByNamespacePagingAll(
     resourceGroupName: string,
     namespaceName: string,
-    options?: EventHubsListByNamespaceOptionalParams
+    options?: EventHubsListByNamespaceOptionalParams,
   ): AsyncIterableIterator<Eventhub> {
     for await (const page of this.listByNamespacePagingPage(
       resourceGroupName,
       namespaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -242,11 +242,11 @@ export class EventHubsImpl implements EventHubs {
     resourceGroupName: string,
     namespaceName: string,
     eventHubName: string,
-    options?: EventHubsListAuthorizationRulesOptionalParams
+    options?: EventHubsListAuthorizationRulesOptionalParams,
   ): Promise<EventHubsListAuthorizationRulesResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, eventHubName, options },
-      listAuthorizationRulesOperationSpec
+      listAuthorizationRulesOperationSpec,
     );
   }
 
@@ -266,7 +266,7 @@ export class EventHubsImpl implements EventHubs {
     eventHubName: string,
     authorizationRuleName: string,
     parameters: AuthorizationRule,
-    options?: EventHubsCreateOrUpdateAuthorizationRuleOptionalParams
+    options?: EventHubsCreateOrUpdateAuthorizationRuleOptionalParams,
   ): Promise<EventHubsCreateOrUpdateAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
@@ -275,9 +275,9 @@ export class EventHubsImpl implements EventHubs {
         eventHubName,
         authorizationRuleName,
         parameters,
-        options
+        options,
       },
-      createOrUpdateAuthorizationRuleOperationSpec
+      createOrUpdateAuthorizationRuleOperationSpec,
     );
   }
 
@@ -294,7 +294,7 @@ export class EventHubsImpl implements EventHubs {
     namespaceName: string,
     eventHubName: string,
     authorizationRuleName: string,
-    options?: EventHubsGetAuthorizationRuleOptionalParams
+    options?: EventHubsGetAuthorizationRuleOptionalParams,
   ): Promise<EventHubsGetAuthorizationRuleResponse> {
     return this.client.sendOperationRequest(
       {
@@ -302,9 +302,9 @@ export class EventHubsImpl implements EventHubs {
         namespaceName,
         eventHubName,
         authorizationRuleName,
-        options
+        options,
       },
-      getAuthorizationRuleOperationSpec
+      getAuthorizationRuleOperationSpec,
     );
   }
 
@@ -321,7 +321,7 @@ export class EventHubsImpl implements EventHubs {
     namespaceName: string,
     eventHubName: string,
     authorizationRuleName: string,
-    options?: EventHubsDeleteAuthorizationRuleOptionalParams
+    options?: EventHubsDeleteAuthorizationRuleOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       {
@@ -329,9 +329,9 @@ export class EventHubsImpl implements EventHubs {
         namespaceName,
         eventHubName,
         authorizationRuleName,
-        options
+        options,
       },
-      deleteAuthorizationRuleOperationSpec
+      deleteAuthorizationRuleOperationSpec,
     );
   }
 
@@ -348,7 +348,7 @@ export class EventHubsImpl implements EventHubs {
     namespaceName: string,
     eventHubName: string,
     authorizationRuleName: string,
-    options?: EventHubsListKeysOptionalParams
+    options?: EventHubsListKeysOptionalParams,
   ): Promise<EventHubsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
@@ -356,9 +356,9 @@ export class EventHubsImpl implements EventHubs {
         namespaceName,
         eventHubName,
         authorizationRuleName,
-        options
+        options,
       },
-      listKeysOperationSpec
+      listKeysOperationSpec,
     );
   }
 
@@ -378,7 +378,7 @@ export class EventHubsImpl implements EventHubs {
     eventHubName: string,
     authorizationRuleName: string,
     parameters: RegenerateAccessKeyParameters,
-    options?: EventHubsRegenerateKeysOptionalParams
+    options?: EventHubsRegenerateKeysOptionalParams,
   ): Promise<EventHubsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
@@ -387,9 +387,9 @@ export class EventHubsImpl implements EventHubs {
         eventHubName,
         authorizationRuleName,
         parameters,
-        options
+        options,
       },
-      regenerateKeysOperationSpec
+      regenerateKeysOperationSpec,
     );
   }
 
@@ -402,11 +402,11 @@ export class EventHubsImpl implements EventHubs {
   private _listByNamespace(
     resourceGroupName: string,
     namespaceName: string,
-    options?: EventHubsListByNamespaceOptionalParams
+    options?: EventHubsListByNamespaceOptionalParams,
   ): Promise<EventHubsListByNamespaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, options },
-      listByNamespaceOperationSpec
+      listByNamespaceOperationSpec,
     );
   }
 
@@ -423,11 +423,11 @@ export class EventHubsImpl implements EventHubs {
     namespaceName: string,
     eventHubName: string,
     parameters: Eventhub,
-    options?: EventHubsCreateOrUpdateOptionalParams
+    options?: EventHubsCreateOrUpdateOptionalParams,
   ): Promise<EventHubsCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, eventHubName, parameters, options },
-      createOrUpdateOperationSpec
+      createOrUpdateOperationSpec,
     );
   }
 
@@ -442,11 +442,11 @@ export class EventHubsImpl implements EventHubs {
     resourceGroupName: string,
     namespaceName: string,
     eventHubName: string,
-    options?: EventHubsDeleteOptionalParams
+    options?: EventHubsDeleteOptionalParams,
   ): Promise<void> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, eventHubName, options },
-      deleteOperationSpec
+      deleteOperationSpec,
     );
   }
 
@@ -461,11 +461,11 @@ export class EventHubsImpl implements EventHubs {
     resourceGroupName: string,
     namespaceName: string,
     eventHubName: string,
-    options?: EventHubsGetOptionalParams
+    options?: EventHubsGetOptionalParams,
   ): Promise<EventHubsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, eventHubName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -482,11 +482,11 @@ export class EventHubsImpl implements EventHubs {
     namespaceName: string,
     eventHubName: string,
     nextLink: string,
-    options?: EventHubsListAuthorizationRulesNextOptionalParams
+    options?: EventHubsListAuthorizationRulesNextOptionalParams,
   ): Promise<EventHubsListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, eventHubName, nextLink, options },
-      listAuthorizationRulesNextOperationSpec
+      listAuthorizationRulesNextOperationSpec,
     );
   }
 
@@ -501,11 +501,11 @@ export class EventHubsImpl implements EventHubs {
     resourceGroupName: string,
     namespaceName: string,
     nextLink: string,
-    options?: EventHubsListByNamespaceNextOptionalParams
+    options?: EventHubsListByNamespaceNextOptionalParams,
   ): Promise<EventHubsListByNamespaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, namespaceName, nextLink, options },
-      listByNamespaceNextOperationSpec
+      listByNamespaceNextOperationSpec,
     );
   }
 }
@@ -513,16 +513,15 @@ export class EventHubsImpl implements EventHubs {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationRuleListResult
+      bodyMapper: Mappers.AuthorizationRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -530,22 +529,21 @@ const listAuthorizationRulesOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.eventHubName
+    Parameters.eventHubName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationRule
+      bodyMapper: Mappers.AuthorizationRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters3,
   queryParameters: [Parameters.apiVersion],
@@ -555,23 +553,22 @@ const createOrUpdateAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.eventHubName
+    Parameters.eventHubName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationRule
+      bodyMapper: Mappers.AuthorizationRule,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -580,21 +577,20 @@ const getAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.eventHubName
+    Parameters.eventHubName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const deleteAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -603,22 +599,21 @@ const deleteAuthorizationRuleOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.eventHubName
+    Parameters.eventHubName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}/listKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}/listKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessKeys
+      bodyMapper: Mappers.AccessKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -627,22 +622,21 @@ const listKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.eventHubName
+    Parameters.eventHubName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const regenerateKeysOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.AccessKeys
+      bodyMapper: Mappers.AccessKeys,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters4,
   queryParameters: [Parameters.apiVersion],
@@ -652,45 +646,43 @@ const regenerateKeysOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.authorizationRuleName,
-    Parameters.eventHubName
+    Parameters.eventHubName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByNamespaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventHubListResult
+      bodyMapper: Mappers.EventHubListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.namespaceName
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.Eventhub
+      bodyMapper: Mappers.Eventhub,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.parameters9,
   queryParameters: [Parameters.apiVersion],
@@ -699,22 +691,21 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.eventHubName
+    Parameters.eventHubName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
   httpMethod: "DELETE",
   responses: {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -722,22 +713,21 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.eventHubName
+    Parameters.eventHubName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/eventhubs/{eventHubName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.Eventhub
+      bodyMapper: Mappers.Eventhub,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -745,21 +735,21 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.eventHubName
+    Parameters.eventHubName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationRuleListResult
+      bodyMapper: Mappers.AuthorizationRuleListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
@@ -767,29 +757,29 @@ const listAuthorizationRulesNextOperationSpec: coreClient.OperationSpec = {
     Parameters.resourceGroupName,
     Parameters.nextLink,
     Parameters.namespaceName,
-    Parameters.eventHubName
+    Parameters.eventHubName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByNamespaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.EventHubListResult
+      bodyMapper: Mappers.EventHubListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.nextLink,
-    Parameters.namespaceName
+    Parameters.namespaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

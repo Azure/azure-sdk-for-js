@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { ServiceBusReceiver, ServiceBusSender } from "@azure/service-bus";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";

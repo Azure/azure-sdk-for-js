@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { parseKeyVaultSecretIdentifier } from "../../src/identifier";
-import { assert } from "@azure-tools/test-utils";
+import { parseKeyVaultSecretIdentifier } from "../../src/identifier.js";
+import { describe, it, assert } from "vitest";
 
 describe("Key Vault Secrets Identifier", () => {
   it("It should work with a URI of a secret before it gets a version", async function () {

@@ -15,4 +15,5 @@ export * from "./webPubSubHubs";
 export * from "./webPubSubPrivateEndpointConnections";
 export * from "./webPubSubPrivateLinkResources";
 export * from "./webPubSubReplicas";
+export * from "./webPubSubReplicaSharedPrivateLinkResources";
 export * from "./webPubSubSharedPrivateLinkResources";

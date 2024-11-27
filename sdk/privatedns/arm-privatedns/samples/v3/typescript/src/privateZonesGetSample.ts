@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the record sets within the zone.
  *
  * @summary Gets a Private DNS zone. Retrieves the zone properties, but not the virtual networks links or the record sets within the zone.
- * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2020-06-01/examples/PrivateZoneGet.json
+ * x-ms-original-file: specification/privatedns/resource-manager/Microsoft.Network/stable/2024-06-01/examples/PrivateZoneGet.json
  */
 async function getPrivateDnsZone() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function getPrivateDnsZone() {
   const client = new PrivateDnsManagementClient(credential, subscriptionId);
   const result = await client.privateZones.get(
     resourceGroupName,
-    privateZoneName
+    privateZoneName,
   );
   console.log(result);
 }

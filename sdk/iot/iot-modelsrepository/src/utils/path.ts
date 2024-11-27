@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { isAbsolute, normalize } from "path";
+import { isAbsolute, normalize } from "node:path";
 
 function isLocalPath(p: string): boolean {
   return isAbsolute(p);

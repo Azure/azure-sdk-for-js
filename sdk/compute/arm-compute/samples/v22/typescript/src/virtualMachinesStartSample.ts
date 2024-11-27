@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The operation to start a virtual machine.
  *
  * @summary The operation to start a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_Start_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Start_MaximumSet_Gen.json
  */
 async function virtualMachineStartMaximumSetGen() {
   const subscriptionId =
@@ -39,7 +39,7 @@ async function virtualMachineStartMaximumSetGen() {
  * This sample demonstrates how to The operation to start a virtual machine.
  *
  * @summary The operation to start a virtual machine.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/virtualMachineExamples/VirtualMachine_Start_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/virtualMachineExamples/VirtualMachine_Start_MinimumSet_Gen.json
  */
 async function virtualMachineStartMinimumSetGen() {
   const subscriptionId =

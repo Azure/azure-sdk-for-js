@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets a list of compute operations.
  *
  * @summary Gets a list of compute operations.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/computeRPCommonExamples/Operations_List_MaximumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/computeRPCommonExamples/Operations_List_MaximumSet_Gen.json
  */
 async function operationsListMaximumSetGen() {
   const subscriptionId =
@@ -34,7 +34,7 @@ async function operationsListMaximumSetGen() {
  * This sample demonstrates how to Gets a list of compute operations.
  *
  * @summary Gets a list of compute operations.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/computeRPCommonExamples/Operations_List_MinimumSet_Gen.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/computeRPCommonExamples/Operations_List_MinimumSet_Gen.json
  */
 async function operationsListMinimumSetGen() {
   const subscriptionId =

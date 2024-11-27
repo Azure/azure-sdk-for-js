@@ -11,7 +11,7 @@
 import {
   HostPoolPatch,
   HostPoolsUpdateOptionalParams,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Update a host pool.
  *
  * @summary Update a host pool.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/HostPool_Update.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/HostPool_Update.json
  */
 async function hostPoolUpdate() {
   const subscriptionId =
@@ -38,9 +38,9 @@ async function hostPoolUpdate() {
       maintenanceWindowTimeZone: "Alaskan Standard Time",
       maintenanceWindows: [
         { dayOfWeek: "Friday", hour: 7 },
-        { dayOfWeek: "Saturday", hour: 8 }
+        { dayOfWeek: "Saturday", hour: 8 },
       ],
-      useSessionHostLocalTime: false
+      useSessionHostLocalTime: false,
     },
     customRdpProperty: undefined,
     friendlyName: "friendly",
@@ -49,7 +49,7 @@ async function hostPoolUpdate() {
     personalDesktopAssignmentType: "Automatic",
     registrationInfo: {
       expirationTime: new Date("2020-10-01T15:01:54.9571247Z"),
-      registrationTokenOperation: "Update"
+      registrationTokenOperation: "Update",
     },
     ssoClientId: "client",
     ssoClientSecretKeyVaultPath: "https://keyvault/secret",
@@ -57,7 +57,7 @@ async function hostPoolUpdate() {
     ssoadfsAuthority: "https://adfs",
     startVMOnConnect: false,
     tags: { tag1: "value1", tag2: "value2" },
-    vmTemplate: "{json:json}"
+    vmTemplate: "{json:json}",
   };
   const options: HostPoolsUpdateOptionalParams = { hostPool };
   const credential = new DefaultAzureCredential();
@@ -65,7 +65,7 @@ async function hostPoolUpdate() {
   const result = await client.hostPools.update(
     resourceGroupName,
     hostPoolName,
-    options
+    options,
   );
   console.log(result);
 }

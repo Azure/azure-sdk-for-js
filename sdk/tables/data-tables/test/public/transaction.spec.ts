@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as sinon from "sinon";
 import { Recorder, isPlaybackMode, isLiveMode } from "@azure-tools/test-recorder";
-import { TableClient, TableTransaction, TransactionAction, odata } from "../../src";
-import { Context } from "mocha";
+import type { TableClient, TransactionAction } from "../../src";
+import { TableTransaction, odata } from "../../src";
+import type { Context } from "mocha";
 import { Uuid } from "../../src/utils/uuid";
 import { assert } from "chai";
 import { createTableClient } from "./utils/recordedClient";

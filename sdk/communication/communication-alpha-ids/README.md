@@ -68,7 +68,7 @@ The [`@azure/identity`][azure_identity] package provides a variety of credential
 const { DefaultAzureCredential } = require ("@azure/identity");
 const { AlphaIdsClient } = require("@azure-tools/communication-alpha-ids");
 
-let credential = new DefaultAzureCredential();
+const credential = new DefaultAzureCredential();
 const client = new AlphaIdsClient("<endpoint-from-resource>", credential);
 ```
 
@@ -88,7 +88,7 @@ const connectionString = "endpoint=<endpoint>;accessKey=<accessKey>";
 const client = new AlphaIdsClient(connectionString);
 
 // get the current configuration
-var configuration = await client.getConfiguration();
+const configuration = await client.getConfiguration();
 
 console.log(`Usage of Alpha IDs is currently ${(configuration.enabled ? "enabled" : "disabled")}`);
 ```

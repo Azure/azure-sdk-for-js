@@ -8,7 +8,11 @@ import { ContainerClient } from "@azure/storage-blob";
 async function uploadToStorageBlob() {
   // For example, in Azure public cloud, a container SAS URL has the form of
   // `https://${account}.blob.core.windows.net/${containerName}?${sasToken}`
-  const containerSasUrl = "<container SAS url>";
+  const containerSasUrl = ""; // <replace this empty string with your SAS URL>
+
+  if (!containerSasUrl) {
+    throw new Error("Please replace the placeholder value of containerSasUrl with your SAS URL.");
+  }
 
   const data = "Hello, Web Workers!";
 

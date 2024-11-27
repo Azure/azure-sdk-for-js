@@ -15,3 +15,4 @@ export * from "./certificateOperations";
 export * from "./privateLinkResourceOperations";
 export * from "./privateEndpointConnectionOperations";
 export * from "./poolOperations";
+export * from "./networkSecurityPerimeterOperations";

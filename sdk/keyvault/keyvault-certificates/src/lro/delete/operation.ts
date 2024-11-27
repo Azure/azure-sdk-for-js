@@ -1,20 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-client";
-import {
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationOptions } from "@azure/core-client";
+import type {
   DeleteCertificateOptions,
   DeletedCertificate,
   GetDeletedCertificateOptions,
-} from "../../certificatesModels";
-import {
-  KeyVaultCertificatePollOperation,
-  KeyVaultCertificatePollOperationState,
-} from "../keyVaultCertificatePoller";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { getDeletedCertificateFromDeletedCertificateBundle } from "../../transformations";
-import { tracingClient } from "../../tracing";
+} from "../../certificatesModels.js";
+import type { KeyVaultCertificatePollOperationState } from "../keyVaultCertificatePoller.js";
+import { KeyVaultCertificatePollOperation } from "../keyVaultCertificatePoller.js";
+import type { KeyVaultClient } from "../../generated/keyVaultClient.js";
+import { getDeletedCertificateFromDeletedCertificateBundle } from "../../transformations.js";
+import { tracingClient } from "../../tracing.js";
 
 /**
  * The public representation of the DeleteCertificatePoller operation state.

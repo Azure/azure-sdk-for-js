@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { createDefaultHttpClient, HttpClient } from "@azure/core-rest-pipeline";
+import type { HttpClient } from "@azure/core-rest-pipeline";
+import { createDefaultHttpClient } from "@azure/core-rest-pipeline";
 
 let _defaultHttpClient: HttpClient;
 

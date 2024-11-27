@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to require client list methods to return a PagedAsyncIterableIterator.
@@ -19,7 +19,6 @@ export default createRule({
     type: "suggestion",
     docs: {
       description: "require client list methods to return a PagedAsyncIterableIterator",
-      recommended: "recommended",
     },
     messages: {
       NoReturnType: "list method does not have a return type",

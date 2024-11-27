@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AbortError, type AbortSignalLike } from "@azure/abort-controller";
 import type { PipelineResponse } from "../interfaces.js";

@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import chai from "chai";
-const should = chai.should();
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import { delay, ServiceBusMessage } from "../../src";
-import { TestClientType, TestMessage } from "./utils/testUtils";
+import type { ServiceBusMessage } from "../../src/index.js";
+import { delay } from "../../src/index.js";
+import type { TestClientType } from "./utils/testUtils.js";
+import { TestMessage } from "./utils/testUtils.js";
+import type { EntityName } from "./utils/testutils2.js";
 import {
   createServiceBusClientForTests,
   testPeekMsgsLength,
-  EntityName,
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
-} from "./utils/testutils2";
-import { ServiceBusReceiver } from "../../src";
-import { ServiceBusSender } from "../../src";
-import { ServiceBusReceivedMessage } from "../../src";
-import Long from "long";
+} from "./utils/testutils2.js";
+import type { ServiceBusReceiver } from "../../src/index.js";
+import type { ServiceBusSender } from "../../src/index.js";
+import type { ServiceBusReceivedMessage } from "../../src/index.js";
+import type Long from "long";
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
+import { should } from "./utils/chai.js";
 
 describe("Deferred Messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
@@ -29,11 +29,11 @@ describe("Deferred Messages", () => {
   const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
   const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(async () => {
+  afterAll(async () => {
     await serviceBusClient.test.after();
   });
 

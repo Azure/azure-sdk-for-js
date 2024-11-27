@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   EventData,
   EventHubConsumerClient,
   EventHubProducerClient,
@@ -9,8 +9,8 @@ import {
   ReceivedEventData,
   SendBatchOptions,
 } from "../../src/index.js";
-import { EventDataBatchImpl } from "../../src/eventDataBatch.js";
-import { should } from "../utils/chai.js";
+import type { EventDataBatchImpl } from "../../src/eventDataBatch.js";
+import { expect, should } from "../utils/chai.js";
 import { SubscriptionHandlerForTests } from "../utils/subscriptionHandlerForTests.js";
 import { getStartingPositionsForTests } from "../utils/testUtils.js";
 import { describe, it, beforeEach, afterEach } from "vitest";
@@ -311,6 +311,18 @@ describe("EventHub Sender", function () {
       await producerClient.sendBatch(eventDataBatch);
       eventDataBatch.count.should.equal(1);
     });
+
+    it("Invalid messages should be rejected.", async function () {
+      const eventDataBatch = await producerClient.createBatch();
+      expect(() => eventDataBatch.tryAdd({ body: "Hello World", properties: [] })).to.throw(
+        /Invalid 'properties': expected an object or 'undefined', but received 'array'/,
+      );
+      await expect(
+        producerClient.sendBatch([{ body: "Hello World", properties: [] }]),
+      ).to.eventually.be.rejectedWith(
+        /Invalid 'properties': expected an object or 'undefined', but received 'array'/,
+      );
+    });
   });
 
   describe("Multiple sendBatch calls", function () {
@@ -520,7 +532,7 @@ describe("EventHub Sender", function () {
         try {
           const data: EventData[] = [
             {
-              body: "Sender paritition id and partition key",
+              body: "Sender partition id and partition key",
             },
           ];
           await producerClient.sendBatch(data, { partitionKey: "1", partitionId: "0" });

@@ -8,6 +8,7 @@
 
 export * from "./licenses";
 export * from "./machines";
+export * from "./licenseProfiles";
 export * from "./machineExtensions";
 export * from "./extensionMetadata";
 export * from "./operations";
