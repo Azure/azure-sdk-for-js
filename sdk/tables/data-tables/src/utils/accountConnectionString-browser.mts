@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { ConnectionString } from "./internalModels";
-import type { TableServiceClientOptions } from "..";
+import type { ConnectionString } from "./internalModels.js";
+import type { TableServiceClientOptions } from "../index.js";
 
 /**
  * Gets client parameters from an Account Connection String

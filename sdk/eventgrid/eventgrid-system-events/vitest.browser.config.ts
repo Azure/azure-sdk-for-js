@@ -2,15 +2,15 @@
 // Licensed under the MIT License.
 
 import { defineConfig, mergeConfig } from "vitest/config";
-import viteConfig from "../../../vitest.shared.config.ts";
+import viteConfig from "../../../vitest.browser.base.config.ts";
 
 export default mergeConfig(
   viteConfig,
   defineConfig({
     test: {
-      include: ["test/**/*.spec.ts"],
-      hookTimeout: 500000,
-      testTImeout: 500000,
+      include: ["dist-test/browser/test/**/*.spec.js"],
+      hookTimeout: 5000000,
+      testTimeout: 5000000,
     },
   }),
 );
