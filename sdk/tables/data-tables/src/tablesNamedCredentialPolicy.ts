@@ -7,9 +7,9 @@ import type {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { HeaderConstants } from "./utils/constants";
+import { HeaderConstants } from "./utils/constants.js";
 import type { NamedKeyCredential } from "@azure/core-auth";
-import { computeHMACSHA256 } from "./utils/computeHMACSHA256";
+import { computeHMACSHA256 } from "./utils/computeHMACSHA256.js";
 
 /**
  * The programmatic identifier of the tablesNamedKeyCredentialPolicy.

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getBaseTransactionHeaders } from "./baseTransactionHeaders";
+import { getBaseTransactionHeaders } from "./baseTransactionHeaders.js";
 
 /**
  * @internal
