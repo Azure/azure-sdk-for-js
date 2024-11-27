@@ -9,8 +9,6 @@ import { ClientOptions } from '@azure-rest/core-client';
 import { ErrorResponse } from '@azure-rest/core-client';
 import { HttpResponse } from '@azure-rest/core-client';
 import type { KeyCredential } from '@azure/core-auth';
-import { Paged } from '@azure/core-paging';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PathUncheckedResponse } from '@azure-rest/core-client';
 import { RawHttpHeaders } from '@azure/core-rest-pipeline';
 import { RawHttpHeadersInput } from '@azure/core-rest-pipeline';
@@ -19,9 +17,50 @@ import { StreamableMethod } from '@azure-rest/core-client';
 import type { TokenCredential } from '@azure/core-auth';
 
 // @public
+export type ActionBindings = ActionBindingsParent | WhatsAppListActionBindings | WhatsAppButtonActionBindings | WhatsAppUrlActionBindings;
+
+// @public
+export interface ActionBindingsParent {
+    // (undocumented)
+    actionBindingKind: MessageActionBindingKind;
+}
+
+// @public
+export interface ActionSet {
+    items: Array<ActionSetItem>;
+    title: string;
+}
+
+// @public
+export interface ActionSetContent extends MessageContentParent {
+    actionSet: Array<ActionSet>;
+    kind: "actionSet";
+    title: string;
+}
+
+// @public
+export interface ActionSetItem {
+    description: string;
+    id: string;
+    title: string;
+}
+
+// @public
 export interface AudioNotificationContent extends NotificationContentParent {
     kind: "audio";
     mediaUri: string;
+}
+
+// @public
+export interface ButtonContent {
+    id: string;
+    title: string;
+}
+
+// @public
+export interface ButtonSetContent extends MessageContentParent {
+    buttons: Array<ButtonContent>;
+    kind: "buttonSet";
 }
 
 // @public
@@ -36,6 +75,12 @@ function createClient(connectionString: string, options?: ClientOptions): Messag
 // @public
 function createClient(endpoint: string, credential: KeyCredential | TokenCredential, options?: ClientOptions): MessagesServiceClient;
 export default createClient;
+
+// @public
+export interface DocumentMessageContent extends MessageContentParent {
+    kind: "document";
+    mediaUri: string;
+}
 
 // @public
 export interface DocumentNotificationContent extends NotificationContentParent {
@@ -98,16 +143,36 @@ export interface GetMediaHeaders {
 export type GetMediaParameters = GetMediaHeaderParam & RequestParameters;
 
 // @public
-export type GetPage<TPage> = (pageLink: string, maxPageSize?: number) => Promise<{
+export type GetPage<TPage> = (pageLink: string) => Promise<{
     page: TPage;
     nextPageLink?: string;
 }>;
+
+// @public
+export interface ImageMessageContent extends MessageContentParent {
+    kind: "image";
+    mediaUri: string;
+}
 
 // @public
 export interface ImageNotificationContent extends NotificationContentParent {
     caption?: string;
     kind: "image";
     mediaUri: string;
+}
+
+// @public
+export interface InteractiveMessage {
+    actionBindings: ActionBindings;
+    body: TextMessageContent;
+    footer?: TextMessageContent;
+    header?: MessageContent;
+}
+
+// @public
+export interface InteractiveNotificationContent extends NotificationContentParent {
+    interactiveMessage: InteractiveMessage;
+    kind: "interactive";
 }
 
 // @public (undocumented)
@@ -184,6 +249,21 @@ export interface MediaNotificationContent extends NotificationContentParent {
     content?: string;
     kind: "image_v0";
     mediaUri: string;
+}
+
+// @public
+export type MessageActionBindingKind = string;
+
+// @public
+export type MessageContent = MessageContentParent | TextMessageContent | DocumentMessageContent | ImageMessageContent | VideoMessageContent | ButtonSetContent | UrlContent | ActionSetContent;
+
+// @public
+export type MessageContentKind = string;
+
+// @public
+export interface MessageContentParent {
+    // (undocumented)
+    kind: MessageContentKind;
 }
 
 // @public
@@ -297,7 +377,7 @@ export interface MessageTemplateVideo extends MessageTemplateValueParent {
 }
 
 // @public
-export type NotificationContent = NotificationContentParent | TextNotificationContent | MediaNotificationContent | ImageNotificationContent | DocumentNotificationContent | VideoNotificationContent | AudioNotificationContent | TemplateNotificationContent;
+export type NotificationContent = NotificationContentParent | TextNotificationContent | MediaNotificationContent | ImageNotificationContent | DocumentNotificationContent | VideoNotificationContent | AudioNotificationContent | ReactionNotificationContent | StickerNotificationContent | InteractiveNotificationContent | TemplateNotificationContent;
 
 // @public
 export interface NotificationContentParent {
@@ -308,7 +388,22 @@ export interface NotificationContentParent {
 }
 
 // @public
-export type PagedMessageTemplateItemOutput = Paged<MessageTemplateItemOutput>;
+export interface PagedAsyncIterableIterator<TElement, TPage = TElement[], TPageSettings = PageSettings> {
+    [Symbol.asyncIterator](): PagedAsyncIterableIterator<TElement, TPage, TPageSettings>;
+    byPage: (settings?: TPageSettings) => AsyncIterableIterator<TPage>;
+    next(): Promise<IteratorResult<TElement>>;
+}
+
+// @public
+export interface PagedMessageTemplateItemOutput {
+    nextLink?: string;
+    value: Array<MessageTemplateItemOutput>;
+}
+
+// @public
+export interface PageSettings {
+    continuationToken?: string;
+}
 
 // @public
 export function paginate<TResponse extends PathUncheckedResponse>(client: Client, initialResponse: TResponse, options?: PagingOptions<TResponse>): PagedAsyncIterableIterator<PaginateReturn<TResponse>>;
@@ -323,6 +418,13 @@ export type PaginateReturn<TResult> = TResult extends {
 // @public
 export interface PagingOptions<TResponse> {
     customGetPage?: GetPage<PaginateReturn<TResponse>[]>;
+}
+
+// @public
+export interface ReactionNotificationContent extends NotificationContentParent {
+    emoji: string;
+    kind: "reaction";
+    messageId: string;
 }
 
 // @public
@@ -398,9 +500,21 @@ export interface SendMessageResultOutput {
 export type SendParameters = SendHeaderParam & SendBodyParam & RequestParameters;
 
 // @public
+export interface StickerNotificationContent extends NotificationContentParent {
+    kind: "sticker";
+    mediaUri: string;
+}
+
+// @public
 export interface TemplateNotificationContent extends NotificationContentParent {
     kind: "template";
     template: MessageTemplate;
+}
+
+// @public
+export interface TextMessageContent extends MessageContentParent {
+    kind: "text";
+    text: string;
 }
 
 // @public
@@ -410,10 +524,35 @@ export interface TextNotificationContent extends NotificationContentParent {
 }
 
 // @public
+export interface UrlContent extends MessageContentParent {
+    kind: "url";
+    title: string;
+    url: string;
+}
+
+// @public
+export interface VideoMessageContent extends MessageContentParent {
+    kind: "video";
+    mediaUri: string;
+}
+
+// @public
 export interface VideoNotificationContent extends NotificationContentParent {
     caption?: string;
     kind: "video";
     mediaUri: string;
+}
+
+// @public
+export interface WhatsAppButtonActionBindings extends ActionBindingsParent {
+    action: ButtonSetContent;
+    actionBindingKind: "whatsAppButtonAction";
+}
+
+// @public
+export interface WhatsAppListActionBindings extends ActionBindingsParent {
+    action: ActionSetContent;
+    actionBindingKind: "whatsAppListAction";
 }
 
 // @public
@@ -443,6 +582,12 @@ export interface WhatsAppMessageTemplateBindingsComponent {
 export interface WhatsAppMessageTemplateItemOutput extends MessageTemplateItemOutputParent {
     content?: any;
     kind: "whatsApp";
+}
+
+// @public
+export interface WhatsAppUrlActionBindings extends ActionBindingsParent {
+    action: UrlContent;
+    actionBindingKind: "whatsAppUrlAction";
 }
 
 // (No @packageDocumentation comment for this package)

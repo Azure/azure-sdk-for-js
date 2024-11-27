@@ -68,6 +68,165 @@ export interface AudioNotificationContent extends NotificationContentParent {
   mediaUri: string;
 }
 
+/** A request to send a Reaction notification. */
+export interface ReactionNotificationContent extends NotificationContentParent {
+  /** Message notification type is reaction. */
+  kind: "reaction";
+  /** emoji content like \uD83D\uDE00. */
+  emoji: string;
+  /** ID of the previous message you want to reply to. */
+  messageId: string;
+}
+
+/** A request to send a Sticker notification. */
+export interface StickerNotificationContent extends NotificationContentParent {
+  /** Message notification type is sticker. */
+  kind: "sticker";
+  /** A media url for the file. Required if the type is one of the supported media types, e.g. image */
+  mediaUri: string;
+}
+
+/** A request to send an Interactive message notification. */
+export interface InteractiveNotificationContent
+  extends NotificationContentParent {
+  /** Message notification type is Interactive. */
+  kind: "interactive";
+  /** The interactive message content. */
+  interactiveMessage: InteractiveMessage;
+}
+
+/** The Interactive message content to which user can read and respond. */
+export interface InteractiveMessage {
+  /** Gets or Sets Header content. Supports the following types:text, images etc. */
+  header?: MessageContent;
+  /** Gets or Sets Message body content. Emojis, markdown, and links are supported. */
+  body: TextMessageContent;
+  /** Gets or Sets Message footer content. Emojis, markdown, and links are supported. */
+  footer?: TextMessageContent;
+  /** The binding object to get or set Action which describes options user have to respond to message. */
+  actionBindings: ActionBindings;
+}
+
+/** The message content object used to create interactive messages components. */
+export interface MessageContentParent {
+  kind: MessageContentKind;
+}
+
+/** The message content of type text information. */
+export interface TextMessageContent extends MessageContentParent {
+  /** Message content kind is text. */
+  kind: "text";
+  /** The text value. */
+  text: string;
+}
+
+/** The message content of type document information. */
+export interface DocumentMessageContent extends MessageContentParent {
+  /** Message content kind is document. */
+  kind: "document";
+  /** MediaUri of the media content. */
+  mediaUri: string;
+}
+
+/** The message content of type image information. */
+export interface ImageMessageContent extends MessageContentParent {
+  /** Message content kind is image. */
+  kind: "image";
+  /** MediaUri of the media content. */
+  mediaUri: string;
+}
+
+/** The message content of type video information. */
+export interface VideoMessageContent extends MessageContentParent {
+  /** Message content kind is video. */
+  kind: "video";
+  /** MediaUri of the media content. */
+  mediaUri: string;
+}
+
+/** The message content of type ButtonSet/ List of buttons information. */
+export interface ButtonSetContent extends MessageContentParent {
+  /** Message content kind is Button. */
+  kind: "buttonSet";
+  /** Unique Id of the button content. */
+  buttons: Array<ButtonContent>;
+}
+
+/** The message content of type Button information. */
+export interface ButtonContent {
+  /** Unique Id of the button content. */
+  id: string;
+  /** Title of the button content. */
+  title: string;
+}
+
+/** The message content of type Url information. */
+export interface UrlContent extends MessageContentParent {
+  /** Message content kind is url. */
+  kind: "url";
+  /** Title of the url content. */
+  title: string;
+  /** The url in the content. */
+  url: string;
+}
+
+/** The action content of type ActionSet. */
+export interface ActionSetContent extends MessageContentParent {
+  /** Message content kind is actionSet. */
+  kind: "actionSet";
+  /** Title of the actionSet content. */
+  title: string;
+  /** Set or group of actions. */
+  actionSet: Array<ActionSet>;
+}
+
+/** The Action Set content. */
+export interface ActionSet {
+  /** Title of the ActionSet. */
+  title: string;
+  /** Array of items in ActionSet. */
+  items: Array<ActionSetItem>;
+}
+
+/** The Action set item in the content. */
+export interface ActionSetItem {
+  /** Id of the Item. */
+  id: string;
+  /** Title of the Item. */
+  title: string;
+  /** Description of the Item. */
+  description: string;
+}
+
+/** Binding actions to the interactive message. */
+export interface ActionBindingsParent {
+  actionBindingKind: MessageActionBindingKind;
+}
+
+/** WhatsApp List Binding actions to the interactive message. */
+export interface WhatsAppListActionBindings extends ActionBindingsParent {
+  /** Message action binding type is WhatsAppListAction. */
+  actionBindingKind: "whatsAppListAction";
+  /** Action content of Interactive message. */
+  action: ActionSetContent;
+}
+
+/** WhatsApp Binding actions to the interactive message. */
+export interface WhatsAppButtonActionBindings extends ActionBindingsParent {
+  /** Message action binding type is WhatsAppButtonAction. */
+  actionBindingKind: "whatsAppButtonAction";
+  /** Action content of Button based Interactive message. */
+  action: ButtonSetContent;
+}
+
+/** WhatsApp Binding actions to the interactive message. */
+export interface WhatsAppUrlActionBindings extends ActionBindingsParent {
+  /** Message action binding type is WhatsAppUrlAction. */
+  actionBindingKind: "whatsAppUrlAction";
+  /** Action content of Quick action Interactive message. */
+  action: UrlContent;
+}
+
 /** A request to send a template notification. */
 export interface TemplateNotificationContent extends NotificationContentParent {
   /** Message notification type is template. */
@@ -210,7 +369,26 @@ export type NotificationContent =
   | DocumentNotificationContent
   | VideoNotificationContent
   | AudioNotificationContent
+  | ReactionNotificationContent
+  | StickerNotificationContent
+  | InteractiveNotificationContent
   | TemplateNotificationContent;
+/** The message content object used to create interactive messages components. */
+export type MessageContent =
+  | MessageContentParent
+  | TextMessageContent
+  | DocumentMessageContent
+  | ImageMessageContent
+  | VideoMessageContent
+  | ButtonSetContent
+  | UrlContent
+  | ActionSetContent;
+/** Binding actions to the interactive message. */
+export type ActionBindings =
+  | ActionBindingsParent
+  | WhatsAppListActionBindings
+  | WhatsAppButtonActionBindings
+  | WhatsAppUrlActionBindings;
 /** The class describes a parameter of a template. */
 export type MessageTemplateValue =
   | MessageTemplateValueParent
@@ -226,6 +404,10 @@ export type MessageTemplateBindings =
   | WhatsAppMessageTemplateBindings;
 /** Alias for CommunicationMessageKind */
 export type CommunicationMessageKind = string;
+/** Alias for MessageContentKind */
+export type MessageContentKind = string;
+/** Alias for MessageActionBindingKind */
+export type MessageActionBindingKind = string;
 /** Alias for MessageTemplateValueKind */
 export type MessageTemplateValueKind = string;
 /** Alias for MessageTemplateBindingsKind */
