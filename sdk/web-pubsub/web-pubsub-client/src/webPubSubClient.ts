@@ -37,7 +37,6 @@ import {
   AckMessage,
   SequenceAckMessage,
   PingMessage,
-  PongMessage,
 } from "./models/messages";
 import { WebPubSubClientProtocol, WebPubSubJsonReliableProtocol } from "./protocols";
 import { WebPubSubClientCredential } from "./webPubSubClientCredential";
@@ -71,23 +70,18 @@ export class WebPubSubClient {
   private readonly _messageRetryPolicy: RetryPolicy;
   private readonly _reconnectRetryPolicy: RetryPolicy;
   private readonly _quickSequenceAckDiff = 300;
-  // The maximum allowed time gap between the last sending ping message and the current received pong message
-  private readonly _maxAllowedPingPongTimeGapInMs = 1000;
+  // The timeout for keep alive
+  private readonly _keepAliveTimeoutInMs = 60000;
   // The interval at which to send ping messages to the runtime
-  private readonly _pingIntervalInMs = 5000;
-  // The interval at which to verify the time gap between the last sending ping message and the current received pong message
-  private readonly _verifyPingPongTimeGapIntervalInMs = 1000;
+  private readonly _pingIntervalInMs = 20000;
 
   private readonly _emitter: EventEmitter = new EventEmitter();
   private _state: WebPubSubClientState;
   private _isStopping: boolean = false;
   private _ackId: number;
-  // The timestamp of the last sending ping message (Unix timestamp in ms)
-  private _lastPingTimestampInMs = 0;
+  private _pingTimeout?: NodeJS.Timeout | null;
   // The task of sending ping message
   private _sendPingTask: AbortableTask | undefined;
-  // The task of verifying the time gap between the last sending ping message and the current received pong message
-  private _verifyPingPongTimeGapTask: AbortableTask | undefined;
 
   // connection lifetime
   private _wsClient?: WebSocketClientLike;
@@ -162,9 +156,6 @@ export class WebPubSubClient {
     if (!this._sendPingTask) {
       this._sendPingTask = this._getSendPingTask();
     }
-    if (!this._verifyPingPongTimeGapTask) {
-      this._verifyPingPongTimeGapTask = this._getVerifyPingPongTimeGapTask();
-    }
 
     try {
       await this._startCore(abortSignal);
@@ -174,10 +165,6 @@ export class WebPubSubClient {
       if (this._sendPingTask) {
         this._sendPingTask.abort();
         this._sendPingTask = undefined;
-      }
-      if (this._verifyPingPongTimeGapTask) {
-        this._verifyPingPongTimeGapTask.abort();
-        this._verifyPingPongTimeGapTask = undefined;
       }
       this._isStopping = false;
       throw err;
@@ -245,10 +232,6 @@ export class WebPubSubClient {
     if (this._sendPingTask) {
       this._sendPingTask.abort();
       this._sendPingTask = undefined;
-    }
-    if (this._verifyPingPongTimeGapTask) {
-      this._verifyPingPongTimeGapTask.abort();
-      this._verifyPingPongTimeGapTask = undefined;
     }
   }
 
@@ -579,9 +562,9 @@ export class WebPubSubClient {
   }
 
   private async _trySendPing(): Promise<void> {
-    // If the last ping timestamp is not 0, it means that the last ping message is still waiting for a pong message.
+    // If the ping timeout is not null, it means that the last ping message is still waiting for a pong response message
     // So we don't need to send a new ping message.
-    if (this._lastPingTimestampInMs != 0) {
+    if (this._pingTimeout != null) {
       return;
     }
     const message: PingMessage = {
@@ -589,27 +572,14 @@ export class WebPubSubClient {
     };
     try {
       await this._sendMessage(message);
-      this._lastPingTimestampInMs = Date.now();
+      this._pingTimeout = setTimeout(() => {
+        logger.warning(`No pong message received for a long time. The connection is closed.`);
+        this._wsClient?.close();
+      }, this._keepAliveTimeoutInMs);
     } catch {
-      this._lastPingTimestampInMs = 0;
+      this._pingTimeout = null;
       logger.warning("Failed to send ping message to the runtime");
     }
-  }
-
-  private _verifyPingPongTimeGap(): void {
-    if (this._lastPingTimestampInMs === 0) {
-      return;
-    }
-
-    const timeDifference = Date.now() - this._lastPingTimestampInMs;
-
-    if (timeDifference > this._maxAllowedPingPongTimeGapInMs) {
-      logger.warning(`Large time gap detected between ping and pong messages. Time difference: ${timeDifference}ms`);
-      // TODO: (duong) By right we should call client.onclose() here.
-      // this._handleConnectionClose();
-    }
-
-    this._lastPingTimestampInMs = 0;
   }
 
   private _connectCore(uri: string): Promise<void> {
@@ -761,8 +731,11 @@ export class WebPubSubClient {
           this._safeEmitServerMessage(message);
         };
 
-        const handlePongMessage = (message: PongMessage): void => {
-            this._verifyPingPongTimeGap();
+        const handlePongMessage = (): void => {
+          if (this._pingTimeout) {
+            clearTimeout(this._pingTimeout); // Clear the timeout if ping is received within the allowed time
+            this._pingTimeout = null;
+          }
         };
 
         let messages: WebPubSubMessage[] | WebPubSubMessage | null;
@@ -792,7 +765,7 @@ export class WebPubSubClient {
           try {
             switch (message.kind) {
               case "pong": {
-                handlePongMessage(message as PongMessage);
+                handlePongMessage();
                 break;
               }
               case "ack": {
@@ -882,12 +855,6 @@ export class WebPubSubClient {
     return new AbortableTask(async () => {
       this._trySendPing();
     }, this._pingIntervalInMs);
-  }
-
-  private _getVerifyPingPongTimeGapTask(): AbortableTask {
-    return new AbortableTask(async () => {
-      this._verifyPingPongTimeGap();
-    }, this._verifyPingPongTimeGapIntervalInMs);
   }
 
   private async _sendMessage(
