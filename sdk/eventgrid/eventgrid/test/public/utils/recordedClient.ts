@@ -6,8 +6,8 @@ import type { Test } from "mocha";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 
-import type { InputSchema } from "../../../src";
-import { EventGridPublisherClient } from "../../../src";
+import type { InputSchema } from "../../../src/index.js";
+import { EventGridPublisherClient } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { AdditionalPolicyConfig } from "@azure/core-client";
 import type { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";

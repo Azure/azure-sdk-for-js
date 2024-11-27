@@ -6,17 +6,17 @@ import type { Suite, Context } from "mocha";
 
 import type { Recorder } from "@azure-tools/test-recorder";
 
-import { createRecordedClient } from "./utils/recordedClient";
+import { createRecordedClient } from "./utils/recordedClient.js";
 
-import type { EventGridPublisherClient } from "../../src";
+import type { EventGridPublisherClient } from "../../src/index.js";
 
 import type { RestError } from "@azure/core-rest-pipeline";
 import type { AdditionalPolicyConfig } from "@azure/core-client";
-import { getRandomNumber } from "./utils/testUtils";
+import { getRandomNumber } from "./utils/testUtils.js";
 import {
   TraceParentHeaderName,
   TraceStateHeaderName,
-} from "../../src/cloudEventDistrubtedTracingEnricherPolicy";
+} from "../../src/cloudEventDistrubtedTracingEnricherPolicy.js";
 
 describe("EventGridPublisherClient", function (this: Suite) {
   let recorder: Recorder;
@@ -26,7 +26,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
   describe("#send (EventGrid schema)", function () {
     let client: EventGridPublisherClient<"EventGrid">;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       ({ client, recorder } = await createRecordedClient(
         this.currentTest,
         "EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT",
@@ -96,7 +96,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
   describe("#send error cases (EventGrid schema)", function () {
     let client: EventGridPublisherClient<"EventGrid">;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       ({ client, recorder } = await createRecordedClient(
         this.currentTest,
         "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
@@ -140,7 +140,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
   describe("#send (CloudEvent schema)", function () {
     let client: EventGridPublisherClient<"CloudEvent">;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       ({ client, recorder } = await createRecordedClient(
         this.currentTest,
         "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
@@ -210,7 +210,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
       const traceparentValue = "00-00000000000000000000000000000001-0000000000000003-00";
       const tracestateValue = "00-123";
 
-      beforeEach(async function (this: Context) {
+      beforeEach(async function (ctx) {
         const setHeadersPolicy: AdditionalPolicyConfig = {
           policy: {
             name: "foo",
@@ -234,7 +234,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
         await recorder.setMatcher("HeaderlessMatcher");
       });
 
-      it("enriches events with distributed tracing information", async function (this: Context) {
+      it("enriches events with distributed tracing information", async function (ctx) {
         let requestBody: string | undefined;
 
         await assert.supportsTracing(
@@ -275,7 +275,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
   describe("#send error cases (CloudEvent schema)", function () {
     let client: EventGridPublisherClient<"CloudEvent">;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       ({ client, recorder } = await createRecordedClient(
         this.currentTest,
         "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
@@ -317,7 +317,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
   describe("#send (Custom Event Schema)", function () {
     let client: EventGridPublisherClient<"Custom">;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       ({ client, recorder } = await createRecordedClient(
         this.currentTest,
         "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
@@ -381,7 +381,7 @@ describe("EventGridPublisherClient", function (this: Suite) {
   describe("#send error cases (Custom Event Schema)", function () {
     let client: EventGridPublisherClient<"Custom">;
 
-    beforeEach(async function (this: Context) {
+    beforeEach(async function (ctx) {
       ({ client, recorder } = await createRecordedClient(
         this.currentTest,
         "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",

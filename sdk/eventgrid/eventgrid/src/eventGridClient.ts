@@ -5,18 +5,18 @@ import type { KeyCredential, SASCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { OperationOptions, CommonClientOptions } from "@azure/core-client";
 
-import { eventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
-import { DEFAULT_EVENTGRID_SCOPE } from "./constants";
-import type { SendCloudEventInput, SendEventGridEventInput } from "./models";
-import { cloudEventReservedPropertyNames } from "./models";
-import { GeneratedClient } from "./generated/generatedClient";
+import { eventGridCredentialPolicy } from "./eventGridAuthenticationPolicy.js";
+import { DEFAULT_EVENTGRID_SCOPE } from "./constants.js";
+import type { SendCloudEventInput, SendEventGridEventInput } from "./models.js";
+import { cloudEventReservedPropertyNames } from "./models.js";
+import { GeneratedClient } from "./generated/generatedClient.js";
 import type {
   CloudEvent as CloudEventWireModel,
   EventGridEvent as EventGridEventWireModel,
   GeneratedClientPublishCloudEventEventsOptionalParams,
-} from "./generated/models";
-import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
-import { tracingClient } from "./tracing";
+} from "./generated/models/index.js";
+import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy.js";
+import { tracingClient } from "./tracing.js";
 import { v4 as uuidv4 } from "uuid";
 import type { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy, tracingPolicyName } from "@azure/core-rest-pipeline";

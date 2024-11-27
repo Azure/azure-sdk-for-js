@@ -4,7 +4,7 @@
 /// <reference lib="dom"/>
 
 import { assert } from "chai";
-import { AzureKeyCredential, generateSharedAccessSignature } from "../../src";
+import { AzureKeyCredential, generateSharedAccessSignature } from "../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
 
 describe("generateSharedAccessSignature", function () {

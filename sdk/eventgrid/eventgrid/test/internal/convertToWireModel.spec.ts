@@ -5,7 +5,7 @@ import { assert } from "chai";
 import {
   convertEventGridEventToModelType,
   convertCloudEventToModelType,
-} from "../../src/eventGridClient";
+} from "../../src/eventGridClient.js";
 
 describe("convertEventGridEventToModelType", function () {
   it("sets a default ID if one is not provided", () => {
