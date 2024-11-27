@@ -351,7 +351,7 @@ function getAgents(context: Client): AgentsOperations {
       updateMessage(context, threadId, messageId, { ...requestParams, body: { ...options } }),
 
     listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) =>
-      listFiles(context, { ...requestParams, body: { purpose } }),
+      listFiles(context, { ...requestParams, queryParameters: { purpose: purpose } }),
     uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) =>
       uploadFile(context, {
         body: [{ name: "file" as const, body: content, filename: fileName }, { name: "purpose" as const, body: purpose }],

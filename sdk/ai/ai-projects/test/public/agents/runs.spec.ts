@@ -41,9 +41,9 @@ describe("Agents - Run", () => {
     console.log(`Created Run, Run ID:  ${run.id}`);
 
     // Delete agent and thread
-    agents.deleteAgent(agent.id);
+    await agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID:  ${agent.id}`);
-    agents.deleteThread(thread.id);
+    await agents.deleteThread(thread.id);
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   })
 
@@ -74,9 +74,9 @@ describe("Agents - Run", () => {
     console.log(`Retrieved run, Run ID:  ${runDetails.id}`);
 
     // Delete agent and thread
-    agents.deleteAgent(agent.id);
+    await agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID:  ${agent.id}`);
-    agents.deleteThread(thread.id);
+    await agents.deleteThread(thread.id);
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   })
 
@@ -131,9 +131,9 @@ describe("Agents - Run", () => {
     console.log(`Run status - ${runDetails.status}, run ID: ${runDetails.id}`);
 
     // Delete agent and thread
-    agents.deleteAgent(agent.id);
+    await agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID:  ${agent.id}`);
-    agents.deleteThread(thread.id);
+    await agents.deleteThread(thread.id);
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   });
 
