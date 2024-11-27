@@ -20565,7 +20565,7 @@ packages:
     dev: false
 
   file:projects/eventgrid-system-events.tgz:
-    resolution: {integrity: sha512-haJJ2VDY0d5TDTBBZ2HVAdgnTf00rAiAAmlruY4BUsuXaX2JCY3wBvPGY9gEyVnnE2612g0txYCcSPltiGz1aw==, tarball: file:projects/eventgrid-system-events.tgz}
+    resolution: {integrity: sha512-J9WSaHbb572Gh+WpNvDx5NF+NAaY9HTSAOWuBNfzplXZG1h5e7wilvy86TqheypQqdxhsau7IhbsRHEOEeFAPA==, tarball: file:projects/eventgrid-system-events.tgz}
     name: '@rush-temp/eventgrid-system-events'
     version: 0.0.0
     dependencies:
@@ -20628,7 +20628,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-/TNBsgSdupaAAeAhkkutA9OWjS+w5lX5OBmIiHqeEMfaH1j4ZZ2TeykFw9KFRFVA6fsaNxWCJeJ1fRvz2ovkYQ==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-lEVmH829YPH2tBtjHpzR427SM3QuZnyTRP4kE5W46/1bi4mqZdIQjqqS15QQktmrFF34R/fLzBv9mhmUszQ/Cg==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -20640,6 +20640,8 @@ packages:
       '@types/node': 18.19.66
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.6(@types/node@18.19.66)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.6)
+      '@vitest/coverage-istanbul': 2.1.6(vitest@2.1.6)
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
@@ -20655,18 +20657,35 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       sinon: 17.0.1
       source-map-support: 0.5.21
       tslib: 2.8.1
       tsx: 4.19.2
       typescript: 5.6.3
       uuid: 8.3.2
+      vitest: 2.1.6(@types/node@18.19.66)(@vitest/browser@2.1.6)(tsx@4.19.2)
     transitivePeerDependencies:
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
     dev: false
 
   file:projects/eventhubs-checkpointstore-blob.tgz(chai@4.3.10):

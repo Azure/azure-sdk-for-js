@@ -6,7 +6,7 @@ import {
 } from "../../src/eventGridClient.js";
 import { describe, it, assert } from "vitest";
 
-describe("convertEventGridEventToModelType", function () {
+describe("convertEventGridEventToModelType", () => {
   it("sets a default ID if one is not provided", () => {
     const convertedEvent = convertEventGridEventToModelType({
       dataVersion: "1.0",
@@ -47,7 +47,7 @@ describe("convertEventGridEventToModelType", function () {
   });
 });
 
-describe("convertCloudEventToModelType", function () {
+describe("convertCloudEventToModelType", () => {
   it("sets a default ID if one is not provided", () => {
     const convertedEvent = convertCloudEventToModelType({
       source: "/azure/sdk/tests",

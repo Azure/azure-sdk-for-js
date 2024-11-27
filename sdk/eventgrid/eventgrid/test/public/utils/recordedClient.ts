@@ -1,13 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { RecorderStartOptions } from "@azure-tools/test-recorder";
-import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 
+import type {
+  FindReplaceSanitizer,
+  RecorderStartOptions,
+  TestInfo,
+} from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable, Recorder } from "@azure-tools/test-recorder";
 import type { InputSchema } from "../../../src/index.js";
 import { EventGridPublisherClient } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 import type { AdditionalPolicyConfig } from "@azure/core-client";
-import type { FindReplaceSanitizer } from "@azure-tools/test-recorder/types/src/utils/utils";
 
 export interface RecordedClient<T extends InputSchema> {
   client: EventGridPublisherClient<T>;
@@ -40,7 +43,7 @@ export const recorderOptions: RecorderStartOptions = {
 };
 
 export async function createRecordedClient<T extends InputSchema>(
-  currentTest: Test | undefined,
+  currentTest: TestInfo | undefined,
   endpointEnv: string,
   eventSchema: T,
   options: {
