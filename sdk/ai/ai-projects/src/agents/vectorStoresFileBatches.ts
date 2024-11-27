@@ -68,13 +68,12 @@ export async function listVectorStoreFileBatchFiles(
 }
 
 /** Create a vector store file batch and poll. */
-export async function createVectorStoreFileBatchAndPoll(
+export function createVectorStoreFileBatchAndPoll(
   context: Client,
   vectorStoreId: string,
   options?: CreateVectorStoreFileBatchParameters,
   sleepIntervalInMs?: number,
-  timeoutInMs?: number,
-): Promise<VectorStoreFileBatchOutput> {
+): { result: Promise<VectorStoreFileBatchOutput>, cancel: () => void; } {
    async function updateCreateVectorStoreFileBatchPoll(
     currentResult?: VectorStoreFileBatchOutput
   ): Promise<{ result: VectorStoreFileBatchOutput; completed: boolean }> {
@@ -91,20 +90,5 @@ export async function createVectorStoreFileBatchAndPoll(
   }
 
   const poller = new AgentsPoller<VectorStoreFileBatchOutput>(updateCreateVectorStoreFileBatchPoll, sleepIntervalInMs);
-
-  if (timeoutInMs) {
-    const timeoutPromise = new Promise<never>((_resolve, reject) => 
-      setTimeout(() => {
-        poller.stopPolling();
-        reject(new Error("Polling operation exceeded timeout"));
-      }, timeoutInMs)
-    );
-    return Promise.race([poller.pollUntilDone(), timeoutPromise]);
-  }
-
-  const result = poller.getOperationState().result;
-  if (!result) {
-    throw new Error("Polling operation exceeded timeout");
-  }
-  return result;
+  return { result: poller.pollUntilDone(), cancel: () => poller.stopPolling() };
 }

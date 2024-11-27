@@ -107,11 +107,20 @@ export interface AgentsOperations {
     createThreadAndRun: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
     createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
     createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
-    createVectorStoreAndPoll: (vectorStoreOptions?: VectorStoreOptions, sleepIntervalInMs?: number, timeoutInMs?: number, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
+    createVectorStoreAndPoll: (vectorStoreOptions?: VectorStoreOptions, sleepIntervalInMs?: number, requestParams?: OptionalRequestParameters) => {
+        result: Promise<VectorStoreOutput>;
+        cancel: () => void;
+    };
     createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
-    createVectorStoreFileAndPoll: (vectorStoreId: string, vectorStoreFileOptions?: CreateVectorStoreFileOptions, sleepIntervalInMs?: number, timeoutInMs?: number, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
+    createVectorStoreFileAndPoll: (vectorStoreId: string, vectorStoreFileOptions?: CreateVectorStoreFileOptions, sleepIntervalInMs?: number, requestParams?: OptionalRequestParameters) => {
+        result: Promise<VectorStoreFileOutput>;
+        cancel: () => void;
+    };
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
-    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, vectorStoreFileBatchOptions: CreateVectorStoreFileBatchOptions, sleepIntervalInMs?: number, timeoutInMs?: number, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
+    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, vectorStoreFileBatchOptions: CreateVectorStoreFileBatchOptions, sleepIntervalInMs?: number, requestParams?: OptionalRequestParameters) => {
+        result: Promise<VectorStoreFileBatchOutput>;
+        cancel: () => void;
+    };
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
     deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadDeletionStatusOutput>;

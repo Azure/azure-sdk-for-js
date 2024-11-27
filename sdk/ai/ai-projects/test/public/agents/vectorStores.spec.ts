@@ -97,7 +97,8 @@ describe("Agents - vector stores", () => {
 
   it("should create vector store and poll", async function () {
   // Create vector store
-  const vectorStore = await agents.createVectorStoreAndPoll();
+  const { result } = agents.createVectorStoreAndPoll();
+  const vectorStore = await result;
   assert.isNotNull(vectorStore);
   assert.notEqual(vectorStore.status, "in_progress");
   console.log(`Created vector store with status ${vectorStore.status}, vector store ID: ${vectorStore.id}`);

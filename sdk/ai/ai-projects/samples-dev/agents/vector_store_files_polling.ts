@@ -13,7 +13,7 @@ export async function main(): Promise<void> {
     const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
     // Create vector store
-    const vectorStore = await client.agents.createVectorStoreAndPoll();
+    const vectorStore = await client.agents.createVectorStore();
     console.log(`Created vector store, vector store ID: ${vectorStore.id}`);
 
     // Create and upload file
@@ -27,8 +27,8 @@ export async function main(): Promise<void> {
     // Create vector store file
     const vectorStoreFileOptions = { fileId: file.id };
     const sleepIntervalInMs = 2000;
-    const timeoutInMs = 20000;
-    const vectorStoreFile = await client.agents.createVectorStoreFileAndPoll(vectorStore.id, vectorStoreFileOptions, sleepIntervalInMs, timeoutInMs); 
+    const { result } = client.agents.createVectorStoreFileAndPoll(vectorStore.id, vectorStoreFileOptions, sleepIntervalInMs);
+    const vectorStoreFile = await result;
     console.log(`Created vector store file with status ${vectorStoreFile}, vector store file ID: ${vectorStoreFile.id}`);
 
     // Delete file

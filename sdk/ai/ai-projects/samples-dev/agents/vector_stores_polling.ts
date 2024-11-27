@@ -15,8 +15,8 @@ export async function main(): Promise<void> {
     // Create a vector store
     const vectorStoreOptions = { name: "my-vector-store" };
     const sleepIntervalInMs = 2000;
-    const timeoutInMs = 20000;
-    const vectorStore = await client.agents.createVectorStoreAndPoll(vectorStoreOptions, sleepIntervalInMs, timeoutInMs);
+    const { result } = client.agents.createVectorStoreAndPoll(vectorStoreOptions, sleepIntervalInMs);
+    const vectorStore = await result;
     console.log(`Created vector store with status ${vectorStore.status}, ID: ${vectorStore.id}`);
 
     // Get a specific vector store

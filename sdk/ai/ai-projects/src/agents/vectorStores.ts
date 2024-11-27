@@ -86,12 +86,11 @@ export async function deleteVectorStore(
 /**
  * Creates a vector store and poll.
  */
-export async function createVectorStoreAndPoll(
+export function createVectorStoreAndPoll(
   context: Client,
   options?: CreateVectorStoreParameters,
-  sleepIntervalInMs?: number,
-  timeoutInMs: number = 10000,
-): Promise<VectorStoreOutput> {
+  sleepIntervalInMs?: number
+): { result: Promise<VectorStoreOutput>; cancel: () => void; } {
   async function updateCreateVectorStorePoll(
     currentResult?: VectorStoreOutput
   ): Promise<{ result: VectorStoreOutput; completed: boolean }> {
@@ -108,20 +107,5 @@ export async function createVectorStoreAndPoll(
   }
 
   const poller = new AgentsPoller<VectorStoreOutput>(updateCreateVectorStorePoll, sleepIntervalInMs);
-
-  if (timeoutInMs) {
-    const timeoutPromise = new Promise<never>((_resolve, reject) => 
-      setTimeout(() => {
-        poller.stopPolling();
-        reject(new Error("Polling operation exceeded timeout"));
-      }, timeoutInMs)
-    );
-    return Promise.race([poller.pollUntilDone(), timeoutPromise]);
-  }
-
-  const result = poller.getOperationState().result;
-  if (!result) {
-    throw new Error("Polling operation exceeded timeout");
-  }
-  return result;
+  return { result: poller.pollUntilDone(), cancel: () => poller.stopPolling() };
 }

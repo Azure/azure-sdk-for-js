@@ -162,26 +162,17 @@ describe("Agents - vector stores files", () => {
     const file = await agents.uploadFile(fileContent, "assistants", "filename.txt");
     console.log(`Uploaded file, file ID: ${file.id}`);
 
-    try {
-      // Create vector store file and poll
-      const vectorStoreFile = await agents.createVectorStoreFileAndPoll(vectorStore.id, {fileId: file.id});
-      assert.isNotNull(vectorStoreFile);
-      assert.isNotEmpty(vectorStoreFile.id);
-      assert.notEqual(vectorStoreFile.status, "in_progress");
-      console.log(`Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`);
-
-      // Clean up
-      await agents.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
-    console.log(`Deleted vector store file, vector store file ID: ${vectorStoreFile.id}`);
-    } catch (error) {
-      if (error instanceof Error) {
-        assert.equal(error.message, "Polling operation exceeded timeout");
-      } else {
-        throw error;
-      }
-    }
+    // Create vector store file and poll
+    const { result } = agents.createVectorStoreFileAndPoll(vectorStore.id, {fileId: file.id});
+    const vectorStoreFile = await result;
+    assert.isNotNull(vectorStoreFile);
+    assert.isNotEmpty(vectorStoreFile.id);
+    assert.notEqual(vectorStoreFile.status, "in_progress");
+    console.log(`Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`);
 
     // Clean up
+    await agents.deleteVectorStoreFile(vectorStore.id, vectorStoreFile.id);
+    console.log(`Deleted vector store file, vector store file ID: ${vectorStoreFile.id}`);
     await agents.deleteFile(file.id)
     console.log(`Deleted file, file ID: ${file.id}`);
     await agents.deleteVectorStore(vectorStore.id);

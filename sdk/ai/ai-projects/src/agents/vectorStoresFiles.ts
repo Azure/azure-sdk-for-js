@@ -70,13 +70,12 @@ export async function deleteVectorStoreFile(
 }
 
 /** Create a vector store file by attaching a file to a vector store and poll. */
-export async function createVectorStoreFileAndPoll(
+export function createVectorStoreFileAndPoll(
   context: Client,
   vectorStoreId: string,
   options?: CreateVectorStoreFileParameters,
   sleepIntervalInMs?: number,
-  timeoutInMs: number = 10000,
-): Promise<VectorStoreFileOutput> {
+): { result: Promise<VectorStoreFileOutput>, cancel: () => void; } {
   async function updateCreateVectorStoreFilePoll(
     currentResult?: VectorStoreFileOutput
   ): Promise<{ result: VectorStoreFileOutput; completed: boolean }> {
@@ -93,20 +92,5 @@ export async function createVectorStoreFileAndPoll(
   }
 
   const poller = new AgentsPoller<VectorStoreFileOutput>(updateCreateVectorStoreFilePoll, sleepIntervalInMs);
-
-  if (timeoutInMs) {
-    const timeoutPromise = new Promise<never>((_resolve, reject) => 
-      setTimeout(() => {
-        poller.stopPolling();
-        reject(new Error("Polling operation exceeded timeout"));
-      }, timeoutInMs)
-    );
-    return Promise.race([poller.pollUntilDone(), timeoutPromise]);
-  }
-
-  const result = poller.getOperationState().result;
-  if (!result) {
-    throw new Error("Polling operation exceeded timeout");
-  }
-  return result;
+  return { result: poller.pollUntilDone(), cancel: () => poller.stopPolling() };
 }
