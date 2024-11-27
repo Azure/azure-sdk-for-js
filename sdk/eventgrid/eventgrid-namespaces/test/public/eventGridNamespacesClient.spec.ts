@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { Suite, Context } from "mocha";
-import { assert } from "@azure-tools/test-utils";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 import type {
@@ -16,6 +14,8 @@ import { EventGridDeserializer } from "../../src/index.js";
 import { createRecordedClient } from "./utils/recordedClient.js";
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "node:buffer";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+
 /* eslint no-constant-condition: "off" */
 async function clearMessages(receiverClient: EventGridReceiverClient): Promise<void> {
   // Clear any messages that may be available in the topic.
