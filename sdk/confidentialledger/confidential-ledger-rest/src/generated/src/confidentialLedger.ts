@@ -28,7 +28,7 @@ export default function createClient(
     }
   };
 
-  const userAgentInfo = `azsdk-js-confidential-ledger-rest/1.0.1`;
+  const userAgentInfo = `azsdk-js-confidential-ledger-rest/1.0.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
