@@ -7,7 +7,7 @@
  * @internal
  */
 export async function sha256Hmac(secret: string, stringToSign: string): Promise<string> {
-  const key = await self.crypto.subtle.importKey(
+  const key = await globalThis.crypto.subtle.importKey(
     "raw",
     Uint8Array.from(atob(secret), (c) => c.charCodeAt(0)),
     {
@@ -18,7 +18,7 @@ export async function sha256Hmac(secret: string, stringToSign: string): Promise<
     ["sign"],
   );
 
-  const sigArray = await self.crypto.subtle.sign(
+  const sigArray = await globalThis.crypto.subtle.sign(
     "HMAC",
     key,
     new TextEncoder().encode(stringToSign),
