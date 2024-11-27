@@ -192,7 +192,7 @@ describe("Content Safety Client Test", () => {
     const items: TextBlocklistItemOutput[] = [];
     for await (const item of <
       PagedAsyncIterableIterator<TextBlocklistItemOutput, TextBlocklistItemOutput[], PageSettings>
-      >iter) {
+    >iter) {
       items.push(item);
     }
     assert.equal(items[1].blocklistItemId, blockItemId);
