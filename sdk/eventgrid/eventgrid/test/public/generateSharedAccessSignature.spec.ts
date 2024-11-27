@@ -2,10 +2,9 @@
 // Licensed under the MIT License.
 
 /// <reference lib="dom"/>
-
-import { assert } from "chai";
 import { AzureKeyCredential, generateSharedAccessSignature } from "../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert } from "vitest";
 
 describe("generateSharedAccessSignature", function () {
   it("generates the correct signiture", async () => {

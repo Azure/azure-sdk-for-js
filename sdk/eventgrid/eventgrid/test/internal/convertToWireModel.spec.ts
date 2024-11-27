@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { assert } from "chai";
-
 import {
   convertEventGridEventToModelType,
   convertCloudEventToModelType,
 } from "../../src/eventGridClient.js";
+import { describe, it, assert } from "vitest";
 
 describe("convertEventGridEventToModelType", function () {
   it("sets a default ID if one is not provided", () => {

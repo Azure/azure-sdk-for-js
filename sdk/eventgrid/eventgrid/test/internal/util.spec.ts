@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "chai";
-
 import { dateToServiceTimeString } from "../../src/util.js";
+import { describe, it, assert } from "vitest";
 
 describe("util", function () {
   describe("dateToServiceTimeString", () => {

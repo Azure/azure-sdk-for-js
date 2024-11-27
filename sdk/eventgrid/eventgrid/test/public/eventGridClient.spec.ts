@@ -1,9 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "@azure-tools/test-utils";
-import type { Suite, Context } from "mocha";
-
 import type { Recorder } from "@azure-tools/test-recorder";
 
 import { createRecordedClient } from "./utils/recordedClient.js";
@@ -17,6 +13,7 @@ import {
   TraceParentHeaderName,
   TraceStateHeaderName,
 } from "../../src/cloudEventDistrubtedTracingEnricherPolicy.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("EventGridPublisherClient", function (this: Suite) {
   let recorder: Recorder;
