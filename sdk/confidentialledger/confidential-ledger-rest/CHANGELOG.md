@@ -1,5 +1,9 @@
 # Release History
 
+## 1.0.2
+
+- User List endpoint
+
 ## 1.0.1 (Unreleased)
 
 ### Features Added
@@ -11,6 +15,7 @@
 ### Other Changes
 
 ## 1.0.0 (2022-07-18)
+
 - Pageable collections and consortium endpoints
 - Renaming ledgerUri to ledgerEndpoint
 - postLedgerEntry changed to createLedgerEntry
