@@ -58,7 +58,7 @@ function getSubRequestUrl(url: string): string {
   return urlParsed.toString();
 }
 
-function getNextSubrequestBodyPart(request: PipelineRequest, changesetId: string) {
+function getNextSubrequestBodyPart(request: PipelineRequest, changesetId: string): string {
   const changesetBoundary = getChangeSetBoundary(changesetId);
   const subRequestPrefix = `--${changesetBoundary}${TRANSACTION_HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TYPE}: application/http${TRANSACTION_HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TRANSFER_ENCODING}: binary`;
 

@@ -7,27 +7,27 @@ import { odata } from "../../src/index.js";
 import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
 import { createTableServiceClient } from "./utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, expect, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
 expect.extend({ toSupportTracing });
 
-describe(`TableServiceClient`, function () {
+describe(`TableServiceClient`, () => {
   let client: TableServiceClient;
   let recorder: Recorder;
   const suffix = isNodeLike ? `node` : `browser`;
 
-  beforeEach(async function (ctx) {
+  beforeEach(async (ctx) => {
     recorder = new Recorder(ctx);
     client = await createTableServiceClient("SASConnectionString", recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  describe("Create, get table and delete", function () {
-    it("should create new table, then delete", async function () {
+  describe("Create, get table and delete", () => {
+    it("should create new table, then delete", async () => {
       const tableName = `testTable${suffix}`;
       let createResult: FullOperationResponse | undefined;
       let deleteTableResult: FullOperationResponse | undefined;
@@ -49,15 +49,14 @@ describe(`TableServiceClient`, function () {
     });
   });
 
-  describe("listTables", function () {
+  describe("listTables", () => {
     const tableNames: string[] = [];
     const expectedTotalItems = 20;
     let unRecordedClient: TableServiceClient;
-    before(async function (ctx) {
+    beforeAll(async () => {
       // Create tables to be listed
       if (!isPlaybackMode()) {
         unRecordedClient = await createTableServiceClient("SASConnectionString");
-        this.timeout(10000);
         for (let i = 0; i < 20; i++) {
           const tableName = `ListTableTest${suffix}${i}`;
           await unRecordedClient.createTable(tableName);
@@ -66,10 +65,9 @@ describe(`TableServiceClient`, function () {
       }
     });
 
-    after(async function (ctx) {
+    afterAll(async () => {
       // Cleanup tables
       if (!isPlaybackMode()) {
-        this.timeout(10000);
         try {
           for (const table of tableNames) {
             await unRecordedClient.deleteTable(table);
@@ -80,7 +78,7 @@ describe(`TableServiceClient`, function () {
       }
     });
 
-    it("should list all", async function () {
+    it("should list all", async () => {
       const tables = client.listTables();
       const all: TableItem[] = [];
       for await (const table of tables) {
@@ -94,7 +92,7 @@ describe(`TableServiceClient`, function () {
       }
     });
 
-    it("should list with filter", async function () {
+    it("should list with filter", async () => {
       const tableName = `ListTableTest${suffix}1`;
       const tables = client.listTables({
         queryOptions: { filter: odata`TableName eq ${tableName}` },
@@ -107,7 +105,7 @@ describe(`TableServiceClient`, function () {
       assert.lengthOf(all, 1);
     });
 
-    it("should list by page", async function () {
+    it("should list by page", async () => {
       let all: TableItem[] = [];
       const maxPageSize = 5;
       const tables = client.listTables();
@@ -126,7 +124,7 @@ describe(`TableServiceClient`, function () {
       }
     });
 
-    it("should list by page with filter", async function () {
+    it("should list by page with filter", async () => {
       let all: TableItem[] = [];
       const tableName = `ListTableTest${suffix}1`;
       const tables = client.listTables({
@@ -140,7 +138,7 @@ describe(`TableServiceClient`, function () {
       assert.lengthOf(all, 1);
     });
 
-    it("should list a specific page with continuationToken", async function () {
+    it("should list a specific page with continuationToken", async () => {
       const entities = client.listTables();
 
       let lastPage: TableItemResultPage | undefined;
@@ -169,15 +167,15 @@ describe(`TableServiceClient`, function () {
       assert.deepEqual(result, lastPage);
     });
   });
-  describe("Statistics", function () {
-    it("should getStatistics", async function () {
+  describe("Statistics", () => {
+    it("should getStatistics", async () => {
       const result = await client.getStatistics();
       assert.deepEqual(result.geoReplication?.status, "live");
     });
   });
 
-  describe("tracing", function () {
-    it("should trace through the various operations", async function () {
+  describe("tracing", () => {
+    it("should trace through the various operations", async () => {
       const tableName = `testTracing${suffix}`;
       await recorder.setMatcher("HeaderlessMatcher");
       await expect(async (options: OperationOptions) => {

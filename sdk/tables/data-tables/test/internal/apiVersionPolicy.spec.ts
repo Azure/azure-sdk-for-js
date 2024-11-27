@@ -6,8 +6,8 @@ import { createEmptyPipeline, createHttpHeaders } from "@azure/core-rest-pipelin
 import { apiVersionPolicy } from "../../src/utils/apiVersionPolicy.js";
 import { describe, it, assert } from "vitest";
 
-describe("apiVersionPolicy", function () {
-  it("should override the default api-version", async function () {
+describe("apiVersionPolicy", () => {
+  it("should override the default api-version", async () => {
     const expectedVersion = "2020-12-06";
     const fakeClient: HttpClient = {
       async sendRequest(req) {

@@ -16,9 +16,9 @@ export class FakeCredential implements TokenCredential {
   }
 }
 
-describe(`Cosmos endpoint tests`, function () {
-  describe("TableServiceClient", function () {
-    it("Sets the scope correctly on the auth policy", async function () {
+describe(`Cosmos endpoint tests`, () => {
+  describe("TableServiceClient", () => {
+    it("Sets the scope correctly on the auth policy", async () => {
       const credential = new FakeCredential();
       const fakeEndpointUrl = "https://localhost/";
       const client = new TableServiceClient(fakeEndpointUrl, credential);
@@ -32,8 +32,8 @@ describe(`Cosmos endpoint tests`, function () {
     });
   });
 
-  describe("TableClient", function () {
-    it("Sets the scope correctly on the auth policy", async function () {
+  describe("TableClient", () => {
+    it("Sets the scope correctly on the auth policy", async () => {
       const credential = new FakeCredential();
       const fakeEndpointUrl = "https://localhost/";
       const client = new TableClient(fakeEndpointUrl, "Test", credential);

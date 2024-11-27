@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
+
 import {
   AzureNamedKeyCredential,
   generateAccountSas,
@@ -16,19 +17,17 @@ import {
   expectedSas8,
   expectedSas9,
 } from "../fakeTestSecrets.js";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
 describe("SAS generation", function () {
   describe("generateTableSAS", function () {
-    let clock: sinon.SinonFakeTimers;
     beforeEach(function () {
-      clock = sinon.useFakeTimers(new Date("2021-12-12"));
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date("2021-12-12"));
     });
 
     afterEach(function () {
-      if (clock) {
-        clock.restore();
-      }
+      vi.useRealTimers();
     });
 
     it("should generate a SAS token with default values", async function () {
@@ -108,15 +107,13 @@ describe("SAS generation", function () {
   });
 
   describe("generateAccountSAS", function () {
-    let clock: sinon.SinonFakeTimers;
     beforeEach(function () {
-      clock = sinon.useFakeTimers(new Date("2021-12-12"));
+      vi.useFakeTimers();
+      vi.setSystemTime(new Date("2021-12-12"));
     });
 
     afterEach(function () {
-      if (clock) {
-        clock.restore();
-      }
+      vi.useRealTimers();
     });
 
     it("should generate account SAS token with default values", async function () {

@@ -7,24 +7,22 @@ import { AzureNamedKeyCredential } from "@azure/core-auth";
 import { expectedSharedKeyLiteHeader } from "./fakeTestSecrets.js";
 import { isNodeLike } from "@azure/core-util";
 import { tablesNamedKeyCredentialPolicy } from "../../src/tablesNamedCredentialPolicy.js";
-import { describe, it, assert } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("TablesSharedKeyCredential", function () {
+describe("TablesSharedKeyCredential", () => {
   let originalToUTCString: () => string;
-  beforeEach(function () {
+
+  beforeEach(() => {
     originalToUTCString = Date.prototype.toUTCString;
     Date.prototype.toUTCString = () => "Thu, 03 Sep 2020 18:50:45 GMT";
   });
 
-  afterEach(function () {
+  afterEach(() => {
     Date.prototype.toUTCString = originalToUTCString;
   });
 
-  it("It should sign", async function (ctx) {
-    if (!isNodeLike) {
-      // AzureNamedKeyCredential auth is not supported in Browser
-      ctx.skip();
-    }
+  // AzureNamedKeyCredential auth is not supported in Browser
+  it("It should sign", { skip: !isNodeLike }, async () => {
     const url =
       "https://testaccount.table.core.windows.net/tablename(PartitionKey='p1',RowKey='r1')";
     const requestToSign = createPipelineRequest({ url });

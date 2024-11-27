@@ -149,6 +149,7 @@ export class InternalTableTransaction {
     partitionKey: string,
     transactionId: string,
     changesetId: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     client: ServiceClient,
     interceptClient: TableClientLike,
     credential?: NamedKeyCredential | SASCredential | TokenCredential,
@@ -175,7 +176,17 @@ export class InternalTableTransaction {
     }
   }
 
-  private initializeState(transactionId: string, changesetId: string, partitionKey: string) {
+  private initializeState(
+    transactionId: string,
+    changesetId: string,
+    partitionKey: string,
+  ): {
+    transactionId: string;
+    changesetId: string;
+    partitionKey: string;
+    pendingOperations: Promise<any>[];
+    bodyParts: string[];
+  } {
     const pendingOperations: Promise<any>[] = [];
     const bodyParts = getInitialTransactionBody(transactionId, changesetId);
     const isCosmos = isCosmosEndpoint(this.url);
@@ -361,7 +372,7 @@ function handleBodyError(
   statusCode: number,
   request: PipelineRequest,
   response: PipelineResponse,
-) {
+): void {
   let parsedError;
 
   try {

@@ -5,9 +5,9 @@ import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { TableClient } from "../../src/index.js";
 import { createTableClient } from "./utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 
-describe(`Access Policy operations`, function () {
+describe(`Access Policy operations`, { skip: !isNodeLike }, () => {
   let client: TableClient;
   let unrecordedClient: TableClient;
   let recorder: Recorder;
@@ -18,28 +18,24 @@ describe(`Access Policy operations`, function () {
     client = await createTableClient(tableName, "AccountKey", recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  before(async function (ctx) {
-    if (!isNodeLike) {
-      ctx.skip();
-    }
-
+  beforeAll(async () => {
     if (!isPlaybackMode()) {
       unrecordedClient = await createTableClient(tableName, "SASConnectionString");
       await unrecordedClient.createTable();
     }
   });
 
-  after(async function () {
+  afterAll(async () => {
     if (!isPlaybackMode() && isNodeLike) {
       await unrecordedClient.deleteTable();
     }
   });
 
-  it("should send a null AP", async function () {
+  it("should send a null AP", async () => {
     const date = new Date("2021-07-08T09:10:09Z");
     await client.setAccessPolicy([
       { id: "null" },
