@@ -11,7 +11,7 @@
     "src"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && npm run lint && npm run check-format",
     "build:samples": "echo Skipped.",
     "build:test": "echo Skipped.",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",

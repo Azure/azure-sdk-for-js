@@ -7,9 +7,9 @@ $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/main/_data/rel
 $GithubUri = "https://github.com/Azure/azure-sdk-for-js"
 $PackageRepositoryUri = "https://www.npmjs.com/package"
 $ReducedDependencyLookup = @{
-  'core' = @('@azure-rest/synapse-access-control', '@azure/arm-resources', '@azure/identity', '@azure/service-bus', '@azure/template')
+  'core'       = @('@azure-rest/synapse-access-control', '@azure/arm-resources', '@azure/identity', '@azure/service-bus', '@azure/template')
   'test-utils' = @('@azure-tests/perf-storage-blob', '@azure/arm-eventgrid', '@azure/ai-text-analytics', '@azure/identity', '@azure/template')
-  'identity' = @('@azure-tests/perf-storage-blob', '@azure/ai-text-analytics', '@azure/arm-resources', '@azure/identity-cache-persistence', '@azure/identity-vscode', '@azure/storage-blob', '@azure/template')
+  'identity'   = @('@azure-tests/perf-storage-blob', '@azure/ai-text-analytics', '@azure/arm-resources', '@azure/identity-cache-persistence', '@azure/identity-vscode', '@azure/storage-blob', '@azure/template')
 }
 
 . "$PSScriptRoot/docs/Docs-ToC.ps1"
@@ -32,11 +32,11 @@ function Get-javascript-EmitterAdditionalOptions([string]$projectDirectory) {
 
 function Get-javascript-AdditionalValidationPackagesFromPackageSet {
   param(
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory = $true)]
     $LocatedPackages,
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory = $true)]
     $diffObj,
-    [Parameter(Mandatory=$true)]
+    [Parameter(Mandatory = $true)]
     $AllPkgProps
   )
   $additionalValidationPackages = @()
@@ -54,7 +54,7 @@ function Get-javascript-AdditionalValidationPackagesFromPackageSet {
   }
 
   $changedServices = @()
-  foreach($file in $diffObj.ChangedFiles) {
+  foreach ($file in $diffObj.ChangedFiles) {
     $pathComponents = $file -split "/"
     # handle changes only in sdk/<service>/<file>/<extension>
     if ($pathComponents.Length -eq 3 -and $pathComponents[0] -eq "sdk") {
@@ -66,18 +66,20 @@ function Get-javascript-AdditionalValidationPackagesFromPackageSet {
       $changedServices += "template"
     }
   }
-
-  $othersChanged = $diffObj.ChangedFiles | Where-Object { isOther $_ }
+  $othersChanged = @()
+  if ($diffObj.ChangedFiles) {
+    $othersChanged = $diffObj.ChangedFiles | Where-Object { isOther $_ }
+  }
   $changedServices = $changedServices | Get-Unique
 
   if ($othersChanged) {
-    $additionalPackages = $ReducedDependencyLookup["core"] | ForEach-Object { $me=$_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
+    $additionalPackages = $ReducedDependencyLookup["core"] | ForEach-Object { $me = $_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
     $additionalValidationPackages += $additionalPackages
   }
 
   foreach ($changedService in $changedServices) {
     if ($ReducedDependencyLookup.ContainsKey($changedService)) {
-      $additionalPackages = $ReducedDependencyLookup[$changedService] | ForEach-Object { $me=$_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
+      $additionalPackages = $ReducedDependencyLookup[$changedService] | ForEach-Object { $me = $_; $AllPkgProps | Where-Object { $_.Name -eq $me } | Select-Object -First 1 }
       $additionalValidationPackages += $additionalPackages
     }
     else {
