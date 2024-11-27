@@ -14,7 +14,7 @@ import {
 import {
   SendMessageRequest as SendMessageRequestMapper,
   OptOutRequest as OptOutRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

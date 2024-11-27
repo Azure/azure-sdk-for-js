@@ -14,7 +14,7 @@ import {
   OptOutsRemoveResponse,
   OptOutsCheckOptionalParams,
   OptOutsCheckResponse,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a OptOuts. */
 export interface OptOuts {
