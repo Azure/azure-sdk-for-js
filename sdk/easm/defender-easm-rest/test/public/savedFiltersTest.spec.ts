@@ -7,7 +7,7 @@ import { createRecorder } from "./utils/recordedClient.js";
 import type { EasmClient } from "../../src/index.js";
 import EasmDefender, { isUnexpected } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Saved Filters Test", () => {
   let recorder: Recorder;
@@ -17,8 +17,8 @@ describe("Saved Filters Test", () => {
   let known_existing_filter: string;
   let filter: string;
 
-  beforeEach(async function (ctx) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     const subscription_id = assertEnvironmentVariable("SUBSCRIPTION_ID");
     const resource_group = assertEnvironmentVariable("RESOURCEGROUPNAME");
     const workspace_name = assertEnvironmentVariable("WORKSPACENAME");
@@ -38,7 +38,7 @@ describe("Saved Filters Test", () => {
     filter = `name = "${put_saved_filter_name}"`;
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

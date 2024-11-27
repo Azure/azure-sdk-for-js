@@ -7,15 +7,15 @@ import { createRecorder } from "./utils/recordedClient.js";
 import type { EasmClient } from "../../src/index.js";
 import EasmDefender, { isUnexpected } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Reports Test", () => {
   let recorder: Recorder;
   let client: EasmClient;
   let metric: string;
 
-  beforeEach(async function (ctx) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     const subscription_id = assertEnvironmentVariable("SUBSCRIPTION_ID");
     const resource_group = assertEnvironmentVariable("RESOURCEGROUPNAME");
     const workspace_name = assertEnvironmentVariable("WORKSPACENAME");
@@ -32,7 +32,7 @@ describe("Reports Test", () => {
     metric = "savedfilter_metric_51126";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

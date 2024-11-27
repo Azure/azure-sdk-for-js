@@ -7,7 +7,7 @@ import { createRecorder } from "./utils/recordedClient.js";
 import type { EasmClient } from "../../src/index.js";
 import EasmDefender, { isUnexpected } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Discovery Templates Test", () => {
   let recorder: Recorder;
@@ -15,8 +15,8 @@ describe("Discovery Templates Test", () => {
   let template_id: string;
   let partial_name: string;
 
-  beforeEach(async function (ctx) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     const subscription_id = assertEnvironmentVariable("SUBSCRIPTION_ID");
     const resource_group = assertEnvironmentVariable("RESOURCEGROUPNAME");
     const workspace_name = assertEnvironmentVariable("WORKSPACENAME");
@@ -34,7 +34,7 @@ describe("Discovery Templates Test", () => {
     partial_name = "ku";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
