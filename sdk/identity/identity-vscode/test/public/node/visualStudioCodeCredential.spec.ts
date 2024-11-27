@@ -9,7 +9,7 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { isRecordMode } from "@azure-tools/test-recorder";
 import { VisualStudioCodeCredential } from "@azure/identity";
 import assert from "node:assert";
-import sinon from "sinon";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 const mockedResponse = [
   {
