@@ -1,3 +1,9 @@
+parameters:
+  - name: Location
+    displayName: Location
+    type: string
+    default: centralus
+
 trigger: none
 
 extends:
@@ -5,3 +11,12 @@ extends:
     parameters:
       PackageName: "@azure/ai-text-analytics"
       ServiceDirectory: textanalytics
+      TimeoutInMinutes: 60
+      SupportedClouds: 'Public,UsGov,China'
+      CloudConfig:
+        Public:
+          Location: "${{ parameters.Location }}"
+        UsGov:
+          Location: "usgovvirginia"
+        China:
+          Location: "chinaeast2"
