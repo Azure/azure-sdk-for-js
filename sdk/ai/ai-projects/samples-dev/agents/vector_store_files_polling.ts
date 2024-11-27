@@ -29,7 +29,7 @@ export async function main(): Promise<void> {
     const sleepIntervalInMs = 2000;
     const { result } = client.agents.createVectorStoreFileAndPoll(vectorStore.id, vectorStoreFileOptions, sleepIntervalInMs);
     const vectorStoreFile = await result;
-    console.log(`Created vector store file with status ${vectorStoreFile}, vector store file ID: ${vectorStoreFile.id}`);
+    console.log(`Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`);
 
     // Delete file
     await client.agents.deleteFile(file.id);
