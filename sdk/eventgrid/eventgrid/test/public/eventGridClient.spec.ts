@@ -16,7 +16,7 @@ import {
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-expect.extend({ toSupportTracing })
+expect.extend({ toSupportTracing });
 
 describe("EventGridPublisherClient", function (this: Suite) {
   let recorder: Recorder;
@@ -238,22 +238,28 @@ describe("EventGridPublisherClient", function (this: Suite) {
         let requestBody: string | undefined;
 
         await expect(async (options) => {
-    await client.send([
-        {
-            type: "Azure.Sdk.TestEvent1",
-            id: recorder.variable("cloudTracingEventId", `cloudTracingEventId${getRandomNumber()}`),
-            time: new Date(recorder.variable("cloudTracingEventDate", new Date().toString())),
-            source: "/earth/unitedstates/washington/kirkland/finnhill",
-            subject: "Single with Trace Parent",
-            data: {
-                hello: "world",
+          await client.send(
+            [
+              {
+                type: "Azure.Sdk.TestEvent1",
+                id: recorder.variable(
+                  "cloudTracingEventId",
+                  `cloudTracingEventId${getRandomNumber()}`,
+                ),
+                time: new Date(recorder.variable("cloudTracingEventDate", new Date().toString())),
+                source: "/earth/unitedstates/washington/kirkland/finnhill",
+                subject: "Single with Trace Parent",
+                data: {
+                  hello: "world",
+                },
+              },
+            ],
+            {
+              ...options,
+              onResponse: (response) => (requestBody = response.request.body as string),
             },
-        },
-    ], {
-        ...options,
-        onResponse: (response) => (requestBody = response.request.body as string),
-    });
-}).toSupportTracing(["EventGridPublisherClient.send"]);
+          );
+        }).toSupportTracing(["EventGridPublisherClient.send"]);
 
         const parsedBody = JSON.parse(requestBody || "");
         assert.isArray(parsedBody);

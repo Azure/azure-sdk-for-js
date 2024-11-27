@@ -3,7 +3,12 @@
 
 export { AzureKeyCredential, AzureSASCredential } from "@azure/core-auth";
 
-export { CloudEvent, EventGridEvent, SendCloudEventInput, SendEventGridEventInput } from "./models.js";
+export {
+  CloudEvent,
+  EventGridEvent,
+  SendCloudEventInput,
+  SendEventGridEventInput,
+} from "./models.js";
 
 export {
   EventGridPublisherClient,
