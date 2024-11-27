@@ -6,17 +6,17 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing.js";
-import { Sms } from "../operationsInterfaces/index.js";
+import { tracingClient } from "../tracing";
+import { Sms } from "../operationsInterfaces";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers.js";
-import * as Parameters from "../models/parameters.js";
-import { SmsApiClient } from "../smsApiClient.js";
+import * as Mappers from "../models/mappers";
+import * as Parameters from "../models/parameters";
+import { SmsApiClient } from "../smsApiClient";
 import {
   SendMessageRequest,
   SmsSendOptionalParams,
   SmsSendOperationResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Class containing Sms operations. */
 export class SmsImpl implements Sms {

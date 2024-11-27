@@ -10,7 +10,7 @@ import {
   SendMessageRequest,
   SmsSendOptionalParams,
   SmsSendOperationResponse,
-} from "../models/index.js";
+} from "../models";
 
 /** Interface representing a Sms. */
 export interface Sms {

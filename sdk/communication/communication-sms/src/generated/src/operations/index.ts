@@ -6,4 +6,5 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./sms.js";
+export * from "./sms";
+export * from "./optOuts";
