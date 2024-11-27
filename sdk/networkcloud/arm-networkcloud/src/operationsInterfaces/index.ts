@@ -24,4 +24,5 @@ export * from "./bareMetalMachineKeySets";
 export * from "./bmcKeySets";
 export * from "./metricsConfigurations";
 export * from "./agentPools";
+export * from "./kubernetesClusterFeatures";
 export * from "./consoles";

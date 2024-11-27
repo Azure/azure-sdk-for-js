@@ -17,7 +17,7 @@ import type {
   ResourceSetRulesDeleteResourceSetRuleParameters,
   ResourceSetRulesGetResourceSetRuleParameters,
   ResourceSetRulesListResourceSetRulesParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   AccountsGetAccessKeys200Response,
   AccountsGetAccessKeysdefaultResponse,
@@ -48,7 +48,7 @@ import type {
   ResourceSetRulesGetResourceSetRuledefaultResponse,
   ResourceSetRulesListResourceSetRules200Response,
   ResourceSetRulesListResourceSetRulesdefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 export interface AccountsGetAccountProperties {
   /** Get an account */

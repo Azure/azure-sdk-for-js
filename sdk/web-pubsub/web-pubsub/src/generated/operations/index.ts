@@ -6,5 +6,5 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./healthApi";
-export * from "./webPubSub";
+export * from "./healthApi.js";
+export * from "./webPubSub.js";

@@ -5,8 +5,6 @@
 /* eslint-disable @typescript-eslint/no-require-imports */
 /* eslint-disable sort-imports */
 
-import type { MsalTestCleanup } from "../../../../identity/test/node/msalNodeTestSetup";
-import { msalNodeTestSetup } from "../../../../identity/test/node/msalNodeTestSetup";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isRecordMode } from "@azure-tools/test-recorder";
 import { VisualStudioCodeCredential } from "@azure/identity";
@@ -22,18 +20,11 @@ const mockedResponse = [
 
 // TODO: Enable again once the VisualStudio cache bug is fixed.
 describe.skip("VisualStudioCodeCredential", function (this: Mocha.Suite) {
-  let cleanup: MsalTestCleanup;
   let recorder: Recorder;
 
-  beforeEach(async function (this: Mocha.Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
-    cleanup = setup.cleanup;
-    recorder = setup.recorder;
-  });
+  beforeEach(async function (this: Mocha.Context) {});
 
-  afterEach(async function () {
-    await cleanup();
-  });
+  afterEach(async function () {});
 
   const scope = "https://graph.microsoft.com/.default";
 

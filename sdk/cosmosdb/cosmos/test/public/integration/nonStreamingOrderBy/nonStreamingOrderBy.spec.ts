@@ -508,7 +508,7 @@ describe("Test nonStreaming Queries", function () {
     } catch (err) {
       assert.equal(
         err.message,
-        "Executing a vector search query without TOP or LIMIT can consume a large number of RUs very fast and have long runtimes. Please ensure you are using one of the above two filters with your vector search query.",
+        "Executing a non-streaming search query without TOP or LIMIT can consume a large number of RUs very fast and have long runtimes. Please ensure you are using one of the above two filters with your vector search query.",
       );
     }
   });

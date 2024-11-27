@@ -8,7 +8,7 @@ import type {
   TextBlocklist,
   AddOrUpdateTextBlocklistItemsOptions,
   RemoveTextBlocklistItemsOptions,
-} from "./models";
+} from "./models.js";
 
 export interface AnalyzeImageBodyParam {
   /** The image analysis request. */
