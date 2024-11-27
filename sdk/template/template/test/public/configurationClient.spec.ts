@@ -1,169 +1,114 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { GeneratedClient, ConfigurationSetting } from "./generated/index.js";
-import type {
-  CommonClientOptions,
-  OperationOptions,
-  InternalClientPipelineOptions,
-} from "@azure/core-client";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
-import type { TokenCredential } from "@azure/core-auth";
-import type { TracingClient } from "@azure/core-tracing";
-import { createTracingClient } from "@azure/core-tracing";
-import { SDK_VERSION } from "./constants.js";
-import { logger } from "./logger.js";
-import { quoteETag } from "./util.js";
+import { ConfigurationClient } from "../../src/index.js";
+import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { chaiAzure } from "@azure-tools/test-utils-vitest";
+import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, beforeEach, afterEach, chai } from "vitest";
 
-// re-export generated types that are used as public interfaces.
-export { ConfigurationSetting };
+chai.use(chaiAzure);
 
-/**
- * Options for the `getConfigurationSetting` method of `ConfigurationClient`.
- */
-export interface GetConfigurationSettingOptions extends OperationOptions {
-  /**
-   * If set to `true`, the method will use entity tags to instruct the service
-   * to send an updated value only if the value has changed.
-   *
-   * NOTE: This option is only supported if passing a full
-   * `ConfigurationSetting` object with an `etag` as the first parameter to
-   * `getConfigurationSetting`.
-   */
-  onlyIfChanged?: boolean;
+const { assert } = chai;
+
+// When the recorder observes the values of these environment variables in any
+// recorded HTTP request or response, it will replace them with the values they
+// are mapped to below.
+const replaceableVariables: Record<string, string> = {
+  APPCONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
+  APPCONFIG_TEST_SETTING_KEY: "test-key",
+  APPCONFIG_TEST_SETTING_EXPECTED_VALUE: "test-value",
+  AZURE_TENANT_ID: "12345678-1234-1234-1234-123456789012",
+  AZURE_CLIENT_ID: "azure_client_id",
+  AZURE_CLIENT_SECRET: "azure_client_secret",
+};
+
+function createConfigurationClient(recorder: Recorder): ConfigurationClient {
+  // Retrieve the endpoint from the environment variable
+  // we saved to the .env file earlier
+  const endpoint = assertEnvironmentVariable("APPCONFIG_ENDPOINT");
+
+  // We use the createTestCredential helper from the test-credential tools package.
+  // This function returns the special NoOpCredential in playback mode, which
+  // is a special TokenCredential implementation that does not make any requests
+  // to AAD.
+  const client = new ConfigurationClient(
+    endpoint,
+    createTestCredential(),
+    // recorder.configureClientOptions() updates the client options by adding the test proxy policy to
+    // redirect the requests to reach the proxy tool in record/playback modes instead of
+    // hitting the live service.
+    recorder.configureClientOptions({}),
+  );
+
+  return client;
 }
 
-/**
- * Client options used to configure App Configuration API requests.
- */
-export interface ConfigurationClientOptions extends CommonClientOptions {
-  // Any custom options configured at the client level go here.
-}
+// You want to give the test suite a descriptive name. Here, I add [AAD] to
+// indicate that the tests are authenticating with the service using Azure
+// Active Directory.
+describe("[AAD] ConfigurationClient functional tests", function () {
+  // Declare the client and recorder instances.  We will set them using the
+  // beforeEach hook.
+  let client: ConfigurationClient;
+  let recorder: Recorder;
 
-/**
- * The client class used to interact with the App Configuration service.
- */
-export class ConfigurationClient {
-  private client: GeneratedClient;
-  private tracingClient: TracingClient;
+  // NOTE: use of "function" and not ES6 arrow-style functions with the
+  // beforeEach hook is IMPORTANT due to the use of `this` in the function
+  // body.
+  beforeEach(async function (context) {
+    // The recorder has some convenience methods, and we need to store a
+    // reference to it so that we can `stop()` the recorder later in the
+    // `afterEach` hook.
+    recorder = new Recorder(context);
 
-  /**
-   * Creates an instance of a ConfigurationClient.
-   *
-   * Example usage:
-   * ```ts snippet:new_configurationclient
-   * import { ConfigurationClient } from "@azure/template";
-   * import { DefaultAzureCredential } from "@azure/identity";
-   *
-   * const client = new ConfigurationClient(
-   *   process.env.ENDPOINT ?? "<app configuration endpoint>",
-   *   new DefaultAzureCredential(),
-   * );
-   * ```
-   * @param endpointUrl - the URL to the App Configuration endpoint
-   * @param credential - used to authenticate requests to the service
-   * @param options - optional configuration used to send requests to the service
-   */
-  constructor(
-    endpointUrl: string,
-    credential: TokenCredential,
-    options: ConfigurationClientOptions = {},
-  ) {
-    // The AAD scope for an API is usually the baseUri + "/.default", but it
-    // may be different for your service.
-    const authPolicy = bearerTokenAuthenticationPolicy({
-      credential,
-      scopes: `${endpointUrl}/.default`,
+    await recorder.start({
+      envSetupForPlayback: replaceableVariables,
+      removeCentralSanitizers: [
+        "AZSDK3447", // .key in the body is not a secret and is also replaced by sanitizer from fakeEnvironment variable
+      ],
     });
 
-    const internalClientPipelineOptions: InternalClientPipelineOptions = {
-      ...options,
-      deserializationOptions: {
-        expectedContentTypes: {
-          json: [
-            "application/vnd.microsoft.appconfig.kvset+json",
-            "application/vnd.microsoft.appconfig.kv+json",
-            "application/vnd.microsoft.appconfig.kvs+json",
-            "application/vnd.microsoft.appconfig.keyset+json",
-            "application/vnd.microsoft.appconfig.revs+json",
-          ],
-        },
-      },
-      ...{
-        loggingOptions: {
-          logger: logger.info,
-          // This array contains header names we want to log that are not already
-          // included as safe. Unknown/unsafe headers are logged as "<REDACTED>".
-          additionalAllowedHeaderNames: ["x-ms-correlation-request-id"],
-        },
-      },
-    };
+    // We'll be able to refer to the instantiated `client` in tests, since we
+    // initialize it before each test
+    client = createConfigurationClient(recorder);
+  });
 
-    this.client = new GeneratedClient(endpointUrl, internalClientPipelineOptions);
-    this.client.pipeline.addPolicy(authPolicy);
-    this.tracingClient = createTracingClient({
-      // The name of the resource provider requests are made against, as described in
-      // https://github.com/Azure/azure-sdk/blob/main/docs/tracing/distributed-tracing-conventions.yml#L11-L15
-      namespace: "Microsoft.Learn",
-      // The package name and version
-      packageName: "@azure/template",
-      packageVersion: SDK_VERSION,
+  // After each test, we need to stop the recording.
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  describe("#getConfigurationSetting", () => {
+    it("predetermined setting has expected value", { timeout: 50000, retry: 3 }, async () => {
+      const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
+      const expectedValue = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_EXPECTED_VALUE");
+
+      const setting = await client.getConfigurationSetting(key);
+
+      // Make sure the key returned is the same as the key we asked for
+      assert.equal(key, setting.key);
+
+      // Make sure the value of the setting is the same as the value we entered
+      // on the environment
+      assert.equal(expectedValue, setting.value);
     });
-  }
 
-  /**
-   * Retrieve the contents of an App Configuration setting by name (key).
-   *
-   * @param key - the unique name of the setting to get
-   * @param options - optional configuration for the operation
-   */
-  public async getConfigurationSetting(
-    key: string,
-    options?: GetConfigurationSettingOptions,
-  ): Promise<ConfigurationSetting>;
-
-  /**
-   * Retrieve an updated value of an App Configuration setting, allowing for
-   * the use of entity tags to request the new value only if it has changed.
-   *
-   * @param setting - the setting to retrieve from the service
-   * @param options - optional configuration for the operation
-   */
-  public async getConfigurationSetting(
-    setting: ConfigurationSetting,
-    options?: GetConfigurationSettingOptions,
-  ): Promise<ConfigurationSetting>;
-
-  public async getConfigurationSetting(
-    keyOrSetting: string | ConfigurationSetting,
-    options: GetConfigurationSettingOptions = {},
-  ): Promise<ConfigurationSetting> {
-    let key: string;
-    let ifNoneMatch: string | undefined;
-
-    return this.tracingClient.withSpan(
-      // Span names should take the form "<className>.<methodName>".
-      "ConfigurationClient.getConfigurationSetting",
-      options,
-      (updatedOptions) => {
-        if (typeof keyOrSetting === "string") {
-          key = keyOrSetting;
-          if (options.onlyIfChanged) {
-            throw new RangeError(
-              "You must pass a ConfigurationSetting instead of a key to perform a conditional fetch.",
-            );
-          }
-        } else {
-          key = keyOrSetting.key!;
-          const etag = keyOrSetting.etag;
-          if (options.onlyIfChanged) {
-            ifNoneMatch = quoteETag(etag);
-          }
-        }
-
-        // You must pass updatedOptions to any calls you make within the callback.
-        return this.client.getKeyValue(key, { ...updatedOptions, ifNoneMatch });
-      },
-    );
-  }
-}
+    // The supportsTracing assertion from chaiAzure can be used to verify that
+    // the `getConfigurationSetting` method is being traced correctly, that the
+    // tracing span is properly parented and closed.
+    it("supports tracing", async () => {
+      // Playback fails in the browser without the "HeaderlessMatcher"
+      //
+      // If-Modified-Since & If-None-Match headers are not present in the recording and the request in playback has these headers
+      // Proxy tool doesn't treat these headers differently, tries to match them with the headers in the recording, and fails.
+      // More details here - https://github.com/Azure/azure-sdk-tools/issues/2674
+      await recorder.setMatcher("HeaderlessMatcher");
+      const key = assertEnvironmentVariable("APPCONFIG_TEST_SETTING_KEY");
+      await assert.supportsTracing(
+        (options) => client.getConfigurationSetting(key, options),
+        ["ConfigurationClient.getConfigurationSetting"],
+      );
+    });
+  });
+});
