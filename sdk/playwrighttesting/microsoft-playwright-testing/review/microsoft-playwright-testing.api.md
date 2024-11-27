@@ -49,8 +49,8 @@ export type PlaywrightConfig = {
     use?: {
         connectOptions: BrowserConnectOptions;
     };
-    globalSetup?: string | string[];
-    globalTeardown?: string | string[];
+    globalSetup?: string | string[] | any;
+    globalTeardown?: string | string[] | any;
 };
 
 // @public
