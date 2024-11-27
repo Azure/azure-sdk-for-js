@@ -7,6 +7,16 @@ import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, List
 
 const expectedStatuses = ["200"];
 
+enum FilePurpose {
+  FineTune = "fine-tune",
+  FineTuneResults = "fine-tune-results",
+  Assistants = "assistants",
+  AssistantsOutput = "assistants_output",
+  Batch = "batch",
+  BatchOutput = "batch_output",
+  Vision = "vision",
+}
+
 /** Gets a list of previously uploaded files. */
 export async function listFiles(
   context: Client,
@@ -82,7 +92,7 @@ export async function getFileContent(
 
 function validateListFilesParameters(options?: ListFilesParameters): void {
   if (options?.queryParameters?.purpose) {
-    if (!["fine-tune", "fine-tune-results", "assistants", "assistants_output", "batch", "batch_output", "vision"].includes(options?.queryParameters?.purpose)) {
+    if (!Object.values(FilePurpose).includes(options?.queryParameters?.purpose as FilePurpose)) {
       throw new Error("Purpose must be one of 'fine-tune', 'fine-tune-results', 'assistants', 'assistants_output', 'batch', 'batch_output', 'vision'");
     }
   }
