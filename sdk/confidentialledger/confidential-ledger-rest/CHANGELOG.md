@@ -1,14 +1,10 @@
 # Release History
 
-## 1.0.2 (Unreleased)
+## 1.1.0-beta.1 (Unreleased)
 
 ### Features Added
 
 - User List endpoint
-
-## 1.0.1 (Unreleased)
-
-### Features Added
 
 ### Breaking Changes
 
