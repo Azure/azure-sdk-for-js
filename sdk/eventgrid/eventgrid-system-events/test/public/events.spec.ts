@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import type { Suite } from "mocha";
 
-import { isSystemEvent } from "../../src";
+import { isSystemEvent } from "../../src/index.js";
 import { assert } from "chai";
 
 describe("Events tests", function (this: Suite) {
