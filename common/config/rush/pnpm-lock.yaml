@@ -20565,7 +20565,7 @@ packages:
     dev: false
 
   file:projects/eventgrid-system-events.tgz:
-    resolution: {integrity: sha512-Tw1HTrvyfyTsDkGoctasSt5CUXyDQcjYSpYZcU9Vpqw47tUDeMP1Vr5dOMMsJ53Y3VzHCXlALCDDxHP3lk6zXw==, tarball: file:projects/eventgrid-system-events.tgz}
+    resolution: {integrity: sha512-haJJ2VDY0d5TDTBBZ2HVAdgnTf00rAiAAmlruY4BUsuXaX2JCY3wBvPGY9gEyVnnE2612g0txYCcSPltiGz1aw==, tarball: file:projects/eventgrid-system-events.tgz}
     name: '@rush-temp/eventgrid-system-events'
     version: 0.0.0
     dependencies:
@@ -20577,6 +20577,8 @@ packages:
       '@types/node': 18.19.66
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.6(@types/node@18.19.66)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.6)
+      '@vitest/coverage-istanbul': 2.1.6(vitest@2.1.6)
       buffer: 6.0.3
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
@@ -20593,20 +20595,36 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       prettier: 2.8.8
       sinon: 17.0.1
       source-map-support: 0.5.21
       ts-node: 10.9.2(@types/node@18.19.66)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.6(@types/node@18.19.66)(@vitest/browser@2.1.6)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
       - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
     dev: false
 
   file:projects/eventgrid.tgz:
