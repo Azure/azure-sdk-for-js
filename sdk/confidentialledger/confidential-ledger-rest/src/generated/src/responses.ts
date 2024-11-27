@@ -17,7 +17,7 @@ import {
   LedgerEntryOutput,
   PagedUsersOutput,
   LedgerUserOutput
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** The constitution is a script that assesses and applies proposals from consortium members. */
 export interface GetConstitution200Response extends HttpResponse {
