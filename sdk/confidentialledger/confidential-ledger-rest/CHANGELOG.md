@@ -1,6 +1,8 @@
 # Release History
 
-## 1.0.2
+## 1.0.2 (2024-11-27)
+
+### Features
 
 - User List endpoint
 
