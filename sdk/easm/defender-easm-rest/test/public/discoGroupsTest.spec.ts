@@ -4,10 +4,10 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createRecorder } from "./utils/recordedClient";
+import { createRecorder } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
-import type { DiscoSource, EasmClient } from "../../src";
-import EasmDefender, { isUnexpected } from "../../src";
+import type { DiscoSource, EasmClient } from "../../src/index.js";
+import EasmDefender, { isUnexpected } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("Discovery Groups Test", () => {
@@ -20,7 +20,7 @@ describe("Discovery Groups Test", () => {
   let seed_kind: string;
   let seed_name: string;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     const subscription_id = assertEnvironmentVariable("SUBSCRIPTION_ID");
     const resource_group = assertEnvironmentVariable("RESOURCEGROUPNAME");

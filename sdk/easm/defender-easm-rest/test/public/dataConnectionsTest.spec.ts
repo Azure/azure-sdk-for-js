@@ -4,10 +4,10 @@
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { assert } from "chai";
-import { createRecorder } from "./utils/recordedClient";
+import { createRecorder } from "./utils/recordedClient.js";
 import type { Context } from "mocha";
-import type { EasmClient } from "../../src";
-import EasmDefender, { isUnexpected } from "../../src";
+import type { EasmClient } from "../../src/index.js";
+import EasmDefender, { isUnexpected } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 describe("Data Connections Test", () => {
@@ -18,7 +18,7 @@ describe("Data Connections Test", () => {
   let cluster_name: string;
   let database_name: string;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     recorder = await createRecorder(this);
     const subscription_id = assertEnvironmentVariable("SUBSCRIPTION_ID");
     const resource_group = assertEnvironmentVariable("RESOURCEGROUPNAME");
