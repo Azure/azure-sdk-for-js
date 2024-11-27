@@ -11,11 +11,11 @@ import type {
   ReceiveResult,
   RejectResult,
   RenewLocksResult,
-} from "../../src";
-import { EventGridDeserializer } from "../../src";
-import { createRecordedClient } from "./utils/recordedClient";
+} from "../../src/index.js";
+import { EventGridDeserializer } from "../../src/index.js";
+import { createRecordedClient } from "./utils/recordedClient.js";
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-import { Buffer } from "buffer";
+import { Buffer } from "node:buffer";
 /* eslint no-constant-condition: "off" */
 async function clearMessages(receiverClient: EventGridReceiverClient): Promise<void> {
   // Clear any messages that may be available in the topic.
@@ -35,7 +35,7 @@ describe("Event Grid Namespace Client", function (this: Suite) {
   let topicName: string;
   let maxDeliveryCount: number;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async function (ctx) {
     eventSubscriptionName = env["EVENT_SUBSCRIPTION_NAME"] ?? "testsubscription1";
     topicName = env["TOPIC_NAME"] ?? "testtopic1";
     maxDeliveryCount = env["MAX_DELIVERY_COUNT"] ? parseInt(env["MAX_DELIVERY_COUNT"]) : 10;

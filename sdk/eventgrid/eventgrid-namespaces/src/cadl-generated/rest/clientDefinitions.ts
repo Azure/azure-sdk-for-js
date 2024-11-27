@@ -9,7 +9,7 @@ import type {
   ReleaseCloudEventsParameters,
   RejectCloudEventsParameters,
   RenewCloudEventLocksParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   PublishCloudEvent200Response,
   PublishCloudEventDefaultResponse,
@@ -25,7 +25,7 @@ import type {
   RejectCloudEventsDefaultResponse,
   RenewCloudEventLocks200Response,
   RenewCloudEventLocksDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface PublishCloudEvent {
