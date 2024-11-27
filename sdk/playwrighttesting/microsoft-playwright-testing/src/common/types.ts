@@ -147,8 +147,8 @@ export type PlaywrightConfig = {
   use?: {
     connectOptions: BrowserConnectOptions;
   };
-  globalSetup?: string | string[];
-  globalTeardown?: string | string[];
+  globalSetup?: string | string[] | any; // add any since playwright version <1.49 does not support string[]
+  globalTeardown?: string | string[] | any;
 };
 
 /**
