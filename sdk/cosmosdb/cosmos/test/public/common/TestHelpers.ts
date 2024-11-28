@@ -427,7 +427,7 @@ function validateRequestStartTimeForDiagnostics(
 
 export async function getTestDatabase(
   testName: string,
-  client: CosmosClient,
+  client?: CosmosClient,
   attrs?: Partial<DatabaseRequest>,
 ): Promise<Database> {
   if (!client) {
@@ -441,7 +441,7 @@ export async function getTestDatabase(
 
 export async function getTestContainer(
   testName: string,
-  client: CosmosClient,
+  client?: CosmosClient,
   containerDef?: ContainerRequest,
   options?: RequestOptions,
 ): Promise<Container> {
