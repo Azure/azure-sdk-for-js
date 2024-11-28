@@ -9,7 +9,7 @@ import type {
   TransactionAction,
   UpdateMode,
   UpdateTableEntityOptions,
-} from "./models";
+} from "./models.js";
 import type { NamedKeyCredential, SASCredential, TokenCredential } from "@azure/core-auth";
 import type { OperationOptions, ServiceClient } from "@azure/core-client";
 import { serializationPolicy, serializationPolicyName } from "@azure/core-client";
@@ -18,20 +18,20 @@ import { RestError, createHttpHeaders, createPipelineRequest } from "@azure/core
 import {
   getInitialTransactionBody,
   getTransactionHttpRequestBody,
-} from "./utils/transactionHelpers";
+} from "./utils/transactionHelpers.js";
 import {
   transactionHeaderFilterPolicy,
   transactionHeaderFilterPolicyName,
   transactionRequestAssemblePolicy,
   transactionRequestAssemblePolicyName,
-} from "./TablePolicies";
+} from "./TablePolicies.js";
 
-import type { TableClientLike } from "./utils/internalModels";
-import type { TableServiceErrorOdataError } from "./generated";
-import { cosmosPatchPolicy } from "./cosmosPathPolicy";
-import { getTransactionHeaders } from "./utils/transactionHeaders";
-import { isCosmosEndpoint } from "./utils/isCosmosEndpoint";
-import { tracingClient } from "./utils/tracing";
+import type { TableClientLike } from "./utils/internalModels.js";
+import type { TableServiceErrorOdataError } from "./generated/index.js";
+import { cosmosPatchPolicy } from "./cosmosPathPolicy.js";
+import { getTransactionHeaders } from "./utils/transactionHeaders.js";
+import { isCosmosEndpoint } from "./utils/isCosmosEndpoint.js";
+import { tracingClient } from "./utils/tracing.js";
 
 /**
  * Helper to build a list of transaction actions
@@ -149,6 +149,7 @@ export class InternalTableTransaction {
     partitionKey: string,
     transactionId: string,
     changesetId: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
     client: ServiceClient,
     interceptClient: TableClientLike,
     credential?: NamedKeyCredential | SASCredential | TokenCredential,
@@ -175,7 +176,17 @@ export class InternalTableTransaction {
     }
   }
 
-  private initializeState(transactionId: string, changesetId: string, partitionKey: string) {
+  private initializeState(
+    transactionId: string,
+    changesetId: string,
+    partitionKey: string,
+  ): {
+    transactionId: string;
+    changesetId: string;
+    partitionKey: string;
+    pendingOperations: Promise<any>[];
+    bodyParts: string[];
+  } {
     const pendingOperations: Promise<any>[] = [];
     const bodyParts = getInitialTransactionBody(transactionId, changesetId);
     const isCosmos = isCosmosEndpoint(this.url);
@@ -361,7 +372,7 @@ function handleBodyError(
   statusCode: number,
   request: PipelineRequest,
   response: PipelineResponse,
-) {
+): void {
   let parsedError;
 
   try {
