@@ -80,7 +80,7 @@ export type UpstreamMessageType =
    * Type for SequenceAckMessage
    */
   | "sequenceAck"
-    /**
+  /**
    * Type for PingMessage
    */
   | "ping";
@@ -334,7 +334,6 @@ export interface PingMessage extends WebPubSubMessageBase {
    */
   readonly kind: "ping";
 }
-
 
 /**
  * The data type

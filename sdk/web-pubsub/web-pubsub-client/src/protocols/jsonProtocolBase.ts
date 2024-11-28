@@ -107,7 +107,7 @@ export function writeMessage(message: WebPubSubMessage): string {
       break;
     }
     case "ping": {
-      data = { type: "ping"} as PingData;
+      data = { type: "ping" } as PingData;
       break;
     }
     default: {
