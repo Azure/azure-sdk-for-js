@@ -8,6 +8,7 @@ import {
   ExtractorResult,
   IConfigApiReport,
   IConfigDocModel,
+  IConfigDtsRollup,
   IConfigFile,
 } from "@microsoft/api-extractor";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
@@ -162,7 +163,29 @@ export default leafCommand(commandInfo, async () => {
           `-${exportEntry.baseName}.api.md`,
         );
       }
+      let newDtsRollupOptions: IConfigDtsRollup = { enabled: false };
 
+      const usingTshy = packageJson["tshy"];
+      if (!usingTshy && !extractorConfigObject?.dtsRollup?.publicTrimmedFilePath) {
+        log.error("Packages not using tshy should have a proper api-extractor configuration");
+        return false;
+      }
+      if (!usingTshy) {
+        // Place the subpath export rollup file in the directory from which it is exported
+        const publicTrimmedFilePath = path.parse(
+          extractorConfigObject.dtsRollup!.publicTrimmedFilePath!, // validated above
+        );
+        const newPublicTrimmedPath = path.join(
+          publicTrimmedFilePath.dir,
+          exportEntry.path,
+          publicTrimmedFilePath.base,
+        );
+        newDtsRollupOptions = {
+          ...extractorConfigObject.dtsRollup,
+          publicTrimmedFilePath: newPublicTrimmedPath,
+          enabled: true,
+        };
+      }
       const newDocModel: IConfigDocModel = {
         ...extractorConfigObject.docModel,
         enabled: true,
@@ -177,6 +200,7 @@ export default leafCommand(commandInfo, async () => {
 
       const updatedConfigObject: IConfigFile = {
         ...extractorConfigObject,
+        dtsRollup: newDtsRollupOptions,
         docModel: newDocModel,
         apiReport: newApiReport,
         mainEntryPointFilePath: exportEntry.mainEntryPointFilePath,
