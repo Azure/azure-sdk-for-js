@@ -8,9 +8,10 @@ import type {
   CreateHttpPollerOptions,
   RunningOperation,
   OperationResponse,
-  OperationState,
+  OperationState} from "@azure/core-lro";
+import {
+  createHttpPoller,
 } from "@azure/core-lro";
-import { createHttpPoller } from "@azure/core-lro";
 import type {
   CreateDevBox200Response,
   CreateDevBox201Response,

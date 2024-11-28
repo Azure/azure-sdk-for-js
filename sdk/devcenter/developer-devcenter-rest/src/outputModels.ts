@@ -38,9 +38,9 @@ export interface OperationStatusOutput {
   status: OperationStateOutput;
   /** The id of the resource. */
   resourceId?: string;
-  /** The start time of the operation. */
+  /** The start time of the operation, in RFC3339 format. */
   startTime?: string;
-  /** The end time of the operation. */
+  /** The end time of the operation, in RFC3339 format. */
   endTime?: string;
   /** Percent of the operation that is complete. */
   percentComplete?: number;
@@ -136,7 +136,7 @@ export interface ImageReferenceOutput {
   readonly operatingSystem?: string;
   /** The operating system build number of the image. */
   readonly osBuildNumber?: string;
-  /** The datetime that the backing image version was published. */
+  /** The datetime that the backing image version was published, in RFC3339 format. */
   readonly publishedDate?: string;
 }
 
@@ -221,7 +221,7 @@ export interface DevBoxOutput {
   readonly storageProfile?: StorageProfileOutput;
   /** Information about the image used for this Dev Box. */
   readonly imageReference?: ImageReferenceOutput;
-  /** Creation time of this Dev Box. */
+  /** Creation time of this Dev Box, in RFC3339 format. */
   readonly createdTime?: string;
   /**
    * Indicates whether the owner of the Dev Box is a local administrator.
@@ -289,7 +289,7 @@ export interface DevBoxActionOutput {
   actionType: DevBoxActionTypeOutput;
   /** The id of the resource which triggered this action. */
   sourceId: string;
-  /** The earliest time that the action could occur (UTC). */
+  /** The earliest time that the action could occur (UTC), in RFC3339 format. */
   suspendedUntil?: string;
   /** Details about the next run of this action. */
   next?: DevBoxNextActionOutput;
@@ -297,7 +297,7 @@ export interface DevBoxActionOutput {
 
 /** Details about the next run of an action. */
 export interface DevBoxNextActionOutput {
-  /** The time the action will be triggered (UTC). */
+  /** The time the action will be triggered (UTC), in RFC3339 format. */
   scheduledTime: string;
 }
 
