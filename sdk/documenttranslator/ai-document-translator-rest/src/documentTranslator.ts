@@ -8,7 +8,7 @@ import type { KeyCredential } from "@azure/core-auth";
 import type { DocumentTranslatorClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
-export interface DocumentTranslatorClientOptions extends ClientOptions { }
+export interface DocumentTranslatorClientOptions extends ClientOptions {}
 
 /**
  * Initialize a new instance of `DocumentTranslatorClient`
