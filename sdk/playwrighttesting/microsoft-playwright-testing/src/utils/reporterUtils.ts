@@ -11,27 +11,27 @@ import type {
   Suite,
 } from "@playwright/test/reporter";
 import { exec } from "child_process";
-import { reporterLogger } from "../common/logger";
+import { reporterLogger } from "../common/logger.js";
 import { createHash, randomUUID } from "crypto";
-import type { IBackOffOptions } from "../common/types";
+import type { IBackOffOptions } from "../common/types.js";
 import fs from "fs";
 import os from "os";
 import path from "path";
-import { Constants } from "../common/constants";
-import type { EnvironmentVariables } from "../common/environmentVariables";
-import type { DedupedStep, RawTestStep } from "../common/types";
-import { TokenType } from "../model/mptTokenDetails";
-import type { UploadMetadata } from "../model/shard";
-import { Shard, TestRunStatus } from "../model/shard";
-import type { RawTestResult } from "../model/testResult";
-import { TestResult as MPTTestResult } from "../model/testResult";
-import type { TestRunConfig } from "../model/testRun";
-import { TestRun } from "../model/testRun";
-import type { CIInfo } from "./cIInfoProvider";
-import { CI_PROVIDERS } from "./cIInfoProvider";
-import { CIInfoProvider } from "./cIInfoProvider";
-import type { StorageUri } from "../model/storageUri";
-import { getPackageVersion } from "./utils";
+import { Constants } from "../common/constants.js";
+import type { EnvironmentVariables } from "../common/environmentVariables.js";
+import type { DedupedStep, RawTestStep } from "../common/types.js";
+import { TokenType } from "../model/mptTokenDetails.js";
+import type { UploadMetadata } from "../model/shard.js";
+import { Shard, TestRunStatus } from "../model/shard.js";
+import type { RawTestResult } from "../model/testResult.js";
+import { TestResult as MPTTestResult } from "../model/testResult.js";
+import type { TestRunConfig } from "../model/testRun.js";
+import { TestRun } from "../model/testRun.js";
+import type { CIInfo } from "./cIInfoProvider.js";
+import { CI_PROVIDERS } from "./cIInfoProvider.js";
+import { CIInfoProvider } from "./cIInfoProvider.js";
+import type { StorageUri } from "../model/storageUri.js";
+import { getPackageVersion } from "./utils.js";
 class ReporterUtils {
   private envVariables: EnvironmentVariables;
 
@@ -167,9 +167,9 @@ class ReporterUtils {
       attachmentsMetadata: this.getAttachmentStatus(result),
     };
     testResult.artifactsPath = result.attachments
-      .filter((attachment) => attachment?.path !== null && attachment?.path !== undefined) // Filter attachments with defined and non-null path property
+      .filter((attachment : any) => attachment?.path !== null && attachment?.path !== undefined) // Filter attachments with defined and non-null path property
       .map(
-        (attachment) =>
+        (attachment : any) =>
           `${testResult.testExecutionId}/${ReporterUtils.getFileRelativePath(attachment.path!)}`,
       );
     return testResult;
@@ -415,7 +415,7 @@ class ReporterUtils {
   private extractTestTags(input: TestCase): string[] {
     let tags: string[] = [];
     if ("tags" in input && Array.isArray(input.tags) && input.tags.length > 0) {
-      tags = input.tags.map((tag) => tag.slice(1));
+      tags = input.tags.map((tag : any) => tag.slice(1));
       return tags;
     }
 
@@ -423,7 +423,7 @@ class ReporterUtils {
     const regex = /@(\w+)/g;
     const matches = input.title.match(regex);
     if (matches) {
-      tags = tags.concat(matches.map((match) => match.slice(1)));
+      tags = tags.concat(matches.map((match : any) => match.slice(1)));
     }
 
     // Try parsing the input string as a JavaScript object
@@ -440,7 +440,7 @@ class ReporterUtils {
   }
 
   private extractTestAnnotations(annotations: TestCase["annotations"]): string[] {
-    const result = annotations.map((annotation) => {
+    const result = annotations.map((annotation : any) => {
       if (annotation.type && annotation.description) {
         return `${annotation.type}: ${annotation.description}`;
       }

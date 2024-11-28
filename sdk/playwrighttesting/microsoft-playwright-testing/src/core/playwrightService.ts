@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { InternalEnvironmentVariables, ServiceAuth } from "../common/constants";
-import customerConfig from "../common/customerConfig";
-import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig";
-import playwrightServiceEntra from "./playwrightServiceEntra";
+import { InternalEnvironmentVariables, ServiceAuth } from "../common/constants.js";
+import customerConfig from "../common/customerConfig.js";
+import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig.js";
+import playwrightServiceEntra from "./playwrightServiceEntra.js";
 import type {
   PlaywrightServiceAdditionalOptions,
   PlaywrightConfig,
   PlaywrightConfigInput,
   BrowserConnectOptions,
-} from "../common/types";
+} from "../common/types.js";
 import {
   emitReportingUrl,
   fetchOrValidateAccessToken,
@@ -23,8 +23,8 @@ import {
   getPackageVersion,
   getPlaywrightVersion,
   getVersionInfo,
-} from "../utils/utils";
-import { ServiceErrorMessageConstants } from "../common/messages";
+} from "../utils/utils.js";
+import { ServiceErrorMessageConstants } from "../common/messages.js";
 
 /**
  * @public

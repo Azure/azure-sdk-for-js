@@ -22,19 +22,21 @@
     "node": ">=18.0.0"
   },
   "sideEffects": false,
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "types": "types/microsoft-playwright-testing.d.ts",
+  "type": "module",
+  "main": "./dist/commonjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./types/microsoft-playwright-testing.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "default": "./dist/index.js"
+      "types": "./dist/esm/index.d.ts",
+      "require": "./dist/commonjs/index.js",
+      "import": "./dist/esm/index.js",
+      "default": "./dist/esm/index.js"
     },
     "./reporter": {
-      "types": "./dist/reporter/index.d.ts",
-      "require": "./dist/reporter/index.js",
-      "default": "./dist/reporter/index.js"
+      "types": "./dist/esm/reporter/index.d.ts",
+      "require": "./dist/commonjs/reporter/index.js",
+      "default": "./dist/esm/reporter/index.js"
     }
   },
   "files": [
@@ -45,7 +47,9 @@
     "types"
   ],
   "scripts": {
-    "build": "npm run clean && tsc -p . && dev-tool run bundle && npm run extract-api",
+    "build:cjs": "tsc --project tsconfig.cjs.json",
+    "build:esm": "tsc --project tsconfig.json",
+    "build": "npm run clean && tsc -p . && dev-tool run bundle && npm run extract-api && npm run build:esm && npm run build:cjs",
     "build:samples": "echo obsolete",
     "build:test": "tsc -p . && dev-tool run bundle",
     "check-format": "dev-tool run vendored prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"samples/**/*.ts\" \"*.{js,json}\"",
@@ -86,7 +90,8 @@
     "eslint": "^9.9.0",
     "mocha": "^10.0.0",
     "sinon": "^17.0.0",
-    "typescript": "~5.6.2"
+    "typescript": "~5.6.2",
+    "vitest": "^2.1.6"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//sampleConfiguration": {
@@ -97,5 +102,16 @@
     "requiredResources": {
       "Microsoft Playwright Testing workspace": "https://learn.microsoft.com/azure/playwright-testing/"
     }
+  },
+  "tshy": {
+    "exports": {
+      "./package.json": "./package.json",
+      ".": "./src/index.ts"
+    },
+    "dialects": [
+      "esm",
+      "commonjs"
+    ],
+    "selfLink": false
   }
 }

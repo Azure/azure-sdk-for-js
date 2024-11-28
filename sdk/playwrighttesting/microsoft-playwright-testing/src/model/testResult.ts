@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RawTestStep } from "../common/types";
+import type { RawTestStep } from "../common/types.js";
 
 export class TestResult {
   testId!: string;

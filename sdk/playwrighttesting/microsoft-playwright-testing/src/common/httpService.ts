@@ -9,7 +9,7 @@ import {
   createPipelineRequest,
   createPipelineFromOptions,
 } from "@azure/core-rest-pipeline";
-import { reporterLogger } from "./logger";
+import { reporterLogger } from "./logger.js";
 
 const HTTP_CALL_TIMEOUT = 70000;
 

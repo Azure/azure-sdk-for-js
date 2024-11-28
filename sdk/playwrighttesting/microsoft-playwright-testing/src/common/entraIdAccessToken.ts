@@ -3,15 +3,15 @@
 
 import type { TokenCredential } from "@azure/identity";
 import { DefaultAzureCredential } from "@azure/identity";
-import { coreLogger } from "./logger";
+import { coreLogger } from "./logger.js";
 import {
   EntraIdAccessTokenConstants,
   InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
-} from "./constants";
-import type { AccessTokenClaims } from "./types";
-import { parseJwt } from "../utils/utils";
-import { ServiceErrorMessageConstants } from "./messages";
+} from "./constants.js";
+import type { AccessTokenClaims } from "./types.js";
+import { parseJwt } from "../utils/utils.js";
+import { ServiceErrorMessageConstants } from "./messages.js";
 
 class EntraIdAccessToken {
   public token?: string;
