@@ -34,7 +34,7 @@ async function main(): Promise<void> {
 
   for await (const item of <
     PagedAsyncIterableIterator<DataSourceOutput, DataSourceOutput[], PageSettings>
-    >iter) {
+  >iter) {
     items.push(item);
   }
   console.log(items.map((ds) => ds.name).join("\n"));
