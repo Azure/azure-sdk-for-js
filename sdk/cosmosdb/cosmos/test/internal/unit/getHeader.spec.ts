@@ -16,10 +16,10 @@ describe("Test x-ms-documentdb-query-parallelizecrosspartitionquery header value
       resourceId: null,
       resourceType: null,
       options: feedOptions,
+      operationType: null,
       partitionKeyRangeId: null,
       useMultipleWriteLocations: null,
       partitionKey: null,
-      operationType: null
     });
   }
   it("If maxDegreeOfParallelism > 1 then x-ms-documentdb-query-parallelizecrosspartitionquery header should be true", async function () {

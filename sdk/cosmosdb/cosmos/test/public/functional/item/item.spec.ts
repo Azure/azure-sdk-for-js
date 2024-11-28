@@ -6,12 +6,12 @@ import type {
   Container,
   ContainerDefinition,
   ContainerRequest,
+  ItemDefinition,
   OperationInput,
   PatchOperation,
   RequestOptions,
 } from "../../../../src";
 import { CosmosClient, StatusCodes } from "../../../../src";
-import type { ItemDefinition } from "../../../../src";
 import {
   bulkDeleteItems,
   bulkInsertItems,
