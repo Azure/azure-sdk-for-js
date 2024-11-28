@@ -6,16 +6,16 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { tracingClient } from "../tracing";
-import { NumberAllotment } from "../operationsInterfaces";
+import { tracingClient } from "../tracing.js";
+import { NumberAllotment } from "../operationsInterfaces/index.js";
 import * as coreClient from "@azure/core-client";
-import * as Mappers from "../models/mappers";
-import * as Parameters from "../models/parameters";
-import { TieringClient } from "../tieringClient";
+import * as Mappers from "../models/mappers.js";
+import * as Parameters from "../models/parameters.js";
+import { TieringClient } from "../tieringClient.js";
 import {
   NumberAllotmentGetAcquiredNumberLimitsOptionalParams,
   NumberAllotmentGetAcquiredNumberLimitsResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Class containing NumberAllotment operations. */
 export class NumberAllotmentImpl implements NumberAllotment {

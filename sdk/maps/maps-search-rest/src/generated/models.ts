@@ -22,7 +22,7 @@ export interface GeocodingBatchRequestItem {
    */
   addressLine?: string;
   /**
-   * Restrict the geocoding result to an [ISO 3166-1 Alpha-2 region/country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) that is specified e.g. FR. This will limit the search to the specified region.
+   * Signal for the geocoding result to an [ISO 3166-1 Alpha-2 region/country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) that is specified e.g. FR./
    *
    * **If query is given, should not use this parameter.**
    */

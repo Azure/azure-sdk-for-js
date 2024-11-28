@@ -107,7 +107,7 @@ import type {
   CollectionCreateOrUpdateParameters,
   CollectionCreateOrUpdateBulkParameters,
   CollectionMoveEntitiesToCollectionParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   EntityCreateOrUpdate200Response,
   EntityCreateOrUpdateDefaultResponse,
@@ -311,7 +311,7 @@ import type {
   CollectionCreateOrUpdateBulkDefaultResponse,
   CollectionMoveEntitiesToCollection200Response,
   CollectionMoveEntitiesToCollectionDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface EntityCreateOrUpdate {

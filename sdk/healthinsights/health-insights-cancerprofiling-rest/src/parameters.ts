@@ -3,7 +3,7 @@
 
 import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
 import type { RequestParameters } from "@azure-rest/core-client";
-import type { OncoPhenotypeData } from "./models";
+import type { OncoPhenotypeData } from "./models.js";
 
 export type GetJobParameters = RequestParameters;
 

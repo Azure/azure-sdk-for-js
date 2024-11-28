@@ -194,7 +194,7 @@ import type {
   CollectionCreateOrUpdateBulkDefaultResponse,
   CollectionMoveEntitiesToCollection200Response,
   CollectionMoveEntitiesToCollectionDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /atlas/v2/entity": ["200"],

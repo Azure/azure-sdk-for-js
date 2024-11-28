@@ -2475,6 +2475,8 @@ export interface GlossaryExportGlossaryTermsAsCsvBodyParam {
 // @public
 export interface GlossaryExportGlossaryTermsAsCsvDefaultResponse extends HttpResponse {
     // (undocumented)
+    body: ErrorResponseOutput;
+    // (undocumented)
     status: string;
 }
 

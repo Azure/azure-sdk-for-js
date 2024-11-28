@@ -385,7 +385,10 @@ async function parseSnippetDefinitions(
     // Get all the decls that are in source files and where the decl comes from an import clause.
     return sym?.declarations
       ?.filter(
-        (decl) => decl.getSourceFile() === sourceFile && ts.isImportClause(decl.parent.parent),
+        (decl) =>
+          decl.getSourceFile() === sourceFile &&
+          decl.parent?.parent &&
+          ts.isImportClause(decl.parent.parent),
       )
       .map(
         // It is a grammar error for moduleSpecifier to be anything other than a string literal. In future versions of

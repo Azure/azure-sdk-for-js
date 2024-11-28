@@ -14,9 +14,9 @@ import {
   createPipelineRequest,
   createDefaultHttpClient,
 } from "@azure/core-rest-pipeline";
-import { popTokenAuthenticationPolicy } from "./popTokenAuthenticationPolicy";
+import { popTokenAuthenticationPolicy } from "./popTokenAuthenticationPolicy.js";
 import type { TokenCredential } from "@azure/core-auth";
-import { authorizeRequestOnPopTokenChallenge } from "./authRequestPopTokenChallenge";
+import { authorizeRequestOnPopTokenChallenge } from "./authRequestPopTokenChallenge.js";
 
 export async function sendGraphRequest(credential: TokenCredential): Promise<PipelineResponse> {
   const pipeline = createEmptyPipeline();

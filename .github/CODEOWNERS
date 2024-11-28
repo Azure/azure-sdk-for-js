@@ -310,6 +310,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 # Managment API review files
 /sdk/**/review/arm-*.api.md @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
 
+# Cosmos API review files
+/sdk/cosmosdb/cosmos/review/*api.md @amanrao23 @aditishree1 @sajeetharan @topshot99
+
 # Management Plane
 # PRLabel: %Mgmt
 /sdk/advisor/arm-advisor/ @qiaozha @MaryGao
@@ -400,6 +403,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/communication/arm-communication/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/connectedcache/arm-connectedcache/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/compute/arm-compute/      @qiaozha @MaryGao
@@ -911,6 +917,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/timeseriesinsights/arm-timeseriesinsights/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/terraform/arm-terraform/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/trafficmanager/arm-trafficmanager/ @qiaozha @MaryGao

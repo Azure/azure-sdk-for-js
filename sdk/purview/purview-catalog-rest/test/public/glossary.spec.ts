@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type {
-  AtlasGlossaryOutput,
-  ImportCSVOperationOutput,
-  PurviewCatalogClient,
-} from "../../src";
-import { getLongRunningPoller, isUnexpected } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
 
-import { assert } from "chai";
-import { createClient } from "./utils/recordedClient";
-import type { Context } from "mocha";
+import type { AtlasGlossaryOutput, PurviewCatalogClient } from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
+import { Recorder } from "@azure-tools/test-recorder";
+import { createClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("purview catalog glossary test", () => {
   let recorder: Recorder;
@@ -18,13 +13,13 @@ describe("purview catalog glossary test", () => {
   let glossaryName: string;
   let glossaryGuid: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     client = await createClient(recorder);
     glossaryName = "jsLROTesting-2";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -42,14 +37,14 @@ describe("purview catalog glossary test", () => {
     console.log("created glossary: ", glossary);
 
     if (isUnexpected(glossary)) {
-      throw glossary
+      throw glossary;
     }
     assert.strictEqual(glossary.status, "200");
     const atlasGlossaryOutput = glossary.body as AtlasGlossaryOutput;
     glossaryGuid = glossary.status === "200" ? atlasGlossaryOutput?.guid || "" : "";
   });
 
-  it("should work with LRO helper", async () => {
+  it("should work with LRO helper", { timeout: 500000 }, async () => {
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
@@ -93,4 +88,4 @@ describe("purview catalog glossary test", () => {
 
     assert.strictEqual(glossary.status, "200");
   });
-}).timeout(60000000000);
+});
