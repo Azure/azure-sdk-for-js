@@ -1,4 +1,4 @@
-#!/bin/env node;
+#!/bin/env node
 
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
