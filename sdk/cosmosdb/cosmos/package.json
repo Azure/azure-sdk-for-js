@@ -70,7 +70,7 @@
     "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test:signoff": "npm run integration-test:node -- --fgrep \"nosignoff\" --invert",
-    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "unit-test": "dev-tool run vendored cross-env NODE_OPTIONS='--dns-result-order=ipv4first' mocha -r test/mocha.env.ts -r ts-node/register -r dotenv/config -r ./test/public/common/setup.ts --reporter ../../../common/tools/mocha-multi-reporter.js --reporter-option output=test-results.xml \"./test/internal/unit/*.spec.ts\"  --timeout 100000",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "update-snippets": "echo skipped"
