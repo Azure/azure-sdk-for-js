@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export function serializeRecord<T extends string | number | boolean | Date | null, R>(
-  item: Record<string, T>,
-): Record<string, R>;
+export function serializeRecord<
+  T extends string | number | boolean | Date | null,
+  R,
+>(item: Record<string, T>): Record<string, R>;
 export function serializeRecord<T, R>(
   item: Record<string, T>,
   serializer: (item: T) => R,
@@ -32,5 +33,8 @@ export function serializeRecord<T, R>(
 }
 
 function isSupportedRecordType(t: any) {
-  return ["number", "string", "boolean", "null"].includes(typeof t) || t instanceof Date;
+  return (
+    ["number", "string", "boolean", "null"].includes(typeof t) ||
+    t instanceof Date
+  );
 }

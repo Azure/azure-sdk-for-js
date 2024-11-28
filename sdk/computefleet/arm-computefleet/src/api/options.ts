@@ -28,10 +28,13 @@ export interface FleetsDeleteOptionalParams extends OperationOptions {
 }
 
 /** Optional parameters. */
-export interface FleetsListByResourceGroupOptionalParams extends OperationOptions {}
+export interface FleetsListByResourceGroupOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface FleetsListBySubscriptionOptionalParams extends OperationOptions {}
+export interface FleetsListBySubscriptionOptionalParams
+  extends OperationOptions {}
 
 /** Optional parameters. */
-export interface FleetsListVirtualMachineScaleSetsOptionalParams extends OperationOptions {}
+export interface FleetsListVirtualMachineScaleSetsOptionalParams
+  extends OperationOptions {}

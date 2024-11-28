@@ -357,7 +357,7 @@ export enum KnownMode {
 
 // @public
 export enum KnownNetworkApiVersion {
-    V20201101 = "2020-11-01"
+    V2020_11_01 = "2020-11-01"
 }
 
 // @public
@@ -453,12 +453,17 @@ export enum KnownSpotAllocationStrategy {
 // @public
 export enum KnownStorageAccountTypes {
     PremiumLRS = "Premium_LRS",
-    PremiumV2LRS = "PremiumV2_LRS",
+    PremiumV2_LRS = "PremiumV2_LRS",
     PremiumZRS = "Premium_ZRS",
     StandardLRS = "Standard_LRS",
     StandardSSDLRS = "StandardSSD_LRS",
     StandardSSDZRS = "StandardSSD_ZRS",
     UltraSSDLRS = "UltraSSD_LRS"
+}
+
+// @public
+export enum KnownVersions {
+    V2024_11_01 = "2024-11-01"
 }
 
 // @public
