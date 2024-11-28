@@ -83,7 +83,6 @@
   "autoPublish": false,
   "dependencies": {
     "@azure-tools/test-recorder": "^3.0.0",
-    "@azure/core-paging": "^1.5.0",
     "@azure/core-lro": "^3.0.0",
     "@azure/abort-controller": "^2.1.2",
     "@azure-rest/core-client": "^2.3.1",
