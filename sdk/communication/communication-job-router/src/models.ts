@@ -26,7 +26,7 @@ import type {
   WorkerSelectorAttachment,
   LongestIdleMode,
   RoundRobinMode,
-} from "./generated/src";
+} from "./generated/src/index.js";
 
 /** Safe type instead of 'any'. */
 export type JSONValue = boolean | number | string | JSONArray | JSONObject;
@@ -637,4 +637,4 @@ export {
   RouterWorkerState,
   RouterJobStatus,
   LabelOperator,
-} from "./generated/src";
+} from "./generated/src/index.js";

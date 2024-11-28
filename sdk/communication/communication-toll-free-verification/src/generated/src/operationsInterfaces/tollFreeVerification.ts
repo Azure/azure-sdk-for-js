@@ -28,7 +28,7 @@ import {
   TollFreeVerificationDeleteCampaignBriefAttachmentOptionalParams,
   TollFreeVerificationGetCampaignBriefAttachmentOptionalParams,
   TollFreeVerificationGetCampaignBriefAttachmentResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a TollFreeVerification. */

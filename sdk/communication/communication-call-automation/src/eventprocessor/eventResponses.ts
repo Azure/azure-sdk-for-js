@@ -21,7 +21,7 @@ import type {
   CancelAddParticipantFailed,
   CreateCallFailed,
   AnswerFailed,
-} from "../models/events";
+} from "../models/events.js";
 
 /**
  * AddParticipant event result

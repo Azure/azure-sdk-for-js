@@ -123,9 +123,11 @@ export default leafCommand(commandInfo, async () => {
 
   const apiExtractorJsonPath: string = path.join(projectInfo.path, "api-extractor.json");
   const extractorConfigObject = ExtractorConfig.loadFile(apiExtractorJsonPath);
+  // sub path exports extraction
+  const exports = buildExportConfiguration(packageJson);
   if (
     !extractorConfigObject.mainEntryPointFilePath ||
-    !extractorConfigObject?.dtsRollup?.publicTrimmedFilePath
+    (exports === undefined && !extractorConfigObject?.dtsRollup?.publicTrimmedFilePath)
   ) {
     log.error("Unexpected api-extractor configuration");
     return false;
@@ -138,21 +140,11 @@ export default leafCommand(commandInfo, async () => {
   log.debug(`  reportTempFolder: ${extractorConfigObject.apiReport?.reportTempFolder}`);
 
   let succeed = true;
-  // sub path exports extraction
-  const exports = buildExportConfiguration(packageJson);
+
   if (exports !== undefined) {
     log.info("Detected subpath exports, extracting markdown for each subpath.");
     for (const exportEntry of exports) {
       log.info(`Extracting api for export: ${exportEntry.path}`);
-      // Place the subpath export rollup file in the directory from which it is exported
-      const publicTrimmedFilePath = path.parse(
-        extractorConfigObject.dtsRollup.publicTrimmedFilePath,
-      );
-      const newPublicTrimmedPath = path.join(
-        publicTrimmedFilePath.dir,
-        exportEntry.path,
-        publicTrimmedFilePath.base,
-      );
 
       // Leave filenames unchanged for the root export
       let newApiJsonPath = extractorConfigObject.docModel?.apiJsonFilePath;
@@ -171,11 +163,29 @@ export default leafCommand(commandInfo, async () => {
           `-${exportEntry.baseName}.api.md`,
         );
       }
+      let newDtsRollupOptions: IConfigDtsRollup = { enabled: false };
 
-      const newDtsRollupOptions: IConfigDtsRollup = {
-        ...extractorConfigObject.dtsRollup,
-        publicTrimmedFilePath: newPublicTrimmedPath,
-      };
+      const usingTshy = packageJson["tshy"];
+      if (!usingTshy && !extractorConfigObject?.dtsRollup?.publicTrimmedFilePath) {
+        log.error("Packages not using tshy should have a proper api-extractor configuration");
+        return false;
+      }
+      if (!usingTshy) {
+        // Place the subpath export rollup file in the directory from which it is exported
+        const publicTrimmedFilePath = path.parse(
+          extractorConfigObject.dtsRollup!.publicTrimmedFilePath!, // validated above
+        );
+        const newPublicTrimmedPath = path.join(
+          publicTrimmedFilePath.dir,
+          exportEntry.path,
+          publicTrimmedFilePath.base,
+        );
+        newDtsRollupOptions = {
+          ...extractorConfigObject.dtsRollup,
+          publicTrimmedFilePath: newPublicTrimmedPath,
+          enabled: true,
+        };
+      }
       const newDocModel: IConfigDocModel = {
         ...extractorConfigObject.docModel,
         enabled: true,

@@ -51,7 +51,7 @@ import type {
   StartTranslation429Response,
   StartTranslation500Response,
   StartTranslation503Response,
-} from "./responses";
+} from "./responses.js";
 import type {
   CancelTranslationParameters,
   GetDocumentStatusParameters,
@@ -62,7 +62,7 @@ import type {
   GetTranslationStatusParameters,
   GetTranslationsStatusParameters,
   StartTranslationParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type { Client, ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";

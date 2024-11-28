@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-export * from "./callAutomationClient";
-export * from "./callConnection";
-export * from "./callMedia";
-export * from "./callRecording";
-export * from "./callAutomationEventParser";
-export * from "./models/models";
-export * from "./models/options";
-export * from "./models/responses";
-export * from "./models/events";
-export * from "./eventprocessor/callAutomationEventProcessor";
-export * from "./eventprocessor/eventResponses";
+export * from "./callAutomationClient.js";
+export * from "./callConnection.js";
+export * from "./callMedia.js";
+export * from "./callRecording.js";
+export * from "./callAutomationEventParser.js";
+export * from "./models/models.js";
+export * from "./models/options.js";
+export * from "./models/responses.js";
+export * from "./models/events.js";
+export * from "./eventprocessor/callAutomationEventProcessor.js";
+export * from "./eventprocessor/eventResponses.js";
