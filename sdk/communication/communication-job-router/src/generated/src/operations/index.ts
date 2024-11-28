@@ -6,5 +6,5 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-export * from "./jobRouterAdministration";
-export * from "./jobRouter";
+export * from "./jobRouterAdministration.js";
+export * from "./jobRouter.js";

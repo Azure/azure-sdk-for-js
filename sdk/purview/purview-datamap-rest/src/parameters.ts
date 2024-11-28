@@ -22,7 +22,7 @@ import {
   AtlasRelationship,
   TypeCategory,
   AtlasTypesDef,
-} from "./models";
+} from "./models.js";
 
 export interface EntityCreateOrUpdateBodyParam {
   body: AtlasEntityWithExtInfo;

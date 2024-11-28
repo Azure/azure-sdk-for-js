@@ -20,7 +20,7 @@ import {
   PrivateLinkResourcesListByConfigurationStoreResponse,
   PrivateLinkResourcesGetOptionalParams,
   PrivateLinkResourcesGetResponse,
-  PrivateLinkResourcesListByConfigurationStoreNextResponse
+  PrivateLinkResourcesListByConfigurationStoreNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -45,12 +45,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   public listByConfigurationStore(
     resourceGroupName: string,
     configStoreName: string,
-    options?: PrivateLinkResourcesListByConfigurationStoreOptionalParams
+    options?: PrivateLinkResourcesListByConfigurationStoreOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
     const iter = this.listByConfigurationStorePagingAll(
       resourceGroupName,
       configStoreName,
-      options
+      options,
     );
     return {
       next() {
@@ -67,9 +67,9 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
           resourceGroupName,
           configStoreName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -77,7 +77,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     resourceGroupName: string,
     configStoreName: string,
     options?: PrivateLinkResourcesListByConfigurationStoreOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkResource[]> {
     let result: PrivateLinkResourcesListByConfigurationStoreResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
       result = await this._listByConfigurationStore(
         resourceGroupName,
         configStoreName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -97,7 +97,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
         resourceGroupName,
         configStoreName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -109,12 +109,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private async *listByConfigurationStorePagingAll(
     resourceGroupName: string,
     configStoreName: string,
-    options?: PrivateLinkResourcesListByConfigurationStoreOptionalParams
+    options?: PrivateLinkResourcesListByConfigurationStoreOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResource> {
     for await (const page of this.listByConfigurationStorePagingPage(
       resourceGroupName,
       configStoreName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -129,11 +129,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private _listByConfigurationStore(
     resourceGroupName: string,
     configStoreName: string,
-    options?: PrivateLinkResourcesListByConfigurationStoreOptionalParams
+    options?: PrivateLinkResourcesListByConfigurationStoreOptionalParams,
   ): Promise<PrivateLinkResourcesListByConfigurationStoreResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, options },
-      listByConfigurationStoreOperationSpec
+      listByConfigurationStoreOperationSpec,
     );
   }
 
@@ -148,11 +148,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     resourceGroupName: string,
     configStoreName: string,
     groupName: string,
-    options?: PrivateLinkResourcesGetOptionalParams
+    options?: PrivateLinkResourcesGetOptionalParams,
   ): Promise<PrivateLinkResourcesGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, groupName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -168,11 +168,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     resourceGroupName: string,
     configStoreName: string,
     nextLink: string,
-    options?: PrivateLinkResourcesListByConfigurationStoreNextOptionalParams
+    options?: PrivateLinkResourcesListByConfigurationStoreNextOptionalParams,
   ): Promise<PrivateLinkResourcesListByConfigurationStoreNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, configStoreName, nextLink, options },
-      listByConfigurationStoreNextOperationSpec
+      listByConfigurationStoreNextOperationSpec,
     );
   }
 }
@@ -180,38 +180,15 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByConfigurationStoreOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.configStoreName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateLinkResources/{groupName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.PrivateLinkResource
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -219,29 +196,50 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.groupName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateLinkResources/{groupName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateLinkResource,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.configStoreName,
+    Parameters.groupName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const listByConfigurationStoreNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.configStoreName,
-    Parameters.nextLink
+    Parameters.nextLink,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

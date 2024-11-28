@@ -10,7 +10,7 @@
 // Licensed under the MIT License.
 import {
   CheckNameAvailabilityParameters,
-  AppConfigurationManagementClient
+  AppConfigurationManagementClient,
 } from "@azure/arm-appconfiguration";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -21,7 +21,7 @@ dotenv.config();
  * This sample demonstrates how to Checks whether the configuration store name is available for use.
  *
  * @summary Checks whether the configuration store name is available for use.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/CheckNameAvailable.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/CheckNameAvailable.json
  */
 async function configurationStoresCheckNameAvailable() {
   const subscriptionId =
@@ -29,15 +29,15 @@ async function configurationStoresCheckNameAvailable() {
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
   const checkNameAvailabilityParameters: CheckNameAvailabilityParameters = {
     name: "contoso",
-    type: "Microsoft.AppConfiguration/configurationStores"
+    type: "Microsoft.AppConfiguration/configurationStores",
   };
   const credential = new DefaultAzureCredential();
   const client = new AppConfigurationManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.operations.checkNameAvailability(
-    checkNameAvailabilityParameters
+    checkNameAvailabilityParameters,
   );
   console.log(result);
 }
@@ -46,7 +46,7 @@ async function configurationStoresCheckNameAvailable() {
  * This sample demonstrates how to Checks whether the configuration store name is available for use.
  *
  * @summary Checks whether the configuration store name is available for use.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/CheckNameNotAvailable.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/CheckNameNotAvailable.json
  */
 async function configurationStoresCheckNameNotAvailable() {
   const subscriptionId =
@@ -54,15 +54,15 @@ async function configurationStoresCheckNameNotAvailable() {
     "c80fb759-c965-4c6a-9110-9b2b2d038882";
   const checkNameAvailabilityParameters: CheckNameAvailabilityParameters = {
     name: "contoso",
-    type: "Microsoft.AppConfiguration/configurationStores"
+    type: "Microsoft.AppConfiguration/configurationStores",
   };
   const credential = new DefaultAzureCredential();
   const client = new AppConfigurationManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const result = await client.operations.checkNameAvailability(
-    checkNameAvailabilityParameters
+    checkNameAvailabilityParameters,
   );
   console.log(result);
 }

@@ -68,7 +68,7 @@
   "devDependencies": {
     "dotenv": "^16.0.0",
     "@types/node": "^18.0.0",
-    "eslint": "^8.55.0",
+    "eslint": "^9.9.0",
     "prettier": "^3.2.5",
     "typescript": "~5.6.2",
     "@azure/identity": "^4.2.1",
