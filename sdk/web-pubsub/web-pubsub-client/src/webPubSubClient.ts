@@ -76,15 +76,14 @@ export class WebPubSubClient {
   private readonly _reconnectRetryPolicy: RetryPolicy;
   private readonly _quickSequenceAckDiff = 300;
   // The timeout for keep alive
-  private readonly _keepAliveTimeoutInMs = 60000;
+  private readonly _keepAliveTimeoutInMs: number;
   // The interval at which to send ping messages to the runtime
-  private readonly _pingIntervalInMs = 20000;
+  private readonly _pingIntervalInMs: number;
 
   private readonly _emitter: EventEmitter = new EventEmitter();
   private _state: WebPubSubClientState;
   private _isStopping: boolean = false;
   private _ackId: number;
-  private _pingTimeout?: NodeJS.Timeout | null;
   // The task of sending ping message
   private _sendPingTask: AbortableTask | undefined;
 
@@ -97,6 +96,8 @@ export class WebPubSubClient {
   private _reconnectionToken?: string;
   private _isInitialConnected = false;
   private _sequenceAckTask?: AbortableTask;
+
+  private _lastPongReceived: number = Date.now();
 
   private nextAckId(): number {
     this._ackId = this._ackId + 1;
@@ -138,6 +139,9 @@ export class WebPubSubClient {
 
     this._state = WebPubSubClientState.Stopped;
     this._ackId = 0;
+
+    this._keepAliveTimeoutInMs = this._options.keepAliveTimeoutInMs ?? 60000;
+    this._pingIntervalInMs = this._options.pingIntervalInMs ?? 20000;
   }
 
   /**
@@ -567,22 +571,20 @@ export class WebPubSubClient {
   }
 
   private async _trySendPing(): Promise<void> {
-    // If the ping timeout is not null, it means that the last ping message is still waiting for a pong response message
-    // So we don't need to send a new ping message.
-    if (this._pingTimeout != null) {
+    const now = Date.now();
+    // Check if we haven't received a pong for too long
+    if (now - this._lastPongReceived > this._keepAliveTimeoutInMs) {
+      logger.warning(`No pong message received for a long time. The connection is closed.`);
+      this._wsClient?.close();
       return;
     }
+
     const message: PingMessage = {
       kind: "ping",
     };
     try {
       await this._sendMessage(message);
-      this._pingTimeout = setTimeout(() => {
-        logger.warning(`No pong message received for a long time. The connection is closed.`);
-        this._wsClient?.close();
-      }, this._keepAliveTimeoutInMs);
     } catch {
-      this._pingTimeout = null;
       logger.warning("Failed to send ping message to the runtime");
     }
   }
@@ -644,6 +646,9 @@ export class WebPubSubClient {
       });
 
       client.onmessage((data: any) => {
+        // Update last pong time for any received message
+        this._lastPongReceived = Date.now();
+
         const handleAckMessage = (message: AckMessage): void => {
           if (this._ackMap.has(message.ackId)) {
             const entity = this._ackMap.get(message.ackId)!;
@@ -736,13 +741,6 @@ export class WebPubSubClient {
           this._safeEmitServerMessage(message);
         };
 
-        const handlePongMessage = (): void => {
-          if (this._pingTimeout) {
-            clearTimeout(this._pingTimeout); // Clear the timeout if ping is received within the allowed time
-            this._pingTimeout = null;
-          }
-        };
-
         let messages: WebPubSubMessage[] | WebPubSubMessage | null;
         try {
           let convertedData: Buffer | ArrayBuffer | string;
@@ -770,7 +768,7 @@ export class WebPubSubClient {
           try {
             switch (message.kind) {
               case "pong": {
-                handlePongMessage();
+                // We already updated _lastPongReceived for all messages
                 break;
               }
               case "ack": {
@@ -1026,6 +1024,14 @@ export class WebPubSubClient {
 
     if (clientOptions.protocol == null) {
       clientOptions.protocol = WebPubSubJsonReliableProtocol();
+    }
+
+    if (clientOptions.keepAliveTimeoutInMs == null) {
+      clientOptions.keepAliveTimeoutInMs = 60000; // 60 seconds
+    }
+
+    if (clientOptions.pingIntervalInMs == null) {
+      clientOptions.pingIntervalInMs = 20000; // 20 seconds
     }
 
     this._buildMessageRetryOptions(clientOptions);
