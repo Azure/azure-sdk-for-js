@@ -139,13 +139,13 @@ const getOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.apiVersion,
     Parameters.select15,
-    Parameters.timeout74
+    Parameters.timeout75
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId88,
-    Parameters.returnClientRequestId88,
-    Parameters.ocpDate88
+    Parameters.clientRequestId89,
+    Parameters.returnClientRequestId89,
+    Parameters.ocpDate89
   ],
   responses: {
     200: {
@@ -172,13 +172,13 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.apiVersion,
     Parameters.select16,
     Parameters.maxResults14,
-    Parameters.timeout75
+    Parameters.timeout76
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId89,
-    Parameters.returnClientRequestId89,
-    Parameters.ocpDate89
+    Parameters.clientRequestId90,
+    Parameters.returnClientRequestId90,
+    Parameters.ocpDate90
   ],
   responses: {
     200: {
@@ -205,9 +205,9 @@ const listNextOperationSpec: msRest.OperationSpec = {
   ],
   headerParameters: [
     Parameters.acceptLanguage,
-    Parameters.clientRequestId90,
-    Parameters.returnClientRequestId90,
-    Parameters.ocpDate90
+    Parameters.clientRequestId91,
+    Parameters.returnClientRequestId91,
+    Parameters.ocpDate91
   ],
   responses: {
     200: {

@@ -9,7 +9,7 @@ import {
   getLongRunningPoller,
   GetTranslationStatus200Response,
   TranslationStatusOutput,
-} from "../.././../src";
+} from "../../../src";
 import { createDocumentTranslationClient, startRecorder } from "../utils/recordedClient";
 import { createSourceContainer, createTargetContainer } from "./containerHelper";
 import { Context } from "mocha";

@@ -15,7 +15,7 @@ import {
   UserSessionsGetResponse,
   UserSessionsDeleteOptionalParams,
   UserSessionsDisconnectOptionalParams,
-  UserSessionsSendMessageOptionalParams
+  UserSessionsSendMessageOptionalParams,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -30,7 +30,7 @@ export interface UserSessions {
   listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: UserSessionsListByHostPoolOptionalParams
+    options?: UserSessionsListByHostPoolOptionalParams,
   ): PagedAsyncIterableIterator<UserSession>;
   /**
    * List userSessions.
@@ -43,7 +43,7 @@ export interface UserSessions {
     resourceGroupName: string,
     hostPoolName: string,
     sessionHostName: string,
-    options?: UserSessionsListOptionalParams
+    options?: UserSessionsListOptionalParams,
   ): PagedAsyncIterableIterator<UserSession>;
   /**
    * Get a userSession.
@@ -58,7 +58,7 @@ export interface UserSessions {
     hostPoolName: string,
     sessionHostName: string,
     userSessionId: string,
-    options?: UserSessionsGetOptionalParams
+    options?: UserSessionsGetOptionalParams,
   ): Promise<UserSessionsGetResponse>;
   /**
    * Remove a userSession.
@@ -73,7 +73,7 @@ export interface UserSessions {
     hostPoolName: string,
     sessionHostName: string,
     userSessionId: string,
-    options?: UserSessionsDeleteOptionalParams
+    options?: UserSessionsDeleteOptionalParams,
   ): Promise<void>;
   /**
    * Disconnect a userSession.
@@ -88,7 +88,7 @@ export interface UserSessions {
     hostPoolName: string,
     sessionHostName: string,
     userSessionId: string,
-    options?: UserSessionsDisconnectOptionalParams
+    options?: UserSessionsDisconnectOptionalParams,
   ): Promise<void>;
   /**
    * Send a message to a user.
@@ -103,6 +103,6 @@ export interface UserSessions {
     hostPoolName: string,
     sessionHostName: string,
     userSessionId: string,
-    options?: UserSessionsSendMessageOptionalParams
+    options?: UserSessionsSendMessageOptionalParams,
   ): Promise<void>;
 }

@@ -25,6 +25,147 @@ export interface AgentUpdateProperties {
 }
 
 // @public
+export interface AppAttachPackage extends TrackedResource {
+    properties: AppAttachPackageProperties;
+}
+
+// @public
+export type AppAttachPackageArchitectures = string;
+
+// @public
+export interface AppAttachPackageCreateOrUpdateOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AppAttachPackageCreateOrUpdateResponse = AppAttachPackage;
+
+// @public
+export interface AppAttachPackageDeleteOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export interface AppAttachPackageGetOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AppAttachPackageGetResponse = AppAttachPackage;
+
+// @public
+export interface AppAttachPackageInfo {
+    listImport(resourceGroupName: string, hostPoolName: string, importPackageInfoRequest: ImportPackageInfoRequest, options?: AppAttachPackageInfoImportOptionalParams): PagedAsyncIterableIterator<AppAttachPackage>;
+}
+
+// @public
+export interface AppAttachPackageInfoImportNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AppAttachPackageInfoImportNextResponse = AppAttachPackageList;
+
+// @public
+export interface AppAttachPackageInfoImportOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AppAttachPackageInfoImportResponse = AppAttachPackageList;
+
+// @public
+export interface AppAttachPackageInfoProperties {
+    certificateExpiry?: Date;
+    certificateName?: string;
+    displayName?: string;
+    imagePath?: string;
+    isActive?: boolean;
+    isPackageTimestamped?: PackageTimestamped;
+    isRegularRegistration?: boolean;
+    lastUpdated?: Date;
+    packageAlias?: string;
+    packageApplications?: MsixPackageApplications[];
+    packageDependencies?: MsixPackageDependencies[];
+    packageFamilyName?: string;
+    packageFullName?: string;
+    packageName?: string;
+    packageRelativePath?: string;
+    version?: string;
+}
+
+// @public
+export interface AppAttachPackageList {
+    readonly nextLink?: string;
+    value?: AppAttachPackage[];
+}
+
+// @public
+export interface AppAttachPackageListByResourceGroupNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AppAttachPackageListByResourceGroupNextResponse = AppAttachPackageList;
+
+// @public
+export interface AppAttachPackageListByResourceGroupOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type AppAttachPackageListByResourceGroupResponse = AppAttachPackageList;
+
+// @public
+export interface AppAttachPackageListBySubscriptionNextOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type AppAttachPackageListBySubscriptionNextResponse = AppAttachPackageList;
+
+// @public
+export interface AppAttachPackageListBySubscriptionOptionalParams extends coreClient.OperationOptions {
+    filter?: string;
+}
+
+// @public
+export type AppAttachPackageListBySubscriptionResponse = AppAttachPackageList;
+
+// @public
+export interface AppAttachPackageOperations {
+    createOrUpdate(resourceGroupName: string, appAttachPackageName: string, appAttachPackage: AppAttachPackage, options?: AppAttachPackageCreateOrUpdateOptionalParams): Promise<AppAttachPackageCreateOrUpdateResponse>;
+    delete(resourceGroupName: string, appAttachPackageName: string, options?: AppAttachPackageDeleteOptionalParams): Promise<void>;
+    get(resourceGroupName: string, appAttachPackageName: string, options?: AppAttachPackageGetOptionalParams): Promise<AppAttachPackageGetResponse>;
+    listByResourceGroup(resourceGroupName: string, options?: AppAttachPackageListByResourceGroupOptionalParams): PagedAsyncIterableIterator<AppAttachPackage>;
+    listBySubscription(options?: AppAttachPackageListBySubscriptionOptionalParams): PagedAsyncIterableIterator<AppAttachPackage>;
+    update(resourceGroupName: string, appAttachPackageName: string, options?: AppAttachPackageUpdateOptionalParams): Promise<AppAttachPackageUpdateResponse>;
+}
+
+// @public
+export interface AppAttachPackagePatch extends Resource {
+    properties?: AppAttachPackagePatchProperties;
+}
+
+// @public
+export interface AppAttachPackagePatchProperties {
+    failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure;
+    hostPoolReferences?: string[];
+    image?: AppAttachPackageInfoProperties;
+    keyVaultURL?: string;
+}
+
+// @public
+export interface AppAttachPackageProperties {
+    failHealthCheckOnStagingFailure?: FailHealthCheckOnStagingFailure;
+    hostPoolReferences?: string[];
+    image?: AppAttachPackageInfoProperties;
+    keyVaultURL?: string;
+    readonly provisioningState?: ProvisioningState;
+}
+
+// @public
+export interface AppAttachPackageUpdateOptionalParams extends coreClient.OperationOptions {
+    appAttachPackagePatch?: AppAttachPackagePatch;
+}
+
+// @public
+export type AppAttachPackageUpdateResponse = AppAttachPackage;
+
+// @public
 export interface Application extends Resource {
     applicationType?: RemoteApplicationType;
     commandLineArguments?: string;
@@ -40,7 +181,6 @@ export interface Application extends Resource {
     msixPackageFamilyName?: string;
     readonly objectId?: string;
     showInPortal?: boolean;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -52,7 +192,6 @@ export interface ApplicationGroup extends ResourceModelWithAllowedPropertySet {
     hostPoolArmPath: string;
     readonly objectId?: string;
     showInFeed?: boolean;
-    readonly systemData?: SystemData;
     readonly workspaceArmPath?: string;
 }
 
@@ -250,7 +389,6 @@ export interface Desktop extends Resource {
     readonly iconContent?: Uint8Array;
     readonly iconHash?: string;
     readonly objectId?: string;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -315,6 +453,10 @@ export class DesktopVirtualizationAPIClient extends coreClient.ServiceClient {
     // (undocumented)
     apiVersion: string;
     // (undocumented)
+    appAttachPackageInfo: AppAttachPackageInfo;
+    // (undocumented)
+    appAttachPackageOperations: AppAttachPackageOperations;
+    // (undocumented)
     applicationGroups: ApplicationGroups;
     // (undocumented)
     applications: Applications;
@@ -358,7 +500,29 @@ export interface DesktopVirtualizationAPIClientOptionalParams extends coreClient
 }
 
 // @public
+export interface ErrorAdditionalInfo {
+    readonly info?: Record<string, unknown>;
+    readonly type?: string;
+}
+
+// @public
+export interface ErrorDetail {
+    readonly additionalInfo?: ErrorAdditionalInfo[];
+    readonly code?: string;
+    readonly details?: ErrorDetail[];
+    readonly message?: string;
+    readonly target?: string;
+}
+
+// @public
+export interface ErrorResponse {
+    error?: ErrorDetail;
+}
+
+// @public
 export interface ExpandMsixImage extends Resource {
+    certificateExpiry?: Date;
+    certificateName?: string;
     displayName?: string;
     imagePath?: string;
     isActive?: boolean;
@@ -381,6 +545,9 @@ export interface ExpandMsixImageList {
 }
 
 // @public
+export type FailHealthCheckOnStagingFailure = string;
+
+// @public
 export function getContinuationToken(page: unknown): string | undefined;
 
 // @public
@@ -392,6 +559,7 @@ export type HealthCheckResult = string;
 // @public
 export interface HostPool extends ResourceModelWithAllowedPropertySet {
     agentUpdate?: AgentUpdateProperties;
+    readonly appAttachPackageReferences?: string[];
     readonly applicationGroupReferences?: string[];
     readonly cloudPcResource?: boolean;
     customRdpProperty?: string;
@@ -412,7 +580,6 @@ export interface HostPool extends ResourceModelWithAllowedPropertySet {
     ssoClientSecretKeyVaultPath?: string;
     ssoSecretType?: SSOSecretType;
     startVMOnConnect?: boolean;
-    readonly systemData?: SystemData;
     validationEnvironment?: boolean;
     vmTemplate?: string;
 }
@@ -458,6 +625,7 @@ export interface HostPools {
     get(resourceGroupName: string, hostPoolName: string, options?: HostPoolsGetOptionalParams): Promise<HostPoolsGetResponse>;
     list(options?: HostPoolsListOptionalParams): PagedAsyncIterableIterator<HostPool>;
     listByResourceGroup(resourceGroupName: string, options?: HostPoolsListByResourceGroupOptionalParams): PagedAsyncIterableIterator<HostPool>;
+    listRegistrationTokens(resourceGroupName: string, hostPoolName: string, options?: HostPoolsListRegistrationTokensOptionalParams): Promise<HostPoolsListRegistrationTokensResponse>;
     retrieveRegistrationToken(resourceGroupName: string, hostPoolName: string, options?: HostPoolsRetrieveRegistrationTokenOptionalParams): Promise<HostPoolsRetrieveRegistrationTokenResponse>;
     update(resourceGroupName: string, hostPoolName: string, options?: HostPoolsUpdateOptionalParams): Promise<HostPoolsUpdateResponse>;
 }
@@ -513,6 +681,13 @@ export interface HostPoolsListOptionalParams extends coreClient.OperationOptions
 }
 
 // @public
+export interface HostPoolsListRegistrationTokensOptionalParams extends coreClient.OperationOptions {
+}
+
+// @public
+export type HostPoolsListRegistrationTokensResponse = RegistrationTokenList;
+
+// @public
 export type HostPoolsListResponse = HostPoolList;
 
 // @public
@@ -541,6 +716,23 @@ export interface Identity {
 }
 
 // @public
+export interface ImportPackageInfoRequest {
+    packageArchitecture?: AppAttachPackageArchitectures;
+    path?: string;
+}
+
+// @public
+export enum KnownAppAttachPackageArchitectures {
+    ALL = "ALL",
+    ARM = "ARM",
+    ARM64 = "ARM64",
+    Neutral = "Neutral",
+    X64 = "x64",
+    X86 = "x86",
+    X86A64 = "x86a64"
+}
+
+// @public
 export enum KnownApplicationGroupType {
     Desktop = "Desktop",
     RemoteApp = "RemoteApp"
@@ -565,6 +757,13 @@ export enum KnownCreatedByType {
     Key = "Key",
     ManagedIdentity = "ManagedIdentity",
     User = "User"
+}
+
+// @public
+export enum KnownFailHealthCheckOnStagingFailure {
+    DoNotFail = "DoNotFail",
+    NeedsAssistance = "NeedsAssistance",
+    Unhealthy = "Unhealthy"
 }
 
 // @public
@@ -613,6 +812,12 @@ export enum KnownLoadBalancerType {
 }
 
 // @public
+export enum KnownPackageTimestamped {
+    NotTimestamped = "NotTimestamped",
+    Timestamped = "Timestamped"
+}
+
+// @public
 export enum KnownPersonalDesktopAssignmentType {
     Automatic = "Automatic",
     Direct = "Direct"
@@ -638,6 +843,14 @@ export enum KnownPrivateEndpointServiceConnectionStatus {
     Approved = "Approved",
     Pending = "Pending",
     Rejected = "Rejected"
+}
+
+// @public
+export enum KnownProvisioningState {
+    Canceled = "Canceled",
+    Failed = "Failed",
+    Provisioning = "Provisioning",
+    Succeeded = "Succeeded"
 }
 
 // @public
@@ -814,7 +1027,6 @@ export interface MsixPackage extends Resource {
     packageFamilyName?: string;
     packageName?: string;
     packageRelativePath?: string;
-    readonly systemData?: SystemData;
     version?: string;
 }
 
@@ -926,6 +1138,9 @@ export interface OperationsListOptionalParams extends coreClient.OperationOption
 export type OperationsListResponse = ResourceProviderOperationList;
 
 // @public
+export type PackageTimestamped = string;
+
+// @public
 export type PersonalDesktopAssignmentType = string;
 
 // @public
@@ -947,6 +1162,7 @@ export interface PrivateEndpoint {
 
 // @public
 export interface PrivateEndpointConnection extends Resource {
+    readonly groupIds?: string[];
     privateEndpoint?: PrivateEndpoint;
     privateLinkServiceConnectionState?: PrivateLinkServiceConnectionState;
     readonly provisioningState?: PrivateEndpointConnectionProvisioningState;
@@ -1042,7 +1258,6 @@ export type PrivateEndpointConnectionsUpdateByWorkspaceResponse = PrivateEndpoin
 
 // @public
 export interface PrivateEndpointConnectionWithSystemData extends PrivateEndpointConnection {
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -1109,6 +1324,9 @@ export interface PrivateLinkServiceConnectionState {
 }
 
 // @public
+export type ProvisioningState = string;
+
+// @public
 export interface ProxyResource extends Resource {
 }
 
@@ -1129,6 +1347,18 @@ export interface RegistrationInfoPatch {
 }
 
 // @public
+export interface RegistrationTokenList {
+    readonly nextLink?: string;
+    value?: RegistrationTokenMinimal[];
+}
+
+// @public
+export interface RegistrationTokenMinimal {
+    expirationTime?: Date;
+    token?: string;
+}
+
+// @public
 export type RegistrationTokenOperation = string;
 
 // @public
@@ -1138,27 +1368,21 @@ export type RemoteApplicationType = string;
 export interface Resource {
     readonly id?: string;
     readonly name?: string;
+    readonly systemData?: SystemData;
     readonly type?: string;
 }
 
 // @public
-export interface ResourceModelWithAllowedPropertySet {
+export interface ResourceModelWithAllowedPropertySet extends TrackedResource {
     readonly etag?: string;
-    readonly id?: string;
     // (undocumented)
     identity?: ResourceModelWithAllowedPropertySetIdentity;
     kind?: string;
-    location?: string;
     managedBy?: string;
-    readonly name?: string;
     // (undocumented)
     plan?: ResourceModelWithAllowedPropertySetPlan;
     // (undocumented)
     sku?: ResourceModelWithAllowedPropertySetSku;
-    tags?: {
-        [propertyName: string]: string;
-    };
-    readonly type?: string;
 }
 
 // @public (undocumented)
@@ -1213,7 +1437,6 @@ export interface ScalingPlan extends ResourceModelWithAllowedPropertySet {
     hostPoolType?: ScalingHostPoolType;
     readonly objectId?: string;
     schedules?: ScalingSchedule[];
-    readonly systemData?: SystemData;
     timeZone: string;
 }
 
@@ -1264,7 +1487,6 @@ export interface ScalingPlanPersonalSchedule extends ProxyResource {
     rampUpMinutesToWaitOnLogoff?: number;
     rampUpStartTime?: Time;
     rampUpStartVMOnConnect?: SetStartVMOnConnect;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -1374,7 +1596,6 @@ export interface ScalingPlanPooledSchedule extends Resource {
     rampUpLoadBalancingAlgorithm?: SessionHostLoadBalancingAlgorithm;
     rampUpMinimumHostsPct?: number;
     rampUpStartTime?: Time;
-    readonly systemData?: SystemData;
 }
 
 // @public
@@ -1599,7 +1820,6 @@ export interface SessionHost extends Resource {
     status?: Status;
     readonly statusTimestamp?: Date;
     sxSStackVersion?: string;
-    readonly systemData?: SystemData;
     updateErrorMessage?: string;
     updateState?: UpdateState;
     readonly virtualMachineId?: string;
@@ -1768,6 +1988,14 @@ export interface Time {
 }
 
 // @public
+export interface TrackedResource extends Resource {
+    location: string;
+    tags?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
 export type UpdateState = string;
 
 // @public
@@ -1777,7 +2005,6 @@ export interface UserSession extends Resource {
     createTime?: Date;
     readonly objectId?: string;
     sessionState?: SessionState;
-    readonly systemData?: SystemData;
     userPrincipalName?: string;
 }
 
@@ -1862,7 +2089,6 @@ export interface Workspace extends ResourceModelWithAllowedPropertySet {
     readonly objectId?: string;
     readonly privateEndpointConnections?: PrivateEndpointConnection[];
     publicNetworkAccess?: PublicNetworkAccess;
-    readonly systemData?: SystemData;
 }
 
 // @public

@@ -27,7 +27,7 @@ import {
 } from "../../src/http/models.js";
 import { AbortError } from "@azure/abort-controller";
 import { createCoreRestPipelineLro } from "./coreRestPipelineLro.js";
-import { getYieldedValue } from "../getYieldedValue.js";
+import { getYieldedValue } from "@azure-tools/test-utils-vitest";
 
 /**
  * Dummy value for the path of the initial request

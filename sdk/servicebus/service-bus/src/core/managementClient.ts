@@ -269,7 +269,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         const { abortSignal } = options;
         const aborter = new AbortController();
 
-        const abortListener = () => {
+        const abortListener = (): void => {
           aborter.abort();
         };
         abortSignal?.addEventListener("abort", abortListener);

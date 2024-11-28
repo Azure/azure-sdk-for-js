@@ -12,7 +12,7 @@
 
 ## 2.1.0 (2022-12-21)
     
-**Features**
+### Features Added
 
   - Interface ManagementLocksListAtResourceGroupLevelNextOptionalParams no longer has parameter filter
   - Interface ManagementLocksListAtResourceLevelNextOptionalParams no longer has parameter filter

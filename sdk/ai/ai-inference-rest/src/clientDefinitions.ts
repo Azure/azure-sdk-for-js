@@ -28,9 +28,7 @@ export interface GetChatCompletions {
    */
   post(
     options?: GetChatCompletionsParameters,
-  ): StreamableMethod<
-    GetChatCompletions200Response | GetChatCompletionsDefaultResponse
-  >;
+  ): StreamableMethod<GetChatCompletions200Response | GetChatCompletionsDefaultResponse>;
 }
 
 export interface GetModelInfo {
@@ -60,9 +58,7 @@ export interface GetImageEmbeddings {
    */
   post(
     options?: GetImageEmbeddingsParameters,
-  ): StreamableMethod<
-    GetImageEmbeddings200Response | GetImageEmbeddingsDefaultResponse
-  >;
+  ): StreamableMethod<GetImageEmbeddings200Response | GetImageEmbeddingsDefaultResponse>;
 }
 
 export interface Routes {

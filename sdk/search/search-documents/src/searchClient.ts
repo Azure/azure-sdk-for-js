@@ -19,7 +19,6 @@ import {
   VectorQueryUnion as GeneratedVectorQuery,
 } from "./generated/data/models";
 import { SearchClient as GeneratedClient } from "./generated/data/searchClient";
-import { SemanticErrorReason, SemanticSearchResultsType } from "./generatedStringLiteralUnions";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import {
   AutocompleteOptions,
@@ -41,6 +40,8 @@ import {
   SearchResult,
   SelectArray,
   SelectFields,
+  SemanticErrorReason,
+  SemanticSearchResultsType,
   SuggestDocumentsResult,
   SuggestOptions,
   UploadDocumentsOptions,
@@ -213,6 +214,7 @@ export class SearchClient<TModel extends object> implements IndexDocumentsClient
    * Retrieves the number of documents in the index.
    * @param options - Options to the count operation.
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public async getDocumentsCount(options: CountDocumentsOptions = {}): Promise<number> {
     const { span, updatedOptions } = createSpan("SearchClient-getDocumentsCount", options);
     try {

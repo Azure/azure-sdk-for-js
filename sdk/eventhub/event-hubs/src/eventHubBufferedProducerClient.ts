@@ -405,6 +405,7 @@ export class EventHubBufferedProducerClient {
    */
   async enqueueEvents(
     events: EventData[] | AmqpAnnotatedMessage[],
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: EnqueueEventOptions = {},
   ): Promise<number> {
     for (const event of events) {

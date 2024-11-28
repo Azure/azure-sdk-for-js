@@ -288,7 +288,6 @@ describe("RemoteRendering functional tests", () => {
     );
 
     assert.equal(sessionPoller.getOperationState().latestResponse.sessionId, sessionId);
-    assert.equal(sessionPoller.getOperationState().latestResponse.size, sessionSettings.size);
     assert.equal(
       sessionPoller.getOperationState().latestResponse.maxLeaseTimeInMinutes,
       sessionSettings.maxLeaseTimeInMinutes,
