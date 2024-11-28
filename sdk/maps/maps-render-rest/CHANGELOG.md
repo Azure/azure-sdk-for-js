@@ -1,6 +1,6 @@
 # Release History
 
-## 2.0.0-beta.1 (Unreleased)
+## 2.0.0-beta.1 (2024-12-10)
 
 ### Features Added
 
@@ -14,19 +14,8 @@
 
 ### Bugs Fixed
 
-### Other Changes
-
-## 1.0.0-beta.4 (Unreleased)
-
-### Features Added
-
-### Breaking Changes
-
-### Bugs Fixed
-
 - Fix the Microsoft Entra ID authentication when providing `baseUrl`.
 
-### Other Changes
 
 ## 1.0.0-beta.3 (2024-01-09)
 
