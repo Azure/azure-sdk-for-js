@@ -16,7 +16,7 @@ import type {
   ResourceSetRulesCreateOrUpdateResourceSetRuleParameters,
   ResourceSetRulesDeleteResourceSetRuleParameters,
   ResourceSetRulesListResourceSetRulesParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   AccountsGetAccountProperties200Response,
   AccountsGetAccountPropertiesDefaultResponse,
@@ -47,7 +47,7 @@ import type {
   ResourceSetRulesDeleteResourceSetRuleDefaultResponse,
   ResourceSetRulesListResourceSetRules200Response,
   ResourceSetRulesListResourceSetRulesDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface AccountsGetAccountProperties {

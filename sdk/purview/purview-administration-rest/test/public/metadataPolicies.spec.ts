@@ -1,23 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PurviewMetadataPolicies } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
 
-import { assert } from "chai";
-import { createMetadataClient } from "./utils/recordedClient";
-import type { Context } from "mocha";
-import type { MetadataPolicyListOutput } from "../../src/metadataPolicies/outputModels";
+import type { PurviewMetadataPolicies } from "../../src/index.js";
+import { Recorder } from "@azure-tools/test-recorder";
+import { createMetadataClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import { MetadataPolicyListOutput } from "../../src/metadataPolicies/outputModels.js";
 
 describe("List Metadata", () => {
   let recorder: Recorder;
   let client: PurviewMetadataPolicies.Client.PurviewMetadataPoliciesClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     client = await createMetadataClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

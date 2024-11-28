@@ -31,7 +31,7 @@ import type {
   ResourceSetRulesDeleteResourceSetRuleDefaultResponse,
   ResourceSetRulesListResourceSetRules200Response,
   ResourceSetRulesListResourceSetRulesDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /": ["200"],

@@ -6,7 +6,7 @@ import type {
   MetadataPolicyListAllParameters,
   MetadataPolicyUpdateParameters,
   MetadataPolicyGetParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   MetadataRolesList200Response,
   MetadataRolesListDefaultResponse,
@@ -16,7 +16,7 @@ import type {
   MetadataPolicyUpdateDefaultResponse,
   MetadataPolicyGet200Response,
   MetadataPolicyGetDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface MetadataRolesList {

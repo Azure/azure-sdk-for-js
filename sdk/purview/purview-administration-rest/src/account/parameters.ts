@@ -7,7 +7,7 @@ import type {
   AccessKeyOptions,
   Collection,
   ResourceSetRuleConfig,
-} from "./models";
+} from "./models.js";
 
 export type AccountsGetAccountPropertiesParameters = RequestParameters;
 

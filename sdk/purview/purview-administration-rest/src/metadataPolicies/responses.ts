@@ -8,7 +8,7 @@ import type {
   ErrorResponseModelOutput,
   MetadataPolicyListOutput,
   MetadataPolicyOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Lists roles for Purview Account */
 export interface MetadataRolesList200Response extends HttpResponse {

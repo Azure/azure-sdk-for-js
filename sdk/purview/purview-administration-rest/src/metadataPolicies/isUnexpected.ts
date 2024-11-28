@@ -10,7 +10,7 @@ import type {
   MetadataPolicyUpdateDefaultResponse,
   MetadataPolicyGet200Response,
   MetadataPolicyGetDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /metadataRoles": ["200"],

@@ -5,7 +5,7 @@ import type {
   CommunicationIdentifier,
   CommunicationIdentifierKind,
 } from "@azure/communication-common";
-import type { ChatError, ChatMessageType } from "../generated/src";
+import type { ChatError, ChatMessageType } from "../generated/src/index.js";
 
 export {
   AddChatParticipantsResult,
@@ -13,7 +13,7 @@ export {
   ChatThreadItem,
   ChatError,
   SendChatMessageResult,
-} from "../generated/src/models";
+} from "../generated/src/models/index.js";
 
 /** Chat thread. */
 export interface ChatThreadProperties {

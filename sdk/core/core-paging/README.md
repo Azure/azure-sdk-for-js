@@ -24,10 +24,12 @@ You can find an explanation of how this repository's code works by going to our 
 Example of building with the types:
 
 ```typescript snippet:paging_example
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+
 function listSecrets(
   options: ListSecretsOptions = {},
 ): PagedAsyncIterableIterator<SecretAttributes> {
-  const iter = this.listSecretsAll(options);
+  const iter = listSecretsAll(options);
   return {
     async next() {
       return iter.next();
@@ -35,7 +37,7 @@ function listSecrets(
     [Symbol.asyncIterator]() {
       return this;
     },
-    byPage: (settings: PageSettings = {}) => this.listSecretsPage(settings, options),
+    byPage: (settings: PageSettings = {}) => listSecretsPage(settings, options),
   };
 }
 for await (const page of listSecrets().byPage({ maxPageSize: 2 })) {

@@ -12,7 +12,7 @@ import type {
   CollectionPathResponseOutput,
   ResourceSetRuleConfigOutput,
   ResourceSetRuleConfigListOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Get an account */
 export interface AccountsGetAccountProperties200Response extends HttpResponse {

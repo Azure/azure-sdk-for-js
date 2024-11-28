@@ -15,7 +15,7 @@ import {
   CreateRoomRequest as CreateRoomRequestMapper,
   UpdateRoomRequest as UpdateRoomRequestMapper,
   UpdateParticipantsRequest as UpdateParticipantsRequestMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

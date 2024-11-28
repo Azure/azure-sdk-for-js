@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { AssertionError, assert } from "chai";
-import { DeviceCodeCredential } from "../../../src";
-import { VisualStudioCodeCredential } from "../../../src";
+import { DeviceCodeCredential } from "../../../src/index.js";
+import { VisualStudioCodeCredential } from "../../../src/index.js";
+import { describe, it, assert } from "vitest";
 
 /**
  * A helper to assert that a Promise rejects.
