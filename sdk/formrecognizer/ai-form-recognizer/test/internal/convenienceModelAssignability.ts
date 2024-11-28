@@ -31,7 +31,7 @@ import type {
 
 // To avoid going out-of-sync with the generated types, we test the re-constructed interfaces are following the shapes in the generated interfaces in this test file.
 
-function checkAssign<T>(_model: T) {
+function checkAssign<T>(_model: T): void {
   /* intentionally empty */
 }
 

@@ -90,6 +90,7 @@ export const recorderOptions: RecorderStartOptions = {
       },
     ],
   },
+  removeCentralSanitizers: ["AZSDK3402", "AZSDK4001", "AZSDK2030"]
 };
 
 /**
@@ -110,7 +111,7 @@ export async function createRecorder(currentTest?: TestInfo): Promise<Recorder> 
 export async function createRecordedClient<T>(
   currentTest: TestInfo | undefined,
   ctor: {
-    new (
+    new(
       endpoint: string,
       credential: TokenCredential | KeyCredential,
       options?: CommonClientOptions,
