@@ -1,9 +1,10 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "outDir": "./dist",
+    "outDir": "./dist/esm",
     "importHelpers": true,
-    "module": "CommonJS", // Based on - https://github.com/microsoft/playwright/blob/main/tsconfig.json
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "skipLibCheck": true, // one of the dev dependencies causes errors
     "paths": {
       "@azure/microsoft-playwright-testing": ["./src/index"]
@@ -11,3 +12,4 @@
   },
   "exclude": ["dist", "node_modules", "test", "samples"]
 }
+ 

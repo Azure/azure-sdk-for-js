@@ -5,7 +5,7 @@ import { basename } from "path";
 import fs from "fs";
 import url from "url";
 import path from "path";
-import { ServiceErrorMessageConstants } from "./messages";
+import { ServiceErrorMessageConstants } from "./messages.js";
 
 const getPackageJsonPath = (folderPath: string): string => {
   const packageJsonPath = path.join(folderPath, "package.json");
