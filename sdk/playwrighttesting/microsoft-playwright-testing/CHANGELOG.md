@@ -1,10 +1,13 @@
 # Release History
 
-## 1.0.0-beta.6 (2024-11-28)
+## 1.0.0-beta.6 (2024-11-29)
+
+### Features Added
+
+- Added support for multiple global setup and teardown files introduced in playwright v1.49.
 
 ### Bugs Fixed
 
-- Added support for multiple global setup and teardown files introduced in playwright v1.49.
 - Missing type generation for some functions and interfaces.
 
 ## 1.0.0-beta.5 (2024-11-18)
