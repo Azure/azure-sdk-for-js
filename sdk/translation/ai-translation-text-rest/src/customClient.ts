@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./generated/logger";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import { logger } from "./generated/logger.js";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import { TextTranslationClient } from "./generated/clientDefinitions";
+import type { TextTranslationClient } from "./generated/clientDefinitions.js";
+import type { TranslatorCredential, TranslatorTokenCredential } from "./authentication.js";
 import {
   DEFAULT_SCOPE,
-  TranslatorCredential,
-  TranslatorTokenCredential,
   TranslatorAuthenticationPolicy,
   TranslatorAzureKeyAuthenticationPolicy,
   TranslatorTokenCredentialAuthenticationPolicy,
-} from "./authentication";
-import { AzureKeyCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
+} from "./authentication.js";
+import type { AzureKeyCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
 
 const DEFAULT_ENPOINT = "https://api.cognitive.microsofttranslator.com";
 const PLATFORM_HOST = "cognitiveservices";
@@ -49,9 +49,9 @@ function isCredentials(credential: any): boolean {
 
 /**
  * Initialize a new instance of `TextTranslationClient`
- * @param credential type: TranslatorCredential | TranslatorTokenCredential | KeyCredential |TokenCredential, credentials
+ * @param credential - type: TranslatorCredential | TranslatorTokenCredential | KeyCredential |TokenCredential, credentials
  *      used to authenticate the service with.
- * @param options type: ClientOptions, the parameter for all optional parameters
+ * @param options - type: ClientOptions, the parameter for all optional parameters
  */
 export default function createClient(
   credential: TranslatorCredential | TranslatorTokenCredential | KeyCredential | TokenCredential,
@@ -60,9 +60,9 @@ export default function createClient(
 
 /**
  * Initialize a new instance of `TextTranslationClient`
- * @param endpoint type: string, Supported Text Translation endpoints (protocol and hostname, for example:
+ * @param endpoint - type: string, Supported Text Translation endpoints (protocol and hostname, for example:
  *     https://api.cognitive.microsofttranslator.com).
- * @param options type: ClientOptions, the parameter for all optional parameters
+ * @param options - type: ClientOptions, the parameter for all optional parameters
  */
 export default function createClient(
   endpoint: string,
@@ -71,11 +71,11 @@ export default function createClient(
 
 /**
  * Initialize a new instance of `TextTranslationClient`
- * @param endpoint type: string, Supported Text Translation endpoints (protocol and hostname, for example:
+ * @param endpoint - type: string, Supported Text Translation endpoints (protocol and hostname, for example:
  *     https://api.cognitive.microsofttranslator.com).
- * @param credential type: TranslatorCredential | TranslatorTokenCredential | KeyCredential |TokenCredential, credentials
+ * @param credential - type: TranslatorCredential | TranslatorTokenCredential | KeyCredential |TokenCredential, credentials
  *      used to authenticate the service with.
- * @param options type: ClientOptions, the parameter for all optional parameters
+ * @param options - type: ClientOptions, the parameter for all optional parameters
  */
 export default function createClient(
   endpoint: string,

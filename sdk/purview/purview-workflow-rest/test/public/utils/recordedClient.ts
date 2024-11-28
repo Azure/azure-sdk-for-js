@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder, RecorderStartOptions, env, isPlaybackMode } from "@azure-tools/test-recorder";
-import "./env";
-
-import { ClientOptions } from "@azure-rest/core-client";
+import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import "./env.js";
+import type { ClientOptions } from "@azure-rest/core-client";
 import { UsernamePasswordCredential } from "@azure/identity";
 import { NoOpCredential } from "@azure-tools/test-credential";
-import PurviewWorkflow, { PurviewWorkflowClient } from "../../../src";
+import type { PurviewWorkflowClient } from "../../../src/index.js";
+import PurviewWorkflow from "../../../src/index.js";
 
 const envSetupForPlayback: Record<string, string> = {
   ENDPOINT: "https://endpoint",

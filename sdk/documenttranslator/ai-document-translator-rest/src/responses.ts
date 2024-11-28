@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   TranslationErrorResponse,
   TranslationsStatus,
   DocumentStatus,
@@ -9,9 +9,9 @@ import {
   DocumentsStatus,
   SupportedFileFormats,
   SupportedStorageSources,
-} from "./models";
-import { HttpResponse } from "@azure-rest/core-client";
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
+} from "./models.js";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
 
 export interface StartTranslation202Headers {
   /** Location of batch the operation */

@@ -1,38 +1,37 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ProgramBriefAttachment,
   ShortCodesClient,
   ShortCodesUpsertUSProgramBriefOptionalParams,
   USProgramBrief,
-} from "../../src";
+} from "../../src/index.js";
 import {
   doesProgramBriefContainAnyAttachment,
   getProgramBriefAttachmentsWithId,
   getProgramBriefAttachmentsWithIdByPage,
   getTestProgramBriefAttachment,
-} from "./utils/testProgramBriefAttachment";
+} from "./utils/testProgramBriefAttachment.js";
 import {
   doesProgramBriefExist,
   getTestUSProgramBrief,
   runTestCleaningLeftovers,
-} from "./utils/testUSProgramBrief";
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createRecordedClient } from "./utils/recordedClient";
+} from "./utils/testUSProgramBrief.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { createRecordedClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe(`ShortCodesClient - manage Attachments`, function () {
+describe(`ShortCodesClient - manage Attachments`, () => {
   let recorder: Recorder;
   let client: ShortCodesClient;
 
-  beforeEach(async function (this: Context) {
-    ({ client, recorder } = await createRecordedClient(this));
+  beforeEach(async (ctx) => {
+    ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+  afterEach(async (ctx) => {
+    if (!ctx.task.pending) {
       await recorder.stop();
     }
   });
@@ -131,7 +130,7 @@ describe(`ShortCodesClient - manage Attachments`, function () {
     return true;
   };
 
-  it("can manage Attachments", async function () {
+  it("can manage Attachments", { timeout: 80000 }, async () => {
     const uspb = getTestUSProgramBrief();
     const pbTestId = recorder.variable(`pb-var`, uspb.id);
     uspb.id = pbTestId;
@@ -202,5 +201,5 @@ describe(`ShortCodesClient - manage Attachments`, function () {
         "Delete program brief was unsuccessful, program brief is still returned",
       );
     });
-  }).timeout(80000);
+  });
 });

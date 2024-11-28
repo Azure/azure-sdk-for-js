@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   TestCreateOrUpdate200Response,
   TestCreateOrUpdate201Response,
   TestCreateOrUpdateDefaultResponse,
@@ -60,7 +60,7 @@ import {
   TestRunCreateOrUpdateServerMetricsConfigDefaultResponse,
   TestRunListServerMetricsConfig200Response,
   TestRunListServerMetricsConfigDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "PATCH /tests/{testId}": ["200", "201"],

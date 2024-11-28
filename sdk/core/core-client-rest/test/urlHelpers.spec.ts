@@ -19,6 +19,12 @@ describe("urlHelpers", () => {
     assert.equal(result, `https://example.org/foo/one`);
   });
 
+  it("should append number path parameters", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", [12345]);
+
+    assert.equal(result, "https://example.org/foo/12345");
+  });
+
   it("should append path, fill path parameters and append query parameters", () => {
     const result = buildRequestUrl(mockBaseUrl, "/foo/{id}", ["one"], {
       queryParameters: { foo: "1", bar: "two" },
@@ -115,6 +121,12 @@ describe("urlHelpers", () => {
       },
     });
     assert.equal(result, `https://example.org/foo?existing=hey&arrayQuery=`);
+  });
+
+  it("should build url with dashes in path parameters", () => {
+    const result = buildRequestUrl(mockBaseUrl, "/foo/{settings-name}", ["example"]);
+
+    assert.equal(result, `https://example.org/foo/example`);
   });
 
   it("should handle full urls as path", () => {

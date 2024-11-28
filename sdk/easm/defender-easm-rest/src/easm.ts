@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger";
-import { TokenCredential } from "@azure/core-auth";
-import { EasmClient } from "./clientDefinitions";
+import type { TokenCredential } from "@azure/core-auth";
+import type { EasmClient } from "./clientDefinitions";
 
 /**
  * Initialize a new instance of `EasmClient`

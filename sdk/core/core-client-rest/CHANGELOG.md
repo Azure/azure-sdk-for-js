@@ -1,6 +1,6 @@
 # Release History
 
-## 2.3.1 (Unreleased)
+## 2.3.2 (Unreleased)
 
 ### Features Added
 
@@ -8,7 +8,15 @@
 
 ### Bugs Fixed
 
+- Allow dashes (`-`) in path parameter identifiers. PR [#31731](https://github.com/Azure/azure-sdk-for-js/pull/31731)
+
 ### Other Changes
+
+## 2.3.1 (2024-10-10)
+
+### Bugs Fixed
+
+- Allow `number` path parameters. PR [#31352](https://github.com/Azure/azure-sdk-for-js/pull/31352/files)
 
 ## 2.3.0 (2024-10-03)
 

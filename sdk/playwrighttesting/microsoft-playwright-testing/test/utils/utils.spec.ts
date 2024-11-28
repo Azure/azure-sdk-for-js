@@ -11,7 +11,7 @@ import * as utils from "../../src/utils/utils";
 import {
   getAccessToken,
   getServiceBaseURL,
-  getDefaultRunId,
+  getAndSetRunId,
   getServiceWSEndpoint,
   validateServiceUrl,
   validateMptPAT,
@@ -63,19 +63,32 @@ describe("Service Utils", () => {
   });
 
   it("should return and set run id set in env variable", () => {
-    const runId = getDefaultRunId();
+    const runId = getAndSetRunId();
     expect(runId).to.be.a("string");
-    expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID]).to.equal(runId);
+    expect(process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID]).to.equal(runId);
 
-    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_RUN_ID];
+    delete process.env[InternalEnvironmentVariables.MPT_SERVICE_RUN_ID];
   });
 
-  it("should return service base url with query params", () => {
+  it("should return service base url with query params and should escape runID", () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
       "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
     const runId = "2021-10-11T07:00:00.000Z";
+    const escapeRunId = encodeURIComponent(runId);
     const os = "windows";
-    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${runId}&os=${os}&api-version=${API_VERSION}`;
+    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${API_VERSION}`;
+    expect(getServiceWSEndpoint(runId, os)).to.equal(expected);
+
+    delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
+  });
+
+  it("should escape special character in runId", () => {
+    process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
+      "wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers";
+    const runId = "2021-10-11T07:00:00.000Z";
+    const escapeRunId = encodeURIComponent(runId);
+    const os = "windows";
+    const expected = `wss://eastus.api.playwright.microsoft.com/accounts/1234/browsers?runId=${escapeRunId}&os=${os}&api-version=${API_VERSION}`;
     expect(getServiceWSEndpoint(runId, os)).to.equal(expected);
 
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
@@ -478,5 +491,12 @@ describe("Service Utils", () => {
   it("should return null if PLAYWRIGHT_SERVICE_URL is not set", () => {
     const result = populateValuesFromServiceUrl();
     expect(result).to.be.null;
+  });
+  it("should return the correct version from package.json", async () => {
+    const mockVersion = "1.0.0";
+    const packageJson = require("../../package.json");
+    sandbox.stub(packageJson, "version").value(mockVersion);
+    const version = utils.getPackageVersion();
+    expect(version).to.equal(mockVersion);
   });
 });

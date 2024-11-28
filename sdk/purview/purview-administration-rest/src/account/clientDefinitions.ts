@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Client } from "@azure-rest/core-client";
-import {
+import type { Client } from "@azure-rest/core-client";
+import type {
   AccountsGetAccessKeysParameters,
   AccountsGetAccountPropertiesParameters,
   AccountsRegenerateAccessKeyParameters,
@@ -17,8 +17,8 @@ import {
   ResourceSetRulesDeleteResourceSetRuleParameters,
   ResourceSetRulesGetResourceSetRuleParameters,
   ResourceSetRulesListResourceSetRulesParameters,
-} from "./parameters";
-import {
+} from "./parameters.js";
+import type {
   AccountsGetAccessKeys200Response,
   AccountsGetAccessKeysdefaultResponse,
   AccountsGetAccountProperties200Response,
@@ -48,7 +48,7 @@ import {
   ResourceSetRulesGetResourceSetRuledefaultResponse,
   ResourceSetRulesListResourceSetRules200Response,
   ResourceSetRulesListResourceSetRulesdefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 export interface AccountsGetAccountProperties {
   /** Get an account */

@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { Recorder } from "@azure-tools/test-recorder";
-import { createRecorder } from "./utils/recordedClient";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { createClient } from "./utils/recordedClient";
-import { isUnexpected } from "../../src/isUnexpected";
+
+import type { Recorder } from "@azure-tools/test-recorder";
+import { createRecorder } from "./utils/recordedClient.js";
+import { createClient } from "./utils/recordedClient.js";
+import { isUnexpected } from "../../src/isUnexpected.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("purview datamap glossary test", () => {
   let recorder: Recorder;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -24,4 +24,4 @@ describe("purview datamap glossary test", () => {
 
     assert.strictEqual(isUnexpected(result), false);
   });
-}).timeout(60000000000);
+});

@@ -5,10 +5,10 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
-import { ClientOptions } from '@azure-rest/core-client';
-import { ErrorModel } from '@azure-rest/core-client';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { ErrorModel } from '@azure-rest/core-client';
 import { OperationOptions } from '@azure-rest/core-client';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 // @public (undocumented)
 export interface AcknowledgeEventsOptionalParams extends OperationOptions {
@@ -88,7 +88,7 @@ export interface FailedLockToken {
 }
 
 // @public
-export const enum KnownReleaseDelay {
+export enum KnownReleaseDelay {
     NoDelay = "0",
     OneHour = "3600",
     OneMinute = "60",

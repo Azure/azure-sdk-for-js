@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AnalyzeTextParameters,
   AnalyzeImageParameters,
   GetTextBlocklistParameters,
@@ -12,8 +12,8 @@ import {
   RemoveBlocklistItemsParameters,
   GetTextBlocklistItemParameters,
   ListTextBlocklistItemsParameters,
-} from "./parameters";
-import {
+} from "./parameters.js";
+import type {
   AnalyzeText200Response,
   AnalyzeTextDefaultResponse,
   AnalyzeImage200Response,
@@ -35,8 +35,8 @@ import {
   GetTextBlocklistItemDefaultResponse,
   ListTextBlocklistItems200Response,
   ListTextBlocklistItemsDefaultResponse,
-} from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+} from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface AnalyzeText {
   /** A synchronous API for the analysis of potentially harmful text content. Currently, it supports four categories: Hate, SelfHarm, Sexual, and Violence. */

@@ -2,14 +2,14 @@
 // Licensed under the MIT License
 
 import { leafCommand, makeCommandInfo } from "../../framework/command";
-import { Project, SourceFile } from "ts-morph";
+import { Project } from "ts-morph";
 import { createPrinter } from "../../util/printer";
 import { resolveRoot } from "../../util/resolveProject";
 import { readFile, rename, unlink, writeFile } from "node:fs/promises";
-import { existsSync, lstatSync } from "node:fs";
 import { basename, dirname, resolve } from "node:path";
 import { run } from "../../util/run";
 import stripJsonComments from "strip-json-comments";
+import { codemods } from "../../util/admin/migrate-package/codemods";
 
 const log = createPrinter("migrate-package");
 
@@ -60,6 +60,14 @@ export const commandInfo = makeCommandInfo(
   },
 );
 
+async function commitChanges(projectFolder: string, message: string): Promise<void> {
+  log.info("Committing changes, message: ", message);
+  await run(["git", "add", "."], { cwd: projectFolder });
+  await run(["git", "commit", "--allow-empty", "-m", `Migration: ${message}`], {
+    cwd: projectFolder,
+  });
+}
+
 export default leafCommand(commandInfo, async ({ "package-name": packageName, browser }) => {
   const root = await resolveRoot();
 
@@ -74,21 +82,55 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName, br
 
   const projectFolder = resolve(root, project.projectFolder);
 
+  await prepareFiles(projectFolder, { browser });
+  await applyCodemods(projectFolder);
+
+  log.info("Formatting files");
+  await run(["rushx", "format"], { cwd: projectFolder });
+  await commitChanges(projectFolder, "rushx format");
+
+  log.info(
+    "Done. Please run `rush update`, `rush build -t <project-name>`, and run tests to verify the changes.",
+  );
+
+  return true;
+});
+
+async function prepareFiles(projectFolder: string, options: { browser: boolean }): Promise<void> {
+  log.info("Migrating package.json, tsconfig.json, and api-extractor.json");
   await upgradePackageJson(projectFolder, resolve(projectFolder, "package.json"));
   await upgradeTypeScriptConfig(resolve(projectFolder, "tsconfig.json"));
   await fixApiExtractorConfig(resolve(projectFolder, "api-extractor.json"));
-  await cleanupFiles(projectFolder);
-  fixSourceFiles(projectFolder);
-  fixTestingImports(projectFolder);
+  await commitChanges(projectFolder, "Update package.json, tsconfig.json, and api-extractor.json");
 
-  if (browser) {
+  log.info("Migrating test config");
+  if (options.browser) {
     await writeBrowserTestConfig(projectFolder);
     await writeFile(resolve(projectFolder, "vitest.browser.config.ts"), VITEST_BROWSER_CONFIG);
   }
   await writeFile(resolve(projectFolder, "vitest.config.ts"), VITEST_CONFIG);
+  await commitChanges(projectFolder, "Update test config");
 
-  return true;
-});
+  log.info("Cleaning up files");
+  await cleanupFiles(projectFolder);
+  await commitChanges(projectFolder, "Clean up files");
+}
+
+async function applyCodemods(projectFolder: string): Promise<void> {
+  const project = new Project({ tsConfigFilePath: resolve(projectFolder, "tsconfig.json") });
+
+  // Apply the codemods, one at a time, to all source files in the project.
+  // Commit the changes after each codemod is applied for ease of reviewing.
+  // For more information on the codemods and how to contribute, see the `codemods` directory.
+  for (const mod of codemods) {
+    log.info(`Applying codemod: ${mod.name}`);
+    for (const sourceFile of project.getSourceFiles()) {
+      mod(sourceFile);
+      await sourceFile.save();
+    }
+    await commitChanges(projectFolder, `Apply codemod: "${mod.name}"`);
+  }
+}
 
 const VITEST_CONFIG = `
 // Copyright (c) Microsoft Corporation.
@@ -129,7 +171,7 @@ export default mergeConfig(
 async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
   const testConfig = {
     extends: "./.tshy/build.json",
-    include: ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.spec.ts"],
+    include: ["./src/**/*.ts", "./src/**/*.mts", "./test/**/*.spec.ts", "./test/**/*.mts"],
     exclude: ["./test/**/node/**/*.ts"],
     compilerOptions: {
       outDir: "./dist-test/browser",
@@ -138,186 +180,7 @@ async function writeBrowserTestConfig(packageFolder: string): Promise<void> {
     },
   };
 
-  await saveJson(resolve(packageFolder, "test.browser.config.json"), testConfig);
-}
-
-function fixTestingImports(packageFolder: string): void {
-  // Create a new project
-  const project = new Project({
-    tsConfigFilePath: resolve(packageFolder, "tsconfig.json"),
-  });
-
-  // Iterate over all the source files
-  for (const sourceFile of project.getSourceFiles()) {
-    // Remove if the file is a test utility for chai
-    if (
-      sourceFile.getFilePath().includes("/test") &&
-      !sourceFile.getBaseName().endsWith(".spec.ts")
-    ) {
-      for (const importDeclaration of sourceFile.getImportDeclarations()) {
-        const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
-        if (["chai", "assert"].includes(moduleSpecifier)) {
-          importDeclaration.remove();
-          sourceFile.addImportDeclaration({
-            namedImports: ["assert"],
-            moduleSpecifier: "vitest",
-          });
-        }
-      }
-    }
-
-    if (sourceFile.getBaseName().endsWith(".spec.ts")) {
-      if (!sourceFile.getImportDeclaration("vitest")) {
-        // If the file ends with .spec.ts, add the import statement
-        const hasMocking = sourceFile.getImportDeclarations().some((importDeclaration) => {
-          const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
-          return moduleSpecifier === "sinon" || moduleSpecifier === "@azure-tools/test-recorder";
-        });
-
-        const viTestImports = ["describe", "it", "assert"];
-        // Insert typical mocking imports if needed
-        if (hasMocking) {
-          viTestImports.push("expect, vi, beforeEach, afterEach");
-        }
-
-        sourceFile.addImportDeclaration({
-          namedImports: viTestImports,
-          moduleSpecifier: "vitest",
-        });
-      }
-    }
-
-    const modulesToRemove = ["chai", "chai-as-promised", "chai-exclude", "sinon", "mocha"];
-
-    // Iterate over all the import declarations
-    for (const importDeclaration of sourceFile.getImportDeclarations()) {
-      const moduleSpecifier = importDeclaration.getModuleSpecifierValue();
-      // If the module specifier is legacy, remove the import declaration
-      if (modulesToRemove.includes(moduleSpecifier)) {
-        importDeclaration.remove();
-      } else if (moduleSpecifier === "@azure-tools/test-utils") {
-        // If the module specifier is "@azure-tools/test-utils", remove the "assert" named import
-        const namedImports = importDeclaration.getNamedImports();
-        const assertImport = namedImports.find((namedImport) => namedImport.getName() === "assert");
-        if (assertImport) {
-          assertImport.remove();
-        }
-
-        // If there are no named imports left, remove the entire import declaration
-        if (importDeclaration.getNamedImports().length === 0) {
-          importDeclaration.remove();
-        }
-      }
-    }
-    // Save the changes to the source file
-    sourceFile.saveSync();
-  }
-}
-
-function fixSourceFiles(packageFolder: string): void {
-  const sourceLinesToRemove = [
-    "const should = chai.should();",
-    "chai.use(chaiAsPromised);",
-    "chai.use(chaiExclude);",
-    "const expect = chai.expect;",
-  ];
-
-  // Create a new project
-  const project = new Project({
-    tsConfigFilePath: resolve(packageFolder, "tsconfig.json"),
-  });
-
-  // Iterate over all the source files
-  for (const sourceFile of project.getSourceFiles()) {
-    // Iterate over all the statements in the source file
-    for (const statement of sourceFile.getStatements()) {
-      // Remove old legacy lines
-      for (const line of sourceLinesToRemove) {
-        if (statement.getText() === line) {
-          statement.remove();
-        }
-      }
-
-      const patternsToReplace = [
-        { pattern: /sinon\.stub/gi, replace: "vi.spyOn" },
-        { pattern: /\(this: Context\)/g, replace: "(ctx)" },
-        { pattern: /\(this\.currentTest\)/g, replace: "(ctx)" },
-        { pattern: /\(!this\.currentTest\?\.isPending\(\)\)/g, replace: "(!ctx.task.pending)" },
-        { pattern: /this\.skip\(\);/g, replace: "ctx.task.skip();" },
-      ];
-
-      // Replace the patterns in the source file
-      for (const { pattern, replace } of patternsToReplace) {
-        if (pattern.test(statement.getText())) {
-          statement.replaceWithText(statement.getText().replace(pattern, replace));
-        }
-      }
-    }
-
-    // Iterate over all the import declarations
-    for (const importExportDeclaration of sourceFile.getImportDeclarations()) {
-      let moduleSpecifier = importExportDeclaration.getModuleSpecifierValue();
-      moduleSpecifier = fixDeclaration(sourceFile, moduleSpecifier);
-      importExportDeclaration.setModuleSpecifier(moduleSpecifier);
-    }
-
-    // iterate over all the export declarations
-    for (const exportDeclaration of sourceFile.getExportDeclarations()) {
-      let moduleSpecifier = exportDeclaration.getModuleSpecifierValue();
-      if (moduleSpecifier) {
-        moduleSpecifier = fixDeclaration(sourceFile, moduleSpecifier);
-        exportDeclaration.setModuleSpecifier(moduleSpecifier);
-      }
-    }
-    // Save the changes to the source file
-    sourceFile.saveSync();
-  }
-}
-
-function fixNodeDeclaration(moduleSpecifier: string): string {
-  const nodeModules = [
-    "assert",
-    "crypto",
-    "events",
-    "fs",
-    "fs/promises",
-    "http",
-    "https",
-    "net",
-    "os",
-    "path",
-    "process",
-    "stream",
-    "tls",
-    "util",
-  ];
-
-  if (nodeModules.includes(moduleSpecifier)) {
-    moduleSpecifier = `node:${moduleSpecifier}`;
-  }
-
-  return moduleSpecifier;
-}
-
-function fixDeclaration(sourceFile: SourceFile, moduleSpecifier: string): string {
-  if (moduleSpecifier.startsWith(".") || moduleSpecifier.startsWith("..")) {
-    if (!moduleSpecifier.endsWith(".js")) {
-      // If the module specifier ends with "/", add "index.js", otherwise add ".js"
-      if (moduleSpecifier.endsWith("/")) {
-        moduleSpecifier += "index.js";
-      } else {
-        // Check if the module specifier is a directory
-        const path = resolve(sourceFile.getDirectoryPath(), moduleSpecifier);
-        if (existsSync(path) && lstatSync(path).isDirectory()) {
-          moduleSpecifier += "/index.js";
-        } else {
-          moduleSpecifier += ".js";
-        }
-      }
-    }
-  }
-  // Fix the node module declaration as well
-  return fixNodeDeclaration(moduleSpecifier);
+  await saveJson(resolve(packageFolder, "tsconfig.browser.config.json"), testConfig);
 }
 
 async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void> {
@@ -337,7 +200,7 @@ async function fixApiExtractorConfig(apiExtractorJsonPath: string): Promise<void
 
 async function cleanupFiles(projectFolder: string): Promise<void> {
   // Remove the old test files
-  const filesToRemove = ["karma.conf.js", ".nycrc"];
+  const filesToRemove = ["karma.conf.js", "karma.conf.cjs", ".nycrc"];
   for (const file of filesToRemove) {
     try {
       await unlink(resolve(projectFolder, file));
@@ -360,6 +223,8 @@ async function upgradeTypeScriptConfig(tsconfigPath: string): Promise<void> {
     "src/**/*.cts",
     "samples-dev/**/*.ts", // TODO: Check if samples-dev is needed
     "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts",
   ];
 
   // Remove old options
@@ -382,7 +247,7 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
   await addNewPackages(packageJson);
 
   // Sort the devDependencies
-  sortDevDependencies(packageJson);
+  sortPackage(packageJson);
 
   // Add tshy
   addTypeScriptHybridizer(packageJson);
@@ -403,12 +268,11 @@ async function upgradePackageJson(projectFolder: string, packageJsonPath: string
   await saveJson(packageJsonPath, packageJson);
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function setScriptsSection(scripts: PackageJson["scripts"]): void {
   scripts["build"] = "npm run clean && dev-tool run build-package && dev-tool run extract-api";
 
   scripts["unit-test:browser"] =
-    "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser";
+    "npm run clean && dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --browser";
   scripts["unit-test:node"] = "dev-tool run test:vitest";
 
   for (const script of Object.keys(scripts)) {
@@ -461,9 +325,11 @@ async function addNewPackages(packageJson: any): Promise<void> {
     let latestVersion = desiredMinVersion;
     if (!latestVersion) {
       // Get the latest version from npm
-      latestVersion = await run(["npm", "view", newPackage, "version"], {
-        captureOutput: true,
-      });
+      latestVersion = (
+        await run(["npm", "view", newPackage, "version"], {
+          captureOutput: true,
+        })
+      ).output;
     }
     packageJson.devDependencies[newPackage] = `^${latestVersion.replace("\n", "")}`;
   }
@@ -494,10 +360,13 @@ function removeLegacyPackages(packageJson: any): void {
     "karma-coverage",
     "karma-env-preprocessor",
     "karma-firefox-launcher",
+    "karma-json-preprocessor",
+    "karma-json-to-file-reporter",
     "karma-junit-reporter",
     "karma-mocha",
     "karma-mocha-reporter",
     "karma-sourcemap-loader",
+    "karma-source-map-support",
     "nyc",
     "puppeteer",
     "source-map-support",
@@ -522,9 +391,18 @@ function sortObjectByKeys(unsortedObj: { [key: string]: string }): { [key: strin
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function sortDevDependencies(packageJson: any): void {
+function sortPackage(packageJson: any): void {
+  if (packageJson.dependencies) {
+    packageJson.dependencies = sortObjectByKeys(packageJson.dependencies);
+  }
   if (packageJson.devDependencies) {
     packageJson.devDependencies = sortObjectByKeys(packageJson.devDependencies);
+  }
+  if (packageJson.peerDependencies) {
+    packageJson.peerDependencies = sortObjectByKeys(packageJson.peerDependencies);
+  }
+  if (packageJson.scripts) {
+    packageJson.scripts = sortObjectByKeys(packageJson.scripts);
   }
 }
 

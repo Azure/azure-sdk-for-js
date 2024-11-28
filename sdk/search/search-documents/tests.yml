@@ -6,20 +6,4 @@ extends:
       PackageName: "@azure/search-documents"
       ServiceDirectory: search
       TimeoutInMinutes: 90
-      # TODO: change 'Preview' cloud back to public after search RP fixes deletion metadata issue
-      Clouds: "Preview"
-      SupportedClouds: "Preview,UsGov,China"
-      CloudConfig:
-        Preview:
-          ServiceConnection: azure-sdk-tests-preview
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzurePreviewMsft.json
-          Location: "westcentralus"
-        UsGov:
-          ServiceConnection: usgov_azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzureUsGovMsft.json
-        China:
-          ServiceConnection: china_azure-sdk-tests
-          SubscriptionConfigurationFilePaths:
-            - eng/common/TestResources/sub-config/AzureChinaMsft.json
+      SupportedClouds: "Public,UsGov,China"

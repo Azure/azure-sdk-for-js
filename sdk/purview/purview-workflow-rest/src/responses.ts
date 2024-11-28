@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   WorkflowMetadataListOutput,
   ErrorResponseOutput,
   WorkflowOutput,
@@ -11,7 +11,7 @@ import {
   WorkflowRunOutput,
   TasksListOutput,
   WorkflowTaskOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** List all workflows. */
 export interface ListWorkflows200Response extends HttpResponse {

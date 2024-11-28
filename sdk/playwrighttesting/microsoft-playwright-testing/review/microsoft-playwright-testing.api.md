@@ -49,14 +49,14 @@ export type PlaywrightConfig = {
     use?: {
         connectOptions: BrowserConnectOptions;
     };
-    globalSetup?: string;
-    globalTeardown?: string;
+    globalSetup?: string | string[];
+    globalTeardown?: string | string[];
 };
 
 // @public
 export type PlaywrightConfigInput = {
-    globalSetup?: string;
-    globalTeardown?: string;
+    globalSetup?: string | string[];
+    globalTeardown?: string | string[];
 };
 
 // @public
@@ -69,6 +69,7 @@ export type PlaywrightServiceAdditionalOptions = {
     exposeNetwork?: string;
     useCloudHostedBrowsers?: boolean;
     credential?: TokenCredential;
+    runName?: string;
 };
 
 // @public
@@ -80,7 +81,6 @@ export const ServiceAuth: {
 // @public
 export const ServiceEnvironmentVariable: {
     PLAYWRIGHT_SERVICE_OS: string;
-    PLAYWRIGHT_SERVICE_RUN_ID: string;
     PLAYWRIGHT_SERVICE_EXPOSE_NETWORK_ENVIRONMENT_VARIABLE: string;
     PLAYWRIGHT_SERVICE_ACCESS_TOKEN: string;
     PLAYWRIGHT_SERVICE_URL: string;

@@ -1,8 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { InstrumenterSpanOptions, TracingSpanKind, TracingSpanLink } from "@azure/core-tracing";
-import { Link, SpanKind, SpanOptions, trace } from "@opentelemetry/api";
+import type {
+  InstrumenterSpanOptions,
+  TracingSpanKind,
+  TracingSpanLink,
+} from "@azure/core-tracing";
+import type { Link, SpanOptions } from "@opentelemetry/api";
+import { SpanKind, trace } from "@opentelemetry/api";
 import { sanitizeAttributes } from "@opentelemetry/core";
 
 /**

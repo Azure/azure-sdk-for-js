@@ -1,16 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { delay } from "../../../src";
-import { CreateTopicOptions } from "../../../src";
-import { CreateSubscriptionOptions } from "../../../src";
-import { ServiceBusAdministrationClient } from "../../../src";
-
-import chai from "chai";
-import { CreateQueueOptions } from "../../../src";
+import { delay } from "../../../src/index.js";
+import type { CreateTopicOptions } from "../../../src/index.js";
+import type { CreateSubscriptionOptions } from "../../../src/index.js";
+import { ServiceBusAdministrationClient } from "../../../src/index.js";
+import type { CreateQueueOptions } from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { EnvVarNames, getEnvVars } from "./envVarUtils";
-const should = chai.should();
+import { EnvVarNames, getEnvVars } from "./envVarUtils.js";
+import { should } from "./chai.js";
 
 let client: ServiceBusAdministrationClient;
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   AckMessage,
   PongMessage,
   ConnectedMessage,
@@ -11,7 +11,7 @@ import {
   WebPubSubDataType,
   WebPubSubMessage,
 } from "../models/messages";
-import { JSONTypes } from "../webPubSubClient";
+import type { JSONTypes } from "../webPubSubClient";
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
 

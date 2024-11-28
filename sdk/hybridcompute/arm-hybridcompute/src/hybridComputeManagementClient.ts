@@ -23,6 +23,7 @@ import { createLroSpec } from "./lroImpl";
 import {
   LicensesImpl,
   MachinesImpl,
+  LicenseProfilesImpl,
   MachineExtensionsImpl,
   ExtensionMetadataImpl,
   OperationsImpl,
@@ -38,6 +39,7 @@ import {
 import {
   Licenses,
   Machines,
+  LicenseProfiles,
   MachineExtensions,
   ExtensionMetadata,
   Operations,
@@ -90,7 +92,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
       credential: credentials,
     };
 
-    const packageDetails = `azsdk-js-arm-hybridcompute/4.0.0-beta.4`;
+    const packageDetails = `azsdk-js-arm-hybridcompute/4.1.0-beta.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`
@@ -144,9 +146,10 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
     // Assigning values to Constant parameters
     this.$host = options.$host || "https://management.azure.com";
-    this.apiVersion = options.apiVersion || "2024-05-20-preview";
+    this.apiVersion = options.apiVersion || "2024-07-31-preview";
     this.licenses = new LicensesImpl(this);
     this.machines = new MachinesImpl(this);
+    this.licenseProfiles = new LicenseProfilesImpl(this);
     this.machineExtensions = new MachineExtensionsImpl(this);
     this.extensionMetadata = new ExtensionMetadataImpl(this);
     this.operations = new OperationsImpl(this);
@@ -283,6 +286,7 @@ export class HybridComputeManagementClient extends coreClient.ServiceClient {
 
   licenses: Licenses;
   machines: Machines;
+  licenseProfiles: LicenseProfiles;
   machineExtensions: MachineExtensions;
   extensionMetadata: ExtensionMetadata;
   operations: Operations;

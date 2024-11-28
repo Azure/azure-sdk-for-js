@@ -1,27 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as path from "path";
+import * as path from "node:path";
 
-import { MsalTestCleanup, msalNodeTestSetup } from "../../node/msalNodeTestSetup";
+import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
+import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 
-import { ClientAssertionCredential } from "../../../src";
+import { ClientAssertionCredential } from "../../../src/index.js";
 import { ConfidentialClientApplication } from "@azure/msal-node";
-import { Context } from "mocha";
-import type Sinon from "sinon";
-import { assert } from "chai";
-import { createJWTTokenFromCertificate } from "../../public/node/utils/utils";
+import { createJWTTokenFromCertificate } from "../../public/node/utils/utils.js";
 import { env } from "@azure-tools/test-recorder";
+import { describe, it, assert, expect, vi, beforeEach, afterEach, MockInstance } from "vitest";
 
 describe("ClientAssertionCredential (internal)", function () {
   let cleanup: MsalTestCleanup;
-  let doGetTokenSpy: Sinon.SinonSpy;
+  let doGetTokenSpy: MockInstance<
+    typeof ConfidentialClientApplication.prototype.acquireTokenByClientCredential
+  >;
 
-  beforeEach(async function (this: Context) {
-    const setup = await msalNodeTestSetup(this.currentTest);
+  beforeEach(async function (ctx) {
+    const setup = await msalNodeTestSetup(ctx);
     cleanup = setup.cleanup;
 
-    doGetTokenSpy = setup.sandbox.spy(
+    doGetTokenSpy = vi.spyOn(
       ConfidentialClientApplication.prototype,
       "acquireTokenByClientCredential",
     );
@@ -75,7 +76,8 @@ describe("ClientAssertionCredential (internal)", function () {
       // We're ignoring errors since our main goal here is to ensure that we send the correct parameters to MSAL.
     }
 
-    assert.equal(doGetTokenSpy.callCount, 1);
-    assert.equal(doGetTokenSpy.lastCall.firstArg.clientAssertion, getAssertion);
+    expect(doGetTokenSpy).toHaveBeenCalledWith(
+      expect.objectContaining({ clientAssertion: getAssertion }),
+    );
   });
 });

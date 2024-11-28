@@ -14,7 +14,7 @@
    * path segment in the "$schema" field for all your Rush config files.  This will ensure
    * correct error-underlining and tab-completion for editors such as VS Code.
    */
-  "rushVersion": "5.131.4",
+  "rushVersion": "5.141.1",
   /**
    * The next field selects which package manager should be installed and determines its version.
    * Rush installs its own local copy of the package manager to ensure that your build process
@@ -2288,8 +2288,33 @@
       "versionPolicyName": "management"
     },
     {
+      "packageName": "@azure/arm-iotoperations",
+      "projectFolder": "sdk/iotoperations/arm-iotoperations",
+      "versionPolicyName": "management"
+    },
+    {
       "packageName": "@azure/arm-trustedsigning",
       "projectFolder": "sdk/trustedsigning/arm-trustedsigning",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-databoundaries",
+      "projectFolder": "sdk/databoundaries/arm-databoundaries",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-containerorchestratorruntime",
+      "projectFolder": "sdk/kubernetesruntime/arm-containerorchestratorruntime",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-terraform",
+      "projectFolder": "sdk/terraform/arm-terraform",
+      "versionPolicyName": "management"
+    },
+    {
+      "packageName": "@azure/arm-connectedcache",
+      "projectFolder": "sdk/connectedcache/arm-connectedcache",
       "versionPolicyName": "management"
     }
   ]

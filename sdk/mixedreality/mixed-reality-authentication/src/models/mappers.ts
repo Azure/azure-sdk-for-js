@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AccessToken } from "@azure/core-auth";
-import { GetTokenResponse } from "../generated";
+import type { AccessToken } from "@azure/core-auth";
+import type { GetTokenResponse } from "../generated";
 import { retrieveJwtExpirationTimestamp } from "../util/jwt";
 
 /**

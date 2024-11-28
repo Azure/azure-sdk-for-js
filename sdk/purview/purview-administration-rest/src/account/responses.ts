@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   AccessKeys,
   Account,
   Collection,
@@ -12,7 +12,7 @@ import {
   ErrorResponseModel,
   ResourceSetRuleConfig,
   ResourceSetRuleConfigList,
-} from "./models";
+} from "./models.js";
 
 /** Get an account */
 export interface AccountsGetAccountProperties200Response extends HttpResponse {

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   AzureKeyVault,
   ErrorResponseModel,
   AzureKeyVaultList,
@@ -20,7 +20,7 @@ import {
   SystemScanRulesetList,
   SystemScanRuleset,
   Trigger,
-} from "./models";
+} from "./models.js";
 
 /** Gets key vault information */
 export interface KeyVaultConnectionsGet200Response extends HttpResponse {

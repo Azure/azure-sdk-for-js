@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   ReceivedSharesGetReceivedShareParameters,
   ReceivedSharesCreateOrReplaceParameters,
   ReceivedSharesDeleteReceivedShareParameters,
@@ -19,8 +19,8 @@ import {
   SentSharesDeleteSentShareInvitationParameters,
   SentSharesNotifyUserSentShareInvitationParameters,
   ShareResourcesGetAllShareResourcesParameters,
-} from "./parameters";
-import {
+} from "./parameters.js";
+import type {
   ReceivedSharesGetReceivedShare200Response,
   ReceivedSharesGetReceivedShareDefaultResponse,
   ReceivedSharesCreateOrReplace200Response,
@@ -57,8 +57,8 @@ import {
   SentSharesNotifyUserSentShareInvitationDefaultResponse,
   ShareResourcesGetAllShareResources200Response,
   ShareResourcesGetAllShareResourcesDefaultResponse,
-} from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+} from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ReceivedSharesGetReceivedShare {
   /** Get a received share */

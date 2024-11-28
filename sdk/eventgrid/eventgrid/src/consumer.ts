@@ -2,13 +2,14 @@
 // Licensed under the MIT License.
 
 import { createSerializer } from "@azure/core-client";
-import { CloudEvent as WireCloudEvent } from "./generated/models";
-import { CloudEvent, EventGridEvent, cloudEventReservedPropertyNames } from "./models";
+import type { CloudEvent as WireCloudEvent } from "./generated/models/index.js";
+import type { CloudEvent, EventGridEvent } from "./models.js";
+import { cloudEventReservedPropertyNames } from "./models.js";
 import {
   EventGridEvent as EventGridEventMapper,
   CloudEvent as CloudEventMapper,
-} from "./generated/models/mappers";
-import { parseAndWrap, validateEventGridEvent, validateCloudEventEvent } from "./util";
+} from "./generated/models/mappers.js";
+import { parseAndWrap, validateEventGridEvent, validateCloudEventEvent } from "./util.js";
 
 const serializer = createSerializer();
 

@@ -1,18 +1,34 @@
 # Release History
 
-## 4.5.0 (Unreleased)
+## 4.5.1 (Unreleased)
 
 ### Features Added
 
-### Bugs Fixed
+- Added `subscription` property in `AzureCliCredentialOptions` [#31451](https://github.com/Azure/azure-sdk-for-js/pull/31451).
 
 ### Breaking Changes
 
-- Fixed the request sent in AzurePipelinesCredential so it doesn't result in a redirect response when an invalid system access token is provided.
+### Bugs Fixed
 
 ### Other Changes
 
-- Allow certain response headers to be logged in `AzurePipelinesCredential` for diagnostics and include them in the error message.
+- Mark `AzureAuthorityHosts.AZURE_GERMANY` deprecated as the Germany cloud closed in 2021. [#31519](https://github.com/Azure/azure-sdk-for-js/pull/31519)
+
+- Native ESM support has been added, and this package will now emit both CommonJS and ESM. [#31647](https://github.com/Azure/azure-sdk-for-js/pull/31647)
+
+## 4.5.0 (2024-10-15)
+
+### Features Added
+
+- Added Proof-of-Possession via Signed HTTP Request (SHR) support to `AccessToken` and `GetTokenOptions` for native broker scenarios in `InteractiveBrowserCredential` to be used with plugin `@azure/identity-broker` [#30961](https://github.com/Azure/azure-sdk-for-js/pull/30961).
+
+### Bugs Fixed
+
+- Fixed the request sent in AzurePipelinesCredential so it doesn't result in a redirect response when an invalid system access token is provided [#31209](https://github.com/Azure/azure-sdk-for-js/pull/31209).
+
+### Other Changes
+
+- Allow certain response headers to be logged in `AzurePipelinesCredential` for diagnostics and include them in the error message [#31209](https://github.com/Azure/azure-sdk-for-js/pull/31209)
 
 <!-- dev-tool snippets ignore -->
 

@@ -1,39 +1,36 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { ExtendedZone, _ExtendedZoneListResult } from "../../models/models.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
-import { buildPagedAsyncIterator } from "../pagingHelpers.js";
 import {
-  isUnexpected,
   EdgeZonesContext as Client,
-  ExtendedZonesGet200Response,
-  ExtendedZonesGetDefaultResponse,
-  ExtendedZonesListBySubscription200Response,
-  ExtendedZonesListBySubscriptionDefaultResponse,
-  ExtendedZonesRegister200Response,
-  ExtendedZonesRegisterDefaultResponse,
-  ExtendedZonesUnregister200Response,
-  ExtendedZonesUnregisterDefaultResponse,
-} from "../../rest/index.js";
-import {
-  StreamableMethod,
-  operationOptionsToRequestParameters,
-  createRestError,
-} from "@azure-rest/core-client";
-import {
   ExtendedZonesGetOptionalParams,
   ExtendedZonesListBySubscriptionOptionalParams,
   ExtendedZonesRegisterOptionalParams,
   ExtendedZonesUnregisterOptionalParams,
-} from "../../models/options.js";
+} from "../index.js";
+import {
+  ExtendedZone,
+  extendedZoneDeserializer,
+  _ExtendedZoneListResult,
+  _extendedZoneListResultDeserializer,
+} from "../../models/models.js";
+import {
+  PagedAsyncIterableIterator,
+  buildPagedAsyncIterator,
+} from "../../static-helpers/pagingHelpers.js";
+import {
+  StreamableMethod,
+  PathUncheckedResponse,
+  createRestError,
+  operationOptionsToRequestParameters,
+} from "@azure-rest/core-client";
 
 export function _extendedZonesGetSend(
   context: Client,
   subscriptionId: string,
   extendedZoneName: string,
   options: ExtendedZonesGetOptionalParams = { requestOptions: {} },
-): StreamableMethod<ExtendedZonesGet200Response | ExtendedZonesGetDefaultResponse> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones/{extendedZoneName}",
@@ -44,48 +41,14 @@ export function _extendedZonesGetSend(
 }
 
 export async function _extendedZonesGetDeserialize(
-  result: ExtendedZonesGet200Response | ExtendedZonesGetDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<ExtendedZone> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return {
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          provisioningState: result.body.properties?.["provisioningState"],
-          registrationState: result.body.properties?.["registrationState"],
-          displayName: result.body.properties?.["displayName"],
-          regionalDisplayName: result.body.properties?.["regionalDisplayName"],
-          regionType: result.body.properties?.["regionType"],
-          regionCategory: result.body.properties?.["regionCategory"],
-          geography: result.body.properties?.["geography"],
-          geographyGroup: result.body.properties?.["geographyGroup"],
-          longitude: result.body.properties?.["longitude"],
-          latitude: result.body.properties?.["latitude"],
-          homeLocation: result.body.properties?.["homeLocation"],
-        },
-  };
+  return extendedZoneDeserializer(result.body);
 }
 
 /** Gets an Azure Extended Zone for a subscription */
@@ -105,9 +68,7 @@ export function _extendedZonesListBySubscriptionSend(
   options: ExtendedZonesListBySubscriptionOptionalParams = {
     requestOptions: {},
   },
-): StreamableMethod<
-  ExtendedZonesListBySubscription200Response | ExtendedZonesListBySubscriptionDefaultResponse
-> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones",
@@ -117,55 +78,14 @@ export function _extendedZonesListBySubscriptionSend(
 }
 
 export async function _extendedZonesListBySubscriptionDeserialize(
-  result:
-    | ExtendedZonesListBySubscription200Response
-    | ExtendedZonesListBySubscriptionDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<_ExtendedZoneListResult> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return {
-    value: result.body["value"].map((p) => {
-      return {
-        id: p["id"],
-        name: p["name"],
-        type: p["type"],
-        systemData: !p.systemData
-          ? undefined
-          : {
-              createdBy: p.systemData?.["createdBy"],
-              createdByType: p.systemData?.["createdByType"],
-              createdAt:
-                p.systemData?.["createdAt"] !== undefined
-                  ? new Date(p.systemData?.["createdAt"])
-                  : undefined,
-              lastModifiedBy: p.systemData?.["lastModifiedBy"],
-              lastModifiedByType: p.systemData?.["lastModifiedByType"],
-              lastModifiedAt:
-                p.systemData?.["lastModifiedAt"] !== undefined
-                  ? new Date(p.systemData?.["lastModifiedAt"])
-                  : undefined,
-            },
-        properties: !p.properties
-          ? undefined
-          : {
-              provisioningState: p.properties?.["provisioningState"],
-              registrationState: p.properties?.["registrationState"],
-              displayName: p.properties?.["displayName"],
-              regionalDisplayName: p.properties?.["regionalDisplayName"],
-              regionType: p.properties?.["regionType"],
-              regionCategory: p.properties?.["regionCategory"],
-              geography: p.properties?.["geography"],
-              geographyGroup: p.properties?.["geographyGroup"],
-              longitude: p.properties?.["longitude"],
-              latitude: p.properties?.["latitude"],
-              homeLocation: p.properties?.["homeLocation"],
-            },
-      };
-    }),
-    nextLink: result.body["nextLink"],
-  };
+  return _extendedZoneListResultDeserializer(result.body);
 }
 
 /** Lists the Azure Extended Zones available to a subscription */
@@ -180,6 +100,7 @@ export function extendedZonesListBySubscription(
     context,
     () => _extendedZonesListBySubscriptionSend(context, subscriptionId, options),
     _extendedZonesListBySubscriptionDeserialize,
+    ["200"],
     { itemName: "value", nextLinkName: "nextLink" },
   );
 }
@@ -189,7 +110,7 @@ export function _extendedZonesRegisterSend(
   subscriptionId: string,
   extendedZoneName: string,
   options: ExtendedZonesRegisterOptionalParams = { requestOptions: {} },
-): StreamableMethod<ExtendedZonesRegister200Response | ExtendedZonesRegisterDefaultResponse> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones/{extendedZoneName}/register",
@@ -200,48 +121,14 @@ export function _extendedZonesRegisterSend(
 }
 
 export async function _extendedZonesRegisterDeserialize(
-  result: ExtendedZonesRegister200Response | ExtendedZonesRegisterDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<ExtendedZone> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return {
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          provisioningState: result.body.properties?.["provisioningState"],
-          registrationState: result.body.properties?.["registrationState"],
-          displayName: result.body.properties?.["displayName"],
-          regionalDisplayName: result.body.properties?.["regionalDisplayName"],
-          regionType: result.body.properties?.["regionType"],
-          regionCategory: result.body.properties?.["regionCategory"],
-          geography: result.body.properties?.["geography"],
-          geographyGroup: result.body.properties?.["geographyGroup"],
-          longitude: result.body.properties?.["longitude"],
-          latitude: result.body.properties?.["latitude"],
-          homeLocation: result.body.properties?.["homeLocation"],
-        },
-  };
+  return extendedZoneDeserializer(result.body);
 }
 
 /** Registers a subscription for an Extended Zone */
@@ -265,7 +152,7 @@ export function _extendedZonesUnregisterSend(
   subscriptionId: string,
   extendedZoneName: string,
   options: ExtendedZonesUnregisterOptionalParams = { requestOptions: {} },
-): StreamableMethod<ExtendedZonesUnregister200Response | ExtendedZonesUnregisterDefaultResponse> {
+): StreamableMethod {
   return context
     .path(
       "/subscriptions/{subscriptionId}/providers/Microsoft.EdgeZones/extendedZones/{extendedZoneName}/unregister",
@@ -276,48 +163,14 @@ export function _extendedZonesUnregisterSend(
 }
 
 export async function _extendedZonesUnregisterDeserialize(
-  result: ExtendedZonesUnregister200Response | ExtendedZonesUnregisterDefaultResponse,
+  result: PathUncheckedResponse,
 ): Promise<ExtendedZone> {
-  if (isUnexpected(result)) {
+  const expectedStatuses = ["200"];
+  if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
 
-  return {
-    id: result.body["id"],
-    name: result.body["name"],
-    type: result.body["type"],
-    systemData: !result.body.systemData
-      ? undefined
-      : {
-          createdBy: result.body.systemData?.["createdBy"],
-          createdByType: result.body.systemData?.["createdByType"],
-          createdAt:
-            result.body.systemData?.["createdAt"] !== undefined
-              ? new Date(result.body.systemData?.["createdAt"])
-              : undefined,
-          lastModifiedBy: result.body.systemData?.["lastModifiedBy"],
-          lastModifiedByType: result.body.systemData?.["lastModifiedByType"],
-          lastModifiedAt:
-            result.body.systemData?.["lastModifiedAt"] !== undefined
-              ? new Date(result.body.systemData?.["lastModifiedAt"])
-              : undefined,
-        },
-    properties: !result.body.properties
-      ? undefined
-      : {
-          provisioningState: result.body.properties?.["provisioningState"],
-          registrationState: result.body.properties?.["registrationState"],
-          displayName: result.body.properties?.["displayName"],
-          regionalDisplayName: result.body.properties?.["regionalDisplayName"],
-          regionType: result.body.properties?.["regionType"],
-          regionCategory: result.body.properties?.["regionCategory"],
-          geography: result.body.properties?.["geography"],
-          geographyGroup: result.body.properties?.["geographyGroup"],
-          longitude: result.body.properties?.["longitude"],
-          latitude: result.body.properties?.["latitude"],
-          homeLocation: result.body.properties?.["homeLocation"],
-        },
-  };
+  return extendedZoneDeserializer(result.body);
 }
 
 /** Unregisters a subscription for an Extended Zone */

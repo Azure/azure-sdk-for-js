@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { LatLon } from "@azure/maps-common";
-import { createMultiCollection } from "./createMultiCollection";
+import type { LatLon } from "@azure/maps-common";
+import { createMultiCollection } from "./createMultiCollection.js";
 
 /**
  * The options that modify the style of a circular path.

@@ -1,24 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { isUnexpected, MapsRenderClient, positionToTileXY } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { MapsRenderClient } from "../../src/index.js";
+import { isUnexpected, positionToTileXY } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("position to tile index helper", function () {
+describe("position to tile index helper", () => {
   let recorder: Recorder;
   let client: MapsRenderClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder.configureClientOptions({}));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
+
   it("positionToTileXY", async () => {
     const zoom = 10;
     const tileSize = "512";

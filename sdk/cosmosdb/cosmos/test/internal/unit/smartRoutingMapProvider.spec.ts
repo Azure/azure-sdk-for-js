@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 import assert from "assert";
-import { ClientContext } from "../../../src/ClientContext";
+import type { ClientContext } from "../../../src/ClientContext";
 import { PartitionKeyRangeCache, QueryRange, SmartRoutingMapProvider } from "../../../src/routing";
 import { MockedClientContext } from "../../public/common/MockClientContext";
 import { createDummyDiagnosticNode } from "../../public/common/TestHelpers";

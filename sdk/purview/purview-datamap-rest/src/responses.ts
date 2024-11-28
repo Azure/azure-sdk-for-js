@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   EntityMutationResultOutput,
   AtlasErrorResponseOutput,
   AtlasEntitiesWithExtInfoOutput,
@@ -34,7 +34,7 @@ import {
   AtlasTypesDefOutput,
   AtlasTypeDefHeaderOutput,
   TermTemplateDefOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface EntityCreateOrUpdate200Response extends HttpResponse {

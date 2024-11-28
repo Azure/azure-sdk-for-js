@@ -1,28 +1,32 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Edm, TableClient, TableEntity, TableEntityResult, odata } from "../../src";
+import type { Edm, TableClient, TableEntity, TableEntityResult } from "../../src/index.js";
+import { odata } from "../../src/index.js";
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { isNodeLike } from "@azure/core-util";
-import { Context } from "mocha";
-import { FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { assert } from "@azure-tools/test-utils";
-import { createTableClient } from "./utils/recordedClient";
+import type { FullOperationResponse, OperationOptions } from "@azure/core-client";
+import { createTableClient } from "./utils/recordedClient.js";
+import { describe, it, assert, expect, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
+import { toSupportTracing } from "@azure-tools/test-utils-vitest";
 
-describe("special characters", function () {
+expect.extend({ toSupportTracing });
+
+describe("special characters", () => {
   const tableName = `SpecialChars`;
   let recorder: Recorder;
   let client: TableClient;
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     client = await createTableClient(tableName, "SASConnectionString", recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should handle partition and row keys with special chars", async function (this: Context) {
+  it("should handle partition and row keys with special chars", async () => {
     await client.createTable();
 
     try {
@@ -46,7 +50,7 @@ describe("special characters", function () {
 });
 
 // Run the test against each of the supported auth modes
-describe(`TableClient`, function () {
+describe(`TableClient`, () => {
   let client: TableClient;
   let unRecordedClient: TableClient;
   let recorder: Recorder;
@@ -54,35 +58,34 @@ describe(`TableClient`, function () {
   const tableName = `tableClientTest${suffix}`;
   const listPartitionKey = "listEntitiesTest";
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     client = await createTableClient(tableName, "SASConnectionString", recorder);
   });
 
-  before(async function () {
+  beforeAll(async () => {
     if (!isPlaybackMode()) {
       unRecordedClient = await createTableClient(tableName, "SASConnectionString");
       await unRecordedClient.createTable();
     }
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  after(async function () {
+  afterAll(async () => {
     if (!isPlaybackMode()) {
       unRecordedClient = await createTableClient(tableName, "SASConnectionString");
       await unRecordedClient.deleteTable();
     }
   });
 
-  describe("listEntities", function () {
+  describe("listEntities", () => {
     // Create required entities for testing list operations
-    before(async function (this: Context) {
+    beforeAll(async () => {
       unRecordedClient = await createTableClient(tableName, "SASConnectionString");
       if (!isPlaybackMode()) {
-        this.timeout(10000);
         await unRecordedClient.createEntity({
           partitionKey: listPartitionKey,
           rowKey: "binary1",
@@ -114,7 +117,7 @@ describe(`TableClient`, function () {
       | TableEntity<Int32Entity>
       | TableEntity<BinaryEntity>;
 
-    it("should list all", async function () {
+    it("should list all", { timeout: 10000 }, async () => {
       const totalItems = 21;
       const entities = client.listEntities<TestEntity>({
         queryOptions: { filter: odata`PartitionKey eq ${listPartitionKey}` },
@@ -125,9 +128,9 @@ describe(`TableClient`, function () {
       }
 
       assert.lengthOf(all, totalItems);
-    }).timeout(10000);
+    });
 
-    it("should list by page", async function () {
+    it("should list by page", async () => {
       const barItems = 20;
       const maxPageSize = 5;
       const entities = client.listEntities<TestEntity>({
@@ -152,7 +155,7 @@ describe(`TableClient`, function () {
       );
     });
 
-    it("should list with filter", async function () {
+    it("should list with filter", async () => {
       const barItems = 20;
       const strValue = "testEntity";
       const entities = client.listEntities<TableEntity<StringEntity>>({
@@ -171,7 +174,7 @@ describe(`TableClient`, function () {
       }
     });
 
-    it("should list binary with filter", async function () {
+    it("should list binary with filter", async () => {
       const strValue = "binary1";
       const entities = client.listEntities<TableEntity<BinaryEntity>>({
         queryOptions: { filter: odata`RowKey eq ${strValue}` },
@@ -192,7 +195,7 @@ describe(`TableClient`, function () {
       }
     });
 
-    it("should filter dates correctly", async function () {
+    it("should filter dates correctly", async () => {
       const propertyName = "date";
       const comparisonDate = new Date("2019-07-10T12:00:00-0700");
 
@@ -235,8 +238,8 @@ describe(`TableClient`, function () {
     });
   });
 
-  describe("createEntity, getEntity and delete", function () {
-    it("should createEntity with only primitives", async function () {
+  describe("createEntity, getEntity and delete", () => {
+    it("should createEntity with only primitives", async () => {
       type TestType = { testField: string };
       const testEntity: TableEntity<TestType> = {
         partitionKey: `P2_${suffix}`,
@@ -258,7 +261,7 @@ describe(`TableClient`, function () {
       assert.equal(result.testField, testEntity.testField);
     });
 
-    it("should createEntity empty partition and row keys", async function () {
+    it("should createEntity empty partition and row keys", async () => {
       type TestType = { testField: string };
       const testEntity: TableEntity<TestType> = {
         partitionKey: "",
@@ -280,7 +283,7 @@ describe(`TableClient`, function () {
       assert.equal(result.testField, testEntity.testField);
     });
 
-    it("should create binary entities as primitive and metadata", async function () {
+    it("should create binary entities as primitive and metadata", async () => {
       const primitive = new Uint8Array([66, 97, 114]);
       interface TestEntity extends TableEntity {
         binary: Uint8Array;
@@ -317,7 +320,7 @@ describe(`TableClient`, function () {
       }
     });
 
-    it("should create binary entities without automatic type conversion", async function () {
+    it("should create binary entities without automatic type conversion", async () => {
       const primitive = new Uint8Array([66, 97, 114]);
       const base64Value = "QmFy";
       interface TestEntity extends TableEntity {
@@ -350,7 +353,7 @@ describe(`TableClient`, function () {
       assert.deepEqual(result.binaryMetadata.value, base64Value);
     });
 
-    it("should select specific properties", async function () {
+    it("should select specific properties", async () => {
       const testEntity = {
         partitionKey: `P2_${suffix}`,
         rowKey: "R1",
@@ -375,7 +378,7 @@ describe(`TableClient`, function () {
       assert.isUndefined(result.foo);
     });
 
-    it("should createEntity with Date", async function () {
+    it("should createEntity with Date", async () => {
       const testDate = "2020-09-17T00:00:00.111Z";
       const testEntity = {
         partitionKey: `P2_${suffix}`,
@@ -397,7 +400,7 @@ describe(`TableClient`, function () {
       assert.deepEqual(result.testField, new Date(testDate));
     });
 
-    it("should createEntity with Guid", async function () {
+    it("should createEntity with Guid", async () => {
       type TestType = {
         testField: Edm<"Guid">;
       };
@@ -426,7 +429,7 @@ describe(`TableClient`, function () {
       assert.deepEqual(result.testField, testGuid);
     });
 
-    it("should createEntity with Int64", async function (this: Mocha.Context) {
+    it("should createEntity with Int64", async () => {
       type TestType = {
         testField: Edm<"Int64">;
       };
@@ -454,7 +457,7 @@ describe(`TableClient`, function () {
       assert.deepEqual(result.testField, BigInt(testInt64.value));
     });
 
-    it("should createEntity with Int32", async function () {
+    it("should createEntity with Int32", async () => {
       type TestType = {
         testField: Edm<"Int32">;
       };
@@ -491,7 +494,7 @@ describe(`TableClient`, function () {
       assert.deepEqual(result.testField, 123);
     });
 
-    it("should createEntity with Boolean", async function () {
+    it("should createEntity with Boolean", async () => {
       type TestType = {
         testField: Edm<"Boolean">;
       };
@@ -527,7 +530,7 @@ describe(`TableClient`, function () {
       assert.equal(result.testField, true);
     });
 
-    it("should createEntity with DateTime", async function () {
+    it("should createEntity with DateTime", async () => {
       type TestType = {
         testField: Edm<"DateTime">;
       };
@@ -558,7 +561,7 @@ describe(`TableClient`, function () {
       assert.deepEqual(result.testField.value, testDate);
     });
 
-    it("should createEntity with primitive int and float", async function () {
+    it("should createEntity with primitive int and float", async () => {
       type TestType = { integerNumber: number; floatingPointNumber: number };
       const testEntity: TableEntity<TestType> = {
         partitionKey: `P8_${suffix}`,
@@ -582,7 +585,7 @@ describe(`TableClient`, function () {
       assert.equal(result.floatingPointNumber, 3.14);
     });
 
-    it("should createEntity with double number in scientific notation", async function () {
+    it("should createEntity with double number in scientific notation", async () => {
       const inputEntity = {
         partitionKey: "doubleSci",
         rowKey: "0",
@@ -598,7 +601,7 @@ describe(`TableClient`, function () {
       assert.deepEqual(result.Value, inputEntity.Value);
     });
 
-    it("should createEntity with empty string", async function () {
+    it("should createEntity with empty string", async () => {
       const inputEntity = {
         partitionKey: "emptyString",
         rowKey: "0",
@@ -614,7 +617,7 @@ describe(`TableClient`, function () {
       assert.deepEqual(result.value, inputEntity.value);
     });
 
-    it("should createEntity with primitive int and float without automatic type conversion", async function () {
+    it("should createEntity with primitive int and float without automatic type conversion", async () => {
       type TestType = {
         integerNumber: number;
         floatingPointNumber: number;
@@ -658,34 +661,31 @@ describe(`TableClient`, function () {
     });
   });
 
-  describe("tracing", function () {
-    it("should trace through the various operations", async function () {
-      await assert.supportsTracing(
-        async (options: OperationOptions) => {
-          await client.createTable(options);
-          const entity = {
-            partitionKey: "A'aaa_bbbb2\"",
-            rowKey: `"A'aaa_bbbb2`,
-          };
-          await client.createEntity(entity, options);
-          await client.upsertEntity(entity, "Replace", options);
-          await client.getEntity(entity.partitionKey, entity.rowKey, options);
-          await client.updateEntity(entity, "Replace", options);
-          await client.listEntities(options).byPage().next();
-          await client.deleteEntity(entity.partitionKey, entity.rowKey, options);
-          await client.deleteTable(options);
-        },
-        [
-          "TableClient.createTable",
-          "TableClient.createEntity",
-          "TableClient.upsertEntity",
-          "TableClient.getEntity",
-          "TableClient.updateEntity",
-          "TableClient.listEntitiesPage",
-          "TableClient.deleteEntity",
-          "TableClient.deleteTable",
-        ],
-      );
+  describe("tracing", () => {
+    it("should trace through the various operations", async () => {
+      await expect(async (options: OperationOptions) => {
+        await client.createTable(options);
+        const entity = {
+          partitionKey: "A'aaa_bbbb2\"",
+          rowKey: `"A'aaa_bbbb2`,
+        };
+        await client.createEntity(entity, options);
+        await client.upsertEntity(entity, "Replace", options);
+        await client.getEntity(entity.partitionKey, entity.rowKey, options);
+        await client.updateEntity(entity, "Replace", options);
+        await client.listEntities(options).byPage().next();
+        await client.deleteEntity(entity.partitionKey, entity.rowKey, options);
+        await client.deleteTable(options);
+      }).toSupportTracing([
+        "TableClient.createTable",
+        "TableClient.createEntity",
+        "TableClient.upsertEntity",
+        "TableClient.getEntity",
+        "TableClient.updateEntity",
+        "TableClient.listEntitiesPage",
+        "TableClient.deleteEntity",
+        "TableClient.deleteTable",
+      ]);
     });
   });
 });

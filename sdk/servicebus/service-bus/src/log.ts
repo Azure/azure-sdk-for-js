@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureLogger, createClientLogger } from "@azure/logger";
-import { AmqpError } from "rhea-promise";
+import type { AzureLogger } from "@azure/logger";
+import { createClientLogger } from "@azure/logger";
+import type { AmqpError } from "rhea-promise";
 import { isObjectWithProperties } from "@azure/core-util";
 
 /**
