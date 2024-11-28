@@ -114,7 +114,6 @@
     "@azure/identity": "^4.0.1",
     "@types/node": "^18.0.0",
     "@vitest/coverage-istanbul": "^2.1.1",
-    "cross-env": "^7.0.2",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "playwright": "^1.47.2",

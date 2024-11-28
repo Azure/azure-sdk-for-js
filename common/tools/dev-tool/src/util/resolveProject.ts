@@ -44,6 +44,7 @@ declare global {
         [k: string]: string[];
       };
     };
+    tshy?: Record<string, object>;
     type?: string;
     module?: string;
     bin?: Record<string, string>;
@@ -59,6 +60,7 @@ declare global {
     homepage: string;
     sideEffects: boolean;
     private: boolean;
+    engines?: { node?: string };
 
     dependencies: Record<string, string>;
     devDependencies: Record<string, string>;

@@ -1,6 +1,6 @@
 {
   "name": "@azure/openai",
-  "version": "2.0.0-beta.3",
+  "version": "2.1.0-beta.1",
   "description": "A companion library to openai for Azure OpenAI.",
   "sdk-type": "client",
   "main": "./dist/commonjs/index.js",
@@ -43,6 +43,7 @@
     "LICENSE"
   ],
   "tshy": {
+    "project": "./tsconfig.src.json",
     "exports": {
       "./package.json": "./package.json",
       ".": "./src/index.ts",
@@ -69,8 +70,8 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:browser": "dev-tool run build-package && dev-tool run build-test && dev-tool run test:vitest --no-test-proxy --browser",
     "integration-test:node": "dev-tool run test:vitest --no-test-proxy",
-    "lint": "eslint README.md package.json api-extractor.json src",
-    "lint:fix": "eslint README.md package.json api-extractor.json src --fix --fix-type [problem,suggestion]",
+    "lint": "eslint README.md package.json api-extractor.json src test",
+    "lint:fix": "eslint README.md package.json api-extractor.json src test --fix --fix-type [problem,suggestion]",
     "pack": "npm pack 2>&1",
     "test": "npm run clean && dev-tool run build-package && npm run unit-test:node && dev-tool run build-test && npm run unit-test:browser && npm run integration-test",
     "test:browser": "npm run clean && npm run build:test && npm run integration-test:browser",
@@ -116,7 +117,6 @@
     "@types/node": "^18.0.0",
     "@vitest/browser": "^2.0.4",
     "@vitest/coverage-istanbul": "^2.0.4",
-    "cross-env": "^7.0.3",
     "dotenv": "^16.0.0",
     "eslint": "^9.9.0",
     "openai": "^4.47.2",

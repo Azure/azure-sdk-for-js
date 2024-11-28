@@ -1,24 +1,22 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { PurviewScanningClient, DataSource, DataSourceListOutput } from "../../src";
-import { paginate } from "../../src";
+import type { PurviewScanningClient, DataSource, DataSourceListOutput } from "../../src/index.js";
+import { paginate } from "../../src/index.js";
 import { Recorder } from "@azure-tools/test-recorder";
-
-import { assert } from "chai";
-import { createClient } from "./utils/recordedClient";
-import type { Context } from "mocha";
+import { createClient } from "./utils/recordedClient.js";
 import type { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("List data sources", () => {
   let recorder: Recorder;
   let client: PurviewScanningClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

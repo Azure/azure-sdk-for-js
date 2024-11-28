@@ -84,7 +84,7 @@ import type {
   TriggersDeleteTrigger200Response,
   TriggersDeleteTrigger204Response,
   TriggersDeleteTriggerDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /azureKeyVaults/{keyVaultName}": ["200"],

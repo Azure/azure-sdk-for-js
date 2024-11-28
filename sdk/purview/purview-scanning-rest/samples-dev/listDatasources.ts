@@ -15,13 +15,11 @@ import PurviewScanning, {
 } from "@azure-rest/purview-scanning";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
-import dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 const endpoint = process.env["ENDPOINT"] || "";
 
-async function main() {
+async function main(): Promise<void> {
   console.log("== List dataSources ==");
   const client = PurviewScanning(endpoint, new DefaultAzureCredential());
 
@@ -36,7 +34,7 @@ async function main() {
 
   for await (const item of <
     PagedAsyncIterableIterator<DataSourceOutput, DataSourceOutput[], PageSettings>
-  >iter) {
+    >iter) {
     items.push(item);
   }
   console.log(items.map((ds) => ds.name).join("\n"));

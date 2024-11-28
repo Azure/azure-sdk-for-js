@@ -30,4 +30,4 @@ export {
   TableSetAccessPolicyHeaders,
   ServiceSetPropertiesHeaders,
   TableUpdateEntityHeaders,
-} from "./generated/models";
+} from "./generated/models/index.js";

@@ -37,7 +37,7 @@ import type {
   TriggersGetTriggerParameters,
   TriggersCreateTriggerParameters,
   TriggersDeleteTriggerParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   KeyVaultConnectionsGet200Response,
   KeyVaultConnectionsGetDefaultResponse,
@@ -121,7 +121,7 @@ import type {
   TriggersDeleteTrigger200Response,
   TriggersDeleteTrigger204Response,
   TriggersDeleteTriggerDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface KeyVaultConnectionsGet {

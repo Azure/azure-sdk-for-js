@@ -5,15 +5,15 @@ import { matrix } from "@azure-tools/test-utils-vitest";
 import { createClient } from "./utils/createClient.js";
 import {
   APIMatrix,
-  APIVersion,
-  DeploymentInfo,
+  type APIVersion,
+  type DeploymentInfo,
   getDeployments,
   getSucceeded,
   updateWithSucceeded,
   withDeployments,
 } from "./utils/utils.js";
 import { assertImagesWithJSON, assertImagesWithURLs } from "./utils/asserts.js";
-import OpenAI, { AzureOpenAI } from "openai";
+import type { OpenAI, AzureOpenAI } from "openai";
 import { describe, it, beforeAll } from "vitest";
 
 describe("Images", function () {
