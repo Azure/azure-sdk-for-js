@@ -11,7 +11,7 @@ import type {
   DocumentTranslationGetSupportedDocumentFormatsParameters,
   DocumentTranslationGetSupportedGlossaryFormatsParameters,
   DocumentTranslationGetSupportedStorageSourcesParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   DocumentTranslationStartTranslation202Response,
   DocumentTranslationStartTranslation400Response,
@@ -62,7 +62,7 @@ import type {
   DocumentTranslationGetSupportedStorageSources429Response,
   DocumentTranslationGetSupportedStorageSources500Response,
   DocumentTranslationGetSupportedStorageSources503Response,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface StartTranslation {

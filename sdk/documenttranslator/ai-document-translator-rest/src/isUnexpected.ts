@@ -51,7 +51,7 @@ import type {
   DocumentTranslationGetSupportedStorageSources429Response,
   DocumentTranslationGetSupportedStorageSources500Response,
   DocumentTranslationGetSupportedStorageSources503Response,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /batches": ["200"],

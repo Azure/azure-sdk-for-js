@@ -11,7 +11,7 @@ import type {
   WorkflowRunOutput,
   TasksListOutput,
   WorkflowTaskOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** List all workflows. */
 export interface ListWorkflows200Response extends HttpResponse {

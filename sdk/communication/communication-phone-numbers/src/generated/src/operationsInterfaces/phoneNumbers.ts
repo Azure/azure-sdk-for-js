@@ -39,7 +39,7 @@ import {
   PhoneNumbersReleasePhoneNumberResponse,
   PhoneNumbersOperatorInformationSearchOptionalParams,
   PhoneNumbersOperatorInformationSearchResponse,
-} from "../models";
+} from "../models/index.js";
 
 /// <reference lib="esnext.asynciterable" />
 /** Interface representing a PhoneNumbers. */

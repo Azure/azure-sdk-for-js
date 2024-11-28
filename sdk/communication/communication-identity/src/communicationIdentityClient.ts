@@ -9,7 +9,7 @@ import type {
   CreateUserAndTokenOptions,
   GetTokenOptions,
   TokenScope,
-} from "./models";
+} from "./models.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
 import {
   createCommunicationAuthPolicy,
@@ -19,9 +19,9 @@ import {
 import type { InternalClientPipelineOptions, OperationOptions } from "@azure/core-client";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { IdentityRestClient } from "./generated/src/identityRestClient";
-import { logger } from "./common/logger";
-import { tracingClient } from "./generated/src/tracing";
+import { IdentityRestClient } from "./generated/src/identityRestClient.js";
+import { logger } from "./common/logger.js";
+import { tracingClient } from "./generated/src/tracing.js";
 
 const isCommunicationIdentityClientOptions = (
   options: any,

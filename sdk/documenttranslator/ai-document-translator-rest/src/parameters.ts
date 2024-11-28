@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RequestParameters } from "@azure-rest/core-client";
-import type { StartTranslationDetails } from "./models";
+import type { StartTranslationDetails } from "./models.js";
 
 export interface DocumentTranslationStartTranslationBodyParam {
   /** request details */

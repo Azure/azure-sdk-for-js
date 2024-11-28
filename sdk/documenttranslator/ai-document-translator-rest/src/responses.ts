@@ -11,7 +11,7 @@ import type {
   DocumentsStatusOutput,
   SupportedFileFormatsOutput,
   SupportedStorageSourcesOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 export interface DocumentTranslationStartTranslation202Headers {
   /** Location of batch the operation */
