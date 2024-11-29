@@ -24,49 +24,50 @@ import { GlobalStatistics } from "../../../src/request/globalStatistics";
 import assert from "assert";
 import { HybridSearchQueryResult } from "../../../src/request/hybridSearchQueryResult";
 import sinon from "sinon";
+import { MockedClientContext } from "../../public/common/MockClientContext";
 
-function createTestClientContext(
-  options: Partial<CosmosClientOptions>,
-  diagnosticLevel: CosmosDbDiagnosticLevel,
-) {
-  const clientOps: CosmosClientOptions = {
-    endpoint: "",
-    connectionPolicy: {
-      enableEndpointDiscovery: false,
-      preferredLocations: ["https://localhhost"],
-    },
-    ...options,
-  };
-  const globalEndpointManager = new GlobalEndpointManager(
-    clientOps,
-    async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => {
-      expect(opts).to.exist; // eslint-disable-line no-unused-expressions
-      const dummyAccount: any = diagnosticNode;
-      return dummyAccount;
-    },
-  );
-  const clientConfig: ClientConfigDiagnostic = {
-    endpoint: "",
-    resourceTokensConfigured: true,
-    tokenProviderConfigured: true,
-    aadCredentialsConfigured: true,
-    connectionPolicyConfigured: true,
-    consistencyLevel: ConsistencyLevel.BoundedStaleness,
-    defaultHeaders: {},
-    agentConfigured: true,
-    userAgentSuffix: "",
-    pluginsConfigured: true,
-    sDKVersion: Constants.SDKVersion,
-    ...options,
-  };
-  const clientContext = new ClientContext(
-    clientOps,
-    globalEndpointManager,
-    clientConfig,
-    diagnosticLevel,
-  );
-  return clientContext;
-}
+// function createTestClientContext(
+//   options: Partial<CosmosClientOptions>,
+//   diagnosticLevel: CosmosDbDiagnosticLevel,
+// ) {
+//   const clientOps: CosmosClientOptions = {
+//     endpoint: "",
+//     connectionPolicy: {
+//       enableEndpointDiscovery: false,
+//       preferredLocations: ["https://localhhost"],
+//     },
+//     ...options,
+//   };
+//   const globalEndpointManager = new GlobalEndpointManager(
+//     clientOps,
+//     async (diagnosticNode: DiagnosticNodeInternal, opts: RequestOptions) => {
+//       expect(opts).to.exist; // eslint-disable-line no-unused-expressions
+//       const dummyAccount: any = diagnosticNode;
+//       return dummyAccount;
+//     },
+//   );
+//   const clientConfig: ClientConfigDiagnostic = {
+//     endpoint: "",
+//     resourceTokensConfigured: true,
+//     tokenProviderConfigured: true,
+//     aadCredentialsConfigured: true,
+//     connectionPolicyConfigured: true,
+//     consistencyLevel: ConsistencyLevel.BoundedStaleness,
+//     defaultHeaders: {},
+//     agentConfigured: true,
+//     userAgentSuffix: "",
+//     pluginsConfigured: true,
+//     sDKVersion: Constants.SDKVersion,
+//     ...options,
+//   };
+//   const clientContext = new ClientContext(
+//     clientOps,
+//     globalEndpointManager,
+//     clientConfig,
+//     diagnosticLevel,
+//   );
+//   return clientContext;
+// }
 
 const collectionLink = "/dbs/testDb/colls/testCollection"; // Sample collection link
 // const query = `SELECT TOP 10 * FROM c ORDER BY RANK FullTextScore(c.title, ['swim', 'run'])`;
@@ -113,16 +114,18 @@ const partitionedQueryExecutionInfo = {
   partitionedQueryExecutionInfoVersion: 1,
   hybridSearchQueryInfo: hybridSearchQueryInfo,
 };
-const cosmosClientOptions = {
-  endpoint: "https://your-cosmos-db.documents.azure.com:443/",
-  key: "your-cosmos-db-key",
-  userAgentSuffix: "MockClient",
-};
+// const cosmosClientOptions = {
+//   endpoint: "https://your-cosmos-db.documents.azure.com:443/",
+//   key: "your-cosmos-db-key",
+//   userAgentSuffix: "MockClient",
+// };
 const correlatedActivityId = "sample-activity-id"; // Example correlated activity ID
 const diagnosticLevel = CosmosDbDiagnosticLevel.info;
 
 describe("hybridQueryExecutionContext", function () {
-  const clientContext: ClientContext = new MockedClientContext(partitionKeyRanges) as any;
+  const clientContext: ClientContext = new MockedClientContext(
+    partitionedQueryExecutionInfo.queryRanges,
+  ) as any;
 
   // Create a new instance of HybridQueryExecutionContext
   const context = new HybridQueryExecutionContext(
