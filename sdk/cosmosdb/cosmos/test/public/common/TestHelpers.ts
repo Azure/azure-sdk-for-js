@@ -38,7 +38,7 @@ import {
 import type { ExtractPromise } from "../../../src/utils/diagnostics";
 import { getCurrentTimestampInMs } from "../../../src/utils/time";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey";
-import { readFileSync } from "fs";
+import fs from "fs";
 import path from "path";
 
 const defaultRoutingGatewayPort: string = ":8081";
@@ -695,7 +695,7 @@ export function isValidV4UUID(uuid: string): boolean {
 
 export function readAndParseJSONFile(fileName: string): any {
   const filePath = path.join(__dirname, fileName);
-  const rawData = readFileSync(filePath, "utf-8");
+  const rawData = fs.readFileSync(filePath, "utf-8");
   let parsedData: any;
   try {
     parsedData = JSON.parse(rawData);
