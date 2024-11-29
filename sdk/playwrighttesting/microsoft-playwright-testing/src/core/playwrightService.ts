@@ -5,12 +5,7 @@ import { InternalEnvironmentVariables, ServiceAuth } from "../common/constants";
 import customerConfig from "../common/customerConfig";
 import { PlaywrightServiceConfig } from "../common/playwrightServiceConfig";
 import playwrightServiceEntra from "./playwrightServiceEntra";
-import type {
-  PlaywrightServiceAdditionalOptions,
-  PlaywrightConfig,
-  PlaywrightConfigInput,
-  BrowserConnectOptions,
-} from "../common/types";
+import type { PlaywrightServiceAdditionalOptions, BrowserConnectOptions } from "../common/types";
 import {
   emitReportingUrl,
   fetchOrValidateAccessToken,
@@ -25,6 +20,7 @@ import {
   getVersionInfo,
 } from "../utils/utils";
 import { ServiceErrorMessageConstants } from "../common/messages";
+import type { PlaywrightTestConfig } from "@playwright/test";
 
 /**
  * @public
@@ -57,9 +53,9 @@ import { ServiceErrorMessageConstants } from "../common/messages";
  * ```
  */
 const getServiceConfig = (
-  config: PlaywrightConfigInput,
+  config: PlaywrightTestConfig,
   options?: PlaywrightServiceAdditionalOptions,
-): PlaywrightConfig => {
+): PlaywrightTestConfig => {
   validatePlaywrightVersion();
   validateServiceUrl();
   const playwrightVersionInfo = getVersionInfo(getPlaywrightVersion());
