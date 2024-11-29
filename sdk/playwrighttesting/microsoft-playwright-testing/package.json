@@ -88,6 +88,9 @@
     "sinon": "^17.0.0",
     "typescript": "~5.6.2"
   },
+  "peerDependencies": {
+    "@playwright/test": "^1.43.1"
+  },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//sampleConfiguration": {
     "productName": "Microsoft Playwright Testing",
