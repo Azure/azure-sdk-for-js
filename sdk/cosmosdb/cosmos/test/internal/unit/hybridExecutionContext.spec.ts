@@ -122,7 +122,7 @@ const correlatedActivityId = "sample-activity-id"; // Example correlated activit
 const diagnosticLevel = CosmosDbDiagnosticLevel.info;
 
 describe("hybridQueryExecutionContext", function () {
-  const clientContext = createTestClientContext(cosmosClientOptions, diagnosticLevel); // Mock ClientContext instance
+  const clientContext: ClientContext = new MockedClientContext(partitionKeyRanges) as any;
 
   // Create a new instance of HybridQueryExecutionContext
   const context = new HybridQueryExecutionContext(

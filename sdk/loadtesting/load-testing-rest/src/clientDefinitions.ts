@@ -28,7 +28,7 @@ import type {
   TestRunListAppComponentsParameters,
   TestRunCreateOrUpdateServerMetricsConfigParameters,
   TestRunListServerMetricsConfigParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   TestCreateOrUpdate200Response,
   TestCreateOrUpdate201Response,
@@ -88,7 +88,7 @@ import type {
   TestRunCreateOrUpdateServerMetricsConfigDefaultResponse,
   TestRunListServerMetricsConfig200Response,
   TestRunListServerMetricsConfigDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface TestCreateOrUpdate {

@@ -22,7 +22,7 @@ generate-metadata: false
 generate-test: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
-source-code-folder-path: ./generated
+source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/main/specification/maps/data-plane/Render/stable/2024-04-01/render.json
 package-version: 2.0.0-beta.1
 rest-level-client: true

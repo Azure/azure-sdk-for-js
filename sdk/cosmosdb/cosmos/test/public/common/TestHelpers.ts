@@ -38,6 +38,8 @@ import {
 import type { ExtractPromise } from "../../../src/utils/diagnostics";
 import { getCurrentTimestampInMs } from "../../../src/utils/time";
 import { extractPartitionKeys } from "../../../src/extractPartitionKey";
+import { readFileSync } from "fs";
+import path from "path";
 
 const defaultRoutingGatewayPort: string = ":8081";
 const defaultComputeGatewayPort: string = ":8903";
@@ -689,4 +691,16 @@ export async function changeFeedAllVersionsDeleteItems(
 export function isValidV4UUID(uuid: string): boolean {
   const uuidRegex = /^[0-9A-F]{8}-[0-9A-F]{4}-[4][0-9A-F]{3}-[89AB][0-9A-F]{3}-[0-9A-F]{12}$/i;
   return uuidRegex.test(uuid);
+}
+
+export function readAndParseJSONFile(fileName: string): any {
+  const filePath = path.join(__dirname, fileName);
+  const rawData = readFileSync(filePath, "utf-8");
+  let parsedData: any;
+  try {
+    parsedData = JSON.parse(rawData);
+  } catch (error) {
+    console.error("Error parsing JSON file:", error);
+  }
+  return parsedData;
 }
