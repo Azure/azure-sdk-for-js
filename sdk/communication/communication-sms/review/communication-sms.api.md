@@ -5,6 +5,7 @@
 ```ts
 
 import type { CommonClientOptions } from '@azure/core-client';
+import * as coreClient from '@azure/core-client';
 import type { KeyCredential } from '@azure/core-auth';
 import type { OperationOptions } from '@azure/core-client';
 import type { TokenCredential } from '@azure/core-auth';
@@ -14,6 +15,10 @@ export class SmsClient {
     constructor(connectionString: string, options?: SmsClientOptions);
     constructor(endpoint: string, credential: KeyCredential, options?: SmsClientOptions);
     constructor(endpoint: string, credential: TokenCredential, options?: SmsClientOptions);
+    // Warning: (ae-forgotten-export) The symbol "OptOutsClient" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    optOuts: OptOutsClient;
     send(sendRequest: SmsSendRequest, options?: SmsSendOptions): Promise<SmsSendResult[]>;
 }
 

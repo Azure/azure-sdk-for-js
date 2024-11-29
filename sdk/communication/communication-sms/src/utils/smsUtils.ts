@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { SendMessageRequest } from "../generated/src/models/index.js";
+import type { SendMessageRequest, OptOutRequest } from "../generated/src/models/index.js";
 import type { SmsSendOptions, SmsSendRequest } from "../smsClient.js";
 import { Uuid } from "./uuid.js";
 import type { SmsSendOptions as InternalOptions } from "../generated/src/models/index.js";
@@ -33,3 +33,15 @@ export function generateSendMessageRequest(
     },
   };
 }
+
+export function generateOptOutRequest(
+  from: string,
+  to: string[]) : OptOutRequest {
+    return {
+      from: from, 
+      recipients: to.map((phoneNumberStr) => {
+        return {
+          to: phoneNumberStr
+        };
+    })};
+  }
