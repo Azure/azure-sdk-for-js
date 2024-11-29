@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Lists the access key for the specified configuration store.
  *
  * @summary Lists the access key for the specified configuration store.
- * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2023-03-01/examples/ConfigurationStoresListKeys.json
+ * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2024-05-01/examples/ConfigurationStoresListKeys.json
  */
 async function configurationStoresListKeys() {
   const subscriptionId =
@@ -30,12 +30,12 @@ async function configurationStoresListKeys() {
   const credential = new DefaultAzureCredential();
   const client = new AppConfigurationManagementClient(
     credential,
-    subscriptionId
+    subscriptionId,
   );
   const resArray = new Array();
   for await (let item of client.configurationStores.listKeys(
     resourceGroupName,
-    configStoreName
+    configStoreName,
   )) {
     resArray.push(item);
   }

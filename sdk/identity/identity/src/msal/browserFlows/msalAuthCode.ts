@@ -3,20 +3,20 @@
 
 import * as msalBrowser from "@azure/msal-browser";
 
-import type { MsalBrowserFlowOptions } from "./msalBrowserCommon";
-import { MsalBrowser } from "./msalBrowserCommon";
+import type { MsalBrowserFlowOptions } from "./msalBrowserCommon.js";
+import { MsalBrowser } from "./msalBrowserCommon.js";
 import {
   defaultLoggerCallback,
   getMSALLogLevel,
   handleMsalError,
   msalToPublic,
   publicToMsal,
-} from "../utils";
+} from "../utils.js";
 
 import type { AccessToken } from "@azure/core-auth";
-import type { AuthenticationRecord } from "../types";
-import { AuthenticationRequiredError } from "../../errors";
-import type { CredentialFlowGetTokenOptions } from "../credentials";
+import type { AuthenticationRecord } from "../types.js";
+import { AuthenticationRequiredError } from "../../errors.js";
+import type { CredentialFlowGetTokenOptions } from "../credentials.js";
 import { getLogLevel } from "@azure/logger";
 
 // We keep a copy of the redirect hash.
