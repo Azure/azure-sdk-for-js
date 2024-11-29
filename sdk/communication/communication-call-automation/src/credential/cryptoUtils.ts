@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { createHash, createHmac } from "crypto";
+import { createHash, createHmac } from "node:crypto";
 
 export const shaHash = async (content: string): Promise<string> =>
   createHash("sha256").update(content).digest("base64");

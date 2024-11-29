@@ -32,8 +32,6 @@ export interface ContentFilterResultsForChoiceOutput {
   self_harm?: ContentFilterResultOutput;
   /** Describes whether profanity was detected. */
   profanity?: ContentFilterDetectionResultOutput;
-  /** Describes detection results against configured custom blocklists. */
-  custom_blocklists?: ContentFilterDetailedResults;
   /**
    * Describes an error returned if the content filtering system is
    * down or otherwise unable to complete the operation in time.
@@ -43,15 +41,6 @@ export interface ContentFilterResultsForChoiceOutput {
   protected_material_text?: ContentFilterDetectionResultOutput;
   /** Information about detection of protected code material. */
   protected_material_code?: ContentFilterCitedDetectionResultOutput;
-}
-
-/** Represents a structured collection of result details for content filtering. */
-export interface ContentFilterDetailedResults {
-  /** A value indicating whether or not the content has been filtered. */
-  filtered: boolean;
-
-  /** The collection of detailed blocklist result information. */
-  details: ContentFilterBlocklistIdResultOutput[];
 }
 
 /** Represents the outcome of a detection operation against protected resources as performed by content filtering. */
@@ -65,116 +54,6 @@ export interface ContentFilterCitedDetectionResultOutput {
   /** The license description associated with the detection. */
   license?: string;
 }
-
-/**
- * Represents the output results of Azure enhancements to chat completions, as configured via the matching input provided
- * in the request.
- */
-export interface AzureChatEnhancementsOutput {
-  /** The grounding enhancement that returns the bounding box of the objects detected in the image. */
-  grounding?: AzureGroundingEnhancementOutput;
-}
-
-/** The grounding enhancement that returns the bounding box of the objects detected in the image. */
-export interface AzureGroundingEnhancementOutput {
-  /** The lines of text detected by the grounding enhancement. */
-  lines: Array<AzureGroundingEnhancementLineOutput>;
-}
-
-/** A content line object consisting of an adjacent sequence of content elements, such as words and selection marks. */
-export interface AzureGroundingEnhancementLineOutput {
-  /** The text within the line. */
-  text: string;
-  /** An array of spans that represent detected objects and its bounding box information. */
-  spans: Array<AzureGroundingEnhancementLineSpanOutput>;
-}
-
-/** A span object that represents a detected object and its bounding box information. */
-export interface AzureGroundingEnhancementLineSpanOutput {
-  /** The text content of the span that represents the detected object. */
-  text: string;
-  /**
-   * The character offset within the text where the span begins. This offset is defined as the position of the first
-   * character of the span, counting from the start of the text as Unicode codepoints.
-   */
-  offset: number;
-  /** The length of the span in characters, measured in Unicode codepoints. */
-  length: number;
-  /** An array of objects representing points in the polygon that encloses the detected object. */
-  polygon: Array<AzureGroundingEnhancementCoordinatePointOutput>;
-}
-
-/** A representation of a single polygon point as used by the Azure grounding enhancement. */
-export interface AzureGroundingEnhancementCoordinatePointOutput {
-  /** The x-coordinate (horizontal axis) of the point. */
-  x: number;
-  /** The y-coordinate (vertical axis) of the point. */
-  y: number;
-}
-
-/**
- * A representation of the additional context information available when Azure OpenAI chat extensions are involved
- * in the generation of a corresponding chat completions response. This context information is only populated when
- * using an Azure OpenAI request configured to use a matching extension.
- */
-export interface AzureChatExtensionsMessageContextOutput {
-  /**
-   * The contextual information associated with the Azure chat extensions used for a chat completions request.
-   * These messages describe the data source retrievals, plugin invocations, and other intermediate steps taken in the
-   * course of generating a chat completions response that was augmented by capabilities from Azure OpenAI chat
-   * extensions.
-   */
-  citations?: Array<AzureChatExtensionDataSourceResponseCitationOutput>;
-  /** The detected intent from the chat history, used to pass to the next turn to carry over the context. */
-  intent?: string;
-  /** All the retrieved documents. */
-  all_retrieved_documents?: Array<AzureChatExtensionRetrievedDocument>;
-}
-
-/** A single instance of additional context information available when Azure OpenAI chat extensions are involved
- * in the generation of a corresponding chat completions response. This context information is only populated when
- * using an Azure OpenAI request configured to use a matching extension.
- */
-export interface AzureChatExtensionDataSourceResponseCitation {
-  /** The content of the citation. */
-  content: string;
-
-  /** The title of the citation. */
-  title?: string;
-
-  /** The URL of the citation. */
-  url?: string;
-
-  /** The file path of the citation. */
-  filepath?: string;
-
-  /** The chunk ID of the citation. */
-  chunk_id?: string;
-
-  /** The rerank score of the retrieved document. */
-  rerank_score?: number;
-}
-
-/** The retrieved document. */
-export interface AzureChatExtensionRetrievedDocument
-  extends AzureChatExtensionDataSourceResponseCitation {
-  /** The search queries used to retrieve the document. */
-  search_queries: string[];
-
-  /** The index of the data source. */
-  data_source_index: number;
-
-  /** The original search score of the retrieved document. */
-  original_search_score?: number;
-
-  /** Represents the rationale for filtering the document. If the document does not undergo filtering,
-   * this field will remain unset.
-   */
-  filter_reason?: AzureChatExtensionRetrieveDocumentFilterReason;
-}
-
-/** The reason for filtering the retrieved document. */
-export type AzureChatExtensionRetrieveDocumentFilterReason = "score" | "rerank";
 
 /** Content filtering results for a single prompt in the request. */
 export interface ContentFilterResultsForPromptOutput {
@@ -213,8 +92,6 @@ export interface ContentFilterResultDetailsForPromptOutput {
   self_harm?: ContentFilterResultOutput;
   /** Describes whether profanity was detected. */
   profanity?: ContentFilterDetectionResultOutput;
-  /** Describes detection results against configured custom blocklists. */
-  custom_blocklists?: ContentFilterDetailedResults;
   /**
    * Describes an error returned if the content filtering system is
    * down or otherwise unable to complete the operation in time.
@@ -222,8 +99,6 @@ export interface ContentFilterResultDetailsForPromptOutput {
   error?: ErrorModel;
   /** Whether a jailbreak attempt was detected in the prompt. */
   jailbreak?: ContentFilterDetectionResultOutput;
-  /** Whether an indirect attack was detected in the prompt. */
-  indirect_attack?: ContentFilterDetectionResultOutput;
 }
 
 /** Information about filtered content severity level and if it has been filtered or not. */
@@ -246,12 +121,21 @@ export interface ContentFilterDetectionResultOutput {
   detected: boolean;
 }
 
-/** Represents the outcome of an evaluation against a custom blocklist as performed by content filtering. */
-export interface ContentFilterBlocklistIdResultOutput {
-  /** The ID of the custom blocklist evaluated. */
-  id: string;
-  /** A value indicating whether or not the content has been filtered. */
-  filtered: boolean;
+/**
+ * A representation of the additional context information available when Azure OpenAI chat extensions are involved
+ * in the generation of a corresponding chat completions response. This context information is only populated when
+ * using an Azure OpenAI request configured to use a matching extension.
+ */
+export interface AzureChatExtensionsMessageContextOutput {
+  /**
+   * The contextual information associated with the Azure chat extensions used for a chat completions request.
+   * These messages describe the data source retrievals, plugin invocations, and other intermediate steps taken in the
+   * course of generating a chat completions response that was augmented by capabilities from Azure OpenAI chat
+   * extensions.
+   */
+  citations?: Array<AzureChatExtensionDataSourceResponseCitationOutput>;
+  /** The detected intent from the chat history, used to pass to the next turn to carry over the context. */
+  intent?: string;
 }
 
 /**
@@ -334,6 +218,4 @@ export interface ImageGenerationPromptFilterResults {
   profanity?: ContentFilterDetectionResultOutput;
   /** Whether a jailbreak attempt was detected in the prompt. */
   jailbreak?: ContentFilterDetectionResultOutput;
-  /** Information about customer block lists and if something was detected the associated list ID. */
-  custom_blocklists?: ContentFilterDetailedResults;
 }

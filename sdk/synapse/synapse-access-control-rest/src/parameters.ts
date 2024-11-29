@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import { CheckPrincipalAccessRequest, RoleAssignmentRequest } from "./models";
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type { CheckPrincipalAccessRequest, RoleAssignmentRequest } from "./models.js";
 
 export interface RoleAssignmentsCheckPrincipalAccessBodyParam {
   /** Details of scope, list of actions and principal. */

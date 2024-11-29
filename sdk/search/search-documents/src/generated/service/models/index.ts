@@ -40,6 +40,7 @@ export type SearchIndexerSkillUnion =
   | CustomEntityLookupSkill
   | TextTranslationSkill
   | DocumentExtractionSkill
+  | DocumentIntelligenceLayoutSkill
   | WebApiSkill
   | AzureMachineLearningSkill
   | AzureOpenAIEmbeddingSkill
@@ -47,7 +48,9 @@ export type SearchIndexerSkillUnion =
 export type CognitiveServicesAccountUnion =
   | CognitiveServicesAccount
   | DefaultCognitiveServicesAccount
-  | CognitiveServicesAccountKey;
+  | CognitiveServicesAccountKey
+  | AIServicesAccountKey
+  | AIServicesAccountIdentity;
 export type ScoringFunctionUnion =
   | ScoringFunction
   | DistanceScoringFunction
@@ -343,6 +346,10 @@ export interface IndexingParametersConfiguration {
   delimitedTextDelimiter?: string;
   /** For CSV blobs, indicates that the first (non-blank) line of each blob contains headers. */
   firstLineContainsHeaders?: boolean;
+  /** Specifies the submode that will determine whether a markdown file will be parsed into exactly one search document or multiple search documents. Default is `oneToMany`. */
+  markdownParsingSubmode?: MarkdownParsingSubmode;
+  /** Specifies the max header depth that will be considered while grouping markdown content. Default is `h6`. */
+  markdownHeaderDepth?: MarkdownHeaderDepth;
   /** For JSON arrays, given a structured or semi-structured document, you can specify a path to the array using this property. */
   documentRoot?: string;
   /** Specifies the data to extract from Azure blob storage and tells the indexer which data to extract from image content when "imageAction" is set to a value other than "none".  This applies to embedded image content in a .PDF or other application, or image files such as .jpg and .png, in Azure blobs. */
@@ -644,6 +651,7 @@ export interface SearchIndexerSkill {
     | "#Microsoft.Skills.Text.CustomEntityLookupSkill"
     | "#Microsoft.Skills.Text.TranslationSkill"
     | "#Microsoft.Skills.Util.DocumentExtractionSkill"
+    | "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill"
     | "#Microsoft.Skills.Custom.WebApiSkill"
     | "#Microsoft.Skills.Custom.AmlSkill"
     | "#Microsoft.Skills.Text.AzureOpenAIEmbeddingSkill"
@@ -685,7 +693,9 @@ export interface CognitiveServicesAccount {
   /** Polymorphic discriminator, which specifies the different types this object can be */
   odatatype:
     | "#Microsoft.Azure.Search.DefaultCognitiveServices"
-    | "#Microsoft.Azure.Search.CognitiveServicesByKey";
+    | "#Microsoft.Azure.Search.CognitiveServicesByKey"
+    | "#Microsoft.Azure.Search.AIServicesByKey"
+    | "#Microsoft.Azure.Search.AIServicesByIdentity";
   /** Description of the Azure AI service resource attached to a skillset. */
   description?: string;
 }
@@ -1095,8 +1105,20 @@ export interface VectorSearchCompression {
   rerankWithOriginalVectors?: boolean;
   /** Default oversampling factor. Oversampling will internally request more documents (specified by this multiplier) in the initial search. This increases the set of results that will be reranked using recomputed similarity scores from full-precision vectors. Minimum value is 1, meaning no oversampling (1x). This parameter can only be set when rerankWithOriginalVectors is true. Higher values improve recall at the expense of latency. */
   defaultOversampling?: number;
+  /** Contains the options for rescoring. */
+  rescoringOptions?: RescoringOptions;
   /** The number of dimensions to truncate the vectors to. Truncating the vectors reduces the size of the vectors and the amount of data that needs to be transferred during search. This can save storage cost and improve search performance at the expense of recall. It should be only used for embeddings trained with Matryoshka Representation Learning (MRL) such as OpenAI text-embedding-3-large (small). The default value is null, which means no truncation. */
   truncationDimension?: number;
+}
+
+/** Contains the options for rescoring. */
+export interface RescoringOptions {
+  /** If set to true, after the initial search on the compressed vectors, the similarity scores are recalculated using the full-precision vectors. This will improve recall at the expense of latency. */
+  enableRescoring?: boolean;
+  /** Default oversampling factor. Oversampling retrieves a greater set of potential documents to offset the resolution loss due to quantization. This increases the set of results that will be rescored on full-precision vectors. Minimum value is 1, meaning no oversampling (1x). This parameter can only be set when 'enableRescoring' is true. Higher values improve recall at the expense of latency. */
+  defaultOversampling?: number;
+  /** Controls the storage method for original vectors. This setting is immutable. */
+  rescoreStorageMethod?: VectorSearchCompressionRescoreStorageMethod;
 }
 
 /** Response from a List Indexes request. If successful, it includes the full definitions of all indexes. */
@@ -1671,6 +1693,16 @@ export interface DocumentExtractionSkill extends SearchIndexerSkill {
   configuration?: { [propertyName: string]: any };
 }
 
+/** A skill that extracts content and layout information (as markdown), via Azure AI Services, from files within the enrichment pipeline. */
+export interface DocumentIntelligenceLayoutSkill extends SearchIndexerSkill {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Skills.Util.DocumentIntelligenceLayoutSkill";
+  /** Controls the cardinality of the output produced by the skill. Default is 'oneToMany'. */
+  outputMode?: DocumentIntelligenceLayoutSkillOutputMode;
+  /** The depth of headers in the markdown output. Default is h6. */
+  markdownHeaderDepth?: DocumentIntelligenceLayoutSkillMarkdownHeaderDepth;
+}
+
 /** A skill that can call a Web API endpoint, allowing you to extend a skillset by having it call your custom code. */
 export interface WebApiSkill extends SearchIndexerSkill {
   /** Polymorphic discriminator, which specifies the different types this object can be */
@@ -1742,6 +1774,26 @@ export interface CognitiveServicesAccountKey extends CognitiveServicesAccount {
   odatatype: "#Microsoft.Azure.Search.CognitiveServicesByKey";
   /** The key used to provision the Azure AI service resource attached to a skillset. */
   key: string;
+}
+
+/** The account key of an Azure AI service resource that's attached to a skillset, to be used with the resource's subdomain. */
+export interface AIServicesAccountKey extends CognitiveServicesAccount {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Azure.Search.AIServicesByKey";
+  /** The key used to provision the Azure AI service resource attached to a skillset. */
+  key: string;
+  /** The subdomain url for the corresponding AI Service. */
+  subdomainUrl: string;
+}
+
+/** The multi-region account of an Azure AI service resource that's attached to a skillset. */
+export interface AIServicesAccountIdentity extends CognitiveServicesAccount {
+  /** Polymorphic discriminator, which specifies the different types this object can be */
+  odatatype: "#Microsoft.Azure.Search.AIServicesByIdentity";
+  /** The user-assigned managed identity used for connections to AI Service. If not specified, the system-assigned managed identity is used. On updates to the skillset, if the identity is unspecified, the value remains unchanged. If set to "none", the value of this property is cleared. */
+  identity: SearchIndexerDataIdentityUnion | null;
+  /** The subdomain url for the corresponding AI Service. */
+  subdomainUrl: string;
 }
 
 /** Description for what data to store in Azure Tables. */
@@ -2352,20 +2404,20 @@ export interface SearchIndexerKnowledgeStoreObjectProjectionSelector
 export interface SearchIndexerKnowledgeStoreFileProjectionSelector
   extends SearchIndexerKnowledgeStoreBlobProjectionSelector {}
 
-/** Known values of {@link ApiVersion20240901Preview} that the service accepts. */
-export enum KnownApiVersion20240901Preview {
-  /** Api Version '2024-09-01-preview' */
-  TwoThousandTwentyFour0901Preview = "2024-09-01-preview",
+/** Known values of {@link ApiVersion20241101Preview} that the service accepts. */
+export enum KnownApiVersion20241101Preview {
+  /** Api Version '2024-11-01-preview' */
+  TwoThousandTwentyFour1101Preview = "2024-11-01-preview",
 }
 
 /**
- * Defines values for ApiVersion20240901Preview. \
- * {@link KnownApiVersion20240901Preview} can be used interchangeably with ApiVersion20240901Preview,
+ * Defines values for ApiVersion20241101Preview. \
+ * {@link KnownApiVersion20241101Preview} can be used interchangeably with ApiVersion20241101Preview,
  *  this enum contains the known values that the service supports.
  * ### Known values supported by the service
- * **2024-09-01-preview**: Api Version '2024-09-01-preview'
+ * **2024-11-01-preview**: Api Version '2024-11-01-preview'
  */
-export type ApiVersion20240901Preview = string;
+export type ApiVersion20241101Preview = string;
 
 /** Known values of {@link SearchIndexerDataSourceType} that the service accepts. */
 export enum KnownSearchIndexerDataSourceType {
@@ -2414,6 +2466,8 @@ export enum KnownBlobIndexerParsingMode {
   JsonArray = "jsonArray",
   /** Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. */
   JsonLines = "jsonLines",
+  /** Set to markdown to extract content from markdown files. */
+  Markdown = "markdown",
 }
 
 /**
@@ -2426,9 +2480,58 @@ export enum KnownBlobIndexerParsingMode {
  * **delimitedText**: Set to delimitedText when blobs are plain CSV files. \
  * **json**: Set to json to extract structured content from JSON files. \
  * **jsonArray**: Set to jsonArray to extract individual elements of a JSON array as separate documents. \
- * **jsonLines**: Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents.
+ * **jsonLines**: Set to jsonLines to extract individual JSON entities, separated by a new line, as separate documents. \
+ * **markdown**: Set to markdown to extract content from markdown files.
  */
 export type BlobIndexerParsingMode = string;
+
+/** Known values of {@link MarkdownParsingSubmode} that the service accepts. */
+export enum KnownMarkdownParsingSubmode {
+  /** Indicates that each section of the markdown file (up to a specified depth) will be parsed into individual search documents. This can result in a single markdown file producing multiple search documents. This is the default sub-mode. */
+  OneToMany = "oneToMany",
+  /** Indicates that each markdown file will be parsed into a single search document. */
+  OneToOne = "oneToOne",
+}
+
+/**
+ * Defines values for MarkdownParsingSubmode. \
+ * {@link KnownMarkdownParsingSubmode} can be used interchangeably with MarkdownParsingSubmode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **oneToMany**: Indicates that each section of the markdown file (up to a specified depth) will be parsed into individual search documents. This can result in a single markdown file producing multiple search documents. This is the default sub-mode. \
+ * **oneToOne**: Indicates that each markdown file will be parsed into a single search document.
+ */
+export type MarkdownParsingSubmode = string;
+
+/** Known values of {@link MarkdownHeaderDepth} that the service accepts. */
+export enum KnownMarkdownHeaderDepth {
+  /** Indicates that headers up to a level of h1 will be considered while grouping markdown content. */
+  H1 = "h1",
+  /** Indicates that headers up to a level of h2 will be considered while grouping markdown content. */
+  H2 = "h2",
+  /** Indicates that headers up to a level of h3 will be considered while grouping markdown content. */
+  H3 = "h3",
+  /** Indicates that headers up to a level of h4 will be considered while grouping markdown content. */
+  H4 = "h4",
+  /** Indicates that headers up to a level of h5 will be considered while grouping markdown content. */
+  H5 = "h5",
+  /** Indicates that headers up to a level of h6 will be considered while grouping markdown content. This is the default. */
+  H6 = "h6",
+}
+
+/**
+ * Defines values for MarkdownHeaderDepth. \
+ * {@link KnownMarkdownHeaderDepth} can be used interchangeably with MarkdownHeaderDepth,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **h1**: Indicates that headers up to a level of h1 will be considered while grouping markdown content. \
+ * **h2**: Indicates that headers up to a level of h2 will be considered while grouping markdown content. \
+ * **h3**: Indicates that headers up to a level of h3 will be considered while grouping markdown content. \
+ * **h4**: Indicates that headers up to a level of h4 will be considered while grouping markdown content. \
+ * **h5**: Indicates that headers up to a level of h5 will be considered while grouping markdown content. \
+ * **h6**: Indicates that headers up to a level of h6 will be considered while grouping markdown content. This is the default.
+ */
+export type MarkdownHeaderDepth = string;
 
 /** Known values of {@link BlobIndexerDataToExtract} that the service accepts. */
 export enum KnownBlobIndexerDataToExtract {
@@ -3002,6 +3105,24 @@ export enum KnownVectorSearchCompressionKind {
  * **binaryQuantization**: Binary Quantization, a type of compression method. In binary quantization, the original vectors values are compressed to the narrower binary type by discretizing and representing each component of a vector using binary values, thereby reducing the overall data size.
  */
 export type VectorSearchCompressionKind = string;
+
+/** Known values of {@link VectorSearchCompressionRescoreStorageMethod} that the service accepts. */
+export enum KnownVectorSearchCompressionRescoreStorageMethod {
+  /** This option preserves the original full-precision vectors. Choose this option for maximum flexibility and highest quality of compressed search results. This consumes more storage but allows for rescoring and oversampling. */
+  PreserveOriginals = "preserveOriginals",
+  /** This option discards the original full-precision vectors. Choose this option for maximum storage savings. Since this option does not allow for rescoring and oversampling, it will often cause slight to moderate reductions in quality. */
+  DiscardOriginals = "discardOriginals",
+}
+
+/**
+ * Defines values for VectorSearchCompressionRescoreStorageMethod. \
+ * {@link KnownVectorSearchCompressionRescoreStorageMethod} can be used interchangeably with VectorSearchCompressionRescoreStorageMethod,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **preserveOriginals**: This option preserves the original full-precision vectors. Choose this option for maximum flexibility and highest quality of compressed search results. This consumes more storage but allows for rescoring and oversampling. \
+ * **discardOriginals**: This option discards the original full-precision vectors. Choose this option for maximum storage savings. Since this option does not allow for rescoring and oversampling, it will often cause slight to moderate reductions in quality.
+ */
+export type VectorSearchCompressionRescoreStorageMethod = string;
 
 /** Known values of {@link TokenFilterName} that the service accepts. */
 export enum KnownTokenFilterName {
@@ -4673,6 +4794,51 @@ export enum KnownTextTranslationSkillLanguage {
  * **pa**: Punjabi
  */
 export type TextTranslationSkillLanguage = string;
+
+/** Known values of {@link DocumentIntelligenceLayoutSkillOutputMode} that the service accepts. */
+export enum KnownDocumentIntelligenceLayoutSkillOutputMode {
+  /** Specify the deepest markdown header section to parse. */
+  OneToMany = "oneToMany",
+}
+
+/**
+ * Defines values for DocumentIntelligenceLayoutSkillOutputMode. \
+ * {@link KnownDocumentIntelligenceLayoutSkillOutputMode} can be used interchangeably with DocumentIntelligenceLayoutSkillOutputMode,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **oneToMany**: Specify the deepest markdown header section to parse.
+ */
+export type DocumentIntelligenceLayoutSkillOutputMode = string;
+
+/** Known values of {@link DocumentIntelligenceLayoutSkillMarkdownHeaderDepth} that the service accepts. */
+export enum KnownDocumentIntelligenceLayoutSkillMarkdownHeaderDepth {
+  /** Header level 1. */
+  H1 = "h1",
+  /** Header level 2. */
+  H2 = "h2",
+  /** Header level 3. */
+  H3 = "h3",
+  /** Header level 4. */
+  H4 = "h4",
+  /** Header level 5. */
+  H5 = "h5",
+  /** Header level 6. */
+  H6 = "h6",
+}
+
+/**
+ * Defines values for DocumentIntelligenceLayoutSkillMarkdownHeaderDepth. \
+ * {@link KnownDocumentIntelligenceLayoutSkillMarkdownHeaderDepth} can be used interchangeably with DocumentIntelligenceLayoutSkillMarkdownHeaderDepth,
+ *  this enum contains the known values that the service supports.
+ * ### Known values supported by the service
+ * **h1**: Header level 1. \
+ * **h2**: Header level 2. \
+ * **h3**: Header level 3. \
+ * **h4**: Header level 4. \
+ * **h5**: Header level 5. \
+ * **h6**: Header level 6.
+ */
+export type DocumentIntelligenceLayoutSkillMarkdownHeaderDepth = string;
 
 /** Known values of {@link LexicalTokenizerName} that the service accepts. */
 export enum KnownLexicalTokenizerName {

@@ -13,6 +13,11 @@ export default mergeConfig(
       hookTimeout: 25000,
       fileParallelism: false,
       include: ["test/public/**/*.spec.ts"],
+      typecheck: {
+        enabled: true,
+        tsconfig: "tsconfig.tests.json",
+        include: ["test/**/*.ts", "test/**/*.mts", "test/**/*.cts"]
+      }
     },
   }),
 );

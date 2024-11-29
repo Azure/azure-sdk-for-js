@@ -46,6 +46,13 @@ export const CreateCallRequest: coreClient.CompositeMapper = {
           className: "CommunicationUserIdentifierModel",
         },
       },
+      opsSource: {
+        serializedName: "opsSource",
+        type: {
+          name: "Composite",
+          className: "MicrosoftTeamsAppIdentifierModel",
+        },
+      },
       operationContext: {
         serializedName: "operationContext",
         type: {
@@ -520,6 +527,13 @@ export const AnswerCallRequest: coreClient.CompositeMapper = {
         required: true,
         type: {
           name: "String",
+        },
+      },
+      customCallingContext: {
+        serializedName: "customCallingContext",
+        type: {
+          name: "Composite",
+          className: "CustomCallingContextInternal",
         },
       },
       operationContext: {

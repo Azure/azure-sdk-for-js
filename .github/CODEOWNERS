@@ -276,7 +276,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # ServiceLabel: %Notification Hub
 # AzureSdkOwners: @mpodwysocki
-# ServiceOwners: @lomagdal2
+# Service owner will be pranav-gupta-msft
 
 # PRLabel: %Operator Nexus - Network Cloud
 # ServiceLabel: %Operator Nexus - Network Cloud
@@ -309,6 +309,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # Managment API review files
 /sdk/**/review/arm-*.api.md @qiaozha @MaryGao @Azure/azure-sdk-for-js-core
+
+# Cosmos API review files
+/sdk/cosmosdb/cosmos/review/*api.md @amanrao23 @aditishree1 @sajeetharan @topshot99
 
 # Management Plane
 # PRLabel: %Mgmt
@@ -400,6 +403,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 
 # PRLabel: %Mgmt
 /sdk/communication/arm-communication/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
+/sdk/connectedcache/arm-connectedcache/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
 /sdk/compute/arm-compute/      @qiaozha @MaryGao
@@ -913,6 +919,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/timeseriesinsights/arm-timeseriesinsights/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/terraform/arm-terraform/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/trafficmanager/arm-trafficmanager/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
@@ -1419,7 +1428,7 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 #/<NotInRepo>/          @shahbj79 @mit2nil @aygoya @ganganarayanan
 
 # ServiceLabel: %Service Attention %Synapse
-#/<NotInRepo>/          @wonner @zesluo
+#/<NotInRepo>/          @zesluo
 
 # ServiceLabel: %Service Attention %Tables
 #/<NotInRepo>/          @klaaslanghout

@@ -14,7 +14,7 @@ import {
 import {
   CampaignBrief as CampaignBriefMapper,
   CampaignBriefAttachment as CampaignBriefAttachmentMapper,
-} from "../models/mappers";
+} from "../models/mappers.js";
 
 export const contentType: OperationParameter = {
   parameterPath: ["options", "contentType"],

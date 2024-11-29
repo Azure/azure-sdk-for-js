@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Update a Cloud HSM Cluster in the specified subscription.
  *
  * @summary Update a Cloud HSM Cluster in the specified subscription.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2023-12-10-preview/examples/CloudHsmCluster_Update_MaximumSet_Gen.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/CloudHsmCluster_Update_MaximumSet_Gen.json
  */
 async function cloudHsmClusterUpdateMaximumSetGen() {
   const subscriptionId =

@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
-import { TokenCredential } from "@azure/core-auth";
-import { AccessControlRestClient } from "./clientDefinitions";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import { logger } from "./logger.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { AccessControlRestClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface AccessControlRestClientOptions extends ClientOptions {
@@ -21,10 +22,7 @@ export interface AccessControlRestClientOptions extends ClientOptions {
 export default function createClient(
   endpoint: string,
   credentials: TokenCredential,
-  {
-    apiVersion = "2020-12-01",
-    ...options
-  }: AccessControlRestClientOptions = {},
+  { apiVersion = "2020-12-01", ...options }: AccessControlRestClientOptions = {},
 ): AccessControlRestClient {
   const endpointUrl = options.endpoint ?? options.baseUrl ?? `${endpoint}`;
   const userAgentInfo = `azsdk-js-synapse-access-control-rest/1.0.0-beta.1`;
@@ -41,16 +39,10 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? [
-        "https://dev.azuresynapse.net/.default",
-      ],
+      scopes: options.credentials?.scopes ?? ["https://dev.azuresynapse.net/.default"],
     },
   };
-  const client = getClient(
-    endpointUrl,
-    credentials,
-    options,
-  ) as AccessControlRestClient;
+  const client = getClient(endpointUrl, credentials, options) as AccessControlRestClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
   client.pipeline.addPolicy({

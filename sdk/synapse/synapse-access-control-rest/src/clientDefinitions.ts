@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   RoleAssignmentsCheckPrincipalAccessParameters,
   RoleAssignmentsListRoleAssignmentsParameters,
   RoleAssignmentsCreateRoleAssignmentParameters,
@@ -10,8 +10,8 @@ import {
   RoleDefinitionsListRoleDefinitionsParameters,
   RoleDefinitionsGetRoleDefinitionByIdParameters,
   RoleDefinitionsListScopesParameters,
-} from "./parameters";
-import {
+} from "./parameters.js";
+import type {
   RoleAssignmentsCheckPrincipalAccess200Response,
   RoleAssignmentsCheckPrincipalAccessDefaultResponse,
   RoleAssignmentsListRoleAssignments200Response,
@@ -29,8 +29,8 @@ import {
   RoleDefinitionsGetRoleDefinitionByIdDefaultResponse,
   RoleDefinitionsListScopes200Response,
   RoleDefinitionsListScopesDefaultResponse,
-} from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+} from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface RoleAssignmentsCheckPrincipalAccess {
   /** Check if the given principalId has access to perform list of actions at a given scope. */
@@ -102,8 +102,7 @@ export interface RoleDefinitionsListScopes {
   get(
     options?: RoleDefinitionsListScopesParameters,
   ): StreamableMethod<
-    | RoleDefinitionsListScopes200Response
-    | RoleDefinitionsListScopesDefaultResponse
+    RoleDefinitionsListScopes200Response | RoleDefinitionsListScopesDefaultResponse
   >;
 }
 

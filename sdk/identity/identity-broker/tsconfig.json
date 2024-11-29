@@ -3,12 +3,13 @@
   "compilerOptions": {
     "target": "es2020",
     "lib": ["DOM"],
-    "declarationDir": "./types",
-    "outDir": "./dist-esm",
     "resolveJsonModule": true,
     "paths": {
       "@azure/identity-broker": ["./src/index"]
-    }
+    },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
-  "include": ["src/**/*", "test/**/*"]
+  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "samples-dev/**/*.ts", "test/**/*.ts"]
 }

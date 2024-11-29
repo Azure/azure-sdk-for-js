@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-mongocluster",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A generated SDK for DocumentDBClient.",
   "engines": {
     "node": ">=18.0.0"
@@ -76,7 +76,7 @@
     "@vitest/browser": "^2.0.5",
     "@vitest/coverage-istanbul": "^2.0.5",
     "dotenv": "^16.0.0",
-    "eslint": "^8.55.0",
+    "eslint": "^9.9.0",
     "playwright": "^1.41.2",
     "prettier": "^3.2.5",
     "typescript": "~5.6.2",
