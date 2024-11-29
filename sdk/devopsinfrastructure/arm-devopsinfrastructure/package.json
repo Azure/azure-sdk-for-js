@@ -1,6 +1,6 @@
 {
   "name": "@azure/arm-devopsinfrastructure",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A generated SDK for DevOpsInfrastructureClient.",
   "engines": {
     "node": ">=18.0.0"
