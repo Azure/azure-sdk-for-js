@@ -4,8 +4,8 @@
 import { vsCodePlugin as plugin } from "../../../src/index.js";
 
 import { useIdentityPlugin } from "@azure/identity";
-import { describe, it, assert } from "vitest";
+import { beforeAll } from "vitest";
 
-before(function () {
+beforeAll(function () {
   useIdentityPlugin(plugin);
 });

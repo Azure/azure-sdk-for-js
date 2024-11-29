@@ -20628,7 +20628,7 @@ packages:
     dev: false
 
   file:projects/eventgrid.tgz:
-    resolution: {integrity: sha512-lEVmH829YPH2tBtjHpzR427SM3QuZnyTRP4kE5W46/1bi4mqZdIQjqqS15QQktmrFF34R/fLzBv9mhmUszQ/Cg==, tarball: file:projects/eventgrid.tgz}
+    resolution: {integrity: sha512-xNO7uSbCB0gSezDYBsFLGRv0mgFhuRovCGLgicVWr3KBzCHr9fZn2OdSSIIsBAx68K8Ha0nHjeHPC0jlhL/cCQ==, tarball: file:projects/eventgrid.tgz}
     name: '@rush-temp/eventgrid'
     version: 0.0.0
     dependencies:
@@ -20664,7 +20664,7 @@ packages:
       tsx: 4.19.2
       typescript: 5.6.3
       uuid: 8.3.2
-      vitest: 2.1.6(@types/node@18.19.66)(@vitest/browser@2.1.6)(tsx@4.19.2)
+      vitest: 2.1.6(@types/node@18.19.66)(@vitest/browser@2.1.6)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20682,6 +20682,7 @@ packages:
       - sugarss
       - supports-color
       - terser
+      - tsx
       - utf-8-validate
       - vite
       - webdriverio
@@ -21061,7 +21062,7 @@ packages:
     dev: false
 
   file:projects/identity-vscode.tgz:
-    resolution: {integrity: sha512-7wFwOEU77YA+6eg2Xs7S8xD4eXOUfUcPc4Ic8g2JDQ1COfG1Sh6MiADCcnB8jFbjLrTLGUr/XsqI0eu9oOX/bA==, tarball: file:projects/identity-vscode.tgz}
+    resolution: {integrity: sha512-7ZCkOJ5EpiwE6unR/9sLeKKDm08nNFWFJQ/x352UGCqMPm1xhLAkQ090/WoEmGc0fn5qlK//QlzuSTBphKgLmw==, tarball: file:projects/identity-vscode.tgz}
     name: '@rush-temp/identity-vscode'
     version: 0.0.0
     dependencies:
@@ -21072,24 +21073,43 @@ packages:
       '@types/qs': 6.9.17
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.6(@types/node@18.19.66)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.6)
+      '@vitest/coverage-istanbul': 2.1.6(vitest@2.1.6)
       dotenv: 16.4.5
       eslint: 9.15.0
       inherits: 2.0.4
       keytar: 7.9.0
       mocha: 10.8.2
+      playwright: 1.49.0
       puppeteer: 23.9.0(typescript@5.6.3)
       sinon: 17.0.1
       ts-node: 10.9.2(@types/node@18.19.66)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.6(@types/node@18.19.66)(@vitest/browser@2.1.6)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
+      - tsx
       - utf-8-validate
+      - vite
+      - webdriverio
+      - yaml
     dev: false
 
   file:projects/identity.tgz:
