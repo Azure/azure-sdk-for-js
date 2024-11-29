@@ -20,7 +20,11 @@ import {
   validatePlaywrightVersion,
   validateServiceUrl,
   exitWithFailureMessage,
+  getPackageVersion,
+  getPlaywrightVersion,
+  getVersionInfo,
 } from "../utils/utils";
+import { ServiceErrorMessageConstants } from "../common/messages";
 
 /**
  * @public
@@ -58,14 +62,52 @@ const getServiceConfig = (
 ): PlaywrightConfig => {
   validatePlaywrightVersion();
   validateServiceUrl();
+  const playwrightVersionInfo = getVersionInfo(getPlaywrightVersion());
+  const isMultipleGlobalFileSupported =
+    playwrightVersionInfo.major >= 1 && playwrightVersionInfo.minor >= 49;
   if (options?.credential) {
     playwrightServiceEntra.entraIdAccessToken = options.credential;
   }
-  if (config.globalSetup) {
-    customerConfig.globalSetup = config.globalSetup;
+
+  // if global setup/teardown is string -
+  // 1. if multiple global file is supported, convert it to array
+  // 2. wrap playwright-service global setup/teardown with customer provided global setup/teardown
+
+  // if global setup/teardown is array -
+  // 1. if multiple global file is not supported, throw error
+  // 2. append playwright-service global setup/teardown with customer provided global setup/teardown
+  if (config && config.globalSetup) {
+    if (typeof config.globalSetup === "string") {
+      if (isMultipleGlobalFileSupported) {
+        customerConfig.globalSetup = [config.globalSetup];
+      } else {
+        customerConfig.globalSetup = config.globalSetup;
+      }
+    } else {
+      if (!isMultipleGlobalFileSupported) {
+        throw new Error(
+          ServiceErrorMessageConstants.MULTIPLE_SETUP_FILE_PLAYWRIGHT_VERSION_ERROR.message,
+        );
+      }
+      customerConfig.globalSetup = config.globalSetup;
+    }
   }
-  if (config.globalTeardown) {
-    customerConfig.globalTeardown = config.globalTeardown;
+
+  if (config && config.globalTeardown) {
+    if (typeof config.globalTeardown === "string") {
+      if (isMultipleGlobalFileSupported) {
+        customerConfig.globalTeardown = [config.globalTeardown];
+      } else {
+        customerConfig.globalTeardown = config.globalTeardown;
+      }
+    } else {
+      if (!isMultipleGlobalFileSupported) {
+        throw new Error(
+          ServiceErrorMessageConstants.MULTIPLE_SETUP_FILE_PLAYWRIGHT_VERSION_ERROR.message,
+        );
+      }
+      customerConfig.globalTeardown = config.globalTeardown;
+    }
   }
 
   const playwrightServiceConfig = new PlaywrightServiceConfig();
@@ -77,8 +119,27 @@ const getServiceConfig = (
     // mpt PAT requested and set by the customer, no need to setup entra lifecycle handlers
     validateMptPAT(exitWithFailureMessage);
   } else {
-    globalFunctions.globalSetup = require.resolve("./global/playwright-service-global-setup");
-    globalFunctions.globalTeardown = require.resolve("./global/playwright-service-global-teardown");
+    // If multiple global file is supported, append playwright-service global setup/teardown with customer provided global setup/teardown
+    if (isMultipleGlobalFileSupported) {
+      globalFunctions.globalSetup = [] as string[];
+      globalFunctions.globalTeardown = [] as string[];
+      if (customerConfig.globalSetup) {
+        globalFunctions.globalSetup.push(...(customerConfig.globalSetup as string[]));
+      }
+      if (customerConfig.globalTeardown) {
+        globalFunctions.globalTeardown.push(...(customerConfig.globalTeardown as string[]));
+      }
+      globalFunctions.globalSetup.push(require.resolve("./global/playwright-service-global-setup"));
+      globalFunctions.globalTeardown.push(
+        require.resolve("./global/playwright-service-global-teardown"),
+      );
+    } else {
+      // If multiple global file is not supported, wrap playwright-service global setup/teardown with customer provided global setup/teardown
+      globalFunctions.globalSetup = require.resolve("./global/playwright-service-global-setup");
+      globalFunctions.globalTeardown = require.resolve(
+        "./global/playwright-service-global-teardown",
+      );
+    }
   }
 
   if (options?.useCloudHostedBrowsers === false) {
@@ -96,11 +157,11 @@ const getServiceConfig = (
       connectOptions: {
         wsEndpoint: getServiceWSEndpoint(
           playwrightServiceConfig.runId,
-          playwrightServiceConfig.runName,
           playwrightServiceConfig.serviceOs,
         ),
         headers: {
           Authorization: `Bearer ${getAccessToken()}`,
+          "x-ms-package-version": `@azure/microsoft-playwright-testing/${getPackageVersion()}`,
         },
         timeout: playwrightServiceConfig.timeout,
         exposeNetwork: playwrightServiceConfig.exposeNetwork,
@@ -149,12 +210,12 @@ const getConnectOptions = async (
   return {
     wsEndpoint: getServiceWSEndpoint(
       playwrightServiceConfig.runId,
-      playwrightServiceConfig.runName,
       playwrightServiceConfig.serviceOs,
     ),
     options: {
       headers: {
         Authorization: `Bearer ${token}`,
+        "x-ms-package-version": `@azure/microsoft-playwright-testing/${getPackageVersion()}`,
       },
       timeout: playwrightServiceConfig.timeout,
       exposeNetwork: playwrightServiceConfig.exposeNetwork,

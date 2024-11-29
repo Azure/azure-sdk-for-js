@@ -15,7 +15,7 @@ import {
   CallRecordingStopRecordingOptionalParams,
   CallRecordingPauseRecordingOptionalParams,
   CallRecordingResumeRecordingOptionalParams,
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a CallRecording. */
 export interface CallRecording {

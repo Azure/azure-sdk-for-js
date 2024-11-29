@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
-import { TokenCredential } from "@azure/core-auth";
-import { PurviewWorkflowClient } from "./clientDefinitions";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import { logger } from "./logger.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { PurviewWorkflowClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface PurviewWorkflowClientOptions extends ClientOptions {
@@ -38,7 +39,7 @@ export default function createClient(
       logger: options.loggingOptions?.logger ?? logger.info,
     },
     credentials: {
-      scopes: options.credentials?.scopes ?? ["https://purview.azure.net/.default"],
+      scopes: ["https://purview.azure.net/.default"],
     },
   };
   const client = getClient(endpointUrl, credentials, options) as PurviewWorkflowClient;

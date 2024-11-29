@@ -1,6 +1,6 @@
 # Release History
 
-## 1.7.1 (Unreleased)
+## 1.8.1 (Unreleased)
 
 ### Features Added
 
@@ -9,6 +9,12 @@
 ### Bugs Fixed
 
 ### Other Changes
+
+## 1.8.0 (2024-11-05)
+
+### Features Added
+
+- Add `apiVersion` in `AppConfigurationClientOptions` so that customers can specify the API version instead of using the default.
 
 ## 1.7.0 (2024-08-06)
 

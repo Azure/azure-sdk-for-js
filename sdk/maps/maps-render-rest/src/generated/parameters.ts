@@ -163,8 +163,8 @@ export interface RenderGetMapAttributionQueryParam {
   queryParameters: RenderGetMapAttributionQueryParamProperties;
 }
 
-export type RenderGetMapAttributionParameters = RenderGetMapAttributionQueryParam &
-  RequestParameters;
+export type RenderGetMapAttributionParameters =
+  RenderGetMapAttributionQueryParam & RequestParameters;
 
 export interface RenderGetMapStateTileQueryParamProperties {
   /**
@@ -480,8 +480,8 @@ export interface RenderGetMapStaticImageQueryParam {
   queryParameters?: RenderGetMapStaticImageQueryParamProperties;
 }
 
-export type RenderGetMapStaticImageParameters = RenderGetMapStaticImageQueryParam &
-  RequestParameters;
+export type RenderGetMapStaticImageParameters =
+  RenderGetMapStaticImageQueryParam & RequestParameters;
 
 export interface RenderGetCopyrightFromBoundingBoxQueryParamProperties {
   /** Minimum coordinates (south-west point) of bounding box in latitude longitude coordinate system. E.g. 52.41064,4.84228 */
@@ -496,8 +496,8 @@ export interface RenderGetCopyrightFromBoundingBoxQueryParam {
   queryParameters: RenderGetCopyrightFromBoundingBoxQueryParamProperties;
 }
 
-export type RenderGetCopyrightFromBoundingBoxParameters = RenderGetCopyrightFromBoundingBoxQueryParam &
-  RequestParameters;
+export type RenderGetCopyrightFromBoundingBoxParameters =
+  RenderGetCopyrightFromBoundingBoxQueryParam & RequestParameters;
 
 export interface RenderGetCopyrightForTileQueryParamProperties {
   /**
@@ -526,8 +526,8 @@ export interface RenderGetCopyrightForTileQueryParam {
   queryParameters: RenderGetCopyrightForTileQueryParamProperties;
 }
 
-export type RenderGetCopyrightForTileParameters = RenderGetCopyrightForTileQueryParam &
-  RequestParameters;
+export type RenderGetCopyrightForTileParameters =
+  RenderGetCopyrightForTileQueryParam & RequestParameters;
 
 export interface RenderGetCopyrightForWorldQueryParamProperties {
   /** Yes/no value to exclude textual data from response. Only images and country/region names will be in response. */
@@ -538,5 +538,5 @@ export interface RenderGetCopyrightForWorldQueryParam {
   queryParameters?: RenderGetCopyrightForWorldQueryParamProperties;
 }
 
-export type RenderGetCopyrightForWorldParameters = RenderGetCopyrightForWorldQueryParam &
-  RequestParameters;
+export type RenderGetCopyrightForWorldParameters =
+  RenderGetCopyrightForWorldQueryParam & RequestParameters;

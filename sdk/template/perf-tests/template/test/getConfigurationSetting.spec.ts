@@ -3,7 +3,7 @@
 
 import { randomUUID } from "@azure/core-util";
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
-import { TemplateTest } from "./templateBase.spec";
+import { TemplateTest } from "./templateBase.spec.js";
 
 interface GetConfigurationSettingTestOptions {
   /**

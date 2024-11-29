@@ -2,30 +2,29 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { TextTranslationClient } from "../../src";
-import { isUnexpected } from "../../src";
+import type { TextTranslationClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
 import {
   createCustomTranslationClient,
   createTranslationClient,
   createTokenTranslationClient,
   createAADAuthenticationTranslationClient,
   startRecorder,
-} from "./utils/recordedClient";
-import type { Context } from "mocha";
+} from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Translate tests", () => {
   let recorder: Recorder;
   let client: TextTranslationClient;
   let customClient: TextTranslationClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createTranslationClient({ recorder });
     customClient = await createCustomTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

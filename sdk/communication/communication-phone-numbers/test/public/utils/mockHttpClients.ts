@@ -7,8 +7,8 @@ import type {
   PipelineRequest,
   PipelineResponse,
 } from "@azure/core-rest-pipeline";
-import type { PurchasedPhoneNumber } from "../../../src";
-import type { PurchasedPhoneNumbers } from "../../../src/generated/src/models";
+import type { PurchasedPhoneNumber } from "../../../src/index.js";
+import type { PurchasedPhoneNumbers } from "../../../src/generated/src/models/index.js";
 
 export const createMockHttpClient = <T = Record<string, unknown>>(
   status: number = 200,
