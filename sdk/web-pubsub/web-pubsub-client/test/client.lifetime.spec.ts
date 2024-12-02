@@ -192,7 +192,7 @@ describe("WebPubSubClient", function () {
       const mock = sinon.mock(client);
       mock.expects("_getWebSocketClientFactory").thrice().callThrough();
 
-      const stub = sinon.stub(testWs, "onopen");
+      const stub = vi.spyOn(testWs, "onopen");
       stub
         .onFirstCall()
         .callsFake((...args) => {
@@ -460,7 +460,7 @@ describe("WebPubSubClient", function () {
   });
 
   function makeStartable(ws: TestWebSocketClient): sinon.SinonStub<[fn: () => void], void> {
-    const stub = sinon.stub(ws, "onopen");
+    const stub = vi.spyOn(ws, "onopen");
     stub.onFirstCall().callsFake((...args) => {
       setTimeout(() => {
         stub.wrappedMethod.call(ws, ...args);
