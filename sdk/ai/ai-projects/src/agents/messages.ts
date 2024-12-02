@@ -4,6 +4,7 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { OpenAIPageableListOfThreadMessageOutput, ThreadMessageOutput } from "../generated/src/outputModels.js";
 import { CreateMessageParameters, ListMessagesParameters, UpdateMessageParameters } from "../generated/src/parameters.js";
+import { validateMetadata, validateVectorStoreDataType } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];
 
@@ -76,15 +77,7 @@ function validateCreateMessageParameters(options: CreateMessageParameters): void
     throw new Error("Role must be either 'user' or 'assistant'");
   }
   if (options.body.metadata) {
-    if (Object.keys(options.body.metadata).length > 16) {
-      throw new Error("Only 16 key/value pairs are allowed");
-    }
-    if (Object.keys(options.body.metadata).some(value => value.length > 64)) {
-      throw new Error("Keys must be less than 64 characters");
-    }
-    if (Object.values(options.body.metadata).some(value => value.length > 512)) {
-      throw new Error("Values must be less than 512 characters");
-    }
+    validateMetadata(options.body.metadata);
   }
   if (options.body.attachments) {
     if (options.body.attachments.some(value => {
@@ -92,10 +85,12 @@ function validateCreateMessageParameters(options: CreateMessageParameters): void
     })) {
       throw new Error("Tool type must be either 'code_interpreter' or 'file_search'");
     }
-    if (options.body.attachments.some(value => {
-      value.data_sources?.some(source => !["uri_asset", "id_asset"].includes(source.type));
-    })) {
-      throw new Error("Vector store data type must be either 'uri_asset' or 'id_asset'");
+    if (options.body.attachments) {
+      options.body.attachments.forEach(value => {
+        if (value.data_sources) {
+          validateVectorStoreDataType(value.data_sources);
+        }
+      })
     }
   }
 }
