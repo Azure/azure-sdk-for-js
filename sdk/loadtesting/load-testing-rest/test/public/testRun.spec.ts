@@ -146,10 +146,10 @@ describe("Test Run Creation", () => {
       body: {
         components: {
           "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
-          {
-            resourceName: "App-Service-Sample-Demo",
-            resourceType: "Microsoft.Web/sites",
-          },
+            {
+              resourceName: "App-Service-Sample-Demo",
+              resourceType: "Microsoft.Web/sites",
+            },
         },
       },
     });

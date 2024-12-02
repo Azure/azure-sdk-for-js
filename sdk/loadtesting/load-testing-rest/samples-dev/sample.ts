@@ -70,7 +70,7 @@ async function main(): Promise<void> {
   if (fileValidatePoller.getOperationState().status !== "succeeded" && fileValidateResult) {
     throw new Error(
       "There is some issue in validation, please make sure uploaded file is a valid JMX." +
-      fileValidateResult.body.validationFailureDetails,
+        fileValidateResult.body.validationFailureDetails,
     );
   }
 
@@ -82,10 +82,10 @@ async function main(): Promise<void> {
       body: {
         components: {
           "/subscriptions/{SUBSCRIPTION_ID}/resourceGroups/App-Service-Sample-Demo-rg/providers/Microsoft.Web/sites/App-Service-Sample-Demo":
-          {
-            resourceName: "App-Service-Sample-Demo",
-            resourceType: "Microsoft.Web/sites",
-          },
+            {
+              resourceName: "App-Service-Sample-Demo",
+              resourceType: "Microsoft.Web/sites",
+            },
         },
       },
     });

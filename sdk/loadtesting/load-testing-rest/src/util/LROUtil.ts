@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";
-import type { TestRunOutput } from "../../generated/outputModels.js";
+import type { TestRunOutput } from ".././outputModels.js";
 
 const REJECTED_ERR = new AbortError("The polling was aborted.");
 

@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+
 /** Load test model */
 export interface Test {
   /** Pass fail criteria for a test. */
@@ -35,22 +36,22 @@ export interface PassFailCriteria {
 export interface PassFailMetric {
   /** The client metric on which the criteria should be applied. */
   clientMetric?:
-    | "response_time_ms"
-    | "latency"
-    | "error"
-    | "requests"
-    | "requests_per_sec";
+  | "response_time_ms"
+  | "latency"
+  | "error"
+  | "requests"
+  | "requests_per_sec";
   /** The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’, ‘p50’, ‘p90’, ‘p95’, ‘p99’, ‘min’, ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec, ‘count’ - for requests */
   aggregate?:
-    | "count"
-    | "percentage"
-    | "avg"
-    | "p50"
-    | "p90"
-    | "p95"
-    | "p99"
-    | "min"
-    | "max";
+  | "count"
+  | "percentage"
+  | "avg"
+  | "p50"
+  | "p90"
+  | "p95"
+  | "p99"
+  | "min"
+  | "max";
   /** The comparison operator. Supported types ‘>’, ‘<’ */
   condition?: string;
   /** Request name for which the Pass fail criteria has to be applied */
@@ -127,11 +128,11 @@ export interface FileInfo {
   expireDateTime?: Date | string;
   /** Validation status of the file */
   validationStatus?:
-    | "NOT_VALIDATED"
-    | "VALIDATION_SUCCESS"
-    | "VALIDATION_FAILURE"
-    | "VALIDATION_INITIATED"
-    | "VALIDATION_NOT_REQUIRED";
+  | "NOT_VALIDATED"
+  | "VALIDATION_SUCCESS"
+  | "VALIDATION_FAILURE"
+  | "VALIDATION_INITIATED"
+  | "VALIDATION_NOT_REQUIRED";
   /** Validation failure error details */
   validationFailureDetails?: string;
 }
@@ -199,10 +200,10 @@ export interface TestRun {
 }
 
 /** Error details if there is any failure in load test run */
-export interface ErrorDetails {}
+export interface ErrorDetails { }
 
 /** Test run statistics. */
-export interface TestRunStatistics {}
+export interface TestRunStatistics { }
 
 /** Collection of test run artifacts */
 export interface TestRunArtifacts {

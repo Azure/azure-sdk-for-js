@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 /** Load test model */
 export interface TestOutput {
   /** Pass fail criteria for a test. */
@@ -47,23 +46,9 @@ export interface PassFailCriteriaOutput {
 /** Pass fail metric */
 export interface PassFailMetricOutput {
   /** The client metric on which the criteria should be applied. */
-  clientMetric?:
-  | "response_time_ms"
-  | "latency"
-  | "error"
-  | "requests"
-  | "requests_per_sec";
+  clientMetric?: "response_time_ms" | "latency" | "error" | "requests" | "requests_per_sec";
   /** The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’, ‘p50’, ‘p90’, ‘p95’, ‘p99’, ‘min’, ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec, ‘count’ - for requests */
-  aggregate?:
-  | "count"
-  | "percentage"
-  | "avg"
-  | "p50"
-  | "p90"
-  | "p95"
-  | "p99"
-  | "min"
-  | "max";
+  aggregate?: "count" | "percentage" | "avg" | "p50" | "p90" | "p95" | "p99" | "min" | "max";
   /** The comparison operator. Supported types ‘>’, ‘<’ */
   condition?: string;
   /** Request name for which the Pass fail criteria has to be applied */
@@ -146,11 +131,11 @@ export interface FileInfoOutput {
   expireDateTime?: string;
   /** Validation status of the file */
   validationStatus?:
-  | "NOT_VALIDATED"
-  | "VALIDATION_SUCCESS"
-  | "VALIDATION_FAILURE"
-  | "VALIDATION_INITIATED"
-  | "VALIDATION_NOT_REQUIRED";
+    | "NOT_VALIDATED"
+    | "VALIDATION_SUCCESS"
+    | "VALIDATION_FAILURE"
+    | "VALIDATION_INITIATED"
+    | "VALIDATION_NOT_REQUIRED";
   /** Validation failure error details */
   validationFailureDetails?: string;
 }
@@ -291,22 +276,22 @@ export interface TestRunOutput {
   description?: string;
   /** The test run status. */
   readonly status?:
-  | "ACCEPTED"
-  | "NOTSTARTED"
-  | "PROVISIONING"
-  | "PROVISIONED"
-  | "CONFIGURING"
-  | "CONFIGURED"
-  | "EXECUTING"
-  | "EXECUTED"
-  | "DEPROVISIONING"
-  | "DEPROVISIONED"
-  | "DONE"
-  | "CANCELLING"
-  | "CANCELLED"
-  | "FAILED"
-  | "VALIDATION_SUCCESS"
-  | "VALIDATION_FAILURE";
+    | "ACCEPTED"
+    | "NOTSTARTED"
+    | "PROVISIONING"
+    | "PROVISIONED"
+    | "CONFIGURING"
+    | "CONFIGURED"
+    | "EXECUTING"
+    | "EXECUTED"
+    | "DEPROVISIONING"
+    | "DEPROVISIONED"
+    | "DONE"
+    | "CANCELLING"
+    | "CANCELLED"
+    | "FAILED"
+    | "VALIDATION_SUCCESS"
+    | "VALIDATION_FAILURE";
   /** The test run start DateTime(ISO 8601 literal format). */
   readonly startDateTime?: string;
   /** The test run end DateTime(ISO 8601 literal format). */
@@ -437,25 +422,25 @@ export interface MetricDefinitionOutput {
   namespace?: string;
   /** The primary aggregation type value defining how to use the values for display. */
   primaryAggregationType?:
-  | "Average"
-  | "Count"
-  | "None"
-  | "Total"
-  | "Percentile90"
-  | "Percentile95"
-  | "Percentile99";
+    | "Average"
+    | "Count"
+    | "None"
+    | "Total"
+    | "Percentile90"
+    | "Percentile95"
+    | "Percentile99";
   /** The collection of what all aggregation types are supported. */
   supportedAggregationTypes?: Array<string>;
   /** The unit of the metric. */
   unit?:
-  | "NotSpecified"
-  | "Percent"
-  | "Count"
-  | "Seconds"
-  | "Milliseconds"
-  | "Bytes"
-  | "BytesPerSecond"
-  | "CountPerSecond";
+    | "NotSpecified"
+    | "Percent"
+    | "Count"
+    | "Seconds"
+    | "Milliseconds"
+    | "Bytes"
+    | "BytesPerSecond"
+    | "CountPerSecond";
   /** Metric availability specifies the time grain (aggregation interval or frequency). */
   metricAvailabilities?: Array<MetricAvailabilityOutput>;
 }
