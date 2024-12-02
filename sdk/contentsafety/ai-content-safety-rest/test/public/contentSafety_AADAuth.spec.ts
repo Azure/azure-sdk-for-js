@@ -2,37 +2,36 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createAADRecorder, createAADClient } from "./utils/recordedAADClient";
-import type { Context } from "mocha";
-import type { ContentSafetyClient } from "../../src";
-import { isUnexpected } from "../../src";
-import fs from "fs";
-import path from "path";
+import { createAADRecorder, createAADClient } from "./utils/recordedAADClient.js";
+import type { ContentSafetyClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import fs from "node:fs";
+import path from "node:path";
 import { isBrowser } from "@azure/core-util";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Content Safety AAD Client Test", () => {
   let recorder: Recorder;
   let client: ContentSafetyClient;
 
-  function uint8ArrayToBase64(binary: Uint8Array) {
+  function uint8ArrayToBase64(binary: Uint8Array): string {
     let binaryString = "";
     binary.forEach((byte) => {
       binaryString += String.fromCharCode(byte);
     });
-    return self.btoa(binaryString);
+    return globalThis.btoa(binaryString);
   }
 
-  beforeEach(async function (this: Context) {
-    recorder = await createAADRecorder(this);
-    client = await createAADClient(recorder);
+  beforeEach(async (ctx) => {
+    recorder = await createAADRecorder(ctx);
+    client = createAADClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("analyze text with aad auth", async function () {
+  it("analyze text with aad auth", async () => {
     const response = await client.path("/text:analyze").post({
       body: {
         text: "This is a sample text",
@@ -48,11 +47,11 @@ describe("Content Safety AAD Client Test", () => {
     assert.notExists(response.body.categoriesAnalysis[1]);
   });
 
-  it("analyze image with aad auth", async function () {
+  it("analyze image with aad auth", async () => {
     let base64Image: string;
     if (isBrowser) {
-      const imagePath = "/base/samples-dev/example-data/image.png";
-      const response = await fetch(imagePath);
+      const imagePath = "../../../samples-dev/example-data/image.png";
+      const response = await globalThis.fetch(imagePath);
       const buffer = await response.arrayBuffer();
       const binary = new Uint8Array(buffer);
       base64Image = uint8ArrayToBase64(binary);

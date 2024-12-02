@@ -5,6 +5,8 @@
 ### Features Added
 - refresh @azure-rest/load-testing sdk
 
+- Add NOT_VALIDATED to the list of terminal states for the file validation poller.
+
 ## 1.0.0 (2023-03-07)
 
 First stable release of Azure Load Testing client library for Javascript.

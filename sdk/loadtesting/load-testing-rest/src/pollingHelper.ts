@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AzureLoadTestingClient } from "../generated/clientDefinitions";
-import { getFileValidationPoller } from "./getFileValidationPoller";
-import { getTestRunCompletionPoller } from "./getTestRunCompletionPoller";
+import type { AzureLoadTestingClient } from "../generated/clientDefinitions.js";
+import { getFileValidationPoller } from "./getFileValidationPoller.js";
+import { getTestRunCompletionPoller } from "./getTestRunCompletionPoller.js";
 import type {
   FileUploadAndValidatePoller,
   TestUploadFileSuccessResponse,
   TestRunCompletionPoller,
   TestRunCreateOrUpdateSuccessResponse,
-} from "./models";
+} from "./models.js";
 
 export async function getLongRunningPoller(
   client: AzureLoadTestingClient,

@@ -4,14 +4,14 @@
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";
 import type { CancelOnProgress, OperationState, SimplePollerLike } from "@azure/core-lro";
-import type { FileUploadAndValidatePoller, PolledOperationOptions } from "./models";
-import type { AzureLoadTestingClient } from "../generated/clientDefinitions";
+import type { FileUploadAndValidatePoller, PolledOperationOptions } from "./models.js";
+import type { AzureLoadTestingClient } from "../generated/clientDefinitions.js";
 import type {
   LoadTestAdministrationGetTestFile200Response,
   LoadTestAdministrationUploadTestFile201Response,
-} from "../generated/responses";
-import { isUnexpected } from "../generated/isUnexpected";
-import { sleep } from "./util/LROUtil";
+} from "../generated/responses.js";
+import { isUnexpected } from "../generated/isUnexpected.js";
+import { sleep } from "./util/LROUtil.js";
 
 /**
  * Uploads a file and creates a poller to poll for validation.
@@ -66,11 +66,7 @@ export async function getFileValidationPoller(
 
         switch (fileValidationResponse.body.validationStatus) {
           case "NOT_VALIDATED": {
-            if (fileValidationResponse.body.fileType === "JMX_FILE") {
-              state.status = "running";
-            } else {
-              state.status = "succeeded";
-            }
+            state.status = "succeeded";
             break;
           }
           case "VALIDATION_INITIATED": {

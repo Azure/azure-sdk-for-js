@@ -1,11 +1,14 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
     "paths": {
-      "@azure-rest/load-testing": ["./src/index"]
-    }
+      "@azure-rest/load-testing": [
+        "./src/index"
+      ]
+    },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
   "include": [
     "src/**/*.ts",

@@ -8,7 +8,7 @@ import type {
   LoadTestRunCreateOrUpdateTestRun201Response,
   LoadTestRunGetTestRun200Response,
   LoadTestAdministrationUploadTestFile201Response,
-} from "../generated/responses";
+} from "../generated/responses.js";
 
 /**
  * Describes a poller for NotificationHubJob types.

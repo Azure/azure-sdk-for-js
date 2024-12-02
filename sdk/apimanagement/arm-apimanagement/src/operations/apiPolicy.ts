@@ -151,8 +151,6 @@ export class ApiPolicyImpl implements ApiPolicy {
   }
 }
 // Operation Specifications
-const xmlSerializer = coreClient.createSerializer(Mappers, /* isXml */ true);
-
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByApiOperationSpec: coreClient.OperationSpec = {
@@ -225,8 +223,7 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.policyId
   ],
   headerParameters: [Parameters.accept1],
-  isXML: true,
-  serializer: xmlSerializer
+  serializer
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
   path:

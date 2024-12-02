@@ -6,10 +6,10 @@ import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipel
 import { isError } from "@azure/core-util";
 
 import type { GetTokenOptions } from "@azure/core-auth";
-import { credentialLogger } from "../../util/logging";
-import { mapScopesToResource } from "./utils";
-import { tracingClient } from "../../util/tracing";
-import { IdentityClient } from "../../client/identityClient";
+import { credentialLogger } from "../../util/logging.js";
+import { mapScopesToResource } from "./utils.js";
+import { tracingClient } from "../../util/tracing.js";
+import { IdentityClient } from "../../client/identityClient.js";
 
 const msiName = "ManagedIdentityCredential - IMDS";
 const logger = credentialLogger(msiName);

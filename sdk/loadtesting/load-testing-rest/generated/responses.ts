@@ -19,7 +19,7 @@ import type {
   DimensionValueListOutput,
   TestRunAppComponentsOutput,
   TestRunServerMetricConfigOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** Create a new test or update an existing test. */
 export interface LoadTestAdministrationCreateOrUpdateTest200Response
@@ -46,7 +46,7 @@ export interface LoadTestAdministrationCreateOrUpdateTestDefaultResponse
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders &
-    LoadTestAdministrationCreateOrUpdateTestDefaultHeaders;
+  LoadTestAdministrationCreateOrUpdateTestDefaultHeaders;
 }
 
 /** Delete a test by its name. */
@@ -211,7 +211,7 @@ export interface LoadTestAdministrationCreateOrUpdateAppComponentsDefaultRespons
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders &
-    LoadTestAdministrationCreateOrUpdateAppComponentsDefaultHeaders;
+  LoadTestAdministrationCreateOrUpdateAppComponentsDefaultHeaders;
 }
 
 /** Get associated app component (collection of azure resources) for the given test. */
@@ -232,7 +232,7 @@ export interface LoadTestAdministrationGetAppComponentsDefaultResponse
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders &
-    LoadTestAdministrationGetAppComponentsDefaultHeaders;
+  LoadTestAdministrationGetAppComponentsDefaultHeaders;
 }
 
 /** Configure server metrics for a test */
@@ -260,7 +260,7 @@ export interface LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultR
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders &
-    LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultHeaders;
+  LoadTestAdministrationCreateOrUpdateServerMetricsConfigDefaultHeaders;
 }
 
 /** List server metrics configuration for the given test. */
@@ -281,7 +281,7 @@ export interface LoadTestAdministrationGetServerMetricsConfigDefaultResponse
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders &
-    LoadTestAdministrationGetServerMetricsConfigDefaultHeaders;
+  LoadTestAdministrationGetServerMetricsConfigDefaultHeaders;
 }
 
 /** Create and start a new test run with the given name. */
@@ -503,7 +503,7 @@ export interface LoadTestRunCreateOrUpdateAppComponentsDefaultResponse
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders &
-    LoadTestRunCreateOrUpdateAppComponentsDefaultHeaders;
+  LoadTestRunCreateOrUpdateAppComponentsDefaultHeaders;
 }
 
 /** Get associated app component (collection of azure resources) for the given test run. */
@@ -550,7 +550,7 @@ export interface LoadTestRunCreateOrUpdateServerMetricsConfigDefaultResponse
   status: string;
   body: ErrorResponseBodyOutput;
   headers: RawHttpHeaders &
-    LoadTestRunCreateOrUpdateServerMetricsConfigDefaultHeaders;
+  LoadTestRunCreateOrUpdateServerMetricsConfigDefaultHeaders;
 }
 
 /** List server metrics configuration for the given test run. */
