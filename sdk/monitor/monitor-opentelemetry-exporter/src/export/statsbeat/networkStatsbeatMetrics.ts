@@ -117,7 +117,7 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
 
     this.isInitialized = true;
     this.initialize();
-    
+
     this.commonProperties = {
       os: this.os,
       rp: this.resourceProvider,

@@ -135,7 +135,7 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         const statsbeat = new NetworkStatsbeatMetrics(options);
         assert.strictEqual(statsbeat["commonProperties"]["rp"], "appsvc");
         process.env = originalEnv;
-      })
+      });
 
       it("should add correct long interval properties to the custom metric", () => {
         const longIntervalStatsbeatMetrics = getInstance(options);
