@@ -11,13 +11,13 @@ import { createMessage, listMessages, updateMessage } from "./messages.js";
 import { AgentThreadCreationOptions, CreateAgentOptions, CreateAndRunThreadOptions, CreateRunOptions, FilePurpose, ThreadMessageOptions, ToolOutput, UpdateAgentOptions, UpdateAgentThreadOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
 import { createRunStreaming, createThreadAndRunStreaming, submitToolOutputsToRunStreaming } from "./streaming.js";
 import { UpdateMessageOptions } from "./messagesModels.js";
-import { AgentEventMessageStream, ListQueryParameters, OptionalRequestParameters, UpdateRunOptions } from "./inputOutputs.js";
+import { AgentEventMessageStream, UpdateRunOptions } from "./inputOutputs.js";
 import { createVectorStore, createVectorStoreAndPoll, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
 import { getRunStep, listRunSteps } from "./runSteps.js";
 import { CreateVectorStoreFileBatchOptions, CreateVectorStoreFileOptions, FileStatusFilter } from "./vectorStoresModels.js";
 import { createVectorStoreFile, createVectorStoreFileAndPoll, deleteVectorStoreFile, getVectorStoreFile, listVectorStoreFiles } from "./vectorStoresFiles.js";
 import { cancelVectorStoreFileBatch, createVectorStoreFileBatch, createVectorStoreFileBatchAndPoll, getVectorStoreFileBatch, listVectorStoreFileBatchFiles } from "./vectorStoresFileBatches.js";
-
+import { PollingOptions, ListQueryParameters, OptionalRequestParameters } from "./customModels.js"; 
 export interface AgentsOperations {
   /** Creates a new agent. */
   createAgent: (
@@ -204,9 +204,9 @@ export interface AgentsOperations {
   /** Create vector store and poll. */
   createVectorStoreAndPoll: (
     vectorStoreOptions?: VectorStoreOptions,
-    sleepIntervalInMs?: number,
+    pollingOptions?: PollingOptions, 
     requestParams?: OptionalRequestParameters,
-  ) => {result: Promise<VectorStoreOutput>, cancel: () => void};
+  ) => Promise<VectorStoreOutput>;
 
   /** Create a vector store file by attching a file to a vector store. */
   createVectorStoreFile: (
@@ -239,9 +239,9 @@ export interface AgentsOperations {
   createVectorStoreFileAndPoll: (
     vectorStoreId: string,
     vectorStoreFileOptions?: CreateVectorStoreFileOptions,
-    sleepIntervalInMs?: number,
+    pollingOptions?: PollingOptions,
     requestParams?: OptionalRequestParameters,
-  ) => { result: Promise<VectorStoreFileOutput>, cancel: () => void; };
+  ) => Promise<VectorStoreFileOutput>;
 
   /** Create a vector store file batch. */
   createVectorStoreFileBatch: (
@@ -270,10 +270,10 @@ export interface AgentsOperations {
   /** Create a vector store file batch and poll. */
   createVectorStoreFileBatchAndPoll: (
     vectorStoreId: string,
-    vectorStoreFileBatchOptions: CreateVectorStoreFileBatchOptions,
-    sleepIntervalInMs?: number,
+    vectorStoreFileBatchOptions?: CreateVectorStoreFileBatchOptions,
+    pollingOptions?: PollingOptions,
     requestParams?: OptionalRequestParameters,
-  ) => { result: Promise<VectorStoreFileBatchOutput>, cancel: () => void; };
+  ) => Promise<VectorStoreFileBatchOutput>;
 
   /** Gets a single run step from a thread run. */
   getRunStep: (
@@ -375,8 +375,8 @@ function getAgents(context: Client): AgentsOperations {
       modifyVectorStore(context, vectorStoreId, { ...requestParams, body: options as Record<string, unknown> }),
     deleteVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) =>
       deleteVectorStore(context, vectorStoreId, requestParams),
-    createVectorStoreAndPoll: (vectorStoreOptions?: VectorStoreOptions, sleepInterval?: number, requestParams?: OptionalRequestParameters) =>
-      createVectorStoreAndPoll(context, { ...requestParams, body: vectorStoreOptions as Record<string, unknown> }, sleepInterval),
+    createVectorStoreAndPoll: (vectorStoreOptions?: VectorStoreOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) =>
+      createVectorStoreAndPoll(context, vectorStoreOptions, pollingOptions, requestParams),
 
     createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptions, requestParams?: OptionalRequestParameters) =>
       createVectorStoreFile(context, vectorStoreId, { ...requestParams, body: {file_id: options?.fileId, data_sources: options?.dataSources, chunking_strategy: options?.chunkingStrategy} }),
@@ -386,8 +386,8 @@ function getAgents(context: Client): AgentsOperations {
       listVectorStoreFiles(context, vectorStoreId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
     deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) =>
       deleteVectorStoreFile(context, vectorStoreId, fileId, requestParams),
-    createVectorStoreFileAndPoll: (vectorStoreId: string, vectorStoreFileOptions?: CreateVectorStoreFileOptions, sleepIntervalInMs?: number, requestParams?: OptionalRequestParameters) =>
-      createVectorStoreFileAndPoll(context, vectorStoreId, { ...requestParams, body: { file_id: vectorStoreFileOptions?.fileId, data_sources: vectorStoreFileOptions?.dataSources, chunking_strategy: vectorStoreFileOptions?.chunkingStrategy } }, sleepIntervalInMs),
+    createVectorStoreFileAndPoll: (vectorStoreId: string, vectorStoreFileOptions?: CreateVectorStoreFileOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) =>
+      createVectorStoreFileAndPoll(context, vectorStoreId, vectorStoreFileOptions, pollingOptions, requestParams),
 
     createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptions, requestParams?: OptionalRequestParameters) =>
       createVectorStoreFileBatch(context, vectorStoreId, { ...requestParams, body: { file_ids: options?.fileIds, data_sources: options?.dataSources, chunking_strategy: options?.chunkingStrategy } }),
@@ -397,8 +397,8 @@ function getAgents(context: Client): AgentsOperations {
       cancelVectorStoreFileBatch(context, vectorStoreId, batchId, requestParams),
     listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) =>
       listVectorStoreFileBatchFiles(context, vectorStoreId, batchId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
-    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, vectorStoreFileBatchOptions: CreateVectorStoreFileBatchOptions, sleepIntervalInMs?: number, requestParams?: OptionalRequestParameters) =>
-      createVectorStoreFileBatchAndPoll(context, vectorStoreId, { ...requestParams, body: { file_ids: vectorStoreFileBatchOptions.fileIds, data_sources: vectorStoreFileBatchOptions.dataSources, chunking_strategy: vectorStoreFileBatchOptions.chunkingStrategy } }, sleepIntervalInMs),
+    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, vectorStoreFileBatchOptions?: CreateVectorStoreFileBatchOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) =>
+      createVectorStoreFileBatchAndPoll(context, vectorStoreId, vectorStoreFileBatchOptions, pollingOptions, requestParams),
 
     getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) =>
       getRunStep(context, threadId, runId, stepId, { ...requestParams }),

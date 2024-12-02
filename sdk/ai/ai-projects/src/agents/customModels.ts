@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 import { RequestParameters } from "@azure-rest/core-client"
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /** Optional request paramters support passing headers, abort signal, etc */
 export type OptionalRequestParameters = Pick<RequestParameters, "headers"| "timeout"| "abortSignal"| "tracingOptions">
@@ -19,4 +20,10 @@ export interface ListQueryParameters {
 
   /** A cursor for use in pagination. before is an object ID that defines your place in the list. For instance, if you make a list request and receive 100 objects, ending with obj_foo, your subsequent call can include before=obj_foo in order to fetch the previous page of the list. */
   before?: string;
+}
+
+/** Options for polling methods */
+export interface PollingOptions {
+  sleepIntervalInMs?: number;
+  abortSignal?: AbortSignalLike;
 }

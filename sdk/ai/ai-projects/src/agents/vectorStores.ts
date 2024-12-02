@@ -5,6 +5,8 @@ import { Client, createRestError } from "@azure-rest/core-client";
 import { ListVectorStoresParameters, CreateVectorStoreParameters, ModifyVectorStoreParameters, GetVectorStoreParameters, DeleteVectorStoreParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfVectorStoreOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
 import { AgentsPoller } from "./poller.js";
+import { OptionalRequestParameters, PollingOptions } from "./customModels.js";
+import { VectorStoreOptions } from "../generated/src/models.js";
 
 const expectedStatuses = ["200"];
 
@@ -88,17 +90,18 @@ export async function deleteVectorStore(
  */
 export function createVectorStoreAndPoll(
   context: Client,
-  options?: CreateVectorStoreParameters,
-  sleepIntervalInMs?: number
-): { result: Promise<VectorStoreOutput>; cancel: () => void; } {
+  createVectorStoreOptions?: VectorStoreOptions,
+  pollingOptions?: PollingOptions,
+  requestParams?: OptionalRequestParameters,
+): Promise<VectorStoreOutput> {
   async function updateCreateVectorStorePoll(
     currentResult?: VectorStoreOutput
   ): Promise<{ result: VectorStoreOutput; completed: boolean }> {
     let vectorStore: VectorStoreOutput;
     if (!currentResult) {
-      vectorStore = await createVectorStore(context, options);
+      vectorStore = await createVectorStore(context, { body: createVectorStoreOptions as Record<string, any>, ...requestParams });
     } else {
-      vectorStore = await getVectorStore(context, currentResult.id);
+      vectorStore = await getVectorStore(context, currentResult.id, requestParams);
     }
     return {
       result: vectorStore,
@@ -106,6 +109,6 @@ export function createVectorStoreAndPoll(
     };
   }
 
-  const poller = new AgentsPoller<VectorStoreOutput>(updateCreateVectorStorePoll, sleepIntervalInMs);
-  return { result: poller.pollUntilDone(), cancel: () => poller.stopPolling() };
+  const poller = new AgentsPoller<VectorStoreOutput>(updateCreateVectorStorePoll, pollingOptions);
+  return poller.pollUntilDone();
 }

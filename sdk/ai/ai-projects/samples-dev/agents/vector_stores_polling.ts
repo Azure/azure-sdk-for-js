@@ -12,11 +12,14 @@ const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "
 export async function main(): Promise<void> {
     const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
+    // Set up abort controller (optional)
+    // Polling can then be stopped using abortController.abort()
+    const abortController = new AbortController();
+
     // Create a vector store
     const vectorStoreOptions = { name: "my-vector-store" };
-    const sleepIntervalInMs = 2000;
-    const { result } = client.agents.createVectorStoreAndPoll(vectorStoreOptions, sleepIntervalInMs);
-    const vectorStore = await result;
+    const pollingOptions = { sleepIntervalInMs: 2000, abortSignal: abortController.signal };
+    const vectorStore = await client.agents.createVectorStoreAndPoll(vectorStoreOptions, pollingOptions);
     console.log(`Created vector store with status ${vectorStore.status}, ID: ${vectorStore.id}`);
 
     // Get a specific vector store

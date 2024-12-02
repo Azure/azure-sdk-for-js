@@ -3,13 +3,17 @@
 
 import { delay } from "@azure/core-util";
 import { PollOperationState, PollOperation, Poller } from "@azure/core-lro";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { PollingOptions } from "./customModels.js";
 
 interface PollResult {
   status: string;
 }
 
 interface AgentsPollOperationState<T extends PollResult> extends PollOperationState<T> {
-  customUpdate: (state?: T) => Promise<{result: T, completed: boolean}>;
+  updateInternal: (state?: T) => Promise<{result: T, completed: boolean}>;
+  cancelInternal?: (state: T) => Promise<boolean>;
+  abortSignal?: AbortSignalLike;
   cancelled?: boolean;
 }
 
@@ -19,12 +23,17 @@ export class AgentsPoller<T extends PollResult> extends Poller<AgentsPollOperati
   sleepIntervalInMs: number = 1000;
   
   constructor(
-    customUpdate: (state?: T) => Promise<{result: T, completed: boolean}>,
-    sleepIntervalInMs?: number,
+    update: (state?: T) => Promise<{result: T, completed: boolean}>,
+    pollerOptions?: PollingOptions,
+    cancel?: (state: T) => Promise<boolean>,
     baseOperation?: AgentsPollOperation<T>,
     onProgress?: (state: AgentsPollOperationState<T>) => void
   ) {
-    let state: AgentsPollOperationState<T> = { customUpdate };
+    let state: AgentsPollOperationState<T> = { 
+      updateInternal: update,
+      cancelInternal: cancel,
+      abortSignal: pollerOptions?.abortSignal
+    };
   
     if (baseOperation) {
       state = baseOperation.state;
@@ -33,7 +42,7 @@ export class AgentsPoller<T extends PollResult> extends Poller<AgentsPollOperati
     const operation = makeOperation(state);
     super(operation);
 
-    this.sleepIntervalInMs = sleepIntervalInMs ?? this.sleepIntervalInMs;
+    this.sleepIntervalInMs = pollerOptions?.sleepIntervalInMs ?? this.sleepIntervalInMs;
 
     if (onProgress) {
       this.onProgress(onProgress);
@@ -42,10 +51,6 @@ export class AgentsPoller<T extends PollResult> extends Poller<AgentsPollOperati
 
   async delay(): Promise<void> {
     await delay(this.sleepIntervalInMs);
-  }
-
-  stopPolling(): void {
-    this.operation.state.cancelled = true;
   }
 }
 
@@ -60,27 +65,40 @@ function makeOperation<T extends PollResult>(
     state: {
       ...state,
     },
-    update: update,
-    cancel: cancel,
+    update: updateWrapper,
+    cancel: cancelWrapper,
     toString: toString,
   };
 }
 
-async function update<T extends PollResult>(
+async function updateWrapper<T extends PollResult>(
   this: AgentsPollOperation<T>,
 ): Promise<PollOperation<AgentsPollOperationState<T>, T>> {
-  const { result, completed } = await this.state.customUpdate(this.state.result);
+  if (this.state.abortSignal?.aborted) {
+    return makeOperation(this.state);
+  }
+  const { result, completed } = await this.state.updateInternal(this.state.result);
   this.state.result = result;
   this.state.isCompleted = completed;
   return makeOperation(this.state);
 }
 
-async function cancel<T extends PollResult>(
-  this: AgentsPollOperation<T>,
+async function cancelWrapper<T extends PollResult>(
+  this: AgentsPollOperation<T>
 ): Promise<PollOperation<AgentsPollOperationState<T>, T>> {
+  if (!this.state.cancelInternal) {
+    throw new Error("This operation does not support cancellation");
+  }
+  if (!this.state.result) {
+    return makeOperation({
+      ...this.state,
+      cancelled: false
+    });
+  }
+  const cancelled = await this.state.cancelInternal(this.state.result);
   return makeOperation({
     ...this.state,
-    cancelled: true,
+    cancelled: cancelled,
   });
 }
 

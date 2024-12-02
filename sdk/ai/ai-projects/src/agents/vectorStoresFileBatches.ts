@@ -5,6 +5,8 @@ import { Client, createRestError } from "@azure-rest/core-client";
 import { CreateVectorStoreFileBatchParameters, CancelVectorStoreFileBatchParameters, GetVectorStoreFileBatchParameters, ListVectorStoreFileBatchFilesParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfVectorStoreFileOutput, VectorStoreFileBatchOutput } from "../generated/src/outputModels.js";
 import { AgentsPoller } from "./poller.js";
+import { CreateVectorStoreFileBatchOptions } from "./vectorStoresModels.js";
+import { OptionalRequestParameters, PollingOptions } from "./customModels.js";
 
 const expectedStatuses = ["200"];
 
@@ -71,17 +73,22 @@ export async function listVectorStoreFileBatchFiles(
 export function createVectorStoreFileBatchAndPoll(
   context: Client,
   vectorStoreId: string,
-  options?: CreateVectorStoreFileBatchParameters,
-  sleepIntervalInMs?: number,
-): { result: Promise<VectorStoreFileBatchOutput>, cancel: () => void; } {
-   async function updateCreateVectorStoreFileBatchPoll(
+  createVectorStoreFileBatchOptions?: CreateVectorStoreFileBatchOptions,
+  pollingOptions?: PollingOptions,
+  requestParams?: OptionalRequestParameters,
+): Promise<VectorStoreFileBatchOutput> {
+  async function updateCreateVectorStoreFileBatchPoll(
     currentResult?: VectorStoreFileBatchOutput
   ): Promise<{ result: VectorStoreFileBatchOutput; completed: boolean }> {
     let vectorStore: VectorStoreFileBatchOutput;
     if (!currentResult) {
-      vectorStore = await createVectorStoreFileBatch(context, vectorStoreId, options);
+      vectorStore = await createVectorStoreFileBatch(context, vectorStoreId, { body: {
+        file_ids: createVectorStoreFileBatchOptions?.fileIds,
+        data_sources: createVectorStoreFileBatchOptions?.dataSources,
+        chunking_strategy: createVectorStoreFileBatchOptions?.chunkingStrategy,
+      }, ...requestParams });
     } else {
-      vectorStore = await getVectorStoreFileBatch(context, vectorStoreId, currentResult.id);
+      vectorStore = await getVectorStoreFileBatch(context, vectorStoreId, currentResult.id, requestParams);
     }
     return {
       result: vectorStore,
@@ -89,6 +96,13 @@ export function createVectorStoreFileBatchAndPoll(
     };
   }
 
-  const poller = new AgentsPoller<VectorStoreFileBatchOutput>(updateCreateVectorStoreFileBatchPoll, sleepIntervalInMs);
-  return { result: poller.pollUntilDone(), cancel: () => poller.stopPolling() };
+  async function cancelCreateVectorStoreFileBatchPoll(
+    currentResult: VectorStoreFileBatchOutput
+  ): Promise<boolean> {
+    const result = await cancelVectorStoreFileBatch(context, vectorStoreId, currentResult.id);
+    return result.status === "cancelled";
+  }
+
+  const poller = new AgentsPoller<VectorStoreFileBatchOutput>(updateCreateVectorStoreFileBatchPoll, pollingOptions, cancelCreateVectorStoreFileBatchPoll);
+  return poller.pollUntilDone();
 }

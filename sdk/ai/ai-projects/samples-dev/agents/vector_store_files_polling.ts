@@ -24,11 +24,14 @@ export async function main(): Promise<void> {
     const file = await client.agents.uploadFile(readable, "assistants", "vector-file.txt");
     console.log(`Uploaded file, file ID: ${file.id}`);
 
+    // Set up abort controller (optional)
+    // Polling can then be stopped using abortController.abort()
+    const abortController = new AbortController();
+
     // Create vector store file
     const vectorStoreFileOptions = { fileId: file.id };
-    const sleepIntervalInMs = 2000;
-    const { result } = client.agents.createVectorStoreFileAndPoll(vectorStore.id, vectorStoreFileOptions, sleepIntervalInMs);
-    const vectorStoreFile = await result;
+    const pollingOptions = { sleepIntervalInMs: 2000, abortSignal: abortController.signal };
+    const vectorStoreFile = await client.agents.createVectorStoreFileAndPoll(vectorStore.id, vectorStoreFileOptions, pollingOptions);
     console.log(`Created vector store file with status ${vectorStoreFile.status}, vector store file ID: ${vectorStoreFile.id}`);
 
     // Delete file

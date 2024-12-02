@@ -5,6 +5,8 @@ import { Client, createRestError } from "@azure-rest/core-client";
 import { ListVectorStoreFilesParameters, CreateVectorStoreFileParameters, GetVectorStoreFileParameters, DeleteVectorStoreFileParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfVectorStoreFileOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput } from "../generated/src/outputModels.js";
 import { AgentsPoller } from "./poller.js";
+import { OptionalRequestParameters, PollingOptions } from "./customModels.js";
+import { CreateVectorStoreFileOptions } from "./vectorStoresModels.js";
 
 const expectedStatuses = ["200"];
 
@@ -73,17 +75,22 @@ export async function deleteVectorStoreFile(
 export function createVectorStoreFileAndPoll(
   context: Client,
   vectorStoreId: string,
-  options?: CreateVectorStoreFileParameters,
-  sleepIntervalInMs?: number,
-): { result: Promise<VectorStoreFileOutput>, cancel: () => void; } {
+  createVectorStoreFileOptions?: CreateVectorStoreFileOptions,
+  pollingOptions?: PollingOptions,
+  requestParams?: OptionalRequestParameters
+): Promise<VectorStoreFileOutput> {
   async function updateCreateVectorStoreFilePoll(
     currentResult?: VectorStoreFileOutput
   ): Promise<{ result: VectorStoreFileOutput; completed: boolean }> {
     let vectorStoreFile: VectorStoreFileOutput;
     if (!currentResult) {
-      vectorStoreFile = await createVectorStoreFile(context, vectorStoreId, options);
+      vectorStoreFile = await createVectorStoreFile(context, vectorStoreId, { body: {
+        file_id: createVectorStoreFileOptions?.fileId,
+        data_sources: createVectorStoreFileOptions?.dataSources,
+        chunking_strategy: createVectorStoreFileOptions?.chunkingStrategy,
+       }, ...requestParams });
     } else {
-      vectorStoreFile = await getVectorStoreFile(context, vectorStoreId, currentResult.id);
+      vectorStoreFile = await getVectorStoreFile(context, vectorStoreId, currentResult.id, requestParams);
     }
     return {
       result: vectorStoreFile,
@@ -91,6 +98,6 @@ export function createVectorStoreFileAndPoll(
     };
   }
 
-  const poller = new AgentsPoller<VectorStoreFileOutput>(updateCreateVectorStoreFilePoll, sleepIntervalInMs);
-  return { result: poller.pollUntilDone(), cancel: () => poller.stopPolling() };
+  const poller = new AgentsPoller<VectorStoreFileOutput>(updateCreateVectorStoreFilePoll, pollingOptions);
+  return poller.pollUntilDone();
 }

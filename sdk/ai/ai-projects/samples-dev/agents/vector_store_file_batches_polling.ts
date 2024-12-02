@@ -32,11 +32,14 @@ export async function main(): Promise<void> {
     const file2 = await client.agents.uploadFile(readable2, "assistants", "vector-file2.txt");
     console.log(`Uploaded file2, file ID: ${file2.id}`);
 
+    // Set up abort controller (optional)
+    // Polling can then be stopped using abortController.abort()
+    const abortController = new AbortController();
+
     // Create vector store file batch
     const vectorStoreFileBatchOptions = { fileIds: [file1.id, file2.id] };
-    const sleepIntervalInMs = 2000;
-    const { result } = client.agents.createVectorStoreFileBatchAndPoll(vectorStore.id, vectorStoreFileBatchOptions, sleepIntervalInMs);
-    const vectorStoreFileBatch = await result;
+    const pollingOptions = { sleepIntervalInMs: 2000, abortSignal: abortController.signal };
+    const vectorStoreFileBatch = await client.agents.createVectorStoreFileBatchAndPoll(vectorStore.id, vectorStoreFileBatchOptions, pollingOptions);
     console.log(`Created vector store file batch with status ${vectorStoreFileBatch.status}, vector store file batch ID: ${vectorStoreFileBatch.id}`);
 
     // Retrieve vector store file batch
