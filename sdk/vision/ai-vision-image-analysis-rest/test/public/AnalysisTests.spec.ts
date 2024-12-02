@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "chai";
-import { Context } from "mocha";
-import {
+// Licensed under the MIT License.
+import type {
   ImageAnalysisClient,
   CaptionResultOutput,
   ImageAnalysisResultOutput,
@@ -11,11 +8,13 @@ import {
   ObjectsResultOutput,
   TagsResultOutput,
 } from "../../src/index.js";
-import { createRecorder } from "./utils/recordedClient";
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { createClient } from "./utils/clientMethods";
+import { createRecorder } from "./utils/recordedClient.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { createClient } from "./utils/clientMethods.js";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 const credentials = [
   {
@@ -31,8 +30,8 @@ describe("Analyze Tests", () => {
       let recorder: Recorder;
       let client: ImageAnalysisClient;
 
-      beforeEach(async function (this: Context) {
-        recorder = await createRecorder(this);
+      beforeEach(async (ctx) => {
+        recorder = await createRecorder(ctx);
 
         recorder.addSanitizers({
           headerSanitizers: [{ key: "Ocp-Apim-Subscription-Key", value: "***********" }],
@@ -42,7 +41,7 @@ describe("Analyze Tests", () => {
         client = await createClient(recorder, credential.credential());
       });
 
-      afterEach(async function () {
+      afterEach(async () => {
         await recorder?.stop();
       });
 

@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert } from "chai";
+import { dateToServiceTimeString } from "../../src/util.js";
+import { describe, it, assert } from "vitest";
 
-import { dateToServiceTimeString } from "../../src/util";
-
-describe("util", function () {
+describe("util", () => {
   describe("dateToServiceTimeString", () => {
     it("converts dates correctly", () => {
       const simpleMorningDate = new Date(Date.UTC(2020, 0, 2, 3, 4, 5));

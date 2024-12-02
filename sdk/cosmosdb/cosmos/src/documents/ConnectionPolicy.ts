@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { RetryOptions } from "../retry/retryOptions";
+// Licensed under the MIT License.
+import type { RetryOptions } from "../retry/retryOptions";
 import { ConnectionMode } from "./ConnectionMode";
 /**
  * Represents the Connection policy associated with a CosmosClient in the Azure Cosmos DB database service.

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   Test,
   TestAppComponents,
   TestServerMetricConfig,
@@ -10,7 +10,7 @@ import {
   MetricRequestPayload,
   TestRunAppComponents,
   TestRunServerMetricConfig,
-} from "./models";
+} from "./models.js";
 
 export interface TestCreateOrUpdateBodyParam {
   /** Load test model */

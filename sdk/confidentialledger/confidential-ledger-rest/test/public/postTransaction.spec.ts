@@ -1,33 +1,32 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import {
+// Licensed under the MIT License.
+
+import type {
   ConfidentialLedgerClient,
   CreateLedgerEntryParameters,
   LedgerEntry,
-  isUnexpected,
-} from "../../src";
-import { createClient, createRecorder, getRecorderUniqueVariable } from "./utils/recordedClient";
+} from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createClient, createRecorder, getRecorderUniqueVariable } from "./utils/recordedClient.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-
-describe("Post transaction", function () {
+describe("Post transaction", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
   let contentBody: string;
 
-  beforeEach(async function (this: Context) {
+  beforeEach(async (ctx) => {
     contentBody = "typescript post test";
-    recorder = await createRecorder(this);
+    recorder = await createRecorder(ctx);
     client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should post to default ledger", async function () {
+  it("should post to default ledger", async () => {
     const entry: LedgerEntry = {
       contents: contentBody,
     };
@@ -67,7 +66,7 @@ describe("Post transaction", function () {
     );
   });
 
-  it("should post to collection", async function () {
+  it("should post to collection", async () => {
     const entry: LedgerEntry = {
       contents: "post ledger entry test",
     };

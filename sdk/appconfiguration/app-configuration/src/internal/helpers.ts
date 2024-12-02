@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   ConfigurationSetting,
   ConfigurationSettingParam,
   HttpOnlyIfChangedField,
@@ -15,22 +15,20 @@ import {
   SnapshotResponse,
   EtagEntity,
   ListLabelsOptions,
-} from "../models";
-import { FeatureFlagHelper, FeatureFlagValue, featureFlagContentType } from "../featureFlag";
-import {
+} from "../models.js";
+import type { FeatureFlagValue } from "../featureFlag.js";
+import { FeatureFlagHelper, featureFlagContentType } from "../featureFlag.js";
+import type {
   GetKeyValuesOptionalParams,
   GetLabelsOptionalParams,
   GetSnapshotsOptionalParams,
   KeyValue,
-} from "../generated/src/models";
-import {
-  SecretReferenceHelper,
-  SecretReferenceValue,
-  secretReferenceContentType,
-} from "../secretReference";
+} from "../generated/src/models/index.js";
+import type { SecretReferenceValue } from "../secretReference.js";
+import { SecretReferenceHelper, secretReferenceContentType } from "../secretReference.js";
 import { isDefined } from "@azure/core-util";
-import { logger } from "../logger";
-import { OperationOptions } from "@azure/core-client";
+import { logger } from "../logger.js";
+import type { OperationOptions } from "@azure/core-client";
 
 /**
  * Options for listConfigurationSettings that allow for filtering based on keys, labels and other fields.
@@ -444,7 +442,6 @@ export function errorMessageForUnexpectedSetting(
   return `Setting with key ${key} is not a valid ${expectedType}, make sure to have the correct content-type and a valid non-null value.`;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function assertResponse<T extends object>(
   result: T,
 ): asserts result is T & HttpResponseField<any> {
@@ -457,7 +454,6 @@ export function assertResponse<T extends object>(
   }
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 export function hasUnderscoreResponse<T extends object>(
   result: T,
 ): result is T & HttpResponseField<any> {

@@ -1,21 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
 import {
   Recorder,
-  RecorderStartOptions,
-  SanitizerOptions,
   assertEnvironmentVariable,
   env,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
-import { TokenCredential } from "@azure/core-auth";
-import { CommunicationUserIdentifier, parseConnectionString } from "@azure/communication-common";
+import type { TokenCredential } from "@azure/core-auth";
+import type { CommunicationUserIdentifier } from "@azure/communication-common";
+import { parseConnectionString } from "@azure/communication-common";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { Context, Test } from "mocha";
-import { RoomsClient } from "../../../src";
-import { CommunicationIdentityClient, CommunicationUserToken } from "@azure/communication-identity";
-import { generateToken } from "./connectionUtils";
+import { RoomsClient } from "../../../src/index.js";
+import type { CommunicationUserToken } from "@azure/communication-identity";
+import { CommunicationIdentityClient } from "@azure/communication-identity";
+import { generateToken } from "./connectionUtils.js";
 
 export interface RecordedClient<T> {
   client: T;
@@ -65,7 +65,7 @@ const recorderOptions: RecorderStartOptions = {
   ],
 };
 
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderOptions);
   await recorder.setMatcher("HeaderlessMatcher");
@@ -73,9 +73,9 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
 }
 
 export async function createRecordedRoomsClient(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<RoomsClient>> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   const client = new RoomsClient(
     env.COMMUNICATION_CONNECTION_STRING_ROOMS ?? "",
@@ -88,9 +88,9 @@ export async function createRecordedRoomsClient(
 }
 
 export async function createRecordedRoomsClientWithToken(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedClient<RoomsClient>> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   let credential: TokenCredential;
   const endpoint = parseConnectionString(env.COMMUNICATION_CONNECTION_STRING_ROOMS ?? "").endpoint;

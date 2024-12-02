@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates the use of a MapsRoute to retrieve a route range.
@@ -12,7 +12,7 @@ import MapsRoute, { isUnexpected } from "@azure-rest/maps-route";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-async function main():Promise<void> {
+async function main(): Promise<void> {
   /**
    * Azure Maps supports two ways to authenticate requests:
    * - Shared Key authentication (subscription-key)

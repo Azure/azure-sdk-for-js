@@ -4,14 +4,14 @@
 
 ```ts
 
-import { ClientOptions } from '@azure-rest/core-client';
-import { HttpHeaders } from '@azure/core-rest-pipeline';
-import { OperationOptions } from '@azure-rest/core-client';
-import { OperationState } from '@azure/core-lro';
-import { PagedAsyncIterableIterator } from '@azure/core-paging';
-import { PipelineRequest } from '@azure/core-rest-pipeline';
-import { PipelineResponse } from '@azure/core-rest-pipeline';
-import { SimplePollerLike } from '@azure/core-lro';
+import type { ClientOptions } from '@azure-rest/core-client';
+import type { HttpHeaders } from '@azure/core-rest-pipeline';
+import type { OperationOptions } from '@azure-rest/core-client';
+import type { OperationState } from '@azure/core-lro';
+import type { PagedAsyncIterableIterator } from '@azure/core-paging';
+import type { PipelineRequest } from '@azure/core-rest-pipeline';
+import type { PipelineResponse } from '@azure/core-rest-pipeline';
+import type { PollerLike } from '@azure/core-lro';
 
 // @public
 export function beginSubmitNotificationHubJob(context: NotificationHubsClientContext, notificationHubJob: NotificationHubJob, polledOperationOptions?: PolledOperationOptions): Promise<NotificationHubJobPoller>;
@@ -78,10 +78,16 @@ export interface NotificationHubsClientContext {
 }
 
 // @public
-export function scheduleNotification(context: NotificationHubsClientContext, scheduledTime: Date, notification: Notification, options?: ScheduleNotificationOptions): Promise<NotificationHubsMessageResponse>;
+export function scheduleBroadcastNotification(context: NotificationHubsClientContext, scheduledTime: Date, notification: Notification, options?: OperationOptions): Promise<NotificationHubsMessageResponse>;
 
 // @public
-export function sendNotification(context: NotificationHubsClientContext, notification: Notification, options?: DirectSendNotificationOptions | SendNotificationOptions): Promise<NotificationHubsMessageResponse>;
+export function scheduleNotification(context: NotificationHubsClientContext, scheduledTime: Date, notification: Notification, options: ScheduleNotificationOptions): Promise<NotificationHubsMessageResponse>;
+
+// @public
+export function sendBroadcastNotification(context: NotificationHubsClientContext, notification: Notification, options?: BroadcastSendNotificationOptions): Promise<NotificationHubsMessageResponse>;
+
+// @public
+export function sendNotification(context: NotificationHubsClientContext, notification: Notification, options: DirectSendNotificationOptions | SendNotificationOptions): Promise<NotificationHubsMessageResponse>;
 
 // @public
 export function submitNotificationHubJob(context: NotificationHubsClientContext, job: NotificationHubJob, options?: OperationOptions): Promise<NotificationHubJob>;

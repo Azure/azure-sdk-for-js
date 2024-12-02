@@ -1,22 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Context } from "mocha";
-import {
-  Recorder,
-  RecorderStartOptions,
-  isPlaybackMode,
-  assertEnvironmentVariable,
-} from "@azure-tools/test-recorder";
-import { StaticAccessTokenCredential } from "./StaticAccessTokenCredential";
-import createTextTranslationClient, {
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
+import { Recorder, isPlaybackMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { StaticAccessTokenCredential } from "./StaticAccessTokenCredential.js";
+import type {
   TranslatorCredential,
   TranslatorTokenCredential,
   TextTranslationClient,
-} from "../../../src";
-import { ClientOptions } from "@azure-rest/core-client";
+} from "../../../src/index.js";
+import createTextTranslationClient from "../../../src/index.js";
+import type { ClientOptions } from "@azure-rest/core-client";
 import { createDefaultHttpClient, createPipelineRequest } from "@azure/core-rest-pipeline";
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { ClientSecretCredential } from "@azure/identity";
 
 const envSetupForPlayback: Record<string, string> = {
@@ -32,8 +28,8 @@ const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback,
 };
 
-export async function startRecorder(context: Context): Promise<Recorder> {
-  const recorder = new Recorder(context.currentTest);
+export async function startRecorder(context: TestInfo): Promise<Recorder> {
+  const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   return recorder;
 }

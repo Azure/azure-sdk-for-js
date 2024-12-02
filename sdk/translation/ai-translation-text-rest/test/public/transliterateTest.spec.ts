@@ -1,23 +1,23 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { TextTranslationClient, isUnexpected } from "../../src";
-import { createTranslationClient, startRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
-import { editDistance } from "./utils/testHelper";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { TextTranslationClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createTranslationClient, startRecorder } from "./utils/recordedClient.js";
+import { editDistance } from "./utils/testHelper.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Transliterate tests", () => {
   let recorder: Recorder;
   let client: TextTranslationClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

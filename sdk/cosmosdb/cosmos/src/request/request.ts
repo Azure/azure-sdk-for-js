@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { setAuthorizationHeader } from "../auth";
 import { Constants, HTTPMethod, jsonStringifyAndEscapeNonASCII, ResourceType } from "../common";
-import { CosmosClientOptions } from "../CosmosClientOptions";
-import { PartitionKeyInternal } from "../documents";
-import { CosmosHeaders } from "../queryExecutionContext";
-import { FeedOptions, RequestOptions } from "./index";
+import type { CosmosClientOptions } from "../CosmosClientOptions";
+import type { PartitionKeyInternal } from "../documents";
+import type { CosmosHeaders } from "../queryExecutionContext";
+import type { FeedOptions, RequestOptions } from "./index";
 import { defaultLogger } from "../common/logger";
 import { ChangeFeedMode } from "../client/ChangeFeed";
 // ----------------------------------------------------------------------------
@@ -176,7 +176,11 @@ export async function getHeaders({
     headers[Constants.HttpHeaders.PopulateQueryMetrics] = options.populateQueryMetrics;
   }
 
-  if (options.maxDegreeOfParallelism !== undefined) {
+  if (
+    options.maxDegreeOfParallelism !== undefined &&
+    options.maxDegreeOfParallelism !== 0 &&
+    options.maxDegreeOfParallelism !== 1
+  ) {
     headers[Constants.HttpHeaders.ParallelizeCrossPartitionQuery] = true;
   }
 

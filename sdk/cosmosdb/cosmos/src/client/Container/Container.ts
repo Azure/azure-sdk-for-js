@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ClientContext } from "../../ClientContext";
+// Licensed under the MIT License.
+import type { ClientContext } from "../../ClientContext";
 import {
   createDocumentCollectionUri,
   getIdFromLink,
@@ -9,23 +9,26 @@ import {
   isResourceValid,
   ResourceType,
 } from "../../common";
-import { PartitionKey, PartitionKeyDefinition } from "../../documents";
-import { SqlQuerySpec } from "../../queryExecutionContext";
-import { QueryIterator } from "../../queryIterator";
-import { FeedOptions, RequestOptions, ResourceResponse, Response } from "../../request";
-import { PartitionedQueryExecutionInfo } from "../../request/ErrorResponse";
+import type { PartitionKey, PartitionKeyDefinition } from "../../documents";
+import type { SqlQuerySpec } from "../../queryExecutionContext";
+import type { QueryIterator } from "../../queryIterator";
+import type { FeedOptions, RequestOptions, Response } from "../../request";
+import { ResourceResponse } from "../../request";
+import type { PartitionedQueryExecutionInfo } from "../../request/ErrorResponse";
 import { Conflict, Conflicts } from "../Conflict";
-import { Database } from "../Database";
+import type { Database } from "../Database";
 import { Item, Items } from "../Item";
 import { Scripts } from "../Script/Scripts";
-import { ContainerDefinition } from "./ContainerDefinition";
+import type { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerResponse } from "./ContainerResponse";
-import { PartitionKeyRange } from "./PartitionKeyRange";
-import { Offer, OfferDefinition } from "../Offer";
+import type { PartitionKeyRange } from "./PartitionKeyRange";
+import type { OfferDefinition } from "../Offer";
+import { Offer } from "../Offer";
 import { OfferResponse } from "../Offer/OfferResponse";
-import { Resource } from "../Resource";
-import { FeedRange, FeedRangeInternal } from "../ChangeFeed";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { Resource } from "../Resource";
+import type { FeedRange } from "../ChangeFeed";
+import { FeedRangeInternal } from "../ChangeFeed";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import {
   getEmptyCosmosDiagnostics,
   withDiagnostics,

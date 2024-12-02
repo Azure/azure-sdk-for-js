@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * This sample demonstrates how to create an Account SAS token. An account SAS token
  * provides access to the whole Tables Service account, given the permissions selected,
@@ -9,25 +9,21 @@
  * @azsdk-weight 40
  */
 
+import type { AccountSasPermissions, TableSasPermissions } from "@azure/data-tables";
 import {
   generateAccountSas,
   generateTableSas,
   TableClient,
   TableServiceClient,
-  AccountSasPermissions,
-  TableSasPermissions,
 } from "@azure/data-tables";
 import { AzureNamedKeyCredential, AzureSASCredential } from "@azure/core-auth";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const tablesUrl = process.env["TABLES_URL"] || "";
 const accountKey = process.env["ACCOUNT_KEY"] || "";
 const accountName = process.env["ACCOUNT_NAME"] || "";
 
-async function generateTableSasSample() {
+async function generateTableSasSample(): Promise<void> {
   console.log("== Generate Table Account SAS Sample ==");
 
   // We need a NamedKeyCredential to generate the SAS token
@@ -111,7 +107,7 @@ async function generateTableSasSample() {
   await tableService.deleteTable(tableName);
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await generateTableSasSample();
 }
 

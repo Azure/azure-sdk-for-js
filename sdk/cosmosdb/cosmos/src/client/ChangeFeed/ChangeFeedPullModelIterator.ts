@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { Resource } from "../Resource";
-import { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
+// Licensed under the MIT License.
+import type { Resource } from "../Resource";
+import type { ChangeFeedIteratorResponse } from "./ChangeFeedIteratorResponse";
 /**
  * Use `Items.getChangeFeedIterator()` to return an iterator that can iterate over all the changes for a partition key, feed range or an entire container.
  */

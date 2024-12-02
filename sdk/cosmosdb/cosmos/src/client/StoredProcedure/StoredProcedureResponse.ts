@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { CosmosDiagnostics } from "../../CosmosDiagnostics";
-import { CosmosHeaders } from "../../queryExecutionContext";
+// Licensed under the MIT License.
+import type { CosmosDiagnostics } from "../../CosmosDiagnostics";
+import type { CosmosHeaders } from "../../queryExecutionContext";
 import { ResourceResponse } from "../../request";
-import { Resource } from "../Resource";
-import { StoredProcedure } from "./StoredProcedure";
-import { StoredProcedureDefinition } from "./StoredProcedureDefinition";
+import type { Resource } from "../Resource";
+import type { StoredProcedure } from "./StoredProcedure";
+import type { StoredProcedureDefinition } from "./StoredProcedureDefinition";
 
 export class StoredProcedureResponse extends ResourceResponse<
   StoredProcedureDefinition & Resource

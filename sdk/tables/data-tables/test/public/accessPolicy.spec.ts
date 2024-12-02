@@ -1,47 +1,41 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
-
-import { Context } from "mocha";
-import { TableClient } from "../../src";
-import { assert } from "chai";
-import { createTableClient } from "./utils/recordedClient";
+import type { TableClient } from "../../src/index.js";
+import { createTableClient } from "./utils/recordedClient.js";
 import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert, beforeEach, afterEach, beforeAll, afterAll } from "vitest";
 
-describe(`Access Policy operations`, function () {
+describe(`Access Policy operations`, { skip: !isNodeLike }, () => {
   let client: TableClient;
   let unrecordedClient: TableClient;
   let recorder: Recorder;
   const tableName = `AccessPolicy`;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     client = await createTableClient(tableName, "AccountKey", recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  before(async function (this: Context) {
-    if (!isNodeLike) {
-      this.skip();
-    }
-
+  beforeAll(async () => {
     if (!isPlaybackMode()) {
       unrecordedClient = await createTableClient(tableName, "SASConnectionString");
       await unrecordedClient.createTable();
     }
   });
 
-  after(async function () {
+  afterAll(async () => {
     if (!isPlaybackMode() && isNodeLike) {
       await unrecordedClient.deleteTable();
     }
   });
 
-  it("should send a null AP", async function () {
+  it("should send a null AP", async () => {
     const date = new Date("2021-07-08T09:10:09Z");
     await client.setAccessPolicy([
       { id: "null" },

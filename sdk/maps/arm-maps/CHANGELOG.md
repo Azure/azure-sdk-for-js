@@ -12,7 +12,7 @@
 
 ## 3.1.0 (2023-08-08)
 
-**Features**
+### Features Added
 
 - Added operation Accounts.listSas
 - Added Interface AccountSasParameters

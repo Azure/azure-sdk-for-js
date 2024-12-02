@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license
+// Licensed under the MIT License
 
 import concurrently from "concurrently";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
@@ -31,6 +31,12 @@ export const commandInfo = makeCommandInfo(
         "Start the relay server for browser credentials. Only takes effect if using browser to test.",
       kind: "boolean",
       default: true,
+    },
+    "test-proxy-debug": {
+      description:
+        "Runs the test-proxy with debug logs enabled (Logging__LogLevel__Default=Debug); generates testProxyOutput.log",
+      kind: "boolean",
+      default: false,
     },
   },
 );
@@ -79,6 +85,7 @@ export default leafCommand(commandInfo, async (options) => {
 
   try {
     if (options["test-proxy"]) {
+      if (options["test-proxy-debug"]) process.env["Logging__LogLevel__Default"] = "Debug";
       return await runTestsWithProxyTool(command);
     }
 

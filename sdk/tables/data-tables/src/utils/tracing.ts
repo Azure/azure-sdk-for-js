@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createTracingClient } from "@azure/core-tracing";
 
@@ -10,5 +10,5 @@ import { createTracingClient } from "@azure/core-tracing";
 export const tracingClient = createTracingClient({
   namespace: "Microsoft.Data.Tables",
   packageName: "@azure/data-tables",
-  packageVersion: "13.2.3",
+  packageVersion: "13.3.1",
 });

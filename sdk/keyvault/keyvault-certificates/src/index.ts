@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 // This file makes more sense if ordered based on how meaningful are some methods in relation to others.
 
 /// <reference lib="esnext.asynciterable" />
 
-import { InternalClientPipelineOptions } from "@azure/core-client";
-import { bearerTokenAuthenticationPolicy } from "@azure/core-rest-pipeline";
+import type { InternalClientPipelineOptions } from "@azure/core-client";
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 
-import { logger } from "./log";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { logger } from "./log.js";
+import type { PollOperationState } from "@azure/core-lro";
+import { PollerLike } from "@azure/core-lro";
 
 import {
   KeyVaultCertificate,
@@ -77,15 +77,17 @@ import {
   KnownCertificateKeyTypes,
   KnownKeyUsageTypes,
   PollerLikeWithCancellation,
-} from "./certificatesModels";
+} from "./certificatesModels.js";
 
-import {
+import type {
   GetCertificatesOptionalParams,
   GetCertificateIssuersOptionalParams,
   GetCertificateVersionsOptionalParams,
   SetCertificateIssuerOptionalParams,
-  BackupCertificateResult,
   GetDeletedCertificatesOptionalParams,
+} from "./generated/models/index.js";
+import {
+  BackupCertificateResult,
   IssuerParameters,
   IssuerCredentials,
   IssuerAttributes,
@@ -97,20 +99,20 @@ import {
   JsonWebKeyCurveName as CertificateKeyCurveName,
   KnownDeletionRecoveryLevel as KnownDeletionRecoveryLevels,
   KeyUsageType,
-} from "./generated/models";
-import { KeyVaultClient } from "./generated/keyVaultClient";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { createKeyVaultChallengeCallbacks } from "@azure/keyvault-common";
-import { CreateCertificatePoller } from "./lro/create/poller";
-import { CertificateOperationPoller } from "./lro/operation/poller";
-import { DeleteCertificatePoller } from "./lro/delete/poller";
-import { RecoverDeletedCertificatePoller } from "./lro/recover/poller";
-import { CertificateOperationState } from "./lro/operation/operation";
-import { DeleteCertificateState } from "./lro/delete/operation";
-import { CreateCertificateState } from "./lro/create/operation";
-import { RecoverDeletedCertificateState } from "./lro/recover/operation";
-import { parseCertificateBytes } from "./utils";
-import { KeyVaultCertificateIdentifier, parseKeyVaultCertificateIdentifier } from "./identifier";
+} from "./generated/models/index.js";
+import { KeyVaultClient } from "./generated/keyVaultClient.js";
+import type { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { keyVaultAuthenticationPolicy } from "@azure/keyvault-common";
+import { CreateCertificatePoller } from "./lro/create/poller.js";
+import { CertificateOperationPoller } from "./lro/operation/poller.js";
+import { DeleteCertificatePoller } from "./lro/delete/poller.js";
+import { RecoverDeletedCertificatePoller } from "./lro/recover/poller.js";
+import { CertificateOperationState } from "./lro/operation/operation.js";
+import { DeleteCertificateState } from "./lro/delete/operation.js";
+import { CreateCertificateState } from "./lro/create/operation.js";
+import { RecoverDeletedCertificateState } from "./lro/recover/operation.js";
+import { parseCertificateBytes } from "./utils.js";
+import { KeyVaultCertificateIdentifier, parseKeyVaultCertificateIdentifier } from "./identifier.js";
 import {
   coreContactsToCertificateContacts,
   getCertificateFromCertificateBundle,
@@ -123,9 +125,9 @@ import {
   toCorePolicy,
   toPublicIssuer,
   toPublicPolicy,
-} from "./transformations";
-import { KeyVaultCertificatePollOperationState } from "./lro/keyVaultCertificatePoller";
-import { tracingClient } from "./tracing";
+} from "./transformations.js";
+import { KeyVaultCertificatePollOperationState } from "./lro/keyVaultCertificatePoller.js";
+import { tracingClient } from "./tracing.js";
 
 export {
   CertificateClientOptions,
@@ -247,12 +249,6 @@ export class CertificateClient {
   ) {
     this.vaultUrl = vaultUrl;
 
-    const authPolicy = bearerTokenAuthenticationPolicy({
-      credential,
-      scopes: [],
-      challengeCallbacks: createKeyVaultChallengeCallbacks(clientOptions),
-    });
-
     const internalClientPipelineOptions: InternalClientPipelineOptions = {
       ...clientOptions,
       loggingOptions: {
@@ -269,7 +265,12 @@ export class CertificateClient {
       clientOptions.serviceVersion || LATEST_API_VERSION,
       internalClientPipelineOptions,
     );
-    this.client.pipeline.addPolicy(authPolicy);
+
+    // The authentication policy must come after the deserialization policy since the deserialization policy
+    // converts 401 responses to an Error, and we don't want to deal with that.
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, clientOptions), {
+      afterPolicies: ["deserializationPolicy"],
+    });
   }
 
   private async *listPropertiesOfCertificatesPage(

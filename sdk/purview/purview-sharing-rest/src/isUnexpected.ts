@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   ReceivedSharesGetReceivedShare200Response,
   ReceivedSharesGetReceivedShareDefaultResponse,
   ReceivedSharesCreateOrReplace200Response,
@@ -38,7 +38,7 @@ import {
   SentSharesNotifyUserSentShareInvitationDefaultResponse,
   ShareResourcesGetAllShareResources200Response,
   ShareResourcesGetAllShareResourcesDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /receivedShares/{receivedShareId}": ["200"],

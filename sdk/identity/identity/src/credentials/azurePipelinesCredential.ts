@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
-import { AuthenticationError, CredentialUnavailableError } from "../errors";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import { AuthenticationError, CredentialUnavailableError } from "../errors.js";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 
-import { AzurePipelinesCredentialOptions } from "./azurePipelinesCredentialOptions";
-import { ClientAssertionCredential } from "./clientAssertionCredential";
-import { IdentityClient } from "../client/identityClient";
-import { PipelineResponse } from "@azure/core-rest-pipeline";
-import { checkTenantId } from "../util/tenantIdUtils";
-import { credentialLogger } from "../util/logging";
+import type { AzurePipelinesCredentialOptions } from "./azurePipelinesCredentialOptions.js";
+import { ClientAssertionCredential } from "./clientAssertionCredential.js";
+import { IdentityClient } from "../client/identityClient.js";
+import type { PipelineResponse } from "@azure/core-rest-pipeline";
+import { checkTenantId } from "../util/tenantIdUtils.js";
+import { credentialLogger } from "../util/logging.js";
 
 const credentialName = "AzurePipelinesCredential";
 const logger = credentialLogger(credentialName);
@@ -37,7 +37,7 @@ export class AzurePipelinesCredential implements TokenCredential {
     clientId: string,
     serviceConnectionId: string,
     systemAccessToken: string,
-    options?: AzurePipelinesCredentialOptions,
+    options: AzurePipelinesCredentialOptions = {},
   ) {
     if (!clientId) {
       throw new CredentialUnavailableError(
@@ -59,6 +59,16 @@ export class AzurePipelinesCredential implements TokenCredential {
         `${credentialName}: is unavailable. systemAccessToken is a required parameter.`,
       );
     }
+
+    // Allow these headers to be logged for troubleshooting by AzurePipelines.
+    options.loggingOptions = {
+      ...options?.loggingOptions,
+      additionalAllowedHeaderNames: [
+        ...(options.loggingOptions?.additionalAllowedHeaderNames ?? []),
+        "x-vss-e2eid",
+        "x-msedge-ref",
+      ],
+    };
 
     this.identityClient = new IdentityClient(options);
     checkTenantId(logger, tenantId);
@@ -128,6 +138,8 @@ export class AzurePipelinesCredential implements TokenCredential {
       headers: createHttpHeaders({
         "Content-Type": "application/json",
         Authorization: `Bearer ${systemAccessToken}`,
+        // Prevents the service from responding with a redirect HTTP status code (useful for automation).
+        "X-TFS-FedAuthRedirect": "Suppress",
       }),
     });
     const response = await this.identityClient.sendRequest(request);
@@ -136,6 +148,7 @@ export class AzurePipelinesCredential implements TokenCredential {
 }
 
 export function handleOidcResponse(response: PipelineResponse): string {
+  // OIDC token is present in `bodyAsText` field
   const text = response.bodyAsText;
   if (!text) {
     logger.error(
@@ -158,9 +171,7 @@ export function handleOidcResponse(response: PipelineResponse): string {
       const errorMessage = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
       let errorDescription = ``;
       if (response.status !== 200) {
-        errorDescription = `Complete response - ${JSON.stringify(
-          result,
-        )}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`;
+        errorDescription = `Response body = ${text}. Response Headers ["x-vss-e2eid"] = ${response.headers.get("x-vss-e2eid")} and ["x-msedge-ref"] = ${response.headers.get("x-msedge-ref")}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`;
       }
       logger.error(errorMessage);
       logger.error(errorDescription);
@@ -171,11 +182,14 @@ export function handleOidcResponse(response: PipelineResponse): string {
     }
   } catch (e: any) {
     const errorDetails = `${credentialName}: Authentication Failed. oidcToken field not detected in the response.`;
-    logger.error(`Response from service = ${text} and error message = ${e.message}`);
+    logger.error(
+      `Response from service = ${text}, Response Headers ["x-vss-e2eid"] = ${response.headers.get("x-vss-e2eid")} 
+      and ["x-msedge-ref"] = ${response.headers.get("x-msedge-ref")}, error message = ${e.message}`,
+    );
     logger.error(errorDetails);
     throw new AuthenticationError(response.status, {
       error: errorDetails,
-      error_description: `Response = ${text}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
+      error_description: `Response = ${text}. Response headers ["x-vss-e2eid"] = ${response.headers.get("x-vss-e2eid")} and ["x-msedge-ref"] =  ${response.headers.get("x-msedge-ref")}. See the troubleshooting guide for more information: https://aka.ms/azsdk/js/identity/azurepipelinescredential/troubleshoot`,
     });
   }
 }

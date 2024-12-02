@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { HeaderConstants, TRANSACTION_HTTP_LINE_ENDING } from "./constants";
+import { HeaderConstants, TRANSACTION_HTTP_LINE_ENDING } from "./constants.js";
 
 /**
  * Builds a transaction change set boundary to be added to the transaction request body

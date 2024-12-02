@@ -19,6 +19,7 @@ import {
   RunCommandRequest as RunCommandRequestMapper,
   MaintenanceConfiguration as MaintenanceConfigurationMapper,
   AgentPool as AgentPoolMapper,
+  AgentPoolDeleteMachinesParameter as AgentPoolDeleteMachinesParameterMapper,
   PrivateEndpointConnection as PrivateEndpointConnectionMapper,
   PrivateLinkResource as PrivateLinkResourceMapper,
   Snapshot as SnapshotMapper,
@@ -52,7 +53,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-05-01",
+    defaultValue: "2024-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -167,6 +168,26 @@ export const parameters: OperationParameter = {
   mapper: ManagedClusterMapper,
 };
 
+export const ifMatch: OperationParameter = {
+  parameterPath: ["options", "ifMatch"],
+  mapper: {
+    serializedName: "If-Match",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const ifNoneMatch: OperationParameter = {
+  parameterPath: ["options", "ifNoneMatch"],
+  mapper: {
+    serializedName: "If-None-Match",
+    type: {
+      name: "String",
+    },
+  },
+};
+
 export const parameters1: OperationParameter = {
   parameterPath: "parameters",
   mapper: TagsObjectMapper,
@@ -265,6 +286,21 @@ export const parameters5: OperationParameter = {
   mapper: AgentPoolMapper,
 };
 
+export const ignorePodDisruptionBudget: OperationQueryParameter = {
+  parameterPath: ["options", "ignorePodDisruptionBudget"],
+  mapper: {
+    serializedName: "ignore-pod-disruption-budget",
+    type: {
+      name: "Boolean",
+    },
+  },
+};
+
+export const machines: OperationParameter = {
+  parameterPath: "machines",
+  mapper: AgentPoolDeleteMachinesParameterMapper,
+};
+
 export const privateEndpointConnectionName: OperationURLParameter = {
   parameterPath: "privateEndpointConnectionName",
   mapper: {
@@ -310,4 +346,18 @@ export const trustedAccessRoleBindingName: OperationURLParameter = {
 export const trustedAccessRoleBinding: OperationParameter = {
   parameterPath: "trustedAccessRoleBinding",
   mapper: TrustedAccessRoleBindingMapper,
+};
+
+export const machineName: OperationURLParameter = {
+  parameterPath: "machineName",
+  mapper: {
+    constraints: {
+      Pattern: new RegExp("^[a-zA-Z0-9][-_a-zA-Z0-9]{0,39}$"),
+    },
+    serializedName: "machineName",
+    required: true,
+    type: {
+      name: "String",
+    },
+  },
 };

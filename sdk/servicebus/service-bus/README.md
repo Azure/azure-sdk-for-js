@@ -179,7 +179,7 @@ const serviceBusClient = new ServiceBusClient(fullyQualifiedNamespace, credentia
 > against AAD, then set the "scopes" for service-bus to the following to get
 > the appropriate token:
 
-> ```typescript
+> ```
 > ["https://servicebus.azure.net//user_impersonation"];
 > ```
 
@@ -321,7 +321,7 @@ receiver.subscribe({
 Use the [getMessageIterator][receiver_getmessageiterator] to get an async iterator over messages
 
 ```javascript
-for await (let message of receiver.getMessageIterator()) {
+for await (const message of receiver.getMessageIterator()) {
   // your code here
 }
 ```

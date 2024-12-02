@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationOptions } from "@azure/core-client";
-import { TokenCredential } from "@azure/core-auth";
-import {
+import type { OperationOptions } from "@azure/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import type {
   CryptographyClientOptions,
   GetKeyOptions,
   JsonWebKey,
   KeyOperation,
   KeyVaultKey,
-  KnownKeyOperations,
-} from "./keysModels";
-import {
+} from "./keysModels.js";
+import { KnownKeyOperations } from "./keysModels.js";
+import type {
   AesCbcEncryptParameters,
   AesCbcEncryptionAlgorithm,
   CryptographyClientKey,
@@ -32,15 +32,15 @@ import {
   VerifyResult,
   WrapKeyOptions,
   WrapResult,
-} from "./cryptographyClientModels";
-import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider";
-import { randomBytes } from "./cryptography/crypto";
-import { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models";
-import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider";
-import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider";
-import { tracingClient } from "./tracing";
+} from "./cryptographyClientModels.js";
+import { RemoteCryptographyProvider } from "./cryptography/remoteCryptographyProvider.js";
+import { randomBytes } from "./cryptography/crypto.js";
+import type { CryptographyProvider, CryptographyProviderOperation } from "./cryptography/models.js";
+import { RsaCryptographyProvider } from "./cryptography/rsaCryptographyProvider.js";
+import { AesCryptographyProvider } from "./cryptography/aesCryptographyProvider.js";
+import { tracingClient } from "./tracing.js";
 import { isRestError } from "@azure/core-rest-pipeline";
-import { logger } from "./log";
+import { logger } from "./log.js";
 
 /**
  * A client used to perform cryptographic operations on an Azure Key vault key
@@ -484,6 +484,7 @@ export class CryptographyClient {
   public signData(
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: SignOptions = {},
   ): Promise<SignResult> {
     return tracingClient.withSpan(
@@ -521,6 +522,7 @@ export class CryptographyClient {
     algorithm: SignatureAlgorithm,
     data: Uint8Array,
     signature: Uint8Array,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: VerifyOptions = {},
   ): Promise<VerifyResult> {
     return tracingClient.withSpan(

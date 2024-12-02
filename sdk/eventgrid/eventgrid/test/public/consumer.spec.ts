@@ -1,18 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { assert, use as chaiUse } from "chai";
-import chaiPromises from "chai-as-promised";
+import { EventGridDeserializer } from "../../src/index.js";
+import * as testData from "./utils/testData.js";
+import { describe, it, assert, expect } from "vitest";
 
-import { EventGridDeserializer } from "../../src";
-import * as testData from "./utils/testData";
-
-chaiUse(chaiPromises);
-
-describe("EventGridDeserializer", function () {
+describe("EventGridDeserializer", () => {
   const consumer = new EventGridDeserializer();
 
-  describe("#deserializeEventGridEvents", function () {
+  describe("#deserializeEventGridEvents", () => {
     it("deserializes a single event", async () => {
       const events = await consumer.deserializeEventGridEvents(
         testData.customTestEvent1.eventGridSchema.encodedEvent,
@@ -56,8 +52,7 @@ describe("EventGridDeserializer", function () {
       ]) {
         delete o[property];
 
-        assert.isRejected(
-          consumer.deserializeEventGridEvents(JSON.stringify(o)),
+        expect(() => consumer.deserializeEventGridEvents(JSON.stringify(o))).rejects.toThrow(
           /missing required property/,
         );
       }
@@ -67,14 +62,13 @@ describe("EventGridDeserializer", function () {
       const o = { ...testData.customTestEvent1.eventGridSchema.expected };
       o.metadataVersion = "2";
 
-      assert.isRejected(
-        consumer.deserializeEventGridEvents(JSON.stringify(o)),
+      expect(() => consumer.deserializeEventGridEvents(JSON.stringify(o))).rejects.toThrow(
         /event is not in the Event Grid schema/,
       );
     });
   });
 
-  describe("#deserializeCloudEvents", function () {
+  describe("#deserializeCloudEvents", () => {
     it("deserializes a single event", async () => {
       const events = await consumer.deserializeCloudEvents(
         testData.customTestEvent1.cloudEventSchema.encodedEvent,
@@ -111,8 +105,7 @@ describe("EventGridDeserializer", function () {
       for (const property of ["type", "source", "id", "specversion"]) {
         delete o[property];
 
-        assert.isRejected(
-          consumer.deserializeCloudEvents(JSON.stringify(o)),
+        expect(() => consumer.deserializeEventGridEvents(JSON.stringify(o))).rejects.toThrow(
           /missing required property/,
         );
       }
@@ -122,8 +115,7 @@ describe("EventGridDeserializer", function () {
       const o = { ...testData.customTestEvent1.cloudEventSchema.expected };
       o.specversion = "2.0";
 
-      assert.isRejected(
-        consumer.deserializeCloudEvents(JSON.stringify(o)),
+      expect(() => consumer.deserializeCloudEvents(JSON.stringify(o))).rejects.toThrow(
         /event is not in the Cloud Event 1.0 schema/,
       );
     });

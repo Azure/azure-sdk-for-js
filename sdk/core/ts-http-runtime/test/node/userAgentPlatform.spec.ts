@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, vi, afterEach } from "vitest";
 import { setPlatformSpecificData } from "../../src/util/userAgentPlatform.js";
@@ -19,7 +19,7 @@ describe("userAgentPlatform", () => {
   });
 
   it("should handle an empty process.versions", async () => {
-    vi.mocked(process).versions = undefined;
+    (vi.mocked(process) as any).versions = undefined;
     const map = new Map<string, string>();
 
     await setPlatformSpecificData(map);
@@ -31,7 +31,7 @@ describe("userAgentPlatform", () => {
   });
 
   it("should handle a Node.js process.versions with Bun", async () => {
-    vi.mocked(process).versions = { bun: "1.0.0" };
+    (vi.mocked(process) as any).versions = { bun: "1.0.0" };
     const map = new Map<string, string>();
 
     await setPlatformSpecificData(map);
@@ -44,7 +44,7 @@ describe("userAgentPlatform", () => {
   });
 
   it("should handle a Node.js process.versions with Deno", async () => {
-    vi.mocked(process).versions = { deno: "2.0.0" };
+    (vi.mocked(process) as any).versions = { deno: "2.0.0" };
     const map = new Map<string, string>();
 
     await setPlatformSpecificData(map);
@@ -57,7 +57,7 @@ describe("userAgentPlatform", () => {
   });
 
   it("should handle a Node.js process.versions", async () => {
-    vi.mocked(process).versions = { node: "20.0.0" };
+    (vi.mocked(process) as any).versions = { node: "20.0.0" };
     const map = new Map<string, string>();
 
     await setPlatformSpecificData(map);

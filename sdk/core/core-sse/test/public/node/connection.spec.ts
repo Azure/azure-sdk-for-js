@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createSseStream } from "../../../src/index.js";
 import { Client, getClient } from "@azure-rest/core-client";
 import { assert, beforeAll, beforeEach, afterEach, describe, it } from "vitest";
-import { port } from "../../server/config.mts";
+import { port } from "../../server/config.mjs";
 import { IncomingMessage } from "http";
-import { matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils-vitest";
 
 const contentType = "text/event-stream";
 function getEndpoint(): string {

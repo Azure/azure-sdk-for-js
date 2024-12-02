@@ -1,18 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
+/* eslint-disable @azure/azure-sdk/ts-naming-options */
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,
   parseClientArguments,
 } from "@azure/communication-common";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { PollOperationState, PollerLike } from "@azure/core-lro";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src";
-import {
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import type { PollOperationState, PollerLike } from "@azure/core-lro";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PhoneNumbersClient as PhoneNumbersGeneratedClient } from "./generated/src/index.js";
+import type {
   OperatorInformationResult,
   PhoneNumberAreaCode,
   PhoneNumberCapabilitiesRequest,
@@ -21,8 +23,8 @@ import {
   PhoneNumberOffering,
   PhoneNumberSearchResult,
   PurchasedPhoneNumber,
-} from "./generated/src/models/";
-import {
+} from "./generated/src/models/index.js";
+import type {
   GetPurchasedPhoneNumberOptions,
   ListAvailableCountriesOptions,
   ListGeographicAreaCodesOptions,
@@ -34,17 +36,17 @@ import {
   ReleasePhoneNumberResult,
   SearchAvailablePhoneNumbersRequest,
   SearchOperatorInformationOptions,
-} from "./models";
-import {
+} from "./models.js";
+import type {
   BeginPurchasePhoneNumbersOptions,
   BeginReleasePhoneNumberOptions,
   BeginSearchAvailablePhoneNumbersOptions,
   BeginUpdatePhoneNumberCapabilitiesOptions,
-} from "./lroModels";
-import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies";
-import { CommonClientOptions } from "@azure/core-client";
-import { logger } from "./utils";
-import { tracingClient } from "./generated/src/tracing";
+} from "./lroModels.js";
+import { createPhoneNumbersPagingPolicy } from "./utils/customPipelinePolicies.js";
+import type { CommonClientOptions } from "@azure/core-client";
+import { logger } from "./utils/index.js";
+import { tracingClient } from "./generated/src/tracing.js";
 
 /**
  * Client options used to configure the PhoneNumbersClient API requests.

@@ -13,11 +13,7 @@ import * as coreClient from "@azure/core-client";
 import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { AzureQuotaExtensionAPI } from "../azureQuotaExtensionAPI";
-import {
-  SimplePollerLike,
-  OperationState,
-  createHttpPoller,
-} from "@azure/core-lro";
+import { SimplePollerLike, OperationState, createHttpPoller } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
   CurrentQuotaLimitBase,
@@ -128,10 +124,7 @@ export class QuotaImpl implements Quota {
     scope: string,
     options?: QuotaGetOptionalParams,
   ): Promise<QuotaGetResponse> {
-    return this.client.sendOperationRequest(
-      { resourceName, scope, options },
-      getOperationSpec,
-    );
+    return this.client.sendOperationRequest({ resourceName, scope, options }, getOperationSpec);
   }
 
   /**
@@ -160,10 +153,7 @@ export class QuotaImpl implements Quota {
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaCreateOrUpdateOptionalParams,
   ): Promise<
-    SimplePollerLike<
-      OperationState<QuotaCreateOrUpdateResponse>,
-      QuotaCreateOrUpdateResponse
-    >
+    SimplePollerLike<OperationState<QuotaCreateOrUpdateResponse>, QuotaCreateOrUpdateResponse>
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
@@ -175,8 +165,7 @@ export class QuotaImpl implements Quota {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -246,12 +235,7 @@ export class QuotaImpl implements Quota {
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaCreateOrUpdateOptionalParams,
   ): Promise<QuotaCreateOrUpdateResponse> {
-    const poller = await this.beginCreateOrUpdate(
-      resourceName,
-      scope,
-      createQuotaRequest,
-      options,
-    );
+    const poller = await this.beginCreateOrUpdate(resourceName, scope, createQuotaRequest, options);
     return poller.pollUntilDone();
   }
 
@@ -279,9 +263,7 @@ export class QuotaImpl implements Quota {
     scope: string,
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaUpdateOptionalParams,
-  ): Promise<
-    SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>
-  > {
+  ): Promise<SimplePollerLike<OperationState<QuotaUpdateResponse>, QuotaUpdateResponse>> {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
@@ -292,8 +274,7 @@ export class QuotaImpl implements Quota {
       args: coreClient.OperationArguments,
       spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse: coreClient.FullOperationResponse | undefined =
-        undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined = undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
@@ -325,14 +306,14 @@ export class QuotaImpl implements Quota {
       args: { resourceName, scope, createQuotaRequest, options },
       spec: updateOperationSpec,
     });
-    const poller = await createHttpPoller<
-      QuotaUpdateResponse,
-      OperationState<QuotaUpdateResponse>
-    >(lro, {
-      restoreFrom: options?.resumeFrom,
-      intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "original-uri",
-    });
+    const poller = await createHttpPoller<QuotaUpdateResponse, OperationState<QuotaUpdateResponse>>(
+      lro,
+      {
+        restoreFrom: options?.resumeFrom,
+        intervalInMs: options?.updateIntervalInMs,
+        resourceLocationConfig: "original-uri",
+      },
+    );
     await poller.poll();
     return poller;
   }
@@ -362,12 +343,7 @@ export class QuotaImpl implements Quota {
     createQuotaRequest: CurrentQuotaLimitBase,
     options?: QuotaUpdateOptionalParams,
   ): Promise<QuotaUpdateResponse> {
-    const poller = await this.beginUpdate(
-      resourceName,
-      scope,
-      createQuotaRequest,
-      options,
-    );
+    const poller = await this.beginUpdate(resourceName, scope, createQuotaRequest, options);
     return poller.pollUntilDone();
   }
 
@@ -381,14 +357,8 @@ export class QuotaImpl implements Quota {
    *              resource.
    * @param options The options parameters.
    */
-  private _list(
-    scope: string,
-    options?: QuotaListOptionalParams,
-  ): Promise<QuotaListResponse> {
-    return this.client.sendOperationRequest(
-      { scope, options },
-      listOperationSpec,
-    );
+  private _list(scope: string, options?: QuotaListOptionalParams): Promise<QuotaListResponse> {
+    return this.client.sendOperationRequest({ scope, options }, listOperationSpec);
   }
 
   /**
@@ -406,10 +376,7 @@ export class QuotaImpl implements Quota {
     nextLink: string,
     options?: QuotaListNextOptionalParams,
   ): Promise<QuotaListNextResponse> {
-    return this.client.sendOperationRequest(
-      { scope, nextLink, options },
-      listNextOperationSpec,
-    );
+    return this.client.sendOperationRequest({ scope, nextLink, options }, listNextOperationSpec);
   }
 }
 // Operation Specifications

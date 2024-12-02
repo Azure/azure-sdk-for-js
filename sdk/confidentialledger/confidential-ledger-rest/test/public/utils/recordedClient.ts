@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import ConfidentialLedger, { ConfidentialLedgerClient, getLedgerIdentity } from "../../../src";
+import type { ConfidentialLedgerClient } from "../../../src/index.js";
+import ConfidentialLedger, { getLedgerIdentity } from "../../../src/index.js";
 import {
   Recorder,
   env,
   assertEnvironmentVariable,
   isPlaybackMode,
 } from "@azure-tools/test-recorder";
+import type { TestInfo } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { Context } from "mocha";
-
 const replaceableVariables: { [k: string]: string } = {
   LEDGER_URI: "https://test-ledger.confidential-ledger.azure.com",
   AZURE_CLIENT_OID: "azure_client_oid",
@@ -47,9 +47,9 @@ export async function createClient(recorder: Recorder): Promise<ConfidentialLedg
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Context): Promise<Recorder> {
+export async function createRecorder(context: TestInfo): Promise<Recorder> {
   const ledgerIdentityCertificate = await getledgerIdentityCertificate();
-  const recorder = new Recorder(context.currentTest);
+  const recorder = new Recorder(context);
   const uriSanitizers = [];
   if (env.AZURE_CLIENT_OID) {
     uriSanitizers.push({

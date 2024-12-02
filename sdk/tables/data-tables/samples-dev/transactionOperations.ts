@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * This sample demonstrates how to send a transactional request
  * with multiple operations in a single request
@@ -8,15 +8,13 @@
  * @azsdk-weight 50
  */
 
-import { TableClient, TransactionAction } from "@azure/data-tables";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import type { TransactionAction } from "@azure/data-tables";
+import { TableClient } from "@azure/data-tables";
+import "dotenv/config";
 
 const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
 
-async function batchOperations() {
+async function batchOperations(): Promise<void> {
   console.log("== Batch Operations Sample ==");
   const tableName = `transactionsSample`;
 

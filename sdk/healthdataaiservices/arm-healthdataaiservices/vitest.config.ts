@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { defineConfig } from "vitest/config";
 import { relativeRecordingsPath } from "@azure-tools/test-recorder";
@@ -29,5 +29,6 @@ export default defineConfig({
       reportsDirectory: "coverage",
     },
     testTimeout: 1200000,
+    hookTimeout: 1200000,
   },
 });

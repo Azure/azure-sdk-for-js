@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Gets properties of the specified application.
  *
  * @summary Gets properties of the specified application.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/GetApplicationInProgress.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetApplicationInProgress.json
  */
 async function getApplicationOnHdInsightClusterCreationInProgress() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -30,7 +30,7 @@ async function getApplicationOnHdInsightClusterCreationInProgress() {
   const result = await client.applications.get(
     resourceGroupName,
     clusterName,
-    applicationName
+    applicationName,
   );
   console.log(result);
 }
@@ -39,7 +39,7 @@ async function getApplicationOnHdInsightClusterCreationInProgress() {
  * This sample demonstrates how to Gets properties of the specified application.
  *
  * @summary Gets properties of the specified application.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/GetApplicationCreated.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetApplicationCreated.json
  */
 async function getApplicationOnHdInsightClusterSuccessfullyCreated() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -51,7 +51,7 @@ async function getApplicationOnHdInsightClusterSuccessfullyCreated() {
   const result = await client.applications.get(
     resourceGroupName,
     clusterName,
-    applicationName
+    applicationName,
   );
   console.log(result);
 }

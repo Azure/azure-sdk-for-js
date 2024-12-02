@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "chai";
+// Licensed under the MIT License.
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
-import { tablesSecondaryEndpointPolicy } from "../../src/secondaryEndpointPolicy";
+import { tablesSecondaryEndpointPolicy } from "../../src/secondaryEndpointPolicy.js";
+import { describe, it, assert } from "vitest";
 
-describe("tablesSecondaryEndpointPolicy", function () {
-  it("should send the request to the secondary endpoint ", async function () {
+describe("tablesSecondaryEndpointPolicy", () => {
+  it("should send the request to the secondary endpoint ", async () => {
     const primaryURL = "https://testaccount.table.core.windows.net/";
     const expectedSecondary = "https://testaccount-secondary.table.core.windows.net/";
 
@@ -23,7 +22,7 @@ describe("tablesSecondaryEndpointPolicy", function () {
     );
   });
 
-  it("should send the request to the primary endpoint when the header is not set", async function () {
+  it("should send the request to the primary endpoint when the header is not set", async () => {
     const primaryURL = "https://testaccount.table.core.windows.net/";
 
     await tablesSecondaryEndpointPolicy.sendRequest(

@@ -1,9 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AzurePluginContext } from "../../identity/src/plugins/provider";
-import { IdentityPlugin } from "@azure/identity";
+import type { IdentityPlugin } from "@azure/identity";
 import { NativeBrokerPlugin } from "@azure/msal-node-extensions";
+
+/**
+ * A subset of the AzurePluginContext provided by \@azure/identity
+ *
+ * @internal
+ */
+interface AzurePluginContext {
+  nativeBrokerPluginControl: NativeBrokerPluginControl;
+}
+
+interface NativeBrokerPluginControl {
+  // eslint-disable-next-line @typescript-eslint/consistent-type-imports
+  setNativeBroker(nativeBroker: import("@azure/msal-node").INativeBrokerPlugin): void;
+}
 
 /**
  * A plugin that provides WAM Integration for `@azure/identity`
@@ -13,15 +26,19 @@ import { NativeBrokerPlugin } from "@azure/msal-node-extensions";
  *
  * Example:
  *
- * ```typescript
- * import { useIdentityPlugin, DeviceCodeCredential } from "@azure/identity";
+ * ```ts snippet:using_plugins
+ * import { useIdentityPlugin, InteractiveBrowserCredential } from "@azure/identity";
  * import { nativeBrokerPlugin } from "@azure/identity-broker";
  *
- * // Load the plugin
  * useIdentityPlugin(nativeBrokerPlugin);
+ * const credential = new InteractiveBrowserCredential({
+ *   brokerOptions: {
+ *     enabled: true,
+ *     parentWindowHandle: new Uint8Array(0), // This should be a handle to the parent window
+ *   },
+ * });
  * ```
  */
-
 export const nativeBrokerPlugin: IdentityPlugin = (context: unknown) => {
   const { nativeBrokerPluginControl } = context as AzurePluginContext;
   const brokerPlugin = new NativeBrokerPlugin();

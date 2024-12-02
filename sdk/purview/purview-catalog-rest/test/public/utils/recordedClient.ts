@@ -1,13 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /// <reference lib="esnext.asynciterable" />
 
-import PurviewCatalog, { PurviewCatalogClient } from "../../../src";
+import type { PurviewCatalogClient } from "../../../src/index.js";
+import PurviewCatalog from "../../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
 
-import { env, Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import type { Recorder, RecorderStartOptions } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
 const replaceableVariables: { [k: string]: string } = {
   ENDPOINT: "https://endpoint/",

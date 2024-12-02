@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { KeyCredential, SASCredential } from "@azure/core-auth";
-import {
+import type { KeyCredential, SASCredential } from "@azure/core-auth";
+import type {
   PipelineResponse,
   PipelineRequest,
   SendRequest,
   PipelinePolicy,
 } from "@azure/core-rest-pipeline";
 
-import { isKeyCredentialLike } from "./util";
+import { isKeyCredentialLike } from "./util.js";
 
 /**
  * The name of the header to include when a Shared Key is used for authentication.

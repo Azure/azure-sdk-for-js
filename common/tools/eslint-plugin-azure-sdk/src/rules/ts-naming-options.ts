@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @file Rule to require client method option parameter type names to be suffixed with Options and prefixed with the class name if it is a class constructor and prefixed with the method name otherwise.
@@ -20,7 +20,6 @@ export default createRule({
     docs: {
       description:
         "require client method option parameter type names to be suffixed with Options and prefixed with the method name",
-      recommended: "recommended",
     },
     messages: {
       UnprefixedParameter: "options parameter type is not prefixed with the {{prefixKind}} name",
@@ -46,25 +45,44 @@ export default createRule({
           for (const param of TSFunction.params) {
             // checks to validate parameter
             if (param.type === "Identifier" && param.typeAnnotation !== undefined) {
-              const typeAnnotation = param.typeAnnotation.typeAnnotation;
-              if (
-                typeAnnotation.type === "TSTypeReference" &&
-                typeAnnotation.typeName.type === "Identifier"
-              ) {
-                const paramTypeName = typeAnnotation.typeName.name;
-                if (paramTypeName.endsWith("Options")) {
-                  // check that parameter is prefixed with method name
-                  if (!optionsRegex.test(paramTypeName)) {
-                    const prefixKind = method.kind === "constructor" ? "class" : "method";
-                    context.report({
-                      node: param,
-                      messageId: "UnprefixedParameter",
-                      data: {
-                        prefixKind,
-                      },
-                    });
-                  }
-                }
+              checkParamType(param.typeAnnotation.typeAnnotation, optionsRegex, method, param);
+            } else if (
+              param.type === "AssignmentPattern" &&
+              param.left.type === "Identifier" &&
+              param.left.typeAnnotation !== undefined
+            ) {
+              checkParamType(
+                param.left.typeAnnotation.typeAnnotation,
+                optionsRegex,
+                method,
+                param.left,
+              );
+            }
+          }
+        }
+
+        function checkParamType(
+          typeAnnotation: TSESTree.TypeNode,
+          optionsRegex: RegExp,
+          method: TSESTree.MethodDefinition,
+          param: TSESTree.Identifier,
+        ) {
+          if (
+            typeAnnotation.type === "TSTypeReference" &&
+            typeAnnotation.typeName.type === "Identifier"
+          ) {
+            const paramTypeName = typeAnnotation.typeName.name;
+            if (paramTypeName.endsWith("Options")) {
+              // check that parameter type is prefixed with method name
+              if (!optionsRegex.test(paramTypeName)) {
+                const prefixKind = method.kind === "constructor" ? "class" : "method";
+                context.report({
+                  node: param,
+                  messageId: "UnprefixedParameter",
+                  data: {
+                    prefixKind,
+                  },
+                });
               }
             }
           }

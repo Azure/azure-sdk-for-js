@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder, VitestTestContext, isPlaybackMode } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { createBatchClient, createRecorder } from "./utils/recordedClient.js";
-import {
-  isUnexpected,
+import type {
   BatchJobSchedule,
   CreateJobScheduleParameters,
   BatchClient,
   CreatePoolParameters,
 } from "../src/index.js";
+import { isUnexpected } from "../src/index.js";
 import { fakeTestPasswordPlaceholder1 } from "./utils/fakeTestSecrets.js";
 import { getResourceName } from "./utils/helpers.js";
-// eslint-disable-next-line import/no-extraneous-dependencies
 import moment from "moment";
 import { describe, it, beforeAll, afterAll, beforeEach, afterEach, assert } from "vitest";
 
@@ -27,7 +27,7 @@ describe("Job Schedule Operations Test", () => {
   /**
    * Provision helper resources needed for testing jobs
    */
-  beforeAll(async function () {
+  beforeAll(async () => {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -70,7 +70,7 @@ describe("Job Schedule Operations Test", () => {
   /**
    * Unprovision helper resources after all tests ran
    */
-  afterAll(async function () {
+  afterAll(async () => {
     if (!isPlaybackMode()) {
       batchClient = createBatchClient();
 
@@ -83,12 +83,12 @@ describe("Job Schedule Operations Test", () => {
     }
   });
 
-  beforeEach(async function (ctx: VitestTestContext) {
+  beforeEach(async (ctx) => {
     recorder = await createRecorder(ctx);
     batchClient = createBatchClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

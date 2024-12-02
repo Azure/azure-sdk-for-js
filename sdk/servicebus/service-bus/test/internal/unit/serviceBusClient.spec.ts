@@ -1,25 +1,25 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { extractReceiverArguments, ServiceBusClient } from "../../../src/serviceBusClient";
-import chai from "chai";
-import { ServiceBusSessionReceiverOptions } from "../../../src/models";
-import { entityPathMisMatchError } from "../../../src/util/errors";
+import { extractReceiverArguments, ServiceBusClient } from "../../../src/serviceBusClient.js";
+import type { ServiceBusSessionReceiverOptions } from "../../../src/models.js";
+import { entityPathMisMatchError } from "../../../src/util/errors.js";
 import {
   createConnectionContextForConnectionString,
   createConnectionContextForCredential,
-} from "../../../src/constructorHelpers";
-import { TokenCredential } from "@azure/core-auth";
-import { ConnectionContext } from "../../../src/connectionContext";
-import { createConnectionContextForTestsWithSessionId } from "./unittestUtils";
-import {
+} from "../../../src/constructorHelpers.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { ConnectionContext } from "../../../src/connectionContext.js";
+import { createConnectionContextForTestsWithSessionId } from "./unittestUtils.js";
+import type {
   ServiceBusSessionReceiver,
   ServiceBusSessionReceiverImpl,
-} from "../../../src/receivers/sessionReceiver";
-import { AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusSenderImpl } from "../../../src/sender";
-import { MessageReceiver } from "../../../src/core/messageReceiver";
-const assert: typeof chai.assert = chai.assert;
+} from "../../../src/receivers/sessionReceiver.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { ServiceBusSenderImpl } from "../../../src/sender.js";
+import type { MessageReceiver } from "../../../src/core/messageReceiver.js";
+import { describe, it } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 const allLockModes: ("peekLock" | "receiveAndDelete")[] = ["peekLock", "receiveAndDelete"];
 

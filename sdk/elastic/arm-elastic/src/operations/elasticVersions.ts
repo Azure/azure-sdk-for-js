@@ -18,7 +18,7 @@ import {
   ElasticVersionsListNextOptionalParams,
   ElasticVersionsListOptionalParams,
   ElasticVersionsListOperationResponse,
-  ElasticVersionsListNextResponse
+  ElasticVersionsListNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -41,7 +41,7 @@ export class ElasticVersionsImpl implements ElasticVersions {
    */
   public list(
     region: string,
-    options?: ElasticVersionsListOptionalParams
+    options?: ElasticVersionsListOptionalParams,
   ): PagedAsyncIterableIterator<ElasticVersionListFormat> {
     const iter = this.listPagingAll(region, options);
     return {
@@ -56,14 +56,14 @@ export class ElasticVersionsImpl implements ElasticVersions {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listPagingPage(region, options, settings);
-      }
+      },
     };
   }
 
   private async *listPagingPage(
     region: string,
     options?: ElasticVersionsListOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<ElasticVersionListFormat[]> {
     let result: ElasticVersionsListOperationResponse;
     let continuationToken = settings?.continuationToken;
@@ -85,7 +85,7 @@ export class ElasticVersionsImpl implements ElasticVersions {
 
   private async *listPagingAll(
     region: string,
-    options?: ElasticVersionsListOptionalParams
+    options?: ElasticVersionsListOptionalParams,
   ): AsyncIterableIterator<ElasticVersionListFormat> {
     for await (const page of this.listPagingPage(region, options)) {
       yield* page;
@@ -99,11 +99,11 @@ export class ElasticVersionsImpl implements ElasticVersions {
    */
   private _list(
     region: string,
-    options?: ElasticVersionsListOptionalParams
+    options?: ElasticVersionsListOptionalParams,
   ): Promise<ElasticVersionsListOperationResponse> {
     return this.client.sendOperationRequest(
       { region, options },
-      listOperationSpec
+      listOperationSpec,
     );
   }
 
@@ -114,11 +114,11 @@ export class ElasticVersionsImpl implements ElasticVersions {
    */
   private _listNext(
     nextLink: string,
-    options?: ElasticVersionsListNextOptionalParams
+    options?: ElasticVersionsListNextOptionalParams,
   ): Promise<ElasticVersionsListNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listNextOperationSpec
+      listNextOperationSpec,
     );
   }
 }
@@ -126,38 +126,37 @@ export class ElasticVersionsImpl implements ElasticVersions {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/elasticVersions",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.Elastic/elasticVersions",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticVersionsListResponse
+      bodyMapper: Mappers.ElasticVersionsListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion, Parameters.region],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.ElasticVersionsListResponse
+      bodyMapper: Mappers.ElasticVersionsListResponse,
     },
     default: {
-      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse
-    }
+      bodyMapper: Mappers.ResourceProviderDefaultErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

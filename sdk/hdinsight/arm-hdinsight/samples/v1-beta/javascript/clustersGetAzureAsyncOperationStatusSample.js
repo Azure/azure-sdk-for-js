@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The the async operation status.
  *
  * @summary The the async operation status.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/GetClusterCreatingAsyncOperationStatus.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetClusterCreatingAsyncOperationStatus.json
  */
 async function getAsyncOperationStatusOfCreatingCluster() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";
@@ -28,7 +28,7 @@ async function getAsyncOperationStatusOfCreatingCluster() {
   const result = await client.clusters.getAzureAsyncOperationStatus(
     resourceGroupName,
     clusterName,
-    operationId
+    operationId,
   );
   console.log(result);
 }

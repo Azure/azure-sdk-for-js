@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Checkpoint, CheckpointStore, PartitionOwnership } from "@azure/event-hubs";
-import { TableClient, TableInsertEntityHeaders, odata } from "@azure/data-tables";
+import type { Checkpoint, CheckpointStore, PartitionOwnership } from "@azure/event-hubs";
+import type { TableClient, TableInsertEntityHeaders } from "@azure/data-tables";
+import { odata } from "@azure/data-tables";
 import { logErrorStackTrace, logger } from "./log.js";
 
 /**
@@ -229,7 +230,7 @@ export class TableCheckpointStore implements CheckpointStore {
         eventHubName,
         fullyQualifiedNamespace,
         partitionId: entity.rowKey,
-        offset: parseInt(entity.offset, 10),
+        offset: entity.offset,
         sequenceNumber: parseInt(entity.sequencenumber, 10),
       });
     }

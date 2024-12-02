@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { PerfOptionDictionary } from "@azure-tools/test-perf";
 import { StorageDFSTest } from "./storageTest.spec";

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import type { EventHubBufferedProducerClient } from "../../src/index.js";
 import { createBufferedProducer } from "../utils/clients.js";

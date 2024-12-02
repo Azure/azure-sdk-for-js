@@ -1,19 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { AzureCommunicationRoutingServiceClient, paginate, RouterQueueOutput } from "../../../src";
-import { Context } from "mocha";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type {
+  AzureCommunicationRoutingServiceClient,
+  RouterQueueOutput,
+} from "../../../src/index.js";
+import { paginate } from "../../../src/index.js";
 import {
   getQueueRequest,
   getExceptionPolicyRequest,
   getDistributionPolicyRequest,
-} from "../utils/testData";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { timeoutMs } from "../utils/constants";
+} from "../utils/testData.js";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { timeoutMs } from "../utils/constants.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("JobRouterClient", function () {
+describe("JobRouterClient", () => {
   let routerClient: AzureCommunicationRoutingServiceClient;
   let recorder: Recorder;
 
@@ -24,9 +27,9 @@ describe("JobRouterClient", function () {
   const { exceptionPolicyId, exceptionPolicyRequest } = getExceptionPolicyRequest(testRunId);
   const { queueId, queueRequest } = getQueueRequest(testRunId);
 
-  describe("Queue Operations", function () {
-    this.beforeEach(async function (this: Context) {
-      ({ routerClient, recorder } = await createRecordedRouterClientWithConnectionString(this));
+  describe("Queue Operations", () => {
+    beforeEach(async (ctx) => {
+      ({ routerClient, recorder } = await createRecordedRouterClientWithConnectionString(ctx));
 
       await routerClient
         .path("/routing/distributionPolicies/{distributionPolicyId}", distributionPolicyId)
@@ -42,7 +45,7 @@ describe("JobRouterClient", function () {
         });
     });
 
-    this.afterEach(async function (this: Context) {
+    afterEach(async (ctx) => {
       await routerClient
         .path("/routing/distributionPolicies/{distributionPolicyId}", distributionPolicyId)
         .delete();
@@ -50,12 +53,12 @@ describe("JobRouterClient", function () {
         .path("/routing/exceptionPolicies/{exceptionPolicyId}", exceptionPolicyId)
         .delete();
 
-      if (!this.currentTest?.isPending() && recorder) {
+      if (!ctx.task.pending && recorder) {
         await recorder.stop();
       }
     });
 
-    it("should create a queue", async function () {
+    it("should create a queue", { timeout: timeoutMs }, async () => {
       const response = await routerClient.path("/routing/queues/{queueId}", queueId).patch({
         contentType: "application/merge-patch+json",
         body: queueRequest,
@@ -69,9 +72,9 @@ describe("JobRouterClient", function () {
       assert.isDefined(result);
       assert.isDefined(result?.id);
       assert.equal(result.name, queueRequest.name);
-    }).timeout(timeoutMs);
+    });
 
-    it("should get a queue", async function () {
+    it("should get a queue", { timeout: timeoutMs }, async () => {
       const response = await routerClient.path("/routing/queues/{queueId}", queueId).get();
 
       if (response.status !== "200") {
@@ -81,9 +84,9 @@ describe("JobRouterClient", function () {
 
       assert.equal(result.id, queueId);
       assert.equal(result.name, queueRequest.name);
-    }).timeout(timeoutMs);
+    });
 
-    it("should update a queue", async function () {
+    it("should update a queue", { timeout: timeoutMs }, async () => {
       const updatePatch = { ...queueRequest, name: "new-name" };
       let response = await routerClient.path("/routing/queues/{queueId}", queueId).patch({
         contentType: "application/merge-patch+json",
@@ -112,9 +115,9 @@ describe("JobRouterClient", function () {
       assert.isDefined(removeResult.id);
       assert.equal(updateResult.name, updatePatch.name);
       assert.isUndefined(removeResult.name);
-    }).timeout(timeoutMs);
+    });
 
-    it("should list queues", async function () {
+    it("should list queues", { timeout: timeoutMs }, async () => {
       const result: RouterQueueOutput[] = [];
       const response = await routerClient
         .path("/routing/queues")
@@ -131,9 +134,9 @@ describe("JobRouterClient", function () {
       }
 
       assert.isNotEmpty(result);
-    }).timeout(timeoutMs);
+    });
 
-    it("should delete a queue", async function () {
+    it("should delete a queue", { timeout: timeoutMs }, async () => {
       const response = await routerClient.path("/routing/queues/{queueId}", queueId).delete();
 
       if (response.status !== "204") {
@@ -141,6 +144,6 @@ describe("JobRouterClient", function () {
       }
 
       assert.isDefined(response);
-    }).timeout(timeoutMs);
+    });
   });
 });

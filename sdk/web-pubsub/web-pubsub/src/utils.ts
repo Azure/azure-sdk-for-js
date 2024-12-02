@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RequestBodyType } from "@azure/core-rest-pipeline";
+import type { RequestBodyType } from "@azure/core-rest-pipeline";
 
 function isRequestBody(obj: unknown): obj is RequestBodyType {
   return (

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 import { TokenCredential } from "@azure/core-auth";
-import { ConfidentialLedgerClient } from "./clientDefinitions";
+import { ConfidentialLedgerClient } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of `ConfidentialLedgerClient`

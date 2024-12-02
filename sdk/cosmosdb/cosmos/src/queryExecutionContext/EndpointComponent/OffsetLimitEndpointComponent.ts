@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
-import { Response } from "../../request";
-import { ExecutionContext } from "../ExecutionContext";
+// Licensed under the MIT License.
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { Response } from "../../request";
+import type { ExecutionContext } from "../ExecutionContext";
 import { getInitialHeader, mergeHeaders } from "../headerUtils";
 
 /** @hidden */

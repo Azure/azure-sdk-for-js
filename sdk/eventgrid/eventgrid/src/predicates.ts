@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   AcsChatMessageDeletedEventData,
   AcsChatMessageDeletedInThreadEventData,
   AcsChatMessageEditedEventData,
@@ -212,9 +212,9 @@ import {
   AcsChatThreadDeletedEventData,
   AcsChatThreadCreatedEventData,
   AcsChatThreadPropertiesUpdatedEventData,
-} from "./generated/models";
+} from "./generated/models/index.js";
 
-import { CloudEvent, EventGridEvent } from "./models";
+import type { CloudEvent, EventGridEvent } from "./models.js";
 
 /**
  * The Event Types for all System Events. These may be used with `isSystemEvent` to determine if an

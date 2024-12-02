@@ -1,14 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { getClient, ClientOptions } from "@azure-rest/core-client";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
 import { logger } from "./logger.js";
-import {
-  TokenCredential,
-  KeyCredential,
-  isKeyCredential,
-} from "@azure/core-auth";
-import { ModelClient } from "./clientDefinitions.js";
+import type { TokenCredential, KeyCredential } from "@azure/core-auth";
+import { isKeyCredential } from "@azure/core-auth";
+import type { ModelClient } from "./clientDefinitions.js";
+import { tracingPolicy } from "./tracingPolicy.js";
 
 /** The optional parameters for the client */
 export interface ModelClientOptions extends ClientOptions {
@@ -46,9 +45,16 @@ export default function createClient(
       apiKeyHeaderName: options.credentials?.apiKeyHeaderName ?? "api-key",
     },
   };
+
   const client = getClient(endpointUrl, credentials, options) as ModelClient;
 
   client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
+  client.pipeline.addPolicy({
+    name: "InferenceTracingPolicy",
+    sendRequest: (req, next) => {
+      return tracingPolicy().sendRequest(req, next);
+    },
+  });
   client.pipeline.addPolicy({
     name: "ClientApiVersionPolicy",
     sendRequest: (req, next) => {

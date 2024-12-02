@@ -1,17 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
-import { Checkpoint, PartitionProcessor } from "./partitionProcessor.js";
-import { EventPosition, isEventPosition, latestEventPosition } from "./eventPosition.js";
-import { PumpManager, PumpManagerImpl } from "./pumpManager.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError } from "@azure/abort-controller";
+import type { Checkpoint } from "./partitionProcessor.js";
+import { PartitionProcessor } from "./partitionProcessor.js";
+import type { EventPosition } from "./eventPosition.js";
+import { isEventPosition, latestEventPosition } from "./eventPosition.js";
+import type { PumpManager } from "./pumpManager.js";
+import { PumpManagerImpl } from "./pumpManager.js";
 import { logErrorStackTrace, logger } from "./logger.js";
 import { CloseReason } from "./models/public.js";
-import { CommonEventProcessorOptions } from "./models/private.js";
-import { ConnectionContext } from "./connectionContext.js";
-import { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy.js";
-import { OperationOptions } from "./util/operationOptions.js";
-import { SubscriptionEventHandlers } from "./eventHubConsumerClientModels.js";
+import type { CommonEventProcessorOptions } from "./models/private.js";
+import type { ConnectionContext } from "./connectionContext.js";
+import type { LoadBalancingStrategy } from "./loadBalancerStrategies/loadBalancingStrategy.js";
+import type { OperationOptions } from "./util/operationOptions.js";
+import type { SubscriptionEventHandlers } from "./eventHubConsumerClientModels.js";
 import { delayWithoutThrow } from "./util/delayWithoutThrow.js";
 import { getRandomName } from "./util/utils.js";
 import { StandardAbortMessage } from "@azure/core-amqp";

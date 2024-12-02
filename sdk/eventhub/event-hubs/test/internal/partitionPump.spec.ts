@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { toProcessingSpanOptions } from "../../src/partitionPump.js";
 import { tracingClient } from "../../src/diagnostics/tracing.js";
-import { TracingContext } from "@azure/core-tracing";
+import type { TracingContext } from "@azure/core-tracing";
 import { TRACEPARENT_PROPERTY } from "../../src/diagnostics/instrumentEventData.js";
 import { assert } from "../utils/chai.js";
 import { describe, it, vi } from "vitest";

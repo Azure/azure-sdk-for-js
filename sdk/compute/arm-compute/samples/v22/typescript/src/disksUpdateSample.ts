@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to Updates (patches) a disk.
  *
  * @summary Updates (patches) a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskExamples/Disk_CreateOrUpdate_BurstingEnabled.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_CreateOrUpdate_BurstingEnabled.json
  */
 async function createOrUpdateABurstingEnabledManagedDisk() {
   const subscriptionId =
@@ -41,7 +41,7 @@ async function createOrUpdateABurstingEnabledManagedDisk() {
  * This sample demonstrates how to Updates (patches) a disk.
  *
  * @summary Updates (patches) a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskExamples/Disk_Update_AddAcceleratedNetworking.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_AddAcceleratedNetworking.json
  */
 async function updateAManagedDiskToAddAcceleratedNetworking() {
   const subscriptionId =
@@ -66,7 +66,7 @@ async function updateAManagedDiskToAddAcceleratedNetworking() {
  * This sample demonstrates how to Updates (patches) a disk.
  *
  * @summary Updates (patches) a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskExamples/Disk_Update_ToAddArchitecture.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_ToAddArchitecture.json
  */
 async function updateAManagedDiskToAddArchitecture() {
   const subscriptionId =
@@ -89,7 +89,7 @@ async function updateAManagedDiskToAddArchitecture() {
  * This sample demonstrates how to Updates (patches) a disk.
  *
  * @summary Updates (patches) a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskExamples/Disk_Update_AddPurchasePlan.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_AddPurchasePlan.json
  */
 async function updateAManagedDiskToAddPurchasePlan() {
   const subscriptionId =
@@ -119,7 +119,7 @@ async function updateAManagedDiskToAddPurchasePlan() {
  * This sample demonstrates how to Updates (patches) a disk.
  *
  * @summary Updates (patches) a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskExamples/Disk_Update_AddSupportsHibernation.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_AddSupportsHibernation.json
  */
 async function updateAManagedDiskToAddSupportsHibernation() {
   const subscriptionId =
@@ -142,7 +142,7 @@ async function updateAManagedDiskToAddSupportsHibernation() {
  * This sample demonstrates how to Updates (patches) a disk.
  *
  * @summary Updates (patches) a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskExamples/Disk_Update_ChangeTier.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_ChangeTier.json
  */
 async function updateAManagedDiskToChangeTier() {
   const subscriptionId =
@@ -165,7 +165,7 @@ async function updateAManagedDiskToChangeTier() {
  * This sample demonstrates how to Updates (patches) a disk.
  *
  * @summary Updates (patches) a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskExamples/Disk_Update_DisableBursting.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_DisableBursting.json
  */
 async function updateAManagedDiskToDisableBursting() {
   const subscriptionId =
@@ -188,7 +188,7 @@ async function updateAManagedDiskToDisableBursting() {
  * This sample demonstrates how to Updates (patches) a disk.
  *
  * @summary Updates (patches) a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskExamples/Disk_Update_DisableOptimizedForFrequentAttach.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_DisableOptimizedForFrequentAttach.json
  */
 async function updateAManagedDiskToDisableOptimizedForFrequentAttach() {
   const subscriptionId =
@@ -211,7 +211,7 @@ async function updateAManagedDiskToDisableOptimizedForFrequentAttach() {
  * This sample demonstrates how to Updates (patches) a disk.
  *
  * @summary Updates (patches) a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskExamples/Disk_Update_AddDiskControllerTypes.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_AddDiskControllerTypes.json
  */
 async function updateAManagedDiskWithDiskControllerTypes() {
   const subscriptionId =
@@ -236,7 +236,7 @@ async function updateAManagedDiskWithDiskControllerTypes() {
  * This sample demonstrates how to Updates (patches) a disk.
  *
  * @summary Updates (patches) a disk.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2023-10-02/examples/diskExamples/Disk_Update_RemoveDiskAccess.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/DiskRP/stable/2024-03-02/examples/diskExamples/Disk_Update_RemoveDiskAccess.json
  */
 async function updateManagedDiskToRemoveDiskAccessResourceAssociation() {
   const subscriptionId =

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import assert from "assert";
-import { Suite } from "mocha";
+import type { Suite } from "mocha";
 import { PermissionMode } from "../../../src";
-import { PermissionDefinition } from "../../../src";
+import type { PermissionDefinition } from "../../../src";
 import {
   createOrUpsertPermission,
   getTestContainer,

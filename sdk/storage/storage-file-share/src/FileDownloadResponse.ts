@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { isNode } from "@azure/core-util";
-import {
+import type {
   CopyStatusType,
   FileDownloadHeaders,
   FileDownloadResponseModel,
@@ -10,13 +10,14 @@ import {
   LeaseStateType,
   LeaseStatusType,
 } from "./generatedModels";
-import { Metadata } from "./models";
-import {
+import type { Metadata } from "./models";
+import type {
   ReadableStreamGetter,
-  RetriableReadableStream,
   RetriableReadableStreamOptions,
 } from "./utils/RetriableReadableStream";
-import { HttpResponse, WithResponse, assertResponse } from "./utils/utils.common";
+import { RetriableReadableStream } from "./utils/RetriableReadableStream";
+import type { HttpResponse, WithResponse } from "./utils/utils.common";
+import { assertResponse } from "./utils/utils.common";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

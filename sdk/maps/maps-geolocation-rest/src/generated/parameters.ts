@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RequestParameters } from "@azure-rest/core-client";
 
@@ -12,5 +12,5 @@ export interface GeolocationGetLocationQueryParam {
   queryParameters: GeolocationGetLocationQueryParamProperties;
 }
 
-export type GeolocationGetLocationParameters = GeolocationGetLocationQueryParam &
-  RequestParameters;
+export type GeolocationGetLocationParameters =
+  GeolocationGetLocationQueryParam & RequestParameters;

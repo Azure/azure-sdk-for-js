@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, vi, afterEach } from "vitest";
 import { proxyPolicy, proxyPolicyName } from "../../src/policies/proxyPolicy.js";
 import { tlsPolicy, tlsPolicyName } from "../../src/policies/tlsPolicy.js";
-import { HttpClient } from "../../src/interfaces.js";
+import type { HttpClient } from "../../src/interfaces.js";
 import { HttpsProxyAgent } from "https-proxy-agent";
 import { createEmptyPipeline } from "../../src/pipeline.js";
 import { createHttpHeaders } from "../../src/httpHeaders.js";

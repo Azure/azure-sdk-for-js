@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
 import { createRestError } from "../../src/client/restError.js";
-import { PipelineRequest } from "../../src/interfaces.js";
+import type { PipelineRequest } from "../../src/interfaces.js";
 
 describe("createRestError", () => {
   it("should create a rest error from a PathUnchecked response with standard error", () => {

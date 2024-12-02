@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { Context, Test } from "mocha";
-import { Recorder, RecorderStartOptions, SanitizerOptions, env } from "@azure-tools/test-recorder";
-import MessageClient, { MessagesServiceClient } from "../../../src";
+// Licensed under the MIT License.
+import type { RecorderStartOptions, SanitizerOptions, TestInfo } from "@azure-tools/test-recorder";
+import { Recorder, env } from "@azure-tools/test-recorder";
+import type { MessagesServiceClient } from "../../../src/index.js";
+import MessageClient from "../../../src/index.js";
 import { parseConnectionString } from "@azure/communication-common";
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 export interface RecordedMessageClient {
@@ -15,7 +15,7 @@ export interface RecordedMessageClient {
 
 const envSetupForPlayback: Record<string, string> = {
   COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING:
-    "endpoint=https://someEndpoint/;accesskey=someAccessKeyw==",
+    "endpoint=https://someEndpoint.unitedstates.communication.azure.com/;accesskey=someAccessKeyw==",
   CHANNEL_ID: "test_channel_id",
   RECIPIENT_PHONE_NUMBER: "+14255550123",
   AZURE_CLIENT_ID: "azure_client_id",
@@ -55,7 +55,7 @@ const recorderEnvSetup: RecorderStartOptions = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(context: Test | undefined): Promise<Recorder> {
+export async function createRecorder(context: TestInfo | undefined): Promise<Recorder> {
   const recorder = new Recorder(context);
   await recorder.start(recorderEnvSetup);
   await recorder.setMatcher("CustomDefaultMatcher", {
@@ -69,8 +69,8 @@ export async function createRecorder(context: Test | undefined): Promise<Recorde
   return recorder;
 }
 
-export async function createRecorderWithToken(context: Context): Promise<RecordedMessageClient> {
-  const recorder = await createRecorder(context.currentTest);
+export async function createRecorderWithToken(context: TestInfo): Promise<RecordedMessageClient> {
+  const recorder = await createRecorder(context);
 
   const credential: TokenCredential = createTestCredential();
   const endpoint = parseConnectionString(
@@ -84,9 +84,9 @@ export async function createRecorderWithToken(context: Context): Promise<Recorde
 }
 
 export async function createRecorderWithConnectionString(
-  context: Context,
+  context: TestInfo,
 ): Promise<RecordedMessageClient> {
-  const recorder = await createRecorder(context.currentTest);
+  const recorder = await createRecorder(context);
 
   const client = MessageClient(
     env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING ?? "",

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Send events to Event Grid using the Event Grid Schema.
@@ -7,10 +7,7 @@
  */
 
 import { EventGridPublisherClient, AzureKeyCredential } from "@azure/eventgrid";
-import * as dotenv from "dotenv";
-
-// Load the .env file if it exists
-dotenv.config();
+import "dotenv/config";
 
 // The URL of the endpoint of the Event Grid topic.
 const endpoint = process.env["EVENT_GRID_EVENT_GRID_SCHEMA_ENDPOINT"] || "";

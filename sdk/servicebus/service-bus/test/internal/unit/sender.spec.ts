@@ -1,19 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import chai from "chai";
-import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch";
-import { ConnectionContext } from "../../../src/connectionContext";
-import { ServiceBusMessage } from "../../../src";
-import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../../src/sender";
-import { createConnectionContextForTests } from "./unittestUtils";
+// Licensed under the MIT License.
+import { ServiceBusMessageBatchImpl } from "../../../src/serviceBusMessageBatch.js";
+import type { ConnectionContext } from "../../../src/connectionContext.js";
+import type { ServiceBusMessage } from "../../../src/index.js";
+import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../../src/sender.js";
+import { createConnectionContextForTests } from "./unittestUtils.js";
 import {
   errorInvalidMessageTypeSingleOrArray,
   errorInvalidMessageTypeSingle,
   PartitionKeySessionIdMismatchError,
-} from "../../../src/util/errors";
-
-const assert: typeof chai.assert = chai.assert;
+} from "../../../src/util/errors.js";
+import { describe, it } from "vitest";
+import { assert } from "../../public/utils/chai.js";
 
 describe("Sender helper unit tests", () => {
   it("isServiceBusMessageBatch", () => {
@@ -35,7 +33,7 @@ describe("sender unit tests", () => {
   };
 
   const partitionKeySessionIdMismatchMsg = {
-    body: "boooo",
+    body: "some body text",
     sessionId: "my-sessionId",
     partitionKey: "my-partitionKey",
   };

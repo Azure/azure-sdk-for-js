@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates the DataSource Connection Operations.
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { SearchIndexerClient, SearchIndexerDataSourceConnection } from "@azure/search-documents";
+import type { SearchIndexerDataSourceConnection } from "@azure/search-documents";
+import { SearchIndexerClient } from "@azure/search-documents";
 
 import * as dotenv from "dotenv";
 dotenv.config();

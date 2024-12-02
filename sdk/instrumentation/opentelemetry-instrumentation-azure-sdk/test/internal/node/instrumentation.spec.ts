@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
+import { describe, it, assert, beforeEach } from "vitest";
 import { SpanKind, SpanStatusCode } from "@opentelemetry/api";
-import { TestClient, tracingClientAttributes } from "../../public/util/testClient";
-
-import { assert } from "chai";
-import { inMemoryExporter } from "../../public/util/setup";
+import { TestClient, tracingClientAttributes } from "../../public/util/testClient.js";
+import { inMemoryExporter } from "../../public/util/setup.js";
 
 describe("instrumentation end-to-end tests", () => {
   beforeEach(() => {
@@ -13,7 +12,7 @@ describe("instrumentation end-to-end tests", () => {
   });
 
   // This is node-only since we use the BasicTracerProvider in the browser
-  // which does not set up a context manager. Altenatively we can always pull in
+  // which does not set up a context manager. Alternatively we can always pull in
   // @opentelemetry/sdk-trace-web but it did not feel necessary at this time.
   describe("with a configured client", () => {
     it("works when using withSpan", async () => {

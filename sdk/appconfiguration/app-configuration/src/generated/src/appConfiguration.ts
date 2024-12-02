@@ -1,4 +1,4 @@
-/*
+  /*
  * Copyright (c) Microsoft Corporation.
  * Licensed under the MIT License.
  *
@@ -18,9 +18,9 @@ import {
   OperationState,
   createHttpPoller,
 } from "@azure/core-lro";
-import { createLroSpec } from "./lroImpl";
-import * as Parameters from "./models/parameters";
-import * as Mappers from "./models/mappers";
+import { createLroSpec } from "./lroImpl.js";
+import * as Parameters from "./models/parameters.js";
+import * as Mappers from "./models/mappers.js";
 import {
   ApiVersion20231101,
   AppConfigurationOptionalParams,
@@ -78,7 +78,7 @@ import {
   GetLabelsNextResponse,
   GetRevisionsNextOptionalParams,
   GetRevisionsNextResponse,
-} from "./models";
+} from "./models/index.js";
 
 /** @internal */
 export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
@@ -112,7 +112,7 @@ export class AppConfiguration extends coreHttpCompat.ExtendedServiceClient {
       requestContentType: "application/json; charset=utf-8",
     };
 
-    const packageDetails = `azsdk-js-app-configuration/1.7.1`;
+    const packageDetails = `azsdk-js-app-configuration/1.8.1`;
     const userAgentPrefix =
       options.userAgentOptions && options.userAgentOptions.userAgentPrefix
         ? `${options.userAgentOptions.userAgentPrefix} ${packageDetails}`

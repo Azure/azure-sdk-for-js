@@ -1,19 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { createRecorder, testPollingOptions } from "./utils/recorderUtils";
-import { Context } from "mocha";
-import DocumentIntelligence, {
+import type { Recorder } from "@azure-tools/test-recorder";
+import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { createRecorder, testPollingOptions } from "./utils/recorderUtils.js";
+import DocumentIntelligence from "../../src/documentIntelligence.js";
+import type { Context } from "vitest";
+import { assert, describe, beforeEach, afterEach, it } from "vitest";
+import { ASSET_PATH, getRandomNumber, makeTestUrl } from "./utils/utils.js";
+import type { DocumentIntelligenceClient } from "../../src/clientDefinitions.js";
+import type {
   AnalyzeResultOperationOutput,
   DocumentClassifierBuildOperationDetailsOutput,
   DocumentClassifierDetailsOutput,
-  DocumentIntelligenceClient,
-  getLongRunningPoller,
-  isUnexpected,
-} from "../../src";
-import { assert } from "chai";
-import { ASSET_PATH, getRandomNumber, makeTestUrl } from "./utils/utils";
+} from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
 import path from "path";
 import fs from "fs";
 
@@ -23,8 +24,8 @@ const containerSasUrl = (): string =>
 describe.skip("classifiers", () => {
   let recorder: Recorder;
   let client: DocumentIntelligenceClient;
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async function (context) {
+    recorder = await createRecorder(context);
     await recorder.setMatcher("BodilessMatcher");
     client = DocumentIntelligence(
       assertEnvironmentVariable("DOCUMENT_INTELLIGENCE_ENDPOINT"),

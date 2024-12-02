@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ClientOptions, getClient } from "@azure-rest/core-client";
-import { TokenCredential } from "@azure/core-auth";
-import { AzureHealthInsightsClient } from "./clientDefinitions";
-import { logger } from "./logger";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import type { AzureHealthInsightsClient } from "./clientDefinitions.js";
+import { logger } from "./logger.js";
 
 /**
  * Initialize a new instance of `AzureHealthInsightsClient`

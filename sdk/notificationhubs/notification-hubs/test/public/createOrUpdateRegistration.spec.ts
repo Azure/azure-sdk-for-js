@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
+import type { NotificationHubsClientContext } from "../../src/api/index.js";
 import {
-  NotificationHubsClientContext,
   createOrUpdateRegistration,
   createRegistrationId,
   deleteRegistration,

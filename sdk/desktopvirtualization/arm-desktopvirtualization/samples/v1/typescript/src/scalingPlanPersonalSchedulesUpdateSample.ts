@@ -11,7 +11,7 @@
 import {
   ScalingPlanPersonalSchedulePatch,
   ScalingPlanPersonalSchedulesUpdateOptionalParams,
-  DesktopVirtualizationAPIClient
+  DesktopVirtualizationAPIClient,
 } from "@azure/arm-desktopvirtualization";
 import { DefaultAzureCredential } from "@azure/identity";
 import * as dotenv from "dotenv";
@@ -22,7 +22,7 @@ dotenv.config();
  * This sample demonstrates how to Update a ScalingPlanPersonalSchedule.
  *
  * @summary Update a ScalingPlanPersonalSchedule.
- * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2023-09-05/examples/ScalingPlanPersonalSchedule_Update.json
+ * x-ms-original-file: specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/stable/2024-04-03/examples/ScalingPlanPersonalSchedule_Update.json
  */
 async function scalingPlanPersonalSchedulesUpdate() {
   const subscriptionId =
@@ -48,10 +48,10 @@ async function scalingPlanPersonalSchedulesUpdate() {
     rampDownActionOnLogoff: "Deallocate",
     rampDownMinutesToWaitOnDisconnect: 10,
     rampDownMinutesToWaitOnLogoff: 10,
-    rampDownStartTime: { hour: 18, minute: 0 }
+    rampDownStartTime: { hour: 18, minute: 0 },
   };
   const options: ScalingPlanPersonalSchedulesUpdateOptionalParams = {
-    scalingPlanSchedule
+    scalingPlanSchedule,
   };
   const credential = new DefaultAzureCredential();
   const client = new DesktopVirtualizationAPIClient(credential, subscriptionId);
@@ -59,7 +59,7 @@ async function scalingPlanPersonalSchedulesUpdate() {
     resourceGroupName,
     scalingPlanName,
     scalingPlanScheduleName,
-    options
+    options,
   );
   console.log(result);
 }

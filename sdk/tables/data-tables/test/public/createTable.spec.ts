@@ -1,19 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RestError, TableClient, TableServiceClient } from "../../src";
+import { RestError, TableClient, TableServiceClient } from "../../src/index.js";
 
-import { TableServiceErrorResponse } from "../../src/utils/errorHelpers";
-import { assert } from "chai";
+import type { TableServiceErrorResponse } from "../../src/utils/errorHelpers.js";
 import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import { describe, it, assert, beforeEach } from "vitest";
 
-describe("TableClient CreationHandling", function () {
+describe("TableClient CreationHandling", () => {
   let unrecordedClient: TableClient;
-  beforeEach(async function () {
+  beforeEach(async () => {
     unrecordedClient = new TableClient("https://foo.table.core.windows.net", "testTable");
   });
 
-  it("should not thorw if table already exists", async function () {
+  it("should not thorw if table already exists", async () => {
     // Mock core-client throwing on error to verify consistenty that don't throw the error
     unrecordedClient.pipeline.addPolicy({
       name: "TableAlreadyExists",
@@ -43,7 +43,7 @@ describe("TableClient CreationHandling", function () {
     });
   });
 
-  it("should throw when 409 and not TableAlreadyExists", async function () {
+  it("should throw when 409 and not TableAlreadyExists", async () => {
     // Mock core-client throwing on error to verify consistenty that we surface the error
     unrecordedClient.pipeline.addPolicy({
       name: "Other409Error",
@@ -68,14 +68,14 @@ describe("TableClient CreationHandling", function () {
   });
 });
 
-describe("TableServiceClient CreationHandling", function () {
+describe("TableServiceClient CreationHandling", () => {
   let unrecordedClient: TableServiceClient;
 
-  beforeEach(async function () {
+  beforeEach(async () => {
     unrecordedClient = new TableServiceClient("https://foo.table.core.windows.net");
   });
 
-  it("should not thorw if table already exists", async function () {
+  it("should not thorw if table already exists", async () => {
     const tableName = `tableExists`;
     // Mock core-client throwing on error to verify consistenty that don't throw the error
     unrecordedClient.pipeline.addPolicy({
@@ -106,7 +106,7 @@ describe("TableServiceClient CreationHandling", function () {
     });
   });
 
-  it("should throw when 409 and not TableAlreadyExists", async function () {
+  it("should throw when 409 and not TableAlreadyExists", async () => {
     const tableName = `throwError`;
     // Mock core-client throwing on error to verify consistenty that we surface the error
     unrecordedClient.pipeline.addPolicy({

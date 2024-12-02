@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
-import { ErrorResponse } from "../request";
+// Licensed under the MIT License.
+import type { DiagnosticNodeInternal } from "../diagnostics/DiagnosticNodeInternal";
+import type { ErrorResponse } from "../request";
 
 /**
  * This class implements the resource throttle retry policy for requests.

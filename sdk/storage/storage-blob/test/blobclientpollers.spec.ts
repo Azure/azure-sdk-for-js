@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { assert } from "chai";
 import { getBSU } from "./utils";
@@ -10,8 +10,13 @@ import {
   testPollerProperties,
   uriSanitizers,
 } from "./utils/testutils.common";
-import { BlobClient, BlockBlobClient, ContainerClient, BlobBeginCopyFromURLResponse } from "../src";
-import { Context } from "mocha";
+import type {
+  BlobClient,
+  BlockBlobClient,
+  ContainerClient,
+  BlobBeginCopyFromURLResponse,
+} from "../src";
+import type { Context } from "mocha";
 import { isNodeLike } from "@azure/core-util";
 
 describe("BlobClient beginCopyFromURL Poller", () => {

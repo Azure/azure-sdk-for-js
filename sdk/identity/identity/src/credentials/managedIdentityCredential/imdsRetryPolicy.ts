@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { PipelinePolicy, retryPolicy } from "@azure/core-rest-pipeline";
+import type { PipelinePolicy } from "@azure/core-rest-pipeline";
+import { retryPolicy } from "@azure/core-rest-pipeline";
 
-import { MSIConfiguration } from "./models";
-import { getRandomIntegerInclusive } from "@azure/core-util";
+import type { MSIConfiguration } from "./models.js";
+import { calculateRetryDelay } from "@azure/core-util";
 
 // Matches the default retry configuration in expontentialRetryStrategy.ts
 const DEFAULT_CLIENT_MAX_RETRY_INTERVAL = 1000 * 64;
@@ -27,21 +28,10 @@ export function imdsRetryPolicy(msiRetryConfig: MSIConfiguration["retryConfig"])
             return { skipStrategy: true };
           }
 
-          // Exponentially increase the delay each time
-          const exponentialDelay = msiRetryConfig.startDelayInMs * Math.pow(2, retryCount);
-
-          // Don't let the delay exceed the maximum
-          const clampedExponentialDelay = Math.min(
-            DEFAULT_CLIENT_MAX_RETRY_INTERVAL,
-            exponentialDelay,
-          );
-
-          // Allow the final value to have some "jitter" (within 50% of the delay size) so
-          // that retries across multiple clients don't occur simultaneously.
-          const retryAfterInMs =
-            clampedExponentialDelay / 2 + getRandomIntegerInclusive(0, clampedExponentialDelay / 2);
-
-          return { retryAfterInMs };
+          return calculateRetryDelay(retryCount, {
+            retryDelayInMs: msiRetryConfig.startDelayInMs,
+            maxRetryDelayInMs: DEFAULT_CLIENT_MAX_RETRY_INTERVAL,
+          });
         },
       },
     ],

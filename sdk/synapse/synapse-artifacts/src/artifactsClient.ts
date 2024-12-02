@@ -8,7 +8,7 @@
 
 import * as coreClient from "@azure/core-client";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import * as coreAuth from "@azure/core-auth";
+import type * as coreAuth from "@azure/core-auth";
 import {
   LinkConnectionOperationsImpl,
   RunNotebookImpl,
@@ -34,8 +34,8 @@ import {
   TriggerOperationsImpl,
   TriggerRunOperationsImpl,
   WorkspaceOperationsImpl,
-} from "./operations";
-import {
+} from "./operations/index.js";
+import type {
   LinkConnectionOperations,
   RunNotebook,
   KqlScripts,
@@ -60,18 +60,18 @@ import {
   TriggerOperations,
   TriggerRunOperations,
   WorkspaceOperations,
-} from "./operationsInterfaces";
-import { ArtifactsClientOptionalParams } from "./models";
+} from "./operationsInterfaces/index.js";
+import type { ArtifactsClientOptionalParams } from "./models/index.js";
 
 export class ArtifactsClient extends coreClient.ServiceClient {
   endpoint: string;
 
   /**
    * Initializes a new instance of the ArtifactsClient class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
-   * @param endpoint The workspace development endpoint, for example
+   * @param credentials - Subscription credentials which uniquely identify client subscription.
+   * @param endpoint - The workspace development endpoint, for example
    *                 `https://myworkspace.dev.azuresynapse.net`.
-   * @param options The parameter options
+   * @param options - The parameter options
    */
   constructor(
     credentials: coreAuth.TokenCredential,
@@ -119,14 +119,13 @@ export class ArtifactsClient extends coreClient.ServiceClient {
         options.pipeline.getOrderedPolicies();
       bearerTokenAuthenticationPolicyFound = pipelinePolicies.some(
         (pipelinePolicy) =>
-          pipelinePolicy.name ===
-          coreRestPipeline.bearerTokenAuthenticationPolicyName,
+          pipelinePolicy.name === coreRestPipeline.bearerTokenAuthenticationPolicyName,
       );
     }
     if (
       !options ||
       !options.pipeline ||
-      options.pipeline.getOrderedPolicies().length == 0 ||
+      options.pipeline.getOrderedPolicies().length === 0 ||
       !bearerTokenAuthenticationPolicyFound
     ) {
       this.pipeline.removePolicy({
@@ -136,11 +135,9 @@ export class ArtifactsClient extends coreClient.ServiceClient {
         coreRestPipeline.bearerTokenAuthenticationPolicy({
           credential: credentials,
           scopes:
-            optionsWithDefaults.credentialScopes ??
-            `${optionsWithDefaults.endpoint}/.default`,
+            optionsWithDefaults.credentialScopes ?? `${optionsWithDefaults.endpoint}/.default`,
           challengeCallbacks: {
-            authorizeRequestOnChallenge:
-              coreClient.authorizeRequestOnClaimChallenge,
+            authorizeRequestOnChallenge: coreClient.authorizeRequestOnClaimChallenge,
           },
         }),
       );
@@ -152,9 +149,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     this.kqlScripts = new KqlScriptsImpl(this);
     this.kqlScriptOperations = new KqlScriptOperationsImpl(this);
     this.metastore = new MetastoreImpl(this);
-    this.sparkConfigurationOperations = new SparkConfigurationOperationsImpl(
-      this,
-    );
+    this.sparkConfigurationOperations = new SparkConfigurationOperationsImpl(this);
     this.bigDataPools = new BigDataPoolsImpl(this);
     this.dataFlowOperations = new DataFlowOperationsImpl(this);
     this.dataFlowDebugSession = new DataFlowDebugSessionImpl(this);
@@ -167,9 +162,7 @@ export class ArtifactsClient extends coreClient.ServiceClient {
     this.notebookOperationResult = new NotebookOperationResultImpl(this);
     this.pipelineOperations = new PipelineOperationsImpl(this);
     this.pipelineRunOperations = new PipelineRunOperationsImpl(this);
-    this.sparkJobDefinitionOperations = new SparkJobDefinitionOperationsImpl(
-      this,
-    );
+    this.sparkJobDefinitionOperations = new SparkJobDefinitionOperationsImpl(this);
     this.sqlPools = new SqlPoolsImpl(this);
     this.sqlScriptOperations = new SqlScriptOperationsImpl(this);
     this.triggerOperations = new TriggerOperationsImpl(this);

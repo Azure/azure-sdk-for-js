@@ -1,30 +1,26 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ConfidentialLedgerClient, isUnexpected } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+// Licensed under the MIT License.
+import type { ConfidentialLedgerClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { isLiveMode } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-import { Context } from "mocha";
-import { Recorder, isLiveMode } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-
-describe("Get ledger history", function () {
+describe("Get ledger history", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should obtain ledger entries from ledger", async function () {
-    if (isLiveMode()) {
-      this.skip();
-    }
-
+  it("should obtain ledger entries from ledger", { skip: isLiveMode() }, async () => {
     const result = await client.path("/app/transactions").get();
 
     assert.equal(result.status, "200");

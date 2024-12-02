@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   DEFAULT_API_VERSION,
@@ -8,20 +8,21 @@ import {
   DEPENDENCY_MODE_DISABLED,
   DEPENDENCY_MODE_ENABLED,
   DEPENDENCY_MODE_TRY_FROM_EXPANDED,
-} from "./utils/constants";
-import { createClientPipeline, InternalClientPipelineOptions } from "@azure/core-client";
-import { Fetcher } from "./fetcherAbstract";
-import { isLocalPath, normalize } from "./utils/path";
-import { FilesystemFetcher } from "./fetcherFilesystem";
-import { dependencyResolutionType } from "./dependencyResolutionType";
-import { DtmiResolver } from "./dtmiResolver";
-import { PseudoParser } from "./psuedoParser";
-import { ModelsRepositoryClientOptions } from "./interfaces/modelsRepositoryClientOptions";
-import { logger } from "./logger";
-import { IoTModelsRepositoryServiceClient } from "./modelsRepositoryServiceClient";
-import { HttpFetcher } from "./fetcherHTTP";
-import { GetModelsOptions } from "./interfaces/getModelsOptions";
-import { DTDL } from "./psuedoDtdl";
+} from "./utils/constants.js";
+import type { InternalClientPipelineOptions } from "@azure/core-client";
+import { createClientPipeline } from "@azure/core-client";
+import type { Fetcher } from "./fetcherAbstract.js";
+import { isLocalPath, normalize } from "./utils/path.js";
+import { FilesystemFetcher } from "./fetcherFilesystem.js";
+import type { dependencyResolutionType } from "./dependencyResolutionType.js";
+import { DtmiResolver } from "./dtmiResolver.js";
+import { PseudoParser } from "./psuedoParser.js";
+import type { ModelsRepositoryClientOptions } from "./interfaces/modelsRepositoryClientOptions.js";
+import { logger } from "./logger.js";
+import { IoTModelsRepositoryServiceClient } from "./modelsRepositoryServiceClient.js";
+import { HttpFetcher } from "./fetcherHTTP.js";
+import type { GetModelsOptions } from "./interfaces/getModelsOptions.js";
+import type { DTDL } from "./psuedoDtdl.js";
 
 /**
  * Initializes a new instance of the IoT Models Repository Client.

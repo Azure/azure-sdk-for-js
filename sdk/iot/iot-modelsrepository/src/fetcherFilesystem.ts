@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import fs from "fs";
-import * as path from "path";
-import { RestError, RestErrorOptions } from "@azure/core-rest-pipeline";
-import { Fetcher } from "./fetcherAbstract";
-import { logger } from "./logger";
-import { DTDL } from "./psuedoDtdl";
+import fs from "node:fs";
+import * as path from "node:path";
+import type { RestErrorOptions } from "@azure/core-rest-pipeline";
+import { RestError } from "@azure/core-rest-pipeline";
+import type { Fetcher } from "./fetcherAbstract.js";
+import { logger } from "./logger.js";
+import type { DTDL } from "./psuedoDtdl.js";
 
 function readFilePromise(filePath: string): Promise<string> {
   return new Promise((resolve, reject) => {

@@ -1,12 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CommonClientOptions, FullOperationResponse, OperationOptions } from "@azure/core-client";
-import { RestError, RequestBodyType } from "@azure/core-rest-pipeline";
-import { GeneratedClient } from "./generated/generatedClient";
-import { tracingClient } from "./tracing";
-import { getPayloadForMessage } from "./utils";
-import { JSONTypes } from "./hubClient";
+import type {
+  CommonClientOptions,
+  FullOperationResponse,
+  OperationOptions,
+} from "@azure/core-client";
+import type { RequestBodyType } from "@azure/core-rest-pipeline";
+import { RestError } from "@azure/core-rest-pipeline";
+import type { GeneratedClient } from "./generated/generatedClient.js";
+import { tracingClient } from "./tracing.js";
+import { getPayloadForMessage } from "./utils.js";
+import type { JSONTypes } from "./hubClient.js";
 
 /**
  * Options for constructing a GroupAdmin client.

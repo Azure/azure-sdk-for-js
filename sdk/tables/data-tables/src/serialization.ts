@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { EdmTypes, SignedIdentifier, TableEntityQueryOptions } from "./models";
-import {
+import type { EdmTypes, SignedIdentifier, TableEntityQueryOptions } from "./models.js";
+import type {
   QueryOptions as GeneratedQueryOptions,
   SignedIdentifier as GeneratedSignedIdentifier,
-} from "./generated/models";
-import { base64Decode, base64Encode } from "./utils/bufferSerializer";
-import { truncatedISO8061Date } from "./utils/truncateISO8061Date";
+} from "./generated/models/index.js";
+import { base64Decode, base64Encode } from "./utils/bufferSerializer.js";
+import { truncatedISO8061Date } from "./utils/truncateISO8061Date.js";
 
 const propertyCaseMap: Map<string, string> = new Map<string, string>([
   ["PartitionKey", "partitionKey"],
@@ -159,7 +159,17 @@ export function deserialize<T extends object = Record<string, any>>(
   return deserialized;
 }
 
-function inferTypedObject(propertyName: string, value: number | string | boolean) {
+function inferTypedObject(
+  propertyName: string,
+  value: number | string | boolean,
+):
+  | string
+  | number
+  | boolean
+  | {
+      value: string;
+      type: string;
+    } {
   // We need to skip service metadata fields such as partitionKey and rowKey and use the same value returned by the service
   if (propertyCaseMap.has(propertyName)) {
     return value;

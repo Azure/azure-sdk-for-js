@@ -1,25 +1,26 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { HttpHeaders, createHttpHeaders } from "@azure/core-rest-pipeline";
-import {
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { HttpHeaders } from "@azure/core-rest-pipeline";
+import { createHttpHeaders } from "@azure/core-rest-pipeline";
+import type {
   ListFilesAndDirectoriesSegmentResponse as ListFilesAndDirectoriesSegmentResponseInternal,
   ListHandlesResponse as ListHandlesResponseInternal,
   SharePermission,
   StringEncoded,
 } from "../generated/src/models";
-import {
+import type {
   DirectoryItem,
   FileItem,
   HandleItem,
   ListFilesAndDirectoriesSegmentResponse,
   ListHandlesResponse,
 } from "../generatedModels";
-import { HttpAuthorization } from "../models";
+import type { HttpAuthorization } from "../models";
 import { HeaderConstants, PathStylePorts, URLConstants } from "./constants";
 import { isNode } from "@azure/core-util";
-import { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
+import type { HttpHeadersLike, WebResourceLike } from "@azure/core-http-compat";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -413,7 +414,6 @@ export async function delay(
       resolve();
     };
 
-    /* eslint-disable-next-line prefer-const */
     timeout = setTimeout(resolveHandler, timeInMs);
     if (aborter !== undefined) {
       aborter.addEventListener("abort", abortHandler);

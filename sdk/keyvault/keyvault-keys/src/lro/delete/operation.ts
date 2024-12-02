@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { OperationOptions } from "@azure/core-client";
-import { KeyVaultClient } from "../../generated/keyVaultClient";
-import { DeleteKeyOptions, DeletedKey, GetDeletedKeyOptions } from "../../keysModels";
-import { tracingClient } from "../../tracing";
-import { getKeyFromKeyBundle } from "../../transformations";
-import { KeyVaultKeyPollOperation, KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { OperationOptions } from "@azure/core-client";
+import type { KeyVaultClient } from "../../generated/keyVaultClient.js";
+import type { DeleteKeyOptions, DeletedKey, GetDeletedKeyOptions } from "../../keysModels.js";
+import { tracingClient } from "../../tracing.js";
+import { getKeyFromKeyBundle } from "../../transformations.js";
+import type { KeyVaultKeyPollOperationState } from "../keyVaultKeyPoller.js";
+import { KeyVaultKeyPollOperation } from "../keyVaultKeyPoller.js";
 
 /**
  * An interface representing the state of a delete key's poll operation

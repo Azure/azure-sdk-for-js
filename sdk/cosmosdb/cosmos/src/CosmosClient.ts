@@ -1,18 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { Database, Databases } from "./client/Database";
 import { Offer, Offers } from "./client/Offer";
 import { ClientContext } from "./ClientContext";
 import { parseConnectionString } from "./common";
 import { Constants } from "./common/constants";
 import { getUserAgent } from "./common/platform";
-import { CosmosClientOptions } from "./CosmosClientOptions";
-import { ClientConfigDiagnostic } from "./CosmosDiagnostics";
+import type { CosmosClientOptions } from "./CosmosClientOptions";
+import type { ClientConfigDiagnostic } from "./CosmosDiagnostics";
 import { determineDiagnosticLevel, getDiagnosticLevelFromEnvironment } from "./diagnostics";
-import { DiagnosticNodeInternal, DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
-import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
+import type { DiagnosticNodeInternal } from "./diagnostics/DiagnosticNodeInternal";
+import { DiagnosticNodeType } from "./diagnostics/DiagnosticNodeInternal";
+import type { DatabaseAccount } from "./documents";
+import { defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
-import { RequestOptions, ResourceResponse } from "./request";
+import type { RequestOptions } from "./request";
+import { ResourceResponse } from "./request";
 import { checkURL } from "./utils/checkURL";
 import { getEmptyCosmosDiagnostics, withDiagnostics } from "./utils/diagnostics";
 
