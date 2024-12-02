@@ -2,8 +2,7 @@
 // Licensed under the MIT License.
 
 import { Client, StreamableMethod } from "@azure-rest/core-client";
-import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
-import { ListAgentsQueryParamProperties, ListMessagesQueryParamProperties, ListRunsQueryParamProperties, ListRunStepsQueryParamProperties, ListVectorStoresQueryParamProperties } from "../generated/src/parameters.js";
+import { AgentDeletionStatusOutput, AgentOutput, AgentThreadOutput, FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput, OpenAIPageableListOfAgentOutput, OpenAIPageableListOfRunStepOutput, OpenAIPageableListOfThreadMessageOutput, OpenAIPageableListOfThreadRunOutput, OpenAIPageableListOfVectorStoreFileOutput, OpenAIPageableListOfVectorStoreOutput, RunStepOutput, ThreadDeletionStatusOutput, ThreadMessageOutput, ThreadRunOutput, VectorStoreDeletionStatusOutput, VectorStoreFileBatchOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
 import { createAgent, deleteAgent, getAgent, listAgents, updateAgent } from "./assistants.js";
 import { deleteFile, getFile, getFileContent, listFiles, uploadFile } from "./files.js";
 import { createThread, deleteThread, getThread, updateThread } from "./threads.js";
@@ -12,33 +11,41 @@ import { createMessage, listMessages, updateMessage } from "./messages.js";
 import { AgentThreadCreationOptions, CreateAgentOptions, CreateAndRunThreadOptions, CreateRunOptions, FilePurpose, ThreadMessageOptions, ToolOutput, UpdateAgentOptions, UpdateAgentThreadOptions, VectorStoreOptions, VectorStoreUpdateOptions } from "../generated/src/models.js";
 import { createRunStreaming, createThreadAndRunStreaming, submitToolOutputsToRunStreaming } from "./streaming.js";
 import { UpdateMessageOptions } from "./messagesModels.js";
-import { AgentEventMessageStream, OptionalRequestParameters, UpdateRunOptions } from "./inputOutputs.js";
+import { AgentEventMessageStream, ListQueryParameters, OptionalRequestParameters, UpdateRunOptions } from "./inputOutputs.js";
 import { createVectorStore, deleteVectorStore, getVectorStore, listVectorStores, modifyVectorStore } from "./vectorStores.js";
 import { getRunStep, listRunSteps } from "./runSteps.js";
+import { CreateVectorStoreFileBatchOptions, CreateVectorStoreFileOptions, FileStatusFilter } from "./vectorStoresModels.js";
+import { createVectorStoreFile, deleteVectorStoreFile, getVectorStoreFile, listVectorStoreFiles } from "./vectorStoresFiles.js";
+import { cancelVectorStoreFileBatch, createVectorStoreFileBatch, getVectorStoreFileBatch, listVectorStoreFileBatchFiles } from "./vectorStoresFileBatches.js";
 
 export interface AgentsOperations {
   /** Creates a new agent. */
   createAgent: (
     model: string,
     options?: Omit<CreateAgentOptions, "model">,
+    requestParams?: OptionalRequestParameters
   ) => Promise<AgentOutput>;
 
   /** Gets a list of agents that were previously created. */
   listAgents: (
-    options?: ListAgentsQueryParamProperties,
+    options?: ListQueryParameters,
+    requestParams?: OptionalRequestParameters
   ) => Promise<OpenAIPageableListOfAgentOutput>;
   /** Retrieves an existing agent. */
   getAgent: (
-    assistantId: string
+    assistantId: string,
+    requestParams?: OptionalRequestParameters
   ) => Promise<AgentOutput>;
   /** Modifies an existing agent. */
   updateAgent: (
     assistantId: string,
     options: UpdateAgentOptions,
+    requestParams?: OptionalRequestParameters
   ) => Promise<AgentOutput>;
   /** Deletes an agent. */
   deleteAgent: (
-    assistantId: string
+    assistantId: string,
+    requestParams?: OptionalRequestParameters
   ) => Promise<AgentDeletionStatusOutput>;
 
   /** Creates a new thread. Threads contain messages and can be run by agents. */
@@ -73,7 +80,7 @@ export interface AgentsOperations {
   /** Gets a list of runs for a specified thread. */
   listRuns: (
     threadId: string,
-    options?: ListRunsQueryParamProperties,
+    options?: ListQueryParameters,
     requestParams?: OptionalRequestParameters
   ) => Promise<OpenAIPageableListOfThreadRunOutput>;
   /** Gets an existing run from an existing thread. */
@@ -119,10 +126,9 @@ export interface AgentsOperations {
     requestParams?: OptionalRequestParameters
   ) => Promise<ThreadRunOutput>;
 
-  /** create a new thread and immediately start a run of that thread and stream */
+  /** Creates a new thread and immediately start a run of that thread and stream */
   createRunStreaming: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
-
-  /** create a new thread and immediately start a run of that thread and stream */
+  /** Creates a new thread and immediately start a run of that thread and stream */
   createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
 
   /** Creates a new message on a specified thread. */
@@ -134,7 +140,8 @@ export interface AgentsOperations {
   /** Gets a list of messages that exist on a thread. */
   listMessages: (
     threadId: string,
-    options?: ListMessagesQueryParamProperties,
+    runId?: string,
+    options?: ListQueryParameters,
     requestParams?: OptionalRequestParameters,
   ) => Promise<OpenAIPageableListOfThreadMessageOutput>;
   /** Modifies an existing message on an existing thread. */
@@ -150,7 +157,7 @@ export interface AgentsOperations {
     purpose?: FilePurpose, requestParams?: OptionalRequestParameters
   ) => Promise<FileListResponseOutput>;
   /** Uploads a file for use by other operations. */
-  uploadFile: (data: ReadableStream |NodeJS.ReadableStream, purpose:FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters   
+  uploadFile: (data: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters
   ) => Promise<OpenAIFileOutput>
   /** Delete a previously uploaded file. */
   deleteFile: (
@@ -166,11 +173,11 @@ export interface AgentsOperations {
   getFileContent: (
     fileId: string,
     requestParams?: OptionalRequestParameters
-  ) => StreamableMethod<any>;
+  ) => StreamableMethod<string | Uint8Array>;
 
   /** Returns a list of vector stores. */
   listVectorStores: (
-    options?: ListVectorStoresQueryParamProperties,
+    options?: ListQueryParameters,
     requestParams?: OptionalRequestParameters,
   ) => Promise<OpenAIPageableListOfVectorStoreOutput>;
   /** Creates a vector store. */
@@ -195,6 +202,59 @@ export interface AgentsOperations {
     requestParams?: OptionalRequestParameters,
   ) => Promise<VectorStoreDeletionStatusOutput>;
 
+  /** Create a vector store file by attching a file to a vector store. */
+  createVectorStoreFile: (
+    vectorStoreId: string,
+    options?: CreateVectorStoreFileOptions,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<VectorStoreFileOutput>;
+  /** Retrieves a vector store file. */
+  getVectorStoreFile: (
+    vectorStoreId: string,
+    fileId: string,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<VectorStoreFileOutput>;
+    /** Returns a list of vector store files. */
+  listVectorStoreFiles: (
+    vectorStoreId: string,
+    options?: ListQueryParameters & FileStatusFilter,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
+  /**
+   * Delete a vector store file. This will remove the file from the vector store but the file itself will not be deleted.
+   * To delete the file, use the delete file endpoint.
+   */
+  deleteVectorStoreFile: (
+    vectorStoreId: string,
+    fileId: string,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<VectorStoreFileDeletionStatusOutput>;
+
+  /** Create a vector store file batch. */
+  createVectorStoreFileBatch: (
+    vectorStoreId: string,
+    options?: CreateVectorStoreFileBatchOptions,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<VectorStoreFileBatchOutput>;
+  /** Retrieve a vector store file batch. */
+  getVectorStoreFileBatch: (
+    vectorStoreId: string,
+    batchId: string,
+  ) => Promise<VectorStoreFileBatchOutput>;
+  /** Cancel a vector store file batch. This attempts to cancel the processing of files in this batch as soon as possible. */
+  cancelVectorStoreFileBatch: (
+    vectorStoreId: string,
+    batchId: string,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<VectorStoreFileBatchOutput>;
+  /** Returns a list of vector store files in a batch. */
+  listVectorStoreFileBatchFiles: (
+    vectorStoreId: string,
+    batchId: string,
+    options?: ListQueryParameters & FileStatusFilter,
+    requestParams?: OptionalRequestParameters,
+  ) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
+
   /** Gets a single run step from a thread run. */
   getRunStep: (
     threadId: string,
@@ -206,26 +266,28 @@ export interface AgentsOperations {
   listRunSteps: (
     threadId: string,
     runId: string,
-    options?: ListRunStepsQueryParamProperties,
+    options?: ListQueryParameters,
     requestParams?: OptionalRequestParameters,
   ) => Promise<OpenAIPageableListOfRunStepOutput>;
 }
 
 function getAgents(context: Client): AgentsOperations {
   return {
-    createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">) =>
-      createAgent(context, { body: { ...options, model } }),
-    listAgents: (options?: ListAgentsQueryParamProperties) =>
-      listAgents(context, { queryParameters: options as Record<string, unknown> }),
-    getAgent: (assistantId: string) =>
-      getAgent(context, assistantId),
+    createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">, requestParams?: OptionalRequestParameters) =>
+      createAgent(context, { body: { ...options, model }, ...requestParams }),
+    listAgents: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) =>
+      listAgents(context, { queryParameters: options as Record<string, unknown>, ...requestParams }),
+    getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) =>
+      getAgent(context, assistantId, requestParams),
     updateAgent: (
       assistantId: string,
       options: UpdateAgentOptions,
-    ) => updateAgent(context, assistantId, { body: options }),
+      requestParams?: OptionalRequestParameters
+    ) => updateAgent(context, assistantId, { body: options, ...requestParams }),
     deleteAgent: (
-      assistantId: string
-    ) => deleteAgent(context, assistantId),
+      assistantId: string,
+      requestParams?: OptionalRequestParameters
+    ) => deleteAgent(context, assistantId, requestParams),
 
     createThread: (options?: AgentThreadCreationOptions, requestParams?: OptionalRequestParameters) =>
       createThread(context, { ...requestParams, body: { ...options } }),
@@ -238,8 +300,8 @@ function getAgents(context: Client): AgentsOperations {
 
     createRun: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) =>
       createRun(context, threadId, { ...requestParams, body: { ...options, assistant_id: assistantId, } }),
-    listRuns: (threadId: string, options?: ListRunsQueryParamProperties, requestParams?: OptionalRequestParameters) =>
-      listRuns(context, threadId, { ...requestParams, body: options }),
+    listRuns: (threadId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) =>
+      listRuns(context, threadId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
     getRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) =>
       getRun(context, threadId, runId, requestParams),
     updateRun: (threadId: string, runId: string, options?: UpdateRunOptions, requestParams?: OptionalRequestParameters) =>
@@ -263,16 +325,16 @@ function getAgents(context: Client): AgentsOperations {
 
     createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) =>
       createMessage(context, threadId, { ...requestParams, body: options }),
-    listMessages: (threadId: string, options?: ListMessagesQueryParamProperties, requestParams?: OptionalRequestParameters) =>
-      listMessages(context, threadId, { ...requestParams, queryParameters: { ...options } }),
+    listMessages: (threadId: string, runId?: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) =>
+      listMessages(context, threadId, { ...requestParams, queryParameters: { runId: runId, ...options } }),
     updateMessage: (threadId: string, messageId: string, options?: UpdateMessageOptions, requestParams?: OptionalRequestParameters) =>
       updateMessage(context, threadId, messageId, { ...requestParams, body: { ...options } }),
 
     listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) =>
-      listFiles(context, {...requestParams, body: {purpose } }),
+      listFiles(context, { ...requestParams, queryParameters: { purpose: purpose } }),
     uploadFile: (content: ReadableStream | NodeJS.ReadableStream, purpose: FilePurpose, fileName?: string, requestParams?: OptionalRequestParameters) =>
       uploadFile(context, {
-        body: [{ name: "file" as const, body: content, filename: fileName }, {name: "purpose" as const, body: purpose}],
+        body: [{ name: "file" as const, body: content, filename: fileName }, { name: "purpose" as const, body: purpose }],
         ...(requestParams as { [key: string]: any; }),
         contentType: "multipart/form-data"
       }),
@@ -283,7 +345,7 @@ function getAgents(context: Client): AgentsOperations {
     getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) =>
       getFileContent(context, fileId, requestParams),
 
-    listVectorStores: (options?: ListVectorStoresQueryParamProperties, requestParams?: OptionalRequestParameters,) =>
+    listVectorStores: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters,) =>
       listVectorStores(context, { ...requestParams, queryParameters: options as Record<string, unknown> }),
     createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) =>
       createVectorStore(context, { ...requestParams, body: options as Record<string, unknown> }),
@@ -294,9 +356,27 @@ function getAgents(context: Client): AgentsOperations {
     deleteVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) =>
       deleteVectorStore(context, vectorStoreId, requestParams),
 
+    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptions, requestParams?: OptionalRequestParameters) =>
+      createVectorStoreFile(context, vectorStoreId, { ...requestParams, body: {file_id: options?.fileId, data_sources: options?.dataSources, chunking_strategy: options?.chunkingStrategy} }),
+    getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) =>
+      getVectorStoreFile(context, vectorStoreId, fileId, requestParams),
+    listVectorStoreFiles: (vectorStoreId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) =>
+      listVectorStoreFiles(context, vectorStoreId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
+    deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) =>
+      deleteVectorStoreFile(context, vectorStoreId, fileId, requestParams),
+
+    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptions, requestParams?: OptionalRequestParameters) =>
+      createVectorStoreFileBatch(context, vectorStoreId, { ...requestParams, body: { file_ids: options?.fileIds, data_sources: options?.dataSources, chunking_strategy: options?.chunkingStrategy } }),
+    getVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) =>
+      getVectorStoreFileBatch(context, vectorStoreId, batchId, requestParams),
+    cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) =>
+      cancelVectorStoreFileBatch(context, vectorStoreId, batchId, requestParams),
+    listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) =>
+      listVectorStoreFileBatchFiles(context, vectorStoreId, batchId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
+
     getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) =>
       getRunStep(context, threadId, runId, stepId, { ...requestParams }),
-    listRunSteps: (threadId: string, runId: string, options?: ListRunStepsQueryParamProperties, requestParams?: OptionalRequestParameters) =>
+    listRunSteps: (threadId: string, runId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) =>
       listRunSteps(context, threadId, runId, { ...requestParams, queryParameters: options as Record<string, unknown> }),
   };
 }

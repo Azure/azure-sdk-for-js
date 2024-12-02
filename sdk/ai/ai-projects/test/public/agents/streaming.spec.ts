@@ -59,9 +59,9 @@ describe("Agents - streaming", () => {
     assert.isNotNull(streamEventMessages);
 
     // Delete agent and thread
-    agents.deleteAgent(agent.id);
+    await agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID:  ${agent.id}`);
-    agents.deleteThread(thread.id);
+    await agents.deleteThread(thread.id);
     console.log(`Deleted Thread, thread ID:  ${thread.id}`);
   });
 
@@ -97,7 +97,7 @@ describe("Agents - streaming", () => {
     assert.isNotNull(streamEventMessages);
 
     // Delete agent
-    agents.deleteAgent(agent.id);
+    await agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID:  ${agent.id}`);
   });
 });

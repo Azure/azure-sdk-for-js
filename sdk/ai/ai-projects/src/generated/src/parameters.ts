@@ -17,6 +17,7 @@ import {
   VectorStoreOptions,
   VectorStoreUpdateOptions,
   VectorStoreFileStatusFilter,
+  VectorStoreDataSource,
   VectorStoreChunkingStrategyRequest,
   ConnectionType,
   Evaluation,
@@ -301,7 +302,8 @@ export type ListVectorStoreFilesParameters = ListVectorStoreFilesQueryParam &
 
 export interface CreateVectorStoreFileBodyParam {
   body: {
-    file_id: string;
+    file_id?: string;
+    data_sources?: Array<VectorStoreDataSource>;
     chunking_strategy?: VectorStoreChunkingStrategyRequest;
   };
 }
@@ -313,7 +315,8 @@ export type DeleteVectorStoreFileParameters = RequestParameters;
 
 export interface CreateVectorStoreFileBatchBodyParam {
   body: {
-    file_ids: string[];
+    file_ids?: string[];
+    data_sources?: Array<VectorStoreDataSource>;
     chunking_strategy?: VectorStoreChunkingStrategyRequest;
   };
 }
