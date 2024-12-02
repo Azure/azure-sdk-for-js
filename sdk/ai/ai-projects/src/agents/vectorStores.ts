@@ -12,6 +12,7 @@ export async function listVectorStores(
   context: Client,
   options?: ListVectorStoresParameters,
 ): Promise<OpenAIPageableListOfVectorStoreOutput> {
+  validateListVectorStoresParameters(options);
   const result = await context.path("/vector_stores").get(options);
   
   if (!expectedStatuses.includes(result.status)) {
@@ -25,6 +26,7 @@ export async function createVectorStore(
   context: Client,
   options?: CreateVectorStoreParameters,
 ): Promise<VectorStoreOutput> {
+  validateCreateVectorStoreParameters(options);
   const result = await context.path("/vector_stores").post(options);
   
   if (!expectedStatuses.includes(result.status)) {
@@ -39,6 +41,7 @@ export async function getVectorStore(
   vectorStoreId: string,
   options?: GetVectorStoreParameters,
 ): Promise<VectorStoreOutput> {
+  validateVectorStoreId(vectorStoreId);
   const result = await context
     .path("/vector_stores/{vectorStoreId}", vectorStoreId)
     .get(options);
@@ -55,6 +58,8 @@ export async function modifyVectorStore(
   vectorStoreId: string,
   options?: ModifyVectorStoreParameters,
 ): Promise<VectorStoreOutput> {
+  validateVectorStoreId(vectorStoreId);
+  validateModifyVectorStoreParameters(options);
   const result = await context
     .path("/vector_stores/{vectorStoreId}", vectorStoreId)
     .post(options);
@@ -71,6 +76,7 @@ export async function deleteVectorStore(
   vectorStoreId: string,
   options?: DeleteVectorStoreParameters,
 ): Promise<VectorStoreDeletionStatusOutput> {
+  validateVectorStoreId(vectorStoreId);
   const result = await context
     .path("/vector_stores/{vectorStoreId}", vectorStoreId)
     .delete(options);
@@ -79,4 +85,50 @@ export async function deleteVectorStore(
       throw createRestError(result);
   }
   return result.body; 
+}
+
+function validateVectorStoreId(vectorStoreId: string): void {
+  if (!vectorStoreId) {
+    throw new Error("Vector store ID is required");
+  }
+}
+
+function validateListVectorStoresParameters(options?: ListVectorStoresParameters): void {
+  if (options?.queryParameters?.limit && (options.queryParameters.limit < 1 || options.queryParameters.limit > 100)) {
+    throw new Error("Limit must be between 1 and 100");
+  }
+  if (options?.queryParameters?.order && !["asc", "desc"].includes(options.queryParameters.order)) {
+    throw new Error("Order must be 'asc' or 'desc'");
+  }
+}
+
+function validateCreateVectorStoreParameters(options?: CreateVectorStoreParameters): void {
+  if (options?.body?.chunking_strategy && (!options.body.file_ids || options.body.file_ids.length === 0)) {
+    throw new Error("Chunking strategy is only applicable if fileIds is non-empty");
+  }
+  if (options?.body?.metadata) {
+    if (Object.keys(options.body.metadata).length > 16) {
+      throw new Error("Only 16 key/value pairs are allowed");
+    }
+    if (Object.keys(options.body.metadata).some(value => value.length > 64)) {
+      throw new Error("Keys must be less than 64 characters");
+    }
+    if (Object.values(options.body.metadata).some(value => value.length > 512)) {
+      throw new Error("Values must be less than 512 characters");
+    }
+  }
+}
+
+function validateModifyVectorStoreParameters(options?: ModifyVectorStoreParameters): void {
+  if (options?.body?.metadata) {
+    if (Object.keys(options.body.metadata).length > 16) {
+      throw new Error("Only 16 key/value pairs are allowed");
+    }
+    if (Object.keys(options.body.metadata).some(value => value.length > 64)) {
+      throw new Error("Keys must be less than 64 characters");
+    }
+    if (Object.values(options.body.metadata).some(value => value.length > 512)) {
+      throw new Error("Values must be less than 512 characters");
+    }
+  }
 }
