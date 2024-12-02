@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import { HealthDataAIServicesContext } from "../../api/healthDataAIServicesContext.js";
-import { DeidService, DeidUpdate } from "../../models/models.js";
 import {
   deidServicesGet,
   deidServicesListByResourceGroup,
@@ -11,7 +10,8 @@ import {
   deidServicesUpdate,
   deidServicesDelete,
 } from "../../api/deidServices/index.js";
-import { PagedAsyncIterableIterator } from "../../models/pagingTypes.js";
+import { DeidService, DeidUpdate } from "../../models/models.js";
+import { PagedAsyncIterableIterator } from "../../static-helpers/pagingHelpers.js";
 import { PollerLike, OperationState } from "@azure/core-lro";
 import {
   DeidServicesGetOptionalParams,
@@ -20,7 +20,7 @@ import {
   DeidServicesCreateOptionalParams,
   DeidServicesUpdateOptionalParams,
   DeidServicesDeleteOptionalParams,
-} from "../../models/options.js";
+} from "../../api/options.js";
 
 /** Interface representing a DeidServices operations. */
 export interface DeidServicesOperations {

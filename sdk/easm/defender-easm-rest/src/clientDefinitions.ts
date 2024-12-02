@@ -28,7 +28,7 @@ import type {
   ListTaskParameters,
   GetTaskParameters,
   CancelTaskParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   ListAssetResource200Response,
   ListAssetResourceDefaultResponse,
@@ -82,7 +82,7 @@ import type {
   GetTaskDefaultResponse,
   CancelTask200Response,
   CancelTaskDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface ListAssetResource {

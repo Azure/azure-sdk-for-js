@@ -108,52 +108,6 @@ export type BrowserConnectOptions = EndpointOptions & {
 /**
  * @public
  *
- * Base playwright configuration inputs required for generating the service config.
- */
-export type PlaywrightConfigInput = {
-  /**
-   * @public
-   *
-   * Path to the global setup file. This file will be required and run before all the tests. It must export a single
-   * function that takes a [`TestConfig`] argument.
-   *
-   * Learn more about {@link https://playwright.dev/docs/test-global-setup-teardown | global setup and teardown}.
-   */
-  globalSetup?: string;
-
-  /**
-   * @public
-   *
-   * Path to the global teardown file. This file will be required and run after all the tests. It must export a single
-   * function. See also
-   * {@link https://playwright.dev/docs/api/class-testconfig#test-config-global-teardown | testConfig.globalTeardown}.
-   *
-   * Learn more about {@link https://playwright.dev/docs/test-global-setup-teardown | global setup and teardown}.
-   */
-  globalTeardown?: string;
-};
-
-/**
- * @public
- *
- * Playwright configuration integrated with Microsoft Playwright Testing.
- *
- * @remarks
- *
- * GlobalSetup and globalTeardown wraps around any existing global setup
- * and teardown present in the base playwright configuration and runs it.
- */
-export type PlaywrightConfig = {
-  use?: {
-    connectOptions: BrowserConnectOptions;
-  };
-  globalSetup?: string;
-  globalTeardown?: string;
-};
-
-/**
- * @public
- *
  * Additional options for the service.
  */
 export type PlaywrightServiceAdditionalOptions = {

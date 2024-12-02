@@ -9,7 +9,7 @@ import type {
   PipelinePolicy,
 } from "@azure/core-rest-pipeline";
 
-import { isKeyCredentialLike } from "./util";
+import { isKeyCredentialLike } from "./util.js";
 
 /**
  * The name of the header to include when a Shared Key is used for authentication.
