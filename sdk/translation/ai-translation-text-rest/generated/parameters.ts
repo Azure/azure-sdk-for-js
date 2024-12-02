@@ -9,7 +9,7 @@ import {
   ProfanityMarker,
   InputTextItem,
   DictionaryExampleTextItem,
-} from "./models";
+} from "./models.js";
 
 export interface GetSupportedLanguagesHeaders {
   /** A client-generated GUID to uniquely identify the request. */

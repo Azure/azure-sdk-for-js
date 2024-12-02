@@ -12,7 +12,7 @@ import type {
   RemoveBlocklistItemsParameters,
   GetTextBlocklistItemParameters,
   ListTextBlocklistItemsParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   AnalyzeText200Response,
   AnalyzeTextDefaultResponse,
@@ -35,7 +35,7 @@ import type {
   GetTextBlocklistItemDefaultResponse,
   ListTextBlocklistItems200Response,
   ListTextBlocklistItemsDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface AnalyzeText {

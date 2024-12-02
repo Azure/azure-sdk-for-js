@@ -38,6 +38,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     private options: FeedOptions,
     private partitionedQueryExecutionInfo: PartitionedQueryExecutionInfo,
     correlatedActivityId: string,
+    private emitRawOrderByPayload: boolean = false,
   ) {
     this.endpoint = null;
     this.pageSize = options["maxItemCount"];
@@ -86,12 +87,14 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
           sortOrders,
           this.vectorSearchBufferSize,
           partitionedQueryExecutionInfo.queryInfo.offset,
+          this.emitRawOrderByPayload,
         );
       } else {
         this.endpoint = new NonStreamingOrderByDistinctEndpointComponent(
           context,
           partitionedQueryExecutionInfo.queryInfo,
           this.vectorSearchBufferSize,
+          this.emitRawOrderByPayload,
         );
       }
     } else {
@@ -107,6 +110,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
             this.partitionedQueryExecutionInfo,
             correlatedActivityId,
           ),
+          this.emitRawOrderByPayload,
         );
       } else {
         this.endpoint = new ParallelQueryExecutionContext(
@@ -284,7 +288,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     const hasLimit = queryInfo.limit || queryInfo.limit === 0;
     if (!hasTop && !hasLimit) {
       throw new ErrorResponse(
-        "Executing a vector search query without TOP or LIMIT can consume a large number of RUs " +
+        "Executing a non-streaming search query without TOP or LIMIT can consume a large number of RUs " +
           "very fast and have long runtimes. Please ensure you are using one of the above two filters " +
           "with your vector search query.",
       );

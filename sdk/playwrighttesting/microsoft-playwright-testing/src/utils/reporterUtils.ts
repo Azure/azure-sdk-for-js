@@ -31,7 +31,7 @@ import type { CIInfo } from "./cIInfoProvider";
 import { CI_PROVIDERS } from "./cIInfoProvider";
 import { CIInfoProvider } from "./cIInfoProvider";
 import type { StorageUri } from "../model/storageUri";
-
+import { getPackageVersion } from "./utils";
 class ReporterUtils {
   private envVariables: EnvironmentVariables;
 
@@ -372,10 +372,12 @@ class ReporterUtils {
     const completed = Math.round(width * percent);
     const remaining = width - completed;
 
-    process.stdout.write("\r");
-    process.stdout.write(
-      `[${"=".repeat(completed)}${" ".repeat(remaining)}] ${Math.round(percent * 100)}%`,
-    );
+    if (current % Math.round(total / 5) === 0 || current === total) {
+      process.stdout.write("\r");
+      process.stdout.write(
+        `[${"=".repeat(completed)}${" ".repeat(remaining)}] ${Math.round(percent * 100)}%`,
+      );
+    }
   }
 
   private getTestRunConfig(): TestRunConfig {
@@ -393,7 +395,7 @@ class ReporterUtils {
       },
       testType: Constants.TEST_TYPE,
       testSdkLanguage: Constants.TEST_SDK_LANGUAGE,
-      reporterPackageVersion: Constants.REPORTER_PACKAGE_VERSION,
+      reporterPackageVersion: getPackageVersion(),
     };
     return testRunConfig;
   }

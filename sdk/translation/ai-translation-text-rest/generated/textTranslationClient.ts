@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { getClient, ClientOptions } from "@azure-rest/core-client";
-import { logger } from "./logger";
-import { TextTranslationClient } from "./clientDefinitions";
+import { logger } from "./logger.js";
+import { TextTranslationClient } from "./clientDefinitions.js";
 
 /** The optional parameters for the client */
 export interface TextTranslationClientOptions extends ClientOptions {

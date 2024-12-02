@@ -53,7 +53,7 @@ export const $host: OperationURLParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2024-08-01",
+    defaultValue: "2024-09-01",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -166,6 +166,26 @@ export const contentType: OperationParameter = {
 export const parameters: OperationParameter = {
   parameterPath: "parameters",
   mapper: ManagedClusterMapper,
+};
+
+export const ifMatch: OperationParameter = {
+  parameterPath: ["options", "ifMatch"],
+  mapper: {
+    serializedName: "If-Match",
+    type: {
+      name: "String",
+    },
+  },
+};
+
+export const ifNoneMatch: OperationParameter = {
+  parameterPath: ["options", "ifNoneMatch"],
+  mapper: {
+    serializedName: "If-None-Match",
+    type: {
+      name: "String",
+    },
+  },
 };
 
 export const parameters1: OperationParameter = {

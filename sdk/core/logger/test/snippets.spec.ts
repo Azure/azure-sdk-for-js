@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { setLogLevel, AzureLogger } from "@azure/logger";
-import { describe, it, assert } from "vitest";
+import { describe, it } from "vitest";
 
 describe("snippets", () => {
   it("basic_usage", () => {

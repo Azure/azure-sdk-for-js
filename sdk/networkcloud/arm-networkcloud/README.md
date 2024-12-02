@@ -2,11 +2,11 @@
 
 This package contains an isomorphic SDK (runs both in Node.js and in browsers) for Azure NetworkCloud client.
 
-The Network Cloud APIs provide management of the on-premises clusters and their resources, such as, racks, bare metal hosts, virtual machines, workload networks and more.
+The Network Cloud APIs provide management of the Azure Operator Nexus compute resources such as on-premises clusters, hardware resources, and workload infrastructure resources.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/networkcloud/arm-networkcloud) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/arm-networkcloud) |
-[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-networkcloud) |
+[API reference documentation](https://docs.microsoft.com/javascript/api/@azure/arm-networkcloud?view=azure-node-preview) |
 [Samples](https://github.com/Azure-Samples/azure-samples-js-management)
 
 ## Getting started

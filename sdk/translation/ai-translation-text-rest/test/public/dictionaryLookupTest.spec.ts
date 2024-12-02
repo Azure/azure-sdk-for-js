@@ -2,22 +2,21 @@
 // Licensed under the MIT License.
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { TextTranslationClient } from "../../generated";
-import { isUnexpected } from "../../generated";
-import { createTranslationClient, startRecorder } from "./utils/recordedClient";
-import type { Context } from "mocha";
+import type { TextTranslationClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createTranslationClient, startRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("DictionaryLookup tests", () => {
   let recorder: Recorder;
   let client: TextTranslationClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await startRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await startRecorder(ctx);
     client = await createTranslationClient({ recorder });
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

@@ -4,7 +4,7 @@
   "sdk-type": "client",
   "description": "A secure, persistent token cache for Azure Identity credentials that uses the OS secret-management API",
   "main": "dist/index.js",
-  "module": "dist-esm/identity-cache-persistence/src/index.js",
+  "module": "dist-esm/src/index.js",
   "types": "./types/identity-cache-persistence.d.ts",
   "scripts": {
     "build": "npm run clean && npm run extract-api && tsc -p . && dev-tool run bundle",
@@ -31,8 +31,7 @@
   },
   "files": [
     "dist/",
-    "dist-esm/identity/src",
-    "dist-esm/identity-cache-persistence/src",
+    "dist-esm/src",
     "types/identity-cache-persistence.d.ts",
     "README.md",
     "LICENSE"
