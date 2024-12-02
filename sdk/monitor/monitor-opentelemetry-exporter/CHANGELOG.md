@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.0-beta.28 ()
+
+### Other Changes
+
+- Fix setting statsbeat custom dimensions.
+
 ## 1.0.0-beta.27 (2024-10-23)
 
 ### Other Changes
