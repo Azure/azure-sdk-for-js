@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 import { defineConfig } from "vitest/config";
+import { relativeRecordingsPath } from "@azure-tools/test-recorder";
 
 export default defineConfig({
   test: {
     reporters: ["basic", "junit"],
     outputFile: {
-      junit: "test-results.xml",
+      junit: "test-results.browser.xml",
     },
     fakeTimers: {
       toFake: ["setTimeout", "Date"],
@@ -15,7 +16,6 @@ export default defineConfig({
     watch: false,
     include: ["test/**/*.spec.ts"],
     exclude: ["test/**/browser/*.spec.ts"],
-    testTimeout: 12000000,
     coverage: {
       include: ["src/**/*.ts"],
       exclude: [
@@ -28,5 +28,7 @@ export default defineConfig({
       reporter: ["text", "json", "html"],
       reportsDirectory: "coverage",
     },
+    testTimeout: 1200000,
+    hookTimeout: 1200000,
   },
 });

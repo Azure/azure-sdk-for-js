@@ -4809,7 +4809,7 @@ packages:
   /ajv-formats@3.0.1:
     resolution: {integrity: sha512-8iUql50EUR+uUcdRQ3HDqa6EVyo3docL8g5WJ3FNcWmu62IbkGUue/pEyLBW8VGKKucTPgqeks4fIU1DA4yowQ==}
     dependencies:
-      ajv: 8.13.0
+      ajv: 8.17.1
     dev: false
 
   /ajv@6.12.6:
@@ -20513,17 +20513,19 @@ packages:
     dev: false
 
   file:projects/developer-devcenter.tgz:
-    resolution: {integrity: sha512-Udy5L39qvC1bAYmkcYQ62Pj7frKtq+q6xGml9ppF+yBSMoew6HHzZVHqMi3kExEbqZX4uPABBG5nEbPdd/qDYA==, tarball: file:projects/developer-devcenter.tgz}
+    resolution: {integrity: sha512-s7vncX7737PoGCpPxsOydkdWLtXc9/DjrHO8dhCqnGbcX8D+ANTtQ+1wqqcedAf0ViX6BkPpJCiawMZbnfhY6Q==, tarball: file:projects/developer-devcenter.tgz}
     name: '@rush-temp/developer-devcenter'
     version: 0.0.0
     dependencies:
       '@azure/core-lro': 3.0.0
+      '@microsoft/api-extractor': 7.48.0(@types/node@18.19.66)
       '@types/node': 18.19.66
       '@vitest/browser': 2.1.6(@types/node@18.19.66)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.6)
       '@vitest/coverage-istanbul': 2.1.6(vitest@2.1.6)
       dotenv: 16.4.5
-      eslint: 9.15.0
+      eslint: 8.57.1
       playwright: 1.49.0
+      tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
       vitest: 2.1.6(@types/node@18.19.66)(@vitest/browser@2.1.6)
