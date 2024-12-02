@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { Context } from "@opentelemetry/api";
 import type { MetricHandler } from "../metrics/handler";
 import type { LogRecord, LogRecordProcessor } from "@opentelemetry/sdk-logs";
 
@@ -16,7 +15,7 @@ export class AzureLogRecordProcessor implements LogRecordProcessor {
     this._metricHandler = metricHandler;
   }
 
-  public onEmit(logRecord: LogRecord, context: Context): void {
+  public onEmit(logRecord: LogRecord): void {
     this._metricHandler.recordLog(logRecord);
   }
 

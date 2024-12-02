@@ -19,7 +19,6 @@ import type {
 import type { ProxyTracerProvider, Span } from "@opentelemetry/api";
 import { metrics, trace } from "@opentelemetry/api";
 import { NodeTracerProvider } from "@opentelemetry/sdk-trace-node";
-import { AI_OPERATION_NAME } from "../../../../src/types";
 
 describe("Library/TraceHandler", () => {
   let http: any = null;
