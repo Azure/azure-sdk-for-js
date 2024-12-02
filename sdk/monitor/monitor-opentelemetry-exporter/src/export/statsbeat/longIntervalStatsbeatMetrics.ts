@@ -98,8 +98,6 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     this.attachStatsbeatGauge = this.longIntervalStatsbeatMeter.createObservableGauge(
       StatsbeatCounter.ATTACH,
     );
-
-    // TODO: Adding this to ensure that the resource provider is set before exporting statsbeat
     this.isInitialized = true;
     this.initialize();
 
