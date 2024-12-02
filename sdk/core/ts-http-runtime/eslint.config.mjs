@@ -6,6 +6,7 @@ export default [
     rules: {
       "@azure/azure-sdk/ts-package-json-engine-is-present": "off",
       "@azure/azure-sdk/ts-package-json-name": "off",
+      "@azure/azure-sdk/ts-versioning-semver": "off",
     },
   },
 ];
