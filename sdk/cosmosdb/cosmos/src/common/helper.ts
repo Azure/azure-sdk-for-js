@@ -9,7 +9,6 @@ import {
   BooleanSerializer,
 } from "../encryption/Serializers";
 import { TypeMarker } from "../encryption/enums/TypeMarker";
-import { JSONValue } from "../queryExecutionContext";
 import { OperationType, ResourceType } from "./constants";
 
 const trimLeftSlashes = new RegExp("^[/]+");
@@ -375,8 +374,30 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
  * in the CRUD methods.
  * @hidden
  */
-export function copyObject(obj: JSONValue): any {
-  return JSON.parse(JSON.stringify(obj));
+export function copyObject(obj: any): any {
+  function deepCopyRecursive(obj: any): any {
+    if (obj === null || typeof obj !== "object") {
+      return obj;
+    }
+
+    if (Array.isArray(obj)) {
+      const arrCopy = [];
+      for (const item of obj) {
+        arrCopy.push(deepCopyRecursive(item));
+      }
+      return arrCopy;
+    }
+
+    const objCopy = {} as any;
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        objCopy[key] = deepCopyRecursive(obj[key]);
+      }
+    }
+    return objCopy;
+  }
+
+  return deepCopyRecursive(obj);
 }
 
 /**
