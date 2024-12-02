@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure-rest/core-client";
-import type { ReleaseDelay } from "./models";
+import type { ReleaseDelay } from "./models.js";
 
 export interface PublishCloudEventOptionalParams extends OperationOptions {
   /** content type */

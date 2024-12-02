@@ -3,12 +3,11 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createRecorder } from "./utils/recordedClient";
-import type { Context } from "mocha";
-import type { DiscoSource, EasmClient } from "../../src";
-import EasmDefender, { isUnexpected } from "../../src";
+import { createRecorder } from "./utils/recordedClient.js";
+import type { DiscoSource, EasmClient } from "../../src/index.js";
+import EasmDefender, { isUnexpected } from "../../src/index.js";
 import { createTestCredential } from "@azure-tools/test-credential";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Discovery Groups Test", () => {
   let recorder: Recorder;
@@ -20,8 +19,8 @@ describe("Discovery Groups Test", () => {
   let seed_kind: string;
   let seed_name: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     const subscription_id = assertEnvironmentVariable("SUBSCRIPTION_ID");
     const resource_group = assertEnvironmentVariable("RESOURCEGROUPNAME");
     const workspace_name = assertEnvironmentVariable("WORKSPACENAME");
@@ -42,7 +41,7 @@ describe("Discovery Groups Test", () => {
     seed_name = "example.org";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 

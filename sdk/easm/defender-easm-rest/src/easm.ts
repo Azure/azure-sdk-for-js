@@ -3,9 +3,9 @@
 
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
-import { logger } from "./logger";
+import { logger } from "./logger.js";
 import type { TokenCredential } from "@azure/core-auth";
-import type { EasmClient } from "./clientDefinitions";
+import type { EasmClient } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of `EasmClient`
