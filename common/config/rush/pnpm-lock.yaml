@@ -4347,6 +4347,40 @@ packages:
       - vite
     dev: false
 
+  /@vitest/browser@2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8):
+    resolution: {integrity: sha512-OWVvEJThRgxlNMYNVLEK/9qVkpRcLvyuKLngIV3Hob01P56NjPHprVBYn+rx4xAJudbM9yrCrywPIEuA3Xyo8A==}
+    peerDependencies:
+      playwright: '*'
+      safaridriver: '*'
+      vitest: 2.1.8
+      webdriverio: '*'
+    peerDependenciesMeta:
+      playwright:
+        optional: true
+      safaridriver:
+        optional: true
+      webdriverio:
+        optional: true
+    dependencies:
+      '@testing-library/dom': 10.4.0
+      '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
+      '@vitest/mocker': 2.1.8(msw@2.6.6)
+      '@vitest/utils': 2.1.8
+      magic-string: 0.30.14
+      msw: 2.6.6(@types/node@18.19.67)(typescript@5.6.3)
+      playwright: 1.49.0
+      sirv: 3.0.0
+      tinyrainbow: 1.2.0
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
+      ws: 8.18.0
+    transitivePeerDependencies:
+      - '@types/node'
+      - bufferutil
+      - typescript
+      - utf-8-validate
+      - vite
+    dev: false
+
   /@vitest/coverage-istanbul@1.6.0(vitest@1.6.0):
     resolution: {integrity: sha512-h/BwpXehkkS0qsNCS00QxiupAqVkNi0WT19BR0dQvlge5oHghoSVLx63fABYFoKxVb7Ue7+k6V2KokmQ1zdMpg==}
     peerDependencies:
@@ -4386,6 +4420,26 @@ packages:
       - supports-color
     dev: false
 
+  /@vitest/coverage-istanbul@2.1.8(vitest@2.1.8):
+    resolution: {integrity: sha512-cSaCd8KcWWvgDwEJSXm0NEWZ1YTiJzjicKHy+zOEbUm0gjbbkz+qJf1p8q71uBzSlS7vdnZA8wRLeiwVE3fFTA==}
+    peerDependencies:
+      vitest: 2.1.8
+    dependencies:
+      '@istanbuljs/schema': 0.1.3
+      debug: 4.3.7(supports-color@8.1.1)
+      istanbul-lib-coverage: 3.2.2
+      istanbul-lib-instrument: 6.0.3
+      istanbul-lib-report: 3.0.1
+      istanbul-lib-source-maps: 5.0.6
+      istanbul-reports: 3.1.7
+      magicast: 0.3.5
+      test-exclude: 7.0.1
+      tinyrainbow: 1.2.0
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
+    transitivePeerDependencies:
+      - supports-color
+    dev: false
+
   /@vitest/expect@1.6.0:
     resolution: {integrity: sha512-ixEvFVQjycy/oNgHjqsL6AZCDduC+tflRluaHIzKIsdbzkLn2U/iBnVeJwB6HsIjQBdfMR8Z0tRxKUsvFJEeWQ==}
     dependencies:
@@ -4399,6 +4453,15 @@ packages:
     dependencies:
       '@vitest/spy': 2.1.7
       '@vitest/utils': 2.1.7
+      chai: 5.1.2
+      tinyrainbow: 1.2.0
+    dev: false
+
+  /@vitest/expect@2.1.8:
+    resolution: {integrity: sha512-8ytZ/fFHq2g4PJVAtDX57mayemKgDR6X3Oa2Foro+EygiOJHUXhCqBAAKQYYajZpFoIfvBCF1j6R6IYRSIUFuw==}
+    dependencies:
+      '@vitest/spy': 2.1.8
+      '@vitest/utils': 2.1.8
       chai: 5.1.2
       tinyrainbow: 1.2.0
     dev: false
@@ -4437,8 +4500,48 @@ packages:
       vite: 5.4.11(@types/node@18.19.67)
     dev: false
 
+  /@vitest/mocker@2.1.8(msw@2.6.6):
+    resolution: {integrity: sha512-7guJ/47I6uqfttp33mgo6ga5Gr1VnL58rcqYKyShoRK9ebu8T5Rs6HN3s1NABiBeVTdWNrwUMcHH54uXZBN4zA==}
+    peerDependencies:
+      msw: ^2.4.9
+      vite: ^5.0.0
+    peerDependenciesMeta:
+      msw:
+        optional: true
+      vite:
+        optional: true
+    dependencies:
+      '@vitest/spy': 2.1.8
+      estree-walker: 3.0.3
+      magic-string: 0.30.14
+      msw: 2.6.6(@types/node@18.19.67)(typescript@5.6.3)
+    dev: false
+
+  /@vitest/mocker@2.1.8(vite@5.4.11):
+    resolution: {integrity: sha512-7guJ/47I6uqfttp33mgo6ga5Gr1VnL58rcqYKyShoRK9ebu8T5Rs6HN3s1NABiBeVTdWNrwUMcHH54uXZBN4zA==}
+    peerDependencies:
+      msw: ^2.4.9
+      vite: ^5.0.0
+    peerDependenciesMeta:
+      msw:
+        optional: true
+      vite:
+        optional: true
+    dependencies:
+      '@vitest/spy': 2.1.8
+      estree-walker: 3.0.3
+      magic-string: 0.30.14
+      vite: 5.4.11(@types/node@18.19.67)
+    dev: false
+
   /@vitest/pretty-format@2.1.7:
     resolution: {integrity: sha512-HoqRIyfQlXPrRDB43h0lC8eHPUDPwFweMaD6t+psOvwClCC+oZZim6wPMjuoMnRdiFxXqbybg/QbuewgTwK1vA==}
+    dependencies:
+      tinyrainbow: 1.2.0
+    dev: false
+
+  /@vitest/pretty-format@2.1.8:
+    resolution: {integrity: sha512-9HiSZ9zpqNLKlbIDRWOnAWqgcA7xu+8YxXSekhr0Ykab7PAYFkhkwoqVArPOtJhPmYeE2YHgKZlj3CP36z2AJQ==}
     dependencies:
       tinyrainbow: 1.2.0
     dev: false
@@ -4458,6 +4561,13 @@ packages:
       pathe: 1.1.2
     dev: false
 
+  /@vitest/runner@2.1.8:
+    resolution: {integrity: sha512-17ub8vQstRnRlIU5k50bG+QOMLHRhYPAna5tw8tYbj+jzjcspnwnwtPtiOlkuKC4+ixDPTuLZiqiWWQ2PSXHVg==}
+    dependencies:
+      '@vitest/utils': 2.1.8
+      pathe: 1.1.2
+    dev: false
+
   /@vitest/snapshot@1.6.0:
     resolution: {integrity: sha512-+Hx43f8Chus+DCmygqqfetcAZrDJwvTj0ymqjQq4CvmpKFSTVteEOBzCusu1x2tt4OJcvBflyHUE0DZSLgEMtQ==}
     dependencies:
@@ -4474,6 +4584,14 @@ packages:
       pathe: 1.1.2
     dev: false
 
+  /@vitest/snapshot@2.1.8:
+    resolution: {integrity: sha512-20T7xRFbmnkfcmgVEz+z3AU/3b0cEzZOt/zmnvZEctg64/QZbSDJEVm9fLnnlSi74KibmRsO9/Qabi+t0vCRPg==}
+    dependencies:
+      '@vitest/pretty-format': 2.1.8
+      magic-string: 0.30.14
+      pathe: 1.1.2
+    dev: false
+
   /@vitest/spy@1.6.0:
     resolution: {integrity: sha512-leUTap6B/cqi/bQkXUu6bQV5TZPx7pmMBKBQiI0rJA8c3pB56ZsaTbREnF7CJfmvAS4V2cXIBAh/3rVwrrCYgw==}
     dependencies:
@@ -4482,6 +4600,12 @@ packages:
 
   /@vitest/spy@2.1.7:
     resolution: {integrity: sha512-e5pzIaIC0LBrb/j1FaF7HXlPJLGtltiAkwXTMqNEHALJc7USSLEwziJ+aIWTmjsWNg89zazg37h7oZITnublsQ==}
+    dependencies:
+      tinyspy: 3.0.2
+    dev: false
+
+  /@vitest/spy@2.1.8:
+    resolution: {integrity: sha512-5swjf2q95gXeYPevtW0BLk6H8+bPlMb4Vw/9Em4hFxDcaOxS+e0LOX4yqNxoHzMR2akEB2xfpnWUzkZokmgWDg==}
     dependencies:
       tinyspy: 3.0.2
     dev: false
@@ -4499,6 +4623,14 @@ packages:
     resolution: {integrity: sha512-7gUdvIzCCuIrMZu0WHTvDJo8C1NsUtOqmwmcS3bRHUcfHemj29wmkzLVNuWQD7WHoBD/+I7WIgrnzt7kxR54ow==}
     dependencies:
       '@vitest/pretty-format': 2.1.7
+      loupe: 3.1.2
+      tinyrainbow: 1.2.0
+    dev: false
+
+  /@vitest/utils@2.1.8:
+    resolution: {integrity: sha512-dwSoui6djdwbfFmIgbIjX2ZhIoG7Ex/+xpxyiEgIGzjliY8xGkcpITKTlp6B4MgtGkF2ilvm97cPM96XZaAgcA==}
+    dependencies:
+      '@vitest/pretty-format': 2.1.8
       loupe: 3.1.2
       tinyrainbow: 1.2.0
     dev: false
@@ -11019,6 +11151,28 @@ packages:
       - terser
     dev: false
 
+  /vite-node@2.1.8(@types/node@18.19.67):
+    resolution: {integrity: sha512-uPAwSr57kYjAUux+8E2j0q0Fxpn8M9VoyfGiRI8Kfktz9NcYMCenwY5RnZxnF1WTu3TGiYipirIzacLL3VVGFg==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    hasBin: true
+    dependencies:
+      cac: 6.7.14
+      debug: 4.3.7(supports-color@8.1.1)
+      es-module-lexer: 1.5.4
+      pathe: 1.1.2
+      vite: 5.4.11(@types/node@18.19.67)
+    transitivePeerDependencies:
+      - '@types/node'
+      - less
+      - lightningcss
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+    dev: false
+
   /vite@5.4.11(@types/node@18.19.67):
     resolution: {integrity: sha512-c7jFQRklXua0mTzneGW9QVyxFjUgwcihC4bXEtujIo2ouWCe1Ajt/amn2PCxYnhYfd5k09JX3SB7OYWFKYqj8Q==}
     engines: {node: ^18.0.0 || >=20.0.0}
@@ -11258,6 +11412,65 @@ packages:
       tinyrainbow: 1.2.0
       vite: 5.4.11(@types/node@20.17.9)
       vite-node: 2.1.7(@types/node@20.17.9)
+      why-is-node-running: 2.3.0
+    transitivePeerDependencies:
+      - less
+      - lightningcss
+      - msw
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
+      - supports-color
+      - terser
+    dev: false
+
+  /vitest@2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8):
+    resolution: {integrity: sha512-1vBKTZskHw/aosXqQUlVWWlGUxSJR8YtiyZDJAFeW2kPAeX6S3Sool0mjspO+kXLuxVWlEDDowBAeqeAQefqLQ==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    hasBin: true
+    peerDependencies:
+      '@edge-runtime/vm': '*'
+      '@types/node': ^18.0.0 || >=20.0.0
+      '@vitest/browser': 2.1.8
+      '@vitest/ui': 2.1.8
+      happy-dom: '*'
+      jsdom: '*'
+    peerDependenciesMeta:
+      '@edge-runtime/vm':
+        optional: true
+      '@types/node':
+        optional: true
+      '@vitest/browser':
+        optional: true
+      '@vitest/ui':
+        optional: true
+      happy-dom:
+        optional: true
+      jsdom:
+        optional: true
+    dependencies:
+      '@types/node': 18.19.67
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/expect': 2.1.8
+      '@vitest/mocker': 2.1.8(vite@5.4.11)
+      '@vitest/pretty-format': 2.1.8
+      '@vitest/runner': 2.1.8
+      '@vitest/snapshot': 2.1.8
+      '@vitest/spy': 2.1.8
+      '@vitest/utils': 2.1.8
+      chai: 5.1.2
+      debug: 4.3.7(supports-color@8.1.1)
+      expect-type: 1.1.0
+      magic-string: 0.30.14
+      pathe: 1.1.2
+      std-env: 3.8.0
+      tinybench: 2.9.0
+      tinyexec: 0.3.1
+      tinypool: 1.0.2
+      tinyrainbow: 1.2.0
+      vite: 5.4.11(@types/node@18.19.67)
+      vite-node: 2.1.8(@types/node@18.19.67)
       why-is-node-running: 2.3.0
     transitivePeerDependencies:
       - less
@@ -20118,7 +20331,7 @@ packages:
     dev: false
 
   file:projects/eventgrid-namespaces.tgz:
-    resolution: {integrity: sha512-OmB6m/JuPn29AEB/+j2nIzQ45u9gys+CT9eXmxsU3ZztIEQFBf7lGxAmpzs6RzGzBA2ZYAj1Q/wJfB4utApm2A==, tarball: file:projects/eventgrid-namespaces.tgz}
+    resolution: {integrity: sha512-31t8p/MJncx5h2r4hTfU+RD+pLoChbFxxot6xQdioVpsJyH1Wyrl1A26yV4uAyzO0ooKushRrIUj2GbVpb5Rig==, tarball: file:projects/eventgrid-namespaces.tgz}
     name: '@rush-temp/eventgrid-namespaces'
     version: 0.0.0
     dependencies:
@@ -20131,8 +20344,8 @@ packages:
       '@types/node': 18.19.67
       '@types/sinon': 17.0.3
       '@types/uuid': 8.3.4
-      '@vitest/browser': 2.1.6(@types/node@18.19.66)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.6)
-      '@vitest/coverage-istanbul': 2.1.6(vitest@2.1.6)
+      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
+      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
       buffer: 6.0.3
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
@@ -20155,7 +20368,7 @@ packages:
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.6(@types/node@18.19.66)(@vitest/browser@2.1.6)
+      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20173,11 +20386,9 @@ packages:
       - sugarss
       - supports-color
       - terser
-      - tsx
       - utf-8-validate
       - vite
       - webdriverio
-      - yaml
     dev: false
 
   file:projects/eventgrid-system-events.tgz:
@@ -21277,7 +21488,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
-    resolution: {integrity: sha512-LR01bnuhUjLmqWd+4Ti/9Dywdu8VzgOZEi8mjK9OX0DQeXH9BItASAMtCrmzSwffCdEORSMg8jbFXb1wAjFO/w==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-P2Dn/x4ZkmwEL4t6zD5ObCNR6bIcDs+rMqO0flALaeTGiAPXF0RN98ZSJmEofy57xTtT7jhOJwRBaRV9MMUPtw==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
@@ -21288,6 +21499,8 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
@@ -21305,19 +21518,33 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
       uuid: 8.3.2
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/mock-hub.tgz:
