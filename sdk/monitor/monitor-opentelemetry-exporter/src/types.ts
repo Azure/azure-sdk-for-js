@@ -82,8 +82,3 @@ export enum MaxPropertyLengths {
   THIRTEEN_BIT = 8192,
   FIFTEEN_BIT = 32768,
 }
-
-/**
- * Operation Name attribute name.
- */
-export const AI_OPERATION_NAME = "ai.operation.name";
