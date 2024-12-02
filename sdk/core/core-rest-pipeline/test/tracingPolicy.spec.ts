@@ -269,14 +269,16 @@ describe("tracingPolicy", function () {
           },
         });
 
-        const policy = tracingPolicy();
-        const next = vi.fn<SendRequest>();
-        next.mockResolvedValue({
+        const response = {
           headers: createHttpHeaders(),
           request: request,
           status: statusCode,
           bodyAsText: JSON.stringify({}),
-        });
+        };
+
+        const policy = tracingPolicy();
+        const next = vi.fn<SendRequest>();
+        next.mockResolvedValue(response);
 
         await policy.sendRequest(request, next);
         const createdSpan = activeInstrumenter.lastSpanCreated;
