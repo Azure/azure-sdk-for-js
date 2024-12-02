@@ -578,6 +578,13 @@ export const StorageLifecyclePolicyCompletedEventData: coreClient.CompositeMappe
           name: "String"
         }
       },
+      policyRunSummary: {
+        serializedName: "policyRunSummary",
+        type: {
+          name: "Composite",
+          className: "StorageLifecyclePolicyRunSummary"
+        }
+      },
       deleteSummary: {
         serializedName: "deleteSummary",
         type: {
@@ -604,6 +611,22 @@ export const StorageLifecyclePolicyCompletedEventData: coreClient.CompositeMappe
         type: {
           name: "Composite",
           className: "StorageLifecyclePolicyActionSummaryDetail"
+        }
+      }
+    }
+  }
+};
+
+export const StorageLifecyclePolicyRunSummary: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageLifecyclePolicyRunSummary",
+    modelProperties: {
+      completionStatus: {
+        serializedName: "completionStatus",
+        required: true,
+        type: {
+          name: "String"
         }
       }
     }
@@ -9314,6 +9337,17 @@ export const ResourceNotificationsResourceManagementCreatedOrUpdatedEventData: c
     name: "Composite",
     className:
       "ResourceNotificationsResourceManagementCreatedOrUpdatedEventData",
+    modelProperties: {
+      ...ResourceNotificationsResourceUpdatedEventData.type.modelProperties
+    }
+  }
+};
+
+export const ResourceNotificationsContainerServiceEventResourcesScheduledEventData: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className:
+      "ResourceNotificationsContainerServiceEventResourcesScheduledEventData",
     modelProperties: {
       ...ResourceNotificationsResourceUpdatedEventData.type.modelProperties
     }
