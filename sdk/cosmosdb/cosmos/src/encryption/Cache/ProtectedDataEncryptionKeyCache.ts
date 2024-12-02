@@ -34,7 +34,7 @@ export class ProtectedDataEncryptionKeyCache {
     this.protectedDataEncryptionKeyCache.set(key, [new Date(), protectedDataEncryptionKey]);
   }
 
-  public async clearCacheOnTtlExpiry(): Promise<void> {
+  private async clearCacheOnTtlExpiry(): Promise<void> {
     this.cacheRefresher = setInterval(() => {
       const now = new Date();
       for (const key of this.protectedDataEncryptionKeyCache.keys()) {

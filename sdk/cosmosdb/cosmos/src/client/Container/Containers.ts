@@ -46,7 +46,7 @@ export class Containers {
     public readonly database: Database,
     private readonly clientContext: ClientContext,
     private encryptionManager?: EncryptionManager,
-  ) { }
+  ) {}
 
   /**
    * Queries all containers.

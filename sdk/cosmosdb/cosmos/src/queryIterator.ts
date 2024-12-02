@@ -34,7 +34,6 @@ import { MetadataLookUpType } from "./CosmosDiagnostics";
 import { randomUUID } from "@azure/core-util";
 import { HybridQueryExecutionContext } from "./queryExecutionContext/hybridQueryExecutionContext";
 import { PartitionKeyRangeCache } from "./routing";
-import { EncryptionProcessor } from "./encryption";
 import { Container } from "./client";
 
 /**
@@ -50,8 +49,6 @@ export class QueryIterator<T> {
   private isInitialized: boolean;
   private correlatedActivityId: string;
   private partitionKeyRangeCache: PartitionKeyRangeCache;
-
-  private encryptionProcessor: EncryptionProcessor;
   /**
    * @internal
    */

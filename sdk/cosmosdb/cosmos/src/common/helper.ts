@@ -148,7 +148,7 @@ export function parsePath(path: string): string[] {
     const quote = path[currentIndex];
     let newIndex = ++currentIndex;
 
-    for (; ;) {
+    for (;;) {
       newIndex = path.indexOf(quote, newIndex);
       if (newIndex === -1) {
         throwError();

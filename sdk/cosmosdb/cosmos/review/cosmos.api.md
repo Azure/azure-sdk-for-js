@@ -8,7 +8,7 @@ import { AbortError } from '@azure/abort-controller';
 import type { HttpClient } from '@azure/core-rest-pipeline';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
-import type { TokenCredential } from '@azure/core-auth';
+import { TokenCredential } from '@azure/core-auth';
 
 export { AbortError }
 
@@ -698,7 +698,7 @@ export class Container {
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
     get scripts(): Scripts;
-    throwIfRequestNeedsARetryPostPolicyRefresh(errorResponse: any): Promise<void>;
+    throwIfRequestNeedsARetryPostPolicyRefresh(errorResponse: ErrorResponse): Promise<void>;
     get url(): string;
 }
 
