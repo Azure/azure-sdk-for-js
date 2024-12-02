@@ -9,6 +9,7 @@ export {
   AggregateType,
   GroupByExpressions,
   GroupByAliasToAggregateType,
+  HybridSearchQueryInfo,
 } from "./ErrorResponse";
 export { FeedOptions } from "./FeedOptions";
 export { RequestOptions } from "./RequestOptions";
@@ -19,3 +20,4 @@ export { StatusCode, SubStatusCode } from "./StatusCodes";
 export { FeedResponse } from "./FeedResponse";
 export { RequestContext } from "./RequestContext";
 export { TimeoutError } from "./TimeoutError";
+export * from "./globalStatistics";

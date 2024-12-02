@@ -43,17 +43,15 @@ export default leafCommand(commandInfo, async (options) => {
     }
   }
 
-  const diagnostics = project.getPreEmitDiagnostics().filter((d) =>
-    {
-      const filepath = d.getSourceFile()?.getFilePath();
-      return !(
-        filepath?.includes("node_modules") &&
-        (filepath?.includes("@vitest") ||
-          filepath?.includes("vite-node") ||
-          filepath?.includes("chai"))
-      );
-    },
-  );
+  const diagnostics = project.getPreEmitDiagnostics().filter((d) => {
+    const filepath = d.getSourceFile()?.getFilePath();
+    return !(
+      filepath?.includes("node_modules") &&
+      (filepath?.includes("@vitest") ||
+        filepath?.includes("vite-node") ||
+        filepath?.includes("chai"))
+    );
+  });
   const hasError = diagnostics.some((d) => d.getCategory() === DiagnosticCategory.Error);
   if (hasError) {
     log.error(

@@ -8,17 +8,17 @@ import { isNode } from "@azure/core-util";
 import type { PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
 import type { AbortSignalLike } from "@azure/abort-controller";
-import { AuthenticationError, AuthenticationErrorName } from "../errors";
-import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint";
-import { DefaultAuthorityHost, SDK_VERSION } from "../constants";
-import { tracingClient } from "../util/tracing";
-import { logger } from "../util/logging";
-import type { TokenCredentialOptions } from "../tokenCredentialOptions";
-import type { TokenResponseParsedBody } from "../credentials/managedIdentityCredential/utils";
+import { AuthenticationError, AuthenticationErrorName } from "../errors.js";
+import { getIdentityTokenEndpointSuffix } from "../util/identityTokenEndpoint.js";
+import { DefaultAuthorityHost, SDK_VERSION } from "../constants.js";
+import { tracingClient } from "../util/tracing.js";
+import { logger } from "../util/logging.js";
+import type { TokenCredentialOptions } from "../tokenCredentialOptions.js";
+import type { TokenResponseParsedBody } from "../credentials/managedIdentityCredential/utils.js";
 import {
   parseExpirationTimestamp,
   parseRefreshTimestamp,
-} from "../credentials/managedIdentityCredential/utils";
+} from "../credentials/managedIdentityCredential/utils.js";
 
 const noCorrelationId = "noCorrelationId";
 

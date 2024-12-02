@@ -6,15 +6,15 @@ import {
   checkTenantId,
   processMultiTenantRequest,
   resolveAdditionallyAllowedTenantIds,
-} from "../util/tenantIdUtils";
-import { credentialLogger, formatError, formatSuccess } from "../util/logging";
-import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils";
+} from "../util/tenantIdUtils.js";
+import { credentialLogger, formatError, formatSuccess } from "../util/logging.js";
+import { ensureValidScopeForDevTimeCreds, getScopeResource } from "../util/scopeUtils.js";
 
-import type { AzureCliCredentialOptions } from "./azureCliCredentialOptions";
-import { CredentialUnavailableError } from "../errors";
+import type { AzureCliCredentialOptions } from "./azureCliCredentialOptions.js";
+import { CredentialUnavailableError } from "../errors.js";
 import child_process from "child_process";
-import { tracingClient } from "../util/tracing";
-import { checkSubscription } from "../util/subscriptionUtils";
+import { tracingClient } from "../util/tracing.js";
+import { checkSubscription } from "../util/subscriptionUtils.js";
 
 /**
  * Mockable reference to the CLI credential cliCredentialFunctions

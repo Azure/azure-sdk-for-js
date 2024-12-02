@@ -46,6 +46,7 @@ export const defaultClient = new CosmosClient({
   endpoint,
   key: masterKey,
   connectionPolicy: { enableBackgroundEndpointRefreshing: false },
+  diagnosticLevel: CosmosDbDiagnosticLevel.info,
 });
 
 export const defaultComputeGatewayClient = new CosmosClient({
