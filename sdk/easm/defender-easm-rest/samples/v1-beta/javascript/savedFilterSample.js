@@ -31,12 +31,15 @@ async function main() {
   const saved_filter_name = "Sample saved filter";
 
   const client = EasmDefender(
-    endpoint,
-    subscription_id,
-    resource_group,
+    endpoint +
+    "/subscriptions/" +
+    subscription_id +
+    "/resourceGroups/" +
+    resource_group +
+    "/workspaces/" +
     workspace_name,
     credential,
-    {}
+    {},
   );
 
   // To create a Saved Filter, we need to send a filter, name, and description to the /savedFilters/{filterName} endpoint

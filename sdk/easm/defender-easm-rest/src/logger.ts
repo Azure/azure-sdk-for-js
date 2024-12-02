@@ -2,4 +2,4 @@
 // Licensed under the MIT License.
 
 import { createClientLogger } from "@azure/logger";
-export const logger = createClientLogger("defender-easm");
+export const logger = createClientLogger("defender-easm-rest");

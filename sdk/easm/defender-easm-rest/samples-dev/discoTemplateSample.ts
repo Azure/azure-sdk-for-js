@@ -33,10 +33,7 @@ async function main() {
   console.log(`Partial name is ${partial_name}`);
 
   const client = EasmDefender(
-    endpoint,
-    subscription_id,
-    resource_group,
-    workspace_name,
+    endpoint + "/subscriptions/" + subscription_id + "/resourceGroups/" + resource_group + "/workspaces/" + workspace_name,
     credential,
     {}
   );

@@ -31,7 +31,8 @@ export interface ListAssetResourceQueryParam {
 export type ListAssetResourceParameters = ListAssetResourceQueryParam & RequestParameters;
 
 export interface UpdateAssetsBodyParam {
-  body?: AssetUpdateData;
+  /** Body parameter. */
+  body: AssetUpdateData;
 }
 
 export interface UpdateAssetsQueryParamProperties {
@@ -62,14 +63,16 @@ export interface ListDataConnectionQueryParam {
 export type ListDataConnectionParameters = ListDataConnectionQueryParam & RequestParameters;
 
 export interface ValidateDataConnectionBodyParam {
-  body?: DataConnectionData;
+  /** Body parameter. */
+  body: DataConnectionData;
 }
 
 export type ValidateDataConnectionParameters = ValidateDataConnectionBodyParam & RequestParameters;
 export type GetDataConnectionParameters = RequestParameters;
 
 export interface CreateOrReplaceDataConnectionBodyParam {
-  body?: DataConnectionData;
+  /** Body parameter. */
+  body: DataConnectionData;
 }
 
 export type CreateOrReplaceDataConnectionParameters = CreateOrReplaceDataConnectionBodyParam &
@@ -92,14 +95,16 @@ export interface ListDiscoGroupQueryParam {
 export type ListDiscoGroupParameters = ListDiscoGroupQueryParam & RequestParameters;
 
 export interface ValidateDiscoGroupBodyParam {
-  body?: DiscoGroupData;
+  /** Body parameter. */
+  body: DiscoGroupData;
 }
 
 export type ValidateDiscoGroupParameters = ValidateDiscoGroupBodyParam & RequestParameters;
 export type GetDiscoGroupParameters = RequestParameters;
 
 export interface CreateOrReplaceDiscoGroupBodyParam {
-  body?: DiscoGroupData;
+  /** Body parameter. */
+  body: DiscoGroupData;
 }
 
 export type CreateOrReplaceDiscoGroupParameters = CreateOrReplaceDiscoGroupBodyParam &
@@ -139,13 +144,15 @@ export type GetDiscoTemplateParameters = RequestParameters;
 export type GetBillableParameters = RequestParameters;
 
 export interface GetSnapshotBodyParam {
-  body?: ReportAssetSnapshotRequest;
+  /** Body parameter. */
+  body: ReportAssetSnapshotRequest;
 }
 
 export type GetSnapshotParameters = GetSnapshotBodyParam & RequestParameters;
 
 export interface GetSummaryBodyParam {
-  body?: ReportAssetSummaryRequest;
+  /** Body parameter. */
+  body: ReportAssetSummaryRequest;
 }
 
 export type GetSummaryParameters = GetSummaryBodyParam & RequestParameters;
@@ -167,7 +174,8 @@ export type ListSavedFilterParameters = ListSavedFilterQueryParam & RequestParam
 export type GetSavedFilterParameters = RequestParameters;
 
 export interface CreateOrReplaceSavedFilterBodyParam {
-  body?: SavedFilterData;
+  /** Body parameter. */
+  body: SavedFilterData;
 }
 
 export type CreateOrReplaceSavedFilterParameters = CreateOrReplaceSavedFilterBodyParam &
