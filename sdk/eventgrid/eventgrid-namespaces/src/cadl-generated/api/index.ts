@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-export { createEventGrid, EventGridClientOptions, EventGridContext } from "./EventGridContext";
+export { createEventGrid, EventGridClientOptions, EventGridContext } from "./EventGridContext.js";
 export {
   publishCloudEvent,
   publishCloudEvents,
@@ -10,4 +10,4 @@ export {
   releaseCloudEvents,
   rejectCloudEvents,
   renewCloudEventLocks,
-} from "./operations";
+} from "./operations.js";

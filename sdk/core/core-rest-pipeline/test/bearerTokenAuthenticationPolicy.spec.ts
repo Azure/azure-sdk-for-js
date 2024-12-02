@@ -4,6 +4,7 @@
 import { AccessToken, TokenCredential } from "@azure/core-auth";
 import type {
   AuthorizeRequestOnChallengeOptions,
+  ChallengeCallbacks,
   PipelinePolicy,
   PipelineResponse,
   SendRequest,
@@ -436,6 +437,48 @@ describe("BearerTokenAuthenticationPolicy", function () {
       challenge: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token"`,
       expectedClaims: `Bearer authorization_uri="https://login.windows.net/", error="invalid_token"`,
     };
+
+    it("ChallengeCallbacks are able to access class fields", async function () {
+      const policy = bearerTokenAuthenticationPolicy({
+        scopes: [],
+        challengeCallbacks: new (class implements ChallengeCallbacks {
+          private field = "field value";
+
+          async authorizeRequest(): Promise<void> {
+            assert.equal(this.field, "field value");
+          }
+
+          async authorizeRequestOnChallenge(): Promise<boolean> {
+            assert.equal(this.field, "field value");
+            return true;
+          }
+        })(),
+      });
+
+      const request = createPipelineRequest({ url: "https://example.com" });
+
+      const challengeResponse: PipelineResponse = {
+        headers: createHttpHeaders({
+          "WWW-Authenticate": `Basic realm="test"`,
+        }),
+        request,
+        status: 401,
+      };
+
+      const successResponse: PipelineResponse = {
+        headers: createHttpHeaders(),
+        request,
+        status: 200,
+      };
+
+      const next = vi.fn<SendRequest>();
+      // Mocked a challenge response and a successful response
+      next.mockResolvedValueOnce(challengeResponse).mockResolvedValueOnce(successResponse);
+
+      await policy.sendRequest(request, next);
+
+      expect(next).toHaveBeenCalledTimes(2);
+    });
 
     matrix([caeTestCases] as const, async function (testCase: Challenge) {
       // Test different scenarios when we have only 1 CAE challenge returned

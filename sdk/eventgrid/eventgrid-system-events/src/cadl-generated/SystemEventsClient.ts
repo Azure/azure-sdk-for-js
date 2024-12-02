@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 import type { Pipeline } from "@azure/core-rest-pipeline";
-import "./models/options";
-import type { SystemEventsClientOptionalParams, SystemEventsContext } from "./api/index";
-import { createSystemEvents } from "./api/index";
+import "./models/options.js";
+import type { SystemEventsClientOptionalParams, SystemEventsContext } from "./api/index.js";
+import { createSystemEvents } from "./api/index.js";
 
-export { SystemEventsClientOptionalParams } from "./api/systemEventsContext";
+export { SystemEventsClientOptionalParams } from "./api/systemEventsContext.js";
 
 export class SystemEventsClient {
   private _client: SystemEventsContext;

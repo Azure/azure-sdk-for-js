@@ -779,14 +779,14 @@ index 9e947e6..2f30ba0 100644
  
      throw e;
 diff --git a/src/constants.ts b/src/constants.ts
-index 22bd2b6..60da499 100644
+index b32fff7..60da499 100644
 --- a/src/constants.ts
 +++ b/src/constants.ts
 @@ -1,6 +1,6 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
--export const SDK_VERSION: string = "1.18.1";
+-export const SDK_VERSION: string = "1.18.2";
 +export const SDK_VERSION: string = "1.0.0-beta.1";
  
  export const DEFAULT_RETRY_POLICY_COUNT = 3;
@@ -1428,10 +1428,10 @@ index 55110a0..0000000
 -  };
 -}
 diff --git a/src/policies/bearerTokenAuthenticationPolicy.ts b/src/policies/bearerTokenAuthenticationPolicy.ts
-index 898e5a6..87e8f5e 100644
+index c0e38ca..87e8f5e 100644
 --- a/src/policies/bearerTokenAuthenticationPolicy.ts
 +++ b/src/policies/bearerTokenAuthenticationPolicy.ts
-@@ -1,13 +1,12 @@
+@@ -1,14 +1,12 @@
  // Copyright (c) Microsoft Corporation.
  // Licensed under the MIT License.
  
@@ -1443,11 +1443,12 @@ index 898e5a6..87e8f5e 100644
  import type { PipelinePolicy } from "../pipeline.js";
  import { createTokenCycler } from "../util/tokenCycler.js";
  import { logger as coreLogger } from "../log.js";
--import { isRestError, RestError } from "../restError.js";
+-import type { RestError } from "../restError.js";
+-import { isRestError } from "../restError.js";
  
  /**
   * The programmatic identifier of the bearerTokenAuthenticationPolicy.
-@@ -33,7 +32,7 @@ export interface AuthorizeRequestOptions {
+@@ -34,7 +32,7 @@ export interface AuthorizeRequestOptions {
    /**
     * A logger, if one was sent through the HTTP pipeline.
     */
@@ -1456,7 +1457,7 @@ index 898e5a6..87e8f5e 100644
  }
  
  /**
-@@ -59,7 +58,7 @@ export interface AuthorizeRequestOnChallengeOptions {
+@@ -60,7 +58,7 @@ export interface AuthorizeRequestOnChallengeOptions {
    /**
     * A logger, if one was sent through the HTTP pipeline.
     */
@@ -1465,7 +1466,7 @@ index 898e5a6..87e8f5e 100644
  }
  
  /**
-@@ -100,43 +99,18 @@ export interface BearerTokenAuthenticationPolicyOptions {
+@@ -101,43 +99,18 @@ export interface BearerTokenAuthenticationPolicyOptions {
    /**
     * A logger can be sent for debugging purposes.
     */
@@ -1511,7 +1512,7 @@ index 898e5a6..87e8f5e 100644
    const accessToken = await getAccessToken(scopes, getTokenOptions);
  
    if (accessToken) {
-@@ -148,34 +122,12 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
+@@ -149,34 +122,12 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
   * We will retrieve the challenge only if the response status code was 401,
   * and if the response contained the header "WWW-Authenticate" with a non-empty value.
   */
@@ -1551,16 +1552,22 @@ index 898e5a6..87e8f5e 100644
  }
  
  /**
-@@ -190,6 +142,8 @@ export function bearerTokenAuthenticationPolicy(
+@@ -189,10 +140,10 @@ export function bearerTokenAuthenticationPolicy(
+   const { credential, scopes, challengeCallbacks } = options;
+   const logger = options.logger || coreLogger;
    const callbacks = {
-     authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
-     authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
+-    authorizeRequest:
+-      challengeCallbacks?.authorizeRequest?.bind(challengeCallbacks) ?? defaultAuthorizeRequest,
+-    authorizeRequestOnChallenge:
+-      challengeCallbacks?.authorizeRequestOnChallenge?.bind(challengeCallbacks),
++    authorizeRequest: challengeCallbacks?.authorizeRequest ?? defaultAuthorizeRequest,
++    authorizeRequestOnChallenge: challengeCallbacks?.authorizeRequestOnChallenge,
 +    // keep all other properties
 +    ...challengeCallbacks,
    };
  
    // This function encapsulates the entire process of reliably retrieving the token
-@@ -231,40 +185,20 @@ export function bearerTokenAuthenticationPolicy(
+@@ -234,40 +185,20 @@ export function bearerTokenAuthenticationPolicy(
  
        let response: PipelineResponse;
        let error: Error | undefined;
@@ -1614,7 +1621,7 @@ index 898e5a6..87e8f5e 100644
            scopes: Array.isArray(scopes) ? scopes : [scopes],
            request,
            response,
-@@ -272,41 +206,8 @@ export function bearerTokenAuthenticationPolicy(
+@@ -275,41 +206,8 @@ export function bearerTokenAuthenticationPolicy(
            logger,
          });
  
@@ -1657,7 +1664,7 @@ index 898e5a6..87e8f5e 100644
          }
        }
  
-@@ -318,64 +219,3 @@ export function bearerTokenAuthenticationPolicy(
+@@ -321,64 +219,3 @@ export function bearerTokenAuthenticationPolicy(
      },
    };
  }
@@ -2080,7 +2087,7 @@ index 25cf55a..685eaed 100644
  
  /**
 diff --git a/src/util/file.ts b/src/util/file.ts
-index 5b65155..73d19de 100644
+index 48d09e6..65c0e25 100644
 --- a/src/util/file.ts
 +++ b/src/util/file.ts
 @@ -1,7 +1,7 @@
