@@ -7,11 +7,22 @@ import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, List
 
 const expectedStatuses = ["200"];
 
+enum FilePurpose {
+  FineTune = "fine-tune",
+  FineTuneResults = "fine-tune-results",
+  Assistants = "assistants",
+  AssistantsOutput = "assistants_output",
+  Batch = "batch",
+  BatchOutput = "batch_output",
+  Vision = "vision",
+}
+
 /** Gets a list of previously uploaded files. */
 export async function listFiles(
   context: Client,
   options?: ListFilesParameters,
 ): Promise<FileListResponseOutput> {
+  validateListFilesParameters(options);
   const result = await context.path("/files").get(options);
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
@@ -37,6 +48,7 @@ export async function deleteFile(
   fileId: string,
   options?: DeleteFileParameters,
 ): Promise<FileDeletionStatusOutput> {
+  validateFileId(fileId);
   const result = await context
     .path("/files/{fileId}", fileId)
     .delete(options);
@@ -52,6 +64,7 @@ export async function getFile(
   fileId: string,
   options?: GetFileParameters,
 ): Promise<OpenAIFileOutput> {
+  validateFileId(fileId);
   const result = await context
     .path("/files/{fileId}", fileId)
     .get(options);
@@ -67,6 +80,7 @@ export async function getFileContent(
   fileId: string,
   options?: GetFileContentParameters,
 ): Promise<string> {
+  validateFileId(fileId);
   const result = await context
     .path("/files/{fileId}/content", fileId)
     .get(options);
@@ -74,4 +88,18 @@ export async function getFileContent(
       throw createRestError(result);
   }
   return result.body; 
+}
+
+function validateListFilesParameters(options?: ListFilesParameters): void {
+  if (options?.queryParameters?.purpose) {
+    if (!Object.values(FilePurpose).includes(options?.queryParameters?.purpose as FilePurpose)) {
+      throw new Error("Purpose must be one of 'fine-tune', 'fine-tune-results', 'assistants', 'assistants_output', 'batch', 'batch_output', 'vision'");
+    }
+  }
+}
+
+function validateFileId(fileId: string): void {
+  if (!fileId) {
+    throw new Error("File ID is required");
+  }
 }
