@@ -37,6 +37,7 @@ import type {
   SendEventMessage,
   AckMessage,
   SequenceAckMessage,
+  PingMessage,
 } from "./models/messages";
 import type { WebPubSubClientProtocol } from "./protocols";
 import { WebPubSubJsonReliableProtocol } from "./protocols";
@@ -74,13 +75,17 @@ export class WebPubSubClient {
   private readonly _messageRetryPolicy: RetryPolicy;
   private readonly _reconnectRetryPolicy: RetryPolicy;
   private readonly _quickSequenceAckDiff = 300;
-  private readonly _activeTimeoutInMs = 20000;
+  // The timeout for keep alive
+  private readonly _keepAliveTimeoutInMs: number;
+  // The interval at which to send ping messages to the runtime
+  private readonly _pingIntervalInMs: number;
 
   private readonly _emitter: EventEmitter = new EventEmitter();
   private _state: WebPubSubClientState;
   private _isStopping: boolean = false;
   private _ackId: number;
-  private _activeKeepaliveTask: AbortableTask | undefined;
+  // The task of sending ping message
+  private _sendPingTask: AbortableTask | undefined;
 
   // connection lifetime
   private _wsClient?: WebSocketClientLike;
@@ -91,6 +96,8 @@ export class WebPubSubClient {
   private _reconnectionToken?: string;
   private _isInitialConnected = false;
   private _sequenceAckTask?: AbortableTask;
+
+  private _lastPongReceived: number = Date.now();
 
   private nextAckId(): number {
     this._ackId = this._ackId + 1;
@@ -132,6 +139,9 @@ export class WebPubSubClient {
 
     this._state = WebPubSubClientState.Stopped;
     this._ackId = 0;
+
+    this._keepAliveTimeoutInMs = this._options.keepAliveTimeoutInMs ?? 60000;
+    this._pingIntervalInMs = this._options.pingIntervalInMs ?? 20000;
   }
 
   /**
@@ -152,8 +162,8 @@ export class WebPubSubClient {
       abortSignal = options.abortSignal;
     }
 
-    if (!this._activeKeepaliveTask) {
-      this._activeKeepaliveTask = this._getActiveKeepaliveTask();
+    if (!this._sendPingTask) {
+      this._sendPingTask = this._getSendPingTask();
     }
 
     try {
@@ -161,9 +171,9 @@ export class WebPubSubClient {
     } catch (err) {
       // this two sentense should be set together. Consider client.stop() is called during _startCore()
       this._changeState(WebPubSubClientState.Stopped);
-      if (this._activeKeepaliveTask) {
-        this._activeKeepaliveTask.abort();
-        this._activeKeepaliveTask = undefined;
+      if (this._sendPingTask) {
+        this._sendPingTask.abort();
+        this._sendPingTask = undefined;
       }
       this._isStopping = false;
       throw err;
@@ -228,9 +238,9 @@ export class WebPubSubClient {
     } else {
       this._isStopping = false;
     }
-    if (this._activeKeepaliveTask) {
-      this._activeKeepaliveTask.abort();
-      this._activeKeepaliveTask = undefined;
+    if (this._sendPingTask) {
+      this._sendPingTask.abort();
+      this._sendPingTask = undefined;
     }
   }
 
@@ -560,6 +570,25 @@ export class WebPubSubClient {
     }
   }
 
+  private async _trySendPing(): Promise<void> {
+    const now = Date.now();
+    // Check if we haven't received a pong for too long
+    if (now - this._lastPongReceived > this._keepAliveTimeoutInMs) {
+      logger.warning(`No pong message received for a long time. The connection is closed.`);
+      this._wsClient?.close();
+      return;
+    }
+
+    const message: PingMessage = {
+      kind: "ping",
+    };
+    try {
+      await this._sendMessage(message);
+    } catch {
+      logger.warning("Failed to send ping message to the runtime");
+    }
+  }
+
   private _connectCore(uri: string): Promise<void> {
     if (this._isStopping) {
       throw new Error("Can't start a client during stopping");
@@ -617,6 +646,9 @@ export class WebPubSubClient {
       });
 
       client.onmessage((data: any) => {
+        // Update last pong time for any received message
+        this._lastPongReceived = Date.now();
+
         const handleAckMessage = (message: AckMessage): void => {
           if (this._ackMap.has(message.ackId)) {
             const entity = this._ackMap.get(message.ackId)!;
@@ -735,6 +767,10 @@ export class WebPubSubClient {
         messages.forEach((message) => {
           try {
             switch (message.kind) {
+              case "pong": {
+                // We already updated _lastPongReceived for all messages
+                break;
+              }
               case "ack": {
                 handleAckMessage(message as AckMessage);
                 break;
@@ -818,10 +854,10 @@ export class WebPubSubClient {
     this._safeEmitStopped();
   }
 
-  private _getActiveKeepaliveTask(): AbortableTask {
+  private _getSendPingTask(): AbortableTask {
     return new AbortableTask(async () => {
-      this._sequenceId.tryUpdate(0); // force update
-    }, this._activeTimeoutInMs);
+      this._trySendPing();
+    }, this._pingIntervalInMs);
   }
 
   private async _sendMessage(
@@ -988,6 +1024,14 @@ export class WebPubSubClient {
 
     if (clientOptions.protocol == null) {
       clientOptions.protocol = WebPubSubJsonReliableProtocol();
+    }
+
+    if (clientOptions.keepAliveTimeoutInMs == null) {
+      clientOptions.keepAliveTimeoutInMs = 60000; // 60 seconds
+    }
+
+    if (clientOptions.pingIntervalInMs == null) {
+      clientOptions.pingIntervalInMs = 20000; // 20 seconds
     }
 
     this._buildMessageRetryOptions(clientOptions);

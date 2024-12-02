@@ -1,5 +1,11 @@
 # Release History
 
+## 1.0.3 (2024-11-27)
+
+### Features Added
+
+- Web PubSub Application Ping Pong (Keep Alive)
+
 ## 1.0.2 (2024-05-01)
 
 ### Bugs Fixed
