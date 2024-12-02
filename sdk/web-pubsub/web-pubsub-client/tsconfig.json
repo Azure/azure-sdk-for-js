@@ -3,14 +3,9 @@
   "compilerOptions": {
     "rootDir": ".",
     "importHelpers": true,
-    "lib": [
-      "DOM",
-      "ES2017"
-    ],
+    "lib": ["DOM", "ES2017"],
     "paths": {
-      "@azure/web-pubsub-client": [
-        "./src/index"
-      ]
+      "@azure/web-pubsub-client": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext"
