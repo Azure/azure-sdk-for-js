@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
-import {
+import type {
   GetSupportedLanguagesParameters,
   TranslateParameters,
   TransliterateParameters,
@@ -10,7 +9,7 @@ import {
   LookupDictionaryEntriesParameters,
   LookupDictionaryExamplesParameters,
 } from "./parameters.js";
-import {
+import type {
   GetSupportedLanguages200Response,
   GetSupportedLanguagesDefaultResponse,
   Translate200Response,
@@ -24,15 +23,13 @@ import {
   LookupDictionaryExamples200Response,
   LookupDictionaryExamplesDefaultResponse,
 } from "./responses.js";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetSupportedLanguages {
   /** Gets the set of languages currently supported by other operations of the Translator. */
   get(
     options?: GetSupportedLanguagesParameters,
-  ): StreamableMethod<
-    GetSupportedLanguages200Response | GetSupportedLanguagesDefaultResponse
-  >;
+  ): StreamableMethod<GetSupportedLanguages200Response | GetSupportedLanguagesDefaultResponse>;
 }
 
 export interface Translate {
@@ -53,18 +50,14 @@ export interface FindSentenceBoundaries {
   /** Find Sentence Boundaries */
   post(
     options: FindSentenceBoundariesParameters,
-  ): StreamableMethod<
-    FindSentenceBoundaries200Response | FindSentenceBoundariesDefaultResponse
-  >;
+  ): StreamableMethod<FindSentenceBoundaries200Response | FindSentenceBoundariesDefaultResponse>;
 }
 
 export interface LookupDictionaryEntries {
   /** Lookup Dictionary Entries */
   post(
     options: LookupDictionaryEntriesParameters,
-  ): StreamableMethod<
-    LookupDictionaryEntries200Response | LookupDictionaryEntriesDefaultResponse
-  >;
+  ): StreamableMethod<LookupDictionaryEntries200Response | LookupDictionaryEntriesDefaultResponse>;
 }
 
 export interface LookupDictionaryExamples {
@@ -72,8 +65,7 @@ export interface LookupDictionaryExamples {
   post(
     options: LookupDictionaryExamplesParameters,
   ): StreamableMethod<
-    | LookupDictionaryExamples200Response
-    | LookupDictionaryExamplesDefaultResponse
+    LookupDictionaryExamples200Response | LookupDictionaryExamplesDefaultResponse
   >;
 }
 

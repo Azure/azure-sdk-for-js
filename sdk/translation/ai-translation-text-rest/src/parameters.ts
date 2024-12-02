@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
-import { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeadersInput } from "@azure/core-rest-pipeline";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   TextType,
   ProfanityAction,
   ProfanityMarker,
@@ -223,8 +222,7 @@ export interface FindSentenceBoundariesHeaderParam {
   headers?: RawHttpHeadersInput & FindSentenceBoundariesHeaders;
 }
 
-export type FindSentenceBoundariesParameters =
-  FindSentenceBoundariesQueryParam &
+export type FindSentenceBoundariesParameters = FindSentenceBoundariesQueryParam &
   FindSentenceBoundariesHeaderParam &
   FindSentenceBoundariesBodyParam &
   RequestParameters;
@@ -260,8 +258,7 @@ export interface LookupDictionaryEntriesHeaderParam {
   headers?: RawHttpHeadersInput & LookupDictionaryEntriesHeaders;
 }
 
-export type LookupDictionaryEntriesParameters =
-  LookupDictionaryEntriesQueryParam &
+export type LookupDictionaryEntriesParameters = LookupDictionaryEntriesQueryParam &
   LookupDictionaryEntriesHeaderParam &
   LookupDictionaryEntriesBodyParam &
   RequestParameters;
@@ -297,8 +294,7 @@ export interface LookupDictionaryExamplesHeaderParam {
   headers?: RawHttpHeadersInput & LookupDictionaryExamplesHeaders;
 }
 
-export type LookupDictionaryExamplesParameters =
-  LookupDictionaryExamplesQueryParam &
+export type LookupDictionaryExamplesParameters = LookupDictionaryExamplesQueryParam &
   LookupDictionaryExamplesHeaderParam &
   LookupDictionaryExamplesBodyParam &
   RequestParameters;

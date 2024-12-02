@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 /** Response for the languages API. */
 export interface GetSupportedLanguagesResultOutput {
   /** Languages that support translate API. */

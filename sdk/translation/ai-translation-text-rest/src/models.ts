@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 /** Element containing the text for translation. */
 export interface InputTextItem {
   /** Text to translate. */

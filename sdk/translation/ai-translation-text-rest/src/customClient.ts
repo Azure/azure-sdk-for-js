@@ -3,10 +3,13 @@
 
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
-import { logger } from "../generated/logger.js";
+import { logger } from "./logger.js";
 import * as coreRestPipeline from "@azure/core-rest-pipeline";
-import type { TextTranslationClient } from "../generated/clientDefinitions.js";
-import type { TranslatorCredential, TranslatorTokenCredential } from "./authenticationCustomized.js";
+import type { TextTranslationClient } from "./clientDefinitions.js";
+import type {
+  TranslatorCredential,
+  TranslatorTokenCredential,
+} from "./authenticationCustomized.js";
 import {
   DEFAULT_SCOPE,
   TranslatorAuthenticationPolicy,
