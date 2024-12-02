@@ -2530,8 +2530,8 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@grpc/grpc-js@1.12.2:
-    resolution: {integrity: sha512-bgxdZmgTrJZX50OjyVwz3+mNEnCTNkh3cIqGPWVNeW9jX6bn1ZkU80uPd+67/ZpIJIjRQ9qaHCjhavyoWYxumg==}
+  /@grpc/grpc-js@1.12.3:
+    resolution: {integrity: sha512-iaxAZnANdCwMNpJlyhkI1W1jQZIDZKFNtU2OpQDdgd+pBcU3t7G+PT7svobkW4WSZTdis+CVV6y8KIwu83HDYQ==}
     engines: {node: '>=12.10.0'}
     dependencies:
       '@grpc/proto-loader': 0.7.13
@@ -2780,8 +2780,8 @@ packages:
     resolution: {integrity: sha512-4aErSrCR/On/e5G2hDP0wjooqDdauzEbIq8hIkIe5pXV0rtWJZvdCEKL0ykZxex+IxIwBp0eGeV48hQN07dXtw==}
     dev: false
 
-  /@mswjs/interceptors@0.37.2:
-    resolution: {integrity: sha512-xydNw0hOYO5lFa2qn+dnj33FE8IlHipRdsQxnZrsN5ejbQLj6B5wFS5ChGNfRSaFMnfbwRGWw4iRVDXu1G7Umg==}
+  /@mswjs/interceptors@0.37.3:
+    resolution: {integrity: sha512-USvgCL/uOGFtVa6SVyRrC8kIAedzRohxIXN5LISlg5C5vLZCn7dgMFVSNhSF9cuBEFrm/O2spDWEZeMnw4ZXYg==}
     engines: {node: '>=18'}
     dependencies:
       '@open-draft/deferred-promise': 2.2.0
@@ -2865,7 +2865,7 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
     dependencies:
-      '@grpc/grpc-js': 1.12.2
+      '@grpc/grpc-js': 1.12.3
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.28.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/otlp-grpc-exporter-base': 0.55.0(@opentelemetry/api@1.9.0)
@@ -2909,7 +2909,7 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
     dependencies:
-      '@grpc/grpc-js': 1.12.2
+      '@grpc/grpc-js': 1.12.3
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.28.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/otlp-grpc-exporter-base': 0.55.0(@opentelemetry/api@1.9.0)
@@ -3108,7 +3108,7 @@ packages:
     peerDependencies:
       '@opentelemetry/api': ^1.3.0
     dependencies:
-      '@grpc/grpc-js': 1.12.2
+      '@grpc/grpc-js': 1.12.3
       '@opentelemetry/api': 1.9.0
       '@opentelemetry/core': 1.28.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/otlp-exporter-base': 0.55.0(@opentelemetry/api@1.9.0)
@@ -4313,12 +4313,12 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: false
 
-  /@vitest/browser@2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7):
-    resolution: {integrity: sha512-jR5rNWDH8v50tzcwM7R1DGYu/3MNmXFW/BaNJkhkOee3GJ0MfT1KNWNAFWyjSExPUPnFqlijBPWobG3rTLdPeg==}
+  /@vitest/browser@2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8):
+    resolution: {integrity: sha512-OWVvEJThRgxlNMYNVLEK/9qVkpRcLvyuKLngIV3Hob01P56NjPHprVBYn+rx4xAJudbM9yrCrywPIEuA3Xyo8A==}
     peerDependencies:
       playwright: '*'
       safaridriver: '*'
-      vitest: 2.1.7
+      vitest: 2.1.8
       webdriverio: '*'
     peerDependenciesMeta:
       playwright:
@@ -4330,14 +4330,14 @@ packages:
     dependencies:
       '@testing-library/dom': 10.4.0
       '@testing-library/user-event': 14.5.2(@testing-library/dom@10.4.0)
-      '@vitest/mocker': 2.1.7(msw@2.6.6)
-      '@vitest/utils': 2.1.7
+      '@vitest/mocker': 2.1.8(msw@2.6.6)
+      '@vitest/utils': 2.1.8
       magic-string: 0.30.14
       msw: 2.6.6(@types/node@18.19.67)(typescript@5.6.3)
       playwright: 1.49.0
       sirv: 3.0.0
       tinyrainbow: 1.2.0
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
       ws: 8.18.0
     transitivePeerDependencies:
       - '@types/node'
@@ -4366,10 +4366,10 @@ packages:
       - supports-color
     dev: false
 
-  /@vitest/coverage-istanbul@2.1.7(vitest@2.1.7):
-    resolution: {integrity: sha512-WCz10/rvpHdjEkVJsM/c3OdsEYWLkE7VO9q4OOV1j2UsmzoSEmuh+7FJEvrQTbg7wblfvJHAWHfn+G3wM/CKAw==}
+  /@vitest/coverage-istanbul@2.1.8(vitest@2.1.8):
+    resolution: {integrity: sha512-cSaCd8KcWWvgDwEJSXm0NEWZ1YTiJzjicKHy+zOEbUm0gjbbkz+qJf1p8q71uBzSlS7vdnZA8wRLeiwVE3fFTA==}
     peerDependencies:
-      vitest: 2.1.7
+      vitest: 2.1.8
     dependencies:
       '@istanbuljs/schema': 0.1.3
       debug: 4.3.7(supports-color@8.1.1)
@@ -4381,7 +4381,7 @@ packages:
       magicast: 0.3.5
       test-exclude: 7.0.1
       tinyrainbow: 1.2.0
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - supports-color
     dev: false
@@ -4394,17 +4394,17 @@ packages:
       chai: 4.3.10
     dev: false
 
-  /@vitest/expect@2.1.7:
-    resolution: {integrity: sha512-folWk4qQDEedgUyvaZw94LIJuNLoDtY+rhKhhNy0csdwifn/pQz8EWVRnyrW3j0wMpy+xwJT8WiwiYxk+i+s7w==}
+  /@vitest/expect@2.1.8:
+    resolution: {integrity: sha512-8ytZ/fFHq2g4PJVAtDX57mayemKgDR6X3Oa2Foro+EygiOJHUXhCqBAAKQYYajZpFoIfvBCF1j6R6IYRSIUFuw==}
     dependencies:
-      '@vitest/spy': 2.1.7
-      '@vitest/utils': 2.1.7
+      '@vitest/spy': 2.1.8
+      '@vitest/utils': 2.1.8
       chai: 5.1.2
       tinyrainbow: 1.2.0
     dev: false
 
-  /@vitest/mocker@2.1.7(msw@2.6.6):
-    resolution: {integrity: sha512-nKMTnuJrarFH+7llWxeLmYRldIwTY3OM1DzdytHj0f2+fah6Cyk4XbswhjOiTCnAvXsZAEoo1OaD6rneSSU+3Q==}
+  /@vitest/mocker@2.1.8(msw@2.6.6):
+    resolution: {integrity: sha512-7guJ/47I6uqfttp33mgo6ga5Gr1VnL58rcqYKyShoRK9ebu8T5Rs6HN3s1NABiBeVTdWNrwUMcHH54uXZBN4zA==}
     peerDependencies:
       msw: ^2.4.9
       vite: ^5.0.0
@@ -4414,14 +4414,14 @@ packages:
       vite:
         optional: true
     dependencies:
-      '@vitest/spy': 2.1.7
+      '@vitest/spy': 2.1.8
       estree-walker: 3.0.3
       magic-string: 0.30.14
       msw: 2.6.6(@types/node@18.19.67)(typescript@5.6.3)
     dev: false
 
-  /@vitest/mocker@2.1.7(vite@5.4.11):
-    resolution: {integrity: sha512-nKMTnuJrarFH+7llWxeLmYRldIwTY3OM1DzdytHj0f2+fah6Cyk4XbswhjOiTCnAvXsZAEoo1OaD6rneSSU+3Q==}
+  /@vitest/mocker@2.1.8(vite@5.4.11):
+    resolution: {integrity: sha512-7guJ/47I6uqfttp33mgo6ga5Gr1VnL58rcqYKyShoRK9ebu8T5Rs6HN3s1NABiBeVTdWNrwUMcHH54uXZBN4zA==}
     peerDependencies:
       msw: ^2.4.9
       vite: ^5.0.0
@@ -4431,14 +4431,14 @@ packages:
       vite:
         optional: true
     dependencies:
-      '@vitest/spy': 2.1.7
+      '@vitest/spy': 2.1.8
       estree-walker: 3.0.3
       magic-string: 0.30.14
       vite: 5.4.11(@types/node@18.19.67)
     dev: false
 
-  /@vitest/pretty-format@2.1.7:
-    resolution: {integrity: sha512-HoqRIyfQlXPrRDB43h0lC8eHPUDPwFweMaD6t+psOvwClCC+oZZim6wPMjuoMnRdiFxXqbybg/QbuewgTwK1vA==}
+  /@vitest/pretty-format@2.1.8:
+    resolution: {integrity: sha512-9HiSZ9zpqNLKlbIDRWOnAWqgcA7xu+8YxXSekhr0Ykab7PAYFkhkwoqVArPOtJhPmYeE2YHgKZlj3CP36z2AJQ==}
     dependencies:
       tinyrainbow: 1.2.0
     dev: false
@@ -4451,10 +4451,10 @@ packages:
       pathe: 1.1.2
     dev: false
 
-  /@vitest/runner@2.1.7:
-    resolution: {integrity: sha512-MrDNpXUIXksR57qipYh068SOX4N1hVw6oVILlTlfeTyA1rp0asuljyp15IZwKqhjpWLObFj+tiNrOM4R8UnSqg==}
+  /@vitest/runner@2.1.8:
+    resolution: {integrity: sha512-17ub8vQstRnRlIU5k50bG+QOMLHRhYPAna5tw8tYbj+jzjcspnwnwtPtiOlkuKC4+ixDPTuLZiqiWWQ2PSXHVg==}
     dependencies:
-      '@vitest/utils': 2.1.7
+      '@vitest/utils': 2.1.8
       pathe: 1.1.2
     dev: false
 
@@ -4466,10 +4466,10 @@ packages:
       pretty-format: 29.7.0
     dev: false
 
-  /@vitest/snapshot@2.1.7:
-    resolution: {integrity: sha512-OioIxV/xS393DKdlkRNhmtY0K37qVdCv8w1M2SlLTBSX+fNK6zgcd01VlT1nXdbKVDaB8Zb6BOfQYYoGeGTEGg==}
+  /@vitest/snapshot@2.1.8:
+    resolution: {integrity: sha512-20T7xRFbmnkfcmgVEz+z3AU/3b0cEzZOt/zmnvZEctg64/QZbSDJEVm9fLnnlSi74KibmRsO9/Qabi+t0vCRPg==}
     dependencies:
-      '@vitest/pretty-format': 2.1.7
+      '@vitest/pretty-format': 2.1.8
       magic-string: 0.30.14
       pathe: 1.1.2
     dev: false
@@ -4480,8 +4480,8 @@ packages:
       tinyspy: 2.2.1
     dev: false
 
-  /@vitest/spy@2.1.7:
-    resolution: {integrity: sha512-e5pzIaIC0LBrb/j1FaF7HXlPJLGtltiAkwXTMqNEHALJc7USSLEwziJ+aIWTmjsWNg89zazg37h7oZITnublsQ==}
+  /@vitest/spy@2.1.8:
+    resolution: {integrity: sha512-5swjf2q95gXeYPevtW0BLk6H8+bPlMb4Vw/9Em4hFxDcaOxS+e0LOX4yqNxoHzMR2akEB2xfpnWUzkZokmgWDg==}
     dependencies:
       tinyspy: 3.0.2
     dev: false
@@ -4495,10 +4495,10 @@ packages:
       pretty-format: 29.7.0
     dev: false
 
-  /@vitest/utils@2.1.7:
-    resolution: {integrity: sha512-7gUdvIzCCuIrMZu0WHTvDJo8C1NsUtOqmwmcS3bRHUcfHemj29wmkzLVNuWQD7WHoBD/+I7WIgrnzt7kxR54ow==}
+  /@vitest/utils@2.1.8:
+    resolution: {integrity: sha512-dwSoui6djdwbfFmIgbIjX2ZhIoG7Ex/+xpxyiEgIGzjliY8xGkcpITKTlp6B4MgtGkF2ilvm97cPM96XZaAgcA==}
     dependencies:
-      '@vitest/pretty-format': 2.1.7
+      '@vitest/pretty-format': 2.1.8
       loupe: 3.1.2
       tinyrainbow: 1.2.0
     dev: false
@@ -4923,7 +4923,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001685
-      electron-to-chromium: 1.5.67
+      electron-to-chromium: 1.5.68
       node-releases: 2.0.18
       update-browserslist-db: 1.1.1(browserslist@4.24.2)
     dev: false
@@ -5807,8 +5807,8 @@ packages:
     resolution: {integrity: sha512-WMwm9LhRUo+WUaRN+vRuETqG89IgZphVSNkdFgeb6sS/E4OrDIN7t48CAewSHXc6C8lefD8KKfr5vY61brQlow==}
     dev: false
 
-  /electron-to-chromium@1.5.67:
-    resolution: {integrity: sha512-nz88NNBsD7kQSAGGJyp8hS6xSPtWwqNogA0mjtc2nUYeEf3nURK9qpV18TuBdDmEDgVWotS8Wkzf+V52dSQ/LQ==}
+  /electron-to-chromium@1.5.68:
+    resolution: {integrity: sha512-FgMdJlma0OzUYlbrtZ4AeXjKxKPk6KT8WOP8BjcqxWtlg8qyJQjRzPJzUtUn5GBg1oQ26hFs7HOOHJMYiJRnvQ==}
     dev: false
 
   /emoji-regex@8.0.0:
@@ -6783,7 +6783,7 @@ packages:
       es-errors: 1.3.0
       function-bind: 1.1.2
       has-proto: 1.1.0
-      has-symbols: 1.0.3
+      has-symbols: 1.1.0
       hasown: 2.0.2
     dev: false
 
@@ -6984,8 +6984,8 @@ packages:
       call-bind: 1.0.7
     dev: false
 
-  /has-symbols@1.0.3:
-    resolution: {integrity: sha512-l3LCuF6MgDNwTDKkdYGEihYjt5pRPbEg46rtlmnSPlUbgmB8LOIrKJbYYFBSbnPaJexMKtiPO8hmeRjRz2Td+A==}
+  /has-symbols@1.1.0:
+    resolution: {integrity: sha512-1cDNdwJ2Jaohmb3sg4OmKaMBwuC48sYni5HUw2DvsC8LjGTLK9h+eb1X6RyuOHe4hT0ULCW68iomhjUoKUqlPQ==}
     engines: {node: '>= 0.4'}
     dev: false
 
@@ -6993,7 +6993,7 @@ packages:
     resolution: {integrity: sha512-NqADB8VjPFLM2V0VvHUewwwsw0ZWBaIdgo+ieHtK3hasLz4qeCRjYcqfB6AQrBggRKppKF8L52/VqdVsO47Dlw==}
     engines: {node: '>= 0.4'}
     dependencies:
-      has-symbols: 1.0.3
+      has-symbols: 1.1.0
     dev: false
 
   /hasha@5.2.2:
@@ -8446,7 +8446,7 @@ packages:
       '@bundled-es-modules/statuses': 1.0.1
       '@bundled-es-modules/tough-cookie': 0.1.6
       '@inquirer/confirm': 5.0.2(@types/node@18.19.67)
-      '@mswjs/interceptors': 0.37.2
+      '@mswjs/interceptors': 0.37.3
       '@open-draft/deferred-promise': 2.2.0
       '@open-draft/until': 2.1.0
       '@types/cookie': 0.6.0
@@ -8458,7 +8458,7 @@ packages:
       outvariant: 1.4.3
       path-to-regexp: 6.3.0
       strict-event-emitter: 0.5.1
-      type-fest: 4.29.1
+      type-fest: 4.30.0
       typescript: 5.6.3
       yargs: 17.7.2
     transitivePeerDependencies:
@@ -8721,8 +8721,8 @@ packages:
       is-wsl: 2.2.0
     dev: false
 
-  /openai@4.73.1:
-    resolution: {integrity: sha512-nWImDJBcUsqrhy7yJScXB4+iqjzbUEgzfA3un/6UnHFdwWhjX24oztj69Ped/njABfOdLcO/F7CeWTI5dt8Xmg==}
+  /openai@4.74.0:
+    resolution: {integrity: sha512-pQ8t1jchUymw5WB5jZPchuBtWvxul7RyVxa+9RWfiCQyzvzUyI2sKvUYfpEDI/ouaRLcik3K6psj15ByCefeNA==}
     hasBin: true
     peerDependencies:
       zod: ^3.23.8
@@ -10698,8 +10698,8 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  /type-fest@4.29.1:
-    resolution: {integrity: sha512-Y1zUveI92UYM/vo1EFlQSsNf74+hfKH+7saZJslF0Fw92FRaiTAnHPIvo9d7SLxXt/gAYqA4RXyDTioMQCCp0A==}
+  /type-fest@4.30.0:
+    resolution: {integrity: sha512-G6zXWS1dLj6eagy6sVhOMQiLtJdxQBHIA9Z6HFUNLOlr6MFOgzV8wvmidtPONfPtEUv0uZsy77XJNzTAfwPDaA==}
     engines: {node: '>=16'}
     dev: false
 
@@ -10975,9 +10975,9 @@ packages:
       - terser
     dev: false
 
-  /vite-node@2.1.7(@types/node@18.19.67):
-    resolution: {integrity: sha512-b/5MxSWd0ftWt1B1LHfzCw0ASzaxHztUwP0rcsBhkDSGy9ZDEDieSIjFG3I78nI9dUN0eSeD6LtuKPZGjwwpZQ==}
-    engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
+  /vite-node@2.1.8(@types/node@18.19.67):
+    resolution: {integrity: sha512-uPAwSr57kYjAUux+8E2j0q0Fxpn8M9VoyfGiRI8Kfktz9NcYMCenwY5RnZxnF1WTu3TGiYipirIzacLL3VVGFg==}
+    engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     dependencies:
       cac: 6.7.14
@@ -10997,9 +10997,9 @@ packages:
       - terser
     dev: false
 
-  /vite-node@2.1.7(@types/node@20.17.9):
-    resolution: {integrity: sha512-b/5MxSWd0ftWt1B1LHfzCw0ASzaxHztUwP0rcsBhkDSGy9ZDEDieSIjFG3I78nI9dUN0eSeD6LtuKPZGjwwpZQ==}
-    engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
+  /vite-node@2.1.8(@types/node@20.17.9):
+    resolution: {integrity: sha512-uPAwSr57kYjAUux+8E2j0q0Fxpn8M9VoyfGiRI8Kfktz9NcYMCenwY5RnZxnF1WTu3TGiYipirIzacLL3VVGFg==}
+    engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     dependencies:
       cac: 6.7.14
@@ -11154,15 +11154,15 @@ packages:
       - terser
     dev: false
 
-  /vitest@2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7):
-    resolution: {integrity: sha512-wzJ7Wri44ufkzTZbI1lHsdHfiGdFRmnJ9qIudDQ6tknjJeHhF5QgNSSjk7KRZUU535qEiEXFJ7tSHqyzyIv0jQ==}
-    engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
+  /vitest@2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8):
+    resolution: {integrity: sha512-1vBKTZskHw/aosXqQUlVWWlGUxSJR8YtiyZDJAFeW2kPAeX6S3Sool0mjspO+kXLuxVWlEDDowBAeqeAQefqLQ==}
+    engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
       '@edge-runtime/vm': '*'
-      '@types/node': ^18.0.0 || ^20.0.0 || >=22.0.0
-      '@vitest/browser': 2.1.7
-      '@vitest/ui': 2.1.7
+      '@types/node': ^18.0.0 || >=20.0.0
+      '@vitest/browser': 2.1.8
+      '@vitest/ui': 2.1.8
       happy-dom: '*'
       jsdom: '*'
     peerDependenciesMeta:
@@ -11180,14 +11180,14 @@ packages:
         optional: true
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/expect': 2.1.7
-      '@vitest/mocker': 2.1.7(vite@5.4.11)
-      '@vitest/pretty-format': 2.1.7
-      '@vitest/runner': 2.1.7
-      '@vitest/snapshot': 2.1.7
-      '@vitest/spy': 2.1.7
-      '@vitest/utils': 2.1.7
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/expect': 2.1.8
+      '@vitest/mocker': 2.1.8(vite@5.4.11)
+      '@vitest/pretty-format': 2.1.8
+      '@vitest/runner': 2.1.8
+      '@vitest/snapshot': 2.1.8
+      '@vitest/spy': 2.1.8
+      '@vitest/utils': 2.1.8
       chai: 5.1.2
       debug: 4.3.7(supports-color@8.1.1)
       expect-type: 1.1.0
@@ -11199,7 +11199,7 @@ packages:
       tinypool: 1.0.2
       tinyrainbow: 1.2.0
       vite: 5.4.11(@types/node@18.19.67)
-      vite-node: 2.1.7(@types/node@18.19.67)
+      vite-node: 2.1.8(@types/node@18.19.67)
       why-is-node-running: 2.3.0
     transitivePeerDependencies:
       - less
@@ -11213,15 +11213,15 @@ packages:
       - terser
     dev: false
 
-  /vitest@2.1.7(@types/node@20.17.9):
-    resolution: {integrity: sha512-wzJ7Wri44ufkzTZbI1lHsdHfiGdFRmnJ9qIudDQ6tknjJeHhF5QgNSSjk7KRZUU535qEiEXFJ7tSHqyzyIv0jQ==}
-    engines: {node: ^18.0.0 || ^20.0.0 || >=22.0.0}
+  /vitest@2.1.8(@types/node@20.17.9):
+    resolution: {integrity: sha512-1vBKTZskHw/aosXqQUlVWWlGUxSJR8YtiyZDJAFeW2kPAeX6S3Sool0mjspO+kXLuxVWlEDDowBAeqeAQefqLQ==}
+    engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
       '@edge-runtime/vm': '*'
-      '@types/node': ^18.0.0 || ^20.0.0 || >=22.0.0
-      '@vitest/browser': 2.1.7
-      '@vitest/ui': 2.1.7
+      '@types/node': ^18.0.0 || >=20.0.0
+      '@vitest/browser': 2.1.8
+      '@vitest/ui': 2.1.8
       happy-dom: '*'
       jsdom: '*'
     peerDependenciesMeta:
@@ -11239,13 +11239,13 @@ packages:
         optional: true
     dependencies:
       '@types/node': 20.17.9
-      '@vitest/expect': 2.1.7
-      '@vitest/mocker': 2.1.7(vite@5.4.11)
-      '@vitest/pretty-format': 2.1.7
-      '@vitest/runner': 2.1.7
-      '@vitest/snapshot': 2.1.7
-      '@vitest/spy': 2.1.7
-      '@vitest/utils': 2.1.7
+      '@vitest/expect': 2.1.8
+      '@vitest/mocker': 2.1.8(vite@5.4.11)
+      '@vitest/pretty-format': 2.1.8
+      '@vitest/runner': 2.1.8
+      '@vitest/snapshot': 2.1.8
+      '@vitest/spy': 2.1.8
+      '@vitest/utils': 2.1.8
       chai: 5.1.2
       debug: 4.3.7(supports-color@8.1.1)
       expect-type: 1.1.0
@@ -11257,7 +11257,7 @@ packages:
       tinypool: 1.0.2
       tinyrainbow: 1.2.0
       vite: 5.4.11(@types/node@20.17.9)
-      vite-node: 2.1.7(@types/node@20.17.9)
+      vite-node: 2.1.8(@types/node@20.17.9)
       why-is-node-running: 2.3.0
     transitivePeerDependencies:
       - less
@@ -11591,13 +11591,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -11712,8 +11712,8 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -11721,7 +11721,7 @@ packages:
       rollup-plugin-copy: 3.5.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -11750,15 +11750,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       prettier: 3.4.1
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -11787,14 +11787,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -11818,48 +11818,44 @@ packages:
     dev: false
 
   file:projects/ai-form-recognizer.tgz:
-    resolution: {integrity: sha512-EBXzinBP+gU+pPWHZxAyHwbHVnUEwNUtT5zKziC9PBpBJAhN+If2ydDfSzm60VgY0m6xVuiq68UZB8bF7+TE1Q==, tarball: file:projects/ai-form-recognizer.tgz}
+    resolution: {integrity: sha512-ZiQoRK272m3Q5fM4MGB22td80/epACHLgCUtVzhpRcB5V4+pNKR+UGoSeASRrg1HRI3KJBqJwveLkeuLlcO4gA==, tarball: file:projects/ai-form-recognizer.tgz}
     name: '@rush-temp/ai-form-recognizer'
     version: 0.0.0
     dependencies:
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
       '@rollup/plugin-node-resolve': 15.3.0(rollup@4.28.0)
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      '@types/sinon': 17.0.3
-      chai: 4.3.10
-      chai-as-promised: 7.1.2(chai@4.3.10)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 2.1.3
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader: 0.3.8
       magic-string: 0.30.14
-      mocha: 10.8.2
-      nyc: 17.1.0
+      playwright: 1.49.0
       prettier: 3.4.1
       rollup: 4.28.0
-      sinon: 17.0.1
-      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/ai-inference.tgz:
@@ -11871,8 +11867,8 @@ packages:
       '@azure/core-lro': 2.7.2
       '@opentelemetry/api': 1.9.0
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -11880,7 +11876,7 @@ packages:
       source-map-support: 0.5.21
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -12150,15 +12146,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -12187,8 +12183,8 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
@@ -12196,7 +12192,7 @@ packages:
       tshy: 1.18.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -12225,15 +12221,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -12267,7 +12263,7 @@ packages:
       '@types/node': 18.19.67
       '@types/yargs': 17.0.33
       '@types/yargs-parser': 21.0.3
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chalk: 4.1.2
       eslint: 9.16.0
       glob: 10.4.5
@@ -12278,7 +12274,7 @@ packages:
       rollup: 4.28.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
       yargs: 17.7.2
       yargs-parser: 21.1.1
     transitivePeerDependencies:
@@ -12306,14 +12302,14 @@ packages:
     dependencies:
       '@azure-rest/core-client': 1.4.0
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       mime: 4.0.4
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -12343,15 +12339,15 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       nock: 13.5.6
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -13356,14 +13352,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -13392,15 +13388,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       prettier: 3.4.1
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -13479,15 +13475,15 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -13586,14 +13582,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -14309,15 +14305,15 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 8.57.1
       playwright: 1.49.0
       tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -14535,15 +14531,15 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -14740,15 +14736,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       prettier: 3.4.1
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -15040,15 +15036,15 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 8.57.1
       playwright: 1.49.0
       tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -15338,14 +15334,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -15998,15 +15994,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       prettier: 3.4.1
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -17807,15 +17803,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       prettier: 3.4.1
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18195,15 +18191,15 @@ packages:
     dependencies:
       '@microsoft/api-extractor': 7.48.0(@types/node@18.19.67)
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tshy: 2.0.1
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18278,14 +18274,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18501,8 +18497,8 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       buffer: 6.0.3
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -18513,7 +18509,7 @@ packages:
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18542,15 +18538,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       moment: 2.30.1
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18580,14 +18576,14 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18617,8 +18613,8 @@ packages:
     dependencies:
       '@azure/communication-phone-numbers': 1.2.0
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       events: 3.3.0
@@ -18626,7 +18622,7 @@ packages:
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18656,15 +18652,15 @@ packages:
     dependencies:
       '@azure/communication-signaling': 1.0.0-beta.29
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       events: 3.3.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18693,8 +18689,8 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       events: 3.3.0
       inherits: 2.0.4
@@ -18704,7 +18700,7 @@ packages:
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18734,14 +18730,14 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18772,15 +18768,15 @@ packages:
       '@azure/core-lro': 2.7.2
       '@azure/msal-node': 2.16.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       events: 3.3.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18810,8 +18806,8 @@ packages:
     dependencies:
       '@types/node': 18.19.67
       '@types/uuid': 8.3.4
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       events: 3.3.0
@@ -18821,7 +18817,7 @@ packages:
       typescript: 5.6.3
       util: 0.12.5
       uuid: 8.3.2
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18850,15 +18846,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18887,8 +18883,8 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -18896,7 +18892,7 @@ packages:
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18926,15 +18922,15 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       events: 3.3.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -18964,15 +18960,15 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       events: 3.3.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19001,14 +18997,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19038,15 +19034,15 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       events: 3.3.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19075,15 +19071,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       events: 3.3.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19114,8 +19110,8 @@ packages:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
       '@types/uuid': 8.3.4
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       events: 3.3.0
@@ -19124,7 +19120,7 @@ packages:
       tslib: 2.8.1
       typescript: 5.6.3
       uuid: 8.3.2
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19154,15 +19150,15 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       inherits: 2.0.4
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19191,12 +19187,12 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/browser'
@@ -19264,8 +19260,8 @@ packages:
       '@types/debug': 4.1.12
       '@types/node': 18.19.67
       '@types/ws': 8.5.13
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       buffer: 6.0.3
       debug: 4.3.7(supports-color@8.1.1)
       eslint: 9.16.0
@@ -19276,7 +19272,7 @@ packages:
       rhea-promise: 3.0.3
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
       ws: 8.18.0
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -19307,13 +19303,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19342,13 +19338,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19377,13 +19373,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19412,12 +19408,12 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       playwright: 1.49.0
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19446,13 +19442,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19481,13 +19477,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19516,15 +19512,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.5
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19554,8 +19550,8 @@ packages:
     dependencies:
       '@types/express': 4.17.21
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       express: 4.21.1
@@ -19563,7 +19559,7 @@ packages:
       tslib: 2.8.1
       tsx: 4.19.2
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19592,13 +19588,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19627,13 +19623,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19663,14 +19659,14 @@ packages:
     dependencies:
       '@types/node': 18.19.67
       '@types/trusted-types': 2.0.7
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       fast-xml-parser: 4.5.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19738,12 +19734,12 @@ packages:
     dependencies:
       '@types/node': 20.17.9
       '@types/prompts': 2.4.9
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       prompts: 2.4.2
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@20.17.9)
+      vitest: 2.1.8(@types/node@20.17.9)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/browser'
@@ -19768,14 +19764,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19803,38 +19799,16 @@ packages:
     name: '@rush-temp/defender-easm'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
       '@azure/core-lro': 2.7.2
-      '@types/chai': 4.3.20
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
-      chai: 4.3.10
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 2.1.3
-      karma-json-preprocessor: 0.3.3(karma@6.4.4)
-      karma-json-to-file-reporter: 1.0.1
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-source-map-support: 1.4.0
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
       playwright: 1.49.0
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -19882,7 +19856,7 @@ packages:
       '@types/minimist': 1.2.5
       '@types/node': 18.19.67
       '@types/semver': 7.5.8
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       builtin-modules: 3.3.0
       chalk: 4.1.2
@@ -19911,7 +19885,7 @@ packages:
       typescript: 5.6.3
       typescript-eslint: 8.16.0(eslint@9.16.0)(typescript@5.6.3)
       uglify-js: 3.19.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
       yaml: 2.6.1
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -19940,14 +19914,14 @@ packages:
     dependencies:
       '@azure/core-lro': 3.0.0
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20074,8 +20048,8 @@ packages:
       '@types/debug': 4.1.12
       '@types/node': 18.19.67
       '@types/ws': 7.4.7
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       buffer: 6.0.3
       chai: 5.1.2
       chai-as-promised: 8.0.1(chai@5.1.2)
@@ -20092,7 +20066,7 @@ packages:
       tslib: 2.8.1
       tsx: 4.19.2
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
       ws: 8.18.0
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -20118,44 +20092,20 @@ packages:
     dev: false
 
   file:projects/eventgrid-namespaces.tgz:
-    resolution: {integrity: sha512-OmB6m/JuPn29AEB/+j2nIzQ45u9gys+CT9eXmxsU3ZztIEQFBf7lGxAmpzs6RzGzBA2ZYAj1Q/wJfB4utApm2A==, tarball: file:projects/eventgrid-namespaces.tgz}
+    resolution: {integrity: sha512-31t8p/MJncx5h2r4hTfU+RD+pLoChbFxxot6xQdioVpsJyH1Wyrl1A26yV4uAyzO0ooKushRrIUj2GbVpb5Rig==, tarball: file:projects/eventgrid-namespaces.tgz}
     name: '@rush-temp/eventgrid-namespaces'
     version: 0.0.0
     dependencies:
-      '@azure-rest/core-client': 1.4.0
-      '@azure-tools/test-credential': 1.3.1
-      '@azure-tools/test-recorder': 3.5.2
-      '@types/chai': 4.3.20
-      '@types/chai-as-promised': 7.1.8
-      '@types/mocha': 10.0.10
       '@types/node': 18.19.67
-      '@types/sinon': 17.0.3
-      '@types/uuid': 8.3.4
-      '@vitest/browser': 2.1.6(@types/node@18.19.66)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.6)
-      '@vitest/coverage-istanbul': 2.1.6(vitest@2.1.6)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       buffer: 6.0.3
-      chai: 4.3.10
-      chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
       eslint: 9.16.0
-      karma: 6.4.4
-      karma-chrome-launcher: 3.2.0
-      karma-coverage: 2.2.1
-      karma-env-preprocessor: 0.1.1
-      karma-firefox-launcher: 2.1.3
-      karma-junit-reporter: 2.0.1(karma@6.4.4)
-      karma-mocha: 2.0.1
-      karma-mocha-reporter: 2.2.5(karma@6.4.4)
-      karma-sourcemap-loader: 0.3.8
-      mocha: 10.8.2
-      nyc: 17.1.0
       playwright: 1.49.0
-      sinon: 17.0.1
-      source-map-support: 0.5.21
-      ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.6(@types/node@18.19.66)(@vitest/browser@2.1.6)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20173,11 +20123,9 @@ packages:
       - sugarss
       - supports-color
       - terser
-      - tsx
       - utf-8-validate
       - vite
       - webdriverio
-      - yaml
     dev: false
 
   file:projects/eventgrid-system-events.tgz:
@@ -20186,13 +20134,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20221,14 +20169,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20261,8 +20209,8 @@ packages:
       '@types/chai-as-promised': 7.1.8
       '@types/debug': 4.1.12
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       buffer: 6.0.3
       chai-as-promised: 8.0.1(chai@4.3.10)
       debug: 4.3.7(supports-color@8.1.1)
@@ -20274,7 +20222,7 @@ packages:
       tslib: 2.8.1
       tsx: 4.19.2
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20309,8 +20257,8 @@ packages:
       '@types/chai-as-promised': 7.1.8
       '@types/debug': 4.1.12
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       buffer: 6.0.3
       chai-as-promised: 8.0.1(chai@4.3.10)
       debug: 4.3.7(supports-color@8.1.1)
@@ -20321,7 +20269,7 @@ packages:
       stream: 0.0.3
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20394,15 +20342,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       loupe: 3.1.2
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20432,15 +20380,15 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20470,15 +20418,15 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20508,15 +20456,15 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20548,13 +20496,13 @@ packages:
       '@azure/msal-node': 2.16.2
       '@azure/msal-node-extensions': 1.5.0
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20655,8 +20603,8 @@ packages:
       '@types/ms': 0.7.34
       '@types/node': 18.19.67
       '@types/stoppable': 1.1.3
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       events: 3.3.0
@@ -20670,7 +20618,7 @@ packages:
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20742,14 +20690,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       events: 3.3.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20779,14 +20727,14 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20816,14 +20764,14 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20852,13 +20800,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20888,15 +20836,15 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dayjs: 1.11.13
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20926,13 +20874,13 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/browser'
@@ -20958,15 +20906,15 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -20995,14 +20943,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -21032,13 +20980,13 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -21068,15 +21016,15 @@ packages:
     dependencies:
       '@azure/maps-common': 1.0.0-beta.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -21106,15 +21054,15 @@ packages:
     dependencies:
       '@azure/maps-common': 1.0.0-beta.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -21145,15 +21093,15 @@ packages:
       '@azure-rest/core-client': 1.4.0
       '@azure/maps-common': 1.0.0-beta.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -21184,15 +21132,15 @@ packages:
       '@azure/core-lro': 2.7.2
       '@azure/maps-common': 1.0.0-beta.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -21326,14 +21274,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       rhea: 3.0.3
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/browser'
@@ -21359,15 +21307,15 @@ packages:
     dependencies:
       '@types/node': 18.19.67
       '@types/pako': 2.0.3
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       pako: 2.1.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -21407,15 +21355,15 @@ packages:
       '@opentelemetry/sdk-trace-node': 1.28.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/semantic-conventions': 1.28.0
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       nock: 13.5.6
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -21493,14 +21441,14 @@ packages:
       '@opentelemetry/sdk-trace-base': 1.28.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 1.28.0(@opentelemetry/api@1.9.0)
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -21529,15 +21477,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       tsx: 4.19.2
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -21566,15 +21514,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
-      openai: 4.73.1
+      openai: 4.74.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -21610,14 +21558,14 @@ packages:
       '@opentelemetry/sdk-trace-base': 1.28.0(@opentelemetry/api@1.9.0)
       '@opentelemetry/sdk-trace-node': 1.28.0(@opentelemetry/api@1.9.0)
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -22096,14 +22044,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -22133,14 +22081,14 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -22169,15 +22117,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -22206,14 +22154,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -22243,15 +22191,15 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -22280,15 +22228,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       autorest: 3.7.1
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -22362,8 +22310,8 @@ packages:
       '@rollup/plugin-inject': 5.0.5(rollup@4.28.0)
       '@types/node': 18.19.67
       '@types/uuid': 8.3.4
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       avsc: 5.7.7
       buffer: 6.0.3
       dotenv: 16.4.5
@@ -22375,7 +22323,7 @@ packages:
       tslib: 2.8.1
       typescript: 5.6.3
       uuid: 8.3.2
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -22533,8 +22481,8 @@ packages:
       '@types/node': 18.19.67
       '@types/uuid': 8.3.4
       '@types/ws': 7.4.7
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       buffer: 6.0.3
       chai: 5.1.2
       chai-as-promised: 8.0.1(chai@5.1.2)
@@ -22553,7 +22501,7 @@ packages:
       tslib: 2.8.1
       typescript: 5.6.3
       uuid: 8.3.2
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
       ws: 8.18.0
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -22849,14 +22797,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -22885,14 +22833,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -22922,14 +22870,14 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -22958,14 +22906,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -22994,13 +22942,13 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -23029,14 +22977,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -23065,14 +23013,14 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -23102,14 +23050,14 @@ packages:
     dependencies:
       '@azure/core-lro': 2.7.2
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -23183,15 +23131,15 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       concurrently: 8.2.2
       eslint: 9.16.0
       express: 4.21.1
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -23221,14 +23169,14 @@ packages:
     dependencies:
       '@opentelemetry/api': 1.9.0
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
-      '@vitest/expect': 2.1.7
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
+      '@vitest/expect': 2.1.8
       eslint: 9.16.0
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -23292,8 +23240,8 @@ packages:
     version: 0.0.0
     dependencies:
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       eslint: 9.16.0
       http-proxy-agent: 7.0.2
       https-proxy-agent: 7.0.5
@@ -23301,7 +23249,7 @@ packages:
       tslib: 2.8.1
       tsx: 4.19.2
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -23349,7 +23297,7 @@ packages:
     dependencies:
       '@azure/web-pubsub-client': 1.0.0-beta.2
       '@types/node': 18.19.67
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       cpy-cli: 5.0.0
       dotenv: 16.4.5
       eslint: 9.16.0
@@ -23359,7 +23307,7 @@ packages:
       protobufjs-cli: 1.1.3(protobufjs@7.4.0)
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/browser'
@@ -23440,14 +23388,14 @@ packages:
       '@types/express-serve-static-core': 4.19.6
       '@types/jsonwebtoken': 9.0.7
       '@types/node': 18.19.67
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       express: 4.21.1
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
       - '@edge-runtime/vm'
       - '@vitest/ui'
@@ -23479,15 +23427,15 @@ packages:
       '@types/jsonwebtoken': 9.0.7
       '@types/node': 18.19.67
       '@types/ws': 8.5.13
-      '@vitest/browser': 2.1.7(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.7)
-      '@vitest/coverage-istanbul': 2.1.7(vitest@2.1.7)
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       dotenv: 16.4.5
       eslint: 9.16.0
       jsonwebtoken: 9.0.2
       playwright: 1.49.0
       tslib: 2.8.1
       typescript: 5.6.3
-      vitest: 2.1.7(@types/node@18.19.67)(@vitest/browser@2.1.7)
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
       ws: 8.18.0
     transitivePeerDependencies:
       - '@edge-runtime/vm'

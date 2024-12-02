@@ -5,21 +5,19 @@
 
 // This file is ignored by the linter because it is impossible to move the copyright header above the shebang line.
 
-import { AzureKeyCredential, KeyCredential, TokenCredential } from "@azure/core-auth";
-import type { DefaultAzureCredential } from "@azure/identity";
-
-import { writeFile } from "fs";
-
-import { DocumentModelAdministrationClient } from "../src/documentModelAdministrationClient";
-import { writeModelCode } from "./writeModelCode";
-
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { AzureKeyCredential } from "@azure/core-auth";
+import { DefaultAzureCredential } from "@azure/identity";
+import { writeFile } from "node:fs/promises";
+import { DocumentModelAdministrationClient } from "../documentModelAdministrationClient.js";
+import { writeModelCode } from "./writeModelCode.js";
 import { format } from "prettier";
 
 /**
  * @internal
  * Prints a help message for the gen-model command.
  */
-function printHelp() {
+function printHelp(): void {
   console.error(`
 Usage:
  gen-model [options] <model-id>
@@ -51,9 +49,9 @@ from that package will be used.
 One of these methods must be available to authenticate with the service.`);
 }
 
-async function tryAad(): Promise<DefaultAzureCredential> {
+function tryAad(): DefaultAzureCredential {
   try {
-    return new (await import("@azure/identity")).DefaultAzureCredential();
+    return new DefaultAzureCredential();
   } catch {
     throw new Error();
   }
@@ -122,7 +120,7 @@ async function main(): Promise<void> {
     credential = new AzureKeyCredential(apiKey);
   } else {
     try {
-      credential = await tryAad();
+      credential = tryAad();
       console.error("Using Azure Active Directory authentication (DefaultAzureCredential).");
     } catch {
       throw new Error(
@@ -149,12 +147,7 @@ async function main(): Promise<void> {
     // output is only refined in this context, so assigning it to "path" preserves that
     const path = output;
 
-    await new Promise<void>((resolve, reject) => {
-      writeFile(path, data, null, (error) => {
-        if (error) reject(error);
-        else resolve();
-      });
-    });
+    await writeFile(path, data);
   } else {
     process.stdout.write(data);
   }

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { DocumentModelDetails } from "../src";
-import { Field } from "./utils";
+import type { DocumentModelDetails } from "../index.js";
+import type { Field } from "./utils.js";
 
 /**
  * @internal

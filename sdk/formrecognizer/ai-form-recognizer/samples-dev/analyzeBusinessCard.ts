@@ -16,7 +16,7 @@
 
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
-import { PrebuiltBusinessCardModel } from "./prebuilt/prebuilt-businessCard";
+import { PrebuiltBusinessCardModel } from "./prebuilt/prebuilt-businessCard.js";
 
 import * as dotenv from "dotenv";
 dotenv.config();

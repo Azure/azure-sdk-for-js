@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { PollOperationState, PollerLike } from "@azure/core-lro";
-import { delayMs } from "./delayMs";
+import { delayMs } from "./delayMs.js";
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { AbortError } from "@azure/abort-controller";
 
