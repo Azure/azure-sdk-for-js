@@ -54,11 +54,6 @@ matrix([[false, true]], async function (useAad: boolean) {
           const fromNumber = env.AZURE_PHONE_NUMBER as string;
           const validToNumber = env.AZURE_PHONE_NUMBER as string;
 
-          console.log("sending sms from " + env.AZURE_PHONE_NUMBER);
-          console.log(
-            "sending sms from " + env.COMMUNICATION_LIVETEST_STATIC_CONNECTION_STRING + " to yehu",
-          );
-
           const results = await client.send({
             from: fromNumber,
             to: [validToNumber],
