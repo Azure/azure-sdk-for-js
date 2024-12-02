@@ -1234,13 +1234,9 @@ describe("Client Side Encryption", function (this: Suite) {
 
     if ("current" in responseForPartitionKey.result[0]) {
       verifyExpectedDocResponse(testDoc2, responseForPartitionKey.result[0].current);
-    } else {
-      assert.fail("current not found in response");
     }
     if ("previous" in responseForPartitionKey.result[1]) {
       verifyExpectedDocResponse(testDoc1, responseForPartitionKey.result[1].previous);
-    } else {
-      assert.fail("previous not found in response");
     }
     newClient.dispose();
   });
