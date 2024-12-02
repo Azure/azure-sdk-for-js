@@ -15,7 +15,7 @@
 
 import { AzureKeyCredential, DocumentAnalysisClient } from "@azure/ai-form-recognizer";
 
-import { PrebuiltReceiptModel } from "./prebuilt/prebuilt-receipt";
+import { PrebuiltReceiptModel } from "./prebuilt/prebuilt-receipt.js";
 
 import * as dotenv from "dotenv";
 dotenv.config();

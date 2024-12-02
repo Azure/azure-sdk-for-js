@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { PollOperationState, PollerLike } from "@azure/core-lro";
-import { FormRecognizerError } from "../error";
+import { FormRecognizerError } from "../error.js";
 import type {
   AnalyzeResult as GeneratedAnalyzeResult,
   AnalyzeResultOperation,
@@ -10,17 +10,17 @@ import type {
   DocumentLanguage,
   DocumentSpan,
   DocumentStyle,
-} from "../generated";
-import type { DocumentField } from "../models/fields";
-import { toAnalyzedDocumentFieldsFromGenerated } from "../models/fields";
-import type { PollerOptions } from "../options";
-import type { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentOptions";
+} from "../generated/index.js";
+import type { DocumentField } from "../models/fields.js";
+import { toAnalyzedDocumentFieldsFromGenerated } from "../models/fields.js";
+import type { PollerOptions } from "../options/index.js";
+import type { AnalyzeDocumentOptions } from "../options/AnalyzeDocumentOptions.js";
 import {
   toBoundingPolygon,
   toBoundingRegions,
   toDocumentTableFromGenerated,
   toKeyValuePairFromGenerated,
-} from "../transforms/polygon";
+} from "../transforms/polygon.js";
 import type {
   BoundingRegion,
   DocumentTable,
@@ -29,12 +29,12 @@ import type {
   DocumentLine,
   DocumentParagraph,
   DocumentFormula,
-} from "../models/documentElements";
+} from "../models/documentElements.js";
 import type {
   Document as GeneratedDocument,
   DocumentPage as GeneratedDocumentPage,
   DocumentLine as GeneratedDocumentLine,
-} from "../generated";
+} from "../generated/index.js";
 
 /**
  * A request input that can be uploaded as binary data to the Form Recognizer service. Form Recognizer treats `string`

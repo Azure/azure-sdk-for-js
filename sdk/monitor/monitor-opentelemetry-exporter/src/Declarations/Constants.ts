@@ -12,6 +12,11 @@ export enum ServiceApiVersion {
 }
 
 /**
+ * Operation Name attribute name.
+ */
+export const AI_OPERATION_NAME = "ai.operation.name";
+
+/**
  * Default Breeze endpoint.
  * @internal
  */

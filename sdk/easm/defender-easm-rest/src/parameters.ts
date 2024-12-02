@@ -9,7 +9,7 @@ import type {
   ReportAssetSnapshotRequest,
   ReportAssetSummaryRequest,
   SavedFilterData,
-} from "./models";
+} from "./models.js";
 
 export interface ListAssetResourceQueryParamProperties {
   /** Filter the result list using the given expression. */

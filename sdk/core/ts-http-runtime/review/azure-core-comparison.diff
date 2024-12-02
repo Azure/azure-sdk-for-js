@@ -1950,180 +1950,40 @@ index a40d4ab..0000000
 -  };
 -}
 diff --git a/src/policies/tracingPolicy.ts b/src/policies/tracingPolicy.ts
-deleted file mode 100644
-index 5e69548..0000000
+index 4f54b0d..4131837 100644
 --- a/src/policies/tracingPolicy.ts
-+++ /dev/null
-@@ -1,169 +0,0 @@
--// Copyright (c) Microsoft Corporation.
--// Licensed under the MIT License.
--
++++ b/src/policies/tracingPolicy.ts
+@@ -1,18 +1,14 @@
+ // Copyright (c) Microsoft Corporation.
+ // Licensed under the MIT License.
+ 
 -import {
 -  type TracingClient,
 -  type TracingContext,
 -  type TracingSpan,
 -  createTracingClient,
 -} from "@azure/core-tracing";
--import { SDK_VERSION } from "../constants.js";
--import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
--import type { PipelinePolicy } from "../pipeline.js";
--import { getUserAgentValue } from "../util/userAgent.js";
--import { logger } from "../log.js";
++import type { TracingClient, TracingContext, TracingSpan } from "../tracing/interfaces.js";
++import { createTracingClient } from "../tracing/tracingClient.js";
+ import { SDK_VERSION } from "../constants.js";
+ import type { PipelineRequest, PipelineResponse, SendRequest } from "../interfaces.js";
+ import type { PipelinePolicy } from "../pipeline.js";
+ import { getUserAgentValue } from "../util/userAgent.js";
+ import { logger } from "../log.js";
 -import { getErrorMessage, isError } from "@azure/core-util";
--import { isRestError } from "../restError.js";
--import { Sanitizer } from "../util/sanitizer.js";
--
--/**
-- * The programmatic identifier of the tracingPolicy.
-- */
--export const tracingPolicyName = "tracingPolicy";
--
--/**
-- * Options to configure the tracing policy.
-- */
--export interface TracingPolicyOptions {
--  /**
--   * String prefix to add to the user agent logged as metadata
--   * on the generated Span.
--   * Defaults to an empty string.
--   */
--  userAgentPrefix?: string;
--  /**
--   * Query string names whose values will be logged when logging is enabled. By default no
--   * query string values are logged.
--   */
--  additionalAllowedQueryParameters?: string[];
--}
--
--/**
-- * A simple policy to create OpenTelemetry Spans for each request made by the pipeline
-- * that has SpanOptions with a parent.
-- * Requests made without a parent Span will not be recorded.
-- * @param options - Options to configure the telemetry logged by the tracing policy.
-- */
--export function tracingPolicy(options: TracingPolicyOptions = {}): PipelinePolicy {
--  const userAgentPromise = getUserAgentValue(options.userAgentPrefix);
--  const sanitizer = new Sanitizer({
--    additionalAllowedQueryParameters: options.additionalAllowedQueryParameters,
--  });
--  const tracingClient = tryCreateTracingClient();
--
--  return {
--    name: tracingPolicyName,
--    async sendRequest(request: PipelineRequest, next: SendRequest): Promise<PipelineResponse> {
--      if (!tracingClient) {
--        return next(request);
--      }
--
--      const userAgent = await userAgentPromise;
--
--      const spanAttributes = {
--        "http.url": sanitizer.sanitizeUrl(request.url),
--        "http.method": request.method,
--        "http.user_agent": userAgent,
--        requestId: request.requestId,
--      };
--      if (userAgent) {
--        spanAttributes["http.user_agent"] = userAgent;
--      }
--
--      const { span, tracingContext } = tryCreateSpan(tracingClient, request, spanAttributes) ?? {};
--
--      if (!span || !tracingContext) {
--        return next(request);
--      }
--
--      try {
--        const response = await tracingClient.withContext(tracingContext, next, request);
--        tryProcessResponse(span, response);
--        return response;
--      } catch (err: any) {
--        tryProcessError(span, err);
--        throw err;
--      }
--    },
--  };
--}
--
--function tryCreateTracingClient(): TracingClient | undefined {
--  try {
--    return createTracingClient({
--      namespace: "",
++import { getErrorMessage, isError } from "../util/error.js";
+ import { isRestError } from "../restError.js";
+ import { Sanitizer } from "../util/sanitizer.js";
+ 
+@@ -92,7 +88,7 @@ function tryCreateTracingClient(): TracingClient | undefined {
+   try {
+     return createTracingClient({
+       namespace: "",
 -      packageName: "@azure/core-rest-pipeline",
--      packageVersion: SDK_VERSION,
--    });
--  } catch (e: unknown) {
--    logger.warning(`Error when creating the TracingClient: ${getErrorMessage(e)}`);
--    return undefined;
--  }
--}
--
--function tryCreateSpan(
--  tracingClient: TracingClient,
--  request: PipelineRequest,
--  spanAttributes: Record<string, unknown>,
--): { span: TracingSpan; tracingContext: TracingContext } | undefined {
--  try {
--    // As per spec, we do not need to differentiate between HTTP and HTTPS in span name.
--    const { span, updatedOptions } = tracingClient.startSpan(
--      `HTTP ${request.method}`,
--      { tracingOptions: request.tracingOptions },
--      {
--        spanKind: "client",
--        spanAttributes,
--      },
--    );
--
--    // If the span is not recording, don't do any more work.
--    if (!span.isRecording()) {
--      span.end();
--      return undefined;
--    }
--
--    // set headers
--    const headers = tracingClient.createRequestHeaders(
--      updatedOptions.tracingOptions.tracingContext,
--    );
--    for (const [key, value] of Object.entries(headers)) {
--      request.headers.set(key, value);
--    }
--    return { span, tracingContext: updatedOptions.tracingOptions.tracingContext };
--  } catch (e: any) {
--    logger.warning(`Skipping creating a tracing span due to an error: ${getErrorMessage(e)}`);
--    return undefined;
--  }
--}
--
--function tryProcessError(span: TracingSpan, error: unknown): void {
--  try {
--    span.setStatus({
--      status: "error",
--      error: isError(error) ? error : undefined,
--    });
--    if (isRestError(error) && error.statusCode) {
--      span.setAttribute("http.status_code", error.statusCode);
--    }
--    span.end();
--  } catch (e: any) {
--    logger.warning(`Skipping tracing span processing due to an error: ${getErrorMessage(e)}`);
--  }
--}
--
--function tryProcessResponse(span: TracingSpan, response: PipelineResponse): void {
--  try {
--    span.setAttribute("http.status_code", response.status);
--    const serviceRequestId = response.headers.get("x-ms-request-id");
--    if (serviceRequestId) {
--      span.setAttribute("serviceRequestId", serviceRequestId);
--    }
--    span.setStatus({
--      status: "success",
--    });
--    span.end();
--  } catch (e: any) {
--    logger.warning(`Skipping tracing span processing due to an error: ${getErrorMessage(e)}`);
--  }
--}
++      packageName: "@typespec/ts-http-runtime",
+       packageVersion: SDK_VERSION,
+     });
+   } catch (e: unknown) {
 diff --git a/src/restError.ts b/src/restError.ts
 index 0b2e69f..bc09e78 100644
 --- a/src/restError.ts
@@ -2947,7 +2807,7 @@ index 25cf55a..685eaed 100644
  
  /**
 diff --git a/src/util/file.ts b/src/util/file.ts
-index 5b65155..73d19de 100644
+index 48d09e6..73d19de 100644
 --- a/src/util/file.ts
 +++ b/src/util/file.ts
 @@ -1,7 +1,7 @@
@@ -2959,6 +2819,16 @@ index 5b65155..73d19de 100644
  import { isNodeReadableStream } from "./typeGuards.js";
  
  /**
+@@ -42,9 +42,6 @@ const unimplementedMethods = {
+   arrayBuffer: () => {
+     throw new Error("Not implemented");
+   },
+-  bytes: () => {
+-    throw new Error("Not implemented");
+-  },
+   slice: () => {
+     throw new Error("Not implemented");
+   },
 diff --git a/src/util/helpers.ts b/src/util/helpers.ts
 index f6819e8..7272d5d 100644
 --- a/src/util/helpers.ts

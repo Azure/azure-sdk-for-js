@@ -9,7 +9,7 @@ import type {
   ReleaseResult,
   RejectResult,
   RenewLocksResult,
-} from "../models/models";
+} from "../models/models.js";
 import type {
   EventGridContext as Client,
   AcknowledgeCloudEvents200Response,
@@ -26,8 +26,8 @@ import type {
   ReleaseCloudEventsDefaultResponse,
   RenewCloudEventLocks200Response,
   RenewCloudEventLocksDefaultResponse,
-} from "../rest/index";
-import { isUnexpected } from "../rest/index";
+} from "../rest/index.js";
+import { isUnexpected } from "../rest/index.js";
 import type { StreamableMethod } from "@azure-rest/core-client";
 import { operationOptionsToRequestParameters, createRestError } from "@azure-rest/core-client";
 import { uint8ArrayToString, stringToUint8Array } from "@azure/core-util";
@@ -39,7 +39,7 @@ import type {
   ReleaseCloudEventsOptionalParams,
   RejectCloudEventsOptionalParams,
   RenewCloudEventLocksOptionalParams,
-} from "../models/options";
+} from "../models/options.js";
 
 export function _publishCloudEventSend(
   context: Client,

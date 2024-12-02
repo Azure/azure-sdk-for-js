@@ -21,7 +21,7 @@ import type {
   PagedSavedFilterOutput,
   SavedFilterOutput,
   PagedTaskOutput,
-} from "./outputModels";
+} from "./outputModels.js";
 
 /** The request has succeeded. */
 export interface ListAssetResource200Response extends HttpResponse {

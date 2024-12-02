@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import type { OperationOptions } from "@azure/core-client";
-import type { DocumentAnalysisPollOperationState } from "../lro/analysis";
-import type { PollerOptions } from "./PollerOptions";
+import type { DocumentAnalysisPollOperationState } from "../lro/analysis.js";
+import type { PollerOptions } from "./PollerOptions.js";
 
 /**
  * Options for the document classification operation.

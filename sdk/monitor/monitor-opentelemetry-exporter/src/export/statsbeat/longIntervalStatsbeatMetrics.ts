@@ -98,6 +98,8 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     this.attachStatsbeatGauge = this.longIntervalStatsbeatMeter.createObservableGauge(
       StatsbeatCounter.ATTACH,
     );
+    this.isInitialized = true;
+    this.initialize();
 
     this.commonProperties = {
       os: this.os,
@@ -112,9 +114,6 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     this.attachProperties = {
       rpId: this.resourceIdentifier,
     };
-
-    this.isInitialized = true;
-    this.initialize();
   }
 
   private async initialize() {
