@@ -1,14 +1,17 @@
 # Release History
 
-## 5.8.1 (Unreleased)
+## 5.9.0 (2024-12-02)
 
 ### Features Added
 
-### Breaking Changes
+- Added new System Events:
 
-### Bugs Fixed
+  - `Microsoft.ResourceNotifications.ContainerServiceEventResources.ScheduledEventEmitted`
 
 ### Other Changes
+
+- A new property `policyRunSummary` has been added to `StorageLifecyclePolicyCompletedEventData` interface.
+- New properties `StorageLifecycleCompletionStatus` and `KnownStorageLifecycleCompletionStatus` have been added.
 
 ## 5.8.0 (2024-10-14)
 
