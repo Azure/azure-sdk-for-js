@@ -1,14 +1,27 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "declarationDir": "./types",
-    "outDir": "./dist-esm",
     "rootDir": ".",
     "importHelpers": true,
-    "lib": ["DOM", "ES2017"],
+    "lib": [
+      "DOM",
+      "ES2017"
+    ],
     "paths": {
-      "@azure/web-pubsub-client": ["./src/index"]
-    }
+      "@azure/web-pubsub-client": [
+        "./src/index"
+      ]
+    },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext"
   },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.mts",
+    "src/**/*.cts",
+    "samples-dev/**/*.ts",
+    "test/**/*.ts",
+    "test/**/*.mts",
+    "test/**/*.cts"
+  ]
 }
