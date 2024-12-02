@@ -1,9 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
-import { RequestParameters } from "@azure-rest/core-client";
-import { LedgerEntry, LedgerUser } from "./models.js";
+import type { RequestParameters } from "@azure-rest/core-client";
+import type { LedgerEntry, LedgerUser } from "./models.js";
 
 export type GetConstitutionParameters = RequestParameters;
 export type ListConsortiumMembersParameters = RequestParameters;
@@ -23,8 +22,7 @@ export interface ListLedgerEntriesQueryParam {
   queryParameters?: ListLedgerEntriesQueryParamProperties;
 }
 
-export type ListLedgerEntriesParameters = ListLedgerEntriesQueryParam &
-  RequestParameters;
+export type ListLedgerEntriesParameters = ListLedgerEntriesQueryParam & RequestParameters;
 
 export interface CreateLedgerEntryBodyParam {
   /** Ledger entry. */
@@ -59,8 +57,7 @@ export interface GetLedgerEntryQueryParam {
   queryParameters?: GetLedgerEntryQueryParamProperties;
 }
 
-export type GetLedgerEntryParameters = GetLedgerEntryQueryParam &
-  RequestParameters;
+export type GetLedgerEntryParameters = GetLedgerEntryQueryParam & RequestParameters;
 export type GetReceiptParameters = RequestParameters;
 export type GetTransactionStatusParameters = RequestParameters;
 
@@ -73,8 +70,7 @@ export interface GetCurrentLedgerEntryQueryParam {
   queryParameters?: GetCurrentLedgerEntryQueryParamProperties;
 }
 
-export type GetCurrentLedgerEntryParameters = GetCurrentLedgerEntryQueryParam &
-  RequestParameters;
+export type GetCurrentLedgerEntryParameters = GetCurrentLedgerEntryQueryParam & RequestParameters;
 export type DeleteUserParameters = RequestParameters;
 export type GetUserParameters = RequestParameters;
 /** Details about a Confidential Ledger user. */

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   GetConstitution200Response,
   GetConstitutionDefaultResponse,
   ListConsortiumMembers200Response,
@@ -27,9 +27,8 @@ import {
   GetUser200Response,
   GetUserDefaultResponse,
   CreateOrUpdateUser200Response,
-  CreateOrUpdateUserDefaultResponse
+  CreateOrUpdateUserDefaultResponse,
 } from "./responses.js";
-
 
 const responseMap: Record<string, string[]> = {
   "GET /app/governance/constitution": ["200"],
@@ -51,9 +50,7 @@ export function isUnexpected(
   response: GetConstitution200Response | GetConstitutionDefaultResponse,
 ): response is GetConstitutionDefaultResponse;
 export function isUnexpected(
-  response:
-    | ListConsortiumMembers200Response
-    | ListConsortiumMembersDefaultResponse,
+  response: ListConsortiumMembers200Response | ListConsortiumMembersDefaultResponse,
 ): response is ListConsortiumMembersDefaultResponse;
 export function isUnexpected(
   response: GetEnclaveQuotes200Response | GetEnclaveQuotesDefaultResponse,
@@ -74,14 +71,10 @@ export function isUnexpected(
   response: GetReceipt200Response | GetReceiptDefaultResponse,
 ): response is GetReceiptDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetTransactionStatus200Response
-    | GetTransactionStatusDefaultResponse,
+  response: GetTransactionStatus200Response | GetTransactionStatusDefaultResponse,
 ): response is GetTransactionStatusDefaultResponse;
 export function isUnexpected(
-  response:
-    | GetCurrentLedgerEntry200Response
-    | GetCurrentLedgerEntryDefaultResponse,
+  response: GetCurrentLedgerEntry200Response | GetCurrentLedgerEntryDefaultResponse,
 ): response is GetCurrentLedgerEntryDefaultResponse;
 export function isUnexpected(
   response: DeleteUser204Response | DeleteUserDefaultResponse,
@@ -166,24 +159,17 @@ function getParametrizedPathSuccess(method: string, path: string): string[] {
 
     // track if we have found a match to return the values found.
     let found = true;
-    for (
-      let i = candidateParts.length - 1, j = pathParts.length - 1;
-      i >= 1 && j >= 1;
-      i--, j--
-    ) {
-      if (
-        candidateParts[i]?.startsWith("{") &&
-        candidateParts[i]?.indexOf("}") !== -1
-      ) {
+    for (let i = candidateParts.length - 1, j = pathParts.length - 1; i >= 1 && j >= 1; i--, j--) {
+      if (candidateParts[i]?.startsWith("{") && candidateParts[i]?.indexOf("}") !== -1) {
         const start = candidateParts[i]!.indexOf("}") + 1,
           end = candidateParts[i]?.length;
         // If the current part of the candidate is a "template" part
         // Try to use the suffix of pattern to match the path
         // {guid} ==> $
         // {guid}:export ==> :export$
-        const isMatched = new RegExp(
-          `${candidateParts[i]?.slice(start, end)}`,
-        ).test(pathParts[j] || "");
+        const isMatched = new RegExp(`${candidateParts[i]?.slice(start, end)}`).test(
+          pathParts[j] || "",
+        );
 
         if (!isMatched) {
           found = false;

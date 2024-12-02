@@ -1,45 +1,65 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { TokenCredential } from "@azure/core-auth";
-import { isTokenCredential } from "@azure/core-auth";
-
 import type { ClientOptions } from "@azure-rest/core-client";
-import type { ConfidentialLedgerClient } from "../generated/clientDefinitions.js";
-import GeneratedConfidentialLedger from "../generated/confidentialLedger.js";
+import { getClient } from "@azure-rest/core-client";
+import { logger } from "./logger.js";
+import type { TokenCredential } from "@azure/core-auth";
+import type { ConfidentialLedgerClient } from "./clientDefinitions.js";
 
-export default function ConfidentialLedger(
+/** The optional parameters for the client */
+export interface ConfidentialLedgerClientOptions extends ClientOptions {
+  /** The api version option of the client */
+  apiVersion?: string;
+}
+
+/**
+ * Initialize a new instance of `ConfidentialLedgerClient`
+ * @param ledgerEndpoint - The Confidential Ledger URL, for example https://contoso.confidentialledger.azure.com
+ * @param credentials - uniquely identify client credential
+ * @param options - the parameter for all optional parameters
+ */
+export default function createClient(
   ledgerEndpoint: string,
-  ledgerIdentityCertificate: string,
-  options?: ClientOptions,
-): ConfidentialLedgerClient;
-export default function ConfidentialLedger(
-  ledgerEndpoint: string,
-  ledgerIdentityCertificate: string,
   credentials: TokenCredential,
-  options?: ClientOptions,
-): ConfidentialLedgerClient;
-export default function ConfidentialLedger(
-  ledgerEndpoint: string,
-  ledgerIdentityCertificate: string,
-  credentialsOrOptions?: TokenCredential | ClientOptions,
-  opts?: ClientOptions,
+  { apiVersion = "2022-05-13", ...options }: ConfidentialLedgerClientOptions = {},
 ): ConfidentialLedgerClient {
-  let credentials: TokenCredential | undefined;
-  let options: ClientOptions;
-
-  if (isTokenCredential(credentialsOrOptions)) {
-    credentials = credentialsOrOptions;
-    options = opts ?? {};
-  } else {
-    options = credentialsOrOptions ?? {};
-  }
-
-  const tlsOptions = options?.tlsOptions ?? {};
-  tlsOptions.ca = ledgerIdentityCertificate;
-  const confidentialLedger = GeneratedConfidentialLedger(ledgerEndpoint, credentials!, {
+  const endpointUrl = options.endpoint ?? options.baseUrl ?? `${ledgerEndpoint}`;
+  const userAgentInfo = `azsdk-js-confidential-ledger-rest/1.0.1`;
+  const userAgentPrefix =
+    options.userAgentOptions && options.userAgentOptions.userAgentPrefix
+      ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`
+      : `${userAgentInfo}`;
+  options = {
     ...options,
-    tlsOptions,
+    userAgentOptions: {
+      userAgentPrefix,
+    },
+    loggingOptions: {
+      logger: options.loggingOptions?.logger ?? logger.info,
+    },
+    credentials: {
+      scopes: options.credentials?.scopes ?? ["https://confidential-ledger.azure.com/.default"],
+    },
+  };
+  const client = getClient(endpointUrl, credentials, options) as ConfidentialLedgerClient;
+
+  client.pipeline.removePolicy({ name: "ApiVersionPolicy" });
+  client.pipeline.addPolicy({
+    name: "ClientApiVersionPolicy",
+    sendRequest: (req, next) => {
+      // Use the apiVersion defined in request url directly
+      // Append one if there is no apiVersion and we have one at client options
+      const url = new URL(req.url);
+      if (!url.searchParams.get("api-version") && apiVersion) {
+        req.url = `${req.url}${
+          Array.from(url.searchParams.keys()).length > 0 ? "&" : "?"
+        }api-version=${apiVersion}`;
+      }
+
+      return next(req);
+    },
   });
-  return confidentialLedger;
+
+  return client;
 }

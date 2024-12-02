@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
-import { RawHttpHeaders } from "@azure/core-rest-pipeline";
-import { HttpResponse } from "@azure-rest/core-client";
-import {
+import type { RawHttpHeaders } from "@azure/core-rest-pipeline";
+import type { HttpResponse } from "@azure-rest/core-client";
+import type {
   ConstitutionOutput,
   ConfidentialLedgerErrorOutput,
   ConsortiumOutput,
@@ -16,7 +15,7 @@ import {
   TransactionReceiptOutput,
   TransactionStatusOutput,
   LedgerEntryOutput,
-  LedgerUserOutput
+  LedgerUserOutput,
 } from "./outputModels.js";
 
 /** The constitution is a script that assesses and applies proposals from consortium members. */

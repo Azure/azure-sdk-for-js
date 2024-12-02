@@ -7,7 +7,6 @@ export interface LedgerEntry {
   contents: string;
 }
 
-
 /** Details about a Confidential Ledger user. */
 export interface LedgerUser {
   /** Represents an assignable role. */

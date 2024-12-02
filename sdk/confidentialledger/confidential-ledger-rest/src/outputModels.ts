@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-
 /** The governance script for the application. */
 export interface ConstitutionOutput {
   /** SHA256 digest of the constitution script. */
