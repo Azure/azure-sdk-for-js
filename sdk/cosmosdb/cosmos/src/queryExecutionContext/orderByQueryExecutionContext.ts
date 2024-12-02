@@ -3,7 +3,7 @@
 import { ClientContext } from "../ClientContext";
 import { PartitionedQueryExecutionInfo } from "../request/ErrorResponse";
 import { FeedOptions } from "../request/FeedOptions";
-import { DocumentProducer } from "./documentProducer";
+import { DocumentProducer } from "./documentProducer2";
 import { ExecutionContext } from "./ExecutionContext";
 import { OrderByDocumentProducerComparator } from "./orderByDocumentProducerComparator";
 import { ParallelQueryExecutionContextBase } from "./parallelQueryExecutionContextBase";
