@@ -127,11 +127,18 @@ describe("#AzureMonitorStatsbeatExporter", () => {
         assert.ok(statsbeat["version"]);
       });
 
+      it("should set common properties correctly", () => {
+        const originalEnv = process.env;
+        const newEnv = <{ [id: string]: string }>{};
+        newEnv.WEBSITE_SITE_NAME = "test";
+        process.env = newEnv;
+        const statsbeat = new NetworkStatsbeatMetrics(options);
+        assert.strictEqual(statsbeat["commonProperties"]["rp"], "appsvc");
+        process.env = originalEnv;
+      })
+
       it("should add correct long interval properties to the custom metric", () => {
-        // const exporter = new TestExporter();
-        // const statsbeatMetrics = exporter["sender"]["networkStatsbeatMetrics"];
         const longIntervalStatsbeatMetrics = getInstance(options);
-        // assert.ok(statsbeatMetrics);
         assert.ok(longIntervalStatsbeatMetrics);
         // Represents the bitwise OR of NONE and AADHANDLING features
         assert.strictEqual(longIntervalStatsbeatMetrics["feature"], 3);
