@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import {
+import type {
   RoleAssignmentsCheckPrincipalAccess200Response,
   RoleAssignmentsCheckPrincipalAccessdefaultResponse,
   RoleAssignmentsListRoleAssignments200Response,
@@ -18,8 +18,8 @@ import {
   RoleDefinitionsGetRoleDefinitionById200Response,
   RoleDefinitionsGetRoleDefinitionByIddefaultResponse,
   RoleDefinitionsListScopes200Response,
-  RoleDefinitionsListScopesdefaultResponse
-} from "./responses";
+  RoleDefinitionsListScopesdefaultResponse,
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /checkAccessSynapseRbac": ["200"],
@@ -29,49 +29,47 @@ const responseMap: Record<string, string[]> = {
   "DELETE /roleAssignments/{roleAssignmentId}": ["200", "204"],
   "GET /roleDefinitions": ["200"],
   "GET /roleDefinitions/{roleDefinitionId}": ["200"],
-  "GET /rbacScopes": ["200"]
+  "GET /rbacScopes": ["200"],
 };
 
 export function isUnexpected(
   response:
     | RoleAssignmentsCheckPrincipalAccess200Response
-    | RoleAssignmentsCheckPrincipalAccessdefaultResponse
+    | RoleAssignmentsCheckPrincipalAccessdefaultResponse,
 ): response is RoleAssignmentsCheckPrincipalAccessdefaultResponse;
 export function isUnexpected(
   response:
     | RoleAssignmentsListRoleAssignments200Response
-    | RoleAssignmentsListRoleAssignmentsdefaultResponse
+    | RoleAssignmentsListRoleAssignmentsdefaultResponse,
 ): response is RoleAssignmentsListRoleAssignmentsdefaultResponse;
 export function isUnexpected(
   response:
     | RoleAssignmentsCreateRoleAssignment200Response
-    | RoleAssignmentsCreateRoleAssignmentdefaultResponse
+    | RoleAssignmentsCreateRoleAssignmentdefaultResponse,
 ): response is RoleAssignmentsCreateRoleAssignmentdefaultResponse;
 export function isUnexpected(
   response:
     | RoleAssignmentsGetRoleAssignmentById200Response
-    | RoleAssignmentsGetRoleAssignmentByIddefaultResponse
+    | RoleAssignmentsGetRoleAssignmentByIddefaultResponse,
 ): response is RoleAssignmentsGetRoleAssignmentByIddefaultResponse;
 export function isUnexpected(
   response:
     | RoleAssignmentsDeleteRoleAssignmentById200Response
     | RoleAssignmentsDeleteRoleAssignmentById204Response
-    | RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse
+    | RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse,
 ): response is RoleAssignmentsDeleteRoleAssignmentByIddefaultResponse;
 export function isUnexpected(
   response:
     | RoleDefinitionsListRoleDefinitions200Response
-    | RoleDefinitionsListRoleDefinitionsdefaultResponse
+    | RoleDefinitionsListRoleDefinitionsdefaultResponse,
 ): response is RoleDefinitionsListRoleDefinitionsdefaultResponse;
 export function isUnexpected(
   response:
     | RoleDefinitionsGetRoleDefinitionById200Response
-    | RoleDefinitionsGetRoleDefinitionByIddefaultResponse
+    | RoleDefinitionsGetRoleDefinitionByIddefaultResponse,
 ): response is RoleDefinitionsGetRoleDefinitionByIddefaultResponse;
 export function isUnexpected(
-  response:
-    | RoleDefinitionsListScopes200Response
-    | RoleDefinitionsListScopesdefaultResponse
+  response: RoleDefinitionsListScopes200Response | RoleDefinitionsListScopesdefaultResponse,
 ): response is RoleDefinitionsListScopesdefaultResponse;
 export function isUnexpected(
   response:
@@ -91,7 +89,7 @@ export function isUnexpected(
     | RoleDefinitionsGetRoleDefinitionById200Response
     | RoleDefinitionsGetRoleDefinitionByIddefaultResponse
     | RoleDefinitionsListScopes200Response
-    | RoleDefinitionsListScopesdefaultResponse
+    | RoleDefinitionsListScopesdefaultResponse,
 ): response is
   | RoleAssignmentsCheckPrincipalAccessdefaultResponse
   | RoleAssignmentsListRoleAssignmentsdefaultResponse
@@ -124,17 +122,11 @@ function geParametrizedPathSuccess(path: string): string[] {
 
     // If the candidate and actual paths don't match in size
     // we move on to the next candidate path
-    if (
-      candidateParts.length === pathParts.length &&
-      hasParametrizedPath(key)
-    ) {
+    if (candidateParts.length === pathParts.length && hasParametrizedPath(key)) {
       // track if we have found a match to return the values found.
       let found = true;
       for (let i = 0; i < candidateParts.length; i++) {
-        if (
-          candidateParts[i].startsWith("{") &&
-          candidateParts[i].endsWith("}")
-        ) {
+        if (candidateParts[i].startsWith("{") && candidateParts[i].endsWith("}")) {
           // If the current part of the candidate is a "template" part
           // it is a match with the actual path part on hand
           // skip as the parameterized part can match anything

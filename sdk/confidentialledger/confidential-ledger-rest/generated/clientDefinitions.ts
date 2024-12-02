@@ -14,8 +14,8 @@ import {
   GetCurrentLedgerEntryParameters,
   DeleteUserParameters,
   GetUserParameters,
-  CreateOrUpdateUserParameters,
-} from "./parameters";
+  CreateOrUpdateUserParameters
+} from "./parameters.js";
 import {
   GetConstitution200Response,
   GetConstitutionDefaultResponse,
@@ -42,8 +42,8 @@ import {
   GetUser200Response,
   GetUserDefaultResponse,
   CreateOrUpdateUser200Response,
-  CreateOrUpdateUserDefaultResponse,
-} from "./responses";
+  CreateOrUpdateUserDefaultResponse
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetConstitution {

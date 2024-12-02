@@ -27,8 +27,8 @@ import {
   GetUser200Response,
   GetUserDefaultResponse,
   CreateOrUpdateUser200Response,
-  CreateOrUpdateUserDefaultResponse,
-} from "./responses";
+  CreateOrUpdateUserDefaultResponse
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /app/governance/constitution": ["200"],

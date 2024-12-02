@@ -5,8 +5,8 @@ import type { TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 
 import type { ClientOptions } from "@azure-rest/core-client";
-import type { ConfidentialLedgerClient } from "../generated/clientDefinitions";
-import GeneratedConfidentialLedger from "../generated/confidentialLedger";
+import type { ConfidentialLedgerClient } from "../generated/clientDefinitions.js";
+import GeneratedConfidentialLedger from "../generated/confidentialLedger.js";
 
 export default function ConfidentialLedger(
   ledgerEndpoint: string,

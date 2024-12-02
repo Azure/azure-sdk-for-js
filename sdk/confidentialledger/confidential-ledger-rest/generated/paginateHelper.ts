@@ -190,17 +190,17 @@ export interface PagingOptions<TResponse> {
  */
 export type PaginateReturn<TResult> = TResult extends
   | {
-      body: { value?: infer TPage };
-    }
+    body: { value?: infer TPage };
+  }
   | {
-      body: { members?: infer TPage };
-    }
+    body: { members?: infer TPage };
+  }
   | {
-      body: { collections?: infer TPage };
-    }
+    body: { collections?: infer TPage };
+  }
   | {
-      body: { entries?: infer TPage };
-    }
+    body: { entries?: infer TPage };
+  }
   ? GetArrayType<TPage>
   : Array<unknown>;
 
@@ -230,18 +230,18 @@ export function paginate<TResponse extends PathUncheckedResponse>(
       typeof customGetPage === "function"
         ? customGetPage
         : async (pageLink: string) => {
-            const result = firstRun
-              ? initialResponse
-              : await client.pathUnchecked(pageLink).get();
-            firstRun = false;
-            checkPagingRequest(result);
-            const nextLink = getNextLink(result.body, nextLinkName);
-            const values = getElements<TElement>(result.body, itemName);
-            return {
-              page: values,
-              nextPageLink: nextLink,
-            };
-          },
+          const result = firstRun
+            ? initialResponse
+            : await client.pathUnchecked(pageLink).get();
+          firstRun = false;
+          checkPagingRequest(result);
+          const nextLink = getNextLink(result.body, nextLinkName);
+          const values = getElements<TElement>(result.body, itemName);
+          return {
+            page: values,
+            nextPageLink: nextLink,
+          };
+        },
   };
 
   return getPagedAsyncIterator(pagedResult);

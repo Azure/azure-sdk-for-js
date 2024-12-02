@@ -16,6 +16,11 @@ export const ServiceErrorMessageConstants = {
     message:
       "The Playwright version you are using is not supported. See the list of supported versions at https://aka.ms/mpt/supported-versions.",
   },
+  MULTIPLE_SETUP_FILE_PLAYWRIGHT_VERSION_ERROR: {
+    key: "MultipleSetupFilePlaywrightVersionError",
+    message:
+      "The Playwright version you are using does not support multiple setup/teardown files. Please update to Playwright version 1.49.0 or higher.",
+  },
   WORKSPACE_MISMATCH_ERROR: {
     key: "InvalidAccessToken",
     message:
