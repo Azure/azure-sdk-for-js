@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { trace, type Context } from "@opentelemetry/api";
+import type { Context } from "@opentelemetry/api";
 import type { ReadableSpan, Span, SpanProcessor } from "@opentelemetry/sdk-trace-base";
 import type { MetricHandler } from "../metrics";
-import { AI_OPERATION_NAME } from "../types";
 
 /**
  * Azure Monitor Span Processor.
@@ -22,11 +21,6 @@ export class AzureMonitorSpanProcessor implements SpanProcessor {
   }
 
   onStart(span: Span, _context: Context): void {
-    const parentSpan = trace.getSpan(_context);
-    if (parentSpan && "name" in parentSpan) {
-      // If the parent span has a name we can assume it's a ReadableSpan and cast it as such
-      span.attributes[AI_OPERATION_NAME] = (parentSpan as unknown as ReadableSpan).name;
-    }
     this._metricHandler.markSpanAsProcessed(span);
   }
 

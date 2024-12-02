@@ -1,10 +1,8 @@
 # Release History
 
-## 1.9.0 (Unreleased)
+## 1.8.1 (Unreleased)
 
 ### Features Added
-
-- Added support for operation name on dependencies and logs.
 
 ### Breaking Changes
 
