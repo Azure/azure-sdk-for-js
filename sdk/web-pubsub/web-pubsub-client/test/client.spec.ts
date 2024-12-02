@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { expect } from "@azure-tools/test-utils";
+import { expect } from "@azure-tools/test-utils-vitest";
 import type { WebPubSubClientOptions } from "../src/models/index.js";
 import { WebPubSubJsonProtocol } from "../src/protocols/index.js";
 import { WebPubSubClient } from "../src/webPubSubClient.js";
