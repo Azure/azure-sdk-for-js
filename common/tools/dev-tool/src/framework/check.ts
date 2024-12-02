@@ -244,15 +244,16 @@ export function workingTreeUnchangedCheck(
   options: Omit<CheckOptions, "hasFix"> & ({ check: CheckFunction } | { fixCommand: string }),
 ): Check {
   const checkFunction: CheckFunction =
-    ((options as any).check as CheckFunction) ??
-    (async (ctx) => {
-      const { output, exitCode } = await run((options as any).fixCommand, {
-        captureOutput: true,
-        captureExitCode: true,
-        cwd: ctx.project.path,
-      });
-      assert(exitCode === 0, `Command exited with exit code ${exitCode}`, output);
-    });
+    "check" in options
+      ? (options.check as CheckFunction)
+      : async (ctx) => {
+          const { output, exitCode } = await run(options.fixCommand, {
+            captureOutput: true,
+            captureExitCode: true,
+            cwd: ctx.project.path,
+          });
+          assert(exitCode === 0, `Command exited with exit code ${exitCode}`, output);
+        };
 
   return {
     ...options,
