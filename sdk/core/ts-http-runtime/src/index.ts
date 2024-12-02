@@ -74,6 +74,6 @@ export type {
   FullOperationResponse,
 } from "./client/common.js";
 export type { PipelineOptions, TelemetryOptions } from "./createPipelineFromOptions.js";
-export type { LogPolicyOptions as LogOptions } from "./policies/logPolicy.js";
-export type { RedirectPolicyOptions as RedirectOptions } from "./policies/redirectPolicy.js";
-export type { UserAgentPolicyOptions as UserAgentOptions } from "./policies/userAgentPolicy.js";
+export type { LogPolicyOptions } from "./policies/logPolicy.js";
+export type { RedirectPolicyOptions } from "./policies/redirectPolicy.js";
+export type { UserAgentPolicyOptions } from "./policies/userAgentPolicy.js";

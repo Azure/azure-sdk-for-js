@@ -1,8 +1,10 @@
 # Release History
 
-## 1.0.0-beta.1 (Unreleased)
+## 0.1.0 (Unreleased)
 
 ### Features Added
+
+- Initial release of the `@typespec/ts-http-runtime` package.
 
 ### Breaking Changes
 
