@@ -13,13 +13,13 @@ import type {
   WebPubSubClientOptions,
   WebPubSubResult,
   WebPubSubRetryOptions,
-} from "../src/models";
-import { WebPubSubClient } from "../src/webPubSubClient";
+} from "../src/models/index.js";
+import { WebPubSubClient } from "../src/webPubSubClient.js";
 import { delay } from "@azure/core-util";
-import { TestWebSocketClient } from "./testWebSocketClient";
-import { WebPubSubJsonProtocol } from "../src/protocols";
-import { getConnectedPayload } from "./utils";
-import { SendMessageError } from "../src/errors";
+import { TestWebSocketClient } from "./testWebSocketClient.js";
+import { WebPubSubJsonProtocol } from "../src/protocols/index.js";
+import { getConnectedPayload } from "./utils.js";
+import { SendMessageError } from "../src/errors/index.js";
 
 describe("WebPubSubClient", function () {
   describe("Start operation can only be execute when stopped", () => {

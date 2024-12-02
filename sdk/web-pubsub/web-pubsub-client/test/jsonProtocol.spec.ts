@@ -14,8 +14,8 @@ import type {
   SequenceAckMessage,
   ServerDataMessage,
   WebPubSubMessage,
-} from "../src/models";
-import { WebPubSubJsonReliableProtocol } from "../src/protocols";
+} from "../src/models/index.js";
+import { WebPubSubJsonReliableProtocol } from "../src/protocols/index.js";
 
 describe("JsonProtocol", function () {
   const protocol = WebPubSubJsonReliableProtocol();

@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
-import type { WebSocketClientFactoryLike, WebSocketClientLike } from "./websocketClientLike";
+import type { WebSocketClientFactoryLike, WebSocketClientLike } from "./websocketClientLike.js";
 
 export class WebSocketClient implements WebSocketClientLike {
   private _socket: WebSocket;

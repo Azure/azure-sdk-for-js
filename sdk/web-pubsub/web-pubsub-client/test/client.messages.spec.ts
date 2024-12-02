@@ -13,8 +13,8 @@ import type {
   SendEventMessage,
   SendToGroupMessage,
   ServerDataMessage,
-} from "../src/models";
-import { WebPubSubClient } from "../src/webPubSubClient";
+} from "../src/models/index.js";
+import { WebPubSubClient } from "../src/webPubSubClient.js";
 
 describe("WebPubSubClient", function () {
   describe("Execute operation and translate to WebPubSubMessage", () => {

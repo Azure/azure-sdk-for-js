@@ -3,10 +3,10 @@
 
 import type { AbortSignalLike } from "@azure/abort-controller";
 import { delay } from "@azure/core-util";
-import EventEmitter from "events";
-import type { SendMessageErrorOptions } from "./errors";
-import { SendMessageError } from "./errors";
-import { logger } from "./logger";
+import EventEmitter from "node:events";
+import type { SendMessageErrorOptions } from "./errors/index.js";
+import { SendMessageError } from "./errors/index.js";
+import { logger } from "./logger.js";
 import type {
   WebPubSubResult,
   JoinGroupOptions,
@@ -23,7 +23,7 @@ import type {
   OnRejoinGroupFailedArgs,
   StartOptions,
   GetClientAccessUrlOptions,
-} from "./models";
+} from "./models/index.js";
 import type {
   ConnectedMessage,
   DisconnectedMessage,
@@ -37,16 +37,16 @@ import type {
   SendEventMessage,
   AckMessage,
   SequenceAckMessage,
-} from "./models/messages";
-import type { WebPubSubClientProtocol } from "./protocols";
-import { WebPubSubJsonReliableProtocol } from "./protocols";
-import type { WebPubSubClientCredential } from "./webPubSubClientCredential";
-import { WebSocketClientFactory } from "./websocket/websocketClient";
+} from "./models/messages.js";
+import type { WebPubSubClientProtocol } from "./protocols/index.js";
+import { WebPubSubJsonReliableProtocol } from "./protocols/index.js";
+import type { WebPubSubClientCredential } from "./webPubSubClientCredential.js";
+import { WebSocketClientFactory } from "./websocket/websocketClient.js";
 import type {
   WebSocketClientFactoryLike,
   WebSocketClientLike,
-} from "./websocket/websocketClientLike";
-import { abortablePromise } from "./utils/abortablePromise";
+} from "./websocket/websocketClientLike.js";
+import { abortablePromise } from "./utils/abortablePromise.js";
 
 enum WebPubSubClientState {
   Stopped = "Stopped",
