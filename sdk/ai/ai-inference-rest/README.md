@@ -8,7 +8,7 @@ Key links:
 
 - [Source code](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest)
 - [Package (NPM)](https://aka.ms/npm-azure-rest-ai-inference)
-- [API reference documentation](https://aka.ms/AAp1kxa)
+- [API reference documentation](https://learn.microsoft.com/javascript/api/@azure-rest/ai-inference/)
 - [Samples](https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/ai/ai-inference-rest/samples)
 
 ## Getting started

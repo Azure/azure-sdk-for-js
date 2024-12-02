@@ -9,3 +9,4 @@ export { AzureMonitorLogExporter } from "./export/log.js";
 export { AzureMonitorExporterOptions } from "./config.js";
 export { ServiceApiVersion } from "./Declarations/Constants.js";
 export { ApplicationInsightsClientOptionalParams } from "./generated/models/index.js";
+export { AI_OPERATION_NAME } from "./Declarations/Constants.js";
