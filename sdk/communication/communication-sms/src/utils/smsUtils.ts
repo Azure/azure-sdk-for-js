@@ -34,14 +34,13 @@ export function generateSendMessageRequest(
   };
 }
 
-export function generateOptOutRequest(
-  from: string,
-  to: string[]) : OptOutRequest {
-    return {
-      from: from, 
-      recipients: to.map((phoneNumberStr) => {
-        return {
-          to: phoneNumberStr
-        };
-    })};
-  }
+export function generateOptOutRequest(from: string, to: string[]): OptOutRequest {
+  return {
+    from: from,
+    recipients: to.map((phoneNumberStr) => {
+      return {
+        to: phoneNumberStr,
+      };
+    }),
+  };
+}

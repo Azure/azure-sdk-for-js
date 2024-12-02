@@ -27,14 +27,11 @@ export interface OptOutRemoveResult {
   errorMessage?: string;
 }
 
-export interface CheckOptions extends OperationOptions {
-}
+export interface CheckOptions extends OperationOptions {}
 
-export interface AddOptions extends OperationOptions {
-}
+export interface AddOptions extends OperationOptions {}
 
-export interface RemoveOptions extends OperationOptions {
-}
+export interface RemoveOptions extends OperationOptions {}
 
 export class OptOutsClient {
   private readonly api: SmsApiClient;
@@ -43,51 +40,48 @@ export class OptOutsClient {
     this.api = api;
   }
 
-  public async remove( from: string,
-    to: string[],
-    options:RemoveOptions = {}): Promise<OptOutRemoveResult[]> {
-      const { operationOptions } = extractOperationOptions(options);
-      return tracingClient.withSpan("OptOuts-Remove", operationOptions, async (updatedOptions) => {
-        const response = await this.api.optOuts.add(
-          generateOptOutRequest(from, to),
-          updatedOptions,
-        );
-  
-        return response.value.map((optOutResponseItem: OptOutResponseItem) => {
-          return {
-            to: optOutResponseItem.to,
-            httpStatusCode: optOutResponseItem.httpStatusCode,
-            errorMessage: optOutResponseItem.errorMessage ?? ""
-          };
-        });
-      });
-  }
-
-  public async add( 
+  public async remove(
     from: string,
     to: string[],
-    options:AddOptions = {}): Promise<OptOutAddResult[]> {
-      const { operationOptions } = extractOperationOptions(options);
-      return tracingClient.withSpan("OptOuts-Add", operationOptions, async (updatedOptions) => {
-        const response = await this.api.optOuts.add(
-          generateOptOutRequest(from, to),
-          updatedOptions,
-        );
-  
-        return response.value.map((optOutResponseItem: OptOutResponseItem) => {
-          return {
-            to: optOutResponseItem.to,
-            httpStatusCode: optOutResponseItem.httpStatusCode,
-            errorMessage: optOutResponseItem.errorMessage ?? ""
-          };
-        });
+    options: RemoveOptions = {},
+  ): Promise<OptOutRemoveResult[]> {
+    const { operationOptions } = extractOperationOptions(options);
+    return tracingClient.withSpan("OptOuts-Remove", operationOptions, async (updatedOptions) => {
+      const response = await this.api.optOuts.add(generateOptOutRequest(from, to), updatedOptions);
+
+      return response.value.map((optOutResponseItem: OptOutResponseItem) => {
+        return {
+          to: optOutResponseItem.to,
+          httpStatusCode: optOutResponseItem.httpStatusCode,
+          errorMessage: optOutResponseItem.errorMessage ?? "",
+        };
       });
+    });
+  }
+
+  public async add(
+    from: string,
+    to: string[],
+    options: AddOptions = {},
+  ): Promise<OptOutAddResult[]> {
+    const { operationOptions } = extractOperationOptions(options);
+    return tracingClient.withSpan("OptOuts-Add", operationOptions, async (updatedOptions) => {
+      const response = await this.api.optOuts.add(generateOptOutRequest(from, to), updatedOptions);
+
+      return response.value.map((optOutResponseItem: OptOutResponseItem) => {
+        return {
+          to: optOutResponseItem.to,
+          httpStatusCode: optOutResponseItem.httpStatusCode,
+          errorMessage: optOutResponseItem.errorMessage ?? "",
+        };
+      });
+    });
   }
 
   public async check(
     from: string,
     to: string[],
-    options:CheckOptions = {}
+    options: CheckOptions = {},
   ): Promise<OptOutCheckResult[]> {
     const { operationOptions } = extractOperationOptions(options);
     return tracingClient.withSpan("OptOuts-Check", operationOptions, async (updatedOptions) => {
@@ -101,7 +95,7 @@ export class OptOutsClient {
           to: optOutResponseItem.to,
           isOptedOut: optOutResponseItem.isOptedOut ?? false,
           httpStatusCode: optOutResponseItem.httpStatusCode,
-          errorMessage: optOutResponseItem.errorMessage ?? ""
+          errorMessage: optOutResponseItem.errorMessage ?? "",
         };
       });
     });
