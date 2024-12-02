@@ -684,14 +684,6 @@ export interface ListQueryParameters {
 }
 
 // @public
-export interface ListQueryParameters {
-    after?: string;
-    before?: string;
-    limit?: number;
-    order?: "asc" | "desc";
-}
-
-// @public
 export type ListSortOrder = "asc" | "desc";
 
 // @public
