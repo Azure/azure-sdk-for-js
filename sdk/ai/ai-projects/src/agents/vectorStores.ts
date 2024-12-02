@@ -87,7 +87,7 @@ export async function deleteVectorStore(
   return result.body; 
 }
 
-function validateVectorStoreId(vectorStoreId: string): void {
+export function validateVectorStoreId(vectorStoreId: string): void {
   if (!vectorStoreId) {
     throw new Error("Vector store ID is required");
   }
