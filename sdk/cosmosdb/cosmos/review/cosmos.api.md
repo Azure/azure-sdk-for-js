@@ -8,7 +8,7 @@ import { AbortError } from '@azure/abort-controller';
 import type { HttpClient } from '@azure/core-rest-pipeline';
 import type { Pipeline } from '@azure/core-rest-pipeline';
 import { RestError } from '@azure/core-rest-pipeline';
-import { TokenCredential } from '@azure/core-auth';
+import type { TokenCredential } from '@azure/core-auth';
 
 export { AbortError }
 
@@ -1441,13 +1441,13 @@ export class Items {
 }
 
 // @public (undocumented)
-export interface JSONArray extends ArrayLike<any> {
+export interface JSONArray extends ArrayLike<JSONValue> {
 }
 
 // @public (undocumented)
 export interface JSONObject {
     // (undocumented)
-    [key: string]: any;
+    [key: string]: JSONValue;
 }
 
 // @public (undocumented)
