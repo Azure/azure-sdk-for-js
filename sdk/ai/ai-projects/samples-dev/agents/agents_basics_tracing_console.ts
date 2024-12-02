@@ -11,7 +11,6 @@ import {
     SimpleSpanProcessor,
 } from "@opentelemetry/sdk-trace-node";
 
-
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -22,8 +21,6 @@ provider.register();
 registerInstrumentations({
     instrumentations: [createAzureSdkInstrumentation()],
 });
-
-
 
 import { AIProjectsClient } from "@azure/ai-projects"
 import { DefaultAzureCredential } from "@azure/identity";

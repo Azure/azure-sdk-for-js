@@ -4,6 +4,8 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, GetRunParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
+import { TracingUtility } from "../tracing.js";
+import { traceEndCreateRun, traceStartCreateRun, traceStartCreateThreadAndRun } from "./runTrace.js";
 
 const expectedStatuses = ["200"];
 
@@ -14,13 +16,15 @@ export async function createRun(
   options: CreateRunParameters,
 ): Promise<ThreadRunOutput> {
   options.body.stream = false;
-  const result = await context
-    .path("/threads/{threadId}/runs", threadId)
-    .post(options);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-  return result.body;
+  return TracingUtility.withSpan("CreateRun", options, async (updateOptions) => {
+    const result = await context
+      .path("/threads/{threadId}/runs", threadId)
+      .post(updateOptions);
+    if (!expectedStatuses.includes(result.status)) {
+      throw createRestError(result);
+    }
+    return result.body;
+  }, (span, updatedOptions) => traceStartCreateRun(span, updatedOptions, threadId), traceEndCreateRun);
 }
 
 /** Gets a list of runs for a specified thread. */
@@ -109,9 +113,11 @@ export async function createThreadAndRun(
   options: CreateThreadAndRunParameters,
 ): Promise<ThreadRunOutput> {
   options.body.stream = false;
-  const result = await context.path("/threads/runs").post(options);
-  if (!expectedStatuses.includes(result.status)) {
-    throw createRestError(result);
-  }
-  return result.body;
+  return TracingUtility.withSpan("CreateThreadAndRun", options, async (updateOptions) => {
+    const result = await context.path("/threads/runs").post(updateOptions);
+    if (!expectedStatuses.includes(result.status)) {
+      throw createRestError(result);
+    }
+    return result.body;
+  }, traceStartCreateThreadAndRun, traceEndCreateRun);
 }

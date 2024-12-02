@@ -4,6 +4,8 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { CreateThreadParameters, DeleteThreadParameters, GetThreadParameters, UpdateThreadParameters } from "../generated/src/parameters.js";
 import { AgentThreadOutput, ThreadDeletionStatusOutput } from "../generated/src/outputModels.js";
+import { TracingUtility } from "../tracing.js";
+import { traceEndCreateThread, traceStartCreateThread } from "./threadsTrace.js";
 
 const expectedStatuses = ["200"];
 
@@ -12,11 +14,13 @@ export async function createThread(
   context: Client,
   options?: CreateThreadParameters,
 ): Promise<AgentThreadOutput> {
-  const result = await context.path("/threads").post(options);
+  return TracingUtility.withSpan("CreateThread", options || {body: {}}, async (updatedOptions) => {
+  const result = await context.path("/threads").post(updatedOptions);
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
   }
   return result.body;
+}, traceStartCreateThread, traceEndCreateThread);
 }
 
 /** Gets information about an existing thread. */

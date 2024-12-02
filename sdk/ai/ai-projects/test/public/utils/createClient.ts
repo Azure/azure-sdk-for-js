@@ -9,6 +9,7 @@ import {
 import { createTestCredential } from "@azure-tools/test-credential";
 import { AIProjectsClient } from "../../../src/index.js";
 import { ClientOptions } from "@azure-rest/core-client";
+import { createHttpHeaders, PipelineRequest, PipelineResponse } from "@azure/core-rest-pipeline";
 
 const replaceableVariables: Record<string, string> = {
   SUBSCRIPTION_ID: "azure_subscription_id",
@@ -37,5 +38,26 @@ export function createProjectsClient(
 ): AIProjectsClient {
   const credential = createTestCredential();
   const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "";
-  return AIProjectsClient.fromConnectionString(connectionString, credential, recorder?.configureClientOptions(options ?? {}));
+  return AIProjectsClient.fromConnectionString(
+    connectionString,
+    credential,
+    recorder ? recorder.configureClientOptions(options ?? {}) : options
+  );
+}
+
+export function createMockProjectsClient(responseFn: (request:PipelineRequest) => Partial<PipelineResponse>): AIProjectsClient {
+  const options: ClientOptions = { additionalPolicies: [] };
+        options.additionalPolicies?.push({
+            policy: {
+                name: "RequestMockPolicy",
+                sendRequest:(async (req) => {
+                  const response = responseFn(req);
+                  return { headers: createHttpHeaders(), status: 200, request: req, ...response } as PipelineResponse;
+                })
+            },
+            position: "perCall"
+        });
+  const credential = createTestCredential();
+  const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "";
+  return AIProjectsClient.fromConnectionString(connectionString, credential, options);
 }
