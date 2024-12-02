@@ -70,7 +70,7 @@ export type ClientOptions = PipelineOptions & {
     allowInsecureConnection?: boolean;
     additionalPolicies?: AdditionalPolicyConfig[];
     httpClient?: HttpClient;
-    loggingOptions?: LogOptions;
+    loggingOptions?: LogPolicyOptions;
 };
 
 // @public
@@ -185,7 +185,7 @@ export interface KeyObject {
 }
 
 // @public
-export interface LogOptions {
+export interface LogPolicyOptions {
     additionalAllowedHeaderNames?: string[];
     additionalAllowedQueryParameters?: string[];
     logger?: Debugger;
@@ -250,11 +250,11 @@ export interface Pipeline {
 // @public
 export interface PipelineOptions {
     proxyOptions?: ProxySettings;
-    redirectOptions?: RedirectOptions;
+    redirectOptions?: RedirectPolicyOptions;
     retryOptions?: PipelineRetryOptions;
     telemetryOptions?: TelemetryOptions;
     tlsOptions?: TlsSettings;
-    userAgentOptions?: UserAgentOptions;
+    userAgentOptions?: UserAgentPolicyOptions;
 }
 
 // @public
@@ -354,7 +354,7 @@ export type RawHttpHeadersInput = Record<string, string | number | boolean>;
 export type RawResponseCallback = (rawResponse: FullOperationResponse, error?: unknown) => void;
 
 // @public
-export interface RedirectOptions {
+export interface RedirectPolicyOptions {
     maxRetries?: number;
 }
 
@@ -464,7 +464,7 @@ export interface TypeSpecRuntimeLogger {
 export function uint8ArrayToString(bytes: Uint8Array, format: EncodingType): string;
 
 // @public
-export interface UserAgentOptions {
+export interface UserAgentPolicyOptions {
     userAgentPrefix?: string;
 }
 
