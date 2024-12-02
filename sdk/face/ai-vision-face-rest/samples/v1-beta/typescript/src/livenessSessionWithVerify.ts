@@ -7,7 +7,6 @@ import createFaceClient, {
 } from '@azure-rest/ai-vision-face';
 
 import * as dotenv from "dotenv";
-dotenv.config();
 
 /**
  * This sample demonstrates how to create a liveness detection with face verification session.
