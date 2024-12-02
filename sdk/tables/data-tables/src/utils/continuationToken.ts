@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { base64Decode, base64Encode } from "./bufferSerializer";
+import { base64Decode, base64Encode } from "./bufferSerializer.js";
 
 interface ContinuationToken {
   nextPartitionKey: string;

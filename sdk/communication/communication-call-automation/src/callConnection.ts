@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { CommunicationIdentifier } from "@azure/communication-common";
-import { CallMedia } from "./callMedia";
+import { CallMedia } from "./callMedia.js";
 import type {
   AddParticipantRequest,
   CallAutomationApiClient,
@@ -11,14 +11,14 @@ import type {
   MuteParticipantsRequest,
   RemoveParticipantRequest,
   TransferToParticipantRequest,
-} from "./generated/src";
-import { CallConnectionImpl } from "./generated/src/operations";
+} from "./generated/src/index.js";
+import { CallConnectionImpl } from "./generated/src/operations/index.js";
 import type {
   CallConnectionProperties,
   CallInvite,
   CallParticipant,
   CustomCallingContext,
-} from "./models/models";
+} from "./models/models.js";
 import type {
   AddParticipantOptions,
   CancelAddParticipantOperationOptions,
@@ -28,7 +28,7 @@ import type {
   MuteParticipantOption,
   RemoveParticipantsOption,
   TransferCallToParticipantOptions,
-} from "./models/options";
+} from "./models/options.js";
 import type {
   ListParticipantsResult,
   TransferCallResult,
@@ -36,7 +36,7 @@ import type {
   RemoveParticipantResult,
   MuteParticipantResult,
   CancelAddParticipantOperationResult,
-} from "./models/responses";
+} from "./models/responses.js";
 import {
   callParticipantConverter,
   communicationIdentifierConverter,
@@ -44,17 +44,17 @@ import {
   communicationUserIdentifierConverter,
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
-} from "./utli/converters";
+} from "./utli/converters.js";
 import { randomUUID } from "@azure/core-util";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import type { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
+import type { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor.js";
 import type {
   AddParticipantEventResult,
   CancelAddParticipantEventResult,
   RemoveParticipantEventResult,
   TransferCallToParticipantEventResult,
-} from "./eventprocessor/eventResponses";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
+} from "./eventprocessor/eventResponses.js";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
 
 /**
  * CallConnection class represents call connection based APIs.

@@ -98,7 +98,7 @@ import type {
   TypeListHeadersParameters,
   TypeGetTermTemplateDefByGuidParameters,
   TypeGetTermTemplateDefByNameParameters,
-} from "./parameters";
+} from "./parameters.js";
 import type {
   EntityCreateOrUpdate200Response,
   EntityCreateOrUpdateDefaultResponse,
@@ -292,7 +292,7 @@ import type {
   TypeGetTermTemplateDefByGuidDefaultResponse,
   TypeGetTermTemplateDefByName200Response,
   TypeGetTermTemplateDefByNameDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface EntityCreateOrUpdate {

@@ -356,4 +356,4 @@ export {
   ResourceNotificationsResourceManagementDeletedEventData,
   ServiceApiVersions,
   MediaJobOutputUnion,
-} from "./models/index";
+} from "./models/index.js";

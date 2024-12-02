@@ -74,6 +74,8 @@ function fixDeclaration(sourceFile: SourceFile, moduleSpecifier: string): string
 function fixNodeDeclaration(moduleSpecifier: string): string {
   const nodeModules = [
     "assert",
+    "buffer",
+    "child_process",
     "crypto",
     "events",
     "fs",

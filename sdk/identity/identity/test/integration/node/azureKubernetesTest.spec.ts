@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 import { execSync } from "child_process";
 import { isLiveMode } from "@azure-tools/test-recorder";
-import { describe, it, assert, expect, vi, beforeEach, afterEach, beforeAll } from "vitest";
+import { describe, it, assert, beforeEach } from "vitest";
 
 describe("Azure Kubernetes Integration test", function () {
   let podOutput: string;

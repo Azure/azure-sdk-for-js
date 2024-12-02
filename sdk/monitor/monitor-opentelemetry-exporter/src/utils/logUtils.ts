@@ -60,6 +60,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       name = ApplicationInsightsExceptionName;
       baseType = ApplicationInsightsExceptionBaseType;
       const exceptionDetails: TelemetryExceptionDetails = {
+        // eslint-disable-next-line @typescript-eslint/no-base-to-string
         typeName: String(exceptionType),
         message: String(exceptionMessage),
         hasFullStack: exceptionStacktrace ? true : false,
@@ -83,6 +84,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     }
   } else {
     // If Legacy Application Insights Log
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
     baseType = String(log.attributes[ApplicationInsightsBaseType]);
     name = getLegacyApplicationInsightsName(log);
     baseData = getLegacyApplicationInsightsBaseData(log);
@@ -98,6 +100,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   }
   if (properties) {
     for (const key of Object.keys(properties)) {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       properties[key] = String(properties[key]).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
     }
   }
