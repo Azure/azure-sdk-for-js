@@ -25,7 +25,6 @@ import {
   StatusCodes,
 } from "../../../src";
 import { assert } from "chai";
-
 export class MockKeyVaultEncryptionKeyResolver implements EncryptionKeyResolver {
   private keyInfo: { [key: string]: number } = {
     tempmetadata1: 1,
@@ -230,6 +229,7 @@ export class TestDoc {
 export class SensitiveArrayData {
   sensitive_ArrayIntFormat: number;
   sensitive_ArrayDecimalFormat: number;
+  [key: string]: any;
 }
 
 export class SensitiveArrayMultiType {
@@ -250,6 +250,7 @@ export class SensitiveNestedObjectL1 {
   sensitive_IntArrayL1: number[];
   sensitive_DecimalFormatL1: number;
   sensitive_ArrayFormatL1: SensitiveArrayData[];
+  [key: string]: any;
 }
 
 export class SensitiveNestedObjectL2 {
