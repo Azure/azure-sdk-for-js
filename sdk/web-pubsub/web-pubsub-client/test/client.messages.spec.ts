@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "@azure-tools/test-utils";
-import sinon from "sinon";
 import type {
   DisconnectedMessage,
   GroupDataMessage,
@@ -15,6 +12,7 @@ import type {
   ServerDataMessage,
 } from "../src/models/index.js";
 import { WebPubSubClient } from "../src/webPubSubClient.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("WebPubSubClient", function () {
   describe("Execute operation and translate to WebPubSubMessage", () => {

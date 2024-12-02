@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert, expect } from "chai";
-import sinon from "sinon";
 import type {
   JoinGroupMessage,
   JoinGroupOptions,
@@ -20,6 +17,7 @@ import { TestWebSocketClient } from "./testWebSocketClient.js";
 import { WebPubSubJsonProtocol } from "../src/protocols/index.js";
 import { getConnectedPayload } from "./utils.js";
 import { SendMessageError } from "../src/errors/index.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("WebPubSubClient", function () {
   describe("Start operation can only be execute when stopped", () => {
