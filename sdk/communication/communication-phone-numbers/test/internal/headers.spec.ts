@@ -1,19 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AzureKeyCredential } from "@azure/core-auth";
-import { isNode } from "@azure/core-util";
-import { TokenCredential } from "@azure/identity";
-import { assert } from "chai";
-import sinon from "sinon";
-import { PhoneNumbersClient } from "../../src/phoneNumbersClient";
-import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients";
-import { SDK_VERSION } from "../../src/utils/constants";
-import { Context } from "mocha";
-import { createMockToken } from "../public/utils/recordedClient";
-import { PipelineRequest } from "@azure/core-rest-pipeline";
+import { isNodeLike } from "@azure/core-util";
+import type { TokenCredential } from "@azure/identity";
+import { PhoneNumbersClient } from "../../src/phoneNumbersClient.js";
+import { getPhoneNumberHttpClient } from "../public/utils/mockHttpClients.js";
+import { SDK_VERSION } from "../../src/utils/constants.js";
+import { createMockToken } from "../public/utils/recordedClient.js";
+import type { PipelineRequest } from "@azure/core-rest-pipeline";
+import { describe, it, assert, expect, vi } from "vitest";
 
-describe("PhoneNumbersClient - headers", function () {
+describe("PhoneNumbersClient - headers", () => {
   const endpoint = "https://contoso.spool.azure.local";
   const accessKey = "banana";
   let client = new PhoneNumbersClient(endpoint, new AzureKeyCredential(accessKey), {
@@ -21,39 +19,32 @@ describe("PhoneNumbersClient - headers", function () {
   });
   let request: PipelineRequest;
 
-  afterEach(function () {
-    sinon.restore();
-  });
-
-  it("calls the spy", async function () {
-    const spy = sinon.spy(getPhoneNumberHttpClient, "sendRequest");
+  it("calls the spy", async () => {
+    const spy = vi.spyOn(getPhoneNumberHttpClient, "sendRequest");
     await client.getPurchasedPhoneNumber("+18005550100");
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
 
-    request = spy.getCall(0).args[0];
+    request = spy.mock.calls[0][0];
   });
 
-  it("[node] sets correct host", function (this: Context) {
-    if (!isNode) {
-      this.skip();
-    }
+  it.skipIf(!isNodeLike)("[node] sets correct host", () => {
     assert.equal(request.headers.get("host"), "contoso.spool.azure.local");
   });
 
-  it("sets correct default user-agent", function () {
-    const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
+  it("sets correct default user-agent", () => {
+    const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
       new RegExp(`azsdk-js-communication-phone-numbers/${SDK_VERSION}`, "g"),
     );
   });
 
-  it("sets date header", function () {
+  it("sets date header", () => {
     const dateHeader = "x-ms-date";
     assert.typeOf(request.headers.get(dateHeader), "string");
   });
 
-  it("sets signed authorization header with KeyCredential", function () {
+  it("sets signed authorization header with KeyCredential", () => {
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
@@ -61,16 +52,16 @@ describe("PhoneNumbersClient - headers", function () {
     );
   });
 
-  it("sets signed authorization header with connection string", async function () {
+  it("sets signed authorization header with connection string", async () => {
     client = new PhoneNumbersClient(`endpoint=${endpoint};accessKey=${accessKey}`, {
       httpClient: getPhoneNumberHttpClient,
     });
 
-    const spy = sinon.spy(getPhoneNumberHttpClient, "sendRequest");
+    const spy = vi.spyOn(getPhoneNumberHttpClient, "sendRequest");
     await client.getPurchasedPhoneNumber("+18005550100");
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
 
-    request = spy.getCall(0).args[0];
+    request = spy.mock.calls[0][0];
     assert.isDefined(request.headers.get("authorization"));
     assert.match(
       request.headers.get("authorization") as string,
@@ -78,23 +69,23 @@ describe("PhoneNumbersClient - headers", function () {
     );
   });
 
-  it("sets bearer authorization header with TokenCredential", async function (this: Context) {
+  it("sets bearer authorization header with TokenCredential", async () => {
     const credential: TokenCredential = createMockToken();
 
     client = new PhoneNumbersClient(endpoint, credential, {
       httpClient: getPhoneNumberHttpClient,
     });
 
-    const spy = sinon.spy(getPhoneNumberHttpClient, "sendRequest");
+    const spy = vi.spyOn(getPhoneNumberHttpClient, "sendRequest");
     await client.getPurchasedPhoneNumber("+18005550100");
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
 
-    request = spy.getCall(0).args[0];
+    request = spy.mock.calls[0][0];
     assert.isDefined(request.headers.get("authorization"));
     assert.match(request.headers.get("authorization") as string, /Bearer ./);
   });
 
-  it("can set custom user-agent prefix", async function () {
+  it("can set custom user-agent prefix", async () => {
     client = new PhoneNumbersClient(`endpoint=${endpoint};accessKey=${accessKey}`, {
       httpClient: getPhoneNumberHttpClient,
       userAgentOptions: {
@@ -102,13 +93,13 @@ describe("PhoneNumbersClient - headers", function () {
       },
     });
 
-    const spy = sinon.spy(getPhoneNumberHttpClient, "sendRequest");
+    const spy = vi.spyOn(getPhoneNumberHttpClient, "sendRequest");
     await client.getPurchasedPhoneNumber("+18005550100");
-    sinon.assert.calledOnce(spy);
+    expect(spy).toHaveBeenCalledOnce();
 
-    request = spy.getCall(0).args[0];
+    request = spy.mock.calls[0][0];
 
-    const userAgentHeader = isNode ? "user-agent" : "x-ms-useragent";
+    const userAgentHeader = isNodeLike ? "user-agent" : "x-ms-useragent";
     assert.match(
       request.headers.get(userAgentHeader) as string,
       new RegExp(

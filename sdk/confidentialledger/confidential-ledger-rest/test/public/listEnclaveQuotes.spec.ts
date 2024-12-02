@@ -1,26 +1,26 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { ConfidentialLedgerClient, isUnexpected } from "../../src";
-import { createClient, createRecorder } from "./utils/recordedClient";
+// Licensed under the MIT License.
 
-import { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { Context } from "mocha";
+import type { ConfidentialLedgerClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("List Enclaves", function () {
+describe("List Enclaves", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should list all available document formats", async function () {
+  it("should list all available document formats", async () => {
     const result = await client.path("/app/enclaveQuotes").get();
 
     assert.equal(result.status, "200");

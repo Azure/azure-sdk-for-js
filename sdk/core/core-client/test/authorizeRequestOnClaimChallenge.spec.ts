@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { describe, it, assert } from "vitest";
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-auth";
+import type { HttpClient, PipelineResponse } from "@azure/core-rest-pipeline";
 import {
-  HttpClient,
-  PipelineResponse,
   bearerTokenAuthenticationPolicy,
   createEmptyPipeline,
   createHttpHeaders,

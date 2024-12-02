@@ -1,41 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { defineConfig } from "vitest/config";
+import { defineConfig, mergeConfig } from "vitest/config";
+import viteConfig from "../../../vitest.browser.base.config.ts";
 import browserMap from "@azure-tools/vite-plugin-browser-test-map";
 import inject from "@rollup/plugin-inject";
 
-export default defineConfig({
-  optimizeDeps: {
-    include: ["process", "buffer"],
-  },
-  plugins: [browserMap(), inject({ process: "process", Buffer: ["buffer", "Buffer"] })],
-  test: {
-    testTimeout: 20000,
-    reporters: ["basic", "junit"],
-    outputFile: {
-      junit: "test-results.browser.xml",
+export default mergeConfig(
+  viteConfig,
+  defineConfig({
+    optimizeDeps: {
+      include: ["process", "buffer"],
     },
-    browser: {
-      enabled: true,
-      headless: true,
-      name: "chromium",
-      provider: "playwright",
+    plugins: [browserMap(), inject({ process: "process", Buffer: ["buffer", "Buffer"] })],
+    test: {
+      include: ["dist-test/browser/**/*.spec.js"],
     },
-    fakeTimers: {
-      toFake: ["setTimeout", "setInterval", "setImmediate", "Date"],
-    },
-    watch: false,
-    include: ["dist-test/browser/**/*.spec.js"],
-    coverage: {
-      include: ["dist-test/browser/**/*.js"],
-      exclude: [
-        "dist-test/browser/**/*./*-browser.mjs",
-        "dist-test/browser/**/*./*-react-native.mjs",
-      ],
-      provider: "istanbul",
-      reporter: ["text", "json", "html"],
-      reportsDirectory: "coverage-browser",
-    },
-  },
-});
+  }),
+);

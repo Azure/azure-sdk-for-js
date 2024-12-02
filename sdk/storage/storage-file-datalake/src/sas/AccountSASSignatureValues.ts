@@ -1,12 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { AccountSASPermissions } from "./AccountSASPermissions";
 import { AccountSASResourceTypes } from "./AccountSASResourceTypes";
 import { AccountSASServices } from "./AccountSASServices";
-import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
-import { SasIPRange, ipRangeToString } from "./SasIPRange";
-import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
+import type { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
+import type { SasIPRange } from "./SasIPRange";
+import { ipRangeToString } from "./SasIPRange";
+import type { SASProtocol } from "./SASQueryParameters";
+import { SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "../utils/constants";
 import { truncatedISO8061Date } from "../utils/utils.common";
 

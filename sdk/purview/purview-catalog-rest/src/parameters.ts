@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { RequestParameters } from "@azure-rest/core-client";
-import {
+import type { RequestParameters } from "@azure-rest/core-client";
+import type {
   AtlasEntityWithExtInfo,
   AtlasEntitiesWithExtInfo,
   ClassificationAssociateRequest,
@@ -19,7 +19,7 @@ import {
   AtlasRelationship,
   AtlasTypesDef,
   MoveEntitiesRequest,
-} from "./models";
+} from "./models.js";
 
 export interface EntityCreateOrUpdateBodyParam {
   /** Atlas entity with extended information. */

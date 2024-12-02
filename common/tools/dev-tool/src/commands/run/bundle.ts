@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import path from "node:path";
 import * as rollup from "rollup";
@@ -145,7 +145,10 @@ export default leafCommand(commandInfo, async (options) => {
       input: path.join(basePath, "test", "**", "*.spec.js"),
       preserveSymlinks: false,
       plugins: [
-        multiEntry({ exports: false, exclude: ["**/test/**/node/**/*.js"] }),
+        multiEntry({
+          exports: false,
+          exclude: ["**/test/**/node/**/*.js", "**/test/snippets.spec.js"],
+        }),
         nodeResolve({
           mainFields: ["module", "browser"],
           preferBuiltins: false,

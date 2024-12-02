@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   AckMessage,
   ConnectedMessage,
   DisconnectedMessage,
@@ -10,7 +10,8 @@ import {
   WebPubSubDataType,
   WebPubSubMessage,
 } from "../models/messages";
-import { JSONTypes } from "../webPubSubClient";
+import type { JSONTypes } from "../webPubSubClient";
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 import { Buffer } from "buffer";
 
 export function parseMessages(input: string): WebPubSubMessage | null {

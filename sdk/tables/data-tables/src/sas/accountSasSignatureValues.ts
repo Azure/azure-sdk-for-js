@@ -1,18 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AccountSasPermissions, accountSasPermissionsToString } from "./accountSasPermissions";
-import { SasIPRange, ipRangeToString } from "./sasIPRange";
-import { SasProtocol, SasQueryParameters } from "./sasQueryParameters";
+import type { AccountSasPermissions } from "./accountSasPermissions.js";
+import { accountSasPermissionsToString } from "./accountSasPermissions.js";
+import type { SasIPRange } from "./sasIPRange.js";
+import { ipRangeToString } from "./sasIPRange.js";
+import type { SasProtocol } from "./sasQueryParameters.js";
+import { SasQueryParameters } from "./sasQueryParameters.js";
 import {
   accountSasResourceTypesFromString,
   accountSasResourceTypesToString,
-} from "./accountSasResourceTypes";
-import { accountSasServicesFromString, accountSasServicesToString } from "./accountSasServices";
-import { NamedKeyCredential } from "@azure/core-auth";
-import { SERVICE_VERSION } from "../utils/constants";
-import { computeHMACSHA256 } from "../utils/computeHMACSHA256";
-import { truncatedISO8061Date } from "../utils/truncateISO8061Date";
+} from "./accountSasResourceTypes.js";
+import { accountSasServicesFromString, accountSasServicesToString } from "./accountSasServices.js";
+import type { NamedKeyCredential } from "@azure/core-auth";
+import { SERVICE_VERSION } from "../utils/constants.js";
+import { computeHMACSHA256 } from "../utils/computeHMACSHA256.js";
+import { truncatedISO8061Date } from "../utils/truncateISO8061Date.js";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

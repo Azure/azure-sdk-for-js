@@ -794,7 +794,8 @@
             "optInPointOfSale",
             "optInWebsite",
             "optInPaperForm",
-            "optInOther"
+            "optInOther",
+            "optInDescription"
           ],
           "type": "string",
           "x-ms-enum": {
@@ -850,7 +851,8 @@
             "optInPointOfSale",
             "optInWebsite",
             "optInPaperForm",
-            "optInOther"
+            "optInOther",
+            "optInDescription"
           ],
           "type": "string",
           "x-ms-enum": {

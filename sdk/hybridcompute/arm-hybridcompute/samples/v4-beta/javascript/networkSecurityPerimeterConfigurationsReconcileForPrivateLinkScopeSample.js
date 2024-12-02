@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Forces the network security perimeter configuration to refresh for a private link scope.
  *
  * @summary Forces the network security perimeter configuration to refresh for a private link scope.
- * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-05-20-preview/examples/networkSecurityPerimeterConfiguration/NetworkSecurityPerimeterConfigurationReconcile.json
+ * x-ms-original-file: specification/hybridcompute/resource-manager/Microsoft.HybridCompute/preview/2024-07-31-preview/examples/networkSecurityPerimeterConfiguration/NetworkSecurityPerimeterConfigurationReconcile.json
  */
 async function reconcilesTheNetworkSecurityPerimeterConfigurationOfThePrivateLinkScope() {
   const subscriptionId =

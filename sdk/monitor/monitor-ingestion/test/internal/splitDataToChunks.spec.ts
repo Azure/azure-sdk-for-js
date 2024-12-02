@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { splitDataToChunks } from "../../src/utils/splitDataToChunksHelper";
-import { assert } from "chai";
+import { splitDataToChunks } from "../../src/utils/splitDataToChunksHelper.js";
+import { describe, it, assert } from "vitest";
 
 describe("LogsIngestionClient unit tests", function () {
   it("creates one chunk for single log record of 1MB size", () => {

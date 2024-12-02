@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * THIS IS AN AUTO-GENERATED FILE - DO NOT EDIT!
@@ -9,10 +9,12 @@
  * If you need to make changes, please do so in the original source file, \{project-root\}/sources/custom
  */
 
-import { ClientOptions, addCredentialPipelinePolicy, getClient } from "@azure-rest/core-client";
-import { TokenCredential, isTokenCredential } from "@azure/core-auth";
+import type { ClientOptions } from "@azure-rest/core-client";
+import { addCredentialPipelinePolicy, getClient } from "@azure-rest/core-client";
+import type { TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
 import { logger } from "../logger.js";
-import { WidgetServiceContext } from "./clientDefinitions.js";
+import type { WidgetServiceContext } from "./clientDefinitions.js";
 
 /**
  * This customization adds credential support to the client. And overloads for when it is optional
@@ -51,7 +53,7 @@ export default function createClient(
 function _createClient(endpoint: string, options: ClientOptions = {}): WidgetServiceContext {
   const baseUrl = options.baseUrl ?? `${endpoint}`;
   options.apiVersion = options.apiVersion ?? "1.0.0";
-  const userAgentInfo = `azsdk-js-widget-rest/1.0.0-beta.1`;
+  const userAgentInfo = `azsdk-js-widget-rest/1.0.0-beta.2`;
   const userAgentPrefix =
     options.userAgentOptions && options.userAgentOptions.userAgentPrefix
       ? `${options.userAgentOptions.userAgentPrefix} ${userAgentInfo}`

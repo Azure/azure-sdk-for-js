@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   KeyVaultRoleAssignment,
   KeyVaultRoleDefinition,
   KeyVaultRoleScope,
 } from "./accessControlModels.js";
-import { RoleAssignment, RoleDefinition } from "./generated/models/index.js";
+import type { RoleAssignment, RoleDefinition } from "./generated/models/index.js";
 
 export const mappings = {
   roleAssignment: {

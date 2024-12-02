@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   EntityCreateOrUpdateParameters,
   EntityListByGuidsParameters,
   EntityCreateOrUpdateEntitiesParameters,
@@ -107,8 +107,8 @@ import {
   CollectionCreateOrUpdateParameters,
   CollectionCreateOrUpdateBulkParameters,
   CollectionMoveEntitiesToCollectionParameters,
-} from "./parameters";
-import {
+} from "./parameters.js";
+import type {
   EntityCreateOrUpdate200Response,
   EntityCreateOrUpdatedefaultResponse,
   EntityListByGuids200Response,
@@ -311,8 +311,8 @@ import {
   CollectionCreateOrUpdateBulkdefaultResponse,
   CollectionMoveEntitiesToCollection200Response,
   CollectionMoveEntitiesToCollectiondefaultResponse,
-} from "./responses";
-import { Client } from "@azure-rest/core-client";
+} from "./responses.js";
+import type { Client } from "@azure-rest/core-client";
 
 export interface EntityCreateOrUpdate {
   /**

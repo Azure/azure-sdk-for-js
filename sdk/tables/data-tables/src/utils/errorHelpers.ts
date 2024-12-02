@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { OperationOptions, OperationRequest } from "@azure/core-client";
-import { PipelineResponse, RestError } from "@azure/core-rest-pipeline";
-import { AzureLogger } from "@azure/logger";
-import { TableServiceError } from "../generated";
+import type { OperationOptions, OperationRequest } from "@azure/core-client";
+import type { PipelineResponse, RestError } from "@azure/core-rest-pipeline";
+import type { AzureLogger } from "@azure/logger";
+import type { TableServiceError } from "../generated/index.js";
 
 export type TableServiceErrorResponse = PipelineResponse & {
   /**

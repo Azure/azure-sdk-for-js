@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the extension properties for the specified HDInsight cluster extension.
  *
  * @summary Gets the extension properties for the specified HDInsight cluster extension.
- * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2023-04-15-preview/examples/GetExtension.json
+ * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/preview/2024-08-01-preview/examples/GetExtension.json
  */
 async function getAnExtension() {
   const subscriptionId = process.env["HDINSIGHT_SUBSCRIPTION_ID"] || "subid";

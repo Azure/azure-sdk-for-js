@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * This sample demonstrates how to perform entity update and upsert operations in a table
  *
@@ -8,15 +8,12 @@
  */
 
 import { TableClient } from "@azure/data-tables";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const tablesUrl = process.env["TABLES_URL"] || "";
 const sasToken = process.env["SAS_TOKEN"] || "";
 
-async function updateAndUpsertEntities() {
+async function updateAndUpsertEntities(): Promise<void> {
   console.log("== Update and Upsert entities Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
@@ -83,7 +80,7 @@ interface Entity {
   brand?: string;
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await updateAndUpsertEntities();
 }
 

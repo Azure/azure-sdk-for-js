@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Demonstrates container create, read, delete and reading all containers belonging to a database.
@@ -157,8 +157,19 @@ async function run() {
     spatialIndexes: [{ path: "/location/*", types: ["Point", "Polygon"] }],
     vectorIndexes: [
       { path: "/vector1", type: VectorIndexType.Flat },
-      { path: "/vector2", type: VectorIndexType.QuantizedFlat },
-      { path: "/vector3", type: VectorIndexType.DiskANN },
+      {
+        path: "/vector2",
+        type: VectorIndexType.QuantizedFlat,
+        quantizationByteSize: 2,
+        vectorIndexShardKey: ["/Country"],
+      },
+      {
+        path: "/vector3",
+        type: VectorIndexType.DiskANN,
+        quantizationByteSize: 2,
+        indexingSearchListSize: 50,
+        vectorIndexShardKey: ["/ZipCode"],
+      },
     ],
   };
 
@@ -170,6 +181,33 @@ async function run() {
   };
   await database.containers.createIfNotExists(containerDefinition);
   console.log("Container with vector embedding and indexing policies created");
+
+  logStep("Create container with full text search container policy");
+
+  // Create a container with full text policy and full text indexes
+  const indexingPolicyFTS = {
+    automatic: true,
+    includedPaths: [{ path: "/*" }],
+    excludedPaths: [{ path: '/"_etag"/?' }],
+    fullTextIndexes: [{ path: "/text1" }, { path: "/text2" }],
+  };
+
+  const fullTextPolicy = {
+    defaultLanguage: "en-US",
+    fullTextPaths: [
+      { path: "/text1", language: "1033" },
+      { path: "/text2", language: "en-US" },
+    ],
+  };
+
+  await database.containers.createIfNotExists({
+    id: "ContainerWithFTSPolicy",
+    partitionKey: { paths: ["/id"] },
+    fullTextPolicy: fullTextPolicy,
+    indexingPolicy: indexingPolicyFTS,
+  });
+  console.log("Container with full text search policy created");
+
   await finish();
 }
 

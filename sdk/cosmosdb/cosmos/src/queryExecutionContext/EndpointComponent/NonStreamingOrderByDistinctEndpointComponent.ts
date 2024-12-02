@@ -1,12 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { QueryInfo, Response } from "../../request";
-import { ExecutionContext } from "../ExecutionContext";
+// Licensed under the MIT License.
+import type { QueryInfo, Response } from "../../request";
+import type { ExecutionContext } from "../ExecutionContext";
 import { getInitialHeader } from "../headerUtils";
-import { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
+import type { DiagnosticNodeInternal } from "../../diagnostics/DiagnosticNodeInternal";
 import { hashObject } from "../../utils/hashObject";
-import { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
-import { NonStreamingOrderByResponse } from "../nonStreamingOrderByResponse";
+import type { NonStreamingOrderByResult } from "../nonStreamingOrderByResult";
+import type { NonStreamingOrderByResponse } from "../nonStreamingOrderByResponse";
 import { FixedSizePriorityQueue } from "../../utils/fixedSizePriorityQueue";
 import { NonStreamingOrderByMap } from "../../utils/nonStreamingOrderByMap";
 import { OrderByComparator } from "../orderByComparator";
@@ -39,6 +39,7 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
     private executionContext: ExecutionContext,
     private queryInfo: QueryInfo,
     private priorityQueueBufferSize: number,
+    private emitRawOrderByPayload: boolean = false,
   ) {
     this.sortOrders = this.queryInfo.orderBy;
     const comparator = new OrderByComparator(this.sortOrders);
@@ -128,7 +129,11 @@ export class NonStreamingOrderByDistinctEndpointComponent implements ExecutionCo
       this.finalResultArray = new Array(finalArraySize);
       // Only keep the final result array size number of items in the final result array and discard the rest.
       for (let count = finalArraySize - 1; count >= 0; count--) {
-        this.finalResultArray[count] = this.nonStreamingOrderByPQ.dequeue()?.payload;
+        if (this.emitRawOrderByPayload) {
+          this.finalResultArray[count] = this.nonStreamingOrderByPQ.dequeue();
+        } else {
+          this.finalResultArray[count] = this.nonStreamingOrderByPQ.dequeue()?.payload;
+        }
       }
     }
   }

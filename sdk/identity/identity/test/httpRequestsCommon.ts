@@ -1,10 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import * as sinon from "sinon";
-import { AccessToken, GetTokenOptions, TokenCredential } from "../src";
-import { AzureLogLevel, AzureLogger } from "@azure/logger";
-import { RawHttpHeaders, RestError } from "@azure/core-rest-pipeline";
+// Licensed under the MIT License.
+import type { AccessToken, GetTokenOptions, TokenCredential } from "../src/index.js";
+import type { AzureLogLevel, AzureLogger } from "@azure/logger";
+import type { RawHttpHeaders, RestError } from "@azure/core-rest-pipeline";
 
 /**
  * A simple structure representing a response.
@@ -73,8 +71,6 @@ export type SendCredentialRequests = (options: {
  * @internal
  */
 export interface IdentityTestContextInterface {
-  sandbox: sinon.SinonSandbox;
-  clock: sinon.SinonFakeTimers;
   logMessages: string[];
   oldLogger: typeof AzureLogger.log;
   oldLogLevel: AzureLogLevel | undefined;

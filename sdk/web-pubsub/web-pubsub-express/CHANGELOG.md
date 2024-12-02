@@ -4,9 +4,13 @@
 
 ### Features Added
 
+- Add support for MQTT event handling
+
 ### Breaking Changes
 
 ### Bugs Fixed
+
+- Fix issue with mismatched DTO for client protocol when calling generate client access URI API, which causes the response to be incorrect.
 
 ### Other Changes
 

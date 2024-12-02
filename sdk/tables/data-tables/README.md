@@ -202,7 +202,7 @@ const serviceClient = new TableServiceClient(
 );
 
 async function main() {
-  let tablesIter = serviceClient.listTables();
+  const tablesIter = serviceClient.listTables();
   let i = 1;
   for await (const table of tablesIter) {
     console.log(`Table${i}: ${table.name}`);
@@ -389,7 +389,7 @@ const credential = new AzureNamedKeyCredential(account, accountKey);
 const client = new TableClient(`https://${account}.table.core.windows.net`, tableName, credential);
 
 async function main() {
-  let entitiesIter = client.listEntities();
+  const entitiesIter = client.listEntities();
   let i = 1;
   for await (const entity of entitiesIter) {
     console.log(`Entity${i}: PartitionKey: ${entity.partitionKey} RowKey: ${entity.rowKey}`);

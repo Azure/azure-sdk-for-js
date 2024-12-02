@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @summary Consume events delivered by Event Grid to a Service Bus Queue
@@ -7,11 +7,9 @@
  */
 
 import { EventGridDeserializer, isSystemEvent } from "@azure/eventgrid";
-import { ServiceBusClient, ServiceBusReceivedMessage } from "@azure/service-bus";
-import * as dotenv from "dotenv";
-
-// Load the .env file if it exists
-dotenv.config();
+import type { ServiceBusReceivedMessage } from "@azure/service-bus";
+import { ServiceBusClient } from "@azure/service-bus";
+import "dotenv/config";
 
 // Create a Event Grid Consumer which will decode the payload of service bus message into an array of EventGridEvent objects.
 const consumer = new EventGridDeserializer();
@@ -46,7 +44,7 @@ async function processMessage(message: ServiceBusReceivedMessage): Promise<void>
   }
 }
 
-async function main() {
+async function main(): Promise<void> {
   // Start processing events.
   const closer = receiver.subscribe({
     processMessage,

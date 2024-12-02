@@ -1,11 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-/* eslint-disable no-invalid-this */
-import { WebPubSubServiceClient, odata } from "../src/index";
+// Licensed under the MIT License.
+
+import { WebPubSubServiceClient, odata } from "../src/index.js";
 import { isLiveMode, assertEnvironmentVariable } from "@azure-tools/test-recorder";
-import { Context } from "mocha";
-import { assert } from "chai";
 import ws from "ws";
+import { describe, it, assert } from "vitest";
 
 function defer<T>(): {
   promise: Promise<T>;
@@ -95,164 +94,174 @@ function getEndSignal(id: number | undefined = undefined): Uint8Array {
   return payload;
 }
 
-describe("ServiceClient to manage the connected WebSocket connections", function () {
-  it("Simple clients can receive expected messages with different content types", async function (this: Context) {
-    if (!isLiveMode()) this.skip();
-    const hub = "SimpleClientCanReceiveMessage";
+describe("ServiceClient to manage the connected WebSocket connections", () => {
+  it(
+    "Simple clients can receive expected messages with different content types",
+    { skip: !isLiveMode() },
+    async () => {
+      const hub = "SimpleClientCanReceiveMessage";
 
-    const messages: SimpleWebSocketFrame[] = [];
+      const messages: SimpleWebSocketFrame[] = [];
 
-    // Get token
-    const serviceClient = new WebPubSubServiceClient(
-      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-      hub,
-    );
-    const token = await serviceClient.getClientAccessToken();
-    const endSignal = defer<void>();
-    // Start simple WebSocket connections
-    const client = new ws.WebSocket(token.url);
-    client.on("message", (data, isBinary) => {
-      const frame = new SimpleWebSocketFrame(data, isBinary);
-      console.log(frame.toString());
-      if (frame.isEndSignal()) {
-        endSignal.resolve();
-        client.close();
-      } else {
-        messages.push(frame);
-      }
-    });
-    client.on("open", async () => {
-      // send to all
-      // Send a JSON message
-      await serviceClient.sendToAll({ message: "Hello world!" });
+      // Get token
+      const serviceClient = new WebPubSubServiceClient(
+        assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+        hub,
+      );
+      const token = await serviceClient.getClientAccessToken();
+      const endSignal = defer<void>();
+      // Start simple WebSocket connections
+      const client = new ws.WebSocket(token.url);
+      client.on("message", (data, isBinary) => {
+        const frame = new SimpleWebSocketFrame(data, isBinary);
+        console.log(frame.toString());
+        if (frame.isEndSignal()) {
+          endSignal.resolve();
+          client.close();
+        } else {
+          messages.push(frame);
+        }
+      });
+      client.on("open", async () => {
+        // send to all
+        // Send a JSON message
+        await serviceClient.sendToAll({ message: "Hello world!" });
 
-      // Send a plain text message
-      await serviceClient.sendToAll("Hi there!", { contentType: "text/plain" });
+        // Send a plain text message
+        await serviceClient.sendToAll("Hi there!", { contentType: "text/plain" });
 
-      // Send the binary end signal message
-      await serviceClient.sendToAll(getEndSignal());
-    });
+        // Send the binary end signal message
+        await serviceClient.sendToAll(getEndSignal());
+      });
 
-    await endSignal.promise;
+      await endSignal.promise;
 
-    assert.equal(messages.length, 2);
-    assert.equal(messages[0].dataAsString, '{"message":"Hello world!"}');
-    assert.equal(messages[1].dataAsString, "Hi there!");
-  });
+      assert.equal(messages.length, 2);
+      assert.equal(messages[0].dataAsString, '{"message":"Hello world!"}');
+      assert.equal(messages[1].dataAsString, "Hi there!");
+    },
+  );
 
-  it("Simple clients can can join group and receive group messages", async function (this: Context) {
-    if (!isLiveMode()) this.skip();
-    const hub = "SimpleClientCanReceiveGroupMessage";
+  it(
+    "Simple clients can can join group and receive group messages",
+    { skip: !isLiveMode() },
+    async () => {
+      const hub = "SimpleClientCanReceiveGroupMessage";
 
-    const messages: SimpleWebSocketFrame[] = [];
+      const messages: SimpleWebSocketFrame[] = [];
 
-    // Get token
-    const serviceClient = new WebPubSubServiceClient(
-      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-      hub,
-    );
-    const token = await serviceClient.getClientAccessToken({
-      groups: ["group1", "group2"],
-    });
-    const end1Signal = defer<void>();
-    const end2Signal = defer<void>();
-    // Start simple WebSocket connections
-    const client = new ws.WebSocket(token.url);
-    client.on("message", (data, isBinary) => {
-      const frame = new SimpleWebSocketFrame(data, isBinary);
-      console.log(frame.toString());
-      if (frame.isEndSignal(1)) {
-        end1Signal.resolve();
-      } else if (frame.isEndSignal(2)) {
-        end2Signal.resolve();
-      } else {
-        messages.push(frame);
-      }
-    });
-    client.on("open", async () => {
-      const group1Client = serviceClient.group("group1");
-      const group2Client = serviceClient.group("group2");
-      // send to all
-      // Send a JSON message
-      await group1Client.sendToAll({ message: "Hello world from group1!" });
-      await group2Client.sendToAll(getEndSignal(1));
-      // Send a plain text message
-      await group2Client.sendToAll("Hi there from group2!", { contentType: "text/plain" });
+      // Get token
+      const serviceClient = new WebPubSubServiceClient(
+        assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+        hub,
+      );
+      const token = await serviceClient.getClientAccessToken({
+        groups: ["group1", "group2"],
+      });
+      const end1Signal = defer<void>();
+      const end2Signal = defer<void>();
+      // Start simple WebSocket connections
+      const client = new ws.WebSocket(token.url);
+      client.on("message", (data, isBinary) => {
+        const frame = new SimpleWebSocketFrame(data, isBinary);
+        console.log(frame.toString());
+        if (frame.isEndSignal(1)) {
+          end1Signal.resolve();
+        } else if (frame.isEndSignal(2)) {
+          end2Signal.resolve();
+        } else {
+          messages.push(frame);
+        }
+      });
+      client.on("open", async () => {
+        const group1Client = serviceClient.group("group1");
+        const group2Client = serviceClient.group("group2");
+        // send to all
+        // Send a JSON message
+        await group1Client.sendToAll({ message: "Hello world from group1!" });
+        await group2Client.sendToAll(getEndSignal(1));
+        // Send a plain text message
+        await group2Client.sendToAll("Hi there from group2!", { contentType: "text/plain" });
 
-      // Send the binary end signal message
-      await group2Client.sendToAll(getEndSignal(2));
-    });
+        // Send the binary end signal message
+        await group2Client.sendToAll(getEndSignal(2));
+      });
 
-    await end1Signal.promise;
-    await end2Signal.promise;
-    client.close();
-    assert.equal(messages.length, 2);
+      await end1Signal.promise;
+      await end2Signal.promise;
+      client.close();
+      assert.equal(messages.length, 2);
 
-    // order from different groups is not guaranteed
-    assert.isTrue(
-      messages.findIndex((s) => s.dataAsString === '{"message":"Hello world from group1!"}') > -1,
-    );
-    assert.isTrue(messages.findIndex((s) => s.dataAsString === "Hi there from group2!") > -1);
-  });
+      // order from different groups is not guaranteed
+      assert.isTrue(
+        messages.findIndex((s) => s.dataAsString === '{"message":"Hello world from group1!"}') > -1,
+      );
+      assert.isTrue(messages.findIndex((s) => s.dataAsString === "Hi there from group2!") > -1);
+    },
+  );
 
-  it("Subprotocol clients can receive expected messages with different content types", async function (this: Context) {
-    if (!isLiveMode()) this.skip();
-    const hub = "PubSubClientCanReceiveMessage";
-    const messages: PubSubWebSocketFrame[] = [];
+  it(
+    "Subprotocol clients can receive expected messages with different content types",
+    { skip: !isLiveMode() },
+    async () => {
+      const hub = "PubSubClientCanReceiveMessage";
+      const messages: PubSubWebSocketFrame[] = [];
 
-    // Get token
-    const serviceClient = new WebPubSubServiceClient(
-      assertEnvironmentVariable("WPS_CONNECTION_STRING"),
-      hub,
-    );
-    const token = await serviceClient.getClientAccessToken();
-    const endSignal = defer<void>();
-    const connectedSignal = defer<void>();
-    // Start simple WebSocket connections
-    const client = new ws.WebSocket(token.url, "json.webpubsub.azure.v1");
-    client.on("message", (data, isBinary) => {
-      const frame = new PubSubWebSocketFrame(data, isBinary);
-      console.log(frame.toString());
-      if (frame.message.event === "connected") {
-        connectedSignal.resolve();
-      }
-      if (frame.isEndSignal()) {
-        endSignal.resolve();
-        client.close();
-      } else {
-        messages.push(frame);
-      }
-    });
-    client.on("open", async () => {
-      await connectedSignal.promise;
+      // Get token
+      const serviceClient = new WebPubSubServiceClient(
+        assertEnvironmentVariable("WPS_CONNECTION_STRING"),
+        hub,
+      );
+      const token = await serviceClient.getClientAccessToken();
+      const endSignal = defer<void>();
+      const connectedSignal = defer<void>();
+      // Start simple WebSocket connections
+      const client = new ws.WebSocket(token.url, "json.webpubsub.azure.v1");
 
-      // send to all
-      // Send a JSON message
-      await serviceClient.sendToAll({ message: "Hello world!" });
+      client.on("message", (data, isBinary) => {
+        const frame = new PubSubWebSocketFrame(data, isBinary);
+        console.log(frame.toString());
+        if (frame.message.event === "connected") {
+          connectedSignal.resolve();
+        }
+        if (frame.isEndSignal()) {
+          endSignal.resolve();
+          client.close();
+        } else {
+          messages.push(frame);
+        }
+      });
 
-      // Send a plain text message
-      await serviceClient.sendToAll("Hi there!", { contentType: "text/plain" });
+      client.on("open", async () => {
+        await connectedSignal.promise;
 
-      // Send the binary end signal message
-      await serviceClient.sendToAll(getEndSignal());
-    });
+        // send to all
+        // Send a JSON message
+        await serviceClient.sendToAll({ message: "Hello world!" });
 
-    await endSignal.promise;
+        // Send a plain text message
+        await serviceClient.sendToAll("Hi there!", { contentType: "text/plain" });
 
-    assert.equal(messages.length, 3);
-    assert.equal(messages[0].message.event, "connected");
-    assert.equal(
-      messages[1].dataAsString,
-      '{"type":"message","from":"server","dataType":"json","data":{"message":"Hello world!"}}',
-    );
-    assert.equal(
-      messages[2].dataAsString,
-      '{"type":"message","from":"server","dataType":"text","data":"Hi there!"}',
-    );
-  });
+        // Send the binary end signal message
+        await serviceClient.sendToAll(getEndSignal());
+      });
 
-  it("Clients can receive messages with filters", async function (this: Context) {
-    if (!isLiveMode()) this.skip();
+      await endSignal.promise;
+
+      assert.equal(messages.length, 3);
+      assert.equal(messages[0].message.event, "connected");
+      assert.equal(
+        messages[1].dataAsString,
+        '{"type":"message","from":"server","dataType":"json","data":{"message":"Hello world!"}}',
+      );
+      assert.equal(
+        messages[2].dataAsString,
+        '{"type":"message","from":"server","dataType":"text","data":"Hi there!"}',
+      );
+    },
+  );
+
+  it("Clients can receive messages with filters", { skip: !isLiveMode() }, async () => {
     const hub = "ClientCanReceiveMessageWithFilters";
 
     const messages: SimpleWebSocketFrame[] = [];
@@ -266,6 +275,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     const endSignal = defer<void>();
     // Start simple WebSocket connections
     const client = new ws.WebSocket(token.url);
+
     client.on("message", (data, isBinary) => {
       const frame = new SimpleWebSocketFrame(data, isBinary);
       console.log(frame.toString());
@@ -276,6 +286,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
         messages.push(frame);
       }
     });
+
     client.on("open", async () => {
       // Send a JSON message to anonymous connections
       await serviceClient.sendToAll(
@@ -303,8 +314,7 @@ describe("ServiceClient to manage the connected WebSocket connections", function
     assert.equal(messages[1].dataAsString, "Hello world!");
   });
 
-  it("Clients can join or leave multiple groups with filter", async function (this: Context) {
-    if (!isLiveMode()) this.skip();
+  it("Clients can join or leave multiple groups with filter", { skip: !isLiveMode() }, async () => {
     const hub = "ClientsCanJoinOrLeaveMultipleGroupsWithFilter";
 
     const messages: SimpleWebSocketFrame[] = [];

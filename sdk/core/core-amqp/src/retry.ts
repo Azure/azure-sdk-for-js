@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /* eslint-disable eqeqeq */
 
-import { MessagingError, translate } from "./errors.js";
-import { AbortSignalLike } from "@azure/abort-controller";
+import type { MessagingError } from "./errors.js";
+import { translate } from "./errors.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants.js";
 import { checkNetworkConnection } from "./util/checkNetworkConnection.js";
 import { delay } from "@azure/core-util";

@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { DiagLogger } from "@opentelemetry/api";
+import type { DiagLogger } from "@opentelemetry/api";
 import {
   accessAsync,
   appendFileAsync,

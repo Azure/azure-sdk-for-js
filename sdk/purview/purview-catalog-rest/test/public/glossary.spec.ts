@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { getLongRunningPoller, PurviewCatalogClient } from "../../src";
-import { Recorder } from "@azure-tools/test-recorder";
+// Licensed under the MIT License.
 
-import { assert } from "chai";
-import { createClient } from "./utils/recordedClient";
-import { Context } from "mocha";
+import type { PurviewCatalogClient } from "../../src/index.js";
+import { getLongRunningPoller } from "../../src/index.js";
+import { Recorder } from "@azure-tools/test-recorder";
+import { createClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("purview catalog glossary test", () => {
   let recorder: Recorder;
@@ -13,13 +13,13 @@ describe("purview catalog glossary test", () => {
   let glossaryName: string;
   let glossaryGuid: string;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async (ctx) => {
+    recorder = new Recorder(ctx);
     client = await createClient(recorder);
     glossaryName = "jsLROTesting-2";
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
@@ -40,7 +40,7 @@ describe("purview catalog glossary test", () => {
     glossaryGuid = glossary.status === "200" ? glossary?.body?.guid || "" : "";
   });
 
-  it("should work with LRO helper", async () => {
+  it("should work with LRO helper", { timeout: 500000 }, async () => {
     await recorder.addSanitizers(
       {
         removeHeaderSanitizer: {
@@ -84,4 +84,4 @@ describe("purview catalog glossary test", () => {
 
     assert.strictEqual(glossary.status, "200");
   });
-}).timeout(60000000000);
+});

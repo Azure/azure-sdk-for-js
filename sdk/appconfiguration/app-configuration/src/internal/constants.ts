@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 /**
  * @internal
  */
-export const packageVersion = "1.7.1";
+export const packageVersion = "1.8.1";
 
 /**
  * @internal

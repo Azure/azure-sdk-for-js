@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { expect } from "chai";
-import { Context } from "mocha";
 import { WidgetServiceClient } from "../../src/index.js";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 
 // When the recorder observes the values of these environment variables in any
 // recorded HTTP request or response, it will replace them with the values they
@@ -36,7 +35,7 @@ function createClient(recorder: Recorder): WidgetServiceClient {
   return client;
 }
 
-describe("WidgetServiceClient", function () {
+describe("WidgetServiceClient", () => {
   // Declare the client and recorder instances.  We will set them using the
   // beforeEach hook.
   let recorder: Recorder;
@@ -45,11 +44,11 @@ describe("WidgetServiceClient", function () {
   // NOTE: use of "function" and not ES6 arrow-style functions with the
   // beforeEach hook is IMPORTANT due to the use of `this` in the function
   // body.
-  beforeEach(async function (this: Context) {
+  beforeEach(async (ctx) => {
     // The recorder has some convenience methods, and we need to store a
     // reference to it so that we can `stop()` the recorder later in the
     // `afterEach` hook.
-    recorder = new Recorder(this.currentTest);
+    recorder = new Recorder(ctx);
 
     // Start the recorder before each test.
     await recorder.start({
@@ -65,12 +64,12 @@ describe("WidgetServiceClient", function () {
   });
 
   // After each test, we need to stop the recording.
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  describe("Widgets CRUD", function () {
-    it("should create a widget", async function () {
+  describe("Widgets CRUD", () => {
+    it("should create a widget", async () => {
       const widget = await client.createWidget(10, "red");
       // eslint-disable-next-line no-unused-expressions
       expect(widget).to.exist;
@@ -80,13 +79,13 @@ describe("WidgetServiceClient", function () {
       expect(widget.weight).to.equal(10);
     });
 
-    it("should get a widget", async function () {
+    it("should get a widget", async () => {
       const widget = await client.createWidget(10, "red");
       const retrievedWidget = await client.getWidget(widget.id);
       expect(retrievedWidget).to.deep.equal(widget);
     });
 
-    it("should update a widget", async function () {
+    it("should update a widget", async () => {
       const widget = await client.createWidget(10, "red");
       const updatedWidget = await client.updateWidget(widget.id, { weight: 20 });
       // eslint-disable-next-line no-unused-expressions
@@ -96,7 +95,7 @@ describe("WidgetServiceClient", function () {
       expect(updatedWidget.weight).to.equal(20);
     });
 
-    it("should delete a widget", async function () {
+    it("should delete a widget", async () => {
       const widget = await client.createWidget(10, "red");
       await client.deleteWidget(widget.id);
       try {

@@ -6,7 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { env, Recorder, isPlaybackMode, delay } from "@azure-tools/test-recorder";
+import { env, Recorder, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createTestCredential } from "@azure-tools/test-credential";
 import { assert, beforeEach, afterEach, it, describe } from "vitest";
 import { createRecorder } from "./utils/recordedClient.js";
@@ -20,9 +20,6 @@ describe("HealthDataAIServices test", () => {
   let recorder: Recorder;
   let subscriptionId: string;
   let client: HealthDataAIServicesClient;
-  let location: string;
-  let resourceGroup: string;
-  let resourcename: string;
 
   beforeEach(async (context) => {
     process.env.SystemRoot = process.env.SystemRoot || "C:\\Windows";
@@ -35,9 +32,6 @@ describe("HealthDataAIServices test", () => {
       subscriptionId,
       recorder.configureClientOptions({}),
     );
-    location = "eastus";
-    resourceGroup = "myjstest";
-    resourcename = "resourcetest";
   });
 
   afterEach(async function () {

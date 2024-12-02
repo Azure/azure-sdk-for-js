@@ -1,16 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { getStartingPositionsForTests } from "../utils/testUtils.js";
-import {
+import type {
   EventHubConsumerClient,
   EventHubProducerClient,
   EventPosition,
   ReceivedEventData,
   Subscription,
 } from "../../src/index.js";
-import { AmqpAnnotatedMessage } from "@azure/core-amqp";
-import { BodyTypes } from "../../src/dataTransformer.js";
+import type { AmqpAnnotatedMessage } from "@azure/core-amqp";
+import type { BodyTypes } from "../../src/dataTransformer.js";
 import { Buffer } from "buffer";
 import { randomUUID } from "@azure/core-util";
 import { should, assert } from "../utils/chai.js";

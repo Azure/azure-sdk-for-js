@@ -1,20 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   HeaderConstants,
   TRANSACTION_HTTP_LINE_ENDING,
   TRANSACTION_HTTP_VERSION_1_1,
-} from "./utils/constants";
-import {
+} from "./utils/constants.js";
+import type {
   PipelinePolicy,
   PipelineRequest,
   PipelineResponse,
   SendRequest,
-  createHttpHeaders,
-  createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { getChangeSetBoundary } from "./utils/transactionHelpers";
+import { createHttpHeaders, createPipelineRequest } from "@azure/core-rest-pipeline";
+import { getChangeSetBoundary } from "./utils/transactionHelpers.js";
 
 export const transactionRequestAssemblePolicyName = "transactionRequestAssemblePolicy";
 
@@ -59,7 +58,7 @@ function getSubRequestUrl(url: string): string {
   return urlParsed.toString();
 }
 
-function getNextSubrequestBodyPart(request: PipelineRequest, changesetId: string) {
+function getNextSubrequestBodyPart(request: PipelineRequest, changesetId: string): string {
   const changesetBoundary = getChangeSetBoundary(changesetId);
   const subRequestPrefix = `--${changesetBoundary}${TRANSACTION_HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TYPE}: application/http${TRANSACTION_HTTP_LINE_ENDING}${HeaderConstants.CONTENT_TRANSFER_ENCODING}: binary`;
 

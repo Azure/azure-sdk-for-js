@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   TestCreateOrUpdateParameters,
   TestDeleteParameters,
   TestGetParameters,
@@ -28,8 +28,8 @@ import {
   TestRunListAppComponentsParameters,
   TestRunCreateOrUpdateServerMetricsConfigParameters,
   TestRunListServerMetricsConfigParameters,
-} from "./parameters";
-import {
+} from "./parameters.js";
+import type {
   TestCreateOrUpdate200Response,
   TestCreateOrUpdate201Response,
   TestCreateOrUpdateDefaultResponse,
@@ -88,8 +88,8 @@ import {
   TestRunCreateOrUpdateServerMetricsConfigDefaultResponse,
   TestRunListServerMetricsConfig200Response,
   TestRunListServerMetricsConfigDefaultResponse,
-} from "./responses";
-import { Client, StreamableMethod } from "@azure-rest/core-client";
+} from "./responses.js";
+import type { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface TestCreateOrUpdate {
   /** Create a new test or update an existing test. */

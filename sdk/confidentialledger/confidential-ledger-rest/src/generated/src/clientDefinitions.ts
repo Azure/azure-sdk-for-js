@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   GetConstitutionParameters,
@@ -15,7 +15,7 @@ import {
   DeleteUserParameters,
   GetUserParameters,
   CreateOrUpdateUserParameters
-} from "./parameters";
+} from "./parameters.js";
 import {
   GetConstitution200Response,
   GetConstitutionDefaultResponse,
@@ -43,7 +43,7 @@ import {
   GetUserDefaultResponse,
   CreateOrUpdateUser200Response,
   CreateOrUpdateUserDefaultResponse
-} from "./responses";
+} from "./responses.js";
 import { Client, StreamableMethod } from "@azure-rest/core-client";
 
 export interface GetConstitution {

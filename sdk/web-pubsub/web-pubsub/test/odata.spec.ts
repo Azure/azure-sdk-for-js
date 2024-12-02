@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-/* eslint-disable no-invalid-this */
-import { odata } from "../src/utils";
-import { assert } from "chai";
+// Licensed under the MIT License.
 
-describe("Can parse odata to string", function () {
-  it("can wrap different types as expected", async () => {
+import { odata } from "../src/utils.js";
+import { describe, it, assert } from "vitest";
+
+describe("Can parse odata to string", () => {
+  it("can wrap different types as expected", () => {
     const userId = "vic's";
     const anonymous = null;
     const length = 3;

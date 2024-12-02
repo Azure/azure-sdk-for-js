@@ -22,7 +22,7 @@ import {
   PrivateLinkResourcesListByHostPoolOptionalParams,
   PrivateLinkResourcesListByHostPoolResponse,
   PrivateLinkResourcesListByWorkspaceNextResponse,
-  PrivateLinkResourcesListByHostPoolNextResponse
+  PrivateLinkResourcesListByHostPoolNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -47,12 +47,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   public listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: PrivateLinkResourcesListByWorkspaceOptionalParams
+    options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
     const iter = this.listByWorkspacePagingAll(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     );
     return {
       next() {
@@ -69,9 +69,9 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
           resourceGroupName,
           workspaceName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -79,7 +79,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     resourceGroupName: string,
     workspaceName: string,
     options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkResource[]> {
     let result: PrivateLinkResourcesListByWorkspaceResponse;
     let continuationToken = settings?.continuationToken;
@@ -87,7 +87,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
       result = await this._listByWorkspace(
         resourceGroupName,
         workspaceName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -99,7 +99,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
         resourceGroupName,
         workspaceName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -111,12 +111,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private async *listByWorkspacePagingAll(
     resourceGroupName: string,
     workspaceName: string,
-    options?: PrivateLinkResourcesListByWorkspaceOptionalParams
+    options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResource> {
     for await (const page of this.listByWorkspacePagingPage(
       resourceGroupName,
       workspaceName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -131,12 +131,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   public listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: PrivateLinkResourcesListByHostPoolOptionalParams
+    options?: PrivateLinkResourcesListByHostPoolOptionalParams,
   ): PagedAsyncIterableIterator<PrivateLinkResource> {
     const iter = this.listByHostPoolPagingAll(
       resourceGroupName,
       hostPoolName,
-      options
+      options,
     );
     return {
       next() {
@@ -153,9 +153,9 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
           resourceGroupName,
           hostPoolName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -163,7 +163,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     resourceGroupName: string,
     hostPoolName: string,
     options?: PrivateLinkResourcesListByHostPoolOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<PrivateLinkResource[]> {
     let result: PrivateLinkResourcesListByHostPoolResponse;
     let continuationToken = settings?.continuationToken;
@@ -171,7 +171,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
       result = await this._listByHostPool(
         resourceGroupName,
         hostPoolName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -183,7 +183,7 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
         resourceGroupName,
         hostPoolName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -195,12 +195,12 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private async *listByHostPoolPagingAll(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: PrivateLinkResourcesListByHostPoolOptionalParams
+    options?: PrivateLinkResourcesListByHostPoolOptionalParams,
   ): AsyncIterableIterator<PrivateLinkResource> {
     for await (const page of this.listByHostPoolPagingPage(
       resourceGroupName,
       hostPoolName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -215,11 +215,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private _listByWorkspace(
     resourceGroupName: string,
     workspaceName: string,
-    options?: PrivateLinkResourcesListByWorkspaceOptionalParams
+    options?: PrivateLinkResourcesListByWorkspaceOptionalParams,
   ): Promise<PrivateLinkResourcesListByWorkspaceResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, options },
-      listByWorkspaceOperationSpec
+      listByWorkspaceOperationSpec,
     );
   }
 
@@ -232,11 +232,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
   private _listByHostPool(
     resourceGroupName: string,
     hostPoolName: string,
-    options?: PrivateLinkResourcesListByHostPoolOptionalParams
+    options?: PrivateLinkResourcesListByHostPoolOptionalParams,
   ): Promise<PrivateLinkResourcesListByHostPoolResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, options },
-      listByHostPoolOperationSpec
+      listByHostPoolOperationSpec,
     );
   }
 
@@ -251,11 +251,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     resourceGroupName: string,
     workspaceName: string,
     nextLink: string,
-    options?: PrivateLinkResourcesListByWorkspaceNextOptionalParams
+    options?: PrivateLinkResourcesListByWorkspaceNextOptionalParams,
   ): Promise<PrivateLinkResourcesListByWorkspaceNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, workspaceName, nextLink, options },
-      listByWorkspaceNextOperationSpec
+      listByWorkspaceNextOperationSpec,
     );
   }
 
@@ -270,11 +270,11 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
     resourceGroupName: string,
     hostPoolName: string,
     nextLink: string,
-    options?: PrivateLinkResourcesListByHostPoolNextOptionalParams
+    options?: PrivateLinkResourcesListByHostPoolNextOptionalParams,
   ): Promise<PrivateLinkResourcesListByHostPoolNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, hostPoolName, nextLink, options },
-      listByHostPoolNextOperationSpec
+      listByHostPoolNextOperationSpec,
     );
   }
 }
@@ -282,98 +282,96 @@ export class PrivateLinkResourcesImpl implements PrivateLinkResources {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByWorkspaceOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/workspaces/{workspaceName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.pageSize,
     Parameters.isDescending,
-    Parameters.initialSkip
+    Parameters.initialSkip,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByHostPoolOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateLinkResources",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/privateLinkResources",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   queryParameters: [
     Parameters.apiVersion,
     Parameters.pageSize,
     Parameters.isDescending,
-    Parameters.initialSkip
+    Parameters.initialSkip,
   ],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName
+    Parameters.hostPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByWorkspaceNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.workspaceName
+    Parameters.workspaceName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByHostPoolNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.PrivateLinkResourceListResult
+      bodyMapper: Mappers.PrivateLinkResourceListResult,
     },
     default: {
-      bodyMapper: Mappers.CloudError
-    }
+      bodyMapper: Mappers.CloudError,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.hostPoolName
+    Parameters.hostPoolName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

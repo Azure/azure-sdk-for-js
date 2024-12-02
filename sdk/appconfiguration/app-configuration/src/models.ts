@@ -1,22 +1,28 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CompatResponse } from "@azure/core-http-compat";
-import { FeatureFlagValue } from "./featureFlag";
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
-import { SecretReferenceValue } from "./secretReference";
-import {
+import type { CompatResponse } from "@azure/core-http-compat";
+import type { FeatureFlagValue } from "./featureFlag.js";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { SecretReferenceValue } from "./secretReference.js";
+import type {
   SnapshotComposition,
   ConfigurationSettingsFilter,
   ConfigurationSnapshot,
   ConfigurationSnapshotStatus,
   SettingLabel,
-} from "./generated/src";
+} from "./generated/src/index.js";
 
 /**
  * Provides configuration options for AppConfigurationClient.
  */
-export interface AppConfigurationClientOptions extends CommonClientOptions {}
+export interface AppConfigurationClientOptions extends CommonClientOptions {
+  /**
+   * The API version to use when interacting with the service. The default value is `2023-11-01`.
+   * Note that overriding this default value may result in unsupported behavior.
+   */
+  apiVersion?: string;
+}
 
 /**
  * Fields that uniquely identify a configuration setting
@@ -544,4 +550,4 @@ export {
   KnownConfigurationSnapshotStatus,
   ConfigurationSnapshotStatus,
   SettingLabel,
-} from "./generated/src";
+} from "./generated/src/index.js";

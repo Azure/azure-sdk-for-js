@@ -12,3 +12,7 @@ export * from "./outboundEndpoints";
 export * from "./dnsForwardingRulesets";
 export * from "./forwardingRules";
 export * from "./virtualNetworkLinks";
+export * from "./dnsResolverPolicies";
+export * from "./dnsSecurityRules";
+export * from "./dnsResolverPolicyVirtualNetworkLinks";
+export * from "./dnsResolverDomainLists";

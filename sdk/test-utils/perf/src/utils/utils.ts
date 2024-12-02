@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 import { IncomingMessage, RequestOptions } from "http";
 import https from "https";
 import http from "http";

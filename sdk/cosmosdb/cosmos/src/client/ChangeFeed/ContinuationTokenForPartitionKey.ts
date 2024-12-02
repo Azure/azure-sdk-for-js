@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-import { PartitionKey } from "../../documents";
+// Licensed under the MIT License.
+import type { PartitionKey } from "../../documents";
 /**
  * Continuation token for change feed of entire container, or a specific Epk Range.
  * @internal

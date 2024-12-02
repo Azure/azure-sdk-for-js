@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   getClassificationPolicyRequest,
@@ -7,16 +7,15 @@ import {
   getExceptionPolicyRequest,
   getJobRequest,
   getQueueRequest,
-} from "../utils/testData";
-import { assert } from "chai";
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
-import { JobRouterAdministrationClient, JobRouterClient } from "../../../src";
-import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient";
-import { pollForJobCancelled, pollForJobQueued } from "../utils/polling";
-import { timeoutMs } from "../utils/constants";
+} from "../utils/testData.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { JobRouterAdministrationClient, JobRouterClient } from "../../../src/index.js";
+import { createRecordedRouterClientWithConnectionString } from "../../internal/utils/mockClient.js";
+import { pollForJobCancelled, pollForJobQueued } from "../utils/polling.js";
+import { timeoutMs } from "../utils/constants.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("JobRouterClient", function () {
+describe("JobRouterClient", () => {
   let client: JobRouterClient;
   let administrationClient: JobRouterAdministrationClient;
   let recorder: Recorder;
@@ -32,10 +31,10 @@ describe("JobRouterClient", function () {
   const { jobId, jobRequest } = getJobRequest(testRunId);
   const dispositionCode = `disposition-${testRunId}`;
 
-  describe("Cancellation Scenario", function () {
-    this.beforeEach(async function (this: Context) {
+  describe("Cancellation Scenario", () => {
+    beforeEach(async (ctx) => {
       ({ client, administrationClient, recorder } =
-        await createRecordedRouterClientWithConnectionString(this));
+        await createRecordedRouterClientWithConnectionString(ctx));
 
       await administrationClient.createDistributionPolicy(
         distributionPolicyId,
@@ -49,19 +48,19 @@ describe("JobRouterClient", function () {
       );
     });
 
-    this.afterEach(async function (this: Context) {
+    afterEach(async (ctx) => {
       await client.deleteJob(jobId);
       await administrationClient.deleteClassificationPolicy(classificationPolicyId);
       await administrationClient.deleteQueue(queueId);
       await administrationClient.deleteExceptionPolicy(exceptionPolicyId);
       await administrationClient.deleteDistributionPolicy(distributionPolicyId);
 
-      if (!this.currentTest?.isPending() && recorder) {
+      if (!ctx.task.pending && recorder) {
         await recorder.stop();
       }
     });
 
-    it("should complete cancellation scenario", async () => {
+    it("should complete cancellation scenario", { timeout: timeoutMs }, async () => {
       await client.createJob(jobId, jobRequest);
       await pollForJobQueued(jobId, client);
 
@@ -70,6 +69,6 @@ describe("JobRouterClient", function () {
 
       assert.equal(result.status, "cancelled");
       assert.equal(result.dispositionCode, dispositionCode);
-    }).timeout(timeoutMs);
+    });
   });
 });

@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to The operation to update the VMSS VM run command.
  *
  * @summary The operation to update the VMSS VM run command.
- * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-03-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Update.json
+ * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2024-07-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_Update.json
  */
 async function updateVirtualMachineScaleSetVMRunCommand() {
   const subscriptionId = process.env["COMPUTE_SUBSCRIPTION_ID"] || "{subscription-id}";

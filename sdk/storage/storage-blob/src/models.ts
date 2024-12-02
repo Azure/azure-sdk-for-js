@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { CancelOnProgress, PollOperationState } from "@azure/core-lro";
-import { BlobImmutabilityPolicyMode } from "./generatedModels";
-import {
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { CancelOnProgress, PollOperationState } from "@azure/core-lro";
+import type { BlobImmutabilityPolicyMode } from "./generatedModels";
+import type {
   LeaseAccessConditions,
   SequenceNumberAccessConditions,
   AppendPositionAccessConditions,

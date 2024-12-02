@@ -1,20 +1,20 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { logger } from "./models/logger";
-import {
+import { logger } from "./models/logger.js";
+import type {
   CommunicationIdentifier,
   CommunicationTokenCredential,
-  serializeCommunicationIdentifier,
 } from "@azure/communication-common";
-import { PagedAsyncIterableIterator } from "@azure/core-paging";
-import {
+import { serializeCommunicationIdentifier } from "@azure/communication-common";
+import type { PagedAsyncIterableIterator } from "@azure/core-paging";
+import type {
   AddParticipantsRequest,
   SendMessageRequest,
   SendReadReceiptRequest,
-} from "./models/requests";
+} from "./models/requests.js";
 
-import {
+import type {
   AddChatParticipantsResult,
   ChatMessage,
   ChatMessageReadReceipt,
@@ -22,15 +22,15 @@ import {
   ChatThreadProperties,
   ListPageSettings,
   SendChatMessageResult,
-} from "./models/models";
+} from "./models/models.js";
 import {
   mapToAddChatParticipantsRequestRestModel,
   mapToChatMessageSdkModel,
   mapToChatParticipantSdkModel,
   mapToChatThreadPropertiesSdkModel,
   mapToReadReceiptSdkModel,
-} from "./models/mappers";
-import {
+} from "./models/mappers.js";
+import type {
   AddParticipantsOptions,
   ChatThreadClientOptions,
   DeleteMessageOptions,
@@ -45,11 +45,11 @@ import {
   SendTypingNotificationOptions,
   UpdateMessageOptions,
   UpdateTopicOptions,
-} from "./models/options";
-import { ChatApiClient } from "./generated/src";
-import { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
-import { tracingClient } from "./generated/src/tracing";
+} from "./models/options.js";
+import { ChatApiClient } from "./generated/src/index.js";
+import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
+import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy.js";
+import { tracingClient } from "./generated/src/tracing.js";
 
 const minimumTypingIntervalInMilliSeconds: number = 8000;
 

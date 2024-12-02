@@ -1,32 +1,28 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import chai from "chai";
-const should = chai.should();
-const expect = chai.expect;
-import chaiAsPromised from "chai-as-promised";
-chai.use(chaiAsPromised);
-import {
+import type {
   ServiceBusReceivedMessage,
   ServiceBusMessage,
   ServiceBusReceiver,
   ProcessErrorArgs,
   ServiceBusSender,
-} from "../../src";
+} from "../../src/index.js";
 
-import { TestClientType, TestMessage, checkWithTimeout } from "../public/utils/testUtils";
+import { TestClientType, TestMessage, checkWithTimeout } from "../public/utils/testUtils.js";
 
-import { InvalidOperationInReceiveAndDeleteMode } from "../../src/util/errors";
+import { InvalidOperationInReceiveAndDeleteMode } from "../../src/util/errors.js";
+import type { EntityName, ServiceBusClientForTests } from "../public/utils/testutils2.js";
 import {
-  EntityName,
-  ServiceBusClientForTests,
   createServiceBusClientForTests,
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions,
-} from "../public/utils/testutils2";
-import { DispositionType } from "../../src/serviceBusMessage";
-import Long from "long";
+} from "../public/utils/testutils2.js";
+import { DispositionType } from "../../src/serviceBusMessage.js";
+import type Long from "long";
+import { afterAll, afterEach, beforeAll, describe, it } from "vitest";
+import { expect, should } from "../public/utils/chai.js";
 
 let errorWasThrown: boolean;
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
@@ -38,11 +34,11 @@ describe("receive and delete", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let entityName: EntityName;
 
-  before(() => {
+  beforeAll(() => {
     serviceBusClient = createServiceBusClientForTests();
   });
 
-  after(() => {
+  afterAll(() => {
     return serviceBusClient.test.after();
   });
 

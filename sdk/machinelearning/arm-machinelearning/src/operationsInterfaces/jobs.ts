@@ -74,6 +74,7 @@ export interface Jobs {
   ): Promise<JobsGetResponse>;
   /**
    * Creates and executes a Job.
+   * For update case, the Tags in the definition passed in will replace Tags in the existing job.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName Name of Azure Machine Learning workspace.
    * @param id The name and identifier for the Job. This is case-sensitive.

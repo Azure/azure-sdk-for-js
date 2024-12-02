@@ -1,5 +1,6 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { wait } from "./wait.js";
 

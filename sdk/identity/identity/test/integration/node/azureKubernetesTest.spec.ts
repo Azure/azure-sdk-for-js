@@ -1,15 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import { assert } from "chai";
+// Licensed under the MIT License.
 import { execSync } from "child_process";
 import { isLiveMode } from "@azure-tools/test-recorder";
+import { describe, it, assert, beforeEach } from "vitest";
 
 describe("Azure Kubernetes Integration test", function () {
   let podOutput: string;
-  before(async function () {
+  beforeEach(async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
     const resourceGroup = requireEnvVar("IDENTITY_RESOURCE_GROUP");
     const aksClusterName = requireEnvVar("IDENTITY_AKS_CLUSTER_NAME");
@@ -18,12 +17,12 @@ describe("Azure Kubernetes Integration test", function () {
 
     if (process.env.IDENTITY_CLIENT_SECRET) {
       // Log in as service principal in CI
-      const clientId = requireEnvVar("IDENTITY_CLIENT_ID");
-      const clientSecret = requireEnvVar("IDENTITY_CLIENT_SECRET");
-      const tenantId = requireEnvVar("IDENTITY_TENANT_ID");
+      const clientId = requireEnvVar("ARM_CLIENT_ID");
+      const tenantId = requireEnvVar("ARM_TENANT_ID");
+      const oidc = requireEnvVar("ARM_OIDC_TOKEN");
       runCommand(
         "az",
-        `login --service-principal -u ${clientId} -p ${clientSecret} --tenant ${tenantId}`,
+        `login --service-principal -u ${clientId} --federated-token ${oidc} --tenant ${tenantId}`,
       );
     }
 
@@ -38,9 +37,9 @@ describe("Azure Kubernetes Integration test", function () {
     podOutput = runCommand("kubectl", `exec ${podName} -- node /app/index.js`);
   });
 
-  it("can authenticate using managed identity", async function () {
+  it("can authenticate using managed identity", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     assert.include(
@@ -50,9 +49,9 @@ describe("Azure Kubernetes Integration test", function () {
     );
   });
 
-  it("can authenticate using workload identity", async function () {
+  it("can authenticate using workload identity", async function (ctx) {
     if (!isLiveMode()) {
-      this.skip();
+      ctx.skip();
     }
 
     assert.include(

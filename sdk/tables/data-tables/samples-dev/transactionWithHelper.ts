@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /**
  * This sample demonstrates how to use the TableTransaction helper
  * to build a transaction request.
@@ -9,13 +9,10 @@
  */
 
 import { TableClient, TableTransaction } from "@azure/data-tables";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
-async function batchOperations() {
+async function batchOperations(): Promise<void> {
   console.log("== TableTransaction Sample ==");
 
   // Note that this sample assumes that a table with tableName exists

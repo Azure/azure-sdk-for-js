@@ -17,6 +17,7 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | ----------------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
 | [audioTranscription.js][audiotranscription]                                         | audio transcription.                                                         |
 | [audioTranslation.js][audiotranslation]                                             | audio translation.                                                           |
+| [batch.js][batch]                                                                   | create and retrieve batch content.                                           |
 | [chatCompletions.js][chatcompletions]                                               | get chat completions.                                                        |
 | [codeInterpreter.js][codeinterpreter]                                               | interpreting code.                                                           |
 | [completions.js][completions]                                                       | get completions.                                                             |
@@ -62,7 +63,7 @@ node audioTranscription.js
 Alternatively, run a single sample with the correct environment variables set (setting up the `.env` file is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env AUDIO_FILE_PATH="<audio file path>" node audioTranscription.js
+npx dev-tool run vendored cross-env AUDIO_FILE_PATH="<audio file path>" node audioTranscription.js
 ```
 
 ## Next Steps
@@ -71,6 +72,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 
 [audiotranscription]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/audioTranscription.js
 [audiotranslation]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/audioTranslation.js
+[batch]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/batch.js
 [chatcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/chatCompletions.js
 [codeinterpreter]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/codeInterpreter.js
 [completions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/completions.js
@@ -82,7 +84,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [streamcompletions]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/streamCompletions.js
 [texttospeech]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/textToSpeech.js
 [toolcall]: https://github.com/Azure/azure-sdk-for-js/blob/main/sdk/openai/openai/samples/v2-beta/javascript/toolCall.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/openai
+[apiref]: https://learn.microsoft.com/javascript/api/overview/azure/openai
 [freesub]: https://azure.microsoft.com/free/
 [createinstance_azurecognitiveservicesinstance]: https://learn.microsoft.com/azure/cognitive-services/openai/how-to/create-resource
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/main/sdk/openai/openai/README.md

@@ -1,17 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  ImplementationName,
-  assertDivergentBehavior,
-  assertError,
-  createDoubleHeaders,
-  Result,
-} from "./utils/utils.js";
+import type { ImplementationName, Result } from "./utils/utils.js";
+import { assertDivergentBehavior, assertError, createDoubleHeaders } from "./utils/utils.js";
 import { describe, it, assert, expect } from "vitest";
 import { createRunLroWith, createTestPoller } from "./utils/router.js";
 import { delay } from "@azure/core-util";
-import { matrix } from "./matrix.js";
+import { matrix } from "@azure-tools/test-utils-vitest";
+
 matrix(
   [["createPoller"], [true, false]] as const,
   async function (implName: ImplementationName, throwOnNon2xxResponse: boolean) {
@@ -687,6 +683,115 @@ matrix(
                   },
                 ],
                 resourceLocationConfig: "azure-async-operation",
+              });
+              assert.equal(result.statusCode, 200);
+              assert.equal(result.id, "100");
+            });
+
+            it("should handle PUT with final-state-via", async () => {
+              const path = "/put/final-state-via";
+              const locationPath = `/LROPostDoubleHeadersFinalAzureHeaderGet/location`;
+              const operationLocationPath = `/LROPostDoubleHeadersFinalAzureHeaderGet/asyncOperationUrl`;
+              const result = await runLro({
+                routes: [
+                  {
+                    method: "PUT",
+                    path,
+                    status: 202,
+                    body: "",
+                    headers: {
+                      Location: locationPath,
+                      [headerName]: operationLocationPath,
+                    },
+                  },
+                  {
+                    method: "GET",
+                    path: operationLocationPath,
+                    status: 200,
+                    body: `{ "status": "succeeded"}`,
+                  },
+                  {
+                    method: "GET",
+                    path,
+                    status: 200,
+                    body: `{ "id": "100" }`,
+                  },
+                  {
+                    method: "GET",
+                    path: locationPath,
+                    status: 400,
+                  },
+                ],
+                resourceLocationConfig: "azure-async-operation",
+              });
+              assert.equal(result.statusCode, 200);
+              assert.equal(result.id, "100");
+            });
+
+            it("should handle POST with final-state-via: operation-location", async () => {
+              const path = "/post/final-state-via";
+              const locationPath = `/LROPostFinalStateViaOperationLocation/location`;
+              const operationLocationPath = `/LROPostFinalStateViaOperationLocation/asyncOperationUrl`;
+              const result = await runLro({
+                routes: [
+                  {
+                    method: "POST",
+                    status: 202,
+                    path,
+                    body: "",
+                    headers: {
+                      Location: locationPath,
+                      [headerName]: operationLocationPath,
+                    },
+                  },
+                  {
+                    method: "GET",
+                    path: operationLocationPath,
+                    status: 200,
+                    body: `{ "status": "succeeded", "id": "100"}`,
+                  },
+                  {
+                    method: "GET",
+                    path: locationPath,
+                    status: 400,
+                  },
+                ],
+                resourceLocationConfig: "operation-location",
+              });
+              assert.equal(result.statusCode, 200);
+              assert.equal(result.id, "100");
+            });
+
+            it("should handle POST with final-state-via: location", async () => {
+              const path = "/post/final-state-via";
+              const locationPath = `/LROPostFinalStateViaOperationLocation/location`;
+              const operationLocationPath = `/LROPostFinalStateViaOperationLocation/asyncOperationUrl`;
+              const result = await runLro({
+                routes: [
+                  {
+                    method: "POST",
+                    status: 202,
+                    path,
+                    body: "",
+                    headers: {
+                      Location: locationPath,
+                      [headerName]: operationLocationPath,
+                    },
+                  },
+                  {
+                    method: "GET",
+                    path: operationLocationPath,
+                    status: 200,
+                    body: `{ "status": "succeeded"}`,
+                  },
+                  {
+                    method: "GET",
+                    path: locationPath,
+                    status: 200,
+                    body: `{ "id": "100" }`,
+                  },
+                ],
+                resourceLocationConfig: "location",
               });
               assert.equal(result.statusCode, 200);
               assert.equal(result.id, "100");

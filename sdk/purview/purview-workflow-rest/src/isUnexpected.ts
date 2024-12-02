@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
+import type {
   ListWorkflows200Response,
   ListWorkflowsDefaultResponse,
   GetWorkflow200Response,
@@ -30,7 +30,7 @@ import {
   ReassignWorkflowTaskDefaultResponse,
   UpdateTaskStatus200Response,
   UpdateTaskStatusDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /workflows": ["200"],

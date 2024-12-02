@@ -1,15 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
 import { createRecordedClient, createRecorder } from "./utils/recordedClient.js";
 import { describe, it, beforeEach, afterEach, expect, assert } from "vitest";
-import {
+import type {
   AzureDeveloperDevCenterClient,
-  getLongRunningPoller,
-  isUnexpected,
   PoolOutput,
-  paginate,
   DevBoxOutput,
   DevBoxActionOutput,
   ScheduleOutput,
@@ -17,6 +15,7 @@ import {
   DevBoxActionDelayResultOutput,
   CreateDevBoxParameters,
 } from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected, paginate } from "../../src/index.js";
 
 const testPollingOptions = {
   intervalInMs: isPlaybackMode() ? 0 : undefined,

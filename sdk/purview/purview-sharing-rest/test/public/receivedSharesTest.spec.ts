@@ -1,18 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import {
-  getLongRunningPoller,
+import type {
   InPlaceReceivedShareOutput,
-  isUnexpected,
   OperationResponseOutput,
   PurviewSharingClient,
   ReceivedShareListOutput,
-} from "../../src";
-import { env, isPlaybackMode, Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import { createClient, createRecorder } from "./utils/recordedClient";
-import { Context } from "mocha";
+} from "../../src/index.js";
+import { getLongRunningPoller, isUnexpected } from "../../src/index.js";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env, isPlaybackMode } from "@azure-tools/test-recorder";
+import { createClient, createRecorder } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
 describe("Received Shares Operations", () => {
   let recorder: Recorder;
@@ -21,16 +20,16 @@ describe("Received Shares Operations", () => {
   let receivedShareId = "206016dd-fd49-420c-9545-9663badda4e3";
   const pollingIntervalMs = isPlaybackMode() ? 0 : 30000;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("List all Detached Received Shares", async function () {
+  it("List all Detached Received Shares", async () => {
     const response = await client.path("/receivedShares/detached").get({
       queryParameters: { filter: "properties/StoreKind eq 'AdlsGen2Account'" },
     });
@@ -52,7 +51,7 @@ describe("Received Shares Operations", () => {
     assert.strictEqual(detachedReceivedShare.properties.assetStoreKind, "AdlsGen2Account");
   });
 
-  it("Attach Received Share", async function () {
+  it("Attach Received Share", async () => {
     const displayName = "JS-SDK-Received-Share";
     const initialResponse = await client
       .path("/receivedShares/{receivedShareId}", receivedShareId)
@@ -98,7 +97,7 @@ describe("Received Shares Operations", () => {
     assert.strictEqual(receivedShareResponse.properties.displayName, displayName);
   });
 
-  it("List all Attached Received Shares", async function () {
+  it("List all Attached Received Shares", async () => {
     const response = await client
       .path("/receivedShares/attached")
       .get({ queryParameters: { referenceName: env.STORAGE_ACCOUNT_RESOURCE_ID ?? "" } });
@@ -118,7 +117,7 @@ describe("Received Shares Operations", () => {
     assert.strictEqual(attachedReceivedShare.properties.assetStoreKind, "AdlsGen2Account");
   });
 
-  it("Delete a Received Share", async function () {
+  it("Delete a Received Share", async () => {
     const initialResponse = await client
       .path("/receivedShares/{receivedShareId}", receivedShareId)
       .delete();

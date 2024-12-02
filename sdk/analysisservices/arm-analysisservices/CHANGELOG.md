@@ -16,19 +16,19 @@
 
 ## 4.1.2 (2022-10-08)
 
-**Bugs Fixed**
+### Bugs Fixed
 
   -  revert credential scopes
 
 ## 4.1.1 (2022-09-30)
 
-**Bugs Fixed**
+### Bugs Fixed
 
   -  fix better user experience of credential scopes in government cloud
 
 ## 4.1.0 (2022-06-29)
     
-**Features**
+### Features Added
 
   - Added Interface AnalysisServicesServer
   - Added Interface AnalysisServicesServerProperties

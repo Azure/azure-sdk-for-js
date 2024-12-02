@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { RequestParameters } from "@azure-rest/core-client";
 import {
   GeocodingBatchRequestBody,
-  ReverseGeocodingBatchRequestBody
-} from "./models";
+  ReverseGeocodingBatchRequestBody,
+} from "./models.js";
 
 export interface SearchGetGeocodingQueryParamProperties {
   /** Maximum number of responses that will be returned. Default: 5, minimum: 1 and maximum: 20. */
@@ -19,7 +19,7 @@ export interface SearchGetGeocodingQueryParamProperties {
    */
   addressLine?: string;
   /**
-   * Restrict the geocoding result to an [ISO 3166-1 Alpha-2 region/country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) that is specified e.g. FR. This will limit the search to the specified region.
+   * Signal for the geocoding result to an [ISO 3166-1 Alpha-2 region/country code](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2) that is specified e.g. FR./
    *
    * **If query is given, should not use this parameter.**
    */
@@ -87,9 +87,10 @@ export interface SearchGetGeocodingBatchMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type SearchGetGeocodingBatchParameters = SearchGetGeocodingBatchMediaTypesParam &
-  SearchGetGeocodingBatchBodyParam &
-  RequestParameters;
+export type SearchGetGeocodingBatchParameters =
+  SearchGetGeocodingBatchMediaTypesParam &
+    SearchGetGeocodingBatchBodyParam &
+    RequestParameters;
 
 export interface SearchGetPolygonQueryParamProperties {
   /** A point on the earth specified as a longitude and latitude. Example: &coordinates=lon,lat */
@@ -100,7 +101,7 @@ export interface SearchGetPolygonQueryParamProperties {
    * Please refer to [Supported Views](https://aka.ms/AzureMapsLocalizationViews) for details and to see the available Views.
    */
   view?: string;
-  /** The geopolitical concept to return a boundary for. */
+  /** The geopolitical concept to return a boundary for. If not specified, the default is `countryRegion` result type. */
   resultType?:
     | "countryRegion"
     | "adminDistrict"
@@ -111,7 +112,7 @@ export interface SearchGetPolygonQueryParamProperties {
     | "postalCode4"
     | "neighborhood"
     | "locality";
-  /** Resolution determines the amount of points to send back. */
+  /** Resolution determines the amount of points to send back. If not specified, the default is medium resolution. */
   resolution?: "small" | "medium" | "large" | "huge";
 }
 
@@ -161,8 +162,8 @@ export interface SearchGetReverseGeocodingQueryParam {
   queryParameters: SearchGetReverseGeocodingQueryParamProperties;
 }
 
-export type SearchGetReverseGeocodingParameters = SearchGetReverseGeocodingQueryParam &
-  RequestParameters;
+export type SearchGetReverseGeocodingParameters =
+  SearchGetReverseGeocodingQueryParam & RequestParameters;
 
 export interface SearchGetReverseGeocodingBatchBodyParam {
   /** The list of reverse geocoding queries/requests to process. The list can contain a max of 100 queries and must contain at least 1 query. */
@@ -174,6 +175,7 @@ export interface SearchGetReverseGeocodingBatchMediaTypesParam {
   contentType?: "application/json";
 }
 
-export type SearchGetReverseGeocodingBatchParameters = SearchGetReverseGeocodingBatchMediaTypesParam &
-  SearchGetReverseGeocodingBatchBodyParam &
-  RequestParameters;
+export type SearchGetReverseGeocodingBatchParameters =
+  SearchGetReverseGeocodingBatchMediaTypesParam &
+    SearchGetReverseGeocodingBatchBodyParam &
+    RequestParameters;

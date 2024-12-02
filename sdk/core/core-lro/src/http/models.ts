@@ -1,13 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AbortSignalLike } from "@azure/abort-controller";
-import { LroError } from "../poller/models.js";
+import type { AbortSignalLike } from "@azure/abort-controller";
+import type { LroError } from "../poller/models.js";
 
 /**
  * The potential location of the result of the LRO if specified by the LRO extension in the swagger.
  */
-export type ResourceLocationConfig = "azure-async-operation" | "location" | "original-uri";
+export type ResourceLocationConfig =
+  | "azure-async-operation"
+  | "location"
+  | "original-uri"
+  | "operation-location";
 
 /**
  * The type of a LRO response body. This is just a convenience type for checking the status of the operation.

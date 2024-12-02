@@ -1,16 +1,17 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { AuthenticationRecord, MsalAccountInfo, MsalToken, ValidMsalToken } from "./types";
-import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors";
-import { CredentialLogger, credentialLogger, formatError } from "../util/logging";
-import { DefaultAuthorityHost, DefaultTenantId } from "../constants";
-import { randomUUID as coreRandomUUID, isNode } from "@azure/core-util";
+import type { AuthenticationRecord, MsalAccountInfo, MsalToken, ValidMsalToken } from "./types.js";
+import { AuthenticationRequiredError, CredentialUnavailableError } from "../errors.js";
+import type { CredentialLogger } from "../util/logging.js";
+import { credentialLogger, formatError } from "../util/logging.js";
+import { DefaultAuthorityHost, DefaultTenantId } from "../constants.js";
+import { randomUUID as coreRandomUUID, isNode, isNodeLike } from "@azure/core-util";
 
 import { AbortError } from "@azure/abort-controller";
-import { AzureLogLevel } from "@azure/logger";
-import { GetTokenOptions } from "@azure/core-auth";
-import { msalCommon } from "./msal";
+import type { AzureLogLevel } from "@azure/logger";
+import type { GetTokenOptions } from "@azure/core-auth";
+import { msalCommon } from "./msal.js";
 
 export interface ILoggerCallback {
   (level: msalCommon.LogLevel, message: string, containsPii: boolean): void;
@@ -53,6 +54,22 @@ export function ensureValidMsalToken(
   if (!msalToken.accessToken) {
     throw error(`Response had no "accessToken" property.`);
   }
+}
+
+/**
+ * Returns the authority host from either the options bag or the AZURE_AUTHORITY_HOST environment variable.
+ *
+ * Defaults to {@link DefaultAuthorityHost}.
+ * @internal
+ */
+export function getAuthorityHost(options?: { authorityHost?: string }): string {
+  let authorityHost = options?.authorityHost;
+
+  if (!authorityHost && isNodeLike) {
+    authorityHost = process.env.AZURE_AUTHORITY_HOST;
+  }
+
+  return authorityHost ?? DefaultAuthorityHost;
 }
 
 /**
@@ -186,7 +203,8 @@ export function handleMsalError(
   if (
     error.name === "ClientConfigurationError" ||
     error.name === "BrowserConfigurationAuthError" ||
-    error.name === "AbortError"
+    error.name === "AbortError" ||
+    error.name === "AuthenticationError"
   ) {
     return error;
   }

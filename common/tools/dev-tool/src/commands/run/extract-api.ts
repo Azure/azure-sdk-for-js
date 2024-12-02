@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import {
   Extractor,
@@ -11,28 +11,17 @@ import {
   IConfigDtsRollup,
   IConfigFile,
 } from "@microsoft/api-extractor";
-import { createReadStream, createWriteStream } from "node:fs";
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 
-import archiver from "archiver";
 import { createPrinter } from "../../util/printer";
 import path from "path";
-import { readFile } from "fs-extra";
-import { readdir } from "node:fs/promises";
+import { readFile, writeFile, unlink } from "node:fs/promises";
+import { existsSync } from "node:fs";
 import { resolveProject } from "../../util/resolveProject";
 
 export const commandInfo = makeCommandInfo(
   "extract-api",
   "Runs api-extractor multiple times for all exports.",
-  {
-    "subpath-doc-model": {
-      shortName: "sdc",
-      kind: "boolean",
-      default: false,
-      description:
-        "When true, generates api.json docModel files for each subpath export. Otherwise only generates for the main entry point. Markdown files are always generated for each subpath export.",
-    },
-  },
 );
 
 const log = createPrinter("extract-api");
@@ -52,10 +41,6 @@ interface ExportEntry {
    */
   baseName: string;
   /**
-   * When true, generates an api.json docModel file for this export.
-   */
-  generateDocModel: boolean;
-  /**
    * Represents the updated mainEntryPointFilePath for this export to be fed into API Extractor.
    */
   mainEntryPointFilePath: string;
@@ -66,7 +51,7 @@ interface ExportEntry {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function buildExportConfiguration(packageJson: any, options: any): ExportEntry[] | undefined {
+function buildExportConfiguration(packageJson: any): ExportEntry[] | undefined {
   const exports = packageJson["exports"];
   if (!exports) {
     return undefined;
@@ -83,7 +68,6 @@ function buildExportConfiguration(packageJson: any, options: any): ExportEntry[]
           .replace(/^\.\//, "") // remove leading "./"
           .replace(/\//g, "-"), // replace slashes with hyphens
 
-        generateDocModel: exportPath === "." || options["subpath-doc-model"],
         // Take either the top-level "types" filepath or - for packages that use tshy - the ESM "types" filepath
         mainEntryPointFilePath: exports[exportPath].types || exports[exportPath]?.import?.types,
         suppressForgottenExportErrors: exportPath !== ".",
@@ -123,16 +107,27 @@ function extractApi(
   }
 }
 
-export default leafCommand(commandInfo, async (options) => {
+interface ApiJson {
+  metadata: Record<string, unknown>;
+  members: { kind: string; name: string }[];
+}
+
+async function loadApiJson(fullPath: string): Promise<ApiJson> {
+  return JSON.parse(await readFile(fullPath, { encoding: "utf-8" })) as ApiJson;
+}
+
+export default leafCommand(commandInfo, async () => {
   const projectInfo = await resolveProject(process.cwd());
   const packageJsonPath = path.join(projectInfo.path, "package.json");
-  const packageJson = JSON.parse((await readFile(packageJsonPath)).toString("utf-8"));
+  const packageJson = JSON.parse(await readFile(packageJsonPath, { encoding: "utf-8" }));
 
   const apiExtractorJsonPath: string = path.join(projectInfo.path, "api-extractor.json");
   const extractorConfigObject = ExtractorConfig.loadFile(apiExtractorJsonPath);
+  // sub path exports extraction
+  const exports = buildExportConfiguration(packageJson);
   if (
     !extractorConfigObject.mainEntryPointFilePath ||
-    !extractorConfigObject?.dtsRollup?.publicTrimmedFilePath
+    (exports === undefined && !extractorConfigObject?.dtsRollup?.publicTrimmedFilePath)
   ) {
     log.error("Unexpected api-extractor configuration");
     return false;
@@ -145,21 +140,11 @@ export default leafCommand(commandInfo, async (options) => {
   log.debug(`  reportTempFolder: ${extractorConfigObject.apiReport?.reportTempFolder}`);
 
   let succeed = true;
-  // sub path exports extraction
-  const exports = buildExportConfiguration(packageJson, options);
+
   if (exports !== undefined) {
     log.info("Detected subpath exports, extracting markdown for each subpath.");
     for (const exportEntry of exports) {
       log.info(`Extracting api for export: ${exportEntry.path}`);
-      // Place the subpath export rollup file in the directory from which it is exported
-      const publicTrimmedFilePath = path.parse(
-        extractorConfigObject.dtsRollup.publicTrimmedFilePath,
-      );
-      const newPublicTrimmedPath = path.join(
-        publicTrimmedFilePath.dir,
-        exportEntry.path,
-        publicTrimmedFilePath.base,
-      );
 
       // Leave filenames unchanged for the root export
       let newApiJsonPath = extractorConfigObject.docModel?.apiJsonFilePath;
@@ -178,20 +163,38 @@ export default leafCommand(commandInfo, async (options) => {
           `-${exportEntry.baseName}.api.md`,
         );
       }
+      let newDtsRollupOptions: IConfigDtsRollup = { enabled: false };
 
-      const newDtsRollupOptions: IConfigDtsRollup = {
-        ...extractorConfigObject.dtsRollup,
-        publicTrimmedFilePath: newPublicTrimmedPath,
-      };
+      const usingTshy = packageJson["tshy"];
+      if (!usingTshy && !extractorConfigObject?.dtsRollup?.publicTrimmedFilePath) {
+        log.error("Packages not using tshy should have a proper api-extractor configuration");
+        return false;
+      }
+      if (!usingTshy) {
+        // Place the subpath export rollup file in the directory from which it is exported
+        const publicTrimmedFilePath = path.parse(
+          extractorConfigObject.dtsRollup!.publicTrimmedFilePath!, // validated above
+        );
+        const newPublicTrimmedPath = path.join(
+          publicTrimmedFilePath.dir,
+          exportEntry.path,
+          publicTrimmedFilePath.base,
+        );
+        newDtsRollupOptions = {
+          ...extractorConfigObject.dtsRollup,
+          publicTrimmedFilePath: newPublicTrimmedPath,
+          enabled: true,
+        };
+      }
       const newDocModel: IConfigDocModel = {
         ...extractorConfigObject.docModel,
-        enabled: exportEntry.generateDocModel,
+        enabled: true,
         apiJsonFilePath: newApiJsonPath,
       };
 
       const newApiReport: IConfigApiReport = {
         ...extractorConfigObject.apiReport,
-        enabled: true, // or should we disable? not sure if we need look at multiple api.md
+        enabled: true,
         reportFileName: newApiReportName,
       };
 
@@ -222,27 +225,53 @@ export default leafCommand(commandInfo, async (options) => {
     succeed = extractApi(extractorConfigObject, apiExtractorJsonPath, packageJsonPath);
   }
 
-  // Add api.json files to zip archive
-  const unscopedPackageName = projectInfo.name.split("/")[1];
-  const reportTempDir = path.join(projectInfo.path, "temp");
-  const files = (await readdir(reportTempDir)).filter((f) => f.endsWith("api.json"));
-  const output = createWriteStream(path.join(reportTempDir, `${unscopedPackageName}.zip`));
-  const zip = archiver("zip");
+  if (extractorConfigObject.docModel?.enabled) {
+    const reportTempDir = path.join(projectInfo.path, "temp");
+    const unscopedPackageName = projectInfo.name.split("/")[1];
 
-  zip.on("warning", function (err) {
-    throw err;
-  });
-  zip.on("error", function (err) {
-    throw err;
-  });
-
-  zip.pipe(output);
-
-  for (const file of files) {
-    log.debug(`adding ${file} to zip archive`);
-    zip.append(createReadStream(path.join(reportTempDir, file)), { name: file });
+    await buildMergedApiJson(
+      unscopedPackageName,
+      reportTempDir,
+      exports,
+      packageJson["dependencies"],
+    );
   }
-  zip.finalize();
 
   return succeed;
 });
+
+/**
+ *
+ * @returns the full path of -augmented.api.json file.
+ */
+async function buildMergedApiJson(
+  unscopedPackageName: string,
+  reportTempDir: string,
+  exports: ExportEntry[] | undefined,
+  dependencies: Record<string, string>,
+) {
+  const mainApiJsonPath = path.join(reportTempDir, `${unscopedPackageName}.api.json`);
+
+  const apiJson = await loadApiJson(mainApiJsonPath);
+  apiJson.metadata.dependencies = dependencies;
+  for (const subpath of exports?.filter((p) => p.isSubpath) ?? []) {
+    const p = path.join(reportTempDir, `${unscopedPackageName}-${subpath.baseName}.api.json`);
+    if (!existsSync(p)) {
+      log.debug(`${p} not there`);
+      continue;
+    }
+
+    log.debug(`loading api package for "${subpath.baseName}"`);
+    const subpathApiJson = await loadApiJson(p);
+    const entryPoint = subpathApiJson.members.filter((m) => m.kind === "EntryPoint")[0];
+    entryPoint.name = subpath.baseName;
+    apiJson.members.push(entryPoint);
+    log.debug(`deleting ${p} after merging its entrypoint`);
+    await unlink(p);
+  }
+
+  const augmentedApiJsonPath = mainApiJsonPath.replace(".api.json", `.augmented.json`);
+  log.debug(`writing merged api to ${augmentedApiJsonPath}`);
+  await writeFile(augmentedApiJsonPath, JSON.stringify(apiJson, undefined, 2));
+  return augmentedApiJsonPath;
+}

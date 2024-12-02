@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
-import chai from "chai";
-import chaiAsPromised from "chai-as-promised";
-import { MessagingError, ServiceBusError, ServiceBusErrorCode } from "../../src";
-
-const should = chai.should();
-chai.use(chaiAsPromised);
+// Licensed under the MIT License.
+import type { ServiceBusErrorCode } from "../../src/index.js";
+import { MessagingError, ServiceBusError } from "../../src/index.js";
+import { describe, it } from "vitest";
+import { should } from "./utils/chai.js";
 
 describe("ServiceBusError", () => {
   describe("constructor", () => {

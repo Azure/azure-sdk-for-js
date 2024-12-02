@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { earliestEventPosition, latestEventPosition } from "../../src/index.js";
 import { getEventPositionFilter, validateEventPositions } from "../../src/eventPosition.js";

@@ -1,33 +1,31 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
+import type { Recorder } from "@azure-tools/test-recorder";
+import type { ShortCodesClient } from "../../src/index.js";
+import { createRecordedClient } from "./utils/recordedClient.js";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-import { Context } from "mocha";
-import { Recorder } from "@azure-tools/test-recorder";
-import { ShortCodesClient } from "../../src";
-import { assert } from "chai";
-import { createRecordedClient } from "./utils/recordedClient";
-
-describe(`ShortCodesClient - lists Short Codes`, function () {
+describe(`ShortCodesClient - lists Short Codes`, () => {
   let recorder: Recorder;
   let client: ShortCodesClient;
 
-  beforeEach(async function (this: Context) {
-    ({ client, recorder } = await createRecordedClient(this));
+  beforeEach(async (ctx) => {
+    ({ client, recorder } = await createRecordedClient(ctx));
   });
 
-  afterEach(async function (this: Context) {
-    if (!this.currentTest?.isPending()) {
+  afterEach(async (ctx) => {
+    if (!ctx.task.pending) {
       await recorder.stop();
     }
   });
 
-  it("can list all acquired short codes", async function () {
+  it("can list all acquired short codes", { timeout: 30000 }, async () => {
     for await (const shortCode of client.listShortCodes()) {
       assert.isNotNull(shortCode.value);
     }
-  }).timeout(30000);
+  });
 
-  it("can list all acquired short codes, by Page", async function () {
+  it("can list all acquired short codes, by Page", { timeout: 30000 }, async () => {
     const pages = client.listShortCodes().byPage();
     for await (const page of pages) {
       // loop over each item in the page
@@ -35,5 +33,5 @@ describe(`ShortCodesClient - lists Short Codes`, function () {
         assert.isNotNull(shortCode.value);
       }
     }
-  }).timeout(30000);
+  });
 });

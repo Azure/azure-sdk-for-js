@@ -1,20 +1,21 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 /// <reference lib="esnext.asynciterable" />
 
-import {
+import type {
   NumberAllotmentGetAcquiredNumberLimitsOptionalParams,
   TieringGetByResourceIdOptionalParams,
   AcsTier,
   AssetDetailsModel,
-} from "./models";
-import { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
-import { KeyCredential, TokenCredential, isTokenCredential } from "@azure/core-auth";
+} from "./models.js";
+import type { CommonClientOptions, InternalClientPipelineOptions } from "@azure/core-client";
+import type { KeyCredential, TokenCredential } from "@azure/core-auth";
+import { isTokenCredential } from "@azure/core-auth";
 import { createCommunicationAuthPolicy } from "@azure/communication-common";
 import { isKeyCredential, parseClientArguments } from "@azure/communication-common";
-import { TieringClient as TieringGeneratedClient } from "./generated/src";
-import { logger } from "./utils";
-import { tracingClient } from "./generated/src/tracing";
+import { TieringClient as TieringGeneratedClient } from "./generated/src/index.js";
+import { logger } from "./utils/index.js";
+import { tracingClient } from "./generated/src/tracing.js";
 
 /**
  * Client options used to configure the TieringGeneratedClient API requests.

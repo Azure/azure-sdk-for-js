@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { createRequest, sendRequest } from "./internal/_client.js";
-import { Installation } from "../models/installation.js";
-import { NotificationHubsClientContext } from "./index.js";
-import { OperationOptions } from "@azure-rest/core-client";
+import type { Installation } from "../models/installation.js";
+import type { NotificationHubsClientContext } from "./index.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 import { tracingClient } from "../utils/tracing.js";
 
 const OPERATION_NAME = "getInstallation";

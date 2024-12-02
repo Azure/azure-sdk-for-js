@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { TokenCredential, isTokenCredential } from "@azure/core-auth";
 import { createWidgetService } from "./api/WidgetServiceContext.js";

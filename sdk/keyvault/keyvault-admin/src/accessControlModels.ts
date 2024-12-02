@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { CommonClientOptions, OperationOptions } from "@azure/core-client";
+import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import {
   DataAction as KeyVaultDataAction,
   RoleScope as KeyVaultRoleScope,
   KnownDataAction as KnownKeyVaultDataAction,
   KnownRoleScope as KnownKeyVaultRoleScope,
 } from "./generated/index.js";
-import { SUPPORTED_API_VERSIONS } from "./constants.js";
+import type { SUPPORTED_API_VERSIONS } from "./constants.js";
 
 export { KeyVaultDataAction, KeyVaultRoleScope, KnownKeyVaultDataAction, KnownKeyVaultRoleScope };
 

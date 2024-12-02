@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
-import { ArtifactsClient, ArtifactsClientOptionalParams } from "../../../src";
-import { TokenCredential } from "@azure/identity";
+import type { ArtifactsClientOptionalParams } from "../../../src/index.js";
+import { ArtifactsClient } from "../../../src/index.js";
+import type { TokenCredential } from "@azure/core-auth";
 import { createTestCredential } from "@azure-tools/test-credential";
-import { Recorder, env } from "@azure-tools/test-recorder";
+import type { Recorder } from "@azure-tools/test-recorder";
+import { env } from "@azure-tools/test-recorder";
 
 export async function createClient(
   recorder: Recorder,
-  options?: ArtifactsClientOptionalParams
+  options?: ArtifactsClientOptionalParams,
 ): Promise<ArtifactsClient> {
   const credential: TokenCredential = createTestCredential();
 
@@ -25,8 +27,12 @@ export async function createClient(
     ],
   });
 
-  const client = new ArtifactsClient(credential, env.ENDPOINT ?? "", recorder.configureClientOptions({
-    ...options
-  }));
+  const client = new ArtifactsClient(
+    credential,
+    env.ENDPOINT ?? "",
+    recorder.configureClientOptions({
+      ...options,
+    }),
+  );
   return client;
 }
