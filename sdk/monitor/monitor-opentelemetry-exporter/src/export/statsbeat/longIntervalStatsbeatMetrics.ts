@@ -99,6 +99,10 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
       StatsbeatCounter.ATTACH,
     );
 
+    // TODO: Adding this to ensure that the resource provider is set before exporting statsbeat
+    this.isInitialized = true;
+    this.initialize();
+
     this.commonProperties = {
       os: this.os,
       rp: this.resourceProvider,
@@ -112,9 +116,6 @@ class LongIntervalStatsbeatMetrics extends StatsbeatMetrics {
     this.attachProperties = {
       rpId: this.resourceIdentifier,
     };
-
-    this.isInitialized = true;
-    this.initialize();
   }
 
   private async initialize() {
