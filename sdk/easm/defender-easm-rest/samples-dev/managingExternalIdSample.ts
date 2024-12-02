@@ -30,9 +30,7 @@
 
 import EasmDefender, { isUnexpected } from "@azure-rest/defender-easm";
 import { DefaultAzureCredential } from "@azure/identity";
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 type MappingType = {
   name: string;
@@ -40,7 +38,7 @@ type MappingType = {
   external_id: string;
 };
 
-async function main() {
+async function main(): Promise<void> {
   // To create an EasmClient, you need your subscription ID, region, and some sort of credential.
   const subscription_id = process.env.SUBSCRIPTION_ID || "";
   const resource_group = process.env.RESOURCE_GROUP_NAME || "";
@@ -59,7 +57,7 @@ async function main() {
     resource_group,
     workspace_name,
     credential,
-    {}
+    {},
   );
 
   // Using the client, we can update each asset and append the tracking id of the update to our update ID list,
