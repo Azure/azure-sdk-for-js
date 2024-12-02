@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { TokenCredential } from "@azure/core-auth";
+import type { TokenCredential } from "@azure/core-auth";
 import { EncryptionKeyResolver } from "./EncryptionKeyResolver";
 import { KeyClient, KeyWrapAlgorithm } from "@azure/keyvault-keys";
 
