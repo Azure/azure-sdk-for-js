@@ -132,12 +132,9 @@ export class SecretClient {
 
     this.client = new KeyVaultClient(this.vaultUrl, credential, internalPipelineOptions);
 
-    // The authentication policy must come after the deserialization policy since the deserialization policy
-    // converts 401 responses to an Error, and we don't want to deal with that.
+    // Key vault has its own authentication policy that needs to be added to the pipeline, replacing the default bearerTokenAuthenticationPolicy.
     this.client.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
-    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, pipelineOptions), {
-      afterPolicies: ["deserializationPolicy"],
-    });
+    this.client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, pipelineOptions), {});
     // Workaround for: https://github.com/Azure/azure-sdk-for-js/issues/31843
     this.client.pipeline.addPolicy({
       name: "ContentTypePolicy",
