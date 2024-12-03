@@ -7,6 +7,7 @@
 import { ClientOptions } from '@azure-rest/core-client';
 import { Paged } from '@azure/core-paging';
 import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -116,7 +117,7 @@ export interface AgentsOperations {
     deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput>;
     getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
-    getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<string>;
+    getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => StreamableMethod<string | Uint8Array>;
     getRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
     getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) => Promise<RunStepOutput>;
     getThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
@@ -683,7 +684,7 @@ export interface ListQueryParameters {
 }
 
 // @public
-export type ListSortOrder = string;
+export type ListSortOrder = "asc" | "desc";
 
 // @public
 export interface MessageAttachment {

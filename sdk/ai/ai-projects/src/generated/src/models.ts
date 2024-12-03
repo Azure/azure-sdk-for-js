@@ -867,7 +867,7 @@ export type AgentsApiResponseFormatOption =
   | AgentsApiResponseFormatMode
   | AgentsApiResponseFormat;
 /** Alias for ListSortOrder */
-export type ListSortOrder = string;
+export type ListSortOrder = "asc" | "desc";
 /** Alias for MessageRole */
 export type MessageRole = string;
 /** Alias for MessageAttachmentToolDefinition */
