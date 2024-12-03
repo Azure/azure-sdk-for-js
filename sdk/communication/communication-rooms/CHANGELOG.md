@@ -2,7 +2,7 @@
 
 ## 1.1.1 (2024-11-22)
 
-### Bug Fixes
+### Bugs Fixed
 
 - Bug fix for 'addOrUpdateParticipants' and 'removeParticipants' methods to wait for the operation to complete before returning
 
