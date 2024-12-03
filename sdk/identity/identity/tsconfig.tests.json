@@ -9,6 +9,6 @@
     "noEmit": true,
     "composite": true
   },
-  "include": ["./test"],
+  "include": ["./test", "./src"],
   "exclude": ["test/manual*"]
 }

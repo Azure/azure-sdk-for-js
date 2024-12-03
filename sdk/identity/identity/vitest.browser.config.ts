@@ -13,7 +13,7 @@ export default mergeConfig(
       exclude: ["dist-test/browser/test/snippets.spec.js"],
       alias: {
         "@azure/identity": resolve("./dist/browser/index.js"),
-        "../../dist/esm": resolve("./dist/browser"),
+        "../../src": resolve("./dist/browser"),
       },
       hookTimeout: 500000,
       testTimeout: 500000,

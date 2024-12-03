@@ -4,7 +4,7 @@
 import {
   IdentityClient,
   getIdentityClientAuthorityHost,
-} from "../../../dist/esm/client/identityClient.js";
+} from "../../../src/client/identityClient.js";
 import { IdentityTestContext } from "../../httpRequests.js";
 import type { IdentityTestContextInterface } from "../../httpRequestsCommon.js";
 import { createResponse } from "../../httpRequestsCommon.js";

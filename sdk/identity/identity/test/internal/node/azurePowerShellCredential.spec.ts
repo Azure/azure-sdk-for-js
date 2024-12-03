@@ -8,11 +8,11 @@ import {
   parseJsonToken,
   powerShellErrors,
   powerShellPublicErrorMessages,
-} from "../../../dist/esm/credentials/azurePowerShellCredential.js";
+} from "../../../src/credentials/azurePowerShellCredential.js";
 import { AzurePowerShellCredential } from "@azure/identity";
 import type { GetTokenOptions } from "@azure/core-auth";
-import { commandStack } from "../../../dist/esm/credentials/azurePowerShellCredential.js";
-import { processUtils } from "../../../dist/esm/util/processUtils.js";
+import { commandStack } from "../../../src/credentials/azurePowerShellCredential.js";
+import { processUtils } from "../../../src/util/processUtils.js";
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
 
 function resetCommandStack(): void {

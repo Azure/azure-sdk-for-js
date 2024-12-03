@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import * as msalClient from "../../../dist/esm/msal/nodeFlows/msalClient.js";
+import * as msalClient from "../../../src/msal/nodeFlows/msalClient.js";
 
 import type { AuthenticationResult } from "@azure/msal-node";
 import {
@@ -15,12 +15,12 @@ import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isLiveMode } from "@azure-tools/test-recorder";
 
 import { AbortError } from "@azure/abort-controller";
-import { AuthenticationRequiredError } from "../../../dist/esm/errors.js";
-import { DeveloperSignOnClientId } from "../../../dist/esm/constants.js";
-import { IdentityClient } from "../../../dist/esm/client/identityClient.js";
-import { credentialLogger } from "../../../dist/esm/util/logging.js";
+import { AuthenticationRequiredError } from "../../../src/errors.js";
+import { DeveloperSignOnClientId } from "../../../src/constants.js";
+import { IdentityClient } from "../../../src/client/identityClient.js";
+import { credentialLogger } from "../../../src/util/logging.js";
 import { getUsernamePasswordStaticResources } from "../../msalTestUtils.js";
-import { msalPlugins } from "../../../dist/esm/msal/nodeFlows/msalPlugins.js";
+import { msalPlugins } from "../../../src/msal/nodeFlows/msalPlugins.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("MsalClient", function () {

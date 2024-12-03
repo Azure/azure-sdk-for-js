@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 import type { ICachePlugin, INativeBrokerPlugin } from "@azure/msal-node";
-import type { PluginConfiguration } from "../../../dist/esm/msal/nodeFlows/msalPlugins.js";
+import type { PluginConfiguration } from "../../../src/msal/nodeFlows/msalPlugins.js";
 import {
   msalNodeFlowCacheControl,
   msalNodeFlowNativeBrokerControl,
   msalPlugins,
-} from "../../../dist/esm/msal/nodeFlows/msalPlugins.js";
+} from "../../../src/msal/nodeFlows/msalPlugins.js";
 
-import type { MsalClientOptions } from "../../../dist/esm/msal/nodeFlows/msalClient.js";
+import type { MsalClientOptions } from "../../../src/msal/nodeFlows/msalClient.js";
 import { describe, it, assert, vi, beforeEach, afterEach } from "vitest";
 
 describe("#generatePluginConfiguration", function () {

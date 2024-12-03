@@ -15,8 +15,8 @@ import {
   createEmptyPipeline,
   createPipelineRequest,
 } from "@azure/core-rest-pipeline";
-import { DeveloperSignOnClientId } from "../../../dist/esm/constants.js";
-import { IdentityClient } from "../../../dist/esm/client/identityClient.js";
+import { DeveloperSignOnClientId } from "../../../src/constants.js";
+import { IdentityClient } from "../../../src/client/identityClient.js";
 import { authorizeRequestOnClaimChallenge } from "@azure/core-client";
 import { describe, it, assert, beforeEach, afterEach } from "vitest";
 

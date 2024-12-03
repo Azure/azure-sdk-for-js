@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzureApplicationCredential } from "../../../dist/esm/credentials/azureApplicationCredential.js";
+import { AzureApplicationCredential } from "../../../src/credentials/azureApplicationCredential.js";
 import {
   createDefaultHttpClient,
   createHttpHeaders,
