@@ -2,8 +2,8 @@
 // Licensed under the MIT License.
 
 import { BlockBlobClient } from "@azure/storage-blob";
-import { reporterLogger } from "../common/logger";
-import { Constants } from "../common/constants";
+import { reporterLogger } from "../common/logger.js";
+import { Constants } from "../common/constants.js";
 
 export class StorageClient {
   public async uploadFile(uri: string, filePath: string, fileRelativePath: string): Promise<void> {

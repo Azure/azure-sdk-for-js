@@ -5,9 +5,9 @@ import {
   DefaultConnectOptionsConstants,
   InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
-} from "./constants";
-import type { PlaywrightServiceAdditionalOptions, OsType } from "./types";
-import { getAndSetRunId } from "../utils/utils";
+} from "./constants.js";
+import type { PlaywrightServiceAdditionalOptions, OsType } from "./types.js";
+import { getAndSetRunId } from "../utils/utils.js";
 
 class PlaywrightServiceConfig {
   public serviceOs: OsType;
