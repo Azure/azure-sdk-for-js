@@ -692,12 +692,8 @@ export interface GlossaryList {
   /**
    * Get all glossaries. Recommend using limit/offset to get pagination result.
    * Recommend using 'ignoreTermsAndCategories=true' and fetch terms/categories
-   * separately using
-   *
-   *  'GET /datamap/api/atlas/v2/glossary/{glossaryId}/terms'
-   * and
-   *
-   *  'GET '/datamap/api/atlas/v2/glossary/{glossaryId}/categories'.
+   * separately using 'GET /datamap/api/atlas/v2/glossary/{glossaryId}/terms'
+   * and 'GET '/datamap/api/atlas/v2/glossary/{glossaryId}/categories'.
    */
   get(
     options?: GlossaryListParameters,
@@ -1152,11 +1148,7 @@ export interface TypeList {
   get(
     options?: TypeListParameters,
   ): StreamableMethod<TypeList200Response | TypeListDefaultResponse>;
-  /**
-   * Create all atlas type definitions in bulk, only new definitions will be
-   * created.
-   * Any changes to the existing definitions will be discarded.
-   */
+  /** Create all atlas type definitions in bulk. Please avoid recreating existing types. */
   post(
     options: TypeBulkCreateParameters,
   ): StreamableMethod<TypeBulkCreate200Response | TypeBulkCreateDefaultResponse>;
@@ -1332,8 +1324,8 @@ export interface Routes {
   (path: "/search/autocomplete"): DiscoveryAutoComplete;
   /** Resource for '/atlas/v2/lineage/\{guid\}' has methods for the following verbs: get */
   (path: "/atlas/v2/lineage/{guid}", guid: string): LineageGet;
-  /** Resource for '/lineage/\{guid\}/next/' has methods for the following verbs: get */
-  (path: "/lineage/{guid}/next/", guid: string): LineageGetNextPage;
+  /** Resource for '/lineage/\{guid\}/next' has methods for the following verbs: get */
+  (path: "/lineage/{guid}/next", guid: string): LineageGetNextPage;
   /** Resource for '/atlas/v2/lineage/uniqueAttribute/type/\{typeName\}' has methods for the following verbs: get */
   (
     path: "/atlas/v2/lineage/uniqueAttribute/type/{typeName}",

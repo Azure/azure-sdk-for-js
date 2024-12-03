@@ -267,7 +267,7 @@ const responseMap: Record<string, string[]> = {
   "POST /search/suggest": ["200"],
   "POST /search/autocomplete": ["200"],
   "GET /atlas/v2/lineage/{guid}": ["200"],
-  "GET /lineage/{guid}/next/": ["200"],
+  "GET /lineage/{guid}/next": ["200"],
   "GET /atlas/v2/lineage/uniqueAttribute/type/{typeName}": ["200"],
   "POST /atlas/v2/relationship": ["200"],
   "PUT /atlas/v2/relationship": ["200"],
