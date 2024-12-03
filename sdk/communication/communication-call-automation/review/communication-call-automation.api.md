@@ -137,7 +137,7 @@ export interface CallAutomationClientOptions extends CommonClientOptions {
 }
 
 // @public
-export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | StartRecordingFailed;
+export type CallAutomationEvent = AddParticipantSucceeded | AddParticipantFailed | RemoveParticipantSucceeded | RemoveParticipantFailed | CallConnected | CallDisconnected | CallTransferAccepted | CallTransferFailed | ParticipantsUpdated | RecordingStateChanged | PlayCompleted | PlayFailed | PlayCanceled | RecognizeCompleted | RecognizeCanceled | RecognizeFailed | ContinuousDtmfRecognitionToneReceived | ContinuousDtmfRecognitionToneFailed | ContinuousDtmfRecognitionStopped | SendDtmfTonesCompleted | SendDtmfTonesFailed | CancelAddParticipantSucceeded | CancelAddParticipantFailed | TranscriptionStarted | TranscriptionStopped | TranscriptionUpdated | TranscriptionFailed | CreateCallFailed | AnswerFailed | HoldFailed | ConnectFailed | MediaStreamingStarted | MediaStreamingStopped | MediaStreamingFailed | StartRecordingFailed | PlayStarted | PlayPaused | PlayResumed;
 
 // @public
 export class CallAutomationEventProcessor {
@@ -251,7 +251,7 @@ export class CallMedia {
     stopMediaStreaming(options?: StopMediaStreamingOptions): Promise<void>;
     stopTranscription(options?: StopTranscriptionOptions): Promise<void>;
     unhold(targetParticipant: CommunicationIdentifier, options?: UnholdOptions): Promise<void>;
-    updateTranscription(locale: string): Promise<void>;
+    updateTranscription(locale: string, options?: UpdateTranscriptionOptions): Promise<void>;
 }
 
 // @public
@@ -432,6 +432,7 @@ export interface ChoiceResult {
 
 // @public
 export interface ConnectCallEventResult {
+    failureResult?: ConnectFailed;
     isSuccess: boolean;
     successResult?: CallConnected;
 }
@@ -449,6 +450,17 @@ export interface ConnectCallResult {
     callConnection: CallConnection;
     callConnectionProperties: CallConnectionProperties;
     waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<ConnectCallEventResult>;
+}
+
+// Warning: (ae-forgotten-export) The symbol "RestConnectFailed" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export interface ConnectFailed extends Omit<RestConnectFailed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "ConnectFailed";
+    resultInformation?: RestResultInformation;
+    serverCallId: string;
 }
 
 // @public
@@ -780,9 +792,31 @@ export interface PlayOptions extends OperationOptions {
     operationContext?: string;
 }
 
+// Warning: (ae-forgotten-export) The symbol "RestPlayPaused" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface PlayPaused extends Omit<RestPlayPaused, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "PlayPaused";
+    resultInformation?: ResultInformation;
+    serverCallId: string;
+}
+
 // @public
 export interface PlayResult {
     waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<PlayEventResult>;
+}
+
+// Warning: (ae-forgotten-export) The symbol "RestPlayResumed" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface PlayResumed extends Omit<RestPlayResumed, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "PlayResumed";
+    resultInformation?: ResultInformation;
+    serverCallId: string;
 }
 
 // @public
@@ -790,6 +824,17 @@ export interface PlaySource {
     // @deprecated (undocumented)
     playsourcacheid?: string;
     playSourceCacheId?: string;
+}
+
+// Warning: (ae-forgotten-export) The symbol "RestPlayStarted" needs to be exported by the entry point index.d.ts
+//
+// @public
+export interface PlayStarted extends Omit<RestPlayStarted, "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"> {
+    callConnectionId: string;
+    correlationId: string;
+    kind: "PlayStarted";
+    resultInformation?: ResultInformation;
+    serverCallId: string;
 }
 
 // @public
@@ -1071,7 +1116,9 @@ export interface StartRecordingOptions extends OperationOptions {
 // @public
 export interface StartTranscriptionOptions extends OperationOptions {
     locale?: string;
+    operationCallbackUrl?: string;
     operationContext?: string;
+    speechRecognitionModelEndpointId?: string;
 }
 
 // @public (undocumented)
@@ -1081,6 +1128,7 @@ export interface StopAudio {
 // @public
 export interface StopMediaStreamingOptions extends OperationOptions {
     operationCallbackUrl?: string;
+    operationContext?: string;
 }
 
 // @public
@@ -1088,6 +1136,7 @@ export type StopRecordingOptions = OperationOptions;
 
 // @public
 export interface StopTranscriptionOptions extends OperationOptions {
+    operationCallbackUrl?: string;
     operationContext?: string;
 }
 
@@ -1240,6 +1289,13 @@ export interface TransferCallToParticipantOptions extends OperationOptions {
 // @public
 export interface UnholdOptions extends OperationOptions {
     operationContext?: string;
+}
+
+// @public
+export interface UpdateTranscriptionOptions extends OperationOptions {
+    operationCallbackUrl?: string;
+    operationContext?: string;
+    speechRecognitionModelEndpointId?: string;
 }
 
 // @public

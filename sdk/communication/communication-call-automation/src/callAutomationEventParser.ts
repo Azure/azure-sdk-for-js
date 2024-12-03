@@ -35,11 +35,14 @@ import type {
   CreateCallFailed,
   AnswerFailed,
   HoldFailed,
-  // ConnectFailed,
+  ConnectFailed,
   MediaStreamingStarted,
   MediaStreamingStopped,
   MediaStreamingFailed,
   StartRecordingFailed,
+  PlayStarted,
+  PlayPaused,
+  PlayResumed,
 } from "./models/events.js";
 
 import { CloudEventMapper } from "./models/mapper.js";
@@ -165,9 +168,9 @@ export function parseCallAutomationEvent(
     case "Microsoft.Communication.HoldFailed":
       callbackEvent = { kind: "HoldFailed" } as HoldFailed;
       break;
-    // case "Microsoft.Communication.ConnectFailed":
-    //   callbackEvent = { kind: "ConnectFailed" } as ConnectFailed;
-    //   break;
+    case "Microsoft.Communication.ConnectFailed":
+      callbackEvent = { kind: "ConnectFailed" } as ConnectFailed;
+      break;
     case "Microsoft.Communication.MediaStreamingStarted":
       callbackEvent = { kind: "MediaStreamingStarted" } as MediaStreamingStarted;
       break;
@@ -179,6 +182,15 @@ export function parseCallAutomationEvent(
       break;
     case "Microsoft.Communication.StartRecordingFailed":
       callbackEvent = { kind: "StartRecordingFailed" } as StartRecordingFailed;
+      break;
+    case "Microsoft.Communication.PlayStarted":
+      callbackEvent = { kind: "PlayStarted" } as PlayStarted;
+      break;
+    case "Microsoft.Communication.PlayPaused":
+      callbackEvent = { kind: "PlayPaused" } as PlayPaused;
+      break;
+    case "Microsoft.Communication.PlayResumed":
+      callbackEvent = { kind: "PlayResumed" } as PlayResumed;
       break;
     default:
       throw new TypeError(`Unknown Call Automation Event type: ${eventType}`);

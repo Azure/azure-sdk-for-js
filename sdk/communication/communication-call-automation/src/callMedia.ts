@@ -47,6 +47,7 @@ import type {
   StartMediaStreamingOptions,
   StopMediaStreamingOptions,
   PlayToAllOptions,
+  UpdateTranscriptionOptions,
 } from "./models/options.js";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import type {
@@ -682,6 +683,8 @@ export class CallMedia {
     const startTranscriptionRequest: StartTranscriptionRequest = {
       locale: options.locale,
       operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      speechRecognitionModelEndpointId: options.speechRecognitionModelEndpointId,
+      operationCallbackUri: options.operationCallbackUrl,
     };
     return this.callMedia.startTranscription(this.callConnectionId, startTranscriptionRequest, {});
   }
@@ -693,6 +696,7 @@ export class CallMedia {
   public async stopTranscription(options: StopTranscriptionOptions = {}): Promise<void> {
     const stopTranscriptionRequest: StopTranscriptionRequest = {
       operationContext: options.operationContext ? options.operationContext : randomUUID(),
+      operationCallbackUri: options.operationCallbackUrl,
     };
     return this.callMedia.stopTranscription(this.callConnectionId, stopTranscriptionRequest, {});
   }
@@ -701,9 +705,15 @@ export class CallMedia {
    * Update transcription language.
    * @param locale - Defines new locale for transcription.
    */
-  public async updateTranscription(locale: string): Promise<void> {
+  public async updateTranscription(
+    locale: string,
+    options?: UpdateTranscriptionOptions,
+  ): Promise<void> {
     const updateTranscriptionRequest: UpdateTranscriptionRequest = {
       locale: locale,
+      speechRecognitionModelEndpointId: options?.speechRecognitionModelEndpointId,
+      operationContext: options?.operationContext,
+      operationCallbackUri: options?.operationCallbackUrl,
     };
     return this.callMedia.updateTranscription(
       this.callConnectionId,
@@ -734,6 +744,7 @@ export class CallMedia {
   public async stopMediaStreaming(options: StopMediaStreamingOptions = {}): Promise<void> {
     const stopMediaStreamingRequest: StopMediaStreamingRequest = {
       operationCallbackUri: options.operationCallbackUrl,
+      operationContext: options.operationContext,
     };
     return this.callMedia.stopMediaStreaming(
       this.callConnectionId,

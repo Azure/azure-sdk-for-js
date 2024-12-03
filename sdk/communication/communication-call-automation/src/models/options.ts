@@ -361,6 +361,13 @@ export interface StartTranscriptionOptions extends OperationOptions {
   locale?: string;
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
+  /**
+   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
 
 /**
@@ -369,6 +376,11 @@ export interface StartTranscriptionOptions extends OperationOptions {
 export interface StopTranscriptionOptions extends OperationOptions {
   /** The value to identify context of the operation. */
   operationContext?: string;
+  /**
+   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
 }
 
 /**
@@ -418,6 +430,23 @@ export interface StartMediaStreamingOptions extends OperationOptions {
 
 /** Options for stop media streaming request. */
 export interface StopMediaStreamingOptions extends OperationOptions {
+  /**
+   * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
+   * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.
+   */
+  operationCallbackUrl?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
+}
+
+/**
+ * Options to update transcription
+ */
+export interface UpdateTranscriptionOptions extends OperationOptions {
+  /** Endpoint where the custom model was deployed. */
+  speechRecognitionModelEndpointId?: string;
+  /** The value to identify context of the operation. */
+  operationContext?: string;
   /**
    * Set a callback URL that overrides the default callback URI set by CreateCall/AnswerCall for this operation.
    * This setup is per-action. If this is not set, the default callback URI set by CreateCall/AnswerCall will be used.

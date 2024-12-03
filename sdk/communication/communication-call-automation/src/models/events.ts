@@ -36,11 +36,14 @@ import type {
   RestCreateCallFailed,
   RestAnswerFailed,
   RestHoldFailed,
-  // RestConnectFailed,
+  RestConnectFailed,
   RestMediaStreamingStopped,
   RestMediaStreamingStarted,
   RestMediaStreamingFailed,
   RestStartRecordingFailed,
+  RestPlayStarted,
+  RestPlayPaused,
+  RestPlayResumed,
 } from "../generated/src/models/index.js";
 
 import type { CallParticipant } from "./models.js";
@@ -77,11 +80,14 @@ export type CallAutomationEvent =
   | CreateCallFailed
   | AnswerFailed
   | HoldFailed
-  //| ConnectFailed
+  | ConnectFailed
   | MediaStreamingStarted
   | MediaStreamingStopped
   | MediaStreamingFailed
-  | StartRecordingFailed;
+  | StartRecordingFailed
+  | PlayStarted
+  | PlayPaused
+  | PlayResumed;
 
 export interface ResultInformation
   extends Omit<RestResultInformation, "code" | "subCode" | "message"> {
@@ -654,22 +660,22 @@ export interface HoldFailed
   kind: "HoldFailed";
 }
 
-// export interface ConnectFailed
-//   extends Omit<
-//     RestConnectFailed,
-//     "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
-//   > {
-//   /** Call connection ID. */
-//   callConnectionId: string;
-//   /** Server call ID. */
-//   serverCallId: string;
-//   /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
-//   correlationId: string;
-//   /** Contains the resulting SIP code, sub-code and message. */
-//   resultInformation?: RestResultInformation;
-//   /** kind of this event. */
-//   kind: "ConnectFailed";
-// }
+export interface ConnectFailed
+  extends Omit<
+    RestConnectFailed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: RestResultInformation;
+  /** kind of this event. */
+  kind: "ConnectFailed";
+}
 
 export interface MediaStreamingStarted
   extends Omit<
@@ -737,4 +743,58 @@ export interface StartRecordingFailed
   resultInformation?: ResultInformation;
   /** kind of this event. */
   kind: "StartRecordingFailed";
+}
+
+/** Event when Media play was successfully started. */
+export interface PlayStarted
+  extends Omit<
+    RestPlayStarted,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "PlayStarted";
+}
+
+/** Event when Media play was successfully paused. */
+export interface PlayPaused
+  extends Omit<
+    RestPlayPaused,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "PlayPaused";
+}
+
+/** Event when Media play was successfully paused. */
+export interface PlayResumed
+  extends Omit<
+    RestPlayResumed,
+    "callConnectionId" | "serverCallId" | "correlationId" | "resultInformation"
+  > {
+  /** Call connection ID. */
+  callConnectionId: string;
+  /** Server call ID. */
+  serverCallId: string;
+  /** Correlation ID for event to call correlation. Also called ChainId for skype chain ID. */
+  correlationId: string;
+  /** Contains the resulting SIP code, sub-code and message. */
+  resultInformation?: ResultInformation;
+  /** kind of this event. */
+  kind: "PlayResumed";
 }
