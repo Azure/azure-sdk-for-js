@@ -2,9 +2,7 @@
   "extends": "../../../tsconfig",
   "compilerOptions": {
     "paths": {
-      "@azure-rest/iot-device-update": [
-        "./src/index"
-      ]
+      "@azure-rest/iot-device-update": ["./src/index"]
     },
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
