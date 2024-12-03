@@ -42,9 +42,6 @@ const unimplementedMethods = {
   arrayBuffer: () => {
     throw new Error("Not implemented");
   },
-  bytes: () => {
-    throw new Error("Not implemented");
-  },
   slice: () => {
     throw new Error("Not implemented");
   },
