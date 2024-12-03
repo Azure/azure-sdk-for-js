@@ -19,6 +19,18 @@ export function validateVectorStoreDataType(data_sources: VectorStoreDataSource[
   }
 }
 
+export function validateThreadId(threadId: string): void {
+  if (!threadId) {
+    throw new Error("Thread ID is required");
+  }
+}
+
+export function validateRunId(runId: string): void {
+  if (!runId) {
+    throw new Error("Run ID is required");
+  }
+}
+
 export function validateLimit(limit: number): void {
   if (limit < 1 || limit > 100) {
     throw new Error("Limit must be between 1 and 100");

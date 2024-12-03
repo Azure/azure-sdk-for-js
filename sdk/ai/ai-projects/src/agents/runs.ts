@@ -4,7 +4,7 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, GetRunParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
-import { validateLimit, validateMetadata, validateOrder, validateTools } from "./inputValidations.js";
+import { validateLimit, validateMetadata, validateOrder, validateRunId, validateThreadId, validateTools } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];
 
@@ -126,18 +126,6 @@ export async function createThreadAndRun(
     throw createRestError(result);
   }
   return result.body;
-}
-
-function validateThreadId(threadId: string): void {
-  if (!threadId) {
-    throw new Error("Thread ID is required");
-  }
-}
-
-function validateRunId(runId: string): void {
-  if (!runId) {
-    throw new Error("Run ID is required");
-  }
 }
 
 function validateListRunsParameters(thread_id: string, options?: ListRunsParameters): void {

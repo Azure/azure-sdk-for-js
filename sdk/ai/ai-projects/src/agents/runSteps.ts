@@ -4,7 +4,7 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { OpenAIPageableListOfRunStepOutput, RunStepOutput } from "../generated/src/outputModels.js";
 import { GetRunStepParameters, ListRunStepsParameters } from "../generated/src/parameters.js";
-import { validateLimit, validateOrder } from "./inputValidations.js";
+import { validateLimit, validateOrder, validateRunId, validateThreadId } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];
 
@@ -45,17 +45,7 @@ export async function listRunSteps(
   return result.body; 
 }
 
-function validateThreadId(threadId: string): void {
-  if (!threadId) {
-    throw new Error("Thread ID is required");
-  }
-}
 
-function validateRunId(runId: string): void {
-  if (!runId) {
-    throw new Error("Run ID is required");
-  }
-}
 
 function validateStepId(stepId: string): void {
   if (!stepId) {
