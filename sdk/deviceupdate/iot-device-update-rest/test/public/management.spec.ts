@@ -1,18 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { DeviceUpdateClient } from "../../src";
-import { isUnexpected } from "../../src";
+import type { DeviceUpdateClient } from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
 import type { Context } from "mocha";
 import { assert } from "chai";
 import { Recorder } from "@azure-tools/test-recorder";
-import { createRecordedClient, startRecorder } from "./utils/recordedClient";
+import { createRecordedClient, startRecorder } from "./utils/recordedClient.js";
 
 describe("device and deployment test", () => {
   let recorder: Recorder;
   let client: DeviceUpdateClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = new Recorder(this.currentTest);
+  beforeEach(async function (ctx) {
+    recorder = new Recorder(ctx);
     await startRecorder(recorder);
     client = createRecordedClient(recorder);
   });

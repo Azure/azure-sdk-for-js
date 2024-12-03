@@ -9,12 +9,12 @@
  */
 
 import DeviceUpdate, { getLongRunningPoller, isUnexpected } from "@azure-rest/iot-device-update";
-import { readFileSync, statSync } from "fs";
+import { readFileSync, statSync } from "node:fs";
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { computeSha256Hash } from "@azure/core-util";
 import dotenv from "dotenv";
-import { parse } from "path";
+import { parse } from "node:path";
 
 dotenv.config();
 
