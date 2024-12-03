@@ -20,7 +20,7 @@ async function main() {
 
   const queueServiceClient = new QueueServiceClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
-    `https://${account}.queue.core.windows.net${accountSas}`,
+    `https://${account}.queue.core.windows.net?${accountSas}`,
     anonymousCredential
   );
 
