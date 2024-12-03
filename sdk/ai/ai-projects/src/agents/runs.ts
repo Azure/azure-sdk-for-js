@@ -4,8 +4,19 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, GetRunParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
+import { validateLimit, validateMetadata, validateOrder } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];
+
+enum Tools {
+  CodeInterpreter = "code_interpreter",
+  FileSearch = "file_search",
+  Function = "function",
+  BingGrounding = "bing_grounding",
+  MicrosoftFabric = "microsoft_fabric",
+  SharepointGrounding = "sharepoint_grounding",
+  AzureAISearch = "azure_ai_search",
+}
 
 /** Creates and starts a new run of the specified thread using the specified agent. */
 export async function createRun(
@@ -13,6 +24,8 @@ export async function createRun(
   threadId: string,
   options: CreateRunParameters,
 ): Promise<ThreadRunOutput> {
+  validateThreadId(threadId);
+  validateCreateRunParameters(options);
   options.body.stream = false;
   const result = await context
     .path("/threads/{threadId}/runs", threadId)
@@ -29,6 +42,7 @@ export async function listRuns(
   threadId: string,
   options?: ListRunsParameters,
 ): Promise<OpenAIPageableListOfThreadRunOutput> {
+  validateListRunsParameters(threadId, options);
   const result = await context
     .path("/threads/{threadId}/runs", threadId)
     .get(options);
@@ -45,6 +59,8 @@ export async function getRun(
   runId: string,
   options?: GetRunParameters,
 ): Promise<ThreadRunOutput> {
+  validateThreadId(threadId);
+  validateRunId(runId);
   const result = await context
     .path("/threads/{threadId}/runs/{runId}", threadId, runId)
     .get(options);
@@ -61,6 +77,7 @@ export async function updateRun(
   runId: string,
   options?: UpdateRunParameters,
 ): Promise<ThreadRunOutput> {
+  validateUpdateRunParameters(threadId, runId, options);
   const result = await context
     .path("/threads/{threadId}/runs/{runId}", threadId, runId)
     .post(options);
@@ -77,6 +94,8 @@ export async function submitToolOutputsToRun(
   runId: string,
   options: SubmitToolOutputsToRunParameters,
 ): Promise<ThreadRunOutput> {
+  validateThreadId(threadId);
+  validateRunId(runId);
   options.body.stream = false;
   const result = await context
     .path("/threads/{threadId}/runs/{runId}/submit_tool_outputs", threadId, runId)
@@ -94,6 +113,8 @@ export async function cancelRun(
   runId: string,
   options?: CancelRunParameters,
 ): Promise<ThreadRunOutput> {
+  validateThreadId(threadId);
+  validateRunId(runId);
   const result = await context
     .path("/threads/{threadId}/runs/{runId}/cancel", threadId, runId)
     .post(options);
@@ -108,10 +129,96 @@ export async function createThreadAndRun(
   context: Client,
   options: CreateThreadAndRunParameters,
 ): Promise<ThreadRunOutput> {
+  validateCreateThreadAndRunParameters(options);
   options.body.stream = false;
   const result = await context.path("/threads/runs").post(options);
   if (!expectedStatuses.includes(result.status)) {
     throw createRestError(result);
   }
   return result.body;
+}
+
+function validateThreadId(threadId: string): void {
+  if (!threadId) {
+    throw new Error("Thread ID is required");
+  }
+}
+
+function validateRunId(runId: string): void {
+  if (!runId) {
+    throw new Error("Run ID is required");
+  }
+}
+
+function validateListRunsParameters(thread_id: string, options?: ListRunsParameters): void {
+  validateThreadId(thread_id);
+  if (options?.queryParameters?.limit && (options.queryParameters.limit < 1 || options.queryParameters.limit > 100)) {
+      throw new Error("Limit must be between 1 and 100");
+  }
+  if (options?.queryParameters?.limit) {
+    validateLimit(options.queryParameters.limit);
+  }
+  if (options?.queryParameters?.order) {
+    validateOrder(options.queryParameters.order);
+  }
+}
+
+function validateUpdateRunParameters(thread_id: string, run_id: string, options?: UpdateRunParameters): void {
+  validateThreadId(thread_id);
+  validateRunId(run_id);
+  if(options?.body.metadata){
+    validateMetadata(options.body.metadata);
+  }
+}
+
+function validateCreateRunParameters(options: CreateRunParameters| CreateThreadAndRunParameters): void {
+  if ('additional_messages' in options.body && options.body.additional_messages && options.body.additional_messages.some(value => !["user", "assistant"].includes(value.role))) {
+    throw new Error("Role must be either 'user' or 'assistant'");
+  }
+  if (options.body.tools) {
+    if (options.body.tools.some(value => !Object.values(Tools).includes(value as unknown as Tools))) {
+      throw new Error("Tool type must be one of 'code_interpreter', 'file_search', 'function', 'bing_grounding', 'microsoft_fabric', 'sharepoint_grounding', 'azure_ai_search'");
+    }
+  }
+  if (options.body.temperature && (options.body.temperature < 0 || options.body.temperature > 2)) {
+    throw new Error("Temperature must be between 0 and 2");
+  }
+  if (options.body.tool_choice && typeof options.body.tool_choice !== 'string' && !Object.values(Tools).includes(options.body.tool_choice as unknown as Tools)) {
+    throw new Error("Tool type must be one of 'code_interpreter', 'file_search', 'function', 'bing_grounding', 'microsoft_fabric', 'sharepoint_grounding', 'azure_ai_search'");
+  }
+  if (options.body.truncation_strategy?.type && !["auto", "last_messages"].includes(options.body.truncation_strategy.type)) {
+    throw new Error("Role must be either 'auto' or 'last_messages'");
+  }
+  if (options.body.metadata) {
+    validateMetadata(options.body.metadata);
+  }
+}
+
+function validateCreateThreadAndRunParameters(options: CreateThreadAndRunParameters): void {
+  validateCreateRunParameters(options);
+  if (options.body.thread?.messages && options.body.thread.messages.some(value => !["user", "assistant"].includes(value.role))) {
+    throw new Error("Role must be either 'user' or 'assistant'");
+  }
+  if (options.body.tools) {
+    if (options.body.tools.some(value => !Object.values(Tools).includes(value as unknown as Tools))) {
+      throw new Error("Tool type must be one of 'code_interpreter', 'file_search', 'function', 'bing_grounding', 'microsoft_fabric', 'sharepoint_grounding', 'azure_ai_search'");
+    }
+  }
+  if (options.body.tool_resources?.code_interpreter) {
+    if (options.body.tool_resources.code_interpreter) {
+      if (options.body.tool_resources.code_interpreter.file_ids && options.body.tool_resources.code_interpreter.file_ids.length > 20) {
+        throw new Error("A maximum of 20 file IDs are allowed");
+      }
+    }
+    if (options.body.tool_resources.file_search) {
+      if (options.body.tool_resources.file_search.vector_store_ids && options.body.tool_resources.file_search.vector_store_ids.length > 1) {
+        throw new Error("Only one vector store ID is allowed");
+      }
+    }
+    if (options.body.tool_resources.azure_ai_search) {
+      if (options.body.tool_resources.azure_ai_search.indexes && options.body.tool_resources.azure_ai_search.indexes.length > 1) {
+        throw new Error("Only one index is allowed");
+      }
+    }
+  }
 }
