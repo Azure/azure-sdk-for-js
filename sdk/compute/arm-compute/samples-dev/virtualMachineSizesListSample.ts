@@ -26,11 +26,8 @@ async function virtualMachineSizesListMaximumSetGen() {
   const location = "-e";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.virtualMachineSizes.list(location)) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.virtualMachineSizes.list(location);
+  console.log(result);
 }
 
 /**
@@ -45,11 +42,8 @@ async function virtualMachineSizesListMinimumSetGen() {
   const location = "._..";
   const credential = new DefaultAzureCredential();
   const client = new ComputeManagementClient(credential, subscriptionId);
-  const resArray = new Array();
-  for await (let item of client.virtualMachineSizes.list(location)) {
-    resArray.push(item);
-  }
-  console.log(resArray);
+  const result = await client.virtualMachineSizes.list(location);
+  console.log(result);
 }
 
 async function main() {
