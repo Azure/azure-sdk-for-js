@@ -52,9 +52,9 @@ describe("Agents - run steps", () => {
     assert.isNotNull(runSteps.data);
 
     // Clean up
-    agents.deleteThread(thread.id);
+    await agents.deleteThread(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
-    agents.deleteAgent(agent.id);
+    await agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 
@@ -99,9 +99,9 @@ describe("Agents - run steps", () => {
     assert.equal(step.id, stepId);
 
     // Clean up
-    agents.deleteThread(thread.id);
+    await agents.deleteThread(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
-    agents.deleteAgent(agent.id);
+    await agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 

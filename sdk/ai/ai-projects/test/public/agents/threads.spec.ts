@@ -34,7 +34,7 @@ describe("Agents - threads", () => {
     assert.isNotNull(thread.id);
 
     // Delete thread
-    agents.deleteThread(thread.id);
+    await agents.deleteThread(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
@@ -50,7 +50,7 @@ describe("Agents - threads", () => {
     console.log(`Retrieved thread, thread ID: ${_thread.id}`);
 
     // Delete thread
-    agents.deleteThread(thread.id);
+    await agents.deleteThread(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 
@@ -68,7 +68,7 @@ describe("Agents - threads", () => {
     console.log(`Updated thread to have metadata "key":"${_thread.metadata?.key}", thread ID: ${_thread.id}`);
 
     // Delete thread
-    agents.deleteThread(thread.id);
+    await agents.deleteThread(thread.id);
     console.log(`Deleted thread, thread ID: ${thread.id}`);
   });
 

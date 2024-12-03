@@ -49,13 +49,13 @@ describe("Agents - assistants", () => {
     assert.isAtLeast(connectionsList.value.length, 1);
 
     // Retrieve one connection
-    connectionsList.value.forEach(async (i) => {
-      const connectionName = i.name;
+    for (const _connection of connectionsList.value) {
+      const connectionName = _connection.name;
       const connection = await connections.getConnection(connectionName);
       assert.isNotNull(connection);
       assert.equal(connection.name, connectionName);
-      console.log(`Retrieved connection, connection name: ${i.name}`);
-    });
+      console.log(`Retrieved connection, connection name: ${connection.name}`);
+    }
   });
 
   it("should retrieve a connection with secrets", async function () {
@@ -65,13 +65,13 @@ describe("Agents - assistants", () => {
     assert.isAtLeast(connectionsList.value.length, 1);
 
     // Retrieve one connection with secrets
-    connectionsList.value.forEach(async (i) => {
-      const connectionName = i.name;
+    for (const _connection of connectionsList.value) {
+      const connectionName = _connection.name;
       const connection = await connections.getConnectionWithSecrets(connectionName);
       assert.isNotNull(connection);
       assert.equal(connection.name, connectionName);
-      console.log(`Retrieved connection with secrets, connection name: ${i.name}`);
-    });
+      console.log(`Retrieved connection with secrets, connection name: ${connection.name}`);
+    }
   });
 
 });

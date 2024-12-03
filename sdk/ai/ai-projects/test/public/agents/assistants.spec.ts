@@ -49,7 +49,7 @@ describe("Agents - assistants", () => {
     console.log(`Listed agents, agents count: ${assistants.data.length}`);
 
     // Delete agent
-    agents.deleteAgent(agent.id);
+    await agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 
@@ -61,7 +61,7 @@ describe("Agents - assistants", () => {
     assert.isNotNull(agent.id);
     
     // Delete agent
-    agents.deleteAgent(agent.id);
+    await agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   })
 
@@ -77,7 +77,7 @@ describe("Agents - assistants", () => {
     console.log(`Updated agent name to ${updated.name}, agent ID: ${agent.id}`);
     
     // Delete agent
-    agents.deleteAgent(agent.id);
+    await agents.deleteAgent(agent.id);
     console.log(`Deleted agent, agent ID: ${agent.id}`);
   });
 

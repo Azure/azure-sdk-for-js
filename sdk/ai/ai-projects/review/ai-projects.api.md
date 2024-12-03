@@ -4,9 +4,11 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
 import { ClientOptions } from '@azure-rest/core-client';
 import { Paged } from '@azure/core-paging';
 import { RequestParameters } from '@azure-rest/core-client';
+import { StreamableMethod } from '@azure-rest/core-client';
 import { TokenCredential } from '@azure/core-auth';
 
 // @public
@@ -98,6 +100,7 @@ export type AgentsNamedToolChoiceTypeOutput = string;
 // @public (undocumented)
 export interface AgentsOperations {
     cancelRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
+    cancelVectorStoreFileBatch: (vectorStoreId: string, batchId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
     createAgent: (model: string, options?: Omit<CreateAgentOptions, "model">, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     createMessage: (threadId: string, options: ThreadMessageOptions, requestParams?: OptionalRequestParameters) => Promise<ThreadMessageOutput>;
     createRun: (threadId: string, assistantId: string, options?: Omit<CreateRunOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
@@ -106,22 +109,32 @@ export interface AgentsOperations {
     createThreadAndRun: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
     createThreadAndRunStreaming: (assistantId: string, options?: Omit<CreateAndRunThreadOptions, "assistant_id">, requestParams?: OptionalRequestParameters) => Promise<AgentEventMessageStream>;
     createVectorStore: (options?: VectorStoreOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
+    createVectorStoreAndPoll: (vectorStoreOptions?: VectorStoreOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
+    createVectorStoreFile: (vectorStoreId: string, options?: CreateVectorStoreFileOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
+    createVectorStoreFileAndPoll: (vectorStoreId: string, vectorStoreFileOptions?: CreateVectorStoreFileOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
+    createVectorStoreFileBatch: (vectorStoreId: string, options?: CreateVectorStoreFileBatchOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
+    createVectorStoreFileBatchAndPoll: (vectorStoreId: string, vectorStoreFileBatchOptions?: CreateVectorStoreFileBatchOptions, pollingOptions?: PollingOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileBatchOutput>;
     deleteAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentDeletionStatusOutput>;
     deleteFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<FileDeletionStatusOutput>;
     deleteThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadDeletionStatusOutput>;
     deleteVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreDeletionStatusOutput>;
+    deleteVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileDeletionStatusOutput>;
     getAgent: (assistantId: string, requestParams?: OptionalRequestParameters) => Promise<AgentOutput>;
     getFile: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<OpenAIFileOutput>;
-    getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => Promise<string>;
+    getFileContent: (fileId: string, requestParams?: OptionalRequestParameters) => StreamableMethod<string | Uint8Array>;
     getRun: (threadId: string, runId: string, requestParams?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
     getRunStep: (threadId: string, runId: string, stepId: string, requestParams?: OptionalRequestParameters) => Promise<RunStepOutput>;
     getThread: (threadId: string, requestParams?: OptionalRequestParameters) => Promise<AgentThreadOutput>;
     getVectorStore: (vectorStoreId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
+    getVectorStoreFile: (vectorStoreId: string, fileId: string, requestParams?: OptionalRequestParameters) => Promise<VectorStoreFileOutput>;
+    getVectorStoreFileBatch: (vectorStoreId: string, batchId: string) => Promise<VectorStoreFileBatchOutput>;
     listAgents: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfAgentOutput>;
     listFiles: (purpose?: FilePurpose, requestParams?: OptionalRequestParameters) => Promise<FileListResponseOutput>;
     listMessages: (threadId: string, runId?: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadMessageOutput>;
     listRuns: (threadId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfThreadRunOutput>;
     listRunSteps: (threadId: string, runId: string, options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfRunStepOutput>;
+    listVectorStoreFileBatchFiles: (vectorStoreId: string, batchId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
+    listVectorStoreFiles: (vectorStoreId: string, options?: ListQueryParameters & FileStatusFilter, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreFileOutput>;
     listVectorStores: (options?: ListQueryParameters, requestParams?: OptionalRequestParameters) => Promise<OpenAIPageableListOfVectorStoreOutput>;
     modifyVectorStore: (vectorStoreId: string, options?: VectorStoreUpdateOptions, requestParams?: OptionalRequestParameters) => Promise<VectorStoreOutput>;
     submitToolOutputsToRun: (threadId: string, runId: string, tool_outputs: Array<ToolOutput>, stream?: boolean | null, options?: OptionalRequestParameters) => Promise<ThreadRunOutput>;
@@ -325,6 +338,20 @@ export interface CreateRunOptions {
 }
 
 // @public
+export interface CreateVectorStoreFileBatchOptions {
+    chunkingStrategy?: VectorStoreChunkingStrategyRequest;
+    dataSources?: VectorStoreDataSource[];
+    fileIds?: string[];
+}
+
+// @public
+export interface CreateVectorStoreFileOptions {
+    chunkingStrategy?: VectorStoreChunkingStrategyRequest;
+    dataSources?: Array<VectorStoreDataSource>;
+    fileId?: string;
+}
+
+// @public
 export interface CredentialsApiKeyAuthOutput {
     key: string;
 }
@@ -502,6 +529,11 @@ export interface FileSearchToolResourceOutput {
 export type FileStateOutput = string;
 
 // @public
+export interface FileStatusFilter {
+    filter?: VectorStoreFileStatusFilter;
+}
+
+// @public
 export type Frequency = string;
 
 // @public
@@ -657,7 +689,7 @@ export interface ListQueryParameters {
 }
 
 // @public
-export type ListSortOrder = string;
+export type ListSortOrder = "asc" | "desc";
 
 // @public
 export interface MessageAttachment {
@@ -1023,6 +1055,12 @@ export type PagedEvaluationOutput = Paged<EvaluationOutput>;
 
 // @public
 export type PagedEvaluationScheduleOutput = Paged<EvaluationScheduleOutput>;
+
+// @public
+export interface PollingOptions {
+    abortSignal?: AbortSignalLike;
+    sleepIntervalInMs?: number;
+}
 
 // @public
 export interface ProjectsClientOptions extends ClientOptions {
