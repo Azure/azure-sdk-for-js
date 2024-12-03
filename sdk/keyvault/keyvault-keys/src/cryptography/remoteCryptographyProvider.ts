@@ -415,12 +415,8 @@ function getOrInitializeClient(
 
   const client = new KeyVaultClient(vaultUrl, credential, internalPipelineOptions);
 
-  // The authentication policy must come after the deserialization policy since the deserialization policy
-  // converts 401 responses to an Error, and we don't want to deal with that.
   client.pipeline.removePolicy({ name: bearerTokenAuthenticationPolicyName });
-  client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, options), {
-    afterPolicies: ["deserializationPolicy"],
-  });
+  client.pipeline.addPolicy(keyVaultAuthenticationPolicy(credential, options));
   // Workaround for: https://github.com/Azure/azure-sdk-for-js/issues/31843
   client.pipeline.addPolicy({
     name: "ContentTypePolicy",
