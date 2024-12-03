@@ -21224,7 +21224,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-authentication.tgz:
-    resolution: {integrity: sha512-hIZoFTkE8J6rHj93GQHuFB05PUPHWq+LiWgFIacamW2tTo1Ej1Q1+04Y4RUdZiaUTEPrrWgVM2hKKclbLO2pTA==, tarball: file:projects/mixed-reality-authentication.tgz}
+    resolution: {integrity: sha512-Bsz1T7DiYEemT/QBXP17VhVdwURzYSksepyslzhbYu9H7YXiGZ9j+3EQO8jghK4nmT9QGw76r9relaxe/gXrkA==, tarball: file:projects/mixed-reality-authentication.tgz}
     name: '@rush-temp/mixed-reality-authentication'
     version: 0.0.0
     dependencies:
@@ -21234,6 +21234,8 @@ packages:
       '@types/chai-as-promised': 7.1.8
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
@@ -21250,18 +21252,32 @@ packages:
       karma-sourcemap-loader: 0.3.8
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
