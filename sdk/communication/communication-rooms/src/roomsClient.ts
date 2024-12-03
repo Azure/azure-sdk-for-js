@@ -289,7 +289,7 @@ export class RoomsClient {
     return tracingClient.withSpan(
       "RoomsClient-AddOrUpdateParticipants",
       options,
-      async (updatedOptions) : Promise<void> => {
+      async (updatedOptions): Promise<void> => {
         await this.client.participants.update(roomId, {
           ...updatedOptions,
           participants: mapRoomParticipantToRawId(participants),
@@ -310,11 +310,15 @@ export class RoomsClient {
     participantIdentifiers: CommunicationIdentifier[],
     options: RemoveParticipantsOptions = {},
   ): Promise<void> {
-      return tracingClient.withSpan("RoomsClient-RemoveParticipants", options, async (updatedOptions): Promise<void> => {
+    return tracingClient.withSpan(
+      "RoomsClient-RemoveParticipants",
+      options,
+      async (updatedOptions): Promise<void> => {
         await this.client.participants.update(roomId, {
           ...updatedOptions,
           participants: mapRoomParticipantForRemoval(participantIdentifiers),
         });
-    });
+      },
+    );
   }
 }

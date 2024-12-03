@@ -601,13 +601,13 @@ describe("Participants Operations", () => {
   });
 });
 
-async function listParticipants(roomId: string, client: RoomsClient) : Promise<RoomParticpant[]> {
-    const roomParticipants = [];
-    const participantsList = await client.listParticipants(roomId);
-    for await (const participant of participantsList) {
-        roomParticipants.push(participant);
-    }
-    return roomParticipants;
+async function listParticipants(roomId: string, client: RoomsClient): Promise<RoomParticpant[]> {
+  const roomParticipants = [];
+  const participantsList = await client.listParticipants(roomId);
+  for await (const participant of participantsList) {
+    roomParticipants.push(participant);
+  }
+  return roomParticipants;
 }
 
 async function pause(time: number): Promise<void> {
