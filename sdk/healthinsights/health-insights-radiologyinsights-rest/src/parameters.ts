@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import type { RequestParameters } from "@azure-rest/core-client";
-import type { RadiologyInsightsJob } from "./models";
+import type { RadiologyInsightsJob } from "./models.js";
 
 /** Get the job query parameter properties */
 export interface GetJobQueryParamProperties {

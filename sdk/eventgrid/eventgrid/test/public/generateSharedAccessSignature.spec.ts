@@ -1,13 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-/// <reference lib="dom"/>
-
-import { assert } from "chai";
-import { AzureKeyCredential, generateSharedAccessSignature } from "../../src";
+import { AzureKeyCredential, generateSharedAccessSignature } from "../../src/index.js";
 import { isNodeLike } from "@azure/core-util";
+import { describe, it, assert } from "vitest";
 
-describe("generateSharedAccessSignature", function () {
+describe("generateSharedAccessSignature", () => {
   it("generates the correct signiture", async () => {
     // This is not a real key, it's the base64 encoding of "this is not a real EventGrid key", which happens to be the same
     // number of bytes as an actual EventGrid Access Key.

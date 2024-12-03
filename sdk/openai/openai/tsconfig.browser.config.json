@@ -4,6 +4,7 @@
   "exclude": ["./test/**/node/**/*.ts"],
   "compilerOptions": {
     "outDir": "./dist-test/browser",
-    "composite": true
+    "rootDir": ".",
+    "noEmit": false
   }
 }

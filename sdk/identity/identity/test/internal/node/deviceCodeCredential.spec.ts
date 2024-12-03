@@ -32,7 +32,7 @@ describe("DeviceCodeCredential (internal)", function () {
     await cleanup();
   });
 
-  const scope = "https://vault.azure.net/.default";
+  const scope = "https://graph.microsoft.com/.default";
 
   it("Authenticates silently after the initial request", async function (ctx) {
     // These tests should not run live because this credential requires user interaction.

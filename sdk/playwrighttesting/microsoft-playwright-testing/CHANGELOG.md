@@ -1,6 +1,6 @@
 # Release History
 
-## 1.0.0-beta.6 (Unreleased)
+## 1.0.0-beta.7 (Unreleased)
 
 ### Features Added
 
@@ -10,19 +10,28 @@
 
 ### Other Changes
 
+## 1.0.0-beta.6 (2024-11-29)
+
+### Features Added
+
+- Added support for multiple global setup and teardown files introduced in playwright v1.49.
+
+### Bugs Fixed
+
+- Missing type generation for some functions and interfaces.
+
 ## 1.0.0-beta.5 (2024-11-18)
 
 This release fixes a bug related to artifact upload and performance enhancements.
 
 ### Bugs Fixed
 
--Fixed failures when uploading artifacts due to race conditions.
+- Fixed failures when uploading artifacts due to race conditions.
 
 ### Other Changes
 
 - Removed runName support in cloud hosted browser uri
-
--Added X-MS-Package-Version header to API that requests cloud hosted browser for language and package version decoding.
+- Added X-MS-Package-Version header to API that requests cloud hosted browser for language and package version decoding.
 
 ## 1.0.0-beta.4 (2024-10-21)
 

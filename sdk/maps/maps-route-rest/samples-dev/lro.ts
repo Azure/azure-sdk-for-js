@@ -6,15 +6,13 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
+import type { RouteGetRouteDirectionsBatch200Response } from "@azure-rest/maps-route";
 import MapsRoute, {
   createRouteDirectionsBatchRequest,
   getLongRunningPoller,
-  RouteGetRouteDirectionsBatch200Response,
   toColonDelimitedLatLonString,
 } from "@azure-rest/maps-route";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * We use "/route/directions/batch/" in this example.

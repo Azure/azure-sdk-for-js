@@ -5,7 +5,7 @@
     "module": "NodeNext",
     "moduleResolution": "NodeNext",
     "paths": {
-      "@azure/openai": ["./dist/esm/index.js"]
+      "@azure/openai": ["./dist/esm"]
     },
     "noEmit": true,
     "composite": true

@@ -130,6 +130,11 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
   if (log.spanContext?.spanId) {
     tags[KnownContextTagKeys.AiOperationParentId] = log.spanContext.spanId;
   }
+  if (log.attributes[KnownContextTagKeys.AiOperationName]) {
+    tags[KnownContextTagKeys.AiOperationName] = log.attributes[
+      KnownContextTagKeys.AiOperationName
+    ] as string;
+  }
   return tags;
 }
 
@@ -144,7 +149,8 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
           key.startsWith("_MS.") ||
           key === ATTR_EXCEPTION_TYPE ||
           key === ATTR_EXCEPTION_MESSAGE ||
-          key === ATTR_EXCEPTION_STACKTRACE
+          key === ATTR_EXCEPTION_STACKTRACE ||
+          key === (KnownContextTagKeys.AiOperationName as string)
         )
       ) {
         properties[key] = serializeAttribute(log.attributes[key]);

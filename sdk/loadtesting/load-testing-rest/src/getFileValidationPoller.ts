@@ -60,11 +60,7 @@ export async function getFileValidationPoller(
 
         switch (fileValidationResponse.body.validationStatus) {
           case "NOT_VALIDATED": {
-            if (fileValidationResponse.body.fileType === "JMX_FILE") {
-              state.status = "running";
-            } else {
-              state.status = "succeeded";
-            }
+            state.status = "succeeded";
             break;
           }
           case "VALIDATION_INITIATED": {
