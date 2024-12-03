@@ -5,6 +5,9 @@
 ## Configuration
 
 ```yaml
+flavor: azure
+openapi-type: data-plane
+generate-test: true
 package-name: "@azure-rest/iot-device-update"
 title: DeviceUpdate
 description: Iot Device Update Client
@@ -18,7 +21,7 @@ rest-level-client: true
 add-credentials: true
 credential-scopes: https://api.adu.microsoft.com/.default
 use-extension:
-  "@autorest/typescript": "6.0.0-rc.1"
+  "@autorest/typescript": "latest"
 ```
 
 ### Fix 304s
@@ -49,4 +52,3 @@ directive:
       "description": "The condition specified using HTTP conditional header(s) is not met."
     };
 ```
-
