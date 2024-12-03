@@ -83,6 +83,12 @@ export function createHttpHeaders(rawHeaders?: RawHttpHeadersInput): HttpHeaders
 export function createPipelineRequest(options: PipelineRequestOptions): PipelineRequest;
 
 // @public
+export function createRestError(response: PathUncheckedResponse): RestError;
+
+// @public
+export function createRestError(message: string, response: PathUncheckedResponse): RestError;
+
+// @public
 export interface Debugger {
     (...args: any[]): void;
     destroy: () => boolean;
@@ -203,6 +209,9 @@ export interface OperationOptions {
     onResponse?: RawResponseCallback;
     requestOptions?: OperationRequestOptions;
 }
+
+// @public
+export function operationOptionsToRequestParameters(options: OperationOptions): RequestParameters;
 
 // @public
 export interface OperationRequestOptions {
