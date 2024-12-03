@@ -1,7 +1,5 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-
-import { assert } from "@azure-tools/test-utils";
 import type {
   AckMessage,
   ConnectedMessage,
@@ -14,8 +12,9 @@ import type {
   SequenceAckMessage,
   ServerDataMessage,
   WebPubSubMessage,
-} from "../src/models";
-import { WebPubSubJsonReliableProtocol } from "../src/protocols";
+} from "../src/models/index.js";
+import { WebPubSubJsonReliableProtocol } from "../src/protocols/index.js";
+import { describe, it, assert } from "vitest";
 
 describe("JsonProtocol", function () {
   const protocol = WebPubSubJsonReliableProtocol();
