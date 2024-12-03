@@ -913,7 +913,8 @@ export class KeyClient {
     options: ListPropertiesOfKeyVersionsOptions = {},
   ): PagedAsyncIterableIterator<KeyProperties> {
     return mapPagedAsyncIterable(
-      this.client.getKeyVersions(name, options),
+      options,
+      (mappedOptions) => this.client.getKeyVersions(name, mappedOptions),
       getKeyPropertiesFromKeyItem,
     );
   }
@@ -936,7 +937,11 @@ export class KeyClient {
   public listPropertiesOfKeys(
     options: ListPropertiesOfKeysOptions = {},
   ): PagedAsyncIterableIterator<KeyProperties> {
-    return mapPagedAsyncIterable(this.client.getKeys(options), getKeyPropertiesFromKeyItem);
+    return mapPagedAsyncIterable(
+      options,
+      this.client.getKeys.bind(this.client),
+      getKeyPropertiesFromKeyItem,
+    );
   }
 
   /**
@@ -957,7 +962,8 @@ export class KeyClient {
     options: ListDeletedKeysOptions = {},
   ): PagedAsyncIterableIterator<DeletedKey> {
     return mapPagedAsyncIterable(
-      this.client.getDeletedKeys(options),
+      options,
+      this.client.getDeletedKeys.bind(this.client),
       getDeletedKeyFromDeletedKeyItem,
     );
   }
