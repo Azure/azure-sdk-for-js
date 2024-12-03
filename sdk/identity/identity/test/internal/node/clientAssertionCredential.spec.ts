@@ -6,7 +6,7 @@ import * as path from "node:path";
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 
-import { ClientAssertionCredential } from "@azure/identity";
+import { ClientAssertionCredential } from "../../../src/index.js";
 import { ConfidentialClientApplication } from "@azure/msal-node";
 import { createJWTTokenFromCertificate } from "../../public/node/utils/utils.js";
 import { env } from "@azure-tools/test-recorder";

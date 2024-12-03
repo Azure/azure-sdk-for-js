@@ -9,7 +9,7 @@ import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
 import { PublicClientApplication } from "@azure/msal-node";
-import { UsernamePasswordCredential } from "@azure/identity";
+import { UsernamePasswordCredential } from "../../../src/index.js";
 import { getUsernamePasswordStaticResources } from "../../msalTestUtils.js";
 import { describe, it, assert, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
 

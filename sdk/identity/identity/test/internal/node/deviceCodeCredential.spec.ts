@@ -5,7 +5,7 @@ import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env, isLiveMode } from "@azure-tools/test-recorder";
-import { DeviceCodeCredential } from "@azure/identity";
+import { DeviceCodeCredential } from "../../../src/index.js";
 import { PublicClientApplication } from "@azure/msal-node";
 import { describe, it, expect, vi, beforeEach, afterEach, type MockInstance } from "vitest";
 
@@ -32,7 +32,7 @@ describe("DeviceCodeCredential (internal)", function () {
     await cleanup();
   });
 
-  const scope = "https://graph.microsoft.com/.default";
+  const scope = "https://vault.azure.net/.default";
 
   it("Authenticates silently after the initial request", async function (ctx) {
     // These tests should not run live because this credential requires user interaction.

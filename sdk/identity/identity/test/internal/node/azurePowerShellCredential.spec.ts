@@ -9,7 +9,7 @@ import {
   powerShellErrors,
   powerShellPublicErrorMessages,
 } from "../../../src/credentials/azurePowerShellCredential.js";
-import { AzurePowerShellCredential } from "@azure/identity";
+import { AzurePowerShellCredential } from "../../../src/index.js";
 import type { GetTokenOptions } from "@azure/core-auth";
 import { commandStack } from "../../../src/credentials/azurePowerShellCredential.js";
 import { processUtils } from "../../../src/util/processUtils.js";

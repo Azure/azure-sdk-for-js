@@ -102,13 +102,6 @@ export async function msalNodeTestSetup(
     // Playback sanitizers
     await recorder.addSanitizers(
       {
-        uriSanitizers: [
-          {
-            regex: true,
-            target: `client-request-id=[a-zA-Z0-9-]+`,
-            value: `client-request-id=${playbackValues.correlationId}`,
-          },
-        ],
         bodySanitizers: [
           {
             regex: true,

@@ -3,8 +3,8 @@
 
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 
-import type { AccessToken, TokenCredential } from "@azure/identity";
-import { DeviceCodeCredential, UsernamePasswordCredential } from "@azure/identity";
+import type { AccessToken, TokenCredential } from "../../../src/index.js";
+import { DeviceCodeCredential, UsernamePasswordCredential } from "../../../src/index.js";
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";

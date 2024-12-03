@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccessToken, TokenCredential } from "@azure/identity";
-import { ChainedTokenCredential } from "@azure/identity";
+import type { AccessToken, TokenCredential } from "../../../src/index.js";
+import { ChainedTokenCredential } from "../../../src/index.js";
 import { logger as chainedTokenCredentialLogger } from "../../../src/credentials/chainedTokenCredential.js";
 import { describe, it, assert, expect, vi, afterEach } from "vitest";
 

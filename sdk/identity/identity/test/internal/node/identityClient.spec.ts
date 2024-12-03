@@ -8,7 +8,7 @@ import {
 import { IdentityTestContext } from "../../httpRequests.js";
 import type { IdentityTestContextInterface } from "../../httpRequestsCommon.js";
 import { createResponse } from "../../httpRequestsCommon.js";
-import { ClientSecretCredential } from "@azure/identity";
+import { ClientSecretCredential } from "../../../src/index.js";
 import { openIdConfigurationResponse, PlaybackTenantId } from "../../msalTestUtils.js";
 import { isExpectedError } from "../../authTestUtils.js";
 import { isNode } from "@azure/core-util";

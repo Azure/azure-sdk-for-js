@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { AzurePipelinesCredential } from "@azure/identity";
+import { AzurePipelinesCredential } from "../../../src/index.js";
 import { isLiveMode } from "@azure-tools/test-recorder";
 import { describe, it, assert, expect } from "vitest";
 

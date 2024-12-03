@@ -12,7 +12,7 @@ import {
   InteractiveBrowserCredential,
   OnBehalfOfCredential,
   useIdentityPlugin,
-} from "@azure/identity";
+} from "../src/index.js";
 import { KeyClient } from "@azure/keyvault-keys";
 import { setLogLevel } from "@azure/logger";
 import dotenv from "dotenv";

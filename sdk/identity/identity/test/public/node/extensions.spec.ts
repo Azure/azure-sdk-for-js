@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { DeviceCodeCredential } from "@azure/identity";
-import { VisualStudioCodeCredential } from "@azure/identity";
+import { DeviceCodeCredential } from "../../../src/index.js";
+import { VisualStudioCodeCredential } from "../../../src/index.js";
 import { describe, it, assert, chai } from "vitest";
 
 /**

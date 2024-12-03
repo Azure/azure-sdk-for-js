@@ -7,7 +7,7 @@ import {
   EnvironmentCredential,
   type GetTokenOptions,
   UsernamePasswordCredential,
-} from "@azure/identity";
+} from "../../../src/index.js";
 import type { MsalTestCleanup } from "../../node/msalNodeTestSetup.js";
 import { msalNodeTestSetup } from "../../node/msalNodeTestSetup.js";
 import type { Recorder } from "@azure-tools/test-recorder";

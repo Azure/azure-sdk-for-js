@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AccessToken, AggregateAuthenticationError, TokenCredential } from "@azure/identity";
+import type {
+  AccessToken,
+  AggregateAuthenticationError,
+  TokenCredential,
+} from "../../src/index.js";
 import {
   AuthenticationRequiredError,
   ChainedTokenCredential,
   CredentialUnavailableError,
-} from "@azure/identity";
+} from "../../src/index.js";
 import { getError } from "../authTestUtils.js";
 import { describe, it, assert } from "vitest";
 
