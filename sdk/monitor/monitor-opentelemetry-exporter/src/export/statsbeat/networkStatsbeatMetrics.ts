@@ -115,6 +115,9 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
       );
     }
 
+    this.isInitialized = true;
+    this.initialize();
+
     this.commonProperties = {
       os: this.os,
       rp: this.resourceProvider,
@@ -129,9 +132,6 @@ export class NetworkStatsbeatMetrics extends StatsbeatMetrics {
       endpoint: this.endpointUrl,
       host: this.host,
     };
-
-    this.isInitialized = true;
-    this.initialize();
   }
 
   public shutdown(): Promise<void> {
