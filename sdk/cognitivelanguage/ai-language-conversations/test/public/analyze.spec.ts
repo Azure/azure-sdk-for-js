@@ -3,7 +3,7 @@
 
 import type { AuthMethod } from "./utils/recordedClient.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
-import { matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils-vitest";
 import type { ConversationAnalysisClient } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
