@@ -467,7 +467,8 @@ export class SecretClient {
     options: ListPropertiesOfSecretVersionsOptions = {},
   ): PagedAsyncIterableIterator<SecretProperties> {
     return mapPagedAsyncIterable(
-      this.client.getSecretVersions(secretName, options),
+      (updatedOptions) => this.client.getSecretVersions(secretName, updatedOptions),
+      options,
       (item) => getSecretFromSecretBundle(item).properties,
     );
   }
@@ -491,7 +492,8 @@ export class SecretClient {
     options: ListPropertiesOfSecretsOptions = {},
   ): PagedAsyncIterableIterator<SecretProperties> {
     return mapPagedAsyncIterable(
-      this.client.getSecrets(options),
+      this.client.getSecrets.bind(this.client),
+      options,
       (item) => getSecretFromSecretBundle(item).properties,
     );
   }
@@ -513,6 +515,10 @@ export class SecretClient {
   public listDeletedSecrets(
     options: ListDeletedSecretsOptions = {},
   ): PagedAsyncIterableIterator<DeletedSecret> {
-    return mapPagedAsyncIterable(this.client.getDeletedSecrets(options), getSecretFromSecretBundle);
+    return mapPagedAsyncIterable(
+      this.client.getDeletedSecrets.bind(this.client),
+      options,
+      getSecretFromSecretBundle,
+    );
   }
 }

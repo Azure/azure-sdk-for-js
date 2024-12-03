@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { PagedAsyncIterableIterator } from "./generated/index.js";
+import type { PagedAsyncIterableIterator, PageSettings } from "./generated/index.js";
 import type { DeletedSecretBundle, SecretBundle } from "./generated/models/index.js";
 import { parseKeyVaultSecretIdentifier } from "./identifier.js";
 import type { DeletedSecret, KeyVaultSecret } from "./secretsModels.js";
+import type { OperationOptions } from "@azure-rest/core-client";
 
 /**
  * @internal
@@ -74,12 +75,28 @@ export function getSecretFromSecretBundle(
   return resultObject;
 }
 
-export function mapPagedAsyncIterable<T, U>(
-  iter: PagedAsyncIterableIterator<T>,
-  mapper: (x: T) => U,
-): PagedAsyncIterableIterator<U> {
+/**
+ * A helper supporting compatibility between modular and legacy paged async iterables.
+ *
+ * Provides the following compatibility:
+ * 1. Maps the values of the paged async iterable using the provided mapper function.
+ * 2. Supports `maxPageSize` operation on the paged async iterable.
+ *
+ * TODO: move this to keyvault-common once everything is merged
+ */
+export function mapPagedAsyncIterable<
+  TGenerated,
+  TPublic,
+  TOptions extends OperationOptions & { maxresults?: number },
+>(
+  operation: (options: TOptions) => PagedAsyncIterableIterator<TGenerated>,
+  operationOptions: TOptions,
+  mapper: (x: TGenerated) => TPublic,
+): PagedAsyncIterableIterator<TPublic> {
+  let iter: ReturnType<typeof operation> | undefined = undefined;
   return {
     async next() {
+      iter ??= operation({ ...operationOptions, maxresults: undefined });
       const result = await iter.next();
 
       return {
@@ -90,8 +107,12 @@ export function mapPagedAsyncIterable<T, U>(
     [Symbol.asyncIterator]() {
       return this;
     },
-    async *byPage(settings) {
-      const iteratorByPage = iter.byPage(settings);
+    async *byPage<TSettings extends PageSettings & { maxPageSize?: number }>(settings?: TSettings) {
+      // Pass the maxPageSize value to the underlying page operation
+      const iteratorByPage = operation({
+        ...operationOptions,
+        maxresults: settings?.maxPageSize,
+      }).byPage(settings);
       for await (const page of iteratorByPage) {
         yield page.map(mapper);
       }
