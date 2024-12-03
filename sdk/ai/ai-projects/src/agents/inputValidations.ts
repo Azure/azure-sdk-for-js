@@ -32,3 +32,28 @@ export function validateMetadata(metadata: Record<string, string>): void {
     throw new Error("Values must be less than 512 characters");
   }
 }
+
+export function validateVectorStoreId(vectorStoreId: string): void {
+  if (!vectorStoreId) {
+    throw new Error("Vector store ID is required");
+  }
+}
+
+export function validateFileId(fileId: string): void {
+  if (!fileId) {
+    throw new Error("File ID is required");
+  }
+}
+
+enum FileBatchStatus {
+  InProgress = "in_progress",
+  Completed = "completed",
+  Failed = "failed",
+  Cancelled = "cancelled",
+}
+
+export function validateFileStatusFilter(filter: string): void {
+  if (!Object.values(FileBatchStatus).includes(filter as FileBatchStatus)) {
+    throw new Error("File status filter must be one of 'in_progress', 'completed', 'failed', 'cancelled'");
+  }
+}

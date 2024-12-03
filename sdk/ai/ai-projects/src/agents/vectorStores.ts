@@ -4,6 +4,7 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { ListVectorStoresParameters, CreateVectorStoreParameters, ModifyVectorStoreParameters, GetVectorStoreParameters, DeleteVectorStoreParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfVectorStoreOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
+import { validateLimit, validateMetadata, validateOrder, validateVectorStoreId } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];
 
@@ -12,6 +13,7 @@ export async function listVectorStores(
   context: Client,
   options?: ListVectorStoresParameters,
 ): Promise<OpenAIPageableListOfVectorStoreOutput> {
+  validateListVectorStoresParameters(options);
   const result = await context.path("/vector_stores").get(options);
   
   if (!expectedStatuses.includes(result.status)) {
@@ -25,6 +27,7 @@ export async function createVectorStore(
   context: Client,
   options?: CreateVectorStoreParameters,
 ): Promise<VectorStoreOutput> {
+  validateCreateVectorStoreParameters(options);
   const result = await context.path("/vector_stores").post(options);
   
   if (!expectedStatuses.includes(result.status)) {
@@ -39,6 +42,7 @@ export async function getVectorStore(
   vectorStoreId: string,
   options?: GetVectorStoreParameters,
 ): Promise<VectorStoreOutput> {
+  validateVectorStoreId(vectorStoreId);
   const result = await context
     .path("/vector_stores/{vectorStoreId}", vectorStoreId)
     .get(options);
@@ -55,6 +59,8 @@ export async function modifyVectorStore(
   vectorStoreId: string,
   options?: ModifyVectorStoreParameters,
 ): Promise<VectorStoreOutput> {
+  validateVectorStoreId(vectorStoreId);
+  validateModifyVectorStoreParameters(options);
   const result = await context
     .path("/vector_stores/{vectorStoreId}", vectorStoreId)
     .post(options);
@@ -71,6 +77,7 @@ export async function deleteVectorStore(
   vectorStoreId: string,
   options?: DeleteVectorStoreParameters,
 ): Promise<VectorStoreDeletionStatusOutput> {
+  validateVectorStoreId(vectorStoreId);
   const result = await context
     .path("/vector_stores/{vectorStoreId}", vectorStoreId)
     .delete(options);
@@ -79,4 +86,28 @@ export async function deleteVectorStore(
       throw createRestError(result);
   }
   return result.body; 
+}
+
+function validateListVectorStoresParameters(options?: ListVectorStoresParameters): void {
+  if (options?.queryParameters?.limit) {
+    validateLimit(options.queryParameters.limit);
+  }
+  if (options?.queryParameters?.order) {
+    validateOrder(options.queryParameters.order);
+  }
+}
+
+function validateCreateVectorStoreParameters(options?: CreateVectorStoreParameters): void {
+  if (options?.body?.chunking_strategy && (!options.body.file_ids || options.body.file_ids.length === 0)) {
+    throw new Error("Chunking strategy is only applicable if fileIds is non-empty");
+  }
+  if (options?.body?.metadata) {
+    validateMetadata(options.body.metadata);
+  }
+}
+
+function validateModifyVectorStoreParameters(options?: ModifyVectorStoreParameters): void {
+  if (options?.body?.metadata) {
+    validateMetadata(options.body.metadata);
+  }
 }
