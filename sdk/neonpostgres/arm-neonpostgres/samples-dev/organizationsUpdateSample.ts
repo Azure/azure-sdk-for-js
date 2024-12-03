@@ -46,9 +46,9 @@ async function organizationsUpdate() {
         offerDetails: {
           publisherId: "",
           offerId: "",
-          planId: ""
-        }
-      }
+          planId: "",
+        },
+      },
     },
     tags: { key8990: "wuvaontoqyttxtikvvahdegcfdfkz" },
   });

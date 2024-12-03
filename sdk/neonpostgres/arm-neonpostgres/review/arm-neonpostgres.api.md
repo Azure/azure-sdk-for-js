@@ -78,7 +78,7 @@ export enum KnownSingleSignOnStates {
 
 // @public
 export enum KnownVersions {
-    v1_preview = "2024-08-01-preview"
+    V1_Preview = "2024-08-01-preview"
 }
 
 // @public
