@@ -601,7 +601,7 @@ describe("Participants Operations", () => {
   });
 });
 
-async function listParticipants(roomId: string, client: RoomsClient) {
+async function listParticipants(roomId: string, client: RoomsClient) : Promise<RoomParticpant[]> {
     const roomParticipants = [];
     const participantsList = await client.listParticipants(roomId);
     for await (const participant of participantsList) {
@@ -647,7 +647,6 @@ async function verifyRoomsParticipantsAttributes(
 ): Promise<void> {
   // Assert
   assert.isDefined(actualRoomParticipant);
-  //assert.isNotEmpty(actualRoomParticipant);
 
   let count = 0;
   let presenterCount = 0;
