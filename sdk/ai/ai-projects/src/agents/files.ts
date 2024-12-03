@@ -4,7 +4,8 @@
 import { Client, createRestError, StreamableMethod } from "@azure-rest/core-client";
 import { FileDeletionStatusOutput, FileListResponseOutput, OpenAIFileOutput } from "../generated/src/outputModels.js";
 import { DeleteFileParameters, GetFileContentParameters, GetFileParameters, ListFilesParameters, UploadFileParameters } from "../generated/src/parameters.js";
-import { delay } from "@azure/core-util";
+import { OptionalRequestParameters, PollingOptions } from "./customModels.js";
+import { AgentsPoller } from "./poller.js";
 
 const expectedStatuses = ["200"];
 
@@ -47,15 +48,22 @@ export async function uploadFile(
 export async function uploadFileAndPoll(
   context: Client, 
   options: UploadFileParameters, 
-  intervalInMs: number = 1000, 
+  pollingOptions?: PollingOptions,
+  requestParams?: OptionalRequestParameters,
 ): Promise<OpenAIFileOutput> {
-  let file = await uploadFile(context, options);
-  while (file.status === "uploaded" || file.status === "pending" || file.status === "running") {
-    await delay(intervalInMs);
-    file = await getFile(context, file.id);
+  async function updateUploadFileAndPoll(currentResult?: OpenAIFileOutput): Promise<{result: OpenAIFileOutput; completed: boolean}> {
+    let file: OpenAIFileOutput;
+    if (!currentResult) {
+      file = await uploadFile(context, {...options, ...requestParams});
+    } else {
+      file = await getFile(context, currentResult.id, options);
+    }
+    return { result: file, completed: file.status !== "pending" && file.status !== "running" };
   }
 
-  return file; 
+  const poller = new AgentsPoller<OpenAIFileOutput>({ update: updateUploadFileAndPoll, pollingOptions: pollingOptions,});
+
+  return poller.pollUntilDone(); 
 }
 
 /** Delete a previously uploaded file. */
