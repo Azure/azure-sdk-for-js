@@ -589,6 +589,9 @@ sdk/ai/ai-inference-rest @glharper @dargilco @jhakulin
 /sdk/hybridnetwork/arm-hybridnetwork/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
+/sdk/neonpostgres/arm-neonpostgres/ @qiaozha @MaryGao
+
+# PRLabel: %Mgmt
 /sdk/newrelicobservability/arm-newrelicobservability/ @qiaozha @MaryGao
 
 # PRLabel: %Mgmt
