@@ -22,7 +22,7 @@
  *  BING_CONNECTION_NAME - the name of the connection with Bing search grounding
  */
 
-import { AIProjectsClient, DoneEvent, ErrorEvent, MessageDeltaChunk, MessageDeltaTextContent, MessageStreamEvent, RunStreamEvent, ThreadRunOutput, fromConnectionId, connectionToolType } from "@azure/ai-projects"
+import { AIProjectsClient, DoneEvent, ErrorEvent, MessageDeltaChunk, MessageDeltaTextContent, MessageStreamEvent, RunStreamEvent, ThreadRunOutput, fromConnectionId, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects"
 import { DefaultAzureCredential } from "@azure/identity";
 
 import * as dotenv from "dotenv";
@@ -89,9 +89,14 @@ export async function main(): Promise<void> {
   client.agents.deleteAgent(agent.id)
   console.log(`Deleted agent, agent ID: ${agent.id}`);
 
+  // Fetch and log all messages
   const messages = await client.agents.listMessages(thread.id)
   console.log(`Messages:`);
-  messages.data.forEach((m) => console.log(m.content));
+  const agentMessage: MessageContentOutput = messages.data[0].content[0];
+  if (isOutputOfType<MessageTextContentOutput>(agentMessage, "text")) {
+    const textContent = agentMessage as MessageTextContentOutput;
+    console.log(`Text Message Content - ${textContent.text.value}`);
+  }
 }
 
 main().catch((err) => {

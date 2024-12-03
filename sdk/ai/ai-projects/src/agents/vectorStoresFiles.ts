@@ -4,6 +4,9 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { ListVectorStoreFilesParameters, CreateVectorStoreFileParameters, GetVectorStoreFileParameters, DeleteVectorStoreFileParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfVectorStoreFileOutput, VectorStoreFileDeletionStatusOutput, VectorStoreFileOutput } from "../generated/src/outputModels.js";
+import { AgentsPoller } from "./poller.js";
+import { OptionalRequestParameters, PollingOptions } from "./customModels.js";
+import { CreateVectorStoreFileOptions } from "./vectorStoresModels.js";
 import { validateFileId, validateFileStatusFilter, validateLimit, validateOrder, validateVectorStoreId } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];
@@ -75,6 +78,40 @@ export async function deleteVectorStoreFile(
       throw createRestError(result);
   }
   return result.body;
+}
+
+/** Create a vector store file by attaching a file to a vector store and poll. */
+export function createVectorStoreFileAndPoll(
+  context: Client,
+  vectorStoreId: string,
+  createVectorStoreFileOptions?: CreateVectorStoreFileOptions,
+  pollingOptions?: PollingOptions,
+  requestParams?: OptionalRequestParameters
+): Promise<VectorStoreFileOutput> {
+  async function updateCreateVectorStoreFilePoll(
+    currentResult?: VectorStoreFileOutput
+  ): Promise<{ result: VectorStoreFileOutput; completed: boolean }> {
+    let vectorStoreFile: VectorStoreFileOutput;
+    if (!currentResult) {
+      vectorStoreFile = await createVectorStoreFile(context, vectorStoreId, { body: {
+        file_id: createVectorStoreFileOptions?.fileId,
+        data_sources: createVectorStoreFileOptions?.dataSources,
+        chunking_strategy: createVectorStoreFileOptions?.chunkingStrategy,
+       }, ...requestParams });
+    } else {
+      vectorStoreFile = await getVectorStoreFile(context, vectorStoreId, currentResult.id, requestParams);
+    }
+    return {
+      result: vectorStoreFile,
+      completed: vectorStoreFile.status !== "in_progress",
+    };
+  }
+
+  const poller = new AgentsPoller<VectorStoreFileOutput>({
+    update: updateCreateVectorStoreFilePoll,
+    pollingOptions: pollingOptions
+  });
+  return poller.pollUntilDone();
 }
 
 function validateListVectorStoreFilesParameters(options?: ListVectorStoreFilesParameters): void {

@@ -21,7 +21,7 @@
  *  BING_CONNECTION_NAME - the name of the connection with Bing search grounding
  */
 
-import { AIProjectsClient, fromConnectionId, connectionToolType } from "@azure/ai-projects"
+import { AIProjectsClient, fromConnectionId, connectionToolType, MessageContentOutput, isOutputOfType, MessageTextContentOutput } from "@azure/ai-projects"
 import { delay } from "@azure/core-util";
 import { DefaultAzureCredential } from "@azure/identity";
 
@@ -79,7 +79,11 @@ export async function main(): Promise<void> {
   // Fetch and log all messages
   const messages = await client.agents.listMessages(thread.id)
   console.log(`Messages:`);
-  messages.data.forEach((m) => console.log(m.content));
+  const agentMessage: MessageContentOutput = messages.data[0].content[0];
+  if (isOutputOfType<MessageTextContentOutput>(agentMessage, "text")) {
+    const textContent = agentMessage as MessageTextContentOutput;
+    console.log(`Text Message Content - ${textContent.text.value}`);
+  }
 }
 
 main().catch((err) => {

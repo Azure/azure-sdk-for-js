@@ -4,6 +4,9 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { ListVectorStoresParameters, CreateVectorStoreParameters, ModifyVectorStoreParameters, GetVectorStoreParameters, DeleteVectorStoreParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfVectorStoreOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
+import { AgentsPoller } from "./poller.js";
+import { OptionalRequestParameters, PollingOptions } from "./customModels.js";
+import { VectorStoreOptions } from "../generated/src/models.js";
 import { validateLimit, validateMetadata, validateOrder, validateVectorStoreId } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];
@@ -86,6 +89,37 @@ export async function deleteVectorStore(
       throw createRestError(result);
   }
   return result.body; 
+}
+
+/**
+ * Creates a vector store and poll.
+ */
+export function createVectorStoreAndPoll(
+  context: Client,
+  createVectorStoreOptions?: VectorStoreOptions,
+  pollingOptions?: PollingOptions,
+  requestParams?: OptionalRequestParameters,
+): Promise<VectorStoreOutput> {
+  async function updateCreateVectorStorePoll(
+    currentResult?: VectorStoreOutput
+  ): Promise<{ result: VectorStoreOutput; completed: boolean }> {
+    let vectorStore: VectorStoreOutput;
+    if (!currentResult) {
+      vectorStore = await createVectorStore(context, { body: createVectorStoreOptions as Record<string, any>, ...requestParams });
+    } else {
+      vectorStore = await getVectorStore(context, currentResult.id, requestParams);
+    }
+    return {
+      result: vectorStore,
+      completed: vectorStore.status !== "in_progress",
+    };
+  }
+
+  const poller = new AgentsPoller<VectorStoreOutput>({
+    update: updateCreateVectorStorePoll,
+    pollingOptions: pollingOptions
+  });
+  return poller.pollUntilDone();
 }
 
 function validateListVectorStoresParameters(options?: ListVectorStoresParameters): void {
