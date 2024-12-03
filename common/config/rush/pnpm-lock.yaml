@@ -21265,7 +21265,7 @@ packages:
     dev: false
 
   file:projects/mixed-reality-remote-rendering.tgz:
-    resolution: {integrity: sha512-LR01bnuhUjLmqWd+4Ti/9Dywdu8VzgOZEi8mjK9OX0DQeXH9BItASAMtCrmzSwffCdEORSMg8jbFXb1wAjFO/w==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
+    resolution: {integrity: sha512-P2Dn/x4ZkmwEL4t6zD5ObCNR6bIcDs+rMqO0flALaeTGiAPXF0RN98ZSJmEofy57xTtT7jhOJwRBaRV9MMUPtw==, tarball: file:projects/mixed-reality-remote-rendering.tgz}
     name: '@rush-temp/mixed-reality-remote-rendering'
     version: 0.0.0
     dependencies:
@@ -21276,6 +21276,8 @@ packages:
       '@types/mocha': 10.0.10
       '@types/node': 18.19.67
       '@types/uuid': 8.3.4
+      '@vitest/browser': 2.1.8(@types/node@18.19.67)(playwright@1.49.0)(typescript@5.6.3)(vitest@2.1.8)
+      '@vitest/coverage-istanbul': 2.1.8(vitest@2.1.8)
       chai: 4.3.10
       chai-as-promised: 7.1.2(chai@4.3.10)
       dotenv: 16.4.5
@@ -21293,19 +21295,33 @@ packages:
       karma-mocha-reporter: 2.2.5(karma@6.4.4)
       mocha: 10.8.2
       nyc: 17.1.0
+      playwright: 1.49.0
       ts-node: 10.9.2(@types/node@18.19.67)(typescript@5.6.3)
       tslib: 2.8.1
       typescript: 5.6.3
       util: 0.12.5
       uuid: 8.3.2
+      vitest: 2.1.8(@types/node@18.19.67)(@vitest/browser@2.1.8)
     transitivePeerDependencies:
-      - '@swc/core'
-      - '@swc/wasm'
+      - '@edge-runtime/vm'
+      - '@vitest/ui'
       - bufferutil
-      - debug
+      - happy-dom
       - jiti
+      - jsdom
+      - less
+      - lightningcss
+      - msw
+      - safaridriver
+      - sass
+      - sass-embedded
+      - stylus
+      - sugarss
       - supports-color
+      - terser
       - utf-8-validate
+      - vite
+      - webdriverio
     dev: false
 
   file:projects/mock-hub.tgz:
