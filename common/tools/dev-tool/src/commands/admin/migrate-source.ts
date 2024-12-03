@@ -4,7 +4,7 @@
 import { leafCommand, makeCommandInfo } from "../../framework/command";
 import { Project, SourceFile } from "ts-morph";
 import { createPrinter } from "../../util/printer";
-import { resolveRoot } from "../../util/resolveProject";
+import { resolveProject, resolveRoot } from "../../util/resolveProject";
 import { readFile } from "node:fs/promises";
 import { resolve } from "node:path";
 import stripJsonComments from "strip-json-comments";
@@ -50,6 +50,7 @@ export const commandInfo = makeCommandInfo(
     "package-name": {
       description: "The name of the package to migrate",
       kind: "string",
+      required: false,
     },
   },
 );
@@ -60,11 +61,18 @@ export default leafCommand(commandInfo, async ({ "package-name": packageName }) 
   const rushJson = await getRushJson();
   const projects = rushJson.projects;
 
+  if (!packageName) {
+    const info = await resolveProject(process.cwd());
+    packageName = info.packageJson.name;
+  }
+
   const project = projects.find((p: RushJsonProject) => p.packageName === packageName);
   if (!project) {
     log.error(`Package ${packageName} not found in rush.json`);
     return false;
   }
+
+  log.info(`Migrating package ${packageName}`);
 
   const projectFolder = resolve(root, project.projectFolder);
   const projectFile = resolve(projectFolder, "tsconfig.json");
