@@ -6,7 +6,6 @@ import { ConversationAnalysisClient } from "../../../src/index.js";
 import type { RecorderStartOptions } from "@azure-tools/test-recorder";
 import { Recorder, assertEnvironmentVariable } from "@azure-tools/test-recorder";
 import { AzureKeyCredential } from "@azure/core-auth";
-import type { Test } from "mocha";
 import { createTestCredential } from "@azure-tools/test-credential";
 
 const envSetupForPlayback: { [k: string]: string } = {

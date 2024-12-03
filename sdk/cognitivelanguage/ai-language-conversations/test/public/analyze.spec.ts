@@ -3,11 +3,11 @@
 
 import type { AuthMethod } from "./utils/recordedClient.js";
 import { createClient, startRecorder } from "./utils/recordedClient.js";
-import type { Context, Suite } from "mocha";
-import { assert, matrix } from "@azure-tools/test-utils";
+import { matrix } from "@azure-tools/test-utils";
 import type { ConversationAnalysisClient } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
   describe(`[${authMethod}] ConversationAnalysisClient`, function (this: Suite) {
