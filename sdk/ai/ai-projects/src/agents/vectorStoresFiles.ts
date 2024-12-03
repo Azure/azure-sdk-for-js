@@ -7,6 +7,7 @@ import { OpenAIPageableListOfVectorStoreFileOutput, VectorStoreFileDeletionStatu
 import { AgentsPoller } from "./poller.js";
 import { OptionalRequestParameters, PollingOptions } from "./customModels.js";
 import { CreateVectorStoreFileOptions } from "./vectorStoresModels.js";
+import { validateFileId, validateFileStatusFilter, validateLimit, validateOrder, validateVectorStoreId } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];
 
@@ -16,6 +17,8 @@ export async function listVectorStoreFiles(
   vectorStoreId: string,
   options?: ListVectorStoreFilesParameters,
 ): Promise<OpenAIPageableListOfVectorStoreFileOutput> {
+  validateVectorStoreId(vectorStoreId);
+  validateListVectorStoreFilesParameters(options);
   const result = await context.path("/vector_stores/{vectorStoreId}/files", vectorStoreId).get(options);
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
@@ -29,6 +32,8 @@ export async function createVectorStoreFile(
   vectorStoreId: string,
   options?: CreateVectorStoreFileParameters,
 ): Promise<VectorStoreFileOutput> {
+  validateVectorStoreId(vectorStoreId);
+  validateCreateVectorStoreFileParameters(options);
   const result = await context.path("/vector_stores/{vectorStoreId}/files", vectorStoreId).post(options);
   if (!expectedStatuses.includes(result.status)) {
       throw createRestError(result);
@@ -43,6 +48,8 @@ export async function getVectorStoreFile(
   fileId: string,
   options?: GetVectorStoreFileParameters,
 ): Promise<VectorStoreFileOutput> {
+  validateVectorStoreId(vectorStoreId);
+  validateFileId(fileId);
   const result = await context
     .path("/vector_stores/{vectorStoreId}/files/{fileId}", vectorStoreId, fileId)
     .get(options);
@@ -62,6 +69,8 @@ export async function deleteVectorStoreFile(
   fileId: string,
   options?: DeleteVectorStoreFileParameters,
 ): Promise<VectorStoreFileDeletionStatusOutput> {
+  validateVectorStoreId(vectorStoreId);
+  validateFileId(fileId);
   const result = await context
     .path("/vector_stores/{vectorStoreId}/files/{fileId}", vectorStoreId, fileId)
     .delete(options);
@@ -103,4 +112,22 @@ export function createVectorStoreFileAndPoll(
     pollingOptions: pollingOptions
   });
   return poller.pollUntilDone();
+}
+
+function validateListVectorStoreFilesParameters(options?: ListVectorStoreFilesParameters): void {
+  if (options?.queryParameters?.filter) {
+    validateFileStatusFilter(options.queryParameters.filter);
+  }
+  if (options?.queryParameters?.limit) {
+    validateLimit(options.queryParameters.limit);
+  }
+  if (options?.queryParameters?.order) {
+    validateOrder(options.queryParameters.order);
+  }
+}
+
+function validateCreateVectorStoreFileParameters(options?: CreateVectorStoreFileParameters): void {
+  if (options?.body?.chunking_strategy && !options.body.file_id) {
+    throw new Error("Chunking strategy is only applicable if fileId is included");
+  }
 }
