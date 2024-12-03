@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { AuthMethod } from "./utils/recordedClient";
-import { createClient, startRecorder } from "./utils/recordedClient";
+import type { AuthMethod } from "./utils/recordedClient.js";
+import { createClient, startRecorder } from "./utils/recordedClient.js";
 import type { Context, Suite } from "mocha";
 import { assert, matrix } from "@azure-tools/test-utils";
-import type { ConversationAnalysisClient } from "../../src";
+import type { ConversationAnalysisClient } from "../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { assertEnvironmentVariable } from "@azure-tools/test-recorder";
 
@@ -14,8 +14,8 @@ matrix([["APIKey"]] as const, async (authMethod: AuthMethod) => {
     let recorder: Recorder;
     let client: ConversationAnalysisClient;
 
-    beforeEach(async function (this: Context) {
-      recorder = await startRecorder(this.currentTest);
+    beforeEach(async function (ctx) {
+      recorder = await startRecorder(ctx);
       client = createClient({
         authMethod,
         recorder,
