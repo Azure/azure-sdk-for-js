@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import type { AbortSignalLike } from "@azure/abort-controller";
-// import { EventEmitter } from "@azure/core-util";
 import EventEmitter from "events";
 import type { WebPubSubClient } from "../src/webPubSubClient.js";
 import type {
