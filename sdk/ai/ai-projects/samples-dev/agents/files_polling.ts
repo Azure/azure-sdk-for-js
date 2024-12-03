@@ -3,7 +3,6 @@
 
 import {AIProjectsClient} from "@azure/ai-projects"
 import { DefaultAzureCredential } from "@azure/identity";
-
 import * as dotenv from "dotenv";
 import { Readable } from "stream";
 dotenv.config();
@@ -11,30 +10,26 @@ dotenv.config();
 const connectionString = process.env["AZURE_AI_PROJECTS_CONNECTION_STRING"] || "<endpoint>>;<subscription>;<resource group>;<project>";
 
 export async function main(): Promise<void> {
-    const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
+  const client = AIProjectsClient.fromConnectionString(connectionString || "", new DefaultAzureCredential());
 
-    // Upload file and poll
-    const fileContent = "Hello, World!";
-    const readable = new Readable();
-    readable.push(fileContent);
-    readable.push(null); // end the stream
+  // Set up abort controller (optional)
+  // Polling can be stopped by calling abortController.abort()
+  const abortController = new AbortController();
 
-    const file = await client.agents.uploadFileAndPoll(readable, "assistants", 1000, "my-polling-file");
-    console.log(`Uploaded file, file ID : ${file.id}`);
+  // Create file content
+  const fileContent = "Hello, World!";
+  const readable = new Readable();
+  readable.push(fileContent);
+  readable.push(null); // end the stream
 
-    // List uploaded file
-    const files = await client.agents.listFiles();
-    console.log(`List of files : ${files.data[0].filename}`);
+  // Upload file and poll
+  const pollingOptions = { sleepIntervalInMs: 1000, abortSignal: abortController.signal };
+  const file = await client.agents.uploadFileAndPoll(readable, "assistants", "my-polling-file", pollingOptions);
+  console.log(`Uploaded file with status ${file.status}, file ID : ${file.id}`);
 
-    // Retrieve file
-    const _file = await client.agents.getFile(file.id);
-
-    console.log(`Retrieved file, file ID : ${_file.id}`);
-
-    // Delete file
-    await client.agents.deleteFile(file.id);
-
-    console.log(`Deleted file, file ID : ${file.id}`);
+  // Delete file
+  await client.agents.deleteFile(file.id);
+  console.log(`Deleted file, file ID ${file.id}`);
 }
 
 main().catch((err) => {
