@@ -4,19 +4,9 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { CancelRunParameters, CreateRunParameters, CreateThreadAndRunParameters, GetRunParameters, ListRunsParameters, SubmitToolOutputsToRunParameters, UpdateRunParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfThreadRunOutput, ThreadRunOutput } from "../generated/src/outputModels.js";
-import { validateLimit, validateMetadata, validateOrder } from "./inputValidations.js";
+import { validateLimit, validateMetadata, validateOrder, validateTools } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];
-
-enum Tools {
-  CodeInterpreter = "code_interpreter",
-  FileSearch = "file_search",
-  Function = "function",
-  BingGrounding = "bing_grounding",
-  MicrosoftFabric = "microsoft_fabric",
-  SharepointGrounding = "sharepoint_grounding",
-  AzureAISearch = "azure_ai_search",
-}
 
 /** Creates and starts a new run of the specified thread using the specified agent. */
 export async function createRun(
@@ -176,15 +166,13 @@ function validateCreateRunParameters(options: CreateRunParameters| CreateThreadA
     throw new Error("Role must be either 'user' or 'assistant'");
   }
   if (options.body.tools) {
-    if (options.body.tools.some(value => !Object.values(Tools).includes(value as unknown as Tools))) {
-      throw new Error("Tool type must be one of 'code_interpreter', 'file_search', 'function', 'bing_grounding', 'microsoft_fabric', 'sharepoint_grounding', 'azure_ai_search'");
-    }
+    validateTools(options.body.tools);
   }
   if (options.body.temperature && (options.body.temperature < 0 || options.body.temperature > 2)) {
     throw new Error("Temperature must be between 0 and 2");
   }
-  if (options.body.tool_choice && typeof options.body.tool_choice !== 'string' && !Object.values(Tools).includes(options.body.tool_choice as unknown as Tools)) {
-    throw new Error("Tool type must be one of 'code_interpreter', 'file_search', 'function', 'bing_grounding', 'microsoft_fabric', 'sharepoint_grounding', 'azure_ai_search'");
+  if (options.body.tool_choice && typeof options.body.tool_choice !== 'string') {
+    validateTools([options.body.tool_choice]);
   }
   if (options.body.truncation_strategy?.type && !["auto", "last_messages"].includes(options.body.truncation_strategy.type)) {
     throw new Error("Role must be either 'auto' or 'last_messages'");
@@ -200,9 +188,7 @@ function validateCreateThreadAndRunParameters(options: CreateThreadAndRunParamet
     throw new Error("Role must be either 'user' or 'assistant'");
   }
   if (options.body.tools) {
-    if (options.body.tools.some(value => !Object.values(Tools).includes(value as unknown as Tools))) {
-      throw new Error("Tool type must be one of 'code_interpreter', 'file_search', 'function', 'bing_grounding', 'microsoft_fabric', 'sharepoint_grounding', 'azure_ai_search'");
-    }
+    validateTools(options.body.tools);
   }
   if (options.body.tool_resources?.code_interpreter) {
     if (options.body.tool_resources.code_interpreter) {

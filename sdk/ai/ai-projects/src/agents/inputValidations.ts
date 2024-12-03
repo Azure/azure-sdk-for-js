@@ -1,7 +1,17 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { VectorStoreDataSource } from "../generated/src/models.js";
+import { ToolDefinition, VectorStoreDataSource } from "../generated/src/models.js";
+
+enum Tools {
+  CodeInterpreter = "code_interpreter",
+  FileSearch = "file_search",
+  Function = "function",
+  BingGrounding = "bing_grounding",
+  MicrosoftFabric = "microsoft_fabric",
+  SharepointGrounding = "sharepoint_grounding",
+  AzureAISearch = "azure_ai_search",
+}
 
 export function validateVectorStoreDataType(data_sources: VectorStoreDataSource[]): void {
   if (!data_sources.some(value => !["uri_asset", "id_asset"].includes(value.type))) {
@@ -19,6 +29,12 @@ export function validateOrder(order: string): void {
   if (!["asc", "desc"].includes(order)) {
     throw new Error("Order must be 'asc' or 'desc'");
   }
+}
+
+export function validateTools(value: Array<ToolDefinition>): void {
+    if (value.some(tool => !Object.values(Tools).includes(tool as unknown as Tools))) {
+      throw new Error("Tool type must be one of 'code_interpreter', 'file_search', 'function', 'bing_grounding', 'microsoft_fabric', 'sharepoint_grounding', 'azure_ai_search'");
+    }
 }
 
 export function validateMetadata(metadata: Record<string, string>): void {
