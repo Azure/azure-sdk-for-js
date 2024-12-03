@@ -109,7 +109,6 @@ async function defaultAuthorizeRequest(options: AuthorizeRequestOptions): Promis
   const { scopes, getAccessToken, request } = options;
   const getTokenOptions: GetTokenOptions = {
     abortSignal: request.abortSignal,
-    tracingOptions: request.tracingOptions,
   };
   const accessToken = await getAccessToken(scopes, getTokenOptions);
 

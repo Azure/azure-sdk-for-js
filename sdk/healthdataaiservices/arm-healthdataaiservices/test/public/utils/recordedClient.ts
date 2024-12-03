@@ -9,10 +9,6 @@ const replaceableVariables: Record<string, string> = {
 
 const recorderEnvSetup: RecorderStartOptions = {
   envSetupForPlayback: replaceableVariables,
-  removeCentralSanitizers: [
-    "AZSDK3493", // .name in the body is not a secret and is listed below in the beforeEach section
-    "AZSDK3430", // .id in the body is not a secret and is listed below in the beforeEach section
-  ],
 };
 
 /**
