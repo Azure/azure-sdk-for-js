@@ -5,8 +5,8 @@ import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
-import { logger } from "./logger";
-import type { AzureCommunicationRoutingServiceClient } from "./clientDefinitions";
+import { logger } from "./logger.js";
+import type { AzureCommunicationRoutingServiceClient } from "./clientDefinitions.js";
 import {
   createCommunicationAuthPolicy,
   isKeyCredential,

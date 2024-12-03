@@ -60,6 +60,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
       name = ApplicationInsightsExceptionName;
       baseType = ApplicationInsightsExceptionBaseType;
       const exceptionDetails: TelemetryExceptionDetails = {
+        // eslint-disable-next-line @typescript-eslint/no-base-to-string
         typeName: String(exceptionType),
         message: String(exceptionMessage),
         hasFullStack: exceptionStacktrace ? true : false,
@@ -83,6 +84,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
     }
   } else {
     // If Legacy Application Insights Log
+    // eslint-disable-next-line @typescript-eslint/no-base-to-string
     baseType = String(log.attributes[ApplicationInsightsBaseType]);
     name = getLegacyApplicationInsightsName(log);
     baseData = getLegacyApplicationInsightsBaseData(log);
@@ -98,6 +100,7 @@ export function logToEnvelope(log: ReadableLogRecord, ikey: string): Envelope | 
   }
   if (properties) {
     for (const key of Object.keys(properties)) {
+      // eslint-disable-next-line @typescript-eslint/no-base-to-string
       properties[key] = String(properties[key]).substring(0, MaxPropertyLengths.THIRTEEN_BIT);
     }
   }
@@ -127,6 +130,11 @@ function createTagsFromLog(log: ReadableLogRecord): Tags {
   if (log.spanContext?.spanId) {
     tags[KnownContextTagKeys.AiOperationParentId] = log.spanContext.spanId;
   }
+  if (log.attributes[KnownContextTagKeys.AiOperationName]) {
+    tags[KnownContextTagKeys.AiOperationName] = log.attributes[
+      KnownContextTagKeys.AiOperationName
+    ] as string;
+  }
   return tags;
 }
 
@@ -141,7 +149,8 @@ function createPropertiesFromLog(log: ReadableLogRecord): [Properties, Measureme
           key.startsWith("_MS.") ||
           key === ATTR_EXCEPTION_TYPE ||
           key === ATTR_EXCEPTION_MESSAGE ||
-          key === ATTR_EXCEPTION_STACKTRACE
+          key === ATTR_EXCEPTION_STACKTRACE ||
+          key === (KnownContextTagKeys.AiOperationName as string)
         )
       ) {
         properties[key] = serializeAttribute(log.attributes[key]);

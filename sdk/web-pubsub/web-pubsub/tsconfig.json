@@ -1,15 +1,12 @@
 {
   "extends": "../../../tsconfig",
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types",
     "paths": {
       "@azure/web-pubsub": ["./src/index"]
-    }
+    },
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "rootDir": "."
   },
-  // Ensure dom.d.ts file is loaded when running mocha tests
-  "ts-node": {
-    "files": true
-  },
-  "include": ["src/**/*.ts", "test/**/*.ts", "samples-dev/**/*.ts"]
+  "include": ["src/**/*.ts", "src/**/*.mts", "src/**/*.cts", "samples-dev/**/*.ts", "test/**/*.ts"]
 }

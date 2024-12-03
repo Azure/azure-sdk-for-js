@@ -3,7 +3,7 @@
   "sdk-type": "mgmt",
   "author": "Microsoft Corporation",
   "description": "A generated SDK for NetAppManagementClient.",
-  "version": "21.3.1",
+  "version": "21.4.0-beta.2",
   "engines": {
     "node": ">=18.0.0"
   },
@@ -28,6 +28,7 @@
   "module": "./dist-esm/src/index.js",
   "types": "./types/arm-netapp.d.ts",
   "devDependencies": {
+    "@microsoft/api-extractor": "^7.31.1",
     "typescript": "~5.6.2",
     "dotenv": "^16.0.0",
     "@azure/dev-tool": "^1.0.0",
@@ -89,7 +90,8 @@
     "unit-test:browser": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "integration-test:node": "dev-tool run test:node-ts-input -- --timeout 1200000 'test/*.ts'",
-    "integration-test:browser": "echo skipped"
+    "integration-test:browser": "echo skipped",
+    "update-snippets": "echo skipped"
   },
   "sideEffects": false,
   "//metadata": {

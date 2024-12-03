@@ -2,9 +2,7 @@
 // Licensed under the MIT License.
 
 import { createSerializer } from "@azure/core-client";
-
-import { communicationIdentifierConverter, callParticipantConverter } from "./utli/converters";
-
+import { communicationIdentifierConverter, callParticipantConverter } from "./utli/converters.js";
 import type {
   CallAutomationEvent,
   AddParticipantSucceeded,
@@ -37,10 +35,9 @@ import type {
   CreateCallFailed,
   AnswerFailed,
   HoldFailed,
-} from "./models/events";
-
-import { CloudEventMapper } from "./models/mapper";
-import type { CallParticipantInternal } from "./generated/src";
+} from "./models/events.js";
+import { CloudEventMapper } from "./models/mapper.js";
+import type { CallParticipantInternal } from "./generated/src/index.js";
 
 const serializer = createSerializer();
 

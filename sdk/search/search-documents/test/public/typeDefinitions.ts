@@ -81,6 +81,7 @@ type BlobIndexerParsingMode =
   | "json"
   | "jsonArray"
   | "jsonLines"
+  | "markdown"
   | "text";
 type BlobIndexerPDFTextRotationAlgorithm = "detectAngles" | "none";
 type CustomEntityLookupSkillLanguage = "da" | "de" | "en" | "es" | "fi" | "fr" | "it" | "ko" | "pt";

@@ -18,7 +18,7 @@ import {
   RoomsDeleteOptionalParams,
   RoomsListNextOptionalParams,
   RoomsListNextResponse
-} from "../models";
+} from "../models/index.js";
 
 /** Interface representing a Rooms. */
 export interface Rooms {

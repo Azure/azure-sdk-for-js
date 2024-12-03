@@ -9,7 +9,7 @@ import { SmsClient, SmsSendRequest } from "@azure/communication-sms";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-import { SmsSendOptions } from "../src/generated/src/models";
+import { SmsSendOptions } from "../src/generated/src/models/index.js";
 dotenv.config();
 
 export async function main() {

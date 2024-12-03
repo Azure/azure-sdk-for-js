@@ -14,7 +14,7 @@ import type {
   RouterWorker,
   StaticQueueSelectorAttachment,
   RouterJob,
-} from "../../../src";
+} from "../../../src/index.js";
 
 const queueId = "test-a-queue";
 const exceptionPolicyId = "test-e-policy";

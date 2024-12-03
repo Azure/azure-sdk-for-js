@@ -11,11 +11,11 @@ import type { KeyCredential, TokenCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { CommonClientOptions, OperationOptions } from "@azure/core-client";
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { SmsApiClient } from "./generated/src/smsApiClient";
-import { extractOperationOptions } from "./extractOperationOptions";
-import { generateSendMessageRequest } from "./utils/smsUtils";
-import { logger } from "./logger";
-import { tracingClient } from "./generated/src/tracing";
+import { SmsApiClient } from "./generated/src/smsApiClient.js";
+import { extractOperationOptions } from "./extractOperationOptions.js";
+import { generateSendMessageRequest } from "./utils/smsUtils.js";
+import { logger } from "./logger.js";
+import { tracingClient } from "./generated/src/tracing.js";
 
 /**
  * Client options used to configure SMS Client API requests.

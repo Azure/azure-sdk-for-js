@@ -10,16 +10,16 @@ import {
   parseClientArguments,
 } from "@azure/communication-common";
 
-import { logger } from "./logger";
-import { tracingClient } from "./tracing";
-import { RoomsRestClient } from "./generated/src";
+import { logger } from "./logger.js";
+import { tracingClient } from "./tracing.js";
+import { RoomsRestClient } from "./generated/src/index.js";
 import {
   mapCommunicationRoomToSDKModel,
   mapRoomParticipantForRemoval,
   mapRoomParticipantToRawId,
   mapToRoomParticipantSDKModel,
-} from "./models/mappers";
-import type { CommunicationRoom, RoomParticipantPatch, RoomParticipant } from "./models/models";
+} from "./models/mappers.js";
+import type { CommunicationRoom, RoomParticipantPatch, RoomParticipant } from "./models/models.js";
 import type {
   CreateRoomOptions,
   DeleteRoomOptions,
@@ -30,7 +30,7 @@ import type {
   RoomsClientOptions,
   UpdateRoomOptions,
   AddOrUpdateParticipantsOptions,
-} from "./models/options";
+} from "./models/options.js";
 import { randomUUID } from "@azure/core-util";
 import type { PagedAsyncIterableIterator } from "@azure/core-paging";
 

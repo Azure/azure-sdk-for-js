@@ -3,8 +3,8 @@
 
 /// <reference lib="esnext.asynciterable" />
 
-import type { DocumentTranslatorClient } from "../../../src";
-import DocumentTranslator from "../../../src";
+import type { DocumentTranslatorClient } from "../../../src/index.js";
+import DocumentTranslator from "../../../src/index.js";
 import type { Recorder } from "@azure-tools/test-recorder";
 import { env } from "@azure-tools/test-recorder";
 

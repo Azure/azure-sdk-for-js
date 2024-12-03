@@ -16,7 +16,7 @@ import { NetworkCloud } from "../networkCloud";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -29,9 +29,10 @@ import {
   BareMetalMachineKeySetsCreateOrUpdateOptionalParams,
   BareMetalMachineKeySetsCreateOrUpdateResponse,
   BareMetalMachineKeySetsDeleteOptionalParams,
+  BareMetalMachineKeySetsDeleteResponse,
   BareMetalMachineKeySetsUpdateOptionalParams,
   BareMetalMachineKeySetsUpdateResponse,
-  BareMetalMachineKeySetsListByClusterNextResponse
+  BareMetalMachineKeySetsListByClusterNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,12 +57,12 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
   public listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: BareMetalMachineKeySetsListByClusterOptionalParams
+    options?: BareMetalMachineKeySetsListByClusterOptionalParams,
   ): PagedAsyncIterableIterator<BareMetalMachineKeySet> {
     const iter = this.listByClusterPagingAll(
       resourceGroupName,
       clusterName,
-      options
+      options,
     );
     return {
       next() {
@@ -78,9 +79,9 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
           resourceGroupName,
           clusterName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
@@ -88,7 +89,7 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     resourceGroupName: string,
     clusterName: string,
     options?: BareMetalMachineKeySetsListByClusterOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<BareMetalMachineKeySet[]> {
     let result: BareMetalMachineKeySetsListByClusterResponse;
     let continuationToken = settings?.continuationToken;
@@ -96,7 +97,7 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
       result = await this._listByCluster(
         resourceGroupName,
         clusterName,
-        options
+        options,
       );
       let page = result.value || [];
       continuationToken = result.nextLink;
@@ -108,7 +109,7 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
         resourceGroupName,
         clusterName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -120,12 +121,12 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
   private async *listByClusterPagingAll(
     resourceGroupName: string,
     clusterName: string,
-    options?: BareMetalMachineKeySetsListByClusterOptionalParams
+    options?: BareMetalMachineKeySetsListByClusterOptionalParams,
   ): AsyncIterableIterator<BareMetalMachineKeySet> {
     for await (const page of this.listByClusterPagingPage(
       resourceGroupName,
       clusterName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -140,11 +141,11 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
   private _listByCluster(
     resourceGroupName: string,
     clusterName: string,
-    options?: BareMetalMachineKeySetsListByClusterOptionalParams
+    options?: BareMetalMachineKeySetsListByClusterOptionalParams,
   ): Promise<BareMetalMachineKeySetsListByClusterResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, options },
-      listByClusterOperationSpec
+      listByClusterOperationSpec,
     );
   }
 
@@ -159,11 +160,11 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     resourceGroupName: string,
     clusterName: string,
     bareMetalMachineKeySetName: string,
-    options?: BareMetalMachineKeySetsGetOptionalParams
+    options?: BareMetalMachineKeySetsGetOptionalParams,
   ): Promise<BareMetalMachineKeySetsGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, bareMetalMachineKeySetName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -180,7 +181,7 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     clusterName: string,
     bareMetalMachineKeySetName: string,
     bareMetalMachineKeySetParameters: BareMetalMachineKeySet,
-    options?: BareMetalMachineKeySetsCreateOrUpdateOptionalParams
+    options?: BareMetalMachineKeySetsCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachineKeySetsCreateOrUpdateResponse>,
@@ -189,21 +190,20 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BareMetalMachineKeySetsCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -212,8 +212,8 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -221,8 +221,8 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -233,9 +233,9 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
         clusterName,
         bareMetalMachineKeySetName,
         bareMetalMachineKeySetParameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       BareMetalMachineKeySetsCreateOrUpdateResponse,
@@ -243,7 +243,7 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -262,14 +262,14 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     clusterName: string,
     bareMetalMachineKeySetName: string,
     bareMetalMachineKeySetParameters: BareMetalMachineKeySet,
-    options?: BareMetalMachineKeySetsCreateOrUpdateOptionalParams
+    options?: BareMetalMachineKeySetsCreateOrUpdateOptionalParams,
   ): Promise<BareMetalMachineKeySetsCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       clusterName,
       bareMetalMachineKeySetName,
       bareMetalMachineKeySetParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -285,25 +285,29 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     resourceGroupName: string,
     clusterName: string,
     bareMetalMachineKeySetName: string,
-    options?: BareMetalMachineKeySetsDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: BareMetalMachineKeySetsDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<BareMetalMachineKeySetsDeleteResponse>,
+      BareMetalMachineKeySetsDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<BareMetalMachineKeySetsDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -312,8 +316,8 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -321,8 +325,8 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -332,14 +336,17 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
         resourceGroupName,
         clusterName,
         bareMetalMachineKeySetName,
-        options
+        options,
       },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      BareMetalMachineKeySetsDeleteResponse,
+      OperationState<BareMetalMachineKeySetsDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -356,13 +363,13 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     resourceGroupName: string,
     clusterName: string,
     bareMetalMachineKeySetName: string,
-    options?: BareMetalMachineKeySetsDeleteOptionalParams
-  ): Promise<void> {
+    options?: BareMetalMachineKeySetsDeleteOptionalParams,
+  ): Promise<BareMetalMachineKeySetsDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       clusterName,
       bareMetalMachineKeySetName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -379,7 +386,7 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     resourceGroupName: string,
     clusterName: string,
     bareMetalMachineKeySetName: string,
-    options?: BareMetalMachineKeySetsUpdateOptionalParams
+    options?: BareMetalMachineKeySetsUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<BareMetalMachineKeySetsUpdateResponse>,
@@ -388,21 +395,20 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<BareMetalMachineKeySetsUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -411,8 +417,8 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -420,8 +426,8 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -431,9 +437,9 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
         resourceGroupName,
         clusterName,
         bareMetalMachineKeySetName,
-        options
+        options,
       },
-      spec: updateOperationSpec
+      spec: updateOperationSpec,
     });
     const poller = await createHttpPoller<
       BareMetalMachineKeySetsUpdateResponse,
@@ -441,7 +447,7 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -459,13 +465,13 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     resourceGroupName: string,
     clusterName: string,
     bareMetalMachineKeySetName: string,
-    options?: BareMetalMachineKeySetsUpdateOptionalParams
+    options?: BareMetalMachineKeySetsUpdateOptionalParams,
   ): Promise<BareMetalMachineKeySetsUpdateResponse> {
     const poller = await this.beginUpdate(
       resourceGroupName,
       clusterName,
       bareMetalMachineKeySetName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -481,11 +487,11 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
     resourceGroupName: string,
     clusterName: string,
     nextLink: string,
-    options?: BareMetalMachineKeySetsListByClusterNextOptionalParams
+    options?: BareMetalMachineKeySetsListByClusterNextOptionalParams,
   ): Promise<BareMetalMachineKeySetsListByClusterNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, clusterName, nextLink, options },
-      listByClusterNextOperationSpec
+      listByClusterNextOperationSpec,
     );
   }
 }
@@ -493,38 +499,15 @@ export class BareMetalMachineKeySetsImpl implements BareMetalMachineKeySets {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listByClusterOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BareMetalMachineKeySetList
+      bodyMapper: Mappers.BareMetalMachineKeySetList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.clusterName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.BareMetalMachineKeySet
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -532,31 +515,51 @@ const getOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.bareMetalMachineKeySetName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.BareMetalMachineKeySet,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.bareMetalMachineKeySetName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.BareMetalMachineKeySet
+      bodyMapper: Mappers.BareMetalMachineKeySet,
     },
     201: {
-      bodyMapper: Mappers.BareMetalMachineKeySet
+      bodyMapper: Mappers.BareMetalMachineKeySet,
     },
     202: {
-      bodyMapper: Mappers.BareMetalMachineKeySet
+      bodyMapper: Mappers.BareMetalMachineKeySet,
     },
     204: {
-      bodyMapper: Mappers.BareMetalMachineKeySet
+      bodyMapper: Mappers.BareMetalMachineKeySet,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.bareMetalMachineKeySetParameters,
   queryParameters: [Parameters.apiVersion],
@@ -565,24 +568,31 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.bareMetalMachineKeySetName
+    Parameters.bareMetalMachineKeySetName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
@@ -590,31 +600,30 @@ const deleteOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.bareMetalMachineKeySetName
+    Parameters.bareMetalMachineKeySetName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/clusters/{clusterName}/bareMetalMachineKeySets/{bareMetalMachineKeySetName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.BareMetalMachineKeySet
+      bodyMapper: Mappers.BareMetalMachineKeySet,
     },
     201: {
-      bodyMapper: Mappers.BareMetalMachineKeySet
+      bodyMapper: Mappers.BareMetalMachineKeySet,
     },
     202: {
-      bodyMapper: Mappers.BareMetalMachineKeySet
+      bodyMapper: Mappers.BareMetalMachineKeySet,
     },
     204: {
-      bodyMapper: Mappers.BareMetalMachineKeySet
+      bodyMapper: Mappers.BareMetalMachineKeySet,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.bareMetalMachineKeySetUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -623,30 +632,30 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.clusterName,
-    Parameters.bareMetalMachineKeySetName
+    Parameters.bareMetalMachineKeySetName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listByClusterNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.BareMetalMachineKeySetList
+      bodyMapper: Mappers.BareMetalMachineKeySetList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.clusterName
+    Parameters.clusterName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

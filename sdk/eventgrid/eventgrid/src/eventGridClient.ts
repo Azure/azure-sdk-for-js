@@ -4,20 +4,19 @@
 import type { KeyCredential, SASCredential } from "@azure/core-auth";
 import { isTokenCredential } from "@azure/core-auth";
 import type { OperationOptions, CommonClientOptions } from "@azure/core-client";
-
-import { eventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
-import { DEFAULT_EVENTGRID_SCOPE } from "./constants";
-import type { SendCloudEventInput, SendEventGridEventInput } from "./models";
-import { cloudEventReservedPropertyNames } from "./models";
-import { GeneratedClient } from "./generated/generatedClient";
+import { eventGridCredentialPolicy } from "./eventGridAuthenticationPolicy.js";
+import { DEFAULT_EVENTGRID_SCOPE } from "./constants.js";
+import type { SendCloudEventInput, SendEventGridEventInput } from "./models.js";
+import { cloudEventReservedPropertyNames } from "./models.js";
+import { GeneratedClient } from "./generated/generatedClient.js";
 import type {
   CloudEvent as CloudEventWireModel,
   EventGridEvent as EventGridEventWireModel,
   GeneratedClientPublishCloudEventEventsOptionalParams,
-} from "./generated/models";
-import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy";
-import { tracingClient } from "./tracing";
-import { v4 as uuidv4 } from "uuid";
+} from "./generated/models/index.js";
+import { cloudEventDistributedTracingEnricherPolicy } from "./cloudEventDistrubtedTracingEnricherPolicy.js";
+import { tracingClient } from "./tracing.js";
+import { randomUUID } from "@azure/core-util";
 import type { TokenCredential } from "@azure/core-auth";
 import { bearerTokenAuthenticationPolicy, tracingPolicyName } from "@azure/core-rest-pipeline";
 
@@ -212,7 +211,7 @@ export function convertEventGridEventToModelType(
   return {
     eventType: event.eventType,
     eventTime: event.eventTime ?? new Date(),
-    id: event.id ?? uuidv4(),
+    id: event.id ?? randomUUID(),
     subject: event.subject,
     topic: event.topic,
     data: event.data,
@@ -242,7 +241,7 @@ export function convertCloudEventToModelType(event: SendCloudEventInput<any>): C
     specversion: "1.0",
     type: event.type,
     source: event.source,
-    id: event.id ?? uuidv4(),
+    id: event.id ?? randomUUID(),
     time: event.time ?? new Date(),
     subject: event.subject,
     dataschema: event.dataschema,

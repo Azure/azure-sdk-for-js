@@ -12,9 +12,9 @@ import {
   PipelineResponse,
   SendRequest,
 } from "@azure/core-rest-pipeline";
-import { ChatThreadImpl, ChatImpl } from "./operations";
-import { ChatThread, Chat } from "./operationsInterfaces";
-import { ChatApiClientOptionalParams } from "./models";
+import { ChatThreadImpl, ChatImpl } from "./operations/index.js";
+import { ChatThread, Chat } from "./operationsInterfaces/index.js";
+import { ChatApiClientOptionalParams } from "./models/index.js";
 
 export class ChatApiClient extends coreClient.ServiceClient {
   endpoint: string;

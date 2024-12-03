@@ -16,7 +16,7 @@ import type {
   UnassignJobOptions,
   DeclineJobOfferOptions,
   RouterWorker,
-} from "./models";
+} from "./models.js";
 
 export interface UpsertClassificationPolicyHeaders {
   /** The request should only proceed if an entity matches this string. */

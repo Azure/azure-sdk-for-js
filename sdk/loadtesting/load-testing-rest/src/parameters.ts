@@ -10,7 +10,7 @@ import type {
   MetricRequestPayload,
   TestRunAppComponents,
   TestRunServerMetricConfig,
-} from "./models";
+} from "./models.js";
 
 export interface TestCreateOrUpdateBodyParam {
   /** Load test model */

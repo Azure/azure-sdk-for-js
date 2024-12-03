@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { logger } from "./models/logger";
+import { logger } from "./models/logger.js";
 import type {
   CommunicationIdentifier,
   CommunicationTokenCredential,
@@ -12,7 +12,7 @@ import type {
   AddParticipantsRequest,
   SendMessageRequest,
   SendReadReceiptRequest,
-} from "./models/requests";
+} from "./models/requests.js";
 
 import type {
   AddChatParticipantsResult,
@@ -22,14 +22,14 @@ import type {
   ChatThreadProperties,
   ListPageSettings,
   SendChatMessageResult,
-} from "./models/models";
+} from "./models/models.js";
 import {
   mapToAddChatParticipantsRequestRestModel,
   mapToChatMessageSdkModel,
   mapToChatParticipantSdkModel,
   mapToChatThreadPropertiesSdkModel,
   mapToReadReceiptSdkModel,
-} from "./models/mappers";
+} from "./models/mappers.js";
 import type {
   AddParticipantsOptions,
   ChatThreadClientOptions,
@@ -45,11 +45,11 @@ import type {
   SendTypingNotificationOptions,
   UpdateMessageOptions,
   UpdateTopicOptions,
-} from "./models/options";
-import { ChatApiClient } from "./generated/src";
+} from "./models/options.js";
+import { ChatApiClient } from "./generated/src/index.js";
 import type { InternalPipelineOptions } from "@azure/core-rest-pipeline";
-import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy";
-import { tracingClient } from "./generated/src/tracing";
+import { createCommunicationTokenCredentialPolicy } from "./credential/communicationTokenCredentialPolicy.js";
+import { tracingClient } from "./generated/src/tracing.js";
 
 const minimumTypingIntervalInMilliSeconds: number = 8000;
 

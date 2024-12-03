@@ -17,6 +17,12 @@ export const commandInfo = makeCommandInfo(
       default: true,
       description: "whether to run with test-proxy",
     },
+    "test-proxy-debug": {
+      description:
+        "Runs the test-proxy with debug logs enabled (Logging__LogLevel__Default=Debug); generates testProxyOutput.log",
+      kind: "boolean",
+      default: false,
+    },
   },
 );
 
@@ -36,6 +42,7 @@ export default leafCommand(commandInfo, async (options) => {
   };
 
   if (options["test-proxy"]) {
+    if (options["test-proxy-debug"]) process.env["Logging__LogLevel__Default"] = "Debug";
     return runTestsWithProxyTool(command);
   }
 
