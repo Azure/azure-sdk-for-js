@@ -1056,9 +1056,7 @@ export type PagedEvaluationScheduleOutput = Paged<EvaluationScheduleOutput>;
 
 // @public
 export interface PollingOptions {
-    // (undocumented)
     abortSignal?: AbortSignalLike;
-    // (undocumented)
     sleepIntervalInMs?: number;
 }
 

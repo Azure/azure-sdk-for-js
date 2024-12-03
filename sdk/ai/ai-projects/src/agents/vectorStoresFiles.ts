@@ -98,6 +98,9 @@ export function createVectorStoreFileAndPoll(
     };
   }
 
-  const poller = new AgentsPoller<VectorStoreFileOutput>(updateCreateVectorStoreFilePoll, pollingOptions);
+  const poller = new AgentsPoller<VectorStoreFileOutput>({
+    update: updateCreateVectorStoreFilePoll,
+    pollingOptions: pollingOptions
+  });
   return poller.pollUntilDone();
 }

@@ -103,6 +103,10 @@ export function createVectorStoreFileBatchAndPoll(
     return result.status === "cancelled";
   }
 
-  const poller = new AgentsPoller<VectorStoreFileBatchOutput>(updateCreateVectorStoreFileBatchPoll, pollingOptions, cancelCreateVectorStoreFileBatchPoll);
+  const poller = new AgentsPoller<VectorStoreFileBatchOutput>({
+    update: updateCreateVectorStoreFileBatchPoll, 
+    cancel: cancelCreateVectorStoreFileBatchPoll,
+    pollingOptions: pollingOptions
+  });
   return poller.pollUntilDone();
 }

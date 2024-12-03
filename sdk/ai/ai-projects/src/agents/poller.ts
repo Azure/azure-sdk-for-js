@@ -23,16 +23,24 @@ export class AgentsPoller<T extends PollResult> extends Poller<AgentsPollOperati
   sleepIntervalInMs: number = 1000;
   
   constructor(
-    update: (state?: T) => Promise<{result: T, completed: boolean}>,
-    pollerOptions?: PollingOptions,
-    cancel?: (state: T) => Promise<boolean>,
-    baseOperation?: AgentsPollOperation<T>,
-    onProgress?: (state: AgentsPollOperationState<T>) => void
-  ) {
+    {
+      update,
+      pollingOptions,
+      cancel,
+      baseOperation,
+      onProgress
+    } : {
+      update: (state?: T) => Promise<{result: T, completed: boolean}>,
+      pollingOptions?: PollingOptions,
+      cancel?: (state: T) => Promise<boolean>,
+      baseOperation?: AgentsPollOperation<T>,
+      onProgress?: (state: AgentsPollOperationState<T>) => void
+    }) {
+
     let state: AgentsPollOperationState<T> = { 
       updateInternal: update,
       cancelInternal: cancel,
-      abortSignal: pollerOptions?.abortSignal
+      abortSignal: pollingOptions?.abortSignal
     };
   
     if (baseOperation) {
@@ -42,7 +50,7 @@ export class AgentsPoller<T extends PollResult> extends Poller<AgentsPollOperati
     const operation = makeOperation(state);
     super(operation);
 
-    this.sleepIntervalInMs = pollerOptions?.sleepIntervalInMs ?? this.sleepIntervalInMs;
+    this.sleepIntervalInMs = pollingOptions?.sleepIntervalInMs ?? this.sleepIntervalInMs;
 
     if (onProgress) {
       this.onProgress(onProgress);
@@ -86,10 +94,7 @@ async function updateWrapper<T extends PollResult>(
 async function cancelWrapper<T extends PollResult>(
   this: AgentsPollOperation<T>
 ): Promise<PollOperation<AgentsPollOperationState<T>, T>> {
-  if (!this.state.cancelInternal) {
-    throw new Error("This operation does not support cancellation");
-  }
-  if (!this.state.result) {
+  if (!this.state.result || !this.state.cancelInternal) {
     return makeOperation({
       ...this.state,
       cancelled: false

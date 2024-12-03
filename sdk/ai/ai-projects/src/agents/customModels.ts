@@ -22,8 +22,11 @@ export interface ListQueryParameters {
   before?: string;
 }
 
-/** Options for polling methods */
+/** Options for configuring polling behavior. */
 export interface PollingOptions {
+  /** The interval, in milliseconds, to wait between polling attempts. If not specified, a default interval of 1000ms will be used. */
   sleepIntervalInMs?: number;
+
+  /** An AbortSignalLike object (as defined by \@azure/abort-controller) that can be used to cancel the polling operation. */
   abortSignal?: AbortSignalLike;
 }

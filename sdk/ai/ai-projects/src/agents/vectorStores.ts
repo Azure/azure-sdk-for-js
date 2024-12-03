@@ -109,6 +109,9 @@ export function createVectorStoreAndPoll(
     };
   }
 
-  const poller = new AgentsPoller<VectorStoreOutput>(updateCreateVectorStorePoll, pollingOptions);
+  const poller = new AgentsPoller<VectorStoreOutput>({
+    update: updateCreateVectorStorePoll,
+    pollingOptions: pollingOptions
+  });
   return poller.pollUntilDone();
 }
