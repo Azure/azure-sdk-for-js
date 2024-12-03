@@ -194,6 +194,20 @@ export const SearchDocumentsResult: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      semanticQueryRewritesResultType: {
+        serializedName: "@search\\.semanticQueryRewritesResultType",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      debugInfo: {
+        serializedName: "@search\\.debug",
+        type: {
+          name: "Composite",
+          className: "DebugInfo",
+        },
+      },
     },
   },
 };
@@ -209,6 +223,21 @@ export const FacetResult: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number",
+        },
+      },
+      facets: {
+        serializedName: "@search\\.facets",
+        readOnly: true,
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Sequence",
+              element: {
+                type: { name: "Composite", className: "FacetResult" },
+              },
+            },
+          },
         },
       },
     },
@@ -447,6 +476,12 @@ export const SearchRequest: coreClient.CompositeMapper = {
           name: "String",
         },
       },
+      queryRewrites: {
+        serializedName: "queryRewrites",
+        type: {
+          name: "String",
+        },
+      },
       semanticFields: {
         serializedName: "semanticFields",
         type: {
@@ -636,16 +671,9 @@ export const SearchResult: coreClient.CompositeMapper = {
       },
       documentDebugInfo: {
         serializedName: "@search\\.documentDebugInfo",
-        readOnly: true,
-        nullable: true,
         type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DocumentDebugInfo",
-            },
-          },
+          name: "Composite",
+          className: "DocumentDebugInfo",
         },
       },
     },
@@ -892,6 +920,79 @@ export const SingleVectorFieldResult: coreClient.CompositeMapper = {
         readOnly: true,
         type: {
           name: "Number",
+        },
+      },
+    },
+  },
+};
+
+export const DebugInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "DebugInfo",
+    modelProperties: {
+      queryRewrites: {
+        serializedName: "queryRewrites",
+        type: {
+          name: "Composite",
+          className: "QueryRewritesDebugInfo",
+        },
+      },
+    },
+  },
+};
+
+export const QueryRewritesDebugInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QueryRewritesDebugInfo",
+    modelProperties: {
+      text: {
+        serializedName: "text",
+        type: {
+          name: "Composite",
+          className: "QueryRewritesValuesDebugInfo",
+        },
+      },
+      vectors: {
+        serializedName: "vectors",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "QueryRewritesValuesDebugInfo",
+            },
+          },
+        },
+      },
+    },
+  },
+};
+
+export const QueryRewritesValuesDebugInfo: coreClient.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "QueryRewritesValuesDebugInfo",
+    modelProperties: {
+      inputQuery: {
+        serializedName: "inputQuery",
+        readOnly: true,
+        type: {
+          name: "String",
+        },
+      },
+      rewrites: {
+        serializedName: "rewrites",
+        readOnly: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String",
+            },
+          },
         },
       },
     },
@@ -1290,6 +1391,12 @@ export const VectorizableTextQuery: coreClient.CompositeMapper = {
       text: {
         serializedName: "text",
         required: true,
+        type: {
+          name: "String",
+        },
+      },
+      queryRewrites: {
+        serializedName: "queryRewrites",
         type: {
           name: "String",
         },

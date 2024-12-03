@@ -16,7 +16,7 @@ import { NetworkCloud } from "../networkCloud";
 import {
   SimplePollerLike,
   OperationState,
-  createHttpPoller
+  createHttpPoller,
 } from "@azure/core-lro";
 import { createLroSpec } from "../lroImpl";
 import {
@@ -32,10 +32,11 @@ import {
   TrunkedNetworksCreateOrUpdateOptionalParams,
   TrunkedNetworksCreateOrUpdateResponse,
   TrunkedNetworksDeleteOptionalParams,
+  TrunkedNetworksDeleteResponse,
   TrunkedNetworksUpdateOptionalParams,
   TrunkedNetworksUpdateResponse,
   TrunkedNetworksListBySubscriptionNextResponse,
-  TrunkedNetworksListByResourceGroupNextResponse
+  TrunkedNetworksListByResourceGroupNextResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -56,7 +57,7 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
    * @param options The options parameters.
    */
   public listBySubscription(
-    options?: TrunkedNetworksListBySubscriptionOptionalParams
+    options?: TrunkedNetworksListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<TrunkedNetwork> {
     const iter = this.listBySubscriptionPagingAll(options);
     return {
@@ -71,13 +72,13 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
           throw new Error("maxPageSize is not supported by this operation.");
         }
         return this.listBySubscriptionPagingPage(options, settings);
-      }
+      },
     };
   }
 
   private async *listBySubscriptionPagingPage(
     options?: TrunkedNetworksListBySubscriptionOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TrunkedNetwork[]> {
     let result: TrunkedNetworksListBySubscriptionResponse;
     let continuationToken = settings?.continuationToken;
@@ -98,7 +99,7 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
   }
 
   private async *listBySubscriptionPagingAll(
-    options?: TrunkedNetworksListBySubscriptionOptionalParams
+    options?: TrunkedNetworksListBySubscriptionOptionalParams,
   ): AsyncIterableIterator<TrunkedNetwork> {
     for await (const page of this.listBySubscriptionPagingPage(options)) {
       yield* page;
@@ -112,7 +113,7 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
    */
   public listByResourceGroup(
     resourceGroupName: string,
-    options?: TrunkedNetworksListByResourceGroupOptionalParams
+    options?: TrunkedNetworksListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<TrunkedNetwork> {
     const iter = this.listByResourceGroupPagingAll(resourceGroupName, options);
     return {
@@ -129,16 +130,16 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
         return this.listByResourceGroupPagingPage(
           resourceGroupName,
           options,
-          settings
+          settings,
         );
-      }
+      },
     };
   }
 
   private async *listByResourceGroupPagingPage(
     resourceGroupName: string,
     options?: TrunkedNetworksListByResourceGroupOptionalParams,
-    settings?: PageSettings
+    settings?: PageSettings,
   ): AsyncIterableIterator<TrunkedNetwork[]> {
     let result: TrunkedNetworksListByResourceGroupResponse;
     let continuationToken = settings?.continuationToken;
@@ -153,7 +154,7 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
       result = await this._listByResourceGroupNext(
         resourceGroupName,
         continuationToken,
-        options
+        options,
       );
       continuationToken = result.nextLink;
       let page = result.value || [];
@@ -164,11 +165,11 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
 
   private async *listByResourceGroupPagingAll(
     resourceGroupName: string,
-    options?: TrunkedNetworksListByResourceGroupOptionalParams
+    options?: TrunkedNetworksListByResourceGroupOptionalParams,
   ): AsyncIterableIterator<TrunkedNetwork> {
     for await (const page of this.listByResourceGroupPagingPage(
       resourceGroupName,
-      options
+      options,
     )) {
       yield* page;
     }
@@ -179,11 +180,11 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
    * @param options The options parameters.
    */
   private _listBySubscription(
-    options?: TrunkedNetworksListBySubscriptionOptionalParams
+    options?: TrunkedNetworksListBySubscriptionOptionalParams,
   ): Promise<TrunkedNetworksListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       { options },
-      listBySubscriptionOperationSpec
+      listBySubscriptionOperationSpec,
     );
   }
 
@@ -194,11 +195,11 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
    */
   private _listByResourceGroup(
     resourceGroupName: string,
-    options?: TrunkedNetworksListByResourceGroupOptionalParams
+    options?: TrunkedNetworksListByResourceGroupOptionalParams,
   ): Promise<TrunkedNetworksListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, options },
-      listByResourceGroupOperationSpec
+      listByResourceGroupOperationSpec,
     );
   }
 
@@ -211,11 +212,11 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
   get(
     resourceGroupName: string,
     trunkedNetworkName: string,
-    options?: TrunkedNetworksGetOptionalParams
+    options?: TrunkedNetworksGetOptionalParams,
   ): Promise<TrunkedNetworksGetResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, trunkedNetworkName, options },
-      getOperationSpec
+      getOperationSpec,
     );
   }
 
@@ -230,7 +231,7 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
     resourceGroupName: string,
     trunkedNetworkName: string,
     trunkedNetworkParameters: TrunkedNetwork,
-    options?: TrunkedNetworksCreateOrUpdateOptionalParams
+    options?: TrunkedNetworksCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<TrunkedNetworksCreateOrUpdateResponse>,
@@ -239,21 +240,20 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
   > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ): Promise<TrunkedNetworksCreateOrUpdateResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -262,8 +262,8 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -271,8 +271,8 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
@@ -282,9 +282,9 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
         resourceGroupName,
         trunkedNetworkName,
         trunkedNetworkParameters,
-        options
+        options,
       },
-      spec: createOrUpdateOperationSpec
+      spec: createOrUpdateOperationSpec,
     });
     const poller = await createHttpPoller<
       TrunkedNetworksCreateOrUpdateResponse,
@@ -292,7 +292,7 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
     >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "azure-async-operation"
+      resourceLocationConfig: "azure-async-operation",
     });
     await poller.poll();
     return poller;
@@ -309,13 +309,13 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
     resourceGroupName: string,
     trunkedNetworkName: string,
     trunkedNetworkParameters: TrunkedNetwork,
-    options?: TrunkedNetworksCreateOrUpdateOptionalParams
+    options?: TrunkedNetworksCreateOrUpdateOptionalParams,
   ): Promise<TrunkedNetworksCreateOrUpdateResponse> {
     const poller = await this.beginCreateOrUpdate(
       resourceGroupName,
       trunkedNetworkName,
       trunkedNetworkParameters,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -329,25 +329,29 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
   async beginDelete(
     resourceGroupName: string,
     trunkedNetworkName: string,
-    options?: TrunkedNetworksDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>> {
+    options?: TrunkedNetworksDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<TrunkedNetworksDeleteResponse>,
+      TrunkedNetworksDeleteResponse
+    >
+  > {
     const directSendOperation = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
-    ): Promise<void> => {
+      spec: coreClient.OperationSpec,
+    ): Promise<TrunkedNetworksDeleteResponse> => {
       return this.client.sendOperationRequest(args, spec);
     };
     const sendOperationFn = async (
       args: coreClient.OperationArguments,
-      spec: coreClient.OperationSpec
+      spec: coreClient.OperationSpec,
     ) => {
-      let currentRawResponse:
-        | coreClient.FullOperationResponse
-        | undefined = undefined;
+      let currentRawResponse: coreClient.FullOperationResponse | undefined =
+        undefined;
       const providedCallback = args.options?.onResponse;
       const callback: coreClient.RawResponseCallback = (
         rawResponse: coreClient.FullOperationResponse,
-        flatResponse: unknown
+        flatResponse: unknown,
       ) => {
         currentRawResponse = rawResponse;
         providedCallback?.(rawResponse, flatResponse);
@@ -356,8 +360,8 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
         ...args,
         options: {
           ...args.options,
-          onResponse: callback
-        }
+          onResponse: callback,
+        },
       };
       const flatResponse = await directSendOperation(updatedArgs, spec);
       return {
@@ -365,20 +369,23 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
         rawResponse: {
           statusCode: currentRawResponse!.status,
           body: currentRawResponse!.parsedBody,
-          headers: currentRawResponse!.headers.toJSON()
-        }
+          headers: currentRawResponse!.headers.toJSON(),
+        },
       };
     };
 
     const lro = createLroSpec({
       sendOperationFn,
       args: { resourceGroupName, trunkedNetworkName, options },
-      spec: deleteOperationSpec
+      spec: deleteOperationSpec,
     });
-    const poller = await createHttpPoller<void, OperationState<void>>(lro, {
+    const poller = await createHttpPoller<
+      TrunkedNetworksDeleteResponse,
+      OperationState<TrunkedNetworksDeleteResponse>
+    >(lro, {
       restoreFrom: options?.resumeFrom,
       intervalInMs: options?.updateIntervalInMs,
-      resourceLocationConfig: "location"
+      resourceLocationConfig: "location",
     });
     await poller.poll();
     return poller;
@@ -393,12 +400,12 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
   async beginDeleteAndWait(
     resourceGroupName: string,
     trunkedNetworkName: string,
-    options?: TrunkedNetworksDeleteOptionalParams
-  ): Promise<void> {
+    options?: TrunkedNetworksDeleteOptionalParams,
+  ): Promise<TrunkedNetworksDeleteResponse> {
     const poller = await this.beginDelete(
       resourceGroupName,
       trunkedNetworkName,
-      options
+      options,
     );
     return poller.pollUntilDone();
   }
@@ -412,11 +419,11 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
   update(
     resourceGroupName: string,
     trunkedNetworkName: string,
-    options?: TrunkedNetworksUpdateOptionalParams
+    options?: TrunkedNetworksUpdateOptionalParams,
   ): Promise<TrunkedNetworksUpdateResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, trunkedNetworkName, options },
-      updateOperationSpec
+      updateOperationSpec,
     );
   }
 
@@ -427,11 +434,11 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
    */
   private _listBySubscriptionNext(
     nextLink: string,
-    options?: TrunkedNetworksListBySubscriptionNextOptionalParams
+    options?: TrunkedNetworksListBySubscriptionNextOptionalParams,
   ): Promise<TrunkedNetworksListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       { nextLink, options },
-      listBySubscriptionNextOperationSpec
+      listBySubscriptionNextOperationSpec,
     );
   }
 
@@ -444,11 +451,11 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
   private _listByResourceGroupNext(
     resourceGroupName: string,
     nextLink: string,
-    options?: TrunkedNetworksListByResourceGroupNextOptionalParams
+    options?: TrunkedNetworksListByResourceGroupNextOptionalParams,
   ): Promise<TrunkedNetworksListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       { resourceGroupName, nextLink, options },
-      listByResourceGroupNextOperationSpec
+      listByResourceGroupNextOperationSpec,
     );
   }
 }
@@ -456,85 +463,81 @@ export class TrunkedNetworksImpl implements TrunkedNetworks {
 const serializer = coreClient.createSerializer(Mappers, /* isXml */ false);
 
 const listBySubscriptionOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/trunkedNetworks",
+  path: "/subscriptions/{subscriptionId}/providers/Microsoft.NetworkCloud/trunkedNetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrunkedNetworkList
+      bodyMapper: Mappers.TrunkedNetworkList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.$host, Parameters.subscriptionId],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/trunkedNetworks",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/trunkedNetworks",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrunkedNetworkList
+      bodyMapper: Mappers.TrunkedNetworkList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  queryParameters: [Parameters.apiVersion],
-  urlParameters: [
-    Parameters.$host,
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName
-  ],
-  headerParameters: [Parameters.accept],
-  serializer
-};
-const getOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/trunkedNetworks/{trunkedNetworkName}",
-  httpMethod: "GET",
-  responses: {
-    200: {
-      bodyMapper: Mappers.TrunkedNetwork
+      bodyMapper: Mappers.ErrorResponse,
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.trunkedNetworkName
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
+};
+const getOperationSpec: coreClient.OperationSpec = {
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/trunkedNetworks/{trunkedNetworkName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.TrunkedNetwork,
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse,
+    },
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [
+    Parameters.$host,
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.trunkedNetworkName,
+  ],
+  headerParameters: [Parameters.accept],
+  serializer,
 };
 const createOrUpdateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/trunkedNetworks/{trunkedNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/trunkedNetworks/{trunkedNetworkName}",
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: Mappers.TrunkedNetwork
+      bodyMapper: Mappers.TrunkedNetwork,
     },
     201: {
-      bodyMapper: Mappers.TrunkedNetwork
+      bodyMapper: Mappers.TrunkedNetwork,
     },
     202: {
-      bodyMapper: Mappers.TrunkedNetwork
+      bodyMapper: Mappers.TrunkedNetwork,
     },
     204: {
-      bodyMapper: Mappers.TrunkedNetwork
+      bodyMapper: Mappers.TrunkedNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.trunkedNetworkParameters,
   queryParameters: [Parameters.apiVersion],
@@ -542,46 +545,52 @@ const createOrUpdateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.trunkedNetworkName
+    Parameters.trunkedNetworkName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const deleteOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/trunkedNetworks/{trunkedNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/trunkedNetworks/{trunkedNetworkName}",
   httpMethod: "DELETE",
   responses: {
-    200: {},
-    201: {},
-    202: {},
-    204: {},
+    200: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    201: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    202: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
+    204: {
+      bodyMapper: Mappers.OperationStatusResult,
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.trunkedNetworkName
+    Parameters.trunkedNetworkName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const updateOperationSpec: coreClient.OperationSpec = {
-  path:
-    "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/trunkedNetworks/{trunkedNetworkName}",
+  path: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetworkCloud/trunkedNetworks/{trunkedNetworkName}",
   httpMethod: "PATCH",
   responses: {
     200: {
-      bodyMapper: Mappers.TrunkedNetwork
+      bodyMapper: Mappers.TrunkedNetwork,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   requestBody: Parameters.trunkedNetworkUpdateParameters,
   queryParameters: [Parameters.apiVersion],
@@ -589,48 +598,48 @@ const updateOperationSpec: coreClient.OperationSpec = {
     Parameters.$host,
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.trunkedNetworkName
+    Parameters.trunkedNetworkName,
   ],
   headerParameters: [Parameters.accept, Parameters.contentType],
   mediaType: "json",
-  serializer
+  serializer,
 };
 const listBySubscriptionNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrunkedNetworkList
+      bodyMapper: Mappers.TrunkedNetworkList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
-    Parameters.subscriptionId
+    Parameters.subscriptionId,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };
 const listByResourceGroupNextOperationSpec: coreClient.OperationSpec = {
   path: "{nextLink}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TrunkedNetworkList
+      bodyMapper: Mappers.TrunkedNetworkList,
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+      bodyMapper: Mappers.ErrorResponse,
+    },
   },
   urlParameters: [
     Parameters.$host,
     Parameters.nextLink,
     Parameters.subscriptionId,
-    Parameters.resourceGroupName
+    Parameters.resourceGroupName,
   ],
   headerParameters: [Parameters.accept],
-  serializer
+  serializer,
 };

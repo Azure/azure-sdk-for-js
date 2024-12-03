@@ -3,9 +3,23 @@
 
 export {
   createHealthDataAIServices,
-  HealthDataAIServicesClientOptionalParams,
   HealthDataAIServicesContext,
+  HealthDataAIServicesClientOptionalParams,
 } from "./healthDataAIServicesContext.js";
+export {
+  OperationsListOptionalParams,
+  DeidServicesGetOptionalParams,
+  DeidServicesListByResourceGroupOptionalParams,
+  DeidServicesListBySubscriptionOptionalParams,
+  DeidServicesCreateOptionalParams,
+  DeidServicesUpdateOptionalParams,
+  DeidServicesDeleteOptionalParams,
+  PrivateEndpointConnectionsGetOptionalParams,
+  PrivateEndpointConnectionsCreateOptionalParams,
+  PrivateEndpointConnectionsDeleteOptionalParams,
+  PrivateEndpointConnectionsListByDeidServiceOptionalParams,
+  PrivateLinksListByDeidServiceOptionalParams,
+} from "./options.js";
 export {
   deidServicesGet,
   deidServicesListByResourceGroup,

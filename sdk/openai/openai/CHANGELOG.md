@@ -1,5 +1,15 @@
 # Release History
 
+## 2.1.0-beta.1 (Unreleased)
+
+### Features Added
+
+### Breaking Changes
+
+### Bugs Fixed
+
+### Other Changes
+
 ## 2.0.0 (2024-11-18)
 
 This release marks the first stable library version for `@azure/openai` and it exposes Azure-exclusive features supported in the latest Azure OpenAI Service stable `api-version` label of `2024-10-21`.

@@ -4,7 +4,7 @@
 import type { ClientOptions } from "@azure-rest/core-client";
 import { getClient } from "@azure-rest/core-client";
 import type { TokenCredential } from "@azure/core-auth";
-import type { PurviewSharingClient } from "./clientDefinitions";
+import type { PurviewSharingClient } from "./clientDefinitions.js";
 
 /**
  * Initialize a new instance of `PurviewSharingClient`

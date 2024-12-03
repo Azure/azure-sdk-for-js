@@ -16,7 +16,7 @@ dotenv.config();
 
 const endpoint = process.env["ENDPOINT"] || "";
 
-async function main() {
+async function main(): Promise<void> {
   console.log("== List collections sample ==");
   const client = PurviewAccountClient(endpoint, new DefaultAzureCredential());
 

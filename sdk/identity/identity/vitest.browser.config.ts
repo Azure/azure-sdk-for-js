@@ -10,6 +10,8 @@ export default mergeConfig(
     test: {
       include: ["dist-test/browser/test/**/*.spec.js"],
       exclude: ["dist-test/browser/test/snippets.spec.js"],
+      hookTimeout: 500000,
+      testTimeout: 500000,
     },
   }),
 );

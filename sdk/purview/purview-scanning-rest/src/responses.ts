@@ -20,7 +20,7 @@ import type {
   SystemScanRulesetList,
   SystemScanRuleset,
   Trigger,
-} from "./models";
+} from "./models.js";
 
 /** Gets key vault information */
 export interface KeyVaultConnectionsGet200Response extends HttpResponse {

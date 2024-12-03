@@ -5,18 +5,13 @@
  * @summary Demonstrates how to analyze image.
  */
 
-import ContentSafetyClient, {
-  isUnexpected,
-} from "@azure-rest/ai-content-safety";
+import ContentSafetyClient, { isUnexpected } from "@azure-rest/ai-content-safety";
 import { AzureKeyCredential } from "@azure/core-auth";
-import fs from "fs";
-import path from "path";
+import fs from "node:fs";
+import path from "node:path";
+import "dotenv/config";
 
-// Load the .env file if it exists  
-import * as dotenv from "dotenv";
-dotenv.config();
-
-async function main() {
+async function main(): Promise<void> {
   const endpoint = process.env["CONTENT_SAFETY_ENDPOINT"] || "<endpoint>";
   const key = process.env["CONTENT_SAFETY_API_KEY"] || "<key>";
 
@@ -38,7 +33,11 @@ async function main() {
 
   for (let i = 0; i < result.body.categoriesAnalysis.length; i++) {
     const imageCategoriesAnalysisOutput = result.body.categoriesAnalysis[i];
-    console.log(imageCategoriesAnalysisOutput.category, " severity: ", imageCategoriesAnalysisOutput.severity)
+    console.log(
+      imageCategoriesAnalysisOutput.category,
+      " severity: ",
+      imageCategoriesAnalysisOutput.severity,
+    );
   }
 }
 

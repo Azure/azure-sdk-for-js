@@ -1,27 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import type { ConfidentialLedgerClient, CreateLedgerEntryParameters, LedgerEntry } from "../../src";
-import { isUnexpected } from "../../src";
-import { createClient, createRecorder, getRecorderUniqueVariable } from "./utils/recordedClient";
+import type {
+  ConfidentialLedgerClient,
+  CreateLedgerEntryParameters,
+  LedgerEntry,
+} from "../../src/index.js";
+import { isUnexpected } from "../../src/index.js";
+import { createClient, createRecorder, getRecorderUniqueVariable } from "./utils/recordedClient.js";
 
 import type { Recorder } from "@azure-tools/test-recorder";
-import { assert } from "chai";
-import type { Context } from "mocha";
+import { describe, it, assert, beforeEach, afterEach } from "vitest";
 
-describe("Get Collections", function () {
+describe("Get Collections", () => {
   let recorder: Recorder;
   let client: ConfidentialLedgerClient;
 
-  beforeEach(async function (this: Context) {
-    recorder = await createRecorder(this);
+  beforeEach(async (ctx) => {
+    recorder = await createRecorder(ctx);
     client = await createClient(recorder);
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     await recorder.stop();
   });
 
-  it("should list collections created by entries", async function () {
+  it("should list collections created by entries", async () => {
     const knownCollections: string[] = [];
     for (let i = 0; i < 5; i++) {
       const collectionId = getRecorderUniqueVariable(recorder, `collection${i}`);

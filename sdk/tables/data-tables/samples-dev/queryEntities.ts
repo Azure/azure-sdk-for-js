@@ -8,15 +8,12 @@
  */
 
 import { odata, TableClient } from "@azure/data-tables";
-
-// Load the .env file if it exists
-import * as dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
 
 const tablesUrl = process.env["TABLES_URL"] || "";
 const sasToken = process.env["SAS_TOKEN"] || "";
 
-async function listEntities() {
+async function listEntities(): Promise<void> {
   console.log("== List entities Sample ==");
 
   // Note that this sample assumes that a table with tableName exists
@@ -70,7 +67,7 @@ async function listEntities() {
 }
 
 // Sample of how to retreive the top N entities for a query
-async function listTopNEntities() {
+async function listTopNEntities(): Promise<void> {
   // This is the max number of items
   const topN = 1;
   const partitionKey = "Stationery";
@@ -114,7 +111,7 @@ interface Entity {
   quantity: number;
 }
 
-export async function main() {
+export async function main(): Promise<void> {
   await listEntities();
   await listTopNEntities();
 }

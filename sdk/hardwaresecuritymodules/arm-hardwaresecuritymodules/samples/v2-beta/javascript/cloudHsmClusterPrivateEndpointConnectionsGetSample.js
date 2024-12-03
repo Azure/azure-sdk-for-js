@@ -16,7 +16,7 @@ require("dotenv").config();
  * This sample demonstrates how to Gets the private endpoint connection for the Cloud Hsm Cluster.
  *
  * @summary Gets the private endpoint connection for the Cloud Hsm Cluster.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2023-12-10-preview/examples/CloudHsmClusterPrivateEndpointConnection_Get_MaximumSet_Gen.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/CloudHsmClusterPrivateEndpointConnection_Get_MaximumSet_Gen.json
  */
 async function cloudHsmClusterPrivateEndpointConnectionGetMaximumSetGen() {
   const subscriptionId =

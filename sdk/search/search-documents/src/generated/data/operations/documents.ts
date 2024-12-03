@@ -237,6 +237,7 @@ const searchGetOperationSpec: coreClient.OperationSpec = {
     Parameters.answers,
     Parameters.captions,
     Parameters.semanticQuery,
+    Parameters.queryRewrites,
     Parameters.debug,
     Parameters.queryLanguage,
     Parameters.speller,
