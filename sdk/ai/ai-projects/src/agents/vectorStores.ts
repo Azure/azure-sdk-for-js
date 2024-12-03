@@ -4,6 +4,7 @@
 import { Client, createRestError } from "@azure-rest/core-client";
 import { ListVectorStoresParameters, CreateVectorStoreParameters, ModifyVectorStoreParameters, GetVectorStoreParameters, DeleteVectorStoreParameters } from "../generated/src/parameters.js";
 import { OpenAIPageableListOfVectorStoreOutput, VectorStoreDeletionStatusOutput, VectorStoreOutput } from "../generated/src/outputModels.js";
+import { validateLimit, validateMetadata, validateOrder, validateVectorStoreId } from "./inputValidations.js";
 
 const expectedStatuses = ["200"];
 
@@ -87,18 +88,12 @@ export async function deleteVectorStore(
   return result.body; 
 }
 
-export function validateVectorStoreId(vectorStoreId: string): void {
-  if (!vectorStoreId) {
-    throw new Error("Vector store ID is required");
-  }
-}
-
 function validateListVectorStoresParameters(options?: ListVectorStoresParameters): void {
-  if (options?.queryParameters?.limit && (options.queryParameters.limit < 1 || options.queryParameters.limit > 100)) {
-    throw new Error("Limit must be between 1 and 100");
+  if (options?.queryParameters?.limit) {
+    validateLimit(options.queryParameters.limit);
   }
-  if (options?.queryParameters?.order && !["asc", "desc"].includes(options.queryParameters.order)) {
-    throw new Error("Order must be 'asc' or 'desc'");
+  if (options?.queryParameters?.order) {
+    validateOrder(options.queryParameters.order);
   }
 }
 
@@ -107,28 +102,12 @@ function validateCreateVectorStoreParameters(options?: CreateVectorStoreParamete
     throw new Error("Chunking strategy is only applicable if fileIds is non-empty");
   }
   if (options?.body?.metadata) {
-    if (Object.keys(options.body.metadata).length > 16) {
-      throw new Error("Only 16 key/value pairs are allowed");
-    }
-    if (Object.keys(options.body.metadata).some(value => value.length > 64)) {
-      throw new Error("Keys must be less than 64 characters");
-    }
-    if (Object.values(options.body.metadata).some(value => value.length > 512)) {
-      throw new Error("Values must be less than 512 characters");
-    }
+    validateMetadata(options.body.metadata);
   }
 }
 
 function validateModifyVectorStoreParameters(options?: ModifyVectorStoreParameters): void {
   if (options?.body?.metadata) {
-    if (Object.keys(options.body.metadata).length > 16) {
-      throw new Error("Only 16 key/value pairs are allowed");
-    }
-    if (Object.keys(options.body.metadata).some(value => value.length > 64)) {
-      throw new Error("Keys must be less than 64 characters");
-    }
-    if (Object.values(options.body.metadata).some(value => value.length > 512)) {
-      throw new Error("Values must be less than 512 characters");
-    }
+    validateMetadata(options.body.metadata);
   }
 }
