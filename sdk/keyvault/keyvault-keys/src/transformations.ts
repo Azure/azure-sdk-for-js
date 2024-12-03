@@ -125,12 +125,12 @@ export function getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
   return resultObject;
 }
 
-const actionTypeCaseInsensitiveMapping: Record<string, string> = {
+const actionTypeCaseInsensitiveMapping: Record<string, KeyRotationPolicyAction> = {
   rotate: "Rotate",
   notify: "Notify",
 };
 
-function getNormalizedActionType(caseInsensitiveActionType: string): string {
+function getNormalizedActionType(caseInsensitiveActionType: string): KeyRotationPolicyAction {
   const result = actionTypeCaseInsensitiveMapping[caseInsensitiveActionType.toLowerCase()];
   if (result) {
     return result;
@@ -177,7 +177,7 @@ export const keyRotationTransformations = {
       expiresIn: generated.attributes?.expiryTime,
       lifetimeActions: generated.lifetimeActions?.map((action) => {
         return {
-          action: getNormalizedActionType(action.action!.type!) as KeyRotationPolicyAction, // TODO: fix the type
+          action: getNormalizedActionType(action.action!.type!),
           timeAfterCreate: action.trigger?.timeAfterCreate,
           timeBeforeExpiry: action.trigger?.timeBeforeExpiry,
         };
