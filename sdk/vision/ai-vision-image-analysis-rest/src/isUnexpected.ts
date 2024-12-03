@@ -6,7 +6,7 @@ import type {
   AnalyzeFromImageDataDefaultResponse,
   AnalyzeFromUrl200Response,
   AnalyzeFromUrlDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "POST /imageanalysis:analyze": ["200"],

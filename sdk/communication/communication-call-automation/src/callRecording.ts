@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
-import { CallRecordingImpl } from "./generated/src/operations";
+import { CallRecordingImpl } from "./generated/src/operations/index.js";
 import type {
   CallAutomationApiClientOptionalParams,
   StartCallRecordingRequest,
-} from "./generated/src/models/index";
-import type { RecordingStateResult } from "./models/responses";
+} from "./generated/src/models/index.js";
+import type { RecordingStateResult } from "./models/responses.js";
 import type {
   StartRecordingOptions,
   StopRecordingOptions,
@@ -14,14 +14,14 @@ import type {
   ResumeRecordingOptions,
   DeleteRecordingOptions,
   DownloadRecordingOptions,
-} from "./models/options";
-import { communicationIdentifierModelConverter } from "./utli/converters";
-import { ContentDownloaderImpl } from "./contentDownloader";
-import * as fs from "fs";
+} from "./models/options.js";
+import { communicationIdentifierModelConverter } from "./utli/converters.js";
+import { ContentDownloaderImpl } from "./contentDownloader.js";
+import * as fs from "node:fs";
 import { randomUUID } from "@azure/core-util";
 import type { KeyCredential, TokenCredential } from "@azure/core-auth";
-import type { CallAutomationApiClient } from "./generated/src";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
+import type { CallAutomationApiClient } from "./generated/src/index.js";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
 
 /**
  * CallRecording class represents call recording related APIs.

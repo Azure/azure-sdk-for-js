@@ -38,7 +38,7 @@ import type {
   SentSharesNotifyUserSentShareInvitationDefaultResponse,
   ShareResourcesGetAllShareResources200Response,
   ShareResourcesGetAllShareResourcesDefaultResponse,
-} from "./responses";
+} from "./responses.js";
 
 const responseMap: Record<string, string[]> = {
   "GET /receivedShares/{receivedShareId}": ["200"],

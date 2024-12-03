@@ -6,15 +6,13 @@
  */
 
 import { DefaultAzureCredential } from "@azure/identity";
+import type { RouteGetRouteDirectionsBatch200Response } from "@azure-rest/maps-route";
 import MapsRoute, {
   createRouteDirectionsBatchRequest,
   getLongRunningPoller,
-  RouteGetRouteDirectionsBatch200Response,
   toColonDelimitedLatLonString,
 } from "@azure-rest/maps-route";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import "dotenv/config";
 
 /**
  * With the help from the long running operation poller, we can resume a long running request.
@@ -70,14 +68,13 @@ async function main(): Promise<void> {
     body: request,
   });
 
-  const initialPoller = getLongRunningPoller(client, initialResponse);
+  const initialPoller = await getLongRunningPoller(client, initialResponse);
   /* We can get a partial of the results first */
-  await initialPoller.poll();
   /** Serialized the current operation for future poller */
-  const serializedState = initialPoller.toString();
+  const serializedState = await initialPoller.serialize();
   /** Use the `resumeFrom` option to rehydrate the previous operation */
-  const rehydratedPoller = getLongRunningPoller(client, initialResponse, {
-    resumeFrom: serializedState,
+  const rehydratedPoller = await getLongRunningPoller(client, initialResponse, {
+    restoreFrom: serializedState,
   });
   const {
     body: { summary, batchItems },

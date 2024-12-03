@@ -17,8 +17,9 @@ import {
   ClusterManagersCreateOrUpdateOptionalParams,
   ClusterManagersCreateOrUpdateResponse,
   ClusterManagersDeleteOptionalParams,
+  ClusterManagersDeleteResponse,
   ClusterManagersUpdateOptionalParams,
-  ClusterManagersUpdateResponse
+  ClusterManagersUpdateResponse,
 } from "../models";
 
 /// <reference lib="esnext.asynciterable" />
@@ -29,7 +30,7 @@ export interface ClusterManagers {
    * @param options The options parameters.
    */
   listBySubscription(
-    options?: ClusterManagersListBySubscriptionOptionalParams
+    options?: ClusterManagersListBySubscriptionOptionalParams,
   ): PagedAsyncIterableIterator<ClusterManager>;
   /**
    * Get a list of cluster managers in the provided resource group.
@@ -38,7 +39,7 @@ export interface ClusterManagers {
    */
   listByResourceGroup(
     resourceGroupName: string,
-    options?: ClusterManagersListByResourceGroupOptionalParams
+    options?: ClusterManagersListByResourceGroupOptionalParams,
   ): PagedAsyncIterableIterator<ClusterManager>;
   /**
    * Get the properties of the provided cluster manager.
@@ -49,7 +50,7 @@ export interface ClusterManagers {
   get(
     resourceGroupName: string,
     clusterManagerName: string,
-    options?: ClusterManagersGetOptionalParams
+    options?: ClusterManagersGetOptionalParams,
   ): Promise<ClusterManagersGetResponse>;
   /**
    * Create a new cluster manager or update properties of the cluster manager if it exists.
@@ -62,7 +63,7 @@ export interface ClusterManagers {
     resourceGroupName: string,
     clusterManagerName: string,
     clusterManagerParameters: ClusterManager,
-    options?: ClusterManagersCreateOrUpdateOptionalParams
+    options?: ClusterManagersCreateOrUpdateOptionalParams,
   ): Promise<
     SimplePollerLike<
       OperationState<ClusterManagersCreateOrUpdateResponse>,
@@ -80,7 +81,7 @@ export interface ClusterManagers {
     resourceGroupName: string,
     clusterManagerName: string,
     clusterManagerParameters: ClusterManager,
-    options?: ClusterManagersCreateOrUpdateOptionalParams
+    options?: ClusterManagersCreateOrUpdateOptionalParams,
   ): Promise<ClusterManagersCreateOrUpdateResponse>;
   /**
    * Delete the provided cluster manager.
@@ -91,8 +92,13 @@ export interface ClusterManagers {
   beginDelete(
     resourceGroupName: string,
     clusterManagerName: string,
-    options?: ClusterManagersDeleteOptionalParams
-  ): Promise<SimplePollerLike<OperationState<void>, void>>;
+    options?: ClusterManagersDeleteOptionalParams,
+  ): Promise<
+    SimplePollerLike<
+      OperationState<ClusterManagersDeleteResponse>,
+      ClusterManagersDeleteResponse
+    >
+  >;
   /**
    * Delete the provided cluster manager.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
@@ -102,8 +108,8 @@ export interface ClusterManagers {
   beginDeleteAndWait(
     resourceGroupName: string,
     clusterManagerName: string,
-    options?: ClusterManagersDeleteOptionalParams
-  ): Promise<void>;
+    options?: ClusterManagersDeleteOptionalParams,
+  ): Promise<ClusterManagersDeleteResponse>;
   /**
    * Patch properties of the provided cluster manager, or update the tags assigned to the cluster
    * manager. Properties and tag updates can be done independently.
@@ -114,6 +120,6 @@ export interface ClusterManagers {
   update(
     resourceGroupName: string,
     clusterManagerName: string,
-    options?: ClusterManagersUpdateOptionalParams
+    options?: ClusterManagersUpdateOptionalParams,
   ): Promise<ClusterManagersUpdateResponse>;
 }

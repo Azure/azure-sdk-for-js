@@ -98,6 +98,23 @@ export interface AnswerFailed extends Omit<RestAnswerFailed, "callConnectionId" 
 }
 
 // @public
+export interface AudioData {
+    data: string;
+    isSilent?: boolean;
+    participant?: CommunicationIdentifier | undefined;
+    timestamp?: Date;
+}
+
+// @public
+export interface AudioMetadata {
+    channels: Channel;
+    encoding: string;
+    length: number;
+    sampleRate: number;
+    subscriptionId: string;
+}
+
+// @public
 export class CallAutomationClient {
     constructor(connectionString: string, options?: CallAutomationClientOptions);
     constructor(endpoint: string, credential: TokenCredential | KeyCredential, options?: CallAutomationClientOptions);
@@ -393,6 +410,14 @@ export interface CancelAllMediaOperationsResult {
     waitForEventProcessor(abortSignal?: AbortSignalLike, timeoutInMs?: number): Promise<CancelAllMediaOperationsEventResult>;
 }
 
+// @public (undocumented)
+export enum Channel {
+    // (undocumented)
+    Mono = 1,
+    // (undocumented)
+    Unknown = 0
+}
+
 // @public
 export interface ChannelAffinity {
     channel?: number;
@@ -611,6 +636,12 @@ export interface ListParticipantsResult {
     values?: CallParticipant[];
 }
 
+// @public (undocumented)
+export enum MediaKind {
+    AudioData = "audioData",
+    StopAudio = "stopAudio"
+}
+
 // @public
 export type MediaStreamingAudioChannelType = string;
 
@@ -673,6 +704,16 @@ export interface MuteParticipantOption extends OperationOptions {
 // @public
 export interface MuteParticipantResult {
     operationContext?: string;
+}
+
+// @public (undocumented)
+export class OutStreamingData {
+    constructor(kind: MediaKind);
+    audioData?: AudioData;
+    static getStopAudioForOutbound(): string;
+    static getStreamingDataForOutbound(data: string): string;
+    kind: MediaKind;
+    stopAudio?: StopAudio;
 }
 
 // @public
@@ -1033,6 +1074,10 @@ export interface StartTranscriptionOptions extends OperationOptions {
     operationContext?: string;
 }
 
+// @public (undocumented)
+export interface StopAudio {
+}
+
 // @public
 export interface StopMediaStreamingOptions extends OperationOptions {
     operationCallbackUrl?: string;
@@ -1044,6 +1089,33 @@ export type StopRecordingOptions = OperationOptions;
 // @public
 export interface StopTranscriptionOptions extends OperationOptions {
     operationContext?: string;
+}
+
+// @public
+export class StreamingData {
+    // (undocumented)
+    static getStreamingKind(): StreamingDataKind;
+    static parse(data: string | ArrayBuffer): StreamingDataResult;
+}
+
+// @public (undocumented)
+export enum StreamingDataKind {
+    // (undocumented)
+    AudioData = "AudioData",
+    // (undocumented)
+    AudioMetadata = "AudioMetadata",
+    // (undocumented)
+    TranscriptionData = "TranscriptionData",
+    // (undocumented)
+    TranscriptionMetadata = "TranscriptionMetadata"
+}
+
+// @public (undocumented)
+export type StreamingDataResult = TranscriptionMetadata | TranscriptionData | AudioData | AudioMetadata;
+
+// @public
+export enum TextFormat {
+    Display = "display"
 }
 
 // @public
@@ -1065,6 +1137,19 @@ export interface TextSource extends PlaySource {
 // @public
 export type Tone = string;
 
+// @public
+export interface TranscriptionData {
+    confidence: number;
+    durationInTicks: number;
+    format: TextFormat;
+    offsetInTicks: number;
+    participant: CommunicationIdentifier;
+    // Warning: (ae-forgotten-export) The symbol "TranscriptionResultState" needs to be exported by the entry point index.d.ts
+    resultState: TranscriptionResultState;
+    text: string;
+    words: WordData[];
+}
+
 // Warning: (ae-forgotten-export) The symbol "RestTranscriptionFailed" needs to be exported by the entry point index.d.ts
 //
 // @public (undocumented)
@@ -1074,6 +1159,14 @@ export interface TranscriptionFailed extends Omit<RestTranscriptionFailed, "call
     kind: "TranscriptionFailed";
     resultInformation?: RestResultInformation;
     serverCallId: string;
+}
+
+// @public
+export interface TranscriptionMetadata {
+    callConnectionId: string;
+    correlationId: string;
+    locale: string;
+    subscriptionId: string;
 }
 
 // @public
@@ -1159,6 +1252,13 @@ export enum VoiceKind {
 export interface VoipHeader extends CustomCallingContextHeader {
     // (undocumented)
     kind: "voip";
+}
+
+// @public
+export interface WordData {
+    durationInTicks: number;
+    offsetInTicks: number;
+    text: string;
 }
 
 // (No @packageDocumentation comment for this package)

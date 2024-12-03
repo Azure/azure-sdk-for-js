@@ -41,9 +41,9 @@ import type {
   RestMediaStreamingStarted,
   RestMediaStreamingFailed,
   RestStartRecordingFailed,
-} from "../generated/src/models";
+} from "../generated/src/models/index.js";
 
-import type { CallParticipant } from "./models";
+import type { CallParticipant } from "./models.js";
 
 /** Callback events for Call Automation */
 export type CallAutomationEvent =

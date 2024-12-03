@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 import { DefaultAzureCredential } from "@azure/identity";
-import { createWriteStream } from "fs";
+import { createWriteStream } from "node:fs";
 import MapsRender, { createPathQuery, createPinsQuery } from "@azure-rest/maps-render";
-import { LatLon } from "@azure/maps-common";
+import type { LatLon } from "@azure/maps-common";
 
 /**
  * @summary How to get the map static image with pins and paths specified.

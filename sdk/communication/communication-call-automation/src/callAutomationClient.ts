@@ -10,7 +10,7 @@ import type {
   MicrosoftTeamsAppIdentifier,
 } from "@azure/communication-common";
 import { parseClientArguments, isKeyCredential } from "@azure/communication-common";
-import { logger } from "./models/logger";
+import { logger } from "./models/logger.js";
 import type {
   AnswerCallRequest,
   CallAutomationApiClient,
@@ -21,23 +21,23 @@ import type {
   RejectCallRequest,
   CustomCallingContextInternal,
   ConnectRequest,
-} from "./generated/src";
-import { CallConnection } from "./callConnection";
-import { CallRecording } from "./callRecording";
+} from "./generated/src/index.js";
+import { CallConnection } from "./callConnection.js";
+import { CallRecording } from "./callRecording.js";
 import type {
   AnswerCallOptions,
   ConnectCallOptions,
   CreateCallOptions,
   RedirectCallOptions,
   RejectCallOptions,
-} from "./models/options";
-import type { AnswerCallResult, ConnectCallResult, CreateCallResult } from "./models/responses";
+} from "./models/options.js";
+import type { AnswerCallResult, ConnectCallResult, CreateCallResult } from "./models/responses.js";
 import type {
   CallConnectionProperties,
   CallInvite,
   CallLocator,
   CustomCallingContext,
-} from "./models/models";
+} from "./models/models.js";
 import {
   communicationIdentifierConverter,
   communicationIdentifierModelConverter,
@@ -46,15 +46,15 @@ import {
   microsoftTeamsAppIdentifierModelConverter,
   phoneNumberIdentifierConverter,
   PhoneNumberIdentifierModelConverter,
-} from "./utli/converters";
+} from "./utli/converters.js";
 import { randomUUID } from "@azure/core-util";
-import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy";
-import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor";
+import { createCustomCallAutomationApiClient } from "./credential/callAutomationAuthPolicy.js";
+import { CallAutomationEventProcessor } from "./eventprocessor/callAutomationEventProcessor.js";
 import type {
   AnswerCallEventResult,
   ConnectCallEventResult,
   CreateCallEventResult,
-} from "./eventprocessor/eventResponses";
+} from "./eventprocessor/eventResponses.js";
 /**
  * Client options used to configure CallAutomation Client API requests.
  */
@@ -566,9 +566,10 @@ export class CallAutomationClient {
                 connectCallEventResult.successResult = event;
                 return true;
               }
-              if (event.callConnectionId === callConnectionId) { //&& event.kind === "ConnectFailed"
+              if (event.callConnectionId === callConnectionId) {
+                //&& event.kind === "ConnectFailed"
                 connectCallEventResult.isSuccess = false;
-               // connectCallEventResult.failureResult = event;
+                // connectCallEventResult.failureResult = event;
                 return true;
               } else {
                 return false;

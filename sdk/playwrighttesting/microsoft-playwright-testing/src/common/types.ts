@@ -119,7 +119,7 @@ export type PlaywrightConfigInput = {
    *
    * Learn more about {@link https://playwright.dev/docs/test-global-setup-teardown | global setup and teardown}.
    */
-  globalSetup?: string;
+  globalSetup?: string | string[];
 
   /**
    * @public
@@ -130,7 +130,7 @@ export type PlaywrightConfigInput = {
    *
    * Learn more about {@link https://playwright.dev/docs/test-global-setup-teardown | global setup and teardown}.
    */
-  globalTeardown?: string;
+  globalTeardown?: string | string[];
 };
 
 /**
@@ -147,8 +147,8 @@ export type PlaywrightConfig = {
   use?: {
     connectOptions: BrowserConnectOptions;
   };
-  globalSetup?: string;
-  globalTeardown?: string;
+  globalSetup?: string | string[];
+  globalTeardown?: string | string[];
 };
 
 /**

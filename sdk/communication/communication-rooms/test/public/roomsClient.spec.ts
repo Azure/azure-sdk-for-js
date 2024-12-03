@@ -3,16 +3,14 @@
 
 import type { Recorder } from "@azure-tools/test-recorder";
 import { isPlaybackMode } from "@azure-tools/test-recorder";
-import { createRecordedRoomsClient, createTestUser } from "./utils/recordedClient";
-import { assert, expect } from "chai";
-import type { Context } from "mocha";
-import sinon from "sinon";
-import type { RoomsClient } from "../../src/roomsClient";
+import { createRecordedRoomsClient, createTestUser } from "./utils/recordedClient.js";
+import type { RoomsClient } from "../../src/roomsClient.js";
 import type { CommunicationUserIdentifier } from "@azure/communication-common";
-import type { CreateRoomOptions, UpdateRoomOptions } from "../../src/models/options";
-import type { CommunicationRoom, RoomParticipantPatch } from "../../src/models/models";
+import type { CreateRoomOptions, UpdateRoomOptions } from "../../src/models/options.js";
+import type { CommunicationRoom, RoomParticipantPatch } from "../../src/models/models.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
-describe("RoomsClient", function () {
+describe("RoomsClient", () => {
   let recorder: Recorder;
   let client: RoomsClient;
   const validFrom = new Date();
@@ -20,27 +18,24 @@ describe("RoomsClient", function () {
   const over180DaysValidUntil = new Date(validUntil.getTime() + 288000 * 60 * 1000); // 200 days from validUntil
   const expiredValidUntil = new Date(validFrom.getTime() - 5 * 60 * 1000); // 5 days from validFrom
 
-  describe("Room Operations", function () {
+  describe("Room Operations", () => {
     let testUser1: CommunicationUserIdentifier;
     let testUser2: CommunicationUserIdentifier;
     let roomId = "";
 
-    beforeEach(async function (this: Context) {
-      ({ client, recorder } = await createRecordedRoomsClient(this));
+    beforeEach(async (ctx) => {
+      ({ client, recorder } = await createRecordedRoomsClient(ctx));
     });
 
-    afterEach(async function () {
+    afterEach(async () => {
       if (roomId !== "") {
         await client.deleteRoom(roomId);
         roomId = "";
       }
       await recorder.stop();
-      if (isPlaybackMode()) {
-        sinon.restore();
-      }
     });
 
-    it("successfully creates a room with no attributes", async function () {
+    it("successfully creates a room with no attributes", async () => {
       const options = {};
 
       const createRoomResult = await client.createRoom(options);
@@ -48,7 +43,7 @@ describe("RoomsClient", function () {
       roomId = createRoomResult?.id;
     });
 
-    it("successfully creates a room with only participants attributes", async function () {
+    it("successfully creates a room with only participants attributes", async () => {
       testUser1 = (await createTestUser(recorder)).user;
       testUser2 = (await createTestUser(recorder)).user;
 
@@ -68,7 +63,7 @@ describe("RoomsClient", function () {
       verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
     });
 
-    it("successfully creates a room with an invalid MRI attribute", async function () {
+    it("successfully creates a room with an invalid MRI attribute", async () => {
       testUser1 = (await createTestUser(recorder)).user;
       testUser2 = (await createTestUser(recorder)).user;
       testUser1.communicationUserId = "invalid MRI Values";
@@ -93,7 +88,7 @@ describe("RoomsClient", function () {
       }
     });
 
-    it("successfully creates a room with only valid time range attributes", async function () {
+    it("successfully creates a room with only valid time range attributes", async () => {
       testUser1 = (await createTestUser(recorder)).user;
 
       const options: CreateRoomOptions = {
@@ -109,7 +104,7 @@ describe("RoomsClient", function () {
       verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0);
     });
 
-    it("successfully creates a room with an expired validUntil", async function () {
+    it("successfully creates a room with an expired validUntil", async () => {
       testUser1 = (await createTestUser(recorder)).user;
 
       const options: CreateRoomOptions = {
@@ -126,7 +121,7 @@ describe("RoomsClient", function () {
       }
     });
 
-    it("successfully creates a room with validUntil greater than 180 days from current date", async function () {
+    it("successfully creates a room with validUntil greater than 180 days from current date", async () => {
       testUser1 = (await createTestUser(recorder)).user;
 
       const options: CreateRoomOptions = {
@@ -143,7 +138,7 @@ describe("RoomsClient", function () {
       }
     });
 
-    it("successfully creates a room with only PSTN Dial-Out attribute", async function () {
+    it("successfully creates a room with only PSTN Dial-Out attribute", async () => {
       testUser1 = (await createTestUser(recorder)).user;
       testUser2 = (await createTestUser(recorder)).user;
 
@@ -165,7 +160,7 @@ describe("RoomsClient", function () {
       verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0);
     });
 
-    it("successfully creates a room with PSTN Dial-Out and valid time range attributes", async function () {
+    it("successfully creates a room with PSTN Dial-Out and valid time range attributes", async () => {
       testUser1 = (await createTestUser(recorder)).user;
 
       const options: CreateRoomOptions = {
@@ -188,7 +183,7 @@ describe("RoomsClient", function () {
       verifyRoomsParticipantsAttributes(addParticipantsResult, 0, 0, 0, 0);
     });
 
-    it("successfully creates a room with PSTN Dial-Out and Valid Particpants attributes", async function () {
+    it("successfully creates a room with PSTN Dial-Out and Valid Particpants attributes", async () => {
       testUser1 = (await createTestUser(recorder)).user;
       testUser2 = (await createTestUser(recorder)).user;
 
@@ -216,7 +211,7 @@ describe("RoomsClient", function () {
       verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
     });
 
-    it("successfully creates a room with all optional attributes", async function () {
+    it("successfully creates a room with all optional attributes", async () => {
       testUser1 = (await createTestUser(recorder)).user;
 
       const options: CreateRoomOptions = {
@@ -238,14 +233,14 @@ describe("RoomsClient", function () {
       verifyRoomsParticipantsAttributes(addParticipantsResult, 1, 1, 0, 0);
     });
 
-    it("successfully gets a valid room", async function () {
+    it("successfully gets a valid room", async () => {
       const createRoom = await client.createRoom({});
       roomId = createRoom.id;
 
       await client.getRoom(roomId);
     });
 
-    it("successfully gets an invalid room", async function () {
+    it("successfully gets an invalid room", async () => {
       try {
         await client.getRoom("non-existingroomId");
       } catch (e: any) {
@@ -253,7 +248,7 @@ describe("RoomsClient", function () {
       }
     });
 
-    it("successfully update room with a valid time range", async function () {
+    it("successfully update room with a valid time range", async () => {
       const createRoom = await client.createRoom({});
       roomId = createRoom.id;
       testUser1 = (await createTestUser(recorder)).user;
@@ -276,7 +271,7 @@ describe("RoomsClient", function () {
       await client.updateRoom(roomId, options);
     });
 
-    it("successfully updates a room with validUntil greater than 180 days from current date", async function () {
+    it("successfully updates a room with validUntil greater than 180 days from current date", async () => {
       testUser1 = (await createTestUser(recorder)).user;
       const createRoom = await client.createRoom({
         validFrom: new Date(recorder.variable("validFrom", validFrom.toString())),
@@ -306,7 +301,7 @@ describe("RoomsClient", function () {
       }
     });
 
-    it("successfully updates a room with an expired validUntil", async function () {
+    it("successfully updates a room with an expired validUntil", async () => {
       testUser1 = (await createTestUser(recorder)).user;
       const createRoom = await client.createRoom({
         validFrom: new Date(recorder.variable("validFrom", validFrom.toString())),
@@ -336,7 +331,7 @@ describe("RoomsClient", function () {
       }
     });
 
-    it("successfully updates a room with an empty option", async function () {
+    it("successfully updates a room with an empty option", async () => {
       testUser1 = (await createTestUser(recorder)).user;
       const createRoom = await client.createRoom({
         validFrom: new Date(recorder.variable("validFrom", validFrom.toString())),
@@ -361,7 +356,7 @@ describe("RoomsClient", function () {
       }
     });
 
-    it("successfully update room with an invalid room Id", async function () {
+    it("successfully update room with an invalid room Id", async () => {
       const createRoom = await client.createRoom({});
       roomId = createRoom.id;
       testUser1 = (await createTestUser(recorder)).user;
@@ -388,7 +383,7 @@ describe("RoomsClient", function () {
       }
     });
 
-    it("successfully update room with PSTN Dial-Out", async function () {
+    it("successfully update room with PSTN Dial-Out", async () => {
       const createRoom = await client.createRoom({});
       roomId = createRoom.id;
       testUser1 = (await createTestUser(recorder)).user;
@@ -405,7 +400,7 @@ describe("RoomsClient", function () {
       verifyRoomsAttributes(updateRoomResult, updateOptions);
     });
 
-    it("successfully update room with PSTN Dial-Out and valid time range", async function () {
+    it("successfully update room with PSTN Dial-Out and valid time range", async () => {
       const createRoom = await client.createRoom({});
       roomId = createRoom.id;
       testUser1 = (await createTestUser(recorder)).user;
@@ -434,7 +429,7 @@ describe("RoomsClient", function () {
       verifyRoomsAttributes(updateRoomResult, updateOptions);
     });
 
-    it("successfully list rooms", async function () {
+    it("successfully list rooms", async () => {
       const roomsPages = client.listRooms().byPage();
       let counter: number = 1;
       // loop over each page
@@ -457,7 +452,7 @@ describe("RoomsClient", function () {
       }
     });
 
-    it("successfully deletes a room", async function () {
+    it("successfully deletes a room", async () => {
       const createRoom = await client.createRoom({});
       roomId = createRoom.id;
 
@@ -469,18 +464,18 @@ describe("RoomsClient", function () {
   });
 });
 
-describe("Participants Operations", function () {
+describe("Participants Operations", () => {
   let recorder: Recorder;
   let client: RoomsClient;
   let testUser1: CommunicationUserIdentifier;
   let roomId = "";
   const delayInMs = 1000;
 
-  beforeEach(async function (this: Context) {
-    ({ client, recorder } = await createRecordedRoomsClient(this));
+  beforeEach(async (ctx) => {
+    ({ client, recorder } = await createRecordedRoomsClient(ctx));
   });
 
-  afterEach(async function () {
+  afterEach(async () => {
     if (roomId !== "") {
       await client.deleteRoom(roomId);
       roomId = "";
@@ -488,11 +483,11 @@ describe("Participants Operations", function () {
 
     await recorder.stop();
     if (isPlaybackMode()) {
-      sinon.restore();
+      vi.restoreAllMocks();
     }
   });
 
-  it("successfully adds participants to the room", async function () {
+  it("successfully adds participants to the room", async () => {
     testUser1 = (await createTestUser(recorder)).user;
     const participants: RoomParticipantPatch[] = [
       {
@@ -517,7 +512,7 @@ describe("Participants Operations", function () {
     roomId = curRoomId;
   });
 
-  it("successfully adds participants to the room with null role", async function () {
+  it("successfully adds participants to the room with null role", async () => {
     testUser1 = (await createTestUser(recorder)).user;
     const participants = [
       {
@@ -542,7 +537,7 @@ describe("Participants Operations", function () {
     roomId = curRoomId;
   });
 
-  it("successfully updates a participant with role not specified", async function () {
+  it("successfully updates a participant with role not specified", async () => {
     testUser1 = (await createTestUser(recorder)).user;
 
     const participants = [
@@ -568,7 +563,7 @@ describe("Participants Operations", function () {
     roomId = curRoomId;
   });
 
-  it("successfully removes participant not in the room", async function () {
+  it("successfully removes participant not in the room", async () => {
     testUser1 = (await createTestUser(recorder)).user;
 
     // Create a room
@@ -589,7 +584,7 @@ describe("Participants Operations", function () {
     roomId = curRoomId;
   });
 
-  it("successfully removes participants in the room", async function () {
+  it("successfully removes participants in the room", async () => {
     testUser1 = (await createTestUser(recorder)).user;
 
     // Create a room

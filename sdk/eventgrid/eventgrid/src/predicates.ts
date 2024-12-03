@@ -212,9 +212,9 @@ import type {
   AcsChatThreadDeletedEventData,
   AcsChatThreadCreatedEventData,
   AcsChatThreadPropertiesUpdatedEventData,
-} from "./generated/models";
+} from "./generated/models/index.js";
 
-import type { CloudEvent, EventGridEvent } from "./models";
+import type { CloudEvent, EventGridEvent } from "./models.js";
 
 /**
  * The Event Types for all System Events. These may be used with `isSystemEvent` to determine if an

@@ -18,7 +18,7 @@ dotenv.config();
  * This sample demonstrates how to The List operation gets information about the Cloud HSM Clusters associated with the subscription and within the specified resource group.
  *
  * @summary The List operation gets information about the Cloud HSM Clusters associated with the subscription and within the specified resource group.
- * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2023-12-10-preview/examples/CloudHsmCluster_ListByResourceGroup_MaximumSet_Gen.json
+ * x-ms-original-file: specification/hardwaresecuritymodules/resource-manager/Microsoft.HardwareSecurityModules/preview/2024-06-30-preview/examples/CloudHsmCluster_ListByResourceGroup_MaximumSet_Gen.json
  */
 async function cloudHsmClusterListByResourceGroupMaximumSetGen() {
   const subscriptionId =
@@ -30,7 +30,7 @@ async function cloudHsmClusterListByResourceGroupMaximumSetGen() {
   const client = new AzureHSMResourceProvider(credential, subscriptionId);
   const resArray = new Array();
   for await (let item of client.cloudHsmClusters.listByResourceGroup(
-    resourceGroupName
+    resourceGroupName,
   )) {
     resArray.push(item);
   }

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import type { RecorderStartOptions, VitestTestContext } from "@azure-tools/test-recorder";
+import type { RecorderStartOptions, TestInfo } from "@azure-tools/test-recorder";
 import { Recorder, env, isPlaybackMode } from "@azure-tools/test-recorder";
 import type { ClientOptions } from "@azure-rest/core-client";
 import type { BatchClient } from "../../src/index.js";
@@ -57,7 +57,7 @@ const recorderEnvSetup: RecorderStartOptions = {
  * Should be called first in the test suite to make sure environment variables are
  * read before they are being used.
  */
-export async function createRecorder(ctx: VitestTestContext): Promise<Recorder> {
+export async function createRecorder(ctx: TestInfo): Promise<Recorder> {
   const recorder = new Recorder(ctx);
   await recorder.setMatcher("CustomDefaultMatcher", {
     excludedHeaders: ["client-request-id", "ocp-date", "accept-encoding"],

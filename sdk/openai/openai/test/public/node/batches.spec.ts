@@ -1,13 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
+// Licensed under the MIT License.
 
 import { matrix } from "@azure-tools/test-utils-vitest";
 import { describe, beforeEach, it } from "vitest";
-import OpenAI, { AzureOpenAI, toFile } from "openai";
+import { type OpenAI, type AzureOpenAI, toFile } from "openai";
 import { createClient } from "../utils/createClient.js";
-import { APIVersion, DeploymentInfo, getDeployments, withDeployments } from "../utils/utils.js";
+import {
+  APIVersion,
+  type DeploymentInfo,
+  getDeployments,
+  withDeployments,
+} from "../utils/utils.js";
 import { assertBatch, assertNonEmptyArray } from "../utils/asserts.js";
 import { delay } from "@azure-tools/test-recorder";
+import type { FileObject } from "openai/resources/index";
 
 describe("Batches", () => {
   matrix([[APIVersion.Preview]] as const, async function (apiVersion: APIVersion) {
@@ -21,9 +27,9 @@ describe("Batches", () => {
       });
 
       describe("all CRUD APIs", function () {
-        async function createBatchFile(deploymentName: string) {
+        async function createBatchFile(deploymentName: string): Promise<FileObject> {
           const inputObject = `{ "custom_id": "request-1", "method": "POST", "url": "/v1/chat/completions", "body": { "model": "${deploymentName}", "messages": [{ "role": "system", "content": "You are a helpful assistant." }, { "role": "user", "content": "What is 2+2?" }] } }`;
-          let file = await client.files.create({
+          const file = await client.files.create({
             file: await toFile(Buffer.from(inputObject), "batch.jsonl"),
             purpose: "batch",
           });

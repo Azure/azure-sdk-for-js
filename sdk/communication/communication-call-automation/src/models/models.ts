@@ -12,7 +12,7 @@ import type {
   CallConnectionStateModel,
   MediaStreamingSubscription,
   TranscriptionSubscription,
-} from "../generated/src";
+} from "../generated/src/index.js";
 
 export {
   CallConnectionStateModel,
@@ -33,7 +33,7 @@ export {
   SpeechResult,
   RecordingState,
   Tone,
-} from "../generated/src/models/index";
+} from "../generated/src/models/index.js";
 
 /** Properties of a call connection */
 export interface CallConnectionProperties {

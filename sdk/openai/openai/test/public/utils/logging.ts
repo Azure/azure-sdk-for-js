@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { afterAll, beforeAll, inject } from "vitest";
-import { AzureLogLevel, setLogLevel } from "@azure/logger";
+import { type AzureLogLevel, setLogLevel } from "@azure/logger";
 
 const logLevel = inject("AZURE_LOG_LEVEL") as AzureLogLevel;
 const localStorage: { debug?: string } = {};

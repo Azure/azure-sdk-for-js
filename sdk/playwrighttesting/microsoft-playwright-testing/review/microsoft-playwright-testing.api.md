@@ -49,14 +49,14 @@ export type PlaywrightConfig = {
     use?: {
         connectOptions: BrowserConnectOptions;
     };
-    globalSetup?: string;
-    globalTeardown?: string;
+    globalSetup?: string | string[];
+    globalTeardown?: string | string[];
 };
 
 // @public
 export type PlaywrightConfigInput = {
-    globalSetup?: string;
-    globalTeardown?: string;
+    globalSetup?: string | string[];
+    globalTeardown?: string | string[];
 };
 
 // @public
