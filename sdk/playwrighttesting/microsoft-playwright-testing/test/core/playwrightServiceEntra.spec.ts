@@ -1,137 +1,162 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-import { expect } from "@azure-tools/test-utils";
-import sinon from "sinon";
-import * as utils from "../../src/utils/utils";
+import * as utils from "../../src/utils/utils.js";
 import {
   EntraIdAccessTokenConstants,
   ServiceEnvironmentVariable,
-} from "../../src/common/constants";
-const playwrightServiceEntra = require("../../src/core/playwrightServiceEntra").default;
+} from "../../src/common/constants.js";
+import playwrightServiceEntra from "../../src/core/playwrightServiceEntra.js";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("playwrightServiceEntra", () => {
-  let sandbox: sinon.SinonSandbox;
-
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(console, "error").returns(); // Mock console.error
-    sandbox.stub(console, "log").returns(); // Mock console.log
+    vi.spyOn(console, "error").mockReturnValue(); // Mock console.error
+    vi.spyOn(console, "log").mockReturnValue(); // Mock console.log
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL] =
       "wss://eastus.playwright.microsoft.com/accounts/1234/browsers";
   });
 
   afterEach(() => {
-    sandbox.restore();
+    vi.restoreAllMocks();
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_URL];
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should fetch entra id access token and setup rotation handler", async () => {
-    sandbox
-      .stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken")
-      .resolves(true);
-    sandbox.stub(playwrightServiceEntra, "entraIdGlobalSetupRotationHandler");
+    vi.spyOn(
+      playwrightServiceEntra["_entraIdAccessToken"],
+      "fetchEntraIdAccessToken",
+    ).mockResolvedValue();
+
+    const setupHandler = vi.spyOn(
+      playwrightServiceEntra as any,
+      "entraIdGlobalSetupRotationHandler",
+    );
 
     await playwrightServiceEntra.globalSetup();
 
-    expect(playwrightServiceEntra["_entraIdAccessToken"].fetchEntraIdAccessToken.calledOnce).to.be
-      .true;
-    expect(playwrightServiceEntra.entraIdGlobalSetupRotationHandler.calledOnce).to.be.true;
+    expect(
+      playwrightServiceEntra["_entraIdAccessToken"].fetchEntraIdAccessToken,
+    ).toHaveBeenCalledOnce();
+
+    expect(setupHandler).toHaveBeenCalledOnce();
   });
 
   it("should throw error if entra id access token fetch fails", async () => {
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = "test";
-    sandbox.stub(utils, "parseJwt").returns({ exp: new Date().getTime() / 1000 + 10000 });
-    sandbox.stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken").throws();
-    sandbox.stub(playwrightServiceEntra, "entraIdGlobalSetupRotationHandler");
+    vi.spyOn(utils, "parseJwt").mockReturnValue({ exp: new Date().getTime() / 1000 + 10000 });
+    vi.spyOn(
+      playwrightServiceEntra["_entraIdAccessToken"],
+      "fetchEntraIdAccessToken",
+    ).mockImplementation(() => {
+      throw new Error();
+    });
 
-    await expect(playwrightServiceEntra.globalSetup()).to.be.rejected;
+    const setupHandler = vi.spyOn(
+      playwrightServiceEntra as any,
+      "entraIdGlobalSetupRotationHandler",
+    );
 
-    expect(playwrightServiceEntra["_entraIdAccessToken"].fetchEntraIdAccessToken.calledOnce).to.be
-      .true;
-    expect(playwrightServiceEntra.entraIdGlobalSetupRotationHandler.calledOnce).to.be.false;
+    await expect(playwrightServiceEntra.globalSetup()).rejects.toThrowError();
+
+    expect(
+      playwrightServiceEntra["_entraIdAccessToken"].fetchEntraIdAccessToken,
+    ).toHaveBeenCalledOnce();
+    expect(setupHandler).not.toHaveBeenCalled();
   });
 
   it("should be no-op if entra id access token rotation interval doesn't exist", () => {
-    const clearIntervalStub = sandbox.stub(global, "clearInterval");
+    const clearIntervalStub = vi.spyOn(global, "clearInterval");
 
     playwrightServiceEntra.globalTeardown();
 
-    expect(clearIntervalStub.called).to.be.false;
+    expect(clearIntervalStub).not.toHaveBeenCalled();
   });
 
   it("should clear entra id access token rotation interval", () => {
     const intervalId = 1;
-    const clearIntervalStub = sandbox.stub(global, "clearInterval");
+    const clearIntervalStub = vi.spyOn(global, "clearInterval");
 
-    playwrightServiceEntra["_entraIdAccessTokenRotationInterval"] = intervalId;
+    playwrightServiceEntra["_entraIdAccessTokenRotationInterval"] = intervalId as any;
     playwrightServiceEntra.globalTeardown();
 
-    expect(clearIntervalStub.calledWith(intervalId)).to.be.true;
+    expect(clearIntervalStub).toHaveBeenCalledWith(intervalId);
   });
 
   it("should setup entra id access token rotation handler", () => {
     const newInterval = setInterval(() => {}, 100000);
-    const setIntervalStub = sandbox.stub(global, "setInterval").callsFake(() => newInterval);
+    const setIntervalStub = vi.spyOn(global, "setInterval").mockImplementation(() => newInterval);
 
     playwrightServiceEntra.entraIdGlobalSetupRotationHandler();
 
-    expect(setIntervalStub.called).to.be.true;
-    expect(
-      setIntervalStub.calledWith(
-        playwrightServiceEntra.entraIdAccessTokenRotation,
-        EntraIdAccessTokenConstants.ROTATION_INTERVAL_PERIOD_IN_MINUTES * 60 * 1000,
-      ),
-    ).to.be.true;
+    expect(setIntervalStub).toHaveBeenCalled();
+    expect(setIntervalStub).toHaveBeenCalledWith(
+      playwrightServiceEntra.entraIdAccessTokenRotation,
+      EntraIdAccessTokenConstants.ROTATION_INTERVAL_PERIOD_IN_MINUTES * 60 * 1000,
+    );
+
     expect(playwrightServiceEntra["_entraIdAccessTokenRotationInterval"]).to.equal(newInterval);
     clearInterval(newInterval);
   });
 
   it("should rotate entra id access token if needed", async () => {
-    sandbox
-      .stub(playwrightServiceEntra["_entraIdAccessToken"], "doesEntraIdAccessTokenNeedRotation")
-      .returns(true);
-    sandbox
-      .stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken")
-      .resolves(true);
+    vi.spyOn(
+      playwrightServiceEntra["_entraIdAccessToken"],
+      "doesEntraIdAccessTokenNeedRotation",
+    ).mockReturnValue(true);
+    vi.spyOn(
+      playwrightServiceEntra["_entraIdAccessToken"],
+      "fetchEntraIdAccessToken",
+    ).mockResolvedValue();
 
     await playwrightServiceEntra.entraIdAccessTokenRotation();
 
     expect(
-      playwrightServiceEntra["_entraIdAccessToken"].doesEntraIdAccessTokenNeedRotation.calledOnce,
-    ).to.be.true;
-    expect(playwrightServiceEntra["_entraIdAccessToken"].fetchEntraIdAccessToken.calledOnce).to.be
-      .true;
+      playwrightServiceEntra["_entraIdAccessToken"].doesEntraIdAccessTokenNeedRotation,
+    ).toHaveBeenCalledOnce();
+    expect(
+      playwrightServiceEntra["_entraIdAccessToken"].fetchEntraIdAccessToken,
+    ).toHaveBeenCalledOnce();
   });
 
   it("should not throw error during entra id access token rotation if fetch fails", async () => {
-    sandbox
-      .stub(playwrightServiceEntra["_entraIdAccessToken"], "doesEntraIdAccessTokenNeedRotation")
-      .returns(true);
-    sandbox.stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken").throws();
+    vi.spyOn(
+      playwrightServiceEntra["_entraIdAccessToken"],
+      "doesEntraIdAccessTokenNeedRotation",
+    ).mockReturnValue(true);
+
+    vi.spyOn(
+      playwrightServiceEntra["_entraIdAccessToken"],
+      "fetchEntraIdAccessToken",
+    ).mockImplementation(() => {
+      throw new Error();
+    });
 
     await playwrightServiceEntra.entraIdAccessTokenRotation();
 
     expect(
-      playwrightServiceEntra["_entraIdAccessToken"].doesEntraIdAccessTokenNeedRotation.calledOnce,
-    ).to.be.true;
-    expect(playwrightServiceEntra["_entraIdAccessToken"].fetchEntraIdAccessToken.calledOnce).to.be
-      .true;
+      playwrightServiceEntra["_entraIdAccessToken"].doesEntraIdAccessTokenNeedRotation,
+    ).toHaveBeenCalledOnce();
+    expect(
+      playwrightServiceEntra["_entraIdAccessToken"].fetchEntraIdAccessToken,
+    ).toHaveBeenCalledOnce();
   });
 
   it("should not rotate entra id access token if not needed", async () => {
-    sandbox
-      .stub(playwrightServiceEntra["_entraIdAccessToken"], "doesEntraIdAccessTokenNeedRotation")
-      .returns(false);
-    sandbox.stub(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken");
+    vi.spyOn(
+      playwrightServiceEntra["_entraIdAccessToken"],
+      "doesEntraIdAccessTokenNeedRotation",
+    ).mockReturnValue(false);
+    vi.spyOn(playwrightServiceEntra["_entraIdAccessToken"], "fetchEntraIdAccessToken");
 
     await playwrightServiceEntra.entraIdAccessTokenRotation();
 
     expect(
-      playwrightServiceEntra["_entraIdAccessToken"].doesEntraIdAccessTokenNeedRotation.calledOnce,
-    ).to.be.true;
-    expect(playwrightServiceEntra["_entraIdAccessToken"].fetchEntraIdAccessToken.called).to.be
-      .false;
+      playwrightServiceEntra["_entraIdAccessToken"].doesEntraIdAccessTokenNeedRotation,
+    ).toHaveBeenCalledOnce();
+    expect(
+      playwrightServiceEntra["_entraIdAccessToken"].fetchEntraIdAccessToken,
+    ).not.toHaveBeenCalled();
   });
 });

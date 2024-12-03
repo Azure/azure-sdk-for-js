@@ -5,12 +5,13 @@
     "module": "NodeNext",
     "skipLibCheck": true,
     "paths": {
-      "@azure/microsoft-playwright-testing": ["./src/index"]
+      "@azure/microsoft-playwright-testing": [
+        "./src/index"
+      ]
     },
     "moduleResolution": "NodeNext",
     "rootDir": "."
   },
-  "exclude": ["dist", "node_modules", "test", "samples"],
   "include": [
     "src/**/*.ts",
     "src/**/*.mts",

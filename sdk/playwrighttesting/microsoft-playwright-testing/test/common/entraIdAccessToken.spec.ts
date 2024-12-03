@@ -5,79 +5,88 @@ import {
   EntraIdAccessTokenConstants,
   InternalEnvironmentVariables,
   ServiceEnvironmentVariable,
-} from "../../src/common/constants";
-import * as utils from "../../src/utils/utils";
-import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken";
-import { expect } from "@azure-tools/test-utils";
-import sinon from "sinon";
+} from "../../src/common/constants.js";
+import * as utils from "../../src/utils/utils.js";
+import { EntraIdAccessToken } from "../../src/common/entraIdAccessToken.js";
+import { describe, it, assert, expect, vi, beforeEach, afterEach } from "vitest";
 
 describe("EntraIdAccessToken", () => {
-  let sandbox: sinon.SinonSandbox;
-
   beforeEach(() => {
-    sandbox = sinon.createSandbox();
-    sandbox.stub(console, "error");
-    sandbox.stub(console, "log");
+    vi.spyOn(console, "error");
+    vi.spyOn(console, "log");
   });
 
   afterEach(() => {
-    sandbox.restore();
-  });
-
-  after(() => {
-    sandbox.restore();
+    vi.restoreAllMocks();
   });
 
   it("should set entra id access token from environment variable on object creation", () => {
     const token = "token";
     const expiry = Date.now();
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
-    sandbox.stub(utils, "parseJwt").returns({
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({
       exp: expiry / 1000,
     });
+
     const entraIdAccessToken = new EntraIdAccessToken();
+
     expect(entraIdAccessToken.token).to.equal(token);
     expect(entraIdAccessToken["_expiryTimestamp"]).to.equal(expiry);
+
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should not set entra id access token if environment variable is empty on object creation", () => {
     const entraIdAccessToken = new EntraIdAccessToken();
-    expect(entraIdAccessToken.token).to.be.undefined;
-    expect(entraIdAccessToken["_expiryTimestamp"]).to.be.undefined;
+
+    assert.isUndefined(entraIdAccessToken.token);
+    assert.isUndefined(entraIdAccessToken["_expiryTimestamp"]);
   });
 
   it("should not set entra id access token if mpt pat is set in environment variable on object creation", () => {
     const token = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
-    sandbox.stub(utils, "parseJwt").returns({
+    vi.spyOn(utils, "parseJwt").mockReturnValue({
       aid: "aid",
     });
     const entraIdAccessToken = new EntraIdAccessToken();
-    expect(entraIdAccessToken.token).to.be.undefined;
-    expect(entraIdAccessToken["_expiryTimestamp"]).to.be.undefined;
+
+    assert.isUndefined(entraIdAccessToken.token);
+    assert.isUndefined(entraIdAccessToken["_expiryTimestamp"]);
+
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should not set entra id access token if mpt back compat pat is set in environment variable on object creation", () => {
     const token = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
-    sandbox.stub(utils, "parseJwt").returns({
+
+    vi.spyOn(utils, "parseJwt").mockReturnValue({
       accountId: "accountId",
     });
+
     const entraIdAccessToken = new EntraIdAccessToken();
-    expect(entraIdAccessToken.token).to.be.undefined;
-    expect(entraIdAccessToken["_expiryTimestamp"]).to.be.undefined;
+
+    assert.isUndefined(entraIdAccessToken.token);
+    assert.isUndefined(entraIdAccessToken["_expiryTimestamp"]);
+
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
   it("should not set entra id access token if jwt decode throws error on object creation", () => {
     const token = "token";
     process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN] = token;
-    sandbox.stub(utils, "parseJwt").throws(new Error());
+
+    vi.spyOn(utils, "parseJwt").mockImplementation(() => {
+      throw new Error();
+    });
+
     const entraIdAccessToken = new EntraIdAccessToken();
-    expect(entraIdAccessToken.token).to.be.undefined;
-    expect(entraIdAccessToken["_expiryTimestamp"]).to.be.undefined;
+
+    assert.isUndefined(entraIdAccessToken.token);
+    assert.isUndefined(entraIdAccessToken["_expiryTimestamp"]);
+
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
@@ -89,13 +98,15 @@ describe("EntraIdAccessToken", () => {
       expiresOnTimestamp: expiry,
     };
     const credential = {
-      getToken: sinon.stub().resolves(accessToken),
+      getToken: vi.fn().mockResolvedValue(accessToken),
     };
     const entraIdAccessToken = new EntraIdAccessToken(credential);
     await entraIdAccessToken.fetchEntraIdAccessToken();
-    expect(entraIdAccessToken.token).to.equal(token);
-    expect(entraIdAccessToken["_expiryTimestamp"]).to.equal(expiry);
-    expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN]).to.equal(token);
+
+    assert.equal(entraIdAccessToken.token, token);
+    assert.equal(entraIdAccessToken["_expiryTimestamp"], expiry);
+    assert.equal(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN], token);
+
     delete process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN];
   });
 
@@ -105,7 +116,7 @@ describe("EntraIdAccessToken", () => {
       token,
     };
     const credential = {
-      getToken: sinon.stub().resolves(accessToken),
+      getToken: vi.fn().mockResolvedValue(accessToken),
     };
     const entraIdAccessToken = new EntraIdAccessToken(credential);
     entraIdAccessToken.token = token;
@@ -114,18 +125,22 @@ describe("EntraIdAccessToken", () => {
 
   it("should throw error and set fatal setup environment variable if fetching access token throws error", async () => {
     const credential = {
-      getToken: sinon.stub().rejects(new Error()),
+      getToken: vi.fn().mockRejectedValue(new Error()),
     };
+
     const entraIdAccessToken = new EntraIdAccessToken(credential);
-    await expect(entraIdAccessToken.fetchEntraIdAccessToken()).to.be.rejected;
-    expect(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN]).to.be.undefined;
-    expect(process.env[InternalEnvironmentVariables.MPT_SETUP_FATAL_ERROR]).to.equal("true");
+
+    await expect(() => entraIdAccessToken.fetchEntraIdAccessToken()).rejects.toThrowError();
+    assert.isUndefined(process.env[ServiceEnvironmentVariable.PLAYWRIGHT_SERVICE_ACCESS_TOKEN]);
+    assert.equal(process.env[InternalEnvironmentVariables.MPT_SETUP_FATAL_ERROR], "true");
   });
 
   it("should return true if entra id access token needs rotation due to no token", () => {
     const entraIdAccessToken = new EntraIdAccessToken();
+
     const status = entraIdAccessToken.doesEntraIdAccessTokenNeedRotation();
-    expect(status).to.be.true;
+
+    assert.isTrue(status);
   });
 
   it("should return true if entra id access token needs rotation due to expiry", () => {
@@ -135,8 +150,10 @@ describe("EntraIdAccessToken", () => {
       Date.now() +
       EntraIdAccessTokenConstants.LIFETIME_LEFT_THRESHOLD_IN_MINUTES_FOR_ROTATION * 60 * 1000 -
       1;
+
     const status = entraIdAccessToken.doesEntraIdAccessTokenNeedRotation();
-    expect(status).to.be.true;
+
+    assert.isTrue(status);
   });
 
   it("should return false if entra id access token does not need rotation", () => {
@@ -146,7 +163,9 @@ describe("EntraIdAccessToken", () => {
       Date.now() +
       EntraIdAccessTokenConstants.LIFETIME_LEFT_THRESHOLD_IN_MINUTES_FOR_ROTATION * 60 * 1000 +
       5000;
+
     const status = entraIdAccessToken.doesEntraIdAccessTokenNeedRotation();
-    expect(status).to.be.false;
+
+    assert.isFalse(status);
   });
 });
