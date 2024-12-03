@@ -40,7 +40,8 @@
     "@types/chai": "^4.2.8",
     "chai": "^4.2.0",
     "@types/node": "^18.0.0",
-    "ts-node": "^10.0.0"
+    "ts-node": "^10.0.0",
+    "@azure/arm-network": "^32.2.0"
   },
   "repository": {
     "type": "git",
